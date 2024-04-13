@@ -1,8 +1,10 @@
 {
-	"navbar.home": "హోమ్",
-	"navbar.directors": "దర్శకులు",
-	"navbar.donation": "దానం",
-	"home.how_we_do": "మేము ఎలా చేయాలి?",
-	"home.what_we_do": "మనం ఏం చేస్తాం?",
-	"home.about_us": "మా గురించి"
+	"about": "మా గురించి",
+	"donate": "దానం చేయండి",
+	"login": "ప్రవేశించండి",
+	"directors": "బోర్డు డైరెక్టర్లు",
+	"how_we_operate": "మేము ఎలా పని చేస్తాము",
+	"mission": "మిషన్",
+	"vision": "విజన్",
+	"contact": "సంప్రదించండి"
 }

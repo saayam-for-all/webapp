@@ -1,10 +1,10 @@
-
 {
-    "navbar.home": "Accueil",
-    "navbar.directors": "Directeurs",
-    "navbar.donation": "Don",
-    "home.how_we_do": "Comment nous faisons?",
-    "home.what_we_do": "Que faisons-nous?",
-    "home.about_us": "À propos de nous"
-  }
-  
+	"about": "À propos de nous",
+	"donate": "Faire un don",
+	"login": "Se connecter",
+	"directors": "Conseil d'administration",
+	"how_we_operate": "Comment nous fonctionnons",
+	"mission": "Mission",
+	"vision": "Vision",
+	"contact": "Contact"
+}

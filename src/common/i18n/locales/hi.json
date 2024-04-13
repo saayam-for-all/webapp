@@ -1,10 +1,10 @@
-
 {
-    "navbar.home": "होम",
-    "navbar.directors": "निर्देशक",
-    "navbar.donation": "दान",
-    "home.how_we_do": "हम कैसे करते हैं?",
-    "home.what_we_do": "हम क्या करते हैं?",
-    "home.about_us": "हमारे बारे में"
-  }
-  
+	"about": "हमारे बारे में",
+	"donate": "दान करें",
+	"login": "लॉग इन करें",
+	"directors": "निदेशक मंडल",
+	"how_we_operate": "हम कैसे काम करते हैं",
+	"mission": "उद्देश्य",
+	"vision": "दृष्टि",
+	"contact": "संपर्क"
+}
