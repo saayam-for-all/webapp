@@ -1,0 +1,19 @@
+.navbar-gradient-bg {
+	background: rgb(255, 255, 0);
+	background: -moz-linear-gradient(
+		90deg,
+		rgba(255, 255, 0, 1) 0%,
+		rgba(255, 165, 0, 1) 100%
+	);
+	background: -webkit-linear-gradient(
+		90deg,
+		rgba(255, 255, 0, 1) 0%,
+		rgba(255, 165, 0, 1) 100%
+	);
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 0, 1) 0%,
+		rgba(255, 165, 0, 1) 100%
+	);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffff00",endColorstr="#ffa500",GradientType=1);
+}

@@ -8,11 +8,11 @@ import RightAds from "../common/components/RightAds/RightAds";
 
 const Layout = () => {
 	return (
-		<div className='flex flex-col h-screen'>
+		<div className='flex flex-col h-screen overflow-auto'>
 			{/* header includes Navbar with lefover left and right space for alignment */}
-			<header className='flex'>
+			<header className='flex sticky top-0 z-[10000]'>
 				<aside className='flex-1'></aside>
-				<div className='flex-[5]'>
+				<div className='flex-[6]'>
 					<Navbar />
 				</div>
 				<aside className='flex-1'></aside>
@@ -20,23 +20,23 @@ const Layout = () => {
 
 			{/* main content */}
 			<div className='flex flex-1'>
-				<aside className='left-ads-panel flex-1 border'>
+				<aside className='left-ads-panel flex-1 '>
 					<LeftAds />
 				</aside>
-				<main className='flex-[5]'>
+				<main className='flex-[6]'>
 					<div className=''>
 						<Suspense fallback={<MainLoader />}>
 							<Outlet />
 						</Suspense>
 					</div>
 				</main>
-				<aside className='right-ads-panel flex-1 border'>
+				<aside className='right-ads-panel flex-1 '>
 					<RightAds />
 				</aside>
 			</div>
 
 			{/* footer */}
-			<footer className='border'>
+			<footer className=''>
 				<Footer />
 			</footer>
 		</div>

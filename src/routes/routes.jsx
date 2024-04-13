@@ -1,6 +1,9 @@
 import Directors from "../pages/Directors/Directors";
 import LandingPage from "../pages/LandingPage/LandingPage";
-import Donation from "../pages/Donation/Donation";
+import Donate from "../pages/Donate/Donate";
+import HowWeOperate from "../pages/How We Operate/HowWeOperate";
+import MissionVision from "../pages/MissionVisioin/MissionVision";
+import Contact from "../pages/Contact/Contact";
 
 const routes = [
 	{
@@ -12,8 +15,20 @@ const routes = [
 		element: <Directors />,
 	},
 	{
-		path: "donation",
-		element: <Donation />,
+		path: "donate",
+		element: <Donate />,
+	},
+	{
+		path: "how-we-operate",
+		element: <HowWeOperate />,
+	},
+	{
+		path: "mission-and-vision",
+		element: <MissionVision />,
+	},
+	{
+		path: "contact",
+		element: <Contact />,
 	},
 ];
 
