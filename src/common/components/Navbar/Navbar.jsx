@@ -68,7 +68,7 @@ const Navbar = () => {
 						{t("donate")}
 					</NavLink>
 					<button className='btn btn-sm'>{t("login")}</button>
-					<select
+					{/* <select
 						className='p-1 outline-none rounded-lg'
 						onChange={(e) => i18n.changeLanguage(e.target.value)}
 					>
@@ -77,7 +77,7 @@ const Navbar = () => {
 								{language.name}
 							</option>
 						))}
-					</select>
+					</select> */}
 				</div>
 			</div>
 		</header>
