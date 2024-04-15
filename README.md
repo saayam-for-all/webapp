@@ -96,7 +96,7 @@ To know more about our saayam project refer to [https://github.com/saayam-for-al
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ## Acknowledgments
 
