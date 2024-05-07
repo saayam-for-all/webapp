@@ -7,7 +7,7 @@ import languages from "../../i18n/languagesData";
 import LOGO from "../../../assets/logo.svg";
 
 const handleLogin = () => {
-    window.location.href = 'https://saayamforall-userpool.auth.us-east-1.amazoncognito.com/login?client_id=6eluc6tj36fbsas9ne2fsq2pi3&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fwww.saayamforall.org%2Fcallback';
+    window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=5e48q521poh26763dt4rvmi23m&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fwww.saayamforall.org%2Fcallback";
   };
 
 const Navbar = () => {
