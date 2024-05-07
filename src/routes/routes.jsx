@@ -4,7 +4,7 @@ import Donate from "../pages/Donate/Donate";
 import HowWeOperate from "../pages/How We Operate/HowWeOperate";
 import MissionVision from "../pages/MissionVisioin/MissionVision";
 import Contact from "../pages/Contact/Contact";
-import Login from "../pages/Login/Login";
+
 
 const routes = [
 	{
@@ -31,10 +31,7 @@ const routes = [
 		path: "contact",
 		element: <Contact />,
 	},
-	{
-		path:"login",
-		element: <Login />,
-	}
+	
 ];
 
 export default routes;
