@@ -14,15 +14,7 @@ const Info = () => {
 				Join us in our mission to make a difference. Whether you're looking to lend a helping hand or seeking assistance, Saayam is here for you. Together, let's create a more compassionate and equitable world for all.
 			</p>
 			<p className='mt-5'>
-				Experience the joy of assisting others – join Saayam today. Fill out&nbsp;
-				<a
-					href='https://docs.google.com/forms/d/e/1FAIpQLSdlu2hzj8Gm4O5LncE-NXbQxyzMTj3-Lr08sKgANEl_a-qwaQ/viewform'
-					className='text-blue-500 underline'
-					target='_blank'
-				>
-					form
-				</a>
-				&nbsp;to provide your details and become part of our community. Together, we can make a difference.
+				Experience the joy of assisting others – join Saayam today. Together, we can make a difference.
 			</p>
 			<p className='mt-5'>
 				Remember, at Saayam, our motto is simple: "Service to mankind is service to God," and "May all live happily." Join us in spreading kindness and compassion, one act of assistance at a time. Anybody from anywhere in the world can make a request for help on any type of social media platform/communication device.
