@@ -5,35 +5,16 @@ const Info = () => {
 	return (
 		<div className='px-40 text-lg'>
 			<p>
-				<strong>Saayam</strong> is a software platform that brings
-				requestors of help, volunteers, volunteer organizations and
-				donors together. Please go through the details 
-				<a
-					href='https://github.com/saayam-for-all/docs/wiki'
-					target='_blank'
-					className='text-blue-500 underline'
-				>
-					here
-				</a>
-				.
+				At <strong>Saayam</strong>, we believe in the power of helping hands reaching out to those facing challenges. Our platform connects individuals and communities worldwide, bridging the gap between those who need assistance and those who are willing to provide it.
+			</p>
+			<p className="mt-5">
+				Our vision is of a world where everyone has access to the help they need to overcome obstacles and lead fulfilling lives. We aspire to be a global leader in humanitarian aid, leveraging technology and collaboration to create a seamless network of support that transcends barriers.
 			</p>
 			<p className='mt-5'>
-				A requestor requests for help (similar to requesting for a car),
-				this request will be matched to a few available volunteers based
-				on their profile(similar to available nearest car drivers), one
-				volunteer will be picked to help this requestor (similar to one
-				chosen car) and finally this volunteer approaches the
-				requestor(car arrives at the location where we are). Then
-				onwards, this volunteer works with the requestor (car is giving
-				you the ride) and sees that this request is fulfilled (car will
-				take you to your destination) by working with fellow local
-				volunteers or volunteer organizations. Our success depends on
-				number of volunteers and number of volunteer organizations that
-				we can contact/make use of.
+				Join us in our mission to make a difference. Whether you're looking to lend a helping hand or seeking assistance, Saayam is here for you. Together, let's create a more compassionate and equitable world for all.
 			</p>
 			<p className='mt-5'>
-				Please join hands and experience the happiness of assisting.
-				Please fill this 
+				Experience the joy of assisting others – join Saayam today. Fill out&nbsp;
 				<a
 					href='https://docs.google.com/forms/d/e/1FAIpQLSdlu2hzj8Gm4O5LncE-NXbQxyzMTj3-Lr08sKgANEl_a-qwaQ/viewform'
 					className='text-blue-500 underline'
@@ -41,42 +22,13 @@ const Info = () => {
 				>
 					form
 				</a>
-				 for providing your details.
+				&nbsp;to provide your details and become part of our community. Together, we can make a difference.
 			</p>
 			<p className='mt-5'>
-				This nonprofit organization is based on two very simple mottos –
-				Manava Sevaye Madhava Seva (Service to mankind is Service to
-				God) and Sarve jana sukhino bhavantu (May all live happily).
-				Anybody from anywhere in the world can make a request for help
-				on any type of social media/communication device. This would be
-				a purely volunteer based organization. Each request will be
-				matched to a local volunteer so that this volunteer can provide
-				help to this requestor by taking advantage of any local charity
-				organizations or local help. Think of it like an international
-				Lyft/Uber service or an international 911 service. Only requests
-				related to food, clothes, housing, education, healthcare or any
-				general advice would be honored. This charity is beyond any god,
-				religion, country or politics. At the same time, we respect all
-				your beliefs and we do NOT desecrate any god, religion or
-				politics. This charity will be the mother of all charities by
-				linking them or collaborating with them, but it does NOT compete
-				with any other charity. Only expenses will be reimbursed. No
-				payments/salaries to any volunteers or charity
-				organizing/management members. This will be a multi-cloud, event
-				based, micro services, web/mobile app, AI/ML based product with
-				all the latest and the greatest native cloud technologies.
-				Entire development and hosting will be free, remote and based on
-				contributions from experts & volunteers or with the least cost.
-				The income we get from donations, ads or other means will be put
-				back into charity. We will take advantage of all FREE services
-				like WhatsApp, Zoom etc for operations. Let me know if anybody
-				is interested in joining my mission to help humanity. If you are
-				interested, you can be part of this charity org by becoming a
-				member of a WhatsApp group. Feel free to send this post to your
-				friends and to other social media channels.
+				Remember, at Saayam, our motto is simple: "Service to mankind is service to God," and "May all live happily." Join us in spreading kindness and compassion, one act of assistance at a time. Anybody from anywhere in the world can make a request for help on any type of social media platform/communication device.
 			</p>
 			<p className='mt-5'>
-				Keep checking here for the progress of our work!!
+				Stay updated on our progress and initiatives – keep checking back here for the latest updates. Together, we can build a better world for everyone.
 			</p>
 			<p className='mt-5'>
 				Saayam For All is a non profit organization with 501(c)(3)

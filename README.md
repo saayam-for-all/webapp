@@ -28,7 +28,7 @@ Saayam Web Application
 
 ### Prerequisites
 
--   Node.js and npm installed on your machine.
+-   Node.js (recommended version >= 21) and npm installed on your machine.
 
 ### Installation
 
