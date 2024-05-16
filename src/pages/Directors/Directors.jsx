@@ -62,20 +62,16 @@ const Directors = () => {
 								className='rounded-lg hover:rounded-2xl transition-all shadow-lg'
 							/>
 						</div>
-						<h2 className='flex gap-2 mt-5'>
-							<strong>Name :</strong>
-							{director.name}
-						</h2>
-						<h3 className='mt-2 text-blue-500'>{director.role}</h3>
-						<a
+						<h2 className='flex gap-2 mt-5'>	
+						<a	
 							href={director.linkedin}
+							className='text-blue-500'
 							target='_blank'
-							rel='noreferrer'
-							className='bg-blue-500 text-white px-4 py-2 rounded-md mt-4 flex items-center gap-2 hover:bg-blue-700 transition-all duration-300 ease-in-out'
 						>
-							<FaLinkedin />
-							LinkedIn Profile
-						</a>
+							{director.name}
+						</a>	
+						</h2>
+						<h3 className='flex gap-2 mt-5'>{director.role}</h3>
 					</div>
 				))}
 			</div>
