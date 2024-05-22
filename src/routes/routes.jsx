@@ -5,6 +5,7 @@ import HowWeOperate from "../pages/How We Operate/HowWeOperate";
 import MissionVision from "../pages/MissionVisioin/MissionVision";
 import Contact from "../pages/Contact/Contact";
 
+
 const routes = [
 	{
 		path: "",
@@ -30,6 +31,7 @@ const routes = [
 		path: "contact",
 		element: <Contact />,
 	},
+	
 ];
 
 export default routes;
