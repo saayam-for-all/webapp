@@ -4,8 +4,9 @@ import HeroSection from "./components/HeroSection";
 import Info from "./components/Info";
 import Images from "./components/Dynamic_img"
 
+
 export default function Home() {
-	const { t } = useTranslation();
+	// const { t } = useTranslation();
 
 	return (
 		<div>

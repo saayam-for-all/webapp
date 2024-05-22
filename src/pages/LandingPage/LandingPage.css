@@ -368,3 +368,26 @@
         width: 100%;
     }
 }
+
+/*embla carousel styles*/
+.embla {
+    overflow: hidden;
+    height: auto;
+    width: 60%;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  }
+  .embla__container {
+    display: flex;
+
+    
+    
+
+  }
+  .embla__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    
+  }
+  

@@ -1,5 +1,5 @@
 *.images {
-    width: 100%; /* Adjust width as needed */
+    width: fit-content; /* Adjust width as needed */
     overflow: hidden; /* Hide overflowing content */
     margin: 0 auto; /* Center the carousel horizontally */
     position: relative; /* Needed for absolute positioning of the second slide */

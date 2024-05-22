@@ -6,22 +6,26 @@ import { Link, NavLink } from "react-router-dom";
 import languages from "../../i18n/languagesData";
 import LOGO from "../../../assets/logo.svg";
 
+const handleLogin = () => {
+    window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=5e48q521poh26763dt4rvmi23m&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fwww.saayamforall.org%2Fcallback";
+  };
+
 const Navbar = () => {
 	const { i18n, t } = useTranslation();
 	return (
 		<header>
-			<div className='navbar navbar-sm navbar-gradient-bg rounded-3xl px-10'>
+			<div className='px-10 navbar navbar-sm navbar-gradient-bg rounded-3xl'>
 				<div className='navbar-start'>
 					<Link to='/' className='text-3xl font-semibold'>
 						<img src={LOGO} alt='logo' className='w-14 h-14' />
 					</Link>
 				</div>
 
-				<div className='navbar-end gap-10'>
+				<div className='gap-10 navbar-end'>
 					<div className='dropdown'>
 						<div
 							tabIndex={0}
-							className='cursor-pointer font-semibold'
+							className='font-semibold cursor-pointer'
 						>
 							{t("about")}
 						</div>
@@ -67,9 +71,12 @@ const Navbar = () => {
 					<NavLink to='/donate' className='font-semibold'>
 						{t("donate")}
 					</NavLink>
-					<button className='btn btn-sm'>{t("login")}</button>
+					<button onClick={handleLogin} to = 'login' className="btn btn-sm">
+						{t("login")}
+					</button>
+					
 					{/* <select
-						className='p-1 outline-none rounded-lg'
+						className='p-1 rounded-lg outline-none'
 						onChange={(e) => i18n.changeLanguage(e.target.value)}
 					>
 						{languages?.map((language) => (

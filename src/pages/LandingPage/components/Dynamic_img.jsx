@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./Dynamic_img.css";
+
 import Employment from "../../../assets/Landingpage_images/Employment.gif";
 import Matrimonial from "../../../assets/Landingpage_images/Matrimonial.gif";
 import Stocks from "../../../assets/Landingpage_images/Stocks.gif";
@@ -43,5 +44,6 @@ const Images = () => {
     </div>
   );
 };
+
 
 export default Images;
