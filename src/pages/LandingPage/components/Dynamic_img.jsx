@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import "./Dynamic_img.css";
-import FOOD1 from "../../../assets/carouselImages/food.jpg";
-import FOOD2 from "../../../assets/carouselImages/food3.jpg";
-import HANDS from "../../../assets/carouselImages/hands.jpg";
-import HANDS2 from "../../../assets/carouselImages/hands2.jpg";
-import HEALTH from "../../../assets/carouselImages/health.jpg";
-import HEALTH2 from "../../../assets/carouselImages/health2.jpg";
-import CLOTHES from "../../../assets/carouselImages/clothes.jpg";
-import EDUCATION from "../../../assets/carouselImages/education3.jpg";
-import REFERRALS from "../../../assets/carouselImages/referrals.jpeg";
 
+import Employment from "../../../assets/Landingpage_images/Employment.gif";
+import Matrimonial from "../../../assets/Landingpage_images/Matrimonial.gif";
+import Stocks from "../../../assets/Landingpage_images/Stocks.gif";
+import Education from "../../../assets/Landingpage_images/education.gif";
+import Finance from "../../../assets/Landingpage_images/Finance.gif";
+import School from "../../../assets/Landingpage_images/School.gif";
+import Clothes from "../../../assets/Landingpage_images/clothes.gif";
+import Housing from "../../../assets/Landingpage_images/housing.gif";
+import Food from "../../../assets/Landingpage_images/Food.gif";
+import Shopping from "../../../assets/Landingpage_images/Shopping.gif";
+import College_admissions from "../../../assets/Landingpage_images/college_admissions.gif";
+import Gardening from "../../../assets/Landingpage_images/Gardening.gif";
+import Sports from "../../../assets/Landingpage_images/Sports.gif";
+import Cooking from "../../../assets/Landingpage_images/cooking.gif";
 
 const images = [
-  FOOD1,
-	FOOD2,
-	HANDS,
-	HEALTH,
-	HANDS2,
-	HEALTH2,
-	CLOTHES,
-	EDUCATION,
-	REFERRALS,
+  Employment,
+  Matrimonial,
+	Stocks,
+  Education,
+  Finance,
+  School,
+  Clothes,
+  Housing,
+  Food,
+  Shopping,
+  College_admissions,
+  Gardening,
+  Sports,
+  Cooking
 ];
 
 const Images = () => {
@@ -34,5 +44,6 @@ const Images = () => {
     </div>
   );
 };
+
 
 export default Images;

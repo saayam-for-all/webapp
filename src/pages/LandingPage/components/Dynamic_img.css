@@ -14,14 +14,14 @@
       transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-350%);
     }
   }
 
 
   .images-slide {
     display: flex; /* Arrange logos side-by-side */
-    animation: 20s scroll infinite linear; /* Animation for scrolling */
+    animation: 30s scroll infinite linear; /* Animation for scrolling
   }
   
   .images img {
