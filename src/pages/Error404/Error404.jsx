@@ -25,7 +25,7 @@ const Error404 = () => {
 									</p>
 
 									<Link to={"/"} className='link_404'>
-										Go to Home
+										Go to Homepage
 									</Link>
 								</div>
 							</div>

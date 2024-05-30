@@ -20,6 +20,10 @@ const Navbar = () => {
     }
   };
 
+  // const handleLogin = () => {
+  //   window.location.href = 
+  // };
+
   return (
     <header>
       <div className="navbar navbar-sm navbar-gradient-bg rounded-3xl px-10">
@@ -76,8 +80,8 @@ const Navbar = () => {
           <NavLink to="/donate" className="font-semibold" onClick={handleLinkClick}>
             {t("donate")}
           </NavLink>
-          <button className="btn btn-sm">{t("login")}</button>
-          {/* <select
+          <button onClick={handleLogin} className="btn btn-sm">  {t("login")}</button>
+          <select
 						className='p-1 outline-none rounded-lg'
 						onChange={(e) => i18n.changeLanguage(e.target.value)}
 					>
@@ -86,7 +90,7 @@ const Navbar = () => {
 								{language.name}
 							</option>
 						))}
-					</select> */}
+					</select>
         </div>
       </div>
     </header>
