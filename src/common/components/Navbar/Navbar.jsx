@@ -81,7 +81,7 @@ const Navbar = () => {
           <NavLink to="/donate" className="font-semibold" onClick={handleLinkClick}>
             {t("donate")}
           </NavLink>
-          <button className="btn btn-sm" onClick={handleLogin}>{t("login")}</button>
+          <button className="font-semibold" onClick={handleLogin}>{t("login")}</button>
           {/* <select
 						className='p-1 outline-none rounded-lg'
 						onChange={(e) => i18n.changeLanguage(e.target.value)}

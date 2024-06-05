@@ -23,20 +23,7 @@
     outline: none;
 }
 
-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-button:hover {
-    background-color: #45a049;
-}
 
 @keyframes fadeIn {
     from {
