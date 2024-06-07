@@ -10,6 +10,7 @@ const Navbar = () => {
   const { i18n, t } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -20,6 +21,9 @@ const Navbar = () => {
     }
   };
 
+  const handleLogin = () => {
+    window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=5cnjjdnrt1fincgi0fjalls5oc&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdev-saayam.netlify.app%2F"
+  }  
   return (
     <header>
       <div className="navbar navbar-sm navbar-gradient-bg rounded-3xl px-10">
@@ -76,7 +80,7 @@ const Navbar = () => {
           <NavLink to="/donate" className="font-semibold" onClick={handleLinkClick}>
             {t("donate")}
           </NavLink>
-          <button className="btn btn-sm">{t("login")}</button>
+          <button className="font-semibold" onClick={handleLogin}>{t("login")}</button>
           {/* <select
 						className='p-1 outline-none rounded-lg'
 						onChange={(e) => i18n.changeLanguage(e.target.value)}
