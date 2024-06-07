@@ -22,9 +22,8 @@ const Navbar = () => {
   };
 
   const handleLogin = () => {
-    window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=5e48q521poh26763dt4rvmi23m&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fwww.saayamforall.org%2Fcallback"
-  }
-
+    window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=rauncvdl1vqs7p4c5o9vlmcd5&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Ftest-saayam.netlify.app%2F"
+  }  
   return (
     <header>
       <div className="navbar navbar-sm navbar-gradient-bg rounded-3xl px-10">
