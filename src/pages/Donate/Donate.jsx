@@ -14,7 +14,7 @@ const Donation = () => {
 				className='btn btn-accent mt-6'
 				target='_blank'
 			>
-				Dontate
+				Donate
 			</a>
 		</div>
 	);

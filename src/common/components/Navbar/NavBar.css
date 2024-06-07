@@ -17,3 +17,7 @@
 	);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffff00",endColorstr="#ffa500",GradientType=1);
 }
+button:hover {
+	background-color: transparent; /* No background color on hover */
+	color: inherit; /* Inherit text color on hover */
+  }
