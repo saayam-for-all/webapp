@@ -26,7 +26,7 @@ const Navbar = () => {
   }  
   return (
     <header>
-      <div className="navbar navbar-sm navbar-gradient-bg rounded-3xl px-10">
+      <div className="navbar navbar-sm navbar-gradient-bg s">
         <div className="navbar-start">
           <Link to="/" className="text-3xl font-semibold">
             <img src={LOGO} alt="logo" className="w-14 h-14" />

@@ -1,23 +1,12 @@
-.navbar-gradient-bg {
-	background: rgb(255, 255, 0);
-	background: -moz-linear-gradient(
-		90deg,
-		rgba(255, 255, 0, 1) 0%,
-		rgba(255, 165, 0, 1) 100%
-	);
-	background: -webkit-linear-gradient(
-		90deg,
-		rgba(255, 255, 0, 1) 0%,
-		rgba(255, 165, 0, 1) 100%
-	);
-	background: linear-gradient(
-		90deg,
-		rgba(255, 255, 0, 1) 0%,
-		rgba(255, 165, 0, 1) 100%
-	);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffff00",endColorstr="#ffa500",GradientType=1);
+.navbar {
+    width: 10%;
+    background-image: linear-gradient(120deg, #d1d8d5 0%, #c7d0cc 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffff00", endColorstr="#ffa500", GradientType=1);
+    padding: 10px; 
+    box-sizing: border-box;
 }
+
 button:hover {
-	background-color: transparent; /* No background color on hover */
-	color: inherit; /* Inherit text color on hover */
-  }
+    background-color: transparent;
+    color: inherit; 
+}
