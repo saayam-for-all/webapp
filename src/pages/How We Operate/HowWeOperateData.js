@@ -13,7 +13,7 @@ const howWeOperateData = [
     },
     {
         heading : "Volunteer Approach : ",
-        points : "The chosen volunteer will then contact you and come to your location."
+        points : "The chosen volunteer will then contact you and work with you."
     },
     {
         heading : "Assistance Provided : ",
