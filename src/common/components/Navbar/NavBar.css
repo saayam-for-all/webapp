@@ -21,3 +21,9 @@ button:hover {
 	background-color: transparent; /* No background color on hover */
 	color: inherit; /* Inherit text color on hover */
   }
+.navbar-start{
+	margin-left: 30px;
+}
+.navbar-end{
+	margin-right: 30px;
+}

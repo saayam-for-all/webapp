@@ -67,12 +67,12 @@ const Navbar = () => {
               </li>
               <li>
                 <a onClick={handleLinkClick}>
-                  <NavLink to="/mission-and-vision">{t("mission")}</NavLink>
+                  <NavLink to="/mission">{t("mission")}</NavLink>
                 </a>
               </li>
               <li>
                 <a onClick={handleLinkClick}>
-                  <NavLink to="/mission-and-vision">{t("vision")}</NavLink>
+                  <NavLink to="/vision">{t("vision")}</NavLink>
                 </a>
               </li>
             </ul>
