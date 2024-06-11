@@ -22,7 +22,7 @@ const Navbar = () => {
   };
 
   const handleLogin = () => {
-    window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=5cnjjdnrt1fincgi0fjalls5oc&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdev-saayam.netlify.app%2F"
+    window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=rauncvdl1vqs7p4c5o9vlmcd5&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fsaayamforall.framer.ai%2F"
   }  
   return (
     <header>
