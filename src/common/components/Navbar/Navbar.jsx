@@ -22,8 +22,16 @@ const Navbar = () => {
   };
 
   const handleLogin = () => {
-    window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=rauncvdl1vqs7p4c5o9vlmcd5&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fsaayamforall.framer.ai%2F"
-  }  
+    const currentDomain = window.location.origin;
+    const redirectUri = `${currentDomain}/dashboard`;
+    const clientId = "rauncvdl1vqs7p4c5o9vlmcd5";
+    const responseType = "code";
+    const scope = "email+openid+phone";
+    const cognitoUrl = `https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=${clientId}&response_type=${responseType}&scope=${scope}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+
+    window.location.href = cognitoUrl;
+    // window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=rauncvdl1vqs7p4c5o9vlmcd5&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fsaayamforall.framer.ai%2F"
+  };
   return (
     <header>
       <div className="navbar navbar-sm navbar-gradient-bg s">
