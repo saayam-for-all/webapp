@@ -1,7 +1,6 @@
 import React from "react";
-import "./PostLogin.css";
-
-const PostLogin = ({ t }) => {
+import "./Dashboard.css"
+const Dashboard = ({ t }) => {
 	return (
 		<div className='px-20 mt-6'>
 			<div>
@@ -14,4 +13,4 @@ const PostLogin = ({ t }) => {
 	);
 };
 
-export default PostLogin;
+export default Dashboard;

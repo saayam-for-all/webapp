@@ -5,8 +5,9 @@ import HowWeOperate from "../pages/How We Operate/HowWeOperate";
 import Mission from "../pages/Mission/Mission";
 import Vision from "../pages/Vision/Vision";
 import Contact from "../pages/Contact/Contact";
-import PostLogin from "../pages/PostLogin/PostLogin";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
+ 
 
 const routes = [
 	{
@@ -40,8 +41,8 @@ const routes = [
 	},
 	{
 		path: "dashboard",
-		element: <PostLogin />,
-	  },
+		element: <Dashboard />,
+	  }
 ];
 
 export default routes;
