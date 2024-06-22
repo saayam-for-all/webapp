@@ -27,12 +27,11 @@ const Navbar = () => {
     const clientId = "rauncvdl1vqs7p4c5o9vlmcd5";
     const responseType = "code";
     const scope = "email+openid+phone";
-    const cognitoUrl =  "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=rauncvdl1vqs7p4c5o9vlmcd5&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Ftest-saayam.netlify.app%2Fdashboard";
+    const cognitoDomain = "https://saayamforall.auth.us-east-1.amazoncognito.com";
 
-    const local = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=rauncvdl1vqs7p4c5o9vlmcd5&response_type=code&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fdashboard";
+    const cognitoUrl = `${cognitoDomain}/login?client_id=${clientId}&response_type=${responseType}&scope=${scope}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
-    window.location.href = cognitoUrl ;
-    // window.location.href = "https://saayamforall.auth.us-east-1.amazoncognito.com/login?client_id=rauncvdl1vqs7p4c5o9vlmcd5&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fsaayamforall.framer.ai";
+    window.location.href = cognitoUrl;
   };
   return (
     <header>
@@ -92,15 +91,15 @@ const Navbar = () => {
           </NavLink>
           <button className="font-semibold" onClick={handleLogin}>{t("login")}</button>
           {/* <select
-						className='p-1 outline-none rounded-lg'
-						onChange={(e) => i18n.changeLanguage(e.target.value)}
-					>
-						{languages?.map((language) => (
-							<option key={language.code} value={language.code}>
-								{language.name}
-							</option>
-						))}
-					</select> */}
+            className='p-1 outline-none rounded-lg'
+            onChange={(e) => i18n.changeLanguage(e.target.value)}
+          >
+            {languages?.map((language) => (
+              <option key={language.code} value={language.code}>
+                {language.name}
+              </option>
+            ))}
+          </select> */}
         </div>
       </div>
     </header>
