@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import routes from "./routes/routes";
 import Error404 from "./pages/Error404/Error404";
-import { handleAuthResponse } from "./authResponseHandler";
 
 const router = createBrowserRouter([
   {
@@ -15,10 +14,6 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  useEffect(() => {
-    handleAuthResponse();
-  }, []);
-
   return <RouterProvider router={router} />;
 };
 
