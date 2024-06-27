@@ -7,42 +7,40 @@ import Vision from "../pages/Vision/Vision";
 import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 
- 
-
 const routes = [
-	{
-		path: "",
-		element: <LandingPage />,
-	},
-	{
-		path: "directors",
-		element: <Directors />,
-	},
-	{
-		path: "donate",
-		element: <Donate />,
-	},
-	{
-		path: "how-we-operate",
-		element: <HowWeOperate />,
-	},
-	{
-		path: "mission",
-		element: <Mission />,
-	},
-	,
-	{
-		path: "vision",
-		element: <Vision />,
-	},
-	{
-		path: "contact",
-		element: <Contact />,
-	},
-	{
-		path: "dashboard",
-		element: <Dashboard />,
-	  }
+  {
+    path: "",
+    element: <LandingPage />,
+  },
+  {
+    path: "directors",
+    element: <Directors />,
+  },
+  {
+    path: "donate",
+    element: <Donate />,
+  },
+  {
+    path: "how-we-operate",
+    element: <HowWeOperate />,
+  },
+  {
+    path: "mission",
+    element: <Mission />,
+  },
+  ,
+  {
+    path: "vision",
+    element: <Vision />,
+  },
+  {
+    path: "contact",
+    element: <Contact />,
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+  },
 ];
 
 export default routes;

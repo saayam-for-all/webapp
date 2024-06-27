@@ -55,9 +55,12 @@ const Navbar = () => {
     const clientId = "rauncvdl1vqs7p4c5o9vlmcd5";
     const responseType = "code";
     const scope = "email+openid+phone";
-    const cognitoDomain = "https://saayamforall.auth.us-east-1.amazoncognito.com";
+    const cognitoDomain =
+      "https://saayamforall.auth.us-east-1.amazoncognito.com";
 
-    const cognitoUrl = `${cognitoDomain}/login?client_id=${clientId}&response_type=${responseType}&scope=${scope}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    const cognitoUrl = `${cognitoDomain}/login?client_id=${clientId}&response_type=${responseType}&scope=${scope}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}`;
 
     window.location.href = cognitoUrl;
   };
@@ -96,6 +99,56 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-end gap-10">
+          <div className="dropdown">
+            <div
+              tabIndex={0}
+              className={`cursor-pointer font-semibold ${
+                isDropdownOpen ? "active" : ""
+              }`}
+              onClick={handleDropdownClick}
+            >
+              {t("about")}
+            </div>
+            <ul
+              tabIndex={0}
+              className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${
+                isDropdownOpen ? "block" : "hidden"
+              }`}
+            >
+              <li>
+                <a onClick={handleLinkClick}>
+                  <NavLink to="/directors">{t("directors")}</NavLink>
+                </a>
+              </li>
+              <li>
+                <NavLink to="/how-we-operate" onClick={handleLinkClick}>
+                  {t("how_we_operate")}
+                </NavLink>
+              </li>
+              <li>
+                <a onClick={handleLinkClick}>
+                  <NavLink to="/contact">{t("contact")}</NavLink>
+                </a>
+              </li>
+              <li>
+                <a onClick={handleLinkClick}>
+                  <NavLink to="/mission">{t("mission")}</NavLink>
+                </a>
+              </li>
+              <li>
+                <a onClick={handleLinkClick}>
+                  <NavLink to="/vision">{t("vision")}</NavLink>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <NavLink
+            to="/donate"
+            className="font-semibold"
+            onClick={handleLinkClick}
+          >
+            {t("donate")}
+          </NavLink>
           {isLoggedIn ? (
             <>
               <div className="relative" ref={profileDropdownRef}>
@@ -107,10 +160,16 @@ const Navbar = () => {
                 />
                 {isProfileDropdownOpen && (
                   <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-                    <li className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleEditProfilePicture}>
+                    <li
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={handleEditProfilePicture}
+                    >
                       {t("Profile")}
                     </li>
-                    <li className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>
+                    <li
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={handleLogout}
+                    >
                       {t("Logout")}
                     </li>
                   </ul>
@@ -125,52 +184,6 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <div className="dropdown">
-                <div
-                  tabIndex={0}
-                  className={`cursor-pointer font-semibold ${
-                    isDropdownOpen ? "active" : ""
-                  }`}
-                  onClick={handleDropdownClick}
-                >
-                  {t("about")}
-                </div>
-                <ul
-                  tabIndex={0}
-                  className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${
-                    isDropdownOpen ? "block" : "hidden"
-                  }`}
-                >
-                  <li>
-                    <a onClick={handleLinkClick}>
-                      <NavLink to="/directors">{t("directors")}</NavLink>
-                    </a>
-                  </li>
-                  <li>
-                    <NavLink to="/how-we-operate" onClick={handleLinkClick}>
-                      {t("how_we_operate")}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a onClick={handleLinkClick}>
-                      <NavLink to="/contact">{t("contact")}</NavLink>
-                    </a>
-                  </li>
-                  <li>
-                    <a onClick={handleLinkClick}>
-                      <NavLink to="/mission">{t("mission")}</NavLink>
-                    </a>
-                  </li>
-                  <li>
-                    <a onClick={handleLinkClick}>
-                      <NavLink to="/vision">{t("vision")}</NavLink>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <NavLink to="/donate" className="font-semibold" onClick={handleLinkClick}>
-                {t("donate")}
-              </NavLink>
               <button className="font-semibold" onClick={handleLogin}>
                 {t("login")}
               </button>
