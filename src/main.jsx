@@ -10,11 +10,11 @@ import { store } from "./redux/store.js";
 import "@fontsource-variable/inter";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<I18nextProvider i18n={i18n}>
-				<App />
-			</I18nextProvider>
-		</Provider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <I18nextProvider i18n={i18n}>
+        <App />
+      </I18nextProvider>
+    </Provider>
+  </React.StrictMode>
 );
