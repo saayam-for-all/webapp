@@ -10,7 +10,7 @@ const Layout = () => {
   return (
     <div className="flex flex-col h-screen overflow-auto">
       {/* header includes Navbar which spans full width */}
-      <header className="sticky">
+      <header className="sticky z-10">
         <Navbar />
       </header>
 
