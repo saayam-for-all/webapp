@@ -6,6 +6,7 @@ import Mission from "../pages/Mission/Mission";
 import Vision from "../pages/Vision/Vision";
 import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import RequestDetails from "../pages/RequestDetails/RequestDetails";
 
 const routes = [
   {
@@ -40,6 +41,10 @@ const routes = [
   {
     path: "dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "request/:id",
+    element: <RequestDetails />,
   },
 ];
 

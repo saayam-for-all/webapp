@@ -8,7 +8,7 @@ import RightAds from "../common/components/RightAds/RightAds";
 
 const Layout = () => {
   return (
-    <div className="flex flex-col h-screen overflow-auto">
+    <div className="flex flex-col h-screen">
       {/* header includes Navbar which spans full width */}
       <header className="sticky z-10">
         <Navbar />
