@@ -1,9 +1,10 @@
 import React from "react";
-import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import routes from "./routes/routes";
 import Error404 from "./pages/Error404/Error404";
+
+import "./App.css";
 
 const router = createBrowserRouter([
   {
