@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Layout from "./Layout/Layout";
 import routes from "./routes/routes";
 import Error404 from "./pages/Error404/Error404";
+import { checkAuthStatus } from "./redux/features/authentication/authActions";
 
 import "./App.css";
 
@@ -15,6 +17,10 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(checkAuthStatus());
+  }, []);
   return <RouterProvider router={router} />;
 };
 

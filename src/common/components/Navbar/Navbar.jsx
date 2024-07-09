@@ -62,15 +62,15 @@ const Navbar = () => {
     return subscribe;
   }, [dispatch]);
 
-  useEffect(() => {
-    const getSession = async () => {
-      const session = await fetchAuthSession();
-      console.log("id token", session);
-      // console.log("access token", session.tokens.accessToken);
-    };
+  // useEffect(() => {
+  //   const getSession = async () => {
+  //     const session = await fetchAuthSession();
+  //     console.log("id token", session);
+  //     // console.log("access token", session.tokens.accessToken);
+  //   };
 
-    getSession();
-  }, []);
+  //   getSession();
+  // }, []);
 
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);

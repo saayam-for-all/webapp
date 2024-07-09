@@ -1,5 +1,6 @@
-import React, { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Navbar from "../common/components/Navbar/Navbar";
 import MainLoader from "../common/components/Loader/MainLoader";
 import Footer from "../common/components/Footer/Footer";
@@ -7,6 +8,15 @@ import LeftAds from "../common/components/LeftAds/LeftAds";
 import RightAds from "../common/components/RightAds/RightAds";
 
 const Layout = () => {
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user !== null) {
+      navigate("/dashboard");
+    }
+  }, [user]);
+
   return (
     <div className="flex flex-col h-screen">
       {/* header includes Navbar which spans full width */}
