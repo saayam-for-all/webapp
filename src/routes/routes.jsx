@@ -42,17 +42,17 @@ const routes = [
   {
     path: "dashboard",
     element: (
-      <ProtectedRoute>
-        <Dashboard />
-      </ProtectedRoute>
+      // <ProtectedRoute>
+      <Dashboard />
+      // </ProtectedRoute>
     ),
   },
   {
     path: "request/:id",
     element: (
-      <ProtectedRoute>
-        <RequestDetails />
-      </ProtectedRoute>
+      // <ProtectedRoute>
+      <RequestDetails />
+      // </ProtectedRoute>
     ),
   },
 ];
