@@ -6,19 +6,31 @@ import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImag
 
 import "./NavBar.css";
 
-const Navbar = () => {
+// mock function to get the user info
+const getUserInfo =  () => {
+  return {
+    firstName: "Dikshita"
+  }
+}
+
+const Navbar = () => { 
   const { i18n, t } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
+  const [firstName, setFirstName] = useState("");
   const fileInputRef = useRef(null);
   const profileDropdownRef = useRef(null);
   const location = useLocation();
 
+
   useEffect(() => {
     if (location.pathname === "/dashboard") {
       setIsLoggedIn(true);
+      const userInfo = getUserInfo();
+      setFirstName(userInfo.firstName);
+
     } else {
       setIsLoggedIn(false);
     }
@@ -143,19 +155,19 @@ const Navbar = () => {
         </NavLink>
         {isLoggedIn ? (
           <div className="relative" ref={profileDropdownRef}>
-            <img
-              src={profileIcon}
-              alt="Profile Icon"
-              className="w-8 h-8 rounded-full cursor-pointer"
-              onClick={handleProfileClick}
-            />
+            <div className="flex items-center">
+              <img
+                src={profileIcon}
+                alt="Profile Icon"
+                className="w-8 h-8 rounded-full cursor-pointer"
+                onClick={handleProfileClick}
+              />
+              <span className="ml-2">{firstName.length > 8 ? `${firstName.substring(0, 8)}...` : firstName}</span> {/* Display first 8 characters of first name */}
+            </div>
             {isProfileDropdownOpen && (
               <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-                <li
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handleEditProfilePicture}
-                >
-                  {t("Profile")}
+                <li className="p-2 hover:bg-gray-100 cursor-pointer">
+                  <NavLink to="/profile">{t("Profile")}</NavLink>
                 </li>
                 <li
                   className="p-2 hover:bg-gray-100 cursor-pointer"

@@ -7,6 +7,7 @@ import Vision from "../pages/Vision/Vision";
 import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import RequestDetails from "../pages/RequestDetails/RequestDetails";
+import Profile from '../pages/Profile/Profile'; 
 
 const routes = [
   {
@@ -46,6 +47,10 @@ const routes = [
     path: "request/:id",
     element: <RequestDetails />,
   },
+  {
+    path: "profile",
+    element: <Profile />
+  } 
 ];
 
 export default routes;

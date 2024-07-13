@@ -4,7 +4,7 @@ import Navbar from "../common/components/Navbar/Navbar";
 import MainLoader from "../common/components/Loader/MainLoader";
 import Footer from "../common/components/Footer/Footer";
 import LeftAds from "../common/components/LeftAds/LeftAds";
-import RightAds from "../common/components/RightAds/RightAds";
+// import RightAds from "../common/components/RightAds/RightAds";
 
 const Layout = () => {
   return (
@@ -24,9 +24,9 @@ const Layout = () => {
             <Outlet />
           </Suspense>
         </main>
-        <aside className="right-ads-panel flex-1 ">
+        {/* <aside className="right-ads-panel flex-1 ">
           <RightAds />
-        </aside>
+        </aside> */}
       </div>
 
       {/* footer */}

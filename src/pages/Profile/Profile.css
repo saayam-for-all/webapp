@@ -1,0 +1,261 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+}
+
+.profile-container {
+    width: 100%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    /* border-bottom: 1px solid #ccc; */
+}
+
+.profile-photo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.profile-photo {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+.edit-photo-btn {
+    margin-top: 10px;
+    padding: 5px 30px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.camera-icon {
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+/* *********************** */
+
+.tab-container { 
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.tab-btn { 
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: #c7f0ff;
+    border-bottom: 3px solid transparent;
+    font-size: 16px;
+    transition: border-bottom 0.3s;
+}
+
+.tab-btn.active { 
+    border-bottom: 3px solid #0073e6;
+}
+
+/* ********* */
+
+.section {
+    flex: 1;
+    margin: 20px;
+    border-radius: 5px;
+    /* background-color: #fafafa; */
+    margin-bottom: 50px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 1200px
+    
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #90e1ff;
+    /* background-color:  rgb(200, 241, 241); */
+    padding: 20px;
+    /* margin-bottom: 10px; */
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 23px; 
+    font-weight: bold;
+    color: #333; 
+    text-align: left; 
+}
+
+.section-header .edit-btn {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    /* color: #d1b98d; */
+    color: rgb(51, 80, 80);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+}
+
+.section-header .edit-btn:hover {
+    background-color: #b9ffff;
+}
+
+.section-header .save-btn {
+    background-color: orangered; /* Yellow-orange color */
+    color: #fff;
+    border-radius: 5px;
+    border: 1px solid white ;
+}
+
+.section-header .edit-btn.save-btn:hover {
+    background-color: orange;
+}
+
+.section-header .edit-btn .edit-icon {
+    /* margin-left: 5px; */
+    padding: 5px;
+}
+
+
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-start; */
+    /* align-items: center;
+    justify-content: space-between; */
+    margin: 10px 0;
+    border-top: 1px solid #e8e8e8;
+    padding: 15px 0px;
+}
+
+.info-group:first-child {
+    border-top: none;
+}
+
+
+.info-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 100%;
+    font-size: 1.1rem;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+.info-group p {
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 1rem;
+    margin-left: 10px;
+}
+
+
+
+.edit-input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box; 
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-input:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+/* ***** */
+
+.react-select-container {
+    width: 100%;
+    /* margin: 5px 0; */
+    font-size: 1rem;
+}
+
+.react-select__control {
+    display: flex;
+    width: 100%;
+    /* margin-left: 10px; */
+}
+
+.react-select__menu {
+    /* z-index: 1000; */
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.react-datepicker__input-container {
+    width: 100%;
+}
+
+/* **** */
+
+.change-password-link {
+    color: #b20043;
+    text-decoration: none;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+    .profile-header {
+        flex-direction: row;
+    }
+
+    .section {
+        flex: 1;
+        margin-left: 20px;
+    }
+
+    .info-group {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 20px;
+        
+    }
+    .info-group label {
+        margin-left: 0;
+        padding-left: 0;
+    }
+}
+
