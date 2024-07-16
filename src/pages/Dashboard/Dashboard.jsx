@@ -37,11 +37,16 @@ const Dashboard = ({ t, userRole }) => {
       closedDate: "2024-06-15",
     },
   ];
+  const openInNewWindow = () => {
+    
+    //const url = window.location.origin + '/request';
+    window.open(window.location.origin + '/request', '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="dashboard-container">
       <div className="dashboard-button-bar">
-        <button className="btn btn-accent">New Help Request</button>
+        <button className="btn btn-accent" onClick={openInNewWindow}>New Help Request</button>
         <button className="btn btn-accent">Promote to Volunteer</button>
       </div>
 
