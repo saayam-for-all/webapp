@@ -41,8 +41,12 @@ const Dashboard = ({ t, userRole }) => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-button-bar">
-        <button className="btn btn-accent">New Help Request</button>
-        <button className="btn btn-accent">Promote to Volunteer</button>
+
+      <button className="btn btn-accent">
+        <Link to="/request" className="btn-link">New Help Request</Link>
+      </button>
+       <button className="btn btn-accent">Promote to Volunteer</button>
+          test
       </div>
 
       <div className="requests-section">

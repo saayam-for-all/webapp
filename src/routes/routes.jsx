@@ -7,6 +7,8 @@ import Vision from "../pages/Vision/Vision";
 import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import RequestDetails from "../pages/RequestDetails/RequestDetails";
+import ProtectedRoute from "./ProtectedRoute";
+import HelpRequestForm from "../pages/HelpRequest/helpRequestNoFetch";
 
 const routes = [
   {
@@ -29,7 +31,7 @@ const routes = [
     path: "mission",
     element: <Mission />,
   },
-  ,
+  
   {
     path: "vision",
     element: <Vision />,
@@ -40,11 +42,27 @@ const routes = [
   },
   {
     path: "dashboard",
-    element: <Dashboard />,
+    element: (
+      // <ProtectedRoute>
+      <Dashboard />
+      // </ProtectedRoute>
+    ),
   },
   {
     path: "request/:id",
-    element: <RequestDetails />,
+    element: (
+      // <ProtectedRoute>
+      <RequestDetails />
+      // </ProtectedRoute>
+    ),
+  },
+  {
+    path: "request",
+    element: (
+      
+      <HelpRequestForm />
+      
+    ),
   },
 ];
 

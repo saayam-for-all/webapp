@@ -1,28 +1,33 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import {
+  signInWithRedirect,
+  signOut,
+  getCurrentUser,
+  fetchAuthSession,
+} from "aws-amplify/auth";
+import { Hub } from "aws-amplify/utils";
 import LOGO from "../../../assets/logo.svg";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 
 import "./NavBar.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  checkAuthStatus,
+  login,
+} from "../../../redux/features/authentication/authActions";
 
 const Navbar = () => {
   const { i18n, t } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
   const fileInputRef = useRef(null);
   const profileDropdownRef = useRef(null);
-  const location = useLocation();
 
-  useEffect(() => {
-    if (location.pathname === "/dashboard") {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [location.pathname]);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -41,6 +46,32 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const subscribe = Hub.listen("auth", ({ payload }) => {
+      switch (payload.event) {
+        case "signedIn":
+          console.log("user have been signedIn successfully.");
+          dispatch(checkAuthStatus());
+          break;
+        case "signedOut":
+          console.log("user have been signedOut successfully.");
+          break;
+      }
+    });
+
+    return subscribe;
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   const getSession = async () => {
+  //     const session = await fetchAuthSession();
+  //     console.log("id token", session);
+  //     // console.log("access token", session.tokens.accessToken);
+  //   };
+
+  //   getSession();
+  // }, []);
+
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -51,28 +82,16 @@ const Navbar = () => {
     }
   };
 
-  const handleLogin = () => {
-    const currentDomain = window.location.origin;
-    const redirectUri = `${currentDomain}/dashboard`;
-    const clientId = "rauncvdl1vqs7p4c5o9vlmcd5";
-    const responseType = "code";
-    const scope = "email+openid+phone";
-    const cognitoDomain =
-      "https://saayamforall.auth.us-east-1.amazoncognito.com";
-
-    const cognitoUrl = `${cognitoDomain}/login?client_id=${clientId}&response_type=${responseType}&scope=${scope}&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}`;
-
-    window.location.href = cognitoUrl;
+  const handleSignIn = async () => {
+    dispatch(login());
   };
 
   const handleProfileClick = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
-  const handleLogout = () => {
-    window.location.href = window.location.origin;
+  const handleSignOut = () => {
+    signOut();
   };
 
   const handleEditProfilePicture = () => {
@@ -141,7 +160,7 @@ const Navbar = () => {
         >
           {t("donate")}
         </NavLink>
-        {isLoggedIn ? (
+        {user?.userId ? (
           <div className="relative" ref={profileDropdownRef}>
             <img
               src={profileIcon}
@@ -159,7 +178,7 @@ const Navbar = () => {
                 </li>
                 <li
                   className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handleLogout}
+                  onClick={handleSignOut}
                 >
                   {t("Logout")}
                 </li>
@@ -173,21 +192,9 @@ const Navbar = () => {
             />
           </div>
         ) : (
-          <>
-            <button className="font-semibold" onClick={handleLogin}>
-              {t("login")}
-            </button>
-            {/* <select
-                className='p-1 outline-none rounded-lg'
-                onChange={(e) => i18n.changeLanguage(e.target.value)}
-              >
-                {languages?.map((language) => (
-                  <option key={language.code} value={language.code}>
-                    {language.name}
-                  </option>
-                ))}
-              </select> */}
-          </>
+          <button className="font-semibold" onClick={handleSignIn}>
+            {t("login")}
+          </button>
         )}
       </div>
     </div>

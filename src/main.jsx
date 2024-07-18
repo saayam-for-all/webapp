@@ -1,13 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import "./index.css";
-import { I18nextProvider } from "react-i18next";
-import i18n from "./common/i18n/i18n.js";
+import { Amplify } from "aws-amplify";
 import { Provider } from "react-redux";
+import { I18nextProvider } from "react-i18next";
+import App from "./App.jsx";
+import i18n from "./common/i18n/i18n.js";
 import { store } from "./redux/store.js";
+import awsConfig from "./utils/config/aws-exports.js";
 
+import "./index.css";
 import "@fontsource-variable/inter";
+
+Amplify.configure(awsConfig);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
