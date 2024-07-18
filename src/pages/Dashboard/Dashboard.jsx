@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Dashboard.css";
 
 const Dashboard = ({ t, userRole }) => {
-  const [activeTab, setActiveTab] = useState("yourRequests");
+  const [activeTab, setActiveTab] = useState("myRequests");
 
   const userRequests = [
     {
@@ -90,23 +90,21 @@ const Dashboard = ({ t, userRole }) => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-button-bar">
-
-      <button className="btn btn-accent">
-        <Link to="/request" className="btn-link">New Help Request</Link>
-      </button>
-       <button className="btn btn-accent">Promote to Volunteer</button>
-          test
+        <button className="btn btn-accent">
+          <Link to="/request" className="btn-link">Create Help Request</Link>
+        </button>
+        <button className="btn btn-accent">Promote Yourself to Volunteer</button>
       </div>
 
       <div className="tabs">
-        <button className={`tab ${activeTab === "yourRequests" ? "active" : ""}`} onClick={() => setActiveTab("yourRequests")}>Your requests</button>
+        <button className={`tab ${activeTab === "myRequests" ? "active" : ""}`} onClick={() => setActiveTab("myRequests")}>My requests</button>
         <button className={`tab ${activeTab === "othersRequests" ? "active" : ""}`} onClick={() => setActiveTab("othersRequests")}>Others requests</button>
         <button className={`tab ${activeTab === "managedRequests" ? "active" : ""}`} onClick={() => setActiveTab("managedRequests")}>Managed requests</button>
       </div>
 
-      {activeTab === "yourRequests" && (
+      {activeTab === "myRequests" && (
         <div className="requests-section">
-          <h2>Your Help Requests</h2> 
+          <h2>My Help Requests</h2> 
           {renderTable(userRequests)}
         </div>
       )}
