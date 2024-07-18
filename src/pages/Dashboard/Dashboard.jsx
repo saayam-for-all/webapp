@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import "./Dashboard.css";
 
 const Dashboard = ({ t, userRole }) => {
+  const [activeTab, setActiveTab] = useState("yourRequests");
+
   const userRequests = [
     {
       id: 1,
@@ -38,70 +39,87 @@ const Dashboard = ({ t, userRole }) => {
     },
   ];
 
+  const managedRequests = [
+    {
+      id: 1,
+      type: "Managed",
+      subject: "Grocery Delivery",
+      creationDate: "2024-06-03",
+      closedDate: null,
+    },
+    {
+      id: 2,
+      type: "Managed",
+      subject: "Manage donations",
+      creationDate: "2024-06-12",
+      closedDate: "2024-06-15",
+    },
+  ];
+
+  const renderTable = (requests) => (
+    <table className="requests-table">
+      <thead>
+        <tr>
+          <th>Request ID</th>
+          <th>Request Type</th>
+          <th>Subject</th>
+          <th>Creation Date</th>
+          <th>Closed Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {requests.map((request) => (
+          <tr key={request.id}>
+            <td>
+              <Link to={`/request/${request.id}`}>{request.id}</Link>
+            </td>
+            <td>{request.type}</td>
+            <td>{request.subject}</td>
+            <td>{request.creationDate}</td>
+            <td>{request.closedDate || "Open"}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+
+  const openInNewWindow = () => {
+    window.open(window.location.origin + '/request', '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-button-bar">
-      <button className="btn btn-accent">
-  <Link to="/request" className="btn-link">New Help Request</Link>
-</button>
-        <button className="btn btn-accent">Promote to Volunteer</button>
+        <button className="btn btn-accent" onClick={openInNewWindow}>Create Help Request</button>
+        <button className="btn btn-accent">Promote Yourself to Volunteer</button>
       </div>
 
-      <div className="requests-section">
-        <h2>Your Help Requests</h2>
-        <table className="requests-table">
-          <thead>
-            <tr>
-              <th>Request ID</th>
-              <th>Request Type</th>
-              <th>Subject</th>
-              <th>Creation Date</th>
-              <th>Closed Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userRequests.map((request) => (
-              <tr key={request.id}>
-                <td>
-                  <Link to={`/request/${request.id}`}>{request.id}</Link>
-                </td>
-                <td>{request.type}</td>
-                <td>{request.subject}</td>
-                <td>{request.creationDate}</td>
-                <td>{request.closedDate || "Open"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="tabs">
+        <button className={`tab ${activeTab === "yourRequests" ? "active" : ""}`} onClick={() => setActiveTab("yourRequests")}>Your requests</button>
+        <button className={`tab ${activeTab === "othersRequests" ? "active" : ""}`} onClick={() => setActiveTab("othersRequests")}>Others requests</button>
+        <button className={`tab ${activeTab === "managedRequests" ? "active" : ""}`} onClick={() => setActiveTab("managedRequests")}>Managed requests</button>
       </div>
 
-      <div className="requests-section">
-        <h2>Requests Created for Others</h2>
-        <table className="requests-table">
-          <thead>
-            <tr>
-              <th>Request ID</th>
-              <th>Request Type</th>
-              <th>Subject</th>
-              <th>Creation Date</th>
-              <th>Closed Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {othersRequests.map((request) => (
-              <tr key={request.id}>
-                <td>
-                  <a href={`/requests/${request.id}`}>{request.id}</a>
-                </td>
-                <td>{request.type}</td>
-                <td>{request.subject}</td>
-                <td>{request.creationDate}</td>
-                <td>{request.closedDate || "Open"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {activeTab === "yourRequests" && (
+        <div className="requests-section">
+          <h2>Your Help Requests</h2> 
+          {renderTable(userRequests)}
+        </div>
+      )}
+
+      {activeTab === "othersRequests" && (
+        <div className="requests-section">
+          <h2>Requests Created for Others</h2> 
+          {renderTable(othersRequests)}
+        </div>
+      )}
+
+      {activeTab === "managedRequests" && (
+        <div className="requests-section">
+          <h2>Managed Requests</h2> 
+          {renderTable(managedRequests)}
+        </div>
+      )}
     </div>
   );
 };
