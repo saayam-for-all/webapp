@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Dashboard.css";
 
 const Dashboard = ({ t, userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
@@ -57,26 +56,26 @@ const Dashboard = ({ t, userRole }) => {
   ];
 
   const renderTable = (requests) => (
-    <table className="requests-table">
-      <thead>
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50">
         <tr>
-          <th>Request ID</th>
-          <th>Request Type</th>
-          <th>Subject</th>
-          <th>Creation Date</th>
-          <th>Closed Date</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request ID</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request Type</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Creation Date</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Closed Date</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="bg-white divide-y divide-gray-200">
         {requests.map((request) => (
           <tr key={request.id}>
-            <td>
-              <Link to={`/request/${request.id}`}>{request.id}</Link>
+            <td className="px-6 py-4 whitespace-nowrap">
+              <Link to={`/request/${request.id}`} className="text-indigo-600 hover:text-indigo-900">{request.id}</Link>
             </td>
-            <td>{request.type}</td>
-            <td>{request.subject}</td>
-            <td>{request.creationDate}</td>
-            <td>{request.closedDate || "Open"}</td>
+            <td className="px-6 py-4 whitespace-nowrap">{request.type}</td>
+            <td className="px-6 py-4 whitespace-nowrap">{request.subject}</td>
+            <td className="px-6 py-4 whitespace-nowrap">{request.creationDate}</td>
+            <td className="px-6 py-4 whitespace-nowrap">{request.closedDate || "Open"}</td>
           </tr>
         ))}
       </tbody>
@@ -88,37 +87,52 @@ const Dashboard = ({ t, userRole }) => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-button-bar">
-        <button className="btn btn-accent">
-          <Link to="/request" className="btn-link">Create Help Request</Link>
+    <div className="p-5">
+      <div className="flex gap-4 mb-5">
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+          <Link to="/request" className="text-white">Create Help Request</Link>
         </button>
-        <button className="btn btn-accent">Promote Yourself to Volunteer</button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Promote Yourself to Volunteer</button>
       </div>
 
-      <div className="tabs">
-        <button className={`tab ${activeTab === "myRequests" ? "active" : ""}`} onClick={() => setActiveTab("myRequests")}>My requests</button>
-        <button className={`tab ${activeTab === "othersRequests" ? "active" : ""}`} onClick={() => setActiveTab("othersRequests")}>Others requests</button>
-        <button className={`tab ${activeTab === "managedRequests" ? "active" : ""}`} onClick={() => setActiveTab("managedRequests")}>Managed requests</button>
+      <div className="flex gap-4 mb-5 border-b-2 border-gray-300">
+        <button
+          className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "myRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
+          onClick={() => setActiveTab("myRequests")}
+        >
+          My requests
+        </button>
+        <button
+          className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "othersRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
+          onClick={() => setActiveTab("othersRequests")}
+        >
+          Others requests
+        </button>
+        <button
+          className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "managedRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
+          onClick={() => setActiveTab("managedRequests")}
+        >
+          Managed requests
+        </button>
       </div>
 
       {activeTab === "myRequests" && (
         <div className="requests-section">
-          <h2>My Help Requests</h2> 
+          <h2 className="text-lg font-bold mb-4">My Help Requests</h2>
           {renderTable(userRequests)}
         </div>
       )}
 
       {activeTab === "othersRequests" && (
         <div className="requests-section">
-          <h2>Requests Created for Others</h2> 
+          <h2 className="text-lg font-bold mb-4">Requests Created for Others</h2>
           {renderTable(othersRequests)}
         </div>
       )}
 
       {activeTab === "managedRequests" && (
         <div className="requests-section">
-          <h2>Managed Requests</h2> 
+          <h2 className="text-lg font-bold mb-4">Managed Requests</h2>
           {renderTable(managedRequests)}
         </div>
       )}
