@@ -4,56 +4,65 @@ import { Link } from "react-router-dom";
 const Dashboard = ({ t, userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
 
-  const userRequests = [
-    {
-      id: 1,
-      type: "Personal",
-      subject: "Need headphone",
-      creationDate: "2024-06-01",
-      closedDate: "2024-06-05",
+  const requestsData = {
+    myRequests: {
+      title: "My Help Requests",
+      data: [
+        {
+          id: 1,
+          type: "Personal",
+          subject: "Need headphone",
+          creationDate: "2024-06-01",
+          closedDate: "2024-06-05",
+        },
+        {
+          id: 2,
+          type: "Personal",
+          subject: "Medicine pickup",
+          creationDate: "2024-06-10",
+          closedDate: null,
+        },
+      ],
     },
-    {
-      id: 2,
-      type: "Personal",
-      subject: "Medicine pickup",
-      creationDate: "2024-06-10",
-      closedDate: null,
+    othersRequests: {
+      title: "Requests Created for Others",
+      data: [
+        {
+          id: 1,
+          type: "For Others",
+          subject: "Help picking up the delivery",
+          creationDate: "2024-06-03",
+          closedDate: null,
+        },
+        {
+          id: 2,
+          type: "For Others",
+          subject: "Collect donations",
+          creationDate: "2024-06-12",
+          closedDate: "2024-06-15",
+        },
+      ],
     },
-  ];
-
-  const othersRequests = [
-    {
-      id: 1,
-      type: "For Others",
-      subject: "Help picking up the delivery",
-      creationDate: "2024-06-03",
-      closedDate: null,
+    managedRequests: {
+      title: "Managed Requests",
+      data: [
+        {
+          id: 1,
+          type: "Managed",
+          subject: "Grocery Delivery",
+          creationDate: "2024-06-03",
+          closedDate: null,
+        },
+        {
+          id: 2,
+          type: "Managed",
+          subject: "Manage donations",
+          creationDate: "2024-06-12",
+          closedDate: "2024-06-15",
+        },
+      ],
     },
-    {
-      id: 2,
-      type: "For Others",
-      subject: "Collect donations",
-      creationDate: "2024-06-12",
-      closedDate: "2024-06-15",
-    },
-  ];
-
-  const managedRequests = [
-    {
-      id: 1,
-      type: "Managed",
-      subject: "Grocery Delivery",
-      creationDate: "2024-06-03",
-      closedDate: null,
-    },
-    {
-      id: 2,
-      type: "Managed",
-      subject: "Manage donations",
-      creationDate: "2024-06-12",
-      closedDate: "2024-06-15",
-    },
-  ];
+  };
 
   const renderTable = (requests) => (
     <table className="min-w-full divide-y divide-gray-200">
@@ -116,24 +125,10 @@ const Dashboard = ({ t, userRole }) => {
         </button>
       </div>
 
-      {activeTab === "myRequests" && (
+      {activeTab && (
         <div className="requests-section">
-          <h2 className="text-lg font-bold mb-4">My Help Requests</h2>
-          {renderTable(userRequests)}
-        </div>
-      )}
-
-      {activeTab === "othersRequests" && (
-        <div className="requests-section">
-          <h2 className="text-lg font-bold mb-4">Requests Created for Others</h2>
-          {renderTable(othersRequests)}
-        </div>
-      )}
-
-      {activeTab === "managedRequests" && (
-        <div className="requests-section">
-          <h2 className="text-lg font-bold mb-4">Managed Requests</h2>
-          {renderTable(managedRequests)}
+          <h2 className="text-lg font-bold mb-4">{requestsData[activeTab].title}</h2>
+          {renderTable(requestsData[activeTab].data)}
         </div>
       )}
     </div>
