@@ -101,7 +101,7 @@ const Dashboard = ({ t, userRole }) => {
         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
           <Link to="/request" className="text-white">Create Help Request</Link>
         </button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Promote Yourself to Volunteer</button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Promote Yourself To Volunteer</button>
       </div>
 
       <div className="flex gap-4 mb-5 border-b-2 border-gray-300">
@@ -109,19 +109,19 @@ const Dashboard = ({ t, userRole }) => {
           className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "myRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
           onClick={() => setActiveTab("myRequests")}
         >
-          My requests
+          My Requests
         </button>
         <button
           className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "othersRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
           onClick={() => setActiveTab("othersRequests")}
         >
-          Others requests
+          Others Requests
         </button>
         <button
           className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "managedRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
           onClick={() => setActiveTab("managedRequests")}
         >
-          Managed requests
+          Managed Requests
         </button>
       </div>
 
