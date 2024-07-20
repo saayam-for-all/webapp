@@ -1,107 +1,107 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-import "./Dashboard.css";
+import DashboardTable from "./DashboardTable/DashboardTable";
+// import "./Dashboard.css";
 
 const Dashboard = ({ t, userRole }) => {
-  const userRequests = [
-    {
-      id: 1,
-      type: "Personal",
-      subject: "Need headphone",
-      creationDate: "2024-06-01",
-      closedDate: "2024-06-05",
-    },
-    {
-      id: 2,
-      type: "Personal",
-      subject: "Medicine pickup",
-      creationDate: "2024-06-10",
-      closedDate: null,
-    },
-  ];
+  const [activeTab, setActiveTab] = useState("myRequests");
 
-  const othersRequests = [
-    {
-      id: 1,
-      type: "For Others",
-      subject: "Help picking up the delivery",
-      creationDate: "2024-06-03",
-      closedDate: null,
+  const requestsData = {
+    myRequests: {
+      title: "My Help Requests",
+      data: [
+        {
+          id: 1,
+          type: "Personal",
+          subject: "Need headphone",
+          creationDate: "2024-06-01",
+          closedDate: "2024-06-05",
+        },
+        {
+          id: 2,
+          type: "Personal",
+          subject: "Medicine pickup",
+          creationDate: "2024-06-10",
+          closedDate: null,
+        },
+      ],
     },
-    {
-      id: 2,
-      type: "For Others",
-      subject: "Collect donations",
-      creationDate: "2024-06-12",
-      closedDate: "2024-06-15",
+    othersRequests: {
+      title: "Requests Created for Others",
+      data: [
+        {
+          id: 1,
+          type: "For Others",
+          subject: "Help picking up the delivery",
+          creationDate: "2024-06-03",
+          closedDate: null,
+        },
+        {
+          id: 2,
+          type: "For Others",
+          subject: "Collect donations",
+          creationDate: "2024-06-12",
+          closedDate: "2024-06-15",
+        },
+      ],
     },
-  ];
+    managedRequests: {
+      title: "Managed Requests",
+      data: [
+        {
+          id: 1,
+          type: "Managed",
+          subject: "Grocery Delivery",
+          creationDate: "2024-06-03",
+          closedDate: null,
+        },
+        {
+          id: 2,
+          type: "Managed",
+          subject: "Manage donations",
+          creationDate: "2024-06-12",
+          closedDate: "2024-06-15",
+        },
+      ],
+    },
+  };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-button-bar">
-      <button className="btn btn-accent">
-  <Link to="/request" className="btn-link">New Help Request</Link>
-</button>
-        <button className="btn btn-accent">Promote to Volunteer</button>
+    <div className="p-5">
+      <div className="flex gap-4 mb-5">
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+          <Link to="/request" className="text-white">Create Help Request</Link>
+        </button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Promote Yourself To Volunteer</button>
       </div>
 
-      <div className="requests-section">
-        <h2>Your Help Requests</h2>
-        <table className="requests-table">
-          <thead>
-            <tr>
-              <th>Request ID</th>
-              <th>Request Type</th>
-              <th>Subject</th>
-              <th>Creation Date</th>
-              <th>Closed Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userRequests.map((request) => (
-              <tr key={request.id}>
-                <td>
-                  <Link to={`/request/${request.id}`}>{request.id}</Link>
-                </td>
-                <td>{request.type}</td>
-                <td>{request.subject}</td>
-                <td>{request.creationDate}</td>
-                <td>{request.closedDate || "Open"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="flex gap-4 mb-5 border-b-2 border-gray-300">
+        <button
+          className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "myRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
+          onClick={() => setActiveTab("myRequests")}
+        >
+          My Requests
+        </button>
+        <button
+          className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "othersRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
+          onClick={() => setActiveTab("othersRequests")}
+        >
+          Others Requests
+        </button>
+        <button
+          className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "managedRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
+          onClick={() => setActiveTab("managedRequests")}
+        >
+          Managed Requests
+        </button>
       </div>
 
-      <div className="requests-section">
-        <h2>Requests Created for Others</h2>
-        <table className="requests-table">
-          <thead>
-            <tr>
-              <th>Request ID</th>
-              <th>Request Type</th>
-              <th>Subject</th>
-              <th>Creation Date</th>
-              <th>Closed Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {othersRequests.map((request) => (
-              <tr key={request.id}>
-                <td>
-                  <a href={`/requests/${request.id}`}>{request.id}</a>
-                </td>
-                <td>{request.type}</td>
-                <td>{request.subject}</td>
-                <td>{request.creationDate}</td>
-                <td>{request.closedDate || "Open"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {activeTab && (
+        <div className="requests-section">
+          <h2 className="text-lg font-bold mb-4">{requestsData[activeTab].title}</h2>
+          <DashboardTable requests={requestsData[activeTab].data} />
+        </div>
+      )}
     </div>
   );
 };
