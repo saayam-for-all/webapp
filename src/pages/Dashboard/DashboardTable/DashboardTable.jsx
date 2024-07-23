@@ -9,7 +9,7 @@ const DashboardTable = ({ requests, currentPage, setCurrentPage }) => {
   const itemsPerPage = 5;
 
   const sortedRequests = useMemo(() => {
-    let sortableRequests = requests;
+    let sortableRequests = [...requests];
     if (sortConfig !== null) {
       sortableRequests.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -24,20 +24,13 @@ const DashboardTable = ({ requests, currentPage, setCurrentPage }) => {
     return sortableRequests;
   }, [requests, sortConfig]);
 
-  const filteredRequests = sortedRequests.filter(request => {
-    return (
-      (typeFilter === "All" || request.type === typeFilter) &&
-      (statusFilter === "All" || request.status === statusFilter) &&
-      Object.keys(request).some(key =>
-        String(request[key]).toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  });
+  const filteredRequests = sortedRequests.filter(request => (
+    (typeFilter === "All" || request.type === typeFilter) &&
+    (statusFilter === "All" || request.status === statusFilter) &&
+    Object.keys(request).some(key => String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()))
+  ));
 
-  const paginatedRequests = filteredRequests.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedRequests = filteredRequests.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const requestSort = key => {
     let direction = "ascending";
@@ -83,51 +76,13 @@ const DashboardTable = ({ requests, currentPage, setCurrentPage }) => {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("id")}>
-                Request ID
-              </button>
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("type")}>
-                Request Type
-              </button>
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("subject")}>
-                Subject
-              </button>
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("creationDate")}>
-                Creation Date
-              </button>
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("closedDate")}>
-                Closed Date
-              </button>
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("status")}>
-                Status
-              </button>
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("category")}>
-                Category
-              </button>
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("priority")}>
-                Priority
-              </button>
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <button type="button" onClick={() => requestSort("calamity")}>
-                Calamity
-              </button>
-            </th>
+            {["id", "type", "subject", "creationDate", "closedDate", "status", "category", "priority", "calamity"].map(key => (
+              <th key={key} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <button type="button" onClick={() => requestSort(key)}>
+                  {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim()}
+                </button>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
