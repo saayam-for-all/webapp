@@ -1,13 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const DashboardTable = ({ requests }) => {
+const DashboardTable = ({ requests, currentPage, setCurrentPage }) => {
   const [sortConfig, setSortConfig] = useState({ key: "id", direction: "ascending" });
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const [typeFilter, setTypeFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("Open");
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
 
   const sortedRequests = useMemo(() => {
     let sortableRequests = requests;
@@ -160,7 +159,7 @@ const DashboardTable = ({ requests }) => {
           Previous
         </button>
         <span>
-          Page {currentPage} of {totalPages}
+          Showing {((currentPage - 1) * itemsPerPage) + 1}-{Math.min(currentPage * itemsPerPage, filteredRequests.length)} of {filteredRequests.length} rows
         </span>
         <button
           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
