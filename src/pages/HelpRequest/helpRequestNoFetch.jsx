@@ -31,9 +31,18 @@ const HelpRequestForm = () => {
   };
 
   return (
+    
     <form onSubmit={handleSubmit}>
+    <header className='grid place-items-center '>
+      <h1 className='px-8 py-8'>header</h1>
+      <br></br>
+      <h2 className='px-8 py-8'>warning</h2>
+    </header>
+    <br></br>
+    <br></br>
       <div className='grid grid-cols-2 gap-2'>
         <div>
+        
           <label>
             Category:
             <select name="category" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
@@ -80,6 +89,7 @@ const HelpRequestForm = () => {
           <label>
             Description:
             <textarea
+              
               name="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -173,8 +183,9 @@ const HelpRequestForm = () => {
           </div>
         )}
       </div>
-
+        <div className='grid '>
       <button type="submit">Submit</button>
+      </div>
     </form>
   );
 };
