@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardTable from "./DashboardTable/DashboardTable";
-// import "./Dashboard.css";
 
-const Dashboard = ({ t, userRole }) => {
+const Dashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
 
   const requestsData = {
     myRequests: {
-      title: "My Help Requests",
       data: [
         {
           id: 1,
           type: "Personal",
           subject: "Need headphone",
           creationDate: "2024-06-01",
-          closedDate: "2024-06-05",
+          closedDate: null,
+          status: "Open",
+          category: "Electronics",
+          priority: "High",
+          calamity: "None",
         },
         {
           id: 2,
@@ -23,11 +25,14 @@ const Dashboard = ({ t, userRole }) => {
           subject: "Medicine pickup",
           creationDate: "2024-06-10",
           closedDate: null,
+          status: "Open",
+          category: "Health",
+          priority: "Medium",
+          calamity: "None",
         },
       ],
     },
     othersRequests: {
-      title: "Requests Created for Others",
       data: [
         {
           id: 1,
@@ -35,6 +40,10 @@ const Dashboard = ({ t, userRole }) => {
           subject: "Help picking up the delivery",
           creationDate: "2024-06-03",
           closedDate: null,
+          status: "Open",
+          category: "Logistics",
+          priority: "Low",
+          calamity: "None",
         },
         {
           id: 2,
@@ -42,11 +51,14 @@ const Dashboard = ({ t, userRole }) => {
           subject: "Collect donations",
           creationDate: "2024-06-12",
           closedDate: "2024-06-15",
+          status: "Closed",
+          category: "Charity",
+          priority: "High",
+          calamity: "None",
         },
       ],
     },
     managedRequests: {
-      title: "Managed Requests",
       data: [
         {
           id: 1,
@@ -54,6 +66,10 @@ const Dashboard = ({ t, userRole }) => {
           subject: "Grocery Delivery",
           creationDate: "2024-06-03",
           closedDate: null,
+          status: "Open",
+          category: "Essentials",
+          priority: "Medium",
+          calamity: "None",
         },
         {
           id: 2,
@@ -61,6 +77,10 @@ const Dashboard = ({ t, userRole }) => {
           subject: "Manage donations",
           creationDate: "2024-06-12",
           closedDate: "2024-06-15",
+          status: "Closed",
+          category: "Charity",
+          priority: "High",
+          calamity: "None",
         },
       ],
     },
@@ -98,7 +118,6 @@ const Dashboard = ({ t, userRole }) => {
 
       {activeTab && (
         <div className="requests-section">
-          <h2 className="text-lg font-bold mb-4">{requestsData[activeTab].title}</h2>
           <DashboardTable requests={requestsData[activeTab].data} />
         </div>
       )}
