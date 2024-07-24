@@ -8,7 +8,6 @@ const Dashboard = ({ t, userRole }) => {
 
   const requestsData = {
     myRequests: {
-      title: "My Help Requests",
       data: [
         {
           id: 1,
@@ -27,7 +26,6 @@ const Dashboard = ({ t, userRole }) => {
       ],
     },
     othersRequests: {
-      title: "Requests Created for Others",
       data: [
         {
           id: 1,
@@ -46,7 +44,6 @@ const Dashboard = ({ t, userRole }) => {
       ],
     },
     managedRequests: {
-      title: "Managed Requests",
       data: [
         {
           id: 1,
@@ -75,7 +72,7 @@ const Dashboard = ({ t, userRole }) => {
         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Promote Yourself To Volunteer</button>
       </div>
 
-      <div className="flex gap-4 mb-5 border-b-2 border-gray-300">
+      <div className="flex gap-0 border-b-2 border-gray-300">
         <button
           className={`flex-1 py-2 text-center cursor-pointer ${activeTab === "myRequests" ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
           onClick={() => setActiveTab("myRequests")}
