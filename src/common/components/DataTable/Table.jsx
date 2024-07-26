@@ -1,62 +1,18 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 
-const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRows, itemsPerPage }) => {
-  const [sortConfig, setSortConfig] = useState({ key: "id", direction: "ascending" });
-  const [searchTerm, setSearchTerm] = useState("");
-  const [typeFilter, setTypeFilter] = useState("All");
-  const [statusFilter, setStatusFilter] = useState("Open");
+const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRows, itemsPerPage, sortConfig, requestSort }) => {
 
-  const sortedRequests = useMemo(() => {
-    let sortableRequests = [...rows];
-    if (sortConfig !== null) {
-      sortableRequests.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === "ascending" ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === "ascending" ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-    return sortableRequests;
-  }, [rows, sortConfig]);
-
-  const filteredRequests = sortedRequests.filter(request => (
-    (typeFilter === "All" || request.type === typeFilter) &&
-    (statusFilter === "All" || request.status === statusFilter) &&
-    Object.keys(request).some(key => String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()))
-  ));
-
-  const paginatedRequests = filteredRequests.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
-  const requestSort = key => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
-    }
-    setSortConfig({ key, direction });
-  };
-
-  const handleSearchChange = event => {
-    setSearchTerm(event.target.value);
-    setCurrentPage(1);
-  };
-
-  const handleTypeFilterChange = event => {
-    setTypeFilter(event.target.value);
-    setCurrentPage(1);
-  };
-
-  const handleStatusFilterChange = event => {
-    setStatusFilter(event.target.value);
-    setCurrentPage(1);
-  };
+  const paginatedRequests = useMemo(() => {
+    return rows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  }, [rows, currentPage, itemsPerPage]);
 
   useEffect(() => {
-    setStatusFilter("Open");
-  }, []);
+    setCurrentPage(1);
+  }, [totalRows]);
+
+  console.log("Table Component - Current Page:", currentPage);
+  console.log("Table Component - Paginated Requests:", paginatedRequests);
 
   return (
     <div>

@@ -13,7 +13,7 @@ const Dashboard = ({ userRole }) => {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setCurrentPage(1);
+    setCurrentPage(1); 
   };
 
   const headers = ["id", "type", "subject", "creationDate", "closedDate", "status", "category", "priority", "calamity"];
@@ -42,12 +42,6 @@ const Dashboard = ({ userRole }) => {
     ));
   };
 
-  const paginatedRequests = (requests) => {
-    const itemsPerPage = 5;
-    const filtered = filteredRequests(requests);
-    return filtered.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  };
-
   const totalPages = (requests) => {
     const itemsPerPage = 5;
     return Math.ceil(filteredRequests(requests).length / itemsPerPage);
@@ -65,6 +59,11 @@ const Dashboard = ({ userRole }) => {
     }
     setSortConfig({ key, direction });
   };
+
+  const requests = requestsData[activeTab].data;
+
+  console.log("Current Page:", currentPage);
+  console.log("Total Pages:", totalPages(requests));
 
   return (
     <div className="p-5">
@@ -87,7 +86,7 @@ const Dashboard = ({ userRole }) => {
         ))}
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex gap-2">
         <input
           type="text"
           placeholder="Search..."
@@ -95,7 +94,7 @@ const Dashboard = ({ userRole }) => {
           onChange={handleSearchChange}
           className="mb-4 p-2 border rounded"
         />
-        <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="mr-2 p-2 border rounded">
+        <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="p-2 border rounded">
           <option value="All">All Types</option>
           <option value="Personal">Personal</option>
           <option value="For Others">For Others</option>
@@ -110,7 +109,17 @@ const Dashboard = ({ userRole }) => {
 
       {activeTab && (
         <div className="requests-section">
-          <Table headers={headers} rows={paginatedRequests(requestsData[activeTab].data)} currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages(requestsData[activeTab].data)} totalRows={filteredRequests(requestsData[activeTab].data).length} itemsPerPage={5} />
+          <Table
+            headers={headers}
+            rows={filteredRequests(requests)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages(requests)}
+            totalRows={filteredRequests(requests).length}
+            itemsPerPage={5}
+            sortConfig={sortConfig}
+            requestSort={requestSort}
+          />
         </div>
       )}
     </div>
