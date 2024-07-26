@@ -62,9 +62,6 @@ const Dashboard = ({ userRole }) => {
 
   const requests = requestsData[activeTab].data;
 
-  console.log("Current Page:", currentPage);
-  console.log("Total Pages:", totalPages(requests));
-
   return (
     <div className="p-5">
       <div className="flex gap-4 mb-5">
@@ -74,11 +71,11 @@ const Dashboard = ({ userRole }) => {
         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Promote Yourself To Volunteer</button>
       </div>
 
-      <div className="flex gap-4 mb-5 border-b-2 border-gray-300">
+      <div className="flex mb-5">
         {["myRequests", "othersRequests", "managedRequests"].map(tab => (
           <button
             key={tab}
-            className={`flex-1 py-2 text-center cursor-pointer ${activeTab === tab ? "bg-white border-t-2 border-r-2 border-l-2 border-gray-300" : "bg-gray-200"}`}
+            className={`flex-1 py-2 text-center cursor-pointer border-b-2 ${activeTab === tab ? "bg-white border-gray-300" : "bg-gray-200 border-transparent"} ${tab !== "managedRequests" ? "mr-1" : ""}`}
             onClick={() => handleTabChange(tab)}
           >
             {tab === "myRequests" ? "My Requests" : tab === "othersRequests" ? "Others Requests" : "Managed Requests"}
@@ -92,7 +89,7 @@ const Dashboard = ({ userRole }) => {
           placeholder="Search..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="mb-4 p-2 border rounded"
+          className="p-2 border rounded flex-grow"
         />
         <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="p-2 border rounded">
           <option value="All">All Types</option>

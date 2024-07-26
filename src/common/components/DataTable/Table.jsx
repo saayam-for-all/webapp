@@ -11,9 +11,6 @@ const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRo
     setCurrentPage(1);
   }, [totalRows]);
 
-  console.log("Table Component - Current Page:", currentPage);
-  console.log("Table Component - Paginated Requests:", paginatedRequests);
-
   return (
     <div>
       <table className="min-w-full divide-y divide-gray-200">
