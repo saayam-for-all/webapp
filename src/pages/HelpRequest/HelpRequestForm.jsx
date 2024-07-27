@@ -10,7 +10,7 @@ const HelpRequestForm = () => {
           <div className="mt-3">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label for="first_name" className="block text-gray-700 ">
+                <label for="first_name" className="block text-gray-700 mb-1">
                   First Name
                 </label>
                 <input
@@ -44,7 +44,7 @@ const HelpRequestForm = () => {
 
             <div className="mt-3 grid grid-cols-2 gap-4">
               <div>
-                <label for="phone" className="block text-gray-700 ">
+                <label for="phone" className="block text-gray-700 mb-1">
                   Phone
                 </label>
                 <input
