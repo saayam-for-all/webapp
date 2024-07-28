@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./Dashboard.css";
 
@@ -38,15 +38,19 @@ const Dashboard = ({ t, userRole }) => {
     },
   ];
 
+  let navigate = useNavigate();
+
+  const newVolunteer = () => {
+    navigate('/newVolunteer');
+  }
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-button-bar">
-
-      <button className="btn btn-accent">
-        <Link to="/request" className="btn-link">New Help Request</Link>
-      </button>
-       <button className="btn btn-accent">Promote to Volunteer</button>
-          test
+        <button className="btn btn-accent">
+          <Link to="/request" className="btn-link">New Help Request</Link>
+        </button>
+        <button className="btn btn-accent" onClick= {newVolunteer}>Promote yourself to Volunteer</button>  
       </div>
 
       <div className="requests-section">
