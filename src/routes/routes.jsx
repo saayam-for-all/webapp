@@ -8,7 +8,7 @@ import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import RequestDetails from "../pages/RequestDetails/RequestDetails";
 import ProtectedRoute from "./ProtectedRoute";
-import HelpRequestForm from "../pages/HelpRequest/helpRequestNoFetch";
+import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 
 const routes = [
   {
@@ -31,7 +31,7 @@ const routes = [
     path: "mission",
     element: <Mission />,
   },
-  
+
   {
     path: "vision",
     element: <Vision />,
@@ -58,11 +58,7 @@ const routes = [
   },
   {
     path: "request",
-    element: (
-      
-      <HelpRequestForm />
-      
-    ),
+    element: <HelpRequestForm />,
   },
 ];
 
