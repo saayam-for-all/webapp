@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useNavigate } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 import { requestsData } from "./data";
 
