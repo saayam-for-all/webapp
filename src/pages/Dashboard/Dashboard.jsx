@@ -1,42 +1,22 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
+import Table from "../../common/components/DataTable/Table";
+import { requestsData } from "./data";
 
-import "./Dashboard.css";
+const Dashboard = ({ userRole }) => {
+  const [activeTab, setActiveTab] = useState("myRequests");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({ key: "id", direction: "ascending" });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [typeFilter, setTypeFilter] = useState("All");
+  const [statusFilter, setStatusFilter] = useState("Open");
 
-const Dashboard = ({ t, userRole }) => {
-  const userRequests = [
-    {
-      id: 1,
-      type: "Personal",
-      subject: "Need headphone",
-      creationDate: "2024-06-01",
-      closedDate: "2024-06-05",
-    },
-    {
-      id: 2,
-      type: "Personal",
-      subject: "Medicine pickup",
-      creationDate: "2024-06-10",
-      closedDate: null,
-    },
-  ];
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setCurrentPage(1); 
+  };
 
-  const othersRequests = [
-    {
-      id: 1,
-      type: "For Others",
-      subject: "Help picking up the delivery",
-      creationDate: "2024-06-03",
-      closedDate: null,
-    },
-    {
-      id: 2,
-      type: "For Others",
-      subject: "Collect donations",
-      creationDate: "2024-06-12",
-      closedDate: "2024-06-15",
-    },
-  ];
+  const headers = ["id", "type", "subject", "creationDate", "closedDate", "status", "category", "priority", "calamity"];
 
   let navigate = useNavigate();
 
@@ -44,70 +24,107 @@ const Dashboard = ({ t, userRole }) => {
     navigate('/newVolunteer');
   }
 
+  const sortedRequests = (requests) => {
+    let sortableRequests = [...requests];
+    if (sortConfig !== null) {
+      sortableRequests.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableRequests;
+  };
+
+  const filteredRequests = (requests) => {
+    return sortedRequests(requests).filter(request => (
+      (typeFilter === "All" || request.type === typeFilter) &&
+      (statusFilter === "All" || request.status === statusFilter) &&
+      Object.keys(request).some(key => String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()))
+    ));
+  };
+
+  const totalPages = (requests) => {
+    const itemsPerPage = 5;
+    return Math.ceil(filteredRequests(requests).length / itemsPerPage);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const requestSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const requests = requestsData[activeTab].data;
+
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-button-bar">
-        <button className="btn btn-accent">
-          <Link to="/request" className="btn-link">New Help Request</Link>
+    <div className="p-5">
+      <div className="flex gap-4 mb-5">
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+          <Link to="/request" className="text-white">Create Help Request</Link>
         </button>
-        <button className="btn btn-accent" onClick= {newVolunteer}>Promote yourself to Volunteer</button>  
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick= {newVolunteer}>Promote Yourself To Volunteer</button>
       </div>
 
-      <div className="requests-section">
-        <h2>Your Help Requests</h2>
-        <table className="requests-table">
-          <thead>
-            <tr>
-              <th>Request ID</th>
-              <th>Request Type</th>
-              <th>Subject</th>
-              <th>Creation Date</th>
-              <th>Closed Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userRequests.map((request) => (
-              <tr key={request.id}>
-                <td>
-                  <Link to={`/request/${request.id}`}>{request.id}</Link>
-                </td>
-                <td>{request.type}</td>
-                <td>{request.subject}</td>
-                <td>{request.creationDate}</td>
-                <td>{request.closedDate || "Open"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="flex mb-5">
+        {["myRequests", "othersRequests", "managedRequests"].map(tab => (
+          <button
+            key={tab}
+            className={`flex-1 py-2 text-center cursor-pointer border-b-2 ${activeTab === tab ? "bg-white border-gray-300" : "bg-gray-200 border-transparent"} ${tab !== "managedRequests" ? "mr-1" : ""}`}
+            onClick={() => handleTabChange(tab)}
+          >
+            {tab === "myRequests" ? "My Requests" : tab === "othersRequests" ? "Others Requests" : "Managed Requests"}
+          </button>
+        ))}
       </div>
 
-      <div className="requests-section">
-        <h2>Requests Created for Others</h2>
-        <table className="requests-table">
-          <thead>
-            <tr>
-              <th>Request ID</th>
-              <th>Request Type</th>
-              <th>Subject</th>
-              <th>Creation Date</th>
-              <th>Closed Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {othersRequests.map((request) => (
-              <tr key={request.id}>
-                <td>
-                  <a href={`/requests/${request.id}`}>{request.id}</a>
-                </td>
-                <td>{request.type}</td>
-                <td>{request.subject}</td>
-                <td>{request.creationDate}</td>
-                <td>{request.closedDate || "Open"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="mb-4 flex gap-2">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="p-2 border rounded flex-grow"
+        />
+        <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="p-2 border rounded">
+          <option value="All">All Types</option>
+          <option value="Personal">Personal</option>
+          <option value="For Others">For Others</option>
+          <option value="Managed">Managed</option>
+        </select>
+        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="p-2 border rounded">
+          <option value="All">All Statuses</option>
+          <option value="Open">Open</option>
+          <option value="Closed">Closed</option>
+        </select>
       </div>
+
+      {activeTab && (
+        <div className="requests-section">
+          <Table
+            headers={headers}
+            rows={filteredRequests(requests)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages(requests)}
+            totalRows={filteredRequests(requests).length}
+            itemsPerPage={5}
+            sortConfig={sortConfig}
+            requestSort={requestSort}
+          />
+        </div>
+      )}
     </div>
   );
 };
