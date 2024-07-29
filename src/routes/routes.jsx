@@ -8,6 +8,8 @@ import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import RequestDetails from "../pages/RequestDetails/RequestDetails";
 import ProtectedRoute from "./ProtectedRoute";
+import NewVolunteerForm from '../pages/Volunteer/newVolunteer';
+import { element } from "prop-types";
 import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 
 const routes = [
@@ -59,6 +61,12 @@ const routes = [
   {
     path: "request",
     element: <HelpRequestForm />,
+  },
+  {
+    path: 'newVolunteer',
+    element: (
+      <NewVolunteerForm />
+    ),
   },
 ];
 

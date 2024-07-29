@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 import { requestsData } from "./data";
 
@@ -17,6 +17,12 @@ const Dashboard = ({ userRole }) => {
   };
 
   const headers = ["id", "type", "subject", "creationDate", "closedDate", "status", "category", "priority", "calamity"];
+
+  let navigate = useNavigate();
+
+  const newVolunteer = () => {
+    navigate('/newVolunteer');
+  }
 
   const sortedRequests = (requests) => {
     let sortableRequests = [...requests];
@@ -68,7 +74,7 @@ const Dashboard = ({ userRole }) => {
         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
           <Link to="/request" className="text-white">Create Help Request</Link>
         </button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Promote Yourself To Volunteer</button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick= {newVolunteer}>Promote Yourself To Volunteer</button>
       </div>
 
       <div className="flex mb-5">
