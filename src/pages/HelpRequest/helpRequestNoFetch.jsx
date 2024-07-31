@@ -34,7 +34,7 @@ const HelpRequestForm = () => {
     
     <form onSubmit={handleSubmit}>
     <header className='grid place-items-center '>
-      <h1 className='px-8 py-8'>header</h1>
+      <h1 className='px-8 py-8'>Create Help request</h1>
       <br></br>
       <h2 className='px-8 py-8'>warning</h2>
     </header>
@@ -42,61 +42,6 @@ const HelpRequestForm = () => {
     <br></br>
       <div className='grid grid-cols-2 gap-2'>
         <div>
-        
-          <label>
-            Category:
-            <select name="category" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-              <option value="category1">Category 1</option>
-              <option value="category2">Category 2</option>
-            </select>
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Request Type:
-            <select name="requestType" value={formData.requestType} onChange={(e) => setFormData({ ...formData, requestType: e.target.value })}>
-              <option value="inPlace">In Place</option>
-              <option value="remote">Remote</option>
-            </select>
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Is Calamity:
-            <input
-              type="checkbox"
-              name="isCalamity"
-              checked={formData.isCalamity}
-              onChange={(e) => setFormData({ ...formData, isCalamity: e.target.checked })}
-            />
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Priority:
-            <select name="priority" value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value })}>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Description:
-            <textarea
-              
-              name="description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            />
-          </label>
-        </div>
-
         <div>
           <label>
             Is for Self:
@@ -182,7 +127,63 @@ const HelpRequestForm = () => {
             </label>
           </div>
         )}
-      </div>
+
+        
+          <label>
+            Category:
+            <select name="category" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
+              <option value="category1">Category 1</option>
+              <option value="category2">Category 2</option>
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Request Type:
+            <select name="requestType" value={formData.requestType} onChange={(e) => setFormData({ ...formData, requestType: e.target.value })}>
+              <option value="inPlace">In Place</option>
+              <option value="remote">Remote</option>
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Is Calamity:
+            <input
+              type="checkbox"
+              name="isCalamity"
+              checked={formData.isCalamity}
+              onChange={(e) => setFormData({ ...formData, isCalamity: e.target.checked })}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Priority:
+            <select name="priority" value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value })}>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Description:
+            <textarea
+              
+              name="description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            />
+          </label>
+        </div>
+
+              </div>
         <div className='grid '>
       <button type="submit">Submit</button>
       </div>
