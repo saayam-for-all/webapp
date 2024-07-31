@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IoMdInformationCircle } from "react-icons/io";
 
 const HelpRequestForm = () => {
   const [selfFlag, setSelfFlag] = useState(true);
@@ -16,35 +17,26 @@ const HelpRequestForm = () => {
           </h1>
 
           <div
-            className="flex items-center p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+            className="flex items-center gap-1 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
             role="alert"
           >
-            <svg
-              className="flex-shrink-0 inline w-4 h-4 me-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-            </svg>
-            <span className="sr-only">Info</span>
+            <IoMdInformationCircle size={20} />
             <div>
-              <span className="font-medium">Note:</span> We do not address life
-              threating emergencies.
+              <span className="font-medium">Note:</span> Please call your local
+              emergency number for life-threatening emergencies.
             </div>
           </div>
 
-          <div className="mt-3 flex items-center gap-2 jus">
+          <div className="mt-3">
             <label
-              for="self"
-              className="block text-sm font-medium text-gray-900"
+              htmlFor="self"
+              className="block mb-1 text-gray-700 font-medium"
             >
-              For self:
+              For Self
             </label>
             <select
               id="self"
-              className="border border-gray-300 text-gray-900 text-sm rounded-lg p-2 w-24"
+              className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
               onChange={handleForSelfFlag}
             >
               {/* <option selected>Choose a option</option> */}
@@ -53,13 +45,13 @@ const HelpRequestForm = () => {
             </select>
           </div>
 
-          {selfFlag && (
+          {!selfFlag && (
             <div className="mt-3">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 ">
                 <div>
                   <label
-                    for="first_name"
-                    className="block text-gray-700 mb-1 \"
+                    htmlFor="first_name"
+                    className="block text-gray-700 mb-1 font-medium"
                   >
                     First Name
                   </label>
@@ -70,19 +62,25 @@ const HelpRequestForm = () => {
                   />
                 </div>
                 <div>
-                  <label for="last_name" className="block text-gray-700 mb-1">
+                  <label
+                    htmlFor="last_name"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     Last Name
                   </label>
                   <input
                     type="text"
                     id="last_name"
-                    className="w-full rounded-lg border py-2 px-3 "
+                    className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
               </div>
 
               <div className="mt-3">
-                <label for="email" className="block text-gray-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 mb-1 font-medium"
+                >
                   Email
                 </label>
                 <input
@@ -94,7 +92,10 @@ const HelpRequestForm = () => {
 
               <div className="mt-3 grid grid-cols-2 gap-4">
                 <div>
-                  <label for="phone" className="block text-gray-700 mb-1">
+                  <label
+                    htmlFor="phone"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     Phone
                   </label>
                   <input
@@ -104,87 +105,97 @@ const HelpRequestForm = () => {
                   />
                 </div>
                 <div>
-                  <label for="age" className="block text-gray-700 mb-1">
+                  <label
+                    htmlFor="age"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     Age
                   </label>
                   <input
                     type="number"
                     id="age"
-                    className="w-full rounded-lg border py-2 px-3 "
+                    className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
               </div>
             </div>
           )}
 
-          <div className="flex items-center mt-3 gap-2">
-            <label for="calamity" className="block text-gray-700">
-              Is calamity?
-            </label>
-            <input
-              id="calamity"
-              type="checkbox"
-              value=""
-              name="calamity"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-            />
-          </div>
-          <div className="mt-3 grid grid-cols-3 gap-4">
+          <div className="mt-3 grid grid-cols-2 gap-4">
             <div>
               <label
-                for="priority"
-                className="block mb-2 text-sm font-medium text-gray-900"
+                htmlFor="calamity"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Is Calamity?
+              </label>
+              <input
+                id="calamity"
+                type="checkbox"
+                value=""
+                name="calamity"
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="priority"
+                className="block mb-1 font-medium text-gray-700"
               >
                 Priority
               </label>
               <select
                 id="priority"
-                className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
+                defaultValue={"low"}
               >
-                <option selected>Choose priority</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
                 <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
               </select>
             </div>
-
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-4">
             <div>
               <label
-                for="category"
-                className="block mb-2 text-sm font-medium text-gray-900"
+                htmlFor="category"
+                className="block mb-2 font-medium text-gray-700"
               >
                 Request Category
               </label>
               <select
                 id="category"
-                className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
+                defaultValue={"health"}
               >
-                <option selected>Choose category</option>
-                <option value="high">Category 1</option>
-                <option value="medium">Category 2</option>
+                <option value="health">Health</option>
+                <option value="education">Education</option>
+                <option value="electronics">Electronics</option>
+                <option value="logistics">Logistics</option>
               </select>
             </div>
 
             <div>
               <label
-                for="requestType"
-                className="block mb-2 text-sm font-medium text-gray-900"
+                htmlFor="requestType"
+                className="block mb-2 font-medium text-gray-700"
               >
                 Request Type
               </label>
               <select
                 id="requestType"
-                className="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
+                defaultValue={"inPerson"}
               >
-                <option selected>Choose request type</option>
-                <option value="inPlace">In Place</option>
+                <option value="inPerson">In Person</option>
                 <option value="remote">Remote</option>
               </select>
             </div>
           </div>
           <div className="mt-3">
             <label
-              for="description"
+              htmlFor="description"
               className="block text-gray-700 font-medium mb-2"
             >
               Description
@@ -194,6 +205,7 @@ const HelpRequestForm = () => {
               name="description"
               className="border p-2 w-full rounded-lg"
               rows="5"
+              maxLength={500}
             ></textarea>
           </div>
 
