@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
+import Pagination from "../Pagination/Pagination";
 
 const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRows, itemsPerPage, sortConfig, requestSort }) => {
 
@@ -9,17 +10,25 @@ const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRo
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [totalRows]);
+  }, [totalRows, itemsPerPage]);
+
+  const getSortIndicator = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === 'ascending' ? '↑' : '↓';
+    }
+    return '';
+  };
 
   return (
-    <div>
+    <div className="relative">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
             {headers.map(key => (
               <th key={key} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 <button type="button" onClick={() => requestSort(key)}>
-                  {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim()}
+                  {key === 'category' && !rows.every(row => row[key]) ? 'Category' : key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim()}
+                  {getSortIndicator(key)}
                 </button>
               </th>
             ))}
@@ -43,25 +52,13 @@ const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRo
           ))}
         </tbody>
       </table>
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-        >
-          Previous
-        </button>
-        <span>
-          Showing {((currentPage - 1) * itemsPerPage) + 1}-{Math.min(currentPage * itemsPerPage, totalRows)} of {totalRows} rows
-        </span>
-        <button
-          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        totalRows={totalRows}
+        itemsPerPage={itemsPerPage}
+      />
     </div>
   );
 };
