@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 import { requestsData } from "./data";
@@ -6,9 +6,15 @@ import { requestsData } from "./data";
 const Dashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState({ key: "creationDate", direction: "ascending" });
+  const [sortConfig, setSortConfig] = useState({
+    key: "creationDate",
+    direction: "ascending",
+  });
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState({ Open: true, Closed: false });
+  const [statusFilter, setStatusFilter] = useState({
+    Open: true,
+    Closed: false,
+  });
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
@@ -19,13 +25,17 @@ const Dashboard = ({ userRole }) => {
     setCurrentPage(1);
   };
 
-  const headers = ["id", "type", "subject", "creationDate", "closedDate", "status", "category", "priority", "calamity"];
-
-  let navigate = useNavigate();
-
-  const newVolunteer = () => {
-    navigate('/newVolunteer');
-  }
+  const headers = [
+    "id",
+    "type",
+    "subject",
+    "creationDate",
+    "closedDate",
+    "status",
+    "category",
+    "priority",
+    "calamity",
+  ];
 
   const sortedRequests = (requests) => {
     let sortableRequests = [...requests];
@@ -44,11 +54,16 @@ const Dashboard = ({ userRole }) => {
   };
 
   const filteredRequests = (requests) => {
-    return sortedRequests(requests).filter(request => (
-      (Object.keys(statusFilter).length === 0 || statusFilter[request.status]) &&
-      (Object.keys(categoryFilter).length === 0 || categoryFilter[request.category]) &&
-      Object.keys(request).some(key => String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()))
-    ));
+    return sortedRequests(requests).filter(
+      (request) =>
+        (Object.keys(statusFilter).length === 0 ||
+          statusFilter[request.status]) &&
+        (Object.keys(categoryFilter).length === 0 ||
+          categoryFilter[request.category]) &&
+        Object.keys(request).some((key) =>
+          String(request[key]).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+    );
   };
 
   const totalPages = (requests) => {
@@ -69,17 +84,19 @@ const Dashboard = ({ userRole }) => {
   };
 
   const handleStatusChange = (status) => {
-    setStatusFilter(prev => ({
+    setStatusFilter((prev) => ({
       ...prev,
-      [status]: !prev[status]
+      [status]: !prev[status],
     }));
   };
 
   const handleCategoryChange = (category) => {
-    setCategoryFilter(prev => {
+    setCategoryFilter((prev) => {
       const newFilter = { ...prev };
       if (category === "All") {
-        if (Object.keys(newFilter).length === Object.keys(allCategories).length) {
+        if (
+          Object.keys(newFilter).length === Object.keys(allCategories).length
+        ) {
           return {};
         } else {
           return allCategories;
@@ -91,12 +108,15 @@ const Dashboard = ({ userRole }) => {
           newFilter[category] = true;
         }
 
-        if (Object.keys(newFilter).length === Object.keys(allCategories).length - 1) {
+        if (
+          Object.keys(newFilter).length ===
+          Object.keys(allCategories).length - 1
+        ) {
           newFilter["All"] = true;
         } else {
           delete newFilter["All"];
         }
-        
+
         return newFilter;
       }
     });
@@ -116,21 +136,21 @@ const Dashboard = ({ userRole }) => {
   };
 
   const allCategories = {
-    "All": true,
-    "Logistics": true,
-    "Maintenance": true,
-    "Education": true,
-    "Electronics": true,
-    "Health": true,
-    "Essentials": true,
-    "Childcare": true,
-    "Pets": true,
-    "Shopping": true,
-    "Charity": true,
-    "Events": true,
-    "Marketing": true,
-    "Administration": true,
-    "Research": true
+    All: true,
+    Logistics: true,
+    Maintenance: true,
+    Education: true,
+    Electronics: true,
+    Health: true,
+    Essentials: true,
+    Childcare: true,
+    Pets: true,
+    Shopping: true,
+    Charity: true,
+    Events: true,
+    Marketing: true,
+    Administration: true,
+    Research: true,
   };
 
   useEffect(() => {
@@ -145,19 +165,33 @@ const Dashboard = ({ userRole }) => {
     <div className="p-5">
       <div className="flex gap-4 mb-5">
         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
-          <Link to="/request" className="text-white">Create Help Request</Link>
+          <Link to="/request" className="text-white">
+            Create Help Request
+          </Link>
         </button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick={newVolunteer}>Promote Yourself To Volunteer</button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+          <Link to="/promote-to-volunteer" className="text-white">
+            Become a Volunteer
+          </Link>
+        </button>
       </div>
 
       <div className="flex mb-5">
-        {["myRequests", "othersRequests", "managedRequests"].map(tab => (
+        {["myRequests", "othersRequests", "managedRequests"].map((tab) => (
           <button
             key={tab}
-            className={`flex-1 py-2 text-center cursor-pointer border-b-2 ${activeTab === tab ? "bg-white border-gray-300" : "bg-gray-200 border-transparent"} ${tab !== "managedRequests" ? "mr-1" : ""}`}
+            className={`flex-1 py-2 text-center cursor-pointer border-b-2 ${
+              activeTab === tab
+                ? "bg-white border-gray-300"
+                : "bg-gray-200 border-transparent"
+            } ${tab !== "managedRequests" ? "mr-1" : ""}`}
             onClick={() => handleTabChange(tab)}
           >
-            {tab === "myRequests" ? "My Requests" : tab === "othersRequests" ? "Others Requests" : "Managed Requests"}
+            {tab === "myRequests"
+              ? "My Requests"
+              : tab === "othersRequests"
+              ? "Others Requests"
+              : "Managed Requests"}
           </button>
         ))}
       </div>
@@ -179,7 +213,7 @@ const Dashboard = ({ userRole }) => {
           </button>
           {isStatusDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-              {Object.keys(statusFilter).map(status => (
+              {Object.keys(statusFilter).map((status) => (
                 <label key={status} className="block">
                   <input
                     type="checkbox"
@@ -204,21 +238,26 @@ const Dashboard = ({ userRole }) => {
               <label className="block">
                 <input
                   type="checkbox"
-                  checked={Object.keys(categoryFilter).length === Object.keys(allCategories).length}
+                  checked={
+                    Object.keys(categoryFilter).length ===
+                    Object.keys(allCategories).length
+                  }
                   onChange={() => handleCategoryChange("All")}
                 />
                 All Categories
               </label>
-              {Object.keys(allCategories).filter(cat => cat !== "All").map(category => (
-                <label key={category} className="block">
-                  <input
-                    type="checkbox"
-                    checked={categoryFilter[category] || false}
-                    onChange={() => handleCategoryChange(category)}
-                  />
-                  {category}
-                </label>
-              ))}
+              {Object.keys(allCategories)
+                .filter((cat) => cat !== "All")
+                .map((category) => (
+                  <label key={category} className="block">
+                    <input
+                      type="checkbox"
+                      checked={categoryFilter[category] || false}
+                      onChange={() => handleCategoryChange(category)}
+                    />
+                    {category}
+                  </label>
+                ))}
             </div>
           )}
         </div>
