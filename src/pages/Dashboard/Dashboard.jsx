@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 import { requestsData } from "./data";
@@ -6,14 +6,17 @@ import { requestsData } from "./data";
 const Dashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState({ key: "id", direction: "ascending" });
+  const [sortConfig, setSortConfig] = useState({ key: "creationDate", direction: "ascending" });
   const [searchTerm, setSearchTerm] = useState("");
-  const [typeFilter, setTypeFilter] = useState("All");
-  const [statusFilter, setStatusFilter] = useState("Open");
+  const [statusFilter, setStatusFilter] = useState({ Open: true, Closed: false });
+  const [categoryFilter, setCategoryFilter] = useState({});
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const headers = ["id", "type", "subject", "creationDate", "closedDate", "status", "category", "priority", "calamity"];
@@ -42,15 +45,14 @@ const Dashboard = ({ userRole }) => {
 
   const filteredRequests = (requests) => {
     return sortedRequests(requests).filter(request => (
-      (typeFilter === "All" || request.type === typeFilter) &&
-      (statusFilter === "All" || request.status === statusFilter) &&
+      (Object.keys(statusFilter).length === 0 || statusFilter[request.status]) &&
+      (Object.keys(categoryFilter).length === 0 || categoryFilter[request.category]) &&
       Object.keys(request).some(key => String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()))
     ));
   };
 
   const totalPages = (requests) => {
-    const itemsPerPage = 5;
-    return Math.ceil(filteredRequests(requests).length / itemsPerPage);
+    return Math.ceil(filteredRequests(requests).length / rowsPerPage);
   };
 
   const handleSearchChange = (event) => {
@@ -66,6 +68,77 @@ const Dashboard = ({ userRole }) => {
     setSortConfig({ key, direction });
   };
 
+  const handleStatusChange = (status) => {
+    setStatusFilter(prev => ({
+      ...prev,
+      [status]: !prev[status]
+    }));
+  };
+
+  const handleCategoryChange = (category) => {
+    setCategoryFilter(prev => {
+      const newFilter = { ...prev };
+      if (category === "All") {
+        if (Object.keys(newFilter).length === Object.keys(allCategories).length) {
+          return {};
+        } else {
+          return allCategories;
+        }
+      } else {
+        if (newFilter[category]) {
+          delete newFilter[category];
+        } else {
+          newFilter[category] = true;
+        }
+
+        if (Object.keys(newFilter).length === Object.keys(allCategories).length - 1) {
+          newFilter["All"] = true;
+        } else {
+          delete newFilter["All"];
+        }
+        
+        return newFilter;
+      }
+    });
+  };
+
+  const handleRowsPerPageChange = (rows) => {
+    setRowsPerPage(rows);
+    setCurrentPage(1);
+  };
+
+  const toggleCategoryDropdown = () => {
+    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+  };
+
+  const toggleStatusDropdown = () => {
+    setIsStatusDropdownOpen(!isStatusDropdownOpen);
+  };
+
+  const allCategories = {
+    "All": true,
+    "Logistics": true,
+    "Maintenance": true,
+    "Education": true,
+    "Electronics": true,
+    "Health": true,
+    "Essentials": true,
+    "Childcare": true,
+    "Pets": true,
+    "Shopping": true,
+    "Charity": true,
+    "Events": true,
+    "Marketing": true,
+    "Administration": true,
+    "Research": true
+  };
+
+  useEffect(() => {
+    if (Object.keys(categoryFilter).length === 0) {
+      setCategoryFilter(allCategories);
+    }
+  }, []);
+
   const requests = requestsData[activeTab].data;
 
   return (
@@ -74,7 +147,7 @@ const Dashboard = ({ userRole }) => {
         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
           <Link to="/request" className="text-white">Create Help Request</Link>
         </button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick= {newVolunteer}>Promote Yourself To Volunteer</button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick={newVolunteer}>Promote Yourself To Volunteer</button>
       </div>
 
       <div className="flex mb-5">
@@ -97,17 +170,58 @@ const Dashboard = ({ userRole }) => {
           onChange={handleSearchChange}
           className="p-2 border rounded flex-grow"
         />
-        <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="p-2 border rounded">
-          <option value="All">All Types</option>
-          <option value="Personal">Personal</option>
-          <option value="For Others">For Others</option>
-          <option value="Managed">Managed</option>
-        </select>
-        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="p-2 border rounded">
-          <option value="All">All Statuses</option>
-          <option value="Open">Open</option>
-          <option value="Closed">Closed</option>
-        </select>
+        <div className="relative">
+          <button
+            className="bg-gray-200 text-black py-2 px-4 rounded hover:bg-gray-300"
+            onClick={toggleStatusDropdown}
+          >
+            Filter by Status
+          </button>
+          {isStatusDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              {Object.keys(statusFilter).map(status => (
+                <label key={status} className="block">
+                  <input
+                    type="checkbox"
+                    checked={statusFilter[status]}
+                    onChange={() => handleStatusChange(status)}
+                  />
+                  {status}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="relative">
+          <button
+            className="bg-gray-200 text-black py-2 px-4 rounded hover:bg-gray-300"
+            onClick={toggleCategoryDropdown}
+          >
+            Filter by Category
+          </button>
+          {isCategoryDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <label className="block">
+                <input
+                  type="checkbox"
+                  checked={Object.keys(categoryFilter).length === Object.keys(allCategories).length}
+                  onChange={() => handleCategoryChange("All")}
+                />
+                All Categories
+              </label>
+              {Object.keys(allCategories).filter(cat => cat !== "All").map(category => (
+                <label key={category} className="block">
+                  <input
+                    type="checkbox"
+                    checked={categoryFilter[category] || false}
+                    onChange={() => handleCategoryChange(category)}
+                  />
+                  {category}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {activeTab && (
@@ -119,9 +233,10 @@ const Dashboard = ({ userRole }) => {
             setCurrentPage={setCurrentPage}
             totalPages={totalPages(requests)}
             totalRows={filteredRequests(requests).length}
-            itemsPerPage={5}
+            itemsPerPage={rowsPerPage}
             sortConfig={sortConfig}
             requestSort={requestSort}
+            onRowsPerPageChange={handleRowsPerPageChange}
           />
         </div>
       )}
