@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
 
-const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRows, itemsPerPage, sortConfig, requestSort }) => {
+const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRows, itemsPerPage, sortConfig, requestSort, onRowsPerPageChange }) => {
 
   const paginatedRequests = useMemo(() => {
     return rows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -27,7 +27,7 @@ const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRo
             {headers.map(key => (
               <th key={key} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 <button type="button" onClick={() => requestSort(key)}>
-                  {key === 'category' && !rows.every(row => row[key]) ? 'Category' : key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim()}
+                  {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim()}
                   {getSortIndicator(key)}
                 </button>
               </th>
@@ -54,10 +54,10 @@ const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRo
       </table>
       <Pagination
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
         totalPages={totalPages}
-        totalRows={totalRows}
-        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+        rowsPerPage={itemsPerPage}
+        onRowsPerPageChange={onRowsPerPageChange}
       />
     </div>
   );

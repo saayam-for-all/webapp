@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 import { requestsData } from "./data";
@@ -12,6 +12,7 @@ const Dashboard = ({ userRole }) => {
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -79,15 +80,23 @@ const Dashboard = ({ userRole }) => {
       const newFilter = { ...prev };
       if (category === "All") {
         if (Object.keys(newFilter).length === Object.keys(allCategories).length) {
-          // If all categories are already selected, unselect all
           return {};
         } else {
-          // Select all categories
-          Object.keys(allCategories).forEach(cat => newFilter[cat] = true);
-          return newFilter;
+          return allCategories;
         }
       } else {
-        delete newFilter[category];
+        if (newFilter[category]) {
+          delete newFilter[category];
+        } else {
+          newFilter[category] = true;
+        }
+
+        if (Object.keys(newFilter).length === Object.keys(allCategories).length - 1) {
+          newFilter["All"] = true;
+        } else {
+          delete newFilter["All"];
+        }
+        
         return newFilter;
       }
     });
@@ -102,7 +111,12 @@ const Dashboard = ({ userRole }) => {
     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
   };
 
+  const toggleStatusDropdown = () => {
+    setIsStatusDropdownOpen(!isStatusDropdownOpen);
+  };
+
   const allCategories = {
+    "All": true,
     "Logistics": true,
     "Maintenance": true,
     "Education": true,
@@ -119,10 +133,11 @@ const Dashboard = ({ userRole }) => {
     "Research": true
   };
 
-  // Default categoryFilter to include all categories
-  if (Object.keys(categoryFilter).length === 0) {
-    setCategoryFilter(allCategories);
-  }
+  useEffect(() => {
+    if (Object.keys(categoryFilter).length === 0) {
+      setCategoryFilter(allCategories);
+    }
+  }, []);
 
   const requests = requestsData[activeTab].data;
 
@@ -155,83 +170,58 @@ const Dashboard = ({ userRole }) => {
           onChange={handleSearchChange}
           className="p-2 border rounded flex-grow"
         />
-        <div className="flex items-center">
-          <span>Status:</span>
-          <label className="mx-2">
-            <input
-              type="checkbox"
-              checked={statusFilter.Open}
-              onChange={() => handleStatusChange("Open")}
-            />
-            Open
-          </label>
-          <label className="mx-2">
-            <input
-              type="checkbox"
-              checked={statusFilter.Closed}
-              onChange={() => handleStatusChange("Closed")}
-            />
-            Closed
-          </label>
+        <div className="relative">
+          <button
+            className="bg-gray-200 text-black py-2 px-4 rounded hover:bg-gray-300"
+            onClick={toggleStatusDropdown}
+          >
+            Filter by Status
+          </button>
+          {isStatusDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              {Object.keys(statusFilter).map(status => (
+                <label key={status} className="block">
+                  <input
+                    type="checkbox"
+                    checked={statusFilter[status]}
+                    onChange={() => handleStatusChange(status)}
+                  />
+                  {status}
+                </label>
+              ))}
+            </div>
+          )}
         </div>
-        <div className="flex items-center">
-          <span>Rows per view:</span>
-          <label className="mx-2">
-            <input
-              type="checkbox"
-              checked={rowsPerPage === 5}
-              onChange={() => handleRowsPerPageChange(5)}
-            />
-            5 rows
-          </label>
-          <label className="mx-2">
-            <input
-              type="checkbox"
-              checked={rowsPerPage === 10}
-              onChange={() => handleRowsPerPageChange(10)}
-            />
-            10 rows
-          </label>
-          <label className="mx-2">
-            <input
-              type="checkbox"
-              checked={rowsPerPage === 20}
-              onChange={() => handleRowsPerPageChange(20)}
-            />
-            20 rows
-          </label>
-        </div>
-      </div>
-
-      <div className="mb-4 relative">
-        <button
-          className="bg-gray-200 text-black py-2 px-4 rounded hover:bg-gray-300"
-          onClick={toggleCategoryDropdown}
-        >
-          Filter by Category
-        </button>
-        {isCategoryDropdownOpen && (
-          <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-            <label className="block">
-              <input
-                type="checkbox"
-                checked={Object.keys(categoryFilter).length === Object.keys(allCategories).length}
-                onChange={() => handleCategoryChange("All")}
-              />
-              All Categories
-            </label>
-            {Object.keys(allCategories).map(category => (
-              <label key={category} className="block">
+        <div className="relative">
+          <button
+            className="bg-gray-200 text-black py-2 px-4 rounded hover:bg-gray-300"
+            onClick={toggleCategoryDropdown}
+          >
+            Filter by Category
+          </button>
+          {isCategoryDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <label className="block">
                 <input
                   type="checkbox"
-                  checked={categoryFilter[category]}
-                  onChange={() => handleCategoryChange(category)}
+                  checked={Object.keys(categoryFilter).length === Object.keys(allCategories).length}
+                  onChange={() => handleCategoryChange("All")}
                 />
-                {category}
+                All Categories
               </label>
-            ))}
-          </div>
-        )}
+              {Object.keys(allCategories).filter(cat => cat !== "All").map(category => (
+                <label key={category} className="block">
+                  <input
+                    type="checkbox"
+                    checked={categoryFilter[category] || false}
+                    onChange={() => handleCategoryChange(category)}
+                  />
+                  {category}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {activeTab && (
@@ -246,7 +236,7 @@ const Dashboard = ({ userRole }) => {
             itemsPerPage={rowsPerPage}
             sortConfig={sortConfig}
             requestSort={requestSort}
-            categoryFilter={categoryFilter}
+            onRowsPerPageChange={handleRowsPerPageChange}
           />
         </div>
       )}
