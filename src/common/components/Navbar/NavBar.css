@@ -26,3 +26,4 @@ button:hover {
 .navbar-end {
   margin-right: 30px;
 }
+#notificationButton {display: none}

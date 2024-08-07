@@ -25,9 +25,12 @@ const Navbar = () => {
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
   const fileInputRef = useRef(null);
   const profileDropdownRef = useRef(null);
+  
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -45,6 +48,15 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Show notifications
+
+  useEffect(() => {
+    const notificationButton = document.getElementById('notificationButton');
+    if (notificationButton) {
+      notificationButton.style.display = user ? 'block' : 'none'; 
+    }
+  }, [user]);
 
   useEffect(() => {
     const subscribe = Hub.listen("auth", ({ payload }) => {
@@ -85,6 +97,8 @@ const Navbar = () => {
   const handleSignIn = async () => {
     dispatch(login());
   };
+  
+  
 
   const handleProfileClick = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
@@ -197,6 +211,7 @@ const Navbar = () => {
           </button>
         )}
       </div>
+      <button className="font-semibold" id="notificationButton">Notifications</button>
     </div>
   );
 };
