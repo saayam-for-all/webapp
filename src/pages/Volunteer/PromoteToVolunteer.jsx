@@ -40,7 +40,7 @@ const PromoteToVolunteer = () => {
   };
 
   return (
-    <div className="w-4/5 h-5/6 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+    <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
       <div className="container horizontal mt-5 p-12">
         <Stepper steps={steps} currentStep={currentStep} />
         <div className="mt-12 p-12">{displayStep(currentStep)}</div>

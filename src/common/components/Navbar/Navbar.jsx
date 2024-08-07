@@ -127,7 +127,7 @@ const Navbar = () => {
   return (
     <div className="navbar navbar-sm navbar-gradient-bg s">
       <div className="navbar-start">
-        <Link to="/" className="text-3xl font-semibold">
+        <Link to="/dashboard" className="text-3xl font-semibold">
           <img src={LOGO} alt="logo" className="w-14 h-14" />
         </Link>
       </div>
