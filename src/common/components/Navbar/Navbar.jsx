@@ -1,18 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import {
-  signOut,
-} from "aws-amplify/auth";
+import { signOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import LOGO from "../../../assets/logo.svg";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import "./NavBar.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  checkAuthStatus,
-  login,
-} from "../../../redux/features/authentication/authActions";
+import { checkAuthStatus, login } from "../../../redux/features/authentication/authActions";
 
 const Navbar = () => {
   const { i18n, t } = useTranslation();
@@ -22,14 +17,13 @@ const Navbar = () => {
   const fileInputRef = useRef(null);
   const profileDropdownRef = useRef(null);
   const location = useLocation();
-  const navigate = useNavigate(); // Add useNavigate
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
-    // Replace the getUserInfo logic with actual user info retrieval if necessary
     const getUserInfo = () => ({
       firstName: user?.firstName || "User",
     });
@@ -179,7 +173,7 @@ const Navbar = () => {
                 className="w-8 h-8 rounded-full cursor-pointer"
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               />
-              <span className="ml-2">{firstName.length > 8 ? `${firstName.substring(0, 8)}...` : firstName}</span> {/* Display first 8 characters of first name */}
+              <span className="ml-2">{firstName.length > 8 ? `${firstName.substring(0, 8)}...` : firstName}</span>
             </div>
             {isProfileDropdownOpen && (
               <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
@@ -206,9 +200,9 @@ const Navbar = () => {
             <button className="font-semibold" onClick={handleSignIn}>
               {t("login")}
             </button>
-            <button className="font-semibold" id="notificationButton">Notifications</button>
           </>
         )}
+        <button className="font-semibold" id="notificationButton">Notifications</button>
       </div>
     </div>
   );
