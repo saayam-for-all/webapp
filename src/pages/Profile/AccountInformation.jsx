@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './Profile.css';
 
 function AccountInformation() {
     const [isEditing, setIsEditing] = useState(false);
@@ -35,60 +34,66 @@ function AccountInformation() {
     };
 
     return (
-        <div className="section">
-            <div className="section-header">
-                <h2>Account Information</h2>
-                <button className={`edit-btn ${isEditing ? 'save-btn' : ''}`} onClick={isEditing ? handleSaveClick : handleEditClick}>
-                    {!isEditing && <i className="fas fa-pencil-alt edit-icon"></i>}
+        <div className="flex flex-col border p-4 rounded-lg w-full max-w-3xl mb-8">
+            <div className="flex justify-between items-center bg-blue-200 p-4 rounded-t-lg">
+                <h2 className="text-lg font-bold">Account Information</h2>
+                <button
+                    className={`py-2 px-4 rounded-md ${isEditing ? 'bg-orange-500 text-white' : 'bg-transparent text-gray-800'}`}
+                    onClick={isEditing ? handleSaveClick : handleEditClick}
+                >
                     {isEditing ? 'Save' : 'Edit'}
                 </button>
             </div>
-            <div className="info-group">
-                <label>Username</label>
-                {isEditing ? (
-                    <input 
-                        type="text"
-                        name="username"
-                        value={accountInfo.username}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                    />
-                ) : (
-                    <p>{accountInfo.username}</p>
-                )}
+            <div className="flex flex-col p-4">
+                <div className="flex flex-col mb-4">
+                    <label className="font-bold mb-2">Username</label>
+                    {isEditing ? (
+                        <input
+                            type="text"
+                            name="username"
+                            value={accountInfo.username}
+                            onChange={handleInputChange}
+                            className="border p-2 rounded-md"
+                        />
+                    ) : (
+                        <p>{accountInfo.username}</p>
+                    )}
+                </div>
+                <div className="flex flex-col mb-4">
+                    <label className="font-bold mb-2">Email</label>
+                    {isEditing ? (
+                        <input
+                            type="email"
+                            name="email"
+                            value={accountInfo.email}
+                            onChange={handleInputChange}
+                            className="border p-2 rounded-md"
+                        />
+                    ) : (
+                        <p>{accountInfo.email}</p>
+                    )}
+                </div>
+                <div className="flex flex-col mb-4">
+                    <label className="font-bold mb-2">Password</label>
+                    <p>
+                        <a href="#" className="text-red-600">Change Password</a>
+                    </p>
+                </div>
+                <div className="flex flex-col mb-4">
+                    <label className="font-bold mb-2">Phone</label>
+                    {isEditing ? (
+                        <input
+                            type="text"
+                            name="phone"
+                            value={accountInfo.phone}
+                            onChange={handleInputChange}
+                            className="border p-2 rounded-md"
+                        />
+                    ) : (
+                        <p>{accountInfo.phone}</p>
+                    )}
+                </div>
             </div>
-            <div className="info-group">
-                <label>Email</label>
-                {isEditing ? (
-                    <input 
-                        type="email"
-                        name="email"
-                        value={accountInfo.email}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                    />
-                ) : (
-                    <p>{accountInfo.email}</p>
-                )}
-            </div>
-            <div className="info-group">
-                <label>Password</label>
-                <p><a href="#" className="change-password-link">Change Password</a></p>
-            </div>
-            <div className="info-group">
-                <label>Phone</label>
-                {isEditing ? (
-                    <input 
-                        type="text"
-                        name="phone"
-                        value={accountInfo.phone}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                    />
-                ) : (
-                    <p>{accountInfo.phone}</p>
-                )}
-            </div>  
         </div>
     );
 }
