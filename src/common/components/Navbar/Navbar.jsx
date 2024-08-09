@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { signOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import LOGO from "../../../assets/logo.svg";
@@ -16,23 +16,11 @@ const Navbar = () => {
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
   const fileInputRef = useRef(null);
   const profileDropdownRef = useRef(null);
-  const location = useLocation();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const [firstName, setFirstName] = useState("");
-
-  useEffect(() => {
-    const getUserInfo = () => ({
-      firstName: user?.firstName || "User",
-    });
-
-    if (location.pathname === "/dashboard") {
-      const userInfo = getUserInfo();
-      setFirstName(userInfo.firstName);
-    }
-  }, [location.pathname, user]);
+  const [firstName, setFirstName] = useState(user?.firstName || "User");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -62,11 +50,11 @@ const Navbar = () => {
     const subscribe = Hub.listen("auth", ({ payload }) => {
       switch (payload.event) {
         case "signedIn":
-          console.log("user have been signedIn successfully.");
+          console.log("user has signed in successfully.");
           dispatch(checkAuthStatus());
           break;
         case "signedOut":
-          console.log("user have been signedOut successfully.");
+          console.log("user has signed out successfully.");
           break;
       }
     });
@@ -95,7 +83,6 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     signOut();
-    navigate("/"); // Navigate to home or login page after sign out
   };
 
   const handleEditProfilePicture = () => {
@@ -164,6 +151,7 @@ const Navbar = () => {
         >
           {t("donate")}
         </NavLink>
+        <button className="font-semibold" id="notificationButton">Notifications</button>
         {user?.userId ? (
           <div className="relative" ref={profileDropdownRef}>
             <div className="flex items-center">
@@ -202,7 +190,6 @@ const Navbar = () => {
             </button>
           </>
         )}
-        <button className="font-semibold" id="notificationButton">Notifications</button>
       </div>
     </div>
   );

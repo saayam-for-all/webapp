@@ -67,8 +67,7 @@ function PersonalInformation() {
 
     return (
         <div className="flex flex-col border p-4 rounded-lg w-full max-w-3xl mb-8">
-            <div className="flex justify-between items-center bg-blue-200 p-4 rounded-t-lg">
-                <h2 className="text-lg font-bold">Personal Information</h2>
+            <div className="flex justify-start items-center bg-blue-200 p-4 rounded-t-lg">
                 <button
                     className={`py-2 px-4 rounded-md ${isEditing ? 'bg-orange-500 text-white' : 'bg-transparent text-gray-800'}`}
                     onClick={isEditing ? handleSaveClick : handleEditClick}
