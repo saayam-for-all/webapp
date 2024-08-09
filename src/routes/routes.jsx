@@ -8,9 +8,9 @@ import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import RequestDetails from "../pages/RequestDetails/RequestDetails";
 import ProtectedRoute from "./ProtectedRoute";
-import { element } from "prop-types";
 import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
+import Profile from "../pages/Profile/Profile";
 
 const routes = [
   {
@@ -33,7 +33,6 @@ const routes = [
     path: "mission",
     element: <Mission />,
   },
-
   {
     path: "vision",
     element: <Vision />,
@@ -52,11 +51,7 @@ const routes = [
   },
   {
     path: "request/:id",
-    element: (
-      // <ProtectedRoute>
-      <RequestDetails />
-      // </ProtectedRoute>
-    ),
+    element: <RequestDetails />,
   },
   {
     path: "request",
@@ -66,6 +61,10 @@ const routes = [
     path: "promote-to-volunteer",
     element: <PromoteToVolunteer />,
   },
+  {
+    path: "profile",
+    element: <Profile />,
+  }
 ];
 
 export default routes;

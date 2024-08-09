@@ -1,22 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import {
-  signInWithRedirect,
-  signOut,
-  getCurrentUser,
-  fetchAuthSession,
-} from "aws-amplify/auth";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { signOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import LOGO from "../../../assets/logo.svg";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
-
 import "./NavBar.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  checkAuthStatus,
-  login,
-} from "../../../redux/features/authentication/authActions";
+import { checkAuthStatus, login } from "../../../redux/features/authentication/authActions";
 
 const Navbar = () => {
   const { i18n, t } = useTranslation();
@@ -25,12 +16,11 @@ const Navbar = () => {
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
   const fileInputRef = useRef(null);
   const profileDropdownRef = useRef(null);
-  
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-
-  
+  const [firstName, setFirstName] = useState(user?.firstName || "User");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -49,8 +39,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // Show notifications
-
   useEffect(() => {
     const notificationButton = document.getElementById('notificationButton');
     if (notificationButton) {
@@ -62,27 +50,17 @@ const Navbar = () => {
     const subscribe = Hub.listen("auth", ({ payload }) => {
       switch (payload.event) {
         case "signedIn":
-          console.log("user have been signedIn successfully.");
+          console.log("user has signed in successfully.");
           dispatch(checkAuthStatus());
           break;
         case "signedOut":
-          console.log("user have been signedOut successfully.");
+          console.log("user has signed out successfully.");
           break;
       }
     });
 
     return subscribe;
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   const getSession = async () => {
-  //     const session = await fetchAuthSession();
-  //     console.log("id token", session);
-  //     // console.log("access token", session.tokens.accessToken);
-  //   };
-
-  //   getSession();
-  // }, []);
 
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -97,11 +75,10 @@ const Navbar = () => {
   const handleSignIn = async () => {
     dispatch(login());
   };
-  
-  
 
   const handleProfileClick = () => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+    navigate("/profile");
+    setIsProfileDropdownOpen(false);
   };
 
   const handleSignOut = () => {
@@ -174,20 +151,21 @@ const Navbar = () => {
         >
           {t("donate")}
         </NavLink>
+        <button className="font-semibold" id="notificationButton">Notifications</button>
         {user?.userId ? (
           <div className="relative" ref={profileDropdownRef}>
-            <img
-              src={profileIcon}
-              alt="Profile Icon"
-              className="w-8 h-8 rounded-full cursor-pointer"
-              onClick={handleProfileClick}
-            />
+            <div className="flex items-center">
+              <img
+                src={profileIcon}
+                alt="Profile Icon"
+                className="w-8 h-8 rounded-full cursor-pointer"
+                onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+              />
+              <span className="ml-2">{firstName.length > 8 ? `${firstName.substring(0, 8)}...` : firstName}</span>
+            </div>
             {isProfileDropdownOpen && (
               <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-                <li
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handleEditProfilePicture}
-                >
+                <li className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleProfileClick}>
                   {t("Profile")}
                 </li>
                 <li
@@ -206,12 +184,13 @@ const Navbar = () => {
             />
           </div>
         ) : (
-          <button className="font-semibold" onClick={handleSignIn}>
-            {t("login")}
-          </button>
+          <>
+            <button className="font-semibold" onClick={handleSignIn}>
+              {t("login")}
+            </button>
+          </>
         )}
       </div>
-      <button className="font-semibold" id="notificationButton">Notifications</button>
     </div>
   );
 };
