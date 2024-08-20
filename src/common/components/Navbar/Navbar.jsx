@@ -23,6 +23,25 @@ const Navbar = () => {
   const [firstName, setFirstName] = useState(user?.firstName || "User");
 
   useEffect(() => {
+    const savedProfilePhoto = localStorage.getItem('profilePhoto');
+    if (savedProfilePhoto) {
+      setProfileIcon(savedProfilePhoto);
+    }
+
+    const handleStorageChange = (event) => {
+      if (event.key === 'profilePhoto') {
+        setProfileIcon(event.newValue);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         profileDropdownRef.current &&
@@ -95,6 +114,8 @@ const Navbar = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setProfileIcon(e.target.result);
+        localStorage.setItem('profilePhoto', e.target.result);
+        window.dispatchEvent(new Event('storage')); // Trigger the storage event manually
       };
       reader.readAsDataURL(file);
       setIsProfileDropdownOpen(false);
