@@ -1,10 +1,9 @@
-import React from "react";
 import avatar from "../../assets/avatar.jpg";
 
 const Comments = ({ name, message, date }) => {
   return (
-    <article className="pt-6 mb-3 text-base bg-white border-t border-gray-200">
-      <footer className="flex justify-between items-center mb-2">
+    <section className="pt-6 mb-3 text-base bg-white border-t border-gray-200">
+      <div className="flex justify-between items-center mb-2">
         <div className="flex items-center">
           <p className="inline-flex items-center mr-3 text-sm text-gray-900 font-semibold">
             <img
@@ -21,7 +20,7 @@ const Comments = ({ name, message, date }) => {
           </p>
         </div>
 
-        <details className="dropdown dropdown-end">
+        {/* <details className="dropdown dropdown-end">
           <summary className="btn m-1 p-1 bg-white shadow-none h-8 min-h-8 hover:bg-white">
             <svg
               className="w-4 h-4"
@@ -41,10 +40,10 @@ const Comments = ({ name, message, date }) => {
               <a>Delete</a>
             </li>
           </ul>
-        </details>
-      </footer>
+        </details> */}
+      </div>
       <p className="text-gray-500">{message}</p>
-    </article>
+    </section>
   );
 };
 
