@@ -39,6 +39,15 @@ function ContactInformation() {
         localStorage.setItem('contactInfo', JSON.stringify(contactInfo));
     };
 
+    const formatLabel = (key) => {
+        return key
+            .split(/(?=[A-Z])/)
+            .join(' ')
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/\b\w/g, char => char.toUpperCase())
+            + ':';
+    };
+
     return (
         <div className="flex flex-col border p-4 rounded-lg w-full max-w-3xl mb-8">
             <div className="flex justify-start items-center bg-blue-200 p-4 rounded-t-lg">
@@ -50,146 +59,22 @@ function ContactInformation() {
                 </button>
             </div>
             <div className="flex flex-col p-4">
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">First Name</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={contactInfo.firstName}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.firstName}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Last Name</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={contactInfo.lastName}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.lastName}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Preferred Name</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="preferredName"
-                            value={contactInfo.preferredName}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.preferredName}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Phonetic Pronunciation</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="phoneticPronunciation"
-                            value={contactInfo.phoneticPronunciation}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.phoneticPronunciation}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Street Address</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="streetAddress"
-                            value={contactInfo.streetAddress}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.streetAddress}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Current City</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="currentCity"
-                            value={contactInfo.currentCity}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.currentCity}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Current State</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="currentState"
-                            value={contactInfo.currentState}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.currentState}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Current Country</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="currentCountry"
-                            value={contactInfo.currentCountry}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.currentCountry}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Zip Code</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="zipCode"
-                            value={contactInfo.zipCode}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.zipCode}</p>
-                    )}
-                </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Time Zone</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="timeZone"
-                            value={contactInfo.timeZone}
-                            onChange={handleInputChange}
-                            className="border p-2 rounded-md"
-                        />
-                    ) : (
-                        <p>{contactInfo.timeZone}</p>
-                    )}
-                </div>
+                {Object.keys(contactInfo).map((key) => (
+                    <div className="flex items-center mb-4" key={key}>
+                        <label className="font-bold w-1/4">{formatLabel(key)}</label>
+                        {isEditing ? (
+                            <input
+                                type="text"
+                                name={key}
+                                value={contactInfo[key]}
+                                onChange={handleInputChange}
+                                className="border p-2 rounded-md w-3/4"
+                            />
+                        ) : (
+                            <p className="w-3/4">{contactInfo[key]}</p>
+                        )}
+                    </div>
+                ))}
             </div>
         </div>
     );

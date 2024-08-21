@@ -44,52 +44,52 @@ function AccountInformation() {
                 </button>
             </div>
             <div className="flex flex-col p-4">
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Username</label>
+                <div className="flex items-center mb-4">
+                    <label className="font-bold w-1/4">Username:</label>
                     {isEditing ? (
                         <input
                             type="text"
                             name="username"
                             value={accountInfo.username}
                             onChange={handleInputChange}
-                            className="border p-2 rounded-md"
+                            className="border p-2 rounded-md w-3/4"
                         />
                     ) : (
-                        <p>{accountInfo.username}</p>
+                        <p className="w-3/4">{accountInfo.username}</p>
                     )}
                 </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Email</label>
+                <div className="flex items-center mb-4">
+                    <label className="font-bold w-1/4">Email:</label>
                     {isEditing ? (
                         <input
                             type="email"
                             name="email"
                             value={accountInfo.email}
                             onChange={handleInputChange}
-                            className="border p-2 rounded-md"
+                            className="border p-2 rounded-md w-3/4"
                         />
                     ) : (
-                        <p>{accountInfo.email}</p>
+                        <p className="w-3/4">{accountInfo.email}</p>
                     )}
                 </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Password</label>
-                    <p>
+                <div className="flex items-center mb-4">
+                    <label className="font-bold w-1/4">Password:</label>
+                    <p className="w-3/4">
                         <a href="#" className="text-red-600">Change Password</a>
                     </p>
                 </div>
-                <div className="flex flex-col mb-4">
-                    <label className="font-bold mb-2">Phone</label>
+                <div className="flex items-center mb-4">
+                    <label className="font-bold w-1/4">Phone:</label>
                     {isEditing ? (
                         <input
                             type="text"
                             name="phone"
                             value={accountInfo.phone}
                             onChange={handleInputChange}
-                            className="border p-2 rounded-md"
+                            className="border p-2 rounded-md w-3/4"
                         />
                     ) : (
-                        <p>{accountInfo.phone}</p>
+                        <p className="w-3/4">{accountInfo.phone}</p>
                     )}
                 </div>
             </div>
