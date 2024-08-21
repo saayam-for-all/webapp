@@ -6,12 +6,15 @@ import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.j
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
+    const [tempProfilePhoto, setTempProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
     const [activeTab, setActiveTab] = useState('photo');
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         const savedProfilePhoto = localStorage.getItem('profilePhoto');
         if (savedProfilePhoto) {
             setProfilePhoto(savedProfilePhoto);
+            setTempProfilePhoto(savedProfilePhoto);
         }
     }, []);
 
@@ -21,12 +24,23 @@ function Profile() {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const photo = e.target.result;
-                setProfilePhoto(photo);
-                localStorage.setItem('profilePhoto', photo);
-                window.dispatchEvent(new Event('storage')); // Trigger the storage event manually
+                setTempProfilePhoto(photo);
+                setIsEditing(true);
             };
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleSaveClick = () => {
+        setProfilePhoto(tempProfilePhoto);
+        localStorage.setItem('profilePhoto', tempProfilePhoto);
+        window.dispatchEvent(new Event('profile-photo-updated')); // Trigger custom event
+        setIsEditing(false);
+    };
+
+    const handleCancelClick = () => {
+        setTempProfilePhoto(profilePhoto);
+        setIsEditing(false);
     };
 
     const renderTabContent = () => {
@@ -34,7 +48,7 @@ function Profile() {
             case 'photo':
                 return (
                     <div className="flex flex-col items-center p-4">
-                        <img src={profilePhoto} alt="Profile" className="rounded-full w-32 h-32 mb-4" />
+                        <img src={tempProfilePhoto} alt="Profile" className="rounded-full w-32 h-32 mb-4" />
                         <label htmlFor="edit-photo-input" className="py-2 px-4 cursor-pointer bg-gray-200 rounded-md mb-4 flex items-center">
                             <i className="fas fa-camera mr-2"></i> Edit Photo
                         </label>
@@ -44,6 +58,22 @@ function Profile() {
                             className="hidden"
                             onChange={handlePhotoChange}
                         />
+                        {isEditing && (
+                            <div className="flex justify-around w-full mt-4">
+                                <button
+                                    onClick={handleSaveClick}
+                                    className="py-2 px-4 bg-blue-500 text-white rounded-md"
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    onClick={handleCancelClick}
+                                    className="py-2 px-4 bg-gray-500 text-white rounded-md"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        )}
                     </div>
                 );
             case 'account':

@@ -34,10 +34,19 @@ const Navbar = () => {
       }
     };
 
+    const handleProfilePhotoUpdated = () => {
+      const updatedProfilePhoto = localStorage.getItem('profilePhoto');
+      if (updatedProfilePhoto) {
+        setProfileIcon(updatedProfilePhoto);
+      }
+    };
+
     window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('profile-photo-updated', handleProfilePhotoUpdated);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('profile-photo-updated', handleProfilePhotoUpdated);
     };
   }, []);
 
@@ -102,24 +111,6 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     signOut();
-  };
-
-  const handleEditProfilePicture = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleProfilePictureChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setProfileIcon(e.target.result);
-        localStorage.setItem('profilePhoto', e.target.result);
-        window.dispatchEvent(new Event('storage')); // Trigger the storage event manually
-      };
-      reader.readAsDataURL(file);
-      setIsProfileDropdownOpen(false);
-    }
   };
 
   return (
@@ -197,12 +188,6 @@ const Navbar = () => {
                 </li>
               </ul>
             )}
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={handleProfilePictureChange}
-            />
           </div>
         ) : (
           <>
