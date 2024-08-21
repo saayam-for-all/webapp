@@ -1,26 +1,29 @@
-import React from "react";
 import avatar from "../../assets/avatar.jpg";
 
-const CommentSection = ({ name, message, date }) => {
+const Comments = ({ name, message, date }) => {
   return (
-    <article class="pt-6 mb-3 text-base bg-white border-t border-gray-200">
-      <footer class="flex justify-between items-center mb-2">
-        <div class="flex items-center">
-          <p class="inline-flex items-center mr-3 text-sm text-gray-900 font-semibold">
-            <img class="mr-2 w-8 h-8 rounded-full" src={avatar} alt={name} />
+    <section className="pt-6 mb-3 text-base bg-white border-t border-gray-200">
+      <div className="flex justify-between items-center mb-2">
+        <div className="flex items-center">
+          <p className="inline-flex items-center mr-3 text-sm text-gray-900 font-semibold">
+            <img
+              className="mr-2 w-8 h-8 rounded-full"
+              src={avatar}
+              alt={name}
+            />
             {name}
           </p>
-          <p class="text-sm text-gray-600 dark:text-gray-400">
-            <time pubdate datetime="2022-03-12" title={date}>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            <time dateTime="2022-03-12" title={date}>
               {date}
             </time>
           </p>
         </div>
 
-        <details className="dropdown dropdown-end">
+        {/* <details className="dropdown dropdown-end">
           <summary className="btn m-1 p-1 bg-white shadow-none h-8 min-h-8 hover:bg-white">
             <svg
-              class="w-4 h-4"
+              className="w-4 h-4"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -37,11 +40,11 @@ const CommentSection = ({ name, message, date }) => {
               <a>Delete</a>
             </li>
           </ul>
-        </details>
-      </footer>
-      <p class="text-gray-500">{message}</p>
-    </article>
+        </details> */}
+      </div>
+      <p className="text-gray-500">{message}</p>
+    </section>
   );
 };
 
-export default CommentSection;
+export default Comments;
