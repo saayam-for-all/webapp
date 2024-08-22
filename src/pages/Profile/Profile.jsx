@@ -34,7 +34,7 @@ function Profile() {
     const handleSaveClick = () => {
         setProfilePhoto(tempProfilePhoto);
         localStorage.setItem('profilePhoto', tempProfilePhoto);
-        window.dispatchEvent(new Event('profile-photo-updated')); // Trigger custom event
+        window.dispatchEvent(new Event('profile-photo-updated'));
         setIsEditing(false);
     };
 
@@ -59,16 +59,16 @@ function Profile() {
                             onChange={handlePhotoChange}
                         />
                         {isEditing && (
-                            <div className="flex justify-around w-full mt-4">
+                            <div className="flex justify-center space-x-4 w-full mt-4">
                                 <button
                                     onClick={handleSaveClick}
-                                    className="py-2 px-4 bg-blue-500 text-white rounded-md"
+                                    className="edit-button py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                                 >
                                     Save
                                 </button>
                                 <button
                                     onClick={handleCancelClick}
-                                    className="py-2 px-4 bg-gray-500 text-white rounded-md"
+                                    className="edit-button py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
                                 >
                                     Cancel
                                 </button>
@@ -92,26 +92,42 @@ function Profile() {
             <div className="flex w-full max-w-6xl bg-white rounded-lg shadow-lg">
                 <div className="w-1/4 flex flex-col items-center p-4 border-r">
                     <div className="mt-6 w-full">
-                        <button 
-                            className={`block py-2 px-4 text-left w-full mb-2 ${activeTab === 'photo' ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-800 hover:text-blue-500'}`} 
+                        <button
+                            className={`block py-2 px-4 text-left w-full mb-2 ${
+                                activeTab === 'photo'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-gray-200 text-black hover:bg-gray-300'
+                            }`}
                             onClick={() => setActiveTab('photo')}
                         >
                             Profile Photo
                         </button>
-                        <button 
-                            className={`block py-2 px-4 text-left w-full mb-2 ${activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-800 hover:text-blue-500'}`} 
+                        <button
+                            className={`block py-2 px-4 text-left w-full mb-2 ${
+                                activeTab === 'account'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-gray-200 text-black hover:bg-gray-300'
+                            }`}
                             onClick={() => setActiveTab('account')}
                         >
                             Account Information
                         </button>
-                        <button 
-                            className={`block py-2 px-4 text-left w-full mb-2 ${activeTab === 'contact' ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-800 hover:text-blue-500'}`} 
+                        <button
+                            className={`block py-2 px-4 text-left w-full mb-2 ${
+                                activeTab === 'contact'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-gray-200 text-black hover:bg-gray-300'
+                            }`}
                             onClick={() => setActiveTab('contact')}
                         >
                             Contact Information
                         </button>
-                        <button 
-                            className={`block py-2 px-4 text-left w-full ${activeTab === 'personal' ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-800 hover:text-blue-500'}`} 
+                        <button
+                            className={`block py-2 px-4 text-left w-full ${
+                                activeTab === 'personal'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-gray-200 text-black hover:bg-gray-300'
+                            }`}
                             onClick={() => setActiveTab('personal')}
                         >
                             Personal Information

@@ -33,16 +33,12 @@ function AccountInformation() {
         localStorage.setItem('accountInfo', JSON.stringify(accountInfo));
     };
 
+    const handleCancelClick = () => {
+        setIsEditing(false);
+    };
+
     return (
         <div className="flex flex-col border p-4 rounded-lg w-full max-w-3xl mb-8">
-            <div className="flex justify-start items-center bg-blue-200 p-4 rounded-t-lg">
-                <button
-                    className={`py-2 px-4 rounded-md ${isEditing ? 'bg-orange-500 text-white' : 'bg-transparent text-gray-800'}`}
-                    onClick={isEditing ? handleSaveClick : handleEditClick}
-                >
-                    {isEditing ? 'Save' : 'Edit'}
-                </button>
-            </div>
             <div className="flex flex-col p-4">
                 <div className="flex items-center mb-4">
                     <label className="font-bold w-1/4">Username:</label>
@@ -90,6 +86,31 @@ function AccountInformation() {
                         />
                     ) : (
                         <p className="w-3/4">{accountInfo.phone}</p>
+                    )}
+                </div>
+                <div className="flex justify-center mt-4">
+                    {!isEditing ? (
+                        <button
+                            className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                            onClick={handleEditClick}
+                        >
+                            Edit
+                        </button>
+                    ) : (
+                        <>
+                            <button
+                                className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
+                                onClick={handleSaveClick}
+                            >
+                                Save
+                            </button>
+                            <button
+                                className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                                onClick={handleCancelClick}
+                            >
+                                Cancel
+                            </button>
+                        </>
                     )}
                 </div>
             </div>
