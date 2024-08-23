@@ -3,11 +3,21 @@ import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { signOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
+import {
+  IoPeopleOutline,
+  IoLogInOutline,
+  IoNotificationsOutline,
+} from "react-icons/io5";
+import { FiDollarSign } from "react-icons/fi";
+
 import LOGO from "../../../assets/logo.svg";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import "./NavBar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { checkAuthStatus, login } from "../../../redux/features/authentication/authActions";
+import {
+  checkAuthStatus,
+  login,
+} from "../../../redux/features/authentication/authActions";
 
 const Navbar = () => {
   const { i18n, t } = useTranslation();
@@ -68,9 +78,9 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const notificationButton = document.getElementById('notificationButton');
+    const notificationButton = document.getElementById("notificationButton");
     if (notificationButton) {
-      notificationButton.style.display = user ? 'block' : 'none'; 
+      notificationButton.style.display = user ? "flex" : "none";
     }
   }, [user]);
 
@@ -123,15 +133,15 @@ const Navbar = () => {
 
       <div className="navbar-end gap-10">
         <div className="dropdown">
-          <div
-            tabIndex={0}
-            className={`cursor-pointer font-semibold ${
+          <button
+            className={`font-semibold navbar-items ${
               isDropdownOpen ? "active" : ""
             }`}
             onClick={handleDropdownClick}
           >
+            <IoPeopleOutline className="navbar-icons" />
             {t("about")}
-          </div>
+          </button>
           <ul
             tabIndex={0}
             className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${
@@ -158,14 +168,18 @@ const Navbar = () => {
         </div>
         <NavLink
           to="/donate"
-          className="font-semibold"
+          className="font-semibold navbar-items"
           onClick={handleLinkClick}
         >
+          <FiDollarSign className="navbar-icons" />
           {t("donate")}
         </NavLink>
-        <button className="font-semibold" id="notificationButton">Notifications</button>
+        <button className="font-semibold navbar-items" id="notificationButton">
+          <IoNotificationsOutline className="navbar-icons" />
+          Notifications
+        </button>
         {user?.userId ? (
-          <div className="relative" ref={profileDropdownRef}>
+          <div className="relative navbar-items" ref={profileDropdownRef}>
             <div className="flex items-center">
               <img
                 src={profileIcon}
@@ -173,11 +187,18 @@ const Navbar = () => {
                 className="w-8 h-8 rounded-full cursor-pointer"
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               />
-              <span className="ml-2">{firstName.length > 8 ? `${firstName.substring(0, 8)}...` : firstName}</span>
+              <span className="ml-2">
+                {firstName.length > 8
+                  ? `${firstName.substring(0, 8)}...`
+                  : firstName}
+              </span>
             </div>
             {isProfileDropdownOpen && (
               <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-                <li className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleProfileClick}>
+                <li
+                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={handleProfileClick}
+                >
                   {t("Profile")}
                 </li>
                 <li
@@ -191,7 +212,11 @@ const Navbar = () => {
           </div>
         ) : (
           <>
-            <button className="font-semibold" onClick={handleSignIn}>
+            <button
+              className="font-semibold navbar-items"
+              onClick={handleSignIn}
+            >
+              <IoLogInOutline className="navbar-icons" />
               {t("login")}
             </button>
           </>
