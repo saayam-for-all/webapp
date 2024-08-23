@@ -33,30 +33,33 @@ const Navbar = () => {
   const [firstName, setFirstName] = useState(user?.firstName || "User");
 
   useEffect(() => {
-    const savedProfilePhoto = localStorage.getItem('profilePhoto');
+    const savedProfilePhoto = localStorage.getItem("profilePhoto");
     if (savedProfilePhoto) {
       setProfileIcon(savedProfilePhoto);
     }
 
     const handleStorageChange = (event) => {
-      if (event.key === 'profilePhoto') {
+      if (event.key === "profilePhoto") {
         setProfileIcon(event.newValue);
       }
     };
 
     const handleProfilePhotoUpdated = () => {
-      const updatedProfilePhoto = localStorage.getItem('profilePhoto');
+      const updatedProfilePhoto = localStorage.getItem("profilePhoto");
       if (updatedProfilePhoto) {
         setProfileIcon(updatedProfilePhoto);
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('profile-photo-updated', handleProfilePhotoUpdated);
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("profile-photo-updated", handleProfilePhotoUpdated);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('profile-photo-updated', handleProfilePhotoUpdated);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener(
+        "profile-photo-updated",
+        handleProfilePhotoUpdated
+      );
     };
   }, []);
 
@@ -134,12 +137,12 @@ const Navbar = () => {
       <div className="navbar-end gap-10">
         <div className="dropdown">
           <button
-            className={`font-semibold navbar-items ${
+            className={`font-semibold flex flex-col items-center ${
               isDropdownOpen ? "active" : ""
             }`}
             onClick={handleDropdownClick}
           >
-            <IoPeopleOutline className="navbar-icons" />
+            <IoPeopleOutline className="mr-1 text-xl" />
             {t("about")}
           </button>
           <ul
@@ -168,18 +171,24 @@ const Navbar = () => {
         </div>
         <NavLink
           to="/donate"
-          className="font-semibold navbar-items"
+          className="font-semibold flex flex-col items-center"
           onClick={handleLinkClick}
         >
-          <FiDollarSign className="navbar-icons" />
+          <FiDollarSign className="mr-1 text-xl" />
           {t("donate")}
         </NavLink>
-        <button className="font-semibold navbar-items" id="notificationButton">
-          <IoNotificationsOutline className="navbar-icons" />
+        <button
+          className="font-semibold flex flex-col items-center"
+          id="notificationButton"
+        >
+          <IoNotificationsOutline className="mr-1 text-xl" />
           Notifications
         </button>
         {user?.userId ? (
-          <div className="relative navbar-items" ref={profileDropdownRef}>
+          <div
+            className="relative flex flex-col items-center"
+            ref={profileDropdownRef}
+          >
             <div className="flex items-center">
               <img
                 src={profileIcon}
@@ -213,10 +222,10 @@ const Navbar = () => {
         ) : (
           <>
             <button
-              className="font-semibold navbar-items"
+              className="font-semibold flex flex-col items-center"
               onClick={handleSignIn}
             >
-              <IoLogInOutline className="navbar-icons" />
+              <IoLogInOutline className="mr-1 text-xl" />
               {t("login")}
             </button>
           </>
