@@ -43,6 +43,18 @@ function Profile() {
         setIsEditing(false);
     };
 
+    const handleTabChange = (tab) => {
+        if (isEditing) {
+            const confirmLeave = window.confirm("You have unsaved changes. Do you want to save them before leaving?");
+            if (confirmLeave) {
+                handleSaveClick();
+            } else {
+                handleCancelClick();
+            }
+        }
+        setActiveTab(tab);
+    };
+
     const renderTabContent = () => {
         switch (activeTab) {
             case 'photo':
@@ -98,7 +110,7 @@ function Profile() {
                                     ? 'bg-blue-500 text-white'
                                     : 'bg-gray-200 text-black hover:bg-gray-300'
                             }`}
-                            onClick={() => setActiveTab('photo')}
+                            onClick={() => handleTabChange('photo')}
                         >
                             Profile Photo
                         </button>
@@ -108,7 +120,7 @@ function Profile() {
                                     ? 'bg-blue-500 text-white'
                                     : 'bg-gray-200 text-black hover:bg-gray-300'
                             }`}
-                            onClick={() => setActiveTab('account')}
+                            onClick={() => handleTabChange('account')}
                         >
                             Account Information
                         </button>
@@ -118,7 +130,7 @@ function Profile() {
                                     ? 'bg-blue-500 text-white'
                                     : 'bg-gray-200 text-black hover:bg-gray-300'
                             }`}
-                            onClick={() => setActiveTab('contact')}
+                            onClick={() => handleTabChange('contact')}
                         >
                             Contact Information
                         </button>
@@ -128,7 +140,7 @@ function Profile() {
                                     ? 'bg-blue-500 text-white'
                                     : 'bg-gray-200 text-black hover:bg-gray-300'
                             }`}
-                            onClick={() => setActiveTab('personal')}
+                            onClick={() => handleTabChange('personal')}
                         >
                             Personal Information
                         </button>
