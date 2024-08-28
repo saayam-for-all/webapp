@@ -8,7 +8,7 @@ import {
   IoLogInOutline,
   IoNotificationsOutline,
 } from "react-icons/io5";
-import { FiDollarSign } from "react-icons/fi";
+import { BiDonateHeart } from "react-icons/bi";
 
 import LOGO from "../../../assets/logo.svg";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
@@ -174,7 +174,7 @@ const Navbar = () => {
           className="font-semibold flex flex-col items-center"
           onClick={handleLinkClick}
         >
-          <FiDollarSign className="mr-1 text-xl" />
+          <BiDonateHeart className="mr-1 text-xl" />
           {t("donate")}
         </NavLink>
         <button
