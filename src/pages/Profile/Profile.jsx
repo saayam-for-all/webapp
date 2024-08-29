@@ -2,19 +2,22 @@ import React, { useState, useEffect } from 'react';
 import AccountInformation from './AccountInformation';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
+import Sidebar from './Sidebar';  
+import Modal from './Modal';
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
-    const [tempProfilePhoto, setTempProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
-    const [activeTab, setActiveTab] = useState('photo');
+    const [tempProfilePhoto, setTempProfilePhoto] = useState(DEFAULT_PROFILE_ICON); 
+    const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const savedProfilePhoto = localStorage.getItem('profilePhoto');
         if (savedProfilePhoto) {
             setProfilePhoto(savedProfilePhoto);
-            setTempProfilePhoto(savedProfilePhoto);
+            setTempProfilePhoto(savedProfilePhoto); 
         }
     }, []);
 
@@ -24,7 +27,7 @@ function Profile() {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const photo = e.target.result;
-                setTempProfilePhoto(photo);
+                setTempProfilePhoto(photo); 
                 setIsEditing(true);
             };
             reader.readAsDataURL(file);
@@ -32,62 +35,34 @@ function Profile() {
     };
 
     const handleSaveClick = () => {
-        setProfilePhoto(tempProfilePhoto);
-        localStorage.setItem('profilePhoto', tempProfilePhoto);
+        setProfilePhoto(tempProfilePhoto); 
+        localStorage.setItem('profilePhoto', tempProfilePhoto); 
         window.dispatchEvent(new Event('profile-photo-updated'));
         setIsEditing(false);
+        setIsModalOpen(false);
     };
 
     const handleCancelClick = () => {
-        setTempProfilePhoto(profilePhoto);
+        setTempProfilePhoto(profilePhoto); 
         setIsEditing(false);
+        setIsModalOpen(false);
+    };
+
+    const handleDeleteClick = () => {
+        setTempProfilePhoto(DEFAULT_PROFILE_ICON); 
+        setIsEditing(true);
     };
 
     const handleTabChange = (tab) => {
-        if (isEditing) {
-            const confirmLeave = window.confirm("You have unsaved changes. Do you want to save them before leaving?");
-            if (confirmLeave) {
-                handleSaveClick();
-            } else {
-                handleCancelClick();
-            }
-        }
         setActiveTab(tab);
+    };
+
+    const openModal = () => {
+        setIsModalOpen(true);
     };
 
     const renderTabContent = () => {
         switch (activeTab) {
-            case 'photo':
-                return (
-                    <div className="flex flex-col items-center p-4">
-                        <img src={tempProfilePhoto} alt="Profile" className="rounded-full w-32 h-32 mb-4" />
-                        <label htmlFor="edit-photo-input" className="py-2 px-4 cursor-pointer bg-gray-200 rounded-md mb-4 flex items-center">
-                            <i className="fas fa-camera mr-2"></i> Edit Photo
-                        </label>
-                        <input
-                            type="file"
-                            id="edit-photo-input"
-                            className="hidden"
-                            onChange={handlePhotoChange}
-                        />
-                        {isEditing && (
-                            <div className="flex justify-center space-x-4 w-full mt-4">
-                                <button
-                                    onClick={handleSaveClick}
-                                    className="edit-button py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                                >
-                                    Save
-                                </button>
-                                <button
-                                    onClick={handleCancelClick}
-                                    className="edit-button py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                );
             case 'account':
                 return <AccountInformation />;
             case 'contact':
@@ -102,54 +77,25 @@ function Profile() {
     return (
         <div className="flex flex-col items-center p-4 min-h-screen bg-gray-100">
             <div className="flex w-full max-w-6xl bg-white rounded-lg shadow-lg">
-                <div className="w-1/4 flex flex-col items-center p-4 border-r">
-                    <div className="mt-6 w-full">
-                        <button
-                            className={`block py-2 px-4 text-left w-full mb-2 ${
-                                activeTab === 'photo'
-                                    ? 'bg-blue-500 text-white'
-                                    : 'bg-gray-200 text-black hover:bg-gray-300'
-                            }`}
-                            onClick={() => handleTabChange('photo')}
-                        >
-                            Profile Photo
-                        </button>
-                        <button
-                            className={`block py-2 px-4 text-left w-full mb-2 ${
-                                activeTab === 'account'
-                                    ? 'bg-blue-500 text-white'
-                                    : 'bg-gray-200 text-black hover:bg-gray-300'
-                            }`}
-                            onClick={() => handleTabChange('account')}
-                        >
-                            Account Information
-                        </button>
-                        <button
-                            className={`block py-2 px-4 text-left w-full mb-2 ${
-                                activeTab === 'contact'
-                                    ? 'bg-blue-500 text-white'
-                                    : 'bg-gray-200 text-black hover:bg-gray-300'
-                            }`}
-                            onClick={() => handleTabChange('contact')}
-                        >
-                            Contact Information
-                        </button>
-                        <button
-                            className={`block py-2 px-4 text-left w-full ${
-                                activeTab === 'personal'
-                                    ? 'bg-blue-500 text-white'
-                                    : 'bg-gray-200 text-black hover:bg-gray-300'
-                            }`}
-                            onClick={() => handleTabChange('personal')}
-                        >
-                            Personal Information
-                        </button>
-                    </div>
-                </div>
+                <Sidebar
+                    profilePhoto={profilePhoto} 
+                    handleTabChange={handleTabChange}
+                    activeTab={activeTab}
+                    openModal={openModal}
+                />
                 <div className="w-3/4 p-6">
                     {renderTabContent()}
                 </div>
             </div>
+            {isModalOpen && (
+                <Modal 
+                    profilePhoto={tempProfilePhoto} 
+                    handlePhotoChange={handlePhotoChange}
+                    handleSaveClick={handleSaveClick}
+                    handleCancelClick={handleCancelClick}
+                    handleDeleteClick={handleDeleteClick}
+                />
+            )}
         </div>
     );
 }
