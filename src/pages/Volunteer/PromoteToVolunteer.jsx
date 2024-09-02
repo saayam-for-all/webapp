@@ -6,37 +6,49 @@ import TermsConditions from "./steps/TermsConditions";
 import Complete from "./steps/Complete";
 import VolunteerCourse from "./steps/VolunteerCourse";
 
-const courseUrl = "a9__D53WsUs";
-
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isAcknowledged, setIsAcknowledged] = useState(false);
 
   const steps = [
-    "Personal Information",
-    "Volunteer Course",
     "Terms & Conditions",
+    "Volunteer Course",
+    "Personal Information",
   ];
 
   const displayStep = (step) => {
     switch (step) {
       case 1:
-        return <PersonalInfo />;
+        return (
+          <TermsConditions
+            isAcknowledged={isAcknowledged}
+            setIsAcknowledged={setIsAcknowledged}
+          />
+        );
       case 2:
         return <VolunteerCourse />;
       case 3:
-        return <TermsConditions />;
+        return <PersonalInfo />;
       case 4:
         return <Complete />;
       default:
+        return null;
     }
   };
 
   const handleClick = (direction) => {
     let newStep = currentStep;
 
-    direction === "next" ? newStep++ : newStep--;
+    if (direction === "next") {
+      if (currentStep === 1 && !isAcknowledged) return;
+      newStep++;
+    } else if (direction === "prev") {
+      newStep--;
+    }
 
-    newStep > 0 && newStep <= steps.length + 1 && setCurrentStep(newStep);
+    if (newStep > 0 && newStep <= steps.length + 1) {
+      setCurrentStep(newStep);
+    }
   };
 
   return (
@@ -50,6 +62,7 @@ const PromoteToVolunteer = () => {
           handleClick={handleClick}
           currentStep={currentStep}
           steps={steps}
+          isAcknowledged={isAcknowledged}
         />
       )}
     </div>
