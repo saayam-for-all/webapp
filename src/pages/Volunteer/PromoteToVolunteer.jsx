@@ -5,6 +5,7 @@ import PersonalInfo from "./steps/PersonalInfo";
 import TermsConditions from "./steps/TermsConditions";
 import Complete from "./steps/Complete";
 import VolunteerCourse from "./steps/VolunteerCourse";
+import Availability from "./steps/Availability";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -14,6 +15,7 @@ const PromoteToVolunteer = () => {
     "Terms & Conditions",
     "Volunteer Course",
     "Personal Information",
+    "Availability",
   ];
 
   const displayStep = (step) => {
@@ -30,6 +32,8 @@ const PromoteToVolunteer = () => {
       case 3:
         return <PersonalInfo />;
       case 4:
+        return <Availability />;
+      case 5:
         return <Complete />;
       default:
         return null;
