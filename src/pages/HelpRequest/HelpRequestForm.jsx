@@ -46,8 +46,7 @@ const HelpRequestForm = () => {
           >
             <IoMdInformationCircle size={20} />
             <div>
-              <span className="font-medium">Note:</span> Please call your local
-              emergency number for life-threatening emergencies.
+              <span className="font-medium">Note:</span> We do not handle life-threatening emergency requests. Please call your local emergency service if you need urgent help.
             </div>
           </div>
 
@@ -253,6 +252,24 @@ const HelpRequestForm = () => {
               </select>
             </div>
           </div>
+
+          <div className="mt-3">
+            <label
+              htmlFor="subject"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Subject <span className="text-red-500">*</span> (Max 70 characters)
+            </label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              className="border p-2 w-full rounded-lg"
+              maxLength={70}
+              required
+            />
+          </div>
+
           <div className="mt-3">
             <label
               htmlFor="description"
