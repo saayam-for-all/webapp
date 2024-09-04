@@ -275,7 +275,7 @@ const HelpRequestForm = () => {
               htmlFor="description"
               className="block text-gray-700 font-medium mb-2"
             >
-              Description <span className="text-red-500">*</span>
+              Description <span className="text-red-500">*</span> (Max 500 characters)
             </label>
             <textarea
               id="description"
