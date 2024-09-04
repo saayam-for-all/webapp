@@ -41,10 +41,10 @@ const HelpRequestForm = () => {
           </h1>
 
           <div
-            className="flex items-center gap-1 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+            className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
             role="alert"
           >
-            <IoMdInformationCircle size={20} />
+            <IoMdInformationCircle size={22}/>
             <div>
               <span className="font-medium">Note:</span> We do not handle life-threatening emergency requests. Please call your local emergency service if you need urgent help.
             </div>
