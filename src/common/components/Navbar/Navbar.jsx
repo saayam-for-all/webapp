@@ -19,7 +19,7 @@ import {
   login,
 } from "../../../redux/features/authentication/authActions";
 
-const Navbar = () => {
+const Navbar = ({ count }) => {
   const { i18n, t } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -177,13 +177,23 @@ const Navbar = () => {
           <FiDollarSign className="mr-1 text-xl" />
           {t("donate")}
         </NavLink>
-        <button
+
+        <NavLink
+          to="/notification"
           className="font-semibold flex flex-col items-center"
           id="notificationButton"
         >
-          <IoNotificationsOutline className="mr-1 text-xl" />
+          <div className="relative inline-block">
+            <IoNotificationsOutline className="mr-1 text-xl" />
+            {count > 0 && (
+              <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-green-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                {count}
+              </span>
+            )}
+          </div>
           Notifications
-        </button>
+        </NavLink>
+
         {user?.userId ? (
           <div
             className="relative flex flex-col items-center"
