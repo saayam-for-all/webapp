@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaUserCircle, FaLock } from 'react-icons/fa';
 
 function Sidebar({ profilePhoto, userName, userEmail, handleTabChange, activeTab, openModal }) {
     return (
@@ -19,34 +20,34 @@ function Sidebar({ profilePhoto, userName, userEmail, handleTabChange, activeTab
             {/* NAVIGATION BUTTONS */}
             <div className="mt-6 w-full">
                 <button
-                    className={`block py-2 px-4 text-left w-full mb-2 ${
-                        activeTab === 'account'
+                    className={`flex items-center py-2 px-4 text-left w-full mb-2 ${
+                        activeTab === 'profile'
                             ? 'bg-blue-500 text-white'
                             : 'bg-gray-200 text-black hover:bg-gray-300'
                     }`}
-                    onClick={() => handleTabChange('account')}
+                    onClick={() => handleTabChange('profile')}
                 >
-                    Account Information
+                    <FaUserCircle className="mr-2" /> Your Profile
                 </button>
                 <button
-                    className={`block py-2 px-4 text-left w-full mb-2 ${
-                        activeTab === 'contact'
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-200 text-black hover:bg-gray-300'
-                    }`}
-                    onClick={() => handleTabChange('contact')}
-                >
-                    Contact Information
-                </button>
-                <button
-                    className={`block py-2 px-4 text-left w-full mb-2 ${
+                    className={`flex items-center py-2 px-4 text-left w-full mb-2 ${
                         activeTab === 'personal'
                             ? 'bg-blue-500 text-white'
                             : 'bg-gray-200 text-black hover:bg-gray-300'
                     }`}
                     onClick={() => handleTabChange('personal')}
                 >
-                    Personal Information
+                    <FaUserCircle className="mr-2" /> Personal Information
+                </button>
+                <button
+                    className={`flex items-center py-2 px-4 text-left w-full mb-2 ${
+                        activeTab === 'password'
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-200 text-black hover:bg-gray-300'
+                    }`}
+                    onClick={() => handleTabChange('password')}
+                >
+                    <FaLock className="mr-2" /> Change Password
                 </button>
             </div>
         </div>

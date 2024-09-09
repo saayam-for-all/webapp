@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AccountInformation from './AccountInformation';
-import ContactInformation from './ContactInformation';
+import YourProfile from './YourProfile';
 import PersonalInformation from './PersonalInformation';
+import ChangePassword from './ChangePassword';
 import Sidebar from './Sidebar';  
 import Modal from './Modal';
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
@@ -9,7 +9,7 @@ import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.j
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
     const [tempProfilePhoto, setTempProfilePhoto] = useState(DEFAULT_PROFILE_ICON); 
-    const [activeTab, setActiveTab] = useState('account');
+    const [activeTab, setActiveTab] = useState('profile');
     const [isEditing, setIsEditing] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -63,12 +63,12 @@ function Profile() {
 
     const renderTabContent = () => {
         switch (activeTab) {
-            case 'account':
-                return <AccountInformation />;
-            case 'contact':
-                return <ContactInformation />;
+            case 'profile':
+                return <YourProfile />;
             case 'personal':
                 return <PersonalInformation />;
+            case 'password': 
+                return <ChangePassword />;
             default:
                 return null;
         }
