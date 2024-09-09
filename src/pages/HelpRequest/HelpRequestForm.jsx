@@ -1,8 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoMdInformationCircle } from "react-icons/io";
+
+const genderOptions = [
+  { value: 'Woman', label: 'Woman' },
+  { value: 'Man', label: 'Man' },
+  { value: 'Non-binary', label: 'Non-binary' },
+  { value: 'Transgender', label: 'Transgender' },
+  { value: 'Intersex', label: 'Intersex' },
+  { value: 'Gender-nonconforming', label: 'Gender-nonconforming' },
+];
 
 const HelpRequestForm = () => {
   const [selfFlag, setSelfFlag] = useState(true);
+  const [languages, setLanguages] = useState([]);
+
+  useEffect(() => {
+    fetch('https://restcountries.com/v3.1/all')
+      .then(response => response.json())
+      .then(data => {
+        const languageSet = new Set();
+        data.forEach(country => {
+          if (country.languages) {
+            Object.values(country.languages).forEach(language => languageSet.add(language));
+          }
+        });
+        setLanguages([...languageSet].map(lang => ({ value: lang, label: lang })));
+      });
+  }, []);
 
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
@@ -17,13 +41,12 @@ const HelpRequestForm = () => {
           </h1>
 
           <div
-            className="flex items-center gap-1 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+            className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
             role="alert"
           >
-            <IoMdInformationCircle size={20} />
+            <IoMdInformationCircle size={22}/>
             <div>
-              <span className="font-medium">Note:</span> Please call your local
-              emergency number for life-threatening emergencies.
+              <span className="font-medium">Note:</span> We do not handle life-threatening emergency requests. Please call your local emergency service if you need urgent help.
             </div>
           </div>
 
@@ -117,6 +140,42 @@ const HelpRequestForm = () => {
                     className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
+                <div className="mt-3">
+                  <label
+                    htmlFor="gender"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    Gender
+                  </label>
+                  <select
+                    id="gender"
+                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                  >
+                    {genderOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mt-3">
+                  <label
+                    htmlFor="language"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    Preferred Language
+                  </label>
+                  <select
+                    id="language"
+                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                  >
+                    {languages.map((language) => (
+                      <option key={language.value} value={language.value}>
+                        {language.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
           )}
@@ -186,19 +245,37 @@ const HelpRequestForm = () => {
               <select
                 id="requestType"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                defaultValue={"inPerson"}
+                defaultValue={"remote"}
               >
                 <option value="inPerson">In Person</option>
                 <option value="remote">Remote</option>
               </select>
             </div>
           </div>
+
+          <div className="mt-3">
+            <label
+              htmlFor="subject"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Subject <span className="text-red-500">*</span> (Max 70 characters)
+            </label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              className="border p-2 w-full rounded-lg"
+              maxLength={70}
+              required
+            />
+          </div>
+
           <div className="mt-3">
             <label
               htmlFor="description"
               className="block text-gray-700 font-medium mb-2"
             >
-              Description
+              Description <span className="text-red-500">*</span> (Max 500 characters)
             </label>
             <textarea
               id="description"
@@ -206,6 +283,7 @@ const HelpRequestForm = () => {
               className="border p-2 w-full rounded-lg"
               rows="5"
               maxLength={500}
+              required
             ></textarea>
           </div>
 
