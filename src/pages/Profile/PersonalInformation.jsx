@@ -24,7 +24,6 @@ function PersonalInformation() {
         zipCode: '',
     });
 
-    // Load data from local storage on mount
     useEffect(() => {
         const savedPersonalInfo = JSON.parse(localStorage.getItem('personalInfo'));
         if (savedPersonalInfo) {
@@ -42,24 +41,11 @@ function PersonalInformation() {
         });
     };
 
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
-
-    const handleSaveClick = () => {
-        setIsEditing(false);
-        localStorage.setItem('personalInfo', JSON.stringify(personalInfo));
-    };
-
-    const handleCancelClick = () => {
-        setIsEditing(false);
-    };
-
     return (
         <div className="flex flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
             <div className="grid grid-cols-2 gap-8 mb-6">
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Date of Birth</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Date of Birth</label>
                     {isEditing ? (
                         <DatePicker
                             selected={personalInfo.dateOfBirth}
@@ -71,7 +57,7 @@ function PersonalInformation() {
                     )}
                 </div>
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Gender</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Gender</label>
                     {isEditing ? (
                         <Select
                             value={genderOptions.find(option => option.value === personalInfo.gender)}
@@ -86,7 +72,7 @@ function PersonalInformation() {
             </div>
             <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
                     {isEditing ? (
                         <input
                             type="text"
@@ -100,7 +86,7 @@ function PersonalInformation() {
                     )}
                 </div>
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address 2</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address 2</label>
                     {isEditing ? (
                         <input
                             type="text"
@@ -116,7 +102,7 @@ function PersonalInformation() {
             </div>
             <div className="grid grid-cols-3 gap-8 mb-6">
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Country</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Country</label>
                     {isEditing ? (
                         <input
                             type="text"
@@ -130,7 +116,7 @@ function PersonalInformation() {
                     )}
                 </div>
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">State</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">State</label>
                     {isEditing ? (
                         <input
                             type="text"
@@ -144,7 +130,7 @@ function PersonalInformation() {
                     )}
                 </div>
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Zip Code</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Zip Code</label>
                     {isEditing ? (
                         <input
                             type="text"
@@ -162,7 +148,7 @@ function PersonalInformation() {
                 {!isEditing ? (
                     <button
                         className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                        onClick={handleEditClick}
+                        onClick={() => setIsEditing(true)}
                     >
                         Edit
                     </button>
@@ -170,13 +156,16 @@ function PersonalInformation() {
                     <>
                         <button
                             className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
-                            onClick={handleSaveClick}
+                            onClick={() => {
+                                setIsEditing(false);
+                                localStorage.setItem('personalInfo', JSON.stringify(personalInfo));
+                            }}
                         >
                             Save Changes
                         </button>
                         <button
                             className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-                            onClick={handleCancelClick}
+                            onClick={() => setIsEditing(false)}
                         >
                             Cancel
                         </button>

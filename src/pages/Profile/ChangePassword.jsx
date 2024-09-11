@@ -16,25 +16,20 @@ function ChangePassword() {
 
     const handleSaveClick = () => {
         let valid = true;
-
-        
         setErrorMessage('');
         setPasswordMatchError('');
 
-        
         if (newPassword.length < 8) {
             setErrorMessage('Password must be at least 8 characters long.');
             valid = false;
         }
 
-        
         if (newPassword !== confirmPassword) {
             setPasswordMatchError('Passwords do not match.');
             valid = false;
         }
 
         if (valid) {
-            
             setIsEditing(false);
             alert('Password changed successfully!');
         }
@@ -55,7 +50,7 @@ function ChangePassword() {
             {isEditing ? (
                 <>
                     <div className="mb-6">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Current Password
                         </label>
                         <div className="relative">
@@ -74,7 +69,7 @@ function ChangePassword() {
                         </div>
                     </div>
                     <div className="mb-6">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                             New Password
                         </label>
                         <div className="relative">
@@ -97,7 +92,7 @@ function ChangePassword() {
                         <p className="text-xs text-gray-500">Must contain at least 8 characters.</p>
                     </div>
                     <div className="mb-6">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Confirm Password
                         </label>
                         <div className="relative">
