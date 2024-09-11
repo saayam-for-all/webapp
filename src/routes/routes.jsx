@@ -11,6 +11,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import Profile from "../pages/Profile/Profile";
+import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
 
 const routes = [
   {
@@ -64,6 +65,10 @@ const routes = [
   {
     path: "profile",
     element: <Profile />,
+  },
+  {
+    path: "voluntary-organizations",
+    element: <VoluntaryOrganizations />
   }
 ];
 
