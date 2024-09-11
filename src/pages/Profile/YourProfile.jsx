@@ -25,24 +25,11 @@ function YourProfile() {
         }));
     };
 
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
-
-    const handleSaveClick = () => {
-        setIsEditing(false);
-        localStorage.setItem('profileInfo', JSON.stringify(profileInfo));
-    };
-
-    const handleCancelClick = () => {
-        setIsEditing(false);
-    };
-
     return (
         <div className="flex flex-col border p-6 rounded-lg w-full">
             <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                         First Name
                     </label>
                     {isEditing ? (
@@ -58,7 +45,7 @@ function YourProfile() {
                     )}
                 </div>
                 <div>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Last Name
                     </label>
                     {isEditing ? (
@@ -75,7 +62,7 @@ function YourProfile() {
                 </div>
             </div>
             <div className="mb-6">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Email
                 </label>
                 {isEditing ? (
@@ -91,7 +78,7 @@ function YourProfile() {
                 )}
             </div>
             <div className="mb-6">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Phone Number
                 </label>
                 {isEditing ? (
@@ -107,7 +94,7 @@ function YourProfile() {
                 )}
             </div>
             <div className="mb-6">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Zone
                 </label>
                 {isEditing ? (
@@ -126,7 +113,7 @@ function YourProfile() {
                 {!isEditing ? (
                     <button
                         className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                        onClick={handleEditClick}
+                        onClick={() => setIsEditing(true)}
                     >
                         Edit
                     </button>
@@ -134,13 +121,16 @@ function YourProfile() {
                     <>
                         <button
                             className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
-                            onClick={handleSaveClick}
+                            onClick={() => {
+                                setIsEditing(false);
+                                localStorage.setItem('profileInfo', JSON.stringify(profileInfo));
+                            }}
                         >
                             Save Changes
                         </button>
                         <button
                             className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-                            onClick={handleCancelClick}
+                            onClick={() => setIsEditing(false)}
                         >
                             Cancel
                         </button>

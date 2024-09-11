@@ -4,6 +4,7 @@ import PersonalInformation from './PersonalInformation';
 import ChangePassword from './ChangePassword';
 import Sidebar from './Sidebar';  
 import Modal from './Modal';
+import OrganizationDetails from './OrganizationDetails';  // Import OrganizationDetails component
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
 function Profile() {
@@ -69,6 +70,8 @@ function Profile() {
                 return <PersonalInformation />;
             case 'password': 
                 return <ChangePassword />;
+            case 'organization':  // Add organization tab rendering
+                return <OrganizationDetails />;
             default:
                 return null;
         }

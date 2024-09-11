@@ -49,6 +49,16 @@ function Sidebar({ profilePhoto, userName, userEmail, handleTabChange, activeTab
                 >
                     <FaLock className="mr-2" /> Change Password
                 </button>
+                <button
+                    className={`flex items-center py-2 px-4 text-left w-full mb-2 ${
+                        activeTab === 'organization'
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-200 text-black hover:bg-gray-300'
+                    }`}
+                    onClick={() => handleTabChange('organization')}
+                >
+                    <FaUserCircle className="mr-2" /> Organization Details
+                </button>
             </div>
         </div>
     );
