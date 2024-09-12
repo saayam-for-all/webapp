@@ -1,32 +1,35 @@
-import { IoSettingsOutline } from "react-icons/io5";
 import NotificationListItem from "./NotificationListItem";
+import EmptyNotificationList from "./EmptyNotificationList";
 import { useState } from "react";
 
 const NotificationPage = () => {
   const allNotifications = [
     {
       id: 3,
-      message:
-        "Test notification unread Test notification unread Test notification unread Test notification unread Test notification unread Test notification unread Test notification unread Test notification unread",
+      subject: "Help needed for cooking",
       date: "09/01/2024",
       time: "5:00 pm",
       isRead: false,
+      category: "Cooking",
       type: "help-request",
     },
     {
       id: 2,
-      message: "Test notification unread",
+      subject: "Help needed for medical issue",
       date: "09/01/2024",
       time: "4:00 pm",
       isRead: false,
+      category: "Medical",
       type: "volunteer-match",
     },
     {
       id: 1,
-      message: "Test notification read",
+      subject:
+        "Help needed for medical issue Help needed for medical issue Help needed for medical issue Help needed for medical issue",
       date: "09/01/2024",
       time: "3:00 pm",
       isRead: true,
+      category: "Medical",
       type: "volunteer-match",
     },
   ];
@@ -50,11 +53,11 @@ const NotificationPage = () => {
     <div id="main-container" className="my-4">
       <div
         id="category-container"
-        className="my-8 px-4 py-4 flex flex-row rounded-lg bg-gray-200"
+        className="my-8 px-4 py-6 flex flex-row rounded-lg bg-gray-100 shadow-lg"
       >
         <div className="flex flex-row">
           <button
-            className={`px-4 mx-4 border border-blue-600 rounded-2xl text-gray-900 hover:bg-blue-800 hover:text-white ${
+            className={`px-6 py-2 mx-4 border border-blue-600 rounded-3xl text-gray-500 hover:bg-blue-800 hover:text-white ${
               activeTab === "all" ? "bg-blue-600 text-white" : ""
             }`}
             onClick={() => handleTabChange("all")}
@@ -62,7 +65,7 @@ const NotificationPage = () => {
             All
           </button>
           <button
-            className={`px-4 mx-4 border border-blue-600 rounded-2xl text-gray-900 hover:bg-blue-800 hover:text-white ${
+            className={`px-6 py-2 mx-4 border border-blue-600 rounded-3xl text-gray-500 hover:bg-blue-800 hover:text-white ${
               activeTab === "help-request" ? "bg-blue-600 text-white" : ""
             }`}
             onClick={() => handleTabChange("help-request")}
@@ -70,7 +73,7 @@ const NotificationPage = () => {
             Help Requests
           </button>
           <button
-            className={`px-4 mx-4 border border-blue-600 rounded-2xl text-gray-900 hover:bg-blue-800 hover:text-white ${
+            className={`px-6 py-2 mx-4 border border-blue-600 rounded-3xl text-gray-500 hover:bg-blue-800 hover:text-white ${
               activeTab === "volunteer-match" ? "bg-blue-600 text-white" : ""
             }`}
             onClick={() => handleTabChange("volunteer-match")}
@@ -78,18 +81,22 @@ const NotificationPage = () => {
             Volunteer Matches
           </button>
         </div>
-        <button className="ml-auto mr-4 text-2xl">
-          <IoSettingsOutline />
-        </button>
       </div>
 
-      <div id="notification-list" className="my-4 bg-gray-200 rounded-lg">
-        {notificationData.map((notification) => (
-          <NotificationListItem
-            key={notification.id}
-            notification={notification}
-          />
-        ))}
+      <div
+        id="notification-list"
+        className="bg-gray-100 rounded-lg overflow-hidden shadow-lg"
+      >
+        {notificationData && notificationData.length > 0 ? (
+          notificationData.map((notification) => (
+            <NotificationListItem
+              key={notification.id}
+              notification={notification}
+            />
+          ))
+        ) : (
+          <EmptyNotificationList />
+        )}
       </div>
     </div>
   );
