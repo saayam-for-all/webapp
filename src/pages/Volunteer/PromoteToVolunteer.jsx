@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
-import PersonalInfo from "./steps/PersonalInfo";
+import Skills from "./steps/Skills";
 import TermsConditions from "./steps/TermsConditions";
 import Complete from "./steps/Complete";
 import VolunteerCourse from "./steps/VolunteerCourse";
@@ -11,10 +12,13 @@ const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isAcknowledged, setIsAcknowledged] = useState(false);
 
+  // state variable to track the skills(categories and subcategories) that the user has selected/checked. 
+  const [checkedCategories, setCheckedCategories] = useImmer({});
+
   const steps = [
     "Terms & Conditions",
     "Volunteer Course",
-    "Personal Information",
+    "Skills",
     "Availability",
   ];
 
@@ -30,7 +34,7 @@ const PromoteToVolunteer = () => {
       case 2:
         return <VolunteerCourse />;
       case 3:
-        return <PersonalInfo />;
+        return <Skills checkedCategories={checkedCategories} setCheckedCategories={setCheckedCategories}/>;
       case 4:
         return <Availability />;
       case 5:
@@ -45,6 +49,10 @@ const PromoteToVolunteer = () => {
 
     if (direction === "next") {
       if (currentStep === 1 && !isAcknowledged) return;
+      if (currentStep === 3) {
+        // Need to send this data to server before going to next step
+        console.log("checkedCategories: ", checkedCategories);
+      }
       newStep++;
     } else if (direction === "prev") {
       newStep--;
