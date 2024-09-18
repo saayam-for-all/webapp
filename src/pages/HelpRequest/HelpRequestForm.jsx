@@ -1,7 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { loadCategories } from '../../redux/features/help_request/requestActions';
 import { IoMdInformationCircle } from "react-icons/io";
+import {GoogleMap, useJsApiLoader, StandaloneSearchBox} from '@react-google-maps/api';
 
 const genderOptions = [
+  { value: 'Select', label: 'Select'},
   { value: 'Woman', label: 'Woman' },
   { value: 'Man', label: 'Man' },
   { value: 'Non-binary', label: 'Non-binary' },
@@ -11,13 +15,23 @@ const genderOptions = [
 ];
 
 const HelpRequestForm = () => {
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.request);
+
   const [selfFlag, setSelfFlag] = useState(true);
   const [languages, setLanguages] = useState([]);
 
+  const [selectedCategory, setSelectedCategory] = useState('general');
+  const [subcategories, setSubcategories] = useState([]);
+  const [selectedSubcategory, setSelectedSubcategory] = useState('');
+  const [requestType, setRequestType] = useState('');
+
+
   useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all')
-      .then(response => response.json())
-      .then(data => {
+    const fetchLanguages = async () => {
+      try {
+        const response = await fetch('https://restcountries.com/v3.1/all');
+        const data = await response.json();
         const languageSet = new Set();
         data.forEach(country => {
           if (country.languages) {
@@ -25,8 +39,40 @@ const HelpRequestForm = () => {
           }
         });
         setLanguages([...languageSet].map(lang => ({ value: lang, label: lang })));
-      });
-  }, []);
+      } catch (error) {
+        console.error('Error fetching languages:', error);
+      }
+    };
+    // Dispatch categories action and fetch languages
+    dispatch(loadCategories());
+    fetchLanguages();
+  }, [dispatch]);
+
+  const handleCategoryChange = (e) => {
+    const categoryName = e.target.value;
+    setSelectedCategory(categoryName);
+    const category = categories.find(cat => cat.name === categoryName);
+    if (category && category.subcategories) {
+      setSubcategories(category.subcategories);
+    } else {
+      setSubcategories([]);
+    }
+  };
+
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
+   
+  const inputref =useRef(null);
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: "AIzaSyDv7--yEnq84ZN3l03y50O33M4S89Un4U0",
+    libraries:["places"]
+  })
+
+  const handleOnPlacesChanges = () =>{
+    let address = inputref.current.getPlaces()
+  }
 
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
@@ -226,15 +272,40 @@ const HelpRequestForm = () => {
               <select
                 id="category"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                defaultValue={"health"}
+                value={selectedCategory}
+                onChange={handleCategoryChange}
               >
-                <option value="health">Health</option>
-                <option value="education">Education</option>
-                <option value="electronics">Electronics</option>
-                <option value="logistics">Logistics</option>
+                <option value="general">General</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
-
+            {/* Subcategory dropdown */}
+            {subcategories.length > 0 && (
+              <div>
+                <label htmlFor="subcategory" className="block mb-2 font-medium text-gray-700">
+                  Subcategory
+                </label>
+                <select
+                  id="subcategory"
+                  className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
+                  value={selectedSubcategory}
+                  onChange={handleSubcategoryChange}
+                >
+                  <optgroup label={selectedCategory}>
+                    {subcategories.map((subcategory, index) => (
+                      <option key={index} value={subcategory}>
+                        {subcategory}
+                      </option>
+                    ))}
+                  </optgroup>
+                </select>
+              </div>
+            )}
+          
             <div>
               <label
                 htmlFor="requestType"
@@ -245,12 +316,35 @@ const HelpRequestForm = () => {
               <select
                 id="requestType"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                defaultValue={"remote"}
+                value ={requestType}
+                onChange={(e) => setRequestType(e.target.value)}
               >
-                <option value="inPerson">In Person</option>
                 <option value="remote">Remote</option>
+                <option value="inPerson">In Person</option> 
               </select>
             </div>
+            {requestType === 'inPerson' && (
+            <div className="mt-3">
+              <label
+                htmlFor="location"
+                className="block mb-1 font-medium text-gray-700"
+              >
+                Location
+              </label>
+              {isLoaded &&
+              <StandaloneSearchBox 
+                onLoad={(ref) => inputref.current =ref}
+                onPlacesChanged={handleOnPlacesChanges}
+              >
+              <input
+                type="text"
+                id="location"
+                name="location"
+                className="border p-2 w-full rounded-lg"
+                
+              /></StandaloneSearchBox>}
+            </div>
+          )}
           </div>
 
           <div className="mt-3">

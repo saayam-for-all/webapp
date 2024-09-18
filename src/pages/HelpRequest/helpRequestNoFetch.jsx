@@ -164,6 +164,7 @@ const HelpRequestForm = () => {
           <label>
             Priority:
             <select name="priority" value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value })}>
+              <option value="select">select</option>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
