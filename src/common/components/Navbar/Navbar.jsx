@@ -30,7 +30,6 @@ const Navbar = () => {
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const [firstName, setFirstName] = useState(user?.firstName || "User");
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
@@ -153,13 +152,19 @@ const Navbar = () => {
             onClick={handleLinkClick}
           >
             <li>
-              <NavLink to="/directors" name='directors' >{t("directors")}</NavLink>
+              <NavLink to="/directors" name="directors">
+                {t("directors")}
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/how-we-operate" name='how-we-operate'>{t("how_we_operate")}</NavLink>
+              <NavLink to="/how-we-operate" name="how-we-operate">
+                {t("how_we_operate")}
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/contact " name='contact'>{t("contact")}</NavLink>
+              <NavLink to="/contact " name="contact">
+                {t("contact")}
+              </NavLink>
             </li>
             <li>
               <NavLink to="/mission">{t("mission")}</NavLink>
@@ -196,11 +201,7 @@ const Navbar = () => {
                 className="w-8 h-8 rounded-full cursor-pointer"
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               />
-              <span className="ml-2">
-                {firstName.length > 8
-                  ? `${firstName.substring(0, 8)}...`
-                  : firstName}
-              </span>
+              {/* Removed the span displaying the user name */}
             </div>
             {isProfileDropdownOpen && (
               <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
@@ -220,15 +221,13 @@ const Navbar = () => {
             )}
           </div>
         ) : (
-          <>
-            <button
-              className="font-semibold flex flex-col items-center"
-              onClick={handleSignIn}
-            >
-              <IoLogInOutline className="mr-1 text-xl" />
-              {t("login")}
-            </button>
-          </>
+          <button
+            className="font-semibold flex flex-col items-center"
+            onClick={handleSignIn}
+          >
+            <IoLogInOutline className="mr-1 text-xl" />
+            {t("login")}
+          </button>
         )}
       </div>
     </div>
