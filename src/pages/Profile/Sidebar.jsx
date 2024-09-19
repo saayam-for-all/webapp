@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaUserCircle, FaLock } from 'react-icons/fa';
+import { FaUserCircle, FaLock, FaPencilAlt } from 'react-icons/fa';
 
 function Sidebar({ profilePhoto, userName, userEmail, handleTabChange, activeTab, openModal }) {
     return (
@@ -12,12 +12,18 @@ function Sidebar({ profilePhoto, userName, userEmail, handleTabChange, activeTab
                         className="rounded-full w-24 h-24 object-cover mx-auto cursor-pointer"
                         onClick={openModal}
                     />
+                    <div
+                        className="absolute bottom-2 right-2 bg-white border rounded-full p-1 cursor-pointer"
+                        onClick={openModal}
+                    >
+                        <FaPencilAlt className="text-gray-600" />
+                    </div>
                 </div>
                 <h3 className="font-bold text-lg">{userName}</h3>
                 <p className="text-gray-500">{userEmail}</p>
             </div>
 
-            {/* NAVIGATION BUTTONS */}
+            
             <div className="mt-6 w-full">
                 <button
                     className={`flex items-center py-2 px-4 text-left w-full mb-2 ${
