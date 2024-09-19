@@ -201,10 +201,9 @@ const Navbar = () => {
                 className="w-8 h-8 rounded-full cursor-pointer"
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               />
-              
             </div>
             {isProfileDropdownOpen && (
-              <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+              <ul className="profile-dropdown">
                 <li
                   className="p-2 hover:bg-gray-100 cursor-pointer"
                   onClick={handleProfileClick}
