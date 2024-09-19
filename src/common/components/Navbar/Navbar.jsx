@@ -153,13 +153,13 @@ const Navbar = () => {
             onClick={handleLinkClick}
           >
             <li>
-              <NavLink to="/directors">{t("directors")}</NavLink>
+              <NavLink to="/directors" name='directors' >{t("directors")}</NavLink>
             </li>
             <li>
-              <NavLink to="/how-we-operate">{t("how_we_operate")}</NavLink>
+              <NavLink to="/how-we-operate" name='how-we-operate'>{t("how_we_operate")}</NavLink>
             </li>
             <li>
-              <NavLink to="/contact">{t("contact")}</NavLink>
+              <NavLink to="/contact " name='contact'>{t("contact")}</NavLink>
             </li>
             <li>
               <NavLink to="/mission">{t("mission")}</NavLink>
