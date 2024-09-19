@@ -4,8 +4,6 @@ function OrganizationDetails() {
     const [isEditing, setIsEditing] = useState(false);
     const [organizationInfo, setOrganizationInfo] = useState({
         organizationName: '',
-        firstName: '',
-        lastName: '',
         phoneNumber: '',
         email: '',
         url: '',
@@ -64,37 +62,6 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            {/* First Name, Last Name */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-                <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">First Name</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={organizationInfo.firstName}
-                            onChange={handleInputChange}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        />
-                    ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.firstName || 'Not Set'}</p>
-                    )}
-                </div>
-                <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Last Name</label>
-                    {isEditing ? (
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={organizationInfo.lastName}
-                            onChange={handleInputChange}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        />
-                    ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.lastName || 'Not Set'}</p>
-                    )}
-                </div>
-            </div>
 
             {/* Phone Number, Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
