@@ -113,7 +113,6 @@ const Navbar = () => {
   };
 
   const handleSignIn = async () => {
-    console.log("login button clicked");
     dispatch(login());
   };
 
