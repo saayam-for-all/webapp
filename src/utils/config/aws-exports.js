@@ -10,11 +10,15 @@ const awsConfig = {
       loginWith: {
         oauth: {
           domain: "saayamforall.auth.us-east-1.amazoncognito.com",
-          scopes: ["phone", "email", "openid"],
-          redirectSignIn: ["http://localhost:5173/dashboard"],
-          redirectSignOut: ["http://localhost:5173"],
-          //redirectSignIn: ["https://test-saayam.netlify.app/dashboard"],
-          //redirectSignOut: ["https://test-saayam.netlify.app"],
+          scopes: ["phone", "email", "openid", "aws.cognito.signin.user.admin"],
+          redirectSignIn: [
+            "http://localhost:5173/dashboard",
+            "https://test-saayam.netlify.app/dashboard",
+          ],
+          redirectSignOut: [
+            "http://localhost:5173",
+            "https://test-saayam.netlify.app",
+          ],
           responseType: "code",
         },
       },
