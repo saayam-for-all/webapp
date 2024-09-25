@@ -22,10 +22,8 @@ const HelpRequestForm = () => {
   const [languages, setLanguages] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState('general');
-  const [subcategories, setSubcategories] = useState([]);
-  const [selectedSubcategory, setSelectedSubcategory] = useState('');
+  const [showSubcategories, setShowSubcategories] = useState(false);
   const [requestType, setRequestType] = useState('');
-
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -48,31 +46,25 @@ const HelpRequestForm = () => {
     fetchLanguages();
   }, [dispatch]);
 
-  const handleCategoryChange = (e) => {
-    const categoryName = e.target.value;
-    setSelectedCategory(categoryName);
-    const category = categories.find(cat => cat.name === categoryName);
-    if (category && category.subcategories) {
-      setSubcategories(category.subcategories);
+  const handleCategoryClick = (categoryName) => {
+    if (selectedCategory === categoryName) {
+      setShowSubcategories(!showSubcategories);
     } else {
-      setSubcategories([]);
+      setSelectedCategory(categoryName);
+      setShowSubcategories(true);
     }
   };
 
-  const handleSubcategoryChange = (e) => {
-    setSelectedSubcategory(e.target.value);
-  };
-   
-  const inputref =useRef(null);
+  const inputref = useRef(null);
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: "AIzaSyDv7--yEnq84ZN3l03y50O33M4S89Un4U0",
-    libraries:["places"]
-  })
+    libraries: ["places"]
+  });
 
-  const handleOnPlacesChanges = () =>{
-    let address = inputref.current.getPlaces()
-  }
+  const handleOnPlacesChanges = () => {
+    let address = inputref.current.getPlaces();
+  };
 
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
@@ -82,25 +74,17 @@ const HelpRequestForm = () => {
     <div className="bg-gray-100">
       <div className="w-full max-w-3xl mx-auto p-8">
         <div className="bg-white p-8 rounded-lg shadow-md border">
-          <h1 className="text-2xl font-bold text-gray-800 ">
-            Create Help Request
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-800 ">Create Help Request</h1>
 
-          <div
-            className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
-            role="alert"
-          >
-            <IoMdInformationCircle size={22}/>
+          <div className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+            <IoMdInformationCircle size={22} />
             <div>
               <span className="font-medium">Note:</span> We do not handle life-threatening emergency requests. Please call your local emergency service if you need urgent help.
             </div>
           </div>
 
           <div className="mt-3">
-            <label
-              htmlFor="self"
-              className="block mb-1 text-gray-700 font-medium"
-            >
+            <label htmlFor="self" className="block mb-1 text-gray-700 font-medium">
               For Self
             </label>
             <select
@@ -108,7 +92,6 @@ const HelpRequestForm = () => {
               className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
               onChange={handleForSelfFlag}
             >
-              {/* <option selected>Choose a option</option> */}
               <option value="yes">Yes</option>
               <option value="no">No</option>
             </select>
@@ -116,87 +99,46 @@ const HelpRequestForm = () => {
 
           {!selfFlag && (
             <div className="mt-3">
-              <div className="grid grid-cols-2 gap-4 ">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label
-                    htmlFor="first_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
+                  <label htmlFor="first_name" className="block text-gray-700 mb-1 font-medium">
                     First Name
                   </label>
-                  <input
-                    type="text"
-                    id="first_name"
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
+                  <input type="text" id="first_name" className="w-full rounded-lg border py-2 px-3" />
                 </div>
                 <div>
-                  <label
-                    htmlFor="last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
+                  <label htmlFor="last_name" className="block text-gray-700 mb-1 font-medium">
                     Last Name
                   </label>
-                  <input
-                    type="text"
-                    id="last_name"
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
+                  <input type="text" id="last_name" className="w-full rounded-lg border py-2 px-3" />
                 </div>
               </div>
 
               <div className="mt-3">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 mb-1 font-medium"
-                >
+                <label htmlFor="email" className="block text-gray-700 mb-1 font-medium">
                   Email
                 </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full rounded-lg border py-2 px-3"
-                />
+                <input type="email" id="email" className="w-full rounded-lg border py-2 px-3" />
               </div>
 
               <div className="mt-3 grid grid-cols-2 gap-4">
                 <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
+                  <label htmlFor="phone" className="block text-gray-700 mb-1 font-medium">
                     Phone
                   </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
+                  <input type="text" id="phone" className="w-full rounded-lg border py-2 px-3" />
                 </div>
                 <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
+                  <label htmlFor="age" className="block text-gray-700 mb-1 font-medium">
                     Age
                   </label>
-                  <input
-                    type="number"
-                    id="age"
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
+                  <input type="number" id="age" className="w-full rounded-lg border py-2 px-3" />
                 </div>
                 <div className="mt-3">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
+                  <label htmlFor="gender" className="block text-gray-700 mb-1 font-medium">
                     Gender
                   </label>
-                  <select
-                    id="gender"
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
+                  <select id="gender" className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full">
                     {genderOptions.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
@@ -205,16 +147,10 @@ const HelpRequestForm = () => {
                   </select>
                 </div>
                 <div className="mt-3">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
+                  <label htmlFor="language" className="block text-gray-700 mb-1 font-medium">
                     Preferred Language
                   </label>
-                  <select
-                    id="language"
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
+                  <select id="language" className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full">
                     {languages.map((language) => (
                       <option key={language.value} value={language.value}>
                         {language.label}
@@ -228,130 +164,115 @@ const HelpRequestForm = () => {
 
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="calamity"
-                className="block text-gray-700 font-medium mb-1"
-              >
+              <label htmlFor="calamity" className="block text-gray-700 font-medium mb-1">
                 Is Calamity?
               </label>
               <input
                 id="calamity"
                 type="checkbox"
-                value=""
                 name="calamity"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
               />
             </div>
 
             <div>
-              <label
-                htmlFor="priority"
-                className="block mb-1 font-medium text-gray-700"
-              >
+              <label htmlFor="priority" className="block mb-1 font-medium text-gray-700">
                 Priority
               </label>
-              <select
-                id="priority"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                defaultValue={"low"}
-              >
+              <select id="priority" className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5" defaultValue={"low"}>
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
               </select>
             </div>
           </div>
+
           <div className="mt-3 grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="category"
-                className="block mb-2 font-medium text-gray-700"
-              >
+            <div className="relative">
+              <label htmlFor="category" className="block mb-2 font-medium text-gray-700">
                 Request Category
               </label>
-              <select
-                id="category"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                value={selectedCategory}
-                onChange={handleCategoryChange}
+              <button
+                onClick={() => setShowSubcategories((prev) => !prev)}
+                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full text-left bg-white"
               >
-                <option value="general">General</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
+                {selectedCategory || 'Select Category'}
+              </button>
+
+              {showSubcategories && (
+                 <div 
+                 className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto" 
+                 style={{ maxHeight: '200px' }}  
+               >
+                  {categories.map((category) => (
+                    <div key={category.id} className="p-2 border-b">
+                      <div
+                        className="cursor-pointer hover:bg-gray-100"
+                        onClick={() => handleCategoryClick(category.name)}
+                      >
+                        {category.name}
+                      </div>
+                      {selectedCategory === category.name && category.subcategories && (
+                        <div className="ml-4 mt-2">
+                          {category.subcategories.map((subcategory, index) => (
+                            <div
+                              key={index}
+                              className="cursor-pointer hover:bg-gray-200"
+                              onClick={() => {
+                                setSelectedCategory(subcategory);
+                                setShowSubcategories(false);
+                              }}
+                            >
+                              {subcategory}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            {/* Subcategory dropdown */}
-            {subcategories.length > 0 && (
-              <div>
-                <label htmlFor="subcategory" className="block mb-2 font-medium text-gray-700">
-                  Subcategory
-                </label>
-                <select
-                  id="subcategory"
-                  className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                  value={selectedSubcategory}
-                  onChange={handleSubcategoryChange}
-                >
-                  <optgroup label={selectedCategory}>
-                    {subcategories.map((subcategory, index) => (
-                      <option key={index} value={subcategory}>
-                        {subcategory}
-                      </option>
-                    ))}
-                  </optgroup>
-                </select>
-              </div>
-            )}
-          
+
             <div>
-              <label
-                htmlFor="requestType"
-                className="block mb-2 font-medium text-gray-700"
-              >
+              <label htmlFor="requestType" className="block mb-2 font-medium text-gray-700">
                 Request Type
               </label>
               <select
                 id="requestType"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                value ={requestType}
+                value={requestType}
                 onChange={(e) => setRequestType(e.target.value)}
               >
                 <option value="remote">Remote</option>
-                <option value="inPerson">In Person</option> 
+                <option value="inPerson">In Person</option>
               </select>
             </div>
+
             {requestType === 'inPerson' && (
-            <div className="mt-3">
-              <label
-                htmlFor="location"
-                className="block mb-1 font-medium text-gray-700"
-              >
-                Location
-              </label>
-              {isLoaded &&
-              <StandaloneSearchBox 
-                onLoad={(ref) => inputref.current =ref}
-                onPlacesChanged={handleOnPlacesChanges}
-              >
-              <input
-                type="text"
-                id="location"
-                name="location"
-                className="border p-2 w-full rounded-lg"
-                
-              /></StandaloneSearchBox>}
-            </div>
-          )}
+              <div className="mt-3">
+                <label htmlFor="location" className="block mb-1 font-medium text-gray-700">
+                  Location
+                </label>
+                {isLoaded && (
+                  <StandaloneSearchBox
+                    onLoad={(ref) => (inputref.current = ref)}
+                    onPlacesChanged={handleOnPlacesChanges}
+                  >
+                    <input
+                      type="text"
+                      id="location"
+                      name="location"
+                      className="border p-2 w-full rounded-lg"
+                    />
+                  </StandaloneSearchBox>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="mt-3">
-            <label
-              htmlFor="subject"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
               Subject <span className="text-red-500">*</span> (Max 70 characters)
             </label>
             <input
@@ -365,10 +286,7 @@ const HelpRequestForm = () => {
           </div>
 
           <div className="mt-3">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
               Description <span className="text-red-500">*</span> (Max 500 characters)
             </label>
             <textarea
