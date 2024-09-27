@@ -220,13 +220,14 @@ const Navbar = () => {
             )}
           </div>
         ) : (
-          <button
+          <NavLink
+            to="/login"
             className="font-semibold flex flex-col items-center"
-            onClick={handleSignIn}
+            id="loginButton"
           >
             <IoLogInOutline className="mr-1 text-xl" />
             {t("login")}
-          </button>
+          </NavLink>
         )}
       </div>
     </div>
