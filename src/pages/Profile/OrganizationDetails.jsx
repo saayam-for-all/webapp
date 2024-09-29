@@ -57,7 +57,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.organizationName || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.organizationName || ''}</p>
                     )}
                 </div>
             </div>
@@ -76,7 +76,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.phoneNumber || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.phoneNumber || ''}</p>
                     )}
                 </div>
                 <div>
@@ -90,7 +90,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.email || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.email || ''}</p>
                     )}
                 </div>
             </div>
@@ -108,7 +108,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.url || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.url || ''}</p>
                     )}
                 </div>
             </div>
@@ -126,7 +126,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.streetAddress || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.streetAddress || ''}</p>
                     )}
                 </div>
                 <div>
@@ -140,7 +140,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.streetAddress2 || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.streetAddress2 || ''}</p>
                     )}
                 </div>
             </div>
@@ -158,7 +158,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.city || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.city || ''}</p>
                     )}
                 </div>
                 <div>
@@ -172,7 +172,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.state || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.state || ''}</p>
                     )}
                 </div>
                 <div>
@@ -186,7 +186,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.zipCode || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.zipCode || ''}</p>
                     )}
                 </div>
             </div>

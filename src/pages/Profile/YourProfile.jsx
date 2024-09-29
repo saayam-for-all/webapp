@@ -41,7 +41,7 @@ function YourProfile() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{profileInfo.firstName || 'Not set'}</p>
+                        <p className="text-lg text-gray-900">{profileInfo.firstName || ''}</p>
                     )}
                 </div>
                 <div>
@@ -57,7 +57,7 @@ function YourProfile() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{profileInfo.lastName || 'Not set'}</p>
+                        <p className="text-lg text-gray-900">{profileInfo.lastName || ''}</p>
                     )}
                 </div>
             </div>
@@ -74,7 +74,7 @@ function YourProfile() {
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     />
                 ) : (
-                    <p className="text-lg text-gray-900">{profileInfo.email || 'Not set'}</p>
+                    <p className="text-lg text-gray-900">{profileInfo.email || ''}</p>
                 )}
             </div>
             <div className="mb-6">
@@ -90,7 +90,7 @@ function YourProfile() {
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     />
                 ) : (
-                    <p className="text-lg text-gray-900">{profileInfo.phone || 'Not set'}</p>
+                    <p className="text-lg text-gray-900">{profileInfo.phone || ''}</p>
                 )}
             </div>
             <div className="mb-6">
@@ -106,7 +106,7 @@ function YourProfile() {
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     />
                 ) : (
-                    <p className="text-lg text-gray-900">{profileInfo.zone || 'Not set'}</p>
+                    <p className="text-lg text-gray-900">{profileInfo.zone || ''}</p>
                 )}
             </div>
             <div className="flex justify-center mt-6">

@@ -53,7 +53,7 @@ function PersonalInformation() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{personalInfo.dateOfBirth ? personalInfo.dateOfBirth.toLocaleDateString() : 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{personalInfo.dateOfBirth ? personalInfo.dateOfBirth.toLocaleDateString() : ''}</p>
                     )}
                 </div>
                 <div>
@@ -66,7 +66,7 @@ function PersonalInformation() {
                             className="w-full"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{personalInfo.gender || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{personalInfo.gender || ''}</p>
                     )}
                 </div>
             </div>
@@ -82,7 +82,7 @@ function PersonalInformation() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{personalInfo.streetAddress || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{personalInfo.streetAddress || ''}</p>
                     )}
                 </div>
                 <div>
@@ -96,7 +96,7 @@ function PersonalInformation() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{personalInfo.streetAddress2 || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{personalInfo.streetAddress2 || ''}</p>
                     )}
                 </div>
             </div>
@@ -112,7 +112,7 @@ function PersonalInformation() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{personalInfo.country || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{personalInfo.country || ''}</p>
                     )}
                 </div>
                 <div>
@@ -126,7 +126,7 @@ function PersonalInformation() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{personalInfo.state || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{personalInfo.state || ''}</p>
                     )}
                 </div>
                 <div>
@@ -140,7 +140,7 @@ function PersonalInformation() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{personalInfo.zipCode || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{personalInfo.zipCode || ''}</p>
                     )}
                 </div>
             </div>
