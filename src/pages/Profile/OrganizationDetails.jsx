@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function OrganizationDetails() {
     const [isEditing, setIsEditing] = useState(false);
+    const organizationNameRef = useRef(null); 
     const [organizationInfo, setOrganizationInfo] = useState({
         organizationName: '',
         phoneNumber: '',
@@ -31,6 +32,11 @@ function OrganizationDetails() {
 
     const handleEditClick = () => {
         setIsEditing(true);
+        setTimeout(() => {
+            if (organizationNameRef.current) {
+                organizationNameRef.current.focus(); // Automatically focus on the Organization Name field
+            }
+        }, 0);
     };
 
     const handleSaveClick = () => {
@@ -50,6 +56,7 @@ function OrganizationDetails() {
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Organization Name</label>
                     {isEditing ? (
                         <input
+                            ref={organizationNameRef} // Apply the ref here to focus on this input field
                             type="text"
                             name="organizationName"
                             value={organizationInfo.organizationName}
@@ -61,7 +68,6 @@ function OrganizationDetails() {
                     )}
                 </div>
             </div>
-
 
             {/* Phone Number, Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
@@ -95,7 +101,7 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            {/* URL (separate row for better alignment) */}
+            {/* URL */}
             <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">URL</label>

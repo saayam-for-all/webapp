@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 
+// Gender options for the dropdown
 const genderOptions = [
     { value: 'Female', label: 'Female' },
     { value: 'Male', label: 'Male' },
@@ -14,6 +15,8 @@ const genderOptions = [
 
 function PersonalInformation() {
     const [isEditing, setIsEditing] = useState(false);
+    const streetAddressRef = useRef(null); // Reference for the street address input field
+
     const [personalInfo, setPersonalInfo] = useState({
         dateOfBirth: null,
         gender: '',
@@ -22,23 +25,63 @@ function PersonalInformation() {
         country: '',
         state: '',
         zipCode: '',
+        languagePreference1: '',
+        languagePreference2: '',
+        languagePreference3: '',
     });
 
+    const [countries, setCountries] = useState([]);
+    const [languages, setLanguages] = useState([]);
+
     useEffect(() => {
+        // Fetch saved data from localStorage if available
         const savedPersonalInfo = JSON.parse(localStorage.getItem('personalInfo'));
         if (savedPersonalInfo) {
             setPersonalInfo({
                 ...savedPersonalInfo,
-                dateOfBirth: savedPersonalInfo.dateOfBirth ? new Date(savedPersonalInfo.dateOfBirth) : null
+                dateOfBirth: savedPersonalInfo.dateOfBirth ? new Date(savedPersonalInfo.dateOfBirth) : null,
             });
         }
+
+        // Fetch country list from an API
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+                const countryList = data.map(country => ({
+                    value: country.name.common,
+                    label: country.name.common,
+                }));
+                setCountries(countryList);
+            });
+
+        // Fetch language options from an API or set statically
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+                const languageSet = new Set();
+                data.forEach(country => {
+                    if (country.languages) {
+                        Object.values(country.languages).forEach(language => languageSet.add(language));
+                    }
+                });
+                setLanguages([...languageSet].map(lang => ({ value: lang, label: lang })));
+            });
     }, []);
 
     const handleInputChange = (name, value) => {
         setPersonalInfo({
             ...personalInfo,
-            [name]: value
+            [name]: value,
         });
+    };
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+        setTimeout(() => {
+            if (streetAddressRef.current) {
+                streetAddressRef.current.focus(); // Focus on the street address input field
+            }
+        }, 0);
     };
 
     return (
@@ -70,15 +113,17 @@ function PersonalInformation() {
                     )}
                 </div>
             </div>
+            {/* Street Address Fields */}
             <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
                     {isEditing ? (
                         <input
+                            ref={streetAddressRef} // Set the ref for street address field
                             type="text"
                             name="streetAddress"
                             value={personalInfo.streetAddress}
-                            onChange={(e) => handleInputChange('streetAddress', e.target.value)}
+                            onChange={e => handleInputChange('streetAddress', e.target.value)}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
@@ -92,7 +137,7 @@ function PersonalInformation() {
                             type="text"
                             name="streetAddress2"
                             value={personalInfo.streetAddress2}
-                            onChange={(e) => handleInputChange('streetAddress2', e.target.value)}
+                            onChange={e => handleInputChange('streetAddress2', e.target.value)}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
@@ -100,16 +145,16 @@ function PersonalInformation() {
                     )}
                 </div>
             </div>
+            {/* Country and State/Zip Code */}
             <div className="grid grid-cols-3 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Country</label>
                     {isEditing ? (
-                        <input
-                            type="text"
-                            name="country"
-                            value={personalInfo.country}
-                            onChange={(e) => handleInputChange('country', e.target.value)}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        <Select
+                            value={countries.find(option => option.value === personalInfo.country)}
+                            options={countries}
+                            onChange={selectedOption => handleInputChange('country', selectedOption ? selectedOption.value : '')}
+                            className="w-full"
                         />
                     ) : (
                         <p className="text-lg text-gray-900">{personalInfo.country || ''}</p>
@@ -122,7 +167,7 @@ function PersonalInformation() {
                             type="text"
                             name="state"
                             value={personalInfo.state}
-                            onChange={(e) => handleInputChange('state', e.target.value)}
+                            onChange={e => handleInputChange('state', e.target.value)}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
@@ -136,7 +181,7 @@ function PersonalInformation() {
                             type="text"
                             name="zipCode"
                             value={personalInfo.zipCode}
-                            onChange={(e) => handleInputChange('zipCode', e.target.value)}
+                            onChange={e => handleInputChange('zipCode', e.target.value)}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
@@ -144,11 +189,53 @@ function PersonalInformation() {
                     )}
                 </div>
             </div>
+            {/* Language Preferences */}
+            <div className="grid grid-cols-3 gap-8 mb-6">
+                <div>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">First Language Preference</label>
+                    {isEditing ? (
+                        <Select
+                            value={languages.find(option => option.value === personalInfo.languagePreference1)}
+                            options={languages}
+                            onChange={selectedOption => handleInputChange('languagePreference1', selectedOption ? selectedOption.value : '')}
+                            className="w-full"
+                        />
+                    ) : (
+                        <p className="text-lg text-gray-900">{personalInfo.languagePreference1 || ''}</p>
+                    )}
+                </div>
+                <div>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Second Language Preference</label>
+                    {isEditing ? (
+                        <Select
+                            value={languages.find(option => option.value === personalInfo.languagePreference2)}
+                            options={languages}
+                            onChange={selectedOption => handleInputChange('languagePreference2', selectedOption ? selectedOption.value : '')}
+                            className="w-full"
+                        />
+                    ) : (
+                        <p className="text-lg text-gray-900">{personalInfo.languagePreference2 || ''}</p>
+                    )}
+                </div>
+                <div>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Third Language Preference</label>
+                    {isEditing ? (
+                        <Select
+                            value={languages.find(option => option.value === personalInfo.languagePreference3)}
+                            options={languages}
+                            onChange={selectedOption => handleInputChange('languagePreference3', selectedOption ? selectedOption.value : '')}
+                            className="w-full"
+                        />
+                    ) : (
+                        <p className="text-lg text-gray-900">{personalInfo.languagePreference3 || ''}</p>
+                    )}
+                </div>
+            </div>
             <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button
                         className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                        onClick={() => setIsEditing(true)}
+                        onClick={handleEditClick}
                     >
                         Edit
                     </button>
