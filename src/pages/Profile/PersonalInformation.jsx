@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 
-// Gender options for the dropdown
+
 const genderOptions = [
     { value: 'Female', label: 'Female' },
     { value: 'Male', label: 'Male' },
@@ -15,7 +15,7 @@ const genderOptions = [
 
 function PersonalInformation() {
     const [isEditing, setIsEditing] = useState(false);
-    const streetAddressRef = useRef(null); // Reference for the street address input field
+    const streetAddressRef = useRef(null); 
 
     const [personalInfo, setPersonalInfo] = useState({
         dateOfBirth: null,
@@ -34,7 +34,7 @@ function PersonalInformation() {
     const [languages, setLanguages] = useState([]);
 
     useEffect(() => {
-        // Fetch saved data from localStorage if available
+        
         const savedPersonalInfo = JSON.parse(localStorage.getItem('personalInfo'));
         if (savedPersonalInfo) {
             setPersonalInfo({
@@ -43,7 +43,7 @@ function PersonalInformation() {
             });
         }
 
-        // Fetch country list from an API
+        
         fetch('https://restcountries.com/v3.1/all')
             .then(response => response.json())
             .then(data => {
@@ -54,7 +54,7 @@ function PersonalInformation() {
                 setCountries(countryList);
             });
 
-        // Fetch language options from an API or set statically
+        
         fetch('https://restcountries.com/v3.1/all')
             .then(response => response.json())
             .then(data => {
@@ -119,7 +119,7 @@ function PersonalInformation() {
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
                     {isEditing ? (
                         <input
-                            ref={streetAddressRef} // Set the ref for street address field
+                            ref={streetAddressRef} 
                             type="text"
                             name="streetAddress"
                             value={personalInfo.streetAddress}
