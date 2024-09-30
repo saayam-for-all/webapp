@@ -7,9 +7,11 @@ function YourProfile() {
         firstName: '',
         lastName: '',
         email: '',
-        secondaryEmail: '', 
+        secondaryEmail: '',
         phone: '',
-        secondaryPhone: '', 
+        phoneType: 'mobile', 
+        secondaryPhone: '',
+        secondaryPhoneType: 'mobile', 
         zone: '',
     });
 
@@ -32,7 +34,7 @@ function YourProfile() {
         setIsEditing(true);
         setTimeout(() => {
             if (firstNameRef.current) {
-                firstNameRef.current.focus(); 
+                firstNameRef.current.focus();
             }
         }, 0);
     };
@@ -46,7 +48,7 @@ function YourProfile() {
                     </label>
                     {isEditing ? (
                         <input
-                            ref={firstNameRef} 
+                            ref={firstNameRef}
                             type="text"
                             name="firstName"
                             value={profileInfo.firstName}
@@ -114,15 +116,29 @@ function YourProfile() {
                         Primary Phone Number
                     </label>
                     {isEditing ? (
-                        <input
-                            type="text"
-                            name="phone"
-                            value={profileInfo.phone}
-                            onChange={handleInputChange}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        />
+                        <div className="flex">
+                            <select
+                                name="phoneType"
+                                value={profileInfo.phoneType}
+                                onChange={handleInputChange}
+                                className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            >
+                                <option value="mobile">Mobile</option>
+                                <option value="home">Home</option>
+                                <option value="work">Work</option>
+                            </select>
+                            <input
+                                type="text"
+                                name="phone"
+                                value={profileInfo.phone}
+                                onChange={handleInputChange}
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ml-2"
+                            />
+                        </div>
                     ) : (
-                        <p className="text-lg text-gray-900">{profileInfo.phone || ''}</p>
+                        <p className="text-lg text-gray-900">
+                            {profileInfo.phone || ''} ({profileInfo.phoneType || ''})
+                        </p>
                     )}
                 </div>
                 <div>
@@ -130,15 +146,29 @@ function YourProfile() {
                         Secondary Phone Number
                     </label>
                     {isEditing ? (
-                        <input
-                            type="text"
-                            name="secondaryPhone"
-                            value={profileInfo.secondaryPhone}
-                            onChange={handleInputChange}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        />
+                        <div className="flex">
+                            <select
+                                name="secondaryPhoneType"
+                                value={profileInfo.secondaryPhoneType}
+                                onChange={handleInputChange}
+                                className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            >
+                                <option value="mobile">Mobile</option>
+                                <option value="home">Home</option>
+                                <option value="work">Work</option>
+                            </select>
+                            <input
+                                type="text"
+                                name="secondaryPhone"
+                                value={profileInfo.secondaryPhone}
+                                onChange={handleInputChange}
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ml-2"
+                            />
+                        </div>
                     ) : (
-                        <p className="text-lg text-gray-900">{profileInfo.secondaryPhone || ''}</p>
+                        <p className="text-lg text-gray-900">
+                            {profileInfo.secondaryPhone || ''} ({profileInfo.secondaryPhoneType || ''})
+                        </p>
                     )}
                 </div>
             </div>
