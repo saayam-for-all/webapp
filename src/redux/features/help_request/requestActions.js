@@ -13,6 +13,7 @@ const categories = [
     { id: 'finance', name: 'Finance' },
     { id: 'food', name: 'Food' },
     { id: 'gardening', name: 'Gardening' },
+    { id: 'general', name: 'General' },
     { id: 'homelessness', name: 'Homelessness' },
     { id: 'housing', name: 'Housing' },
     { id: 'jobs', name: 'Jobs' },
