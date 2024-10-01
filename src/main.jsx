@@ -9,6 +9,7 @@ import { store } from "./redux/store.js";
 import awsConfig from "./utils/config/aws-exports.js";
 
 import "@fontsource-variable/inter";
+import "./index.css";
 
 Amplify.configure(awsConfig);
 
