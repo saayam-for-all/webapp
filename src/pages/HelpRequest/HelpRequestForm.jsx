@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCategories } from '../../redux/features/help_request/requestActions';
+import JobsCategory from "./Categories/JobCategory";
 import { IoMdInformationCircle } from "react-icons/io";
 import {GoogleMap, useJsApiLoader, StandaloneSearchBox} from '@react-google-maps/api';
 
@@ -23,7 +24,9 @@ const HelpRequestForm = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('General');
   const [showSubcategories, setShowSubcategories] = useState(false);
+
   const [requestType, setRequestType] = useState('');
+  
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -69,6 +72,7 @@ const HelpRequestForm = () => {
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
+
 
   return (
     <div className="bg-gray-100">
@@ -233,7 +237,7 @@ const HelpRequestForm = () => {
                 </div>
               )}
             </div>
-
+            
             <div>
               <label htmlFor="requestType" className="block mb-2 font-medium text-gray-700">
                 Request Type
@@ -272,6 +276,7 @@ const HelpRequestForm = () => {
           </div>
 
           <div className="mt-3">
+            {selectedCategory === 'Jobs' && <JobsCategory />}
             <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
               Subject <span className="text-red-500">*</span> (Max 70 characters)
             </label>
