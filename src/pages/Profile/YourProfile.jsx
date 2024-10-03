@@ -1,21 +1,47 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Select from 'react-select';
 
 function YourProfile() {
     const [isEditing, setIsEditing] = useState(false);
     const firstNameRef = useRef(null);
+
     const [profileInfo, setProfileInfo] = useState({
         firstName: '',
         lastName: '',
         email: '',
         secondaryEmail: '',
         phone: '',
-        phoneType: 'mobile', 
+        phoneType: 'mobile',
+        phoneCountryCode: '',
         secondaryPhone: '',
-        secondaryPhoneType: 'mobile', 
+        secondaryPhoneType: 'mobile',
+        secondaryPhoneCountryCode: '',
         zone: '',
     });
 
+    const [countryOptions, setCountryOptions] = useState([]);
+
     useEffect(() => {
+        
+        fetch('https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json')
+            .then((response) => response.json())
+            .then((data) => {
+                const countries = data.map((country) => ({
+                    value: country.phone_code,
+                    label: `${country.name} (+${country.phone_code})`,
+                }));
+    
+                
+                const sortedCountries = countries.sort((a, b) => {
+                    if (a.label.includes('United States')) return -1;
+                    if (a.label.includes('Canada')) return -1;
+                    return 0;
+                });
+    
+                setCountryOptions(sortedCountries);
+            })
+            .catch((error) => console.error('Error fetching country codes:', error));
+        
         const savedProfileInfo = JSON.parse(localStorage.getItem('profileInfo'));
         if (savedProfileInfo) {
             setProfileInfo(savedProfileInfo);
@@ -41,11 +67,10 @@ function YourProfile() {
 
     return (
         <div className="flex flex-col border p-6 rounded-lg w-full">
+            
             <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        First Name
-                    </label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">First Name</label>
                     {isEditing ? (
                         <input
                             ref={firstNameRef}
@@ -60,9 +85,7 @@ function YourProfile() {
                     )}
                 </div>
                 <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Last Name
-                    </label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Last Name</label>
                     {isEditing ? (
                         <input
                             type="text"
@@ -76,11 +99,11 @@ function YourProfile() {
                     )}
                 </div>
             </div>
+
+            
             <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Primary Email
-                    </label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Primary Email</label>
                     {isEditing ? (
                         <input
                             type="email"
@@ -94,9 +117,7 @@ function YourProfile() {
                     )}
                 </div>
                 <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Secondary Email
-                    </label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Secondary Email</label>
                     {isEditing ? (
                         <input
                             type="email"
@@ -110,72 +131,88 @@ function YourProfile() {
                     )}
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 mb-6">
+
+            
+            <div className="grid grid-cols-1 gap-4 mb-6">
                 <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Primary Phone Number
-                    </label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Primary Phone Number</label>
                     {isEditing ? (
                         <div className="flex">
-                            <select
-                                name="phoneType"
-                                value={profileInfo.phoneType}
-                                onChange={handleInputChange}
-                                className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            >
-                                <option value="mobile">Mobile</option>
-                                <option value="home">Home</option>
-                                <option value="work">Work</option>
-                            </select>
+                            <Select
+                                name="phoneCountryCode"
+                                value={countryOptions.find((option) => option.value === profileInfo.phoneCountryCode)}
+                                options={countryOptions}
+                                onChange={(selectedOption) => handleInputChange({ target: { name: 'phoneCountryCode', value: selectedOption.value } })}
+                                className="w-1/4 mr-2"
+                            />
                             <input
                                 type="text"
                                 name="phone"
                                 value={profileInfo.phone}
                                 onChange={handleInputChange}
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ml-2"
+                                className="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             />
-                        </div>
-                    ) : (
-                        <p className="text-lg text-gray-900">
-                            {profileInfo.phone || ''} ({profileInfo.phoneType || ''})
-                        </p>
-                    )}
-                </div>
-                <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Secondary Phone Number
-                    </label>
-                    {isEditing ? (
-                        <div className="flex">
                             <select
-                                name="secondaryPhoneType"
-                                value={profileInfo.secondaryPhoneType}
+                                name="phoneType"
+                                value={profileInfo.phoneType}
                                 onChange={handleInputChange}
-                                className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ml-2"
                             >
                                 <option value="mobile">Mobile</option>
                                 <option value="home">Home</option>
                                 <option value="work">Work</option>
                             </select>
+                        </div>
+                    ) : (
+                        <p className="text-lg text-gray-900">
+                            {profileInfo.phoneCountryCode} {profileInfo.phone} ({profileInfo.phoneType})
+                        </p>
+                    )}
+                </div>
+            </div>
+
+            
+            <div className="grid grid-cols-1 gap-4 mb-6">
+                <div>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Secondary Phone Number</label>
+                    {isEditing ? (
+                        <div className="flex">
+                            <Select
+                                name="secondaryPhoneCountryCode"
+                                value={countryOptions.find((option) => option.value === profileInfo.secondaryPhoneCountryCode)}
+                                options={countryOptions}
+                                onChange={(selectedOption) => handleInputChange({ target: { name: 'secondaryPhoneCountryCode', value: selectedOption.value } })}
+                                className="w-1/4 mr-2"
+                            />
                             <input
                                 type="text"
                                 name="secondaryPhone"
                                 value={profileInfo.secondaryPhone}
                                 onChange={handleInputChange}
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ml-2"
+                                className="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             />
+                            <select
+                                name="secondaryPhoneType"
+                                value={profileInfo.secondaryPhoneType}
+                                onChange={handleInputChange}
+                                className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ml-2"
+                            >
+                                <option value="mobile">Mobile</option>
+                                <option value="home">Home</option>
+                                <option value="work">Work</option>
+                            </select>
                         </div>
                     ) : (
                         <p className="text-lg text-gray-900">
-                            {profileInfo.secondaryPhone || ''} ({profileInfo.secondaryPhoneType || ''})
+                            {profileInfo.secondaryPhoneCountryCode} {profileInfo.secondaryPhone} ({profileInfo.secondaryPhoneType})
                         </p>
                     )}
                 </div>
             </div>
+
+            
             <div className="mb-6">
-                <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Zone
-                </label>
+                <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Zone</label>
                 {isEditing ? (
                     <input
                         type="text"
@@ -188,6 +225,8 @@ function YourProfile() {
                     <p className="text-lg text-gray-900">{profileInfo.zone || ''}</p>
                 )}
             </div>
+
+            
             <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button
