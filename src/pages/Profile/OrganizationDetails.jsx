@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Select from 'react-select';
+
+
+const COUNTRY_CODE_API = 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json';
 
 function OrganizationDetails() {
     const [isEditing, setIsEditing] = useState(false);
-    const organizationNameRef = useRef(null); 
+    const organizationNameRef = useRef(null);
+
     const [organizationInfo, setOrganizationInfo] = useState({
         organizationName: '',
         phoneNumber: '',
+        phoneCountryCode: '', 
         email: '',
         url: '',
         streetAddress: '',
@@ -15,7 +21,29 @@ function OrganizationDetails() {
         zipCode: '',
     });
 
+    const [countryOptions, setCountryOptions] = useState([]);
+
     useEffect(() => {
+        
+        fetch(COUNTRY_CODE_API)
+            .then((response) => response.json())
+            .then((data) => {
+                const countries = data.map((country) => ({
+                    value: country.phone_code,
+                    label: `${country.name} (+${country.phone_code})`,
+                }));
+
+                const sortedCountries = countries.sort((a, b) => {
+                    if (a.label.includes('United States')) return -1;
+                    if (a.label.includes('Canada')) return -1;
+                    return 0;
+                });
+
+                setCountryOptions(sortedCountries);
+            })
+            .catch((error) => console.error('Error fetching country codes:', error));
+
+     
         const savedOrganizationInfo = JSON.parse(localStorage.getItem('organizationInfo'));
         if (savedOrganizationInfo) {
             setOrganizationInfo(savedOrganizationInfo);
@@ -34,7 +62,7 @@ function OrganizationDetails() {
         setIsEditing(true);
         setTimeout(() => {
             if (organizationNameRef.current) {
-                organizationNameRef.current.focus(); // Automatically focus on the Organization Name field
+                organizationNameRef.current.focus();
             }
         }, 0);
     };
@@ -50,13 +78,13 @@ function OrganizationDetails() {
 
     return (
         <div className="flex flex-col p-8 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
-            {/* Organization Name */}
+          
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Organization Name</label>
                     {isEditing ? (
                         <input
-                            ref={organizationNameRef} // Apply the ref here to focus on this input field
+                            ref={organizationNameRef}
                             type="text"
                             name="organizationName"
                             value={organizationInfo.organizationName}
@@ -69,22 +97,35 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            {/* Phone Number, Email */}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Phone Number</label>
                     {isEditing ? (
-                        <input
-                            type="text"
-                            name="phoneNumber"
-                            value={organizationInfo.phoneNumber}
-                            onChange={handleInputChange}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        />
+                        <div className="flex">
+                            <Select
+                                name="phoneCountryCode"
+                                value={countryOptions.find(option => option.value === organizationInfo.phoneCountryCode)}
+                                options={countryOptions}
+                                onChange={(selectedOption) => handleInputChange({ target: { name: 'phoneCountryCode', value: selectedOption.value } })}
+                                className="w-1/3 mr-2"
+                            />
+                            <input
+                                type="text"
+                                name="phoneNumber"
+                                value={organizationInfo.phoneNumber}
+                                onChange={handleInputChange}
+                                className="appearance-none block w-2/3 bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            />
+                        </div>
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.phoneNumber || ''}</p>
+                        <p className="text-lg text-gray-900">
+                            {organizationInfo.phoneCountryCode} {organizationInfo.phoneNumber || ''}
+                        </p>
                     )}
                 </div>
+
+                
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
                     {isEditing ? (
@@ -101,7 +142,7 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            {/* URL */}
+          
             <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">URL</label>
@@ -119,7 +160,6 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            {/* Street Address */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
@@ -151,7 +191,7 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            {/* City, State, Zip Code */}
+            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">City</label>
@@ -197,7 +237,7 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            {/* Edit, Save, Cancel Buttons */}
+           
             <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button
