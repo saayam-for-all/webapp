@@ -21,7 +21,7 @@ const HelpRequestForm = () => {
   const [selfFlag, setSelfFlag] = useState(true);
   const [languages, setLanguages] = useState([]);
 
-  const [selectedCategory, setSelectedCategory] = useState('general');
+  const [selectedCategory, setSelectedCategory] = useState('General');
   const [showSubcategories, setShowSubcategories] = useState(false);
   const [requestType, setRequestType] = useState('');
 
