@@ -4,10 +4,10 @@ import { loadCategories } from '../../redux/features/help_request/requestActions
 import JobsCategory from "./Categories/JobCategory";
 import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
-import {GoogleMap, useJsApiLoader, StandaloneSearchBox} from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
 
 const genderOptions = [
-  { value: 'Select', label: 'Select'},
+  { value: 'Select', label: 'Select' },
   { value: 'Woman', label: 'Woman' },
   { value: 'Man', label: 'Man' },
   { value: 'Non-binary', label: 'Non-binary' },
@@ -25,10 +25,11 @@ const HelpRequestForm = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('General');
   const [showSubcategories, setShowSubcategories] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [filteredCategories, setFilteredCategories] = useState([]); // New state for filtered categories
   const [searchInput, setSearchInput] = useState(''); // New state for search input
   const [requestType, setRequestType] = useState('');
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -46,6 +47,7 @@ const HelpRequestForm = () => {
         console.error('Error fetching languages:', error);
       }
     };
+
     // Dispatch categories action and fetch languages
     dispatch(loadCategories());
     fetchLanguages();
@@ -67,22 +69,20 @@ const HelpRequestForm = () => {
     setShowDropdown(true);
   };
 
-  /*const handleCategoryClick = (categoryName) => {
-    if (selectedCategory === categoryName) {
-      setShowSubcategories(!showSubcategories);
-    } else {
-      setSelectedCategory(categoryName);
-      setShowSubcategories(true);
-      setSearchInput(categoryName); 
-      setShowDropdown(false); 
-    }
-  };*/
-
   const handleCategoryClick = (categoryName) => {
     setSelectedCategory(categoryName);
     setSearchInput(categoryName); // Update input with selected category
     setShowDropdown(false); // Hide dropdown after selection
+    setHoveredCategory(null);
   };
+
+  const handleSubcategoryClick = (subcategoryName) => {
+    setSelectedCategory(subcategoryName); // Set subcategory as the selected value
+    setSearchInput(subcategoryName); 
+    setShowDropdown(false); 
+    setHoveredCategory(null); // Close dropdown
+  };
+
   const inputref = useRef(null);
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -97,7 +97,6 @@ const HelpRequestForm = () => {
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
-
 
   return (
     <div className="bg-gray-100">
@@ -192,66 +191,52 @@ const HelpRequestForm = () => {
           )}
 
           <div className="mt-3 grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="calamity" className="block text-gray-700 font-medium mb-1">
-                Is Calamity?
-              </label>
-              <input
-                id="calamity"
-                type="checkbox"
-                name="calamity"
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="priority" className="block mb-1 font-medium text-gray-700">
-                Priority
-              </label>
-              <select id="priority" className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5" defaultValue={"low"}>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="relative">
               <label htmlFor="category" className="block mb-2 font-medium text-gray-700">
                 Request Category
               </label>
               <input
-              type="text"
-              id="category"
-              value={searchInput}
-              onChange={handleSearchInput}
-              className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
-              placeholder="Search or select a category..."
-              onFocus={() => setShowDropdown(true)} // Show dropdown when input is focused
-            />
-              {showDropdown && filteredCategories.length > 0 && (
-              <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto" 
-                   style={{ maxHeight: '200px' }}>
-                {filteredCategories.map((category) => (
-                  <div
-                    key={category.id}
-                    className="p-2 border-b cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleCategoryClick(category.name)}
-                  >
-                    {category.name}
-                  </div>
-                ))}
-              </div>
-            )}
+                type="text"
+                id="category"
+                value={searchInput}
+                onChange={handleSearchInput}
+                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
+                placeholder="Search or select a category..."
+                onFocus={() => setShowDropdown(true)} // Show dropdown when input is focused
+              />
+            {showDropdown && (
+                <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto" 
+                     style={{ maxHeight: '200px' }}>
+                  {filteredCategories.map((category) => (
+                    <div
+                      key={category.id}
+                      className="p-2 border-b cursor-pointer hover:bg-gray-100 relative"
+                      onClick={() => !category.subcategories && handleCategoryClick(category.name)} // Select category if no subcategories
+                      onMouseEnter={() => setHoveredCategory(category)} // Set hovered category
+                      onMouseLeave={() => setHoveredCategory(null)} // Clear hovered category on leave
+                    >
+                      {category.name}
 
-            {/* Handle case where no categories match */}
-            {showDropdown && filteredCategories.length === 0 && (
-              <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full p-2 text-gray-500">
-                No categories found
-              </div>
-            )}
-          </div>          
+                      {/* Show subcategories if the category is hovered and it has subcategories */}
+                      {hoveredCategory === category && category.subcategories && (
+                        <div className="bg-white border rounded shadow-lg p-2 z-20 mt-2">
+                          {category.subcategories.map((subcategory, index) => (
+                            <div
+                              key={index}
+                              className="cursor-pointer hover:bg-gray-200"
+                              onClick={() => handleSubcategoryClick(subcategory)}
+                            >
+                              {subcategory}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
             <div>
               <label htmlFor="requestType" className="block mb-2 font-medium text-gray-700">
                 Request Type
@@ -291,7 +276,7 @@ const HelpRequestForm = () => {
 
           <div className="mt-3">
             {selectedCategory === 'Jobs' && <JobsCategory />}
-            {/*{selectedCategory === 'Housing' && <HousingCategory />}*/}
+            {/* {selectedCategory === 'Housing' && <HousingCategory />} */}
             <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
               Subject <span className="text-red-500">*</span> (Max 70 characters)
             </label>
