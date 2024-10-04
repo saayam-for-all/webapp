@@ -11,10 +11,8 @@ function YourProfile() {
         email: '',
         secondaryEmail: '',
         phone: '',
-        phoneType: 'mobile',
         phoneCountryCode: '',
         secondaryPhone: '',
-        secondaryPhoneType: 'mobile',
         secondaryPhoneCountryCode: '',
         zone: '',
     });
@@ -22,7 +20,6 @@ function YourProfile() {
     const [countryOptions, setCountryOptions] = useState([]);
 
     useEffect(() => {
-        
         fetch('https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json')
             .then((response) => response.json())
             .then((data) => {
@@ -30,18 +27,10 @@ function YourProfile() {
                     value: country.phone_code,
                     label: `${country.name} (+${country.phone_code})`,
                 }));
-    
-                
-                const sortedCountries = countries.sort((a, b) => {
-                    if (a.label.includes('United States')) return -1;
-                    if (a.label.includes('Canada')) return -1;
-                    return 0;
-                });
-    
-                setCountryOptions(sortedCountries);
+                setCountryOptions(countries);
             })
             .catch((error) => console.error('Error fetching country codes:', error));
-        
+
         const savedProfileInfo = JSON.parse(localStorage.getItem('profileInfo'));
         if (savedProfileInfo) {
             setProfileInfo(savedProfileInfo);
@@ -152,20 +141,10 @@ function YourProfile() {
                                 onChange={handleInputChange}
                                 className="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             />
-                            <select
-                                name="phoneType"
-                                value={profileInfo.phoneType}
-                                onChange={handleInputChange}
-                                className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ml-2"
-                            >
-                                <option value="mobile">Mobile</option>
-                                <option value="home">Home</option>
-                                <option value="work">Work</option>
-                            </select>
                         </div>
                     ) : (
                         <p className="text-lg text-gray-900">
-                            {profileInfo.phoneCountryCode} {profileInfo.phone} ({profileInfo.phoneType})
+                            {profileInfo.phoneCountryCode} {profileInfo.phone}
                         </p>
                     )}
                 </div>
@@ -191,20 +170,10 @@ function YourProfile() {
                                 onChange={handleInputChange}
                                 className="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             />
-                            <select
-                                name="secondaryPhoneType"
-                                value={profileInfo.secondaryPhoneType}
-                                onChange={handleInputChange}
-                                className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ml-2"
-                            >
-                                <option value="mobile">Mobile</option>
-                                <option value="home">Home</option>
-                                <option value="work">Work</option>
-                            </select>
                         </div>
                     ) : (
                         <p className="text-lg text-gray-900">
-                            {profileInfo.secondaryPhoneCountryCode} {profileInfo.secondaryPhone} ({profileInfo.secondaryPhoneType})
+                            {profileInfo.secondaryPhoneCountryCode} {profileInfo.secondaryPhone}
                         </p>
                     )}
                 </div>
