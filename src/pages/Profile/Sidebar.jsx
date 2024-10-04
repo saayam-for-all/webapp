@@ -1,12 +1,11 @@
 import React from 'react';
 import { FaUserCircle, FaLock } from 'react-icons/fa';
 import { FiChevronRight } from 'react-icons/fi';
-import { FiEdit2 } from 'react-icons/fi'; // Correct pencil icon
+import { FiEdit2 } from 'react-icons/fi'; 
 
 function Sidebar({ profilePhoto, userName, userEmail, handleTabChange, activeTab, openModal }) {
     return (
         <div className="flex flex-col justify-between h-full p-4 bg-white w-60 border-r">
-            {/* Profile Picture and Details */}
             <div className="text-center mb-8">
                 <div className="relative mb-4">
                     {profilePhoto ? (

@@ -7,7 +7,6 @@ function Modal({ profilePhoto, handlePhotoChange, handleSaveClick, handleCancelC
             <div className="bg-gray-900 p-8 rounded-lg w-96 shadow-lg relative">
                 <h3 className="text-lg font-bold mb-4 text-center text-white">Profile Photo</h3>
 
-                {/* Display profile photo or placeholder */}
                 <div className="relative mb-8 flex justify-center">
                     {profilePhoto ? (
                         <img
@@ -22,7 +21,6 @@ function Modal({ profilePhoto, handlePhotoChange, handleSaveClick, handleCancelC
                     )}
                 </div>
 
-                {/* Buttons with icons */}
                 <div className="flex justify-between items-center mb-8 px-8">
                     <label className="flex flex-col items-center cursor-pointer">
                         <FaCamera className="text-3xl text-white mb-1" />
@@ -59,7 +57,7 @@ function Modal({ profilePhoto, handlePhotoChange, handleSaveClick, handleCancelC
                     </button>
                 </div>
 
-                {/* Optional Close Button */}
+               
                 <div className="absolute top-2 right-2 cursor-pointer text-gray-600" onClick={handleCancelClick}>
                     &times;
                 </div>
