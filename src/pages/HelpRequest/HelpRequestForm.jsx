@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCategories } from '../../redux/features/help_request/requestActions';
 import JobsCategory from "./Categories/JobCategory";
+import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
 import {GoogleMap, useJsApiLoader, StandaloneSearchBox} from '@react-google-maps/api';
 
@@ -24,9 +25,10 @@ const HelpRequestForm = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('General');
   const [showSubcategories, setShowSubcategories] = useState(false);
-
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [filteredCategories, setFilteredCategories] = useState([]); // New state for filtered categories
+  const [searchInput, setSearchInput] = useState(''); // New state for search input
   const [requestType, setRequestType] = useState('');
-  
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -49,15 +51,38 @@ const HelpRequestForm = () => {
     fetchLanguages();
   }, [dispatch]);
 
-  const handleCategoryClick = (categoryName) => {
+  const handleSearchInput = (e) => {
+    const searchTerm = e.target.value;
+    setSearchInput(searchTerm);
+    
+    if (searchTerm.trim() === '') {
+      setFilteredCategories(categories); // If search input is empty, show all categories
+    } else {
+      const filtered = categories.filter(category =>
+        category.name.toLowerCase().startsWith(searchTerm.toLowerCase()) // Case-insensitive filtering
+      );
+      setFilteredCategories(filtered);
+    }
+    // Show dropdown while user is typing
+    setShowDropdown(true);
+  };
+
+  /*const handleCategoryClick = (categoryName) => {
     if (selectedCategory === categoryName) {
       setShowSubcategories(!showSubcategories);
     } else {
       setSelectedCategory(categoryName);
       setShowSubcategories(true);
+      setSearchInput(categoryName); 
+      setShowDropdown(false); 
     }
-  };
+  };*/
 
+  const handleCategoryClick = (categoryName) => {
+    setSelectedCategory(categoryName);
+    setSearchInput(categoryName); // Update input with selected category
+    setShowDropdown(false); // Hide dropdown after selection
+  };
   const inputref = useRef(null);
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -196,48 +221,37 @@ const HelpRequestForm = () => {
               <label htmlFor="category" className="block mb-2 font-medium text-gray-700">
                 Request Category
               </label>
-              <button
-                onClick={() => setShowSubcategories((prev) => !prev)}
-                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full text-left bg-white"
-              >
-                {selectedCategory || 'Select Category'}
-              </button>
+              <input
+              type="text"
+              id="category"
+              value={searchInput}
+              onChange={handleSearchInput}
+              className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
+              placeholder="Search or select a category..."
+              onFocus={() => setShowDropdown(true)} // Show dropdown when input is focused
+            />
+              {showDropdown && filteredCategories.length > 0 && (
+              <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto" 
+                   style={{ maxHeight: '200px' }}>
+                {filteredCategories.map((category) => (
+                  <div
+                    key={category.id}
+                    className="p-2 border-b cursor-pointer hover:bg-gray-100"
+                    onClick={() => handleCategoryClick(category.name)}
+                  >
+                    {category.name}
+                  </div>
+                ))}
+              </div>
+            )}
 
-              {showSubcategories && (
-                 <div 
-                 className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto" 
-                 style={{ maxHeight: '200px' }}  
-               >
-                  {categories.map((category) => (
-                    <div key={category.id} className="p-2 border-b">
-                      <div
-                        className="cursor-pointer hover:bg-gray-100"
-                        onClick={() => handleCategoryClick(category.name)}
-                      >
-                        {category.name}
-                      </div>
-                      {selectedCategory === category.name && category.subcategories && (
-                        <div className="ml-4 mt-2">
-                          {category.subcategories.map((subcategory, index) => (
-                            <div
-                              key={index}
-                              className="cursor-pointer hover:bg-gray-200"
-                              onClick={() => {
-                                setSelectedCategory(subcategory);
-                                setShowSubcategories(false);
-                              }}
-                            >
-                              {subcategory}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            
+            {/* Handle case where no categories match */}
+            {showDropdown && filteredCategories.length === 0 && (
+              <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full p-2 text-gray-500">
+                No categories found
+              </div>
+            )}
+          </div>          
             <div>
               <label htmlFor="requestType" className="block mb-2 font-medium text-gray-700">
                 Request Type
@@ -277,6 +291,7 @@ const HelpRequestForm = () => {
 
           <div className="mt-3">
             {selectedCategory === 'Jobs' && <JobsCategory />}
+            {/*{selectedCategory === 'Housing' && <HousingCategory />}*/}
             <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
               Subject <span className="text-red-500">*</span> (Max 70 characters)
             </label>

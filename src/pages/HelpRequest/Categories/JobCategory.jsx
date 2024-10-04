@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaTrash, FaTrashAlt } from 'react-icons/fa';
+//import { FaTrash, FaTrashAlt } from 'react-icons/fa';
 
 const JobsCategory = () => {
   const [userType, setUserType] = useState('jobSeeker'); // Default to job seeker
@@ -52,9 +52,9 @@ const JobsCategory = () => {
     setHiringInfo({ ...hiringInfo, urgency: e.target.value });
   };
 
-  const handleDateChange = (e) => {
+  {/*const handleDateChange = (e) => {
     setHiringInfo({ ...hiringInfo, specificDate: e.target.value });
-  };
+  };*/}
 
   return (
     <div className="p-4 bg-gray-50 rounded-lg">
@@ -136,47 +136,26 @@ const JobsCategory = () => {
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </select>
-          </div>
-
-          
+          </div>        
 {/* Skills Section */}
-<div className="mb-6">
-  <h3 className="font-semibold">Skills & Experience</h3>
-  {skills.map((skill, index) => (
-    <div key={index} className="mb-4 relative">
-      <label>Technical Skill</label>
-      <input
-        type="text"
-        value={skill.skill}
-        onChange={(e) => handleSkillChange(index, 'skill', e.target.value)}
-        className="w-full p-2 border rounded"
-      />
-
-      <label>Proficiency Level</label>
-      <select
-        value={skill.level}
-        onChange={(e) => handleSkillChange(index, 'level', e.target.value)}
-        className="w-full p-2 border rounded"
-      >
-        <option value="Beginner">Beginner</option>
-        <option value="Intermediate">Intermediate</option>
-        <option value="Advanced">Advanced</option>
-      </select>
-
-      <label>Years of Experience</label>
-      <input
-        type="number"
-        value={skill.experienceYears}
-        onChange={(e) => handleSkillChange(index, 'experienceYears', e.target.value)}
-        className="w-full p-2 border rounded"
-      />
+         <div className="mb-6">
+         <h3 className="font-semibold">Skills & Experience</h3>
+         {skills.map((skill, index) => (
+         <div key={index} className="mb-4 relative">
+         <label>Technical Skill</label>
+         <input
+          type="text"
+          value={skill.skill}
+          onChange={(e) => handleSkillChange(index, 'skill', e.target.value)}
+          className="w-full p-2 border rounded"
+        />
 
       {/* Delete Icon */}
-      <FaTrashAlt
+      {/*<FaTrashAlt
         onClick={() => handleDeleteSkill(index)}
         className="absolute right-0 top-0 cursor-pointer text-red-500"
         size={18}
-      />
+      />*/}
                 <label>Proficiency Level</label>
                 <select
                   value={skill.level}
@@ -190,16 +169,16 @@ const JobsCategory = () => {
 
                 <label>Years of Experience</label>
                 <input
-                  type="number"
+                  type="text"
                   value={skill.experienceYears}
                   onChange={(e) => handleSkillChange(index, 'experienceYears', e.target.value)}
                   className="w-full p-2 border rounded"
                 />
               </div>
             ))}
-            <button onClick={handleAddSkill} className="text-blue-500">
+            {/*<button onClick={handleAddSkill} className="text-blue-500">
               Add another skill
-            </button>
+            </button>*/} 
           </div>
 
           {/* Availability Section */}
@@ -289,7 +268,7 @@ const JobsCategory = () => {
 
             <label>Required Years of Experience</label>
             <input
-              type="number"
+              type="text"
               value={hiringInfo.requiredExperience}
               onChange={(e) => setHiringInfo({ ...hiringInfo, requiredExperience: e.target.value })}
               className="w-full p-2 border rounded"
