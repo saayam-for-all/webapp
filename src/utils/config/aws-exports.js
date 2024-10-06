@@ -8,14 +8,12 @@ const awsConfig = {
       userPoolId: "us-east-1_qRK2JytGV",
       userPoolClientId: "rauncvdl1vqs7p4c5o9vlmcd5",
       loginWith: {
-        oauth: {
-          domain: "saayamforall.auth.us-east-1.amazoncognito.com",
-          scopes: ["phone", "email", "openid", "aws.cognito.signin.user.admin"],
-          // redirectSignIn: ["http://localhost:5173/dashboard"],
-          // redirectSignOut: ["http://localhost:5173"],
-          redirectSignIn: ["https://test-saayam.netlify.app/dashboard"],
-          redirectSignOut: ["https://test-saayam.netlify.app"],
-          responseType: "code",
+        email: true,
+      },
+      signUpVerificationMethod: "code",
+      userAttributes: {
+        email: {
+          required: true,
         },
       },
     },

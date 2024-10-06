@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   checkAuthStatus,
   login,
+  logout,
 } from "../../../redux/features/authentication/authActions";
 
 const Navbar = () => {
@@ -112,17 +113,13 @@ const Navbar = () => {
     }
   };
 
-  const handleSignIn = async () => {
-    dispatch(login());
-  };
-
   const handleProfileClick = () => {
     navigate("/profile");
     setIsProfileDropdownOpen(false);
   };
 
   const handleSignOut = () => {
-    signOut();
+    dispatch(logout());
   };
 
   return (

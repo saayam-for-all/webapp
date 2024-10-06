@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+
+import { login } from "../../redux/features/authentication/authActions";
 
 const LoginPage = () => {
   const [emailValue, setEmailValue] = useState("");
@@ -13,18 +16,23 @@ const LoginPage = () => {
   const [passwordFocus, setPasswordFocus] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSignIn = async () => {
+    dispatch(login(emailValue, passwordValue));
+  };
 
   return (
     <div className="flex items-center h-full justify-center">
-      <div className="flex flex-col relative w-1/2">
+      <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">Log In</h1>
         <div className="my-2 flex flex-col">
-          <label htmlFor="email">Email address</label>
+          <label htmlFor="email">Email</label>
           <input
             id="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
-            placeholder="Your email"
+            placeholder="Your Email"
             type="text"
             className="px-4 py-2 border border-gray-300 rounded-xl"
           />
@@ -59,10 +67,15 @@ const LoginPage = () => {
         >
           Forgot Password?
         </button>
-        <button className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500">
+        <button
+          className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
+          onClick={handleSignIn}
+        >
           Log in
         </button>
-        <div className="flex items-center my-4">
+
+        {/* Uncommment for Google and Facebook signin */}
+        {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">Or With</span>
           <div className="flex-grow border-t border-gray-300"></div>
@@ -78,7 +91,7 @@ const LoginPage = () => {
             <FcGoogle className="mx-2 text-xl" />
             <span>Google</span>
           </button>
-        </div>
+        </div> */}
 
         <div className="mt-16 flex flex-row justify-center">
           <p>Don't have an account?</p>

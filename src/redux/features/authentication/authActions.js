@@ -1,4 +1,4 @@
-import { getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
+import { getCurrentUser, signIn, signOut } from "aws-amplify/auth";
 import {
   loginFailure,
   loginRequest,
@@ -6,10 +6,13 @@ import {
   logoutSuccess,
 } from "./authSlice";
 
-export const login = () => async (dispatch) => {
+export const login = (email, password) => async (dispatch) => {
   dispatch(loginRequest());
   try {
-    await signInWithRedirect(); // This will redirect to the Cognito Hosted UI
+    await signIn({
+      username: email,
+      password: password,
+    }); // This will redirect to the Cognito Hosted UI
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
