@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCamera, FaSave, FaTimes, FaTrashAlt } from 'react-icons/fa'; // Removed the edit icon
+import { FaCamera, FaSave, FaTimes, FaTrashAlt } from 'react-icons/fa'; 
 
 function Modal({ profilePhoto, handlePhotoChange, handleSaveClick, handleCancelClick, handleDeleteClick }) {
     return (
@@ -7,7 +7,7 @@ function Modal({ profilePhoto, handlePhotoChange, handleSaveClick, handleCancelC
             <div className="bg-white p-6 rounded-lg w-96 shadow-lg relative">
                 <h3 className="text-lg font-bold mb-4 text-center">Profile Photo</h3>
 
-                {/* Display profile photo or placeholder */}
+               
                 <div className="relative mb-4 flex justify-center">
                     {profilePhoto ? (
                         <img
@@ -22,7 +22,7 @@ function Modal({ profilePhoto, handlePhotoChange, handleSaveClick, handleCancelC
                     )}
                 </div>
 
-                {/* Buttons with icons */}
+               
                 <div className="flex justify-center space-x-4 mb-4">
                     <label className="flex flex-col items-center cursor-pointer">
                         <FaCamera className="text-2xl text-gray-600" />
@@ -61,7 +61,7 @@ function Modal({ profilePhoto, handlePhotoChange, handleSaveClick, handleCancelC
                     </button>
                 </div>
 
-                {/* Optional Close Button */}
+               
                 <div className="absolute top-2 right-2 cursor-pointer text-gray-600" onClick={handleCancelClick}>
                     &times;
                 </div>

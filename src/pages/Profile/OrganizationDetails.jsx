@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 
-
 const COUNTRY_CODE_API = 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json';
 
 function OrganizationDetails() {
@@ -19,12 +18,12 @@ function OrganizationDetails() {
         city: '',
         state: '',
         zipCode: '',
+        organizationType: 'Non-Profit', 
     });
 
     const [countryOptions, setCountryOptions] = useState([]);
 
     useEffect(() => {
-        
         fetch(COUNTRY_CODE_API)
             .then((response) => response.json())
             .then((data) => {
@@ -43,7 +42,6 @@ function OrganizationDetails() {
             })
             .catch((error) => console.error('Error fetching country codes:', error));
 
-     
         const savedOrganizationInfo = JSON.parse(localStorage.getItem('organizationInfo'));
         if (savedOrganizationInfo) {
             setOrganizationInfo(savedOrganizationInfo);
@@ -78,7 +76,7 @@ function OrganizationDetails() {
 
     return (
         <div className="flex flex-col p-8 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
-          
+            {/* Organization Name */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Organization Name</label>
@@ -93,6 +91,26 @@ function OrganizationDetails() {
                         />
                     ) : (
                         <p className="text-lg text-gray-900">{organizationInfo.organizationName || ''}</p>
+                    )}
+                </div>
+            </div>
+    
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                <div>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Organization Type</label>
+                    {isEditing ? (
+                        <select
+                            name="organizationType"
+                            value={organizationInfo.organizationType}
+                            onChange={handleInputChange}
+                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        >
+                            <option value="Non-Profit">Non-Profit</option>
+                            <option value="Profit">Profit</option>
+                        </select>
+                    ) : (
+                        <p className="text-lg text-gray-900">{organizationInfo.organizationType}</p>
                     )}
                 </div>
             </div>
@@ -124,8 +142,6 @@ function OrganizationDetails() {
                         </p>
                     )}
                 </div>
-
-                
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
                     {isEditing ? (
@@ -142,7 +158,7 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-          
+            
             <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">URL</label>
@@ -160,6 +176,7 @@ function OrganizationDetails() {
                 </div>
             </div>
 
+        
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
@@ -191,7 +208,7 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            
+    
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">City</label>
@@ -237,7 +254,7 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-           
+            
             <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button
