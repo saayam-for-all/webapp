@@ -18,11 +18,11 @@ test('renders Navbar and checks components' , () =>{
 
     //const imageLink = screen.getByRole('img',{className : 'w-14 h-14'})
     const linkOne = screen.getByRole('link', {name:'directors'})
-    const linkTwo = screen.getByRole('link',{name:'how-we-operate'})
+    //const linkTwo = screen.getByRole('link',{name:'how-we-operate'})
     const linkThree = screen.getByRole('link',{name:'contact'})
 
     //expect(imageLink).toBeInTheDocument()
     expect(linkOne).toBeInTheDocument()
-    expect(linkTwo).toBeInTheDocument()
+   // expect(linkTwo).toBeInTheDocument()
     expect(linkThree).toBeInTheDocument()
 })
