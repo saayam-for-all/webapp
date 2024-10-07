@@ -13,6 +13,7 @@ import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import Profile from "../pages/Profile/Profile";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
 import LoginPage from "../pages/LoginPage/LoginPage";
+import SignUpPage from "../pages/Sign Up/SignUp";
 
 const routes = [
   {
@@ -74,6 +75,10 @@ const routes = [
   {
     path: "login",
     element: <LoginPage />,
+  },
+  {
+    path: "signup",
+    element: <SignUpPage />,
   },
 ];
 
