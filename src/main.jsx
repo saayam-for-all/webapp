@@ -8,8 +8,8 @@ import i18n from "./common/i18n/i18n.js";
 import { store } from "./redux/store.js";
 import awsConfig from "./utils/config/aws-exports.js";
 
-import "./index.css";
 import "@fontsource-variable/inter";
+import "./index.css";
 
 Amplify.configure(awsConfig);
 
