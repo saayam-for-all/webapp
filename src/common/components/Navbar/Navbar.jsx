@@ -163,7 +163,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contact " name="contact">
+              <NavLink to="/contact" name="contact">
                 {t("contact")}
               </NavLink>
             </li>
