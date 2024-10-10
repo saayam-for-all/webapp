@@ -3,14 +3,14 @@ import Select from 'react-select';
 
 const COUNTRY_CODE_API = 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json';
 
-function OrganizationDetails() {
+function OrganizationDetails({ setHasUnsavedChanges }) {
     const [isEditing, setIsEditing] = useState(false);
     const organizationNameRef = useRef(null);
 
     const [organizationInfo, setOrganizationInfo] = useState({
         organizationName: '',
         phoneNumber: '',
-        phoneCountryCode: '', 
+        phoneCountryCode: '',
         email: '',
         url: '',
         streetAddress: '',
@@ -18,7 +18,7 @@ function OrganizationDetails() {
         city: '',
         state: '',
         zipCode: '',
-        organizationType: 'Non-Profit', 
+        organizationType: 'Non-Profit',
     });
 
     const [countryOptions, setCountryOptions] = useState([]);
@@ -54,6 +54,7 @@ function OrganizationDetails() {
             ...prevInfo,
             [name]: value,
         }));
+        setHasUnsavedChanges(true);
     };
 
     const handleEditClick = () => {
@@ -68,6 +69,7 @@ function OrganizationDetails() {
     const handleSaveClick = () => {
         setIsEditing(false);
         localStorage.setItem('organizationInfo', JSON.stringify(organizationInfo));
+        setHasUnsavedChanges(false);
     };
 
     const handleCancelClick = () => {
@@ -76,7 +78,6 @@ function OrganizationDetails() {
 
     return (
         <div className="flex flex-col p-8 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
-            {/* Organization Name */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Organization Name</label>
@@ -94,28 +95,41 @@ function OrganizationDetails() {
                     )}
                 </div>
             </div>
-    
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+
+            <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Organization Type</label>
                     {isEditing ? (
-                        <select
-                            name="organizationType"
-                            value={organizationInfo.organizationType}
-                            onChange={handleInputChange}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        >
-                            <option value="Non-Profit">Non-Profit</option>
-                            <option value="Profit">Profit</option>
-                        </select>
+                        <div>
+                            <label className="inline-flex items-center">
+                                <input
+                                    type="radio"
+                                    name="organizationType"
+                                    value="Non-Profit"
+                                    checked={organizationInfo.organizationType === "Non-Profit"}
+                                    onChange={handleInputChange}
+                                    className="form-radio h-4 w-4 text-blue-500"
+                                />
+                                <span className="ml-2">Non-Profit</span>
+                            </label>
+                            <label className="inline-flex items-center ml-6">
+                                <input
+                                    type="radio"
+                                    name="organizationType"
+                                    value="For-Profit"
+                                    checked={organizationInfo.organizationType === "For-Profit"}
+                                    onChange={handleInputChange}
+                                    className="form-radio h-4 w-4 text-blue-500"
+                                />
+                                <span className="ml-2">For-Profit</span>
+                            </label>
+                        </div>
                     ) : (
                         <p className="text-lg text-gray-900">{organizationInfo.organizationType}</p>
                     )}
                 </div>
             </div>
 
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Phone Number</label>
@@ -158,7 +172,6 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            
             <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">URL</label>
@@ -176,7 +189,6 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-        
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
@@ -208,7 +220,6 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-    
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">City</label>
@@ -254,7 +265,6 @@ function OrganizationDetails() {
                 </div>
             </div>
 
-            
             <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button
