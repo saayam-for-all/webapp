@@ -247,7 +247,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                                 setHasUnsavedChanges(false); // Reset unsaved changes after saving
                             }}
                         >
-                            Save Changes
+                            Save 
                         </button>
                         <button
                             className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
