@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 function ChangePassword() {
@@ -10,8 +10,16 @@ function ChangePassword() {
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordMatchError, setPasswordMatchError] = useState('');
 
+    const currentPasswordRef = useRef(null); 
+
     const handleEditClick = () => {
         setIsEditing(true);
+        setTimeout(() => {
+            if (currentPasswordRef.current) {
+                currentPasswordRef.current.focus(); 
+                
+            }
+        }, 0);
     };
 
     const handleSaveClick = () => {
@@ -55,6 +63,7 @@ function ChangePassword() {
                         </label>
                         <div className="relative">
                             <input
+                                ref={currentPasswordRef} // Attach the reference to the input field
                                 type={showPassword ? 'text' : 'password'}
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -118,7 +127,7 @@ function ChangePassword() {
                             className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
                             onClick={handleSaveClick}
                         >
-                            Save Changes
+                            Save
                         </button>
                         <button
                             className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
