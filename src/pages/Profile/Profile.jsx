@@ -34,7 +34,6 @@ function Profile() {
         }
     };
 
-    
     const handleSaveClick = () => {
         setProfilePhoto(tempProfilePhoto);
         localStorage.setItem('profilePhoto', tempProfilePhoto);
@@ -51,7 +50,6 @@ function Profile() {
         setTempProfilePhoto(DEFAULT_PROFILE_ICON);
     };
 
-  
     const handleTabChange = (tab) => {
         if (hasUnsavedChanges) {
             const proceed = window.confirm("You have unsaved changes. Do you want to proceed without saving?");
@@ -64,7 +62,6 @@ function Profile() {
         }
     };
 
-
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -74,7 +71,7 @@ function Profile() {
             case 'profile':
                 return <YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />;
             case 'personal':
-                return <PersonalInformation />;
+                return <PersonalInformation setHasUnsavedChanges={setHasUnsavedChanges} />;
             case 'password':
                 return <ChangePassword />;
             case 'organization':
@@ -87,7 +84,6 @@ function Profile() {
     return (
         <div className="flex flex-col items-center p-4 min-h-screen bg-gray-100">
             <div className="flex w-full max-w-6xl bg-white rounded-lg shadow-lg">
-              
                 <Sidebar
                     profilePhoto={profilePhoto}
                     handleTabChange={handleTabChange}
@@ -95,11 +91,9 @@ function Profile() {
                     openModal={openModal}
                 />
                 <div className="w-3/4 p-6">
-                    
                     {renderTabContent()}
                 </div>
             </div>
-            
             {isModalOpen && (
                 <Modal
                     profilePhoto={tempProfilePhoto}

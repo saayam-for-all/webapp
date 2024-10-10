@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 
-
 const genderOptions = [
     { value: 'Female', label: 'Female' },
     { value: 'Male', label: 'Male' },
@@ -13,9 +12,9 @@ const genderOptions = [
     { value: 'Gender-nonconforming', label: 'Gender-nonconforming' },
 ];
 
-function PersonalInformation() {
+function PersonalInformation({ setHasUnsavedChanges }) {
     const [isEditing, setIsEditing] = useState(false);
-    const streetAddressRef = useRef(null); 
+    const streetAddressRef = useRef(null);
 
     const [personalInfo, setPersonalInfo] = useState({
         dateOfBirth: null,
@@ -34,7 +33,6 @@ function PersonalInformation() {
     const [languages, setLanguages] = useState([]);
 
     useEffect(() => {
-        
         const savedPersonalInfo = JSON.parse(localStorage.getItem('personalInfo'));
         if (savedPersonalInfo) {
             setPersonalInfo({
@@ -43,7 +41,6 @@ function PersonalInformation() {
             });
         }
 
-        
         fetch('https://restcountries.com/v3.1/all')
             .then(response => response.json())
             .then(data => {
@@ -54,7 +51,6 @@ function PersonalInformation() {
                 setCountries(countryList);
             });
 
-        
         fetch('https://restcountries.com/v3.1/all')
             .then(response => response.json())
             .then(data => {
@@ -73,13 +69,14 @@ function PersonalInformation() {
             ...personalInfo,
             [name]: value,
         });
+        setHasUnsavedChanges(true); 
     };
 
     const handleEditClick = () => {
         setIsEditing(true);
         setTimeout(() => {
             if (streetAddressRef.current) {
-                streetAddressRef.current.focus(); // Focus on the street address input field
+                streetAddressRef.current.focus(); 
             }
         }, 0);
     };
@@ -113,13 +110,13 @@ function PersonalInformation() {
                     )}
                 </div>
             </div>
-            {/* Street Address Fields */}
+            
             <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
                     {isEditing ? (
                         <input
-                            ref={streetAddressRef} 
+                            ref={streetAddressRef}
                             type="text"
                             name="streetAddress"
                             value={personalInfo.streetAddress}
@@ -145,7 +142,7 @@ function PersonalInformation() {
                     )}
                 </div>
             </div>
-            {/* Country and State/Zip Code */}
+            
             <div className="grid grid-cols-3 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Country</label>
@@ -189,7 +186,7 @@ function PersonalInformation() {
                     )}
                 </div>
             </div>
-            {/* Language Preferences */}
+            
             <div className="grid grid-cols-3 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">First Language Preference</label>
@@ -231,6 +228,7 @@ function PersonalInformation() {
                     )}
                 </div>
             </div>
+            
             <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button
@@ -246,6 +244,7 @@ function PersonalInformation() {
                             onClick={() => {
                                 setIsEditing(false);
                                 localStorage.setItem('personalInfo', JSON.stringify(personalInfo));
+                                setHasUnsavedChanges(false); // Reset unsaved changes after saving
                             }}
                         >
                             Save Changes
