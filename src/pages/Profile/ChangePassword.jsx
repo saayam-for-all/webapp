@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-function ChangePassword() {
+function ChangePassword({ setHasUnsavedChanges }) {
     const [isEditing, setIsEditing] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -10,14 +10,21 @@ function ChangePassword() {
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordMatchError, setPasswordMatchError] = useState('');
 
-    const currentPasswordRef = useRef(null); 
+    const currentPasswordRef = useRef(null);
+
+    useEffect(() => {
+        if (isEditing) {
+            setHasUnsavedChanges(true);
+        } else {
+            setHasUnsavedChanges(false);
+        }
+    }, [isEditing, setHasUnsavedChanges]);
 
     const handleEditClick = () => {
         setIsEditing(true);
         setTimeout(() => {
             if (currentPasswordRef.current) {
-                currentPasswordRef.current.focus(); 
-                
+                currentPasswordRef.current.focus();
             }
         }, 0);
     };
@@ -39,6 +46,7 @@ function ChangePassword() {
 
         if (valid) {
             setIsEditing(false);
+            setHasUnsavedChanges(false); 
             alert('Password changed successfully!');
         }
     };
@@ -50,6 +58,7 @@ function ChangePassword() {
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
+        setHasUnsavedChanges(false); 
     };
 
     return (
@@ -63,7 +72,7 @@ function ChangePassword() {
                         </label>
                         <div className="relative">
                             <input
-                                ref={currentPasswordRef} // Attach the reference to the input field
+                                ref={currentPasswordRef}
                                 type={showPassword ? 'text' : 'password'}
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}

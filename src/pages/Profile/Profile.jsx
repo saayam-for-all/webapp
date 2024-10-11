@@ -73,7 +73,7 @@ function Profile() {
             case 'personal':
                 return <PersonalInformation setHasUnsavedChanges={setHasUnsavedChanges} />;
             case 'password':
-                return <ChangePassword />;
+                return <ChangePassword setHasUnsavedChanges={setHasUnsavedChanges} />;  
             case 'organization':
                 return <OrganizationDetails setHasUnsavedChanges={setHasUnsavedChanges} />; 
             default:
