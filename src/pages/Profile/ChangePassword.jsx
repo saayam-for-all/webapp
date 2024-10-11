@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-function ChangePassword() {
+function ChangePassword({ setHasUnsavedChanges }) {
     const [isEditing, setIsEditing] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -10,8 +10,23 @@ function ChangePassword() {
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordMatchError, setPasswordMatchError] = useState('');
 
+    const currentPasswordRef = useRef(null);
+
+    useEffect(() => {
+        if (isEditing) {
+            setHasUnsavedChanges(true);
+        } else {
+            setHasUnsavedChanges(false);
+        }
+    }, [isEditing, setHasUnsavedChanges]);
+
     const handleEditClick = () => {
         setIsEditing(true);
+        setTimeout(() => {
+            if (currentPasswordRef.current) {
+                currentPasswordRef.current.focus();
+            }
+        }, 0);
     };
 
     const handleSaveClick = () => {
@@ -31,6 +46,7 @@ function ChangePassword() {
 
         if (valid) {
             setIsEditing(false);
+            setHasUnsavedChanges(false); 
             alert('Password changed successfully!');
         }
     };
@@ -42,6 +58,7 @@ function ChangePassword() {
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
+        setHasUnsavedChanges(false); 
     };
 
     return (
@@ -55,6 +72,7 @@ function ChangePassword() {
                         </label>
                         <div className="relative">
                             <input
+                                ref={currentPasswordRef}
                                 type={showPassword ? 'text' : 'password'}
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -118,7 +136,7 @@ function ChangePassword() {
                             className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
                             onClick={handleSaveClick}
                         >
-                            Save Changes
+                            Save
                         </button>
                         <button
                             className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
