@@ -1,3 +1,4 @@
+import React from "react";  //  added for testing
 import "./LandingPage.css";
 import { useTranslation } from "react-i18next";
 import HeroSection from "./components/HeroSection";
