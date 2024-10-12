@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 
-function YourProfile() {
+function YourProfile({ setHasUnsavedChanges }) {
     const [isEditing, setIsEditing] = useState(false);
     const firstNameRef = useRef(null);
 
@@ -19,6 +19,7 @@ function YourProfile() {
 
     const [countryOptions, setCountryOptions] = useState([]);
 
+    
     useEffect(() => {
         fetch('https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json')
             .then((response) => response.json())
@@ -43,6 +44,7 @@ function YourProfile() {
             ...prevInfo,
             [name]: value,
         }));
+        setHasUnsavedChanges(true); 
     };
 
     const handleEditClick = () => {
@@ -56,7 +58,6 @@ function YourProfile() {
 
     return (
         <div className="flex flex-col border p-6 rounded-lg w-full">
-            
             <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">First Name</label>
@@ -121,7 +122,6 @@ function YourProfile() {
                 </div>
             </div>
 
-            
             <div className="grid grid-cols-1 gap-4 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Primary Phone Number</label>
@@ -150,7 +150,6 @@ function YourProfile() {
                 </div>
             </div>
 
-            
             <div className="grid grid-cols-1 gap-4 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Secondary Phone Number</label>
@@ -179,7 +178,6 @@ function YourProfile() {
                 </div>
             </div>
 
-            
             <div className="mb-6">
                 <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Zone</label>
                 {isEditing ? (
@@ -195,7 +193,6 @@ function YourProfile() {
                 )}
             </div>
 
-            
             <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button
@@ -211,9 +208,10 @@ function YourProfile() {
                             onClick={() => {
                                 setIsEditing(false);
                                 localStorage.setItem('profileInfo', JSON.stringify(profileInfo));
+                                setHasUnsavedChanges(false); 
                             }}
                         >
-                            Save Changes
+                            Save 
                         </button>
                         <button
                             className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
