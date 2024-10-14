@@ -11,12 +11,6 @@ const Layout = () => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user !== null) {
-      navigate("/dashboard");
-    }
-  }, [user]);
-
   return (
     <div className="flex flex-col h-screen">
       {/* header includes Navbar which spans full width */}

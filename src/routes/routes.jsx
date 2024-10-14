@@ -44,11 +44,7 @@ const routes = [
   },
   {
     path: "dashboard",
-    element: (
-      <ProtectedRoute>
-        <Dashboard />
-      </ProtectedRoute>
-    ),
+    element: <Dashboard />,
   },
   {
     path: "request/:id",
@@ -68,8 +64,8 @@ const routes = [
   },
   {
     path: "voluntary-organizations",
-    element: <VoluntaryOrganizations />
-  }
+    element: <VoluntaryOrganizations />,
+  },
 ];
 
 export default routes;
