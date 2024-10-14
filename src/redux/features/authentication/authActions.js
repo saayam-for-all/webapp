@@ -1,4 +1,10 @@
-import { getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
+import {
+  getCurrentUser,
+  signInWithRedirect,
+  signOut,
+  fetchUserAttributes,
+  fetchAuthSession,
+} from "aws-amplify/auth";
 import {
   loginFailure,
   loginRequest,
@@ -18,7 +24,18 @@ export const login = () => async (dispatch) => {
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
   try {
-    const user = await getCurrentUser();
+    const { userId } = await getCurrentUser();
+    const { email, name, phone_number, zoneinfo } = await fetchUserAttributes();
+    const userSession = await fetchAuthSession();
+    const groups = userSession.tokens.accessToken.payload["cognito:groups"];
+    const user = {
+      userId,
+      email,
+      name,
+      phone_number,
+      zoneinfo,
+      groups,
+    };
     dispatch(loginSuccess(user));
   } catch (error) {
     dispatch(loginFailure(error.message));
