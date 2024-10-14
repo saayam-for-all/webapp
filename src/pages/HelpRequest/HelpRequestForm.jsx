@@ -4,7 +4,9 @@ import { loadCategories } from '../../redux/features/help_request/requestActions
 import JobsCategory from "./Categories/JobCategory";
 import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
+import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
+
 
 const genderOptions = [
   { value: 'Select', label: 'Select' },
@@ -19,7 +21,7 @@ const genderOptions = [
 const HelpRequestForm = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.request);
-  const inputRef = useRef(null);
+  const { inputRef, isLoaded, handleOnPlacesChanges } = usePlacesSearchBox();
 
   const [selfFlag, setSelfFlag] = useState(true);
   const [languages, setLanguages] = useState([]);
@@ -104,15 +106,6 @@ const HelpRequestForm = () => {
   };
 
   const inputref = useRef(null);
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyDv7--yEnq84ZN3l03y50O33M4S89Un4U0",
-    libraries: ["places"]
-  });
-
-  const handleOnPlacesChanges = () => {
-    let address = inputref.current.getPlaces();
-  };
 
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
@@ -279,7 +272,7 @@ const HelpRequestForm = () => {
                 </label>
                 {isLoaded && (
                   <StandaloneSearchBox
-                    onLoad={(ref) => (inputref.current = ref)}
+                    onLoad={(ref) => (inputRef.current = ref)}
                     onPlacesChanged={handleOnPlacesChanges}
                   >
                     <input
