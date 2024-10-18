@@ -19,12 +19,12 @@ const RequestDescription = () => {
     <>
       <div>
         <div
-          className="rounded-lg bg-white border border-gray-200  p-6 m-0"
+          className="rounded-lg bg-white border border-gray-200 p-4 sm:p-6 m-0"
           onClick={handleToggle}
         >
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <h2 className="text-2xl font-semibold">
+            <div className="flex items-center md:gap-2 lg:gap-4">
+              <h2 className="text-xl sm:text-2xl font-semibold">
                 Help Needed for Community Clean-Up Event
               </h2>
               <span className="bg-green-200 text-black-800 text-sm font-medium px-3 py-1 rounded-full">
@@ -36,7 +36,7 @@ const RequestDescription = () => {
               <span className="text-sm font-bold">High</span>
             </div>
           </div>
-          <ul className="flex flex-wrap gap-20 text-xs text-gray-700 pt-5 items-center justify-between">
+          <ul className="flex flex-wrap md:gap-2 lg:gap-14 text-xs text-gray-700 pt-5 items-center justify-between">
             <li className="flex items-center gap-1">
               <VscCalendar size={22} />
               July 1, 2024
