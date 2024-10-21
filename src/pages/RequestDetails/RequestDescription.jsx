@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { PiWarningDiamondFill } from "react-icons/pi";
 import { VscCalendar } from "react-icons/vsc";
@@ -7,16 +7,53 @@ import { IoPersonCircle } from "react-icons/io5";
 import { RiUserStarLine } from "react-icons/ri";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-
+import HelpRequestForm from "../HelpRequest/HelpRequestForm";
+import { createPortal } from "react-dom";
 const RequestDescription = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isEditing, setIsEditing] = useState(false);
   const handleToggle = () => {
     setIsOpen(!isOpen);
   }
 
+  const handleEditClick = (event) => {
+    event.stopPropagation();
+    setIsEditing(true)
+  }
+
+  const handleOverlayClick = () => {
+    setIsEditing(false);
+  }
+
+  useEffect(() => {
+    if (isEditing) {
+      document.body.style.overflow = "hidden"; // Prevent background scrolling
+    } else {
+      document.body.style.overflow = "unset"; // Restore background scrolling
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isEditing]);
+
   return (
     <>
+      {isEditing &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50"
+            onClick={handleOverlayClick}
+          >
+            <div
+              className="overflow-y-auto max-h-[100vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <HelpRequestForm isEdit={true} />
+            </div>
+          </div>,
+          document.body
+        )}
       <div>
         <div
           className="rounded-lg bg-white border border-gray-200 p-4 sm:p-6 m-0"
@@ -30,6 +67,12 @@ const RequestDescription = () => {
               <span className="bg-green-200 text-black-800 text-sm font-medium px-3 py-1 rounded-full">
                 Open
               </span>
+              <button
+                className="bg-blue-500 text-white text-sm px-5 py-1 rounded-full hover:bg-blue-600"
+                onClick={handleEditClick}
+              >
+                Edit
+              </button>
             </div>
             <div className="flex items-center">
               <PiWarningDiamondFill className="mr-1 text-red-500" />
@@ -75,7 +118,6 @@ const RequestDescription = () => {
           </div>
         )}
       </div>
-      {/* <h4 className="mt-6 text-base font-semibold">Description</h4> */}
     </>
   );
 };
