@@ -13,6 +13,8 @@ import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import Profile from "../pages/Profile/Profile";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
 import LoginPage from "../pages/LoginPage/LoginPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
+import VerifyAccountPage from "../pages/ForgotPasswordPage/VerifyAccountPage";
 
 const routes = [
   {
@@ -74,6 +76,14 @@ const routes = [
   {
     path: "login",
     element: <LoginPage />,
+  },
+  {
+    path: "forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "verify-account",
+    element: <VerifyAccountPage />,
   },
 ];
 

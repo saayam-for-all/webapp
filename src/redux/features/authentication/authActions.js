@@ -1,9 +1,18 @@
-import { getCurrentUser, signIn, signOut } from "aws-amplify/auth";
+import {
+  confirmResetPassword,
+  getCurrentUser,
+  resetPassword,
+  signIn,
+  signOut,
+} from "aws-amplify/auth";
 import {
   loginFailure,
   loginRequest,
   loginSuccess,
   logoutSuccess,
+  resetPasswordRequest,
+  resetPasswordSuccess,
+  resetPasswordFailure,
 } from "./authSlice";
 
 export const login = (email, password) => async (dispatch) => {
@@ -12,7 +21,7 @@ export const login = (email, password) => async (dispatch) => {
     await signIn({
       username: email,
       password: password,
-    }); // This will redirect to the Cognito Hosted UI
+    });
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
@@ -36,3 +45,24 @@ export const logout = () => async (dispatch) => {
     dispatch(authFailure(error.message));
   }
 };
+
+export const forgotPassword = (email) => async (dispatch) => {
+  dispatch(resetPasswordRequest());
+  try {
+    await resetPassword({ username: email });
+  } catch (error) {
+    console.log(error);
+    dispatch(resetPasswordFailure(error.message));
+  }
+};
+
+export const confirmForgotPassword =
+  (username, confirmationCode, newPassword) => async (dispatch) => {
+    try {
+      await confirmResetPassword({ username, confirmationCode, newPassword });
+      dispatch(resetPasswordSuccess());
+    } catch (error) {
+      console.log(error);
+      dispatch(resetPasswordFailure(error.message));
+    }
+  };

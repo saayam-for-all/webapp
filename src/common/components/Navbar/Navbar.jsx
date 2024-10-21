@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { signOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import {
   IoPeopleOutline,
@@ -16,7 +15,6 @@ import "./NavBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkAuthStatus,
-  login,
   logout,
 } from "../../../redux/features/authentication/authActions";
 

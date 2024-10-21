@@ -75,7 +75,7 @@ const LoginPage = () => {
         </button>
 
         {/* Uncommment for Google and Facebook signin */}
-        {/* <div className="flex items-center my-4">
+        <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">Or With</span>
           <div className="flex-grow border-t border-gray-300"></div>
@@ -91,7 +91,7 @@ const LoginPage = () => {
             <FcGoogle className="mx-2 text-xl" />
             <span>Google</span>
           </button>
-        </div> */}
+        </div>
 
         <div className="mt-16 flex flex-row justify-center">
           <p>Don't have an account?</p>
