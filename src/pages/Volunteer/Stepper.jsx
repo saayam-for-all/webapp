@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import React from 'react' //added for testing
 
 const Stepper = ({ steps, currentStep }) => {
   const [newStep, setNewStep] = useState(() =>

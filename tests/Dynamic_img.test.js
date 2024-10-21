@@ -42,13 +42,10 @@ test('checks if images are rendered', () => {
   <Images />
   </MemoryRouter>);
 
-  // Obtener todos los elementos img
   const imgElements = screen.getAllByRole('img');
   
-  // Asegurarse de que el número de imágenes sea el esperado
   expect(imgElements).toHaveLength(images.length);
   
-  // Verificar que cada imagen tiene el src correcto
   imgElements.forEach((img, index) => {
     expect(img).toHaveAttribute('src', images[index]);
   });

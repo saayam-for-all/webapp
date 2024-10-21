@@ -1,3 +1,4 @@
+import React from 'react' //added for testing
 // Example JSON data with multiple levels of subCategories - need to get this data from server
 const categoriesData = {
   "categories": [
