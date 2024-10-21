@@ -52,7 +52,7 @@ const RequestDetailsSidebar = () => {
       </div>
       <div className="py-4">
         <h4 className="font-semibold mb-1">Category</h4>
-        <span class="text-white bg-blue-500 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">
+        <span className="text-white bg-blue-500 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">
           Maintenance
         </span>
       </div>

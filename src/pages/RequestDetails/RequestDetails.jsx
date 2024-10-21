@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import CommentsSection from "./CommentsSection";
 import RequestDescription from "./RequestDescription";
 import RequestDetailsSidebar from "./RequestDetailsSidebar";
+import HelpingVolunteers from "./HelpingVolunteers";
 
 const RequestDetails = () => {
   return (
@@ -21,6 +22,9 @@ const RequestDetails = () => {
       </div>
       <div className="col-span-3">
         <RequestDetailsSidebar />
+      </div>
+      <div className="col-span-8">
+        <HelpingVolunteers />
       </div>
     </div>
   );
