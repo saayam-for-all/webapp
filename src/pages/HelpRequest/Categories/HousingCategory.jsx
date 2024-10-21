@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import usePlacesSearchBox from '../location/usePlacesSearchBox';
+import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
 
 const HousingCategory = () => {
-  const [userType, setUserType] = useState('lookingToRent'); // Default to looking to rent
+  const [userType, setUserType] = useState('lookingToRent'); 
   const [housingInfo, setHousingInfo] = useState({
     location: '',
     budget: '',
@@ -20,6 +22,7 @@ const HousingCategory = () => {
     availability: '',
     leaseDuration: 'Short-term'
   });
+  const { inputRef, isLoaded, handleOnPlacesChanges } = usePlacesSearchBox();
 
   const housingTypes = ['Apartment', 'House', 'Shared housing'];
   const amenitiesOptions = ['Gym', 'Pool', 'Parking', 'Security', 'Laundry'];
@@ -58,18 +61,26 @@ const HousingCategory = () => {
 
       {userType === 'lookingToRent' && (
         <>
-          {/* Fields for a person looking to rent/lease */}
           <div className="mb-6">
             <h3 className="font-semibold">Rent/Lease Details</h3>
 
             <label>What location are you looking for? (City/Neighborhood)</label>
-            <input
-              type="text"
-              name="location"
-              value={housingInfo.location}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-            />
+            {isLoaded && (
+              <StandaloneSearchBox
+                onLoad={(ref) => (inputRef.current = ref)}
+                onPlacesChanged={handleOnPlacesChanges}
+              >
+                <input
+                  type="text"
+                  name="location"
+                  value={housingInfo.location}
+                  onChange={handleInputChange}
+                  ref={inputRef}  
+                  onFocus={() => inputRef.current && handleOnPlacesChanges()}  
+                  className="w-full p-2 border rounded"
+                />
+              </StandaloneSearchBox>
+            )}
 
             <label>What is your budget for rent?</label>
             <input
@@ -167,19 +178,26 @@ const HousingCategory = () => {
 
       {userType === 'offeringPlace' && (
         <>
-          {/* Fields for a person offering a place */}
           <div className="mb-6">
             <h3 className="font-semibold">Property Details</h3>
 
             <label>What is the location of the property?</label>
-            <input
-              type="text"
-              name="propertyLocation"
-              value={housingInfo.propertyLocation}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-            />
-
+            {isLoaded && (
+              <StandaloneSearchBox
+                onLoad={(ref) => (inputRef.current = ref)}
+                onPlacesChanged={handleOnPlacesChanges}
+              >
+               <input
+                  type="text"
+                  name="propertyLocation"
+                  value={housingInfo.propertyLocation}
+                  onChange={handleInputChange}
+                  ref={inputRef}  
+                  onFocus={() => inputRef.current && handleOnPlacesChanges()}   
+                  className="w-full p-2 border rounded"
+               />
+               </StandaloneSearchBox>
+            )}
             <label>What is the rent or price you're offering?</label>
             <input
               type="text"
@@ -263,7 +281,7 @@ const HousingCategory = () => {
               type="date"
               name="availability"
               value={housingInfo.availability}
-              onChange={handleInputChange}
+              onChange              ={handleInputChange}
               className="w-full p-2 border rounded"
             />
 
@@ -285,3 +303,4 @@ const HousingCategory = () => {
 };
 
 export default HousingCategory;
+

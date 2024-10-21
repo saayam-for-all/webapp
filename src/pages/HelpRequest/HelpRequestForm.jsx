@@ -4,7 +4,9 @@ import { loadCategories } from '../../redux/features/help_request/requestActions
 import JobsCategory from "./Categories/JobCategory";
 import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
+import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
+
 
 const genderOptions = [
   { value: 'Select', label: 'Select' },
@@ -19,14 +21,14 @@ const genderOptions = [
 const HelpRequestForm = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.request);
+  const { inputRef, isLoaded, handleOnPlacesChanges } = usePlacesSearchBox();
 
   const [selfFlag, setSelfFlag] = useState(true);
   const [languages, setLanguages] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState('General');
-  const [showSubcategories, setShowSubcategories] = useState(false);
-  const [filteredCategories, setFilteredCategories] = useState([]); // New state for filtered categories
-  const [searchInput, setSearchInput] = useState(''); // New state for search input
+  const [filteredCategories, setFilteredCategories] = useState([]); 
+  const [searchInput, setSearchInput] = useState(''); 
   const [requestType, setRequestType] = useState('');
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -51,23 +53,43 @@ const HelpRequestForm = () => {
     // Dispatch categories action and fetch languages
     dispatch(loadCategories());
     fetchLanguages();
+
   }, [dispatch]);
+
+  useEffect(() => {
+    if (categories && categories.length > 0) {
+      setFilteredCategories(categories); // Set all categories when they are first loaded
+    }
+  }, [categories]);
 
   const handleSearchInput = (e) => {
     const searchTerm = e.target.value;
     setSearchInput(searchTerm);
-    
+  
     if (searchTerm.trim() === '') {
-      setFilteredCategories(categories); // If search input is empty, show all categories
+      // If search input is cleared, show all categories
+      setFilteredCategories(categories);
     } else {
       const filtered = categories.filter(category =>
         category.name.toLowerCase().startsWith(searchTerm.toLowerCase()) // Case-insensitive filtering
       );
       setFilteredCategories(filtered);
     }
-    // Show dropdown while user is typing
-    setShowDropdown(true);
+    setShowDropdown(true); // Always show dropdown while user is interacting with the input
   };
+  // Handle clicking outside the input (to close dropdown)
+  const handleClickOutside = (event) => {
+    if (inputRef.current && !inputRef.current.contains(event.target)) {
+      setShowDropdown(false); // Hide dropdown if user clicks outside
+    }
+  };
+  
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);//event listner when comp mounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);//clean comp when comp unmounts
+    };
+  }, []);
 
   const handleCategoryClick = (categoryName) => {
     setSelectedCategory(categoryName);
@@ -84,15 +106,6 @@ const HelpRequestForm = () => {
   };
 
   const inputref = useRef(null);
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyDv7--yEnq84ZN3l03y50O33M4S89Un4U0",
-    libraries: ["places"]
-  });
-
-  const handleOnPlacesChanges = () => {
-    let address = inputref.current.getPlaces();
-  };
 
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
@@ -189,7 +202,6 @@ const HelpRequestForm = () => {
               </div>
             </div>
           )}
-
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="relative">
               <label htmlFor="category" className="block mb-2 font-medium text-gray-700">
@@ -203,6 +215,7 @@ const HelpRequestForm = () => {
                 className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
                 placeholder="Search or select a category..."
                 onFocus={() => setShowDropdown(true)} // Show dropdown when input is focused
+                
               />
             {showDropdown && (
                 <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto" 
@@ -259,7 +272,7 @@ const HelpRequestForm = () => {
                 </label>
                 {isLoaded && (
                   <StandaloneSearchBox
-                    onLoad={(ref) => (inputref.current = ref)}
+                    onLoad={(ref) => (inputRef.current = ref)}
                     onPlacesChanged={handleOnPlacesChanges}
                   >
                     <input
@@ -276,7 +289,7 @@ const HelpRequestForm = () => {
 
           <div className="mt-3">
             {selectedCategory === 'Jobs' && <JobsCategory />}
-            {/* {selectedCategory === 'Housing' && <HousingCategory />} */}
+            {selectedCategory === 'Housing' && <HousingCategory />} 
             <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
               Subject <span className="text-red-500">*</span> (Max 70 characters)
             </label>
