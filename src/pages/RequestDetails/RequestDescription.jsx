@@ -16,6 +16,10 @@ const RequestDescription = () => {
     setIsOpen(!isOpen);
   }
 
+  const closeForm = () => {
+    setIsEditing(false);
+  }
+
   const handleEditClick = (event) => {
     event.stopPropagation();
     setIsEditing(true)
@@ -49,7 +53,7 @@ const RequestDescription = () => {
               className="overflow-y-auto max-h-[100vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              <HelpRequestForm isEdit={true} />
+              <HelpRequestForm isEdit={true} onClose={closeForm}/>
             </div>
           </div>,
           document.body
