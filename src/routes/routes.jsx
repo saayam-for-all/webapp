@@ -12,6 +12,7 @@ import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import Profile from "../pages/Profile/Profile";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
+import OrganizationDetails from '../pages/RequestDetails/OrganizationDetails';
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const routes = [
     path: "voluntary-organizations",
     element: <VoluntaryOrganizations />,
   },
+  {
+    path: "organization/:id",
+    element: <OrganizationDetails />,
+  },
 ];
 
 export default routes;
+
