@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
 
-const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRows, itemsPerPage, sortConfig, requestSort, onRowsPerPageChange }) => {
+const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRows, itemsPerPage, sortConfig, requestSort, onRowsPerPageChange, getLinkPath }) => {
 
   const paginatedRequests = useMemo(() => {
     return rows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -40,7 +40,7 @@ const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRo
               {headers.map((header, colIndex) => (
                 <td key={colIndex} className="px-6 py-4 whitespace-nowrap">
                   {header === 'id' ? (
-                    <Link to={`/request/${request[header]}`} className="text-indigo-600 hover:text-indigo-900">
+                    <Link to={getLinkPath(request, header)} className="text-indigo-600 hover:text-indigo-900">
                       {request[header]}
                     </Link>
                   ) : (
@@ -64,3 +64,4 @@ const Table = ({ headers, rows, currentPage, setCurrentPage, totalPages, totalRo
 };
 
 export default Table;
+
