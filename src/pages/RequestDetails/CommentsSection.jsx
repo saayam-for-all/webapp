@@ -100,7 +100,6 @@ const CommentsSection = () => {
      <div className="flex items-center space-x-2" style={{ flexBasis: '50%' }}>
       {/* Comment Input Field */}
       <input
-        id="comment"
         type="text"
         placeholder="Write a comment....."
         className="flex-1 px-4 py-2 bg-gray-100 rounded-full outline-none border-none text-gray-600 placeholder-gray-400 text-sm"
@@ -109,7 +108,7 @@ const CommentsSection = () => {
 
       {/* Send Button */}
       <button className="ml-2 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all">
-        {/* Send message icon */}
+        {/* Send message icon - Paper Plane */}
         <svg
           className="w-5 h-5 transform rotate-0"
           fill="currentColor"
@@ -125,9 +124,9 @@ const CommentsSection = () => {
       {/* Toggle Arrow */}
       <button onClick={handleToggle} className="ml-2">
         {isOpen ? (
-          <IoIosArrowUp size={30} strokeWidth={2} />
+          <IoIosArrowUp size={30} className="text-gray-600" />
         ) : (
-          <IoIosArrowDown size={30} strokeWidth={2} />
+          <IoIosArrowDown size={30} className="text-gray-600" />
         )}
       </button>
     </div>
