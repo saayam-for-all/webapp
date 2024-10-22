@@ -6,6 +6,7 @@ import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
+import { useNavigate } from "react-router";
 
 
 const genderOptions = [
@@ -18,8 +19,9 @@ const genderOptions = [
   { value: 'Gender-nonconforming', label: 'Gender-nonconforming' },
 ];
 
-const HelpRequestForm = ({isEdit = false}) => {
+const HelpRequestForm = ({isEdit = false, onClose}) => {
   const dispatch = useDispatch();
+  const Navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
   const { inputRef, isLoaded, handleOnPlacesChanges } = usePlacesSearchBox();
 
@@ -110,6 +112,10 @@ const HelpRequestForm = ({isEdit = false}) => {
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
+
+  const handleCloseForm = () => {
+    Navigate('/dashboard');
+  }
 
   return (
     <div className="">
@@ -403,6 +409,7 @@ const HelpRequestForm = ({isEdit = false}) => {
           <div className="mt-8 flex justify-end gap-2">
             <button
               className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg"
+              onClick={isEdit ? onClose : handleCloseForm}
             >
               Cancel
             </button>

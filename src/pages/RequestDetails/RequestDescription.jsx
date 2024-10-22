@@ -16,6 +16,10 @@ const RequestDescription = () => {
     setIsOpen(!isOpen);
   }
 
+  const closeForm = () => {
+    setIsEditing(false);
+  }
+
   const handleEditClick = (event) => {
     event.stopPropagation();
     setIsEditing(true)
@@ -49,7 +53,7 @@ const RequestDescription = () => {
               className="overflow-y-auto max-h-[100vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              <HelpRequestForm isEdit={true} />
+              <HelpRequestForm isEdit={true} onClose={closeForm} />
             </div>
           </div>,
           document.body
@@ -59,27 +63,29 @@ const RequestDescription = () => {
           className="rounded-lg bg-white border border-gray-200 p-4 sm:p-6 m-0"
           onClick={handleToggle}
         >
-          <div className="flex justify-between items-center">
-            <div className="flex items-center md:gap-2 lg:gap-4">
-              <h2 className="text-xl sm:text-2xl font-semibold">
-                Help Needed for Community Clean-Up Event
-              </h2>
-              <span className="bg-green-200 text-black-800 text-sm font-medium px-3 py-1 rounded-full">
-                Open
-              </span>
-              <button
-                className="bg-blue-500 text-white text-sm px-5 py-1 rounded-full hover:bg-blue-600"
-                onClick={handleEditClick}
-              >
-                Edit
-              </button>
-            </div>
+          <div className="flex flex-row justify-between md:items-center">
+            {/* <div className="flex items-center md:gap-2 lg:gap-4"> */}
+            <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5">
+              Help Needed for Community Clean-Up Event
+              <div className="flex gap-2 lg:gap-5">
+                <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
+                  Open
+                </span>
+                <button
+                  className="bg-blue-500 text-white text-sm px-5 py-1 rounded-full hover:bg-blue-600"
+                  onClick={handleEditClick}
+                >
+                  Edit
+                </button>
+              </div>
+            </h2>
+            {/* </div> */}
             <div className="flex items-center">
               <PiWarningDiamondFill className="mr-1 text-red-500" />
               <span className="text-sm font-bold">High</span>
             </div>
           </div>
-          <ul className="flex flex-wrap md:gap-2 lg:gap-14 text-xs text-gray-700 pt-5 items-center justify-between">
+          <ul className="flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 pt-5 sm:items-center justify-between">
             <li className="flex items-center gap-1">
               <VscCalendar size={22} />
               July 1, 2024
