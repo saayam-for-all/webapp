@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.0.17",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.2",
     "aws-amplify": "^6.3.8",

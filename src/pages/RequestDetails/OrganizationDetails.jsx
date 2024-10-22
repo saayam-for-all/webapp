@@ -88,4 +88,3 @@ const OrganizationDetails = () => {
 };
 
 export default OrganizationDetails;
-
