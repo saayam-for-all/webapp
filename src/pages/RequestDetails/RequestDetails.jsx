@@ -19,7 +19,7 @@ const RequestDetails = () => {
           <RequestButton 
             link="/voluntary-organizations" 
             text="Volunteer Organizations" 
-            customStyle="bg-blue-400 hover:bg-blue-600 text-white w-full px-6 py-3 rounded-lg flex items-center justify-start space-x-3 text-lg "
+            customStyle="bg-blue-400 hover:bg-blue-600 text-white w-full px-6 py-3 rounded-lg flex items-center justify-start space-x-3 lg:text-lg"
             icon="i-volunteer"
           />
           <RequestButton 
