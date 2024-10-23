@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle, faUsers, faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
+import { MdContactPhone } from "react-icons/md";
+import { FaInfoCircle } from "react-icons/fa";
+import { FaPeopleGroup } from "react-icons/fa6";
+
+
 
 const RequestButton = ({ link, text, isInfoRequest , customStyle, icon  }) => {
   const [showModal, setShowModal] = useState(false);
@@ -51,11 +54,11 @@ const RequestButton = ({ link, text, isInfoRequest , customStyle, icon  }) => {
   const getIcon = () => {
     switch (icon) {
       case "i-info":
-        return faInfoCircle;
+        return <FaInfoCircle size={30}/>;
       case "i-volunteer":
-        return faUsers;
+        return <FaPeopleGroup size={30} />;
       case "i-emergency":
-        return faPhoneAlt;
+        return <MdContactPhone size={30} />;
       default:
         return null;
     }
@@ -65,10 +68,10 @@ const RequestButton = ({ link, text, isInfoRequest , customStyle, icon  }) => {
     <>
       <button
         onClick={handleClick}
-        className={`${customStyle} flex items-center justify-center sm:justify-center md:justify-start space-x-2 transition ease-in-out duration-300 px-3 py-2 md:px-6 md:py-3`}
+        className={`${customStyle} flex items-center justify-center sm:justify-center space-x-2 transition ease-in-out duration-300 px-3 py-2 md:px-6 md:py-3`}
       >
-        {icon && <FontAwesomeIcon icon={getIcon()} className="text-3xl md:text-2xl" />}
-        <span className="hidden md:inline">{text}</span>
+        <span>{getIcon()}</span>
+        <span className="hidden lg:inline">{text}</span>
       </button>
 
       {isInfoRequest && (
