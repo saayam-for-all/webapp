@@ -1,18 +1,19 @@
+import { fetchAuthSession } from "aws-amplify/auth";
 import axios from "axios";
 
 // centralizing the configuration and reusing the instance across the application
 
 const api = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://84276o1ae7.execute-api.us-east-1.amazonaws.com/dev",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
     // You can add token or other custom headers here if needed
-    // const token = localStorage.getItem("token");
+    const token = (await fetchAuthSession()).tokens?.idToken?.toString();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

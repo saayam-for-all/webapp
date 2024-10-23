@@ -1,98 +1,81 @@
-import React from 'react' //added for testing
+import React, { useEffect } from "react"; //added for testing
+import api from "../../../services/api";
 // Example JSON data with multiple levels of subCategories - need to get this data from server
 const categoriesData = {
-  "categories": [
+  categories: [
     {
-      "category": "Banking",
-      "subCategories": [
+      category: "Banking",
+      subCategories: [
         {
-          "category": "Retail Banking",
-          "subCategories": [
+          category: "Retail Banking",
+          subCategories: [
             {
-              "category": "Accounts",
-              "subCategories": [
+              category: "Accounts",
+              subCategories: [
                 {
-                  "category": "Savings Account",
-                  "subCategories": [
-                    "Personal Savings",
-                    "Business Savings"
-                  ]
+                  category: "Savings Account",
+                  subCategories: ["Personal Savings", "Business Savings"],
                 },
                 {
-                  "category": "Checking Account",
-                  "subCategories": [
-                    "Personal Checking",
-                    "Business Checking"
-                  ]
-                }
-              ]
+                  category: "Checking Account",
+                  subCategories: ["Personal Checking", "Business Checking"],
+                },
+              ],
             },
             {
-              "category": "Loans",
-              "subCategories": [
+              category: "Loans",
+              subCategories: [
                 {
-                  "category": "Personal Loans",
-                  "subCategories": [
-                    "Secured Loan",
-                    "Unsecured Loan"
-                  ]
+                  category: "Personal Loans",
+                  subCategories: ["Secured Loan", "Unsecured Loan"],
                 },
                 {
-                  "category": "Business Loans",
-                  "subCategories": [
-                    "Short-term Loan",
-                    "Long-term Loan"
-                  ]
-                }
-              ]
-            }
-          ]
+                  category: "Business Loans",
+                  subCategories: ["Short-term Loan", "Long-term Loan"],
+                },
+              ],
+            },
+          ],
         },
         {
-          "category": "Investment Banking",
-          "subCategories": [
+          category: "Investment Banking",
+          subCategories: [
             {
-              "category": "Corporate Finance",
-              "subCategories": [
+              category: "Corporate Finance",
+              subCategories: [
                 {
-                  "category": "Mergers & Acquisitions",
-                  "subCategories": [
-                    "Advisory",
-                    "Execution"
-                  ]
+                  category: "Mergers & Acquisitions",
+                  subCategories: ["Advisory", "Execution"],
                 },
                 {
-                  "category": "Equity Capital Markets",
-                  "subCategories": [
+                  category: "Equity Capital Markets",
+                  subCategories: [
                     "Initial Public Offering",
-                    "Follow-on Offerings"
-                  ]
-                }
-              ]
+                    "Follow-on Offerings",
+                  ],
+                },
+              ],
             },
             {
-              "category": "Sales & Trading",
-              "subCategories": [
-                "Equities",
-                "Fixed Income"
-              ]
-            }
-          ]
-        }
-      ]
+              category: "Sales & Trading",
+              subCategories: ["Equities", "Fixed Income"],
+            },
+          ],
+        },
+      ],
     },
     "Books",
     "Clothes",
     "College Admissions",
     "Cooking",
     {
-      "category": "Education",
-      "subCategories": [
+      category: "Education",
+      subCategories: [
         "Elementary",
         "Middle School",
         "High School",
-        "University"
-      ]
+        "University",
+      ],
     },
     "Employment",
     "Finance",
@@ -104,22 +87,15 @@ const categoriesData = {
     "Investing",
     "Matrimonial",
     {
-      "category": "Medical",
-      "subCategories": [
-        "Brain",
-        "Depression",
-        "Eye",
-        "Hand",
-        "Head",
-        "Leg"
-      ]
+      category: "Medical",
+      subCategories: ["Brain", "Depression", "Eye", "Hand", "Head", "Leg"],
     },
     "Rental",
     "School",
     "Shopping",
     {
-      "category": "Sports",
-      "subCategories": [
+      category: "Sports",
+      subCategories: [
         "Baseball",
         "Basketball",
         "Cricket",
@@ -127,16 +103,28 @@ const categoriesData = {
         "Jogging",
         "Hockey",
         "Running",
-        "Tennis"
-      ]
+        "Tennis",
+      ],
     },
     "Stocks",
     "Travel",
-    "Tourism"
-  ]
-}
+    "Tourism",
+  ],
+};
 
 const Skills = ({ checkedCategories, setCheckedCategories }) => {
+  const fetchSkills = async () => {
+    try {
+      const response = await api.get("/volunteer-promotion-wizard/skills");
+      console.log("API Response:", response.data);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSkills();
+  }, []);
 
   // Recursive function to handle rendering categories and subcategories
   const renderCategories = (categories, parentPath = "") => {
@@ -146,7 +134,9 @@ const Skills = ({ checkedCategories, setCheckedCategories }) => {
       const hasSubCategories = isObject && cat.subCategories;
 
       // Create a unique path for each category, concatenating parent path and current category name
-      const currentPath = parentPath ? `${parentPath}.${categoryName}` : categoryName;
+      const currentPath = parentPath
+        ? `${parentPath}.${categoryName}`
+        : categoryName;
 
       return (
         <div key={index} className="ml-4">
@@ -157,12 +147,16 @@ const Skills = ({ checkedCategories, setCheckedCategories }) => {
               checked={getCheckedStatus(currentPath)}
               onChange={() => handleCheckboxChange(currentPath)}
             />
-            <span className={getCheckedStatus(currentPath) ? "font-bold" : ""}>{categoryName}</span>
+            <span className={getCheckedStatus(currentPath) ? "font-bold" : ""}>
+              {categoryName}
+            </span>
           </label>
 
           {/* Recursively render subcategories if they exist */}
           {hasSubCategories && getCheckedStatus(currentPath) && (
-            <div className="ml-3">{renderCategories(cat.subCategories, currentPath)}</div>
+            <div className="ml-3">
+              {renderCategories(cat.subCategories, currentPath)}
+            </div>
           )}
         </div>
       );
@@ -217,7 +211,9 @@ const Skills = ({ checkedCategories, setCheckedCategories }) => {
 
   return (
     <>
-      <p className="font-bold text-xl mb-4">Select Your Skills For Volunteer Assignments</p>
+      <p className="font-bold text-xl mb-4">
+        Select Your Skills For Volunteer Assignments
+      </p>
       {renderCategories(categoriesData.categories)}
     </>
   );
