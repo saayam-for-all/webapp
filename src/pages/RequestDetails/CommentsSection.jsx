@@ -4,27 +4,59 @@ import React, { useState, useEffect } from "react";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 
+ /* // Get the current system date
+  const systemDate = new Date();
+  const formattedDate = systemDate.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+  */
+
 const comments = [
   {
     id: "1",
     name: "Emily Green",
     message:
       "I've participated in similar events before, and they're always rewarding. Happy to help!",
-    date: "July 2, 2024",
+    date: "Jul 2, 2024, 10:30 AM",
   },
   {
     id: "2",
     name: "Michael Brown",
     message: " Great idea! Let's make our community sparkle.",
-    date: "July 1, 2024",
+    date: "Jul 1, 2024, 12:30 PM",
+  },
+  {
+    id: "3",
+    name: "Erica Ross",
+    message: "I've participated in similar events before, and they're always rewarding. Happy to help!",
+    date: "Oct 24, 2024, 03:15 PM",
   },
 ];
 
 const CommentsSection = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [comment, setComment] = useState("");
   const handleToggle = () => {
     setIsOpen(!isOpen);
   }
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (comment.trim()) {
+      // Handle comment submit logic here (e.g., send to server or update local state)
+      console.log("New comment:", comment);
+      setComment(""); // Clear input after submit
+    }
+  };
 
   return (
     <div className="mt-8">
@@ -101,13 +133,16 @@ const CommentsSection = () => {
       {/* Comment Input Field */}
       <input
         type="text"
+        value={comment}
+        onChange={handleCommentChange}
         placeholder="Write a comment....."
         className="flex-1 px-4 py-2 bg-gray-100 rounded-full outline-none border-none text-gray-600 placeholder-gray-400 text-sm"
         style={{ borderRadius: '5px' }} 
       />
 
       {/* Send Button */}
-      <button className="ml-2 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all">
+      <button className="ml-2 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all"
+      onClick={handleSubmit}>
         {/* Send message icon - Paper Plane */}
         <svg
           className="w-5 h-5 transform rotate-0"
