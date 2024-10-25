@@ -7,11 +7,18 @@ import { IoPersonCircle } from "react-icons/io5";
 import { RiUserStarLine } from "react-icons/ri";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+import { MdPersonSearch } from "react-icons/md";
+
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import { createPortal } from "react-dom";
+import ContactsInfo from "./ContactsInfo";
+
 const RequestDescription = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isCreatorInfoOpen, setIsCreatorInfoOpen] = useState(false);
+  const [isVolunteerInfoOpen, setIsVolunteerInfoOpen] = useState(false);
+  const [isRequestorInfoOpen, setIsRequestorInfoOpen] = useState(false);
   const handleToggle = () => {
     setIsOpen(!isOpen);
   }
@@ -28,6 +35,21 @@ const RequestDescription = () => {
   const handleOverlayClick = () => {
     setIsEditing(false);
   }
+
+  const handleCreatorInfoClick = (event) => {
+     event.stopPropagation();
+    setIsCreatorInfoOpen(!isCreatorInfoOpen);
+  };
+
+  const handleVolunteerInfoClick = (event) => {
+    event.stopPropagation();
+    setIsVolunteerInfoOpen(!isVolunteerInfoOpen);
+  }
+
+  const handleRequestorInfoClick = (event) => {
+    event.stopPropagation();
+    setIsRequestorInfoOpen(!isRequestorInfoOpen);
+  };
 
   useEffect(() => {
     if (isEditing) {
@@ -66,7 +88,7 @@ const RequestDescription = () => {
           <div className="flex flex-row justify-between md:items-center">
             {/* <div className="flex items-center md:gap-2 lg:gap-4"> */}
             <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5">
-              Help Needed for Community Clean-Up Event
+              #1: Help Needed for Community Clean-Up Event
               <div className="flex gap-2 lg:gap-5">
                 <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
                   Open
@@ -85,7 +107,7 @@ const RequestDescription = () => {
               <span className="text-sm font-bold">High</span>
             </div>
           </div>
-          <ul className="flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 pt-5 sm:items-center justify-between">
+          <ul className="flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-9 text-xs text-gray-700 pt-5 sm:items-center justify-between">
             <li className="flex items-center gap-1">
               <VscCalendar size={22} />
               July 1, 2024
@@ -94,13 +116,35 @@ const RequestDescription = () => {
               <TbTriangleSquareCircle size={22} />
               maintenance
             </li>
-            <li className="flex items-center gap-1">
-              <IoPersonCircle size={22} />
-              Peter parker
+            <li>
+              <div
+                className="flex items-center gap-1"
+                onClick={handleCreatorInfoClick}
+              >
+                <IoPersonCircle size={22} />
+                Peter parker
+              </div>
+              {isCreatorInfoOpen && <ContactsInfo />}
             </li>
-            <li className="flex items-center gap-1">
-              <RiUserStarLine size={22} />
-              Ethan Marshall
+            <li>
+              <div
+                className="flex items-center gap-1"
+                onClick={handleVolunteerInfoClick}
+              >
+                <RiUserStarLine size={21} />
+                Ethan Marshall
+              </div>
+              {isVolunteerInfoOpen && <ContactsInfo />}
+            </li>
+            <li>
+              <div
+                className="flex items-center gap-1"
+                onClick={handleRequestorInfoClick}
+              >
+                <MdPersonSearch size={22} />
+                Alex Johnson
+              </div>
+              {isRequestorInfoOpen && <ContactsInfo />}
             </li>
             <li className="flex items-center gap-1 ml-auto">
               {isOpen ? (

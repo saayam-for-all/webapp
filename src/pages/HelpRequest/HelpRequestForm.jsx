@@ -407,14 +407,14 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
           </div>
 
           <div className="mt-8 flex justify-end gap-2">
+            <button className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg">
+              Submit
+            </button>
             <button
-              className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg"
+              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
               onClick={isEdit ? onClose : handleCloseForm}
             >
               Cancel
-            </button>
-            <button className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg">
-              Submit
             </button>
           </div>
         </div>
