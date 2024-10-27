@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import CommentsSection from "./CommentsSection";
 import RequestDescription from "./RequestDescription";
 import RequestDetailsSidebar from "./RequestDetailsSidebar";
+import React from "react"; //added for testing
 
 const RequestDetails = () => {
   return (

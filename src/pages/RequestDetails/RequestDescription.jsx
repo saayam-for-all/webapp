@@ -1,3 +1,4 @@
+import React from "react"; //added for testing
 const RequestDescription = () => {
   return (
     <div className="rounded-lg bg-gray-50 border border-gray-200  p-6 text-surface">

@@ -1,5 +1,6 @@
 import avatar from "../../assets/avatar.jpg";
 import Comments from "./Comments";
+import React from 'react' //Added for testing
 
 const comments = [
   {

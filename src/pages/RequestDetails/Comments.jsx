@@ -1,5 +1,5 @@
 import avatar from "../../assets/avatar.jpg";
-
+import React from 'react'
 const Comments = ({ name, message, date }) => {
   return (
     <section className="pt-6 mb-3 text-base bg-white border-t border-gray-200">
