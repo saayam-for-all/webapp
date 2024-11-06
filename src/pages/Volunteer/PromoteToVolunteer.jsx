@@ -1,3 +1,4 @@
+import React from 'react' //added for testing
 import { useState } from "react";
 import { useImmer } from "use-immer";
 import Stepper from "./Stepper";

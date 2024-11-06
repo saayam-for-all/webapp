@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Select from 'react-select';
 
-function OrganizationDetails() {
+const COUNTRY_CODE_API = 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json';
+
+function OrganizationDetails({ setHasUnsavedChanges }) {
     const [isEditing, setIsEditing] = useState(false);
+    const organizationNameRef = useRef(null);
+
     const [organizationInfo, setOrganizationInfo] = useState({
         organizationName: '',
         phoneNumber: '',
+        phoneCountryCode: '',
         email: '',
         url: '',
         streetAddress: '',
@@ -12,9 +18,30 @@ function OrganizationDetails() {
         city: '',
         state: '',
         zipCode: '',
+        organizationType: 'Non-Profit',
     });
 
+    const [countryOptions, setCountryOptions] = useState([]);
+
     useEffect(() => {
+        fetch(COUNTRY_CODE_API)
+            .then((response) => response.json())
+            .then((data) => {
+                const countries = data.map((country) => ({
+                    value: country.phone_code,
+                    label: `${country.name} (+${country.phone_code})`,
+                }));
+
+                const sortedCountries = countries.sort((a, b) => {
+                    if (a.label.includes('United States')) return -1;
+                    if (a.label.includes('Canada')) return -1;
+                    return 0;
+                });
+
+                setCountryOptions(sortedCountries);
+            })
+            .catch((error) => console.error('Error fetching country codes:', error));
+
         const savedOrganizationInfo = JSON.parse(localStorage.getItem('organizationInfo'));
         if (savedOrganizationInfo) {
             setOrganizationInfo(savedOrganizationInfo);
@@ -27,15 +54,22 @@ function OrganizationDetails() {
             ...prevInfo,
             [name]: value,
         }));
+        setHasUnsavedChanges(true);
     };
 
     const handleEditClick = () => {
         setIsEditing(true);
+        setTimeout(() => {
+            if (organizationNameRef.current) {
+                organizationNameRef.current.focus();
+            }
+        }, 0);
     };
 
     const handleSaveClick = () => {
         setIsEditing(false);
         localStorage.setItem('organizationInfo', JSON.stringify(organizationInfo));
+        setHasUnsavedChanges(false);
     };
 
     const handleCancelClick = () => {
@@ -44,12 +78,12 @@ function OrganizationDetails() {
 
     return (
         <div className="flex flex-col p-8 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
-            {/* Organization Name */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Organization Name</label>
                     {isEditing ? (
                         <input
+                            ref={organizationNameRef}
                             type="text"
                             name="organizationName"
                             value={organizationInfo.organizationName}
@@ -57,26 +91,69 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.organizationName || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.organizationName || ''}</p>
                     )}
                 </div>
             </div>
 
+            <div className="grid grid-cols-1 gap-8 mb-6">
+                <div>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Organization Type</label>
+                    {isEditing ? (
+                        <div>
+                            <label className="inline-flex items-center">
+                                <input
+                                    type="radio"
+                                    name="organizationType"
+                                    value="Non-Profit"
+                                    checked={organizationInfo.organizationType === "Non-Profit"}
+                                    onChange={handleInputChange}
+                                    className="form-radio h-4 w-4 text-blue-500"
+                                />
+                                <span className="ml-2">Non-Profit</span>
+                            </label>
+                            <label className="inline-flex items-center ml-6">
+                                <input
+                                    type="radio"
+                                    name="organizationType"
+                                    value="For-Profit"
+                                    checked={organizationInfo.organizationType === "For-Profit"}
+                                    onChange={handleInputChange}
+                                    className="form-radio h-4 w-4 text-blue-500"
+                                />
+                                <span className="ml-2">For-Profit</span>
+                            </label>
+                        </div>
+                    ) : (
+                        <p className="text-lg text-gray-900">{organizationInfo.organizationType}</p>
+                    )}
+                </div>
+            </div>
 
-            {/* Phone Number, Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Phone Number</label>
                     {isEditing ? (
-                        <input
-                            type="text"
-                            name="phoneNumber"
-                            value={organizationInfo.phoneNumber}
-                            onChange={handleInputChange}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        />
+                        <div className="flex">
+                            <Select
+                                name="phoneCountryCode"
+                                value={countryOptions.find(option => option.value === organizationInfo.phoneCountryCode)}
+                                options={countryOptions}
+                                onChange={(selectedOption) => handleInputChange({ target: { name: 'phoneCountryCode', value: selectedOption.value } })}
+                                className="w-1/3 mr-2"
+                            />
+                            <input
+                                type="text"
+                                name="phoneNumber"
+                                value={organizationInfo.phoneNumber}
+                                onChange={handleInputChange}
+                                className="appearance-none block w-2/3 bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            />
+                        </div>
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.phoneNumber || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">
+                            {organizationInfo.phoneCountryCode} {organizationInfo.phoneNumber || ''}
+                        </p>
                     )}
                 </div>
                 <div>
@@ -90,12 +167,11 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.email || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.email || ''}</p>
                     )}
                 </div>
             </div>
 
-            {/* URL (separate row for better alignment) */}
             <div className="grid grid-cols-1 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">URL</label>
@@ -108,12 +184,11 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.url || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.url || ''}</p>
                     )}
                 </div>
             </div>
 
-            {/* Street Address */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Street Address</label>
@@ -126,7 +201,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.streetAddress || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.streetAddress || ''}</p>
                     )}
                 </div>
                 <div>
@@ -140,12 +215,11 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.streetAddress2 || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.streetAddress2 || ''}</p>
                     )}
                 </div>
             </div>
 
-            {/* City, State, Zip Code */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">City</label>
@@ -158,7 +232,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.city || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.city || ''}</p>
                     )}
                 </div>
                 <div>
@@ -172,7 +246,7 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.state || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.state || ''}</p>
                     )}
                 </div>
                 <div>
@@ -186,12 +260,11 @@ function OrganizationDetails() {
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{organizationInfo.zipCode || 'Not Set'}</p>
+                        <p className="text-lg text-gray-900">{organizationInfo.zipCode || ''}</p>
                     )}
                 </div>
             </div>
 
-            {/* Edit, Save, Cancel Buttons */}
             <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button

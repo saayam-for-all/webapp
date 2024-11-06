@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import React from 'react' //added for testing
 
 const VolunteerCourse = () => {
   const [file, setFile] = useState(null);

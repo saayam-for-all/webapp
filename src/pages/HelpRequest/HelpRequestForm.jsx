@@ -1,11 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCategories } from '../../redux/features/help_request/requestActions';
+import JobsCategory from "./Categories/JobCategory";
+import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
-import {GoogleMap, useJsApiLoader, StandaloneSearchBox} from '@react-google-maps/api';
+import usePlacesSearchBox from "./location/usePlacesSearchBox";
+import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
+import { useNavigate } from "react-router";
+
 
 const genderOptions = [
-  { value: 'Select', label: 'Select'},
+  { value: 'Select', label: 'Select' },
   { value: 'Woman', label: 'Woman' },
   { value: 'Man', label: 'Man' },
   { value: 'Non-binary', label: 'Non-binary' },
@@ -14,18 +19,21 @@ const genderOptions = [
   { value: 'Gender-nonconforming', label: 'Gender-nonconforming' },
 ];
 
-const HelpRequestForm = () => {
+const HelpRequestForm = ({isEdit = false, onClose}) => {
   const dispatch = useDispatch();
+  const Navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
+  const { inputRef, isLoaded, handleOnPlacesChanges } = usePlacesSearchBox();
 
   const [selfFlag, setSelfFlag] = useState(true);
   const [languages, setLanguages] = useState([]);
 
-  const [selectedCategory, setSelectedCategory] = useState('general');
-  const [subcategories, setSubcategories] = useState([]);
-  const [selectedSubcategory, setSelectedSubcategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('General');
+  const [filteredCategories, setFilteredCategories] = useState([]); 
+  const [searchInput, setSearchInput] = useState(''); 
   const [requestType, setRequestType] = useState('');
-
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -43,56 +51,89 @@ const HelpRequestForm = () => {
         console.error('Error fetching languages:', error);
       }
     };
+
     // Dispatch categories action and fetch languages
     dispatch(loadCategories());
     fetchLanguages();
+
   }, [dispatch]);
 
-  const handleCategoryChange = (e) => {
-    const categoryName = e.target.value;
-    setSelectedCategory(categoryName);
-    const category = categories.find(cat => cat.name === categoryName);
-    if (category && category.subcategories) {
-      setSubcategories(category.subcategories);
+  useEffect(() => {
+    if (categories && categories.length > 0) {
+      setFilteredCategories(categories); // Set all categories when they are first loaded
+    }
+  }, [categories]);
+
+  const handleSearchInput = (e) => {
+    const searchTerm = e.target.value;
+    setSearchInput(searchTerm);
+  
+    if (searchTerm.trim() === '') {
+      // If search input is cleared, show all categories
+      setFilteredCategories(categories);
     } else {
-      setSubcategories([]);
+      const filtered = categories.filter(category =>
+        category.name.toLowerCase().startsWith(searchTerm.toLowerCase()) // Case-insensitive filtering
+      );
+      setFilteredCategories(filtered);
+    }
+    setShowDropdown(true); // Always show dropdown while user is interacting with the input
+  };
+  // Handle clicking outside the input (to close dropdown)
+  const handleClickOutside = (event) => {
+    if (inputRef.current && !inputRef.current.contains(event.target)) {
+      setShowDropdown(false); // Hide dropdown if user clicks outside
     }
   };
+  
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);//event listner when comp mounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);//clean comp when comp unmounts
+    };
+  }, []);
 
-  const handleSubcategoryChange = (e) => {
-    setSelectedSubcategory(e.target.value);
+  const handleCategoryClick = (categoryName) => {
+    setSelectedCategory(categoryName);
+    setSearchInput(categoryName); // Update input with selected category
+    setShowDropdown(false); // Hide dropdown after selection
+    setHoveredCategory(null);
   };
-   
-  const inputref =useRef(null);
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyDv7--yEnq84ZN3l03y50O33M4S89Un4U0",
-    libraries:["places"]
-  })
 
-  const handleOnPlacesChanges = () =>{
-    let address = inputref.current.getPlaces()
-  }
+  const handleSubcategoryClick = (subcategoryName) => {
+    setSelectedCategory(subcategoryName); // Set subcategory as the selected value
+    setSearchInput(subcategoryName); 
+    setShowDropdown(false); 
+    setHoveredCategory(null); // Close dropdown
+  };
+
+  const inputref = useRef(null);
 
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
 
+  const handleCloseForm = () => {
+    Navigate('/dashboard');
+  }
+
   return (
-    <div className="bg-gray-100">
+    <div className="">
       <div className="w-full max-w-3xl mx-auto p-8">
-        <div className="bg-white p-8 rounded-lg shadow-md border">
+        <div className="bg-white p-8 rounded-lg shadow-md border ">
           <h1 className="text-2xl font-bold text-gray-800 ">
-            Create Help Request
+            {isEdit ? `Edit Help Request` : `Create Help Request`}
           </h1>
 
           <div
             className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
             role="alert"
           >
-            <IoMdInformationCircle size={22}/>
+            <IoMdInformationCircle size={22} />
             <div>
-              <span className="font-medium">Note:</span> We do not handle life-threatening emergency requests. Please call your local emergency service if you need urgent help.
+              <span className="font-medium">Note:</span> We do not handle
+              life-threatening emergency requests. Please call your local
+              emergency service if you need urgent help.
             </div>
           </div>
 
@@ -108,7 +149,6 @@ const HelpRequestForm = () => {
               className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
               onChange={handleForSelfFlag}
             >
-              {/* <option selected>Choose a option</option> */}
               <option value="yes">Yes</option>
               <option value="no">No</option>
             </select>
@@ -116,7 +156,7 @@ const HelpRequestForm = () => {
 
           {!selfFlag && (
             <div className="mt-3">
-              <div className="grid grid-cols-2 gap-4 ">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
                     htmlFor="first_name"
@@ -225,87 +265,66 @@ const HelpRequestForm = () => {
               </div>
             </div>
           )}
-
           <div className="mt-3 grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="calamity"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Is Calamity?
-              </label>
-              <input
-                id="calamity"
-                type="checkbox"
-                value=""
-                name="calamity"
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="priority"
-                className="block mb-1 font-medium text-gray-700"
-              >
-                Priority
-              </label>
-              <select
-                id="priority"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                defaultValue={"low"}
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
-          </div>
-          <div className="mt-3 grid grid-cols-2 gap-4">
-            <div>
+            <div className="relative">
               <label
                 htmlFor="category"
                 className="block mb-2 font-medium text-gray-700"
               >
                 Request Category
               </label>
-              <select
+              <input
+                type="text"
                 id="category"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                value={selectedCategory}
-                onChange={handleCategoryChange}
-              >
-                <option value="general">General</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {/* Subcategory dropdown */}
-            {subcategories.length > 0 && (
-              <div>
-                <label htmlFor="subcategory" className="block mb-2 font-medium text-gray-700">
-                  Subcategory
-                </label>
-                <select
-                  id="subcategory"
-                  className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                  value={selectedSubcategory}
-                  onChange={handleSubcategoryChange}
+                value={searchInput}
+                onChange={handleSearchInput}
+                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
+                placeholder="Search or select a category..."
+                onFocus={() => setShowDropdown(true)} // Show dropdown when input is focused
+              />
+              {showDropdown && (
+                <div
+                  className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
+                  style={{ maxHeight: "200px" }}
                 >
-                  <optgroup label={selectedCategory}>
-                    {subcategories.map((subcategory, index) => (
-                      <option key={index} value={subcategory}>
-                        {subcategory}
-                      </option>
-                    ))}
-                  </optgroup>
-                </select>
-              </div>
-            )}
-          
+                  {filteredCategories.map((category) => (
+                    <div
+                      key={category.id}
+                      className="p-2 border-b cursor-pointer hover:bg-gray-100 relative"
+                      onClick={() =>
+                        !category.subcategories &&
+                        handleCategoryClick(category.name)
+                      } // Select category if no subcategories
+                      onMouseEnter={() => setHoveredCategory(category)} // Set hovered category
+                      onMouseLeave={() => setHoveredCategory(null)} // Clear hovered category on leave
+                    >
+                      {category.name}
+
+                      {/* Show subcategories if the category is hovered and it has subcategories */}
+                      {hoveredCategory === category &&
+                        category.subcategories && (
+                          <div className="bg-white border rounded shadow-lg p-2 z-20 mt-2">
+                            {category.subcategories.map(
+                              (subcategory, index) => (
+                                <div
+                                  key={index}
+                                  className="cursor-pointer hover:bg-gray-200"
+                                  onClick={() =>
+                                    handleSubcategoryClick(subcategory)
+                                  }
+                                >
+                                  {subcategory}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div>
               <label
                 htmlFor="requestType"
@@ -316,43 +335,48 @@ const HelpRequestForm = () => {
               <select
                 id="requestType"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                value ={requestType}
+                value={requestType}
                 onChange={(e) => setRequestType(e.target.value)}
               >
                 <option value="remote">Remote</option>
-                <option value="inPerson">In Person</option> 
+                <option value="inPerson">In Person</option>
               </select>
             </div>
-            {requestType === 'inPerson' && (
-            <div className="mt-3">
-              <label
-                htmlFor="location"
-                className="block mb-1 font-medium text-gray-700"
-              >
-                Location
-              </label>
-              {isLoaded &&
-              <StandaloneSearchBox 
-                onLoad={(ref) => inputref.current =ref}
-                onPlacesChanged={handleOnPlacesChanges}
-              >
-              <input
-                type="text"
-                id="location"
-                name="location"
-                className="border p-2 w-full rounded-lg"
-                
-              /></StandaloneSearchBox>}
-            </div>
-          )}
+
+            {requestType === "inPerson" && (
+              <div className="mt-3">
+                <label
+                  htmlFor="location"
+                  className="block mb-1 font-medium text-gray-700"
+                >
+                  Location
+                </label>
+                {isLoaded && (
+                  <StandaloneSearchBox
+                    onLoad={(ref) => (inputRef.current = ref)}
+                    onPlacesChanged={handleOnPlacesChanges}
+                  >
+                    <input
+                      type="text"
+                      id="location"
+                      name="location"
+                      className="border p-2 w-full rounded-lg"
+                    />
+                  </StandaloneSearchBox>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="mt-3">
+            {selectedCategory === "Jobs" && <JobsCategory />}
+            {selectedCategory === "Housing" && <HousingCategory />}
             <label
               htmlFor="subject"
               className="block text-gray-700 font-medium mb-2"
             >
-              Subject <span className="text-red-500">*</span> (Max 70 characters)
+              Subject <span className="text-red-500">*</span> (Max 70
+              characters)
             </label>
             <input
               type="text"
@@ -369,7 +393,8 @@ const HelpRequestForm = () => {
               htmlFor="description"
               className="block text-gray-700 font-medium mb-2"
             >
-              Description <span className="text-red-500">*</span> (Max 500 characters)
+              Description <span className="text-red-500">*</span> (Max 500
+              characters)
             </label>
             <textarea
               id="description"
@@ -382,7 +407,10 @@ const HelpRequestForm = () => {
           </div>
 
           <div className="mt-8 flex justify-end gap-2">
-            <button className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg">
+            <button
+              className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg"
+              onClick={isEdit ? onClose : handleCloseForm}
+            >
               Cancel
             </button>
             <button className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg">

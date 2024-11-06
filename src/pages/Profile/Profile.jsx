@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react';
 import YourProfile from './YourProfile';
 import PersonalInformation from './PersonalInformation';
 import ChangePassword from './ChangePassword';
-import Sidebar from './Sidebar';  
+import Sidebar from './Sidebar';
 import Modal from './Modal';
-import OrganizationDetails from './OrganizationDetails';  // Import OrganizationDetails component
+import OrganizationDetails from './OrganizationDetails';
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
-    const [tempProfilePhoto, setTempProfilePhoto] = useState(DEFAULT_PROFILE_ICON); 
+    const [tempProfilePhoto, setTempProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
     const [activeTab, setActiveTab] = useState('profile');
-    const [isEditing, setIsEditing] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false); 
 
     useEffect(() => {
         const savedProfilePhoto = localStorage.getItem('profilePhoto');
         if (savedProfilePhoto) {
             setProfilePhoto(savedProfilePhoto);
-            setTempProfilePhoto(savedProfilePhoto); 
+            setTempProfilePhoto(savedProfilePhoto);
         }
     }, []);
 
@@ -28,34 +28,38 @@ function Profile() {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const photo = e.target.result;
-                setTempProfilePhoto(photo); 
-                setIsEditing(true);
+                setTempProfilePhoto(photo);
             };
             reader.readAsDataURL(file);
         }
     };
 
     const handleSaveClick = () => {
-        setProfilePhoto(tempProfilePhoto); 
-        localStorage.setItem('profilePhoto', tempProfilePhoto); 
+        setProfilePhoto(tempProfilePhoto);
+        localStorage.setItem('profilePhoto', tempProfilePhoto);
         window.dispatchEvent(new Event('profile-photo-updated'));
-        setIsEditing(false);
         setIsModalOpen(false);
     };
 
     const handleCancelClick = () => {
-        setTempProfilePhoto(profilePhoto); 
-        setIsEditing(false);
+        setTempProfilePhoto(profilePhoto);
         setIsModalOpen(false);
     };
 
     const handleDeleteClick = () => {
-        setTempProfilePhoto(DEFAULT_PROFILE_ICON); 
-        setIsEditing(true);
+        setTempProfilePhoto(DEFAULT_PROFILE_ICON);
     };
 
     const handleTabChange = (tab) => {
-        setActiveTab(tab);
+        if (hasUnsavedChanges) {
+            const proceed = window.confirm("You have unsaved changes. Do you want to proceed without saving?");
+            if (proceed) {
+                setActiveTab(tab);
+                setHasUnsavedChanges(false); 
+            }
+        } else {
+            setActiveTab(tab);
+        }
     };
 
     const openModal = () => {
@@ -65,13 +69,13 @@ function Profile() {
     const renderTabContent = () => {
         switch (activeTab) {
             case 'profile':
-                return <YourProfile />;
+                return <YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />;
             case 'personal':
-                return <PersonalInformation />;
-            case 'password': 
-                return <ChangePassword />;
-            case 'organization':  // Add organization tab rendering
-                return <OrganizationDetails />;
+                return <PersonalInformation setHasUnsavedChanges={setHasUnsavedChanges} />;
+            case 'password':
+                return <ChangePassword setHasUnsavedChanges={setHasUnsavedChanges} />;  
+            case 'organization':
+                return <OrganizationDetails setHasUnsavedChanges={setHasUnsavedChanges} />; 
             default:
                 return null;
         }
@@ -81,7 +85,7 @@ function Profile() {
         <div className="flex flex-col items-center p-4 min-h-screen bg-gray-100">
             <div className="flex w-full max-w-6xl bg-white rounded-lg shadow-lg">
                 <Sidebar
-                    profilePhoto={profilePhoto} 
+                    profilePhoto={profilePhoto}
                     handleTabChange={handleTabChange}
                     activeTab={activeTab}
                     openModal={openModal}
@@ -91,8 +95,8 @@ function Profile() {
                 </div>
             </div>
             {isModalOpen && (
-                <Modal 
-                    profilePhoto={tempProfilePhoto} 
+                <Modal
+                    profilePhoto={tempProfilePhoto}
                     handlePhotoChange={handlePhotoChange}
                     handleSaveClick={handleSaveClick}
                     handleCancelClick={handleCancelClick}

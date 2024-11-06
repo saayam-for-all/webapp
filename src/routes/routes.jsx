@@ -12,9 +12,13 @@ import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import Profile from "../pages/Profile/Profile";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
+<<<<<<< HEAD
 import LoginPage from "../pages/LoginPage/LoginPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
 import VerifyAccountPage from "../pages/ForgotPasswordPage/VerifyAccountPage";
+=======
+import OrganizationDetails from '../pages/RequestDetails/OrganizationDetails';
+>>>>>>> ac690fd4a82396efc06b33d61e04eb2775b08469
 
 const routes = [
   {
@@ -47,11 +51,7 @@ const routes = [
   },
   {
     path: "dashboard",
-    element: (
-      <ProtectedRoute>
-        <Dashboard />
-      </ProtectedRoute>
-    ),
+    element: <Dashboard />,
   },
   {
     path: "request/:id",
@@ -74,6 +74,7 @@ const routes = [
     element: <VoluntaryOrganizations />,
   },
   {
+<<<<<<< HEAD
     path: "login",
     element: <LoginPage />,
   },
@@ -84,7 +85,12 @@ const routes = [
   {
     path: "verify-account",
     element: <VerifyAccountPage />,
+=======
+    path: "organization/:id",
+    element: <OrganizationDetails />,
+>>>>>>> ac690fd4a82396efc06b33d61e04eb2775b08469
   },
 ];
 
 export default routes;
+
