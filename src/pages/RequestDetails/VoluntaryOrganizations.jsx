@@ -183,6 +183,7 @@ const VoluntaryOrganizations = () => {
         sortConfig={sortConfig}
         requestSort={requestSort}
         onRowsPerPageChange={handleRowsPerPageChange}
+        getLinkPath={(request, header) => `/organization/${request[header]}`}
       />
     </div>
   );

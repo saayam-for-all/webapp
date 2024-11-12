@@ -6,6 +6,7 @@ import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
+import { useNavigate } from "react-router";
 
 
 const genderOptions = [
@@ -18,8 +19,9 @@ const genderOptions = [
   { value: 'Gender-nonconforming', label: 'Gender-nonconforming' },
 ];
 
-const HelpRequestForm = () => {
+const HelpRequestForm = ({isEdit = false, onClose}) => {
   const dispatch = useDispatch();
+  const Navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
   const { inputRef, isLoaded, handleOnPlacesChanges } = usePlacesSearchBox();
 
@@ -111,21 +113,35 @@ const HelpRequestForm = () => {
     setSelfFlag(e.target.value === "yes");
   };
 
-  return (
-    <div className="bg-gray-100">
-      <div className="w-full max-w-3xl mx-auto p-8">
-        <div className="bg-white p-8 rounded-lg shadow-md border">
-          <h1 className="text-2xl font-bold text-gray-800 ">Create Help Request</h1>
+  const handleCloseForm = () => {
+    Navigate('/dashboard');
+  }
 
-          <div className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+  return (
+    <div className="">
+      <div className="w-full max-w-3xl mx-auto p-8">
+        <div className="bg-white p-8 rounded-lg shadow-md border ">
+          <h1 className="text-2xl font-bold text-gray-800 ">
+            {isEdit ? `Edit Help Request` : `Create Help Request`}
+          </h1>
+
+          <div
+            className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+            role="alert"
+          >
             <IoMdInformationCircle size={22} />
             <div>
-              <span className="font-medium">Note:</span> We do not handle life-threatening emergency requests. Please call your local emergency service if you need urgent help.
+              <span className="font-medium">Note:</span> We do not handle
+              life-threatening emergency requests. Please call your local
+              emergency service if you need urgent help.
             </div>
           </div>
 
           <div className="mt-3">
-            <label htmlFor="self" className="block mb-1 text-gray-700 font-medium">
+            <label
+              htmlFor="self"
+              className="block mb-1 text-gray-700 font-medium"
+            >
               For Self
             </label>
             <select
@@ -142,44 +158,85 @@ const HelpRequestForm = () => {
             <div className="mt-3">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="first_name" className="block text-gray-700 mb-1 font-medium">
+                  <label
+                    htmlFor="first_name"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     First Name
                   </label>
-                  <input type="text" id="first_name" className="w-full rounded-lg border py-2 px-3" />
+                  <input
+                    type="text"
+                    id="first_name"
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="last_name" className="block text-gray-700 mb-1 font-medium">
+                  <label
+                    htmlFor="last_name"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     Last Name
                   </label>
-                  <input type="text" id="last_name" className="w-full rounded-lg border py-2 px-3" />
+                  <input
+                    type="text"
+                    id="last_name"
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
                 </div>
               </div>
 
               <div className="mt-3">
-                <label htmlFor="email" className="block text-gray-700 mb-1 font-medium">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 mb-1 font-medium"
+                >
                   Email
                 </label>
-                <input type="email" id="email" className="w-full rounded-lg border py-2 px-3" />
+                <input
+                  type="email"
+                  id="email"
+                  className="w-full rounded-lg border py-2 px-3"
+                />
               </div>
 
               <div className="mt-3 grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="phone" className="block text-gray-700 mb-1 font-medium">
+                  <label
+                    htmlFor="phone"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     Phone
                   </label>
-                  <input type="text" id="phone" className="w-full rounded-lg border py-2 px-3" />
+                  <input
+                    type="text"
+                    id="phone"
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="age" className="block text-gray-700 mb-1 font-medium">
+                  <label
+                    htmlFor="age"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     Age
                   </label>
-                  <input type="number" id="age" className="w-full rounded-lg border py-2 px-3" />
+                  <input
+                    type="number"
+                    id="age"
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
                 </div>
                 <div className="mt-3">
-                  <label htmlFor="gender" className="block text-gray-700 mb-1 font-medium">
+                  <label
+                    htmlFor="gender"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     Gender
                   </label>
-                  <select id="gender" className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full">
+                  <select
+                    id="gender"
+                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                  >
                     {genderOptions.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
@@ -188,10 +245,16 @@ const HelpRequestForm = () => {
                   </select>
                 </div>
                 <div className="mt-3">
-                  <label htmlFor="language" className="block text-gray-700 mb-1 font-medium">
+                  <label
+                    htmlFor="language"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
                     Preferred Language
                   </label>
-                  <select id="language" className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full">
+                  <select
+                    id="language"
+                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                  >
                     {languages.map((language) => (
                       <option key={language.value} value={language.value}>
                         {language.label}
@@ -204,7 +267,10 @@ const HelpRequestForm = () => {
           )}
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="relative">
-              <label htmlFor="category" className="block mb-2 font-medium text-gray-700">
+              <label
+                htmlFor="category"
+                className="block mb-2 font-medium text-gray-700"
+              >
                 Request Category
               </label>
               <input
@@ -215,43 +281,55 @@ const HelpRequestForm = () => {
                 className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
                 placeholder="Search or select a category..."
                 onFocus={() => setShowDropdown(true)} // Show dropdown when input is focused
-                
               />
-            {showDropdown && (
-                <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto" 
-                     style={{ maxHeight: '200px' }}>
+              {showDropdown && (
+                <div
+                  className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
+                  style={{ maxHeight: "200px" }}
+                >
                   {filteredCategories.map((category) => (
                     <div
                       key={category.id}
                       className="p-2 border-b cursor-pointer hover:bg-gray-100 relative"
-                      onClick={() => !category.subcategories && handleCategoryClick(category.name)} // Select category if no subcategories
+                      onClick={() =>
+                        !category.subcategories &&
+                        handleCategoryClick(category.name)
+                      } // Select category if no subcategories
                       onMouseEnter={() => setHoveredCategory(category)} // Set hovered category
                       onMouseLeave={() => setHoveredCategory(null)} // Clear hovered category on leave
                     >
                       {category.name}
 
                       {/* Show subcategories if the category is hovered and it has subcategories */}
-                      {hoveredCategory === category && category.subcategories && (
-                        <div className="bg-white border rounded shadow-lg p-2 z-20 mt-2">
-                          {category.subcategories.map((subcategory, index) => (
-                            <div
-                              key={index}
-                              className="cursor-pointer hover:bg-gray-200"
-                              onClick={() => handleSubcategoryClick(subcategory)}
-                            >
-                              {subcategory}
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      {hoveredCategory === category &&
+                        category.subcategories && (
+                          <div className="bg-white border rounded shadow-lg p-2 z-20 mt-2">
+                            {category.subcategories.map(
+                              (subcategory, index) => (
+                                <div
+                                  key={index}
+                                  className="cursor-pointer hover:bg-gray-200"
+                                  onClick={() =>
+                                    handleSubcategoryClick(subcategory)
+                                  }
+                                >
+                                  {subcategory}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
                     </div>
                   ))}
                 </div>
               )}
             </div>
-            
+
             <div>
-              <label htmlFor="requestType" className="block mb-2 font-medium text-gray-700">
+              <label
+                htmlFor="requestType"
+                className="block mb-2 font-medium text-gray-700"
+              >
                 Request Type
               </label>
               <select
@@ -265,9 +343,12 @@ const HelpRequestForm = () => {
               </select>
             </div>
 
-            {requestType === 'inPerson' && (
+            {requestType === "inPerson" && (
               <div className="mt-3">
-                <label htmlFor="location" className="block mb-1 font-medium text-gray-700">
+                <label
+                  htmlFor="location"
+                  className="block mb-1 font-medium text-gray-700"
+                >
                   Location
                 </label>
                 {isLoaded && (
@@ -288,10 +369,14 @@ const HelpRequestForm = () => {
           </div>
 
           <div className="mt-3">
-            {selectedCategory === 'Jobs' && <JobsCategory />}
-            {selectedCategory === 'Housing' && <HousingCategory />} 
-            <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
-              Subject <span className="text-red-500">*</span> (Max 70 characters)
+            {selectedCategory === "Jobs" && <JobsCategory />}
+            {selectedCategory === "Housing" && <HousingCategory />}
+            <label
+              htmlFor="subject"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Subject <span className="text-red-500">*</span> (Max 70
+              characters)
             </label>
             <input
               type="text"
@@ -304,8 +389,12 @@ const HelpRequestForm = () => {
           </div>
 
           <div className="mt-3">
-            <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
-              Description <span className="text-red-500">*</span> (Max 500 characters)
+            <label
+              htmlFor="description"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Description <span className="text-red-500">*</span> (Max 500
+              characters)
             </label>
             <textarea
               id="description"
@@ -318,7 +407,10 @@ const HelpRequestForm = () => {
           </div>
 
           <div className="mt-8 flex justify-end gap-2">
-            <button className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg">
+            <button
+              className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg"
+              onClick={isEdit ? onClose : handleCloseForm}
+            >
               Cancel
             </button>
             <button className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg">
