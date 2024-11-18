@@ -86,22 +86,6 @@ const Navbar = () => {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   const subscribe = Hub.listen("auth", ({ payload }) => {
-  //     switch (payload.event) {
-  //       case "signedIn":
-  //         console.log("user has signed in successfully.");
-  //         dispatch(checkAuthStatus());
-  //         break;
-  //       case "signedOut":
-  //         console.log("user has signed out successfully.");
-  //         break;
-  //     }
-  //   });
-
-  //   return subscribe;
-  // }, [dispatch]);
-
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
