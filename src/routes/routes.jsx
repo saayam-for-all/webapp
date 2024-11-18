@@ -12,13 +12,12 @@ import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import Profile from "../pages/Profile/Profile";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
-<<<<<<< HEAD
-import LoginPage from "../pages/LoginPage/LoginPage";
+import Login from "../pages/Auth/Login";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
 import VerifyAccountPage from "../pages/ForgotPasswordPage/VerifyAccountPage";
-=======
-import OrganizationDetails from '../pages/RequestDetails/OrganizationDetails';
->>>>>>> ac690fd4a82396efc06b33d61e04eb2775b08469
+import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
+import SignUp from "../pages/Auth/Signup";
+import OTPVerification from "../pages/Auth/VerifyOtp";
 
 const routes = [
   {
@@ -74,9 +73,12 @@ const routes = [
     element: <VoluntaryOrganizations />,
   },
   {
-<<<<<<< HEAD
     path: "login",
-    element: <LoginPage />,
+    element: <Login />,
+  },
+  {
+    path: "signup",
+    element: <SignUp />,
   },
   {
     path: "forgot-password",
@@ -85,12 +87,15 @@ const routes = [
   {
     path: "verify-account",
     element: <VerifyAccountPage />,
-=======
+  },
+  {
     path: "organization/:id",
     element: <OrganizationDetails />,
->>>>>>> ac690fd4a82396efc06b33d61e04eb2775b08469
+  },
+  {
+    path: "verify-otp",
+    element: <OTPVerification />,
   },
 ];
 
 export default routes;
-

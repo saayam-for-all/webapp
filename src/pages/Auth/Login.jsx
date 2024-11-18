@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-
-import { login } from "../../redux/features/authentication/authActions";
+import { signIn } from "aws-amplify/auth";
+import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 
 const LoginPage = () => {
   const [emailValue, setEmailValue] = useState("");
@@ -15,11 +14,24 @@ const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
+  const { user } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSignIn = async () => {
-    dispatch(login(emailValue, passwordValue));
+    try {
+      const { isSignedIn } = await signIn({
+        username: emailValue,
+        password: passwordValue,
+      });
+      if (isSignedIn) {
+        dispatch(checkAuthStatus());
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (

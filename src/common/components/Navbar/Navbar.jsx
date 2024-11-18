@@ -1,4 +1,4 @@
-import React from 'react' // Added for testing
+import React from "react"; // Added for testing
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -86,21 +86,21 @@ const Navbar = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    const subscribe = Hub.listen("auth", ({ payload }) => {
-      switch (payload.event) {
-        case "signedIn":
-          console.log("user has signed in successfully.");
-          dispatch(checkAuthStatus());
-          break;
-        case "signedOut":
-          console.log("user has signed out successfully.");
-          break;
-      }
-    });
+  // useEffect(() => {
+  //   const subscribe = Hub.listen("auth", ({ payload }) => {
+  //     switch (payload.event) {
+  //       case "signedIn":
+  //         console.log("user has signed in successfully.");
+  //         dispatch(checkAuthStatus());
+  //         break;
+  //       case "signedOut":
+  //         console.log("user has signed out successfully.");
+  //         break;
+  //     }
+  //   });
 
-    return subscribe;
-  }, [dispatch]);
+  //   return subscribe;
+  // }, [dispatch]);
 
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -119,6 +119,7 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     dispatch(logout());
+    navigate("/login");
   };
 
   return (

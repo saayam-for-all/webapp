@@ -4,6 +4,7 @@ import {
   resetPassword,
   signIn,
   signOut,
+  signUp,
   fetchUserAttributes,
   fetchAuthSession,
 } from "aws-amplify/auth";
@@ -16,18 +17,7 @@ import {
   resetPasswordSuccess,
   resetPasswordFailure,
 } from "./authSlice";
-
-export const login = (email, password) => async (dispatch) => {
-  dispatch(loginRequest());
-  try {
-    await signIn({
-      username: email,
-      password: password,
-    });
-  } catch (error) {
-    dispatch(loginFailure(error.message));
-  }
-};
+import { useNavigate } from "react-router";
 
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
@@ -44,7 +34,9 @@ export const checkAuthStatus = () => async (dispatch) => {
       zoneinfo,
       groups,
     };
-    dispatch(loginSuccess(user));
+    if (user.userId) {
+      dispatch(loginSuccess(user));
+    }
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
