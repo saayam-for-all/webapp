@@ -1,4 +1,4 @@
-import { getCurrentUser, signInWithRedirect, signOut } from "aws-amplify/auth";
+import { getCurrentUser, signInWithRedirect, signOut,fetchAuthSession, } from "aws-amplify/auth";
 import {
   loginFailure,
   loginRequest,
@@ -15,11 +15,18 @@ export const login = () => async (dispatch) => {
   }
 };
 
-export const checkAuthStatus = () => async (dispatch) => {
+export const checkAuthStatus = () => async (dispatch) => {                                                                                                                                                                                                                            
   dispatch(loginRequest());
   try {
     const user = await getCurrentUser();
-    dispatch(loginSuccess(user));
+    const session = await fetchAuthSession();
+    const idToken = session.tokens?.idToken?.toString();
+    dispatch(
+      loginSuccess({
+        user,
+        idToken,
+      })
+    );
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
