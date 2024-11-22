@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Images from '../src/pages/LandingPage/components/Dynamic_img';
+import Images from '../../src/pages/LandingPage/components/Dynamic_img';
 import React from 'react'
 
 import Employment from "../../../assets/Landingpage_images/Employment.gif";

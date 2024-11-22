@@ -4,10 +4,10 @@ import {render,screen} from '@testing-library/react'
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import {store} from '../src/redux/store'
+import {store} from '../../src/redux/store'
 
 
-import Navbar from "../src/common/components/Navbar/Navbar"
+import Navbar from "../../src/common/components/Navbar/Navbar"
 
 test('renders Navbar and checks components' , () =>{
     render(  <Provider store={store}>

@@ -1,8 +1,8 @@
 import React from 'react'
 import {render,screen,fireEvent} from '@testing-library/react'
 import '@testing-library/jest-dom'
-import PromoteToVolunteer from '../src/pages/Volunteer/PromoteToVolunteer'
-import Stepper from '../src/pages/Volunteer/Stepper'
+import PromoteToVolunteer from '../../src/pages/Volunteer/PromoteToVolunteer'
+import Stepper from '../../src/pages/Volunteer/Stepper'
 import
 
 describe('PromoteToVolunteer Component', () => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import {render,screen} from '@testing-library/react'
-import RequestDetails from '../../src/pages/RequestDetails/RequestDetails'
+import RequestDetails from '../../../src/pages/RequestDetails/RequestDetails'
 //import RequestDescription from '../src/pages/RequestDetails/RequestDescription'
 //import RequestDetailsSidebar from '../src/pages/RequestDetails/RequestDetailsSidebar'
 import { MemoryRouter } from 'react-router'

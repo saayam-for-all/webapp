@@ -1,4 +1,4 @@
-import MissionVision from "../src/pages/Vision/Vision";
+import MissionVision from "../../src/pages/Vision/Vision";
 import React from 'react'
 import '@testing-library/jest-dom'
 import {screen,render} from '@testing-library/react'
