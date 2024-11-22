@@ -1,8 +1,7 @@
-import React from 'react' // Added for testing
+import React from "react"; // Added for testing
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { signOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import {
   IoPeopleOutline,
@@ -17,7 +16,7 @@ import "./NavBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkAuthStatus,
-  login,
+  logout,
 } from "../../../redux/features/authentication/authActions";
 
 const Navbar = () => {
@@ -87,22 +86,6 @@ const Navbar = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    const subscribe = Hub.listen("auth", ({ payload }) => {
-      switch (payload.event) {
-        case "signedIn":
-          console.log("user has signed in successfully.");
-          dispatch(checkAuthStatus());
-          break;
-        case "signedOut":
-          console.log("user has signed out successfully.");
-          break;
-      }
-    });
-
-    return subscribe;
-  }, [dispatch]);
-
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -113,17 +96,14 @@ const Navbar = () => {
     }
   };
 
-  const handleSignIn = async () => {
-    dispatch(login());
-  };
-
   const handleProfileClick = () => {
     navigate("/profile");
     setIsProfileDropdownOpen(false);
   };
 
   const handleSignOut = () => {
-    signOut();
+    dispatch(logout());
+    navigate("/login");
   };
 
   return (
@@ -221,13 +201,14 @@ const Navbar = () => {
             )}
           </div>
         ) : (
-          <button
+          <NavLink
+            to="/login"
             className="font-semibold flex flex-col items-center"
-            onClick={handleSignIn}
+            id="loginButton"
           >
             <IoLogInOutline className="mr-1 text-xl" />
             {t("login")}
-          </button>
+          </NavLink>
         )}
       </div>
     </div>
