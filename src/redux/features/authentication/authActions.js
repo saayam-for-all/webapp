@@ -1,7 +1,10 @@
 import {
+  confirmResetPassword,
   getCurrentUser,
-  signInWithRedirect,
+  resetPassword,
+  signIn,
   signOut,
+  signUp,
   fetchUserAttributes,
   fetchAuthSession,
 } from "aws-amplify/auth";
@@ -10,16 +13,11 @@ import {
   loginRequest,
   loginSuccess,
   logoutSuccess,
+  resetPasswordRequest,
+  resetPasswordSuccess,
+  resetPasswordFailure,
 } from "./authSlice";
-
-export const login = () => async (dispatch) => {
-  dispatch(loginRequest());
-  try {
-    await signInWithRedirect(); // This will redirect to the Cognito Hosted UI
-  } catch (error) {
-    dispatch(loginFailure(error.message));
-  }
-};
+import { useNavigate } from "react-router";
 
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
@@ -36,7 +34,9 @@ export const checkAuthStatus = () => async (dispatch) => {
       zoneinfo,
       groups,
     };
-    dispatch(loginSuccess(user));
+    if (user.userId) {
+      dispatch(loginSuccess(user));
+    }
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
@@ -50,3 +50,24 @@ export const logout = () => async (dispatch) => {
     dispatch(authFailure(error.message));
   }
 };
+
+export const forgotPassword = (email) => async (dispatch) => {
+  dispatch(resetPasswordRequest());
+  try {
+    await resetPassword({ username: email });
+  } catch (error) {
+    console.log(error);
+    dispatch(resetPasswordFailure(error.message));
+  }
+};
+
+export const confirmForgotPassword =
+  (username, confirmationCode, newPassword) => async (dispatch) => {
+    try {
+      await confirmResetPassword({ username, confirmationCode, newPassword });
+      dispatch(resetPasswordSuccess());
+    } catch (error) {
+      console.log(error);
+      dispatch(resetPasswordFailure(error.message));
+    }
+  };

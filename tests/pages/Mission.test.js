@@ -1,6 +1,6 @@
 import React from "react";
 import '@testing-library/jest-dom';
-import MissionVision from "../src/pages/Mission/Mission";
+import MissionVision from "../../src/pages/Mission/Mission";
 import { render, screen } from '@testing-library/react';
 
 test('mission vision render', () =>{

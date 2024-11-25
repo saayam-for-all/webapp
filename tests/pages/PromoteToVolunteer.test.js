@@ -1,7 +1,9 @@
 import React from 'react'
 import {render,screen,fireEvent} from '@testing-library/react'
 import '@testing-library/jest-dom'
-import PromoteToVolunteer from '../src/pages/Volunteer/PromoteToVolunteer'
+import PromoteToVolunteer from '../../src/pages/Volunteer/PromoteToVolunteer'
+import Stepper from '../../src/pages/Volunteer/Stepper'
+import
 
 describe('PromoteToVolunteer Component', () => {
     test('renders Terms & Conditions on step 1', () => {
@@ -51,4 +53,6 @@ describe('PromoteToVolunteer Component', () => {
   
       expect(screen.getByText('Complete')).toBeInTheDocument();
     });
+    
+    
   });

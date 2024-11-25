@@ -12,7 +12,12 @@ import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import Profile from "../pages/Profile/Profile";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
-import OrganizationDetails from '../pages/RequestDetails/OrganizationDetails';
+import Login from "../pages/Auth/Login";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
+import VerifyAccountPage from "../pages/ForgotPasswordPage/VerifyAccountPage";
+import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
+import SignUp from "../pages/Auth/Signup";
+import OTPVerification from "../pages/Auth/VerifyOtp";
 
 const routes = [
   {
@@ -68,10 +73,29 @@ const routes = [
     element: <VoluntaryOrganizations />,
   },
   {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "signup",
+    element: <SignUp />,
+  },
+  {
+    path: "forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "verify-account",
+    element: <VerifyAccountPage />,
+  },
+  {
     path: "organization/:id",
     element: <OrganizationDetails />,
+  },
+  {
+    path: "verify-otp",
+    element: <OTPVerification />,
   },
 ];
 
 export default routes;
-

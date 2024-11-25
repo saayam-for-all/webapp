@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import Home from '../src/pages/LandingPage/LandingPage'
+import Home from '../../src/pages/LandingPage/LandingPage'
 import {render,screen} from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 

@@ -16,6 +16,7 @@ const HelpingVolunteers = () => {
 
   // Get the current system date
   const systemDate = new Date();
+  const volunteersAssigned = 5;
   const formattedDate = systemDate.toLocaleString("en-US", {
     month: "short",
     day: "numeric",
@@ -265,11 +266,20 @@ const HelpingVolunteers = () => {
                         const value = e.target.value;
                         setSortBy(value);
                         if (value === "Newest") {
-                          setSortConfig({ key: "dateAdded", direction: "descending" });
+                          setSortConfig({
+                            key: "dateAdded",
+                            direction: "descending",
+                          });
                         } else if (value === "Oldest") {
-                          setSortConfig({ key: "dateAdded", direction: "ascending" });
+                          setSortConfig({
+                            key: "dateAdded",
+                            direction: "ascending",
+                          });
                         } else if (value === "Name") {
-                          setSortConfig({ key: "name", direction: "ascending" });
+                          setSortConfig({
+                            key: "name",
+                            direction: "ascending",
+                          });
                         }
                       }}
                       className="p-2 border border-gray-300 rounded-md"
@@ -301,7 +311,13 @@ const HelpingVolunteers = () => {
               </div>
 
               <div className="flex justify-between w-full mb-4">
-                <div className="text-md text-gray-500 font-bold">{`${volunteersCount} Volunteers Requested`}</div>
+                <div className="text-md text-gray-500 font-bold flex flex-row gap-4 items-center">
+                  {`${volunteersCount} Volunteers Requested`}
+                  {/* Badge with number */}
+                  <div className="bg-blue-500 text-white text-sm font-semibold px-2 py-1 rounded-full">
+                    {`${volunteersAssigned} Assigned`}
+                  </div>
+                </div>
                 <div className="text-md text-gray-400 font-light">{`${formattedDate}`}</div>
               </div>
 
