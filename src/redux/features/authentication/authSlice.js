@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   user: null,
   success: false,
+  idToken: null,
   error: null,
 };
 
@@ -17,7 +18,8 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.idToken = action.payload.idToken;
     },
     loginFailure: (state, action) => {
       state.loading = false;
@@ -25,6 +27,7 @@ const authSlice = createSlice({
     },
     logoutSuccess: (state) => {
       state.user = null;
+      state.idToken = null;
     },
     resetPasswordRequest: (state) => {
       state.loading = true;

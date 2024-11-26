@@ -297,7 +297,7 @@ const HousingCategory = () => {
             </select>
           </div>
         </>
-      )}
+      )}  
     </div>
   );
 };

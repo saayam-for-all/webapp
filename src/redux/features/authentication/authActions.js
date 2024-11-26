@@ -19,7 +19,7 @@ import {
 } from "./authSlice";
 import { useNavigate } from "react-router";
 
-export const checkAuthStatus = () => async (dispatch) => {
+export const checkAuthStatus = () => async (dispatch) => {                                                                                                                                                                                                                            
   dispatch(loginRequest());
   try {
     const { userId } = await getCurrentUser();
@@ -37,6 +37,15 @@ export const checkAuthStatus = () => async (dispatch) => {
     if (user.userId) {
       dispatch(loginSuccess(user));
     }
+    //const user = await getCurrentUser();
+    //const session = await fetchAuthSession();
+    const idToken = userSession.tokens?.idToken?.toString();
+    dispatch(
+      loginSuccess({
+        user,
+        idToken,
+      })
+    );
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
