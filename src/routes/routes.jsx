@@ -49,28 +49,49 @@ const routes = [
     element: <Contact />,
   },
   {
-    path: "dashboard",
-    element: <Dashboard />,
+    element: <ProtectedRoute />, // Parent wrapper for protected routes
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "request/:id",
+        element: <RequestDetails />,
+      },
+      {
+        path: "request",
+        element: <HelpRequestForm />,
+      },
+      {
+        path: "promote-to-volunteer",
+        element: <PromoteToVolunteer />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "voluntary-organizations",
+        element: <VoluntaryOrganizations />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordPage />,
+      },
+      {
+        path: "verify-account",
+        element: <VerifyAccountPage />,
+      },
+      {
+        path: "organization/:id",
+        element: <OrganizationDetails />,
+      },
+    ],
   },
   {
-    path: "request/:id",
-    element: <RequestDetails />,
-  },
-  {
-    path: "request",
-    element: <HelpRequestForm />,
-  },
-  {
-    path: "promote-to-volunteer",
-    element: <PromoteToVolunteer />,
-  },
-  {
-    path: "profile",
-    element: <Profile />,
-  },
-  {
-    path: "voluntary-organizations",
-    element: <VoluntaryOrganizations />,
+    path: "verify-otp",
+    element: <OTPVerification />,
   },
   {
     path: "login",
@@ -79,22 +100,6 @@ const routes = [
   {
     path: "signup",
     element: <SignUp />,
-  },
-  {
-    path: "forgot-password",
-    element: <ForgotPasswordPage />,
-  },
-  {
-    path: "verify-account",
-    element: <VerifyAccountPage />,
-  },
-  {
-    path: "organization/:id",
-    element: <OrganizationDetails />,
-  },
-  {
-    path: "verify-otp",
-    element: <OTPVerification />,
   },
 ];
 
