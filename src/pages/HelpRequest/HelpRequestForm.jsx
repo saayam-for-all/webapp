@@ -47,7 +47,7 @@ const HelpRequestForm = () => {
     age: "",
     gender: "Select",
     preferred_language: "",
-    category: "",
+    category: "General",
     request_type: "remote",
     location: "",
     subject: "",
@@ -277,7 +277,6 @@ const HelpRequestForm = () => {
                 value={formData.category}
                 onChange={handleSearchInput}
                 className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
-                placeholder="Search or select a category..."
                 onFocus={() => setShowDropdown(true)} 
                 
               />
