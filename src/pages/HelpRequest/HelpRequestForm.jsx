@@ -189,7 +189,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
             </div>
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3" data-testid = 'parentDivOne'>
             <label htmlFor="self" className="block mb-1 text-gray-700 font-medium">
               For Self
             </label>
@@ -204,7 +204,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
           </div>
 
           {!selfFlag && (
-            <div className="mt-3">
+            <div className="mt-3" data-testid = 'parentDivTwo'>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="requester_first_name" className="block text-gray-700 mb-1 font-medium">
@@ -220,7 +220,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
                 </div>
               </div>
 
-              <div className="mt-3">
+              <div className="mt-3" data-testid = 'parentDivThree'>
                 <label htmlFor="email" className="block text-gray-700 mb-1 font-medium">
                   Email
                 </label>
@@ -240,7 +240,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
                   </label>
                   <input type="number" id="age" value={formData.age} onChange={handleChange} className="w-full rounded-lg border py-2 px-3" />
                 </div>
-                <div className="mt-3">
+                <div className="mt-3" data-testid = 'parentDivFour'>
                   <label htmlFor="gender" className="block text-gray-700 mb-1 font-medium">
                     Gender
                   </label>
@@ -252,7 +252,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
                     ))}
                   </select>
                 </div>
-                <div className="mt-3">
+                <div className="mt-3" data-testid = 'parentDivFive'>
                   <label htmlFor="language" className="block text-gray-700 mb-1 font-medium">
                     Preferred Language
                   </label>
@@ -355,7 +355,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
             )}
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3" data-testid = 'parentDivSix'>
             {formData.category === 'Jobs' && <JobsCategory />}
             {formData.category === 'Housing' && <HousingCategory />} 
             <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
@@ -372,7 +372,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
             />
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3" data-testid = 'parentDivSeven'>
             <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
               Description <span className="text-red-500">*</span> (Max 500 characters)
             </label>
