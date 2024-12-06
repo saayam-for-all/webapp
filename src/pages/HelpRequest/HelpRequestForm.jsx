@@ -7,7 +7,7 @@ import { IoMdInformationCircle } from "react-icons/io";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
 import axios from 'axios';
-
+import React from 'react' //added for testing
 
 const genderOptions = [
   { value: 'Select', label: 'Select' },

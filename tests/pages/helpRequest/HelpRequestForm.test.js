@@ -2,11 +2,16 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import HelpRequestForm from '../../../src/pages/HelpRequest/HelpRequestForm'
 import {render,screen} from '@testing-library/react'
+import {Provider} from 'react-redux'
+import {store} from '../../../src/redux/store'
 
 test('it renders and checks divs with mt-3 class, the parent divs', () => {
-    render(<HelpRequestForm/>)
+    render(
+        <Provider store={store}>
+    <HelpRequestForm/>
+    </Provider>)
 
-    const firstParentDiv = screen.getByTestId('parentDivSeven')
+    const firstParentDiv = screen.getByTestId('parentDivOne')
     const secondParentDiv = screen.getByTestId('parentDivTwo')
     const thirdParentDiv = screen.getByTestId('parentDivThree')
     const fourthParentDiv = screen.getByTestId('parentDivFour')
