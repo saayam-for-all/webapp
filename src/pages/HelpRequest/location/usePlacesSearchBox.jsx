@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
 
-const usePlacesSearchBox = () => {
+const usePlacesSearchBox = (setLocation) => {
   const inputRef = useRef(null);
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -12,7 +12,10 @@ const usePlacesSearchBox = () => {
   const handleOnPlacesChanged = () => {
     if (inputRef.current) {
       const places = inputRef.current.getPlaces();
-      console.log(places); // Handle places or pass it to state
+      if (places.length > 0) {
+        const place = places[0]; // Get the first suggested place
+        setLocation(place.formatted_address);
+      }
     }
   };
 

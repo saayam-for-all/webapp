@@ -5,14 +5,14 @@ import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import CountryList from "react-select-country-list";
 import { signUp } from "aws-amplify/auth";
-import { useDispatch } from "react-redux";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 
 const SignUp = () => {
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [country, setCountry] = useState("");
@@ -26,7 +26,6 @@ const SignUp = () => {
   const countries = CountryList().getData();
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleSignUp = async () => {
     if (passwordValue !== confirmPasswordValue) {
@@ -40,7 +39,8 @@ const SignUp = () => {
         password: passwordValue,
         options: {
           userAttributes: {
-            name: fullName,
+            given_name: firstName,
+            family_name: lastName,
             email: emailValue,
             phone_number: `${PHONECODESEN[countryCode]["secondary"]}${phone}`,
             "custom:Country": country,
@@ -61,18 +61,37 @@ const SignUp = () => {
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">Sign Up</h1>
-        <div className="my-2 flex flex-col">
-          <label htmlFor="fullName">Full Name</label>
-          <input
-            id="fullName"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder="Your Full Name"
-            type="text"
-            className="px-4 py-2 border border-gray-300 rounded-xl"
-          />
+
+        <div className="my-1 flex flex-row gap-4">
+          {/* First Name */}
+          <div className="flex-1">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              id="firstName"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First Name"
+              type="text"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+            />
+          </div>
+
+          {/* Last Name */}
+          <div className="flex-1">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              id="lastName"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last Name"
+              type="text"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+            />
+          </div>
         </div>
-        <div className="my-2 flex flex-col">
+
+        {/* Email */}
+        <div className="my-1 flex flex-col">
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -83,6 +102,8 @@ const SignUp = () => {
             className="px-4 py-2 border border-gray-300 rounded-xl"
           />
         </div>
+
+        {/* Phone  Number */}
         <div className="my-2 flex flex-col">
           <label htmlFor="phone">Phone Number</label>
           <div className="flex space-x-2">
@@ -99,6 +120,7 @@ const SignUp = () => {
                 </option>
               ))}
             </select>
+
             <input
               id="phone"
               value={phone}
@@ -110,6 +132,8 @@ const SignUp = () => {
             />
           </div>
         </div>
+
+        {/* Country */}
         <div className="my-2 flex flex-col">
           <label htmlFor="country">Country</label>
           <select
@@ -126,6 +150,8 @@ const SignUp = () => {
             ))}
           </select>
         </div>
+
+        {/* Password */}
         <div className="my-2 flex flex-col">
           <label htmlFor="password">Password</label>
           <div
@@ -150,6 +176,8 @@ const SignUp = () => {
             </button>
           </div>
         </div>
+
+        {/* Confirm Password */}
         <div className="my-2 flex flex-col">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <div
@@ -173,6 +201,7 @@ const SignUp = () => {
             <p className="text-red-500 text-sm mt-1">Passwords do not match</p>
           )}
         </div>
+
         <button
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignUp}
@@ -180,7 +209,6 @@ const SignUp = () => {
           Sign up
         </button>
 
-        {/* Uncommment for Google and Facebook signin */}
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">Or With</span>
