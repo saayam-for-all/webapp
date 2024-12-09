@@ -9,15 +9,13 @@ import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import { createPortal } from "react-dom";
+import { useParams } from "react-router-dom"
 const RequestDescription = () => {
+  const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const handleToggle = () => {
     setIsOpen(!isOpen);
-  }
-
-  const closeForm = () => {
-    setIsEditing(false);
   }
 
   const handleEditClick = (event) => {
@@ -53,30 +51,30 @@ const RequestDescription = () => {
               className="overflow-y-auto max-h-[100vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              <HelpRequestForm isEdit={true} onClose={closeForm} />
+              <HelpRequestForm isEdit={true} onClose={() => setIsEditing(false)} />
             </div>
           </div>,
           document.body
         )}
       <div>
+        <button
+          className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 mb-5"
+          onClick={handleEditClick}
+        >
+          Edit
+        </button>
         <div
-          className="rounded-lg bg-white border border-gray-200 p-4 sm:p-6 m-0"
+          className="rounded-lg bg-white border border-gray-200 shadow-md p-4 sm:p-6 m-0"
           onClick={handleToggle}
         >
           <div className="flex flex-row justify-between md:items-center">
             {/* <div className="flex items-center md:gap-2 lg:gap-4"> */}
             <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5">
-              Help Needed for Community Clean-Up Event
+              #{id} Help Needed for Community Clean-Up Event
               <div className="flex gap-2 lg:gap-5">
                 <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
                   Open
                 </span>
-                <button
-                  className="bg-blue-500 text-white text-sm px-5 py-1 rounded-full hover:bg-blue-600"
-                  onClick={handleEditClick}
-                >
-                  Edit
-                </button>
               </div>
             </h2>
             {/* </div> */}
