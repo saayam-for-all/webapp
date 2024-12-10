@@ -7,6 +7,7 @@ import CountryList from "react-select-country-list";
 import { signUp } from "aws-amplify/auth";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
 const SignUp = () => {
   const [emailValue, setEmailValue] = useState("");
@@ -22,12 +23,69 @@ const SignUp = () => {
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [error, setError] = useState({});
 
   const countries = CountryList().getData();
 
   const navigate = useNavigate();
 
+  const validation = () => {
+    const newError = {};
+    const regex = /^[A-Za-z\s]+$/;
+    const numericRegex = /^[0-9]+$/;
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (firstName.trim() === '') {
+      newError.firstName = "First Name is required.";
+    }
+    else if (!regex.test(firstName)) {
+      newError.firstName = "First Name must contain only letters and spaces";
+    }
+
+    if (lastName.trim() === ''){
+      newError.lastName = "Last Name is required.";
+    }
+    else if (!regex.test(lastName)){
+      newError.lastName = "Last Name must contain only letters and spaces.";
+
+    }
+    if (!numericRegex.test(phone)){
+      newError.phone = "A valid phone number is required.";
+    }
+   else
+   {
+    const phoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+    const validate = parsePhoneNumberFromString(phoneNumber,countryCode);
+    if (!validate.isValid()) {
+      newError.phone = "A valid phone number is required."
+    }
+  }
+      
+  if (!emailValue.trim()) {
+    newError.email = "A valid email is required.";
+  } else if (!emailRegex.test(emailValue)) {
+    newError.email = "A valid email is required.";
+  } else if (emailValue.length > 50) {
+    newError.email = "Email cannot exceed 50 characters.";
+  } 
+
+  if (passwordValue.trim() === '') {
+    newError.password = "Password is required.";
+  } else if (!passwordRegex.test(passwordValue)) {
+    newError.password = "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.";
+  }
+  if (!country) {
+    newError.country = "Please select your country.";
+  }
+    setError(newError);
+    console.log(newError);
+    return Object.keys(newError).length === 0;
+  }
+
   const handleSignUp = async () => {
+    if (!validation()){
+      return;
+    }
     if (passwordValue !== confirmPasswordValue) {
       setPasswordsMatch(confirmPasswordValue === passwordValue);
       return;
@@ -72,8 +130,12 @@ const SignUp = () => {
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
               type="text"
+              maxLength = "50"
               className="w-full px-4 py-2 border border-gray-300 rounded-xl"
             />
+            {error.firstName && (
+              <p className="text-red-500 text-sm">{error.firstName}</p>
+            )}
           </div>
 
           {/* Last Name */}
@@ -86,7 +148,11 @@ const SignUp = () => {
               placeholder="Last Name"
               type="text"
               className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+              maxLength= "50"
             />
+             {error.lastName && (
+              <p className="text-red-500 text-sm">{error.lastName}</p>
+            )}
           </div>
         </div>
 
@@ -100,7 +166,10 @@ const SignUp = () => {
             placeholder="Your Email"
             type="text"
             className="px-4 py-2 border border-gray-300 rounded-xl"
+            maxLength = "50"
           />
+          {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
+        
         </div>
 
         {/* Phone  Number */}
@@ -127,9 +196,12 @@ const SignUp = () => {
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Your Phone Number"
               type="text"
-              maxLength={10}
               className="w-2/3 px-4 py-2 border border-gray-300 rounded-xl"
             />
+            {error.phone && (
+              <p className="text-red-500 text-sm">{error.phone}</p>
+            )}
+           
           </div>
         </div>
 
@@ -149,6 +221,7 @@ const SignUp = () => {
               </option>
             ))}
           </select>
+          {error.country && <p className="text-red-500 text-sm">{error.country}</p>}
         </div>
 
         {/* Password */}
@@ -174,6 +247,9 @@ const SignUp = () => {
             <button onClick={() => setPasswordVisible(!passwordVisible)}>
               {passwordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
+            {error.password && (
+    <p className="text-red-500 text-sm mt-1">{error.password}</p>
+  )}
           </div>
         </div>
 
