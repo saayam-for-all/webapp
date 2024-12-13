@@ -27,7 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Node.js Setup
-      - uses: actions/setup-node@v4
+        uses: actions/setup-node@v4
         with:
           node-version: '21'
           cache: 'npm'
