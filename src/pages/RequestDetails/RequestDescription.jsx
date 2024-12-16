@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
 import { PiWarningDiamondFill } from "react-icons/pi";
 import { VscCalendar } from "react-icons/vsc";
 import { TbTriangleSquareCircle } from "react-icons/tb";
@@ -10,10 +10,36 @@ import { IoIosArrowDown } from "react-icons/io";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom"
+
+const headerList = [
+  {
+    context: "July 1, 2024",
+    type: "date",
+    icon: <VscCalendar size={22} />,
+  },
+  {
+    context: "maintenance",
+    type: "category",
+    icon: <TbTriangleSquareCircle size={22} />,
+  },
+  {
+    context: "Peter parker",
+    type: "requester",
+    icon: <IoPersonCircle size={26} />,
+  },
+  {
+    context: "Ethan Marshall",
+    type: "volunteer",
+    icon: <RiUserStarLine size={22} />,
+  }
+];
+
 const RequestDescription = () => {
+  const token = useSelector((state) => state.auth.idToken);
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
   const handleToggle = () => {
     setIsOpen(!isOpen);
   }
@@ -38,7 +64,6 @@ const RequestDescription = () => {
       document.body.style.overflow = "unset";
     };
   }, [isEditing]);
-
   return (
     <>
       {isEditing &&
@@ -51,22 +76,25 @@ const RequestDescription = () => {
               className="overflow-y-auto max-h-[100vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              <HelpRequestForm isEdit={true} onClose={() => setIsEditing(false)} />
+              <HelpRequestForm
+                isEdit={true}
+                onClose={() => setIsEditing(false)}
+              />
             </div>
           </div>,
           document.body
         )}
       <div>
-        <button
-          className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 mb-5"
-          onClick={handleEditClick}
-        >
-          Edit
-        </button>
         <div
-          className="rounded-lg bg-white border border-gray-200 shadow-md p-4 sm:p-6 m-0"
+          className="rounded-lg bg-white border border-gray-200 shadow-md p-4 sm:p-6 m-0 flex flex-col"
           onClick={handleToggle}
         >
+          <button
+            className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 mb-5 ml-auto"
+            onClick={handleEditClick}
+          >
+            Edit
+          </button>
           <div className="flex flex-row justify-between md:items-center">
             {/* <div className="flex items-center md:gap-2 lg:gap-4"> */}
             <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5">
@@ -84,22 +112,18 @@ const RequestDescription = () => {
             </div>
           </div>
           <ul className="flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 pt-5 sm:items-center justify-between">
-            <li className="flex items-center gap-1">
-              <VscCalendar size={22} />
-              July 1, 2024
-            </li>
-            <li className="flex items-center gap-1">
-              <TbTriangleSquareCircle size={22} />
-              maintenance
-            </li>
-            <li className="flex items-center gap-1">
-              <IoPersonCircle size={22} />
-              Peter parker
-            </li>
-            <li className="flex items-center gap-1">
-              <RiUserStarLine size={22} />
-              Ethan Marshall
-            </li>
+            {headerList.map((header, index) => (
+              <li
+                key={index}
+                className="flex items-center gap-1 group relative"
+              >
+                {header.icon}
+                {header.context}
+                <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {header.type}
+                </div>
+              </li>
+            ))}
             <li className="flex items-center gap-1 ml-auto">
               {isOpen ? (
                 <IoIosArrowUp size={30} strokeWidth={2} />
