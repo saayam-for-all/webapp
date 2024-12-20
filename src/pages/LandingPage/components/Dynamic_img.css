@@ -1,0 +1,32 @@
+*.images {
+    width: fit-content; /* Adjust width as needed */
+    overflow: hidden; /* Hide overflowing content */
+    margin: 0 auto; /* Center the carousel horizontally */
+    position: relative; /* Needed for absolute positioning of the second slide */
+}
+  
+  .images:hover .images-slide {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-350%);
+    }
+  }
+
+
+  .images-slide {
+    display: flex; /* Arrange logos side-by-side */
+    animation: 30s scroll infinite linear; /* Animation for scrolling
+  }
+  
+  .images img {
+    width: auto; /* Maintain aspect ratio */
+    height: 200px ; /* Adjust logo height as desired */
+    margin: 5px; /* Optional spacing between logos */
+  }
+  
