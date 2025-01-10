@@ -18,7 +18,7 @@ const PromoteToVolunteer = () => {
 
   const steps = [
     "Terms & Conditions",
-    "Volunteer Course",
+    "Identification",
     "Skills",
     "Availability",
   ];
@@ -33,7 +33,7 @@ const PromoteToVolunteer = () => {
           />
         );
       case 2:
-        return <VolunteerCourse />;
+        return <Identification />;
       case 3:
         return <Skills checkedCategories={checkedCategories} setCheckedCategories={setCheckedCategories}/>;
       case 4:
