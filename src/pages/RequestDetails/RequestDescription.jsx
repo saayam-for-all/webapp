@@ -86,11 +86,11 @@ const RequestDescription = () => {
         )}
       <div>
         <div
-          className="rounded-lg bg-white border border-gray-200 shadow-md p-4 sm:p-6 m-0 flex flex-col"
+          className="rounded-lg bg-white border border-gray-200 shadow-md p-4 sm:p-6 m-0 flex flex-col gap-4"
           onClick={handleToggle}
         >
           <button
-            className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 mb-5 ml-auto"
+            className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
             onClick={handleEditClick}
           >
             Edit
@@ -99,19 +99,28 @@ const RequestDescription = () => {
             {/* <div className="flex items-center md:gap-2 lg:gap-4"> */}
             <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5">
               #{id} Help Needed for Community Clean-Up Event
-              <div className="flex gap-2 lg:gap-5">
+              {/* <div className="flex gap-2 lg:gap-5">
                 <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
                   Open
                 </span>
-              </div>
+              </div> */}
             </h2>
             {/* </div> */}
+            {/* <div className="flex items-center">
+              <PiWarningDiamondFill className="mr-1 text-red-500" />
+              <span className="text-sm font-bold">High</span>
+            </div> */}
+          </div>
+          <div className="flex gap-4">
+            <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
+              Open
+            </span>
             <div className="flex items-center">
               <PiWarningDiamondFill className="mr-1 text-red-500" />
               <span className="text-sm font-bold">High</span>
             </div>
           </div>
-          <ul className="flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 pt-5 sm:items-center justify-between">
+          <ul className="flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 sm:items-center justify-between">
             {headerList.map((header, index) => (
               <li
                 key={index}
