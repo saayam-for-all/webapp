@@ -7,31 +7,41 @@ import { IoPersonCircle } from "react-icons/io5";
 import { RiUserStarLine } from "react-icons/ri";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+import { FaPhone } from "react-icons/fa6";
+import { FaVideo } from "react-icons/fa";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom"
-
-const headerList = [
+import { useGetAllRequestQuery } from "../../services/requestApi";
+const attributes = [
   {
     context: "July 1, 2024",
-    type: "date",
+    type: "Creation Date",
     icon: <VscCalendar size={22} />,
+    phoneIcon: false,
+    videoIcon: false,
   },
   {
-    context: "maintenance",
-    type: "category",
+    context: "Maintenance",
+    type: "Category",
     icon: <TbTriangleSquareCircle size={22} />,
+    phoneIcon: false,
+    videoIcon: false,
   },
   {
     context: "Peter parker",
-    type: "requester",
+    type: "Requester",
     icon: <IoPersonCircle size={26} />,
+    phoneIcon: true,
+    videoIcon: true,
   },
   {
     context: "Ethan Marshall",
-    type: "volunteer",
+    type: "Volunteer",
     icon: <RiUserStarLine size={22} />,
-  }
+    phoneIcon: true,
+    videoIcon: true,
+  },
 ];
 
 const RequestDescription = () => {
@@ -39,6 +49,11 @@ const RequestDescription = () => {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { data, error, isLoading } = useGetAllRequestQuery();
+  if (isLoading) return <div>Loading...</div>;
+  const requestData = data.body?.find((item) => item.id === id);
+  attributes[0].context = requestData?.creationDate;
+  attributes[1].context = requestData?.category;
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -97,40 +112,39 @@ const RequestDescription = () => {
           </button>
           <div className="flex flex-row justify-between md:items-center">
             {/* <div className="flex items-center md:gap-2 lg:gap-4"> */}
-            <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5">
-              #{id} Help Needed for Community Clean-Up Event
-              {/* <div className="flex gap-2 lg:gap-5">
-                <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
-                  Open
-                </span>
-              </div> */}
+            <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 uppercase">
+              #{id} {requestData.subject}
             </h2>
-            {/* </div> */}
-            {/* <div className="flex items-center">
-              <PiWarningDiamondFill className="mr-1 text-red-500" />
-              <span className="text-sm font-bold">High</span>
-            </div> */}
           </div>
           <div className="flex gap-4">
             <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
-              Open
+              #{id}
+            </span>
+            <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
+              {requestData.status}
             </span>
             <div className="flex items-center">
               <PiWarningDiamondFill className="mr-1 text-red-500" />
-              <span className="text-sm font-bold">High</span>
+              <span className="text-sm font-bold">{requestData.priority}</span>
             </div>
           </div>
           <ul className="flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 sm:items-center justify-between">
-            {headerList.map((header, index) => (
+            {attributes.map((header, index) => (
               <li
                 key={index}
-                className="flex items-center gap-1 group relative"
+                className="flex items-center gap-2 group relative"
               >
                 {header.icon}
                 {header.context}
                 <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   {header.type}
                 </div>
+                {header.phoneIcon && (
+                  <FaPhone className="cursor-pointer" size={15} />
+                )}
+                {header.videoIcon && (
+                  <FaVideo className="cursor-pointer" size={17} />
+                )}
               </li>
             ))}
             <li className="flex items-center gap-1 ml-auto">
@@ -144,14 +158,7 @@ const RequestDescription = () => {
         </div>
         {isOpen && (
           <div className="bg-gray-100 m-0">
-            <p className="text-sm p-5 font-semibold">
-              We need volunteers for our upcoming Community Clean-Up Day on
-              August 15 from 9:00 AM to 1:00 PM at Cherry Creek Park. Tasks
-              include picking up litter, sorting recyclables, and managing the
-              registration table. We also need donations of trash bags, gloves,
-              and refreshments. Your support will help make our community
-              cleaner and more enjoyable for everyone.
-            </p>
+            <p className="text-sm p-5">{requestData.description}</p>
           </div>
         )}
       </div>
