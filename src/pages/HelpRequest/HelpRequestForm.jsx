@@ -64,7 +64,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
  const closeForm = () => {
   navigate("/dashboard");
  }
- console.log(token);
+ //console.log(token);
  const handleSubmit = async (e) => {
   e.preventDefault();
 
