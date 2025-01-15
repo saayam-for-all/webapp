@@ -1,0 +1,38 @@
+const languages = [
+   { name: "English", code: "en" },
+   { name: "Spanish", code: "es" },
+   { name: "Mandarin Chinese", code: "zh" },
+   { name: "Russian", code: "ru" },
+   { name: "Arabic", code: "ar" },
+   { name: "French", code: "fr" },
+   { name: "Hindi", code: "hi" },
+   { name: "Portuguese", code: "pt" },
+   { name: "Japanese", code: "ja" },
+   { name: "Korean", code: "ko" },
+   { name: "Vietnamese", code: "vi" },
+   { name: "Thai", code: "th" },
+   { name: "Indonesian", code: "id" },
+   { name: "Tagalog (Filipino)", code: "tl" },
+   { name: "Tagalog (Filipino)", code: "fil" },
+   { name: "Assamese", code: "as" },
+   { name: "Bengali", code: "bn" },
+   { name: "Gujarati", code: "gu" },
+   { name: "Kannada", code: "kn" },
+   { name: "Malayalam", code: "ml" },
+   { name: "Manipuri (Meitei)", code: "mni" },
+   { name: "Marathi", code: "mr" },
+   { name: "Nepali", code: "ne" },
+   { name: "Oriya (Odia)", code: "or" },
+   { name: "Punjabi", code: "pa" },
+   { name: "Sanskrit", code: "sa" },
+   { name: "Sindhi", code: "sd" },
+   { name: "Tamil", code: "ta" },
+   { name: "Telugu", code: "te" },
+   { name: "Urdu", code: "ur" },
+   { name: "Santhali", code: "sat" },
+   { name: "Maithili", code: "mai" },
+   { name: "Dogri", code: "doi" }
+];
+
+
+export default languages;
