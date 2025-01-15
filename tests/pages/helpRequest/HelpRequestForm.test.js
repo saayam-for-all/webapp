@@ -1,27 +1,46 @@
+import React from "react";
+import {MemoryRouter} from 'react-router'
+import {Provider} from "react-redux"
+import {createStore} from "redux";
 import '@testing-library/jest-dom'
-import React from 'react'
+import {render, screen, fireEvent,} from '@testing-library/react'
 import HelpRequestForm from '../../../src/pages/HelpRequest/HelpRequestForm'
-import {render,screen} from '@testing-library/react'
-import {Provider} from 'react-redux'
-import {store} from '../../../src/redux/store'
 
 test('it renders and checks divs with mt-3 class, the parent divs', () => {
-    render(
-        <Provider store={store}>
-    <HelpRequestForm/>
-    </Provider>)
+  const store = createStore((state = {
+                               auth: {
+                                 idToken: 'mockIdToken',
+                               },
+                               request: {
+                                 categories: 'categories',
+                               }
+                             }
+  ) => state);
 
-    const firstParentDiv = screen.getByTestId('parentDivOne')
-    const secondParentDiv = screen.getByTestId('parentDivTwo')
-    const thirdParentDiv = screen.getByTestId('parentDivThree')
-    const fourthParentDiv = screen.getByTestId('parentDivFour')
-    const fifthParentDiv = screen.getByTestId('parentDivFive')
-    const sixthParentDiv = screen.getByTestId('parentDivSix')
-    const seventhDiv = screen.getByTestId('parentDivSeven')
+  global.fetch = jest.fn(() => Promise.reject(null));
 
-    const divs = [firstParentDiv,secondParentDiv,thirdParentDiv,fourthParentDiv,fifthParentDiv,sixthParentDiv,seventhDiv]
+  render(
+    <MemoryRouter>
+      <Provider store={store}>
+        <HelpRequestForm/>
+      </Provider>
+    </MemoryRouter>
+  )
 
-    divs.forEach((div) =>{
-        expect(div).toHaveClass('mt-3')
-    })
+  const dropdown = screen.getByTestId('dropdown');
+  fireEvent.change(dropdown, {target: {value: 'no'}});
+
+  const firstParentDiv = screen.getByTestId('parentDivOne')
+  const secondParentDiv = screen.getByTestId('parentDivTwo')
+  const thirdParentDiv = screen.getByTestId('parentDivThree')
+  const fourthParentDiv = screen.getByTestId('parentDivFour')
+  const fifthParentDiv = screen.getByTestId('parentDivFive')
+  const sixthParentDiv = screen.getByTestId('parentDivSix')
+  const seventhDiv = screen.getByTestId('parentDivSeven')
+
+  const divs = [firstParentDiv, secondParentDiv, thirdParentDiv, fourthParentDiv, fifthParentDiv, sixthParentDiv, seventhDiv]
+
+  divs.forEach((div) => {
+    expect(div).toHaveClass('mt-3')
+  })
 })

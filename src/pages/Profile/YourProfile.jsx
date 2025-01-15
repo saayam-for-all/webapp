@@ -45,9 +45,9 @@ function YourProfile({ setHasUnsavedChanges }) {
     };
 
     return (
-        <div className="flex flex-col border p-6 rounded-lg w-full">
+        <div className="flex flex-col border p-6 rounded-lg w-full" data-testid='container-test-1'>
             {/* First Name and Last Name */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-2 gap-4 mb-6" data-testid='container-test-2'>
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">First Name</label>
                     {isEditing ? (
@@ -80,7 +80,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             </div>
 
             {/* Email */}
-            <div className="grid grid-cols-1 gap-4 mb-6">
+            <div className="grid grid-cols-1 gap-4 mb-6" data-testid='container-test-3'>
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
                     {isEditing ? (
@@ -98,7 +98,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             </div>
 
             {/* Phone Number */}
-            <div className="grid grid-cols-1 gap-4 mb-6">
+            <div className="grid grid-cols-1 gap-4 mb-6" data-testid='container-test-4'>
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Phone Number</label>
                     {isEditing ? (
@@ -138,7 +138,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             </div>
 
             {/* Country */}
-            <div className="grid grid-cols-1 gap-4 mb-6">
+            <div className="grid grid-cols-1 gap-4 mb-6" data-testid='container-test-5'>
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Country</label>
                     {isEditing ? (
@@ -163,7 +163,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             </div>
 
             {/* Save/Cancel Buttons */}
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center mt-6" data-testid='container-test-6'>
                 {!isEditing ? (
                     <button
                         className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"

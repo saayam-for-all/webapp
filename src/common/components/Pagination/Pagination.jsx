@@ -85,10 +85,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange, rowsPerPage, onRows
   };
 
   return (
-    <div className="mt-20 p-5">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center justify-center mb-2">
-          <span className="mr-2 text-gray-400">Showing data {(currentPage - 1) * rowsPerPage + 1}-{Math.min(currentPage * rowsPerPage, totalPages * rowsPerPage)} of {totalPages * rowsPerPage} entries</span>
+    <div className="mt-20 p-5" data-testid = 'divOne'>
+      <div className="flex justify-between items-center" data-testid = 'divTwo'>
+        <div className="flex items-center justify-center mb-2" data-testid = 'divThree'>
+          <span className="mr-2 text-gray-400" data-testid = 'labelOne'>
+            Showing data {(currentPage - 1) * rowsPerPage + 1}-{Math.min(currentPage * rowsPerPage, totalPages * rowsPerPage)} of {totalPages * rowsPerPage} entries
+          </span>
           {/* <div className="flex items-center ml-2">
             <label htmlFor="rowsPerPage" className="mr-2">Rows per view:</label>
             <select id="rowsPerPage" value={rowsPerPage} onChange={(e) => onRowsPerPageChange(Number(e.target.value))} className="border rounded px-2 py-1">
@@ -98,11 +100,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange, rowsPerPage, onRows
             </select>
           </div> */}
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2" data-testid = 'divFour'>
           <button
             onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
             disabled={currentPage === 1}
             className="bg-gray-200 text-black py-2 px-2 rounded hover:bg-gray-500"
+            data-testid = 'buttonOne'
           >
             <RiArrowLeftSLine/>
           </button>
@@ -111,6 +114,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, rowsPerPage, onRows
             onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
             disabled={currentPage === totalPages}
             className="bg-gray-200 text-black py-2 px-2 rounded hover:bg-gray-500"
+            data-testid = 'buttonTwo'
           >
             <RiArrowRightSLine/>
           </button>

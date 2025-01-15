@@ -13,7 +13,7 @@ const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isAcknowledged, setIsAcknowledged] = useState(false);
 
-  // state variable to track the skills(categories and subcategories) that the user has selected/checked. 
+  // state variable to track the skills(categories and subcategories) that the user has selected/checked.
   const [checkedCategories, setCheckedCategories] = useImmer({});
 
   const steps = [
@@ -52,7 +52,7 @@ const PromoteToVolunteer = () => {
       if (currentStep === 1 && !isAcknowledged) return;
       if (currentStep === 3) {
         // Need to send this data to server before going to next step
-        console.log("checkedCategories: ", checkedCategories);
+        //console.log("checkedCategories: ", checkedCategories);
       }
       newStep++;
     } else if (direction === "prev") {
