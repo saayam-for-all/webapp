@@ -1,4 +1,4 @@
-import React from 'react' //added for testing
+import React from "react"; //added for testing
 import { useState } from "react";
 import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
@@ -6,14 +6,14 @@ import StepperControl from "./StepperControl";
 import Skills from "./steps/Skills";
 import TermsConditions from "./steps/TermsConditions";
 import Complete from "./steps/Complete";
-import VolunteerCourse from "./steps/VolunteerCourse";
+import Identification from "./steps/Identification";
 import Availability from "./steps/Availability";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isAcknowledged, setIsAcknowledged] = useState(false);
 
-  // state variable to track the skills(categories and subcategories) that the user has selected/checked. 
+  // state variable to track the skills(categories and subcategories) that the user has selected/checked.
   const [checkedCategories, setCheckedCategories] = useImmer({});
 
   const steps = [
@@ -35,7 +35,12 @@ const PromoteToVolunteer = () => {
       case 2:
         return <Identification />;
       case 3:
-        return <Skills checkedCategories={checkedCategories} setCheckedCategories={setCheckedCategories}/>;
+        return (
+          <Skills
+            checkedCategories={checkedCategories}
+            setCheckedCategories={setCheckedCategories}
+          />
+        );
       case 4:
         return <Availability />;
       case 5:
