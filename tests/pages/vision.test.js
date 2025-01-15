@@ -1,15 +1,17 @@
-import MissionVision from "../../src/pages/Vision/Vision";
 import React from 'react'
 import '@testing-library/jest-dom'
 import {screen,render} from '@testing-library/react'
-import VISIONIMG from '../src/assets/vision.png'
+import MissionVision from "../../src/pages/Vision/Vision";
 
 test('tests class names', () =>{
 render(<MissionVision/>)
 
   // Verificar el contenedor principal
-  const mainContainer = screen.getByText('Vision').closest('div');
-  expect(mainContainer).toHaveClass('px-20 mt-6');
+  const mainContainer = screen
+    .getByText('Vision')
+    .closest('div.px-20.mt-6')
+    .querySelector('div > h1');
+  expect(mainContainer).toHaveClass('text-2xl font-semibold text-center mt-6');
 
   // Verificar el título (h1)
   const title = screen.getByText('Vision');

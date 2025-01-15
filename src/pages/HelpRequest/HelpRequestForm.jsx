@@ -32,14 +32,14 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
   const [languages, setLanguages] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState('General');
-  const [filteredCategories, setFilteredCategories] = useState([]); 
-  const [searchInput, setSearchInput] = useState(''); 
+  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
   const [requestType, setRequestType] = useState('');
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const inputref = useRef(null);
-  
+
   const [formData, setFormData] = useState({
     is_self: "yes",
     requester_first_name: "",
@@ -80,7 +80,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -114,7 +114,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
 
   useEffect(() => {
     if (categories && categories.length > 0) {
-      setFilteredCategories(categories); 
+      setFilteredCategories(categories);
     }
   }, [categories]);
 
@@ -125,28 +125,28 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
       ...formData,
       category: searchTerm
   });
-  
+
     if (searchTerm.trim() === '') {
 
       setFilteredCategories(categories);
     } else {
       const filtered = categories.filter(category =>
-        category.name.toLowerCase().startsWith(searchTerm.toLowerCase()) 
+        category.name.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
       setFilteredCategories(filtered);
     }
-    setShowDropdown(true);  
+    setShowDropdown(true);
   };
 
   const handleClickOutside = (event) => {
     if (inputRef.current && inputRef.current.getPlaces) {
-      const inputNode = inputRef.current.input; 
+      const inputNode = inputRef.current.input;
       if (inputNode && !inputNode.contains(event.target)) {
         setShowDropdown(false);
       }
     }
   };
-  
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -156,30 +156,30 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
 
   const handleCategoryClick = (categoryName) => {
    // setSelectedCategory(categoryName);
-    //setSearchInput(categoryName); 
+    //setSearchInput(categoryName);
     setFormData({
       ...formData,
-      category: categoryName 
+      category: categoryName
     });
-    setShowDropdown(false); 
+    setShowDropdown(false);
     setHoveredCategory(null);
   };
 
   const handleSubcategoryClick = (subcategoryName) => {
-   // setSelectedCategory(subcategoryName); 
-    //setSearchInput(subcategoryName); 
+   // setSelectedCategory(subcategoryName);
+    //setSearchInput(subcategoryName);
     setFormData({
       ...formData,
-      category: subcategoryName 
+      category: subcategoryName
     });
-    setShowDropdown(false); 
-    setHoveredCategory(null); 
+    setShowDropdown(false);
+    setHoveredCategory(null);
   };
 
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
-  
+
   return (
     <div className="">
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
@@ -199,6 +199,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
             </label>
             <select
               id="self"
+              data-testid = 'dropdown'
               className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
               onChange={handleForSelfFlag}
             >
@@ -282,19 +283,19 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
                 value={formData.category}
                 onChange={handleSearchInput}
                 className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
-                onFocus={() => setShowDropdown(true)} 
-                
+                onFocus={() => setShowDropdown(true)}
+
               />
             {showDropdown && (
-                <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto" 
+                <div className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
                      style={{ maxHeight: '200px' }}>
                   {filteredCategories.map((category) => (
                     <div
                       key={category.id}
                       className="p-2 border-b cursor-pointer hover:bg-gray-100 relative"
-                      onClick={() => !category.subcategories && handleCategoryClick(category.name)} 
-                      onMouseEnter={() => setHoveredCategory(category)} 
-                      onMouseLeave={() => setHoveredCategory(null)} 
+                      onClick={() => !category.subcategories && handleCategoryClick(category.name)}
+                      onMouseEnter={() => setHoveredCategory(category)}
+                      onMouseLeave={() => setHoveredCategory(null)}
                     >
                       {category.name}
 
@@ -317,7 +318,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
                 </div>
               )}
             </div>
-            
+
             <div>
               <label htmlFor="requestType" className="block mb-2 font-medium text-gray-700">
                 Request Type
@@ -346,7 +347,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
                     <input
                       type="text"
                       id="location"
-                      value={formData.location} 
+                      value={formData.location}
                       onChange={handleChange}
                       name="location"
                       className="border p-2 w-full rounded-lg"
@@ -360,7 +361,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
 
           <div className="mt-3" data-testid = 'parentDivSix'>
             {formData.category === 'Jobs' && <JobsCategory />}
-            {formData.category === 'Housing' && <HousingCategory />} 
+            {formData.category === 'Housing' && <HousingCategory />}
             <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
               Subject <span className="text-red-500">*</span> (Max 70 characters)
             </label>
