@@ -17,7 +17,7 @@ import { commentsData } from "./commentsDummyData";
   });
   */
 
-const comments = commentsData;
+//const comments = commentsData;
 
 const CommentsSection = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,12 +71,62 @@ const CommentsSection = () => {
     }
   };
 
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
+  const renderPagination = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="flex justify-end items-center space-x-2">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`px-3 py-1 rounded ${
+            currentPage === 1
+              ? "bg-blue-500 hover:bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300 text-black"
+          }`}
+        >
+          Previous
+        </button>
+
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => handlePageChange(number)}
+            className={`px-3 py-1 rounded ${
+              number === currentPage
+                ? "bg-blue-500 hover:bg-blue-600 text-white"
+                : "bg-gray-200 hover:bg-gray-300 text-black"
+            }`}
+          >
+            {number}
+          </button>
+        ))}
+
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`px-3 py-1 rounded ${
+            currentPage === totalPages
+              ? "bg-blue-500 hover:bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300 text-black"
+          }`}
+        >
+          Next
+        </button>
+      </div>
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (comment.trim()) {
-      // Handle comment submit logic here (e.g., send to server or update local state)
-      console.log("New comment:", comment);
-      setComment(""); // Clear input after submit
+      // submit comment logic
+      setComment("");
     }
   };
 
@@ -140,7 +190,7 @@ const CommentsSection = () => {
                 onClick={handleSortChange}
                 className="p-2 border border-gray-300 rounded-md"
               >
-                Sort: {sortOrder === "newest" ? "Newest" : "Oldest"}
+                Sort by: {sortOrder === "newest" ? "Newest" : "Oldest"}
               </button>
             </div>
             {currentComments.map((comment) => {
@@ -154,7 +204,8 @@ const CommentsSection = () => {
                 />
               );
             })}
-            <div className="flex justify-between items-center mt-4">
+            {renderPagination()}
+            {/* <div className="flex justify-between items-center mt-4">
               <button
                 onClick={() => handlePaginationClick("prev")}
                 disabled={currentPage === 1}
@@ -178,7 +229,7 @@ const CommentsSection = () => {
               >
                 Next
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
