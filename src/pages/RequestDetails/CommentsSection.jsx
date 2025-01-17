@@ -17,8 +17,6 @@ import { commentsData } from "./commentsDummyData";
   });
   */
 
-//const comments = commentsData;
-
 const CommentsSection = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -183,7 +181,7 @@ const CommentsSection = () => {
                 value={searchText}
                 onChange={handleSearchChange}
                 placeholder="Search..."
-                className="px-4 py-2 bg-gray-100 rounded-full outline-none text-sm"
+                className="px-4 py-2 bg-gray-100 outline-none border-none text-sm rounded-md w-1/3"
               />
 
               <button
@@ -205,31 +203,6 @@ const CommentsSection = () => {
               );
             })}
             {renderPagination()}
-            {/* <div className="flex justify-between items-center mt-4">
-              <button
-                onClick={() => handlePaginationClick("prev")}
-                disabled={currentPage === 1}
-                className={`px-4 py-2 rounded ${
-                  currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"
-                }`}
-              >
-                Previous
-              </button>
-              <span>
-                page {currentPage} of {totalPages}
-              </span>
-              <button
-                onClick={() => handlePaginationClick("next")}
-                disabled={currentPage === totalPages}
-                className={`px-4 py-2 rounded ${
-                  currentPage === totalPages
-                    ? "bg-gray-300"
-                    : "bg-blue-500 text-white"
-                }`}
-              >
-                Next
-              </button>
-            </div> */}
           </div>
         </div>
       )}
