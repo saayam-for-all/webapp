@@ -177,6 +177,7 @@ const Navbar = () => {
           >
             <div className="flex items-center">
               <img
+                data-testid="profile-icon"
                 src={profileIcon}
                 alt="Profile Icon"
                 className="w-8 h-8 rounded-full cursor-pointer"
