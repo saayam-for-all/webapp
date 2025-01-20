@@ -33,7 +33,7 @@ const PromoteToVolunteer = () => {
           />
         );
       case 2:
-        return <Identification />;
+        return <VolunteerCourse />;
       case 3:
         return <Skills checkedCategories={checkedCategories} setCheckedCategories={setCheckedCategories}/>;
       case 4:
