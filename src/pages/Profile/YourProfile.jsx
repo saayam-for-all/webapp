@@ -32,7 +32,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             ...profileInfo,
             [name]: value,
         });
-        setHasUnsavedChanges(true); // Notify unsaved changes
+        setHasUnsavedChanges(true);
     };
 
     const handleEditClick = () => {
