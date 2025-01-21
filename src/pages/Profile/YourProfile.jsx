@@ -1,50 +1,38 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Select from 'react-select';
+import React, { useState, useEffect, useRef } from "react";
+import Select from "react-select";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import { getPhoneCodeslist } from "../../utils/utils";
+import CountryList from "react-select-country-list";
 
 function YourProfile({ setHasUnsavedChanges }) {
     const [isEditing, setIsEditing] = useState(false);
     const firstNameRef = useRef(null);
 
     const [profileInfo, setProfileInfo] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        secondaryEmail: '',
-        phone: '',
-        phoneCountryCode: '',
-        secondaryPhone: '',
-        secondaryPhoneCountryCode: '',
-        zone: '',
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        phoneCountryCode: "US",
+        country: "",
     });
 
-    const [countryOptions, setCountryOptions] = useState([]);
+    const countries = CountryList().getData();
 
-    
+    // Load profile data from local storage on mount
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json')
-            .then((response) => response.json())
-            .then((data) => {
-                const countries = data.map((country) => ({
-                    value: country.phone_code,
-                    label: `${country.name} (+${country.phone_code})`,
-                }));
-                setCountryOptions(countries);
-            })
-            .catch((error) => console.error('Error fetching country codes:', error));
-
-        const savedProfileInfo = JSON.parse(localStorage.getItem('profileInfo'));
+        const savedProfileInfo = JSON.parse(localStorage.getItem("profileInfo"));
         if (savedProfileInfo) {
             setProfileInfo(savedProfileInfo);
         }
     }, []);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setProfileInfo((prevInfo) => ({
-            ...prevInfo,
+    const handleInputChange = (name, value) => {
+        setProfileInfo({
+            ...profileInfo,
             [name]: value,
-        }));
-        setHasUnsavedChanges(true); 
+        });
+        setHasUnsavedChanges(true);
     };
 
     const handleEditClick = () => {
@@ -57,8 +45,9 @@ function YourProfile({ setHasUnsavedChanges }) {
     };
 
     return (
-        <div className="flex flex-col border p-6 rounded-lg w-full" data-testid='container-test-1'>
-            <div className="grid grid-cols-2 gap-4 mb-6" data-testid='container-test-2'>
+        <div className="flex flex-col border p-6 rounded-lg w-full">
+            {/* First Name and Last Name */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                     <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">First Name</label>
                     {isEditing ? (
@@ -67,11 +56,11 @@ function YourProfile({ setHasUnsavedChanges }) {
                             type="text"
                             name="firstName"
                             value={profileInfo.firstName}
-                            onChange={handleInputChange}
+                            onChange={(e) => handleInputChange("firstName", e.target.value)}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{profileInfo.firstName || ''}</p>
+                        <p className="text-lg text-gray-900">{profileInfo.firstName || ""}</p>
                     )}
                 </div>
                 <div>
@@ -81,65 +70,63 @@ function YourProfile({ setHasUnsavedChanges }) {
                             type="text"
                             name="lastName"
                             value={profileInfo.lastName}
-                            onChange={handleInputChange}
+                            onChange={(e) => handleInputChange("lastName", e.target.value)}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{profileInfo.lastName || ''}</p>
+                        <p className="text-lg text-gray-900">{profileInfo.lastName || ""}</p>
                     )}
                 </div>
             </div>
 
-            
-            <div className="grid grid-cols-2 gap-4 mb-6" data-testid='container-test-3'>
+            {/* Email */}
+            <div className="grid grid-cols-1 gap-4 mb-6">
                 <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Primary Email</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
                     {isEditing ? (
                         <input
                             type="email"
                             name="email"
                             value={profileInfo.email}
-                            onChange={handleInputChange}
+                            onChange={(e) => handleInputChange("email", e.target.value)}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         />
                     ) : (
-                        <p className="text-lg text-gray-900">{profileInfo.email || ''}</p>
-                    )}
-                </div>
-                <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Secondary Email</label>
-                    {isEditing ? (
-                        <input
-                            type="email"
-                            name="secondaryEmail"
-                            value={profileInfo.secondaryEmail}
-                            onChange={handleInputChange}
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        />
-                    ) : (
-                        <p className="text-lg text-gray-900">{profileInfo.secondaryEmail || ''}</p>
+                        <p className="text-lg text-gray-900">{profileInfo.email || ""}</p>
                     )}
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 mb-6" data-testid='container-test-4'>
+            {/* Phone Number */}
+            <div className="grid grid-cols-1 gap-4 mb-6">
                 <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Primary Phone Number</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Phone Number</label>
                     {isEditing ? (
-                        <div className="flex">
-                            <Select
+                        <div className="flex space-x-2">
+                            {/* Country Code Dropdown */}
+                            <select
+                                id="phoneCountryCode"
                                 name="phoneCountryCode"
-                                value={countryOptions.find((option) => option.value === profileInfo.phoneCountryCode)}
-                                options={countryOptions}
-                                onChange={(selectedOption) => handleInputChange({ target: { name: 'phoneCountryCode', value: selectedOption.value } })}
-                                className="w-1/4 mr-2"
-                            />
+                                value={profileInfo.phoneCountryCode}
+                                onChange={(e) => handleInputChange("phoneCountryCode", e.target.value)}
+                                className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
+                            >
+                                {getPhoneCodeslist(PHONECODESEN).map((option) => (
+                                    <option key={option.code} value={option.code}>
+                                        {option.country} ({option.dialCode})
+                                    </option>
+                                ))}
+                            </select>
+
                             <input
                                 type="text"
+                                id="phone"
                                 name="phone"
                                 value={profileInfo.phone}
-                                onChange={handleInputChange}
-                                className="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={(e) => handleInputChange("phone", e.target.value)}
+                                placeholder="Your Phone Number"
+                                maxLength={10}
+                                className="w-2/3 px-4 py-2 border border-gray-300 rounded-xl"
                             />
                         </div>
                     ) : (
@@ -150,50 +137,33 @@ function YourProfile({ setHasUnsavedChanges }) {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 mb-6" data-testid='container-test-5'>
+            {/* Country */}
+            <div className="grid grid-cols-1 gap-4 mb-6">
                 <div>
-                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Secondary Phone Number</label>
+                    <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Country</label>
                     {isEditing ? (
-                        <div className="flex">
-                            <Select
-                                name="secondaryPhoneCountryCode"
-                                value={countryOptions.find((option) => option.value === profileInfo.secondaryPhoneCountryCode)}
-                                options={countryOptions}
-                                onChange={(selectedOption) => handleInputChange({ target: { name: 'secondaryPhoneCountryCode', value: selectedOption.value } })}
-                                className="w-1/4 mr-2"
-                            />
-                            <input
-                                type="text"
-                                name="secondaryPhone"
-                                value={profileInfo.secondaryPhone}
-                                onChange={handleInputChange}
-                                className="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            />
-                        </div>
+                        <select
+                            id="country"
+                            name="country"
+                            value={profileInfo.country}
+                            onChange={(e) => handleInputChange("country", e.target.value)}
+                            className="px-4 py-2 border border-gray-300 rounded-xl"
+                        >
+                            <option value="">Select your country</option>
+                            {countries.map((option) => (
+                                <option key={option.value} value={option.label}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
                     ) : (
-                        <p className="text-lg text-gray-900">
-                            {profileInfo.secondaryPhoneCountryCode} {profileInfo.secondaryPhone}
-                        </p>
+                        <p className="text-lg text-gray-900">{profileInfo.country || ""}</p>
                     )}
                 </div>
             </div>
 
-            <div className="mb-6" data-testid='container-test-6'>
-                <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">Zone</label>
-                {isEditing ? (
-                    <input
-                        type="text"
-                        name="zone"
-                        value={profileInfo.zone}
-                        onChange={handleInputChange}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    />
-                ) : (
-                    <p className="text-lg text-gray-900">{profileInfo.zone || ''}</p>
-                )}
-            </div>
-
-            <div className="flex justify-center mt-6" data-testid='container-test-7'>
+            {/* Save/Cancel Buttons */}
+            <div className="flex justify-center mt-6">
                 {!isEditing ? (
                     <button
                         className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -207,11 +177,11 @@ function YourProfile({ setHasUnsavedChanges }) {
                             className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
                             onClick={() => {
                                 setIsEditing(false);
-                                localStorage.setItem('profileInfo', JSON.stringify(profileInfo));
-                                setHasUnsavedChanges(false); 
+                                localStorage.setItem("profileInfo", JSON.stringify(profileInfo)); // Save to localStorage
+                                setHasUnsavedChanges(false);
                             }}
                         >
-                            Save 
+                            Save
                         </button>
                         <button
                             className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
