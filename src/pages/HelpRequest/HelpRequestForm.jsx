@@ -122,7 +122,6 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
   useEffect(() => {
     if (id && data) {
       const requestData = data.body?.find((item) => item.id === id);
-      console.log(requestData);
       setFormData({
         category: requestData.category,
         description: requestData.description,

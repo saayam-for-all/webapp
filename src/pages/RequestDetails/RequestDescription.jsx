@@ -117,10 +117,10 @@ const RequestDescription = () => {
             </h2>
           </div>
           <div className="flex gap-4">
-            <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
+            <span className="bg-blue-200 text-black-800 text-xs md:text-sm px-3 py-1 rounded-full ">
               #{id}
             </span>
-            <span className="bg-green-200 text-black-800 text-sm px-3 py-1 rounded-full ">
+            <span className="bg-green-200 text-black-800 text-xs md:text-sm px-3 py-1 rounded-full ">
               {requestData.status}
             </span>
             <div className="flex items-center">
