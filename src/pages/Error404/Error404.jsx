@@ -16,13 +16,8 @@ const Error404 = () => {
 
 								<div className='contant_box_404'>
 									<h3 className='h2'>
-										Look like you're lost
+										Look like you are lost the page you are looking for not available! 
 									</h3>
-
-									<p>
-										the page you are looking for not
-										avaible!
-									</p>
 
 									<Link to={"/"} className='link_404'>
 										Go to Home
