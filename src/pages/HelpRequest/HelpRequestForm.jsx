@@ -9,6 +9,8 @@ import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-ma
 import axios from 'axios';
 import React from 'react' //added for testing
 import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
+import { useGetAllRequestQuery, useAddRequestMutation } from "../../services/requestApi";
 
 const genderOptions = [
   { value: 'Select', label: 'Select' },
@@ -38,6 +40,11 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const { data, error, isLoading } = useGetAllRequestQuery();
+  const [ addRequest ] = useAddRequestMutation();
+  if (isLoading) return <div>Loading...</div>;
+  const { id } = useParams();
+
   const inputref = useRef(null);
   
   const [formData, setFormData] = useState({
@@ -64,7 +71,6 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
  const closeForm = () => {
   navigate("/dashboard");
  }
- //console.log(token);
  const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -74,18 +80,20 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
   };
 
   try {
-    const response = await axios.post(
-      "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-      submissionData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
-        },
-      }
-    );
+    const response = await addRequest(submissionData);
+    // const response = await axios.post(
+    //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
+    //   submissionData,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`, 
+    //     },
+    //   }
+    // );
 
     alert("Request submitted successfully! Request ID: " + response.data.requestId);
+    // console.log(response);
   } catch (error) {
     console.error("Failed to submit request:", error);
     alert("Failed to submit request!");
@@ -109,8 +117,19 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
     };
     dispatch(loadCategories());
     fetchLanguages();
-
   }, [dispatch]);
+  
+  useEffect(() => {
+    if (id && data) {
+      const requestData = data.body?.find((item) => item.id === id);
+      setFormData({
+        category: requestData.category,
+        description: requestData.description,
+        subject: requestData.subject,
+        ...requestData,
+      });
+    }
+  }, [data]);
 
   useEffect(() => {
     if (categories && categories.length > 0) {
@@ -392,7 +411,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
 
           <div className="mt-8 flex justify-end gap-2">
             <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600">
-              Submit
+              {isEdit? "Save" : "Submit"}
             </button>
             <button onClick={isEdit ? onClose : closeForm} type="button" className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600">
               Cancel
