@@ -103,6 +103,7 @@ const RequestDescription = () => {
         <div
           className="rounded-lg bg-white border border-gray-200 shadow-md p-4 sm:p-6 m-0 flex flex-col gap-4"
           onClick={handleToggle}
+          data-testid = 'handleToggleContainer'
         >
           <button
             className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
