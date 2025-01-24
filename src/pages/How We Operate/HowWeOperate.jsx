@@ -3,56 +3,51 @@ import "./HowWeOperate.css";
 import howWeOperateData from "./data";
 
 const HowWeOperate = () => {
-	return (
-		<div className='px-14 my-6'>
-			{howWeOperateData?.map((item, idx) => (
-				<div key={idx}>
-					<h1 className='text-2xl font-semibold mt-3'>
-						{item?.heading}
-					</h1>
-					{item?.points.map((point, index) => (
-						<div key={index}>
-							{!Array.isArray(point) ? (
-								<ul className='list-disc text-lg pl-10'>
-									<li>{point}</li>
-								</ul>
-							) : (
-								point.map((subPoint, subIndex) => (
-									<div key={subIndex}>
-										{!Array.isArray(subPoint) ? (
-											<ul
-												style={{
-													listStyleType: "circle",
-												}}
-												className='pl-20 text-lg'
-											>
-												<li>{subPoint}</li>
-											</ul>
-										) : (
-											subPoint.map(
-												(subSubPoint, subSubIndex) => (
-													<ul
-														key={subSubIndex}
-														style={{
-															listStyleType:
-																"square",
-														}}
-														className='pl-28 text-lg'
-													>
-														<li>{subSubPoint}</li>
-													</ul>
-												)
-											)
-										)}
-									</div>
-								))
-							)}
-						</div>
-					))}
-				</div>
-			))}
-		</div>
-	);
+  return (
+    <div className="px-14 my-6">
+      {howWeOperateData?.map((item, idx) => (
+        <div key={idx}>
+          <h1 className="text-2xl font-semibold mt-3">{item?.heading}</h1>
+          {item?.points.map((point, index) => (
+            <div key={index}>
+              {!Array.isArray(point) ? (
+                <ul className="list-disc text-lg pl-10">
+                  <li>{point}</li>
+                </ul>
+              ) : (
+                point.map((subPoint, subIndex) => (
+                  <div key={subIndex}>
+                    {!Array.isArray(subPoint) ? (
+                      <ul
+                        style={{
+                          listStyleType: "circle",
+                        }}
+                        className="pl-20 text-lg"
+                      >
+                        <li>{subPoint}</li>
+                      </ul>
+                    ) : (
+                      subPoint.map((subSubPoint, subSubIndex) => (
+                        <ul
+                          key={subSubIndex}
+                          style={{
+                            listStyleType: "square",
+                          }}
+                          className="pl-28 text-lg"
+                        >
+                          <li>{subSubPoint}</li>
+                        </ul>
+                      ))
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 };
 
 // recursive function to render nested list
