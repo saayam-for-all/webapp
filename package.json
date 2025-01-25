@@ -51,7 +51,7 @@
 		"tailwindcss": "^3.4.1",
 		"vite": "^5.2.0"
 	},
-		"lint-staged": {
+	"lint-staged": {
 		"**/*": "prettier --write --ignore-unknown"
 	}
 	
