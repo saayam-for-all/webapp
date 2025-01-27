@@ -85,7 +85,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, rowsPerPage, onRows
   };
 
   return (
-    <div className="mt-20 p-5" data-testid = 'divOne'>
+    <div className="p-5" data-testid = 'divOne'>
       <div className="flex justify-between items-center" data-testid = 'divTwo'>
         <div className="flex items-center justify-center mb-2" data-testid = 'divThree'>
           <span className="mr-2 text-gray-400" data-testid = 'labelOne'>

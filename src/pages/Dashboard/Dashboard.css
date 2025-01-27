@@ -1,0 +1,5 @@
+.table-size-fix {
+    width: 73vw;
+    height: calc(85vh - 15em);
+    overflow: auto;
+}
