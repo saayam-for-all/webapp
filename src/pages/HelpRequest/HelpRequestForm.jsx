@@ -361,7 +361,7 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
                 {isLoaded && (
                   <StandaloneSearchBox
                     onLoad={(ref) => (inputRef.current = ref)}
-                    onPlacesChanged={handleOnPlacesChanges}
+                    onPlacesChanged={handleOnPlacesChanged}
                   >
                     <input
                       type="text"
