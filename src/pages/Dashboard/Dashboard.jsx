@@ -7,6 +7,8 @@ import { IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { useGetAllRequestQuery } from "../../services/requestApi";
 
+import "./Dashboard.css";
+
 const Dashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
   const [currentPage, setCurrentPage] = useState(1);
@@ -290,7 +292,7 @@ const Dashboard = ({ userRole }) => {
         </div>
 
         {activeTab && (
-          <div className="requests-section">
+          <div className="requests-section table-size-fix">
             {!isLoading && <Table
               headers={headers}
               rows={filteredRequests(data.body)}
