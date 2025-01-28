@@ -345,49 +345,40 @@
     margin-bottom: 3rem;
 } */
 
-
-
-
 .MainPage_content {
-    font-family: cursive;
-    font-size: larger;
-    width: 75%;
-    margin-left: 12.5%;
+  font-family: cursive;
+  font-size: larger;
+  width: 75%;
+  margin-left: 12.5%;
 }
 
 .MainPage_content {
-    padding-bottom: 1.8rem;
+  padding-bottom: 1.8rem;
 }
 
 .poster_image img {
-    width: 40%;
+  width: 40%;
 }
 
 @media only screen and (max-width: 820px) {
-    .poster_image img {
-        width: 100%;
-    }
+  .poster_image img {
+    width: 100%;
+  }
 }
 
 /*embla carousel styles*/
 .embla {
-    overflow: hidden;
-    height: auto;
-    width: 60%;
-    display: block;
+  overflow: hidden;
+  height: auto;
+  width: 60%;
+  display: block;
   margin-left: auto;
   margin-right: auto;
-  }
-  .embla__container {
-    display: flex;
-
-    
-    
-
-  }
-  .embla__slide {
-    flex: 0 0 100%;
-    min-width: 0;
-    
-  }
-  
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
