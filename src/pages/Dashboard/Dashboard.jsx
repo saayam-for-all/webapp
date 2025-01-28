@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
-import { requestsData } from "./data";
+// import { requestsData } from "./data";
 import { MdArrowForwardIos } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const Dashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
@@ -22,6 +24,29 @@ const Dashboard = ({ userRole }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
+  const [requestData, setRequestData] = useState([]);
+
+  const token = useSelector((state) => state.auth.idToken);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const response = await axios.get(
+          "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/get-requests",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setRequestData(response.data.body);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchRequests();
+  }, [token]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -163,7 +188,7 @@ const Dashboard = ({ userRole }) => {
     }
   }, []);
 
-  const requests = requestsData[activeTab].data;
+  // const requests = requestData
 
   return (
     <div className="p-5">
@@ -290,11 +315,11 @@ const Dashboard = ({ userRole }) => {
           <div className="requests-section">
             <Table
               headers={headers}
-              rows={filteredRequests(requests)}
+              rows={filteredRequests(requestData)}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
-              totalPages={totalPages(requests)}
-              totalRows={filteredRequests(requests).length}
+              totalPages={totalPages(requestData)}
+              totalRows={filteredRequests(requestData).length}
               itemsPerPage={rowsPerPage}
               sortConfig={sortConfig}
               requestSort={requestSort}

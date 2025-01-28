@@ -8,6 +8,7 @@ import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
 import axios from 'axios';
 import React from 'react' //added for testing
+import { useNavigate } from "react-router";
 
 const genderOptions = [
   { value: 'Select', label: 'Select' },
@@ -21,7 +22,7 @@ const genderOptions = [
 
 const HelpRequestForm = ({isEdit = false, onClose}) => {
   const dispatch = useDispatch();
-  //const Navigate = useNavigate();
+  const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
   const token = useSelector((state) => state.auth.idToken);
   const [location, setLocation] = useState('');
@@ -59,7 +60,11 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
  };
- console.log(token);
+
+ const closeForm = () => {
+  navigate("/dashboard");
+ }
+ //console.log(token);
  const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -176,11 +181,10 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
   };
   
   return (
-    <div className="bg-gray-100">
-      <form className="w-full max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-md border" onSubmit={handleSubmit}>
-      <div className="w-full max-w-3xl mx-auto p-8">
+    <div className="">
+      <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="bg-white p-8 rounded-lg shadow-md border">
-          <h1 className="text-2xl font-bold text-gray-800 ">Create Help Request</h1>
+          <h1 className="text-2xl font-bold text-gray-800 ">{isEdit ? "Edit" : "Create"} Help Request</h1>
 
           <div className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
             <IoMdInformationCircle size={22} />
@@ -387,16 +391,15 @@ const HelpRequestForm = ({isEdit = false, onClose}) => {
           </div>
 
           <div className="mt-8 flex justify-end gap-2">
-            <button className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg">
-              Cancel
-            </button>
-            <button type="submit" className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg">
+            <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600">
               Submit
+            </button>
+            <button onClick={isEdit ? onClose : closeForm} type="button" className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600">
+              Cancel
             </button>
           </div>
         </div>
-      </div>
-      </form>  
+      </form>
     </div>
   );
 };
