@@ -1,5 +1,4 @@
-import React from "react"; // Added for testing
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Hub } from "aws-amplify/utils";
