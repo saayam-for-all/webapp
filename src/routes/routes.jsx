@@ -5,33 +5,31 @@ import HowWeOperate from "../pages/How We Operate/HowWeOperate";
 import MissionVision from "../pages/MissionVisioin/MissionVision";
 import Contact from "../pages/Contact/Contact";
 
-
 const routes = [
-	{
-		path: "",
-		element: <LandingPage />,
-	},
-	{
-		path: "directors",
-		element: <Directors />,
-	},
-	{
-		path: "donate",
-		element: <Donate />,
-	},
-	{
-		path: "how-we-operate",
-		element: <HowWeOperate />,
-	},
-	{
-		path: "mission-and-vision",
-		element: <MissionVision />,
-	},
-	{
-		path: "contact",
-		element: <Contact />,
-	},
-	
+  {
+    path: "",
+    element: <LandingPage />,
+  },
+  {
+    path: "directors",
+    element: <Directors />,
+  },
+  {
+    path: "donate",
+    element: <Donate />,
+  },
+  {
+    path: "how-we-operate",
+    element: <HowWeOperate />,
+  },
+  {
+    path: "mission-and-vision",
+    element: <MissionVision />,
+  },
+  {
+    path: "contact",
+    element: <Contact />,
+  },
 ];
 
 export default routes;

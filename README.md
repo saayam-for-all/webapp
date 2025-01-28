@@ -4,31 +4,31 @@ Saayam Web Application
 
 ## Table of Contents
 
--   [Technologies Used](#technologies-used)
--   [Getting Started](#getting-started)
--   [Usage Overview](#usage)
--   [Contributing](#contributing)
--   [License](#license)
--   [Contact](#contact)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+- [Usage Overview](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
 ## Technologies Used
 
--   [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML)
--   [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS)
--   [ReactJS](https://react.dev/)
--   [Redux Toolkit](https://redux-toolkit.js.org/)
--   [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
--   [React Icons](https://react-icons.github.io/react-icons/)
--   [daisyUI](https://daisyui.com/components/)
--   [Formik](https://formik.org/docs)
--   [Yup](https://github.com/jquense/yup])
--   [i18next-react](https://www.i18next.com/overview/getting-started)
+- [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [ReactJS](https://react.dev/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [daisyUI](https://daisyui.com/components/)
+- [Formik](https://formik.org/docs)
+- [Yup](https://github.com/jquense/yup])
+- [i18next-react](https://www.i18next.com/overview/getting-started)
 
 ## Getting Started
 
 ### Prerequisites
 
--   Node.js (recommended version >= 21) and npm installed on your machine.
+- Node.js (recommended version >= 21) and npm installed on your machine.
 
 ### Installation
 
@@ -73,11 +73,11 @@ The optimized production build will be located in the dist directory.
 
 ## Usage Overview
 
--   A user can register and login from Home Page
--   A user can request for help
--   A volunteer can register and Login
--   A verified volunteer can handle a request
--   Any one can donate from donate page
+- A user can register and login from Home Page
+- A user can request for help
+- A volunteer can register and Login
+- A verified volunteer can handle a request
+- Any one can donate from donate page
 
 Provide instructions or examples demonstrating how to use your application.
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "./Dynamic_img.css";
 
 import Employment from "../../../assets/Landingpage_images/Employment.gif";
@@ -19,7 +19,7 @@ import Cooking from "../../../assets/Landingpage_images/cooking.gif";
 const images = [
   Employment,
   Matrimonial,
-	Stocks,
+  Stocks,
   Education,
   Finance,
   School,
@@ -30,7 +30,7 @@ const images = [
   College_admissions,
   Gardening,
   Sports,
-  Cooking
+  Cooking,
 ];
 
 const Images = () => {
@@ -38,12 +38,11 @@ const Images = () => {
     <div className="images">
       <div className="images-slide">
         {images.map((image) => (
-          <img key={image} src={image}/>
+          <img key={image} src={image} />
         ))}
       </div>
     </div>
   );
 };
-
 
 export default Images;

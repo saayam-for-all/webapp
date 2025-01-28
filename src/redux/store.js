@@ -6,11 +6,11 @@ import volunteerReducer from "./features/volunteer/volunteerSlice";
 import adminReducer from "./features/admin/adminSlice";
 
 export const store = configureStore({
-   reducer: {
-      login: loginReducer,
-      signup: signupReducer,
-      user: userReducer,
-      volunteer: volunteerReducer,
-      admin: adminReducer,
-   }
-})
+  reducer: {
+    login: loginReducer,
+    signup: signupReducer,
+    user: userReducer,
+    volunteer: volunteerReducer,
+    admin: adminReducer,
+  },
+});
