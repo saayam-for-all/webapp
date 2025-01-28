@@ -292,7 +292,7 @@ const Dashboard = ({ userRole }) => {
         </div>
 
         {activeTab && (
-          <div className="requests-section table-size-fix">
+          <div className="requests-section overflow-auto table-height-fix">
             {!isLoading && (
               <Table
                 headers={headers}

@@ -19,7 +19,7 @@ const Layout = () => {
         <aside className="left-ads-panel flex-1 ">
           <LeftAds />
         </aside>
-        <main className="flex-[6]">
+        <main className="flex-[6] overflow-auto">
           <Suspense fallback={<MainLoader />}>
             <Outlet />
           </Suspense>
