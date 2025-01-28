@@ -9,3 +9,23 @@ export const validateString = (stringValue, isEmptyCheck = true) => {
 
   return result;
 };
+
+export const validateObject = (objectValue, isEmptyCheck = false) => {
+  const result = typeof objectValue === "object" && objectValue !== null;
+
+  if (isEmptyCheck) {
+    return result && Boolean(Object.keys(objectValue).length);
+  }
+
+  return result;
+};
+
+export const validateArray = (arrayValue, isEmptyCheck = true) => {
+  const result = validateObject(arrayValue) && Array.isArray(arrayValue);
+
+  if (isEmptyCheck) {
+    return result && Boolean(arrayValue.length);
+  }
+
+  return result;
+};

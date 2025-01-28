@@ -167,7 +167,7 @@ const Navbar = () => {
           id="notificationButton"
         >
           <IoNotificationsOutline className="mr-1 text-xl" />
-          Notifications
+          {t("NOTIFICATIONS")}
         </button>
         {user?.userId ? (
           <div
