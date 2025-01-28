@@ -40,8 +40,8 @@ const VoluntaryOrganizations = () => {
         Object.keys(organization).some((key) =>
           String(organization[key])
             .toLowerCase()
-            .includes(searchTerm.toLowerCase())
-        )
+            .includes(searchTerm.toLowerCase()),
+        ),
     );
   };
 
@@ -75,7 +75,9 @@ const VoluntaryOrganizations = () => {
     setCategoryFilter((prev) => {
       const newFilter = { ...prev };
       if (category === "All") {
-        return Object.keys(newFilter).length === allCategories.length ? {} : allCategories;
+        return Object.keys(newFilter).length === allCategories.length
+          ? {}
+          : allCategories;
       } else {
         if (newFilter[category]) {
           delete newFilter[category];
@@ -87,40 +89,37 @@ const VoluntaryOrganizations = () => {
     });
   };
 
-  
   const allCategories = {
-    "Banking": true,
-    "Books": true,
-    "Clothes": true,
+    Banking: true,
+    Books: true,
+    Clothes: true,
     "College Admissions": true,
-    "Cooking": true,
-    "Education": true,
-    "Employment": true,
-    "Finance": true,
-    "Food": true,
-    "Gardening": true,
-    "Homelessness": true,
-    "Housing": true,
-    "Jobs": true,
-    "Investing": true,
-    "Matrimonial": true,
-    "Medical": true,
-    "Rental": true,
-    "School": true,
-    "Shopping": true,
-    "Sports": true,
-    "Stocks": true,
-    "Travel": true,
-    "Tourism": true
+    Cooking: true,
+    Education: true,
+    Employment: true,
+    Finance: true,
+    Food: true,
+    Gardening: true,
+    Homelessness: true,
+    Housing: true,
+    Jobs: true,
+    Investing: true,
+    Matrimonial: true,
+    Medical: true,
+    Rental: true,
+    School: true,
+    Shopping: true,
+    Sports: true,
+    Stocks: true,
+    Travel: true,
+    Tourism: true,
   };
-  
 
   useEffect(() => {
     if (Object.keys(categoryFilter).length === 0) {
       setCategoryFilter(allCategories);
     }
   }, []);
-
 
   const organizations = voluntaryOrganizationsData;
 
@@ -171,7 +170,6 @@ const VoluntaryOrganizations = () => {
         </div>
       </div>
 
-
       <Table
         headers={headers}
         rows={filteredOrganizations(organizations)}
@@ -190,5 +188,3 @@ const VoluntaryOrganizations = () => {
 };
 
 export default VoluntaryOrganizations;
-
-

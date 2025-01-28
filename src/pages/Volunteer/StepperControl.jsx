@@ -1,6 +1,11 @@
 import React from "react";
 
-const StepperControl = ({ handleClick, currentStep, steps, isAcknowledged }) => {
+const StepperControl = ({
+  handleClick,
+  currentStep,
+  steps,
+  isAcknowledged,
+}) => {
   return (
     <div className="container flex justify-around mt-16 mb-8">
       <div className="px-4 w-24">
@@ -24,7 +29,9 @@ const StepperControl = ({ handleClick, currentStep, steps, isAcknowledged }) => 
               ? "opacity-50 cursor-not-allowed"
               : "cursor-pointer hover:bg-slate-700 hover:text-white"
           }`}
-          disabled={(currentStep === 1 && !isAcknowledged) || currentStep > steps.length}
+          disabled={
+            (currentStep === 1 && !isAcknowledged) || currentStep > steps.length
+          }
         >
           {currentStep === steps.length ? "Confirm" : "Next"}
         </button>

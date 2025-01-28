@@ -5,8 +5,9 @@ import Table from "../../common/components/DataTable/Table";
 import { MdArrowForwardIos } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { useGetAllRequestQuery } from "../../services/requestApi";
+
+import "./Dashboard.css";
 
 const Dashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
@@ -24,29 +25,8 @@ const Dashboard = ({ userRole }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
-  const [requestData, setRequestData] = useState([]);
 
-  const token = useSelector((state) => state.auth.idToken);
-
-  useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        const response = await axios.get(
-          "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/get-requests",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setRequestData(response.data.body);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchRequests();
-  }, [token]);
+  const { data, isLoading } = useGetAllRequestQuery();
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -90,8 +70,8 @@ const Dashboard = ({ userRole }) => {
         (Object.keys(categoryFilter).length === 0 ||
           categoryFilter[request.category]) &&
         Object.keys(request).some((key) =>
-          String(request[key]).toLowerCase().includes(searchTerm.toLowerCase())
-        )
+          String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
+        ),
     );
   };
 
@@ -226,8 +206,8 @@ const Dashboard = ({ userRole }) => {
               {tab === "myRequests"
                 ? "My Requests"
                 : tab === "othersRequests"
-                ? "Others Requests"
-                : "Managed Requests"}
+                  ? "Others Requests"
+                  : "Managed Requests"}
             </button>
           ))}
         </div>
@@ -312,20 +292,22 @@ const Dashboard = ({ userRole }) => {
         </div>
 
         {activeTab && (
-          <div className="requests-section">
-            <Table
-              headers={headers}
-              rows={filteredRequests(requestData)}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages(requestData)}
-              totalRows={filteredRequests(requestData).length}
-              itemsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-            />
+          <div className="requests-section overflow-auto table-height-fix">
+            {!isLoading && (
+              <Table
+                headers={headers}
+                rows={filteredRequests(data.body)}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages(data.body)}
+                totalRows={filteredRequests(data.body).length}
+                itemsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) => `/request/${request[header]}`}
+              />
+            )}
           </div>
         )}
       </div>

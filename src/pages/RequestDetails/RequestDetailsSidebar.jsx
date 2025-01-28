@@ -1,5 +1,5 @@
 import avatar from "../../assets/avatar.jpg";
-import React from 'react' //added for testing
+import React from "react"; //added for testing
 
 const RequestDetailsSidebar = () => {
   return (

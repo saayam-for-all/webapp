@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -8,6 +9,8 @@ import { signIn } from "aws-amplify/auth";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 
 const LoginPage = () => {
+  const { t } = useTranslation();
+
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
@@ -37,9 +40,9 @@ const LoginPage = () => {
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
-        <h1 className="my-4 text-3xl font-bold text-center">Log In</h1>
+        <h1 className="my-4 text-3xl font-bold text-center">{t("LOGIN")}</h1>
         <div className="my-2 flex flex-col">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{t("EMAIL")}</label>
           <input
             id="email"
             value={emailValue}
@@ -50,7 +53,7 @@ const LoginPage = () => {
           />
         </div>
         <div className="my-2 flex flex-col">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">{t("PASSWORD")}</label>
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
@@ -77,41 +80,41 @@ const LoginPage = () => {
           className="my-2 text-left underline"
           onClick={() => navigate("/forgot-password")}
         >
-          Forgot Password?
+          {t("FORGOT_PASSWORD")}
         </button>
         <button
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignIn}
         >
-          Log in
+          {t("LOGIN")}
         </button>
 
         {/* Uncommment for Google and Facebook signin */}
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="px-4 text-gray-500">Or With</span>
+          <span className="px-4 text-gray-500">{t("OR_WITH")}</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
         <div className="flex flex-row items-center">
           <button className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
             <FaFacebookF className="mx-2 text-xl text-blue-800" />
-            <span>Facebook</span>
+            <span>{t("FACEBOOK")}</span>
           </button>
 
           <button className="ml-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
             <FcGoogle className="mx-2 text-xl" />
-            <span>Google</span>
+            <span>{t("GOOGLE")}</span>
           </button>
         </div>
 
         <div className="mt-16 flex flex-row justify-center">
-          <p>Don't have an account?</p>
+          <p>{t("NONE_ACCOUNT")}</p>
           <button
             className="mx-2 text-left underline"
             onClick={() => navigate("/signup")}
           >
-            Sign up
+            {t("SIGNUP")}
           </button>
         </div>
       </div>

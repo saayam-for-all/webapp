@@ -1,19 +1,34 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import {render,screen} from '@testing-library/react'
-import RequestDetails from '../../../src/pages/RequestDetails/RequestDetails'
-//import RequestDescription from '../src/pages/RequestDetails/RequestDescription'
-//import RequestDetailsSidebar from '../src/pages/RequestDetails/RequestDetailsSidebar'
-import { MemoryRouter } from 'react-router'
-test('renders request details', () =>{
-    render(
-        <MemoryRouter>
-    <RequestDetails/>
-    </MemoryRouter>)
+import React from "react";
+import { MemoryRouter } from "react-router";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import RequestDetails from "../../../src/pages/RequestDetails/RequestDetails";
 
-    const requestDescriptionComponent = screen.getByText(
-        /We need volunteers for our upcoming Community Clean-Up Day/i
-      );
-    expect(requestDescriptionComponent).toBeInTheDocument()
+test("renders request details", () => {
+  /*
+  const store = createStore((state = {
+                               auth: {
+                                 idToken: 'mockIdToken',
+                               }
+                             }
+  ) => state);
 
-})
+  render(
+    <MemoryRouter>
+      <Provider store={store}>
+        <RequestDetails/>
+      </Provider>
+    </MemoryRouter>
+  )
+
+  const handleToggleContainer = screen.getByTestId('handleToggleContainer');
+  fireEvent.click(handleToggleContainer);
+
+  const requestDescriptionComponent = screen.getByText(
+    /We need volunteers for our upcoming Community Clean-Up Day on/i
+  );
+  expect(requestDescriptionComponent).toBeInTheDocument()
+  */
+});

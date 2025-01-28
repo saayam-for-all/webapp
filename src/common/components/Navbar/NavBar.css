@@ -22,10 +22,9 @@ button:hover {
   display: none;
 }
 
-
 .profile-dropdown {
   position: absolute;
-  top: calc(100% + 18px); 
+  top: calc(100% + 18px);
   right: 0;
   z-index: 100;
   background-color: white;
@@ -33,15 +32,15 @@ button:hover {
   border-radius: 0.5rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 12rem;
-  padding: 0.5rem 0; 
+  padding: 0.5rem 0;
 }
 
 .profile-dropdown li {
-  padding: 0.5rem 1rem; 
+  padding: 0.5rem 1rem;
 }
 
 .profile-dropdown li:hover {
-  background-color: #f5f5f5; 
+  background-color: #f5f5f5;
   cursor: pointer;
 }
 

@@ -1,5 +1,4 @@
-import React from "react"; // Added for testing
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Hub } from "aws-amplify/utils";
@@ -57,7 +56,7 @@ const Navbar = () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener(
         "profile-photo-updated",
-        handleProfilePhotoUpdated
+        handleProfilePhotoUpdated,
       );
     };
   }, []);
@@ -123,7 +122,7 @@ const Navbar = () => {
             onClick={handleDropdownClick}
           >
             <IoPeopleOutline className="mr-1 text-xl" />
-            {t("about")}
+            {t("ABOUT")}
           </button>
           <ul
             tabIndex={0}
@@ -134,24 +133,24 @@ const Navbar = () => {
           >
             <li>
               <NavLink to="/directors" name="directors">
-                {t("directors")}
+                {t("DIRECTORS")}
               </NavLink>
             </li>
             <li>
               <NavLink to="/how-we-operate" name="how-we-operate">
-                {t("how_we_operate")}
+                {t("HOW_WE_OPERATE")}
               </NavLink>
             </li>
             <li>
               <NavLink to="/contact" name="contact">
-                {t("contact")}
+                {t("CONTACT")}
               </NavLink>
             </li>
             <li>
-              <NavLink to="/mission">{t("mission")}</NavLink>
+              <NavLink to="/mission">{t("MISSION")}</NavLink>
             </li>
             <li>
-              <NavLink to="/vision">{t("vision")}</NavLink>
+              <NavLink to="/vision">{t("VISION")}</NavLink>
             </li>
           </ul>
         </div>
@@ -161,7 +160,7 @@ const Navbar = () => {
           onClick={handleLinkClick}
         >
           <BiDonateHeart className="mr-1 text-xl" />
-          {t("donate")}
+          {t("DONATE")}
         </NavLink>
         <button
           className="font-semibold flex flex-col items-center"
@@ -208,7 +207,7 @@ const Navbar = () => {
             id="loginButton"
           >
             <IoLogInOutline className="mr-1 text-xl" />
-            {t("login")}
+            {t("LOGIN")}
           </NavLink>
         )}
       </div>

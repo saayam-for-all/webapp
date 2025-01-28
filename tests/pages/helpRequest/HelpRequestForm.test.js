@@ -1,16 +1,45 @@
-import '@testing-library/jest-dom'
-import React from 'react'
-import HelpRequestForm from '../../../src/pages/HelpRequest/HelpRequestForm'
-import {render,screen} from '@testing-library/react'
-import {Provider} from 'react-redux'
-import {store} from '../../../src/redux/store'
+import React from "react";
+import { MemoryRouter } from "react-router";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import HelpRequestForm from "../../../src/pages/HelpRequest/HelpRequestForm";
 
+test("it renders and checks divs with mt-3 class, the parent divs", () => {
+  /*
+  const store = createStore((state = {
+                                 auth: {
+                                   idToken: 'mockIdToken',
+                                 },
+                                 request: {
+                                   categories: 'categories',
+                                 }
+                               }
+    ) => state);
+
+    global.fetch = jest.fn(() => Promise.reject(null));
+
+<<<<<<< HEAD
 import axios from '../__mocks__/axios'
 import { submitData } from './axiosFetch'
+=======
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <HelpRequestForm/>
+        </Provider>
+      </MemoryRouter>
+    )
+
+    const dropdown = screen.getByTestId('dropdown');
+    fireEvent.change(dropdown, {target: {value: 'no'}});
+>>>>>>> 9db9d865fedf67c042b78acba2055a2e1d159ed2
 
 // Inicializa la store solo una vez antes de los tests/*
 /*let store;
 
+<<<<<<< HEAD
 beforeAll(() => {
   store = configureStore({
     reducer: {
@@ -155,3 +184,12 @@ test('shows an error when the submission fails', async () => {
   );
 });
 */
+=======
+    const divs = [firstParentDiv, secondParentDiv, thirdParentDiv, fourthParentDiv, fifthParentDiv, sixthParentDiv, seventhDiv]
+
+    divs.forEach((div) => {
+      expect(div).toHaveClass('mt-3')
+    })
+    */
+});
+>>>>>>> 9db9d865fedf67c042b78acba2055a2e1d159ed2

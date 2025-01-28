@@ -7,7 +7,7 @@ const Stepper = ({ steps, currentStep }) => {
       completed: false,
       highlighted: index === 0,
       selected: index === 0,
-    }))
+    })),
   );
 
   const updateStep = (stepNumber) => {
@@ -39,7 +39,7 @@ const Stepper = ({ steps, currentStep }) => {
           };
         }
         return step;
-      })
+      }),
     );
   };
 

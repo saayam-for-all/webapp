@@ -1,32 +1,36 @@
-import React, { useState } from 'react';
-import usePlacesSearchBox from '../location/usePlacesSearchBox';
-import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
+import React, { useState } from "react";
+import usePlacesSearchBox from "../location/usePlacesSearchBox";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  StandaloneSearchBox,
+} from "@react-google-maps/api";
 
 const HousingCategory = () => {
-  const [userType, setUserType] = useState('lookingToRent'); 
+  const [userType, setUserType] = useState("lookingToRent");
   const [housingInfo, setHousingInfo] = useState({
-    location: '',
-    budget: '',
-    housingType: 'Apartment',
+    location: "",
+    budget: "",
+    housingType: "Apartment",
     bedrooms: 1,
     bathrooms: 1,
-    specialRequirements: '',
-    moveInDate: '',
-    moveOutDate: '',
-    familySize: '',
-    amenities: '',
-    propertyLocation: '',
-    propertyRent: '',
-    furnishing: 'Unfurnished',
-    tenantRequirements: '',
-    availability: '',
-    leaseDuration: 'Short-term'
+    specialRequirements: "",
+    moveInDate: "",
+    moveOutDate: "",
+    familySize: "",
+    amenities: "",
+    propertyLocation: "",
+    propertyRent: "",
+    furnishing: "Unfurnished",
+    tenantRequirements: "",
+    availability: "",
+    leaseDuration: "Short-term",
   });
   const { inputRef, isLoaded, handleOnPlacesChanges } = usePlacesSearchBox();
 
-  const housingTypes = ['Apartment', 'House', 'Shared housing'];
-  const amenitiesOptions = ['Gym', 'Pool', 'Parking', 'Security', 'Laundry'];
-  const furnishingOptions = ['Furnished', 'Unfurnished'];
+  const housingTypes = ["Apartment", "House", "Shared housing"];
+  const amenitiesOptions = ["Gym", "Pool", "Parking", "Security", "Laundry"];
+  const furnishingOptions = ["Furnished", "Unfurnished"];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,15 +40,16 @@ const HousingCategory = () => {
   return (
     <div className="p-4 bg-gray-50 rounded-lg">
       <h2 className="text-xl font-semibold mb-4">
-        Are you looking to rent/lease a place, or are you offering a place for rent/lease?
+        Are you looking to rent/lease a place, or are you offering a place for
+        rent/lease?
       </h2>
       <div className="flex space-x-4 mb-6">
         <label>
           <input
             type="radio"
             value="lookingToRent"
-            checked={userType === 'lookingToRent'}
-            onChange={() => setUserType('lookingToRent')}
+            checked={userType === "lookingToRent"}
+            onChange={() => setUserType("lookingToRent")}
           />
           Looking to Rent/Lease
         </label>
@@ -52,19 +57,21 @@ const HousingCategory = () => {
           <input
             type="radio"
             value="offeringPlace"
-            checked={userType === 'offeringPlace'}
-            onChange={() => setUserType('offeringPlace')}
+            checked={userType === "offeringPlace"}
+            onChange={() => setUserType("offeringPlace")}
           />
           Offering a Place for Rent/Lease
         </label>
       </div>
 
-      {userType === 'lookingToRent' && (
+      {userType === "lookingToRent" && (
         <>
           <div className="mb-6">
             <h3 className="font-semibold">Rent/Lease Details</h3>
 
-            <label>What location are you looking for? (City/Neighborhood)</label>
+            <label>
+              What location are you looking for? (City/Neighborhood)
+            </label>
             {isLoaded && (
               <StandaloneSearchBox
                 onLoad={(ref) => (inputRef.current = ref)}
@@ -75,8 +82,8 @@ const HousingCategory = () => {
                   name="location"
                   value={housingInfo.location}
                   onChange={handleInputChange}
-                  ref={inputRef}  
-                  onFocus={() => inputRef.current && handleOnPlacesChanges()}  
+                  ref={inputRef}
+                  onFocus={() => inputRef.current && handleOnPlacesChanges()}
                   className="w-full p-2 border rounded"
                 />
               </StandaloneSearchBox>
@@ -125,7 +132,10 @@ const HousingCategory = () => {
               className="w-full p-2 border rounded"
             />
 
-            <label>Do you have any special requirements? (Pet-friendly, Parking, etc.)</label>
+            <label>
+              Do you have any special requirements? (Pet-friendly, Parking,
+              etc.)
+            </label>
             <input
               type="text"
               name="specialRequirements"
@@ -176,7 +186,7 @@ const HousingCategory = () => {
         </>
       )}
 
-      {userType === 'offeringPlace' && (
+      {userType === "offeringPlace" && (
         <>
           <div className="mb-6">
             <h3 className="font-semibold">Property Details</h3>
@@ -187,16 +197,16 @@ const HousingCategory = () => {
                 onLoad={(ref) => (inputRef.current = ref)}
                 onPlacesChanged={handleOnPlacesChanges}
               >
-               <input
+                <input
                   type="text"
                   name="propertyLocation"
                   value={housingInfo.propertyLocation}
                   onChange={handleInputChange}
-                  ref={inputRef}  
-                  onFocus={() => inputRef.current && handleOnPlacesChanges()}   
+                  ref={inputRef}
+                  onFocus={() => inputRef.current && handleOnPlacesChanges()}
                   className="w-full p-2 border rounded"
-               />
-               </StandaloneSearchBox>
+                />
+              </StandaloneSearchBox>
             )}
             <label>What is the rent or price you're offering?</label>
             <input
@@ -221,7 +231,9 @@ const HousingCategory = () => {
               ))}
             </select>
 
-            <label>How many bedrooms and bathrooms does the property have?</label>
+            <label>
+              How many bedrooms and bathrooms does the property have?
+            </label>
             <input
               type="number"
               name="bedrooms"
@@ -281,7 +293,7 @@ const HousingCategory = () => {
               type="date"
               name="availability"
               value={housingInfo.availability}
-              onChange              ={handleInputChange}
+              onChange={handleInputChange}
               className="w-full p-2 border rounded"
             />
 
@@ -297,10 +309,9 @@ const HousingCategory = () => {
             </select>
           </div>
         </>
-      )}  
+      )}
     </div>
   );
 };
 
 export default HousingCategory;
-
