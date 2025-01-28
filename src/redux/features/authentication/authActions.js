@@ -18,6 +18,12 @@ import {
   resetPasswordFailure,
 } from "./authSlice";
 import { useNavigate } from "react-router";
+/*
+import {
+  changeUiLanguage,
+  returnDefaultLanguage,
+} from "../../../common/i18n/utils";
+*/
 
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
@@ -34,6 +40,19 @@ export const checkAuthStatus = () => async (dispatch) => {
       zoneinfo,
       groups,
     };
+
+    /*
+        let userProfile = {
+          birthday: "",
+          address: "",
+          county: "",
+          state: "",
+          city: "", //?????
+          zip: "",
+          language: "fr-FR",
+        };
+    */
+
     if (user.userId) {
       dispatch(
         loginSuccess({
@@ -50,6 +69,8 @@ export const checkAuthStatus = () => async (dispatch) => {
         idToken,
       }),
     );
+
+    //changeUiLanguage(userProfile?.language);
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
@@ -57,6 +78,7 @@ export const checkAuthStatus = () => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
+    //returnDefaultLanguage();
     signOut();
     dispatch(logoutSuccess());
   } catch (error) {
