@@ -45,7 +45,7 @@ const CommentsSection = () => {
     .filter(
       (c) =>
         c.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        c.message.toLowerCase().includes(searchText.toLowerCase())
+        c.message.toLowerCase().includes(searchText.toLowerCase()),
     )
     .sort((a, b) => {
       const dateA = new Date(a.date);
@@ -57,7 +57,7 @@ const CommentsSection = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentComments = filteredComments.slice(
     indexOfFirstItem,
-    indexOfLastItem
+    indexOfLastItem,
   );
   const totalPages = Math.ceil(filteredComments.length / itemsPerPage);
 

@@ -11,7 +11,7 @@ import { FaPhone } from "react-icons/fa6";
 import { FaVideo } from "react-icons/fa";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import { createPortal } from "react-dom";
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 import { useGetAllRequestQuery } from "../../services/requestApi";
 const attributes = [
   {
@@ -57,16 +57,16 @@ const RequestDescription = () => {
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
   const handleEditClick = (event) => {
     event.stopPropagation();
-    setIsEditing(true)
-  }
+    setIsEditing(true);
+  };
 
   const handleOverlayClick = () => {
     setIsEditing(false);
-  }
+  };
 
   useEffect(() => {
     if (isEditing) {
@@ -97,13 +97,13 @@ const RequestDescription = () => {
               />
             </div>
           </div>,
-          document.body
+          document.body,
         )}
       <div>
         <div
           className="rounded-lg bg-white border border-gray-200 shadow-md p-4 sm:p-6 m-0 flex flex-col gap-4"
           onClick={handleToggle}
-          data-testid = 'handleToggleContainer'
+          data-testid="handleToggleContainer"
         >
           <button
             className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"

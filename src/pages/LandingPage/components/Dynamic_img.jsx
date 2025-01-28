@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "./Dynamic_img.css";
 
 import Employment from "../../../assets/Landingpage_images/Employment.gif";
@@ -30,7 +30,7 @@ const images = [
   College_admissions,
   Gardening,
   Sports,
-  Cooking
+  Cooking,
 ];
 
 const Images = () => {
@@ -38,12 +38,11 @@ const Images = () => {
     <div className="images">
       <div className="images-slide">
         {images.map((image, index) => (
-          <img key={index} src={image}/>
+          <img key={index} src={image} />
         ))}
       </div>
     </div>
   );
 };
-
 
 export default Images;

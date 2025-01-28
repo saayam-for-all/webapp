@@ -1,1 +1,1 @@
-module.exports = 'test-file-stub'; // O simplemente puedes dejarlo vacío
+module.exports = "test-file-stub"; // O simplemente puedes dejarlo vacío

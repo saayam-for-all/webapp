@@ -35,9 +35,11 @@ export const checkAuthStatus = () => async (dispatch) => {
       groups,
     };
     if (user.userId) {
-      dispatch(loginSuccess({
-        user,
-      }));
+      dispatch(
+        loginSuccess({
+          user,
+        }),
+      );
     }
     //const user = await getCurrentUser();
     //const session = await fetchAuthSession();
@@ -46,7 +48,7 @@ export const checkAuthStatus = () => async (dispatch) => {
       loginSuccess({
         user,
         idToken,
-      })
+      }),
     );
   } catch (error) {
     dispatch(loginFailure(error.message));

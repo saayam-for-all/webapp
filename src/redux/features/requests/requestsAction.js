@@ -3,5 +3,5 @@ import { getRequests } from "../../../services/requestServices";
 
 export const fetchRequests = createAsyncThunk(
   "requests/fetchRequests",
-  getRequests
+  getRequests,
 );

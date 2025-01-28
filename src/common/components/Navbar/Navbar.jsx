@@ -57,7 +57,7 @@ const Navbar = () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener(
         "profile-photo-updated",
-        handleProfilePhotoUpdated
+        handleProfilePhotoUpdated,
       );
     };
   }, []);

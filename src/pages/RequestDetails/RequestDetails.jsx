@@ -5,10 +5,7 @@ import RequestDescription from "./RequestDescription";
 import HelpingVolunteers from "./HelpingVolunteers";
 import RequestButton from "../../common/components/RequestButton/RequestButton";
 
-
-
 const RequestDetails = () => {
-
   return (
     <div className="m-8 grid grid-cols-13 gap-4">
       <div className="col-span-7">
@@ -16,7 +13,6 @@ const RequestDetails = () => {
         <CommentsSection />
 
         <div className="mt-6 grid grid-cols-3 gap-4 w-full p-6 bg-white rounded-md shadow-md border border-gray-100">
-
           <RequestButton
             link="/voluntary-organizations"
             text="Volunteer Organizations"
@@ -41,7 +37,6 @@ const RequestDetails = () => {
           <HelpingVolunteers />
         </div>
       </div>
-
     </div>
   );
 };

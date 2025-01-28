@@ -1,7 +1,7 @@
-import {render, screen} from '@testing-library/react';
-import '@testing-library/jest-dom';
-import Images from '../../src/pages/LandingPage/components/Dynamic_img';
-import React from 'react'
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import Images from "../../src/pages/LandingPage/components/Dynamic_img";
+import React from "react";
 
 import Employment from "../../src/assets/Landingpage_images/Employment.gif";
 import Matrimonial from "../../src/assets/Landingpage_images/Matrimonial.gif";
@@ -17,7 +17,7 @@ import College_admissions from "../../src/assets/Landingpage_images/college_admi
 import Gardening from "../../src/assets/Landingpage_images/Gardening.gif";
 import Sports from "../../src/assets/Landingpage_images/Sports.gif";
 import Cooking from "../../src/assets/Landingpage_images/cooking.gif";
-import {MemoryRouter} from 'react-router';
+import { MemoryRouter } from "react-router";
 
 const images = [
   Employment,
@@ -33,21 +33,21 @@ const images = [
   College_admissions,
   Gardening,
   Sports,
-  Cooking
+  Cooking,
 ];
 
-test('checks if images are rendered', () => {
+test("checks if images are rendered", () => {
   render(
     <MemoryRouter>
-      <Images/>
-    </MemoryRouter>
+      <Images />
+    </MemoryRouter>,
   );
 
-  const imgElements = screen.getAllByRole('img');
+  const imgElements = screen.getAllByRole("img");
 
   expect(imgElements).toHaveLength(images.length);
 
   imgElements.forEach((img, index) => {
-    expect(img).toHaveAttribute('src', images[index]);
+    expect(img).toHaveAttribute("src", images[index]);
   });
 });

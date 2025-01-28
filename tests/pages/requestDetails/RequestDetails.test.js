@@ -1,12 +1,12 @@
 import React from "react";
-import {MemoryRouter} from 'react-router'
-import {Provider} from "react-redux"
-import {createStore} from "redux";
-import '@testing-library/jest-dom'
-import {render, screen, fireEvent,} from '@testing-library/react'
-import RequestDetails from '../../../src/pages/RequestDetails/RequestDetails'
+import { MemoryRouter } from "react-router";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import RequestDetails from "../../../src/pages/RequestDetails/RequestDetails";
 
-test('renders request details', () => {
+test("renders request details", () => {
   /*
   const store = createStore((state = {
                                auth: {
@@ -31,4 +31,4 @@ test('renders request details', () => {
   );
   expect(requestDescriptionComponent).toBeInTheDocument()
   */
-})
+});
