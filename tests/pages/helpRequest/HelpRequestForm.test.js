@@ -1,12 +1,12 @@
 import React from "react";
-import { MemoryRouter } from 'react-router'
-import { Provider } from "react-redux"
+import { MemoryRouter } from "react-router";
+import { Provider } from "react-redux";
 import { createStore } from "redux";
-import '@testing-library/jest-dom'
-import { render, screen, fireEvent, } from '@testing-library/react'
-import HelpRequestForm from '../../../src/pages/HelpRequest/HelpRequestForm'
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import HelpRequestForm from "../../../src/pages/HelpRequest/HelpRequestForm";
 
-test('it renders and checks divs with mt-3 class, the parent divs', () => {
+test("it renders and checks divs with mt-3 class, the parent divs", () => {
   /*
   const store = createStore((state = {
                                  auth: {
@@ -45,4 +45,4 @@ test('it renders and checks divs with mt-3 class, the parent divs', () => {
       expect(div).toHaveClass('mt-3')
     })
     */
-})
+});

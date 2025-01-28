@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import React from 'react' //added for testing
+import React from "react"; //added for testing
 
 const Stepper = ({ steps, currentStep }) => {
   const [newStep, setNewStep] = useState(() =>
@@ -8,7 +8,7 @@ const Stepper = ({ steps, currentStep }) => {
       completed: false,
       highlighted: index === 0,
       selected: index === 0,
-    }))
+    })),
   );
 
   const updateStep = (stepNumber) => {
@@ -40,7 +40,7 @@ const Stepper = ({ steps, currentStep }) => {
           };
         }
         return step;
-      })
+      }),
     );
   };
 

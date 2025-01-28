@@ -84,7 +84,7 @@ const HelpingVolunteers = () => {
         dateAdded: "2023-10-08",
       },
     ],
-    []
+    [],
   );
 
   // Columns for the table
@@ -109,12 +109,12 @@ const HelpingVolunteers = () => {
   // Sorting and filtering logic
   const filteredAndSortedVolunteers = useMemo(() => {
     let filteredVolunteers = volunteerData.filter((volunteer) =>
-      volunteer.name.toLowerCase().includes(searchTerm.toLowerCase())
+      volunteer.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     if (filter) {
       filteredVolunteers = filteredVolunteers.filter((volunteer) =>
-        volunteer.cause.toLowerCase().includes(filter.toLowerCase())
+        volunteer.cause.toLowerCase().includes(filter.toLowerCase()),
       );
     }
 
@@ -145,7 +145,7 @@ const HelpingVolunteers = () => {
   // Pagination Logic
   const paginatedData = filteredAndSortedVolunteers.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handleItemsPerPageChange = (e) => {
@@ -170,7 +170,7 @@ const HelpingVolunteers = () => {
         onClick={() => handlePageChange(i)}
       >
         {i}
-      </button>
+      </button>,
     );
   }
 

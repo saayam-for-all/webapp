@@ -1,47 +1,47 @@
-import React from 'react'
-import {render,screen,fireEvent} from '@testing-library/react'
-import '@testing-library/jest-dom'
-import PromoteToVolunteer from '../../src/pages/Volunteer/PromoteToVolunteer'
-import Stepper from '../../src/pages/Volunteer/Stepper'
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import PromoteToVolunteer from "../../src/pages/Volunteer/PromoteToVolunteer";
+import Stepper from "../../src/pages/Volunteer/Stepper";
 
-describe('PromoteToVolunteer Component', () => {
-    test('renders Terms & Conditions on step 1', () => {
-      render(<PromoteToVolunteer />);
+describe("PromoteToVolunteer Component", () => {
+  test("renders Terms & Conditions on step 1", () => {
+    render(<PromoteToVolunteer />);
 
-      expect(screen.getByText('Terms & Conditions')).toBeInTheDocument();
-    });
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
+  });
 
-    test('renders Volunteer Course on step 2', () => {
-      render(<PromoteToVolunteer />);
+  test("renders Volunteer Course on step 2", () => {
+    render(<PromoteToVolunteer />);
 
-      const nextButton = screen.getByText('Next');
-      fireEvent.click(nextButton);
+    const nextButton = screen.getByText("Next");
+    fireEvent.click(nextButton);
 
-      expect(screen.getByText('Identification')).toBeInTheDocument();
-    });
+    expect(screen.getByText("Identification")).toBeInTheDocument();
+  });
 
-    test('renders Skills on step 3', () => {
-      render(<PromoteToVolunteer />);
+  test("renders Skills on step 3", () => {
+    render(<PromoteToVolunteer />);
 
-      const nextButton = screen.getByText('Next');
-      fireEvent.click(nextButton);
-      fireEvent.click(nextButton);
+    const nextButton = screen.getByText("Next");
+    fireEvent.click(nextButton);
+    fireEvent.click(nextButton);
 
-      expect(screen.getByText(/skills/i)).toBeInTheDocument();
-    });
+    expect(screen.getByText(/skills/i)).toBeInTheDocument();
+  });
 
-    test('renders Availability on step 4', () => {
-      render(<PromoteToVolunteer />);
+  test("renders Availability on step 4", () => {
+    render(<PromoteToVolunteer />);
 
-      const nextButton = screen.getByText('Next');
-      fireEvent.click(nextButton);
-      fireEvent.click(nextButton);
-      fireEvent.click(nextButton);
+    const nextButton = screen.getByText("Next");
+    fireEvent.click(nextButton);
+    fireEvent.click(nextButton);
+    fireEvent.click(nextButton);
 
-      expect(screen.getByText('Availability')).toBeInTheDocument();
-    });
+    expect(screen.getByText("Availability")).toBeInTheDocument();
+  });
 
-/*
+  /*
     test('renders Complete on step 5', () => {
       render(<PromoteToVolunteer />);
 
@@ -54,6 +54,4 @@ describe('PromoteToVolunteer Component', () => {
       expect(screen.getByText('Complete')).toBeInTheDocument();
     });
 */
-
-
-  });
+});

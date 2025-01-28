@@ -1,4 +1,4 @@
-import React from 'react' //added for testing
+import React from "react"; //added for testing
 import { useState } from "react";
 import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
@@ -35,7 +35,12 @@ const PromoteToVolunteer = () => {
       case 2:
         return <VolunteerCourse />;
       case 3:
-        return <Skills checkedCategories={checkedCategories} setCheckedCategories={setCheckedCategories}/>;
+        return (
+          <Skills
+            checkedCategories={checkedCategories}
+            setCheckedCategories={setCheckedCategories}
+          />
+        );
       case 4:
         return <Availability />;
       case 5:

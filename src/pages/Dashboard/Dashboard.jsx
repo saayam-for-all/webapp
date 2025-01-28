@@ -70,8 +70,8 @@ const Dashboard = ({ userRole }) => {
         (Object.keys(categoryFilter).length === 0 ||
           categoryFilter[request.category]) &&
         Object.keys(request).some((key) =>
-          String(request[key]).toLowerCase().includes(searchTerm.toLowerCase())
-        )
+          String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
+        ),
     );
   };
 
@@ -206,8 +206,8 @@ const Dashboard = ({ userRole }) => {
               {tab === "myRequests"
                 ? "My Requests"
                 : tab === "othersRequests"
-                ? "Others Requests"
-                : "Managed Requests"}
+                  ? "Others Requests"
+                  : "Managed Requests"}
             </button>
           ))}
         </div>
@@ -293,19 +293,21 @@ const Dashboard = ({ userRole }) => {
 
         {activeTab && (
           <div className="requests-section table-size-fix">
-            {!isLoading && <Table
-              headers={headers}
-              rows={filteredRequests(data.body)}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages(data.body)}
-              totalRows={filteredRequests(data.body).length}
-              itemsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-            />}
+            {!isLoading && (
+              <Table
+                headers={headers}
+                rows={filteredRequests(data.body)}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages(data.body)}
+                totalRows={filteredRequests(data.body).length}
+                itemsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) => `/request/${request[header]}`}
+              />
+            )}
           </div>
         )}
       </div>
