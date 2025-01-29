@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FaFacebookF } from "react-icons/fa";
@@ -15,7 +15,7 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [countryCode, setCountryCode] = useState("US");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -111,7 +111,11 @@ const SignUp = () => {
             <select
               id="countryCode"
               value={countryCode}
-              onChange={(e) => setCountryCode(e.target.value)}
+              onChange={(e) => {
+                const selectedCode = e.target.value;
+                setCountryCode(selectedCode);
+                setCountry(PHONECODESEN[selectedCode]?.primary || "");
+              }}
               className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
             >
               {getPhoneCodeslist(PHONECODESEN).map((option) => (
