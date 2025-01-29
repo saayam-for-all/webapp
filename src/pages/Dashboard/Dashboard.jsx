@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Table from "../../common/components/DataTable/Table";
 // import { requestsData } from "./data";
 import { MdArrowForwardIos } from "react-icons/md";
@@ -10,6 +11,8 @@ import { useGetAllRequestQuery } from "../../services/requestApi";
 import "./Dashboard.css";
 
 const Dashboard = ({ userRole }) => {
+  const { t } = useTranslation();
+
   const [activeTab, setActiveTab] = useState("myRequests");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
@@ -175,17 +178,17 @@ const Dashboard = ({ userRole }) => {
       <div className="flex gap-10 mb-5">
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
           <Link to="/request" className="text-white">
-            Create Help Request
+            {t("CREATE_HELP_REQUEST")}
           </Link>
         </button>
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
           <Link to="/promote-to-volunteer" className="text-white">
-            Become a Volunteer
+            {t("BECOME_VOLUNTEER")}
           </Link>
         </button>
         <div className="flex ml-auto gap-2 items-center">
           <button className="text-blue-500 font-semibold underline italic py-2">
-            Administrate
+            {t("ADMINISTRATE")}
           </button>
           <MdArrowForwardIos className="text-blue-500" />
         </div>
@@ -204,10 +207,10 @@ const Dashboard = ({ userRole }) => {
               onClick={() => handleTabChange(tab)}
             >
               {tab === "myRequests"
-                ? "My Requests"
+                ? t("MY_REQUESTS")
                 : tab === "othersRequests"
-                  ? "Others Requests"
-                  : "Managed Requests"}
+                  ? t("OTHERS_REQUESTS")
+                  : t("MANAGED_REQUESTS")}
             </button>
           ))}
         </div>
