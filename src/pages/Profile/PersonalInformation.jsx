@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import { changeUiLanguage } from "../../common/i18n/utils";
 import CountryList from "react-select-country-list";
 
 const genderOptions = [
@@ -389,6 +390,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                   JSON.stringify(personalInfo),
                 );
                 setHasUnsavedChanges(false);
+                changeUiLanguage(personalInfo);
               }}
             >
               Save

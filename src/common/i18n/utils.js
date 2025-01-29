@@ -4,10 +4,12 @@ import { validateString, validateArray } from "../../utils/validators";
 
 const PERSONAL_INFO = "personalInfo";
 
-function getUserLanguages() {
-  const savedPersonalInfo = localStorage.getItem(PERSONAL_INFO);
+function getUserLanguages(personalInfo) {
   try {
-    const personalInfo = JSON.parse(savedPersonalInfo);
+    if (!personalInfo) {
+      const savedPersonalInfo = localStorage.getItem(PERSONAL_INFO);
+      personalInfo = JSON.parse(savedPersonalInfo);
+    }
     return [
       personalInfo?.languagePreference1,
       personalInfo?.languagePreference2,
@@ -19,8 +21,8 @@ function getUserLanguages() {
   }
 }
 
-export const changeUiLanguage = () => {
-  const languages = getUserLanguages();
+export const changeUiLanguage = (personalInfo = null) => {
+  const languages = getUserLanguages(personalInfo);
   if (!validateArray(languages)) {
     return;
   }
@@ -32,11 +34,13 @@ export const changeUiLanguage = () => {
     }
 
     i18n.changeLanguage(localeList[language]);
-    break;
+    return;
   }
+
+  returnDefaultLanguage();
 };
 
-export const returnDefaultLanguage = (language) => {
+export const returnDefaultLanguage = () => {
   localStorage.removeItem("i18nextLng");
   i18n.changeLanguage();
 };
