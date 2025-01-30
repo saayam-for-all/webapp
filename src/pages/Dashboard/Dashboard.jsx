@@ -235,7 +235,7 @@ const Dashboard = ({ userRole }) => {
               onClick={toggleStatusDropdown}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
-                Status
+                {t("Status")}
               </button>
               <IoIosArrowDown className="m-2" />
             </div>
@@ -260,7 +260,7 @@ const Dashboard = ({ userRole }) => {
               onClick={toggleCategoryDropdown}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
-                Filter by
+                {t("FILTER_BY")}
               </button>
               <IoIosArrowDown className="m-2" />
             </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { PiWarningDiamondFill } from "react-icons/pi";
 import { VscCalendar } from "react-icons/vsc";
 import { TbTriangleSquareCircle } from "react-icons/tb";
@@ -45,6 +46,7 @@ const attributes = [
 ];
 
 const RequestDescription = () => {
+  const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -109,7 +111,7 @@ const RequestDescription = () => {
             className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
             onClick={handleEditClick}
           >
-            Edit
+            {t("EDIT")}
           </button>
           <div className="flex flex-row justify-between md:items-center">
             {/* <div className="flex items-center md:gap-2 lg:gap-4"> */}

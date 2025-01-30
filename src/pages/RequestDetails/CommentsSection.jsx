@@ -1,9 +1,9 @@
-import avatar from "../../assets/avatar.jpg";
-import Comments from "./Comments";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { commentsData } from "./commentsDummyData";
+import Comments from "./Comments";
 
 /* // Get the current system date
   const systemDate = new Date();
@@ -18,6 +18,7 @@ import { commentsData } from "./commentsDummyData";
   */
 
 const CommentsSection = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -188,7 +189,8 @@ const CommentsSection = () => {
                 onClick={handleSortChange}
                 className="p-2 border border-gray-300 rounded-md"
               >
-                Sort by: {sortOrder === "newest" ? "Newest" : "Oldest"}
+                {t("SORT_BY")}:{" "}
+                {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
               </button>
             </div>
             {currentComments.map((comment) => {
