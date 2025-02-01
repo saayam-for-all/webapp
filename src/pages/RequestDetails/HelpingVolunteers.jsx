@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 const HelpingVolunteers = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [chooseVolunteer, setChooseVolunteer] = useState(false);
   const [volunteersCount, setVolunteersCount] = useState("");
@@ -181,7 +183,9 @@ const HelpingVolunteers = () => {
         className="w-full h-16 p-6 bg-white flex items-center justify-between rounded-md shadow-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="font-medium text-gray-700">Helping Volunteers</div>
+        <div className="font-medium text-gray-700">
+          {t("HELPING_VOLUNTEERS")}
+        </div>
         <div>
           <svg
             className={`w-6 h-6 text-gray-500 transform ${
@@ -208,7 +212,7 @@ const HelpingVolunteers = () => {
           <div className="flex items-center space-x-4 p-4 mt-2">
             <input
               type="text"
-              placeholder="Enter number of volunteers required..."
+              placeholder={t("NUMBER_OF_VOLUNTEERS")}
               className="p-3 border rounded-md w-1/3"
               value={volunteersCount}
               onChange={(e) => {
@@ -234,7 +238,7 @@ const HelpingVolunteers = () => {
                   d="M12 4v16m8-8H4"
                 />
               </svg>
-              Request Volunteers
+              {t("REQUEST_VOLUNTEERS")}
             </button>
           </div>
 

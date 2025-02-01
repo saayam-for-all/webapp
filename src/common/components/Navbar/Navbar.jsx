@@ -167,7 +167,7 @@ const Navbar = () => {
           id="notificationButton"
         >
           <IoNotificationsOutline className="mr-1 text-xl" />
-          Notifications
+          {t("NOTIFICATIONS")}
         </button>
         {user?.userId ? (
           <div
@@ -189,13 +189,13 @@ const Navbar = () => {
                   className="p-2 hover:bg-gray-100 cursor-pointer"
                   onClick={handleProfileClick}
                 >
-                  {t("Profile")}
+                  {t("PROFILE")}
                 </li>
                 <li
                   className="p-2 hover:bg-gray-100 cursor-pointer"
                   onClick={handleSignOut}
                 >
-                  {t("Logout")}
+                  {t("LOGOUT")}
                 </li>
               </ul>
             )}
