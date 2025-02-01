@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "jest": "jest",
     "test": "jest",
-		"prepare": "husky"
+    "prepare": "husky"
   },
   "dependencies": {
     "@aws-amplify/auth": "^6.6.1",
@@ -20,7 +20,6 @@
     "aws-sdk": "^2.1612.0",
     "cheerio": "^1.0.0",
     "formik": "^2.4.5",
-    "i18next-browser-languagedetector": "^8.0.2",
     "install": "^0.13.0",
     "node-fetch": "^3.3.2",
     "postcss-loader": "^8.1.1",
@@ -36,18 +35,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-<<<<<<< HEAD
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@reduxjs/toolkit": "^2.5.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.1.0",
-=======
-    "@babel/preset-env": "^7.26.0",
-		"@babel/preset-react": "^7.26.3",
-    "@testing-library/jest-dom": "^6.6.3",
-		"@testing-library/react": "^16.2.0",
->>>>>>> 9db9d865fedf67c042b78acba2055a2e1d159ed2
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -64,35 +56,22 @@
     "fetch-mock": "^12.1.0",
     "husky": "^9.1.7",
     "i18next": "^23.15.1",
+    "i18next-browser-languagedetector": "^8.0.2",
     "identity-obj-proxy": "^3.0.0",
-<<<<<<< HEAD
-    "jest": "^27.5.1",
-<<<<<<< HEAD
-    "jest-fetch-mock": "^3.0.3",
-    "postcss": "^8.4.38",
-=======
-    "postcss": "^8.4.49",
->>>>>>> 73d05a2e201f133d875f642dcf7a5fa7162c094e
-=======
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "jest-fetch-mock": "^3.0.3",
     "lint-staged": "^15.4.2",
     "postcss": "^8.4.49",
     "prettier": "=3.4.2",
->>>>>>> 9db9d865fedf67c042b78acba2055a2e1d159ed2
     "react-i18next": "^15.0.2",
     "react-redux": "^9.2.0",
     "react-router": "^6.25.1",
     "react-router-dom": "^6.26.2",
     "react-test-renderer": "^18.3.1",
     "redux": "^5.0.1",
-<<<<<<< HEAD
     "redux-mock-store": "^1.5.5",
-    "tailwindcss": "^3.4.1",
-    "vite": "^5.2.0",
-    "vitest": "^2.1.1"
-  }
-=======
+    "redux-thunk": "^3.1.0",
     "tailwindcss": "^3.4.17",
     "vite": "^5.2.0",
     "vitest": "^2.1.1"
@@ -102,11 +81,10 @@
   "directories": {
     "test": "tests"
   },
-	"lint-staged": {
-		"**/*": "prettier --write --ignore-unknown"
-	},
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
->>>>>>> 73d05a2e201f133d875f642dcf7a5fa7162c094e
 }
