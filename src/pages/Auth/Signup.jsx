@@ -23,6 +23,18 @@ const SignUp = () => {
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
+  const [firstNameFocus, setFirstNameFocus] = useState(false);
+  const [lastNameFocus, setLastNameFocus] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [phoneFocus, setPhoneFocus] = useState(false);
+
+  const hasNumber = /\d/.test(passwordValue);
+  const hasUppercase = /[A-Z]/.test(passwordValue);
+  const hasLowercase = /[a-z]/.test(passwordValue);
+  const hasSpecialChar = /[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+-]/.test(
+    passwordValue,
+  );
+
   const countries = CountryList().getData();
 
   const navigate = useNavigate();
@@ -72,7 +84,9 @@ const SignUp = () => {
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-full px-4 py-2 border rounded-xl ${firstNameFocus && firstName === "" ? "border-red-500" : "border-gray-300"}`}
+              required={true}
+              onBlur={() => setFirstNameFocus(true)}
             />
           </div>
 
@@ -85,7 +99,9 @@ const SignUp = () => {
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-full px-4 py-2 border rounded-xl ${lastNameFocus && lastName === "" ? "border-red-500" : "border-gray-300"}`}
+              required={true}
+              onBlur={() => setLastNameFocus(true)}
             />
           </div>
         </div>
@@ -99,7 +115,9 @@ const SignUp = () => {
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder="Your Email"
             type="text"
-            className="px-4 py-2 border border-gray-300 rounded-xl"
+            className={`px-4 py-2 border rounded-xl ${emailFocus && emailValue === "" ? "border-red-500" : "border-gray-300"}`}
+            required={true}
+            onBlur={() => setEmailFocus(true)}
           />
         </div>
 
@@ -132,7 +150,9 @@ const SignUp = () => {
               placeholder="Your Phone Number"
               type="text"
               maxLength={10}
-              className="w-2/3 px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-2/3 px-4 py-2 border border-gray-300 rounded-xl ${phoneFocus && phone === "" ? "border-red-500" : "border-gray-300"}`}
+              required={true}
+              onBlur={() => setPhoneFocus(true)}
             />
           </div>
         </div>
@@ -179,6 +199,35 @@ const SignUp = () => {
               {passwordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
+        </div>
+
+        {/* Password validation */}
+        <div className="flex flex-col items-start">
+          <p
+            className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 8 characters.
+          </p>
+          <p
+            className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 1 number.
+          </p>
+          <p
+            className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 1 special character.
+          </p>
+          <p
+            className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 1 uppercase letter.
+          </p>
+          <p
+            className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 1 lowercase letter.
+          </p>
         </div>
 
         {/* Confirm Password */}

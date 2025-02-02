@@ -17,6 +17,8 @@ const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
+  const [incorrectInput, setIncorrectInput] = useState(false);
+
   const { user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
@@ -34,6 +36,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.log("error", error);
+      setIncorrectInput(true);
     }
   };
 
@@ -88,6 +91,11 @@ const LoginPage = () => {
         >
           {t("LOGIN")}
         </button>
+        {incorrectInput && (
+          <p className="text-red-500 text-sm mt-1">
+            Incorrect email or password
+          </p>
+        )}
 
         {/* Uncommment for Google and Facebook signin */}
         <div className="flex items-center my-4">
