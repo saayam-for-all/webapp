@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import JobsCategory from "./Categories/JobCategory";
 import HousingCategory from "./Categories/HousingCategory";
@@ -30,6 +31,7 @@ const genderOptions = [
 ];
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
@@ -218,7 +220,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
-            {isEdit ? "Edit" : "Create"} Help Request
+            {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
           </h1>
 
           <div
@@ -227,9 +229,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           >
             <IoMdInformationCircle size={22} />
             <div>
-              <span className="font-medium">Note:</span> We do not handle
-              life-threatening emergency requests. Please call your local
-              emergency service if you need urgent help.
+              <span className="font-medium mr-1">{t("NOTE")}:</span>
+              {t("LIFE_THREATENING_REQUESTS")}
             </div>
           </div>
 
@@ -238,7 +239,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               htmlFor="self"
               className="block mb-1 text-gray-700 font-medium"
             >
-              For Self
+              {t("FOR_SELF")}
             </label>
             <select
               id="self"
@@ -246,8 +247,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
               onChange={handleForSelfFlag}
             >
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
+              <option value="yes">{t("YES")}</option>
+              <option value="no">{t("NO")}</option>
             </select>
           </div>
 
@@ -259,7 +260,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     htmlFor="requester_first_name"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    First Name
+                    {t("FIRST_NAME")}
                   </label>
                   <input
                     type="text"
@@ -274,7 +275,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     htmlFor="requester_last_name"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    Last Name
+                    {t("LAST_NAME")}
                   </label>
                   <input
                     type="text"
@@ -291,7 +292,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   htmlFor="email"
                   className="block text-gray-700 mb-1 font-medium"
                 >
-                  Email
+                  {t("EMAIL")}
                 </label>
                 <input
                   type="email"
@@ -308,7 +309,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     htmlFor="phone"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    Phone
+                    {t("PHONE")}
                   </label>
                   <input
                     type="text"
@@ -323,7 +324,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     htmlFor="age"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    Age
+                    {t("AGE")}
                   </label>
                   <input
                     type="number"
@@ -338,7 +339,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     htmlFor="gender"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    Gender
+                    {t("GENDER")}
                   </label>
                   <select
                     id="gender"
@@ -358,7 +359,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     htmlFor="language"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    Preferred Language
+                    {t("PREFERRED_LANGUAGE")}
                   </label>
                   <select
                     id="language"
@@ -382,7 +383,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 htmlFor="category"
                 className="block mb-2 font-medium text-gray-700"
               >
-                Request Category
+                {t("REQUEST_CATEGORY")}
               </label>
               <input
                 type="text"
@@ -440,7 +441,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 htmlFor="requestType"
                 className="block mb-2 font-medium text-gray-700"
               >
-                Request Type
+                {t("REQUEST_TYPE")}
               </label>
               <select
                 id="requestType"
@@ -450,8 +451,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   setFormData({ ...formData, request_type: e.target.value })
                 }
               >
-                <option value="Remote">Remote</option>
-                <option value="In Person">In Person</option>
+                <option value="Remote">{t("REMOTE")}</option>
+                <option value="In Person">{t("IN_PERSON")}</option>
               </select>
             </div>
 
@@ -490,8 +491,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               htmlFor="subject"
               className="block text-gray-700 font-medium mb-2"
             >
-              Subject <span className="text-red-500">*</span> (Max 70
-              characters)
+              {t("SUBJECT")}
+              <span className="text-red-500 m-1">*</span>(
+              {t("MAX_CHARACTERS", { count: 70 })})
             </label>
             <input
               type="text"
@@ -510,8 +512,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               htmlFor="description"
               className="block text-gray-700 font-medium mb-2"
             >
-              Description <span className="text-red-500">*</span> (Max 500
-              characters)
+              {t("DESCRIPTION")}
+              <span className="text-red-500 m-1">*</span>(
+              {t("MAX_CHARACTERS", { count: 500 })})
             </label>
             <textarea
               id="description"
@@ -530,14 +533,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               type="submit"
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
             >
-              {isEdit ? "Save" : "Submit"}
+              {isEdit ? t("SAVE") : t("SUBMIT")}
             </button>
             <button
               onClick={isEdit ? onClose : closeForm}
               type="button"
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
             >
-              Cancel
+              {t("CANCEL")}
             </button>
           </div>
         </div>

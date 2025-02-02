@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import "./Directors.css";
 
 import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
@@ -41,9 +43,10 @@ const DirectorsData = [
 ];
 
 const Directors = () => {
+  const { t } = useTranslation();
   return (
     <div>
-      <h1 className="text-center text-3xl font-semibold">Directors</h1>
+      <h1 className="text-center text-3xl font-semibold">{t("DIRECTORS")}</h1>
       <div className="directors flex items-center justify-center flex-wrap gap-10">
         {DirectorsData.map((director, index) => (
           <div

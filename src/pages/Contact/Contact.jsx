@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = React.useState({});
   const inputChangeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -11,7 +13,7 @@ const Contact = () => {
   };
   return (
     <div className="flex items-center justify-center flex-col gap-5 mt-5">
-      <h1>Enter the details and click Submit</h1>
+      <h1>{t("ENTER_DETAILS")}</h1>
       <form
         className="w-2/5 flex flex-col gap-5"
         // onSubmit={fromSubmitHandler}
@@ -33,7 +35,7 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            First Name
+            {t("FIRST_NAME")}
           </span>
         </label>
         <label
@@ -51,7 +53,7 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            Last Name
+            {t("LAST_NAME")}
           </span>
         </label>
         <label
@@ -69,7 +71,7 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            Email
+            {t("EMAIL")}
           </span>
         </label>
         <label
@@ -87,7 +89,7 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            Phone
+            {t("PHONE")}
           </span>
         </label>
         <label
@@ -105,11 +107,11 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            Message
+            {t("MESSAGE")}
           </span>
         </label>
         <button className="btn btn-accent" type="submit">
-          Submit
+          {t("SUBMIT")}
         </button>
       </form>
     </div>
