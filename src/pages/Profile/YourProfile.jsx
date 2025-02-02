@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
+import { useTranslation } from "react-i18next";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import CountryList from "react-select-country-list";
@@ -7,6 +8,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { FiVideo } from "react-icons/fi";
 
 function YourProfile({ setHasUnsavedChanges }) {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const firstNameRef = useRef(null);
 
@@ -57,7 +59,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       >
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            First Name
+            {t("FIRST_NAME")}
           </label>
           {isEditing ? (
             <input
@@ -76,7 +78,7 @@ function YourProfile({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Last Name
+            {t("LAST_NAME")}
           </label>
           {isEditing ? (
             <input
@@ -101,7 +103,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       >
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Email
+            {t("EMAIL")}
           </label>
           {isEditing ? (
             <input
@@ -124,7 +126,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       >
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Phone Number
+            {t("PHONE_NUMBER")}
           </label>
           {isEditing ? (
             <div className="flex space-x-2 items-center">
@@ -151,7 +153,7 @@ function YourProfile({ setHasUnsavedChanges }) {
                 name="phone"
                 value={profileInfo.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
-                placeholder="Your Phone Number"
+                placeholder={t("YOUR_PHONE_NUMBER")}
                 maxLength={10}
                 className="w-2/3 px-4 py-2 border border-gray-300 rounded-xl"
               />
@@ -176,7 +178,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       >
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Country
+            {t("COUNTRY")}
           </label>
           {isEditing ? (
             <select
@@ -186,7 +188,7 @@ function YourProfile({ setHasUnsavedChanges }) {
               onChange={(e) => handleInputChange("country", e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-xl"
             >
-              <option value="">Select your country</option>
+              <option value="">{t("SELECT_COUNTRY")}</option>
               {countries.map((option) => (
                 <option key={option.value} value={option.label}>
                   {option.label}
@@ -206,7 +208,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={handleEditClick}
           >
-            Edit
+            {t("EDIT")}
           </button>
         ) : (
           <>
@@ -221,13 +223,13 @@ function YourProfile({ setHasUnsavedChanges }) {
                 setHasUnsavedChanges(false);
               }}
             >
-              Save
+              {t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
               onClick={() => setIsEditing(false)}
             >
-              Cancel
+              {t("CANCEL")}
             </button>
           </>
         )}
