@@ -29,6 +29,16 @@ const signUpSchema = z.object({
     .string()
     .min(1, "Phone number is required")
     .regex(/^[0-9]+$/, "A valid phone number is required"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/\d/, "Password must contain at least 1 number")
+    .regex(/[A-Z]/, "Password must contain at least 1 uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least 1 lowercase letter")
+    .regex(
+      /[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+-]/,
+      "Password must contain at least 1 special character",
+    ),
 });
 
 const SignUp = () => {
@@ -71,6 +81,7 @@ const SignUp = () => {
         lastName,
         email: emailValue,
         phone,
+        password: passwordValue,
       });
       if (!result.success) {
         const formattedErrors = result.error.format();
@@ -81,6 +92,7 @@ const SignUp = () => {
           email: formattedErrors.email?._errors[0],
           phone: formattedErrors.phone?._errors[0],
         });
+        return;
       }
 
       const user = await signUp({
