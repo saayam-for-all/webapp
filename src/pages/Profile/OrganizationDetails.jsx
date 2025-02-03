@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
+import { useTranslation } from "react-i18next";
 
 const COUNTRY_CODE_API =
   "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json";
 
 function OrganizationDetails({ setHasUnsavedChanges }) {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const organizationNameRef = useRef(null);
 
@@ -19,7 +21,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     city: "",
     state: "",
     zipCode: "",
-    organizationType: "Non-Profit",
+    organizationType: t("NON_PROFIT"),
   });
 
   const [countryOptions, setCountryOptions] = useState([]);
@@ -84,7 +86,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Organization Name
+            {t("ORGANIZATION_NAME")}
           </label>
           {isEditing ? (
             <input
@@ -106,7 +108,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Organization Type
+            {t("ORGANIZATION_TYPE")}
           </label>
           {isEditing ? (
             <div>
@@ -114,23 +116,27 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                 <input
                   type="radio"
                   name="organizationType"
-                  value="Non-Profit"
-                  checked={organizationInfo.organizationType === "Non-Profit"}
+                  value={t("NON_PROFIT")}
+                  checked={
+                    organizationInfo.organizationType === t("NON_PROFIT")
+                  }
                   onChange={handleInputChange}
                   className="form-radio h-4 w-4 text-blue-500"
                 />
-                <span className="ml-2">Non-Profit</span>
+                <span className="ml-2">{t("NON_PROFIT")}</span>
               </label>
               <label className="inline-flex items-center ml-6">
                 <input
                   type="radio"
                   name="organizationType"
-                  value="For-Profit"
-                  checked={organizationInfo.organizationType === "For-Profit"}
+                  value={t("FOR_PROFIT")}
+                  checked={
+                    organizationInfo.organizationType === t("FOR_PROFIT")
+                  }
                   onChange={handleInputChange}
                   className="form-radio h-4 w-4 text-blue-500"
                 />
-                <span className="ml-2">For-Profit</span>
+                <span className="ml-2">{t("FOR_PROFIT")}</span>
               </label>
             </div>
           ) : (
@@ -144,7 +150,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Phone Number
+            {t("PHONE_NUMBER")}
           </label>
           {isEditing ? (
             <div className="flex">
@@ -224,7 +230,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Street Address
+            {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
             <input
@@ -242,7 +248,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Street Address 2
+            {t("ADDRESS", { optional: " 2" })}
           </label>
           {isEditing ? (
             <input
@@ -263,7 +269,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            City
+            {t("CITY")}
           </label>
           {isEditing ? (
             <input
@@ -281,7 +287,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            State
+            {t("STATE")}
           </label>
           {isEditing ? (
             <input
@@ -299,7 +305,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Zip Code
+            {t("ZIP_CODE")}
           </label>
           {isEditing ? (
             <input
@@ -323,7 +329,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={handleEditClick}
           >
-            Edit
+            {t("EDIT")}
           </button>
         ) : (
           <>
@@ -331,13 +337,13 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={handleSaveClick}
             >
-              Save Changes
+              {t("SAVE_CHANGES")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
               onClick={handleCancelClick}
             >
-              Cancel
+              {t("CANCEL")}
             </button>
           </>
         )}
