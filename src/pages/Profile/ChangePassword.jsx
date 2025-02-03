@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 function ChangePassword({ setHasUnsavedChanges }) {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -63,12 +65,12 @@ function ChangePassword({ setHasUnsavedChanges }) {
 
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
-      <h3 className="font-bold text-xl mb-4">Change Password</h3>
+      <h3 className="font-bold text-xl mb-4">{t("CHANGE_PASSWORD")}</h3>
       {isEditing ? (
         <>
           <div className="mb-6">
             <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-              Current Password
+              {t("CURRENT_PASSWORD")}
             </label>
             <div className="relative">
               <input
@@ -88,7 +90,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
           </div>
           <div className="mb-6">
             <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-              New Password
+              {t("NEW_PASSWORD")}
             </label>
             <div className="relative">
               <input
@@ -110,12 +112,12 @@ function ChangePassword({ setHasUnsavedChanges }) {
               <p className="text-red-500 text-xs mt-1">{errorMessage}</p>
             )}
             <p className="text-xs text-gray-500">
-              Must contain at least 8 characters.
+              {t("PASSWORD_REQUIREMENTS")}
             </p>
           </div>
           <div className="mb-6">
             <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-              Confirm Password
+              {t("CONFIRM_PASSWORD")}
             </label>
             <div className="relative">
               <input
@@ -142,13 +144,13 @@ function ChangePassword({ setHasUnsavedChanges }) {
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={handleSaveClick}
             >
-              Save
+              {t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
               onClick={handleCancelClick}
             >
-              Cancel
+              {t("CANCEL")}
             </button>
           </div>
         </>
@@ -158,7 +160,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
             className="py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={handleEditClick}
           >
-            Edit Password
+            {t("EDIT_PASSWORD")}
           </button>
         </div>
       )}

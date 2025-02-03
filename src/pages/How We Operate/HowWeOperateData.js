@@ -1,27 +1,23 @@
 const howWeOperateData = [
   {
-    heading: "Request for Help : ",
-    points:
-      "As a requestor, you can ask for help (similar to requesting a ride).",
+    heading: "HELP_REQUEST",
+    points: "ASK_FOR_HELP",
   },
   {
-    heading: "Matching Process : ",
-    points:
-      "Your request will be matched with a few nearby volunteers, based on their profiles, similar to how, rideshare apps, match you with nearby drivers.",
+    heading: "MATCHING_PROCESS",
+    points: "REQUEST_WILL_BE_MATCHED",
   },
   {
-    heading: "Volunteer Selection : ",
-    points:
-      "From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.",
+    heading: "VOLUNTEER_SELECTION",
+    points: "FROM_POTENTIAL_MATCHES",
   },
   {
-    heading: "Volunteer Approach : ",
-    points: "The chosen volunteer will then contact you and work with you.",
+    heading: "VOLUNTEER_APPROACH",
+    points: "VOLUNTEER_WILL_CONTACT",
   },
   {
-    heading: "Assistance Provided : ",
-    points:
-      "This volunteer will work closely with you to ensure your needs are met. They will also collaborate with other local volunteers and volunteer organizations to fulfill your request, akin to a driver taking you to your destination.",
+    heading: "ASSISTANCE_PROVIDED",
+    points: "VOLUNTEER_WILL_WORK",
   },
 ];
 

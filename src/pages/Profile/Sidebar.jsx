@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FaUserCircle, FaLock } from "react-icons/fa";
 import { FiChevronRight } from "react-icons/fi";
 import { FiEdit2 } from "react-icons/fi";
@@ -11,6 +12,7 @@ function Sidebar({
   activeTab,
   openModal,
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col justify-between h-full p-4 bg-white w-60 border-r">
       <div className="text-center mb-8">
@@ -27,7 +29,7 @@ function Sidebar({
               className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto cursor-pointer border-2 border-dashed border-gray-300"
               onClick={openModal}
             >
-              <span className="text-gray-400">Upload your photo</span>
+              <span className="text-gray-400">{t("UPLOAD_PHOTO")}</span>
             </div>
           )}
           <div
@@ -53,7 +55,7 @@ function Sidebar({
         >
           <div className="flex items-center">
             <FaUserCircle className="mr-2 text-gray-500" />
-            Your Profile
+            {t("YOUR_PROFILE")}
           </div>
           {activeTab !== "profile" && (
             <FiChevronRight className="text-gray-400" />
@@ -70,7 +72,7 @@ function Sidebar({
         >
           <div className="flex items-center">
             <FaUserCircle className="mr-2 text-gray-500" />
-            Personal Information
+            {t("PERSONAL_INFORMATION")}
           </div>
           {activeTab !== "personal" && (
             <FiChevronRight className="text-gray-400" />
@@ -87,7 +89,7 @@ function Sidebar({
         >
           <div className="flex items-center">
             <FaLock className="mr-2 text-gray-500" />
-            Change Password
+            {t("CHANGE_PASSWORD")}
           </div>
           {activeTab !== "password" && (
             <FiChevronRight className="text-gray-400" />
@@ -104,7 +106,7 @@ function Sidebar({
         >
           <div className="flex items-center">
             <FaUserCircle className="mr-2 text-gray-500" />
-            Organization Details
+            {t("ORGANIZATION_DETAILS")}
           </div>
           {activeTab !== "organization" && (
             <FiChevronRight className="text-gray-400" />
