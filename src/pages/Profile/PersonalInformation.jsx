@@ -239,7 +239,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-3 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("LANGUAGE_PREFERENCE", { optional: "First" })}
+            {t("FIRST_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
@@ -263,7 +263,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("LANGUAGE_PREFERENCE", { optional: "Second" })}
+            {t("SECOND_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
@@ -287,7 +287,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("LANGUAGE_PREFERENCE", { optional: "Third" })}
+            {t("THIRD_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
@@ -379,7 +379,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={handleEditClick}
           >
-            Edit
+            {t("EDIT")}
           </button>
         ) : (
           <>
@@ -395,13 +395,13 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 changeUiLanguage(personalInfo);
               }}
             >
-              Save
+              {t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
               onClick={() => setIsEditing(false)}
             >
-              Cancel
+              {t("CANCEL")}
             </button>
           </>
         )}
