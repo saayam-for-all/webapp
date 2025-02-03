@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "jest": "jest",
     "test": "jest",
-		"prepare": "husky"
+    "prepare": "husky"
   },
   "dependencies": {
     "@aws-amplify/auth": "^6.6.1",
@@ -38,9 +38,9 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.26.0",
-		"@babel/preset-react": "^7.26.3",
+    "@babel/preset-react": "^7.26.3",
     "@testing-library/jest-dom": "^6.6.3",
-		"@testing-library/react": "^16.2.0",
+    "@testing-library/react": "^16.2.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -78,9 +78,9 @@
   "directories": {
     "test": "tests"
   },
-	"lint-staged": {
-		"**/*": "prettier --write --ignore-unknown"
-	},
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
