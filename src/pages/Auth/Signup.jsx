@@ -7,6 +7,29 @@ import CountryList from "react-select-country-list";
 import { signUp } from "aws-amplify/auth";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import { z } from "zod";
+
+const signUpSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, "First name is required")
+    .max(50)
+    .regex(/^[a-zA-Z]+$/, "First name must contain only alphabets and spaces"),
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .max(50)
+    .regex(/^[a-zA-Z]+$/, "Last name must contain only alphabets and spaces"),
+  email: z
+    .string()
+    .max(50)
+    .min(1, "Email is required")
+    .email("Invalid email address"),
+  phone: z
+    .string()
+    .min(1, "Phone number is required")
+    .regex(/^[0-9]+$/, "A valid phone number is required"),
+});
 
 const SignUp = () => {
   const [emailValue, setEmailValue] = useState("");
@@ -23,10 +46,7 @@ const SignUp = () => {
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-  const [firstNameFocus, setFirstNameFocus] = useState(false);
-  const [lastNameFocus, setLastNameFocus] = useState(false);
-  const [emailFocus, setEmailFocus] = useState(false);
-  const [phoneFocus, setPhoneFocus] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const hasNumber = /\d/.test(passwordValue);
   const hasUppercase = /[A-Z]/.test(passwordValue);
@@ -46,6 +66,23 @@ const SignUp = () => {
     }
 
     try {
+      const result = signUpSchema.safeParse({
+        firstName,
+        lastName,
+        email: emailValue,
+        phone,
+      });
+      if (!result.success) {
+        const formattedErrors = result.error.format();
+        console.log("Error:", formattedErrors);
+        setErrors({
+          firstName: formattedErrors.firstName?._errors[0],
+          lastName: formattedErrors.lastName?._errors[0],
+          email: formattedErrors.email?._errors[0],
+          phone: formattedErrors.phone?._errors[0],
+        });
+      }
+
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
@@ -84,10 +121,12 @@ const SignUp = () => {
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
               type="text"
-              className={`w-full px-4 py-2 border rounded-xl ${firstNameFocus && firstName === "" ? "border-red-500" : "border-gray-300"}`}
+              className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
               required={true}
-              onBlur={() => setFirstNameFocus(true)}
             />
+            {errors.firstName && (
+              <p className="text-sm text-red-500">{errors.firstName}</p>
+            )}
           </div>
 
           {/* Last Name */}
@@ -99,10 +138,12 @@ const SignUp = () => {
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
               type="text"
-              className={`w-full px-4 py-2 border rounded-xl ${lastNameFocus && lastName === "" ? "border-red-500" : "border-gray-300"}`}
+              className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
               required={true}
-              onBlur={() => setLastNameFocus(true)}
             />
+            {errors.lastName && (
+              <p className="text-sm text-red-500">{errors.lastName}</p>
+            )}
           </div>
         </div>
 
@@ -115,10 +156,12 @@ const SignUp = () => {
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder="Your Email"
             type="text"
-            className={`px-4 py-2 border rounded-xl ${emailFocus && emailValue === "" ? "border-red-500" : "border-gray-300"}`}
+            className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
             required={true}
-            onBlur={() => setEmailFocus(true)}
           />
+          {errors.email && (
+            <p className="text-sm text-red-500">{errors.email}</p>
+          )}
         </div>
 
         {/* Phone  Number */}
@@ -150,10 +193,12 @@ const SignUp = () => {
               placeholder="Your Phone Number"
               type="text"
               maxLength={10}
-              className={`w-2/3 px-4 py-2 border border-gray-300 rounded-xl ${phoneFocus && phone === "" ? "border-red-500" : "border-gray-300"}`}
+              className={`w-2/3 px-4 py-2 border border-gray-300 rounded-xl ${errors.phone ? "border-red-500" : "border-gray-300"}`}
               required={true}
-              onBlur={() => setPhoneFocus(true)}
             />
+            {errors.phone && (
+              <p className="text-sm text-red-500">{errors.phone}</p>
+            )}
           </div>
         </div>
 
