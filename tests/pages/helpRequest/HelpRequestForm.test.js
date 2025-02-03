@@ -22,7 +22,7 @@ test("it renders and checks divs with mt-3 class, the parent divs", async () => 
     categories: [], 
   },
   auth: {
-    idToken: 'mockToken', // Esto depende de lo que use tu componente
+    idToken: 'mockToken', 
   },
     is_self: "yes",
     requester_first_name: "",
