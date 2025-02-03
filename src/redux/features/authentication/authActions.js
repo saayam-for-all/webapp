@@ -57,6 +57,7 @@ export const checkAuthStatus = () => async (dispatch) => {
 
     changeUiLanguage();
   } catch (error) {
+    returnDefaultLanguage();
     dispatch(loginFailure(error.message));
   }
 };

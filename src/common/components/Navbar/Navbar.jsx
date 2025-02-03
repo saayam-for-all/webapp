@@ -176,6 +176,7 @@ const Navbar = () => {
           >
             <div className="flex items-center">
               <img
+                data-testid="profile-icon"
                 src={profileIcon}
                 alt="Profile Icon"
                 className="w-8 h-8 rounded-full cursor-pointer"
@@ -188,13 +189,13 @@ const Navbar = () => {
                   className="p-2 hover:bg-gray-100 cursor-pointer"
                   onClick={handleProfileClick}
                 >
-                  {t("Profile")}
+                  {t("PROFILE")}
                 </li>
                 <li
                   className="p-2 hover:bg-gray-100 cursor-pointer"
                   onClick={handleSignOut}
                 >
-                  {t("Logout")}
+                  {t("LOGOUT")}
                 </li>
               </ul>
             )}

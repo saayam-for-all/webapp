@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
+import { useTranslation } from "react-i18next";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import { changeUiLanguage } from "../../common/i18n/utils";
 import CountryList from "react-select-country-list";
 
 const genderOptions = [
@@ -16,6 +18,7 @@ const genderOptions = [
 ];
 
 function PersonalInformation({ setHasUnsavedChanges }) {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const streetAddressRef = useRef(null);
 
@@ -91,7 +94,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Date of Birth
+            {t("BIRTHDAY")}
           </label>
           {isEditing ? (
             <DatePicker
@@ -109,7 +112,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Gender
+            {t("GENDER")}
           </label>
           {isEditing ? (
             <Select
@@ -132,7 +135,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Street Address
+            {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
             <input
@@ -153,7 +156,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Street Address 2
+            {t("ADDRESS", { optional: " 2" })}
           </label>
           {isEditing ? (
             <input
@@ -177,7 +180,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-3 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Country
+            {t("COUNTRY")}
           </label>
           {isEditing ? (
             <Select
@@ -198,7 +201,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            State
+            {t("STATE")}
           </label>
           {isEditing ? (
             <input
@@ -214,7 +217,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Zip Code
+            {t("ZIP_CODE")}
           </label>
           {isEditing ? (
             <input
@@ -236,7 +239,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-3 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            First Language Preference
+            {t("FIRST_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
@@ -260,7 +263,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Second Language Preference
+            {t("SECOND_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
@@ -284,7 +287,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Third Language Preference
+            {t("THIRD_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
@@ -376,7 +379,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={handleEditClick}
           >
-            Edit
+            {t("EDIT")}
           </button>
         ) : (
           <>
@@ -389,15 +392,16 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                   JSON.stringify(personalInfo),
                 );
                 setHasUnsavedChanges(false);
+                changeUiLanguage(personalInfo);
               }}
             >
-              Save
+              {t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
               onClick={() => setIsEditing(false)}
             >
-              Cancel
+              {t("CANCEL")}
             </button>
           </>
         )}
