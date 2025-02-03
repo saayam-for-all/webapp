@@ -86,6 +86,10 @@
   "MORE_INFORMATION": "More Information",
   "STATUS": "Status",
   "FILTER_BY": "Filter by",
+  "ACKNOWLEDGE_TERMS": "Review & Acknowledge Terms",
+  "TERMS_DOCUMENT": "Please read the following document carefully and acknowledge that you have understood its contents.",
+  "VOLUNTEER_AGREEMENT": "Volunteer Agreement for Saayam for All",
+  "I_HAVE_READ": "I have read and understood the document",
   "HERO_TEXT": "Welcome to <1>Saayam</1>, a non-profit organization – is your gateway to assistance and support in times of need. Saayam means Help in Telugu, Sahaay in Sanskrit/Hindi, Bangzhu in Mandarin, and Ayuda in Spanish.",
   "AT_SAAYAM": "At <1>Saayam</1>, we believe in the power of helping hands reaching out to those facing challenges. Our platform connects individuals and communities worldwide, bridging the gap between those who need assistance and those who are willing to provide it.",
   "OUR_VISION": "Our vision is of a world where everyone has access to the help they need to overcome obstacles and lead fulfilling lives. We aspire to be a global leader in humanitarian aid, leveraging technology and collaboration to create a seamless network of support that transcends barriers.",
@@ -108,5 +112,15 @@
   "VOLUNTEER_WILL_WORK": "This volunteer will work closely with you to ensure your needs are met. They will also collaborate with other local volunteers and volunteer organizations to fulfill your request, akin to a driver taking you to your destination.",
   "EMPOWER_INDIVIDUALS": "To empower individuals and communities worldwide by facilitating mutual assistance and support through Saayam, a software platform that connects requestors, volunteers, volunteer organizations, and donors. Our mission is to provide timely and targeted assistance to those facing challenges in their lives, fostering a culture of compassion, solidarity, and service to humanity.",
   "VISION_DESCRIPTION": "Saayam envisions a world where everyone has access to the help and resources they need to overcome obstacles and lead fulfilling lives. We aspire to be a global leader in humanitarian aid, leveraging technology and collaboration to create a seamless network of support that transcends geographical, cultural, and sociology-economic barriers. Our vision is to cultivate a community where the ethos of \"Manava Sevaye Madhava Seva\" (Service to mankind is Service to God) and \"Sarve jana sukhino bhavantu\" (May all live happily) guides our actions, driving positive change and fostering a more compassionate and equitable world for all.",
-  "LIFE_THREATENING_REQUESTS": "We do not handle life-threatening emergency requests. Please call your local emergency service if you need urgent help."
+  "LIFE_THREATENING_REQUESTS": "We do not handle life-threatening emergency requests. Please call your local emergency service if you need urgent help.",
+  "INTRODUCTION": "Introduction",
+  "INTRODUCTION_CONTENT": "This Volunteer Agreement (\"Agreement\") is entered into between Saayam for All (\"Organization\") and the volunteer (\"Volunteer\") upon acceptance. By signing or agreeing electronically, the Volunteer acknowledges their understanding and acceptance of the terms herein, which govern their participation in any volunteer activities with the Organization.",
+  "VOLUNTEER_ROLE": "Volunteer Role and Responsibilities",
+  "VOLUNTEER_ROLE_CONTENT": "The Volunteer agrees to fulfill the roles and responsibilities assigned by the Organization, which may include, but are not limited to, assisting in various tasks as needed by individuals or communities requesting help. The Volunteer agrees to: <1/> - Engage in activities assigned by the Organization in a diligent, responsible, and professional manner. <1/> - Communicate promptly with the Organization regarding availability, progress, and challenges. <1/> - Complete assigned tasks promptly and to the best of their ability, adhering to any specified deadlines.",
+  "CONDUCT_CODE": "Code of Conduct",
+  "CONDUCT_CODE_CONTENT": "The Volunteer agrees to maintain the highest standards of ethical behavior while representing the Organization. This includes: <1/> - Treating all individuals with respect and dignity, regardless of race, religion, gender, sexual orientation, age, or disability. <1/> - Refraining from any form of discrimination, harassment, or unprofessional behavior. <1/> - Avoiding conflicts of interest and ensuring that personal interests do not interfere with their volunteer duties.",
+  "CONFIDENTIALITY_AGREEMENT": "Confidentiality Agreement",
+  "CONFIDENTIALITY_AGREEMENT_CONTENT": "The Volunteer acknowledges that during their service, they may be privy to confidential, proprietary, or personal information relating to the Organization, other volunteers, or individuals seeking assistance. The Volunteer agrees to: <1/> - Maintain confidentiality of all information, both during & after the term of this Agreement. <1/> - Use such information solely for the purpose of fulfilling their volunteer responsibilities. <1/> - Not disclose any confidential information to third parties without the explicit written consent of the Organization.",
+  "DATA_PRIVACY": "Data Protection and Privacy",
+  "DATA_PRIVACY_CONTENT": "Data Protection and Privacy"
 }
