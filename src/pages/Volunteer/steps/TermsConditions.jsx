@@ -76,7 +76,7 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
           </Trans>
           <br />
           <h4 className="font-bold text-lg mb-2">
-            4. Confidentiality Agreement
+            4. {t("CONFIDENTIALITY_AGREEMENT")}
             <br />
           </h4>
           {/* prettier-ignore */}
@@ -94,109 +94,74 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
           </Trans>
           <br />
           <h4 className="font-bold text-lg mb-2">
-            6. Intellectual Property
+            6. {t("INTELLECTUAL_PROPERTY")}
             <br />
           </h4>
           {/* prettier-ignore */}
-          Any work, materials, or intellectual property created by the Volunteer
-          in the course of their volunteer activities shall be the sole property
-          of the Organization. The Volunteer agrees to: <br /> - Assign all
-          rights, titles, and interests in such intellectual property to the
-          Organization. <br /> - Refrain from using, reproducing, or
-          distributing any intellectual property created during their service
-          without the Organization's explicit consent. <br />
+          <Trans i18nKey="INTELLECTUAL_PROPERTY_CONTENT">
+            Any work, materials, or intellectual property created by the Volunteer in the course of their volunteer activities shall be the sole property of the Organization. The Volunteer agrees to: <br/> - Assign all rights, titles, and interests in such intellectual property to the Organization. <br/> - Refrain from using, reproducing, or distributing any intellectual property created during their service without the Organization's explicit consent.
+          </Trans>
+          <br />
           <h4 className="font-bold text-lg mb-2">
-            7. Liability Waiver and Assumption of Risk
+            {" "}
+            7. {t("LIABILITY_WAIVER")}
             <br />
           </h4>
           {/* prettier-ignore */}
-          The Volunteer acknowledges that participation in volunteer activities
-          may involve inherent risks, including but not limited to physical
-          injury, emotional distress, or property damage. The Volunteer agrees
-          to: <br /> - Assume all risks associated with their volunteer
-          activities, including any travel or transportation risks. <br /> -
-          Release, waive, and discharge the Organization, its officers,
-          directors, employees, and affiliates from any and all liability,
-          claims, or demands arising out of or relating to their volunteer
-          activities. <br /> - Acknowledge that the Organization does not
-          provide insurance coverage for volunteers, and the Volunteer is
-          responsible for obtaining any necessary insurance. <br />
+          <Trans i18nKey="LIABILITY_WAIVER_CONTENT">
+            The Volunteer acknowledges that participation in volunteer activities may involve inherent risks, including but not limited to physical injury, emotional distress, or property damage. The Volunteer agrees to: <br/> - Assume all risks associated with their volunteer activities, including any travel or transportation risks. <br/> - Release, waive, and discharge the Organization, its officers, directors, employees, and affiliates from any and all liability, claims, or demands arising out of or relating to their volunteer activities. <br/> - Acknowledge that the Organization does not provide insurance coverage for volunteers, and the Volunteer is responsible for obtaining any necessary insurance.
+          </Trans>
+          <br />
           <h4 className="font-bold text-lg mb-2">
-            8. Indemnification
+            8. {t("INDEMNIFICATION")}
             <br />
           </h4>
-          {/* prettier-ignore */}
-          The Volunteer agrees to indemnify and hold harmless the Organization,
-          its officers, directors, employees, and affiliates from and against
-          any and all claims, damages, losses, liabilities, costs, and expenses
-          (including legal fees) arising out of or related to the Volunteer’s
-          actions or omissions during their service. <br />
+          {t("INDEMNIFICATION_CONTENT")}
+          <br />
           <h4 className="font-bold text-lg mb-2">
-            9. Commitment and Expectations
+            9. {t("COMMITMENT")}
             <br />
           </h4>
           {/* prettier-ignore */}
-          The Volunteer agrees to commit to the responsibilities and timeframes
-          as communicated by the Organization. If the Volunteer is unable to
-          fulfill these commitments, they agree to: <br />
-          - Notify the Organization as soon as possible, providing a valid
-          reason for their unavailability. <br />
-          - Work collaboratively with the Organization to ensure a smooth
-          transition of responsibilities, if necessary. <br />
+          <Trans i18nKey="COMMITMENT_CONTENT">
+            The Volunteer agrees to commit to the responsibilities and timeframes as communicated by the Organization. If the Volunteer is unable to fulfill these commitments, they agree to: <br/> - Notify the Organization as soon as possible, providing a valid reason for their unavailability. <br/> - Work collaboratively with the Organization to ensure a smooth transition of responsibilities, if necessary.
+          </Trans>
+          <br />
           <h4 className="font-bold text-lg mb-2">
-            10. Training and Supervision
+            10. {t("TRAINING_SUPERVISION")}
             <br />
           </h4>
           {/* prettier-ignore */}
-          The Organization will provide necessary training and supervision to
-          the Volunteer. The Volunteer agrees to: <br />
-          - Attend all required training sessions. <br />
-          - Adhere to instructions and guidelines provided by the Organization’s
-          supervisors or staff. <br />
-          - Seek clarification or assistance when needed to perform their duties
-          effectively. <br />
+          <Trans i18nKey="TRAINING_SUPERVISION_CONTENT">
+            The Organization will provide necessary training and supervision to the Volunteer. The Volunteer agrees to: <br/> - Attend all required training sessions. <br/> - Adhere to instructions and guidelines provided by the Organization’s supervisors or staff. <br/> - Seek clarification or assistance when needed to perform their duties effectively.
+          </Trans>
+          <br />
           <h4 className="font-bold text-lg mb-2">
-            11. Health and Safety
+            11. {t("HEALTH_SAFETY")}
             <br />
           </h4>
           {/* prettier-ignore */}
-          The Volunteer acknowledges their responsibility to follow all health
-          and safety guidelines provided by the Organization. The Volunteer
-          agrees to: <br />
-          - Report any unsafe conditions or incidents immediately to the
-          Organization. <br />
-          - Take reasonable precautions to protect their health and safety as
-          well as that of others during their volunteer activities. <br />
+          <Trans i18nKey="HEALTH_SAFETY_CONTENT">
+            The Volunteer acknowledges their responsibility to follow all health and safety guidelines provided by the Organization. The Volunteer agrees to: <br/> - Report any unsafe conditions or incidents immediately to the Organization. <br/> - Take reasonable precautions to protect their health and safety as well as that of others during their volunteer activities.
+          </Trans>
+          <br />
           <h4 className="font-bold text-lg mb-2">
-            12. Dispute Resolution
+            12. {t("DISPUTE_RESOLUTION")}
             <br />
           </h4>
-          {/* prettier-ignore */}
-          In the event of any disputes arising out of or related to this
-          Agreement, the parties agree to attempt to resolve the matter through
-          good faith negotiations. If a resolution cannot be reached, the
-          parties agree to submit to mediation or arbitration, as mutually
-          agreed, before pursuing any legal action. <br />
+          {t("DISPUTE_RESOLUTION_CONTENT")}
+          <br />
           <h4 className="font-bold text-lg mb-2">
-            13. Governing Law
+            13. {t("GOVERNING_LAW")}
             <br />
           </h4>
-          {/* prettier-ignore */}
-          This Agreement shall be governed by and construed in accordance with
-          global laws applicable to the activities and interactions facilitated
-          by the Organization. Any legal proceedings arising out of or related
-          to this Agreement shall be brought in the appropriate courts of a
-          jurisdiction mutually agreed upon by both parties. <br />
+          {t("GOVERNING_LAW_CONTENT")}
+          <br />
           <h4 className="font-bold text-lg mb-2">
-            14. Acknowledgment and Consent
+            14. {t("ACKNOWLEDGMENT")}
             <br />
           </h4>
-          {/* prettier-ignore */}
-          By agreeing to this document, the Volunteer acknowledges that they
-          have read, understood, and accepted these terms. The Volunteer agrees
-          to abide by all the guidelines, policies, and expectations outlined
-          herein and understands that their volunteer status is contingent upon
-          adherence to this Agreement.
+          {t("ACKNOWLEDGMENT_CONTENT")}
         </div>
       </div>
       <div className="checkbox-container mt-4">
