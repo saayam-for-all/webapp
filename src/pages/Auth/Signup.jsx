@@ -18,20 +18,138 @@ const SignUp = () => {
   const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
 
+  //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  //const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+  //State variables to validate the fields
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const countries = CountryList().getData();
 
   const navigate = useNavigate();
 
+  //name, email and phone number validation functions
+  const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePhone = (phone) => /^[0-9]{10}$/.test(phone);//Exactly 10 digits phone number
+  const validatePassword = (password) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+
   const handleSignUp = async () => {
-    if (passwordValue !== confirmPasswordValue) {
-      setPasswordsMatch(confirmPasswordValue === passwordValue);
-      return;
+
+    let isValid = true;
+
+    //FirstName validation
+    if(!firstName.trim())
+    {
+      setFirstNameError("First Name is required");
+      isValid = false;
     }
+    else if(!validateName(firstName))
+    {
+      setFirstNameError("First Name must contain only letters and spaces.");
+      isValid = false;
+    }
+    else if (firstName.length > 50) 
+    {
+      setFirstNameError("First Name must not exceed 50 characters.");
+      isValid = false;
+    }
+    else
+      setFirstNameError("");
+
+    //LastName validation
+    if(!lastName.trim())
+    {
+      setLastNameError("Last Name is required");
+      isValid = false;
+    }
+    else if(!validateName(lastName))
+    {
+      setLastNameError("Last Name must contain only letters and spaces.");
+      isValid = false;
+    }
+    else if (lastName.length > 50) 
+    {
+      setFirstNameError("Last Name must not exceed 50 characters.");
+      isValid = false;
+    }
+    else
+      setLastNameError("");
+    
+    //email validation
+    if(!emailValue.trim())
+    {
+      setEmailError("Email is required");
+      isValid = false;
+    }
+    else if(!validateEmail(emailValue))
+    {
+      setEmailError("Enter a valid email address.");
+      isValid = false;
+    }
+    else if (emailValue.length > 50) 
+    {
+      setEmailError("Email must not exceed 50 characters.");
+      isValid = false;
+    }
+    else
+      setEmailError("");
+
+    // Phone Number Validation (Must be exactly 10 digits)
+    if (!phone.trim()) 
+    {
+      setPhoneError("Phone number is required.");
+      isValid = false;
+    } 
+    else if (!validatePhone(phone)) 
+    {
+      setPhoneError("Phone number must be exactly 10 digits.");
+      isValid = false;
+    } 
+    else 
+      setPhoneError("");
+
+    //Password validation
+    if (!passwordValue) 
+    {
+      setPasswordError("Password is required.");
+      isValid = false;
+    } 
+    else if (!validatePassword(passwordValue)) 
+    {
+      setPasswordError(
+        "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character."
+      );
+      isValid = false;
+    } 
+    else 
+      setPasswordError("");
+    
+    //ConfirmPassword validation
+    if (!confirmPasswordValue) 
+    {
+      setConfirmPasswordError("Confirm Password is required.");
+      isValid = false;
+    } 
+    else if (confirmPasswordValue !== passwordValue) 
+    {
+      setConfirmPasswordError("Must match the password entered above.");
+      isValid = false;
+    } 
+    else 
+      setConfirmPasswordError("");
+
+    //Stop execution if there is any validation fail
+    if(!isValid)
+      return;
 
     try {
       const user = await signUp({
@@ -74,6 +192,9 @@ const SignUp = () => {
               type="text"
               className="w-full px-4 py-2 border border-gray-300 rounded-xl"
             />
+            {firstNameError && (
+              <p className="text-red-500 text-sm mt-1">{firstNameError}</p>
+            )}
           </div>
 
           {/* Last Name */}
@@ -87,6 +208,9 @@ const SignUp = () => {
               type="text"
               className="w-full px-4 py-2 border border-gray-300 rounded-xl"
             />
+            {lastNameError && (
+              <p className="text-red-500 text-sm mt-1">{lastNameError}</p>
+            )}
           </div>
         </div>
 
@@ -101,6 +225,7 @@ const SignUp = () => {
             type="text"
             className="px-4 py-2 border border-gray-300 rounded-xl"
           />
+          {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
         </div>
 
         {/* Phone  Number */}
@@ -114,7 +239,8 @@ const SignUp = () => {
               onChange={(e) => {
                 const selectedCode = e.target.value;
                 setCountryCode(selectedCode);
-                setCountry(PHONECODESEN[selectedCode]?.primary || "");
+                const selectedCountry = PHONECODESEN[selectedCode]?.primary || "";
+                setCountry(selectedCountry);
               }}
               className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
             >
@@ -135,6 +261,9 @@ const SignUp = () => {
               className="w-2/3 px-4 py-2 border border-gray-300 rounded-xl"
             />
           </div>
+          {phoneError && (
+              <p className="text-red-500 text-sm mt-1">{phoneError}</p>
+            )}
         </div>
 
         {/* Country */}
@@ -179,6 +308,7 @@ const SignUp = () => {
               {passwordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
+          {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
         </div>
 
         {/* Confirm Password */}
@@ -201,9 +331,7 @@ const SignUp = () => {
               {confirmPasswordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
-          {!passwordsMatch && (
-            <p className="text-red-500 text-sm mt-1">Passwords do not match</p>
-          )}
+          {confirmPasswordError && (<p className="text-red-500 text-sm mt-1">{confirmPasswordError}</p>)}
         </div>
 
         <button
