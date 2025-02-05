@@ -7,6 +7,12 @@ import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "aws-amplify/auth";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  email: z.string().min(1, "Please enter your email"),
+  password: z.string().min(1, "Please enter your password"),
+});
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -17,7 +23,7 @@ const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
-  const [incorrectInput, setIncorrectInput] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const { user } = useSelector((state) => state.auth);
 
@@ -26,6 +32,19 @@ const LoginPage = () => {
 
   const handleSignIn = async () => {
     try {
+      const result = loginSchema.safeParse({
+        email: emailValue,
+        password: passwordValue,
+      });
+      if (!result.success) {
+        const formattedErrors = result.error.format();
+        setErrors({
+          email: formattedErrors.email?._errors[0],
+          password: formattedErrors.password?._errors[0],
+        });
+        return;
+      }
+
       const { isSignedIn } = await signIn({
         username: emailValue,
         password: passwordValue,
@@ -36,7 +55,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.log("error", error);
-      setIncorrectInput(true);
+      setErrors({ root: "Invalid email or password" });
     }
   };
 
@@ -53,7 +72,11 @@ const LoginPage = () => {
             placeholder="Your Email"
             type="text"
             className="px-4 py-2 border border-gray-300 rounded-xl"
+            required={true}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
         </div>
         <div className="my-2 flex flex-col">
           <label htmlFor="password">{t("PASSWORD")}</label>
@@ -73,11 +96,15 @@ const LoginPage = () => {
               onFocus={() => setPasswordFocus(true)}
               onBlur={() => setPasswordFocus(false)}
               className="mr-auto w-full outline-none"
+              required={true}
             />
             <button onClick={() => setPasswordVisible(!passwordVisible)}>
               {passwordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+          )}
         </div>
         <button
           className="my-2 text-left underline"
@@ -91,10 +118,8 @@ const LoginPage = () => {
         >
           {t("LOGIN")}
         </button>
-        {incorrectInput && (
-          <p className="text-red-500 text-sm mt-1">
-            Incorrect email or password
-          </p>
+        {errors.root && (
+          <p className="text-red-500 text-sm mt-1">{errors.root}</p>
         )}
 
         {/* Uncommment for Google and Facebook signin */}

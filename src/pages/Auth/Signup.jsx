@@ -70,12 +70,8 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
-    if (passwordValue !== confirmPasswordValue) {
-      setPasswordsMatch(confirmPasswordValue === passwordValue);
-      return;
-    }
-
     try {
+      setErrors({});
       const result = signUpSchema.safeParse({
         firstName,
         lastName,
@@ -85,13 +81,17 @@ const SignUp = () => {
       });
       if (!result.success) {
         const formattedErrors = result.error.format();
-        console.log("Error:", formattedErrors);
         setErrors({
           firstName: formattedErrors.firstName?._errors[0],
           lastName: formattedErrors.lastName?._errors[0],
           email: formattedErrors.email?._errors[0],
           phone: formattedErrors.phone?._errors[0],
         });
+        return;
+      }
+
+      if (passwordValue !== confirmPasswordValue) {
+        setPasswordsMatch(confirmPasswordValue === passwordValue);
         return;
       }
 
