@@ -1,0 +1,8 @@
+{
+  "modules": {
+    "pageLoads": {
+      "modulePath": "C:\\Users\\Oscar\\Desktop\\currentRao\\webapp-nightwatch\\webapp\\init\\pageLoads.cjs",
+      "status": "pass"
+    }
+  }
+}
