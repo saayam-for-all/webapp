@@ -34,6 +34,11 @@ const Dashboard = ({ userRole }) => {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setCurrentPage(1);
+    setStatusFilter({
+      Open: true,
+      Closed: false,
+    });
+    setCategoryFilter(allCategories);
   };
 
   const headers = [
@@ -171,6 +176,14 @@ const Dashboard = ({ userRole }) => {
     }
   }, []);
 
+  const handleStatusBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsStatusDropdownOpen(false);
+  };
+  const handleFilterBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsCategoryDropdownOpen(false);
+  };
   // const requests = requestData
 
   return (
@@ -229,10 +242,11 @@ const Dashboard = ({ userRole }) => {
               className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
             />
           </div>
-          <div className="relative">
+          <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
               onClick={toggleStatusDropdown}
+              tabIndex={0}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
                 {t("Status")}
@@ -254,10 +268,11 @@ const Dashboard = ({ userRole }) => {
               </div>
             )}
           </div>
-          <div className="relative">
+          <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
               onClick={toggleCategoryDropdown}
+              tabIndex={0}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
                 {t("FILTER_BY")}
