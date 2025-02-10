@@ -17,9 +17,9 @@ test("renders Navbar and checks components", () => {
   );
 
   //const imageLink = screen.getByRole('img',{className : 'w-14 h-14'})
-  const linkOne = screen.getByRole("link", { name: "DIRECTORS" });
+  const linkOne = screen.getByRole("link", { name: "Board of Directors" });
   //const linkTwo = screen.getByRole('link',{name:'how-we-operate'})
-  const linkThree = screen.getByRole("link", { name: "CONTACT" });
+  const linkThree = screen.getByRole("link", { name: "Contact" });
 
   //expect(imageLink).toBeInTheDocument()
   expect(linkOne).toBeInTheDocument();
