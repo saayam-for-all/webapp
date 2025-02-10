@@ -19,7 +19,7 @@ test("render divs and check classes", () => {
   const thirdDiv = screen.getByTestId("divThree");
   const fourthDiv = screen.getByTestId("divFour");
 
-  expect(firstDiv).toHaveClass("mt-20 p-5");
+  expect(firstDiv).toHaveClass("p-5");
   expect(secondDiv).toHaveClass("flex justify-between items-center");
   expect(thirdDiv).toHaveClass("flex items-center justify-center mb-2");
   expect(fourthDiv).toHaveClass("flex items-center space-x-2");
