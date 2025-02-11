@@ -1,6 +1,6 @@
 # Project Title
 
-Saayam Web Application
+Saayam Web Application.
 
 ## Table of Contents
 
