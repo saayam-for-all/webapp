@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { TimePicker } from "rsuite";
+import "rsuite/dist/rsuite.min.css";
 
 const CalamityCheckBox = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -51,20 +53,18 @@ const TimeInputComponent = ({
     onDayChange(index, newDay);
   };
 
-  const handleStartTimeChange = (e) => {
-    const newStartTime = e.target.value;
+  const handleStartTimeChange = (newStartTime) => {
     onTimeChange(index, "startTime", newStartTime);
   };
 
-  const handleEndTimeChange = (e) => {
-    const newEndTime = e.target.value;
+  const handleEndTimeChange = (newEndTime) => {
     onTimeChange(index, "endTime", newEndTime);
   };
 
   return (
     <div className="flex items-center space-x-4 mb-1">
       <select
-        className="h-10 w-40 border border-gray-300 rounded-md p-2"
+        className="w-40 border border-gray-300 rounded-md p-2"
         value={day}
         onChange={handleDayChange}
       >
@@ -74,18 +74,27 @@ const TimeInputComponent = ({
           </option>
         ))}
       </select>
-      <input
-        className="h-10 w-40 border border-gray-300 rounded-md p-2"
-        aria-label="Time"
-        type="time"
-        value={startTime}
+      <TimePicker
+        className="rounded-md w-40"
+        // value={startTime}
         onChange={handleStartTimeChange}
+        onOk={handleStartTimeChange}
+        disableClock={true}
+        format="hh:mm a"
+        hourPlaceholder="hh"
+        minutePlaceholder="mm"
+        clearIcon={null}
       />
-      <input
-        className="h-10 w-40 border border-gray-300 rounded-md p-2"
-        type="time"
+      <TimePicker
+        className="rounded-md  w-40"
         value={endTime}
         onChange={handleEndTimeChange}
+        onOk={handleEndTimeChange}
+        disableClock={false}
+        format="hh:mm a"
+        hourPlaceholder="hh"
+        minutePlaceholder="mm"
+        clearIcon={null}
       />
       <button
         className="border border-red-500 rounded-full hover:bg-red-100"
