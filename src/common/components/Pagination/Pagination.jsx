@@ -6,7 +6,7 @@ const Pagination = ({
   totalPages,
   onPageChange,
   rowsPerPage,
-  onRowsPerPageChange,
+  totalRows,
 }) => {
   const renderPageNumbers = () => {
     let pages = [];
@@ -80,20 +80,22 @@ const Pagination = ({
       );
     }
 
-    // show the last page
-    pages.push(
-      <button
-        key={totalPages}
-        onClick={() => onPageChange(totalPages)}
-        className={`px-3 py-1 border rounded ${
-          totalPages === currentPage
-            ? "bg-blue-500 text-white"
-            : "bg-gray-200 text-black"
-        }`}
-      >
-        {totalPages}
-      </button>,
-    );
+    if (pages.length < totalPages) {
+      // show the last page
+      pages.push(
+        <button
+          key={totalPages}
+          onClick={() => onPageChange(totalPages)}
+          className={`px-3 py-1 border rounded ${
+            totalPages === currentPage
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-black"
+          }`}
+        >
+          {totalPages}
+        </button>,
+      );
+    }
 
     return pages;
   };
@@ -107,8 +109,8 @@ const Pagination = ({
         >
           <span className="mr-2 text-gray-400" data-testid="labelOne">
             Showing data {(currentPage - 1) * rowsPerPage + 1}-
-            {Math.min(currentPage * rowsPerPage, totalPages * rowsPerPage)} of{" "}
-            {totalPages * rowsPerPage} entries
+            {Math.min(currentPage * rowsPerPage, totalRows)} of {totalRows}{" "}
+            entries
           </span>
           {/* <div className="flex items-center ml-2">
             <label htmlFor="rowsPerPage" className="mr-2">Rows per view:</label>
