@@ -16,6 +16,7 @@
     "@aws-amplify/auth": "^6.6.1",
     "@fontsource-variable/inter": "^5.0.17",
     "@react-google-maps/api": "^2.19.3",
+    "@reduxjs/toolkit": "^2.5.1",
     "aws-amplify": "^6.8.1",
     "aws-sdk": "^2.1612.0",
     "cheerio": "^1.0.0",
@@ -36,18 +37,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-<<<<<<< HEAD
-    "@babel/preset-env": "^7.25.4",
-    "@babel/preset-react": "^7.24.7",
-    "@reduxjs/toolkit": "^2.5.0",
-    "@testing-library/jest-dom": "^6.5.0",
-    "@testing-library/react": "^16.1.0",
-=======
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
->>>>>>> c288055d6ae828e856957ee7e8ef9e74bd9d8242
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react-swc": "^3.5.0",
