@@ -93,7 +93,7 @@ const Table = ({
         totalPages={totalPages}
         onPageChange={setCurrentPage}
         rowsPerPage={itemsPerPage}
-        onRowsPerPageChange={onRowsPerPageChange}
+        totalRows={totalRows}
       />
     </div>
   );

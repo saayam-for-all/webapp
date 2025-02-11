@@ -7,6 +7,39 @@ import CountryList from "react-select-country-list";
 import { signUp } from "aws-amplify/auth";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import { z } from "zod";
+
+const signUpSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, "First name is required")
+    .max(50)
+    .regex(/^[a-zA-Z]+$/, "First name must contain only alphabets and spaces"),
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .max(50)
+    .regex(/^[a-zA-Z]+$/, "Last name must contain only alphabets and spaces"),
+  email: z
+    .string()
+    .max(50)
+    .min(1, "Email is required")
+    .email("Invalid email address"),
+  phone: z
+    .string()
+    .min(1, "Phone number is required")
+    .regex(/^[0-9]+$/, "A valid phone number is required"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/\d/, "Password must contain at least 1 number")
+    .regex(/[A-Z]/, "Password must contain at least 1 uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least 1 lowercase letter")
+    .regex(
+      /[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+-]/,
+      "Password must contain at least 1 special character",
+    ),
+});
 
 const SignUp = () => {
   const [emailValue, setEmailValue] = useState("");
@@ -23,17 +56,45 @@ const SignUp = () => {
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
+  const [errors, setErrors] = useState({});
+
+  const hasNumber = /\d/.test(passwordValue);
+  const hasUppercase = /[A-Z]/.test(passwordValue);
+  const hasLowercase = /[a-z]/.test(passwordValue);
+  const hasSpecialChar = /[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+-]/.test(
+    passwordValue,
+  );
+
   const countries = CountryList().getData();
 
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
-    if (passwordValue !== confirmPasswordValue) {
-      setPasswordsMatch(confirmPasswordValue === passwordValue);
-      return;
-    }
-
     try {
+      setErrors({});
+      const result = signUpSchema.safeParse({
+        firstName,
+        lastName,
+        email: emailValue,
+        phone,
+        password: passwordValue,
+      });
+      if (!result.success) {
+        const formattedErrors = result.error.format();
+        setErrors({
+          firstName: formattedErrors.firstName?._errors[0],
+          lastName: formattedErrors.lastName?._errors[0],
+          email: formattedErrors.email?._errors[0],
+          phone: formattedErrors.phone?._errors[0],
+        });
+        return;
+      }
+
+      if (passwordValue !== confirmPasswordValue) {
+        setPasswordsMatch(confirmPasswordValue === passwordValue);
+        return;
+      }
+
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
@@ -72,8 +133,12 @@ const SignUp = () => {
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
+              required={true}
             />
+            {errors.firstName && (
+              <p className="text-sm text-red-500">{errors.firstName}</p>
+            )}
           </div>
 
           {/* Last Name */}
@@ -85,8 +150,12 @@ const SignUp = () => {
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
+              required={true}
             />
+            {errors.lastName && (
+              <p className="text-sm text-red-500">{errors.lastName}</p>
+            )}
           </div>
         </div>
 
@@ -99,8 +168,12 @@ const SignUp = () => {
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder="Your Email"
             type="text"
-            className="px-4 py-2 border border-gray-300 rounded-xl"
+            className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
+            required={true}
           />
+          {errors.email && (
+            <p className="text-sm text-red-500">{errors.email}</p>
+          )}
         </div>
 
         {/* Phone  Number */}
@@ -132,8 +205,12 @@ const SignUp = () => {
               placeholder="Your Phone Number"
               type="text"
               maxLength={10}
-              className="w-2/3 px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-2/3 px-4 py-2 border border-gray-300 rounded-xl ${errors.phone ? "border-red-500" : "border-gray-300"}`}
+              required={true}
             />
+            {errors.phone && (
+              <p className="text-sm text-red-500">{errors.phone}</p>
+            )}
           </div>
         </div>
 
@@ -179,6 +256,35 @@ const SignUp = () => {
               {passwordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
+        </div>
+
+        {/* Password validation */}
+        <div className="flex flex-col items-start">
+          <p
+            className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 8 characters.
+          </p>
+          <p
+            className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 1 number.
+          </p>
+          <p
+            className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 1 special character.
+          </p>
+          <p
+            className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 1 uppercase letter.
+          </p>
+          <p
+            className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          >
+            Password must contain at least 1 lowercase letter.
+          </p>
         </div>
 
         {/* Confirm Password */}

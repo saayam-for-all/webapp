@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Table from "../../common/components/DataTable/Table";
@@ -7,6 +7,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { useGetAllRequestQuery } from "../../services/requestApi";
+import api from "../../services/api";
 
 import "./Dashboard.css";
 
@@ -28,12 +29,52 @@ const Dashboard = ({ userRole }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
-
+  // const [data, setData] = useState({});
+  // const isLoading = false;
   const { data, isLoading } = useGetAllRequestQuery();
+
+  // const getAllRequests = async () => {
+  //   try {
+  //     const response = await api.get("requests/v0.0.1/get-requests");
+  //     debugger;
+  //     setData(response.data);
+  //     console.log("API Response:", response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching skills:", error);
+  //   }
+  // }
+  // const { data, isLoading } = getAllRequests();
+
+  // useEffect(() => {
+  //   getAllRequests();
+  // }, []);
+
+  const allCategories = {
+    All: true,
+    Logistics: true,
+    Maintenance: true,
+    Education: true,
+    Electronics: true,
+    Health: true,
+    Essentials: true,
+    Childcare: true,
+    Pets: true,
+    Shopping: true,
+    Charity: true,
+    Events: true,
+    Marketing: true,
+    Administration: true,
+    Research: true,
+  };
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setCurrentPage(1);
+    setStatusFilter({
+      Open: true,
+      Closed: false,
+    });
+    setCategoryFilter(allCategories);
   };
 
   const headers = [
@@ -64,9 +105,14 @@ const Dashboard = ({ userRole }) => {
     return sortableRequests;
   };
 
+  const sortedData = useMemo(() => {
+    return sortedRequests(data?.body || []);
+  }, [data, sortConfig]);
+
   const filteredRequests = (requests) => {
     // setCrrrentSorting(requests);
-    return sortedRequests(requests).filter(
+    // console.log(requests);
+    return requests.filter(
       (request) =>
         (Object.keys(statusFilter).length === 0 ||
           statusFilter[request.status]) &&
@@ -78,8 +124,13 @@ const Dashboard = ({ userRole }) => {
     );
   };
 
-  const totalPages = (requests) => {
-    return Math.ceil(filteredRequests(requests).length / rowsPerPage);
+  const filteredData = useMemo(() => {
+    return filteredRequests(sortedData);
+  }, [sortedData, statusFilter, categoryFilter, searchTerm]);
+
+  const totalPages = (filteredData) => {
+    if (!filteredData || filteredData.length == 0) return 1;
+    return Math.ceil(filteredData.length / rowsPerPage);
   };
 
   const handleSearchChange = (event) => {
@@ -147,30 +198,20 @@ const Dashboard = ({ userRole }) => {
     setIsStatusDropdownOpen(!isStatusDropdownOpen);
   };
 
-  const allCategories = {
-    All: true,
-    Logistics: true,
-    Maintenance: true,
-    Education: true,
-    Electronics: true,
-    Health: true,
-    Essentials: true,
-    Childcare: true,
-    Pets: true,
-    Shopping: true,
-    Charity: true,
-    Events: true,
-    Marketing: true,
-    Administration: true,
-    Research: true,
-  };
-
   useEffect(() => {
     if (Object.keys(categoryFilter).length === 0) {
       setCategoryFilter(allCategories);
     }
   }, []);
 
+  const handleStatusBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsStatusDropdownOpen(false);
+  };
+  const handleFilterBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsCategoryDropdownOpen(false);
+  };
   // const requests = requestData
 
   return (
@@ -229,10 +270,11 @@ const Dashboard = ({ userRole }) => {
               className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
             />
           </div>
-          <div className="relative">
+          <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
               onClick={toggleStatusDropdown}
+              tabIndex={0}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
                 {t("Status")}
@@ -254,10 +296,11 @@ const Dashboard = ({ userRole }) => {
               </div>
             )}
           </div>
-          <div className="relative">
+          <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
               onClick={toggleCategoryDropdown}
+              tabIndex={0}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
                 {t("FILTER_BY")}
@@ -299,11 +342,11 @@ const Dashboard = ({ userRole }) => {
             {!isLoading && (
               <Table
                 headers={headers}
-                rows={filteredRequests(data.body)}
+                rows={filteredData}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
-                totalPages={totalPages(data.body)}
-                totalRows={filteredRequests(data.body).length}
+                totalPages={totalPages(filteredData)}
+                totalRows={filteredData.length}
                 itemsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
                 requestSort={requestSort}
