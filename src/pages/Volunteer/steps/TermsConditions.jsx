@@ -16,7 +16,7 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
     const scrollBox = scrollBoxRef.current;
     if (
       scrollBox.scrollTop + scrollBox.clientHeight >=
-      scrollBox.scrollHeight
+      scrollBox.scrollHeight - 10
     ) {
       setIsCheckboxEnabled(true);
     } else {
@@ -30,7 +30,7 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
       scrollBox.addEventListener("scroll", handleScroll);
       return () => scrollBox.removeEventListener("scroll", handleScroll);
     }
-  }, []);
+  }, [scrollBoxRef]);
 
   return (
     <div className="document-acknowledgment p-6">
