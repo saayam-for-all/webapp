@@ -4,7 +4,10 @@ import axios from "axios";
 // centralizing the configuration and reusing the instance across the application
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API_URL,
+  baseURL:
+    typeof import.meta !== "undefined"
+      ? import.meta.env.VITE_BASE_API_URL
+      : process.env.VITE_BASE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
