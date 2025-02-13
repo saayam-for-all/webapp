@@ -2,8 +2,11 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { screen, render } from "@testing-library/react";
 import MissionVision from "../../src/pages/Vision/Vision";
+import { changeUiLanguage } from "../../src/common/i18n/utils";
 
 test("tests class names", () => {
+  changeUiLanguage("en_US");
+
   render(<MissionVision />);
 
   // Verificar el contenedor principal
