@@ -1,131 +1,11 @@
-import React, { useEffect } from "react"; //added for testing
-import api from "../../../services/api";
+import React from "react"; //added for testing
+
 // Example JSON data with multiple levels of subCategories - need to get this data from server
-const categoriesData = {
-  categories: [
-    {
-      category: "Banking",
-      subCategories: [
-        {
-          category: "Retail Banking",
-          subCategories: [
-            {
-              category: "Accounts",
-              subCategories: [
-                {
-                  category: "Savings Account",
-                  subCategories: ["Personal Savings", "Business Savings"],
-                },
-                {
-                  category: "Checking Account",
-                  subCategories: ["Personal Checking", "Business Checking"],
-                },
-              ],
-            },
-            {
-              category: "Loans",
-              subCategories: [
-                {
-                  category: "Personal Loans",
-                  subCategories: ["Secured Loan", "Unsecured Loan"],
-                },
-                {
-                  category: "Business Loans",
-                  subCategories: ["Short-term Loan", "Long-term Loan"],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          category: "Investment Banking",
-          subCategories: [
-            {
-              category: "Corporate Finance",
-              subCategories: [
-                {
-                  category: "Mergers & Acquisitions",
-                  subCategories: ["Advisory", "Execution"],
-                },
-                {
-                  category: "Equity Capital Markets",
-                  subCategories: [
-                    "Initial Public Offering",
-                    "Follow-on Offerings",
-                  ],
-                },
-              ],
-            },
-            {
-              category: "Sales & Trading",
-              subCategories: ["Equities", "Fixed Income"],
-            },
-          ],
-        },
-      ],
-    },
-    "Books",
-    "Clothes",
-    "College Admissions",
-    "Cooking",
-    {
-      category: "Education",
-      subCategories: [
-        "Elementary",
-        "Middle School",
-        "High School",
-        "University",
-      ],
-    },
-    "Employment",
-    "Finance",
-    "Food",
-    "Gardening",
-    "Homelessness",
-    "Housing",
-    "Jobs",
-    "Investing",
-    "Matrimonial",
-    {
-      category: "Medical",
-      subCategories: ["Brain", "Depression", "Eye", "Hand", "Head", "Leg"],
-    },
-    "Rental",
-    "School",
-    "Shopping",
-    {
-      category: "Sports",
-      subCategories: [
-        "Baseball",
-        "Basketball",
-        "Cricket",
-        "Handball",
-        "Jogging",
-        "Hockey",
-        "Running",
-        "Tennis",
-      ],
-    },
-    "Stocks",
-    "Travel",
-    "Tourism",
-  ],
-};
-
-const Skills = ({ checkedCategories, setCheckedCategories }) => {
-  const fetchSkills = async () => {
-    try {
-      const response = await api.get("/volunteer-promotion-wizard/skills");
-      console.log("API Response:", response.data);
-    } catch (error) {
-      console.error("Error fetching skills:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchSkills();
-  }, []);
-
+const Skills = ({
+  checkedCategories,
+  setCheckedCategories,
+  categoriesData,
+}) => {
   // Recursive function to handle rendering categories and subcategories
   const renderCategories = (categories, parentPath = "") => {
     return categories.map((cat, index) => {
@@ -176,7 +56,7 @@ const Skills = ({ checkedCategories, setCheckedCategories }) => {
   // Get the checked status of a category by its hierarchical path
   const getCheckedStatus = (categoryPath) => {
     const keys = categoryPath.split(".");
-    let currentLevel = checkedCategories;
+    let currentLevel = checkedCategories || {};
 
     for (let key of keys) {
       if (!currentLevel[key]) return false;
@@ -214,7 +94,8 @@ const Skills = ({ checkedCategories, setCheckedCategories }) => {
       <p className="font-bold text-xl mb-4">
         Select Your Skills For Volunteer Assignments
       </p>
-      {renderCategories(categoriesData.categories)}
+      {categoriesData?.categories?.length > 0 &&
+        renderCategories(categoriesData.categories)}
     </>
   );
 };
