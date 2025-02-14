@@ -5,9 +5,8 @@ import { createStore } from "redux";
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import RequestDetails from "../../../src/pages/RequestDetails/RequestDetails";
-import { getMyRequests } from "../../../src/services/requestServices";
 
-jest.mock("../../../src/services/requestservices", () => ({
+jest.mock("../../../src/services/requestServices", () => ({
   getMyRequests: jest.fn(() =>
     Promise.resolve({ message: "Mocked API Response" }),
   ),
