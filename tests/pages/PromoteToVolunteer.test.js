@@ -3,6 +3,13 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import PromoteToVolunteer from "../../src/pages/Volunteer/PromoteToVolunteer";
 import Stepper from "../../src/pages/Volunteer/Stepper";
+// import { getVolunteerSkills } from "../../../src/services/volunteerServices";
+
+jest.mock("../../src/services/volunteerServices", () => ({
+  getVolunteerSkills: jest.fn(() =>
+    Promise.resolve({ message: "Mocked API Response" }),
+  ),
+}));
 
 describe("PromoteToVolunteer Component", () => {
   test("renders Terms & Conditions on step 1", () => {
