@@ -1,5 +1,4 @@
-import React from "react"; //added for testing
-import { useState } from "react";
+import React, { useEffect, useState } from "react"; //added for testing
 import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
@@ -8,6 +7,7 @@ import TermsConditions from "./steps/TermsConditions";
 import Complete from "./steps/Complete";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import Availability from "./steps/Availability";
+import { getVolunteerSkills } from "../../services/volunteerServices";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -15,6 +15,22 @@ const PromoteToVolunteer = () => {
 
   // state variable to track the skills(categories and subcategories) that the user has selected/checked.
   const [checkedCategories, setCheckedCategories] = useImmer({});
+  const [categoriesData, setCategoriesData] = useState({});
+
+  const fetchSkills = async () => {
+    try {
+      const response = await getVolunteerSkills();
+      setCategoriesData(response.body);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!categoriesData?.categories) {
+      fetchSkills();
+    }
+  }, []);
 
   const steps = [
     "Terms & Conditions",
@@ -39,6 +55,7 @@ const PromoteToVolunteer = () => {
           <Skills
             checkedCategories={checkedCategories}
             setCheckedCategories={setCheckedCategories}
+            categoriesData={categoriesData}
           />
         );
       case 4:

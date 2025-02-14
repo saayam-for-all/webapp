@@ -13,7 +13,8 @@ import { FaVideo } from "react-icons/fa";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
-import { useGetAllRequestQuery } from "../../services/requestApi";
+import { getMyRequests } from "../../services/requestServices";
+
 const attributes = [
   {
     context: "July 1, 2024",
@@ -51,9 +52,9 @@ const RequestDescription = () => {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { data, error, isLoading } = useGetAllRequestQuery();
-  if (isLoading) return <div>Loading...</div>;
-  const requestData = data.body?.find((item) => item.id === id);
+  // const { data, error, isLoading } = useGetAllRequestQuery();
+  // if (isLoading) return <div>Loading...</div>;
+  const [requestData, setRequestData] = useState({});
   attributes[0].context = requestData?.creationDate;
   attributes[1].context = requestData?.category;
 
@@ -69,6 +70,20 @@ const RequestDescription = () => {
   const handleOverlayClick = () => {
     setIsEditing(false);
   };
+
+  const getAllRequests = async () => {
+    try {
+      let requestApi = getMyRequests;
+      const response = await requestApi();
+      setRequestData(data.body?.find((item) => item.id === id));
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+    }
+  };
+
+  useEffect(() => {
+    getAllRequests;
+  });
 
   useEffect(() => {
     if (isEditing) {

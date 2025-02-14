@@ -6,9 +6,12 @@ import Table from "../../common/components/DataTable/Table";
 import { MdArrowForwardIos } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-import { useGetAllRequestQuery } from "../../services/requestApi";
-import api from "../../services/api";
-
+// import { useGetAllRequestQuery } from "../../services/requestApi";
+import {
+  getMyRequests,
+  getOthersRequests,
+  getManagedRequests,
+} from "../../services/requestServices";
 import "./Dashboard.css";
 
 const Dashboard = ({ userRole }) => {
@@ -29,25 +32,25 @@ const Dashboard = ({ userRole }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
-  // const [data, setData] = useState({});
-  // const isLoading = false;
-  const { data, isLoading } = useGetAllRequestQuery();
+  const [data, setData] = useState({});
+  const isLoading = false;
+  // const { data, isLoading } = useGetAllRequestQuery();
 
-  // const getAllRequests = async () => {
-  //   try {
-  //     const response = await api.get("requests/v0.0.1/get-requests");
-  //     debugger;
-  //     setData(response.data);
-  //     console.log("API Response:", response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching skills:", error);
-  //   }
-  // }
-  // const { data, isLoading } = getAllRequests();
+  const getAllRequests = async (activeTab) => {
+    try {
+      let requestApi = getMyRequests;
+      if (activeTab === "othersRequests") requestApi = getOthersRequests;
+      else if (activeTab === "managedRequests") requestApi = getManagedRequests;
+      const response = await requestApi();
+      setData(response);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getAllRequests();
-  // }, []);
+  useEffect(() => {
+    getAllRequests(activeTab);
+  }, [activeTab]);
 
   const allCategories = {
     All: true,
