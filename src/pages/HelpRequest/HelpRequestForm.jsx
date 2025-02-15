@@ -52,7 +52,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const { data, error, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
-  if (isLoading) return <div>Loading...</div>;
   const { id } = useParams();
 
   const inputref = useRef(null);
@@ -214,7 +213,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
-
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
