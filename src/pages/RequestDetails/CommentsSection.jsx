@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-import { commentsData } from "./commentsDummyData";
 import Comments from "./Comments";
+import { getRequestComments } from "../../services/requestServices";
 
 /* // Get the current system date
   const systemDate = new Date();
@@ -25,6 +25,20 @@ const CommentsSection = () => {
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [searchText, setSearchText] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
+  const [commentsData, setComments] = useState([]);
+
+  const getComments = async () => {
+    try {
+      const response = await getRequestComments();
+      setComments(response?.body);
+    } catch (error) {
+      console.error("Error fetching volunteer organizations:", error);
+    }
+  };
+
+  useEffect(() => {
+    getComments();
+  }, []);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);

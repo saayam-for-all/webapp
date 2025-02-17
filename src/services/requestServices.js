@@ -13,3 +13,7 @@ export const getManagedRequests = async () => {
   const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
   return response.data;
 };
+export const getRequestComments = async () => {
+  const response = await api.get(endpoints.GET_COMMENTS);
+  return response.data;
+};
