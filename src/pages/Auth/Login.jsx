@@ -122,14 +122,14 @@ const LoginPage = () => {
           <p className="text-red-500 text-sm mt-1">{errors.root}</p>
         )}
 
-        {/* Uncommment for Google and Facebook signin */}
-        <div className="flex items-center my-4">
+        {/* Uncommment for Google and Facebook signin is fully functional*/}
+        {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">{t("OR_WITH")}</span>
           <div className="flex-grow border-t border-gray-300"></div>
-        </div>
+        </div> 
 
-        <div className="flex flex-row items-center">
+         <div className="flex flex-row items-center">
           <button className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
             <FaFacebookF className="mx-2 text-xl text-blue-800" />
             <span>{t("FACEBOOK")}</span>
@@ -139,7 +139,7 @@ const LoginPage = () => {
             <FcGoogle className="mx-2 text-xl" />
             <span>{t("GOOGLE")}</span>
           </button>
-        </div>
+        </div> */}
 
         <div className="mt-16 flex flex-row justify-center">
           <p>{t("NONE_ACCOUNT")}</p>
