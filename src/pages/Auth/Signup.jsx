@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { FaFacebookF } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+// import { FaFacebookF } from "react-icons/fa";
+// import { FcGoogle } from "react-icons/fc";
 import CountryList from "react-select-country-list";
 import { signUp } from "aws-amplify/auth";
 import PHONECODESEN from "../../utils/phone-codes-en";
@@ -319,7 +319,9 @@ const SignUp = () => {
           Sign up
         </button>
 
-        <div className="flex items-center my-4">
+        {/* Uncomment this snippet when the singup functionality is fully developed  */}
+
+        {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">Or With</span>
           <div className="flex-grow border-t border-gray-300"></div>
@@ -335,7 +337,7 @@ const SignUp = () => {
             <FcGoogle className="mx-2 text-xl" />
             <span>Google</span>
           </button>
-        </div>
+        </div> */}
 
         <div className="mt-16 flex flex-row justify-center">
           <p>Already have an account?</p>
