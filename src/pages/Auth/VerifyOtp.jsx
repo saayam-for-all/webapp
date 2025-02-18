@@ -13,19 +13,23 @@ function OTPVerification() {
 
   const handleChange = (element, index) => {
     const value = element.value.slice(-1);
-    if (!/^\d$/.test(value)) return;
+    if (!/^\d?$/.test(value)) return;
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-
     if (value && index < 5) {
       document.getElementById(`otp-input-${index + 1}`).focus();
     }
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && otp[index] === "" && index > 0) {
-      document.getElementById(`otp-input-${index - 1}`).focus();
+    if (e.key === "Backspace") {
+      const newOtp = [...otp];
+      if (!newOtp[index] && index > 0) {
+        document.getElementById(`otp-input-${index - 1}`).focus();
+      }
+      newOtp[index] = "";
+      setOtp(newOtp);
     }
   };
 
