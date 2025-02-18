@@ -4,12 +4,14 @@ import { useTranslation } from "react-i18next";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import CountryList from "react-select-country-list";
-import { FiPhoneCall } from "react-icons/fi";
-import { FiVideo } from "react-icons/fi";
+import { FiPhoneCall, FiVideo } from "react-icons/fi";
+import CallModal from "./CallModal.jsx";
 
 function YourProfile({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
+  const [callType, setCallType] = useState("audio");
   const firstNameRef = useRef(null);
 
   const [profileInfo, setProfileInfo] = useState({
@@ -45,6 +47,11 @@ function YourProfile({ setHasUnsavedChanges }) {
         firstNameRef.current.focus();
       }
     }, 0);
+  };
+
+  const handleCallIconClick = (type) => {
+    setCallType(type);
+    setIsCallModalOpen(true);
   };
 
   return (
@@ -164,8 +171,14 @@ function YourProfile({ setHasUnsavedChanges }) {
                 {profileInfo.phoneCountryCode} {profileInfo.phone}
               </p>
               {/* Phone and Video Icons */}
-              <FiPhoneCall className="text-gray-500 cursor-pointer hover:text-gray-700" />
-              <FiVideo className="text-gray-500 cursor-pointer hover:text-gray-700" />
+              <FiPhoneCall
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                onClick={() => handleCallIconClick("audio")} // Open modal for audio call
+              />
+              <FiVideo
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                onClick={() => handleCallIconClick("video")} // Open modal for video call
+              />
             </div>
           )}
         </div>
@@ -234,6 +247,13 @@ function YourProfile({ setHasUnsavedChanges }) {
           </>
         )}
       </div>
+
+      {/* Call Modal */}
+      <CallModal
+        isOpen={isCallModalOpen}
+        onClose={() => setIsCallModalOpen(false)}
+        callType={callType}
+      />
     </div>
   );
 }
