@@ -17,3 +17,17 @@ export const getRequestComments = async () => {
   const response = await api.get(endpoints.GET_COMMENTS);
   return response.data;
 };
+export const predictCategories = async (request) => {
+  const response = await api.post(
+    endpoints.PREDICT_CATEGORIES,
+    JSON.stringify(request),
+  );
+  return response.data;
+};
+export const generateAnswer = async (request) => {
+  const response = await api.post(
+    endpoints.GENERATE_ANSWER,
+    JSON.stringify(request),
+  );
+  return response.data;
+};

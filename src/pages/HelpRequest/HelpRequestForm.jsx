@@ -19,6 +19,11 @@ import {
   useGetAllRequestQuery,
   useAddRequestMutation,
 } from "../../services/requestApi";
+import {
+  predictCategories,
+  generateAnswer,
+} from "../../services/requestServices";
+import { useDebounce } from "../../hooks/useDebounce";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -54,7 +59,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [addRequest] = useAddRequestMutation();
   const { id } = useParams();
 
-  const inputref = useRef(null);
+  const dropdownRef = useRef(null);
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -173,20 +178,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   };
 
   const handleClickOutside = (event) => {
-    if (inputRef.current && inputRef.current.getPlaces) {
-      const inputNode = inputRef.current.input;
-      if (inputNode && !inputNode.contains(event.target)) {
-        setShowDropdown(false);
-      }
+    const inputNode = dropdownRef.current;
+    if (inputNode && !inputNode.contains(event.target)) {
+      setShowDropdown(false);
     }
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [showDropdown]);
 
   const handleCategoryClick = (categoryName) => {
     // setSelectedCategory(categoryName);
@@ -213,7 +220,35 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
+  const generateAnswerToRequest = async () => {
+    try {
+      const requestBody = {
+        category: formData.category,
+        subject: formData.subject,
+        description: formData.description,
+      };
+      const response = await generateAnswer(requestBody);
+      debugger;
+      alert(`${JSON.stringify(data, null, 2)}`);
+    } catch (error) {
+      console.log("Error making Gen API Request:", error);
+    }
+  };
+
+  const debouncedFormData = useDebounce(formData, 500);
+  useEffect(() => {
+    if (
+      debouncedFormData.category &&
+      debouncedFormData.subject &&
+      debouncedFormData.description &&
+      debouncedFormData.description.endsWith("?")
+    ) {
+      generateAnswerToRequest();
+    }
+  }, [debouncedFormData]);
+
   if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className="">
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
@@ -377,7 +412,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           )}
           <div className="mt-3 grid grid-cols-2 gap-4">
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <label
                 htmlFor="category"
                 className="block mb-2 font-medium text-gray-700"
