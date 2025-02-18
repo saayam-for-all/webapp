@@ -1,24 +1,18 @@
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { StandaloneSearchBox } from "@react-google-maps/api";
+import React, { useEffect, useRef, useState } from "react"; //added for testing
 import { useTranslation } from "react-i18next";
-import { loadCategories } from "../../redux/features/help_request/requestActions";
-import JobsCategory from "./Categories/JobCategory";
-import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
-import usePlacesSearchBox from "./location/usePlacesSearchBox";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  StandaloneSearchBox,
-} from "@react-google-maps/api";
-import axios from "axios";
-import React from "react"; //added for testing
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
+import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
-  useGetAllRequestQuery,
   useAddRequestMutation,
+  useGetAllRequestQuery,
 } from "../../services/requestApi";
+import HousingCategory from "./Categories/HousingCategory";
+import JobsCategory from "./Categories/JobCategory";
+import usePlacesSearchBox from "./location/usePlacesSearchBox";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -40,7 +34,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
 
-  const [selfFlag, setSelfFlag] = useState(true);
   const [languages, setLanguages] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState("General");
@@ -210,9 +203,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setHoveredCategory(null);
   };
 
-  const handleForSelfFlag = (e) => {
-    setSelfFlag(e.target.value === "yes");
-  };
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
@@ -233,149 +223,130 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           </div>
 
-          <div className="mt-3" data-testid="parentDivOne">
-            <label
-              htmlFor="self"
-              className="block mb-1 text-gray-700 font-medium"
-            >
-              {t("FOR_SELF")}
-            </label>
-            <select
-              id="self"
-              data-testid="dropdown"
-              className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
-              onChange={handleForSelfFlag}
-            >
-              <option value="yes">{t("YES")}</option>
-              <option value="no">{t("NO")}</option>
-            </select>
-          </div>
-
-          {!selfFlag && (
-            <div className="mt-3" data-testid="parentDivTwo">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="requester_first_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("FIRST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_first_name"
-                    value={formData.requester_first_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="requester_last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("LAST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_last_name"
-                    value={formData.requester_last_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-              </div>
-
-              <div className="mt-3" data-testid="parentDivThree">
+          <div className="mt-3" data-testid="parentDivTwo">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="requester_first_name"
                   className="block text-gray-700 mb-1 font-medium"
                 >
-                  {t("EMAIL")}
+                  {t("FIRST_NAME")}
                 </label>
                 <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
+                  type="text"
+                  id="requester_first_name"
+                  value={formData.requester_first_name}
                   onChange={handleChange}
                   className="w-full rounded-lg border py-2 px-3"
                 />
               </div>
-
-              <div className="mt-3 grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PHONE")}
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("AGE")}
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div className="mt-3" data-testid="parentDivFour">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("GENDER")}
-                  </label>
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {genderOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mt-3" data-testid="parentDivFive">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PREFERRED_LANGUAGE")}
-                  </label>
-                  <select
-                    id="language"
-                    value={formData.language}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div>
+                <label
+                  htmlFor="requester_last_name"
+                  className="block text-gray-700 mb-1 font-medium"
+                >
+                  {t("LAST_NAME")}
+                </label>
+                <input
+                  type="text"
+                  id="requester_last_name"
+                  value={formData.requester_last_name}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border py-2 px-3"
+                />
               </div>
             </div>
-          )}
+
+            <div className="mt-3" data-testid="parentDivThree">
+              <label
+                htmlFor="email"
+                className="block text-gray-700 mb-1 font-medium"
+              >
+                {t("EMAIL")}
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full rounded-lg border py-2 px-3"
+              />
+            </div>
+
+            <div className="mt-3 grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="block text-gray-700 mb-1 font-medium"
+                >
+                  {t("PHONE")}
+                </label>
+                <input
+                  type="text"
+                  id="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border py-2 px-3"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="age"
+                  className="block text-gray-700 mb-1 font-medium"
+                >
+                  {t("AGE")}
+                </label>
+                <input
+                  type="number"
+                  id="age"
+                  value={formData.age}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border py-2 px-3"
+                />
+              </div>
+              <div className="mt-3" data-testid="parentDivFour">
+                <label
+                  htmlFor="gender"
+                  className="block text-gray-700 mb-1 font-medium"
+                >
+                  {t("GENDER")}
+                </label>
+                <select
+                  id="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                >
+                  {genderOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mt-3" data-testid="parentDivFive">
+                <label
+                  htmlFor="language"
+                  className="block text-gray-700 mb-1 font-medium"
+                >
+                  {t("PREFERRED_LANGUAGE")}
+                </label>
+                <select
+                  id="language"
+                  value={formData.language}
+                  onChange={handleChange}
+                  className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                >
+                  {languages.map((language) => (
+                    <option key={language.value} value={language.value}>
+                      {language.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="relative">
               <label
