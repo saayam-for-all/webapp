@@ -19,10 +19,7 @@ import {
   useGetAllRequestQuery,
   useAddRequestMutation,
 } from "../../services/requestApi";
-import {
-  predictCategories,
-  generateAnswer,
-} from "../../services/requestServices";
+import { predictCategories } from "../../services/requestServices";
 import { useDebounce } from "../../hooks/useDebounce";
 
 const genderOptions = [
@@ -220,32 +217,32 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
-  const generateAnswerToRequest = async () => {
-    try {
-      const requestBody = {
-        category: formData.category,
-        subject: formData.subject,
-        description: formData.description,
-      };
-      const response = await generateAnswer(requestBody);
-      debugger;
-      alert(`${JSON.stringify(data, null, 2)}`);
-    } catch (error) {
-      console.log("Error making Gen API Request:", error);
-    }
-  };
+  // const generateAnswerToRequest = async () => {
+  //   try {
+  //     const requestBody = {
+  //       category: formData.category,
+  //       subject: formData.subject,
+  //       description: formData.description,
+  //     };
+  //     const response = await generateAnswer(requestBody);
+  //     debugger;
+  //     alert(`${JSON.stringify(data, null, 2)}`);
+  //   } catch (error) {
+  //     console.log("Error making Gen API Request:", error);
+  //   }
+  // };
 
-  const debouncedFormData = useDebounce(formData, 500);
-  useEffect(() => {
-    if (
-      debouncedFormData.category &&
-      debouncedFormData.subject &&
-      debouncedFormData.description &&
-      debouncedFormData.description.endsWith("?")
-    ) {
-      generateAnswerToRequest();
-    }
-  }, [debouncedFormData]);
+  // const debouncedFormData = useDebounce(formData, 1000);
+  // useEffect(() => {
+  //   if (
+  //     debouncedFormData.category &&
+  //     debouncedFormData.subject &&
+  //     debouncedFormData.description &&
+  //     debouncedFormData.description.endsWith("?")
+  //   ) {
+  //     generateAnswerToRequest();
+  //   }
+  // }, [debouncedFormData]);
 
   if (isLoading) return <div>Loading...</div>;
 

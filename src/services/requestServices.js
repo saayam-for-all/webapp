@@ -24,10 +24,10 @@ export const predictCategories = async (request) => {
   );
   return response.data;
 };
-export const generateAnswer = async (request) => {
-  const response = await api.post(
-    endpoints.GENERATE_ANSWER,
-    JSON.stringify(request),
-  );
-  return response.data;
-};
+// export const generateAnswer = async (request) => {
+//   const response = await api.post(
+//     endpoints.GENERATE_ANSWER,
+//     request,
+//   );
+//   return response.data;
+// };
