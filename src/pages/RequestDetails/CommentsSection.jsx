@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IoIosArrowUp } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
-import { commentsData } from "./commentsDummyData";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import Comments from "./Comments";
+import { commentsData } from "./commentsDummyData";
 
 /* // Get the current system date
   const systemDate = new Date();
@@ -85,7 +84,7 @@ const CommentsSection = () => {
           disabled={currentPage === 1}
           className={`px-3 py-1 rounded ${
             currentPage === 1
-              ? "bg-blue-500 hover:bg-blue-600 text-white"
+              ? "invisible"
               : "bg-gray-200 hover:bg-gray-300 text-black"
           }`}
         >
@@ -111,7 +110,7 @@ const CommentsSection = () => {
           disabled={currentPage === totalPages}
           className={`px-3 py-1 rounded ${
             currentPage === totalPages
-              ? "bg-blue-500 hover:bg-blue-600 text-white"
+              ? "invisible"
               : "bg-gray-200 hover:bg-gray-300 text-black"
           }`}
         >
@@ -130,11 +129,12 @@ const CommentsSection = () => {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-8" onClick={handleToggle}>
       <div className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-gray-200">
         <div
           className="flex items-center space-x-2"
           style={{ flexBasis: "50%" }}
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Comment Input Field */}
           <input
@@ -142,8 +142,7 @@ const CommentsSection = () => {
             value={comment}
             onChange={handleCommentChange}
             placeholder="Write a comment....."
-            className="flex-1 px-4 py-2 bg-gray-100 rounded-full outline-none border-none text-gray-600 placeholder-gray-400 text-sm"
-            style={{ borderRadius: "5px" }}
+            className="flex-1 px-4 py-2 bg-gray-100 outline-none border-2 border-white text-gray-600 placeholder-gray-400 text-sm rounded focus:border-black focus:outline-none"
           />
 
           {/* Send Button */}
@@ -174,7 +173,7 @@ const CommentsSection = () => {
         </button>
       </div>
       {isOpen && (
-        <div>
+        <div onClick={(e) => e.stopPropagation()}>
           <div className="mt-4 bg-gray-100 p-6 shadow-md w-full rounded-lg">
             <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
               <input
@@ -182,7 +181,7 @@ const CommentsSection = () => {
                 value={searchText}
                 onChange={handleSearchChange}
                 placeholder="Search..."
-                className="px-4 py-2 bg-gray-100 outline-none border-none text-sm rounded-md w-1/3"
+                className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-1/3 focus:border-black focus:outline-none"
               />
 
               <button

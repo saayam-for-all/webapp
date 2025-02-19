@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const HelpingVolunteers = () => {
@@ -398,7 +398,9 @@ const HelpingVolunteers = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
-                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    className={`bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 ${
+                      currentPage === 1 ? "invisible" : ""
+                    }`}
                     onClick={() =>
                       setCurrentPage((prev) => Math.max(prev - 1, 1))
                     }
@@ -411,7 +413,9 @@ const HelpingVolunteers = () => {
                   {paginationButtons}
 
                   <button
-                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    className={`bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 ${
+                      currentPage === totalPages ? "invisible" : ""
+                    }`}
                     onClick={() =>
                       setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                     }
