@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
-import { PiWarningDiamondFill } from "react-icons/pi";
-import { VscCalendar } from "react-icons/vsc";
-import { TbTriangleSquareCircle } from "react-icons/tb";
-import { IoPersonCircle } from "react-icons/io5";
-import { RiUserStarLine } from "react-icons/ri";
-import { IoIosArrowUp } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
-import { FaPhone } from "react-icons/fa6";
-import { FaVideo } from "react-icons/fa";
-import HelpRequestForm from "../HelpRequest/HelpRequestForm";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useParams } from "react-router-dom";
-import { getMyRequests } from "../../services/requestServices";
+import { useTranslation } from "react-i18next";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoPersonCircle } from "react-icons/io5";
+import { PiWarningDiamondFill } from "react-icons/pi";
+import { RiUserStarLine } from "react-icons/ri";
+import { TbTriangleSquareCircle } from "react-icons/tb";
+import { VscCalendar } from "react-icons/vsc";
+import { useSelector } from "react-redux";
+import HelpRequestForm from "../HelpRequest/HelpRequestForm";
+import "./RequestDescription.css";
 
 const attributes = [
   {
@@ -46,17 +42,14 @@ const attributes = [
   },
 ];
 
-const RequestDescription = () => {
+const RequestDescription = ({ requestData }) => {
   const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
-  const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  // const { data, error, isLoading } = useGetAllRequestQuery();
-  // if (isLoading) return <div>Loading...</div>;
-  const [requestData, setRequestData] = useState({});
-  attributes[0].context = requestData?.creationDate;
-  attributes[1].context = requestData?.category;
+
+  // attributes[0].context = requestData?.creationDate;
+  // attributes[1].context = requestData?.category;
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -71,20 +64,6 @@ const RequestDescription = () => {
     setIsEditing(false);
   };
 
-  const getAllRequests = async () => {
-    try {
-      let requestApi = getMyRequests;
-      const response = await requestApi();
-      setRequestData(data.body?.find((item) => item.id === id));
-    } catch (error) {
-      console.error("Error fetching skills:", error);
-    }
-  };
-
-  useEffect(() => {
-    getAllRequests;
-  });
-
   useEffect(() => {
     if (isEditing) {
       document.body.style.overflow = "hidden"; // Prevent background scrolling
@@ -96,6 +75,7 @@ const RequestDescription = () => {
       document.body.style.overflow = "unset";
     };
   }, [isEditing]);
+
   return (
     <>
       {isEditing &&
@@ -105,8 +85,9 @@ const RequestDescription = () => {
             onClick={handleOverlayClick}
           >
             <div
-              className="overflow-y-auto max-h-[100vh]"
+              className="overflow-auto max-h-[100vh]"
               onClick={(e) => e.stopPropagation()}
+              id="request-description-popup"
             >
               <HelpRequestForm
                 isEdit={true}
@@ -130,22 +111,20 @@ const RequestDescription = () => {
           </button>
           <div className="flex flex-row justify-between md:items-center">
             {/* <div className="flex items-center md:gap-2 lg:gap-4"> */}
-            <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 uppercase">
-              #{id} {requestData.subject}
-            </h2>
-          </div>
-          <div className="flex gap-4">
-            <span className="bg-blue-200 text-black-800 text-xs md:text-sm px-3 py-1 rounded-full ">
-              #{id}
-            </span>
-            <span className="bg-green-200 text-black-800 text-xs md:text-sm px-3 py-1 rounded-full ">
-              {requestData.status}
-            </span>
+            <div className="flex flex-row gap-5">
+              <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 uppercase">
+                {requestData.subject}
+              </h2>
+              <span className="bg-green-200 text-black-800 text-xs md:text-sm px-3 py-1 rounded-full items-center flex">
+                {requestData.status}
+              </span>
+            </div>
             <div className="flex items-center">
               <PiWarningDiamondFill className="mr-1 text-red-500" />
-              <span className="text-sm font-bold">{requestData.priority}</span>
+              <span className="text-md font-bold">{requestData.priority}</span>
             </div>
           </div>
+
           <ul className="flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 sm:items-center justify-between">
             {attributes.map((header, index) => (
               <li
@@ -157,12 +136,6 @@ const RequestDescription = () => {
                 <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   {header.type}
                 </div>
-                {header.phoneIcon && (
-                  <FaPhone className="cursor-pointer" size={15} />
-                )}
-                {header.videoIcon && (
-                  <FaVideo className="cursor-pointer" size={17} />
-                )}
               </li>
             ))}
             <li className="flex items-center gap-1 ml-auto">

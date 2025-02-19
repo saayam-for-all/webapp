@@ -355,6 +355,7 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkState={(request) => request}
               />
             )}
           </div>

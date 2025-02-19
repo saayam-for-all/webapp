@@ -14,6 +14,7 @@ const Table = ({
   requestSort,
   onRowsPerPageChange,
   getLinkPath,
+  getLinkState = undefined,
 }) => {
   const navigate = useNavigate();
   const paginatedRequests = useMemo(() => {
@@ -76,6 +77,7 @@ const Table = ({
                     <Link
                       to={getLinkPath(request, header)}
                       className="text-indigo-600 hover:text-indigo-900"
+                      state={getLinkState ? getLinkState(request) : {}}
                     >
                       {request[header]}
                     </Link>
