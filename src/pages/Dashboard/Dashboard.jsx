@@ -221,12 +221,12 @@ const Dashboard = ({ userRole }) => {
     <div className="p-5">
       <div className="flex gap-10 mb-5">
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-          <Link to="/request" className="text-white">
+          <Link to="/request" className="text-white ">
             {t("CREATE_HELP_REQUEST")}
           </Link>
         </button>
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-          <Link to="/promote-to-volunteer" className="text-white">
+          <Link to="/promote-to-volunteer" className="text-white ">
             {t("BECOME_VOLUNTEER")}
           </Link>
         </button>
@@ -246,7 +246,7 @@ const Dashboard = ({ userRole }) => {
               className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
                 activeTab === tab
                   ? "bg-white border-gray-300"
-                  : "bg-gray-300 border-transparent"
+                  : "bg-gray-300 border-transparent hover:bg-gray-200"
               } ${tab !== "managedRequests" ? "mr-1" : ""}`}
               onClick={() => handleTabChange(tab)}
             >
@@ -341,7 +341,7 @@ const Dashboard = ({ userRole }) => {
         </div>
 
         {activeTab && (
-          <div className="requests-section overflow-auto table-height-fix">
+          <div className="requests-section overflow-hidden table-height-fix">
             {!isLoading && (
               <Table
                 headers={headers}

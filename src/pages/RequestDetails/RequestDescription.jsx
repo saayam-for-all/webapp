@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
+import { FaPhoneAlt, FaVideo } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { IoPersonCircle } from "react-icons/io5";
 import { PiWarningDiamondFill } from "react-icons/pi";
@@ -136,6 +137,12 @@ const RequestDescription = ({ requestData }) => {
                 <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   {header.type}
                 </div>
+                {header.phoneIcon && (
+                  <FaPhoneAlt className="cursor-pointer" size={15} />
+                )}
+                {header.videoIcon && (
+                  <FaVideo className="cursor-pointer" size={17} />
+                )}
               </li>
             ))}
             <li className="flex items-center gap-1 ml-auto">

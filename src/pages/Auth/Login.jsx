@@ -1,13 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
-import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { FaFacebookF } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import { signIn } from "aws-amplify/auth";
-import { checkAuthStatus } from "../../redux/features/authentication/authActions";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { checkAuthStatus } from "../../redux/features/authentication/authActions";
+import "./Login.css";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Please enter your email"),
@@ -83,7 +82,7 @@ const LoginPage = () => {
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
-                ? "border-2 border-blue-700"
+                ? "border-2 border-black -m-px"
                 : " border border-gray-300"
             }`}
           >
@@ -97,6 +96,11 @@ const LoginPage = () => {
               onBlur={() => setPasswordFocus(false)}
               className="mr-auto w-full outline-none"
               required={true}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSignIn();
+                }
+              }}
             />
             <button onClick={() => setPasswordVisible(!passwordVisible)}>
               {passwordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
