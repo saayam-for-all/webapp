@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { maskEmail } from "../../utils/utils";
 
 function OTPVerification() {
@@ -91,7 +91,7 @@ function OTPVerification() {
             type="submit"
             className={`w-full py-2 mt-4 text-white font-semibold rounded-md ${
               isSubmitting
-                ? "bg-gray-400 cursor-not-allowed"
+                ? "bg-gray-400 cursor-not-allowed hover:bg-gray-400"
                 : "bg-blue-500 hover:bg-blue-600"
             }`}
             disabled={isSubmitting}

@@ -48,6 +48,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { id } = useParams();
 
   const inputref = useRef(null);
+  const dropdownRef = useRef(null);
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -383,11 +384,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 onChange={handleSearchInput}
                 className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
                 onFocus={() => setShowDropdown(true)}
+                onBlur={(e) => {
+                  if (!dropdownRef.current?.contains(e.relatedTarget)) {
+                    setShowDropdown(false);
+                  }
+                }}
               />
               {showDropdown && (
                 <div
                   className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
                   style={{ maxHeight: "200px" }}
+                  ref={dropdownRef}
+                  tabIndex={0}
                 >
                   {filteredCategories.map((category) => (
                     <div
