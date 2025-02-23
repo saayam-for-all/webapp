@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 // import { requestsData } from "./data";
-import { MdArrowForwardIos } from "react-icons/md";
-import { IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import { IoSearchOutline } from "react-icons/io5";
+import { MdArrowForwardIos } from "react-icons/md";
 // import { useGetAllRequestQuery } from "../../services/requestApi";
 import {
+  getManagedRequests,
   getMyRequests,
   getOthersRequests,
-  getManagedRequests,
 } from "../../services/requestServices";
 import "./Dashboard.css";
 
@@ -221,12 +221,12 @@ const Dashboard = ({ userRole }) => {
     <div className="p-5">
       <div className="flex gap-10 mb-5">
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-          <Link to="/request" className="text-white">
+          <Link to="/request" className="text-white ">
             {t("CREATE_HELP_REQUEST")}
           </Link>
         </button>
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-          <Link to="/promote-to-volunteer" className="text-white">
+          <Link to="/promote-to-volunteer" className="text-white ">
             {t("BECOME_VOLUNTEER")}
           </Link>
         </button>
@@ -240,13 +240,13 @@ const Dashboard = ({ userRole }) => {
 
       <div className="border">
         <div className="flex mb-5">
-          {["myRequests", "othersRequests", "managedRequests"].map((tab) => (
+          {["myRequests", "managedRequests"].map((tab) => (
             <button
               key={tab}
               className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
                 activeTab === tab
                   ? "bg-white border-gray-300"
-                  : "bg-gray-300 border-transparent"
+                  : "bg-gray-300 border-transparent hover:bg-gray-200"
               } ${tab !== "managedRequests" ? "mr-1" : ""}`}
               onClick={() => handleTabChange(tab)}
             >
@@ -341,7 +341,7 @@ const Dashboard = ({ userRole }) => {
         </div>
 
         {activeTab && (
-          <div className="requests-section overflow-auto table-height-fix">
+          <div className="requests-section overflow-hidden table-height-fix">
             {!isLoading && (
               <Table
                 headers={headers}
@@ -355,6 +355,7 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkState={(request) => request}
               />
             )}
           </div>
