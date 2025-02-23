@@ -34,8 +34,8 @@ const PromoteToVolunteer = () => {
     const fetchUserId = async () => {
       try {
         const user = await getCurrentUser(); // Fetch user once
-        // setUserId(user.userId);
-        setUserId("SID-00-000-000-086"); // remove this line.. added to test with aws api
+        setUserId(user.userId);
+        // setUserId("SID-00-000-000-086"); // remove this line.. added to test with aws api
       } catch (error) {
         console.error("Error fetching user ID:", error);
       }
