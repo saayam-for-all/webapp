@@ -1,24 +1,18 @@
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { StandaloneSearchBox } from "@react-google-maps/api";
+import React, { useEffect, useRef, useState } from "react"; //added for testing
 import { useTranslation } from "react-i18next";
-import { loadCategories } from "../../redux/features/help_request/requestActions";
-import JobsCategory from "./Categories/JobCategory";
-import HousingCategory from "./Categories/HousingCategory";
 import { IoMdInformationCircle } from "react-icons/io";
-import usePlacesSearchBox from "./location/usePlacesSearchBox";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  StandaloneSearchBox,
-} from "@react-google-maps/api";
-import axios from "axios";
-import React from "react"; //added for testing
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
+import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
-  useGetAllRequestQuery,
   useAddRequestMutation,
+  useGetAllRequestQuery,
 } from "../../services/requestApi";
+import HousingCategory from "./Categories/HousingCategory";
+import JobsCategory from "./Categories/JobCategory";
+import usePlacesSearchBox from "./location/usePlacesSearchBox";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -40,7 +34,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
 
-  const [selfFlag, setSelfFlag] = useState(true);
   const [languages, setLanguages] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState("General");
@@ -52,10 +45,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const { data, error, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
-  if (isLoading) return <div>Loading...</div>;
   const { id } = useParams();
 
   const inputref = useRef(null);
+  const dropdownRef = useRef(null);
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -211,10 +204,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setHoveredCategory(null);
   };
 
-  const handleForSelfFlag = (e) => {
-    setSelfFlag(e.target.value === "yes");
-  };
+  const [selfFlag, setSelfFlag] = useState(true);
 
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
@@ -245,13 +237,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               id="self"
               data-testid="dropdown"
               className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
-              onChange={handleForSelfFlag}
+              onChange={(e) => setSelfFlag(e.target.value === "yes")}
+              disabled
             >
               <option value="yes">{t("YES")}</option>
-              <option value="no">{t("NO")}</option>
             </select>
           </div>
-
+          {/* 
+          Temporarily commented out as MVP only allows for self requests
           {!selfFlag && (
             <div className="mt-3" data-testid="parentDivTwo">
               <div className="grid grid-cols-2 gap-4">
@@ -286,7 +279,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   />
                 </div>
               </div>
-
               <div className="mt-3" data-testid="parentDivThree">
                 <label
                   htmlFor="email"
@@ -376,7 +368,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="relative">
               <label
@@ -392,11 +384,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 onChange={handleSearchInput}
                 className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
                 onFocus={() => setShowDropdown(true)}
+                onBlur={(e) => {
+                  if (!dropdownRef.current?.contains(e.relatedTarget)) {
+                    setShowDropdown(false);
+                  }
+                }}
               />
               {showDropdown && (
                 <div
                   className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
                   style={{ maxHeight: "200px" }}
+                  ref={dropdownRef}
+                  tabIndex={0}
                 >
                   {filteredCategories.map((category) => (
                     <div

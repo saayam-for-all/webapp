@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { FaFacebookF } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import CountryList from "react-select-country-list";
+// import { FaFacebookF } from "react-icons/fa";
+// import { FcGoogle } from "react-icons/fc";
 import { signUp } from "aws-amplify/auth";
+import CountryList from "react-select-country-list";
+import { z } from "zod";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
-import { z } from "zod";
+import "./Login.css";
 
 const signUpSchema = z.object({
   firstName: z
@@ -54,6 +55,8 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
+  const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
+
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const [errors, setErrors] = useState({});
@@ -238,7 +241,7 @@ const SignUp = () => {
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
-                ? "border-2 border-blue-700"
+                ? "border-2 border-black -m-px"
                 : " border border-gray-300"
             }`}
           >
@@ -291,14 +294,20 @@ const SignUp = () => {
         <div className="my-2 flex flex-col">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <div
-            className={`flex flex-row px-4 py-2 rounded-xl border border-gray-300 focus:border-black`}
+            className={`flex flex-row px-4 py-2 rounded-xl ${
+              confirmPasswordFocus
+                ? "border-2 border-black -m-px"
+                : " border border-gray-300"
+            }`}
           >
             <input
-              id="confirmPassword"
+              id="password"
               placeholder="Confirm Password"
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
               onChange={(e) => setConfirmPasswordValue(e.target.value)}
+              onFocus={() => setConfirmPasswordFocus(true)}
+              onBlur={() => setConfirmPasswordFocus(false)}
               className="mr-auto w-full outline-none"
             />
             <button
@@ -319,7 +328,9 @@ const SignUp = () => {
           Sign up
         </button>
 
-        <div className="flex items-center my-4">
+        {/* Uncomment this snippet when the singup functionality is fully developed  */}
+
+        {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">Or With</span>
           <div className="flex-grow border-t border-gray-300"></div>
@@ -335,7 +346,7 @@ const SignUp = () => {
             <FcGoogle className="mx-2 text-xl" />
             <span>Google</span>
           </button>
-        </div>
+        </div> */}
 
         <div className="mt-16 flex flex-row justify-center">
           <p>Already have an account?</p>

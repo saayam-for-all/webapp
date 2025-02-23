@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"; //added for testing
 import { useImmer } from "use-immer";
+import { getVolunteerSkills } from "../../services/volunteerServices";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
+import Availability from "./steps/Availability";
+import Complete from "./steps/Complete";
 import Skills from "./steps/Skills";
 import TermsConditions from "./steps/TermsConditions";
-import Complete from "./steps/Complete";
 import VolunteerCourse from "./steps/VolunteerCourse";
-import Availability from "./steps/Availability";
-import { getVolunteerSkills } from "../../services/volunteerServices";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
