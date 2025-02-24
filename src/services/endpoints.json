@@ -4,7 +4,7 @@
   "GET_MANAGED_REQUESTS": "requests/v0.0.1/get-requests",
   "GET_VOLUNTEER_ORGS_LIST": "volunteer-orgs/v0.0.1/organizations-list",
   "GET_VOLUNTEER_SKILLS": "volunteers/v0.0.1/skills",
-  "GET_COMMENTS": "requests/v0.0.1/getComments",
+  "GET_REQUEST_COMMENTS": "requests/v0.0.1/getComments",
   "CREATE_VOLUNTEER": "volunteers/v0.0.1/createNewVolunteer",
   "UPDATE_VOLUNTEER": "volunteers/v0.0.1/updateVolunteer"
 }
