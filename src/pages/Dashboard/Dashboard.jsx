@@ -221,12 +221,20 @@ const Dashboard = ({ userRole }) => {
     <div className="p-5">
       <div className="flex gap-10 mb-5">
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-          <Link to="/request" className="text-white ">
+          <Link
+            to="/request"
+            className="text-white "
+            style={{ color: "white" }}
+          >
             {t("CREATE_HELP_REQUEST")}
           </Link>
         </button>
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-          <Link to="/promote-to-volunteer" className="text-white ">
+          <Link
+            to="/promote-to-volunteer"
+            className="text-white "
+            style={{ color: "white" }}
+          >
             {t("BECOME_VOLUNTEER")}
           </Link>
         </button>
