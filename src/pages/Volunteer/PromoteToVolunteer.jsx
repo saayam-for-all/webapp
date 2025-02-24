@@ -216,6 +216,7 @@ const PromoteToVolunteer = () => {
           const result = await saveVolunteerData();
           if (!result || !result.data || result.data.statusCode !== 200) {
             console.error("Save failed. Step not increased.");
+            setErrorMessage("Save Failed.");
             return;
           }
           newStep++;
