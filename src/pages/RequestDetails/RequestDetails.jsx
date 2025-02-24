@@ -13,7 +13,7 @@ const RequestDetails = () => {
   const location = useLocation();
   const { id } = useParams();
   const [requestData, setRequestData] = useState(undefined);
-  const [comments, setComments] = useState(undefined);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     if (location["state"]) {
@@ -34,7 +34,7 @@ const RequestDetails = () => {
 
   return (
     <div className="m-8 grid grid-cols-13 gap-4">
-      {!requestData || !comments ? (
+      {!requestData ? (
         <div>Loading...</div>
       ) : (
         <div className="col-span-7">
