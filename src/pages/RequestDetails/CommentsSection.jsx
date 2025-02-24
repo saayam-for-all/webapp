@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import Comments from "./Comments";
-import { commentsData } from "./commentsDummyData";
 
 /* // Get the current system date
   const systemDate = new Date();
@@ -16,7 +15,7 @@ import { commentsData } from "./commentsDummyData";
   });
   */
 
-const CommentsSection = () => {
+const CommentsSection = ({ comments }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -41,7 +40,7 @@ const CommentsSection = () => {
   const handleSortChange = () =>
     setSortOrder((prev) => (prev === "newest" ? "oldest" : "newest"));
 
-  const filteredComments = commentsData
+  const filteredComments = comments
     .filter(
       (c) =>
         c.name.toLowerCase().includes(searchText.toLowerCase()) ||

@@ -6,13 +6,14 @@ import RequestDescription from "./RequestDescription";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import RequestButton from "../../common/components/RequestButton/RequestButton";
-import { getMyRequests } from "../../services/requestServices";
+import { getComments, getMyRequests } from "../../services/requestServices";
 import HelpingVolunteers from "./HelpingVolunteers";
 const RequestDetails = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const { id } = useParams();
   const [requestData, setRequestData] = useState(undefined);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     if (location["state"]) {
@@ -24,16 +25,21 @@ const RequestDetails = () => {
         })
         .catch((err) => {});
     }
+    getComments()
+      .then((res) => {
+        setComments(res["body"]);
+      })
+      .catch((err) => {});
   }, []);
 
   return (
     <div className="m-8 grid grid-cols-13 gap-4">
-      {requestData == undefined ? (
+      {!requestData ? (
         <div>Loading...</div>
       ) : (
         <div className="col-span-7">
           <RequestDescription requestData={requestData} />
-          <CommentsSection />
+          <CommentsSection comments={comments} />
 
           <div className="mt-6 grid grid-cols-3 gap-4 w-full p-6 bg-white rounded-md shadow-md border border-gray-100">
             <RequestButton
