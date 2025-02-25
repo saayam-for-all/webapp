@@ -177,10 +177,10 @@ const HelpingVolunteers = () => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full border border-gray-300 rounded-md">
       {/* Header section */}
       <div
-        className="w-full h-16 p-6 bg-white flex items-center justify-between rounded-md shadow-md cursor-pointer"
+        className="w-full h-16 p-6 bg-white flex items-center justify-between rounded-md cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="font-medium text-gray-700">
@@ -208,7 +208,7 @@ const HelpingVolunteers = () => {
 
       {/* Dropdown content with gray background */}
       {isOpen && (
-        <div className="bg-gray-100 shadow-md p-1 space-y-4">
+        <div className="bg-gray-100 shadow-md p-1 space-y-4 rounded-b-md">
           <div className="flex items-center space-x-4 p-4 mt-2">
             <input
               type="text"
