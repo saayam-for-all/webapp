@@ -15,12 +15,15 @@ const signUpSchema = z.object({
     .string()
     .min(1, "First name is required")
     .max(50)
-    .regex(/^[a-zA-Z]+$/, "First name must contain only alphabets and spaces"),
+    .regex(
+      /^[a-zA-Z\s]+$/,
+      "First name must contain only alphabets and spaces",
+    ),
   lastName: z
     .string()
     .min(1, "Last name is required")
     .max(50)
-    .regex(/^[a-zA-Z]+$/, "Last name must contain only alphabets and spaces"),
+    .regex(/^[a-zA-Z\s]+$/, "Last name must contain only alphabets and spaces"),
   email: z
     .string()
     .max(50)
