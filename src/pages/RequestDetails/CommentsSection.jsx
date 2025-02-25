@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import Comments from "./Comments";
@@ -142,7 +142,7 @@ const CommentsSection = ({ comments }) => {
   };
 
   return (
-    <div className="mt-8" onClick={handleToggle}>
+    <div className="" onClick={handleToggle}>
       <div className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-gray-200">
         <div
           className="flex items-center space-x-2"
