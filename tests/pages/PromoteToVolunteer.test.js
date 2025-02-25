@@ -3,7 +3,22 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import PromoteToVolunteer from "../../src/pages/Volunteer/PromoteToVolunteer";
 import Stepper from "../../src/pages/Volunteer/Stepper";
-// import { getVolunteerSkills } from "../../../src/services/volunteerServices";
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "../../src/redux/features/authentication/authSlice";
+
+const renderWithRedux = (component) => {
+  const store = configureStore({
+    reducer: {
+      auth: authReducer, // Mock auth reducer
+    },
+    preloadedState: {
+      auth: { idToken: "mockToken" }, // Mock initial state
+    },
+  });
+
+  return render(<Provider store={store}>{component}</Provider>);
+};
 
 jest.mock("../../src/services/volunteerServices", () => ({
   getVolunteerSkills: jest.fn(() =>
@@ -13,13 +28,13 @@ jest.mock("../../src/services/volunteerServices", () => ({
 
 describe("PromoteToVolunteer Component", () => {
   test("renders Terms & Conditions on step 1", () => {
-    render(<PromoteToVolunteer />);
+    renderWithRedux(<PromoteToVolunteer />);
 
     expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
   });
 
   test("renders Volunteer Course on step 2", () => {
-    render(<PromoteToVolunteer />);
+    renderWithRedux(<PromoteToVolunteer />);
 
     const nextButton = screen.getByText("Next");
     fireEvent.click(nextButton);
@@ -28,7 +43,7 @@ describe("PromoteToVolunteer Component", () => {
   });
 
   test("renders Skills on step 3", () => {
-    render(<PromoteToVolunteer />);
+    renderWithRedux(<PromoteToVolunteer />);
 
     const nextButton = screen.getByText("Next");
     fireEvent.click(nextButton);
@@ -38,7 +53,7 @@ describe("PromoteToVolunteer Component", () => {
   });
 
   test("renders Availability on step 4", () => {
-    render(<PromoteToVolunteer />);
+    renderWithRedux(<PromoteToVolunteer />);
 
     const nextButton = screen.getByText("Next");
     fireEvent.click(nextButton);

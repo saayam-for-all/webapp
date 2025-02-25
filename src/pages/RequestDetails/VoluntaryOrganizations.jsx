@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import Table from "../../common/components/DataTable/Table";
 import { getVolunteerOrgsList } from "../../services/volunteerServices";
 import { useTranslation } from "react-i18next";
-import { voluntaryOrganizationsData } from "./dummyData";
 
 const VoluntaryOrganizations = () => {
   const { t } = useTranslation();
@@ -17,10 +16,26 @@ const VoluntaryOrganizations = () => {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
 
   const headers = ["id", "name", "location", "causes", "size", "rating"];
-  // const [organizations, setOrganizations] = useState({});
-  const organizations = voluntaryOrganizationsData;
+  const [organizations, setOrganizations] = useState([]);
+  // const organizations = voluntaryOrganizationsData;
+
+  const getVoluntaryOrganizations = async () => {
+    try {
+      const response = await getVolunteerOrgsList();
+      setOrganizations(response?.body);
+    } catch (error) {
+      console.error("Error fetching volunteer organizations:", error);
+    }
+  };
+
+  useEffect(() => {
+    getVoluntaryOrganizations();
+  }, []);
 
   const sortedOrganizations = (organizations) => {
+    if (!organizations || organizations.length === 0) {
+      return [];
+    }
     let sortableOrganizations = [...organizations];
     if (sortConfig !== null) {
       sortableOrganizations.sort((a, b) => {
@@ -144,18 +159,6 @@ const VoluntaryOrganizations = () => {
       setCategoryFilter(allCategories);
     }
   }, []);
-
-  const getVoluntaryOrganizations = async () => {
-    try {
-      const response = await getVolunteerOrgsList();
-      setOrganizations(response?.body);
-    } catch (error) {
-      console.error("Error fetching volunteer organizations:", error);
-    }
-  };
-  // useEffect(() => {
-  //   getVoluntaryOrganizations();
-  // });
 
   const handleFilterBlur = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget))
