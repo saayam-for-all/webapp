@@ -262,33 +262,35 @@ const SignUp = () => {
         </div>
 
         {/* Password validation */}
-        <div className="flex flex-col items-start">
-          <p
-            className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-          >
-            Password must contain at least 8 characters.
-          </p>
-          <p
-            className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-          >
-            Password must contain at least 1 number.
-          </p>
-          <p
-            className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-          >
-            Password must contain at least 1 special character.
-          </p>
-          <p
-            className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-          >
-            Password must contain at least 1 uppercase letter.
-          </p>
-          <p
-            className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-          >
-            Password must contain at least 1 lowercase letter.
-          </p>
-        </div>
+        {passwordFocus && (
+          <div className="flex flex-col items-start">
+            <p
+              className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 8 characters.
+            </p>
+            <p
+              className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 1 number.
+            </p>
+            <p
+              className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 1 special character.
+            </p>
+            <p
+              className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 1 uppercase letter.
+            </p>
+            <p
+              className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 1 lowercase letter.
+            </p>
+          </div>
+        )}
 
         {/* Confirm Password */}
         <div className="my-2 flex flex-col">
