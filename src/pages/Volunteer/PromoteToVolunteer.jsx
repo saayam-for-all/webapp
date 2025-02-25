@@ -212,13 +212,13 @@ const PromoteToVolunteer = () => {
 
       if (isValidStep) {
         try {
-          await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure all updates are made
-          const result = await saveVolunteerData();
-          if (!result || !result.data || result.data.statusCode !== 200) {
-            console.error("Save failed. Step not increased.");
-            setErrorMessage("Save Failed.");
-            return;
-          }
+          // await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure all updates are made
+          // const result = await saveVolunteerData();
+          // if (!result || !result.data || result.data.statusCode !== 200) {
+          //   console.error("Save failed. Step not increased.");
+          //   setErrorMessage("Save Failed.");
+          //   return;
+          // }
           newStep++;
         } catch (error) {
           console.error("Error in handleClick:", error);
