@@ -21,6 +21,18 @@ const RequestDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
+    if (isEditing) {
+      document.body.style.overflow = "hidden"; // Prevent background scrolling
+    } else {
+      document.body.style.overflow = "unset"; // Restore background scrolling
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isEditing]);
+
+  useEffect(() => {
     if (location["state"]) {
       setRequestData(location["state"]);
     } else {

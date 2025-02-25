@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import Comments from "./Comments";
 
 /* // Get the current system date
@@ -17,7 +16,6 @@ import Comments from "./Comments";
 
 const CommentsSection = ({ comments }) => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -37,10 +35,6 @@ const CommentsSection = ({ comments }) => {
   useEffect(() => {
     getComments();
   }, []);
-
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -142,7 +136,7 @@ const CommentsSection = ({ comments }) => {
   };
 
   return (
-    <div className="" onClick={handleToggle}>
+    <div>
       <div className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-gray-200">
         <div
           className="flex items-center space-x-2"
@@ -175,51 +169,40 @@ const CommentsSection = ({ comments }) => {
             </svg>
           </button>
         </div>
-
-        {/* Toggle Arrow */}
-        <button onClick={handleToggle} className="ml-2">
-          {isOpen ? (
-            <IoIosArrowUp size={30} className="text-gray-600" />
-          ) : (
-            <IoIosArrowDown size={30} className="text-gray-600" />
-          )}
-        </button>
       </div>
-      {isOpen && (
-        <div onClick={(e) => e.stopPropagation()}>
-          <div className="mt-4 bg-gray-100 p-6 shadow-md w-full rounded-lg">
-            <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
-              <input
-                type="text"
-                value={searchText}
-                onChange={handleSearchChange}
-                placeholder="Search..."
-                className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-1/3 focus:border-black focus:outline-none"
-              />
+      <div onClick={(e) => e.stopPropagation()}>
+        <div className="mt-4 bg-gray-100 p-6 shadow-md w-full rounded-lg">
+          <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
+            <input
+              type="text"
+              value={searchText}
+              onChange={handleSearchChange}
+              placeholder="Search..."
+              className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-1/3 focus:border-black focus:outline-none"
+            />
 
-              <button
-                onClick={handleSortChange}
-                className="p-2 border border-gray-300 rounded-md"
-              >
-                {t("SORT_BY")}:{" "}
-                {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
-              </button>
-            </div>
-            {currentComments.map((comment) => {
-              const { message, name, date, id } = comment;
-              return (
-                <Comments
-                  key={comment.id}
-                  message={message}
-                  name={name}
-                  date={date}
-                />
-              );
-            })}
-            {renderPagination()}
+            <button
+              onClick={handleSortChange}
+              className="p-2 border border-gray-300 rounded-md"
+            >
+              {t("SORT_BY")}:{" "}
+              {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
+            </button>
           </div>
+          {currentComments.map((comment) => {
+            const { message, name, date, id } = comment;
+            return (
+              <Comments
+                key={comment.id}
+                message={message}
+                name={name}
+                date={date}
+              />
+            );
+          })}
+          {renderPagination()}
         </div>
-      )}
+      </div>
     </div>
   );
 };
