@@ -16,3 +16,7 @@ export function NavLink({ to, children, ...props }) {
 export function Outlet() {
   return <mock-outlet />;
 }
+
+export function useNavigate() {
+  return () => {};
+}

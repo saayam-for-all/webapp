@@ -6,22 +6,12 @@ exports[`Layout renders correctly 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="flex flex-col h-screen overflow-auto"
+        class="flex flex-col h-screen"
       >
         <header
-          class="flex sticky top-0 z-[10000]"
+          class="sticky z-10"
         >
-          <aside
-            class="flex-1"
-          />
-          <div
-            class="flex-[6]"
-          >
-            <mock-navbar />
-          </div>
-          <aside
-            class="flex-1"
-          />
+          <mock-navbar />
         </header>
         <div
           class="flex flex-1"
@@ -32,15 +22,11 @@ exports[`Layout renders correctly 1`] = `
             <mock-left-ads />
           </aside>
           <main
-            class="flex-[6]"
+            class="flex-[6] overflow-auto"
           >
-            <div
-              class=""
-            >
-              <mock-suspense>
-                <mock-outlet />
-              </mock-suspense>
-            </div>
+            <mock-suspense>
+              <mock-outlet />
+            </mock-suspense>
           </main>
           <aside
             class="right-ads-panel flex-1 "
@@ -58,22 +44,12 @@ exports[`Layout renders correctly 1`] = `
   </body>,
   "container": <div>
     <div
-      class="flex flex-col h-screen overflow-auto"
+      class="flex flex-col h-screen"
     >
       <header
-        class="flex sticky top-0 z-[10000]"
+        class="sticky z-10"
       >
-        <aside
-          class="flex-1"
-        />
-        <div
-          class="flex-[6]"
-        >
-          <mock-navbar />
-        </div>
-        <aside
-          class="flex-1"
-        />
+        <mock-navbar />
       </header>
       <div
         class="flex flex-1"
@@ -84,15 +60,11 @@ exports[`Layout renders correctly 1`] = `
           <mock-left-ads />
         </aside>
         <main
-          class="flex-[6]"
+          class="flex-[6] overflow-auto"
         >
-          <div
-            class=""
-          >
-            <mock-suspense>
-              <mock-outlet />
-            </mock-suspense>
-          </div>
+          <mock-suspense>
+            <mock-outlet />
+          </mock-suspense>
         </main>
         <aside
           class="right-ads-panel flex-1 "

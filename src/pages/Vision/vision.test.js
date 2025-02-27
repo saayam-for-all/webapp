@@ -1,9 +1,11 @@
 import { render } from "@testing-library/react";
-import NavBar from "./NavBar";
+import Vision from "./Vision";
 
-describe("NavBar", () => {
+//TODO: mock translation
+
+describe("Vision", () => {
   it("renders correctly", () => {
-    const tree = render(<NavBar />);
+    const tree = render(<Vision />);
     expect(tree).toMatchSnapshot();
   });
 });

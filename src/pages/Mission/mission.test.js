@@ -1,9 +1,11 @@
 import { render } from "@testing-library/react";
-import MissionVision from "./MissionVision";
+import Mission from "./Mission";
 
-describe("MissionVision", () => {
+//TODO: mock translation
+
+describe("Mission", () => {
   it("renders correctly", () => {
-    const tree = render(<MissionVision />);
+    const tree = render(<Mission />);
     expect(tree).toMatchSnapshot();
   });
 });

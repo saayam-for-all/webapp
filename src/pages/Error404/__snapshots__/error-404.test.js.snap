@@ -36,11 +36,8 @@ exports[`Error404 renders correctly 1`] = `
                     <h3
                       class="h2"
                     >
-                      Look like you're lost
+                      Look like you are lost the page you are looking for not available!
                     </h3>
-                    <p>
-                      the page you are looking for not avaible!
-                    </p>
                     <mock-link
                       props="{"className":"link_404"}"
                       to="/"
@@ -88,11 +85,8 @@ exports[`Error404 renders correctly 1`] = `
                   <h3
                     class="h2"
                   >
-                    Look like you're lost
+                    Look like you are lost the page you are looking for not available!
                   </h3>
-                  <p>
-                    the page you are looking for not avaible!
-                  </p>
                   <mock-link
                     props="{"className":"link_404"}"
                     to="/"

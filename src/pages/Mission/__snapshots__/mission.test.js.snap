@@ -1,22 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LandingPage renders correctly 1`] = `
+exports[`Mission renders correctly 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div>
-        <mock-images />
-        <mock-hero-setion />
-        <mock-info />
+      <div
+        class="px-20 mt-6"
+      >
+        <div>
+          <h1
+            class="text-2xl font-semibold text-center"
+          >
+            MISSION
+          </h1>
+          <div
+            class="flex"
+          >
+            <div>
+              <img
+                alt="mission"
+                class="w-[300rem] h-80 mt-5"
+                src="mission.png"
+              />
+            </div>
+            <p
+              class="mt-5 text-lg px-5"
+            >
+              EMPOWER_INDIVIDUALS
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </body>,
   "container": <div>
-    <div>
-      <mock-images />
-      <mock-hero-setion />
-      <mock-info />
+    <div
+      class="px-20 mt-6"
+    >
+      <div>
+        <h1
+          class="text-2xl font-semibold text-center"
+        >
+          MISSION
+        </h1>
+        <div
+          class="flex"
+        >
+          <div>
+            <img
+              alt="mission"
+              class="w-[300rem] h-80 mt-5"
+              src="mission.png"
+            />
+          </div>
+          <p
+            class="mt-5 text-lg px-5"
+          >
+            EMPOWER_INDIVIDUALS
+          </p>
+        </div>
+      </div>
     </div>
   </div>,
   "debug": [Function],
@@ -69,13 +113,6 @@ exports[`LandingPage renders correctly 1`] = `
   "queryByText": [Function],
   "queryByTitle": [Function],
   "rerender": [Function],
-  "store": {
-    "@@observable": [Function],
-    "dispatch": [Function],
-    "getState": [Function],
-    "replaceReducer": [Function],
-    "subscribe": [Function],
-  },
   "unmount": [Function],
 }
 `;

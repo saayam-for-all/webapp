@@ -9,7 +9,7 @@ exports[`Directors renders correctly 1`] = `
         <h1
           class="text-center text-3xl font-semibold"
         >
-          Directors
+          DIRECTORS
         </h1>
         <div
           class="directors flex items-center justify-center flex-wrap gap-10"
@@ -168,7 +168,7 @@ exports[`Directors renders correctly 1`] = `
       <h1
         class="text-center text-3xl font-semibold"
       >
-        Directors
+        DIRECTORS
       </h1>
       <div
         class="directors flex items-center justify-center flex-wrap gap-10"

@@ -6,6 +6,8 @@ jest.mock("react", () => ({
   Suspense: ({ children }) => <mock-suspense>{children}</mock-suspense>,
 }));
 
+// TODO: put these in a mock folder?
+
 // Mock all the custom components because they have their own snapshot tests
 jest.mock("../common/components/Loader/MainLoader", () => () => (
   <mock-main-loader />
