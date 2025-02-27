@@ -45,9 +45,9 @@ const DirectorsData = [
 const Directors = () => {
   const { t } = useTranslation();
   return (
-    <div>
+    <div className="mt-6 mb-6">
       <h1 className="text-center text-3xl font-semibold">{t("DIRECTORS")}</h1>
-      <div className="directors flex items-center justify-center flex-wrap gap-10">
+      <div className="directors flex items-center justify-center flex-wrap gap-10 pt-3">
         {DirectorsData.map((director, index) => (
           <div
             key={index}
