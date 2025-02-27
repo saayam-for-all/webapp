@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Info renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="px-40 text-lg"
+      >
+        <p>
+          At 
+          <strong>
+            Saayam
+          </strong>
+          , we believe in the power of helping hands reaching out to those facing challenges. Our platform connects individuals and communities worldwide, bridging the gap between those who need assistance and those who are willing to provide it.
+        </p>
+        <p
+          class="mt-5"
+        >
+          Our vision is of a world where everyone has access to the help they need to overcome obstacles and lead fulfilling lives. We aspire to be a global leader in humanitarian aid, leveraging technology and collaboration to create a seamless network of support that transcends barriers.
+        </p>
+        <p
+          class="mt-5"
+        >
+          Join us in our mission to make a difference. Whether you're looking to lend a helping hand or seeking assistance, Saayam is here for you. Together, let's create a more compassionate and equitable world for all.
+        </p>
+        <p
+          class="mt-5"
+        >
+          Experience the joy of assisting others – join Saayam today. Together, we can make a difference.
+        </p>
+        <p
+          class="mt-5"
+        >
+          Remember, at Saayam, our motto is simple: "Service to mankind is service to God," and "May all live happily." Join us in spreading kindness and compassion, one act of assistance at a time. Anybody from anywhere in the world can make a request for help on any type of social media platform/communication device.
+        </p>
+        <p
+          class="mt-5"
+        >
+          Stay updated on our progress and initiatives – keep checking back here for the latest updates. Together, we can build a better world for everyone.
+        </p>
+        <p
+          class="mt-5"
+        >
+          Saayam For All is a non profit organization with 501(c)(3) status. All donations to this organization are tax deductible. You can use this
+           
+          <a
+            class="text-blue-500 underline"
+            href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+            target="_blank"
+          >
+            PayPal link
+          </a>
+           
+          to donate money.
+        </p>
+        <p
+          class="my-5"
+        >
+          Read More
+           
+          <mock-link
+            props="{"className":"text-blue-500 underline"}"
+            to="how-we-operate"
+          >
+            How we Operate
+          </mock-link>
+          !
+        </p>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="px-40 text-lg"
+    >
+      <p>
+        At 
+        <strong>
+          Saayam
+        </strong>
+        , we believe in the power of helping hands reaching out to those facing challenges. Our platform connects individuals and communities worldwide, bridging the gap between those who need assistance and those who are willing to provide it.
+      </p>
+      <p
+        class="mt-5"
+      >
+        Our vision is of a world where everyone has access to the help they need to overcome obstacles and lead fulfilling lives. We aspire to be a global leader in humanitarian aid, leveraging technology and collaboration to create a seamless network of support that transcends barriers.
+      </p>
+      <p
+        class="mt-5"
+      >
+        Join us in our mission to make a difference. Whether you're looking to lend a helping hand or seeking assistance, Saayam is here for you. Together, let's create a more compassionate and equitable world for all.
+      </p>
+      <p
+        class="mt-5"
+      >
+        Experience the joy of assisting others – join Saayam today. Together, we can make a difference.
+      </p>
+      <p
+        class="mt-5"
+      >
+        Remember, at Saayam, our motto is simple: "Service to mankind is service to God," and "May all live happily." Join us in spreading kindness and compassion, one act of assistance at a time. Anybody from anywhere in the world can make a request for help on any type of social media platform/communication device.
+      </p>
+      <p
+        class="mt-5"
+      >
+        Stay updated on our progress and initiatives – keep checking back here for the latest updates. Together, we can build a better world for everyone.
+      </p>
+      <p
+        class="mt-5"
+      >
+        Saayam For All is a non profit organization with 501(c)(3) status. All donations to this organization are tax deductible. You can use this
+         
+        <a
+          class="text-blue-500 underline"
+          href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+          target="_blank"
+        >
+          PayPal link
+        </a>
+         
+        to donate money.
+      </p>
+      <p
+        class="my-5"
+      >
+        Read More
+         
+        <mock-link
+          props="{"className":"text-blue-500 underline"}"
+          to="how-we-operate"
+        >
+          How we Operate
+        </mock-link>
+        !
+      </p>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

@@ -1,0 +1,1982 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HowWeOperate renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="px-14 my-6"
+      >
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            1. New user registration
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                User opens the Saayam app either on his phone or on his laptop.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Main page contains some generic info about our org, Founder and board member details and contact info. It can be a simple static page with proper links from the top level menu bar.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Top level menu bar contains options - About, Team, Contact, Donate, Login/Register.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                New user would click on the Login/Register option.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We show various login options - userid/password and social media login options like Facebook, Google etc.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We also show a message saying that if you are NOT YET registered with us, please register yourself. Here, Register will be a link in the message.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                As part of registration, we will be collecting first name, last name, email address, phone number, contact address etc. from the user. Phone number and/or email are MUST HAVE fields.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Once a user submits this basic information, we will send a confirmation text or email to his phone or email id. Until the user verifies the registration, this user will be in “New” state.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Once the user confirms the registration, this user would be able to login into our system subsequently. This user state will be changed “Verified”.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                A verified user can submit requests for help for himself/herself or for somebody else. But this user cannot be assigned any requests until this user completes all the formalities of training.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Implementation would be based in on AWS Cognito. Once a user is verified, Cognito will invoke a Lambda function to register this user with our database.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            2. Registered user login
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                User clicks on the Login/Register option on our app.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We show a login screen to collect user credentials.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                When a user logs in, the content we show on the home page depends on the user’s state.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                The top menu bar now shows the picture of the logged in user if the user uploads his/her pic. If not, we can show a generic image. This is a clickable image that brings up a drop down with a few menu options:
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  First name and last name of the logged in user.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Settings - TBD This can include the upload option for his/her pic User should be able to edit his information that was originally submitted. If he changes his phone number or email id, then we need to verify that info again with MFA.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Logout to end his session.
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                If user is a
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Verified User: This user can see the status of the requests he/she made, make a new help request and also opt for becoming a volunteer. We can show the help requests this user has created for himself/herself in one table. In another table we show the requests he/she has created for others. Each row in these tables will have * Request ID: Each request will have a unique id that acts as a link to drill down into a page to show more details about this request. * Request Type * Subject: Brief details or subject of the request * Creation Date * Closed Date - if it is closed. * We also show a button to create a New Help request right below the main menu bar. * We also show an option to become a certified volunteer.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Certified Volunteer: This user has completed all formalities to become a volunteer. In addition to the above two tables that are shown for a Verified User, we will show another table that this volunteer is managing. For this volunteer we show only the Create Help Request option. No need to show Become a Volunteer button.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            3. Request for help
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Any logged in user can create a request for help either for himself/herself or for somebody else.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                User clicks on the Create Request button after login. System shows a form to enter request details.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We need to show a Warning in this page - If this is a life threatening matter, please contact local authorities. We cannot handle emergency matters.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We need to ask whether this request is for himself/herself. If this is for somebody else, we need to show a few additional fields to collect the first name, last name, address, phone number and email of the requestor. All these fields will be optional as some of the requestors may not have a phone or email. This information is for contacting the requestor directly if needed. This requestor is NOT a user of our system.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We may have to come up with some types of requests in a drop down. There will always be a Generic type option if the user cannot decide the right type.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                User enters brief details of the help needed in a Text Field. Though we start with the English language initially, based on logged in user’s profile, this language choice would change to his local/preferred language.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We can collect expected response time - hours/day etc. Based on this we can prioritize this request. Language preference if any
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                User submits the request.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                System should register this request and send back an acknowledgement to the requestor saying a volunteer would contact him/her asap.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Match the request with a volunteer
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Once request is received, our system matches a volunteer based on following criteria
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Request type and content - profile match.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Proximity - location match
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Language Match
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Pick a subset of matched volunteers and send notifications. If we have too many volunteers in that neighborhood, alerting all may not be a good option.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                If any volunteer from this list accepts the request, this case would be assigned to that volunteer. If no volunteer picks up the case, we may need to escalate the process by finding the next set of volunteers or fallback on a volunteer org or govt. Org eventually. Inform the requester about the volunteer info and create a separate workflow for this case.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We need to generate a One Time Password/Token (OTP) that will be informed to the requester and to the assigned volunteer.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                When the volunteer approaches/contacts the requestor, the requester needs to verify the volunteer with this OTP.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                After the initial conversation, the requestor needs to confirm that he/she will go ahead with this volunteer. If the requestor does NOT like this volunteer for any reason, requester can reject this volunteer by specifying his/her reasons. Then, we will repeat the matching process again.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Once a volunteer becomes the case owner, he/she will have the privilege to update this request and handle this case.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Finally the volunteer closes the case when the issue is resolved.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We need to collect the feedback from the requestor and also ask the requestor to rate this volunteer.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            4. Transitioning an user to a volunteer
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                A verified user needs to click on the button to become a volunteer. This is a multi step process.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Need to submit a proof - Driver license, passport, Aadhar card etc.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Need to go through a training session and pass that test.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Need to provide profile information. One volunteer can have multiple profiles. For e.g. an educator can also be a hiker or gardener. We need to collect profile specific questions, languages he/she can speak etc.
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                A local volunteer - who has completed this process earlier needs to talk to this person for manual screening and also verifying the document that was submitted earlier.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Once all these formalities are completed, this certifying volunteer will promote this user to a volunteer.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Our system needs to record who certified what user etc. for our records.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            5. Case Handling
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                A simple request can be handled by a single volunteer himself/herself. The mode of operation would be a phone call.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                If the requester agrees to meet the volunteer, then this volunteer can go to the requestor if it is close by.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                For any reason, if this request cannot be handled by a single volunteer, this volunteer can escalate this request. This escalation can be done from the request details page.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Escalation process needs to identify how many more volunteers are needed to handle this case, This will trigger one or more match making requests. As a team, these volunteers need to resolve this case. Request details page needs to show all the names of the other volunteers that are working on this request.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                If the volunteer decides that this requestor needs to be taken to a volunteer organization, then this volunteer needs to find the matching volunteer organization. This option will be available from the Request Details page. This volunteer is responsible until the volunteer org takes full responsibility of this requestor.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                If we cannot find a volunteer org also, then we should ask the requestor to go to a local authority or hospital.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            6. Finding a Volunteer Organization
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                From the Request Details page, the volunteer needs to click a button to show various options for the organizations.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Based on the type of the request and request details, our system tries to find all matching organizations and shows them in a table
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Name of the organization
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Address
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Contact details - phone and/or email,URL
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                The Volunteer can pick an organization in consultation with the requestor, contact this org and work with them to handle this case further.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            7. Request Details Page
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                This page contains all the details of a specific request
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Who created this request - self/for somebody else
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Type of request
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  When it was create
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  What is its current status
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                A button for Escalation flow - shown to volunteers/case owners only. Basic users cannot see this button.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                A button for searching for Volunteer organizations. Visible to only volunteers/case owners.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            8. Administrative Information
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We need a few views/pages to look at
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Currently registered users
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Users that are transitioning to volunteers
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Currently available volunteers
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Pending requests that need to be resolved
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Closed requests
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                TBD - who will get this administrative privilege to see above information.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            9. Donations
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                This is an independent operation from the top menu bar.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                A non-registered user also can donate.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                By clicking on the Donate button, we can bring up a page that contains information that is required by our integrator. If an already logged in user clicks this Donate button, if we can pre populate the user info in the Donate page, that would be helpful. Otherwise, the new user needs to enter all required info.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                We should allow a one time donation and also recurring donation using all popular methods - credit card, ACH, PayPal etc.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Need to send confirmation/acknowledgment after the transaction.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-semibold mt-3"
+          >
+            10. End to End Use case for request handling (Backened Use Case)
+          </h1>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                A help request is raised from our app (web/mobile) either by the person in need or by a member/volunteer on behalf of the needy person.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                This request goes to the API Gateway. Gets authenticated by Cognito. Then API Gateway invokes a Lambda function to make a call on Requester micro service.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Requester micro service starts a Step Function (work flow) for every request after creating an entry for this request in the DB. This step function is responsible for the entire CRUD operations for this request. Request ID will be a unique This is how each Request workflow works:
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Makes a request on Requester micro service to find suitable volunteers by doing profile matching.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Finds a few volunteers
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-28 text-lg"
+                style="list-style-type: square;"
+              >
+                <li>
+                  sends notifications to volunteers in batches. Requests SNS to send this notification.
+                </li>
+              </ul>
+              <ul
+                class="pl-28 text-lg"
+                style="list-style-type: square;"
+              >
+                <li>
+                  waits for a specified time for at least one volunteer to accept this request.
+                </li>
+              </ul>
+              <ul
+                class="pl-28 text-lg"
+                style="list-style-type: square;"
+              >
+                <li>
+                  If a volunteer accepts this request, this volunteer becomes the Request Owner (a Uber Driver)
+                </li>
+              </ul>
+              <ul
+                class="pl-28 text-lg"
+                style="list-style-type: square;"
+              >
+                <li>
+                  If first batch of volunteers do NOT respond, notifications will be sent to next batch of volunteers. This way we continue until we run out of matched volunteers.
+                </li>
+              </ul>
+              <ul
+                class="pl-28 text-lg"
+                style="list-style-type: square;"
+              >
+                <li>
+                  If no matched volunteer,
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                class="pl-20 text-lg"
+                style="list-style-type: circle;"
+              >
+                <li>
+                  Does NOT find any volunteers
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Requester micro service tries to do profile matching to find a few suitable volunteers. TBD - logic to find the volunteers.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="list-disc text-lg pl-10"
+            >
+              <li>
+                Requester micro service creates a Step Function (Work flow) for this specific request.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="px-14 my-6"
+    >
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          1. New user registration
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              User opens the Saayam app either on his phone or on his laptop.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Main page contains some generic info about our org, Founder and board member details and contact info. It can be a simple static page with proper links from the top level menu bar.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Top level menu bar contains options - About, Team, Contact, Donate, Login/Register.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              New user would click on the Login/Register option.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We show various login options - userid/password and social media login options like Facebook, Google etc.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We also show a message saying that if you are NOT YET registered with us, please register yourself. Here, Register will be a link in the message.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              As part of registration, we will be collecting first name, last name, email address, phone number, contact address etc. from the user. Phone number and/or email are MUST HAVE fields.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Once a user submits this basic information, we will send a confirmation text or email to his phone or email id. Until the user verifies the registration, this user will be in “New” state.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Once the user confirms the registration, this user would be able to login into our system subsequently. This user state will be changed “Verified”.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              A verified user can submit requests for help for himself/herself or for somebody else. But this user cannot be assigned any requests until this user completes all the formalities of training.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Implementation would be based in on AWS Cognito. Once a user is verified, Cognito will invoke a Lambda function to register this user with our database.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          2. Registered user login
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              User clicks on the Login/Register option on our app.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We show a login screen to collect user credentials.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              When a user logs in, the content we show on the home page depends on the user’s state.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              The top menu bar now shows the picture of the logged in user if the user uploads his/her pic. If not, we can show a generic image. This is a clickable image that brings up a drop down with a few menu options:
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                First name and last name of the logged in user.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Settings - TBD This can include the upload option for his/her pic User should be able to edit his information that was originally submitted. If he changes his phone number or email id, then we need to verify that info again with MFA.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Logout to end his session.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              If user is a
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Verified User: This user can see the status of the requests he/she made, make a new help request and also opt for becoming a volunteer. We can show the help requests this user has created for himself/herself in one table. In another table we show the requests he/she has created for others. Each row in these tables will have * Request ID: Each request will have a unique id that acts as a link to drill down into a page to show more details about this request. * Request Type * Subject: Brief details or subject of the request * Creation Date * Closed Date - if it is closed. * We also show a button to create a New Help request right below the main menu bar. * We also show an option to become a certified volunteer.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Certified Volunteer: This user has completed all formalities to become a volunteer. In addition to the above two tables that are shown for a Verified User, we will show another table that this volunteer is managing. For this volunteer we show only the Create Help Request option. No need to show Become a Volunteer button.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          3. Request for help
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Any logged in user can create a request for help either for himself/herself or for somebody else.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              User clicks on the Create Request button after login. System shows a form to enter request details.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We need to show a Warning in this page - If this is a life threatening matter, please contact local authorities. We cannot handle emergency matters.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We need to ask whether this request is for himself/herself. If this is for somebody else, we need to show a few additional fields to collect the first name, last name, address, phone number and email of the requestor. All these fields will be optional as some of the requestors may not have a phone or email. This information is for contacting the requestor directly if needed. This requestor is NOT a user of our system.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We may have to come up with some types of requests in a drop down. There will always be a Generic type option if the user cannot decide the right type.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              User enters brief details of the help needed in a Text Field. Though we start with the English language initially, based on logged in user’s profile, this language choice would change to his local/preferred language.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We can collect expected response time - hours/day etc. Based on this we can prioritize this request. Language preference if any
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              User submits the request.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              System should register this request and send back an acknowledgement to the requestor saying a volunteer would contact him/her asap.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Match the request with a volunteer
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Once request is received, our system matches a volunteer based on following criteria
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Request type and content - profile match.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Proximity - location match
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Language Match
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Pick a subset of matched volunteers and send notifications. If we have too many volunteers in that neighborhood, alerting all may not be a good option.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              If any volunteer from this list accepts the request, this case would be assigned to that volunteer. If no volunteer picks up the case, we may need to escalate the process by finding the next set of volunteers or fallback on a volunteer org or govt. Org eventually. Inform the requester about the volunteer info and create a separate workflow for this case.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We need to generate a One Time Password/Token (OTP) that will be informed to the requester and to the assigned volunteer.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              When the volunteer approaches/contacts the requestor, the requester needs to verify the volunteer with this OTP.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              After the initial conversation, the requestor needs to confirm that he/she will go ahead with this volunteer. If the requestor does NOT like this volunteer for any reason, requester can reject this volunteer by specifying his/her reasons. Then, we will repeat the matching process again.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Once a volunteer becomes the case owner, he/she will have the privilege to update this request and handle this case.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Finally the volunteer closes the case when the issue is resolved.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We need to collect the feedback from the requestor and also ask the requestor to rate this volunteer.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          4. Transitioning an user to a volunteer
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              A verified user needs to click on the button to become a volunteer. This is a multi step process.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Need to submit a proof - Driver license, passport, Aadhar card etc.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Need to go through a training session and pass that test.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Need to provide profile information. One volunteer can have multiple profiles. For e.g. an educator can also be a hiker or gardener. We need to collect profile specific questions, languages he/she can speak etc.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              A local volunteer - who has completed this process earlier needs to talk to this person for manual screening and also verifying the document that was submitted earlier.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Once all these formalities are completed, this certifying volunteer will promote this user to a volunteer.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Our system needs to record who certified what user etc. for our records.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          5. Case Handling
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              A simple request can be handled by a single volunteer himself/herself. The mode of operation would be a phone call.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              If the requester agrees to meet the volunteer, then this volunteer can go to the requestor if it is close by.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              For any reason, if this request cannot be handled by a single volunteer, this volunteer can escalate this request. This escalation can be done from the request details page.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Escalation process needs to identify how many more volunteers are needed to handle this case, This will trigger one or more match making requests. As a team, these volunteers need to resolve this case. Request details page needs to show all the names of the other volunteers that are working on this request.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              If the volunteer decides that this requestor needs to be taken to a volunteer organization, then this volunteer needs to find the matching volunteer organization. This option will be available from the Request Details page. This volunteer is responsible until the volunteer org takes full responsibility of this requestor.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              If we cannot find a volunteer org also, then we should ask the requestor to go to a local authority or hospital.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          6. Finding a Volunteer Organization
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              From the Request Details page, the volunteer needs to click a button to show various options for the organizations.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Based on the type of the request and request details, our system tries to find all matching organizations and shows them in a table
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Name of the organization
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Address
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Contact details - phone and/or email,URL
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              The Volunteer can pick an organization in consultation with the requestor, contact this org and work with them to handle this case further.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          7. Request Details Page
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              This page contains all the details of a specific request
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Who created this request - self/for somebody else
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Type of request
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                When it was create
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                What is its current status
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              A button for Escalation flow - shown to volunteers/case owners only. Basic users cannot see this button.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              A button for searching for Volunteer organizations. Visible to only volunteers/case owners.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          8. Administrative Information
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We need a few views/pages to look at
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Currently registered users
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Users that are transitioning to volunteers
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Currently available volunteers
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Pending requests that need to be resolved
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Closed requests
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              TBD - who will get this administrative privilege to see above information.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          9. Donations
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              This is an independent operation from the top menu bar.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              A non-registered user also can donate.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              By clicking on the Donate button, we can bring up a page that contains information that is required by our integrator. If an already logged in user clicks this Donate button, if we can pre populate the user info in the Donate page, that would be helpful. Otherwise, the new user needs to enter all required info.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              We should allow a one time donation and also recurring donation using all popular methods - credit card, ACH, PayPal etc.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Need to send confirmation/acknowledgment after the transaction.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h1
+          class="text-2xl font-semibold mt-3"
+        >
+          10. End to End Use case for request handling (Backened Use Case)
+        </h1>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              A help request is raised from our app (web/mobile) either by the person in need or by a member/volunteer on behalf of the needy person.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              This request goes to the API Gateway. Gets authenticated by Cognito. Then API Gateway invokes a Lambda function to make a call on Requester micro service.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Requester micro service starts a Step Function (work flow) for every request after creating an entry for this request in the DB. This step function is responsible for the entire CRUD operations for this request. Request ID will be a unique This is how each Request workflow works:
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Makes a request on Requester micro service to find suitable volunteers by doing profile matching.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Finds a few volunteers
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-28 text-lg"
+              style="list-style-type: square;"
+            >
+              <li>
+                sends notifications to volunteers in batches. Requests SNS to send this notification.
+              </li>
+            </ul>
+            <ul
+              class="pl-28 text-lg"
+              style="list-style-type: square;"
+            >
+              <li>
+                waits for a specified time for at least one volunteer to accept this request.
+              </li>
+            </ul>
+            <ul
+              class="pl-28 text-lg"
+              style="list-style-type: square;"
+            >
+              <li>
+                If a volunteer accepts this request, this volunteer becomes the Request Owner (a Uber Driver)
+              </li>
+            </ul>
+            <ul
+              class="pl-28 text-lg"
+              style="list-style-type: square;"
+            >
+              <li>
+                If first batch of volunteers do NOT respond, notifications will be sent to next batch of volunteers. This way we continue until we run out of matched volunteers.
+              </li>
+            </ul>
+            <ul
+              class="pl-28 text-lg"
+              style="list-style-type: square;"
+            >
+              <li>
+                If no matched volunteer,
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul
+              class="pl-20 text-lg"
+              style="list-style-type: circle;"
+            >
+              <li>
+                Does NOT find any volunteers
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Requester micro service tries to do profile matching to find a few suitable volunteers. TBD - logic to find the volunteers.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul
+            class="list-disc text-lg pl-10"
+          >
+            <li>
+              Requester micro service creates a Step Function (Work flow) for this specific request.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
