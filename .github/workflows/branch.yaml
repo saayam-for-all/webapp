@@ -57,9 +57,8 @@ jobs:
           pytest
       # Step-6 Create archive of dependencies
       - name: Create Archives of Dependencies
-        working-directory: sample-fastapi
         run: |
-          cd sample-fastapi/.venv/lib/python3.12/site-packages
+          cd ./.venv/lib/python3.12/site-packages
           zip -r9 ../../../../sample_fastapi.zip .
       # Step-7 Add API files to Zip file
       - name: Add API files to Zip file
