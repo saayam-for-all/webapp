@@ -44,19 +44,22 @@ jobs:
             ${{ runner.os }}-venv-
       # Step-4 Build a virtual environment and if it doesn't exist, create it
       - name: Activate Virtual Environment and Install Packages
+        working-directory: sample-fastapi
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt
       # Step-5 Run Tests
       - name: Run Tests
+        working-directory: sample-fastapi
         run: |
           source .venv/bin/activate
           pytest
       # Step-6 Create archive of dependencies
       - name: Create Archives of Dependencies
+        working-directory: sample-fastapi
         run: |
-          cd ./venv/lib/python3.12/site-packages
+          cd sample-fastapi/.venv/lib/python3.12/site-packages
           zip -r9 ../../../../sample_fastapi.zip .
       # Step-7 Add API files to Zip file
       - name: Add API files to Zip file
