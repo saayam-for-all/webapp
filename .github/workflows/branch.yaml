@@ -18,20 +18,22 @@ permissions:
 jobs:
 
   CI:
+    # Define the type of runner that the job will run on
     runs-on: ubuntu-latest
-
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it's content
       - name: Checkout code
         uses: actions/checkout@v2
-
+      # Step-1 Setup Python
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.12.9'
-
+      # Step-2 Install Python Virtual Environment
       - name: Install Python Virtual Environment
         run: pip3 install virtualenv
-
+      # Step-3 Setup Virtual Environment
+      # https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows
       - name: Virtual Environment
         uses: actions/cache@v3
         id: cache-venv
@@ -40,19 +42,38 @@ jobs:
           key: ${{ runner.os }}-venv-${{ hashFiles('sample-fastapi/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-venv-
-
+      # Step-4 Build a virtual environment and if it doesn't exist, create it
       - name: Activate Virtual Environment and Install Packages
         working-directory: sample-fastapi
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt
-
+      # Step-5 Run Tests
       - name: Run Tests
         working-directory: sample-fastapi
         run: |
           source .venv/bin/activate
           pytest
+      # Step-6 Create archive of dependencies
+      - name: Create Archives of Dependencies
+        working-directory: sample-fastapi
+        run: |
+          cd ./venv/lib/python3.12/site-packages
+          zip -r9 ../../../../sample_fastapi.zip .
+      # Step-7 Add API files to Zip file
+      - name: Add API files to Zip file
+        working-directory: sample-fastapi
+        run: |
+          cd ./sample_fastapi && -g ../sample_fastapi.zip -r .
+      # Step-8 Upload Zip file
+      - name: Upload Zip file
+        uses: actions/upload-artifact@v4
+        with:
+          name: sample_fastapi
+          path: sample-fastapi/sample_fastapi.zip
 
+
+ 
 
 
