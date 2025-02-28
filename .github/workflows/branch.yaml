@@ -38,34 +38,31 @@ jobs:
         uses: actions/cache@v3
         id: cache-venv
         with:
-          path: sample-fastapi/.venv
+          path: .venv
           key: ${{ runner.os }}-venv-${{ hashFiles('sample-fastapi/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-venv-
       # Step-4 Build a virtual environment and if it doesn't exist, create it
       - name: Activate Virtual Environment and Install Packages
-        working-directory: sample-fastapi
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt
       # Step-5 Run Tests
       - name: Run Tests
-        working-directory: sample-fastapi
         run: |
           source .venv/bin/activate
           pytest
       # Step-6 Create archive of dependencies
       - name: Create Archives of Dependencies
         run: |
-          cd sample-fastapi
           cd .venv/lib/python3.12/site-packages
           zip -r9 ../../../../sample_fastapi.zip .
       # Step-7 Add API files to Zip file
       - name: Add API files to Zip file
         working-directory: sample-fastapi 
         run: |
-          zip -g ../sample_fastapi.zip -r .
+          zip -g ../sample_fastapi.zip -r sample_fastapi
       # Step-8 Upload Zip file
       - name: Upload Zip file
         uses: actions/upload-artifact@v4
