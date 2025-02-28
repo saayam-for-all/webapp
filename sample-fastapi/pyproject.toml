@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sample-fastapi"
+version = "0.1.0"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "gunicorn",
+    "mangum",
+    "pytest",
+    "httpx",
+]
+requires-python = ">=3.10"
+authors = [
+    {name = "Divya Tanwar", email = "divya.tanwar@outlook.com"}
+]
+maintainers = [
+    {name = "Divya Tanwar", email = "divya.tanwar@outlook.com"}
+]
+description = "A sample FastAPI project"
+keywords = ["fastapi", "sample"]
+
+[tool.hatch.build.targets.wheel]
+include = [
+            "pyproject.toml",
+            "sample_fastapi/**"
+]
+
+exclude = [
+            "tests/**",
+            "*.pyc",
+            "__pycache__/**"
+]

@@ -1,0 +1,56 @@
+name: FastAPI CI CD
+
+on:
+  # Trigger the workflow on push or pull request,
+  push:
+    branches:
+      - feature/divyatanwar/aws-lambda-function-deploy
+env:
+    AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+    AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+
+permissions:
+    id-token: write # Needed to use the GITHUB_TOKEN to authenticate with the AWS STS API
+    contents: read # Needed to read the contents of the repository
+  
+jobs:
+
+  CI:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12.9'
+
+      - name: Install Python Virtual Environment
+        run: pip3 install virtualenv
+
+      - name: Virtual Environment
+        uses: actions/cache@v3
+        id: cache-venv
+        with:
+          path: sample-fastapi/.venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('sample-fastapi/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-venv-
+
+      - name: Activate Virtual Environment and Install Packages
+        working-directory: sample-fastapi
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Run Tests
+        working-directory: sample-fastapi
+        run: |
+          source .venv/bin/activate
+          pytest
+
+
+
