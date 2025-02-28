@@ -59,6 +59,10 @@ jobs:
       - name: Create Archives of Dependencies
         run: |
           echo "Current working directory: $(pwd)" 
+          ls -la
+          cd sample-fastapi
+          echo "Current working directory: $(pwd)" 
+          ls -la
           cd .venv/lib/python3.12/site-packages
           zip -r9 ../../../../sample_fastapi.zip .
       # Step-7 Add API files to Zip file
