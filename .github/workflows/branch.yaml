@@ -73,6 +73,24 @@ jobs:
           name: sample_fastapi
           path: sample-fastapi/sample_fastapi.zip
 
+  CD:
+    runs-on: ubuntu-latest
+    needs: CI
+    steps:
+      - name: Install AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          role-session-name: GitHubActionsLambdaDeployment
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sample_fastapi
+      - name: Upload artifact to S3
+        run: aws s3 cp sample-fastapi/sample_fastapi.zip s3://saayam-virginia-public/sample_fastapi.zip
+      
+
 
  
 
