@@ -89,6 +89,8 @@ jobs:
           name: sample_fastapi
       - name: Upload artifact to S3
         run: aws s3 cp sample_fastapi.zip s3://saayam-virginia-public/sample_fastapi.zip
+      - name: Deploy Lambda function
+        run: aws lambda update-function-code --function-name sample_fastapi --s3-bucket saayam-virginia-public --s3-key sample_fastapi.zip
       
 
 
