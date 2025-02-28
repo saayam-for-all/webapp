@@ -88,7 +88,7 @@ jobs:
         with:
           name: sample_fastapi
       - name: Upload artifact to S3
-        run: aws s3 cp sample-fastapi/sample_fastapi.zip s3://saayam-virginia-public/sample_fastapi.zip
+        run: aws s3 cp sample_fastapi.zip s3://saayam-virginia-public/sample_fastapi.zip
       
 
 
