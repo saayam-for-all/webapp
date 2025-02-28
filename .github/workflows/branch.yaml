@@ -47,7 +47,7 @@ jobs:
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
-          pip install -r requirements.txt
+          pip install -r sample-fastapi/requirements.txt
       # Step-5 Run Tests
       - name: Run Tests
         run: |
