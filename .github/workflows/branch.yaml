@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sample_fastapi
-          path: sample-fastapi/sample_fastapi.zip
+          path: sample_fastapi.zip
 
   CD:
     runs-on: ubuntu-latest
