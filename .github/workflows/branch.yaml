@@ -64,8 +64,7 @@ jobs:
       # Step-7 Add API files to Zip file
       - name: Add API files to Zip file
         run: |
-          cd sample-fastapi
-          cd sample_fastapi && zip -g ../sample_fastapi.zip -r .
+          cd sample-fastapi && zip -g ../sample_fastapi.zip -r .
       # Step-8 Upload Zip file
       - name: Upload Zip file
         uses: actions/upload-artifact@v4
