@@ -58,18 +58,14 @@ jobs:
       # Step-6 Create archive of dependencies
       - name: Create Archives of Dependencies
         run: |
-          echo "Current working directory: $(pwd)" 
-          ls -la
           cd sample-fastapi
-          echo "Current working directory: $(pwd)" 
-          ls -la
           cd .venv/lib/python3.12/site-packages
           zip -r9 ../../../../sample_fastapi.zip .
       # Step-7 Add API files to Zip file
       - name: Add API files to Zip file
-        working-directory: sample-fastapi
         run: |
-          cd ./sample_fastapi && -g ../sample_fastapi.zip -r .
+          cd sample-fastapi
+          cd sample_fastapi && -g ../sample_fastapi.zip -r .
       # Step-8 Upload Zip file
       - name: Upload Zip file
         uses: actions/upload-artifact@v4
