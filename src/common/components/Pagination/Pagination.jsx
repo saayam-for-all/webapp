@@ -1,12 +1,11 @@
 import React from "react";
-import { RiArrowLeftSLine } from "react-icons/ri";
-import { RiArrowRightSLine } from "react-icons/ri";
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 const Pagination = ({
   currentPage,
   totalPages,
   onPageChange,
   rowsPerPage,
-  onRowsPerPageChange,
+  totalRows,
 }) => {
   const renderPageNumbers = () => {
     let pages = [];
@@ -20,8 +19,8 @@ const Pagination = ({
         onClick={() => onPageChange(1)}
         className={`px-3 py-1 border rounded ${
           1 === currentPage
-            ? "bg-blue-500 text-white"
-            : "bg-gray-200 text-black"
+            ? "bg-blue-500 text-white hover:bg-blue-500"
+            : "bg-gray-200 text-black hover:bg-white"
         }`}
       >
         {1}
@@ -43,8 +42,8 @@ const Pagination = ({
               onClick={() => onPageChange(i)}
               className={`px-3 py-1 border rounded ${
                 i === currentPage
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-black"
+                  ? "bg-blue-500 text-white hover:bg-blue-500"
+                  : "bg-gray-200 text-black hover:bg-white"
               }`}
             >
               {i}
@@ -54,6 +53,7 @@ const Pagination = ({
       }
     } else {
       if (totalPages > 2) {
+        console.log("more");
         for (let i = 2; i <= Math.min(maxFirstPages, totalPages - 1); i++) {
           pages.push(
             <button
@@ -61,8 +61,8 @@ const Pagination = ({
               onClick={() => onPageChange(i)}
               className={`px-3 py-1 border rounded ${
                 i === currentPage
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-black"
+                  ? "bg-blue-500 text-white hover:bg-blue-500"
+                  : "bg-gray-200 text-black hover:bg-white"
               }`}
             >
               {i}
@@ -80,21 +80,22 @@ const Pagination = ({
       );
     }
 
-    // show the last page
-    pages.push(
-      <button
-        key={totalPages}
-        onClick={() => onPageChange(totalPages)}
-        className={`px-3 py-1 border rounded ${
-          totalPages === currentPage
-            ? "bg-blue-500 text-white"
-            : "bg-gray-200 text-black"
-        }`}
-      >
-        {totalPages}
-      </button>,
-    );
-
+    if (pages.length < totalPages) {
+      // show the last page
+      pages.push(
+        <button
+          key={totalPages}
+          onClick={() => onPageChange(totalPages)}
+          className={`px-3 py-1 border rounded ${
+            totalPages === currentPage
+              ? "bg-blue-500 text-white hover:bg-blue-500"
+              : "bg-gray-200 text-black hover:bg-white"
+          }`}
+        >
+          {totalPages}
+        </button>,
+      );
+    }
     return pages;
   };
 
@@ -107,8 +108,8 @@ const Pagination = ({
         >
           <span className="mr-2 text-gray-400" data-testid="labelOne">
             Showing data {(currentPage - 1) * rowsPerPage + 1}-
-            {Math.min(currentPage * rowsPerPage, totalPages * rowsPerPage)} of{" "}
-            {totalPages * rowsPerPage} entries
+            {Math.min(currentPage * rowsPerPage, totalRows)} of {totalRows}{" "}
+            entries
           </span>
           {/* <div className="flex items-center ml-2">
             <label htmlFor="rowsPerPage" className="mr-2">Rows per view:</label>
@@ -123,7 +124,7 @@ const Pagination = ({
           <button
             onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
             disabled={currentPage === 1}
-            className="bg-gray-200 text-black py-2 px-2 rounded hover:bg-gray-500"
+            className={`bg-gray-200 text-black py-2 px-2 rounded hover:bg-gray-500 ${currentPage === 1 && "invisible"}`}
             data-testid="buttonOne"
           >
             <RiArrowLeftSLine />
@@ -132,7 +133,7 @@ const Pagination = ({
           <button
             onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className="bg-gray-200 text-black py-2 px-2 rounded hover:bg-gray-500"
+            className={`bg-gray-200 text-black py-2 px-2 rounded hover:bg-gray-500 ${currentPage === totalPages && "invisible"}`}
             data-testid="buttonTwo"
           >
             <RiArrowRightSLine />

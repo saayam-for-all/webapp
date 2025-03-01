@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import React from "react"; //added for testing
 
-const VolunteerCourse = () => {
+const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
@@ -10,7 +10,7 @@ const VolunteerCourse = () => {
   const fileInputRef = useRef(null); // Reference to the file input
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
+    setSelectedFile(e.target.files[0]);
 
     if (selectedFile) {
       // Validate file size (2MB = 2 * 1024 * 1024 bytes)

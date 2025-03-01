@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IoIosArrowUp } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
-import { commentsData } from "./commentsDummyData";
 import Comments from "./Comments";
 
 /* // Get the current system date
@@ -17,18 +14,27 @@ import Comments from "./Comments";
   });
   */
 
-const CommentsSection = () => {
+const CommentsSection = ({ comments }) => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [searchText, setSearchText] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
+  const [commentsData, setComments] = useState([]);
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
+  const getComments = async () => {
+    try {
+      const response = await getRequestComments();
+      setComments(response?.body);
+    } catch (error) {
+      console.error("Error fetching volunteer organizations:", error);
+    }
   };
+
+  useEffect(() => {
+    getComments();
+  }, []);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -42,7 +48,7 @@ const CommentsSection = () => {
   const handleSortChange = () =>
     setSortOrder((prev) => (prev === "newest" ? "oldest" : "newest"));
 
-  const filteredComments = commentsData
+  const filteredComments = comments
     .filter(
       (c) =>
         c.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -85,7 +91,7 @@ const CommentsSection = () => {
           disabled={currentPage === 1}
           className={`px-3 py-1 rounded ${
             currentPage === 1
-              ? "bg-blue-500 hover:bg-blue-600 text-white"
+              ? "invisible"
               : "bg-gray-200 hover:bg-gray-300 text-black"
           }`}
         >
@@ -111,7 +117,7 @@ const CommentsSection = () => {
           disabled={currentPage === totalPages}
           className={`px-3 py-1 rounded ${
             currentPage === totalPages
-              ? "bg-blue-500 hover:bg-blue-600 text-white"
+              ? "invisible"
               : "bg-gray-200 hover:bg-gray-300 text-black"
           }`}
         >
@@ -130,11 +136,12 @@ const CommentsSection = () => {
   };
 
   return (
-    <div className="mt-8">
+    <div>
       <div className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-gray-200">
         <div
           className="flex items-center space-x-2"
           style={{ flexBasis: "50%" }}
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Comment Input Field */}
           <input
@@ -142,8 +149,7 @@ const CommentsSection = () => {
             value={comment}
             onChange={handleCommentChange}
             placeholder="Write a comment....."
-            className="flex-1 px-4 py-2 bg-gray-100 rounded-full outline-none border-none text-gray-600 placeholder-gray-400 text-sm"
-            style={{ borderRadius: "5px" }}
+            className="flex-1 px-4 py-2 bg-gray-100 outline-none border-2 border-white text-gray-600 placeholder-gray-400 text-sm rounded focus:border-black focus:outline-none"
           />
 
           {/* Send Button */}
@@ -163,51 +169,40 @@ const CommentsSection = () => {
             </svg>
           </button>
         </div>
-
-        {/* Toggle Arrow */}
-        <button onClick={handleToggle} className="ml-2">
-          {isOpen ? (
-            <IoIosArrowUp size={30} className="text-gray-600" />
-          ) : (
-            <IoIosArrowDown size={30} className="text-gray-600" />
-          )}
-        </button>
       </div>
-      {isOpen && (
-        <div>
-          <div className="mt-4 bg-gray-100 p-6 shadow-md w-full rounded-lg">
-            <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
-              <input
-                type="text"
-                value={searchText}
-                onChange={handleSearchChange}
-                placeholder="Search..."
-                className="px-4 py-2 bg-gray-100 outline-none border-none text-sm rounded-md w-1/3"
-              />
+      <div onClick={(e) => e.stopPropagation()}>
+        <div className="mt-4 bg-gray-100 p-6 shadow-md w-full rounded-lg">
+          <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
+            <input
+              type="text"
+              value={searchText}
+              onChange={handleSearchChange}
+              placeholder="Search..."
+              className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-1/3 focus:border-black focus:outline-none"
+            />
 
-              <button
-                onClick={handleSortChange}
-                className="p-2 border border-gray-300 rounded-md"
-              >
-                {t("SORT_BY")}:{" "}
-                {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
-              </button>
-            </div>
-            {currentComments.map((comment) => {
-              const { message, name, date, id } = comment;
-              return (
-                <Comments
-                  key={comment.id}
-                  message={message}
-                  name={name}
-                  date={date}
-                />
-              );
-            })}
-            {renderPagination()}
+            <button
+              onClick={handleSortChange}
+              className="p-2 border border-gray-300 rounded-md"
+            >
+              {t("SORT_BY")}:{" "}
+              {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
+            </button>
           </div>
+          {currentComments.map((comment) => {
+            const { message, name, date, id } = comment;
+            return (
+              <Comments
+                key={comment.id}
+                message={message}
+                name={name}
+                date={date}
+              />
+            );
+          })}
+          {renderPagination()}
         </div>
-      )}
+      </div>
     </div>
   );
 };

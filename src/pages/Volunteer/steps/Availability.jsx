@@ -1,30 +1,7 @@
 import React from "react";
 import { useState } from "react";
-
-const CalamityCheckBox = () => {
-  const [isChecked, setIsChecked] = useState(false);
-
-  // Handle checkbox change
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked); // Toggle the checked state
-  };
-
-  return (
-    <div className="flex items-center mt-6 mb-2">
-      <input
-        type="checkbox"
-        id="calamitybox"
-        className="h-4 w-4 mr-2"
-        checked={isChecked}
-        onChange={handleCheckboxChange}
-      />
-      <label htmlFor="calamitybox" className="font-medium">
-        Would you like to receive notifications in case of emergencies or
-        critical situations?
-      </label>
-    </div>
-  );
-};
+import { TimePicker } from "rsuite";
+import "rsuite/dist/rsuite.min.css";
 
 const TimeInputComponent = ({
   index,
@@ -51,20 +28,18 @@ const TimeInputComponent = ({
     onDayChange(index, newDay);
   };
 
-  const handleStartTimeChange = (e) => {
-    const newStartTime = e.target.value;
+  const handleStartTimeChange = (newStartTime) => {
     onTimeChange(index, "startTime", newStartTime);
   };
 
-  const handleEndTimeChange = (e) => {
-    const newEndTime = e.target.value;
+  const handleEndTimeChange = (newEndTime) => {
     onTimeChange(index, "endTime", newEndTime);
   };
 
   return (
     <div className="flex items-center space-x-4 mb-1">
       <select
-        className="h-10 w-40 border border-gray-300 rounded-md p-2"
+        className="w-40 border border-gray-300 rounded-md p-2"
         value={day}
         onChange={handleDayChange}
       >
@@ -74,18 +49,27 @@ const TimeInputComponent = ({
           </option>
         ))}
       </select>
-      <input
-        className="h-10 w-40 border border-gray-300 rounded-md p-2"
-        aria-label="Time"
-        type="time"
-        value={startTime}
+      <TimePicker
+        className="rounded-md w-40"
+        // value={startTime}
         onChange={handleStartTimeChange}
+        onOk={handleStartTimeChange}
+        disableClock={true}
+        format="hh:mm a"
+        hourPlaceholder="hh"
+        minutePlaceholder="mm"
+        clearIcon={null}
       />
-      <input
-        className="h-10 w-40 border border-gray-300 rounded-md p-2"
-        type="time"
+      <TimePicker
+        className="rounded-md  w-40"
         value={endTime}
         onChange={handleEndTimeChange}
+        onOk={handleEndTimeChange}
+        disableClock={false}
+        format="hh:mm a"
+        hourPlaceholder="hh"
+        minutePlaceholder="mm"
+        clearIcon={null}
       />
       <button
         className="border border-red-500 rounded-full hover:bg-red-100"
@@ -116,16 +100,16 @@ const TimeInputComponent = ({
   );
 };
 
-const TimeInputList = () => {
+const TimeInputList = ({ components, setComponents }) => {
   // Initializing state with 5 TimeInputComponents
-  const [components, setComponents] = useState(
-    Array.from({ length: 1 }, (_, i) => ({
-      id: i,
-      day: "Everyday",
-      startTime: "00:00",
-      endTime: "00:00",
-    })),
-  );
+  // const [components, setComponents] = useState(
+  //   Array.from({ length: 1 }, (_, i) => ({
+  //     id: i,
+  //     day: "Everyday",
+  //     startTime: "00:00",
+  //     endTime: "00:00",
+  //   })),
+  // );
 
   const handleDayChange = (index, day) => {
     console.log(`Day change at index ${index}: ${day}`);
@@ -209,14 +193,38 @@ const TimeInputList = () => {
   );
 };
 
-const Availability = () => {
+const Availability = ({
+  availabilitySlots,
+  tobeNotified,
+  setAvailabilitySlots,
+  setNotification,
+}) => {
+  const handleCheckboxChange = () => {
+    setNotification((tobeNotified) => !tobeNotified);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <p className="font-bold text-xl mb-4">
         Please Provide Your Available Time Slots for Volunteering
       </p>
-      <TimeInputList />
-      <CalamityCheckBox />
+      <TimeInputList
+        components={availabilitySlots}
+        setComponents={setAvailabilitySlots}
+      />
+      <div className="flex items-center mt-6 mb-2">
+        <input
+          type="checkbox"
+          id="calamitybox"
+          className="h-4 w-4 mr-2"
+          checked={tobeNotified}
+          onChange={handleCheckboxChange}
+        />
+        <label htmlFor="tobeNotified" className="font-medium">
+          Would you like to receive notifications in case of emergencies or
+          critical situations?
+        </label>
+      </div>
     </div>
   );
 };

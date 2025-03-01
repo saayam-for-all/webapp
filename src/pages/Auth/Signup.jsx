@@ -1,12 +1,49 @@
 import { useState } from "react";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { FaFacebookF } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import CountryList from "react-select-country-list";
+// import { FaFacebookF } from "react-icons/fa";
+// import { FcGoogle } from "react-icons/fc";
 import { signUp } from "aws-amplify/auth";
+import CountryList from "react-select-country-list";
+import { z } from "zod";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import "./Login.css";
+
+const signUpSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, "First name is required")
+    .max(50)
+    .regex(
+      /^[a-zA-Z\s]+$/,
+      "First name must contain only alphabets and spaces",
+    ),
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .max(50)
+    .regex(/^[a-zA-Z\s]+$/, "Last name must contain only alphabets and spaces"),
+  email: z
+    .string()
+    .max(50)
+    .min(1, "Email is required")
+    .email("Invalid email address"),
+  phone: z
+    .string()
+    .min(1, "Phone number is required")
+    .regex(/^[0-9]+$/, "A valid phone number is required"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/\d/, "Password must contain at least 1 number")
+    .regex(/[A-Z]/, "Password must contain at least 1 uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least 1 lowercase letter")
+    .regex(
+      /[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+-]/,
+      "Password must contain at least 1 special character",
+    ),
+});
 
 const SignUp = () => {
   const [emailValue, setEmailValue] = useState("");
@@ -22,15 +59,18 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
-  //const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
 
-  //State variables to validate the fields
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+  const [errors, setErrors] = useState({});
+
+  const hasNumber = /\d/.test(passwordValue);
+  const hasUppercase = /[A-Z]/.test(passwordValue);
+  const hasLowercase = /[a-z]/.test(passwordValue);
+  const hasSpecialChar = /[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+-]/.test(
+    passwordValue,
+  );
 
   const countries = CountryList().getData();
 
@@ -43,115 +83,31 @@ const SignUp = () => {
   const validatePassword = (password) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
 
   const handleSignUp = async () => {
-
-    let isValid = true;
-
-    //FirstName validation
-    if(!firstName.trim())
-    {
-      setFirstNameError("First Name is required");
-      isValid = false;
-    }
-    else if(!validateName(firstName))
-    {
-      setFirstNameError("First Name must contain only letters and spaces.");
-      isValid = false;
-    }
-    else if (firstName.length > 50) 
-    {
-      setFirstNameError("First Name must not exceed 50 characters.");
-      isValid = false;
-    }
-    else
-      setFirstNameError("");
-
-    //LastName validation
-    if(!lastName.trim())
-    {
-      setLastNameError("Last Name is required");
-      isValid = false;
-    }
-    else if(!validateName(lastName))
-    {
-      setLastNameError("Last Name must contain only letters and spaces.");
-      isValid = false;
-    }
-    else if (lastName.length > 50) 
-    {
-      setFirstNameError("Last Name must not exceed 50 characters.");
-      isValid = false;
-    }
-    else
-      setLastNameError("");
-    
-    //email validation
-    if(!emailValue.trim())
-    {
-      setEmailError("Email is required");
-      isValid = false;
-    }
-    else if(!validateEmail(emailValue))
-    {
-      setEmailError("Enter a valid email address.");
-      isValid = false;
-    }
-    else if (emailValue.length > 50) 
-    {
-      setEmailError("Email must not exceed 50 characters.");
-      isValid = false;
-    }
-    else
-      setEmailError("");
-
-    // Phone Number Validation (Must be exactly 10 digits)
-    if (!phone.trim()) 
-    {
-      setPhoneError("Phone number is required.");
-      isValid = false;
-    } 
-    else if (!validatePhone(phone)) 
-    {
-      setPhoneError("Phone number must be exactly 10 digits.");
-      isValid = false;
-    } 
-    else 
-      setPhoneError("");
-
-    //Password validation
-    if (!passwordValue) 
-    {
-      setPasswordError("Password is required.");
-      isValid = false;
-    } 
-    else if (!validatePassword(passwordValue)) 
-    {
-      setPasswordError(
-        "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character."
-      );
-      isValid = false;
-    } 
-    else 
-      setPasswordError("");
-    
-    //ConfirmPassword validation
-    if (!confirmPasswordValue) 
-    {
-      setConfirmPasswordError("Confirm Password is required.");
-      isValid = false;
-    } 
-    else if (confirmPasswordValue !== passwordValue) 
-    {
-      setConfirmPasswordError("Must match the password entered above.");
-      isValid = false;
-    } 
-    else 
-      setConfirmPasswordError("");
-
-    //Stop execution if there is any validation fail
-    if(!isValid)
-      return;
-
     try {
+      setErrors({});
+      const result = signUpSchema.safeParse({
+        firstName,
+        lastName,
+        email: emailValue,
+        phone,
+        password: passwordValue,
+      });
+      if (!result.success) {
+        const formattedErrors = result.error.format();
+        setErrors({
+          firstName: formattedErrors.firstName?._errors[0],
+          lastName: formattedErrors.lastName?._errors[0],
+          email: formattedErrors.email?._errors[0],
+          phone: formattedErrors.phone?._errors[0],
+        });
+        return;
+      }
+
+      if (passwordValue !== confirmPasswordValue) {
+        setPasswordsMatch(confirmPasswordValue === passwordValue);
+        return;
+      }
+
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
@@ -190,10 +146,11 @@ const SignUp = () => {
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
+              required={true}
             />
-            {firstNameError && (
-              <p className="text-red-500 text-sm mt-1">{firstNameError}</p>
+            {errors.firstName && (
+              <p className="text-sm text-red-500">{errors.firstName}</p>
             )}
           </div>
 
@@ -206,10 +163,11 @@ const SignUp = () => {
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
+              required={true}
             />
-            {lastNameError && (
-              <p className="text-red-500 text-sm mt-1">{lastNameError}</p>
+            {errors.lastName && (
+              <p className="text-sm text-red-500">{errors.lastName}</p>
             )}
           </div>
         </div>
@@ -223,9 +181,12 @@ const SignUp = () => {
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder="Your Email"
             type="text"
-            className="px-4 py-2 border border-gray-300 rounded-xl"
+            className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
+            required={true}
           />
-          {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
+          {errors.email && (
+            <p className="text-sm text-red-500">{errors.email}</p>
+          )}
         </div>
 
         {/* Phone  Number */}
@@ -258,8 +219,12 @@ const SignUp = () => {
               placeholder="Your Phone Number"
               type="text"
               maxLength={10}
-              className="w-2/3 px-4 py-2 border border-gray-300 rounded-xl"
+              className={`w-2/3 px-4 py-2 border border-gray-300 rounded-xl ${errors.phone ? "border-red-500" : "border-gray-300"}`}
+              required={true}
             />
+            {errors.phone && (
+              <p className="text-sm text-red-500">{errors.phone}</p>
+            )}
           </div>
           {phoneError && (
               <p className="text-red-500 text-sm mt-1">{phoneError}</p>
@@ -290,7 +255,7 @@ const SignUp = () => {
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
-                ? "border-2 border-blue-700"
+                ? "border-2 border-black -m-px"
                 : " border border-gray-300"
             }`}
           >
@@ -311,18 +276,55 @@ const SignUp = () => {
           {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
         </div>
 
+        {/* Password validation */}
+        {passwordFocus && (
+          <div className="flex flex-col items-start">
+            <p
+              className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 8 characters.
+            </p>
+            <p
+              className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 1 number.
+            </p>
+            <p
+              className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 1 special character.
+            </p>
+            <p
+              className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 1 uppercase letter.
+            </p>
+            <p
+              className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+            >
+              Password must contain at least 1 lowercase letter.
+            </p>
+          </div>
+        )}
+
         {/* Confirm Password */}
         <div className="my-2 flex flex-col">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <div
-            className={`flex flex-row px-4 py-2 rounded-xl border border-gray-300 focus:border-black`}
+            className={`flex flex-row px-4 py-2 rounded-xl ${
+              confirmPasswordFocus
+                ? "border-2 border-black -m-px"
+                : " border border-gray-300"
+            }`}
           >
             <input
-              id="confirmPassword"
+              id="password"
               placeholder="Confirm Password"
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
               onChange={(e) => setConfirmPasswordValue(e.target.value)}
+              onFocus={() => setConfirmPasswordFocus(true)}
+              onBlur={() => setConfirmPasswordFocus(false)}
               className="mr-auto w-full outline-none"
             />
             <button
@@ -341,7 +343,9 @@ const SignUp = () => {
           Sign up
         </button>
 
-        <div className="flex items-center my-4">
+        {/* Uncomment this snippet when the singup functionality is fully developed  */}
+
+        {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">Or With</span>
           <div className="flex-grow border-t border-gray-300"></div>
@@ -357,7 +361,7 @@ const SignUp = () => {
             <FcGoogle className="mx-2 text-xl" />
             <span>Google</span>
           </button>
-        </div>
+        </div> */}
 
         <div className="mt-16 flex flex-row justify-center">
           <p>Already have an account?</p>
