@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Modal from "../Modal/Modal";
-import { MdContactPhone } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { MdContactPhone } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import Modal from "../Modal/Modal";
 
 const RequestButton = ({ link, text, isInfoRequest, customStyle, icon }) => {
   const [showModal, setShowModal] = useState(false);
@@ -93,11 +93,11 @@ const RequestButton = ({ link, text, isInfoRequest, customStyle, icon }) => {
   const getIcon = () => {
     switch (icon) {
       case "i-info":
-        return <FaInfoCircle size={30} />;
+        return <FaInfoCircle size={25} />;
       case "i-volunteer":
-        return <FaPeopleGroup size={30} />;
+        return <FaPeopleGroup size={25} />;
       case "i-emergency":
-        return <MdContactPhone size={30} />;
+        return <MdContactPhone size={25} />;
       default:
         return null;
     }
@@ -107,7 +107,7 @@ const RequestButton = ({ link, text, isInfoRequest, customStyle, icon }) => {
     <>
       <button
         onClick={handleClick}
-        className={`${customStyle} flex items-center justify-center sm:justify-center lg:justify-start space-x-2 transition ease-in-out duration-300 px-3 py-2 md:px-6 md:py-3`}
+        className={`${customStyle} h-12 flex items-center justify-center sm:justify-center lg:justify-start `}
       >
         <span>{getIcon()}</span>
         <span className="hidden lg:inline">{text}</span>

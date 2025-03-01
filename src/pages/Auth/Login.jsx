@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
-import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { FaFacebookF } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import { signIn } from "aws-amplify/auth";
-import { checkAuthStatus } from "../../redux/features/authentication/authActions";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
+import { checkAuthStatus } from "../../redux/features/authentication/authActions";
+import "./Login.css";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Please enter your email"),
@@ -85,7 +84,7 @@ const LoginPage = () => {
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
-                ? "border-2 border-blue-700"
+                ? "border-2 border-black -m-px"
                 : " border border-gray-300"
             }`}
           >
@@ -99,6 +98,11 @@ const LoginPage = () => {
               onBlur={() => setPasswordFocus(false)}
               className="mr-auto w-full outline-none"
               required={true}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSignIn();
+                }
+              }}
             />
             <button onClick={() => setPasswordVisible(!passwordVisible)}>
               {passwordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
@@ -128,14 +132,14 @@ const LoginPage = () => {
           <p className="text-red-500 text-sm mt-1">{errors.root}</p>
         )}
 
-        {/* Uncommment for Google and Facebook signin */}
-        <div className="flex items-center my-4">
+        {/* Uncommment for Google and Facebook signin is fully functional*/}
+        {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">{t("OR_WITH")}</span>
           <div className="flex-grow border-t border-gray-300"></div>
-        </div>
+        </div> 
 
-        <div className="flex flex-row items-center">
+         <div className="flex flex-row items-center">
           <button className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
             <FaFacebookF className="mx-2 text-xl text-blue-800" />
             <span>{t("FACEBOOK")}</span>
@@ -145,7 +149,7 @@ const LoginPage = () => {
             <FcGoogle className="mx-2 text-xl" />
             <span>{t("GOOGLE")}</span>
           </button>
-        </div>
+        </div> */}
 
         <div className="mt-16 flex flex-row justify-center">
           <p>{t("NONE_ACCOUNT")}</p>

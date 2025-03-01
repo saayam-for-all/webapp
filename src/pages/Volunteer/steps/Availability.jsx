@@ -3,31 +3,6 @@ import { useState } from "react";
 import { TimePicker } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 
-const CalamityCheckBox = () => {
-  const [isChecked, setIsChecked] = useState(false);
-
-  // Handle checkbox change
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked); // Toggle the checked state
-  };
-
-  return (
-    <div className="flex items-center mt-6 mb-2">
-      <input
-        type="checkbox"
-        id="calamitybox"
-        className="h-4 w-4 mr-2"
-        checked={isChecked}
-        onChange={handleCheckboxChange}
-      />
-      <label htmlFor="calamitybox" className="font-medium">
-        Would you like to receive notifications in case of emergencies or
-        critical situations?
-      </label>
-    </div>
-  );
-};
-
 const TimeInputComponent = ({
   index,
   day,
@@ -125,16 +100,16 @@ const TimeInputComponent = ({
   );
 };
 
-const TimeInputList = () => {
+const TimeInputList = ({ components, setComponents }) => {
   // Initializing state with 5 TimeInputComponents
-  const [components, setComponents] = useState(
-    Array.from({ length: 1 }, (_, i) => ({
-      id: i,
-      day: "Everyday",
-      startTime: "00:00",
-      endTime: "00:00",
-    })),
-  );
+  // const [components, setComponents] = useState(
+  //   Array.from({ length: 1 }, (_, i) => ({
+  //     id: i,
+  //     day: "Everyday",
+  //     startTime: "00:00",
+  //     endTime: "00:00",
+  //   })),
+  // );
 
   const handleDayChange = (index, day) => {
     console.log(`Day change at index ${index}: ${day}`);
@@ -218,14 +193,38 @@ const TimeInputList = () => {
   );
 };
 
-const Availability = () => {
+const Availability = ({
+  availabilitySlots,
+  tobeNotified,
+  setAvailabilitySlots,
+  setNotification,
+}) => {
+  const handleCheckboxChange = () => {
+    setNotification((tobeNotified) => !tobeNotified);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <p className="font-bold text-xl mb-4">
         Please Provide Your Available Time Slots for Volunteering
       </p>
-      <TimeInputList />
-      <CalamityCheckBox />
+      <TimeInputList
+        components={availabilitySlots}
+        setComponents={setAvailabilitySlots}
+      />
+      <div className="flex items-center mt-6 mb-2">
+        <input
+          type="checkbox"
+          id="calamitybox"
+          className="h-4 w-4 mr-2"
+          checked={tobeNotified}
+          onChange={handleCheckboxChange}
+        />
+        <label htmlFor="tobeNotified" className="font-medium">
+          Would you like to receive notifications in case of emergencies or
+          critical situations?
+        </label>
+      </div>
     </div>
   );
 };

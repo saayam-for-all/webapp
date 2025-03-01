@@ -6,6 +6,12 @@ import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import RequestDetails from "../../../src/pages/RequestDetails/RequestDetails";
 
+jest.mock("../../../src/services/requestServices", () => ({
+  getMyRequests: jest.fn(() =>
+    Promise.resolve({ message: "Mocked API Response" }),
+  ),
+}));
+
 test("renders request details", () => {
   /*
   const store = createStore((state = {
