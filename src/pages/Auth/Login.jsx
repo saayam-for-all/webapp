@@ -5,6 +5,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 import "./Login.css";
 
@@ -15,6 +16,7 @@ const loginSchema = z.object({
 
 const LoginPage = () => {
   const { t } = useTranslation();
+  const { loading } = useSelector((state) => state.auth);
 
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
@@ -49,7 +51,7 @@ const LoginPage = () => {
         password: passwordValue,
       });
       if (isSignedIn) {
-        dispatch(checkAuthStatus());
+        await dispatch(checkAuthStatus());
         navigate("/dashboard");
       }
     } catch (error) {
@@ -117,10 +119,14 @@ const LoginPage = () => {
           {t("FORGOT_PASSWORD")}
         </button>
         <button
+          disabled={loading}
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignIn}
         >
-          {t("LOGIN")}
+          <div className="flex items-center justify-center">
+            <span className={loading ? "mr-2" : ""}>{t("LOGIN")}</span>
+            {loading && <LoadingIndicator size="24px" />}
+          </div>
         </button>
         {errors.root && (
           <p className="text-red-500 text-sm mt-1">{errors.root}</p>
