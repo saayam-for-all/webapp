@@ -89,9 +89,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         description: formData.description,
       });
 
-      console.log(res.contains_profanity);
-      console.log(res.profanity);
-
       if (res.contains_profanity) {
         alert(
           "Profanity detected. Please remove these word(s) : " +
