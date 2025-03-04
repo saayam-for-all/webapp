@@ -13,7 +13,7 @@ const MissionVision = () => {
           <div className="flex-shrink-0">
             <img src={MISSIONIMG} alt="mission" className="w-[35rem] h-80" />
           </div>
-          <p className="text-lg px-5 text-justify">
+          <p className="text-lg px-5 mt-5 lg:mt-0 text-justify">
             {t("EMPOWER_INDIVIDUALS")}
           </p>
         </div>
