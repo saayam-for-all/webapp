@@ -342,13 +342,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               <Select
                 value={phoneCodeOptions.find(
                   (option) =>
-                    option.value === personalInfo.secondaryPhoneCountryCode,
+                    option.code === personalInfo.secondaryPhoneCountryCode,
                 )}
+                getOptionLabel={(e) => `${e.country} (${e.dialCode})`}
+                getOptionValue={(e) => e.code}
                 options={phoneCodeOptions}
                 onChange={(selectedOption) =>
                   handleInputChange(
                     "secondaryPhoneCountryCode",
-                    selectedOption?.value || "",
+                    selectedOption?.code || "",
                   )
                 }
                 className="w-full max-w-[100px] mr-2"
