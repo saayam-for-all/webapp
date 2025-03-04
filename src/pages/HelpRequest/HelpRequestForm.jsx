@@ -82,17 +82,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       location,
     };
 
-    const { subject, description } = formData;
-
-    // Create a new object with the extracted properties
-    const selectedData = { subject, description };
-
-    // Convert the object to JSON format
-    const jsonData = JSON.stringify(selectedData);
-
     try {
       // Check for profanity in the content
-      const res = await checkProfanity(jsonData);
+      const res = await checkProfanity({
+        subject: formData.subject,
+        description: formData.description,
+      });
 
       console.log(res.contains_profanity);
       console.log(res.profanity);
