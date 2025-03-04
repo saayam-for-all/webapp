@@ -73,11 +73,11 @@ The optimized production build will be located in the dist directory.
 
 ## Usage Overview
 
-- A user can register and login from Home Page
-- A user can request for help
-- A volunteer can register and Login
-- A verified volunteer can handle a request
-- Any one can donate from donate page
+- A user can register and login from Home Page.
+- A user can request for help.
+- A volunteer can register and Login.
+- A verified volunteer can handle a request.
+- Any one can donate from donate page.
 
 Provide instructions or examples demonstrating how to use your application.
 
