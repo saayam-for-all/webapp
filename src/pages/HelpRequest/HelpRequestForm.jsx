@@ -13,7 +13,7 @@ import {
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
-
+import { checkProfanity } from "../../services/requestServices";
 const genderOptions = [
   { value: "Select", label: "Select" },
   { value: "Woman", label: "Woman" },
@@ -83,25 +83,38 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
 
     try {
-      const response = await addRequest(submissionData);
-      // const response = await axios.post(
-      //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-      //   submissionData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
+      const res = await checkProfanity({
+        subject: formData.subject,
+        description: formData.description,
+      });
 
-      alert(
-        "Request submitted successfully! Request ID: " +
-          response.data.requestId,
-      );
-      // console.log(response);
+      if (res.contains_profanity) {
+        alert(
+          "Profanity detected. Please remove these word(s) : " +
+            res.profanity +
+            "  from Subject/Description and submit request again!",
+        );
+      } else {
+        // Proceed with submitting the request if no profanity is found
+        const response = await addRequest(submissionData);
+        // const response = await axios.post(
+        //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
+        //   submissionData,
+        //   {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
+
+        alert(
+          "Request submitted successfully! Request ID: " +
+            response.data.requestId,
+        );
+      }
     } catch (error) {
-      console.error("Failed to submit request:", error);
+      console.error("Failed to process request:", error);
       alert("Failed to submit request!");
     }
   };
