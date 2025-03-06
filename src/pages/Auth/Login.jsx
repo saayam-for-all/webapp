@@ -1,5 +1,5 @@
 import { signIn } from "aws-amplify/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +27,12 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({});
 
   const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
