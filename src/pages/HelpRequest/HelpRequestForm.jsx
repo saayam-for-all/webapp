@@ -1,7 +1,10 @@
 import { StandaloneSearchBox } from "@react-google-maps/api";
 import React, { useEffect, useRef, useState } from "react"; //added for testing
 import { useTranslation } from "react-i18next";
-import { IoMdInformationCircle } from "react-icons/io";
+import {
+  IoIosArrowDropleftCircle,
+  IoMdInformationCircle,
+} from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
@@ -222,6 +225,19 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
+      <button
+        onClick={() => navigate(-1)}
+        className="relative top-4 left-4 p-2 rounded-full hover:bg-gray-200 flex items-center gap-2"
+        style={{
+          zIndex: 1000,
+          left: "10px",
+          top: "10px",
+        }}
+      >
+        <IoIosArrowDropleftCircle size={40} />
+        <span>Back</span>
+      </button>
+
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
