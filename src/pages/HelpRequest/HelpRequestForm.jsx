@@ -458,13 +458,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               <select
                 id="requestType"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                value={formData.request_type}
+                value={formData.request_type || "Remote"}
                 onChange={(e) =>
                   setFormData({ ...formData, request_type: e.target.value })
                 }
               >
                 <option value="Remote">{t("REMOTE")}</option>
-                <option value="In Person">{t("IN_PERSON")}</option>
+                <option value="In Person" style={{ display: "none" }}>
+                  {t("IN_PERSON")}
+                </option>
               </select>
             </div>
 
