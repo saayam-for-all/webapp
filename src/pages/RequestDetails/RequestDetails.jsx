@@ -110,19 +110,21 @@ const RequestDetails = () => {
           </div>
           <div className="bg-white border border-gray-200 shadow-md m-0 flex flex-col">
             <div className="flex flex-row justify-evenly w-full">
-              {["Comments", "Volunteers", "Details"].map((newTab) => (
-                <button
-                  key={newTab}
-                  className={`flex-1 py-3 text-center cursor-pointer font-bold w-1/3 ${
-                    newTab === tab
-                      ? "bg-white border-gray-300 border-b-2"
-                      : "bg-gray-300 border-transparent hover:bg-gray-200"
-                  } `}
-                  onClick={() => setTab(newTab)}
-                >
-                  {t(newTab)}
-                </button>
-              ))}
+              {["Comments", "Volunteers", "Details"].map(
+                (newTab, index, array) => (
+                  <button
+                    key={newTab}
+                    className={`flex-1 py-3 text-center cursor-pointer font-bold w-1/3 ${
+                      newTab === tab
+                        ? "bg-white border-gray-300 border-b-2 border-l-2 border-r-2"
+                        : "bg-gray-300 border-transparent hover:bg-gray-200"
+                    } ${index < array.length - 1 ? "mr-4" : ""} `}
+                    onClick={() => setTab(newTab)}
+                  >
+                    {t(newTab)}
+                  </button>
+                ),
+              )}
             </div>
             <div className="p-4">
               {tab === "Comments" ? (
