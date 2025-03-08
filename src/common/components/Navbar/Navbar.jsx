@@ -104,13 +104,16 @@ const Navbar = () => {
 
   return (
     <div className="navbar navbar-sm navbar-gradient-bg s">
-      <div className="navbar-start">
-        <Link to="/dashboard" className="text-3xl font-semibold">
+      <div className="navbar-start w-1/5 md:w-1/2">
+        <Link
+          to="/dashboard"
+          className="text-xl md:ml-[15px] md:text-3xl font-semibold"
+        >
           <img src={LOGO} alt="logo" className="w-14 h-14" />
         </Link>
       </div>
 
-      <div className="navbar-end gap-10">
+      <div className="navbar-end w-4/5 md:1/2 gap-4 md:gap-10">
         <div className="dropdown">
           <button
             className={`font-semibold flex flex-col items-center ${
