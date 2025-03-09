@@ -115,6 +115,10 @@ const Dashboard = ({ userRole }) => {
   const filteredRequests = (requests) => {
     // setCrrrentSorting(requests);
     // console.log(requests);
+    if (!categoryFilter || Object.keys(categoryFilter).length === 0) {
+      return [];
+    }
+
     return requests.filter(
       (request) =>
         (Object.keys(statusFilter).length === 0 ||

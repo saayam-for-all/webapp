@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
+import { useTranslation } from "react-i18next";
 
 const Table = ({
   headers,
@@ -16,6 +17,7 @@ const Table = ({
   getLinkPath,
   getLinkState = undefined,
 }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const paginatedRequests = useMemo(() => {
     return rows.slice(
@@ -66,29 +68,37 @@ const Table = ({
             className="bg-white divide-y divide-gray-200 "
             data-testid="table-body"
           >
-            {paginatedRequests.map((request, rowIndex) => (
-              <tr key={rowIndex}>
-                {headers.map((header, colIndex) => (
-                  <td
-                    key={colIndex}
-                    className="px-6 py-4 whitespace-nowrap"
-                    data-testid="map-data-one"
-                  >
-                    {header === "id" ? (
-                      <Link
-                        to={getLinkPath(request, header)}
-                        className="text-indigo-600 hover:text-indigo-900"
-                        state={getLinkState ? getLinkState(request) : {}}
-                      >
-                        {request[header]}
-                      </Link>
-                    ) : (
-                      request[header]
-                    )}
-                  </td>
-                ))}
+            {paginatedRequests.length === 0 ? (
+              <tr>
+                <td colSpan={headers.length} className="text-center py-4">
+                  {t("noRecordsToShow")}
+                </td>
               </tr>
-            ))}
+            ) : (
+              paginatedRequests.map((request, rowIndex) => (
+                <tr key={rowIndex}>
+                  {headers.map((header, colIndex) => (
+                    <td
+                      key={colIndex}
+                      className="px-6 py-4 whitespace-nowrap"
+                      data-testid="map-data-one"
+                    >
+                      {header === "id" ? (
+                        <Link
+                          to={getLinkPath(request, header)}
+                          className="text-indigo-600 hover:text-indigo-900"
+                          state={getLinkState ? getLinkState(request) : {}}
+                        >
+                          {request[header]}
+                        </Link>
+                      ) : (
+                        request[header]
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
