@@ -1,13 +1,12 @@
 module.exports = {
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
+    "^.+\\.[tj]sx?$": "babel-jest",
   },
-  transformIgnorePatterns: [
-    "node_modules/(?!(node-fetch)/)", // Asegura que Jest transforme node-fetch
-  ],
+  transformIgnorePatterns: ["node_modules/(?!(node-fetch)/)"],
   moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
     "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
   },
-  testEnvironment: "jsdom",
+  testEnvironment: "jest-environment-jsdom",
 };

@@ -1,22 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Hub } from "aws-amplify/utils";
+import { BiDonateHeart } from "react-icons/bi";
 import {
-  IoPeopleOutline,
   IoLogInOutline,
   IoNotificationsOutline,
+  IoPeopleOutline,
 } from "react-icons/io5";
-import { BiDonateHeart } from "react-icons/bi";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
-import LOGO from "../../../assets/logo.svg";
-import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
-import "./NavBar.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  checkAuthStatus,
-  logout,
-} from "../../../redux/features/authentication/authActions";
+import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
+import LOGO from "../../../assets/logo.svg";
+import { logout } from "../../../redux/features/authentication/authActions";
+import "./NavBar.css";
 
 const Navbar = () => {
   const { i18n, t } = useTranslation();
@@ -101,19 +97,23 @@ const Navbar = () => {
   };
 
   const handleSignOut = () => {
+    setIsProfileDropdownOpen(false);
     dispatch(logout());
     navigate("/login");
   };
 
   return (
     <div className="navbar navbar-sm navbar-gradient-bg s">
-      <div className="navbar-start">
-        <Link to="/dashboard" className="text-3xl font-semibold">
+      <div className="navbar-start w-1/5 md:w-1/2">
+        <Link
+          to="/dashboard"
+          className="text-xl md:ml-[15px] md:text-3xl font-semibold"
+        >
           <img src={LOGO} alt="logo" className="w-14 h-14" />
         </Link>
       </div>
 
-      <div className="navbar-end gap-10">
+      <div className="navbar-end w-4/5 md:1/2 gap-4 md:gap-10">
         <div className="dropdown">
           <button
             className={`font-semibold flex flex-col items-center ${

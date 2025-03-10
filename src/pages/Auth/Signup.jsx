@@ -79,8 +79,11 @@ const SignUp = () => {
   //name, email and phone number validation functions
   const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePhone = (phone) => /^[0-9]{10}$/.test(phone);//Exactly 10 digits phone number
-  const validatePassword = (password) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+  const validatePhone = (phone) => /^[0-9]{10}$/.test(phone); //Exactly 10 digits phone number
+  const validatePassword = (password) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+      password,
+    );
 
   const handleSignUp = async () => {
     try {
@@ -200,7 +203,8 @@ const SignUp = () => {
               onChange={(e) => {
                 const selectedCode = e.target.value;
                 setCountryCode(selectedCode);
-                const selectedCountry = PHONECODESEN[selectedCode]?.primary || "";
+                const selectedCountry =
+                  PHONECODESEN[selectedCode]?.primary || "";
                 setCountry(selectedCountry);
               }}
               className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
@@ -227,8 +231,8 @@ const SignUp = () => {
             )}
           </div>
           {phoneError && (
-              <p className="text-red-500 text-sm mt-1">{phoneError}</p>
-            )}
+            <p className="text-red-500 text-sm mt-1">{phoneError}</p>
+          )}
         </div>
 
         {/* Country */}
@@ -250,7 +254,7 @@ const SignUp = () => {
         </div>
 
         {/* Password */}
-        <div className="my-2 flex flex-col">
+        <div className="my-2 flex flex-col relative">
           <label htmlFor="password">Password</label>
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
@@ -273,39 +277,42 @@ const SignUp = () => {
               {passwordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
-          {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
-        </div>
 
-        {/* Password validation */}
-        {passwordFocus && (
-          <div className="flex flex-col items-start">
-            <p
-              className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+          {/* Password validation */}
+          {passwordFocus && (
+            <div
+              className="flex flex-col items-start absolute top-0 left-full
+             ml-2 w-[clamp(100px,55vw,200px)] border border-gray-300 bg-white p-2
+             rounded shadow z-[1000] whitespace-normal break-words"
             >
-              Password must contain at least 8 characters.
-            </p>
-            <p
-              className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-            >
-              Password must contain at least 1 number.
-            </p>
-            <p
-              className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-            >
-              Password must contain at least 1 special character.
-            </p>
-            <p
-              className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-            >
-              Password must contain at least 1 uppercase letter.
-            </p>
-            <p
-              className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-            >
-              Password must contain at least 1 lowercase letter.
-            </p>
-          </div>
-        )}
+              <p
+                className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+              >
+                Password must contain at least 8 characters.
+              </p>
+              <p
+                className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+              >
+                Password must contain at least 1 number.
+              </p>
+              <p
+                className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+              >
+                Password must contain at least 1 special character.
+              </p>
+              <p
+                className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+              >
+                Password must contain at least 1 uppercase letter.
+              </p>
+              <p
+                className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+              >
+                Password must contain at least 1 lowercase letter.
+              </p>
+            </div>
+          )}
+        </div>
 
         {/* Confirm Password */}
         <div className="my-2 flex flex-col">
@@ -333,7 +340,9 @@ const SignUp = () => {
               {confirmPasswordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
-          {confirmPasswordError && (<p className="text-red-500 text-sm mt-1">{confirmPasswordError}</p>)}
+          {confirmPasswordError && (
+            <p className="text-red-500 text-sm mt-1">{confirmPasswordError}</p>
+          )}
         </div>
 
         <button
