@@ -23,7 +23,9 @@ const StepperControl = ({
       </div>
       <div className="px-4 w-24">
         <button
-          onClick={() => handleClick("next")}
+          onClick={() =>
+            handleClick(currentStep === steps.length ? "confirm" : "next")
+          }
           className={`uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 ${
             (currentStep === 1 && !isAcknowledged) || currentStep > steps.length
               ? "bg-green-300 text-gray border-green-300 opacity-50 cursor-not-allowed"

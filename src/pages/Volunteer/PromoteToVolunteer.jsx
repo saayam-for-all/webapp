@@ -34,8 +34,8 @@ const PromoteToVolunteer = () => {
     const fetchUserId = async () => {
       try {
         const user = await getCurrentUser(); // Fetch user once
-        setUserId(user.userId);
-        // setUserId("SID-00-000-000-086"); // remove this line.. added to test with aws api
+        // setUserId(user.userId);
+        setUserId("SID-00-000-000-004"); // remove this line.. added to test with aws api
       } catch (error) {
         console.error("Error fetching user ID:", error);
       }
@@ -106,30 +106,59 @@ const PromoteToVolunteer = () => {
     }
   };
 
-  const saveVolunteerData = async () => {
+  const testLocalBe = async () => {
     try {
       // console.log("Sending API Request with volunteerData:", volunteerDataRef.current);
 
       /* .........Uncomment this for local testing without aws api ...........*/
 
-      // const response = await axios({
-      //   method: volunteerDataRef.current.step === 1 ? "post" : "put",
-      //   url: volunteerDataRef.current.step === 1
-      //     ? "http://localhost:8080/0.0.1/volunteers/createvolunteer"
-      //     : "http://localhost:8080/0.0.1/volunteers/updatevolunteer",
-      //   data: volunteerDataRef.current, // Get latest data from ref
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-      if (volunteerDataRef.current.step === 1) {
-        const response = await createVolunteer(volunteerDataRef.current);
-        return response;
-      } else {
-        const response = await updateVolunteer(volunteerDataRef.current);
-        return response;
-      }
+      const response = await axios({
+        method: "get",
+        url: "http://localhost:8080/0.0.1/volunteers/all",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error(
+        "API Error:",
+        error.response ? error.response.data : error.message,
+      );
+      return null;
+    }
+  };
+
+  const saveVolunteerData = async () => {
+    console.log(volunteerDataRef.current, "volunteerDataRef.current");
+    console.log("Current Step:", volunteerDataRef.current.step);
+    try {
+      // console.log("Sending API Request with volunteerData:", volunteerDataRef.current);
+
+      /* .........Uncomment this for local testing without aws api ...........*/
+
+      const response = await axios({
+        method: volunteerDataRef.current.step === 1 ? "post" : "put",
+        url:
+          volunteerDataRef.current.step === 1
+            ? "http://localhost:8080/0.0.1/volunteers/createvolunteer"
+            : "http://localhost:8080/0.0.1/volunteers/updatevolunteer",
+
+        data: volunteerDataRef.current, // Get latest data from ref
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response;
+      // if (volunteerDataRef.current.step === 1) {
+      //   const response = await createVolunteer(volunteerDataRef.current);
+      //   return response;
+      // } else {
+      //   const response = await updateVolunteer(volunteerDataRef.current);
+      //   return response;
+      // }
     } catch (error) {
       console.error(
         "API Error:",
@@ -178,6 +207,7 @@ const PromoteToVolunteer = () => {
             userId: userId,
             termsAndConditions: isAcknowledged,
           });
+          testLocalBe();
           break;
         case 2:
           isValidStep = govtIdFile && govtIdFile.name !== "";
@@ -231,6 +261,8 @@ const PromoteToVolunteer = () => {
       }
     } else if (direction === "prev") {
       newStep--;
+    } else if (direction === "confirm") {
+      saveVolunteerData();
     }
 
     if (newStep > 0 && newStep <= steps.length + 1) {
