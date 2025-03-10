@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
 import PHONECODESEN from "../../utils/phone-codes-en";
@@ -13,39 +14,41 @@ function YourProfile({ setHasUnsavedChanges }) {
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [callType, setCallType] = useState("audio");
   const firstNameRef = useRef(null);
-
-  const [profileInfo, setProfileInfo] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    phoneCountryCode: "US",
-    country: "",
-  });
-
   const countries = CountryList().getData();
 
+  const user = useSelector((state) => state.auth.user);
+
+  const [profileInfo, setProfileInfo] = useState({
+    firstName: user?.given_name || "",
+    lastName: user?.family_name || "",
+    email: user?.email || "",
+    phone: user?.phone_number || "",
+    phoneCountryCode: "US",
+    country: user?.zoneinfo || "",
+  });
+
   useEffect(() => {
-    const savedProfileInfo = JSON.parse(localStorage.getItem("profileInfo"));
-    if (savedProfileInfo) {
-      setProfileInfo(savedProfileInfo);
+    if (user) {
+      setProfileInfo({
+        firstName: user.given_name || "",
+        lastName: user.family_name || "",
+        email: user.email || "",
+        phone: user.phone_number || "",
+        phoneCountryCode: "US",
+        country: user.zoneinfo || "",
+      });
     }
-  }, []);
+  }, [user]);
 
   const handleInputChange = (name, value) => {
-    setProfileInfo({
-      ...profileInfo,
-      [name]: value,
-    });
+    setProfileInfo({ ...profileInfo, [name]: value });
     setHasUnsavedChanges(true);
   };
 
   const handleEditClick = () => {
     setIsEditing(true);
     setTimeout(() => {
-      if (firstNameRef.current) {
-        firstNameRef.current.focus();
-      }
+      if (firstNameRef.current) firstNameRef.current.focus();
     }, 0);
   };
 
@@ -55,167 +58,98 @@ function YourProfile({ setHasUnsavedChanges }) {
   };
 
   return (
-    <div
-      className="flex flex-col border p-6 rounded-lg w-full"
-      data-testid="container-test-1"
-    >
+    <div className="flex flex-col border p-6 rounded-lg w-full">
       {/* First Name and Last Name */}
-      <div
-        className="grid grid-cols-2 gap-4 mb-6"
-        data-testid="container-test-2"
-      >
+      <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          <label className="block text-gray-700 text-xs font-bold mb-2">
             {t("FIRST_NAME")}
           </label>
           {isEditing ? (
             <input
               ref={firstNameRef}
               type="text"
-              name="firstName"
               value={profileInfo.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
-            <p className="text-lg text-gray-900">
-              {profileInfo.firstName || ""}
-            </p>
+            <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
           )}
         </div>
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          <label className="block text-gray-700 text-xs font-bold mb-2">
             {t("LAST_NAME")}
           </label>
           {isEditing ? (
             <input
               type="text"
-              name="lastName"
               value={profileInfo.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
-            <p className="text-lg text-gray-900">
-              {profileInfo.lastName || ""}
-            </p>
+            <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
           )}
         </div>
       </div>
 
-      {/* Email */}
-      <div
-        className="grid grid-cols-1 gap-4 mb-6"
-        data-testid="container-test-3"
-      >
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("EMAIL")}
-          </label>
-          {isEditing ? (
-            <input
-              type="email"
-              name="email"
-              value={profileInfo.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">{profileInfo.email || ""}</p>
-          )}
-        </div>
+      {/* Email (Non-Editable) */}
+      <div className="mb-6">
+        <label className="block text-gray-700 text-xs font-bold mb-2">
+          {t("EMAIL")}
+        </label>
+        <p className="text-lg text-gray-900">{profileInfo.email}</p>
       </div>
 
       {/* Phone Number */}
-      <div
-        className="grid grid-cols-1 gap-4 mb-6"
-        data-testid="container-test-4"
-      >
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("PHONE_NUMBER")}
-          </label>
+      <div className="mb-6">
+        <label className="block text-gray-700 text-xs font-bold mb-2">
+          {t("PHONE_NUMBER")}
+        </label>
+        <div className="flex items-center space-x-2">
           {isEditing ? (
-            <div className="flex space-x-2 items-center">
-              {/* Country Code Dropdown */}
-              <select
-                id="phoneCountryCode"
-                name="phoneCountryCode"
-                value={profileInfo.phoneCountryCode}
-                onChange={(e) =>
-                  handleInputChange("phoneCountryCode", e.target.value)
-                }
-                className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
-              >
-                {getPhoneCodeslist(PHONECODESEN).map((option) => (
-                  <option key={option.code} value={option.code}>
-                    {option.country} ({option.dialCode})
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type="text"
-                id="phone"
-                name="phone"
-                value={profileInfo.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
-                placeholder={t("YOUR_PHONE_NUMBER")}
-                maxLength={10}
-                className="w-2/3 px-4 py-2 border border-gray-300 rounded-xl"
-              />
-            </div>
+            <input
+              type="text"
+              value={profileInfo.phone}
+              onChange={(e) => handleInputChange("phone", e.target.value)}
+              className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+            />
           ) : (
-            <div className="flex items-center space-x-2">
-              <p className="text-lg text-gray-900">
-                {profileInfo.phoneCountryCode} {profileInfo.phone}
-              </p>
-              {/* Phone and Video Icons */}
-              <FiPhoneCall
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={() => handleCallIconClick("audio")} // Open modal for audio call
-              />
-              <FiVideo
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={() => handleCallIconClick("video")} // Open modal for video call
-              />
-            </div>
+            <p className="text-lg text-gray-900">
+              {profileInfo.phoneCountryCode} {profileInfo.phone}
+            </p>
           )}
+          <FiPhoneCall
+            className="text-gray-500 cursor-pointer hover:text-gray-700"
+            onClick={() => handleCallIconClick("audio")}
+          />
+          <FiVideo
+            className="text-gray-500 cursor-pointer hover:text-gray-700"
+            onClick={() => handleCallIconClick("video")}
+          />
         </div>
       </div>
 
       {/* Country */}
-      <div
-        className="grid grid-cols-1 gap-4 mb-6"
-        data-testid="container-test-5"
-      >
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("COUNTRY")}
-          </label>
-          {isEditing ? (
-            <select
-              id="country"
-              name="country"
-              value={profileInfo.country}
-              onChange={(e) => handleInputChange("country", e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-xl"
-            >
-              <option value="">{t("SELECT_COUNTRY")}</option>
-              {countries.map((option) => (
-                <option key={option.value} value={option.label}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <p className="text-lg text-gray-900">{profileInfo.country || ""}</p>
-          )}
-        </div>
+      <div className="mb-6">
+        <label className="block text-gray-700 text-xs font-bold mb-2">
+          {t("COUNTRY")}
+        </label>
+        {isEditing ? (
+          <input
+            type="text"
+            value={profileInfo.country}
+            onChange={(e) => handleInputChange("country", e.target.value)}
+            className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+          />
+        ) : (
+          <p className="text-lg text-gray-900">{profileInfo.country}</p>
+        )}
       </div>
 
-      {/* Save/Cancel Buttons */}
-      <div className="flex justify-center mt-6" data-testid="container-test-6">
+      {/* Edit Button */}
+      <div className="flex justify-center mt-6">
         {!isEditing ? (
           <button
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -229,10 +163,6 @@ function YourProfile({ setHasUnsavedChanges }) {
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={() => {
                 setIsEditing(false);
-                localStorage.setItem(
-                  "profileInfo",
-                  JSON.stringify(profileInfo),
-                );
                 setHasUnsavedChanges(false);
               }}
             >
