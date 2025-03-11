@@ -81,12 +81,7 @@ const RequestDetails = () => {
             <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 uppercase">
               {requestData.subject}
             </h2>
-            <button
-              className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
-              onClick={() => setIsEditing(true)}
-            >
-              {t("EDIT")}
-            </button>
+            {/**Edit Button was previously here */}
           </div>
           <div className="flex flex-row justify-between">
             <RequestButton
@@ -109,15 +104,13 @@ const RequestDetails = () => {
             />
           </div>
           <div className="bg-white border border-gray-200 shadow-md m-0 flex flex-col">
-            <div className="flex flex-row justify-evenly w-full">
-              {["Comments", "Volunteers", "Details"].map((newTab) => (
+            <div className="flex flex-row justify-evenly w-full border-gray-400">
+              {["Comments", "Volunteers", "Details"].map((newTab, index) => (
                 <button
                   key={newTab}
-                  className={`flex-1 py-3 text-center cursor-pointer font-bold w-1/3 ${
-                    newTab === tab
-                      ? "bg-white border-gray-300 border-b-2"
-                      : "bg-gray-300 border-transparent hover:bg-gray-200"
-                  } `}
+                  className={`flex-1 py-3 text-center cursor-pointer font-bold w-1/3 bg-gray-300 hover:bg-gray-200 
+                    ${newTab === tab ? "bg-white border-gray-500" : "border-transparent"} 
+                    ${index !== 0 ? "border-l-2 border-gray-400" : ""}`}
                   onClick={() => setTab(newTab)}
                 >
                   {t(newTab)}
@@ -130,7 +123,10 @@ const RequestDetails = () => {
               ) : tab === "Volunteers" ? (
                 <HelpingVolunteers />
               ) : (
-                <RequestDescription requestData={requestData} />
+                <RequestDescription
+                  requestData={requestData}
+                  setIsEditing={setIsEditing}
+                />
               )}
             </div>
           </div>

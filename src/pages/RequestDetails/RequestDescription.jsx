@@ -40,7 +40,7 @@ const attributes = [
   },
 ];
 
-const RequestDescription = ({ requestData }) => {
+const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
 
@@ -76,7 +76,14 @@ const RequestDescription = ({ requestData }) => {
                 </span>
               </div>
             </li>
+            <button
+              className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
+              onClick={() => setIsEditing(true)}
+            >
+              {t("EDIT")}
+            </button>
           </ul>
+
           <div className="w-full m-0">
             <p className="text-sm p-5">{t(requestData.description)}</p>
           </div>
