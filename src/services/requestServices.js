@@ -17,3 +17,13 @@ export const getComments = async () => {
   const response = await api.get(endpoints.GET_REQUEST_COMMENTS);
   return response.data;
 };
+
+export const checkProfanity = async (content) => {
+  const response = await api.post(endpoints.CHECK_PROFANITY, content);
+  return response.data;
+};
+
+export const createRequest = async (request) => {
+  const response = await api.post(endpoints.CREATE_HELP_REQUEST, request);
+  return response.data;
+};

@@ -81,12 +81,7 @@ const RequestDetails = () => {
             <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 uppercase">
               {requestData.subject}
             </h2>
-            <button
-              className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
-              onClick={() => setIsEditing(true)}
-            >
-              {t("EDIT")}
-            </button>
+            {/**Edit Button was previously here */}
           </div>
           <div className="flex flex-row justify-between">
             <RequestButton
@@ -132,7 +127,10 @@ const RequestDetails = () => {
               ) : tab === "Volunteers" ? (
                 <HelpingVolunteers />
               ) : (
-                <RequestDescription requestData={requestData} />
+                <RequestDescription
+                  requestData={requestData}
+                  setIsEditing={setIsEditing}
+                />
               )}
             </div>
           </div>
