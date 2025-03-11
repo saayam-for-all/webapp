@@ -22,3 +22,8 @@ export const checkProfanity = async (content) => {
   const response = await api.post(endpoints.CHECK_PROFANITY, content);
   return response.data;
 };
+
+export const createRequest = async (request) => {
+  const response = await api.post(endpoints.CREATE_HELP_REQUEST, request);
+  return response.data;
+};
