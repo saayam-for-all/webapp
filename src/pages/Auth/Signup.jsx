@@ -230,9 +230,6 @@ const SignUp = () => {
               <p className="text-sm text-red-500">{errors.phone}</p>
             )}
           </div>
-          {phoneError && (
-            <p className="text-red-500 text-sm mt-1">{phoneError}</p>
-          )}
         </div>
 
         {/* Country */}
@@ -340,9 +337,6 @@ const SignUp = () => {
               {confirmPasswordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
-          {confirmPasswordError && (
-            <p className="text-red-500 text-sm mt-1">{confirmPasswordError}</p>
-          )}
         </div>
 
         <button
