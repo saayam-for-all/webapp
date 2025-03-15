@@ -43,7 +43,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$/;
 
     if (!passwordRegex.test(newPassword)) {
-      setErrorMessage(t("PASSWORD_MISMATCH_ERROR"));
+      setErrorMessage(t("PASSWORD_REQUIREMENTS_ERROR"));
       valid = false;
       return;
     }
