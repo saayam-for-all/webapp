@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { updatePassword } from "aws-amplify/auth";
+import LoadingIndicator from "../../common/components/Loading/Loading";
 
 function ChangePassword({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -31,25 +34,45 @@ function ChangePassword({ setHasUnsavedChanges }) {
     }, 0);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     let valid = true;
     setErrorMessage("");
     setPasswordMatchError("");
 
-    if (newPassword.length < 8) {
-      setErrorMessage("Password must be at least 8 characters long.");
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$/;
+
+    if (!passwordRegex.test(newPassword)) {
+      setErrorMessage(t("PASSWORD_REQUIREMENTS_ERROR"));
       valid = false;
+      return;
     }
 
     if (newPassword !== confirmPassword) {
-      setPasswordMatchError("Passwords do not match.");
+      setPasswordMatchError(t("PASSWORD_MISMATCH_ERROR"));
       valid = false;
+      return;
     }
 
     if (valid) {
-      setIsEditing(false);
-      setHasUnsavedChanges(false);
-      alert("Password changed successfully!");
+      setLoading(true);
+      try {
+        await updatePassword({
+          oldPassword: currentPassword,
+          newPassword,
+        });
+
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        alert(t("PASSWORD_CHANGE_SUCCESS"));
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        setIsEditing(false);
+        setHasUnsavedChanges(false);
+        setLoading(false);
+      }
     }
   };
 
@@ -141,12 +164,15 @@ function ChangePassword({ setHasUnsavedChanges }) {
           </div>
           <div className="flex justify-center mt-6">
             <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
+              disabled={loading}
+              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 flex items-center justify-center"
               onClick={handleSaveClick}
             >
-              {t("SAVE")}
+              <span className={loading ? "mr-2" : ""}>{t("SAVE")}</span>
+              {loading && <LoadingIndicator size="24px" />}
             </button>
             <button
+              disabled={loading}
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
               onClick={handleCancelClick}
             >
