@@ -7,7 +7,7 @@ import { getPhoneCodeslist } from "../../utils/utils";
 import CountryList from "react-select-country-list";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
 import CallModal from "./CallModal.jsx";
-import { loginSuccess } from "../../redux/features/authentication/authSlice"; // Keep Redux update
+import { updateUserProfileSuccess } from "../../redux/features/authentication/authSlice";
 
 function YourProfile({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
@@ -15,6 +15,7 @@ function YourProfile({ setHasUnsavedChanges }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [callType, setCallType] = useState("audio");
+  const [loading, setLoading] = useState(false);
   const firstNameRef = useRef(null);
   const countries = CountryList().getData();
 
@@ -43,40 +44,37 @@ function YourProfile({ setHasUnsavedChanges }) {
   }, [user]);
 
   const handleInputChange = (name, value) => {
-    setProfileInfo({
-      ...profileInfo,
-      [name]: value,
-    });
+    setProfileInfo({ ...profileInfo, [name]: value });
     setHasUnsavedChanges(true);
   };
 
   const handleSave = async () => {
     try {
-      await updateUserAttributes({
+      setLoading(true);
+      setIsEditing(false);
+      setHasUnsavedChanges(false);
+
+      // Prepare updated attributes for Cognito
+      const updatedAttributes = {
         given_name: profileInfo.firstName,
         family_name: profileInfo.lastName,
         email: profileInfo.email,
         phone_number: profileInfo.phone,
         "custom:Country": profileInfo.country,
-      });
+      };
 
-      dispatch(
-        loginSuccess({
-          user: {
-            ...user,
-            given_name: profileInfo.firstName,
-            family_name: profileInfo.lastName,
-            email: profileInfo.email,
-            phone_number: profileInfo.phone,
-            zoneinfo: profileInfo.country,
-          },
-        }),
-      );
+      console.log("Updating Cognito with:", updatedAttributes);
+      await updateUserAttributes(updatedAttributes);
 
-      setIsEditing(false);
-      setHasUnsavedChanges(false);
+      // Update Redux state
+      dispatch(updateUserProfileSuccess(updatedAttributes));
+
+      console.log("Profile successfully updated!");
     } catch (error) {
       console.error("Error updating Cognito attributes:", error);
+      alert("Failed to save changes. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,7 +83,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       {/* First Name and Last Name */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block tracking-wide text-white-700 text-xs font-bold mb-2">
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("FIRST_NAME")}
           </label>
           {isEditing ? (
@@ -94,16 +92,14 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-grey-700 border border-white-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
-            <p className="text-lg text-white-900">
-              {profileInfo.firstName || ""}
-            </p>
+            <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
           )}
         </div>
         <div>
-          <label className="block tracking-wide text-white-700 text-xs font-bold mb-2">
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("LAST_NAME")}
           </label>
           {isEditing ? (
@@ -111,37 +107,29 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
-            <p className="text-lg text-white-900">
-              {profileInfo.lastName || ""}
-            </p>
+            <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
           )}
         </div>
       </div>
 
       {/* Email */}
-      <div
-        className="grid grid-cols-1 gap-4 mb-6"
-        data-testid="container-test-3"
-      >
-        <div>
-          <label className="block tracking-wide text-grey-700 text-xs font-bold mb-2">
-            {t("EMAIL")}
-          </label>
-          {isEditing ? (
-            <input
-              type="email"
-              name="email"
-              value={profileInfo.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-white-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-white-900">{profileInfo.email || ""}</p>
-          )}
-        </div>
+      <div className="mb-6">
+        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          {t("EMAIL")}
+        </label>
+        {isEditing ? (
+          <input
+            type="email"
+            value={profileInfo.email}
+            onChange={(e) => handleInputChange("email", e.target.value)}
+            className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+          />
+        ) : (
+          <p className="text-lg text-gray-900">{profileInfo.email}</p>
+        )}
       </div>
 
       {/* Phone Number */}
@@ -204,8 +192,9 @@ function YourProfile({ setHasUnsavedChanges }) {
             <button
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={handleSave}
+              disabled={loading}
             >
-              {t("SAVE")}
+              {loading ? "Saving..." : t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
