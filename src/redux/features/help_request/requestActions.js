@@ -45,6 +45,16 @@ const categories = [
       "Tennis",
     ],
   },
+  {
+    id: "Counseling",
+    name: "Counseling Support",
+    subcategories: [
+      "College Applications (Master’s)",
+      "Review of Statements of Purpose (SoPs)",
+      "College Recommendations",
+      "Suggestions for College Choices",
+    ],
+  },
   { id: "stocks", name: "Stocks" },
   { id: "travel", name: "Travel" },
   { id: "tourism", name: "Tourism" },
