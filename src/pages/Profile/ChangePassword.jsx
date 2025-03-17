@@ -101,7 +101,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
                 type={showPassword ? "text" : "password"}
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
               <div
                 onClick={() => setShowPassword(!showPassword)}
@@ -120,7 +120,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
                 type={showPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                   errorMessage ? "border-red-500" : "border-gray-200"
                 } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
               />
@@ -147,7 +147,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
                 type={showPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                   passwordMatchError ? "border-red-500" : "border-gray-200"
                 } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
               />
