@@ -76,14 +76,6 @@ const routes = [
         element: <VoluntaryOrganizations />,
       },
       {
-        path: "forgot-password",
-        element: <ForgotPasswordPage />,
-      },
-      {
-        path: "verify-account",
-        element: <VerifyAccountPage />,
-      },
-      {
         path: "organization/:id",
         element: <OrganizationDetails />,
       },
@@ -100,6 +92,14 @@ const routes = [
   {
     path: "signup",
     element: <SignUp />,
+  },
+  {
+    path: "forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "verify-account",
+    element: <VerifyAccountPage />,
   },
 ];
 
