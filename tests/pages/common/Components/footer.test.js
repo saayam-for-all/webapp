@@ -10,6 +10,6 @@ test("footer render,class and content", () => {
   expect(footerDiv).toHaveClass("bg-slate-200 text-center p-1");
   const footerText = screen.getByTestId("footer-text");
   expect(footerText).toHaveTextContent(
-    "Copyright © 2024 Saayam. All Rights Reserved",
+    "Copyright © 2024 Saayam For All. All Rights Reserved",
   );
 });
