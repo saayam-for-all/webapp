@@ -12,7 +12,7 @@ exports[`Vision renders correctly 1`] = `
           <h1
             class="text-2xl font-semibold text-center mt-6"
           >
-            VISION
+            mockTranslate(VISION)
           </h1>
           <div
             class="flex items-start"
@@ -20,7 +20,7 @@ exports[`Vision renders correctly 1`] = `
             <p
               class="mt-5 text-lg px-5"
             >
-              VISION_DESCRIPTION
+              mockTranslate(VISION_DESCRIPTION)
             </p>
             <div>
               <img
@@ -42,7 +42,7 @@ exports[`Vision renders correctly 1`] = `
         <h1
           class="text-2xl font-semibold text-center mt-6"
         >
-          VISION
+          mockTranslate(VISION)
         </h1>
         <div
           class="flex items-start"
@@ -50,7 +50,7 @@ exports[`Vision renders correctly 1`] = `
           <p
             class="mt-5 text-lg px-5"
           >
-            VISION_DESCRIPTION
+            mockTranslate(VISION_DESCRIPTION)
           </p>
           <div>
             <img

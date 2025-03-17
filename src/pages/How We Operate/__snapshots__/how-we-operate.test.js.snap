@@ -12,7 +12,7 @@ exports[`HowWeOperate renders correctly 1`] = `
           <h1
             class="text-3xl font-semibold text-center"
           >
-            HOW_WE_OPERATE
+            mockTranslate(HOW_WE_OPERATE)
           </h1>
           <div
             class="flex"
@@ -37,60 +37,60 @@ exports[`HowWeOperate renders correctly 1`] = `
                 <h1
                   class="mt-5 text-lg font-semibold px-5"
                 >
-                  HELP_REQUEST
+                  mockTranslate(HELP_REQUEST)
                 </h1>
                 <p
                   class="text-sm px-5"
                 >
-                  ASK_FOR_HELP
+                  mockTranslate(ASK_FOR_HELP)
                 </p>
               </div>
               <div>
                 <h1
                   class="mt-5 text-lg font-semibold px-5"
                 >
-                  MATCHING_PROCESS
+                  mockTranslate(MATCHING_PROCESS)
                 </h1>
                 <p
                   class="text-sm px-5"
                 >
-                  REQUEST_WILL_BE_MATCHED
+                  mockTranslate(REQUEST_WILL_BE_MATCHED)
                 </p>
               </div>
               <div>
                 <h1
                   class="mt-5 text-lg font-semibold px-5"
                 >
-                  VOLUNTEER_SELECTION
+                  mockTranslate(VOLUNTEER_SELECTION)
                 </h1>
                 <p
                   class="text-sm px-5"
                 >
-                  FROM_POTENTIAL_MATCHES
+                  mockTranslate(FROM_POTENTIAL_MATCHES)
                 </p>
               </div>
               <div>
                 <h1
                   class="mt-5 text-lg font-semibold px-5"
                 >
-                  VOLUNTEER_APPROACH
+                  mockTranslate(VOLUNTEER_APPROACH)
                 </h1>
                 <p
                   class="text-sm px-5"
                 >
-                  VOLUNTEER_WILL_CONTACT
+                  mockTranslate(VOLUNTEER_WILL_CONTACT)
                 </p>
               </div>
               <div>
                 <h1
                   class="mt-5 text-lg font-semibold px-5"
                 >
-                  ASSISTANCE_PROVIDED
+                  mockTranslate(ASSISTANCE_PROVIDED)
                 </h1>
                 <p
                   class="text-sm px-5"
                 >
-                  VOLUNTEER_WILL_WORK
+                  mockTranslate(VOLUNTEER_WILL_WORK)
                 </p>
               </div>
             </div>
@@ -107,7 +107,7 @@ exports[`HowWeOperate renders correctly 1`] = `
         <h1
           class="text-3xl font-semibold text-center"
         >
-          HOW_WE_OPERATE
+          mockTranslate(HOW_WE_OPERATE)
         </h1>
         <div
           class="flex"
@@ -132,60 +132,60 @@ exports[`HowWeOperate renders correctly 1`] = `
               <h1
                 class="mt-5 text-lg font-semibold px-5"
               >
-                HELP_REQUEST
+                mockTranslate(HELP_REQUEST)
               </h1>
               <p
                 class="text-sm px-5"
               >
-                ASK_FOR_HELP
+                mockTranslate(ASK_FOR_HELP)
               </p>
             </div>
             <div>
               <h1
                 class="mt-5 text-lg font-semibold px-5"
               >
-                MATCHING_PROCESS
+                mockTranslate(MATCHING_PROCESS)
               </h1>
               <p
                 class="text-sm px-5"
               >
-                REQUEST_WILL_BE_MATCHED
+                mockTranslate(REQUEST_WILL_BE_MATCHED)
               </p>
             </div>
             <div>
               <h1
                 class="mt-5 text-lg font-semibold px-5"
               >
-                VOLUNTEER_SELECTION
+                mockTranslate(VOLUNTEER_SELECTION)
               </h1>
               <p
                 class="text-sm px-5"
               >
-                FROM_POTENTIAL_MATCHES
+                mockTranslate(FROM_POTENTIAL_MATCHES)
               </p>
             </div>
             <div>
               <h1
                 class="mt-5 text-lg font-semibold px-5"
               >
-                VOLUNTEER_APPROACH
+                mockTranslate(VOLUNTEER_APPROACH)
               </h1>
               <p
                 class="text-sm px-5"
               >
-                VOLUNTEER_WILL_CONTACT
+                mockTranslate(VOLUNTEER_WILL_CONTACT)
               </p>
             </div>
             <div>
               <h1
                 class="mt-5 text-lg font-semibold px-5"
               >
-                ASSISTANCE_PROVIDED
+                mockTranslate(ASSISTANCE_PROVIDED)
               </h1>
               <p
                 class="text-sm px-5"
               >
-                VOLUNTEER_WILL_WORK
+                mockTranslate(VOLUNTEER_WILL_WORK)
               </p>
             </div>
           </div>

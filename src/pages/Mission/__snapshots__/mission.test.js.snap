@@ -12,7 +12,7 @@ exports[`Mission renders correctly 1`] = `
           <h1
             class="text-2xl font-semibold text-center"
           >
-            MISSION
+            mockTranslate(MISSION)
           </h1>
           <div
             class="flex"
@@ -27,7 +27,7 @@ exports[`Mission renders correctly 1`] = `
             <p
               class="mt-5 text-lg px-5"
             >
-              EMPOWER_INDIVIDUALS
+              mockTranslate(EMPOWER_INDIVIDUALS)
             </p>
           </div>
         </div>
@@ -42,7 +42,7 @@ exports[`Mission renders correctly 1`] = `
         <h1
           class="text-2xl font-semibold text-center"
         >
-          MISSION
+          mockTranslate(MISSION)
         </h1>
         <div
           class="flex"
@@ -57,7 +57,7 @@ exports[`Mission renders correctly 1`] = `
           <p
             class="mt-5 text-lg px-5"
           >
-            EMPOWER_INDIVIDUALS
+            mockTranslate(EMPOWER_INDIVIDUALS)
           </p>
         </div>
       </div>

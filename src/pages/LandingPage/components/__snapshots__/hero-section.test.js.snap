@@ -17,11 +17,15 @@ exports[`HeroSection renders correctly 1`] = `
             <div
               class="py-6 text-2xl"
             >
-              Welcome to 
-              <strong>
-                Saayam
-              </strong>
-              , a non-profit organization – is your gateway to assistance and support in times of need. Saayam means Help in Telugu, Sahaay in Sanskrit/Hindi, Bangzhu in Mandarin, and Ayuda in Spanish.
+              <mock-trans
+                props="{"i18nKey":"HERO_TEXT"}"
+              >
+                Welcome to 
+                <strong>
+                  Saayam
+                </strong>
+                , a non-profit organization – is your gateway to assistance and support in times of need. Saayam means Help in Telugu, Sahaay in Sanskrit/Hindi, Bangzhu in Mandarin, and Ayuda in Spanish.
+              </mock-trans>
             </div>
           </div>
         </div>
@@ -41,11 +45,15 @@ exports[`HeroSection renders correctly 1`] = `
           <div
             class="py-6 text-2xl"
           >
-            Welcome to 
-            <strong>
-              Saayam
-            </strong>
-            , a non-profit organization – is your gateway to assistance and support in times of need. Saayam means Help in Telugu, Sahaay in Sanskrit/Hindi, Bangzhu in Mandarin, and Ayuda in Spanish.
+            <mock-trans
+              props="{"i18nKey":"HERO_TEXT"}"
+            >
+              Welcome to 
+              <strong>
+                Saayam
+              </strong>
+              , a non-profit organization – is your gateway to assistance and support in times of need. Saayam means Help in Telugu, Sahaay in Sanskrit/Hindi, Bangzhu in Mandarin, and Ayuda in Spanish.
+            </mock-trans>
           </div>
         </div>
       </div>
