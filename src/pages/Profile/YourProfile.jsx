@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import Select from "react-select";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserAttributes } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import CountryList from "react-select-country-list";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
 import CallModal from "./CallModal.jsx";
+import { loginSuccess } from "../../redux/features/authentication/authSlice"; // Keep Redux update
 
 function YourProfile({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [callType, setCallType] = useState("audio");
@@ -41,20 +43,41 @@ function YourProfile({ setHasUnsavedChanges }) {
   }, [user]);
 
   const handleInputChange = (name, value) => {
-    setProfileInfo({ ...profileInfo, [name]: value });
+    setProfileInfo({
+      ...profileInfo,
+      [name]: value,
+    });
     setHasUnsavedChanges(true);
   };
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-    setTimeout(() => {
-      if (firstNameRef.current) firstNameRef.current.focus();
-    }, 0);
-  };
+  const handleSave = async () => {
+    try {
+      await updateUserAttributes({
+        given_name: profileInfo.firstName,
+        family_name: profileInfo.lastName,
+        email: profileInfo.email,
+        phone_number: profileInfo.phone,
+        "custom:Country": profileInfo.country,
+      });
 
-  const handleCallIconClick = (type) => {
-    setCallType(type);
-    setIsCallModalOpen(true);
+      dispatch(
+        loginSuccess({
+          user: {
+            ...user,
+            given_name: profileInfo.firstName,
+            family_name: profileInfo.lastName,
+            email: profileInfo.email,
+            phone_number: profileInfo.phone,
+            zoneinfo: profileInfo.country,
+          },
+        }),
+      );
+
+      setIsEditing(false);
+      setHasUnsavedChanges(false);
+    } catch (error) {
+      console.error("Error updating Cognito attributes:", error);
+    }
   };
 
   return (
@@ -62,7 +85,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       {/* First Name and Last Name */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-gray-700 text-xs font-bold mb-2">
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("FIRST_NAME")}
           </label>
           {isEditing ? (
@@ -71,14 +94,14 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
             <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
           )}
         </div>
         <div>
-          <label className="block text-gray-700 text-xs font-bold mb-2">
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("LAST_NAME")}
           </label>
           {isEditing ? (
@@ -86,7 +109,7 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
             <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
@@ -94,17 +117,26 @@ function YourProfile({ setHasUnsavedChanges }) {
         </div>
       </div>
 
-      {/* Email (Non-Editable) */}
+      {/* Email */}
       <div className="mb-6">
-        <label className="block text-gray-700 text-xs font-bold mb-2">
+        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
           {t("EMAIL")}
         </label>
-        <p className="text-lg text-gray-900">{profileInfo.email}</p>
+        {isEditing ? (
+          <input
+            type="email"
+            value={profileInfo.email}
+            onChange={(e) => handleInputChange("email", e.target.value)}
+            className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+          />
+        ) : (
+          <p className="text-lg text-gray-900">{profileInfo.email}</p>
+        )}
       </div>
 
       {/* Phone Number */}
       <div className="mb-6">
-        <label className="block text-gray-700 text-xs font-bold mb-2">
+        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
           {t("PHONE_NUMBER")}
         </label>
         <div className="flex items-center space-x-2">
@@ -113,7 +145,7 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
-              className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -122,18 +154,18 @@ function YourProfile({ setHasUnsavedChanges }) {
           )}
           <FiPhoneCall
             className="text-gray-500 cursor-pointer hover:text-gray-700"
-            onClick={() => handleCallIconClick("audio")}
+            onClick={() => setIsCallModalOpen(true)}
           />
           <FiVideo
             className="text-gray-500 cursor-pointer hover:text-gray-700"
-            onClick={() => handleCallIconClick("video")}
+            onClick={() => setIsCallModalOpen(true)}
           />
         </div>
       </div>
 
       {/* Country */}
       <div className="mb-6">
-        <label className="block text-gray-700 text-xs font-bold mb-2">
+        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
           {t("COUNTRY")}
         </label>
         {isEditing ? (
@@ -141,19 +173,19 @@ function YourProfile({ setHasUnsavedChanges }) {
             type="text"
             value={profileInfo.country}
             onChange={(e) => handleInputChange("country", e.target.value)}
-            className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+            className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
           />
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.country}</p>
         )}
       </div>
 
-      {/* Edit Button */}
+      {/* Edit / Save Buttons */}
       <div className="flex justify-center mt-6">
         {!isEditing ? (
           <button
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            onClick={handleEditClick}
+            onClick={() => setIsEditing(true)}
           >
             {t("EDIT")}
           </button>
@@ -161,10 +193,7 @@ function YourProfile({ setHasUnsavedChanges }) {
           <>
             <button
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
-              onClick={() => {
-                setIsEditing(false);
-                setHasUnsavedChanges(false);
-              }}
+              onClick={handleSave}
             >
               {t("SAVE")}
             </button>
