@@ -7,6 +7,16 @@ const categories = [
   { id: "books", name: "Books" },
   { id: "clothes", name: "Clothes" },
   { id: "college_admissions", name: "College Admissions" },
+  {
+    id: "Elderly Support",
+    name: "Elderly Support",
+    subcategories: [
+      "Remote Computer Assistance",
+      "Government Agency Connections",
+      "Ride Assistance",
+      "Shopping Support",
+    ],
+  },
   { id: "cooking", name: "Cooking" },
   {
     id: "education",
