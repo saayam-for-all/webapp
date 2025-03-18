@@ -1,5 +1,5 @@
 import { confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { maskEmail } from "../../utils/utils";
 
@@ -10,6 +10,10 @@ function OTPVerification() {
   const [resendMessage, setResendMessage] = useState("");
   const navigate = useNavigate();
   const { state } = useLocation();
+
+  useEffect(() => {
+    document.getElementById("otp-input-0")?.focus();
+  }, []);
 
   const handleChange = (element, index) => {
     const value = element.value.slice(-1);
@@ -83,6 +87,7 @@ function OTPVerification() {
                 onChange={(e) => handleChange(e.target, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 maxLength={1}
+                autoFocus={index === 0}
                 className="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             ))}

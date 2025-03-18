@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Navbar from "#components/Navbar/Navbar";
 import MainLoader from "#components/Loader/MainLoader";
 import Footer from "#components/Footer/Footer";

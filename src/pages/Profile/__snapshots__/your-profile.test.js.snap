@@ -15,22 +15,22 @@ exports[`YourProfile renders correctly 1`] = `
         >
           <div>
             <label
-              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+              class="block tracking-wide text-white-700 text-xs font-bold mb-2"
             >
               mockTranslate(FIRST_NAME)
             </label>
             <p
-              class="text-lg text-gray-900"
+              class="text-lg text-white-900"
             />
           </div>
           <div>
             <label
-              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+              class="block tracking-wide text-white-700 text-xs font-bold mb-2"
             >
               mockTranslate(LAST_NAME)
             </label>
             <p
-              class="text-lg text-gray-900"
+              class="text-lg text-white-900"
             />
           </div>
         </div>
@@ -40,12 +40,12 @@ exports[`YourProfile renders correctly 1`] = `
         >
           <div>
             <label
-              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+              class="block tracking-wide text-grey-700 text-xs font-bold mb-2"
             >
               mockTranslate(EMAIL)
             </label>
             <p
-              class="text-lg text-gray-900"
+              class="text-lg text-white-900"
             />
           </div>
         </div>
@@ -150,22 +150,22 @@ exports[`YourProfile renders correctly 1`] = `
       >
         <div>
           <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            class="block tracking-wide text-white-700 text-xs font-bold mb-2"
           >
             mockTranslate(FIRST_NAME)
           </label>
           <p
-            class="text-lg text-gray-900"
+            class="text-lg text-white-900"
           />
         </div>
         <div>
           <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            class="block tracking-wide text-white-700 text-xs font-bold mb-2"
           >
             mockTranslate(LAST_NAME)
           </label>
           <p
-            class="text-lg text-gray-900"
+            class="text-lg text-white-900"
           />
         </div>
       </div>
@@ -175,12 +175,12 @@ exports[`YourProfile renders correctly 1`] = `
       >
         <div>
           <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            class="block tracking-wide text-grey-700 text-xs font-bold mb-2"
           >
             mockTranslate(EMAIL)
           </label>
           <p
-            class="text-lg text-gray-900"
+            class="text-lg text-white-900"
           />
         </div>
       </div>

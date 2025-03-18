@@ -6,7 +6,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="navbar navbar-sm navbar-gradient-bg s"
+        class="navbar navbar-sm navbar-gradient-bg"
       >
         <div
           class="navbar-start"
@@ -181,7 +181,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
   </body>,
   "container": <div>
     <div
-      class="navbar navbar-sm navbar-gradient-bg s"
+      class="navbar navbar-sm navbar-gradient-bg"
     >
       <div
         class="navbar-start"
@@ -420,7 +420,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="navbar navbar-sm navbar-gradient-bg s"
+        class="navbar navbar-sm navbar-gradient-bg"
       >
         <div
           class="navbar-start"
@@ -613,7 +613,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
   </body>,
   "container": <div>
     <div
-      class="navbar navbar-sm navbar-gradient-bg s"
+      class="navbar navbar-sm navbar-gradient-bg"
     >
       <div
         class="navbar-start"
