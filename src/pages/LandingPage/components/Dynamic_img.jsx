@@ -37,8 +37,8 @@ const Images = () => {
   return (
     <div className="images">
       <div className="images-slide">
-        {images.map((image) => (
-          <img key={image} src={image} />
+        {images.map((image, index) => (
+          <img key={index} src={image} />
         ))}
       </div>
     </div>

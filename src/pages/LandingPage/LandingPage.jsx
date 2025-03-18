@@ -1,11 +1,21 @@
-import "./LandingPage.css";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 import HeroSection from "./components/HeroSection";
 import Info from "./components/Info";
 import Images from "./components/Dynamic_img";
 
+import "./LandingPage.css";
+
 export default function Home() {
-  // const { t } = useTranslation();
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user !== null) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   return (
     <div>

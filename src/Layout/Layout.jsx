@@ -1,21 +1,17 @@
 import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "../common/components/Navbar/Navbar";
-import MainLoader from "../common/components/Loader/MainLoader";
 import Footer from "../common/components/Footer/Footer";
 import LeftAds from "../common/components/LeftAds/LeftAds";
+import MainLoader from "../common/components/Loader/MainLoader";
+import Navbar from "../common/components/Navbar/Navbar";
 import RightAds from "../common/components/RightAds/RightAds";
 
 const Layout = () => {
   return (
-    <div className="flex flex-col h-screen overflow-auto">
-      {/* header includes Navbar with lefover left and right space for alignment */}
-      <header className="flex sticky top-0 z-[10000]">
-        <aside className="flex-1"></aside>
-        <div className="flex-[6]">
-          <Navbar />
-        </div>
-        <aside className="flex-1"></aside>
+    <div className="flex flex-col h-screen">
+      {/* header includes Navbar which spans full width */}
+      <header className="sticky z-10">
+        <Navbar />
       </header>
 
       {/* main content */}
@@ -23,12 +19,10 @@ const Layout = () => {
         <aside className="left-ads-panel flex-1 ">
           <LeftAds />
         </aside>
-        <main className="flex-[6]">
-          <div className="">
-            <Suspense fallback={<MainLoader />}>
-              <Outlet />
-            </Suspense>
-          </div>
+        <main className="flex-[6] overflow-auto">
+          <Suspense fallback={<MainLoader />}>
+            <Outlet />
+          </Suspense>
         </main>
         <aside className="right-ads-panel flex-1 ">
           <RightAds />
