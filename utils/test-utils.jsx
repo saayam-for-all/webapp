@@ -4,7 +4,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "#redux/features/authentication/authSlice";
 
 // redux state for logged in user
-export const MOCK_STATE_LOGGED_IN = { auth: { user: { userId: "mockUser" } } };
+export const MOCK_STATE_LOGGED_IN = {
+  auth: { user: { userId: "mockUser" }, idToken: "mockToken" },
+};
 // redux state for logged out user
 export const MOCK_STATE_LOGGED_OUT = { auth: { user: null } };
 
