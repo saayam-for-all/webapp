@@ -91,7 +91,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
 
     try {
-      const response = await addRequest(submissionData);
+      // const response = await addRequest(submissionData);
       // const response = await axios.post(
       //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
       //   submissionData,
@@ -217,6 +217,45 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleForSelfFlag = (e) => {
     setSelfFlag(e.target.value === "yes");
   };
+
+  const debouncedSubject = useDebounce(formData.subject, 500);
+  const debouncedDescription = useDebounce(formData.description, 500);
+  const debouncedCategory = useDebounce(formData.category, 500);
+
+  // Fetch predicted categories when category is "General" and debounced values change
+  useEffect(() => {
+    const fetchPredictedCategories = async () => {
+      if (debouncedCategory !== "General") return; // Only call the API if category is "General"
+      if (!debouncedSubject || !debouncedDescription) return; // Skip if no relevant data
+
+      try {
+        const requestBody = {
+          subject: debouncedSubject,
+          description: debouncedDescription,
+        };
+
+        const response = await predictCategories(requestBody);
+        console.log("API Response:", response);
+        const formattedCategories = response.map((category) => ({
+          id: category.toLowerCase(), // Convert to lowercase for id
+          name: category,
+        }));
+
+        if (response?.length > 0) {
+          setFilteredCategories(formattedCategories);
+          setShowDropdown(true);
+        } else {
+          setFilteredCategories([]);
+          setShowDropdown(false);
+        }
+      } catch (error) {
+        console.error("Error fetching predicted categories:", error);
+      }
+    };
+
+    fetchPredictedCategories();
+  }, [debouncedSubject, debouncedDescription, debouncedCategory]);
+
   // const generateAnswerToRequest = async () => {
   //   try {
   //     const requestBody = {
