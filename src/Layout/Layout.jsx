@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Navbar from "../common/components/Navbar/Navbar";
-import MainLoader from "../common/components/Loader/MainLoader";
-import Footer from "../common/components/Footer/Footer";
-import LeftAds from "../common/components/LeftAds/LeftAds";
-import RightAds from "../common/components/RightAds/RightAds";
+import Navbar from "#components/Navbar/Navbar";
+import MainLoader from "#components/Loader/MainLoader";
+import Footer from "#components/Footer/Footer";
+import LeftAds from "#components/LeftAds/LeftAds";
+import RightAds from "#components/RightAds/RightAds";
 
 const Layout = () => {
   return (

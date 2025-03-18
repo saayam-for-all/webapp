@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "imports": {
-    "#utils/*": "./utils/*",
-    "#redux/*": "./src/redux/*"
+    "#components/*": "./src/common/components/*",
+    "#redux/*": "./src/redux/*",
+    "#utils/*": "./utils/*"
   },
   "scripts": {
     "dev": "vite",
