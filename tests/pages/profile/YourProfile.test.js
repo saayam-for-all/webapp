@@ -1,12 +1,33 @@
 import React from "react";
 import { screen, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 import YourProfile from "../../../src/pages/Profile/YourProfile";
+import rootReducer from "../../../src/redux/rootReducer";
+
+// Mock i18next
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({ t: (key) => key }),
+}));
+
+// Mock fetch
+beforeEach(() => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve({}),
+    }),
+  );
+});
 
 test("Check containers class", () => {
-  global.fetch = jest.fn(() => Promise.reject(null));
+  const store = configureStore({ reducer: rootReducer });
 
-  render(<YourProfile />);
+  render(
+    <Provider store={store}>
+      <YourProfile />
+    </Provider>,
+  );
 
   const containerOne = screen.getByTestId("container-test-1");
   const containerTwo = screen.getByTestId("container-test-2");
