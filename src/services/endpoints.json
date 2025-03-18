@@ -8,5 +8,6 @@
   "GET_REQUEST_COMMENTS": "requests/v0.0.1/getComments",
   "CREATE_VOLUNTEER": "volunteers/v0.0.1/createNewVolunteer",
   "UPDATE_VOLUNTEER": "volunteers/v0.0.1/updateVolunteer",
-  "CREATE_HELP_REQUEST": "/requests/v0.0.1/help-request"
+  "CREATE_HELP_REQUEST": "/requests/v0.0.1/help-request",
+  "PREDICT_CATEGORIES": "genai/v0.0.1/predict_categories"
 }

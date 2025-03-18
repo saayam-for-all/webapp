@@ -14,6 +14,9 @@ import { checkProfanity, createRequest } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
+import { useDebounce } from "../../hooks/useDebounce";
+import { predictCategories } from "../../services/requestServices";
+
 const genderOptions = [
   { value: "Select", label: "Select" },
   { value: "Woman", label: "Woman" },
@@ -74,6 +77,45 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const closeForm = () => {
     navigate("/dashboard");
   };
+
+  const debouncedSubject = useDebounce(formData.subject, 500);
+  const debouncedDescription = useDebounce(formData.description, 500);
+  const debouncedCategory = useDebounce(formData.category, 500);
+
+  // Fetch predicted categories when category is "General" and debounced values change
+  useEffect(() => {
+    const fetchPredictedCategories = async () => {
+      if (debouncedCategory !== "General") return; // Only call the API if category is "General"
+      if (!debouncedSubject || !debouncedDescription) return; // Skip if no relevant data
+
+      try {
+        const requestBody = {
+          subject: debouncedSubject,
+          description: debouncedDescription,
+        };
+
+        const response = await predictCategories(requestBody);
+        console.log("API Response:", response);
+        const formattedCategories = response.map((category) => ({
+          id: category.toLowerCase(), // Convert to lowercase for id
+          name: category,
+        }));
+
+        if (response?.length > 0) {
+          setFilteredCategories(formattedCategories);
+          setShowDropdown(true);
+        } else {
+          setFilteredCategories([]);
+          setShowDropdown(false);
+        }
+      } catch (error) {
+        console.error("Error fetching predicted categories:", error);
+      }
+    };
+
+    fetchPredictedCategories();
+  }, [debouncedSubject, debouncedDescription, debouncedCategory]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 

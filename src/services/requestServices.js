@@ -27,3 +27,19 @@ export const createRequest = async (request) => {
   const response = await api.post(endpoints.CREATE_HELP_REQUEST, request);
   return response.data;
 };
+
+export const predictCategories = async (requestBody) => {
+  const response = await api.post(
+    endpoints.PREDICT_CATEGORIES,
+    {
+      ...requestBody,
+      isBase64Encoded: false,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  return response.data;
+};
