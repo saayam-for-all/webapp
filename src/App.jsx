@@ -1,9 +1,13 @@
-import React from "react";
-import "./App.css";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout/Layout";
-import routes from "./routes/routes";
 import Error404 from "./pages/Error404/Error404";
+import { checkAuthStatus } from "./redux/features/authentication/authActions";
+import routes from "./routes/routes";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "./App.css";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +18,10 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(checkAuthStatus());
+  }, []);
   return <RouterProvider router={router} />;
 };
 
