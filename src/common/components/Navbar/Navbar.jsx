@@ -128,6 +128,7 @@ const Navbar = () => {
       }
     } else {
       setIsDropdownOpen(false);
+      navigate(route);
     }
   };
 
