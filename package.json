@@ -100,5 +100,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "npm": ">=10.9.2",
+    "node": ">=v22.14.0"
+  }
 }
