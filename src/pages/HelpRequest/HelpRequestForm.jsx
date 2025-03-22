@@ -2,6 +2,7 @@ import { StandaloneSearchBox } from "@react-google-maps/api";
 import React, { useEffect, useRef, useState } from "react"; //added for testing
 import { useTranslation } from "react-i18next";
 import { IoMdInformationCircle } from "react-icons/io";
+import { Check, ChevronsUpDown, X, CirclePlus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
@@ -14,6 +15,42 @@ import { checkProfanity, createRequest } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
+import { useForm, useFieldArray } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "../../lib/utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../common/components/ui/popover";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "../../common/components/ui/command";
+import { Button } from "../../common/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../common/components/ui/form";
+import { Input } from "../../common/components/ui/input";
+import { Textarea } from "../../common/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../common/components/ui/select";
+import { formDefaultValues, FormSchema } from "./formSchema";
+
 const genderOptions = [
   { value: "Select", label: "Select" },
   { value: "Woman", label: "Woman" },
@@ -24,15 +61,79 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
+const weekOptions = [
+  { value: "Monday", label: "Monday" },
+  { value: "Tuesday", label: "Tuesday" },
+  { value: "Wednesday", label: "Wednesday" },
+  { value: "Thursday", label: "Thursday" },
+  { value: "Friday", label: "Friday" },
+  { value: "Saturday", label: "Saturday" },
+  { value: "Sunday", label: "Sunday" },
+];
+
+const mainCategoryValues = [
+  {
+    value: "counsellingSupport",
+    label: "Counselling Support",
+    subcategories: [
+      { value: "College Applications", label: "College Applications" },
+      {
+        value: "Statement Of Purpose(SOP) Reviews",
+        label: "Statement Of Purpose(SOP) Reviews",
+      },
+      { value: "College Recommendations", label: "College Recommendations" },
+    ],
+  },
+  {
+    value: "elderlySupport",
+    label: "Elderly Support",
+    subcategories: [
+      {
+        value: "Remote Computer Assistance",
+        label: "Remote Computer Assistance",
+      },
+      {
+        value: "Government Agency Connections",
+        label: "Government Agency Connections",
+      },
+      { value: "Ride Assistance", label: "Ride Assistance" },
+      { value: "Shopping Assistance", label: "Shopping Assistance" },
+    ],
+  },
+];
+
+const urgencyLevelValues = [
+  {
+    value: "high",
+    label: "High: Needs response within 24 hours",
+  },
+  {
+    value: "medium",
+    label: "Medium: Address within 48-96 hours",
+  },
+  {
+    value: "low",
+    label: "Low: Can be resolved beyond 96 hours",
+  },
+];
+
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+    defaultValues: formDefaultValues,
+  });
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "availability",
+  });
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
   const token = useSelector((state) => state.auth.idToken);
   const [location, setLocation] = useState("");
-  const { inputRef, isLoaded, handleOnPlacesChanged } =
-    usePlacesSearchBox(setLocation);
+  const { inputRef, isLoaded, getPlaces } = usePlacesSearchBox();
 
   const [languages, setLanguages] = useState([]);
 
@@ -42,6 +143,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [requestType, setRequestType] = useState("");
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const [selectedMainCategory, setSelectedMainCategory] = useState("");
+  const [openMainCategory, setOpenMainCategory] = useState(false);
 
   const { data, error, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
@@ -74,49 +178,39 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const closeForm = () => {
     navigate("/dashboard");
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (data) => {
+    console.log("submit is clicked!");
+    console.log("Form data:", data);
 
-    const submissionData = {
-      ...formData,
-      location,
-    };
+    // const submissionData = {
+    //   ...formData,
+    //   location,
+    // };
 
-    try {
-      const res = await checkProfanity({
-        subject: formData.subject,
-        description: formData.description,
-      });
+    // try {
+    //   const res = await checkProfanity({
+    //     subject: formData.subject,
+    //     description: formData.description,
+    //   });
 
-      if (res.contains_profanity) {
-        alert(
-          "Profanity detected. Please remove these word(s) : " +
-            res.profanity +
-            "  from Subject/Description and submit request again!",
-        );
-      } else {
-        // Proceed with submitting the request if no profanity is found
-        const response = await createRequest(submissionData);
-        // const response = await axios.post(
-        //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-        //   submissionData,
-        //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
-
-        alert(
-          "Request submitted successfully! You will now be redirected to the dashboard.",
-        );
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      console.error("Failed to process request:", error);
-      alert("Failed to submit request!");
-    }
+    //   if (res.contains_profanity) {
+    //     alert(
+    //       "Profanity detected. Please remove these word(s) : " +
+    //         res.profanity +
+    //         "  from Subject/Description and submit request again!",
+    //     );
+    //   } else {
+    //     // Proceed with submitting the request if no profanity is found
+    //     const response = await createRequest(submissionData);
+    //     alert(
+    //       "Request submitted successfully! You will now be redirected to the dashboard.",
+    //     );
+    //     navigate("/dashboard");
+    //   }
+    // } catch (error) {
+    //   console.error("Failed to process request:", error);
+    //   alert("Failed to submit request!");
+    // }
   };
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -221,15 +315,17 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   if (isLoading) return <div>Loading...</div>;
   return (
-    <div className="">
-      <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
-        <div className="bg-white p-8 rounded-lg shadow-md border">
-          <h1 className="text-2xl font-bold text-gray-800 ">
+    <Form {...form}>
+      <form
+        className="w-full max-w-2xl mx-auto p-5"
+        onSubmit={form.handleSubmit(handleSubmit)}
+      >
+        <div className="bg-white p-6 rounded-lg shadow-md border flex flex-col gap-7">
+          <h1 className="text-xl font-bold text-gray-800 ">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
           </h1>
-
           <div
-            className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+            className="flex items-start gap-2 p-2 my-2 text-xs text-yellow-800 rounded-lg bg-yellow-50"
             role="alert"
           >
             <IoMdInformationCircle size={22} />
@@ -239,7 +335,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           </div>
 
-          <div className="mt-3" data-testid="parentDivOne">
+          <div className="" data-testid="parentDivOne">
             <label
               htmlFor="self"
               className="block mb-1 text-gray-700 font-medium"
@@ -382,184 +478,366 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </div>
           )} */}
-          <div className="mt-3 grid grid-cols-2 gap-4">
-            <div className="relative">
-              <label
-                htmlFor="category"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("REQUEST_CATEGORY")}
-              </label>
-              <input
-                type="text"
-                id="category"
-                value={formData.category}
-                onChange={handleSearchInput}
-                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
-                onFocus={() => setShowDropdown(true)}
-                onBlur={(e) => {
-                  if (!dropdownRef.current?.contains(e.relatedTarget)) {
-                    setShowDropdown(false);
-                  }
-                }}
-              />
-              {showDropdown && (
-                <div
-                  className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
-                  style={{ maxHeight: "200px" }}
-                  ref={dropdownRef}
-                  tabIndex={0}
+          <FormField
+            control={form.control}
+            name="mainCategory"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 font-semibold">
+                  Select Main Category <span className="text-gray-800">*</span>
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
                 >
-                  {filteredCategories.map((category) => (
-                    <div
-                      key={category.id}
-                      className="p-2 border-b cursor-pointer hover:bg-gray-100 relative"
-                      onClick={() =>
-                        !category.subcategories &&
-                        handleCategoryClick(category.name)
-                      }
-                      onMouseEnter={() => setHoveredCategory(category)}
-                      onMouseLeave={() => setHoveredCategory(null)}
-                    >
-                      {category.name}
-
-                      {/* Show subcategories if the category is hovered and it has subcategories */}
-                      {hoveredCategory === category &&
-                        category.subcategories && (
-                          <div className="bg-white border rounded shadow-lg p-2 z-20 mt-2">
-                            {category.subcategories.map(
-                              (subcategory, index) => (
-                                <div
-                                  key={index}
-                                  className="cursor-pointer hover:bg-gray-200"
-                                  onClick={() =>
-                                    handleSubcategoryClick(subcategory)
-                                  }
-                                >
-                                  {subcategory}
-                                </div>
-                              ),
-                            )}
-                          </div>
-                        )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="requestType"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("REQUEST_TYPE")}
-              </label>
-              <select
-                id="requestType"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                value={formData.request_type || "Remote"}
-                onChange={(e) =>
-                  setFormData({ ...formData, request_type: e.target.value })
-                }
-              >
-                <option value="Remote">{t("REMOTE")}</option>
-                <option value="In Person" style={{ display: "none" }}>
-                  {t("IN_PERSON")}
-                </option>
-              </select>
-            </div>
-
-            {formData.request_type === "In Person" && (
-              <div className="mt-3">
-                <label
-                  htmlFor="location"
-                  className="block mb-1 font-medium text-gray-700"
-                >
-                  Location
-                </label>
-                {isLoaded && (
-                  <StandaloneSearchBox
-                    onLoad={(ref) => (inputRef.current = ref)}
-                    onPlacesChanged={handleOnPlacesChanged}
-                  >
-                    <input
-                      type="text"
-                      id="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      name="location"
-                      className="border p-2 w-full rounded-lg"
-                      placeholder="Search for location..."
-                    />
-                  </StandaloneSearchBox>
-                )}
-              </div>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Main Category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {mainCategoryValues.map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
             )}
-          </div>
+          />
 
-          <div className="mt-3" data-testid="parentDivSix">
-            {formData.category === "Jobs" && <JobsCategory />}
-            {formData.category === "Housing" && <HousingCategory />}
-            <label
-              htmlFor="subject"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              {t("SUBJECT")}
-              <span className="text-red-500 m-1">*</span>(
-              {t("MAX_CHARACTERS", { count: 70 })})
-            </label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-lg"
-              maxLength={70}
-              required
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="subCategory"
+            render={({ field }) => {
+              const selectedMainCategory = form.watch("mainCategory");
+              const subcategories =
+                mainCategoryValues.find(
+                  (cat) => cat.value === selectedMainCategory,
+                )?.subcategories || [];
+              return (
+                <FormItem>
+                  <FormLabel className="text-gray-800 font-semibold">
+                    Select Specific Service{" "}
+                    <span className="text-gray-800">*</span>
+                  </FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={!selectedMainCategory}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder={
+                            !selectedMainCategory
+                              ? "Select a main category first"
+                              : "Choose a service"
+                          }
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {subcategories.map((category) => (
+                        <SelectItem key={category.value} value={category.value}>
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              );
+            }}
+          />
 
-          <div className="mt-3" data-testid="parentDivSeven">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              {t("DESCRIPTION")}
-              <span className="text-red-500 m-1">*</span>(
-              {t("MAX_CHARACTERS", { count: 500 })})
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-lg"
-              rows="5"
-              maxLength={500}
-              required
-            ></textarea>
-          </div>
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel className="text-gray-800 font-semibold">
+                  Title of the Request <span className="text-gray-800">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter a title for your request"
+                    className="border p-2 w-full rounded-lg"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel className="text-gray-800 font-semibold">
+                  Description Your Request{" "}
+                  <span className="text-gray-800">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Provide details about the help you need"
+                    className=""
+                    {...field}
+                  ></Textarea>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel className="text-gray-800 font-semibold">
+                  Location <span className="text-gray-800">*</span>
+                </FormLabel>
+                <FormControl>
+                  {isLoaded && (
+                    <StandaloneSearchBox
+                      onLoad={(ref) => (inputRef.current = ref)}
+                      onPlacesChanged={() => {
+                        const place = getPlaces();
+                        if (place) {
+                          field.onChange(place);
+                        }
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="Enter your location"
+                        className="border p-2 w-full rounded-lg"
+                        {...field}
+                      />
+                    </StandaloneSearchBox>
+                  )}
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormLabel className="text-gray-800 font-semibold">
+            Availability <span className="text-gray-800">*</span>
+          </FormLabel>
 
-          <div className="mt-8 flex justify-end gap-2">
-            <button
-              type="submit"
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
-            >
-              {isEdit ? t("SAVE") : t("SUBMIT")}
-            </button>
-            <button
-              onClick={isEdit ? onClose : closeForm}
-              type="button"
-              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-            >
-              {t("CANCEL")}
-            </button>
-          </div>
+          {fields.map((item, index) => (
+            <div key={item.id} className="flex flex-row gap-1">
+              <FormField
+                control={form.control}
+                name={`availability.${index}.day`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "justify-between",
+                              !field.value && "text-muted-foreground",
+                            )}
+                          >
+                            {field.value
+                              ? weekOptions.find(
+                                  (day) => day.value === field.value,
+                                )?.label
+                              : "Select day"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="p-0 w-[var(--radix-popover-trigger-width)]">
+                          <Command>
+                            <CommandList>
+                              <CommandGroup>
+                                {weekOptions.map((day) => (
+                                  <CommandItem
+                                    key={day.value}
+                                    value={day.value}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        `availability.${index}.day`,
+                                        day.value,
+                                      );
+                                    }}
+                                  >
+                                    {day.label}
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        day.value === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0",
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <span className="text-gray-800 font-semibold self-center">:</span>
+              <FormField
+                control={form.control}
+                name={`availability.${index}.startTimeHour`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormControl>
+                      <Input placeholder="00" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`availability.${index}.startTimeMinute`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormControl>
+                      <Input placeholder="00" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`availability.${index}.startTimeAMPM`}
+                render={({ field }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="AM" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="AM">AM</SelectItem>
+                        <SelectItem value="PM">PM</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <span className="text-gray-800 font-semibold self-center">
+                to
+              </span>
+              <FormField
+                control={form.control}
+                name={`availability.${index}.endTimeHour`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormControl>
+                      <Input placeholder="00" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <span className="text-gray-800 font-semibold self-center">:</span>
+              <FormField
+                control={form.control}
+                name={`availability.${index}.endTimeMinute`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormControl>
+                      <Input placeholder="00" className="" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`availability.${index}.endTimeAMPM`}
+                render={({ field }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="AM" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="AM">AM</SelectItem>
+                        <SelectItem value="PM">PM</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <span className="self-center" onClick={() => remove(index)}>
+                <X size={15} />
+              </span>
+            </div>
+          ))}
+
+          <Button
+            onClick={() =>
+              append({
+                day: "",
+                startTimeHour: "",
+                startTimeMinute: "",
+                startTimeAMPM: "",
+                endTimeHour: "",
+                endTimeMinute: "",
+                endTimeAMPM: "",
+              })
+            }
+          >
+            <CirclePlus /> Add Time Slot
+          </Button>
+          <FormField
+            control={form.control}
+            name="urgencyLevel"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 font-semibold">
+                  Urgency Level <span className="text-gray-800">*</span>
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select urgency level" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {urgencyLevelValues.map((urgencyLevel) => (
+                      <SelectItem
+                        key={urgencyLevel.value}
+                        value={urgencyLevel.value}
+                      >
+                        {urgencyLevel.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="bg-[#008001]">
+            Submit Help Request
+          </Button>
         </div>
       </form>
-    </div>
+    </Form>
   );
 };
 

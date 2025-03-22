@@ -5,3 +5,9 @@
 * {
   font-family: "Inter Variable", sans-serif;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}

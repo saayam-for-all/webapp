@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("tailwindcss-animate")],
   daisyui: {
     themes: ["light", "dark"],
   },
@@ -21,6 +22,11 @@ export default {
           900: "#1e3a8a",
           950: "#172554",
         },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
     },
   },
