@@ -627,12 +627,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </FormLabel>
 
           {fields.map((item, index) => (
-            <div key={item.id} className="flex flex-row gap-1">
+            <div key={item.id} className="flex flex-row gap-2 w-full flex-wrap">
               <FormField
                 control={form.control}
                 name={`availability.${index}.day`}
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
+                  <FormItem className="flex flex-col ">
                     <FormControl>
                       <Popover>
                         <PopoverTrigger asChild>
@@ -687,99 +687,33 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </FormItem>
                 )}
               />
-              <span className="text-gray-800 font-semibold self-center">:</span>
               <FormField
                 control={form.control}
-                name={`availability.${index}.startTimeHour`}
+                name={`availability.${index}.startTime`}
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormControl>
-                      <Input placeholder="00" {...field} />
+                      <Input type="time" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name={`availability.${index}.startTimeMinute`}
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormControl>
-                      <Input placeholder="00" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`availability.${index}.startTimeAMPM`}
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="AM" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="AM">AM</SelectItem>
-                        <SelectItem value="PM">PM</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              />
+
               <span className="text-gray-800 font-semibold self-center">
                 to
               </span>
               <FormField
                 control={form.control}
-                name={`availability.${index}.endTimeHour`}
+                name={`availability.${index}.endTime`}
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormControl>
-                      <Input placeholder="00" {...field} />
+                      <Input type="time" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              <span className="text-gray-800 font-semibold self-center">:</span>
-              <FormField
-                control={form.control}
-                name={`availability.${index}.endTimeMinute`}
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormControl>
-                      <Input placeholder="00" className="" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`availability.${index}.endTimeAMPM`}
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="AM" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="AM">AM</SelectItem>
-                        <SelectItem value="PM">PM</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              />
+
               <span className="self-center" onClick={() => remove(index)}>
                 <X size={15} />
               </span>

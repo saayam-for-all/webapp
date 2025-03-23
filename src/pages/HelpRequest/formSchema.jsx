@@ -21,24 +21,8 @@ const FormSchema = z.object({
       day: z.string({
         required_error: "Please select a day.",
       }),
-      startTimeHour: z.string().refine((val) => {
-        const num = parseInt(val, 10);
-        return num >= 1 && num <= 12;
-      }),
-      startTimeMinute: z.string().refine((val) => {
-        const num = parseInt(val, 10);
-        return num >= 0 && num <= 59;
-      }),
-      startTimeAMPM: z.string(),
-      endTimeHour: z.string().refine((val) => {
-        const num = parseInt(val, 10);
-        return num >= 1 && num <= 12;
-      }),
-      endTimeMinute: z.string().refine((val) => {
-        const num = parseInt(val, 10);
-        return num >= 0 && num <= 59;
-      }),
-      endTimeAMPM: z.string(),
+      startTime: z.string(),
+      endTime: z.string(),
     }),
   ),
   urgencyLevel: z.string({
@@ -55,12 +39,8 @@ const formDefaultValues = {
   availability: [
     {
       day: "",
-      startTimeHour: "",
-      startTimeMinute: "",
-      startTimeAMPM: "",
-      endTimeHour: "",
-      endTimeMinute: "",
-      endTimeAMPM: "",
+      startTime: "",
+      endTime: "",
     },
   ],
   urgencyLevel: "",
