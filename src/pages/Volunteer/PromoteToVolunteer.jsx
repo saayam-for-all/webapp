@@ -33,16 +33,55 @@ const PromoteToVolunteer = () => {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const user = await getCurrentUser(); // Fetch user once
-        // setUserId(user.userId);
-        setUserId("SID-00-000-000-004"); // remove this line.. added to test with aws api
+        // Fetch current user details (loginId)
+        const user = await getCurrentUser(); // Assuming getCurrentUser is a function that fetches the user data
+        // setUserId("SID-00-000-000-");
+        const loginId = user.signInDetails.loginId;
+
+        // Fetch user profile using loginId
+        const userIdFromApi = await getUserProfile(loginId);
+
+        if (userIdFromApi) {
+          //console.log(userIdFromApi, "userIdFromApi out call");  // Log the fetched userId
+          setUserId(userIdFromApi); // Set the fetched userId to state
+        }
       } catch (error) {
         console.error("Error fetching user ID:", error);
       }
     };
 
-    if (!userId) fetchUserId();
-  }, [userId]);
+    // Only fetch userId once when the component mounts
+    fetchUserId();
+  }, []);
+  const getUserProfile = async function (emailId) {
+    try {
+      const response = await axios({
+        method: "GET", // Use GET method
+        url: `http://localhost:8080/0.0.1/users/login/${encodeURIComponent(emailId)}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Ensure token is available in the scope
+        },
+      });
+
+      // Assuming response.status is 200 for a successful request
+      if (response.status === 200) {
+        const data = response.data; // Axios automatically parses the response as JSON
+        const userId = data.data.id; // Assuming the response has a userId field
+
+        //console.log(data);  // Log the data received from backend
+        console.log(userId, "userId in call"); // Log the userId
+        return userId; // Return the userId or any other necessary data from the response
+      } else {
+        console.error(
+          "Failed to fetch user profile, status code:",
+          response.status,
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error); // Log any errors that occur
+    }
+  };
 
   const fetchSkills = async () => {
     try {
@@ -131,8 +170,8 @@ const PromoteToVolunteer = () => {
   };
 
   const saveVolunteerData = async () => {
-    console.log(volunteerDataRef.current, "volunteerDataRef.current");
-    console.log("Current Step:", volunteerDataRef.current.step);
+    //console.log(volunteerDataRef.current, "volunteerDataRef.current");
+    //console.log("Current Step:", volunteerDataRef.current.step);
     try {
       // console.log("Sending API Request with volunteerData:", volunteerDataRef.current);
 
@@ -142,7 +181,7 @@ const PromoteToVolunteer = () => {
         method: volunteerDataRef.current.step === 1 ? "post" : "put",
         url:
           volunteerDataRef.current.step === 1
-            ? "http://localhost:8080/0.0.1/volunteers/createvolunteer"
+            ? "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/volunteers/v0.0.1/create-volunteer" //"http://localhost:8080/0.0.1/volunteers/createvolunteer"//
             : "http://localhost:8080/0.0.1/volunteers/updatevolunteer",
 
         data: volunteerDataRef.current, // Get latest data from ref
@@ -150,6 +189,7 @@ const PromoteToVolunteer = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        timeout: 20000,
       });
       return response;
       // if (volunteerDataRef.current.step === 1) {
@@ -207,7 +247,8 @@ const PromoteToVolunteer = () => {
             userId: userId,
             termsAndConditions: isAcknowledged,
           });
-          testLocalBe();
+          saveVolunteerData();
+          //testLocalBe();
           break;
         case 2:
           isValidStep = govtIdFile && govtIdFile.name !== "";
@@ -216,6 +257,7 @@ const PromoteToVolunteer = () => {
             userId: userId,
             govtIdFilename: govtIdFile ? govtIdFile.name : "",
           });
+          saveVolunteerData();
           break;
         case 3:
           const selectedSkills = extractSkillsWithHierarchy(checkedCategories);
@@ -225,6 +267,7 @@ const PromoteToVolunteer = () => {
             userId: userId,
             skills: selectedSkills,
           });
+          saveVolunteerData();
           break;
         case 4:
           isValidStep = availabilitySlots.length > 0;
@@ -235,6 +278,7 @@ const PromoteToVolunteer = () => {
             isCompleted: true,
             availability: availabilitySlots,
           });
+          saveVolunteerData();
           break;
         default:
           isValidStep = false;
@@ -262,6 +306,13 @@ const PromoteToVolunteer = () => {
     } else if (direction === "prev") {
       newStep--;
     } else if (direction === "confirm") {
+      updateVolunteerData({
+        step: currentStep,
+        userId: userId,
+        notification: tobeNotified,
+        isCompleted: true,
+        availability: availabilitySlots,
+      });
       saveVolunteerData();
     }
 
