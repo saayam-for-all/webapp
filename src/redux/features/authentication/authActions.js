@@ -5,6 +5,7 @@ import {
   getCurrentUser,
   resetPassword,
   signOut,
+  updateUserAttributes,
 } from "aws-amplify/auth";
 import {
   changeUiLanguage,
@@ -61,6 +62,39 @@ export const checkAuthStatus = () => async (dispatch) => {
   } catch (error) {
     returnDefaultLanguage();
     dispatch(loginFailure(error.message));
+  }
+};
+
+// Add this to your authActions.js
+export const updateUserProfile = (userData) => async (dispatch) => {
+  try {
+    // Format the attributes for Cognito
+    const updatedAttributes = {
+      given_name: userData.firstName,
+      family_name: userData.lastName,
+      email: userData.email,
+      phone_number: userData.phone,
+      "custom:Country": userData.country,
+    };
+
+    // Update Cognito
+    await updateUserAttributes(updatedAttributes);
+
+    // Update Redux state
+    dispatch(
+      updateUserProfileSuccess({
+        given_name: userData.firstName,
+        family_name: userData.lastName,
+        email: userData.email,
+        phone_number: userData.phone,
+        zoneinfo: userData.country,
+      }),
+    );
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    return { success: false, error: error.message };
   }
 };
 
