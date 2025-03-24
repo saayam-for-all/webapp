@@ -23,6 +23,15 @@ function Profile() {
     }
   }, []);
 
+  // Broadcast hasUnsavedChanges status to the rest of the application
+  useEffect(() => {
+    // Create a custom event to notify other components about unsaved changes
+    const event = new CustomEvent("unsaved-changes", {
+      detail: { hasUnsavedChanges },
+    });
+    window.dispatchEvent(event);
+  }, [hasUnsavedChanges]);
+
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -66,7 +75,18 @@ function Profile() {
   };
 
   const openModal = () => {
-    setIsModalOpen(true);
+    // Check for unsaved changes before opening the photo modal
+    if (hasUnsavedChanges) {
+      const proceed = window.confirm(
+        "You have unsaved changes in your profile. Do you want to proceed without saving?",
+      );
+      if (proceed) {
+        setIsModalOpen(true);
+        setHasUnsavedChanges(false);
+      }
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   const renderTabContent = () => {

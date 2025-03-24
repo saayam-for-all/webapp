@@ -10,6 +10,9 @@ import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import CommentsSection from "./CommentsSection";
 import HelpingVolunteers from "./HelpingVolunteers";
 import RequestDescription from "./RequestDescription";
+import { FaPhoneAlt, FaVideo } from "react-icons/fa";
+import { IoPersonCircle } from "react-icons/io5";
+import { RiUserStarLine } from "react-icons/ri";
 
 const RequestDetails = () => {
   const { t } = useTranslation();
@@ -49,6 +52,19 @@ const RequestDetails = () => {
       .catch((err) => {});
   }, []);
 
+  const attributes = [
+    {
+      context: "Peter parker",
+      type: "Requester",
+      icon: <IoPersonCircle size={26} />,
+    },
+    {
+      context: "Ethan Marshall",
+      type: "Volunteer",
+      icon: <RiUserStarLine size={22} />,
+    },
+  ];
+
   return (
     <div className="m-8 grid grid-cols-13 gap-4">
       {!requestData ? (
@@ -81,13 +97,26 @@ const RequestDetails = () => {
             <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 uppercase">
               {requestData.subject}
             </h2>
-            <button
-              className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
-              onClick={() => setIsEditing(true)}
-            >
-              {t("EDIT")}
-            </button>
+            {/**Edit Button was previously here */}
           </div>
+
+          <div className="flex flex-row gap-5 justify-between">
+            {attributes.map((header, index) => (
+              <li
+                key={index}
+                className="flex items-center gap-2 group relative"
+              >
+                {header.icon}
+                {header.context}
+                <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {t(header.type)}
+                </div>
+                <FaPhoneAlt className="cursor-pointer" size={15} />
+                <FaVideo className="cursor-pointer" size={17} />
+              </li>
+            ))}
+          </div>
+
           <div className="flex flex-row justify-between">
             <RequestButton
               link="/voluntary-organizations"
@@ -96,7 +125,8 @@ const RequestDetails = () => {
               icon="i-volunteer"
             />
             <RequestButton
-              link=""
+              // link=""
+              isInfoRequest={true}
               text={t("EMERGENCY_CONTACT")}
               customStyle="bg-red-400 hover:bg-red-600 text-white w-[30%] px-6 py-3 rounded-lg flex items-center justify-start space-x-3 text-md"
               icon="i-emergency"
@@ -110,19 +140,21 @@ const RequestDetails = () => {
           </div>
           <div className="bg-white border border-gray-200 shadow-md m-0 flex flex-col">
             <div className="flex flex-row justify-evenly w-full">
-              {["Comments", "Volunteers", "Details"].map((newTab) => (
-                <button
-                  key={newTab}
-                  className={`flex-1 py-3 text-center cursor-pointer font-bold w-1/3 ${
-                    newTab === tab
-                      ? "bg-white border-gray-300 border-b-2"
-                      : "bg-gray-300 border-transparent hover:bg-gray-200"
-                  } `}
-                  onClick={() => setTab(newTab)}
-                >
-                  {t(newTab)}
-                </button>
-              ))}
+              {["Comments", "Volunteers", "Details"].map(
+                (newTab, index, array) => (
+                  <button
+                    key={newTab}
+                    className={`flex-1 py-3 text-center cursor-pointer font-bold w-1/3 ${
+                      newTab === tab
+                        ? "bg-white border-gray-300 border-b-2 border-l-2 border-r-2"
+                        : "bg-gray-300 border-transparent hover:bg-gray-200"
+                    } ${index < array.length - 1 ? "mr-4" : ""} `}
+                    onClick={() => setTab(newTab)}
+                  >
+                    {t(newTab)}
+                  </button>
+                ),
+              )}
             </div>
             <div className="p-4">
               {tab === "Comments" ? (
@@ -130,7 +162,10 @@ const RequestDetails = () => {
               ) : tab === "Volunteers" ? (
                 <HelpingVolunteers />
               ) : (
-                <RequestDescription requestData={requestData} />
+                <RequestDescription
+                  requestData={requestData}
+                  setIsEditing={setIsEditing}
+                />
               )}
             </div>
           </div>

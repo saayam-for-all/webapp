@@ -14,33 +14,15 @@ const attributes = [
     context: "July 1, 2024",
     type: "Creation Date",
     icon: <VscCalendar size={22} />,
-    phoneIcon: false,
-    videoIcon: false,
   },
   {
     context: "Maintenance",
     type: "Category",
     icon: <TbTriangleSquareCircle size={22} />,
-    phoneIcon: false,
-    videoIcon: false,
-  },
-  {
-    context: "Peter parker",
-    type: "Requester",
-    icon: <IoPersonCircle size={26} />,
-    phoneIcon: true,
-    videoIcon: true,
-  },
-  {
-    context: "Ethan Marshall",
-    type: "Volunteer",
-    icon: <RiUserStarLine size={22} />,
-    phoneIcon: true,
-    videoIcon: true,
   },
 ];
 
-const RequestDescription = ({ requestData }) => {
+const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
 
@@ -76,7 +58,14 @@ const RequestDescription = ({ requestData }) => {
                 </span>
               </div>
             </li>
+            <button
+              className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
+              onClick={() => setIsEditing(true)}
+            >
+              {t("EDIT")}
+            </button>
           </ul>
+
           <div className="w-full m-0">
             <p className="text-sm p-5">{t(requestData.description)}</p>
           </div>
@@ -93,12 +82,6 @@ const RequestDescription = ({ requestData }) => {
                   <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>
-                  {header.phoneIcon && (
-                    <FaPhoneAlt className="cursor-pointer" size={15} />
-                  )}
-                  {header.videoIcon && (
-                    <FaVideo className="cursor-pointer" size={17} />
-                  )}
                 </li>
               ))}
           </div>

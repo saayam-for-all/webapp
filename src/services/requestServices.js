@@ -22,3 +22,13 @@ export const checkProfanity = async (content) => {
   const response = await api.post(endpoints.CHECK_PROFANITY, content);
   return response.data;
 };
+
+export const createRequest = async (request) => {
+  const response = await api.post(endpoints.CREATE_HELP_REQUEST, request);
+  return response.data;
+};
+
+export const getEmergencyContactInfo = async () => {
+  const response = await api.get(endpoints.GET_EMERGENCY_CONTACT);
+  return response.data;
+};

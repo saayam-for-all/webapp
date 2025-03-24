@@ -44,6 +44,11 @@ const authSlice = createSlice({
       state.success = false;
       state.error = action.payload;
     },
+
+    // New reducer to update user profile in Redux state
+    updateUserProfileSuccess: (state, action) => {
+      state.user = { ...state.user, ...action.payload }; // Update only modified fields
+    },
   },
 });
 
@@ -55,6 +60,7 @@ export const {
   resetPasswordRequest,
   resetPasswordSuccess,
   resetPasswordFailure,
+  updateUserProfileSuccess,
 } = authSlice.actions;
 
 export default authSlice.reducer;

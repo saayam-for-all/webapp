@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import InactivityLogoutTimer from "../common/components/InactivityTimer/InactivityTimer";
 
 const ProtectedRoute = () => {
   const { user } = useSelector((state) => state.auth);
@@ -8,7 +9,11 @@ const ProtectedRoute = () => {
     return <Navigate to="/" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <InactivityLogoutTimer>
+      <Outlet />
+    </InactivityLogoutTimer>
+  );
 };
 
 export default ProtectedRoute;
