@@ -1,0 +1,3 @@
+.table-height-fix {
+  height: calc(100vh - 21em);
+}
