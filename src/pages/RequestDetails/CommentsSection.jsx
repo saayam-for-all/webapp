@@ -25,8 +25,8 @@ const CommentsSection = ({ comments }) => {
 
   const getComments = async () => {
     try {
-      const response = await getRequestComments();
-      setComments(response?.body);
+      // const response = await getRequestComments();
+      // setComments(response?.body);
     } catch (error) {
       console.error("Error fetching volunteer organizations:", error);
     }

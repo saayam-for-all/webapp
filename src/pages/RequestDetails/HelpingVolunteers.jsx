@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { getRequestVolunteers } from "../../services/volunteerServices";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
@@ -12,6 +13,9 @@ const HelpingVolunteers = () => {
     key: "name",
     direction: "ascending",
   });
+
+  const [volunteerData, setVolunteerData] = useState([]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
@@ -28,66 +32,80 @@ const HelpingVolunteers = () => {
     hour12: true,
   });
 
+  const getVolunteers = async () => {
+    try {
+      const response = await getRequestVolunteers();
+      setVolunteerData(response?.body);
+    } catch (error) {
+      console.error("Error fetching request volunteers:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("fetching volunteer data");
+    getVolunteers();
+  }, []);
+
   // Dummy volunteer data with added date field
-  const volunteerData = useMemo(
-    () => [
-      {
-        name: "Jane Cooper",
-        cause: "Cooking",
-        phone: "(225) 555-0118",
-        email: "jane@microsoft.com",
-        location: "Boston, USA",
-        rating: "★★★★★",
-        dateAdded: "2023-10-01",
-      },
-      {
-        name: "Floyd Miles",
-        cause: "Banking",
-        phone: "(205) 555-0100",
-        email: "floyd@yahoo.com",
-        location: "New York, USA",
-        rating: "★★★☆☆",
-        dateAdded: "2023-09-25",
-      },
-      {
-        name: "Ronald Richards",
-        cause: "Medical",
-        phone: "(302) 555-0107",
-        email: "ronald@adobe.com",
-        location: "Brasilia, Brazil",
-        rating: "★★★★☆",
-        dateAdded: "2023-10-05",
-      },
-      {
-        name: "Marvin McKinney",
-        cause: "College admission",
-        phone: "(252) 555-0126",
-        email: "marvin@tesla.com",
-        location: "Delhi, India",
-        rating: "★★★★★",
-        dateAdded: "2023-09-30",
-      },
-      {
-        name: "Jerome Bell",
-        cause: "Housing",
-        phone: "(629) 555-0129",
-        email: "jerome@google.com",
-        location: "Texas, USA",
-        rating: "★★★☆☆",
-        dateAdded: "2023-10-10",
-      },
-      {
-        name: "Kathryn Murphy",
-        cause: "Cooking",
-        phone: "(406) 555-0120",
-        email: "kathryn@microsoft.com",
-        location: "Chicago, USA",
-        rating: "★★☆☆☆",
-        dateAdded: "2023-10-08",
-      },
-    ],
-    [],
-  );
+  // const volunteerData = useMemo(
+  //   () => [
+  //     {
+  //       name: "Jane Cooper",
+  //       cause: "Cooking",
+  //       phone: "(225) 555-0118",
+  //       email: "jane@microsoft.com",
+  //       location: "Boston, USA",
+  //       rating: "★★★★★",
+  //       dateAdded: "2023-10-01",
+  //     },
+  //     {
+  //       name: "Floyd Miles",
+  //       cause: "Banking",
+  //       phone: "(205) 555-0100",
+  //       email: "floyd@yahoo.com",
+  //       location: "New York, USA",
+  //       rating: "★★★☆☆",
+  //       dateAdded: "2023-09-25",
+  //     },
+  //     {
+  //       name: "Ronald Richards",
+  //       cause: "Medical",
+  //       phone: "(302) 555-0107",
+  //       email: "ronald@adobe.com",
+  //       location: "Brasilia, Brazil",
+  //       rating: "★★★★☆",
+  //       dateAdded: "2023-10-05",
+  //     },
+  //     {
+  //       name: "Marvin McKinney",
+  //       cause: "College admission",
+  //       phone: "(252) 555-0126",
+  //       email: "marvin@tesla.com",
+  //       location: "Delhi, India",
+  //       rating: "★★★★★",
+  //       dateAdded: "2023-09-30",
+  //     },
+  //     {
+  //       name: "Jerome Bell",
+  //       cause: "Housing",
+  //       phone: "(629) 555-0129",
+  //       email: "jerome@google.com",
+  //       location: "Texas, USA",
+  //       rating: "★★★☆☆",
+  //       dateAdded: "2023-10-10",
+  //     },
+  //     {
+  //       name: "Kathryn Murphy",
+  //       cause: "Cooking",
+  //       phone: "(406) 555-0120",
+  //       email: "kathryn@microsoft.com",
+  //       location: "Chicago, USA",
+  //       rating: "★★☆☆☆",
+  //       dateAdded: "2023-10-08",
+  //     },
+  //   ],
+  //   [],
+  // );
 
   // Columns for the table
   const headers = [

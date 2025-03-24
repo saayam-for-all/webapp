@@ -6,5 +6,6 @@
   "GET_VOLUNTEER_SKILLS": "volunteers/v0.0.1/skills",
   "GET_REQUEST_COMMENTS": "requests/v0.0.1/getComments",
   "CREATE_VOLUNTEER": "volunteers/v0.0.1/createNewVolunteer",
-  "UPDATE_VOLUNTEER": "volunteers/v0.0.1/updateVolunteer"
+  "UPDATE_VOLUNTEER": "volunteers/v0.0.1/updateVolunteer",
+  "GET_REQUEST_VOLUNTEER": "volunteers/v0.0.1/getVolunteersData"
 }
