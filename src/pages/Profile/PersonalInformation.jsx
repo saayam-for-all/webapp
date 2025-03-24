@@ -20,7 +20,8 @@ const genderOptions = [
 function PersonalInformation({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
-  const streetAddressRef = useRef(null);
+  //const streetAddressRef = useRef(null);
+  const dateofbirthRef = useRef(null);
 
   const [personalInfo, setPersonalInfo] = useState({
     dateOfBirth: null,
@@ -79,11 +80,19 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     setHasUnsavedChanges(true);
   };
 
-  const handleEditClick = () => {
+  /*const handleEditClick = () => {
     setIsEditing(true);
     setTimeout(() => {
       if (streetAddressRef.current) {
         streetAddressRef.current.focus();
+      }
+    }, 0);
+  }; */
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setTimeout(() => {
+      if (dateofbirthRef.current?.input) {
+        dateofbirthRef.current.input.focus();
       }
     }, 0);
   };
@@ -98,6 +107,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           </label>
           {isEditing ? (
             <DatePicker
+              ref={dateofbirthRef}
               selected={personalInfo.dateOfBirth}
               onChange={(date) => handleInputChange("dateOfBirth", date)}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -139,7 +149,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           </label>
           {isEditing ? (
             <input
-              ref={streetAddressRef}
+              //ref={streetAddressRef}
               type="text"
               name="streetAddress"
               value={personalInfo.streetAddress}
