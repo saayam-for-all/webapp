@@ -1,39 +1,43 @@
 import {
   confirmResetPassword,
+  fetchAuthSession,
+  fetchUserAttributes,
   getCurrentUser,
   resetPassword,
-  signIn,
   signOut,
-  signUp,
-  fetchUserAttributes,
-  fetchAuthSession,
 } from "aws-amplify/auth";
+import {
+  changeUiLanguage,
+  returnDefaultLanguage,
+} from "../../../common/i18n/utils";
 import {
   loginFailure,
   loginRequest,
   loginSuccess,
   logoutSuccess,
+  resetPasswordFailure,
   resetPasswordRequest,
   resetPasswordSuccess,
-  resetPasswordFailure,
 } from "./authSlice";
-import { useNavigate } from "react-router";
-import {
-  changeUiLanguage,
-  returnDefaultLanguage,
-} from "../../../common/i18n/utils";
 
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
   try {
     const { userId } = await getCurrentUser();
-    const { email, name, phone_number, zoneinfo } = await fetchUserAttributes();
+    const {
+      email,
+      family_name,
+      given_name,
+      phone_number,
+      ["custom:Country"]: zoneinfo,
+    } = await fetchUserAttributes();
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
     const user = {
       userId,
       email,
-      name,
+      family_name,
+      given_name,
       phone_number,
       zoneinfo,
       groups,
@@ -45,8 +49,6 @@ export const checkAuthStatus = () => async (dispatch) => {
         }),
       );
     }
-    //const user = await getCurrentUser();
-    //const session = await fetchAuthSession();
     const idToken = userSession.tokens?.idToken?.toString();
     dispatch(
       loginSuccess({

@@ -1,14 +1,18 @@
 import React, { Suspense } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import Navbar from "../common/components/Navbar/Navbar";
-import MainLoader from "../common/components/Loader/MainLoader";
+import { Outlet } from "react-router-dom";
 import Footer from "../common/components/Footer/Footer";
 import LeftAds from "../common/components/LeftAds/LeftAds";
+import MainLoader from "../common/components/Loader/MainLoader";
+import Navbar from "../common/components/Navbar/Navbar";
 import RightAds from "../common/components/RightAds/RightAds";
+import NavigationGuard from "../common/components/NavigationGuard/NavigationGuard";
 
 const Layout = () => {
   return (
     <div className="flex flex-col h-screen">
+      {/* Navigation Guard to check for unsaved changes */}
+      <NavigationGuard />
+
       {/* header includes Navbar which spans full width */}
       <header className="sticky z-10">
         <Navbar />
