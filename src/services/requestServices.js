@@ -28,18 +28,7 @@ export const createRequest = async (request) => {
   return response.data;
 };
 
-export const predictCategories = async (requestBody) => {
-  const response = await api.post(
-    endpoints.PREDICT_CATEGORIES,
-    {
-      ...requestBody,
-      isBase64Encoded: false,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
+export const predictCategories = async (request) => {
+  const response = await api.post(endpoints.PREDICT_CATEGORIES, request);
   return response.data;
 };

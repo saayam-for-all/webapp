@@ -96,13 +96,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
         const response = await predictCategories(requestBody);
         console.log("API Response:", response);
-        const formattedCategories = response.map((category) => ({
-          id: category.toLowerCase(), // Convert to lowercase for id
+        const formattedCategories = (response || []).map((category) => ({
+          id: category.toLowerCase(),
           name: category,
         }));
 
-        if (response?.length > 0) {
-          setFilteredCategories(formattedCategories);
+        if (formattedCategories.length > 0) {
+          const categoriesWithGeneral = [
+            { id: "general", name: "General" },
+            ...formattedCategories,
+          ];
+
+          setFilteredCategories(categoriesWithGeneral);
           setShowDropdown(true);
         } else {
           setFilteredCategories([]);
