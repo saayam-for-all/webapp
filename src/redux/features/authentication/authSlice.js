@@ -47,6 +47,7 @@ const authSlice = createSlice({
 
     // New reducer to update user profile in Redux state
     updateUserProfileSuccess: (state, action) => {
+      console.log("Redux Update:", action.payload); // Debugging Log
       state.user = { ...state.user, ...action.payload }; // Update only modified fields
     },
   },
