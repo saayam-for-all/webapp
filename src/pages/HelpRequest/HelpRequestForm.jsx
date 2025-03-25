@@ -511,9 +511,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 }
               >
                 <option value="Remote">{t("REMOTE")}</option>
-                <option value="In Person" style={{ display: "none" }}>
-                  {t("IN_PERSON")}
-                </option>
+                <option value="In Person">{t("IN_PERSON")}</option>
               </select>
             </div>
 
