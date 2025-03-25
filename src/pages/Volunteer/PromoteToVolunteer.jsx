@@ -14,7 +14,7 @@ import {
 } from "../../services/volunteerServices";
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -28,7 +28,9 @@ const PromoteToVolunteer = () => {
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
-  const [userId, setUserId] = useState(null);
+  // const [userId, setUserId] = useState(null);
+  const userId = useSelector((state) => state.user.userId);
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     const fetchUserId = async () => {
@@ -43,7 +45,7 @@ const PromoteToVolunteer = () => {
 
         if (userIdFromApi) {
           //console.log(userIdFromApi, "userIdFromApi out call");  // Log the fetched userId
-          setUserId(userIdFromApi); // Set the fetched userId to state
+          dispatch(setUserId(userIdFromApi)); // Set the fetched userId to state
         }
       } catch (error) {
         console.error("Error fetching user ID:", error);
@@ -52,7 +54,7 @@ const PromoteToVolunteer = () => {
 
     // Only fetch userId once when the component mounts
     fetchUserId();
-  }, []);
+  }, [userIdFromApi, dispatch]);
   const getUserProfile = async function (emailId) {
     try {
       const response = await axios({

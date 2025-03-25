@@ -11,7 +11,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     // signup: signupReducer,
-    // user: userReducer,
+    user: userReducer,
     // volunteer: volunteerReducer,
     // admin: adminReducer,
     request: requestReducer,
