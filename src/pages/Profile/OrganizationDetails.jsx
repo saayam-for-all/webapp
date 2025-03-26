@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import { getPhoneCodeslist } from "../../utils/utils";
 
 const COUNTRY_CODE_API =
   "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json";
@@ -23,8 +25,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     zipCode: "",
     organizationType: t("NON_PROFIT"),
   });
-
-  const [countryOptions, setCountryOptions] = useState([]);
+  const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
   useEffect(() => {
     fetch(COUNTRY_CODE_API)
@@ -54,10 +55,10 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, code } = e.target;
     setOrganizationInfo((prevInfo) => ({
       ...prevInfo,
-      [name]: value,
+      [name]: code,
     }));
     setHasUnsavedChanges(true);
   };
@@ -156,16 +157,19 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
             <div className="flex">
               <Select
                 name="phoneCountryCode"
-                value={countryOptions.find(
-                  (option) =>
-                    option.value === organizationInfo.phoneCountryCode,
+                value={phoneCodeOptions.find(
+                  (option) => option.code === organizationInfo.phoneCountryCode,
                 )}
-                options={countryOptions}
+                getOptionLabel={(option) =>
+                  `${option.country} (${option.dialCode})`
+                }
+                getOptionValue={(option) => option.code}
+                options={phoneCodeOptions}
                 onChange={(selectedOption) =>
                   handleInputChange({
                     target: {
                       name: "phoneCountryCode",
-                      value: selectedOption.value,
+                      code: selectedOption.code,
                     },
                   })
                 }
