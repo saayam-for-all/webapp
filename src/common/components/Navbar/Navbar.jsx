@@ -1,18 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Hub } from "aws-amplify/utils";
-import { useDispatch, useSelector } from "react-redux";
+import { BiDonateHeart } from "react-icons/bi";
 import {
-  IoPeopleOutline,
   IoLogInOutline,
   IoNotificationsOutline,
+  IoPeopleOutline,
 } from "react-icons/io5";
-import { BiDonateHeart } from "react-icons/bi";
-import LOGO from "../../../assets/logo.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
-import "./NavBar.css";
+import LOGO from "../../../assets/logo.svg";
 import { logout } from "../../../redux/features/authentication/authActions";
+import "./NavBar.css";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -317,13 +316,13 @@ const Navbar = () => {
             </p>
             <div className="flex justify-end">
               <button
-                className="px-4 py-2 mr-2 bg-gray-300 rounded-md"
+                className="px-4 py-2 mr-2 bg-gray-300 rounded-md hover:bg-gray-200"
                 onClick={() => setIsLogoutModalOpen(false)}
               >
                 {t("Cancel")}
               </button>
               <button
-                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400"
                 onClick={handleSignOut}
               >
                 {t("Logout")}

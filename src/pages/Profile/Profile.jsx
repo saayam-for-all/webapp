@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import YourProfile from "./YourProfile";
-import PersonalInformation from "./PersonalInformation";
+import React, { useEffect, useState } from "react";
+import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 import ChangePassword from "./ChangePassword";
-import Sidebar from "./Sidebar";
 import Modal from "./Modal";
 import OrganizationDetails from "./OrganizationDetails";
-import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
+import PersonalInformation from "./PersonalInformation";
+import Sidebar from "./Sidebar";
+import Skills from "./Skills";
+import YourProfile from "./YourProfile";
 
 function Profile() {
   const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
@@ -103,6 +104,8 @@ function Profile() {
         return (
           <OrganizationDetails setHasUnsavedChanges={setHasUnsavedChanges} />
         );
+      case "skills":
+        return <Skills setHasUnsavedChanges={setHasUnsavedChanges} />;
       default:
         return null;
     }
