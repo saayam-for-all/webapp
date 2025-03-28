@@ -5,10 +5,14 @@ import MainLoader from "#components/Loader/MainLoader";
 import Footer from "#components/Footer/Footer";
 import LeftAds from "#components/LeftAds/LeftAds";
 import RightAds from "#components/RightAds/RightAds";
+import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
 
 const Layout = () => {
   return (
     <div className="flex flex-col h-screen">
+      {/* Navigation Guard to check for unsaved changes */}
+      <NavigationGuard />
+
       {/* header includes Navbar which spans full width */}
       <header className="sticky z-10">
         <Navbar />
