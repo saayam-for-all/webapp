@@ -12,6 +12,7 @@ jest.mock("#components/Navbar/Navbar");
 jest.mock("#components/Footer/Footer");
 jest.mock("#components/LeftAds/LeftAds");
 jest.mock("#components/RightAds/RightAds");
+jest.mock("#components/NavigationGuard/NavigationGuard");
 
 describe("Layout", () => {
   it("renders correctly", () => {

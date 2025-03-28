@@ -76,44 +76,29 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               tabindex="0"
             >
               <li>
-                <mock-nav-link
-                  props="{"name":"directors"}"
-                  to="/directors"
-                >
+                <a>
                   mockTranslate(DIRECTORS)
-                </mock-nav-link>
+                </a>
               </li>
               <li>
-                <mock-nav-link
-                  props="{"name":"how-we-operate"}"
-                  to="/how-we-operate"
-                >
+                <a>
                   mockTranslate(HOW_WE_OPERATE)
-                </mock-nav-link>
+                </a>
               </li>
               <li>
-                <mock-nav-link
-                  props="{"name":"contact"}"
-                  to="/contact"
-                >
+                <a>
                   mockTranslate(CONTACT)
-                </mock-nav-link>
+                </a>
               </li>
               <li>
-                <mock-nav-link
-                  props="{}"
-                  to="/mission"
-                >
+                <a>
                   mockTranslate(MISSION)
-                </mock-nav-link>
+                </a>
               </li>
               <li>
-                <mock-nav-link
-                  props="{}"
-                  to="/vision"
-                >
+                <a>
                   mockTranslate(VISION)
-                </mock-nav-link>
+                </a>
               </li>
             </ul>
           </div>
@@ -251,44 +236,29 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             tabindex="0"
           >
             <li>
-              <mock-nav-link
-                props="{"name":"directors"}"
-                to="/directors"
-              >
+              <a>
                 mockTranslate(DIRECTORS)
-              </mock-nav-link>
+              </a>
             </li>
             <li>
-              <mock-nav-link
-                props="{"name":"how-we-operate"}"
-                to="/how-we-operate"
-              >
+              <a>
                 mockTranslate(HOW_WE_OPERATE)
-              </mock-nav-link>
+              </a>
             </li>
             <li>
-              <mock-nav-link
-                props="{"name":"contact"}"
-                to="/contact"
-              >
+              <a>
                 mockTranslate(CONTACT)
-              </mock-nav-link>
+              </a>
             </li>
             <li>
-              <mock-nav-link
-                props="{}"
-                to="/mission"
-              >
+              <a>
                 mockTranslate(MISSION)
-              </mock-nav-link>
+              </a>
             </li>
             <li>
-              <mock-nav-link
-                props="{}"
-                to="/vision"
-              >
+              <a>
                 mockTranslate(VISION)
-              </mock-nav-link>
+              </a>
             </li>
           </ul>
         </div>
@@ -490,44 +460,29 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               tabindex="0"
             >
               <li>
-                <mock-nav-link
-                  props="{"name":"directors"}"
-                  to="/directors"
-                >
+                <a>
                   mockTranslate(DIRECTORS)
-                </mock-nav-link>
+                </a>
               </li>
               <li>
-                <mock-nav-link
-                  props="{"name":"how-we-operate"}"
-                  to="/how-we-operate"
-                >
+                <a>
                   mockTranslate(HOW_WE_OPERATE)
-                </mock-nav-link>
+                </a>
               </li>
               <li>
-                <mock-nav-link
-                  props="{"name":"contact"}"
-                  to="/contact"
-                >
+                <a>
                   mockTranslate(CONTACT)
-                </mock-nav-link>
+                </a>
               </li>
               <li>
-                <mock-nav-link
-                  props="{}"
-                  to="/mission"
-                >
+                <a>
                   mockTranslate(MISSION)
-                </mock-nav-link>
+                </a>
               </li>
               <li>
-                <mock-nav-link
-                  props="{}"
-                  to="/vision"
-                >
+                <a>
                   mockTranslate(VISION)
-                </mock-nav-link>
+                </a>
               </li>
             </ul>
           </div>
@@ -683,44 +638,29 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             tabindex="0"
           >
             <li>
-              <mock-nav-link
-                props="{"name":"directors"}"
-                to="/directors"
-              >
+              <a>
                 mockTranslate(DIRECTORS)
-              </mock-nav-link>
+              </a>
             </li>
             <li>
-              <mock-nav-link
-                props="{"name":"how-we-operate"}"
-                to="/how-we-operate"
-              >
+              <a>
                 mockTranslate(HOW_WE_OPERATE)
-              </mock-nav-link>
+              </a>
             </li>
             <li>
-              <mock-nav-link
-                props="{"name":"contact"}"
-                to="/contact"
-              >
+              <a>
                 mockTranslate(CONTACT)
-              </mock-nav-link>
+              </a>
             </li>
             <li>
-              <mock-nav-link
-                props="{}"
-                to="/mission"
-              >
+              <a>
                 mockTranslate(MISSION)
-              </mock-nav-link>
+              </a>
             </li>
             <li>
-              <mock-nav-link
-                props="{}"
-                to="/vision"
-              >
+              <a>
                 mockTranslate(VISION)
-              </mock-nav-link>
+              </a>
             </li>
           </ul>
         </div>

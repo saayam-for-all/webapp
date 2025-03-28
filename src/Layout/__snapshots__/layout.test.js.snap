@@ -8,6 +8,7 @@ exports[`Layout renders correctly 1`] = `
       <div
         class="flex flex-col h-screen"
       >
+        <mock-navigation-guard />
         <header
           class="sticky z-10"
         >
@@ -46,6 +47,7 @@ exports[`Layout renders correctly 1`] = `
     <div
       class="flex flex-col h-screen"
     >
+      <mock-navigation-guard />
       <header
         class="sticky z-10"
       >
