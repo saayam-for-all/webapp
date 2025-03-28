@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { FaUserCircle, FaLock } from "react-icons/fa";
+import { FaUserCircle, FaLock, FaTools } from "react-icons/fa";
 import { FiChevronRight } from "react-icons/fi";
 import { FiEdit2 } from "react-icons/fi";
 
@@ -109,6 +109,23 @@ function Sidebar({
             {t("ORGANIZATION_DETAILS")}
           </div>
           {activeTab !== "organization" && (
+            <FiChevronRight className="text-gray-400" />
+          )}
+        </button>
+
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "skills"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("skills")}
+        >
+          <div className="flex items-center">
+            <FaTools className="mr-2 text-gray-500" />
+            {t("SKILLS")}
+          </div>
+          {activeTab !== "skills" && (
             <FiChevronRight className="text-gray-400" />
           )}
         </button>
