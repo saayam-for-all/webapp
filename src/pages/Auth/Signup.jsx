@@ -9,6 +9,7 @@ import { z } from "zod";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import "./Login.css";
+import { useTranslation } from "react-i18next";
 
 const signUpSchema = z.object({
   firstName: z
@@ -46,6 +47,7 @@ const signUpSchema = z.object({
 });
 
 const SignUp = () => {
+  const { t } = useTranslation();
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -124,10 +126,14 @@ const SignUp = () => {
           },
         },
       });
+
       if (user && user.isSignUpComplete === false) {
         navigate("/verify-otp", { state: { email: emailValue } });
       }
     } catch (error) {
+      if (error.name === "UsernameExistsException") {
+        setErrors({ email: t("USER_ALREADY_EXISTS") });
+      }
       console.log("Sign up error:", error);
     }
 
