@@ -110,7 +110,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               ref={dateofbirthRef}
               selected={personalInfo.dateOfBirth}
               onChange={(date) => handleInputChange("dateOfBirth", date)}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -156,7 +156,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               onChange={(e) =>
                 handleInputChange("streetAddress", e.target.value)
               }
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -176,7 +176,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               onChange={(e) =>
                 handleInputChange("streetAddress2", e.target.value)
               }
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -219,7 +219,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               name="state"
               value={personalInfo.state}
               onChange={(e) => handleInputChange("state", e.target.value)}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">{personalInfo.state || ""}</p>
@@ -235,7 +235,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               name="zipCode"
               value={personalInfo.zipCode}
               onChange={(e) => handleInputChange("zipCode", e.target.value)}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -335,7 +335,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               onChange={(e) =>
                 handleInputChange("secondaryEmail", e.target.value)
               }
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -352,13 +352,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               <Select
                 value={phoneCodeOptions.find(
                   (option) =>
-                    option.value === personalInfo.secondaryPhoneCountryCode,
+                    option.code === personalInfo.secondaryPhoneCountryCode,
                 )}
+                getOptionLabel={(e) => `${e.country} (${e.dialCode})`}
+                getOptionValue={(e) => e.code}
                 options={phoneCodeOptions}
                 onChange={(selectedOption) =>
                   handleInputChange(
                     "secondaryPhoneCountryCode",
-                    selectedOption?.value || "",
+                    selectedOption?.code || "",
                   )
                 }
                 className="w-full max-w-[100px] mr-2"
@@ -370,7 +372,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 onChange={(e) =>
                   handleInputChange("secondaryPhone", e.target.value)
                 }
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
           ) : (
