@@ -12,7 +12,6 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   const [isEditing, setIsEditing] = useState(false);
   const organizationNameRef = useRef(null);
 
-  // For Validation Errors:
   const [errors, setErrors] = useState({});
 
   const [organizationInfo, setOrganizationInfo] = useState({
@@ -60,7 +59,6 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   const handleInputChange = (e) => {
     const { name, code, value } = e.target;
 
-    // Validation Part Here:
     let errorMsg = "";
     if (name == "email") {
       if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$/.test(value)) {
@@ -97,7 +95,6 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   };
 
   const handleSaveClick = () => {
-    // If there are Errors, don't proceed.
     let hasError = False;
     Object.values(errors).forEach((error) => {
       if (error !== "") {
