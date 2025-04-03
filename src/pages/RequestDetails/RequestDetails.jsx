@@ -10,6 +10,10 @@ import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import CommentsSection from "./CommentsSection";
 import HelpingVolunteers from "./HelpingVolunteers";
 import RequestDescription from "./RequestDescription";
+import { FaPhoneAlt, FaVideo } from "react-icons/fa";
+import { IoPersonCircle } from "react-icons/io5";
+import { RiUserStarLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
 
 const RequestDetails = () => {
   const { t } = useTranslation();
@@ -19,6 +23,8 @@ const RequestDetails = () => {
   const [comments, setComments] = useState([]);
   const [tab, setTab] = useState("Comments");
   const [isEditing, setIsEditing] = useState(false);
+  const user = useSelector((state) => state.user?.user);
+  const volunteer = useSelector((state) => state.volunteer?.volunteer);
 
   useEffect(() => {
     if (isEditing) {
@@ -48,6 +54,19 @@ const RequestDetails = () => {
       })
       .catch((err) => {});
   }, []);
+
+  const attributes = [
+    {
+      context: user?.name || "Requester",
+      type: "Requester",
+      icon: <IoPersonCircle size={26} />,
+    },
+    {
+      context: volunteer?.name || "Volunteer",
+      type: "Volunteer",
+      icon: <RiUserStarLine size={22} />,
+    },
+  ];
 
   return (
     <div className="m-8 grid grid-cols-13 gap-4">
@@ -82,6 +101,22 @@ const RequestDetails = () => {
               {requestData.subject}
             </h2>
             {/**Edit Button was previously here */}
+          </div>
+          <div className="flex flex-row gap-5 justify-between">
+            {attributes.map((header, index) => (
+              <li
+                key={index}
+                className="flex items-center gap-2 group relative"
+              >
+                {header.icon}
+                {header.context}
+                <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {t(header.type)}
+                </div>
+                <FaPhoneAlt className="cursor-pointer" size={15} />
+                <FaVideo className="cursor-pointer" size={17} />
+              </li>
+            ))}
           </div>
           <div className="flex flex-row justify-between">
             <RequestButton

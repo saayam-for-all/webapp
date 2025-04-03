@@ -11,8 +11,8 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     // signup: signupReducer,
-    // user: userReducer,
-    // volunteer: volunteerReducer,
+    user: userReducer,
+    volunteer: volunteerReducer,
     // admin: adminReducer,
     request: requestReducer,
     [requestApi.reducerPath]: requestApi.reducer,
