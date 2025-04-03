@@ -28,8 +28,8 @@ const PromoteToVolunteer = () => {
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
-  // const [userId, setUserId] = useState(null);
-  const userId = useSelector((state) => state.user.userId);
+  const [userId, setUserId] = useState(null);
+  // const userId = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
@@ -45,7 +45,8 @@ const PromoteToVolunteer = () => {
 
         if (userIdFromApi) {
           //console.log(userIdFromApi, "userIdFromApi out call");  // Log the fetched userId
-          dispatch(setUserId(userIdFromApi)); // Set the fetched userId to state
+          // dispatch(setUserId(userIdFromApi)); // Set the fetched userId to state
+          setUserId(userIdFromApi);
         }
       } catch (error) {
         console.error("Error fetching user ID:", error);
@@ -54,7 +55,7 @@ const PromoteToVolunteer = () => {
 
     // Only fetch userId once when the component mounts
     fetchUserId();
-  }, [userIdFromApi, dispatch]);
+  }, []);
   const getUserProfile = async function (emailId) {
     try {
       const response = await axios({

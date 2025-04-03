@@ -10,29 +10,33 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
   const fileInputRef = useRef(null); // Reference to the file input
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+    const uploadedFile = e.target.files[0];
+    setSelectedFile(uploadedFile);
 
-    if (selectedFile) {
+    if (uploadedFile) {
       // Validate file size (2MB = 2 * 1024 * 1024 bytes)
-      if (selectedFile.size > 2 * 1024 * 1024) {
+      console.log(uploadedFile);
+      if (uploadedFile.size > 2 * 1024 * 1024) {
         setError("File size should not exceed 2MB");
         setFile(null);
         setPreview("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
         return;
       }
 
       // Validate file type
       const allowedTypes = ["image/jpg", "image/jpeg", "application/pdf"];
-      if (!allowedTypes.includes(selectedFile.type)) {
+      if (!allowedTypes.includes(uploadedFile.type)) {
         setError("Only JPEG, JPG, and PDF files are allowed");
         setFile(null);
         setPreview("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
         return;
       }
 
       setError("");
-      setFile(selectedFile);
-      setPreview(URL.createObjectURL(selectedFile));
+      setFile(uploadedFile);
+      setPreview(URL.createObjectURL(uploadedFile));
     }
   };
 

@@ -55,6 +55,7 @@ const SignUp = () => {
   const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
 
+  //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
@@ -74,6 +75,15 @@ const SignUp = () => {
   const countries = CountryList().getData();
 
   const navigate = useNavigate();
+
+  //name, email and phone number validation functions
+  const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePhone = (phone) => /^[0-9]{10}$/.test(phone); //Exactly 10 digits phone number
+  const validatePassword = (password) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+      password,
+    );
 
   const handleSignUp = async () => {
     try {
@@ -193,7 +203,9 @@ const SignUp = () => {
               onChange={(e) => {
                 const selectedCode = e.target.value;
                 setCountryCode(selectedCode);
-                setCountry(PHONECODESEN[selectedCode]?.primary || "");
+                const selectedCountry =
+                  PHONECODESEN[selectedCode]?.primary || "";
+                setCountry(selectedCountry);
               }}
               className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
             >
@@ -325,9 +337,6 @@ const SignUp = () => {
               {confirmPasswordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
-          {!passwordsMatch && (
-            <p className="text-red-500 text-sm mt-1">Passwords do not match</p>
-          )}
         </div>
 
         <button

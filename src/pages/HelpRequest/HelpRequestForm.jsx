@@ -10,10 +10,10 @@ import {
   useAddRequestMutation,
   useGetAllRequestQuery,
 } from "../../services/requestApi";
+import { checkProfanity, createRequest } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
-import { checkProfanity } from "../../services/requestServices";
 const genderOptions = [
   { value: "Select", label: "Select" },
   { value: "Woman", label: "Woman" },
@@ -96,7 +96,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       } else {
         // Proceed with submitting the request if no profanity is found
-        const response = await addRequest(submissionData);
+        const response = await createRequest(submissionData);
         // const response = await axios.post(
         //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
         //   submissionData,
@@ -109,9 +109,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         // );
 
         alert(
-          "Request submitted successfully! Request ID: " +
-            response.data.requestId,
+          "Request submitted successfully! You will now be redirected to the dashboard.",
         );
+        navigate("/dashboard");
       }
     } catch (error) {
       console.error("Failed to process request:", error);

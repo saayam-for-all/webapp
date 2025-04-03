@@ -1,36 +1,33 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { BiDonateHeart } from "react-icons/bi";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Hub } from "aws-amplify/utils";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  IoPeopleOutline,
   IoLogInOutline,
   IoNotificationsOutline,
-  IoPeopleOutline,
 } from "react-icons/io5";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-
-import { useDispatch, useSelector } from "react-redux";
-import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
+import { BiDonateHeart } from "react-icons/bi";
 import LOGO from "../../../assets/logo.svg";
-import { logout } from "../../../redux/features/authentication/authActions";
+import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import "./NavBar.css";
+import { logout } from "../../../redux/features/authentication/authActions";
 
 const Navbar = () => {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // Logout modal state
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
-  const fileInputRef = useRef(null);
-  const profileDropdownRef = useRef(null);
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const profileDropdownRef = useRef(null);
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
-    if (savedProfilePhoto) {
-      setProfileIcon(savedProfilePhoto);
-    }
+    if (savedProfilePhoto) setProfileIcon(savedProfilePhoto);
 
     const handleStorageChange = (event) => {
       if (event.key === "profilePhoto") {
@@ -69,9 +66,7 @@ const Navbar = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -81,9 +76,7 @@ const Navbar = () => {
     }
   }, [user]);
 
-  const handleDropdownClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  const handleDropdownClick = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleLinkClick = () => {
     if (isDropdownOpen) {
@@ -97,28 +90,23 @@ const Navbar = () => {
   };
 
   const handleSignOut = () => {
-    setIsProfileDropdownOpen(false);
     dispatch(logout());
+    setIsLogoutModalOpen(false);
     navigate("/login");
   };
 
   return (
-    <div className="navbar navbar-sm navbar-gradient-bg s">
-      <div className="navbar-start w-1/5 md:w-1/2">
-        <Link
-          to="/dashboard"
-          className="text-xl md:ml-[15px] md:text-3xl font-semibold"
-        >
+    <div className="navbar navbar-sm navbar-gradient-bg">
+      <div className="navbar-start">
+        <Link to="/dashboard" className="text-3xl font-semibold">
           <img src={LOGO} alt="logo" className="w-14 h-14" />
         </Link>
       </div>
 
-      <div className="navbar-end w-4/5 md:1/2 gap-4 md:gap-10">
+      <div className="navbar-end gap-10">
         <div className="dropdown">
           <button
-            className={`font-semibold flex flex-col items-center ${
-              isDropdownOpen ? "active" : ""
-            }`}
+            className={`font-semibold flex flex-col items-center ${isDropdownOpen ? "active" : ""}`}
             onClick={handleDropdownClick}
           >
             <IoPeopleOutline className="mr-1 text-xl" />
@@ -126,9 +114,7 @@ const Navbar = () => {
           </button>
           <ul
             tabIndex={0}
-            className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${
-              isDropdownOpen ? "block" : "hidden"
-            }`}
+            className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${isDropdownOpen ? "block" : "hidden"}`}
             onClick={handleLinkClick}
           >
             <li>
@@ -154,6 +140,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
+
         <NavLink
           to="/donate"
           className="font-semibold flex flex-col items-center"
@@ -162,6 +149,7 @@ const Navbar = () => {
           <BiDonateHeart className="mr-1 text-xl" />
           {t("DONATE")}
         </NavLink>
+
         <button
           className="font-semibold flex flex-col items-center"
           id="notificationButton"
@@ -169,6 +157,7 @@ const Navbar = () => {
           <IoNotificationsOutline className="mr-1 text-xl" />
           {t("NOTIFICATIONS")}
         </button>
+
         {user?.userId ? (
           <div
             className="relative flex flex-col items-center"
@@ -192,7 +181,7 @@ const Navbar = () => {
                 </li>
                 <li
                   className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handleSignOut}
+                  onClick={() => setIsLogoutModalOpen(true)}
                 >
                   {t("LOGOUT")}
                 </li>
@@ -210,6 +199,33 @@ const Navbar = () => {
           </NavLink>
         )}
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {isLogoutModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <p className="text-lg font-semibold mb-4">
+              {t(
+                "Are you sure, you want to log out? There may be unsaved data on the page.",
+              )}
+            </p>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 mr-2 bg-gray-300 rounded-md"
+                onClick={() => setIsLogoutModalOpen(false)}
+              >
+                {t("Cancel")}
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                onClick={handleSignOut}
+              >
+                {t("Logout")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -21,7 +21,7 @@ test("tests class names", () => {
   expect(title).toHaveClass("text-2xl font-semibold text-center mt-6");
 
   // Verificar el párrafo
-  const paragraph = screen.getByText(/Saayam envisions a world/i);
+  const paragraph = screen.getByText(/Saayam For All envisions a world/i);
   expect(paragraph).toHaveClass("mt-5 text-lg px-5");
 
   // Verificar la imagen
