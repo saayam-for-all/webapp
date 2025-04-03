@@ -15,6 +15,8 @@ import {
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { useNavigate } from "react-router";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -30,6 +32,8 @@ const PromoteToVolunteer = () => {
   const volunteerDataRef = useRef({});
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -239,22 +243,36 @@ const PromoteToVolunteer = () => {
   };
 
   return (
-    <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
-      <div className="container horizontal mt-5 p-12">
-        <Stepper steps={steps} currentStep={currentStep} />
-        <div className="mt-12 p-12">{displayStep(currentStep)}</div>
+    <div>
+      <button
+        onClick={() => navigate(-1)}
+        className="relative top-4 left-4 p-2 rounded-full hover:bg-gray-200 flex items-center gap-2"
+        style={{
+          zIndex: 1000,
+          left: "10px",
+          top: "10px",
+        }}
+      >
+        <IoIosArrowDropleftCircle size={40} />
+        <span>Back</span>
+      </button>
+      <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+        <div className="container horizontal mt-5 p-12">
+          <Stepper steps={steps} currentStep={currentStep} />
+          <div className="mt-12 p-12">{displayStep(currentStep)}</div>
+        </div>
+        {errorMessage && (
+          <div className="text-red-500 text-center my-4">{errorMessage}</div>
+        )}
+        {currentStep !== steps.length + 1 && (
+          <StepperControl
+            handleClick={handleClick}
+            currentStep={currentStep}
+            steps={steps}
+            isAcknowledged={isAcknowledged}
+          />
+        )}
       </div>
-      {errorMessage && (
-        <div className="text-red-500 text-center my-4">{errorMessage}</div>
-      )}
-      {currentStep !== steps.length + 1 && (
-        <StepperControl
-          handleClick={handleClick}
-          currentStep={currentStep}
-          steps={steps}
-          isAcknowledged={isAcknowledged}
-        />
-      )}
     </div>
   );
 };
