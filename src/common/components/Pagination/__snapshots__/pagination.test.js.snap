@@ -26,6 +26,36 @@ exports[`Pagination renders correctly 1`] = `
                
               entries
             </span>
+            <div
+              class="flex items-center ml-2"
+            >
+              <label
+                class="mr-2"
+                for="rowsPerPage"
+              >
+                Rows per view:
+              </label>
+              <select
+                class="border rounded px-2 py-1"
+                id="rowsPerPage"
+              >
+                <option
+                  value="5"
+                >
+                  5 rows
+                </option>
+                <option
+                  value="10"
+                >
+                  10 rows
+                </option>
+                <option
+                  value="20"
+                >
+                  20 rows
+                </option>
+              </select>
+            </div>
           </div>
           <div
             class="flex items-center space-x-2"
@@ -107,6 +137,36 @@ exports[`Pagination renders correctly 1`] = `
              
             entries
           </span>
+          <div
+            class="flex items-center ml-2"
+          >
+            <label
+              class="mr-2"
+              for="rowsPerPage"
+            >
+              Rows per view:
+            </label>
+            <select
+              class="border rounded px-2 py-1"
+              id="rowsPerPage"
+            >
+              <option
+                value="5"
+              >
+                5 rows
+              </option>
+              <option
+                value="10"
+              >
+                10 rows
+              </option>
+              <option
+                value="20"
+              >
+                20 rows
+              </option>
+            </select>
+          </div>
         </div>
         <div
           class="flex items-center space-x-2"
