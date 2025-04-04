@@ -38,6 +38,7 @@
     "react-select": "^5.8.0",
     "react-select-country-list": "^2.2.3",
     "react-time-picker": "^7.0.0",
+    "react-toastify": "^11.0.5",
     "rsuite": "^5.77.1",
     "use-immer": "^0.10.0",
     "yup": "^1.4.0",
