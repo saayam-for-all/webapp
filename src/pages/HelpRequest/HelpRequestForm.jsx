@@ -16,6 +16,9 @@ import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { useDebounce } from "../../hooks/useDebounce";
 import { predictCategories } from "../../services/requestServices";
+import Modal from "../../common/components/Modal/Modal";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -39,12 +42,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const [languages, setLanguages] = useState([]);
 
+  const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("General");
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [requestType, setRequestType] = useState("");
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [suggestedCategories, setSuggestedCategories] = useState([]);
 
   const { data, error, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
@@ -78,48 +83,38 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     navigate("/dashboard");
   };
 
-  const debouncedSubject = useDebounce(formData.subject, 500);
-  const debouncedDescription = useDebounce(formData.description, 500);
-  const debouncedCategory = useDebounce(formData.category, 500);
-
   // Fetch predicted categories when category is "General" and debounced values change
-  useEffect(() => {
-    const fetchPredictedCategories = async () => {
-      if (debouncedCategory !== "General") return; // Only call the API if category is "General"
-      if (!debouncedSubject || !debouncedDescription) return; // Skip if no relevant data
+  const fetchPredictedCategories = async () => {
+    if (formData.category !== "General") return; // Only call the API if category is "General"
+    if (!formData.subject || !formData.description) return; // Skip if no relevant data
 
-      try {
-        const requestBody = {
-          subject: debouncedSubject,
-          description: debouncedDescription,
-        };
+    try {
+      const requestBody = {
+        subject: formData.subject,
+        description: formData.description,
+      };
 
-        const response = await predictCategories(requestBody);
-        console.log("API Response:", response);
-        const formattedCategories = (response || []).map((category) => ({
-          id: category.toLowerCase(),
-          name: category,
-        }));
+      const response = await predictCategories(requestBody);
+      console.log("API Response:", response);
+      const formattedCategories = (response || []).map((category) => ({
+        id: category.toLowerCase(),
+        name: category,
+      }));
 
-        if (formattedCategories.length > 0) {
-          const categoriesWithGeneral = [
-            { id: "general", name: "General" },
-            ...formattedCategories,
-          ];
+      if (formattedCategories.length > 0) {
+        const categoriesWithGeneral = [
+          { id: "general", name: "General" },
+          ...formattedCategories,
+        ];
 
-          setFilteredCategories(categoriesWithGeneral);
-          setShowDropdown(true);
-        } else {
-          setFilteredCategories([]);
-          setShowDropdown(false);
-        }
-      } catch (error) {
-        console.error("Error fetching predicted categories:", error);
+        setSuggestedCategories(categoriesWithGeneral);
+      } else {
+        setSuggestedCategories([{ id: "general", name: "General" }]);
       }
-    };
-
-    fetchPredictedCategories();
-  }, [debouncedSubject, debouncedDescription, debouncedCategory]);
+    } catch (error) {
+      console.error("Error fetching predicted categories:", error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -136,14 +131,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
 
       if (res.contains_profanity) {
-        alert(
+        toast.error(
           "Profanity detected. Please remove these word(s) : " +
             res.profanity +
             "  from Subject/Description and submit request again!",
+          {
+            position: "top-center", // You can customize the position
+            autoClose: 2000, // Toast auto-closes after 2 seconds
+            hideProgressBar: true, // Optional: Hide progress bar
+          },
         );
       } else {
         // Proceed with submitting the request if no profanity is found
-        const response = await createRequest(submissionData);
+
+        await fetchPredictedCategories();
+
+        setShowModal(true);
         // const response = await axios.post(
         //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
         //   submissionData,
@@ -154,11 +157,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         //     },
         //   }
         // );
-
-        alert(
-          "Request submitted successfully! You will now be redirected to the dashboard.",
-        );
-        navigate("/dashboard");
       }
     } catch (error) {
       console.error("Failed to process request:", error);
@@ -266,9 +264,39 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const [selfFlag, setSelfFlag] = useState(true);
 
+  const handleConfirmCategorySelection = async () => {
+    const submissionData = {
+      ...formData,
+    };
+
+    try {
+      const response = await createRequest(submissionData);
+
+      setShowModal(false);
+      // Show the alert
+      toast.success(
+        "Request submitted successfully! You will now be redirected to the dashboard.",
+        {
+          position: "top-center", // You can customize the position
+          autoClose: 2000, // Toast auto-closes after 2 seconds
+          hideProgressBar: true, // Optional: Hide progress bar
+        },
+      );
+
+      // Redirect to the dashboard after a short delay
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000); // Wait 2 seconds before redirecting
+    } catch (error) {
+      console.error("Failed to submit request:", error);
+      alert("Failed to submit request!");
+    }
+  };
+
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
+      <ToastContainer />
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
@@ -511,9 +539,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 }
               >
                 <option value="Remote">{t("REMOTE")}</option>
-                <option value="In Person" style={{ display: "none" }}>
-                  {t("IN_PERSON")}
-                </option>
+                <option value="In Person">{t("IN_PERSON")}</option>
               </select>
             </div>
 
@@ -606,6 +632,35 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </div>
         </div>
       </form>
+      {/* Modal Component */}
+      <Modal
+        show={showModal}
+        onSubmit={handleConfirmCategorySelection}
+        onClose={() => setShowModal(false)}
+      >
+        <h2 className="text-xl font-bold mb-4">Select a Category</h2>
+
+        {/* Message to the user */}
+        <p className="mb-4 text-gray-700">
+          Dear User, please fill in the category or select one of the
+          recommended categories.
+        </p>
+
+        {/* Dropdown for selecting a category */}
+        <select
+          value={formData.category}
+          onChange={(e) =>
+            setFormData({ ...formData, category: e.target.value })
+          }
+          className="p-2 border rounded w-full"
+        >
+          {suggestedCategories.map((category, index) => (
+            <option key={index} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </Modal>
     </div>
   );
 };
