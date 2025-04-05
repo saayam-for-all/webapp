@@ -54,31 +54,20 @@ function YourProfile({ setHasUnsavedChanges }) {
       setIsEditing(false);
       setHasUnsavedChanges(false);
 
-      // Prepare updated attributes for Cognito - use the correct format
+      // Prepare updated attributes for Cognito
       const updatedAttributes = {
         given_name: profileInfo.firstName,
         family_name: profileInfo.lastName,
         email: profileInfo.email,
-        phone_number: profileInfo.phone.startsWith("+")
-          ? profileInfo.phone
-          : `+${profileInfo.phone}`,
+        phone_number: profileInfo.phone,
         "custom:Country": profileInfo.country,
       };
 
-      // Update Cognito
+      console.log("Updating Cognito with:", updatedAttributes);
       await updateUserAttributes(updatedAttributes);
 
-      // Create a user object that matches the structure expected in your Redux state
-      const updatedUserData = {
-        given_name: profileInfo.firstName,
-        family_name: profileInfo.lastName,
-        email: profileInfo.email,
-        phone_number: profileInfo.phone,
-        zoneinfo: profileInfo.country, // Note: this should match how it's structured in your initial state
-      };
-
       // Update Redux state
-      dispatch(updateUserProfileSuccess(updatedUserData));
+      dispatch(updateUserProfileSuccess(updatedAttributes));
 
       console.log("Profile successfully updated!");
     } catch (error) {

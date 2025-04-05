@@ -19,6 +19,7 @@ import {
   resetPasswordFailure,
   resetPasswordRequest,
   resetPasswordSuccess,
+  updateUserProfileSuccess,
 } from "./authSlice";
 
 export const checkAuthStatus = () => async (dispatch) => {
@@ -65,36 +66,55 @@ export const checkAuthStatus = () => async (dispatch) => {
   }
 };
 
-// Add this to your authActions.js
 export const updateUserProfile = (userData) => async (dispatch) => {
   try {
+    // Validate required fields
+    if (!userData.firstName || !userData.lastName || !userData.email) {
+      throw new Error("Required fields are missing");
+    }
+
     // Format the attributes for Cognito
     const updatedAttributes = {
       given_name: userData.firstName,
       family_name: userData.lastName,
       email: userData.email,
-      phone_number: userData.phone,
-      "custom:Country": userData.country,
+      ...(userData.phone && { phone_number: userData.phone }), // Only include if exists
+      ...(userData.country && { "custom:Country": userData.country }), // Only include if exists
     };
 
     // Update Cognito
     await updateUserAttributes(updatedAttributes);
 
-    // Update Redux state
-    dispatch(
-      updateUserProfileSuccess({
-        given_name: userData.firstName,
-        family_name: userData.lastName,
-        email: userData.email,
-        phone_number: userData.phone,
-        zoneinfo: userData.country,
-      }),
-    );
+    // Prepare updated user data for Redux
+    const updatedUser = {
+      given_name: userData.firstName,
+      family_name: userData.lastName,
+      email: userData.email,
+      ...(userData.phone && { phone_number: userData.phone }),
+      ...(userData.country && { zoneinfo: userData.country }),
+    };
 
-    return { success: true };
+    // Update Redux state
+    dispatch(updateUserProfileSuccess(updatedUser));
+
+    return {
+      success: true,
+      user: updatedUser,
+    };
   } catch (error) {
     console.error("Error updating user profile:", error);
-    return { success: false, error: error.message };
+    let errorMessage = error.message;
+
+    // Handle specific Cognito errors
+    if (error.name === "InvalidParameterException") {
+      errorMessage =
+        "Invalid phone number format. Please include country code (e.g., +1)";
+    }
+
+    return {
+      success: false,
+      error: errorMessage,
+    };
   }
 };
 
