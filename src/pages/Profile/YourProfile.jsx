@@ -104,7 +104,14 @@ function YourProfile({ setHasUnsavedChanges }) {
               )}
             </div>
           ) : (
-            <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
+            <>
+              <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
+              {profileInfo.firstName.length < 1 && (
+                <p className="text-red-500 text-xs mt-1">
+                  Please fill in the first name field.
+                </p>
+              )}
+            </>
           )}
         </div>
         <div>
@@ -128,7 +135,14 @@ function YourProfile({ setHasUnsavedChanges }) {
               )}
             </div>
           ) : (
-            <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
+            <>
+              <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
+              {profileInfo.lastName.length < 1 && (
+                <p className="text-red-500 text-xs mt-1">
+                  Please fill in the last name field.
+                </p>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -155,7 +169,14 @@ function YourProfile({ setHasUnsavedChanges }) {
             )}
           </div>
         ) : (
-          <p className="text-lg text-gray-900">{profileInfo.email}</p>
+          <>
+            <p className="text-lg text-gray-900">{profileInfo.email}</p>
+            {profileInfo.email.length < 1 && (
+              <p className="text-red-500 text-xs mt-1">
+                Please fill in the email field.
+              </p>
+            )}
+          </>
         )}
       </div>
 
@@ -182,9 +203,16 @@ function YourProfile({ setHasUnsavedChanges }) {
               )}
             </div>
           ) : (
-            <p className="text-lg text-gray-900">
-              {profileInfo.phoneCountryCode} {profileInfo.phone}
-            </p>
+            <>
+              <p className="text-lg text-gray-900">
+                {profileInfo.phoneCountryCode} {profileInfo.phone}
+              </p>
+              {profileInfo.phone.length < 1 && (
+                <p className="text-red-500 text-xs mt-1">
+                  Please fill in the phone number field.
+                </p>
+              )}
+            </>
           )}
           <FiPhoneCall
             className="text-gray-500 cursor-pointer hover:text-gray-700"
@@ -217,7 +245,14 @@ function YourProfile({ setHasUnsavedChanges }) {
             )}
           </div>
         ) : (
-          <p className="text-lg text-gray-900">{profileInfo.country}</p>
+          <>
+            <p className="text-lg text-gray-900">{profileInfo.country}</p>
+            {profileInfo.country.length < 1 && (
+              <p className="text-red-500 text-xs mt-1">
+                Please fill in the country field.
+              </p>
+            )}
+          </>
         )}
       </div>
 

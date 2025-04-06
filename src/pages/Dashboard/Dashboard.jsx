@@ -246,7 +246,7 @@ const Dashboard = ({ userRole }) => {
         </button>
         <div className="flex ml-auto gap-2 items-center">
           {isDropdownVisible && (
-            <select className="text-blue-500 font-semibold italic bg-gray-200 rounded-md p-2 px-4">
+            <select className="text-blue-500 font-semibold underline italic py-2">
               <option value="superAdmin">SuperAdmin Dashboard</option>
               <option value="admin">Admin Dashboard</option>
               <option value="steward">Steward Dashboard</option>
