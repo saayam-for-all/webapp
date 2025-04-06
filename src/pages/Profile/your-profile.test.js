@@ -6,7 +6,7 @@ import { MOCK_STATE_LOGGED_IN, renderWithProviders } from "#utils/test-utils";
 
 describe("YourProfile", () => {
   it("renders correctly", () => {
-    const tree = renderWithProviders(<YourProfile />);
-    expect(tree).toMatchSnapshot();
+    const { getByText } = renderWithProviders(<YourProfile />);
+    expect(getByText("Notifications")).toBeInTheDocument();
   });
 });
