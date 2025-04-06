@@ -87,13 +87,22 @@ function YourProfile({ setHasUnsavedChanges }) {
             {t("FIRST_NAME")}
           </label>
           {isEditing ? (
-            <input
-              ref={firstNameRef}
-              type="text"
-              value={profileInfo.firstName}
-              onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-            />
+            <div>
+              <input
+                ref={firstNameRef}
+                type="text"
+                value={profileInfo.firstName}
+                onChange={(e) => handleInputChange("firstName", e.target.value)}
+                className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+                required
+                maxLength={50}
+              />
+              {profileInfo.firstName.length < 1 && (
+                <p className="text-red-500 text-xs mt-1">
+                  Please fill in the first name field.
+                </p>
+              )}
+            </div>
           ) : (
             <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
           )}
@@ -103,12 +112,21 @@ function YourProfile({ setHasUnsavedChanges }) {
             {t("LAST_NAME")}
           </label>
           {isEditing ? (
-            <input
-              type="text"
-              value={profileInfo.lastName}
-              onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-            />
+            <div>
+              <input
+                type="text"
+                value={profileInfo.lastName}
+                onChange={(e) => handleInputChange("lastName", e.target.value)}
+                className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+                required
+                maxLength={20}
+              />
+              {profileInfo.lastName.length < 1 && (
+                <p className="text-red-500 text-xs mt-1">
+                  Please fill in the last name field.
+                </p>
+              )}
+            </div>
           ) : (
             <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
           )}
@@ -121,12 +139,21 @@ function YourProfile({ setHasUnsavedChanges }) {
           {t("EMAIL")}
         </label>
         {isEditing ? (
-          <input
-            type="email"
-            value={profileInfo.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
-            className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-          />
+          <div>
+            <input
+              type="email"
+              value={profileInfo.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              required
+              maxLength={50}
+            />
+            {profileInfo.email.length < 1 && (
+              <p className="text-red-500 text-xs mt-1">
+                Please fill in the email field.
+              </p>
+            )}
+          </div>
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.email}</p>
         )}
@@ -139,12 +166,21 @@ function YourProfile({ setHasUnsavedChanges }) {
         </label>
         <div className="flex items-center space-x-2">
           {isEditing ? (
-            <input
-              type="text"
-              value={profileInfo.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-            />
+            <div>
+              <input
+                type="text"
+                value={profileInfo.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+                className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+                required
+                maxLength={12}
+              />
+              {profileInfo.phone.length < 1 && (
+                <p className="text-red-500 text-xs mt-1">
+                  Please fill in the phone number field.
+                </p>
+              )}
+            </div>
           ) : (
             <p className="text-lg text-gray-900">
               {profileInfo.phoneCountryCode} {profileInfo.phone}
@@ -167,12 +203,19 @@ function YourProfile({ setHasUnsavedChanges }) {
           {t("COUNTRY")}
         </label>
         {isEditing ? (
-          <input
-            type="text"
-            value={profileInfo.country}
-            onChange={(e) => handleInputChange("country", e.target.value)}
-            className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-          />
+          <div>
+            <input
+              type="text"
+              value={profileInfo.country}
+              onChange={(e) => handleInputChange("country", e.target.value)}
+              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+            />
+            {profileInfo.country.length < 1 && (
+              <p className="text-red-500 text-xs mt-1">
+                Please fill in the country field.
+              </p>
+            )}
+          </div>
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.country}</p>
         )}
