@@ -146,5 +146,6 @@
   "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
   "SKILLS": "Skills",
   "YOUR_SKILLS": "Your Skills",
-  "SELECT_SKILLS_DESCRIPTION": "Select the skills you can offer as a volunteer. These skills will help match you with relevant help requests."
+  "SELECT_SKILLS_DESCRIPTION": "Select the skills you can offer as a volunteer. These skills will help match you with relevant help requests.",
+  "USER_ALREADY_EXISTS": "User already exists. Please sign in or use a different email."
 }
