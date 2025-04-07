@@ -7,10 +7,10 @@ import { MOCK_STATE_LOGGED_IN, renderWithProviders } from "#utils/test-utils";
 describe("YourProfile", () => {
   it("renders correctly", () => {
     renderWithProviders(<YourProfile />);
-    expect(screen.getByText("Phone Number")).toBeInTheDocument();
-    expect(screen.getByText("Email")).toBeInTheDocument();
-    expect(screen.getByText("First Name")).toBeInTheDocument();
-    expect(screen.getByText("Last Name")).toBeInTheDocument();
-    expect(screen.getByText("Country")).toBeInTheDocument();
+    expect(screen.getByText("mockTranslate(PHONE_NUMBER)")).toBeInTheDocument();
+    expect(screen.getByText("mockTranslate(EMAIL)")).toBeInTheDocument();
+    expect(screen.getByText("mockTranslate(FIRST_NAME)")).toBeInTheDocument();
+    expect(screen.getByText("mockTranslate(LAST_NAME)")).toBeInTheDocument();
+    expect(screen.getByText("mockTranslate(COUNTRY")).toBeInTheDocument();
   });
 });
