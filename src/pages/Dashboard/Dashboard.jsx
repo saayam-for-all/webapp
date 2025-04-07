@@ -34,6 +34,12 @@ const Dashboard = ({ userRole }) => {
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [data, setData] = useState({});
   const isLoading = false;
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
   // const { data, isLoading } = useGetAllRequestQuery();
 
   const getAllRequests = async (activeTab) => {
@@ -239,10 +245,21 @@ const Dashboard = ({ userRole }) => {
           </Link>
         </button>
         <div className="flex ml-auto gap-2 items-center">
-          <button className="text-blue-500 font-semibold underline italic py-2">
-            {t("ADMINISTRATE")}
+          <button
+            className="text-blue-500 font-semibold underline italic py-2"
+            onClick={toggleDropdown}
+          >
+            Administrate
           </button>
-          <MdArrowForwardIos className="text-blue-500" />
+          {isDropdownVisible && (
+            <select>
+              <option value="superAdmin">SuperAdmin Dashboard</option>
+              <option value="admin">Admin Dashboard</option>
+              <option value="steward">Steward Dashboard</option>
+              <option value="volunteer">Volunteer Dashboard</option>
+              <option value="beneficiary">Beneficiary Dashboard</option>
+            </select>
+          )}
         </div>
       </div>
 
