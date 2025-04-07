@@ -53,7 +53,6 @@ const Dashboard = ({ userRole }) => {
       console.error("Error fetching skills:", error);
     }
   };
-
   useEffect(() => {
     getAllRequests(activeTab);
   }, [activeTab]);
@@ -115,6 +114,7 @@ const Dashboard = ({ userRole }) => {
   };
 
   const sortedData = useMemo(() => {
+    toggleDropdown();
     return sortedRequests(data?.body || []);
   }, [data, sortConfig]);
 
@@ -245,14 +245,8 @@ const Dashboard = ({ userRole }) => {
           </Link>
         </button>
         <div className="flex ml-auto gap-2 items-center">
-          <button
-            className="text-blue-500 font-semibold underline italic py-2"
-            onClick={toggleDropdown}
-          >
-            Administrate
-          </button>
           {isDropdownVisible && (
-            <select>
+            <select className="text-blue-500 font-semibold underline italic py-2">
               <option value="superAdmin">SuperAdmin Dashboard</option>
               <option value="admin">Admin Dashboard</option>
               <option value="steward">Steward Dashboard</option>
