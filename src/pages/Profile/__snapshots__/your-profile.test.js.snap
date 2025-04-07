@@ -8,42 +8,75 @@ exports[`YourProfile renders correctly 1`] = `
       <div class="flex flex-col border p-6 rounded-lg w-full">
         <div class="grid grid-cols-2 gap-4 mb-6">
           <div>
-            <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <label
+              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >
               mockTranslate(FIRST_NAME)
             </label>
-            <p class="text-lg text-gray-900" />
-            <p class="text-red-500 text-xs mt-1">
-              Please fill in the first name field.
-            </p>
+            <p
+              class="text-lg text-gray-900"
+            />
+            <p
+    +               class="text-red-500 text-xs mt-1"
+    +             >
+    +               Please fill in the first name field.
+    +             </p>
           </div>
           <div>
-            <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <label
+              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >
               mockTranslate(LAST_NAME)
             </label>
-            <p class="text-lg text-gray-900" />
-            <p class="text-red-500 text-xs mt-1">
-              Please fill in the last name field.
-            </p>
+            <p
+              class="text-lg text-gray-900"
+            />
+            <p
+    +               class="text-red-500 text-xs mt-1"
+    +             >
+    +               Please fill in the last name field.
+    +             </p>
           </div>
         </div>
-        <div class="mb-6">
-          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+        <div
+          class="mb-6"
+        >
+          <label
+            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             mockTranslate(EMAIL)
           </label>
-          <p class="text-lg text-gray-900" />
-          <p class="text-red-500 text-xs mt-1">
-            Please fill in the email field.
-          </p>
+          <p
+            class="text-lg text-gray-900"
+          />
+          <p
+    +             class="text-red-500 text-xs mt-1"
+    +           >
+    +             Please fill in the email field.
+    +           </p>
         </div>
-        <div class="mb-6">
-          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+        <div
+          class="mb-6"
+        >
+          <label
+            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             mockTranslate(PHONE_NUMBER)
           </label>
-          <div class="flex items-center space-x-2">
-            <p class="text-lg text-gray-900">US</p>
-            <p class="text-red-500 text-xs mt-1">
-              Please fill in the phone number field.
+          <div
+            class="flex items-center space-x-2"
+          >
+            <p
+              class="text-lg text-gray-900"
+            >
+              US
+               
             </p>
+            <p
+    +               class="text-red-500 text-xs mt-1"
+    +             >
+    +               Please fill in the phone number field.
+                  </p>
             <svg
               class="text-gray-500 cursor-pointer hover:text-gray-700"
               fill="none"
@@ -72,22 +105,43 @@ exports[`YourProfile renders correctly 1`] = `
               width="1em"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <polygon points="23 7 16 12 23 17 23 7" />
-              <rect height="14" rx="2" ry="2" width="15" x="1" y="5" />
+              <polygon
+                points="23 7 16 12 23 17 23 7"
+              />
+              <rect
+                height="14"
+                rx="2"
+                ry="2"
+                width="15"
+                x="1"
+                y="5"
+              />
             </svg>
           </div>
         </div>
-        <div class="mb-6">
-          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+        <div
+          class="mb-6"
+        >
+          <label
+            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             mockTranslate(COUNTRY)
           </label>
-          <p class="text-lg text-gray-900" />
-          <p class="text-red-500 text-xs mt-1">
-            Please fill in the country field.
-          </p>
+          <p
+            class="text-lg text-gray-900"
+          />
+           <p
+    +             class="text-red-500 text-xs mt-1"
+    +           >
+    +             Please fill in the country field.
+    +           </p>
         </div>
-        <div class="flex justify-center mt-6">
-          <button class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+        <div
+          class="flex justify-center mt-6"
+        >
+          <button
+            class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
             mockTranslate(EDIT)
           </button>
         </div>
@@ -95,45 +149,82 @@ exports[`YourProfile renders correctly 1`] = `
     </div>
   </body>,
   "container": <div>
-    <div class="flex flex-col border p-6 rounded-lg w-full">
-      <div class="grid grid-cols-2 gap-4 mb-6">
+    <div
+      class="flex flex-col border p-6 rounded-lg w-full"
+    >
+      <div
+        class="grid grid-cols-2 gap-4 mb-6"
+      >
         <div>
-          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          <label
+            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             mockTranslate(FIRST_NAME)
           </label>
-          <p class="text-lg text-gray-900" />
-          <p class="text-red-500 text-xs mt-1">
-            Please fill in the first name field.
-          </p>
+          <p
+            class="text-lg text-gray-900"
+          />
+          <p
+    +             class="text-red-500 text-xs mt-1"
+    +           >
+    +             Please fill in the first name field.
+    +           </p>
         </div>
         <div>
-          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          <label
+            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             mockTranslate(LAST_NAME)
           </label>
-          <p class="text-lg text-gray-900" />
-          <p class="text-red-500 text-xs mt-1">
-            Please fill in the last name field.
-          </p>
+          <p
+            class="text-lg text-gray-900"
+          />
+          <p
+    +             class="text-red-500 text-xs mt-1"
+    +           >
+    +             Please fill in the last name field.
+    +           </p>
         </div>
       </div>
-      <div class="mb-6">
-        <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+      <div
+        class="mb-6"
+      >
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
           mockTranslate(EMAIL)
         </label>
-        <p class="text-lg text-gray-900" />
-        <p class="text-red-500 text-xs mt-1">
-          Please fill in the email field.
-        </p>
+        <p
+          class="text-lg text-gray-900"
+        />
+        <p
+    +           class="text-red-500 text-xs mt-1"
+    +         >
+    +           Please fill in the email field.
+    +         </p>
       </div>
-      <div class="mb-6">
-        <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+      <div
+        class="mb-6"
+      >
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
           mockTranslate(PHONE_NUMBER)
         </label>
-        <div class="flex items-center space-x-2">
-          <p class="text-lg text-gray-900">US</p>
-          <p class="text-red-500 text-xs mt-1">
-            Please fill in the phone number field.
+        <div
+          class="flex items-center space-x-2"
+        >
+          <p
+            class="text-lg text-gray-900"
+          >
+            US
+             
           </p>
+          <p
+    +             class="text-red-500 text-xs mt-1"
+    +           >
+    +             Please fill in the phone number field.
+    +           </p>
           <svg
             class="text-gray-500 cursor-pointer hover:text-gray-700"
             fill="none"
@@ -162,22 +253,43 @@ exports[`YourProfile renders correctly 1`] = `
             width="1em"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <polygon points="23 7 16 12 23 17 23 7" />
-            <rect height="14" rx="2" ry="2" width="15" x="1" y="5" />
+            <polygon
+              points="23 7 16 12 23 17 23 7"
+            />
+            <rect
+              height="14"
+              rx="2"
+              ry="2"
+              width="15"
+              x="1"
+              y="5"
+            />
           </svg>
         </div>
       </div>
-      <div class="mb-6">
-        <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+      <div
+        class="mb-6"
+      >
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
           mockTranslate(COUNTRY)
         </label>
-        <p class="text-lg text-gray-900" />
-        <p class="text-red-500 text-xs mt-1">
-          Please fill in the country field.
-        </p>
+        <p
+          class="text-lg text-gray-900"
+        />
+        <p
+    +           class="text-red-500 text-xs mt-1"
+    +         >
+    +           Please fill in the country field.
+    +         </p>
       </div>
-      <div class="flex justify-center mt-6">
-        <button class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+      <div
+        class="flex justify-center mt-6"
+      >
+        <button
+          class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        >
           mockTranslate(EDIT)
         </button>
       </div>
