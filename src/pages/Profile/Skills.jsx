@@ -1,70 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEdit, FaSave } from "react-icons/fa";
+import { useImmer } from "use-immer";
+import { getVolunteerSkills } from "../../services/volunteerServices";
 
 const Skills = ({ setHasUnsavedChanges }) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
-  const [userSkills, setUserSkills] = useState({});
-  const [categoriesData, setCategoriesData] = useState({ categories: [] });
+  // Update with user skills data from the API once that is created
+  const [checkedCategories, setCheckedCategories] = useImmer({});
+  const [categoriesData, setCategoriesData] = useState();
 
   useEffect(() => {
-    // Fetch user's skills and categories data
-    fetchUserSkills();
-    fetchCategoriesData();
+    getVolunteerSkills()
+      .then((data) => {
+        setCategoriesData(data?.body);
+      })
+      .catch((error) => {});
   }, []);
-
-  const fetchUserSkills = async () => {
-    try {
-      // TODO: Replace with actual API call
-      const response = await fetch("/api/user/skills");
-      const data = await response.json();
-      setUserSkills(data.skills || {});
-    } catch (error) {
-      console.error("Error fetching user skills:", error);
-    }
-  };
-
-  const fetchCategoriesData = async () => {
-    try {
-      // TODO: Replace with actual API call
-      const response = await fetch("/api/skills/categories");
-      const data = await response.json();
-      setCategoriesData(data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
-
-  const handleCheckboxChange = (categoryPath) => {
-    setUserSkills((prev) => {
-      const newSkills = { ...prev };
-      const keys = categoryPath.split(".");
-      let currentLevel = newSkills;
-
-      keys.forEach((key, index) => {
-        if (index === keys.length - 1) {
-          if (!currentLevel[key]) {
-            currentLevel[key] = { checked: true };
-          } else {
-            delete currentLevel[key];
-          }
-        } else {
-          if (!currentLevel[key]) {
-            currentLevel[key] = {};
-          }
-          currentLevel = currentLevel[key];
-        }
-      });
-
-      return newSkills;
-    });
-    setHasUnsavedChanges(true);
-  };
 
   const getCheckedStatus = (categoryPath) => {
     const keys = categoryPath.split(".");
-    let currentLevel = userSkills;
+    let currentLevel = checkedCategories || {};
 
     for (let key of keys) {
       if (!currentLevel[key]) return false;
@@ -72,6 +29,39 @@ const Skills = ({ setHasUnsavedChanges }) => {
     }
 
     return currentLevel.checked;
+  };
+
+  // Function to handle the checkbox click
+  const handleCheckboxChange = (categoryPath) => {
+    setCheckedCategories((draft) => {
+      const checkedStatus = getCheckedStatus(categoryPath);
+
+      // Toggle the current category checkbox state
+      setCheckboxState(draft, categoryPath, !checkedStatus);
+    });
+  };
+
+  // Set the checkbox state for a category at a given path using immer's draft
+  const setCheckboxState = (draft, categoryPath, checked) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = draft;
+
+    keys.forEach((key, index) => {
+      if (index === keys.length - 1) {
+        if (checked) {
+          // If the checkbox is checked, set it to true
+          currentLevel[key] = { checked: true };
+        } else {
+          // If unchecked, remove the key entirely
+          delete currentLevel[key];
+        }
+      } else {
+        if (!currentLevel[key]) {
+          currentLevel[key] = {};
+        }
+        currentLevel = currentLevel[key];
+      }
+    });
   };
 
   const renderCategories = (categories, parentPath = "") => {
@@ -111,13 +101,13 @@ const Skills = ({ setHasUnsavedChanges }) => {
   const handleSave = async () => {
     try {
       // TODO: Replace with actual API call
-      await fetch("/api/user/skills", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ skills: userSkills }),
-      });
+      // await fetch("/api/user/skills", {
+      //   method: "PUT",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ skills: userSkills }),
+      // });
       setIsEditing(false);
       setHasUnsavedChanges(false);
     } catch (error) {
@@ -141,7 +131,7 @@ const Skills = ({ setHasUnsavedChanges }) => {
           ) : (
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               <FaEdit className="mr-2" />
               {t("EDIT")}
