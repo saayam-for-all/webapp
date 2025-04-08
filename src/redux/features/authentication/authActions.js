@@ -78,12 +78,14 @@ export const updateUserProfile = (userData) => async (dispatch) => {
       given_name: userData.firstName,
       family_name: userData.lastName,
       email: userData.email,
-      ...(userData.phone && { phone_number: userData.phone }), // Only include if exists
-      ...(userData.country && { "custom:Country": userData.country }), // Only include if exists
+      ...(userData.phone && { phone_number: userData.phone }),
+      ...(userData.country && { "custom:Country": userData.country }),
     };
 
-    // Update Cognito
-    await updateUserAttributes(updatedAttributes);
+    // Update Cognito - THIS WAS MISSING PROPER AWAIT
+    const result = await updateUserAttributes({
+      userAttributes: updatedAttributes, // Need to wrap in userAttributes
+    });
 
     // Prepare updated user data for Redux
     const updatedUser = {
