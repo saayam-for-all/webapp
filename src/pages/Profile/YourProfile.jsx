@@ -65,7 +65,7 @@ function YourProfile({ setHasUnsavedChanges }) {
         data-testid="container-test-2"
       >
         <div>
-          <label className="block tracking-wide text-white-700 text-xs font-bold mb-2">
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("FIRST_NAME")}
           </label>
           {isEditing ? (
@@ -75,16 +75,16 @@ function YourProfile({ setHasUnsavedChanges }) {
               name="firstName"
               value={profileInfo.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-grey-700 border border-white-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
-            <p className="text-lg text-white-900">
+            <p className="text-lg text-gray-900">
               {profileInfo.firstName || ""}
             </p>
           )}
         </div>
         <div>
-          <label className="block tracking-wide text-white-700 text-xs font-bold mb-2">
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("LAST_NAME")}
           </label>
           {isEditing ? (
@@ -93,10 +93,10 @@ function YourProfile({ setHasUnsavedChanges }) {
               name="lastName"
               value={profileInfo.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
-            <p className="text-lg text-white-900">
+            <p className="text-lg text-gray-900">
               {profileInfo.lastName || ""}
             </p>
           )}
@@ -109,7 +109,7 @@ function YourProfile({ setHasUnsavedChanges }) {
         data-testid="container-test-3"
       >
         <div>
-          <label className="block tracking-wide text-grey-700 text-xs font-bold mb-2">
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("EMAIL")}
           </label>
           {isEditing ? (
@@ -118,10 +118,10 @@ function YourProfile({ setHasUnsavedChanges }) {
               name="email"
               value={profileInfo.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-white-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
-            <p className="text-lg text-white-900">{profileInfo.email || ""}</p>
+            <p className="text-lg text-gray-900">{profileInfo.email || ""}</p>
           )}
         </div>
       </div>
