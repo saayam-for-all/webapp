@@ -5,6 +5,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { INACTIVITY_TIMEOUT } from "../../common/components/InactivityTimer/InactivityTimer.jsx";
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 import "./Login.css";
@@ -58,6 +59,8 @@ const LoginPage = () => {
       });
       if (isSignedIn) {
         await dispatch(checkAuthStatus());
+        const newExpiry = Date.now() + INACTIVITY_TIMEOUT;
+        localStorage.setItem("expireTime", newExpiry.toString());
         navigate("/dashboard");
       }
     } catch (error) {
