@@ -14,29 +14,11 @@ const attributes = [
     context: "July 1, 2024",
     type: "Creation Date",
     icon: <VscCalendar size={22} />,
-    phoneIcon: false,
-    videoIcon: false,
   },
   {
     context: "Maintenance",
     type: "Category",
     icon: <TbTriangleSquareCircle size={22} />,
-    phoneIcon: false,
-    videoIcon: false,
-  },
-  {
-    context: "Peter parker",
-    type: "Requester",
-    icon: <IoPersonCircle size={26} />,
-    phoneIcon: true,
-    videoIcon: true,
-  },
-  {
-    context: "Ethan Marshall",
-    type: "Volunteer",
-    icon: <RiUserStarLine size={22} />,
-    phoneIcon: true,
-    videoIcon: true,
   },
 ];
 
@@ -100,12 +82,6 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
                   <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>
-                  {header.phoneIcon && (
-                    <FaPhoneAlt className="cursor-pointer" size={15} />
-                  )}
-                  {header.videoIcon && (
-                    <FaVideo className="cursor-pointer" size={17} />
-                  )}
                 </li>
               ))}
           </div>

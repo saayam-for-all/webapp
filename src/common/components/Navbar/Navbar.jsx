@@ -24,6 +24,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const profileDropdownRef = useRef(null);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
@@ -42,8 +43,14 @@ const Navbar = () => {
       }
     };
 
+    // Listen for unsaved changes events from Profile components
+    const handleUnsavedChanges = (event) => {
+      setHasUnsavedChanges(event.detail.hasUnsavedChanges);
+    };
+
     window.addEventListener("storage", handleStorageChange);
     window.addEventListener("profile-photo-updated", handleProfilePhotoUpdated);
+    window.addEventListener("unsaved-changes", handleUnsavedChanges);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
@@ -51,6 +58,7 @@ const Navbar = () => {
         "profile-photo-updated",
         handleProfilePhotoUpdated,
       );
+      window.removeEventListener("unsaved-changes", handleUnsavedChanges);
     };
   }, []);
 
@@ -78,15 +86,84 @@ const Navbar = () => {
 
   const handleDropdownClick = () => setIsDropdownOpen(!isDropdownOpen);
 
-  const handleLinkClick = () => {
-    if (isDropdownOpen) {
+  const handleLinkClick = (e) => {
+    if (hasUnsavedChanges) {
+      e.preventDefault();
+      if (
+        window.confirm(
+          "You have unsaved changes. Do you want to proceed without saving?",
+        )
+      ) {
+        setHasUnsavedChanges(false);
+        const targetUrl = e.currentTarget.getAttribute("href");
+
+        if (targetUrl) {
+          navigate(targetUrl);
+        }
+
+        // Close dropdown if open
+        if (isDropdownOpen) {
+          setIsDropdownOpen(false);
+        }
+      } else {
+        // User chose to stay, do nothing
+        return;
+      }
+    } else if (isDropdownOpen) {
       setIsDropdownOpen(false);
     }
   };
 
-  const handleProfileClick = () => {
-    navigate("/profile");
-    setIsProfileDropdownOpen(false);
+  const handleDropdownItemClick = (e, route) => {
+    if (hasUnsavedChanges) {
+      e.preventDefault();
+      if (
+        window.confirm(
+          "You have unsaved changes. Do you want to proceed without saving?",
+        )
+      ) {
+        setHasUnsavedChanges(false);
+        setIsDropdownOpen(false);
+        navigate(route);
+      }
+    } else {
+      setIsDropdownOpen(false);
+      navigate(route);
+    }
+  };
+
+  const handleProfileClick = (e) => {
+    if (hasUnsavedChanges) {
+      e.preventDefault();
+      if (
+        window.confirm(
+          "You have unsaved changes. Do you want to proceed without saving?",
+        )
+      ) {
+        setHasUnsavedChanges(false);
+        navigate("/profile");
+        setIsProfileDropdownOpen(false);
+      }
+    } else {
+      navigate("/profile");
+      setIsProfileDropdownOpen(false);
+    }
+  };
+
+  const handleLogoutClick = (e) => {
+    e.preventDefault();
+    if (hasUnsavedChanges) {
+      if (
+        window.confirm(
+          "You have unsaved changes. Do you want to proceed without saving?",
+        )
+      ) {
+        setHasUnsavedChanges(false);
+        setIsLogoutModalOpen(true);
+      }
+    } else {
+      setIsLogoutModalOpen(true);
+    }
   };
 
   const handleSignOut = () => {
@@ -95,10 +172,31 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const handleNotificationsClick = () => {
+    if (hasUnsavedChanges) {
+      if (
+        window.confirm(
+          "You have unsaved changes. Do you want to proceed without saving?",
+        )
+      ) {
+        setHasUnsavedChanges(false);
+        // Navigate to notifications or open notifications panel
+        // Add your navigation code here
+      }
+    } else {
+      // Navigate to notifications or open notifications panel
+      // Add your navigation code here
+    }
+  };
+
   return (
     <div className="navbar navbar-sm navbar-gradient-bg">
       <div className="navbar-start">
-        <Link to="/dashboard" className="text-3xl font-semibold">
+        <Link
+          to="/dashboard"
+          className="text-3xl font-semibold"
+          onClick={handleLinkClick}
+        >
           <img src={LOGO} alt="logo" className="w-14 h-14" />
         </Link>
       </div>
@@ -115,28 +213,21 @@ const Navbar = () => {
           <ul
             tabIndex={0}
             className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${isDropdownOpen ? "block" : "hidden"}`}
-            onClick={handleLinkClick}
           >
-            <li>
-              <NavLink to="/directors" name="directors">
-                {t("DIRECTORS")}
-              </NavLink>
+            <li onClick={(e) => handleDropdownItemClick(e, "/directors")}>
+              <a>{t("DIRECTORS")}</a>
             </li>
-            <li>
-              <NavLink to="/how-we-operate" name="how-we-operate">
-                {t("HOW_WE_OPERATE")}
-              </NavLink>
+            <li onClick={(e) => handleDropdownItemClick(e, "/how-we-operate")}>
+              <a>{t("HOW_WE_OPERATE")}</a>
             </li>
-            <li>
-              <NavLink to="/contact" name="contact">
-                {t("CONTACT")}
-              </NavLink>
+            <li onClick={(e) => handleDropdownItemClick(e, "/contact")}>
+              <a>{t("CONTACT")}</a>
             </li>
-            <li>
-              <NavLink to="/mission">{t("MISSION")}</NavLink>
+            <li onClick={(e) => handleDropdownItemClick(e, "/mission")}>
+              <a>{t("MISSION")}</a>
             </li>
-            <li>
-              <NavLink to="/vision">{t("VISION")}</NavLink>
+            <li onClick={(e) => handleDropdownItemClick(e, "/vision")}>
+              <a>{t("VISION")}</a>
             </li>
           </ul>
         </div>
@@ -153,6 +244,7 @@ const Navbar = () => {
         <button
           className="font-semibold flex flex-col items-center"
           id="notificationButton"
+          onClick={handleNotificationsClick}
         >
           <IoNotificationsOutline className="mr-1 text-xl" />
           {t("NOTIFICATIONS")}
@@ -168,7 +260,20 @@ const Navbar = () => {
                 src={profileIcon}
                 alt="Profile Icon"
                 className="w-8 h-8 rounded-full cursor-pointer"
-                onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                onClick={() => {
+                  if (hasUnsavedChanges) {
+                    if (
+                      window.confirm(
+                        "You have unsaved changes. Do you want to proceed without saving?",
+                      )
+                    ) {
+                      setHasUnsavedChanges(false);
+                      setIsProfileDropdownOpen(!isProfileDropdownOpen);
+                    }
+                  } else {
+                    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+                  }
+                }}
               />
             </div>
             {isProfileDropdownOpen && (
@@ -181,7 +286,7 @@ const Navbar = () => {
                 </li>
                 <li
                   className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => setIsLogoutModalOpen(true)}
+                  onClick={handleLogoutClick}
                 >
                   {t("LOGOUT")}
                 </li>
@@ -193,6 +298,7 @@ const Navbar = () => {
             to="/login"
             className="font-semibold flex flex-col items-center"
             id="loginButton"
+            onClick={handleLinkClick}
           >
             <IoLogInOutline className="mr-1 text-xl" />
             {t("LOGIN")}
@@ -217,7 +323,7 @@ const Navbar = () => {
                 {t("Cancel")}
               </button>
               <button
-                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                className="px-4 py-2 bg-red-500 text-black rounded-md"
                 onClick={handleSignOut}
               >
                 {t("Logout")}
