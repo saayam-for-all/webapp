@@ -5,6 +5,7 @@ import ChangePassword from "./ChangePassword";
 import Sidebar from "./Sidebar";
 import Modal from "./Modal";
 import OrganizationDetails from "./OrganizationDetails";
+import Skills from "./Skills";
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
 function Profile() {
@@ -103,6 +104,8 @@ function Profile() {
         return (
           <OrganizationDetails setHasUnsavedChanges={setHasUnsavedChanges} />
         );
+      case "skills":
+        return <Skills setHasUnsavedChanges={setHasUnsavedChanges} />;
       default:
         return null;
     }
