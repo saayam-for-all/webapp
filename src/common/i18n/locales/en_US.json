@@ -143,5 +143,6 @@
   "ACKNOWLEDGMENT_CONTENT": "By agreeing to this document, the Volunteer acknowledges that they have read, understood, and accepted these terms. The Volunteer agrees to abide by all the guidelines, policies, and expectations outlined herein and understands that their volunteer status is contingent upon adherence to this Agreement.",
   "PASSWORD_REQUIREMENTS_ERROR": "Password must be at least 8 characters long, include 1 uppercase letter, 1 lowercase letter, 1 special character, and 1 number.",
   "PASSWORD_MISMATCH_ERROR": "Passwords do not match.",
-  "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!"
+  "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
+  "USER_ALREADY_EXISTS": "User already exists. Please sign in or use a different email."
 }

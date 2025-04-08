@@ -17,6 +17,59 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
+export const getLocaleAndFormat = async (countryName) => {
+  try {
+    const response = await fetch(
+      `https://restcountries.com/v3.1/name/${countryName}?fullText=true`,
+    );
+    const data = await response.json();
+
+    if (data && data.length > 0) {
+      const country = data[0];
+      const countryCode = country.cca2;
+      const primaryLanguage = country.languages
+        ? Object.keys(country.languages)[0]
+        : "en";
+      const locale = new Intl.Locale(primaryLanguage, {
+        region: countryCode,
+      }).toString();
+      const dateFormatter = new Intl.DateTimeFormat(locale);
+      const parts = dateFormatter.formatToParts(new Date());
+      const formatOrder = parts
+        .filter((part) => ["day", "month", "year"].includes(part.type))
+        .map((part) => {
+          if (part.type === "day") return "dd";
+          if (part.type === "month") return "MM";
+          if (part.type === "year") return "yyyy";
+          return "";
+        })
+        .join("/");
+
+      return {
+        locale,
+        dateFormat: formatOrder,
+        placeholder: formatOrder
+          .replace("dd", "DD")
+          .replace("MM", "MM")
+          .replace("yyyy", "YYYY"),
+      };
+    }
+
+    return {
+      locale: "en-US",
+      dateFormat: "MM/dd/yyyy",
+      placeholder: "MM/DD/YYYY",
+    };
+  } catch (error) {
+    console.error("Error fetching country data:", error);
+    return {
+      locale: "en-US",
+      dateFormat: "MM/dd/yyyy",
+      placeholder: "MM/DD/YYYY",
+    };
+  }
+};
+
 function PersonalInformation({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
@@ -42,6 +95,24 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
   const [languages, setLanguages] = useState([]);
+  const [locale, setLocale] = useState("en-US");
+  // Set initial values synchronously to ensure they're available on first render
+  const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
+  const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
+
+  useEffect(() => {
+    const updateDateFormat = async () => {
+      const { locale, dateFormat, placeholder } = await getLocaleAndFormat(
+        personalInfo.country || "United States", // Default to "United States" if no country
+      );
+      console.log("Setting placeholder:", placeholder); // Debug log
+      setLocale(locale);
+      setDateFormat(dateFormat);
+      setPlaceholder(placeholder);
+    };
+
+    updateDateFormat();
+  }, [personalInfo.country]);
 
   useEffect(() => {
     const savedPersonalInfo = JSON.parse(localStorage.getItem("personalInfo"));
@@ -98,15 +169,19 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           </label>
           {isEditing ? (
             <DatePicker
-              selected={personalInfo.dateOfBirth}
+              selected={personalInfo.dateOfBirth || null}
               onChange={(date) => handleInputChange("dateOfBirth", date)}
+              dateFormat={dateFormat}
+              placeholderText={placeholder}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {personalInfo.dateOfBirth
-                ? personalInfo.dateOfBirth.toLocaleDateString()
-                : ""}
+              {personalInfo.dateOfBirth ? (
+                new Intl.DateTimeFormat(locale).format(personalInfo.dateOfBirth)
+              ) : (
+                <span className="text-gray-500">{placeholder}</span>
+              )}
             </p>
           )}
         </div>

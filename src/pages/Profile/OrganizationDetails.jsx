@@ -12,6 +12,8 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   const [isEditing, setIsEditing] = useState(false);
   const organizationNameRef = useRef(null);
 
+  const [errors, setErrors] = useState({});
+
   const [organizationInfo, setOrganizationInfo] = useState({
     organizationName: "",
     phoneNumber: "",
@@ -55,7 +57,27 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, code } = e.target;
+    const { name, code, value } = e.target;
+
+    let errorMsg = "";
+    if (name == "email") {
+      if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$/.test(value)) {
+        errorMsg = "Please enter a valid Email Address.";
+      }
+    }
+    if (name == "phoneNumber") {
+      if (!/^\d{10}$/.test(value)) {
+        errorMsg = "Please enter a valid Phone Number.";
+      }
+    }
+    if (name == "url") {
+      if (!/^https?:\/\/.+\.[a-zA-Z]{2,}$/.test(value)) {
+        errorMsg = "Please enter a valid URL.";
+      }
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMsg }));
+
     setOrganizationInfo((prevInfo) => ({
       ...prevInfo,
       [name]: code,
@@ -73,6 +95,17 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   };
 
   const handleSaveClick = () => {
+    let hasError = False;
+    Object.values(errors).forEach((error) => {
+      if (error !== "") {
+        hasError = True;
+      }
+    });
+    if (hasError) {
+      alert("Please fix the Errors before saving.");
+      return;
+    }
+
     setIsEditing(false);
     localStorage.setItem("organizationInfo", JSON.stringify(organizationInfo));
     setHasUnsavedChanges(false);
@@ -189,6 +222,9 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               {organizationInfo.phoneNumber || ""}
             </p>
           )}
+          {errors.phoneNumber && (
+            <p className="text-red-500 text-xs">{errors.phoneNumber}</p>
+          )}
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -206,6 +242,9 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
             <p className="text-lg text-gray-900">
               {organizationInfo.email || ""}
             </p>
+          )}
+          {errors.email && (
+            <p className="text-red-500 text-xs">{errors.email}</p>
           )}
         </div>
       </div>
@@ -228,6 +267,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               {organizationInfo.url || ""}
             </p>
           )}
+          {errors.url && <p className="text-red-500 text-xs">{errors.url}</p>}
         </div>
       </div>
 

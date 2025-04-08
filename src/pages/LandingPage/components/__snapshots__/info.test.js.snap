@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Info renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="px-40 text-lg"
+      >
+        <p>
+          <mock-trans
+            props="{"i18nKey":"AT_SAAYAM"}"
+          >
+            At 
+            <strong>
+              Saayam
+            </strong>
+            , we believe in the power of helping hands reaching out to those facing challenges. Our platform connects individuals and communities worldwide, bridging the gap between those who need assistance and those who are willing to provide it.
+          </mock-trans>
+        </p>
+        <p
+          class="mt-5"
+        >
+          mockTranslate(OUR_VISION)
+        </p>
+        <p
+          class="mt-5"
+        >
+          mockTranslate(JOIN_US)
+        </p>
+        <p
+          class="mt-5"
+        >
+          mockTranslate(JOIN_TODAY)
+        </p>
+        <p
+          class="mt-5"
+        >
+          mockTranslate(OUR_MOTTO)
+        </p>
+        <p
+          class="mt-5"
+        >
+          mockTranslate(STAY_UPDATED)
+        </p>
+        <p
+          class="mt-5"
+        >
+          <mock-trans
+            props="{"i18nKey":"DONATE_MONEY"}"
+          >
+            Saayam For All is a non profit organization with 501(c)(3) status. All donations to this organization are tax deductible. You can use this 
+            <mock-link
+              props="{"className":"text-blue-500 underline","target":"_blank"}"
+              to="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+            >
+              PayPal link
+            </mock-link>
+             to donate money.
+          </mock-trans>
+        </p>
+        <p
+          class="my-5"
+        >
+          <mock-trans
+            props="{"i18nKey":"READ_MORE"}"
+          >
+            Read More 
+            <mock-link
+              props="{"className":"text-blue-500 underline"}"
+              to="how-we-operate"
+            >
+              How we Operate
+            </mock-link>
+            !
+          </mock-trans>
+        </p>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="px-40 text-lg"
+    >
+      <p>
+        <mock-trans
+          props="{"i18nKey":"AT_SAAYAM"}"
+        >
+          At 
+          <strong>
+            Saayam
+          </strong>
+          , we believe in the power of helping hands reaching out to those facing challenges. Our platform connects individuals and communities worldwide, bridging the gap between those who need assistance and those who are willing to provide it.
+        </mock-trans>
+      </p>
+      <p
+        class="mt-5"
+      >
+        mockTranslate(OUR_VISION)
+      </p>
+      <p
+        class="mt-5"
+      >
+        mockTranslate(JOIN_US)
+      </p>
+      <p
+        class="mt-5"
+      >
+        mockTranslate(JOIN_TODAY)
+      </p>
+      <p
+        class="mt-5"
+      >
+        mockTranslate(OUR_MOTTO)
+      </p>
+      <p
+        class="mt-5"
+      >
+        mockTranslate(STAY_UPDATED)
+      </p>
+      <p
+        class="mt-5"
+      >
+        <mock-trans
+          props="{"i18nKey":"DONATE_MONEY"}"
+        >
+          Saayam For All is a non profit organization with 501(c)(3) status. All donations to this organization are tax deductible. You can use this 
+          <mock-link
+            props="{"className":"text-blue-500 underline","target":"_blank"}"
+            to="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+          >
+            PayPal link
+          </mock-link>
+           to donate money.
+        </mock-trans>
+      </p>
+      <p
+        class="my-5"
+      >
+        <mock-trans
+          props="{"i18nKey":"READ_MORE"}"
+        >
+          Read More 
+          <mock-link
+            props="{"className":"text-blue-500 underline"}"
+            to="how-we-operate"
+          >
+            How we Operate
+          </mock-link>
+          !
+        </mock-trans>
+      </p>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
