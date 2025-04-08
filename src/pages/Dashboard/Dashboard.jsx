@@ -53,6 +53,11 @@ const Dashboard = ({ userRole }) => {
       console.error("Error fetching skills:", error);
     }
   };
+
+  useEffect(() => {
+    toggleDropdown();
+  }, []);
+
   useEffect(() => {
     getAllRequests(activeTab);
   }, [activeTab]);
@@ -114,7 +119,6 @@ const Dashboard = ({ userRole }) => {
   };
 
   const sortedData = useMemo(() => {
-    toggleDropdown();
     return sortedRequests(data?.body || []);
   }, [data, sortConfig]);
 
