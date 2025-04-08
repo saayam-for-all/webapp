@@ -9,7 +9,7 @@ exports[`Donate renders correctly 1`] = `
         class="donation-tab mt-20"
       >
         <h1
-          class="tect-center"
+          class="text-center"
         >
           mockTranslate(SCAN_ON_DONATE)
         </h1>
