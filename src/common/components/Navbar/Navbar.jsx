@@ -294,6 +294,15 @@ const Navbar = () => {
             )}
           </div>
         ) : (
+      <NavLink
+            to="/login"
+            className="font-semibold flex flex-col items-center"
+            id="loginButton"
+            onClick={handleLinkClick}
+          >
+            <IoLogInOutline className="mr-1 text-xl" />
+            {t("LOGIN")}
+          </NavLink>
 
         )}
       </div>
