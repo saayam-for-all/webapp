@@ -17,6 +17,24 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
+const languageOptions = [
+  { locale: "en-US", language: "English" },
+  { locale: "zh-CN", language: "Mandarin Chinese" },
+  { locale: "hi_IN", language: "Hindi" },
+  { locale: "es-ES", language: "Spanish" },
+  { locale: "fr-FR", language: "French" },
+  { locale: "bn-BD", language: "Bengali" },
+  { locale: "pt-PT", language: "Portuguese" },
+  { locale: "ru-RU", language: "Russian" },
+  { locale: "de-DE", language: "German" },
+  { locale: "te-IN", language: "Telugu" },
+];
+
+const languages = languageOptions.map((lang) => ({
+  value: lang.language,
+  label: lang.language,
+}));
+
 function PersonalInformation({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
@@ -41,8 +59,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const countries = CountryList().getData();
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
-  const [languages, setLanguages] = useState([]);
-
   useEffect(() => {
     const savedPersonalInfo = JSON.parse(localStorage.getItem("personalInfo"));
     if (savedPersonalInfo) {
@@ -53,22 +69,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           : null,
       });
     }
-
-    fetch("https://restcountries.com/v3.1/all")
-      .then((response) => response.json())
-      .then((data) => {
-        const languageSet = new Set();
-        data.forEach((country) => {
-          if (country.languages) {
-            Object.values(country.languages).forEach((language) =>
-              languageSet.add(language),
-            );
-          }
-        });
-        setLanguages(
-          Array.from(languageSet).map((lang) => ({ value: lang, label: lang })),
-        );
-      });
   }, []);
 
   const handleInputChange = (name, value) => {
