@@ -1,31 +1,21 @@
-// import { render } from "@testing-library/react";
-// import YourProfile from "./YourProfile";
-// import { renderWithProviders } from "#utils/test-utils";
+import React from "react";
+import { render } from "@testing-library/react";
+import YourProfile from "./YourProfile";
 
-// // mock i18n config
-// jest.mock("#common/i18n/i18n", () => ({}));
+// mock i18n
+jest.mock("#common/i18n/i18n", () => ({}));
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({ t: (key) => key }),
+}));
 
-// // react-i18next translation hook
-// jest.mock("react-i18next", () => ({
-//   useTranslation: () => ({
-//     t: (key) => key,
-//   }),
-// }));
+// mock AWS Amplify auth functions
+jest.mock("aws-amplify/auth", () => ({
+  fetchUserAttributes: jest.fn(() => Promise.resolve([])),
+  updateUserAttributes: jest.fn(() => Promise.resolve()),
+}));
 
-// // Mock AWS Amplify Auth functions
-// jest.mock("aws-amplify/auth", () => ({
-//   fetchUserAttributes: jest.fn(() => Promise.resolve([])),
-//   updateUserAttributes: jest.fn(() => Promise.resolve()),
-// }));
-
-// describe("YourProfile", () => {
-//   it("renders correctly", () => {
-//     const tree = renderWithProviders(<YourProfile />);
-//     expect(tree).toMatchSnapshot();
-//   });
-// });
 describe("YourProfile", () => {
-  it("dummy test just to satisfy CI", () => {
-    expect(true).toBe(true);
+  it("renders the component without crashing", () => {
+    render(<YourProfile />);
   });
 });
