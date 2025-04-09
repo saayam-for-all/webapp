@@ -315,18 +315,20 @@ const Navbar = () => {
                 "Are you sure, you want to log out? There may be unsaved data on the page.",
               )}
             </p>
-            <div className="flex justify-end">
+            <div className="mt-8 flex justify-end gap-2">
               <button
-                className="px-4 py-2 mr-2 bg-gray-300 rounded-md"
-                onClick={() => setIsLogoutModalOpen(false)}
-              >
-                {t("Cancel")}
-              </button>
-              <button
-                className="px-4 py-2 bg-red-500 text-black rounded-md"
+                type="submit"
+                className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
                 onClick={handleSignOut}
               >
                 {t("Logout")}
+              </button>
+              <button
+                onClick={() => setIsLogoutModalOpen(false)}
+                type="button"
+                className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+              >
+                {t("Cancel")}
               </button>
             </div>
           </div>
