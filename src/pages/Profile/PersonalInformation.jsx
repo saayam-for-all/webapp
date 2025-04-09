@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Select from "react-select";
 import { useTranslation } from "react-i18next";
+import Select from "react-select";
+import CountryList from "react-select-country-list";
+import { changeUiLanguage } from "../../common/i18n/utils";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
-import { changeUiLanguage } from "../../common/i18n/utils";
-import CountryList from "react-select-country-list";
 
 const genderOptions = [
   { value: "Female", label: "Female" },
@@ -476,7 +476,36 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={() => setIsEditing(false)}
+              onClick={() => {
+                const savedPersonalInfo = JSON.parse(
+                  localStorage.getItem("personalInfo"),
+                );
+                if (savedPersonalInfo) {
+                  setPersonalInfo({
+                    ...savedPersonalInfo,
+                    dateOfBirth: savedPersonalInfo.dateOfBirth
+                      ? new Date(savedPersonalInfo.dateOfBirth)
+                      : null,
+                  });
+                } else {
+                  setPersonalInfo({
+                    dateOfBirth: null,
+                    gender: "",
+                    streetAddress: "",
+                    streetAddress2: "",
+                    country: "",
+                    state: "",
+                    zipCode: "",
+                    languagePreference1: "",
+                    languagePreference2: "",
+                    languagePreference3: "",
+                    secondaryEmail: "",
+                    secondaryPhone: "",
+                    secondaryPhoneCountryCode: "US",
+                  });
+                }
+                setIsEditing(false);
+              }}
             >
               {t("CANCEL")}
             </button>
