@@ -36,6 +36,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
   const token = useSelector((state) => state.auth.idToken);
+  const groups = useSelector((state) => state.auth.user?.groups);
   const [location, setLocation] = useState("");
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
@@ -66,6 +67,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     phone: "",
     age: "",
     gender: "Select",
+    lead_volunteer: "Ethan Marshall",
     preferred_language: "",
     category: "General",
     request_type: "remote",
@@ -314,22 +316,46 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           </div>
 
-          <div className="mt-3" data-testid="parentDivOne">
-            <label
-              htmlFor="self"
-              className="block mb-1 text-gray-700 font-medium"
-            >
-              {t("FOR_SELF")}
-            </label>
-            <select
-              id="self"
-              data-testid="dropdown"
-              className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
-              onChange={(e) => setSelfFlag(e.target.value === "yes")}
-              disabled
-            >
-              <option value="yes">{t("YES")}</option>
-            </select>
+          <div className="mt-3 flex gap-4" data-testid="parentDivOne">
+            {/* For Self Dropdown */}
+            <div className="flex-1">
+              <label
+                htmlFor="self"
+                className="block mb-1 text-gray-700 font-medium"
+              >
+                {t("FOR_SELF")}
+              </label>
+              <select
+                id="self"
+                data-testid="dropdown"
+                className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                onChange={(e) => setSelfFlag(e.target.value === "yes")}
+                disabled
+              >
+                <option value="yes">{t("YES")}</option>
+              </select>
+            </div>
+
+            {/* Lead Volunteer */}
+            <div className="flex-1">
+              <label
+                htmlFor="lead_volunteer"
+                className="block mb-1 text-gray-700 font-medium"
+              >
+                {t("Lead Volunteer")}
+              </label>
+              <input
+                type="text"
+                id="lead_volunteer"
+                name="lead_volunteer"
+                disabled={
+                  !(groups.includes("Admins") || groups.includes("SuperAdmins"))
+                }
+                value={formData.lead_volunteer}
+                onChange={handleChange}
+                className="border p-2 w-full rounded-lg disabled:text-gray-400"
+              />
+            </div>
           </div>
           {/* 
           Temporarily commented out as MVP only allows for self requests
