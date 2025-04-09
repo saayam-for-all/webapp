@@ -4,9 +4,15 @@ import YourProfile from "./YourProfile";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
-// Mock react-i18next
+// Mock i18n initialization
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key) => key }),
+}));
+
+// Mock i18n utils to prevent actual initialization
+jest.mock("../../common/i18n/utils", () => ({
+  changeUiLanguage: jest.fn(),
+  returnDefaultLanguage: jest.fn(),
 }));
 
 // Mock AWS Amplify
@@ -39,10 +45,8 @@ jest.mock("../../utils/utils", () => ({
   ]),
 }));
 
-// Mock CallModal
+// Mock child components
 jest.mock("./CallModal.jsx", () => () => <div>CallModal</div>);
-
-// Mock Loading
 jest.mock("../../common/components/Loading/Loading", () => () => (
   <div>Loading...</div>
 ));
