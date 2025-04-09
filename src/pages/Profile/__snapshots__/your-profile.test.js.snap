@@ -33,16 +33,19 @@ exports[`YourProfile renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="mb-6"
+          class="grid grid-cols-1 gap-4 mb-6"
+          data-testid="container-test-3"
         >
-          <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-          >
-            mockTranslate(EMAIL)
-          </label>
-          <p
-            class="text-lg text-gray-900"
-          />
+          <div>
+            <label
+              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >
+              mockTranslate(EMAIL)
+            </label>
+            <p
+              class="text-lg text-gray-900"
+            />
+          </div>
         </div>
         <div
           class="mb-6"
@@ -156,16 +159,19 @@ exports[`YourProfile renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="mb-6"
+        class="grid grid-cols-1 gap-4 mb-6"
+        data-testid="container-test-3"
       >
-        <label
-          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-        >
-          mockTranslate(EMAIL)
-        </label>
-        <p
-          class="text-lg text-gray-900"
-        />
+        <div>
+          <label
+            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
+            mockTranslate(EMAIL)
+          </label>
+          <p
+            class="text-lg text-gray-900"
+          />
+        </div>
       </div>
       <div
         class="mb-6"
