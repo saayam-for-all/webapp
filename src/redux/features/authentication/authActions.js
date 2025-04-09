@@ -68,12 +68,10 @@ export const checkAuthStatus = () => async (dispatch) => {
 
 export const updateUserProfile = (userData) => async (dispatch) => {
   try {
-    // Validate required fields
     if (!userData.firstName || !userData.lastName || !userData.email) {
       throw new Error("Required fields are missing");
     }
 
-    // Format the attributes for Cognito
     const updatedAttributes = {
       given_name: userData.firstName,
       family_name: userData.lastName,
@@ -82,12 +80,8 @@ export const updateUserProfile = (userData) => async (dispatch) => {
       ...(userData.country && { "custom:Country": userData.country }),
     };
 
-    // Update Cognito - THIS WAS MISSING PROPER AWAIT
-    const result = await updateUserAttributes({
-      userAttributes: updatedAttributes, // Need to wrap in userAttributes
-    });
+    await updateUserAttributes({ userAttributes: updatedAttributes });
 
-    // Prepare updated user data for Redux
     const updatedUser = {
       given_name: userData.firstName,
       family_name: userData.lastName,
@@ -96,27 +90,15 @@ export const updateUserProfile = (userData) => async (dispatch) => {
       ...(userData.country && { zoneinfo: userData.country }),
     };
 
-    // Update Redux state
     dispatch(updateUserProfileSuccess(updatedUser));
 
-    return {
+    return Promise.resolve({
       success: true,
       user: updatedUser,
-    };
+    });
   } catch (error) {
     console.error("Error updating user profile:", error);
-    let errorMessage = error.message;
-
-    // Handle specific Cognito errors
-    if (error.name === "InvalidParameterException") {
-      errorMessage =
-        "Invalid phone number format. Please include country code (e.g., +1)";
-    }
-
-    return {
-      success: false,
-      error: errorMessage,
-    };
+    return Promise.reject(error);
   }
 };
 

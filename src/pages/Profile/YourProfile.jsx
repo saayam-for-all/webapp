@@ -31,28 +31,50 @@ function YourProfile({ setHasUnsavedChanges }) {
     country: "",
   });
 
-  // Initialize form with user data
   useEffect(() => {
     if (user) {
       let extractedCountryCode = "US";
       let extractedPhone = user.phone_number || "";
 
       if (user.phone_number && user.phone_number.startsWith("+")) {
-        const countryCodes = Object.entries(PHONECODESEN)
+        const userCountry = user.zoneinfo || "United States";
+        const possibleCountryCodes = Object.entries(PHONECODESEN)
+          .filter(([_, data]) => data.primary === userCountry)
           .map(([code, data]) => ({
             code,
             dialCode: data.secondary,
             length: data.secondary.length,
-          }))
-          .sort((a, b) => b.length - a.length);
+          }));
 
-        for (const { code, dialCode } of countryCodes) {
-          if (user.phone_number.startsWith(dialCode)) {
-            extractedCountryCode = code;
-            extractedPhone = user.phone_number
-              .slice(dialCode.length)
-              .replace(/\D/g, "");
-            break;
+        if (possibleCountryCodes.length > 0) {
+          possibleCountryCodes.sort((a, b) => b.length - a.length);
+
+          for (const { code, dialCode } of possibleCountryCodes) {
+            if (user.phone_number.startsWith(dialCode)) {
+              extractedCountryCode = code;
+              extractedPhone = user.phone_number
+                .slice(dialCode.length)
+                .replace(/\D/g, "");
+              break;
+            }
+          }
+        } else {
+          const countryCodes = Object.entries(PHONECODESEN)
+            .map(([code, data]) => ({
+              code,
+              dialCode: data.secondary,
+              length: data.secondary.length,
+            }))
+            .sort((a, b) => b.length - a.length);
+
+          for (const { code, dialCode } of countryCodes) {
+            if (user.phone_number.startsWith(dialCode)) {
+              extractedCountryCode = code;
+              extractedPhone = user.phone_number
+                .slice(dialCode.length)
+                .replace(/\D/g, "");
+              break;
+            }
           }
         }
       }
@@ -95,14 +117,6 @@ function YourProfile({ setHasUnsavedChanges }) {
         throw new Error("Phone number must contain only digits");
       }
 
-      console.log("Saving profile with:", {
-        firstName: profileInfo.firstName,
-        lastName: profileInfo.lastName,
-        email: profileInfo.email,
-        phone: formattedPhone,
-        country: profileInfo.country,
-      });
-
       const result = await dispatch(
         updateUserProfile({
           firstName: profileInfo.firstName,
@@ -111,7 +125,11 @@ function YourProfile({ setHasUnsavedChanges }) {
           phone: formattedPhone,
           country: profileInfo.country,
         }),
-      ).unwrap();
+      )
+        .then((response) => response)
+        .catch((error) => {
+          throw error;
+        });
 
       if (result?.success) {
         alert(t("PROFILE_UPDATE_SUCCESS"));
@@ -139,17 +157,40 @@ function YourProfile({ setHasUnsavedChanges }) {
       let extractedPhone = user.phone_number || "";
 
       if (user.phone_number && user.phone_number.startsWith("+")) {
-        const countryCodes = Object.entries(PHONECODESEN)
-          .map(([code, data]) => ({ code, dialCode: data.secondary }))
-          .sort((a, b) => b.dialCode.length - a.dialCode.length);
+        const userCountry = user.zoneinfo || "United States";
+        const possibleCountryCodes = Object.entries(PHONECODESEN)
+          .filter(([_, data]) => data.primary === userCountry)
+          .map(([code, data]) => ({
+            code,
+            dialCode: data.secondary,
+            length: data.secondary.length,
+          }));
 
-        for (const { code, dialCode } of countryCodes) {
-          if (user.phone_number.startsWith(dialCode)) {
-            extractedCountryCode = code;
-            extractedPhone = user.phone_number
-              .slice(dialCode.length)
-              .replace(/\D/g, "");
-            break;
+        if (possibleCountryCodes.length > 0) {
+          possibleCountryCodes.sort((a, b) => b.length - a.length);
+
+          for (const { code, dialCode } of possibleCountryCodes) {
+            if (user.phone_number.startsWith(dialCode)) {
+              extractedCountryCode = code;
+              extractedPhone = user.phone_number
+                .slice(dialCode.length)
+                .replace(/\D/g, "");
+              break;
+            }
+          }
+        } else {
+          const countryCodes = Object.entries(PHONECODESEN)
+            .map(([code, data]) => ({ code, dialCode: data.secondary }))
+            .sort((a, b) => b.dialCode.length - a.dialCode.length);
+
+          for (const { code, dialCode } of countryCodes) {
+            if (user.phone_number.startsWith(dialCode)) {
+              extractedCountryCode = code;
+              extractedPhone = user.phone_number
+                .slice(dialCode.length)
+                .replace(/\D/g, "");
+              break;
+            }
           }
         }
       }
@@ -168,8 +209,6 @@ function YourProfile({ setHasUnsavedChanges }) {
 
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
-      <h3 className="font-bold text-xl mb-4">{t("YOUR_PROFILE")}</h3>
-
       {/* Name */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
@@ -256,7 +295,9 @@ function YourProfile({ setHasUnsavedChanges }) {
           ) : (
             <>
               <p className="text-lg text-gray-900">
-                {PHONECODESEN[profileInfo.phoneCountryCode]?.country || ""}{" "}
+                {PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
+                  PHONECODESEN[profileInfo.phoneCountryCode]?.country ||
+                  ""}{" "}
                 {PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode
                   ? `(${PHONECODESEN[profileInfo.phoneCountryCode].dialCode})`
                   : ""}{" "}
