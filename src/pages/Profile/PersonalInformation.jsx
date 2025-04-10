@@ -148,8 +148,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           : null,
       });
       // If savedInfo, need to set the State field.
-      console.log(savedPersonalInfo.state);
-      console.log(getCountryIsoCode(savedPersonalInfo.country));
       getLatestStatesList(getCountryIsoCode(savedPersonalInfo.country));
     }
 
@@ -324,13 +322,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               }}
             />
           ) : (
-            // <input
-            //   type="text"
-            //   name="state"
-            //   value={personalInfo.state}
-            //   onChange={(e) => handleInputChange("state", e.target.value)}
-            //   className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            // />
             <p className="text-lg text-gray-900">{personalInfo.state || ""}</p>
           )}
         </div>
