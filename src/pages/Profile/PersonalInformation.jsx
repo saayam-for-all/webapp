@@ -93,7 +93,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
   const countries = CountryList().getData();
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
-
+  const [errors, setErrors] = useState({});
   const [languages, setLanguages] = useState([]);
   const [locale, setLocale] = useState("en-US");
   // Set initial values synchronously to ensure they're available on first render
@@ -147,6 +147,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       ...prevInfo,
       [name]: value,
     }));
+    const error = validateField(name, value);
+    setErrors({ ...errors, [name]: error });
     setHasUnsavedChanges(true);
   };
 
@@ -158,6 +160,70 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       }
     }, 0);
   };
+  const validateField = (name, value) => {
+    let error = "";
+
+    if (name === "streetAddress") {
+      if (!value.trim()) {
+        error = "Street Address is required.";
+      } else if (value.length < 5) {
+        error = "Street Address must be at least 5 characters long.";
+      }
+    }
+
+    if (name === "streetAddress2") {
+      if (value && value.length < 5) {
+        error = "Street Address 2 must be at least 5 characters long.";
+      }
+    }
+    if (name === "dateOfBirth") {
+      if (!value) {
+        error = "Date of Birth is required.";
+      } else if (new Date(value) > new Date()) {
+        error = "Date of Birth cannot be in the future.";
+      }
+    }
+    if (name === "country") {
+      if (!value) {
+        error = "Country is required.";
+      }
+    }
+
+    if (name === "state") {
+      if (!value || !/^[a-zA-Z]+$/.test(value)) {
+        error = "State is required.";
+      }
+    }
+
+    if (name === "zipCode") {
+      if (!value || !/^[0-9-]+$/.test(value)) {
+        error = "ZIP Code is required.";
+      }
+    }
+    if (name === "languagePreference1") {
+      if (!value || value.trim() === "") {
+        error = "First language preference is required.";
+      }
+    }
+    if (name === "secondaryEmail") {
+      if (!value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        error = "Please enter a valid email address.";
+      }
+    }
+
+    if (name === "secondaryPhone") {
+      if (!value || !/^[0-9]+$/.test(value)) {
+        error = "Please enter a valid phone number.";
+      }
+    }
+    if (name === "gender") {
+      if (!value) {
+        return "Gender is required."; // Validation error message
+      }
+    }
+
+    return error;
+  };
 
   return (
     <div className="flex flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
@@ -168,13 +234,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("BIRTHDAY")}
           </label>
           {isEditing ? (
-            <DatePicker
-              selected={personalInfo.dateOfBirth || null}
-              onChange={(date) => handleInputChange("dateOfBirth", date)}
-              dateFormat={dateFormat}
-              placeholderText={placeholder}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <DatePicker
+                selected={personalInfo.dateOfBirth || null}
+                onChange={(date) => handleInputChange("dateOfBirth", date)}
+                dateFormat={dateFormat}
+                placeholderText={placeholder}
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.dateOfBirth ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.dateOfBirth && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.dateOfBirth}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.dateOfBirth ? (
@@ -190,16 +265,21 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("GENDER")}
           </label>
           {isEditing ? (
-            <Select
-              value={genderOptions.find(
-                (option) => option.value === personalInfo.gender,
+            <>
+              <Select
+                value={genderOptions.find(
+                  (option) => option.value === personalInfo.gender,
+                )}
+                options={genderOptions}
+                onChange={(selectedOption) =>
+                  handleInputChange("gender", selectedOption?.value || "")
+                }
+                className="w-full"
+              />
+              {errors.gender && (
+                <p className="text-red-500 text-xs mt-1">{errors.gender}</p>
               )}
-              options={genderOptions}
-              onChange={(selectedOption) =>
-                handleInputChange("gender", selectedOption?.value || "")
-              }
-              className="w-full"
-            />
+            </>
           ) : (
             <p className="text-lg text-gray-900">{personalInfo.gender || ""}</p>
           )}
@@ -213,16 +293,25 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
-            <input
-              ref={streetAddressRef}
-              type="text"
-              name="streetAddress"
-              value={personalInfo.streetAddress}
-              onChange={(e) =>
-                handleInputChange("streetAddress", e.target.value)
-              }
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <input
+                ref={streetAddressRef}
+                type="text"
+                name="streetAddress"
+                value={personalInfo.streetAddress}
+                onChange={(e) =>
+                  handleInputChange("streetAddress", e.target.value)
+                }
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.streetAddress ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.streetAddress && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.streetAddress}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.streetAddress || ""}
@@ -258,16 +347,25 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("COUNTRY")}
           </label>
           {isEditing ? (
-            <Select
-              value={countries.find(
-                (option) => option.label === personalInfo.country,
+            <>
+              <Select
+                value={countries.find(
+                  (option) => option.label === personalInfo.country,
+                )}
+                options={countries}
+                onChange={(selectedOption) =>
+                  handleInputChange("country", selectedOption?.label || "")
+                }
+                className={`w-full ${
+                  errors.country ? "border border-red-500" : ""
+                }`}
+              />
+              {errors.country && (
+                <p className="text-red-500 text-xs italic mt-1">
+                  {errors.country}
+                </p>
               )}
-              options={countries}
-              onChange={(selectedOption) =>
-                handleInputChange("country", selectedOption?.label || "")
-              }
-              className="w-full"
-            />
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.country || ""}
@@ -279,13 +377,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("STATE")}
           </label>
           {isEditing ? (
-            <input
-              type="text"
-              name="state"
-              value={personalInfo.state}
-              onChange={(e) => handleInputChange("state", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <input
+                type="text"
+                name="state"
+                value={personalInfo.state}
+                onChange={(e) => handleInputChange("state", e.target.value)}
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.state ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.state && (
+                <p className="text-red-500 text-xs italic mt-1">
+                  {errors.state}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">{personalInfo.state || ""}</p>
           )}
@@ -295,13 +402,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("ZIP_CODE")}
           </label>
           {isEditing ? (
-            <input
-              type="text"
-              name="zipCode"
-              value={personalInfo.zipCode}
-              onChange={(e) => handleInputChange("zipCode", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <input
+                type="text"
+                name="zipCode"
+                value={personalInfo.zipCode}
+                onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.zipCode ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.zipCode && (
+                <p className="text-red-500 text-xs italic mt-1">
+                  {errors.zipCode}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.zipCode || ""}
@@ -317,19 +433,26 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("FIRST_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
-            <Select
-              value={languages.find(
-                (option) => option.value === personalInfo.languagePreference1,
+            <>
+              <Select
+                value={languages.find(
+                  (option) => option.value === personalInfo.languagePreference1,
+                )}
+                options={languages}
+                onChange={(selectedOption) =>
+                  handleInputChange(
+                    "languagePreference1",
+                    selectedOption?.value || "",
+                  )
+                }
+                className="w-full"
+              />
+              {errors.languagePreference1 && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.languagePreference1}
+                </p>
               )}
-              options={languages}
-              onChange={(selectedOption) =>
-                handleInputChange(
-                  "languagePreference1",
-                  selectedOption?.value || "",
-                )
-              }
-              className="w-full"
-            />
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.languagePreference1 || ""}
@@ -393,15 +516,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             Secondary Email
           </label>
           {isEditing ? (
-            <input
-              type="email"
-              name="secondaryEmail"
-              value={personalInfo.secondaryEmail}
-              onChange={(e) =>
-                handleInputChange("secondaryEmail", e.target.value)
-              }
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <input
+                type="email"
+                name="secondaryEmail"
+                value={personalInfo.secondaryEmail}
+                onChange={(e) =>
+                  handleInputChange("secondaryEmail", e.target.value)
+                }
+                className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              />
+              {errors.secondaryEmail && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.secondaryEmail}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.secondaryEmail || ""}
@@ -446,6 +576,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               {personalInfo.secondaryPhone || ""}
             </p>
           )}
+          {errors.secondaryPhone && (
+            <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone}</p>
+          )}
         </div>
       </div>
 
@@ -463,6 +596,19 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             <button
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={() => {
+                const validationErrors = {};
+                Object.keys(personalInfo).forEach((key) => {
+                  const error = validateField(key, personalInfo[key]);
+                  if (error) {
+                    validationErrors[key] = error;
+                  }
+                });
+
+                if (Object.keys(validationErrors).length > 0) {
+                  setErrors(validationErrors); // Display errors
+                  return; // Prevent saving
+                }
+
                 setIsEditing(false);
                 localStorage.setItem(
                   "personalInfo",
@@ -476,7 +622,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={() => setIsEditing(false)}
+              onClick={() => {
+                setIsEditing(false);
+                setErrors({});
+              }}
             >
               {t("CANCEL")}
             </button>
