@@ -144,7 +144,6 @@ const Skills = ({ setHasUnsavedChanges }) => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">{t("YOUR_SKILLS")}</h2>
         <div className="flex space-x-4">
           {isEditing ? (
             <button
@@ -167,7 +166,6 @@ const Skills = ({ setHasUnsavedChanges }) => {
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-gray-600 mb-4">{t("SELECT_SKILLS_DESCRIPTION")}</p>
         <div className="space-y-4">
           {categoriesData?.categories?.length > 0 &&
             (isEditing ? (
