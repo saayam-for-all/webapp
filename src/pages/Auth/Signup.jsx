@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-// import { FaFacebookF } from "react-icons/fa";
-// import { FcGoogle } from "react-icons/fc";
 import { signUp } from "aws-amplify/auth";
 import CountryList from "react-select-country-list";
 import { z } from "zod";
@@ -10,6 +8,7 @@ import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import "./Login.css";
 import { useTranslation } from "react-i18next";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 const signUpSchema = z.object({
   firstName: z
@@ -53,9 +52,9 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("US");
   const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [countryCode, setCountryCode] = useState("US");
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -88,12 +87,38 @@ const SignUp = () => {
     );
 
   const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
+    const value = e.target.value;
+    // Only allow digits
+    if (/^\d*$/.test(value)) {
+      setPhone(value);
+      // Validate phone number
+      const fullNumber = `${PHONECODESEN[countryCode]["secondary"]}${value}`;
+      if (value.length > 0 && !isValidPhoneNumber(fullNumber)) {
+        setErrors({ ...errors, phone: "Please enter a valid phone number" });
+      } else {
+        setErrors({ ...errors, phone: undefined });
+      }
+    }
+  };
+
+  const handleCountryCodeChange = (e) => {
+    const selectedCode = e.target.value;
+    setCountryCode(selectedCode);
+    const selectedCountry = PHONECODESEN[selectedCode]?.primary || "";
+    setCountry(selectedCountry);
+    setErrors({ ...errors, phone: undefined });
   };
 
   const handleSignUp = async () => {
     try {
       setErrors({});
+      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+
+      if (!isValidPhoneNumber(fullPhoneNumber)) {
+        setErrors({ ...errors, phone: "Please enter a valid phone number" });
+        return;
+      }
+
       const result = signUpSchema.safeParse({
         firstName,
         lastName,
@@ -129,7 +154,7 @@ const SignUp = () => {
             given_name: firstName,
             family_name: lastName,
             email: emailValue,
-            phone_number: `${PHONECODESEN[countryCode]["secondary"]}${phone}`,
+            phone_number: phone,
             "custom:Country": country,
           },
         },
@@ -212,14 +237,7 @@ const SignUp = () => {
             <select
               id="countryCode"
               value={countryCode}
-              onChange={(e) => {
-                const selectedCode = e.target.value;
-                setCountryCode(selectedCode);
-                const selectedCountry =
-                  PHONECODESEN[selectedCode]?.primary || "";
-                setCountry(selectedCountry);
-                setErrors({ ...errors, phone: undefined });
-              }}
+              onChange={handleCountryCodeChange}
               className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
             >
               {getPhoneCodeslist(PHONECODESEN).map((option) => (
@@ -376,7 +394,7 @@ const SignUp = () => {
           Sign up
         </button>
 
-        {/* Uncomment this snippet when the singup functionality is fully developed  */}
+        {/* Uncomment this snippet when the signup functionality is fully developed  */}
 
         {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
