@@ -154,7 +154,7 @@ const SignUp = () => {
             given_name: firstName,
             family_name: lastName,
             email: emailValue,
-            phone_number: phone,
+            phone_number: fullPhoneNumber,
             "custom:Country": country,
           },
         },
