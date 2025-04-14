@@ -117,16 +117,6 @@ const Navbar = () => {
             )}
           </div>
 
-          <div className="relative">
-            <button
-              onClick={(e) => handleLinkClick(e, "/contact")}
-              // className="text-black flex items-center hover:text-gray-600 text-base"
-              className="text-black hover:text-gray-600 flex items-center text-base"
-            >
-              <PeopleOutlinedIcon className="mr-2" /> Contact Us
-            </button>
-          </div>
-
           {/* Volunteer Services Dropdown */}
           <div className="relative">
             <button
@@ -165,6 +155,16 @@ const Navbar = () => {
                 </MenuItem>
               </Menu>
             )}
+          </div>
+
+          <div className="relative">
+            <button
+              onClick={(e) => handleLinkClick(e, "/contact")}
+              // className="text-black flex items-center hover:text-gray-600 text-base"
+              className="text-black hover:text-gray-600 flex items-center text-base"
+            >
+              <PeopleOutlinedIcon className="mr-2" /> Contact Us
+            </button>
           </div>
         </div>
 
@@ -217,13 +217,7 @@ const Navbar = () => {
               <HomeOutlinedIcon className="mr-2" /> Home
             </button>
           </div>
-          {/* <a
-            href="#home"
-            className="block text-black py-2 flex items-center"
-            onClick={() => toggleDrawer(false)}
-          >
-            <HomeOutlinedIcon className="mr-2" /> Home
-          </a> */}
+
           <div className="block text-black py-2 flex items-center">
             <button
               onClick={handleAUMenuClick}
@@ -256,28 +250,7 @@ const Navbar = () => {
               </Menu>
             )}
           </div>
-          {/* <a
-            href="#about-us"
-            className="block text-black py-2 flex items-center"
-            onClick={() => toggleDrawer(false)}
-          >
-            <PeopleOutlinedIcon className="mr-2" /> About Us
-          </a> */}
-          <div className="block text-black py-2 flex items-center">
-            <button
-              onClick={(e) => handleDrawerClick(e, "/contact")}
-              className="text-black flex items-center hover:text-blue-600"
-            >
-              <ContactMailOutlinedIcon className="mr-2" /> Contact Us
-            </button>
-          </div>
-          {/* <a
-            href="#contact-us"
-            className="block text-black py-2 flex items-center"
-            onClick={() => toggleDrawer(false)}
-          >
-            <ContactMailOutlinedIcon className="mr-2" /> Contact Us
-          </a> */}
+
           <div className="block text-black py-2 flex items-center">
             <button
               onClick={handleVSMenuClick}
@@ -316,13 +289,16 @@ const Navbar = () => {
               </Menu>
             )}
           </div>
-          {/* <a
-            href="#volunteer-services"
-            className="block text-black py-2 flex items-center"
-            onClick={() => toggleDrawer(false)}
-          >
-            <Diversity1OutlinedIcon className="mr-2" /> Volunteer Services
-          </a> */}
+
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={(e) => handleDrawerClick(e, "/contact")}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              <ContactMailOutlinedIcon className="mr-2" /> Contact Us
+            </button>
+          </div>
+
           <div className="block text-black py-2 flex items-center">
             <button
               onClick={(e) => handleDrawerClick(e, "/donate")}
