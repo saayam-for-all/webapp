@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Drawer, Menu, MenuItem, IconButton } from "@mui/material";
 import LOGO from "../../../assets/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 // Individual imports for outlined icons
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -14,17 +15,48 @@ import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivism
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [openMenu, setOpenMenu] = useState(false);
+  const [volunteerOpenMenu, setVolunteerOpenMenu] = useState(false);
+  const [aboutUsOpenMenu, setAboutUsOpenMenu] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpenMenu(true);
+  const handleLinkClick = (e, route) => {
+    // Close all dropdowns
+    setVolunteerOpenMenu(false);
+    setAboutUsOpenMenu(false);
+
+    navigate(route);
   };
 
-  const handleMenuClose = () => {
+  const handleDrawerClick = (e, route) => {
+    // Close all dropdowns
+    setVolunteerOpenMenu(false);
+    setAboutUsOpenMenu(false);
+
+    // Close Drawer
+    setDrawerOpen(false);
+
+    navigate(route);
+  };
+
+  const handleVSMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setVolunteerOpenMenu(true);
+  };
+
+  const handleVSMenuClose = () => {
     setAnchorEl(null);
-    setOpenMenu(false);
+    setVolunteerOpenMenu(false);
+  };
+
+  const handleAUMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setAboutUsOpenMenu(true);
+  };
+
+  const handleAUMenuClose = () => {
+    setAnchorEl(null);
+    setAboutUsOpenMenu(false);
   };
 
   const toggleDrawer = (open) => {
@@ -41,55 +73,95 @@ const Navbar = () => {
 
         {/* Desktop Menu (visible only on larger screens) */}
         <div className="hidden md:flex items-center space-x-8 ml-auto">
-          <a
-            href="#home"
-            className="text-black hover:text-gray-600 flex items-center text-base"
-          >
-            <HomeOutlinedIcon className="mr-2" /> Home
-          </a>
-          <a
-            href="#about-us"
-            className="text-black hover:text-gray-600 flex items-center text-base"
-          >
-            <PeopleOutlinedIcon className="mr-2" /> About Us
-          </a>
-          <a
-            href="#contact-us"
-            className="text-black hover:text-gray-600 flex items-center text-base"
-          >
-            <ContactMailOutlinedIcon className="mr-2" /> Contact Us
-          </a>
-
-          {/* Volunteer Services Dropdown */}
           <div className="relative">
             <button
-              onClick={handleMenuClick}
+              onClick={(e) => handleLinkClick(e, "/")}
+              // className="text-black flex items-center hover:text-gray-600 text-base"
+              className="text-black hover:text-gray-600 flex items-center text-base"
+            >
+              <HomeOutlinedIcon className="mr-2" /> Home
+            </button>
+          </div>
+
+          {/* About Us Dropdown */}
+          <div className="relative">
+            <button
+              onClick={handleAUMenuClick}
               className="text-black flex items-center hover:text-gray-600 text-base"
             >
-              <Diversity1OutlinedIcon className="mr-2" /> Volunteer Services
+              <PeopleOutlinedIcon className="mr-2" /> About Us
               <ArrowDropDownIcon />
             </button>
-            {openMenu && (
+            {aboutUsOpenMenu && (
               <Menu
                 anchorEl={anchorEl}
-                open={openMenu}
-                onClose={handleMenuClose}
+                open={aboutUsOpenMenu}
+                onClose={handleAUMenuClose}
                 PaperProps={{
                   style: {
                     position: "absolute",
                     right: 0,
                     top: "40px",
                     zIndex: 1300, // to appear above other elements
+                    maxWidth: "fit-content",
                   },
                 }}
               >
-                <MenuItem onClick={handleMenuClose}>
-                  <VolunteerActivismOutlinedIcon className="mr-2" /> Volunteer
-                  Option 1
+                <MenuItem onClick={(e) => handleLinkClick(e, "/directors")}>
+                  <VolunteerActivismOutlinedIcon className="mr-2" /> Our Team
                 </MenuItem>
-                <MenuItem onClick={handleMenuClose}>
-                  <VolunteerActivismOutlinedIcon className="mr-2" /> Volunteer
-                  Option 2
+                <MenuItem onClick={(e) => handleLinkClick(e, "/vision")}>
+                  <VolunteerActivismOutlinedIcon className="mr-2" /> Our Vison
+                </MenuItem>
+              </Menu>
+            )}
+          </div>
+
+          <div className="relative">
+            <button
+              onClick={(e) => handleLinkClick(e, "/contact")}
+              // className="text-black flex items-center hover:text-gray-600 text-base"
+              className="text-black hover:text-gray-600 flex items-center text-base"
+            >
+              <PeopleOutlinedIcon className="mr-2" /> Contact Us
+            </button>
+          </div>
+
+          {/* Volunteer Services Dropdown */}
+          <div className="relative">
+            <button
+              onClick={handleVSMenuClick}
+              className="text-black flex items-center hover:text-gray-600 text-base"
+            >
+              <Diversity1OutlinedIcon className="mr-2" /> Volunteer Services
+              <ArrowDropDownIcon />
+            </button>
+            {volunteerOpenMenu && (
+              <Menu
+                anchorEl={anchorEl}
+                open={volunteerOpenMenu}
+                onClose={handleVSMenuClose}
+                PaperProps={{
+                  style: {
+                    position: "absolute",
+                    right: 0,
+                    top: "40px",
+                    zIndex: 1300, // to appear above other elements
+                    maxWidth: "fit-content",
+                  },
+                }}
+              >
+                <MenuItem
+                  onClick={(e) => handleLinkClick(e, "/how-we-operate")}
+                >
+                  <VolunteerActivismOutlinedIcon className="mr-2" /> How We
+                  Operate
+                </MenuItem>
+                <MenuItem
+                  onClick={(e) => handleLinkClick(e, "/how-we-operate")}
+                >
+                  <VolunteerActivismOutlinedIcon className="mr-2" /> Our
+                  Collaborators
                 </MenuItem>
               </Menu>
             )}
@@ -97,12 +169,16 @@ const Navbar = () => {
         </div>
 
         {/* Donate button aligned to the rightmost */}
-        <a
-          href="#donate"
-          className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
-        >
-          <VolunteerActivismOutlinedIcon className="mr-2 text-base" /> Donate
-        </a>
+
+        <div className="ml-auto">
+          <button
+            onClick={(e) => handleLinkClick(e, "/donate")}
+            // className="text-black flex items-center hover:text-gray-600 text-base"
+            className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
+          >
+            <VolunteerActivismOutlinedIcon className="mr-2 text-base" /> Donate
+          </button>
+        </div>
 
         {/* Mobile Menu Icon (visible only on mobile) */}
         <div className="md:hidden mr-4">
@@ -133,41 +209,128 @@ const Navbar = () => {
         }}
       >
         <div className="p-6 w-64">
-          <a
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={(e) => handleDrawerClick(e, "/")}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              <HomeOutlinedIcon className="mr-2" /> Home
+            </button>
+          </div>
+          {/* <a
             href="#home"
             className="block text-black py-2 flex items-center"
             onClick={() => toggleDrawer(false)}
           >
             <HomeOutlinedIcon className="mr-2" /> Home
-          </a>
-          <a
+          </a> */}
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={handleAUMenuClick}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              <PeopleOutlinedIcon className="mr-2" /> About Us
+              <ArrowDropDownIcon />
+            </button>
+            {aboutUsOpenMenu && (
+              <Menu
+                anchorEl={anchorEl}
+                open={aboutUsOpenMenu}
+                onClose={handleAUMenuClose}
+                PaperProps={{
+                  style: {
+                    position: "absolute",
+                    right: 0,
+                    top: "40px",
+                    zIndex: 1300, // to appear above other elements
+                    maxWidth: "fit-content",
+                  },
+                }}
+              >
+                <MenuItem onClick={(e) => handleDrawerClick(e, "/directors")}>
+                  <VolunteerActivismOutlinedIcon className="mr-2" /> Our Team
+                </MenuItem>
+                <MenuItem onClick={(e) => handleDrawerClick(e, "/vision")}>
+                  <VolunteerActivismOutlinedIcon className="mr-2" /> Our Vison
+                </MenuItem>
+              </Menu>
+            )}
+          </div>
+          {/* <a
             href="#about-us"
             className="block text-black py-2 flex items-center"
             onClick={() => toggleDrawer(false)}
           >
             <PeopleOutlinedIcon className="mr-2" /> About Us
-          </a>
-          <a
+          </a> */}
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={(e) => handleDrawerClick(e, "/contact")}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              <ContactMailOutlinedIcon className="mr-2" /> Contact Us
+            </button>
+          </div>
+          {/* <a
             href="#contact-us"
             className="block text-black py-2 flex items-center"
             onClick={() => toggleDrawer(false)}
           >
             <ContactMailOutlinedIcon className="mr-2" /> Contact Us
-          </a>
-          <a
+          </a> */}
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={handleVSMenuClick}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              <Diversity1OutlinedIcon className="mr-2" /> Volunteer Services
+              <ArrowDropDownIcon />
+            </button>
+            {volunteerOpenMenu && (
+              <Menu
+                anchorEl={anchorEl}
+                open={volunteerOpenMenu}
+                onClose={handleVSMenuClose}
+                PaperProps={{
+                  style: {
+                    position: "absolute",
+                    right: 0,
+                    top: "40px",
+                    zIndex: 1300, // to appear above other elements
+                    maxWidth: "fit-content",
+                  },
+                }}
+              >
+                <MenuItem
+                  onClick={(e) => handleDrawerClick(e, "/how-we-operate")}
+                >
+                  <VolunteerActivismOutlinedIcon className="mr-2" /> How We
+                  Operate
+                </MenuItem>
+                <MenuItem
+                  onClick={(e) => handleDrawerClick(e, "/how-we-operate")}
+                >
+                  <VolunteerActivismOutlinedIcon className="mr-2" /> Our
+                  Collaborators
+                </MenuItem>
+              </Menu>
+            )}
+          </div>
+          {/* <a
             href="#volunteer-services"
             className="block text-black py-2 flex items-center"
             onClick={() => toggleDrawer(false)}
           >
             <Diversity1OutlinedIcon className="mr-2" /> Volunteer Services
-          </a>
-          <a
-            href="#donate"
-            className="block text-black py-2 flex items-center"
-            onClick={() => toggleDrawer(false)}
-          >
-            <FavoriteBorderIcon className="mr-2" /> Donate
-          </a>
+          </a> */}
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={(e) => handleDrawerClick(e, "/donate")}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              <FavoriteBorderIcon className="mr-2" /> Donate
+            </button>
+          </div>
         </div>
       </Drawer>
     </nav>

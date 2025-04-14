@@ -6,6 +6,7 @@ import Footer from "#components/Footer/Footer";
 import LeftAds from "#components/LeftAds/LeftAds";
 import RightAds from "#components/RightAds/RightAds";
 import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
+import Header from "#components/Navbar/Header";
 
 const Layout = () => {
   return (
@@ -15,7 +16,8 @@ const Layout = () => {
 
       {/* header includes Navbar which spans full width */}
       <header className="sticky z-10">
-        <Navbar />
+        <Header />
+        {/* <Navbar /> */}
       </header>
 
       {/* main content */}
