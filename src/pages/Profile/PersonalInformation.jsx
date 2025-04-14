@@ -7,6 +7,7 @@ import CountryList from "react-select-country-list";
 import { changeUiLanguage } from "../../common/i18n/utils";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import languagesData from "../../common/i18n/languagesData";
 
 const genderOptions = [
   { value: "Female", label: "Female" },
@@ -96,7 +97,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
   const [languages, setLanguages] = useState([]);
   const [locale, setLocale] = useState("en-US");
-  // Set initial values synchronously to ensure they're available on first render
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
 
@@ -105,7 +105,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       const { locale, dateFormat, placeholder } = await getLocaleAndFormat(
         personalInfo.country || "United States", // Default to "United States" if no country
       );
-      console.log("Setting placeholder:", placeholder); // Debug log
+      console.log("Setting placeholder:", placeholder);
       setLocale(locale);
       setDateFormat(dateFormat);
       setPlaceholder(placeholder);
@@ -125,21 +125,13 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       });
     }
 
-    fetch("https://restcountries.com/v3.1/all")
-      .then((response) => response.json())
-      .then((data) => {
-        const languageSet = new Set();
-        data.forEach((country) => {
-          if (country.languages) {
-            Object.values(country.languages).forEach((language) =>
-              languageSet.add(language),
-            );
-          }
-        });
-        setLanguages(
-          Array.from(languageSet).map((lang) => ({ value: lang, label: lang })),
-        );
-      });
+    // Build languages options directly from languagesData.js (limits to the 10 available languages)
+    const languageOptions = languagesData.map((lang) => ({
+      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
+      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
+      label: lang.name,
+    }));
+    setLanguages(languageOptions);
   }, []);
 
   const handleInputChange = (name, value) => {
@@ -157,6 +149,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         streetAddressRef.current.focus();
       }
     }, 0);
+  };
+
+  const handleSaveClick = () => {
+    setIsEditing(false);
+    localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
+    setHasUnsavedChanges(false);
+    // Call changeUiLanguage to update the UI based on the first language preference.
+    changeUiLanguage(personalInfo);
   };
 
   return (
@@ -312,6 +312,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
       {/* Language Preferences */}
       <div className="grid grid-cols-3 gap-8 mb-6">
+        {/* Preference 1 - full list */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("FIRST_LANGUAGE_PREFERENCE")}
@@ -336,6 +337,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             </p>
           )}
         </div>
+        {/* Preference 2 - filter out languagePreference1 */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("SECOND_LANGUAGE_PREFERENCE")}
@@ -345,7 +347,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               value={languages.find(
                 (option) => option.value === personalInfo.languagePreference2,
               )}
-              options={languages}
+              options={languages.filter(
+                (option) => option.value !== personalInfo.languagePreference1,
+              )}
               onChange={(selectedOption) =>
                 handleInputChange(
                   "languagePreference2",
@@ -360,6 +364,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             </p>
           )}
         </div>
+        {/* Preference 3 - filter out languagePreference1 and languagePreference2 */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("THIRD_LANGUAGE_PREFERENCE")}
@@ -369,7 +374,11 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               value={languages.find(
                 (option) => option.value === personalInfo.languagePreference3,
               )}
-              options={languages}
+              options={languages.filter(
+                (option) =>
+                  option.value !== personalInfo.languagePreference1 &&
+                  option.value !== personalInfo.languagePreference2,
+              )}
               onChange={(selectedOption) =>
                 handleInputChange(
                   "languagePreference3",
@@ -462,15 +471,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           <>
             <button
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
-              onClick={() => {
-                setIsEditing(false);
-                localStorage.setItem(
-                  "personalInfo",
-                  JSON.stringify(personalInfo),
-                );
-                setHasUnsavedChanges(false);
-                changeUiLanguage(personalInfo);
-              }}
+              onClick={handleSaveClick}
             >
               {t("SAVE")}
             </button>
