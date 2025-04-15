@@ -145,8 +145,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         // Proceed with submitting the request if no profanity is found
 
         await fetchPredictedCategories();
-
-        setShowModal(true);
+        if (formData.category == "General") {
+          setShowModal(true);
+        }
         // const response = await axios.post(
         //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
         //   submissionData,
@@ -157,6 +158,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         //     },
         //   }
         // );
+        else {
+          toast.success(
+            "Request submitted successfully! You will now be redirected to the dashboard.",
+            {
+              position: "top-center", // You can customize the position
+              autoClose: 2000, // Toast auto-closes after 2 seconds
+              hideProgressBar: true, // Optional: Hide progress bar
+            },
+          );
+
+          // Redirect to the dashboard after a short delay
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 2000);
+        }
       }
     } catch (error) {
       console.error("Failed to process request:", error);
