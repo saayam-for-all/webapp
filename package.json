@@ -3,6 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "imports": {
+    "#components/*": "./src/common/components/*",
+    "#redux/*": "./src/redux/*",
+    "#utils/*": "./utils/*"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,12 +19,17 @@
   },
   "dependencies": {
     "@aws-amplify/auth": "^6.6.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@fontsource-variable/inter": "^5.0.17",
+    "@mui/icons-material": "^7.0.2",
+    "@mui/material": "^7.0.2",
     "@react-google-maps/api": "^2.20.6",
     "@reduxjs/toolkit": "^2.2.2",
     "aws-amplify": "^6.8.1",
     "aws-sdk": "^2.1612.0",
     "cheerio": "^1.0.0",
+    "country-state-city": "^3.2.1",
     "formik": "^2.4.5",
     "i18next-browser-languagedetector": "^8.0.2",
     "install": "^0.13.0",
@@ -30,9 +40,11 @@
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
+    "react-phone-number-input": "^3.4.12",
     "react-select": "^5.8.0",
     "react-select-country-list": "^2.2.3",
     "react-time-picker": "^7.0.0",
+    "react-toastify": "^11.0.5",
     "rsuite": "^5.77.1",
     "use-immer": "^0.10.0",
     "yup": "^1.4.0",
@@ -95,5 +107,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "npm": ">=10.9.2",
+    "node": ">=v22.14.0"
+  }
 }
