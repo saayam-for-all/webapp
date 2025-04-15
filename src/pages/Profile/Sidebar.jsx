@@ -1,8 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { FaUserCircle, FaLock } from "react-icons/fa";
-import { FiChevronRight } from "react-icons/fi";
-import { FiEdit2 } from "react-icons/fi";
+import { FaLock, FaTools, FaUserCircle } from "react-icons/fa";
+import { FiChevronRight, FiEdit2 } from "react-icons/fi";
 
 function Sidebar({
   profilePhoto,
@@ -46,10 +45,10 @@ function Sidebar({
       {/* Sidebar Tabs */}
       <div className="space-y-1">
         <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
             activeTab === "profile"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
+              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
           }`}
           onClick={() => handleTabChange("profile")}
         >
@@ -63,10 +62,10 @@ function Sidebar({
         </button>
 
         <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
             activeTab === "personal"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
+              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
           }`}
           onClick={() => handleTabChange("personal")}
         >
@@ -80,10 +79,10 @@ function Sidebar({
         </button>
 
         <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
             activeTab === "password"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
+              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
           }`}
           onClick={() => handleTabChange("password")}
         >
@@ -97,10 +96,10 @@ function Sidebar({
         </button>
 
         <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
             activeTab === "organization"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
+              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
           }`}
           onClick={() => handleTabChange("organization")}
         >
@@ -109,6 +108,23 @@ function Sidebar({
             {t("ORGANIZATION_DETAILS")}
           </div>
           {activeTab !== "organization" && (
+            <FiChevronRight className="text-gray-400" />
+          )}
+        </button>
+
+        <button
+          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
+            activeTab === "skills"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
+          }`}
+          onClick={() => handleTabChange("skills")}
+        >
+          <div className="flex items-center">
+            <FaTools className="mr-2 text-gray-500" />
+            {t("SKILLS")}
+          </div>
+          {activeTab !== "skills" && (
             <FiChevronRight className="text-gray-400" />
           )}
         </button>

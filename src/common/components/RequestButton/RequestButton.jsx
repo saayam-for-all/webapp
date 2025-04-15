@@ -4,74 +4,94 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { MdContactPhone } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
+import { useSelector } from "react-redux";
+import { getEmergencyContactInfo } from "../../../services/requestServices";
 
 const RequestButton = ({ link, text, isInfoRequest, customStyle, icon }) => {
   const [showModal, setShowModal] = useState(false);
   const [responseContent, setResponseContent] = useState(null);
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
 
   const handleClick = async () => {
     if (isInfoRequest) {
       try {
         // Simulate API call (going to replace with actual API call to the microservice)
-        const formattedResponse = (
-          <div>
-            <p>
-              <strong>
-                Additional Information About the Community Clean-Up Event:
-              </strong>
-            </p>
-            <p>
-              The <strong>Community Clean-Up Day</strong> scheduled for{" "}
-              <strong>August 15, 2024</strong> at Cherry Creek Park is a vital
-              initiative aimed at promoting environmental responsibility and
-              community engagement. Participants will help make the park cleaner
-              by engaging in the following tasks:
-            </p>
-            <ul className="list-disc pl-5">
-              <li>
-                <strong>Picking up litter:</strong> Volunteers will walk through
-                designated areas of the park to collect trash, helping to
-                beautify the space and prevent pollution.
-              </li>
-              <li>
-                <strong>Sorting recyclables:</strong> Volunteers will assist in
-                separating recyclables from general waste, contributing to a
-                sustainable waste management system.
-              </li>
-              <li>
-                <strong>Managing the registration table:</strong> Some
-                volunteers will be responsible for welcoming participants,
-                distributing materials, and keeping track of sign-ins.
-              </li>
-            </ul>
-            <p>
-              In addition to volunteer efforts, we are actively seeking
-              donations of supplies to ensure the event runs smoothly.
-              Specifically, we are looking for:
-            </p>
-            <ul className="list-disc pl-5">
-              <li>
-                <strong>Trash bags:</strong> To collect litter and recyclables.
-              </li>
-              <li>
-                <strong>Gloves:</strong> For the safety and comfort of
-                volunteers during clean-up.
-              </li>
-              <li>
-                <strong>Refreshments:</strong> To provide water and snacks to
-                keep participants energized throughout the event.
-              </li>
-            </ul>
-            <p>
-              This event is an excellent opportunity to meet other community
-              members, contribute to a cleaner environment, and make a positive
-              impact. Whether you’re volunteering your time or donating
-              supplies, your support is crucial to making Cherry Creek Park a
-              cleaner and more enjoyable place for everyone.
-            </p>
-          </div>
-        );
+        let formattedResponse;
+        if (text === "Emergency Contact") {
+          const response = await getEmergencyContactInfo();
+
+          const country = user.zoneinfo;
+          const emergencyContact = response.body[country];
+
+          formattedResponse = (
+            <div>
+              <span>
+                {country}: {emergencyContact}
+              </span>
+            </div>
+          );
+        } else {
+          formattedResponse = (
+            <div>
+              <p>
+                <strong>
+                  Additional Information About the Community Clean-Up Event:
+                </strong>
+              </p>
+              <p>
+                The <strong>Community Clean-Up Day</strong> scheduled for{" "}
+                <strong>August 15, 2024</strong> at Cherry Creek Park is a vital
+                initiative aimed at promoting environmental responsibility and
+                community engagement. Participants will help make the park
+                cleaner by engaging in the following tasks:
+              </p>
+              <ul className="list-disc pl-5">
+                <li>
+                  <strong>Picking up litter:</strong> Volunteers will walk
+                  through designated areas of the park to collect trash, helping
+                  to beautify the space and prevent pollution.
+                </li>
+                <li>
+                  <strong>Sorting recyclables:</strong> Volunteers will assist
+                  in separating recyclables from general waste, contributing to
+                  a sustainable waste management system.
+                </li>
+                <li>
+                  <strong>Managing the registration table:</strong> Some
+                  volunteers will be responsible for welcoming participants,
+                  distributing materials, and keeping track of sign-ins.
+                </li>
+              </ul>
+              <p>
+                In addition to volunteer efforts, we are actively seeking
+                donations of supplies to ensure the event runs smoothly.
+                Specifically, we are looking for:
+              </p>
+              <ul className="list-disc pl-5">
+                <li>
+                  <strong>Trash bags:</strong> To collect litter and
+                  recyclables.
+                </li>
+                <li>
+                  <strong>Gloves:</strong> For the safety and comfort of
+                  volunteers during clean-up.
+                </li>
+                <li>
+                  <strong>Refreshments:</strong> To provide water and snacks to
+                  keep participants energized throughout the event.
+                </li>
+              </ul>
+              <p>
+                This event is an excellent opportunity to meet other community
+                members, contribute to a cleaner environment, and make a
+                positive impact. Whether you’re volunteering your time or
+                donating supplies, your support is crucial to making Cherry
+                Creek Park a cleaner and more enjoyable place for everyone.
+              </p>
+            </div>
+          );
+        }
 
         // Set the response text
         setResponseContent(formattedResponse);
