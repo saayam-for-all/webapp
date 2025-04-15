@@ -298,6 +298,7 @@ const PromoteToVolunteer = () => {
           //   setErrorMessage("Save Failed.");
           //   return;
           // }
+          setErrorMessage("");
           newStep++;
         } catch (error) {
           console.error("Error in handleClick:", error);
