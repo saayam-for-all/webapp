@@ -92,10 +92,13 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
-            <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
+            <p className="text-lg text-gray-900">
+              {profileInfo.firstName || ""}
+            </p>
           )}
         </div>
         <div>
@@ -107,29 +110,37 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
-            <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
+            <p className="text-lg text-gray-900">
+              {profileInfo.lastName || ""}
+            </p>
           )}
         </div>
       </div>
 
       {/* Email */}
-      <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {t("EMAIL")}
-        </label>
-        {isEditing ? (
-          <input
-            type="email"
-            value={profileInfo.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
-            className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-          />
-        ) : (
-          <p className="text-lg text-gray-900">{profileInfo.email}</p>
-        )}
+      <div
+        className="grid grid-cols-1 gap-4 mb-6"
+        data-testid="container-test-3"
+      >
+        <div>
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {t("EMAIL")}
+          </label>
+          {isEditing ? (
+            <input
+              type="email"
+              name="email"
+              value={profileInfo.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            />
+          ) : (
+            <p className="text-lg text-gray-900">{profileInfo.email || ""}</p>
+          )}
+        </div>
       </div>
 
       {/* Phone Number */}
@@ -143,7 +154,7 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
-              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -171,7 +182,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             type="text"
             value={profileInfo.country}
             onChange={(e) => handleInputChange("country", e.target.value)}
-            className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+            className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.country}</p>
