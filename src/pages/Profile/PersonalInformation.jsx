@@ -7,7 +7,9 @@ import CountryList from "react-select-country-list";
 import { changeUiLanguage } from "../../common/i18n/utils";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import { State, Country } from "country-state-city";
 import languagesData from "../../common/i18n/languagesData";
+
 
 const genderOptions = [
   { value: "Female", label: "Female" },
@@ -95,6 +97,29 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const countries = CountryList().getData();
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
+  const [states, setStates] = useState([]);
+
+  const getLatestStatesList = (countryCodeSelected) => {
+    if (countryCodeSelected) {
+      const statesList = State.getStatesOfCountry(countryCodeSelected).map(
+        (state) => ({
+          value: state.isoCode,
+          label: state.name,
+        }),
+      );
+      setStates(statesList);
+    } else {
+      setStates([]);
+    }
+  };
+
+  const getCountryIsoCode = (countryName) => {
+    const country = Country.getAllCountries().find(
+      (c) => c.name.toLowerCase() === countryName.toLowerCase(),
+    );
+    return country ? country.isoCode : null;
+  };
+
   const [languages, setLanguages] = useState([]);
   const [locale, setLocale] = useState("en-US");
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
@@ -123,6 +148,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           ? new Date(savedPersonalInfo.dateOfBirth)
           : null,
       });
+      // If savedInfo, need to set the State field.
+      getLatestStatesList(getCountryIsoCode(savedPersonalInfo.country));
     }
 
     // Build languages options directly from languagesData.js (limits to the 10 available languages)
@@ -263,9 +290,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 (option) => option.label === personalInfo.country,
               )}
               options={countries}
-              onChange={(selectedOption) =>
-                handleInputChange("country", selectedOption?.label || "")
-              }
+              onChange={(selectedOption) => {
+                handleInputChange("country", selectedOption?.label || "");
+                // This will reset the selected State to "" otherwise it will create inconsistency if someone updates state and changes Country.
+                setPersonalInfo((prevInfo) => ({
+                  ...prevInfo,
+                  state: "",
+                }));
+                getLatestStatesList(selectedOption?.value || "");
+              }}
               className="w-full"
             />
           ) : (
@@ -279,12 +312,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("STATE")}
           </label>
           {isEditing ? (
-            <input
-              type="text"
-              name="state"
-              value={personalInfo.state}
-              onChange={(e) => handleInputChange("state", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            <Select
+              value={
+                states.find((option) => option.label === personalInfo.state) ||
+                null
+              }
+              options={states}
+              onChange={(selectedOption) => {
+                handleInputChange("state", selectedOption?.label || "");
+              }}
             />
           ) : (
             <p className="text-lg text-gray-900">{personalInfo.state || ""}</p>

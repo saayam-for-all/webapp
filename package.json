@@ -29,6 +29,7 @@
     "aws-amplify": "^6.8.1",
     "aws-sdk": "^2.1612.0",
     "cheerio": "^1.0.0",
+    "country-state-city": "^3.2.1",
     "formik": "^2.4.5",
     "i18next-browser-languagedetector": "^8.0.2",
     "install": "^0.13.0",
