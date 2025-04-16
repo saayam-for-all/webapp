@@ -92,7 +92,6 @@ const Navbar = () => {
     const fetchNotifications = async () => {
       try {
         // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
-        // console.log(response);
         // const rawNotifications = response.data.notifications || [];
         const rawNotifications = [
           {
@@ -157,6 +156,8 @@ const Navbar = () => {
         console.error("Error fetching Notifications:", error);
       }
     };
+
+    fetchNotifications(); // Comment it after call ing the funciton below
 
     const interval = setInterval(
       "call fetchNotifications() here",
