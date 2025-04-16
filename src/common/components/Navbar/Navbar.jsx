@@ -91,8 +91,8 @@ const Navbar = () => {
     }
     const fetchNotifications = async () => {
       try {
-        const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
-        console.log(response);
+        // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
+        // console.log(response);
         // const rawNotifications = response.data.notifications || [];
         const rawNotifications = [
           {
