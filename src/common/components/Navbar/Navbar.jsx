@@ -28,7 +28,7 @@ const Navbar = () => {
   const profileDropdownRef = useRef(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   // const [notifications, setNotifications] = useState([]);
-  const { dispatch: notificationDispatch } = useNotifications();
+  const { state, dispatch: notificationDispatch } = useNotifications();
   const [newNotificationCount, setNewNotificationCount] = useState(0);
 
   useEffect(() => {
