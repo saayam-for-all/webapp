@@ -1,24 +1,26 @@
 import { StandaloneSearchBox } from "@react-google-maps/api";
-import React, { useEffect, useRef, useState } from "react"; //added for testing
+import { useEffect, useRef, useState } from "react"; //added for testing
 import { useTranslation } from "react-i18next";
 import { IoMdInformationCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
+import Modal from "../../common/components/Modal/Modal";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
   useAddRequestMutation,
   useGetAllRequestQuery,
 } from "../../services/requestApi";
-import { checkProfanity, createRequest } from "../../services/requestServices";
+import {
+  checkProfanity,
+  createRequest,
+  predictCategories,
+} from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
-import { useDebounce } from "../../hooks/useDebounce";
-import { predictCategories } from "../../services/requestServices";
-import Modal from "../../common/components/Modal/Modal";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -36,6 +38,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
   const token = useSelector((state) => state.auth.idToken);
+  const groups = useSelector((state) => state.auth.user?.groups);
   const [location, setLocation] = useState("");
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
@@ -66,12 +69,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     phone: "",
     age: "",
     gender: "Select",
+    lead_volunteer: "Ethan Marshall",
     preferred_language: "",
     category: "General",
     request_type: "remote",
     location: "",
     subject: "",
     description: "",
+    priority: "MEDIUM",
   });
 
   const handleChange = (e) => {
@@ -298,6 +303,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     <div className="">
       <ToastContainer />
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
+        <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+          <button
+            onClick={() => navigate("/")}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> Back to Home
+          </button>
+        </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
@@ -314,22 +327,49 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           </div>
 
-          <div className="mt-3" data-testid="parentDivOne">
-            <label
-              htmlFor="self"
-              className="block mb-1 text-gray-700 font-medium"
-            >
-              {t("FOR_SELF")}
-            </label>
-            <select
-              id="self"
-              data-testid="dropdown"
-              className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
-              onChange={(e) => setSelfFlag(e.target.value === "yes")}
-              disabled
-            >
-              <option value="yes">{t("YES")}</option>
-            </select>
+          <div className="mt-3 flex gap-4" data-testid="parentDivOne">
+            {/* For Self Dropdown */}
+            <div className="flex-1">
+              <label
+                htmlFor="self"
+                className="block mb-1 text-gray-700 font-medium"
+              >
+                {t("FOR_SELF")}
+              </label>
+              <select
+                id="self"
+                data-testid="dropdown"
+                className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                onChange={(e) => setSelfFlag(e.target.value === "yes")}
+                disabled
+              >
+                <option value="yes">{t("YES")}</option>
+              </select>
+            </div>
+
+            {/* Lead Volunteer */}
+            <div className="flex-1">
+              <label
+                htmlFor="lead_volunteer"
+                className="block mb-1 text-gray-700 font-medium"
+              >
+                {t("Lead Volunteer")}
+              </label>
+              <input
+                type="text"
+                id="lead_volunteer"
+                name="lead_volunteer"
+                disabled={
+                  !(
+                    groups?.includes("Admins") ||
+                    groups?.includes("SuperAdmins")
+                  )
+                }
+                value={formData.lead_volunteer}
+                onChange={handleChange}
+                className="border p-2 w-full rounded-lg disabled:text-gray-400"
+              />
+            </div>
           </div>
           {/* 
           Temporarily commented out as MVP only allows for self requests
@@ -544,7 +584,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
 
             {formData.request_type === "In Person" && (
-              <div className="mt-3">
+              <div>
                 <label
                   htmlFor="location"
                   className="block mb-1 font-medium text-gray-700"
@@ -569,6 +609,26 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 )}
               </div>
             )}
+            <div>
+              <label
+                htmlFor="requestPriority"
+                className="block mb-2 font-medium text-gray-700"
+              >
+                {t("Request Priority")}
+              </label>
+              <select
+                id="requestPriority"
+                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
+                value={formData.priority || "MEDIUM"}
+                onChange={(e) =>
+                  setFormData({ ...formData, priority: e.target.value })
+                }
+              >
+                <option value="LOW">{t("Low")}</option>
+                <option value="MEDIUM">{t("Medium")}</option>
+                <option value="HIGH">{t("High")}</option>
+              </select>
+            </div>
           </div>
 
           <div className="mt-3" data-testid="parentDivSix">

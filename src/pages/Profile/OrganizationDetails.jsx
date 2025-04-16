@@ -57,7 +57,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, code, value } = e.target;
+    const { name, value } = e.target;
 
     let errorMsg = "";
     if (name == "email") {
@@ -80,7 +80,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
     setOrganizationInfo((prevInfo) => ({
       ...prevInfo,
-      [name]: code,
+      [name]: value,
     }));
     setHasUnsavedChanges(true);
   };
@@ -95,10 +95,10 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   };
 
   const handleSaveClick = () => {
-    let hasError = False;
+    let hasError = false;
     Object.values(errors).forEach((error) => {
       if (error !== "") {
-        hasError = True;
+        hasError = true;
       }
     });
     if (hasError) {
@@ -113,6 +113,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
   const handleCancelClick = () => {
     setIsEditing(false);
+    setHasUnsavedChanges(false);
   };
 
   return (
@@ -202,7 +203,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                   handleInputChange({
                     target: {
                       name: "phoneCountryCode",
-                      code: selectedOption.code,
+                      value: selectedOption.code,
                     },
                   })
                 }
