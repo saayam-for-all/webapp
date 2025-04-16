@@ -18,6 +18,7 @@ import VerifyAccountPage from "../pages/ForgotPasswordPage/VerifyAccountPage";
 import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
 import SignUp from "../pages/Auth/Signup";
 import OTPVerification from "../pages/Auth/VerifyOtp";
+import Notifications from "../pages/Notifications/notifications";
 
 const routes = [
   {
@@ -47,6 +48,10 @@ const routes = [
   {
     path: "contact",
     element: <Contact />,
+  },
+  {
+    path: "notifications",
+    element: <Notifications />,
   },
   {
     element: <ProtectedRoute />, // Parent wrapper for protected routes
