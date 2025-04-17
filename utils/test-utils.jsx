@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "#redux/features/authentication/authSlice";
+import { NotificationProvider } from "../src/context/NotificationContext";
 
 // redux state for logged in user
 export const MOCK_STATE_LOGGED_IN = {
@@ -24,7 +25,9 @@ export function renderWithProviders(ui, extendedRenderOptions = {}) {
   } = extendedRenderOptions;
 
   const Wrapper = ({ children }) => (
-    <Provider store={store}>{children}</Provider>
+    <Provider store={store}>
+      <NotificationProvider>{children}</NotificationProvider>
+    </Provider>
   );
 
   // Return an object with the store and all of RTL's query functions
