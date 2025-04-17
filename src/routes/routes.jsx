@@ -18,7 +18,7 @@ import VerifyAccountPage from "../pages/ForgotPasswordPage/VerifyAccountPage";
 import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
 import SignUp from "../pages/Auth/Signup";
 import OTPVerification from "../pages/Auth/VerifyOtp";
-import Notifications from "../pages/Notifications/notifications";
+import Notifications from "../pages/Notifications/Notifications";
 
 const routes = [
   {
