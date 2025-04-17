@@ -113,6 +113,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
   const handleCancelClick = () => {
     setIsEditing(false);
+    setHasUnsavedChanges(false);
   };
 
   return (

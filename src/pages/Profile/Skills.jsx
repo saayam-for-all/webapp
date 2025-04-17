@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { FaEdit, FaSave } from "react-icons/fa";
 import { useImmer } from "use-immer";
 import { getVolunteerSkills } from "../../services/volunteerServices";
+import { List, ListItem, ListItemText } from "@mui/material";
 
 const Skills = ({ setHasUnsavedChanges }) => {
   const { t } = useTranslation();
@@ -10,6 +11,32 @@ const Skills = ({ setHasUnsavedChanges }) => {
   // Update with user skills data from the API once that is created
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState();
+
+  const getSelectedSkills = (categories, parentPath = "", selected = []) => {
+    return categories.map((cat, index) => {
+      const isObject = typeof cat === "object";
+      const categoryName = isObject ? cat.category : cat;
+      const hasSubCategories = isObject && cat.subCategories;
+      const currentPath = parentPath
+        ? `${parentPath}.${categoryName}`
+        : categoryName;
+      if (!getCheckedStatus(currentPath)) return;
+      return (
+        <div className="flex flex-col" disablePadding>
+          <ListItem key={index} className="" disablePadding>
+            <ListItemText primary={`• ${categoryName}`} />
+          </ListItem>
+          {hasSubCategories && getCheckedStatus(currentPath) && (
+            <div className="ml-5" disablePadding>
+              <List className="" disablePadding>
+                {getSelectedSkills(cat.subCategories, currentPath)}
+              </List>
+            </div>
+          )}
+        </div>
+      );
+    });
+  };
 
   useEffect(() => {
     getVolunteerSkills()
@@ -81,7 +108,6 @@ const Skills = ({ setHasUnsavedChanges }) => {
               className="h-4 w-4"
               checked={getCheckedStatus(currentPath)}
               onChange={() => handleCheckboxChange(currentPath)}
-              disabled={!isEditing}
             />
             <span className={getCheckedStatus(currentPath) ? "font-bold" : ""}>
               {categoryName}
@@ -142,7 +168,13 @@ const Skills = ({ setHasUnsavedChanges }) => {
       <div className="bg-white rounded-lg shadow p-6">
         <div className="space-y-4">
           {categoriesData?.categories?.length > 0 &&
-            renderCategories(categoriesData.categories)}
+            (isEditing ? (
+              renderCategories(categoriesData.categories)
+            ) : (
+              <List className="flex flex-col" disablePadding>
+                {getSelectedSkills(categoriesData.categories)}
+              </List>
+            ))}
         </div>
       </div>
     </div>
