@@ -5,6 +5,11 @@ import {
 } from "#utils/test-utils.jsx";
 import Navbar from "./Navbar";
 
+beforeAll(() => {
+  if (!global.crypto) global.crypto = {};
+  global.crypto.randomUUID = () => "mock-uuid";
+});
+
 jest.mock("../../../redux/features/authentication/authActions", () => ({
   logout: jest.fn(),
 }));

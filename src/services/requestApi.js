@@ -3,6 +3,7 @@ export const requestApi = createApi({
   reducerPath: "requestApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/",
+
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.idToken;
       if (token) {

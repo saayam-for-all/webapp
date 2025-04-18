@@ -13,40 +13,40 @@ exports[`Carousel renders correctly 1`] = `
           style="transform: translateX(-0%);"
         >
           <img
-            alt="food.jpg"
-            src="food.jpg"
+            alt=""
+            src=""
           />
           <img
-            alt="food3.jpg"
-            src="food3.jpg"
+            alt=""
+            src=""
           />
           <img
-            alt="hands.jpg"
-            src="hands.jpg"
+            alt=""
+            src=""
           />
           <img
-            alt="health.jpg"
-            src="health.jpg"
+            alt=""
+            src=""
           />
           <img
-            alt="hands2.jpg"
-            src="hands2.jpg"
+            alt=""
+            src=""
           />
           <img
-            alt="health2.jpg"
-            src="health2.jpg"
+            alt=""
+            src=""
           />
           <img
-            alt="clothes.jpg"
-            src="clothes.jpg"
+            alt=""
+            src=""
           />
           <img
-            alt="education3.jpg"
-            src="education3.jpg"
+            alt=""
+            src=""
           />
           <img
-            alt="referrals.jpeg"
-            src="referrals.jpeg"
+            alt=""
+            src=""
           />
         </div>
         <div
@@ -130,40 +130,40 @@ exports[`Carousel renders correctly 1`] = `
         style="transform: translateX(-0%);"
       >
         <img
-          alt="food.jpg"
-          src="food.jpg"
+          alt=""
+          src=""
         />
         <img
-          alt="food3.jpg"
-          src="food3.jpg"
+          alt=""
+          src=""
         />
         <img
-          alt="hands.jpg"
-          src="hands.jpg"
+          alt=""
+          src=""
         />
         <img
-          alt="health.jpg"
-          src="health.jpg"
+          alt=""
+          src=""
         />
         <img
-          alt="hands2.jpg"
-          src="hands2.jpg"
+          alt=""
+          src=""
         />
         <img
-          alt="health2.jpg"
-          src="health2.jpg"
+          alt=""
+          src=""
         />
         <img
-          alt="clothes.jpg"
-          src="clothes.jpg"
+          alt=""
+          src=""
         />
         <img
-          alt="education3.jpg"
-          src="education3.jpg"
+          alt=""
+          src=""
         />
         <img
-          alt="referrals.jpeg"
-          src="referrals.jpeg"
+          alt=""
+          src=""
         />
       </div>
       <div

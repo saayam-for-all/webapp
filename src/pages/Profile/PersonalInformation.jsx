@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Select from "react-select";
 import { useTranslation } from "react-i18next";
+import Select from "react-select";
+import CountryList from "react-select-country-list";
+import { changeUiLanguage } from "../../common/i18n/utils";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
-import { changeUiLanguage } from "../../common/i18n/utils";
-import CountryList from "react-select-country-list";
+import { State, Country } from "country-state-city";
+import languagesData from "../../common/i18n/languagesData";
+
 
 const genderOptions = [
   { value: "Female", label: "Female" },
@@ -94,9 +97,32 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const countries = CountryList().getData();
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
   const [errors, setErrors] = useState({});
+
+  const [states, setStates] = useState([]);
+
+  const getLatestStatesList = (countryCodeSelected) => {
+    if (countryCodeSelected) {
+      const statesList = State.getStatesOfCountry(countryCodeSelected).map(
+        (state) => ({
+          value: state.isoCode,
+          label: state.name,
+        }),
+      );
+      setStates(statesList);
+    } else {
+      setStates([]);
+    }
+  };
+
+  const getCountryIsoCode = (countryName) => {
+    const country = Country.getAllCountries().find(
+      (c) => c.name.toLowerCase() === countryName.toLowerCase(),
+    );
+    return country ? country.isoCode : null;
+  };
+
   const [languages, setLanguages] = useState([]);
   const [locale, setLocale] = useState("en-US");
-  // Set initial values synchronously to ensure they're available on first render
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
 
@@ -105,7 +131,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       const { locale, dateFormat, placeholder } = await getLocaleAndFormat(
         personalInfo.country || "United States", // Default to "United States" if no country
       );
-      console.log("Setting placeholder:", placeholder); // Debug log
+      console.log("Setting placeholder:", placeholder);
       setLocale(locale);
       setDateFormat(dateFormat);
       setPlaceholder(placeholder);
@@ -123,23 +149,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           ? new Date(savedPersonalInfo.dateOfBirth)
           : null,
       });
+      // If savedInfo, need to set the State field.
+      getLatestStatesList(getCountryIsoCode(savedPersonalInfo.country));
     }
 
-    fetch("https://restcountries.com/v3.1/all")
-      .then((response) => response.json())
-      .then((data) => {
-        const languageSet = new Set();
-        data.forEach((country) => {
-          if (country.languages) {
-            Object.values(country.languages).forEach((language) =>
-              languageSet.add(language),
-            );
-          }
-        });
-        setLanguages(
-          Array.from(languageSet).map((lang) => ({ value: lang, label: lang })),
-        );
-      });
+    // Build languages options directly from languagesData.js (limits to the 10 available languages)
+    const languageOptions = languagesData.map((lang) => ({
+      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
+      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
+      label: lang.name,
+    }));
+    setLanguages(languageOptions);
   }, []);
 
   const handleInputChange = (name, value) => {
@@ -223,6 +243,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     }
 
     return error;
+  };
+
+  const handleSaveClick = () => {
+    setIsEditing(false);
+    localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
+    setHasUnsavedChanges(false);
+    // Call changeUiLanguage to update the UI based on the first language preference.
+    changeUiLanguage(personalInfo);
   };
 
   return (
@@ -366,6 +394,18 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 </p>
               )}
             </>
+              options={countries}
+              onChange={(selectedOption) => {
+                handleInputChange("country", selectedOption?.label || "");
+                // This will reset the selected State to "" otherwise it will create inconsistency if someone updates state and changes Country.
+                setPersonalInfo((prevInfo) => ({
+                  ...prevInfo,
+                  state: "",
+                }));
+                getLatestStatesList(selectedOption?.value || "");
+              }}
+              className="w-full"
+            />
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.country || ""}
@@ -393,6 +433,16 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 </p>
               )}
             </>
+            <Select
+              value={
+                states.find((option) => option.label === personalInfo.state) ||
+                null
+              }
+              options={states}
+              onChange={(selectedOption) => {
+                handleInputChange("state", selectedOption?.label || "");
+              }}
+            />
           ) : (
             <p className="text-lg text-gray-900">{personalInfo.state || ""}</p>
           )}
@@ -428,6 +478,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
       {/* Language Preferences */}
       <div className="grid grid-cols-3 gap-8 mb-6">
+        {/* Preference 1 - full list */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("FIRST_LANGUAGE_PREFERENCE")}
@@ -459,6 +510,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             </p>
           )}
         </div>
+        {/* Preference 2 - filter out languagePreference1 */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("SECOND_LANGUAGE_PREFERENCE")}
@@ -468,7 +520,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               value={languages.find(
                 (option) => option.value === personalInfo.languagePreference2,
               )}
-              options={languages}
+              options={languages.filter(
+                (option) => option.value !== personalInfo.languagePreference1,
+              )}
               onChange={(selectedOption) =>
                 handleInputChange(
                   "languagePreference2",
@@ -483,6 +537,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             </p>
           )}
         </div>
+        {/* Preference 3 - filter out languagePreference1 and languagePreference2 */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("THIRD_LANGUAGE_PREFERENCE")}
@@ -492,7 +547,11 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               value={languages.find(
                 (option) => option.value === personalInfo.languagePreference3,
               )}
-              options={languages}
+              options={languages.filter(
+                (option) =>
+                  option.value !== personalInfo.languagePreference1 &&
+                  option.value !== personalInfo.languagePreference2,
+              )}
               onChange={(selectedOption) =>
                 handleInputChange(
                   "languagePreference3",
@@ -617,6 +676,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 setHasUnsavedChanges(false);
                 changeUiLanguage(personalInfo);
               }}
+              onClick={handleSaveClick}
             >
               {t("SAVE")}
             </button>
@@ -625,6 +685,35 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               onClick={() => {
                 setIsEditing(false);
                 setErrors({});
+
+                const savedPersonalInfo = JSON.parse(
+                  localStorage.getItem("personalInfo"),
+                );
+                if (savedPersonalInfo) {
+                  setPersonalInfo({
+                    ...savedPersonalInfo,
+                    dateOfBirth: savedPersonalInfo.dateOfBirth
+                      ? new Date(savedPersonalInfo.dateOfBirth)
+                      : null,
+                  });
+                } else {
+                  setPersonalInfo({
+                    dateOfBirth: null,
+                    gender: "",
+                    streetAddress: "",
+                    streetAddress2: "",
+                    country: "",
+                    state: "",
+                    zipCode: "",
+                    languagePreference1: "",
+                    languagePreference2: "",
+                    languagePreference3: "",
+                    secondaryEmail: "",
+                    secondaryPhone: "",
+                    secondaryPhoneCountryCode: "US",
+                  });
+                }
+                setIsEditing(false);
               }}
             >
               {t("CANCEL")}

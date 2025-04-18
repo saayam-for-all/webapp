@@ -37,3 +37,8 @@ export const predictCategories = async (request) => {
   const response = await api.post(endpoints.PREDICT_CATEGORIES, request);
   return response.data;
 };
+
+export const GET_NOTIFICATIONS = async () => {
+  const response = await api.get(endpoints.GET_NOTIFICATIONS);
+  return response.data;
+};

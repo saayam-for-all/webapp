@@ -55,7 +55,7 @@ const RequestDetails = () => {
   const attributes = [
     {
       context: "Peter parker",
-      type: "Requester",
+      type: "Beneficiary",
       icon: <IoPersonCircle size={26} />,
     },
     {

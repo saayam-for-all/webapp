@@ -6,6 +6,7 @@ const Pagination = ({
   onPageChange,
   rowsPerPage,
   totalRows,
+  onRowsPerPageChange,
 }) => {
   const renderPageNumbers = () => {
     let pages = [];
@@ -108,14 +109,21 @@ const Pagination = ({
             {Math.min(currentPage * rowsPerPage, totalRows)} of {totalRows}{" "}
             entries
           </span>
-          {/* <div className="flex items-center ml-2">
-            <label htmlFor="rowsPerPage" className="mr-2">Rows per view:</label>
-            <select id="rowsPerPage" value={rowsPerPage} onChange={(e) => onRowsPerPageChange(Number(e.target.value))} className="border rounded px-2 py-1">
+          <div className="flex items-center ml-2">
+            <label htmlFor="rowsPerPage" className="mr-2">
+              Rows per view:
+            </label>
+            <select
+              id="rowsPerPage"
+              value={rowsPerPage}
+              onChange={(e) => onRowsPerPageChange(Number(e.target.value))}
+              className="border rounded px-2 py-1"
+            >
               <option value={5}>5 rows</option>
               <option value={10}>10 rows</option>
               <option value={20}>20 rows</option>
             </select>
-          </div> */}
+          </div>
         </div>
         <div className="flex items-center space-x-2">
           <button

@@ -9,7 +9,7 @@ exports[`Donate renders correctly 1`] = `
         class="donation-tab mt-20"
       >
         <h1
-          class="tect-center"
+          class="text-center"
         >
           mockTranslate(SCAN_ON_DONATE)
         </h1>
@@ -17,17 +17,29 @@ exports[`Donate renders correctly 1`] = `
           class="flex items-center justify-center mt-6"
         >
           <img
-            alt="qr"
-            src="QR.png"
+            alt="QR Code for Donation"
+            loading="lazy"
+            src=""
           />
         </div>
-        <a
-          class="btn btn-accent mt-6"
-          href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-          target="_blank"
+        <div
+          class="flex justify-center gap-4 mt-6"
         >
-          mockTranslate(DONATE)
-        </a>
+          <button
+            class="btn bg-blue-500 text-white hover:bg-blue-700"
+          >
+            mockTranslate(BACK)
+          </button>
+          <a
+            aria-label="Donate via PayPal"
+            class="btn btn-accent"
+            href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            mockTranslate(DONATE)
+          </a>
+        </div>
       </div>
     </div>
   </body>,
@@ -36,7 +48,7 @@ exports[`Donate renders correctly 1`] = `
       class="donation-tab mt-20"
     >
       <h1
-        class="tect-center"
+        class="text-center"
       >
         mockTranslate(SCAN_ON_DONATE)
       </h1>
@@ -44,17 +56,29 @@ exports[`Donate renders correctly 1`] = `
         class="flex items-center justify-center mt-6"
       >
         <img
-          alt="qr"
-          src="QR.png"
+          alt="QR Code for Donation"
+          loading="lazy"
+          src=""
         />
       </div>
-      <a
-        class="btn btn-accent mt-6"
-        href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-        target="_blank"
+      <div
+        class="flex justify-center gap-4 mt-6"
       >
-        mockTranslate(DONATE)
-      </a>
+        <button
+          class="btn bg-blue-500 text-white hover:bg-blue-700"
+        >
+          mockTranslate(BACK)
+        </button>
+        <a
+          aria-label="Donate via PayPal"
+          class="btn btn-accent"
+          href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          mockTranslate(DONATE)
+        </a>
+      </div>
     </div>
   </div>,
   "debug": [Function],
