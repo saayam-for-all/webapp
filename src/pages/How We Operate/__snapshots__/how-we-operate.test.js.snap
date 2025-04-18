@@ -26,7 +26,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                 <img
                   alt="how we operate"
                   class="h-96 mt-5"
-                  src="howWeOperate.jpeg"
+                  src=""
                 />
               </a>
             </div>
@@ -121,7 +121,7 @@ exports[`HowWeOperate renders correctly 1`] = `
               <img
                 alt="how we operate"
                 class="h-96 mt-5"
-                src="howWeOperate.jpeg"
+                src=""
               />
             </a>
           </div>

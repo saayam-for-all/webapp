@@ -21,7 +21,7 @@ exports[`Mission renders correctly 1`] = `
               <img
                 alt="mission"
                 class="w-[300rem] h-80 mt-5"
-                src="mission.png"
+                src=""
               />
             </div>
             <p
@@ -51,7 +51,7 @@ exports[`Mission renders correctly 1`] = `
             <img
               alt="mission"
               class="w-[300rem] h-80 mt-5"
-              src="mission.png"
+              src=""
             />
           </div>
           <p
