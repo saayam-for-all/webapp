@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import YourProfile from "./YourProfile";
 import PersonalInformation from "./PersonalInformation";
 import ChangePassword from "./ChangePassword";
@@ -9,6 +10,7 @@ import Skills from "./Skills";
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
 function Profile() {
+  const navigate = useNavigate();
   const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
   const [tempProfilePhoto, setTempProfilePhoto] =
     useState(DEFAULT_PROFILE_ICON);
@@ -24,9 +26,7 @@ function Profile() {
     }
   }, []);
 
-  // Broadcast hasUnsavedChanges status to the rest of the application
   useEffect(() => {
-    // Create a custom event to notify other components about unsaved changes
     const event = new CustomEvent("unsaved-changes", {
       detail: { hasUnsavedChanges },
     });
@@ -76,7 +76,6 @@ function Profile() {
   };
 
   const openModal = () => {
-    // Check for unsaved changes before opening the photo modal
     if (hasUnsavedChanges) {
       const proceed = window.confirm(
         "You have unsaved changes in your profile. Do you want to proceed without saving?",
@@ -113,6 +112,17 @@ function Profile() {
 
   return (
     <div className="flex flex-col items-center p-4 min-h-screen bg-gray-100">
+      {/* ✅ Back Button */}
+      <div className="w-full max-w-6xl mb-4">
+        <button
+          onClick={() => navigate("/")}
+          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+        >
+          <span className="text-2xl mr-2">&lt;</span> Back to Home
+        </button>
+      </div>
+
+      {/* Main Profile Layout */}
       <div className="flex w-full max-w-6xl bg-white rounded-lg shadow-lg">
         <Sidebar
           profilePhoto={profilePhoto}
@@ -122,6 +132,8 @@ function Profile() {
         />
         <div className="w-3/4 p-6">{renderTabContent()}</div>
       </div>
+
+      {/* Modal for Profile Photo */}
       {isModalOpen && (
         <Modal
           profilePhoto={tempProfilePhoto}

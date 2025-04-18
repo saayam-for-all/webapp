@@ -122,31 +122,39 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             </svg>
             mockTranslate(DONATE)
           </mock-nav-link>
-          <button
-            class="font-semibold flex flex-col items-center"
-            id="notificationButton"
-            style="display: flex;"
+          <mock-nav-link
+            props="{"id":"notificationButton","className":"font-semibold flex flex-col items-center"}"
+            to="/notifications"
           >
-            <svg
-              class="mr-1 text-xl"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 512 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              class="relative"
             >
-              <path
-                d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 0 1-128 0v-16"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="32"
-              />
-            </svg>
+              <svg
+                class="mr-1 text-xl"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 0 1-128 0v-16"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="32"
+                />
+              </svg>
+              <span
+                class="absolute -top-1 right-0 bg-red-600 text-white text-xs px-1 rounded-full"
+              >
+                5
+              </span>
+            </div>
             mockTranslate(NOTIFICATIONS)
-          </button>
+          </mock-nav-link>
           <div
             class="relative flex flex-col items-center"
           >
@@ -282,31 +290,39 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           </svg>
           mockTranslate(DONATE)
         </mock-nav-link>
-        <button
-          class="font-semibold flex flex-col items-center"
-          id="notificationButton"
-          style="display: flex;"
+        <mock-nav-link
+          props="{"id":"notificationButton","className":"font-semibold flex flex-col items-center"}"
+          to="/notifications"
         >
-          <svg
-            class="mr-1 text-xl"
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 512 512"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
+          <div
+            class="relative"
           >
-            <path
-              d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 0 1-128 0v-16"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-            />
-          </svg>
+            <svg
+              class="mr-1 text-xl"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 512 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 0 1-128 0v-16"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="32"
+              />
+            </svg>
+            <span
+              class="absolute -top-1 right-0 bg-red-600 text-white text-xs px-1 rounded-full"
+            >
+              5
+            </span>
+          </div>
           mockTranslate(NOTIFICATIONS)
-        </button>
+        </mock-nav-link>
         <div
           class="relative flex flex-col items-center"
         >
@@ -506,31 +522,34 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             </svg>
             mockTranslate(DONATE)
           </mock-nav-link>
-          <button
-            class="font-semibold flex flex-col items-center"
-            id="notificationButton"
-            style="display: none;"
+          <mock-nav-link
+            props="{"id":"notificationButton","className":"font-semibold flex flex-col items-center"}"
+            to="/notifications"
           >
-            <svg
-              class="mr-1 text-xl"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 512 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              class="relative"
             >
-              <path
-                d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 0 1-128 0v-16"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="32"
-              />
-            </svg>
+              <svg
+                class="mr-1 text-xl"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 0 1-128 0v-16"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="32"
+                />
+              </svg>
+            </div>
             mockTranslate(NOTIFICATIONS)
-          </button>
+          </mock-nav-link>
           <mock-nav-link
             props="{"className":"font-semibold flex flex-col items-center","id":"loginButton"}"
             to="/login"
@@ -684,31 +703,34 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
           </svg>
           mockTranslate(DONATE)
         </mock-nav-link>
-        <button
-          class="font-semibold flex flex-col items-center"
-          id="notificationButton"
-          style="display: none;"
+        <mock-nav-link
+          props="{"id":"notificationButton","className":"font-semibold flex flex-col items-center"}"
+          to="/notifications"
         >
-          <svg
-            class="mr-1 text-xl"
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 512 512"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
+          <div
+            class="relative"
           >
-            <path
-              d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 0 1-128 0v-16"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-            />
-          </svg>
+            <svg
+              class="mr-1 text-xl"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 512 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 0 1-128 0v-16"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="32"
+              />
+            </svg>
+          </div>
           mockTranslate(NOTIFICATIONS)
-        </button>
+        </mock-nav-link>
         <mock-nav-link
           props="{"className":"font-semibold flex flex-col items-center","id":"loginButton"}"
           to="/login"

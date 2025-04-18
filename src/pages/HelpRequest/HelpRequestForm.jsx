@@ -150,8 +150,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         // Proceed with submitting the request if no profanity is found
 
         await fetchPredictedCategories();
-
-        setShowModal(true);
+        if (formData.category == "General") {
+          setShowModal(true);
+        }
         // const response = await axios.post(
         //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
         //   submissionData,
@@ -162,6 +163,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         //     },
         //   }
         // );
+        else {
+          toast.success(
+            "Request submitted successfully! You will now be redirected to the dashboard.",
+            {
+              position: "top-center", // You can customize the position
+              autoClose: 2000, // Toast auto-closes after 2 seconds
+              hideProgressBar: true, // Optional: Hide progress bar
+            },
+          );
+
+          // Redirect to the dashboard after a short delay
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 2000);
+        }
       }
     } catch (error) {
       console.error("Failed to process request:", error);
@@ -303,6 +319,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     <div className="">
       <ToastContainer />
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
+        <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+          <button
+            onClick={() => navigate("/")}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> Back to Home
+          </button>
+        </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
@@ -347,20 +371,34 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               >
                 {t("Lead Volunteer")}
               </label>
-              <input
-                type="text"
-                id="lead_volunteer"
-                name="lead_volunteer"
-                disabled={
-                  !(
-                    groups?.includes("Admins") ||
-                    groups?.includes("SuperAdmins")
-                  )
-                }
-                value={formData.lead_volunteer}
-                onChange={handleChange}
-                className="border p-2 w-full rounded-lg disabled:text-gray-400"
-              />
+
+              {isEdit ? (
+                <input
+                  type="text"
+                  id="lead_volunteer"
+                  name="lead_volunteer"
+                  disabled={
+                    !(
+                      groups?.includes("Admins") ||
+                      groups?.includes("SuperAdmins")
+                    )
+                  }
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg disabled:text-gray-400"
+                />
+              ) : (
+                <select
+                  id="lead_volunteer"
+                  name="lead_volunteer"
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg text-gray-700"
+                >
+                  <option value=""></option>
+                  <option value="for_self">{t("For Self")}</option>
+                </select>
+              )}
             </div>
           </div>
           {/* 
