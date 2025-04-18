@@ -19,7 +19,7 @@ exports[`Donate renders correctly 1`] = `
           <img
             alt="QR Code for Donation"
             loading="lazy"
-            src="QR.png"
+            src=""
           />
         </div>
         <div
@@ -58,7 +58,7 @@ exports[`Donate renders correctly 1`] = `
         <img
           alt="QR Code for Donation"
           loading="lazy"
-          src="QR.png"
+          src=""
         />
       </div>
       <div

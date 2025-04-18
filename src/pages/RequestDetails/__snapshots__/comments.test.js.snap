@@ -16,7 +16,7 @@ exports[`Comments renders correctly 1`] = `
           >
             <img
               class="mr-2 w-8 h-8 rounded-full"
-              src="avatar.jpg"
+              src=""
             />
             <p
               class="text-sm text-gray-900 font-semibold"
@@ -48,7 +48,7 @@ exports[`Comments renders correctly 1`] = `
         >
           <img
             class="mr-2 w-8 h-8 rounded-full"
-            src="avatar.jpg"
+            src=""
           />
           <p
             class="text-sm text-gray-900 font-semibold"
