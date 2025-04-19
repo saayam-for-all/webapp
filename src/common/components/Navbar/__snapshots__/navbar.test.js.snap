@@ -28,8 +28,9 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           <div
             class="dropdown"
           >
-            <button
-              class="font-semibold flex flex-col items-center "
+            <mock-nav-link
+              props="{"className":"font-semibold flex flex-col items-center"}"
+              to="/about-us"
             >
               <svg
                 class="mr-1 text-xl"
@@ -70,37 +71,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 />
               </svg>
               mockTranslate(ABOUT)
-            </button>
-            <ul
-              class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden"
-              tabindex="0"
-            >
-              <li>
-                <a>
-                  mockTranslate(DIRECTORS)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(HOW_WE_OPERATE)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(CONTACT)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(MISSION)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(VISION)
-                </a>
-              </li>
-            </ul>
+            </mock-nav-link>
           </div>
           <mock-nav-link
             props="{"className":"font-semibold flex flex-col items-center"}"
@@ -196,8 +167,9 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
         <div
           class="dropdown"
         >
-          <button
-            class="font-semibold flex flex-col items-center "
+          <mock-nav-link
+            props="{"className":"font-semibold flex flex-col items-center"}"
+            to="/about-us"
           >
             <svg
               class="mr-1 text-xl"
@@ -238,37 +210,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               />
             </svg>
             mockTranslate(ABOUT)
-          </button>
-          <ul
-            class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden"
-            tabindex="0"
-          >
-            <li>
-              <a>
-                mockTranslate(DIRECTORS)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(HOW_WE_OPERATE)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(CONTACT)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(MISSION)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(VISION)
-              </a>
-            </li>
-          </ul>
+          </mock-nav-link>
         </div>
         <mock-nav-link
           props="{"className":"font-semibold flex flex-col items-center"}"
@@ -428,8 +370,9 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
           <div
             class="dropdown"
           >
-            <button
-              class="font-semibold flex flex-col items-center "
+            <mock-nav-link
+              props="{"className":"font-semibold flex flex-col items-center"}"
+              to="/about-us"
             >
               <svg
                 class="mr-1 text-xl"
@@ -470,37 +413,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                 />
               </svg>
               mockTranslate(ABOUT)
-            </button>
-            <ul
-              class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden"
-              tabindex="0"
-            >
-              <li>
-                <a>
-                  mockTranslate(DIRECTORS)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(HOW_WE_OPERATE)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(CONTACT)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(MISSION)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(VISION)
-                </a>
-              </li>
-            </ul>
+            </mock-nav-link>
           </div>
           <mock-nav-link
             props="{"className":"font-semibold flex flex-col items-center"}"
@@ -609,8 +522,9 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
         <div
           class="dropdown"
         >
-          <button
-            class="font-semibold flex flex-col items-center "
+          <mock-nav-link
+            props="{"className":"font-semibold flex flex-col items-center"}"
+            to="/about-us"
           >
             <svg
               class="mr-1 text-xl"
@@ -651,37 +565,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               />
             </svg>
             mockTranslate(ABOUT)
-          </button>
-          <ul
-            class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden"
-            tabindex="0"
-          >
-            <li>
-              <a>
-                mockTranslate(DIRECTORS)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(HOW_WE_OPERATE)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(CONTACT)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(MISSION)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(VISION)
-              </a>
-            </li>
-          </ul>
+          </mock-nav-link>
         </div>
         <mock-nav-link
           props="{"className":"font-semibold flex flex-col items-center"}"

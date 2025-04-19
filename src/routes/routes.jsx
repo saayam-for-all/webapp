@@ -19,6 +19,7 @@ import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
 import SignUp from "../pages/Auth/Signup";
 import OTPVerification from "../pages/Auth/VerifyOtp";
 import Notifications from "../pages/Notifications/Notifications";
+import AboutUs from "../pages/About Us/AboutUs";
 
 const routes = [
   {
@@ -52,6 +53,10 @@ const routes = [
   {
     path: "notifications",
     element: <Notifications />,
+  },
+  {
+    path: "about-us",
+    element: <AboutUs />,
   },
   {
     element: <ProtectedRoute />, // Parent wrapper for protected routes
