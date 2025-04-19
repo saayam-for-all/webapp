@@ -9,7 +9,7 @@ import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
 import RaoImg from "../../assets/images/Rao.jpeg";
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 const DirectorsData = [
   {
     name: "Rao K Bhethanabotla",
