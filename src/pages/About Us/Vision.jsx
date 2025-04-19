@@ -4,8 +4,16 @@ export function Vision() {
       <div className="max-w-[1100px] mx-auto flex justify-between items-start px-4 gap-2">
         {/* Left Text Block */}
         <div className="w-[42%]">
-          <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
-          <p className="text-gray-700 text-base leading-relaxed">
+          <h2
+            className="text-2xl font-bold mb-4"
+            style={{ fontFamily: "Josefin Sans" }}
+          >
+            Our Vision
+          </h2>
+          <p
+            className="text-gray-700 text-base leading-relaxed"
+            style={{ fontFamily: "Josefin Sans" }}
+          >
             Our vision is to cultivate a community where the ethos of "Manava
             Sevaye Madhava Seva" (Service to mankind is Service to God) and
             "Sarve jana sukhino bhavantu" (May all live happily) guides our
