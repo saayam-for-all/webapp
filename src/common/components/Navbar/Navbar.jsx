@@ -273,33 +273,20 @@ const Navbar = () => {
 
       <div className="navbar-end gap-10">
         <div className="dropdown">
-          <button
+          {/* <button
             className={`font-semibold flex flex-col items-center ${isDropdownOpen ? "active" : ""}`}
             onClick={handleDropdownClick}
           >
             <IoPeopleOutline className="mr-1 text-xl" />
             {t("ABOUT")}
-          </button>
-          <ul
-            tabIndex={0}
-            className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${isDropdownOpen ? "block" : "hidden"}`}
+          </button> */}
+          <NavLink
+            to="/about-us"
+            className="font-semibold flex flex-col items-center"
           >
-            <li onClick={(e) => handleDropdownItemClick(e, "/directors")}>
-              <a>{t("DIRECTORS")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/how-we-operate")}>
-              <a>{t("HOW_WE_OPERATE")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/contact")}>
-              <a>{t("CONTACT")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/mission")}>
-              <a>{t("MISSION")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/vision")}>
-              <a>{t("VISION")}</a>
-            </li>
-          </ul>
+            <IoPeopleOutline className="mr-1 text-xl" />
+            {t("ABOUT")}
+          </NavLink>
         </div>
 
         <NavLink
