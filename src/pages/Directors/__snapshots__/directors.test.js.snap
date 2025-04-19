@@ -5,9 +5,297 @@ exports[`Directors renders correctly 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div>
+      <div
+        class="py-5"
+      >
+        <section>
+          <h1
+            class="text-center text-3xl font-bold text-black"
+          >
+            mockTranslate(DIRECTORS)
+          </h1>
+          <p
+            class="text-center text-lg text-gray-600 my-4"
+          >
+            mockTranslate(DIRECTORS_DESCRIPTION)
+          </p>
+          <div
+            class="directors flex items-center justify-center flex-wrap gap-10 my-20"
+          >
+            <div
+              class=""
+            >
+              <div>
+                <img
+                  alt="Rao K Bhethanabotla"
+                  class="rounded-2xl shadow-lg"
+                  height="400"
+                  src=""
+                  width="300"
+                />
+              </div>
+              <div
+                class="text-left self-start w-full px-6"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/raobhethanabotla"
+                    target="_blank"
+                  >
+                    Rao K Bhethanabotla
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Founder, CEO, CTO, President
+                </h3>
+              </div>
+            </div>
+            <div
+              class=""
+            >
+              <div>
+                <img
+                  alt="Ramesh Maturu"
+                  class="rounded-2xl shadow-lg"
+                  height="400"
+                  src=""
+                  width="300"
+                />
+              </div>
+              <div
+                class="text-left self-start w-full px-6"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/rameshmaturu/"
+                    target="_blank"
+                  >
+                    Ramesh Maturu
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director
+                </h3>
+              </div>
+            </div>
+            <div
+              class=""
+            >
+              <div>
+                <img
+                  alt="Rao Panuganti"
+                  class="rounded-2xl shadow-lg"
+                  height="400"
+                  src=""
+                  width="300"
+                />
+              </div>
+              <div
+                class="text-left self-start w-full px-6"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/rao-panuganti-654443/"
+                    target="_blank"
+                  >
+                    Rao Panuganti
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director
+                </h3>
+              </div>
+            </div>
+            <div
+              class=""
+            >
+              <div>
+                <img
+                  alt="Naveen Sharma"
+                  class="rounded-2xl shadow-lg"
+                  height="400"
+                  src=""
+                  width="300"
+                />
+              </div>
+              <div
+                class="text-left self-start w-full px-6"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/nsharma2/"
+                    target="_blank"
+                  >
+                    Naveen Sharma
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director
+                </h3>
+              </div>
+            </div>
+            <div
+              class=""
+            >
+              <div>
+                <img
+                  alt="Rajeshwary Jaldu"
+                  class="rounded-2xl shadow-lg"
+                  height="400"
+                  src=""
+                  width="300"
+                />
+              </div>
+              <div
+                class="text-left self-start w-full px-6"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/rajeshwary-jaldu/"
+                    target="_blank"
+                  >
+                    Rajeshwary Jaldu
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director & Treasurer
+                </h3>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="py-20"
+        >
+          <h1
+            class="text-center text-3xl font-bold text-black"
+          >
+            mockTranslate(ADVISORS)
+          </h1>
+          <p
+            class="text-center text-lg text-gray-600 my-4"
+          >
+            mockTranslate(ADVISORS_DESCRIPTION)
+          </p>
+          <div
+            class="flex items-center justify-center flex-wrap gap-10 my-20"
+          >
+            <div
+              class=""
+            >
+              <img
+                alt="Madhukar Govindaraju"
+                class="object-cover aspect-[2.5/3] rounded-xl"
+                src=""
+                width="250"
+              />
+              <div
+                class="text-left self-start"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/madhukar/"
+                    target="_blank"
+                  >
+                    Madhukar Govindaraju
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Advisor
+                </h3>
+              </div>
+            </div>
+            <div
+              class=""
+            >
+              <img
+                alt="Sateesh Mucharla"
+                class="object-cover aspect-[2.5/3] rounded-xl"
+                src=""
+                width="250"
+              />
+              <div
+                class="text-left self-start"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/mucharla"
+                    target="_blank"
+                  >
+                    Sateesh Mucharla
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Advisor
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center"
+          >
+            <h1
+              class="text-center text-3xl font-bold text-black"
+            >
+              mockTranslate(Looking to join us?)
+            </h1>
+            <p
+              class="text-center text-lg text-gray-600 my-4"
+            >
+              mockTranslate(Chat with our community and get in touch with our team!)
+            </p>
+            <button
+              class="text-center bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-2 rounded-2xl"
+            >
+              Join the community
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="py-5"
+    >
+      <section>
         <h1
-          class="text-center text-3xl font-bold"
+          class="text-center text-3xl font-bold text-black"
         >
           mockTranslate(DIRECTORS)
         </h1>
@@ -17,15 +305,15 @@ exports[`Directors renders correctly 1`] = `
           mockTranslate(DIRECTORS_DESCRIPTION)
         </p>
         <div
-          class="directors flex items-center justify-center flex-wrap gap-10"
+          class="directors flex items-center justify-center flex-wrap gap-10 my-20"
         >
           <div
-            class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
+            class=""
           >
             <div>
               <img
                 alt="Rao K Bhethanabotla"
-                class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
+                class="rounded-2xl shadow-lg"
                 height="400"
                 src=""
                 width="300"
@@ -53,12 +341,12 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
+            class=""
           >
             <div>
               <img
                 alt="Ramesh Maturu"
-                class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
+                class="rounded-2xl shadow-lg"
                 height="400"
                 src=""
                 width="300"
@@ -86,12 +374,12 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
+            class=""
           >
             <div>
               <img
                 alt="Rao Panuganti"
-                class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
+                class="rounded-2xl shadow-lg"
                 height="400"
                 src=""
                 width="300"
@@ -119,12 +407,12 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
+            class=""
           >
             <div>
               <img
                 alt="Naveen Sharma"
-                class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
+                class="rounded-2xl shadow-lg"
                 height="400"
                 src=""
                 width="300"
@@ -152,12 +440,12 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
+            class=""
           >
             <div>
               <img
                 alt="Rajeshwary Jaldu"
-                class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
+                class="rounded-2xl shadow-lg"
                 height="400"
                 src=""
                 width="300"
@@ -185,190 +473,104 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div>
-      <h1
-        class="text-center text-3xl font-bold"
+      </section>
+      <section
+        class="py-20"
       >
-        mockTranslate(DIRECTORS)
-      </h1>
-      <p
-        class="text-center text-lg text-gray-600 my-4"
-      >
-        mockTranslate(DIRECTORS_DESCRIPTION)
-      </p>
-      <div
-        class="directors flex items-center justify-center flex-wrap gap-10"
-      >
-        <div
-          class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
+        <h1
+          class="text-center text-3xl font-bold text-black"
         >
-          <div>
+          mockTranslate(ADVISORS)
+        </h1>
+        <p
+          class="text-center text-lg text-gray-600 my-4"
+        >
+          mockTranslate(ADVISORS_DESCRIPTION)
+        </p>
+        <div
+          class="flex items-center justify-center flex-wrap gap-10 my-20"
+        >
+          <div
+            class=""
+          >
             <img
-              alt="Rao K Bhethanabotla"
-              class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
-              height="400"
+              alt="Madhukar Govindaraju"
+              class="object-cover aspect-[2.5/3] rounded-xl"
               src=""
-              width="300"
+              width="250"
             />
+            <div
+              class="text-left self-start"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/madhukar/"
+                  target="_blank"
+                >
+                  Madhukar Govindaraju
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Advisor
+              </h3>
+            </div>
           </div>
           <div
-            class="text-left self-start w-full px-6"
+            class=""
           >
-            <h2
-              class="flex gap-2 mt-5"
+            <img
+              alt="Sateesh Mucharla"
+              class="object-cover aspect-[2.5/3] rounded-xl"
+              src=""
+              width="250"
+            />
+            <div
+              class="text-left self-start"
             >
-              <a
-                class="text-black font-bold text-xl"
-                href="https://www.linkedin.com/in/raobhethanabotla"
-                target="_blank"
+              <h2
+                class="flex gap-2 mt-5"
               >
-                Rao K Bhethanabotla
-              </a>
-            </h2>
-            <h3
-              class="flex gap-2"
-            >
-              Founder, CEO, CTO, President
-            </h3>
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/mucharla"
+                  target="_blank"
+                >
+                  Sateesh Mucharla
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Advisor
+              </h3>
+            </div>
           </div>
         </div>
         <div
-          class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
+          class="flex flex-col items-center"
         >
-          <div>
-            <img
-              alt="Ramesh Maturu"
-              class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
-              height="400"
-              src=""
-              width="300"
-            />
-          </div>
-          <div
-            class="text-left self-start w-full px-6"
+          <h1
+            class="text-center text-3xl font-bold text-black"
           >
-            <h2
-              class="flex gap-2 mt-5"
-            >
-              <a
-                class="text-black font-bold text-xl"
-                href="https://www.linkedin.com/in/rameshmaturu/"
-                target="_blank"
-              >
-                Ramesh Maturu
-              </a>
-            </h2>
-            <h3
-              class="flex gap-2"
-            >
-              Director
-            </h3>
-          </div>
-        </div>
-        <div
-          class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
-        >
-          <div>
-            <img
-              alt="Rao Panuganti"
-              class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
-              height="400"
-              src=""
-              width="300"
-            />
-          </div>
-          <div
-            class="text-left self-start w-full px-6"
+            mockTranslate(Looking to join us?)
+          </h1>
+          <p
+            class="text-center text-lg text-gray-600 my-4"
           >
-            <h2
-              class="flex gap-2 mt-5"
-            >
-              <a
-                class="text-black font-bold text-xl"
-                href="https://www.linkedin.com/in/rao-panuganti-654443/"
-                target="_blank"
-              >
-                Rao Panuganti
-              </a>
-            </h2>
-            <h3
-              class="flex gap-2"
-            >
-              Director
-            </h3>
-          </div>
-        </div>
-        <div
-          class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
-        >
-          <div>
-            <img
-              alt="Naveen Sharma"
-              class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
-              height="400"
-              src=""
-              width="300"
-            />
-          </div>
-          <div
-            class="text-left self-start w-full px-6"
+            mockTranslate(Chat with our community and get in touch with our team!)
+          </p>
+          <button
+            class="text-center bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-2 rounded-2xl"
           >
-            <h2
-              class="flex gap-2 mt-5"
-            >
-              <a
-                class="text-black font-bold text-xl"
-                href="https://www.linkedin.com/in/nsharma2/"
-                target="_blank"
-              >
-                Naveen Sharma
-              </a>
-            </h2>
-            <h3
-              class="flex gap-2"
-            >
-              Director
-            </h3>
-          </div>
+            Join the community
+          </button>
         </div>
-        <div
-          class="director h-[500px] w-[350px] flex flex-col items-center justify-center text-center hover:shadow-2xl hover:scale-110 transition-transform duration-500 ease-in-out rounded-xl"
-        >
-          <div>
-            <img
-              alt="Rajeshwary Jaldu"
-              class="rounded-lg hover:rounded-2xl transition-all shadow-lg"
-              height="400"
-              src=""
-              width="300"
-            />
-          </div>
-          <div
-            class="text-left self-start w-full px-6"
-          >
-            <h2
-              class="flex gap-2 mt-5"
-            >
-              <a
-                class="text-black font-bold text-xl"
-                href="https://www.linkedin.com/in/rajeshwary-jaldu/"
-                target="_blank"
-              >
-                Rajeshwary Jaldu
-              </a>
-            </h2>
-            <h3
-              class="flex gap-2"
-            >
-              Director & Treasurer
-            </h3>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
   </div>,
   "debug": [Function],
