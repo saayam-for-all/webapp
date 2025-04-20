@@ -80,6 +80,11 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   props="{"name":"directors"}"
                   to="/our-team"
                 >
+                  <img
+                    alt="Team"
+                    class="w-5 h-5"
+                    src=""
+                  />
                   mockTranslate(Our Team)
                 </mock-nav-link>
               </li>
@@ -88,6 +93,11 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   props="{"name":"our-mission"}"
                   to="/our-mission"
                 >
+                  <img
+                    alt="Mission"
+                    class="w-5 h-5"
+                    src=""
+                  />
                   mockTranslate(Our Mission)
                 </mock-nav-link>
               </li>
@@ -239,6 +249,11 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 props="{"name":"directors"}"
                 to="/our-team"
               >
+                <img
+                  alt="Team"
+                  class="w-5 h-5"
+                  src=""
+                />
                 mockTranslate(Our Team)
               </mock-nav-link>
             </li>
@@ -247,6 +262,11 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 props="{"name":"our-mission"}"
                 to="/our-mission"
               >
+                <img
+                  alt="Mission"
+                  class="w-5 h-5"
+                  src=""
+                />
                 mockTranslate(Our Mission)
               </mock-nav-link>
             </li>
@@ -462,6 +482,11 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                   props="{"name":"directors"}"
                   to="/our-team"
                 >
+                  <img
+                    alt="Team"
+                    class="w-5 h-5"
+                    src=""
+                  />
                   mockTranslate(Our Team)
                 </mock-nav-link>
               </li>
@@ -470,6 +495,11 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                   props="{"name":"our-mission"}"
                   to="/our-mission"
                 >
+                  <img
+                    alt="Mission"
+                    class="w-5 h-5"
+                    src=""
+                  />
                   mockTranslate(Our Mission)
                 </mock-nav-link>
               </li>
@@ -634,6 +664,11 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                 props="{"name":"directors"}"
                 to="/our-team"
               >
+                <img
+                  alt="Team"
+                  class="w-5 h-5"
+                  src=""
+                />
                 mockTranslate(Our Team)
               </mock-nav-link>
             </li>
@@ -642,6 +677,11 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                 props="{"name":"our-mission"}"
                 to="/our-mission"
               >
+                <img
+                  alt="Mission"
+                  class="w-5 h-5"
+                  src=""
+                />
                 mockTranslate(Our Mission)
               </mock-nav-link>
             </li>
