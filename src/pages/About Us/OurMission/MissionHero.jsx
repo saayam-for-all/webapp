@@ -1,6 +1,6 @@
 import "@fontsource/poppins";
 
-export function AboutHero() {
+export function MissionHero() {
   return (
     <section className="flex justify-center items-center py-10 bg-white">
       <div className="w-[945px] rounded-[20px] p-6 border border-blue-200 text-center shadow-md">
