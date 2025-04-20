@@ -15,6 +15,8 @@ import "./NavBar.css";
 import { logout } from "../../../redux/features/authentication/authActions";
 import { GET_NOTIFICATIONS } from "../../../services/requestServices";
 import { useNotifications } from "../../../context/NotificationContext";
+import OurTeamIcon from "../../../assets/Our_Team_SVG.svg";
+import OurMissionIcon from "../../../assets/Our_Mission.svg";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -287,11 +289,13 @@ const Navbar = () => {
           >
             <li>
               <NavLink to="/our-team" name="directors">
+                <img src={OurTeamIcon} alt="Team" className="w-5 h-5" />
                 {t("Our Team")}
               </NavLink>
             </li>
             <li>
               <NavLink to="/our-mission" name="our-mission">
+                <img src={OurMissionIcon} alt="Mission" className="w-5 h-5" />
                 {t("Our Mission")}
               </NavLink>
             </li>
