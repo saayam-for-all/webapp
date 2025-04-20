@@ -1,12 +1,12 @@
-import { AboutHero } from "./AboutHero";
+import { MissionHero } from "./MissionHero";
 import { Mission } from "./Mission";
 import { Vision } from "./Vision";
 import { JoinCTA } from "./JoinCTA";
 
-export default function AboutPage() {
+export default function OurMission() {
   return (
     <>
-      <AboutHero />
+      <MissionHero />
       <Mission />
       <Vision />
       <JoinCTA />
