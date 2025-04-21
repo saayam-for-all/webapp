@@ -1,3 +1,70 @@
+.landing-title {
+  font-size: 100px;
+  color: rgb(171, 171, 171);
+  opacity: 0.8;
+  font-weight: 700;
+  margin-bottom: -20px;
+}
+.landing-subtitle {
+  color: rgb(198, 197, 197);
+  width: fit-content;
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+.video-section {
+  background-color: #fff; /* Match the background color of other sections */
+  overflow: hidden;
+  max-width: 100%;
+  height: calc(100vh - 100px);
+}
+
+.video-wrapper {
+  width: 300%;
+  left: -100%;
+  pointer-events: none;
+  position: relative;
+  padding-bottom: 85%; /* 16:9 aspect ratio (9 ÷ 16 = 0.5625 or 56.25%) */
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  height: 75%;
+  border-radius: 10px; /* Optional: match the border-radius of other sections */
+  pointer-events: none;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  pointer-events: auto;
+}
+
+/* .video-overlay button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.2rem;
+  background: #ffffffcc;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.video-overlay button:hover {
+  background: #fff;
+} */
+
 /* Extra small devices (phones, 600px and down)
 @media only screen and (max-width: 600px) {
     .poster_image {

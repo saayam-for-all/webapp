@@ -1,20 +1,20 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Hub } from "aws-amplify/utils";
-import { useDispatch, useSelector } from "react-redux";
+import { BiDonateHeart } from "react-icons/bi";
 import {
-  IoPeopleOutline,
   IoLogInOutline,
   IoNotificationsOutline,
+  IoPeopleOutline,
 } from "react-icons/io5";
-import { BiDonateHeart } from "react-icons/bi";
-import LOGO from "../../../assets/logo.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
-import "./NavBar.css";
-import { logout } from "../../../redux/features/authentication/authActions";
-import { GET_NOTIFICATIONS } from "../../../services/requestServices";
+import LOGO from "../../../assets/logo.svg";
+import OurMissionIcon from "../../../assets/Our_Mission.svg";
+import OurTeamIcon from "../../../assets/Our_Team_SVG.svg";
 import { useNotifications } from "../../../context/NotificationContext";
+import { logout } from "../../../redux/features/authentication/authActions";
+import "./NavBar.css";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -283,21 +283,19 @@ const Navbar = () => {
           <ul
             tabIndex={0}
             className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${isDropdownOpen ? "block" : "hidden"}`}
+            onClick={handleLinkClick}
           >
-            <li onClick={(e) => handleDropdownItemClick(e, "/directors")}>
-              <a>{t("DIRECTORS")}</a>
+            <li>
+              <NavLink to="/directors" name="directors">
+                <img src={OurTeamIcon} alt="Team" className="w-5 h-5" />
+                {t("Our Team")}
+              </NavLink>
             </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/how-we-operate")}>
-              <a>{t("HOW_WE_OPERATE")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/contact")}>
-              <a>{t("CONTACT")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/mission")}>
-              <a>{t("MISSION")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/vision")}>
-              <a>{t("VISION")}</a>
+            <li>
+              <NavLink to="/our-mission" name="our-mission">
+                <img src={OurMissionIcon} alt="Mission" className="w-5 h-5" />
+                {t("Our Mission")}
+              </NavLink>
             </li>
           </ul>
         </div>
