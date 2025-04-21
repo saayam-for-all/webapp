@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Hub } from "aws-amplify/utils";
+// import { Hub } from "aws-amplify/utils";
 import { useDispatch, useSelector } from "react-redux";
 import {
   IoPeopleOutline,
