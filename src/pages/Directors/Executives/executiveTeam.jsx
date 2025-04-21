@@ -1,5 +1,5 @@
 // import { Typography, Box } from "@mui/material";
-import executiveTeamData from "../data/ExecutiveTeam";
+import executiveTeamData from "../data/executiveTeam";
 import { useTranslation } from "react-i18next";
 
 const ExecutiveTeam = () => {
