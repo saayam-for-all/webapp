@@ -10,13 +10,15 @@ import RaoImg from "../../assets/images/Rao.jpeg";
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
 import { useNavigate } from "react-router-dom";
+import ExecutiveTeam from "./Executives/executiveTeam";
+
 const DirectorsData = [
-  {
-    name: "Rao K Bhethanabotla",
-    role: "Founder, CEO, CTO, President",
-    linkedin: "https://www.linkedin.com/in/raobhethanabotla",
-    image: RaoImg,
-  },
+  // {
+  //   name: "Rao K Bhethanabotla",
+  //   role: "Founder, CEO, CTO, President",
+  //   linkedin: "https://www.linkedin.com/in/raobhethanabotla",
+  //   image: RaoImg,
+  // },
   {
     name: "Ramesh Maturu",
     role: "Director",
@@ -106,6 +108,9 @@ const Directors = () => {
             </div>
           ))}
         </div>
+      </section>
+      <section>
+        <ExecutiveTeam />
       </section>
       <section className="py-20">
         <h1 className="text-center text-3xl font-bold text-black">
