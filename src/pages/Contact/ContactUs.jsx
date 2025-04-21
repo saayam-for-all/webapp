@@ -63,7 +63,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="bg-[#F1FDFF] min-h-screen flex flex-col p-8">
+    <div className="bg-[#F5F5F5] min-h-screen flex flex-col p-8">
       <div className="flex flex-col md:flex-row w-full gap-6">
         {/* Left Column: Contact Info + FAQ */}
         <div className="flex flex-col w-full md:w-1/2 p-4">
