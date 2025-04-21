@@ -1,14 +1,27 @@
 import React from "react";
-import { render, screen, act, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import YourProfile from "./YourProfile";
 
-// Mock all dependencies
+// Mock i18n and react-i18next properly
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key) => key,
+    i18n: {
+      changeLanguage: jest.fn(),
+    },
   }),
+  initReactI18next: {
+    type: "3rdParty",
+    init: jest.fn(),
+  },
 }));
 
+jest.mock("../../common/i18n/i18n", () => ({
+  use: jest.fn(),
+  init: jest.fn(),
+}));
+
+// Mock other dependencies
 jest.mock("aws-amplify/auth", () => ({
   updateUserAttributes: jest.fn(),
 }));
@@ -35,10 +48,12 @@ jest.mock("react-select-country-list", () => () => ({
   ],
 }));
 
-jest.mock("./CallModal.jsx", () => () => <div data-testid="call-modal" />);
+jest.mock("./CallModal.jsx", () => () => (
+  <div data-testid="call-modal">Call Modal</div>
+));
 
 jest.mock("../../common/components/Loading/Loading", () => () => (
-  <div data-testid="loading-indicator" />
+  <div data-testid="loading-indicator">Loading...</div>
 ));
 
 jest.mock("../../utils/phone-codes-en", () => ({
@@ -56,23 +71,25 @@ jest.mock("../../utils/utils", () => ({
   ],
 }));
 
-describe("YourProfile", () => {
-  const setHasUnsavedChanges = jest.fn();
+describe("YourProfile Component", () => {
+  const mockSetHasUnsavedChanges = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("renders without crashing", () => {
-    render(<YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />);
+  it("renders user profile information correctly", () => {
+    render(<YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />);
+
     expect(screen.getByText("John")).toBeInTheDocument();
     expect(screen.getByText("Doe")).toBeInTheDocument();
+    expect(screen.getByText("john.doe@example.com")).toBeInTheDocument();
   });
 
-  it("switches to edit mode when edit button is clicked", () => {
-    render(<YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />);
+  it("switches to edit mode when edit button is clicked", async () => {
+    render(<YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />);
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(screen.getByText("EDIT"));
     });
 
@@ -80,24 +97,26 @@ describe("YourProfile", () => {
     expect(screen.getByDisplayValue("Doe")).toBeInTheDocument();
   });
 
-  it("handles input changes", () => {
-    render(<YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />);
+  it("handles input changes in edit mode", async () => {
+    render(<YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />);
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(screen.getByText("EDIT"));
     });
 
     const firstNameInput = screen.getByDisplayValue("John");
-    fireEvent.change(firstNameInput, { target: { value: "Jane" } });
+    await act(async () => {
+      fireEvent.change(firstNameInput, { target: { value: "Jane" } });
+    });
 
     expect(firstNameInput.value).toBe("Jane");
-    expect(setHasUnsavedChanges).toHaveBeenCalled();
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
   });
 
-  it("cancels edit mode", () => {
-    render(<YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />);
+  it("cancels edit mode and reverts changes", async () => {
+    render(<YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />);
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(screen.getByText("EDIT"));
       fireEvent.change(screen.getByDisplayValue("John"), {
         target: { value: "Jane" },
@@ -106,6 +125,17 @@ describe("YourProfile", () => {
     });
 
     expect(screen.getByText("John")).toBeInTheDocument();
-    expect(setHasUnsavedChanges).toHaveBeenCalledWith(false);
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(false);
+  });
+
+  it("displays loading indicator when saving", async () => {
+    render(<YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />);
+
+    await act(async () => {
+      fireEvent.click(screen.getByText("EDIT"));
+      fireEvent.click(screen.getByText("SAVE"));
+    });
+
+    expect(screen.getByTestId("loading-indicator")).toBeInTheDocument();
   });
 });
