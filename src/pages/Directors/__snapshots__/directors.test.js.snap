@@ -27,39 +27,6 @@ exports[`Directors renders correctly 1`] = `
             >
               <div>
                 <img
-                  alt="Rao K Bhethanabotla"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
-                  src=""
-                  width="300"
-                />
-              </div>
-              <div
-                class="text-left self-start w-full px-6"
-              >
-                <h2
-                  class="flex gap-2 mt-5"
-                >
-                  <a
-                    class="text-black font-bold text-xl"
-                    href="https://www.linkedin.com/in/raobhethanabotla"
-                    target="_blank"
-                  >
-                    Rao K Bhethanabotla
-                  </a>
-                </h2>
-                <h3
-                  class="flex gap-2"
-                >
-                  Founder, CEO, CTO, President
-                </h3>
-              </div>
-            </div>
-            <div
-              class=""
-            >
-              <div>
-                <img
                   alt="Ramesh Maturu"
                   class="rounded-2xl shadow-lg"
                   height="400"
@@ -189,6 +156,357 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
         </section>
+        <section>
+          <div
+            class="bg-gray-100 py-16 px-24"
+          >
+            <div
+              class="text-center max-w-3xl mx-auto mb-12"
+            >
+              <h2
+                class="font-extrabold text-3xl mb-4"
+              >
+                mockTranslate(EXECUTIVE_TEAM)
+              </h2>
+              <p
+                class="text-gray-600 text-base leading-[0.5]"
+              >
+                mockTranslate(EXECUTIVE_DESCRIPTION_1)
+              </p>
+              <p
+                class="text-gray-600 text-base leading-[0.5]"
+              >
+                mockTranslate(EXECUTIVE_DESCRIPTION_2)
+              </p>
+            </div>
+            <div
+              class="flex flex-wrap justify-center gap-10"
+            >
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Rao K Bhethanabotla"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/42afdfb974265d5ede7e4b08aeff12e6a278dbec"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Rao K Bhethanabotla
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  Founder, CEO, CTO, President
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Rishita Rapuri"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/cd09abc1a5a391a8775f93bf52dc1c7bd3bde48c"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Rishita Rapuri
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  Human Resources Manager
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Rashmi"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/42134acaa608afdb1f30b2328f3ef05c63c7aee1"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Rashmi
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  Lead Application Developer
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Sriram Mahankali"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f181836a0df98180bc82bea522f96509eea4a8d"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Sriram Mahankali
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  Design and Creative Lead
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Shubam"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1155d03bc35b0497b2368237a95f6943836844a"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Shubam
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  AI/ML Team Lead
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Aatish Kayyath"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2fa182bfa332d6844de8112c9d522f03b2c678f"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Aatish Kayyath
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  ------
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Divya Tanwar"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Divya Tanwar
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  -----
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Kavyasree"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1f54ababf3e0deebac0fef1e47e682a9823e34e"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Kavyasree
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  Lead Project Manager
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Purva Patil"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/6b58758ef77efe32c301deac6f4f0c1f6abb8fce"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Purva Patil
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  Lead Product Manager
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Mohana Krishanan R."
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Mohana Krishanan R.
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  -----
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Rishab Ghosh"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/f0e403a7bcfa9d9be2f1c66f6fac4ca2218935ea"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Rishab Ghosh
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  -----
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Sugandha Agarwal"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/bcb73fdde6f2bca35c1db86c6ecb36f58fcd4fae"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Sugandha Agarwal
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  -----
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Uma"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6c938fe9f544ef0dacab7bd69eaca9a1a890fdb"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Uma
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  -----
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Meghana Karri"
+                    class="w-full h-full object-cover"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/091aca13a6e830ee2374f73b8d227506b2a90566"
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  Meghana Karri
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  UX Lead
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         <section
           class="py-20"
         >
@@ -307,39 +625,6 @@ exports[`Directors renders correctly 1`] = `
         <div
           class="directors flex items-center justify-center flex-wrap gap-10 my-20"
         >
-          <div
-            class=""
-          >
-            <div>
-              <img
-                alt="Rao K Bhethanabotla"
-                class="rounded-2xl shadow-lg"
-                height="400"
-                src=""
-                width="300"
-              />
-            </div>
-            <div
-              class="text-left self-start w-full px-6"
-            >
-              <h2
-                class="flex gap-2 mt-5"
-              >
-                <a
-                  class="text-black font-bold text-xl"
-                  href="https://www.linkedin.com/in/raobhethanabotla"
-                  target="_blank"
-                >
-                  Rao K Bhethanabotla
-                </a>
-              </h2>
-              <h3
-                class="flex gap-2"
-              >
-                Founder, CEO, CTO, President
-              </h3>
-            </div>
-          </div>
           <div
             class=""
           >
@@ -470,6 +755,357 @@ exports[`Directors renders correctly 1`] = `
               >
                 Director & Treasurer
               </h3>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div
+          class="bg-gray-100 py-16 px-24"
+        >
+          <div
+            class="text-center max-w-3xl mx-auto mb-12"
+          >
+            <h2
+              class="font-extrabold text-3xl mb-4"
+            >
+              mockTranslate(EXECUTIVE_TEAM)
+            </h2>
+            <p
+              class="text-gray-600 text-base leading-[0.5]"
+            >
+              mockTranslate(EXECUTIVE_DESCRIPTION_1)
+            </p>
+            <p
+              class="text-gray-600 text-base leading-[0.5]"
+            >
+              mockTranslate(EXECUTIVE_DESCRIPTION_2)
+            </p>
+          </div>
+          <div
+            class="flex flex-wrap justify-center gap-10"
+          >
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Rao K Bhethanabotla"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/42afdfb974265d5ede7e4b08aeff12e6a278dbec"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Rao K Bhethanabotla
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                Founder, CEO, CTO, President
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Rishita Rapuri"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/cd09abc1a5a391a8775f93bf52dc1c7bd3bde48c"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Rishita Rapuri
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                Human Resources Manager
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Rashmi"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/42134acaa608afdb1f30b2328f3ef05c63c7aee1"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Rashmi
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                Lead Application Developer
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Sriram Mahankali"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f181836a0df98180bc82bea522f96509eea4a8d"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Sriram Mahankali
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                Design and Creative Lead
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Shubam"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1155d03bc35b0497b2368237a95f6943836844a"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Shubam
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                AI/ML Team Lead
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Aatish Kayyath"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2fa182bfa332d6844de8112c9d522f03b2c678f"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Aatish Kayyath
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                ------
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Divya Tanwar"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Divya Tanwar
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                -----
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Kavyasree"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1f54ababf3e0deebac0fef1e47e682a9823e34e"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Kavyasree
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                Lead Project Manager
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Purva Patil"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/6b58758ef77efe32c301deac6f4f0c1f6abb8fce"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Purva Patil
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                Lead Product Manager
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Mohana Krishanan R."
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Mohana Krishanan R.
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                -----
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Rishab Ghosh"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/f0e403a7bcfa9d9be2f1c66f6fac4ca2218935ea"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Rishab Ghosh
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                -----
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Sugandha Agarwal"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/bcb73fdde6f2bca35c1db86c6ecb36f58fcd4fae"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Sugandha Agarwal
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                -----
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Uma"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6c938fe9f544ef0dacab7bd69eaca9a1a890fdb"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Uma
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                -----
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Meghana Karri"
+                  class="w-full h-full object-cover"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/091aca13a6e830ee2374f73b8d227506b2a90566"
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                Meghana Karri
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                UX Lead
+              </div>
             </div>
           </div>
         </div>
