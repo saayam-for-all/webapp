@@ -1,12 +1,11 @@
 import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "#components/Navbar/Navbar";
 import MainLoader from "#components/Loader/MainLoader";
 import Footer from "#components/Footer/Footer";
 import LeftAds from "#components/LeftAds/LeftAds";
 import RightAds from "#components/RightAds/RightAds";
 import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
-import Header from "#components/Navbar/Header";
+import Navbar from "#components/Navbar/Navbar";
 import { NotificationProvider } from "../context/NotificationContext";
 
 const Layout = () => {
@@ -14,13 +13,6 @@ const Layout = () => {
     <div className="flex flex-col h-screen">
       <NotificationProvider>
         {/* Navigation Guard to check for unsaved changes */}
-
-
-      {/* header includes Navbar which spans full width */}
-      <header className="sticky z-10">
-        <Header />
-        {/* <Navbar /> */}
-      </header>
 
         <NavigationGuard />
 
