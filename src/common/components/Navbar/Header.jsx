@@ -17,6 +17,8 @@ import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivism
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import GroupsIcon from "@mui/icons-material/Groups";
 import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { IoLogInOutline } from "react-icons/io5";
@@ -240,7 +242,7 @@ const Navbar = () => {
               onClick={handleVSMenuClick}
               className="text-black flex items-center hover:text-gray-600 text-base"
             >
-              <Diversity1OutlinedIcon className="mr-2" />{" "}
+              <Diversity1OutlinedIcon className="mr-2" />
               {t("Volunteer Services")}
               <ArrowDropDownIcon />
             </button>
@@ -292,7 +294,7 @@ const Navbar = () => {
             // className="text-black flex items-center hover:text-gray-600 text-base"
             className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
           >
-            <VolunteerActivismOutlinedIcon className="mr-2 text-base" />{" "}
+            <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
             {t("Donate")}
           </button>
         </div>
@@ -304,25 +306,27 @@ const Navbar = () => {
             // ref={profileDropdownRef}
           >
             <div className="flex items-center">
-              <img
-                src={profileIcon}
-                alt="Profile Icon"
-                className="w-8 h-8 rounded-full cursor-pointer"
-                onClick={(e) => {
-                  if (hasUnsavedChanges) {
-                    if (
-                      window.confirm(
-                        "You have unsaved changes. Do you want to proceed without saving?",
-                      )
-                    ) {
-                      setHasUnsavedChanges(false);
+              <IconButton color="inherit" edge="end">
+                <img
+                  src={profileIcon}
+                  alt="Profile Icon"
+                  className="w-8 h-8 rounded-full cursor-pointer"
+                  onClick={(e) => {
+                    if (hasUnsavedChanges) {
+                      if (
+                        window.confirm(
+                          "You have unsaved changes. Do you want to proceed without saving?",
+                        )
+                      ) {
+                        setHasUnsavedChanges(false);
+                        handlePMenuClick(e);
+                      }
+                    } else {
                       handlePMenuClick(e);
                     }
-                  } else {
-                    handlePMenuClick(e);
-                  }
-                }}
-              />
+                  }}
+                />
+              </IconButton>
             </div>
             {profileOpenMenu && (
               <Menu
@@ -340,11 +344,11 @@ const Navbar = () => {
                 }}
               >
                 <MenuItem onClick={(e) => handleLinkClick(e, "/profile")}>
-                  <VolunteerActivismOutlinedIcon className="mr-2" />{" "}
+                  <AccountCircleIcon className="mr-2" />
                   {t("Profile")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleLogoutClick()}>
-                  <VolunteerActivismOutlinedIcon className="mr-2" />{" "}
+                  <LogoutIcon className="mr-2" />
                   {t("Logout")}
                 </MenuItem>
               </Menu>
@@ -467,7 +471,7 @@ const Navbar = () => {
               onClick={handleVSMenuClick}
               className="text-black flex items-center hover:text-blue-600"
             >
-              <Diversity1OutlinedIcon className="mr-2" />{" "}
+              <Diversity1OutlinedIcon className="mr-2" />
               {t("Volunteer Services")}
               <ArrowDropDownIcon />
             </button>
