@@ -1,12 +1,11 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act, fireEvent } from "@testing-library/react";
 import YourProfile from "./YourProfile";
 
 // Mock all dependencies
 jest.mock("react-i18next", () => ({
-  // This mocks the useTranslation hook
   useTranslation: () => ({
-    t: jest.fn((key) => key),
+    t: (key) => key,
   }),
 }));
 
@@ -14,53 +13,34 @@ jest.mock("aws-amplify/auth", () => ({
   updateUserAttributes: jest.fn(),
 }));
 
-jest.mock("../../redux/features/authentication/authActions", () => ({
-  updateUserProfile: jest.fn().mockResolvedValue({ success: true }),
-}));
-
 jest.mock("react-redux", () => ({
-  useSelector: jest.fn((selector) => {
-    // Mock the state that useSelector would return
-    return (
-      {
-        auth: {
-          user: {
-            given_name: "John",
-            family_name: "Doe",
-            email: "john.doe@example.com",
-            phone_number: "+12345678901",
-            zoneinfo: "United States",
-          },
-        },
-      }[selector.toString().match(/state\.(\w+)/)?.[1]] || null
-    );
+  useSelector: jest.fn().mockReturnValue({
+    auth: {
+      user: {
+        given_name: "John",
+        family_name: "Doe",
+        email: "john.doe@example.com",
+        phone_number: "+1234567890",
+        zoneinfo: "United States",
+      },
+    },
   }),
-  useDispatch: () => jest.fn().mockResolvedValue({ success: true }),
+  useDispatch: () => jest.fn(),
 }));
 
-// Mock the CountryList
 jest.mock("react-select-country-list", () => () => ({
-  getData: jest.fn().mockReturnValue([
+  getData: () => [
     { value: "US", label: "United States" },
     { value: "CA", label: "Canada" },
-  ]),
+  ],
 }));
 
-// Mock the CallModal component
-jest.mock("./CallModal.jsx", () => {
-  return function DummyCallModal({ isOpen, onClose, callType }) {
-    return isOpen ? <div data-testid="call-modal">Mock Call Modal</div> : null;
-  };
-});
+jest.mock("./CallModal.jsx", () => () => <div data-testid="call-modal" />);
 
-// Mock the Loading component
-jest.mock("../../common/components/Loading/Loading", () => {
-  return function DummyLoading({ size, className }) {
-    return <div data-testid="loading-indicator">Loading...</div>;
-  };
-});
+jest.mock("../../common/components/Loading/Loading", () => () => (
+  <div data-testid="loading-indicator" />
+));
 
-// Mock the phone codes
 jest.mock("../../utils/phone-codes-en", () => ({
   US: {
     primary: "United States",
@@ -70,23 +50,62 @@ jest.mock("../../utils/phone-codes-en", () => ({
   },
 }));
 
-// Mock the phone codes list utils
 jest.mock("../../utils/utils", () => ({
-  getPhoneCodeslist: jest.fn(() => [
+  getPhoneCodeslist: () => [
     { code: "US", country: "United States", dialCode: "+1" },
-  ]),
+  ],
 }));
 
 describe("YourProfile", () => {
+  const setHasUnsavedChanges = jest.fn();
+
   beforeEach(() => {
-    // Clear all mocks before each test
     jest.clearAllMocks();
   });
 
   it("renders without crashing", () => {
-    const setHasUnsavedChanges = jest.fn();
     render(<YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />);
-    // Basic assertion to make sure something rendered
-    expect(document.body.textContent).toBeTruthy();
+    expect(screen.getByText("John")).toBeInTheDocument();
+    expect(screen.getByText("Doe")).toBeInTheDocument();
+  });
+
+  it("switches to edit mode when edit button is clicked", () => {
+    render(<YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />);
+
+    act(() => {
+      fireEvent.click(screen.getByText("EDIT"));
+    });
+
+    expect(screen.getByDisplayValue("John")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Doe")).toBeInTheDocument();
+  });
+
+  it("handles input changes", () => {
+    render(<YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />);
+
+    act(() => {
+      fireEvent.click(screen.getByText("EDIT"));
+    });
+
+    const firstNameInput = screen.getByDisplayValue("John");
+    fireEvent.change(firstNameInput, { target: { value: "Jane" } });
+
+    expect(firstNameInput.value).toBe("Jane");
+    expect(setHasUnsavedChanges).toHaveBeenCalled();
+  });
+
+  it("cancels edit mode", () => {
+    render(<YourProfile setHasUnsavedChanges={setHasUnsavedChanges} />);
+
+    act(() => {
+      fireEvent.click(screen.getByText("EDIT"));
+      fireEvent.change(screen.getByDisplayValue("John"), {
+        target: { value: "Jane" },
+      });
+      fireEvent.click(screen.getByText("CANCEL"));
+    });
+
+    expect(screen.getByText("John")).toBeInTheDocument();
+    expect(setHasUnsavedChanges).toHaveBeenCalledWith(false);
   });
 });
