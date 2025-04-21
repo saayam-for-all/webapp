@@ -26,7 +26,7 @@ exports[`Vision renders correctly 1`] = `
               <img
                 alt="vision"
                 class="w-[350rem] h-80 mt-5"
-                src="vision.png"
+                src=""
               />
             </div>
           </div>
@@ -56,7 +56,7 @@ exports[`Vision renders correctly 1`] = `
             <img
               alt="vision"
               class="w-[350rem] h-80 mt-5"
-              src="vision.png"
+              src=""
             />
           </div>
         </div>

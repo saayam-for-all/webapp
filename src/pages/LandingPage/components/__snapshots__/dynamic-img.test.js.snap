@@ -12,46 +12,46 @@ exports[`Images renders correctly 1`] = `
           class="images-slide"
         >
           <img
-            src="Employment.gif"
+            src=""
           />
           <img
-            src="Matrimonial.gif"
+            src=""
           />
           <img
-            src="Stocks.gif"
+            src=""
           />
           <img
-            src="education.gif"
+            src=""
           />
           <img
-            src="Finance.gif"
+            src=""
           />
           <img
-            src="School.gif"
+            src=""
           />
           <img
-            src="clothes.gif"
+            src=""
           />
           <img
-            src="housing.gif"
+            src=""
           />
           <img
-            src="Food.gif"
+            src=""
           />
           <img
-            src="Shopping.gif"
+            src=""
           />
           <img
-            src="college_admissions.gif"
+            src=""
           />
           <img
-            src="Gardening.gif"
+            src=""
           />
           <img
-            src="Sports.gif"
+            src=""
           />
           <img
-            src="cooking.gif"
+            src=""
           />
         </div>
       </div>
@@ -65,46 +65,46 @@ exports[`Images renders correctly 1`] = `
         class="images-slide"
       >
         <img
-          src="Employment.gif"
+          src=""
         />
         <img
-          src="Matrimonial.gif"
+          src=""
         />
         <img
-          src="Stocks.gif"
+          src=""
         />
         <img
-          src="education.gif"
+          src=""
         />
         <img
-          src="Finance.gif"
+          src=""
         />
         <img
-          src="School.gif"
+          src=""
         />
         <img
-          src="clothes.gif"
+          src=""
         />
         <img
-          src="housing.gif"
+          src=""
         />
         <img
-          src="Food.gif"
+          src=""
         />
         <img
-          src="Shopping.gif"
+          src=""
         />
         <img
-          src="college_admissions.gif"
+          src=""
         />
         <img
-          src="Gardening.gif"
+          src=""
         />
         <img
-          src="Sports.gif"
+          src=""
         />
         <img
-          src="cooking.gif"
+          src=""
         />
       </div>
     </div>

@@ -13,6 +13,10 @@ import LOGO from "../../../assets/logo.svg";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import "./NavBar.css";
 import { logout } from "../../../redux/features/authentication/authActions";
+import { GET_NOTIFICATIONS } from "../../../services/requestServices";
+import { useNotifications } from "../../../context/NotificationContext";
+import OurTeamIcon from "../../../assets/Our_Team_SVG.svg";
+import OurMissionIcon from "../../../assets/Our_Mission.svg";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -21,10 +25,13 @@ const Navbar = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // Logout modal state
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const reduxDispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const profileDropdownRef = useRef(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  // const [notifications, setNotifications] = useState([]);
+  const { state, dispatch: notificationDispatch } = useNotifications();
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
@@ -51,7 +58,6 @@ const Navbar = () => {
     window.addEventListener("storage", handleStorageChange);
     window.addEventListener("profile-photo-updated", handleProfilePhotoUpdated);
     window.addEventListener("unsaved-changes", handleUnsavedChanges);
-
     return () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener(
@@ -78,11 +84,90 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
+    if (!user?.userId) return; // don't fetch unless user is logged in
+
     const notificationButton = document.getElementById("notificationButton");
+
     if (notificationButton) {
       notificationButton.style.display = user ? "flex" : "none";
     }
-  }, [user]);
+    const fetchNotifications = async () => {
+      try {
+        // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
+        // const rawNotifications = response.data.notifications || [];
+        const rawNotifications = [
+          {
+            type: "Volunteer",
+            title: "New Match Request",
+            message: "You have new Volunteer match request in Logistics",
+            date: "Mar 15, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            title: "New Match Request",
+            message: "Hospital",
+            date: "Jun 15, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            title: "Logistic Help",
+            message: "Logistics",
+            date: "Nov 15, 2023, 10:30 AM",
+          },
+          {
+            type: "helpRequest",
+            title: "Educational Help",
+            message: "Need help with Logistics",
+            date: "Dec 16, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            title: "New Match Request",
+            message: "Education",
+            date: "Jan 15, 2023, 10:30 AM",
+          },
+        ];
+
+        // ✅ Add unique ID using crypto.randomUUID()
+        const notificationsWithIds = rawNotifications.map((note) => ({
+          ...note,
+          id: crypto.randomUUID(),
+        }));
+
+        notificationDispatch({
+          type: "SET_NOTIFICATIONS",
+          payload: notificationsWithIds,
+        });
+        const existing = new Set(
+          state.notifications.map((n) => n.message + n.date),
+        );
+        const newOnes = notificationsWithIds.filter(
+          (n) => !existing.has(n.message + n.date),
+        );
+
+        // Only update if new notifications exist
+        if (newOnes.length > 0) {
+          notificationDispatch({
+            type: "SET_NOTIFICATIONS",
+            payload: [...state.notifications, ...newOnes],
+          });
+
+          setNewNotificationCount((prev) => prev + newOnes.length);
+        }
+      } catch (error) {
+        console.error("Error fetching Notifications:", error);
+      }
+    };
+
+    fetchNotifications(); // Comment it after call ing the funciton below
+
+    const interval = setInterval(
+      "call fetchNotifications() here",
+      2 * 60 * 1000,
+    ); // fetch every 2 min
+
+    return () => clearInterval(interval);
+  }, [notificationDispatch, user]);
 
   const handleDropdownClick = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -132,6 +217,10 @@ const Navbar = () => {
     }
   };
 
+  const handleNotificationsClick = () => {
+    console.log("notifications");
+  };
+
   const handleProfileClick = (e) => {
     if (hasUnsavedChanges) {
       e.preventDefault();
@@ -167,26 +256,9 @@ const Navbar = () => {
   };
 
   const handleSignOut = () => {
-    dispatch(logout());
+    reduxDispatch(logout());
     setIsLogoutModalOpen(false);
     navigate("/login");
-  };
-
-  const handleNotificationsClick = () => {
-    if (hasUnsavedChanges) {
-      if (
-        window.confirm(
-          "You have unsaved changes. Do you want to proceed without saving?",
-        )
-      ) {
-        setHasUnsavedChanges(false);
-        // Navigate to notifications or open notifications panel
-        // Add your navigation code here
-      }
-    } else {
-      // Navigate to notifications or open notifications panel
-      // Add your navigation code here
-    }
   };
 
   return (
@@ -213,21 +285,19 @@ const Navbar = () => {
           <ul
             tabIndex={0}
             className={`menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${isDropdownOpen ? "block" : "hidden"}`}
+            onClick={handleLinkClick}
           >
-            <li onClick={(e) => handleDropdownItemClick(e, "/directors")}>
-              <a>{t("DIRECTORS")}</a>
+            <li>
+              <NavLink to="/directors" name="directors">
+                <img src={OurTeamIcon} alt="Team" className="w-5 h-5" />
+                {t("Our Team")}
+              </NavLink>
             </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/how-we-operate")}>
-              <a>{t("HOW_WE_OPERATE")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/contact")}>
-              <a>{t("CONTACT")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/mission")}>
-              <a>{t("MISSION")}</a>
-            </li>
-            <li onClick={(e) => handleDropdownItemClick(e, "/vision")}>
-              <a>{t("VISION")}</a>
+            <li>
+              <NavLink to="/our-mission" name="our-mission">
+                <img src={OurMissionIcon} alt="Mission" className="w-5 h-5" />
+                {t("Our Mission")}
+              </NavLink>
             </li>
           </ul>
         </div>
@@ -241,14 +311,33 @@ const Navbar = () => {
           {t("DONATE")}
         </NavLink>
 
-        <button
+        <NavLink
+          to="/notifications"
+          id="notificationButton"
+          className="font-semibold flex flex-col items-center"
+          onClick={() => {
+            handleNotificationsClick;
+            setNewNotificationCount(0); // ✅ Reset count when clicked
+          }}
+        >
+          <div className="relative">
+            <IoNotificationsOutline className="mr-1 text-xl" />
+            {newNotificationCount > 0 && (
+              <span className="absolute -top-1 right-0 bg-red-600 text-white text-xs px-1 rounded-full">
+                {newNotificationCount}
+              </span>
+            )}
+          </div>
+          {t("NOTIFICATIONS")}
+        </NavLink>
+        {/* <button
           className="font-semibold flex flex-col items-center"
           id="notificationButton"
           onClick={handleNotificationsClick}
         >
           <IoNotificationsOutline className="mr-1 text-xl" />
           {t("NOTIFICATIONS")}
-        </button>
+        </button> */}
 
         {user?.userId ? (
           <div

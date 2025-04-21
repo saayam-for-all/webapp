@@ -371,20 +371,34 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               >
                 {t("Lead Volunteer")}
               </label>
-              <input
-                type="text"
-                id="lead_volunteer"
-                name="lead_volunteer"
-                disabled={
-                  !(
-                    groups?.includes("Admins") ||
-                    groups?.includes("SuperAdmins")
-                  )
-                }
-                value={formData.lead_volunteer}
-                onChange={handleChange}
-                className="border p-2 w-full rounded-lg disabled:text-gray-400"
-              />
+
+              {isEdit ? (
+                <input
+                  type="text"
+                  id="lead_volunteer"
+                  name="lead_volunteer"
+                  disabled={
+                    !(
+                      groups?.includes("Admins") ||
+                      groups?.includes("SuperAdmins")
+                    )
+                  }
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg disabled:text-gray-400"
+                />
+              ) : (
+                <select
+                  id="lead_volunteer"
+                  name="lead_volunteer"
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg text-gray-700"
+                >
+                  <option value=""></option>
+                  <option value="for_self">{t("For Self")}</option>
+                </select>
+              )}
             </div>
           </div>
           {/* 
