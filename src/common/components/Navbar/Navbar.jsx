@@ -232,8 +232,8 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleLinkClick(e, "/directors")}>
                   <GroupsIcon className="mr-2" /> {t("Our Team")}
                 </MenuItem>
-                <MenuItem onClick={(e) => handleLinkClick(e, "/vision")}>
-                  <CrisisAlertIcon className="mr-2" /> {t("Our Vision")}
+                <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
+                  <CrisisAlertIcon className="mr-2" /> {t("Our Mission")}
                 </MenuItem>
               </Menu>
             )}
