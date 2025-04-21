@@ -20,6 +20,7 @@ import SignUp from "../pages/Auth/Signup";
 import OTPVerification from "../pages/Auth/VerifyOtp";
 import Notifications from "../pages/Notifications/Notifications";
 import OurMission from "../pages/About Us/OurMission/OurMission";
+import ContactUs from "../pages/Contact/ContactUs";
 
 const routes = [
   {
@@ -48,7 +49,7 @@ const routes = [
   },
   {
     path: "contact",
-    element: <Contact />,
+    element: <ContactUs />,
   },
   {
     path: "notifications",
