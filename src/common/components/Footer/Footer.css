@@ -92,12 +92,14 @@
      3) Bottom grid: 4 equal columns
   --------------------------------------------------- */
 .footer-bottom-grid {
-  display: grid;
-  grid-template-columns: auto repeat(3, auto);
-  gap: 20px;
-  max-width: 600px; /* match your divider width */
-  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 140px;
+  max-width: 1000px; /* wider to fit everything inline */
+  margin: 0 auto;
+  padding-top: 10px;
 }
 
 .footer-copy {
@@ -107,17 +109,21 @@
   white-space: nowrap;
 }
 
-.footer-link-cell {
-  text-align: center;
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
-.footer-link-cell a {
+.footer-links a {
   color: #ccc;
   text-decoration: none;
   font-size: 13px;
+  white-space: nowrap;
 }
 
-.footer-link-cell a:hover {
+.footer-links a:hover {
   text-decoration: underline;
 }
 
@@ -134,8 +140,13 @@
   }
 
   .footer-bottom-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    gap: 10px;
     text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
     gap: 10px;
   }
 }
