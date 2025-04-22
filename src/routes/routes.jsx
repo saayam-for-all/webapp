@@ -21,6 +21,7 @@ import OTPVerification from "../pages/Auth/VerifyOtp";
 import Notifications from "../pages/Notifications/Notifications";
 import OurMission from "../pages/About Us/OurMission/OurMission";
 import ContactUs from "../pages/Contact/ContactUs";
+import Collaborators from "../pages/Collaborators/Collaborators";
 
 const routes = [
   {
@@ -38,6 +39,10 @@ const routes = [
   {
     path: "how-we-operate",
     element: <HowWeOperate />,
+  },
+  {
+    path: "collaborators",
+    element: <Collaborators />,
   },
   {
     path: "mission",
