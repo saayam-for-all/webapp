@@ -18,9 +18,11 @@ import Profile from "../pages/Profile/Profile";
 import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
 import RequestDetails from "../pages/RequestDetails/RequestDetails";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
+import Sitemap from "../pages/Sitemap/Sitemap";
 import Vision from "../pages/Vision/Vision";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import ProtectedRoute from "./ProtectedRoute";
+
 const routes = [
   {
     path: "",
@@ -53,6 +55,14 @@ const routes = [
   {
     path: "contact",
     element: <Contact />,
+  },
+  {
+    path: "sitemap",
+    element: <Sitemap />,
+  },
+  {
+    path: "sitemap",
+    element: <Sitemap />,
   },
   {
     path: "notifications",
