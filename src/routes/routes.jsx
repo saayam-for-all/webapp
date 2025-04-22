@@ -1,3 +1,4 @@
+import OurMission from "../pages/About Us/OurMission/OurMission";
 import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/Signup";
 import OTPVerification from "../pages/Auth/VerifyOtp";
@@ -59,7 +60,7 @@ const routes = [
   },
   {
     path: "our-mission",
-    element: <Mission />,
+    element: <OurMission />,
   },
   {
     element: <ProtectedRoute />, // Parent wrapper for protected routes

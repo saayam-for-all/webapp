@@ -81,7 +81,7 @@ export default function Home() {
           </div>
           <button
             className="text-white bg-blue-500 hover:bg-blue-700 rounded-lg px-8 py-2 text-lg hover:underline"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/contact")}
           >
             Join the Community
           </button>
@@ -172,7 +172,7 @@ export default function Home() {
             Chat with our community and get in touch with different charity
             organisations!
           </p>
-          <button className="join-btn" onClick={() => navigate("/login")}>
+          <button className="join-btn" onClick={() => navigate("/contact")}>
             Join the community
           </button>
         </div>
