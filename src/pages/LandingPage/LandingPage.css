@@ -51,6 +51,87 @@
   pointer-events: auto;
 }
 
+.community-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 3rem;
+  gap: 4rem;
+  flex-wrap: wrap;
+  font-family: "Arial", sans-serif;
+}
+
+.cards-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.2rem; /* cards are close together */
+}
+
+.community-card {
+  width: 200px;
+  height: 300px;
+  border-radius: 25px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 1rem;
+}
+
+.card-overlay {
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 15px;
+  padding: 0.5rem 0.8rem;
+  width: 85%;
+}
+
+.text-section {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 30px; /* aligns with middle card */
+  text-align: left;
+}
+
+.text-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.text-section p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.join-btn {
+  background-color: #4a67f8;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.join-btn:hover {
+  background-color: #3c54d1;
+}
+
 /* .video-overlay button {
   padding: 0.75rem 1.5rem;
   font-size: 1.2rem;
