@@ -1,3 +1,160 @@
+.landing-title {
+  font-size: 100px;
+  color: rgb(171, 171, 171);
+  opacity: 0.8;
+  font-weight: 700;
+  margin-bottom: -20px;
+}
+.landing-subtitle {
+  color: rgb(198, 197, 197);
+  width: fit-content;
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+.video-section {
+  background-color: #fff; /* Match the background color of other sections */
+  overflow: hidden;
+  max-width: 100%;
+  height: calc(100vh - 100px);
+}
+
+.video-wrapper {
+  width: 300%;
+  left: -100%;
+  pointer-events: none;
+  position: relative;
+  padding-bottom: 85%; /* 16:9 aspect ratio (9 ÷ 16 = 0.5625 or 56.25%) */
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  height: 75%;
+  border-radius: 10px; /* Optional: match the border-radius of other sections */
+  pointer-events: none;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  pointer-events: auto;
+}
+.landing-volume-button {
+  position: absolute;
+  bottom: 5%;
+  right: 0%;
+  z-index: 10;
+  color: black;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+}
+.community-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 3rem;
+  gap: 4rem;
+  flex-wrap: wrap;
+  font-family: "Arial", sans-serif;
+}
+
+.cards-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.2rem; /* cards are close together */
+}
+
+.community-card {
+  width: 200px;
+  height: 300px;
+  border-radius: 25px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 1rem;
+}
+
+.card-overlay {
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 15px;
+  padding: 0.5rem 0.8rem;
+  width: 85%;
+}
+
+.text-section {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 30px; /* aligns with middle card */
+  text-align: left;
+}
+
+.text-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.text-section p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.join-btn {
+  background-color: #4a67f8;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.join-btn:hover {
+  background-color: #3c54d1;
+}
+
+/* .video-overlay button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.2rem;
+  background: #ffffffcc;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.video-overlay button:hover {
+  background: #fff;
+} */
+
 /* Extra small devices (phones, 600px and down)
 @media only screen and (max-width: 600px) {
     .poster_image {

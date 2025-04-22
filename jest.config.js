@@ -2,7 +2,10 @@ export default {
   transform: {
     "^.+\\.jsx?$": "babel-jest",
   },
-  transformIgnorePatterns: ["node_modules/(?!(node-fetch)/)"],
+  transformIgnorePatterns: [
+    "node_modules/(?!(node-fetch)/)",
+    "node_modules/(?!(swiper)/)",
+  ],
   testEnvironment: "jsdom",
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
