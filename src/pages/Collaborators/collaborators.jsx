@@ -18,8 +18,8 @@ function Collaborators() {
         <p className="text-lg text-center mb-12 text-gray-700">
           In some cases, our volunteers partner with local NGOs, community
           groups, and service organizations to ensure that every request is
-          fulfilled effectively. Saayam builds a collaborative ecosystem that
-          strengthens community support—because helping hands are stronger
+          fulfilled effectively. Saayam For All builds a collaborative ecosystem
+          that strengthens community support—because helping hands are stronger
           together.
         </p>
 
