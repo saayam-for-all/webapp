@@ -80,29 +80,21 @@ exports[`Footer renders correctly 1`] = `
             <div
               class="footer-copy"
             >
-              © 2025 Saayam For All. All rights reserved.
+              Copyright © 2025 Saayam For All. All rights reserved.
             </div>
             <div
-              class="footer-link-cell"
+              class="footer-links"
             >
               <a
-                href="#"
+                href="/sitemap"
               >
                 Site Map
               </a>
-            </div>
-            <div
-              class="footer-link-cell"
-            >
               <a
                 href="#"
               >
                 Terms and Conditions
               </a>
-            </div>
-            <div
-              class="footer-link-cell"
-            >
               <a
                 href="#"
               >
@@ -190,29 +182,21 @@ exports[`Footer renders correctly 1`] = `
           <div
             class="footer-copy"
           >
-            © 2025 Saayam For All. All rights reserved.
+            Copyright © 2025 Saayam For All. All rights reserved.
           </div>
           <div
-            class="footer-link-cell"
+            class="footer-links"
           >
             <a
-              href="#"
+              href="/sitemap"
             >
               Site Map
             </a>
-          </div>
-          <div
-            class="footer-link-cell"
-          >
             <a
               href="#"
             >
               Terms and Conditions
             </a>
-          </div>
-          <div
-            class="footer-link-cell"
-          >
             <a
               href="#"
             >
