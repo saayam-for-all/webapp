@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-// import { FaFacebookF } from "react-icons/fa";
-// import { FcGoogle } from "react-icons/fc";
 import { signUp } from "aws-amplify/auth";
 import CountryList from "react-select-country-list";
 import { z } from "zod";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import "./Login.css";
+import { useTranslation } from "react-i18next";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 const signUpSchema = z.object({
   firstName: z
@@ -46,24 +46,24 @@ const signUpSchema = z.object({
 });
 
 const SignUp = () => {
+  const { t } = useTranslation();
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("US");
   const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [countryCode, setCountryCode] = useState("US");
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
-
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-
   const [errors, setErrors] = useState({});
+  const [showPasswordValidation, setShowPasswordValidation] = useState(false);
 
   const hasNumber = /\d/.test(passwordValue);
   const hasUppercase = /[A-Z]/.test(passwordValue);
@@ -71,23 +71,54 @@ const SignUp = () => {
   const hasSpecialChar = /[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+-]/.test(
     passwordValue,
   );
+  const hasMinLength = passwordValue.length >= 8;
+  const allRequirementsMet =
+    hasNumber && hasUppercase && hasLowercase && hasSpecialChar && hasMinLength;
 
   const countries = CountryList().getData();
-
   const navigate = useNavigate();
 
   //name, email and phone number validation functions
   const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePhone = (phone) => /^[0-9]{10}$/.test(phone); //Exactly 10 digits phone number
   const validatePassword = (password) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
       password,
     );
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    // Only allow digits
+    if (/^\d*$/.test(value)) {
+      setPhone(value);
+      // Validate phone number
+      const fullNumber = `${PHONECODESEN[countryCode]["secondary"]}${value}`;
+      if (value.length > 0 && !isValidPhoneNumber(fullNumber)) {
+        setErrors({ ...errors, phone: "Please enter a valid phone number" });
+      } else {
+        setErrors({ ...errors, phone: undefined });
+      }
+    }
+  };
+
+  const handleCountryCodeChange = (e) => {
+    const selectedCode = e.target.value;
+    setCountryCode(selectedCode);
+    const selectedCountry = PHONECODESEN[selectedCode]?.primary || "";
+    setCountry(selectedCountry);
+    setErrors({ ...errors, phone: undefined });
+  };
+
   const handleSignUp = async () => {
     try {
       setErrors({});
+      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+
+      if (!isValidPhoneNumber(fullPhoneNumber)) {
+        setErrors({ ...errors, phone: "Please enter a valid phone number" });
+        return;
+      }
+
       const result = signUpSchema.safeParse({
         firstName,
         lastName,
@@ -95,6 +126,7 @@ const SignUp = () => {
         phone,
         password: passwordValue,
       });
+
       if (!result.success) {
         const formattedErrors = result.error.format();
         setErrors({
@@ -102,12 +134,15 @@ const SignUp = () => {
           lastName: formattedErrors.lastName?._errors[0],
           email: formattedErrors.email?._errors[0],
           phone: formattedErrors.phone?._errors[0],
+          password: formattedErrors.password?._errors[0],
         });
+        setShowPasswordValidation(true);
         return;
       }
 
       if (passwordValue !== confirmPasswordValue) {
-        setPasswordsMatch(confirmPasswordValue === passwordValue);
+        setPasswordsMatch(false);
+        setErrors({ ...errors, confirmPassword: "Passwords do not match" });
         return;
       }
 
@@ -119,19 +154,21 @@ const SignUp = () => {
             given_name: firstName,
             family_name: lastName,
             email: emailValue,
-            phone_number: `${PHONECODESEN[countryCode]["secondary"]}${phone}`,
+            phone_number: fullPhoneNumber,
             "custom:Country": country,
           },
         },
       });
+
       if (user && user.isSignUpComplete === false) {
         navigate("/verify-otp", { state: { email: emailValue } });
       }
     } catch (error) {
+      if (error.name === "UsernameExistsException") {
+        setErrors({ email: t("USER_ALREADY_EXISTS") });
+      }
       console.log("Sign up error:", error);
     }
-
-    //dispatch(signup(fullName, phone, country, emailValue, passwordValue));
   };
 
   return (
@@ -192,21 +229,15 @@ const SignUp = () => {
           )}
         </div>
 
-        {/* Phone  Number */}
-        <div className="my-2 flex flex-col">
+        {/* Phone Number */}
+        <div className="my-2 flex flex-col relative">
           <label htmlFor="phone">Phone Number</label>
           <div className="flex space-x-2">
             {/* Country Code Dropdown */}
             <select
               id="countryCode"
               value={countryCode}
-              onChange={(e) => {
-                const selectedCode = e.target.value;
-                setCountryCode(selectedCode);
-                const selectedCountry =
-                  PHONECODESEN[selectedCode]?.primary || "";
-                setCountry(selectedCountry);
-              }}
+              onChange={handleCountryCodeChange}
               className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
             >
               {getPhoneCodeslist(PHONECODESEN).map((option) => (
@@ -219,17 +250,18 @@ const SignUp = () => {
             <input
               id="phone"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange}
               placeholder="Your Phone Number"
               type="text"
-              maxLength={10}
-              className={`w-2/3 px-4 py-2 border border-gray-300 rounded-xl ${errors.phone ? "border-red-500" : "border-gray-300"}`}
+              className={`w-2/3 px-4 py-2 border rounded-xl ${
+                errors.phone ? "border-red-500" : "border-gray-300"
+              }`}
               required={true}
             />
-            {errors.phone && (
-              <p className="text-sm text-red-500">{errors.phone}</p>
-            )}
           </div>
+          {errors.phone && (
+            <p className="text-sm text-red-500">{errors.phone}</p>
+          )}
         </div>
 
         {/* Country */}
@@ -257,7 +289,9 @@ const SignUp = () => {
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
                 ? "border-2 border-black -m-px"
-                : " border border-gray-300"
+                : errors.password
+                  ? "border border-red-500"
+                  : "border border-gray-300"
             }`}
           >
             <input
@@ -265,8 +299,14 @@ const SignUp = () => {
               placeholder="Password"
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
-              onChange={(e) => setPasswordValue(e.target.value)}
-              onFocus={() => setPasswordFocus(true)}
+              onChange={(e) => {
+                setPasswordValue(e.target.value);
+                setShowPasswordValidation(true);
+              }}
+              onFocus={() => {
+                setPasswordFocus(true);
+                setShowPasswordValidation(true);
+              }}
               onBlur={() => setPasswordFocus(false)}
               className="mr-auto w-full outline-none"
             />
@@ -276,14 +316,15 @@ const SignUp = () => {
           </div>
 
           {/* Password validation */}
-          {passwordFocus && (
+          {((showPasswordValidation && !allRequirementsMet) ||
+            errors.password) && (
             <div
-              className="flex flex-col items-start absolute top-0 left-full
-             ml-2 w-[clamp(100px,55vw,200px)] border border-gray-300 bg-white p-2
-             rounded shadow z-[1000] whitespace-normal break-words"
+              className={`flex flex-col items-start absolute left-full top-0
+               ml-2 w-[clamp(200px,25vw,300px)] border border-gray-300 bg-white p-2
+               rounded shadow z-[1000] whitespace-normal break-words`}
             >
               <p
-                className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+                className={`${hasMinLength ? "text-sm text-green-500" : "text-sm text-red-500"}`}
               >
                 Password must contain at least 8 characters.
               </p>
@@ -318,11 +359,13 @@ const SignUp = () => {
             className={`flex flex-row px-4 py-2 rounded-xl ${
               confirmPasswordFocus
                 ? "border-2 border-black -m-px"
-                : " border border-gray-300"
+                : errors.confirmPassword
+                  ? "border border-red-500"
+                  : "border border-gray-300"
             }`}
           >
             <input
-              id="password"
+              id="confirmPassword"
               placeholder="Confirm Password"
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
@@ -337,6 +380,11 @@ const SignUp = () => {
               {confirmPasswordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
+          {errors.confirmPassword && (
+            <p className="text-sm text-red-500 mt-1">
+              {errors.confirmPassword}
+            </p>
+          )}
         </div>
 
         <button
@@ -346,7 +394,7 @@ const SignUp = () => {
           Sign up
         </button>
 
-        {/* Uncomment this snippet when the singup functionality is fully developed  */}
+        {/* Uncomment this snippet when the signup functionality is fully developed  */}
 
         {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal renders when show = true 1`] = `
+<div>
+  <div
+    class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50"
+  >
+    <div
+      class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full"
+    >
+      <div>
+        child
+      </div>
+      <div
+        class="flex justify-end space-x-2 mt-6"
+      >
+        <button
+          class="bg-gray-400 text-white px-3 py-1 text-sm rounded hover:bg-gray-500 transition"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

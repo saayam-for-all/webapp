@@ -1,0 +1,248 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HowWeOperate renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="px-20 mt-6"
+      >
+        <div>
+          <h1
+            class="text-3xl font-semibold text-center"
+          >
+            mockTranslate(HOW_WE_OPERATE)
+          </h1>
+          <div
+            class="flex"
+          >
+            <div
+              class="w-5/12"
+            >
+              <a
+                href="https://youtu.be/9CBLVoSSuwM"
+              >
+                <img
+                  alt="how we operate"
+                  class="h-96 mt-5"
+                  src=""
+                />
+              </a>
+            </div>
+            <div
+              class="flex flex-col text-left justify-center w-7/12"
+            >
+              <div>
+                <h1
+                  class="mt-5 text-lg font-semibold px-5"
+                >
+                  mockTranslate(HELP_REQUEST)
+                </h1>
+                <p
+                  class="text-sm px-5"
+                >
+                  mockTranslate(ASK_FOR_HELP)
+                </p>
+              </div>
+              <div>
+                <h1
+                  class="mt-5 text-lg font-semibold px-5"
+                >
+                  mockTranslate(MATCHING_PROCESS)
+                </h1>
+                <p
+                  class="text-sm px-5"
+                >
+                  mockTranslate(REQUEST_WILL_BE_MATCHED)
+                </p>
+              </div>
+              <div>
+                <h1
+                  class="mt-5 text-lg font-semibold px-5"
+                >
+                  mockTranslate(VOLUNTEER_SELECTION)
+                </h1>
+                <p
+                  class="text-sm px-5"
+                >
+                  mockTranslate(FROM_POTENTIAL_MATCHES)
+                </p>
+              </div>
+              <div>
+                <h1
+                  class="mt-5 text-lg font-semibold px-5"
+                >
+                  mockTranslate(VOLUNTEER_APPROACH)
+                </h1>
+                <p
+                  class="text-sm px-5"
+                >
+                  mockTranslate(VOLUNTEER_WILL_CONTACT)
+                </p>
+              </div>
+              <div>
+                <h1
+                  class="mt-5 text-lg font-semibold px-5"
+                >
+                  mockTranslate(ASSISTANCE_PROVIDED)
+                </h1>
+                <p
+                  class="text-sm px-5"
+                >
+                  mockTranslate(VOLUNTEER_WILL_WORK)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="px-20 mt-6"
+    >
+      <div>
+        <h1
+          class="text-3xl font-semibold text-center"
+        >
+          mockTranslate(HOW_WE_OPERATE)
+        </h1>
+        <div
+          class="flex"
+        >
+          <div
+            class="w-5/12"
+          >
+            <a
+              href="https://youtu.be/9CBLVoSSuwM"
+            >
+              <img
+                alt="how we operate"
+                class="h-96 mt-5"
+                src=""
+              />
+            </a>
+          </div>
+          <div
+            class="flex flex-col text-left justify-center w-7/12"
+          >
+            <div>
+              <h1
+                class="mt-5 text-lg font-semibold px-5"
+              >
+                mockTranslate(HELP_REQUEST)
+              </h1>
+              <p
+                class="text-sm px-5"
+              >
+                mockTranslate(ASK_FOR_HELP)
+              </p>
+            </div>
+            <div>
+              <h1
+                class="mt-5 text-lg font-semibold px-5"
+              >
+                mockTranslate(MATCHING_PROCESS)
+              </h1>
+              <p
+                class="text-sm px-5"
+              >
+                mockTranslate(REQUEST_WILL_BE_MATCHED)
+              </p>
+            </div>
+            <div>
+              <h1
+                class="mt-5 text-lg font-semibold px-5"
+              >
+                mockTranslate(VOLUNTEER_SELECTION)
+              </h1>
+              <p
+                class="text-sm px-5"
+              >
+                mockTranslate(FROM_POTENTIAL_MATCHES)
+              </p>
+            </div>
+            <div>
+              <h1
+                class="mt-5 text-lg font-semibold px-5"
+              >
+                mockTranslate(VOLUNTEER_APPROACH)
+              </h1>
+              <p
+                class="text-sm px-5"
+              >
+                mockTranslate(VOLUNTEER_WILL_CONTACT)
+              </p>
+            </div>
+            <div>
+              <h1
+                class="mt-5 text-lg font-semibold px-5"
+              >
+                mockTranslate(ASSISTANCE_PROVIDED)
+              </h1>
+              <p
+                class="text-sm px-5"
+              >
+                mockTranslate(VOLUNTEER_WILL_WORK)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
