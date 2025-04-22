@@ -21,6 +21,7 @@ import OTPVerification from "../pages/Auth/VerifyOtp";
 import Notifications from "../pages/Notifications/Notifications";
 import OurMission from "../pages/About Us/OurMission/OurMission";
 import ContactUs from "../pages/Contact/ContactUs";
+import Sitemap from "../pages/Sitemap/Sitemap";
 
 const routes = [
   {
@@ -50,6 +51,10 @@ const routes = [
   {
     path: "contact",
     element: <ContactUs />,
+  },
+  {
+    path: "sitemap",
+    element: <Sitemap />,
   },
   {
     path: "notifications",
