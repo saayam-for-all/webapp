@@ -49,6 +49,7 @@
     "rsuite": "^5.77.1",
     "swiper": "^11.2.6",
     "use-immer": "^0.10.0",
+    "youtube-iframe-ctrl": "^1.0.3",
     "yup": "^1.4.0",
     "zod": "^3.24.1"
   },

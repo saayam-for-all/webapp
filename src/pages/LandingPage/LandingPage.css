@@ -50,7 +50,16 @@
   text-align: center;
   pointer-events: auto;
 }
-
+.landing-volume-button {
+  position: absolute;
+  bottom: 5%;
+  right: 0%;
+  z-index: 10;
+  color: black;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+}
 .community-container {
   display: flex;
   justify-content: center;

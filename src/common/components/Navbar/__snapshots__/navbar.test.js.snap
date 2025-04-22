@@ -76,29 +76,30 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               tabindex="0"
             >
               <li>
-                <a>
-                  mockTranslate(DIRECTORS)
-                </a>
+                <mock-nav-link
+                  props="{"name":"directors"}"
+                  to="/directors"
+                >
+                  <img
+                    alt="Team"
+                    class="w-5 h-5"
+                    src=""
+                  />
+                  mockTranslate(Our Team)
+                </mock-nav-link>
               </li>
               <li>
-                <a>
-                  mockTranslate(HOW_WE_OPERATE)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(CONTACT)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(MISSION)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(VISION)
-                </a>
+                <mock-nav-link
+                  props="{"name":"our-mission"}"
+                  to="/our-mission"
+                >
+                  <img
+                    alt="Mission"
+                    class="w-5 h-5"
+                    src=""
+                  />
+                  mockTranslate(Our Mission)
+                </mock-nav-link>
               </li>
             </ul>
           </div>
@@ -244,29 +245,30 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             tabindex="0"
           >
             <li>
-              <a>
-                mockTranslate(DIRECTORS)
-              </a>
+              <mock-nav-link
+                props="{"name":"directors"}"
+                to="/directors"
+              >
+                <img
+                  alt="Team"
+                  class="w-5 h-5"
+                  src=""
+                />
+                mockTranslate(Our Team)
+              </mock-nav-link>
             </li>
             <li>
-              <a>
-                mockTranslate(HOW_WE_OPERATE)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(CONTACT)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(MISSION)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(VISION)
-              </a>
+              <mock-nav-link
+                props="{"name":"our-mission"}"
+                to="/our-mission"
+              >
+                <img
+                  alt="Mission"
+                  class="w-5 h-5"
+                  src=""
+                />
+                mockTranslate(Our Mission)
+              </mock-nav-link>
             </li>
           </ul>
         </div>
@@ -476,29 +478,30 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               tabindex="0"
             >
               <li>
-                <a>
-                  mockTranslate(DIRECTORS)
-                </a>
+                <mock-nav-link
+                  props="{"name":"directors"}"
+                  to="/directors"
+                >
+                  <img
+                    alt="Team"
+                    class="w-5 h-5"
+                    src=""
+                  />
+                  mockTranslate(Our Team)
+                </mock-nav-link>
               </li>
               <li>
-                <a>
-                  mockTranslate(HOW_WE_OPERATE)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(CONTACT)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(MISSION)
-                </a>
-              </li>
-              <li>
-                <a>
-                  mockTranslate(VISION)
-                </a>
+                <mock-nav-link
+                  props="{"name":"our-mission"}"
+                  to="/our-mission"
+                >
+                  <img
+                    alt="Mission"
+                    class="w-5 h-5"
+                    src=""
+                  />
+                  mockTranslate(Our Mission)
+                </mock-nav-link>
               </li>
             </ul>
           </div>
@@ -657,29 +660,30 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             tabindex="0"
           >
             <li>
-              <a>
-                mockTranslate(DIRECTORS)
-              </a>
+              <mock-nav-link
+                props="{"name":"directors"}"
+                to="/directors"
+              >
+                <img
+                  alt="Team"
+                  class="w-5 h-5"
+                  src=""
+                />
+                mockTranslate(Our Team)
+              </mock-nav-link>
             </li>
             <li>
-              <a>
-                mockTranslate(HOW_WE_OPERATE)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(CONTACT)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(MISSION)
-              </a>
-            </li>
-            <li>
-              <a>
-                mockTranslate(VISION)
-              </a>
+              <mock-nav-link
+                props="{"name":"our-mission"}"
+                to="/our-mission"
+              >
+                <img
+                  alt="Mission"
+                  class="w-5 h-5"
+                  src=""
+                />
+                mockTranslate(Our Mission)
+              </mock-nav-link>
             </li>
           </ul>
         </div>
