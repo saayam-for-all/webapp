@@ -1,7 +1,6 @@
 import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/Signup";
 import OTPVerification from "../pages/Auth/VerifyOtp";
-import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Directors from "../pages/Directors/Directors";
 import Donate from "../pages/Donate/Donate";
@@ -38,6 +37,10 @@ const routes = [
     element: <HowWeOperate />,
   },
   {
+    path: "collaborators",
+    element: <Collaborators />,
+  },
+  {
     path: "mission",
     element: <Mission />,
   },
@@ -47,11 +50,15 @@ const routes = [
   },
   {
     path: "contact",
-    element: <Contact />,
+    element: <ContactUs />,
   },
   {
     path: "notifications",
     element: <Notifications />,
+  },
+  {
+    path: "our-mission",
+    element: <OurMission />,
   },
   {
     element: <ProtectedRoute />, // Parent wrapper for protected routes
