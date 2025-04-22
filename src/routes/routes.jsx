@@ -2,6 +2,7 @@ import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/Signup";
 import OTPVerification from "../pages/Auth/VerifyOtp";
 import Collaborators from "../pages/Collaborators/Collaborators";
+import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Directors from "../pages/Directors/Directors";
 import Donate from "../pages/Donate/Donate";
@@ -19,7 +20,6 @@ import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizatio
 import Vision from "../pages/Vision/Vision";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import ProtectedRoute from "./ProtectedRoute";
-
 const routes = [
   {
     path: "",
@@ -51,7 +51,7 @@ const routes = [
   },
   {
     path: "contact",
-    element: <ContactUs />,
+    element: <Contact />,
   },
   {
     path: "notifications",
@@ -59,7 +59,7 @@ const routes = [
   },
   {
     path: "our-mission",
-    element: <OurMission />,
+    element: <Mission />,
   },
   {
     element: <ProtectedRoute />, // Parent wrapper for protected routes
