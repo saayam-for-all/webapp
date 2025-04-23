@@ -3,7 +3,7 @@ import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/Signup";
 import OTPVerification from "../pages/Auth/VerifyOtp";
 import Collaborators from "../pages/Collaborators/Collaborators";
-import Contact from "../pages/Contact/Contact";
+import ContactUs from "../pages/Contact/ContactUs";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Directors from "../pages/Directors/Directors";
 import Donate from "../pages/Donate/Donate";
@@ -54,7 +54,7 @@ const routes = [
   },
   {
     path: "contact",
-    element: <Contact />,
+    element: <ContactUs />,
   },
   {
     path: "sitemap",
