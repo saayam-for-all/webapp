@@ -13,7 +13,9 @@ const Sitemap = () => {
               <div className="sitemap-section">
                 <h2 className="sitemap-heading">Home</h2>
                 <ul>
-                  <li>Saayam for all Home</li>
+                  <li>
+                    <a href="/">Saayam for all Home</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -25,8 +27,12 @@ const Sitemap = () => {
               <div className="sitemap-section">
                 <h2 className="sitemap-heading">About Us</h2>
                 <ul>
-                  <li>Our Mission</li>
-                  <li>Our Team</li>
+                  <li>
+                    <a href="/our-mission">Our Mission</a>
+                  </li>
+                  <li>
+                    <a href="/directors">Our Team</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -34,8 +40,12 @@ const Sitemap = () => {
               <div className="sitemap-heading-with-items">
                 <h2 className="sitemap-heading">Volunteer Services</h2>
                 <ul>
-                  <li>How We Operate</li>
-                  <li>Our Collaborators</li>
+                  <li>
+                    <a href="/how-we-operate">How We Operate</a>
+                  </li>
+                  <li>
+                    <a href="/collaborators">Our Collaborators</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -47,7 +57,9 @@ const Sitemap = () => {
               <div className="sitemap-heading-with-items">
                 <h2 className="sitemap-heading">Donate</h2>
                 <ul>
-                  <li>Make a Donation</li>
+                  <li>
+                    <a href="/donate">Make a Donation</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -55,7 +67,9 @@ const Sitemap = () => {
               <div className="sitemap-heading-with-items">
                 <h2 className="sitemap-heading">Contact Us</h2>
                 <ul>
-                  <li>Get in Touch</li>
+                  <li>
+                    <a href="/contact">Get in Touch</a>
+                  </li>
                 </ul>
               </div>
             </div>
