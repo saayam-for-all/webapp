@@ -58,7 +58,6 @@ const Dashboard = ({ userRole }) => {
 
   useEffect(() => {
     toggleDropdown();
-    console.log("groups", groups);
   }, []);
 
   useEffect(() => {
