@@ -282,12 +282,15 @@ const SignUp = () => {
             onChange={(e) => setCountry(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-xl"
           >
+            {/**
             <option value="">Select your country</option>
             {countries.map((option) => (
               <option key={option.value} value={option.label}>
                 {option.label}
               </option>
             ))}
+             */}
+            <option value="United States">United States</option>
           </select>
         </div>
 
@@ -400,7 +403,7 @@ const SignUp = () => {
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignUp}
         >
-          Sign up
+          Sign Up
         </button>
 
         {/* Uncomment this snippet when the signup functionality is fully developed  */}
