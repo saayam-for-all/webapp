@@ -112,12 +112,6 @@ const SignUp = () => {
   const handleSignUp = async () => {
     try {
       setErrors({});
-      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
-
-      if (!isValidPhoneNumber(fullPhoneNumber)) {
-        setErrors({ ...errors, phone: "Please enter a valid phone number" });
-        return;
-      }
 
       const result = signUpSchema.safeParse({
         firstName,
@@ -140,12 +134,27 @@ const SignUp = () => {
         return;
       }
 
-      if (passwordValue !== confirmPasswordValue) {
-        setPasswordsMatch(false);
-        setErrors({ ...errors, confirmPassword: "Passwords do not match" });
+      // Now, after basic field validation, check if phone number is really valid
+      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+
+      if (!isValidPhoneNumber(fullPhoneNumber)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          phone: "Please enter a valid phone number",
+        }));
         return;
       }
 
+      if (passwordValue !== confirmPasswordValue) {
+        setPasswordsMatch(false);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          confirmPassword: "Passwords do not match",
+        }));
+        return;
+      }
+
+      // Proceed with signup
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
