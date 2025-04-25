@@ -19,6 +19,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { IoLogInOutline } from "react-icons/io5";
@@ -287,6 +288,18 @@ const Navbar = () => {
               <ContactMailOutlinedIcon className="mr-2" /> {t("Contact Us")}
             </button>
           </div>
+
+          {user?.userId && (
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/notifications")}
+                // className="text-black flex items-center hover:text-gray-600 text-base"
+                className="text-black hover:text-gray-600 flex items-center text-base"
+              >
+                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Donate button aligned to the rightmost */}
@@ -524,6 +537,17 @@ const Navbar = () => {
               <FavoriteBorderIcon className="mr-2" /> {t("Donate")}
             </button>
           </div>
+
+          {user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleDrawerClick(e, "/notifications")}
+                className="text-black flex items-center hover:text-blue-600"
+              >
+                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+              </button>
+            </div>
+          )}
         </div>
       </Drawer>
     </nav>
