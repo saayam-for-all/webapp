@@ -4,16 +4,8 @@ export function MissionHero() {
   return (
     <section className="flex justify-center items-center py-10 bg-white">
       <div className="w-[945px] rounded-[20px] p-6 border border-blue-200 text-center shadow-md">
-        <h2
-          className="text-2xl font-bold mb-2"
-          style={{ fontFamily: "Josefin Sans" }}
-        >
-          About Us
-        </h2>
-        <p
-          className="text-gray-600 text-base leading-relaxed mb-6 max-w-xl mx-auto"
-          style={{ fontFamily: "Josefin Sans" }}
-        >
+        <h2 className="text-2xl font-bold mb-2">About Us</h2>
+        <p className="text-gray-600 text-base leading-relaxed mb-6 max-w-xl mx-auto">
           At Saayam For All, we believe in the power of helping hands reaching
           out to those facing challenges.
         </p>
