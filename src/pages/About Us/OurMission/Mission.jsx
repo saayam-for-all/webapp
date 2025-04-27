@@ -4,16 +4,10 @@ export function Mission() {
       <div className="w-[1100px] h-[565px] rounded-[30px] p-6 shadow-md border border-blue-200 flex flex-col justify-between">
         {/* Header Row: Our Mission + Paragraph in single row */}
         <div className="flex mb-6">
-          <h2
-            className="text-2xl font-bold mr-4 whitespace-nowrap"
-            style={{ fontFamily: "Josefin Sans" }}
-          >
+          <h2 className="text-2xl font-bold mr-4 whitespace-nowrap">
             Our Mission
           </h2>
-          <p
-            className="text-gray-600 text-base leading-relaxed"
-            style={{ fontFamily: "Josefin Sans" }}
-          >
+          <p className="text-gray-600 text-base leading-relaxed">
             Our mission is to provide timely and targeted assistance to those
             facing challenges in their lives, fostering a culture of compassion,
             solidarity, and service to humanity.
