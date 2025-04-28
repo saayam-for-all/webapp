@@ -23,6 +23,7 @@
     "@emotion/styled": "^11.14.0",
     "@fontsource-variable/inter": "^5.0.17",
     "@fontsource/poppins": "^5.2.5",
+    "@heroicons/react": "^2.2.0",
     "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.2",
     "@react-google-maps/api": "^2.20.6",
