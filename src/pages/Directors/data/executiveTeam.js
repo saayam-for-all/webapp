@@ -22,8 +22,8 @@ const ExecutiveTeamData = [
   },
   {
     image: Rashmi_Bilaskar,
-    name: "Rashmi",
-    role: "Lead Application Developer",
+    name: "Rashmi Bilaskar",
+    role: "Team Lead - Webapp and Mobile App Engineering",
     linkedin: "https://www.linkedin.com/in/rashmi-b-874a482/",
   },
   {
@@ -35,7 +35,7 @@ const ExecutiveTeamData = [
   },
   {
     image: Shubham_Narkhede,
-    name: "Shubam",
+    name: "Shubham Narkhede",
     role: "AI/ML Team Lead",
     linkedin: "https://www.linkedin.com/in/shubhamnarkhede",
   },
@@ -54,8 +54,8 @@ const ExecutiveTeamData = [
   },
   {
     image: Kavyasree_Bommakanti,
-    name: "Kavyasree",
-    role: "Lead Project Manager",
+    name: "Kavyasree Bommakanti",
+    role: "Program Manager | Business Analyst",
     linkedin: "https://www.linkedin.com/in/kavyasree-b-b4941b299/",
   },
   // {
@@ -93,7 +93,7 @@ const ExecutiveTeamData = [
   {
     image: Meghana_Karri,
     name: "Meghana Karri",
-    role: "UX Lead",
+    role: "Lead User Experience Designer",
     linkedin: "https://www.linkedin.com/in/meghanakarri/",
   },
 ];
