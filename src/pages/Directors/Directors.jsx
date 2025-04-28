@@ -6,7 +6,7 @@ import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
 import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
 import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
 import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
-import RaoImg from "../../assets/images/Rao.jpeg";
+
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
 import { useNavigate } from "react-router-dom";
