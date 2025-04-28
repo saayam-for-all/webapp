@@ -1,48 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
 
 export default function Home() {
-  const iframeRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
-  const [player, setPlayer] = useState(null);
-  const [volume, setVolume] = useState(false);
   const navigate = useNavigate();
   const videoId = "9CBLVoSSuwM";
-
-  // Load YouTube Iframe API
-  useEffect(() => {
-    if (window.YT) {
-      createPlayer();
-    } else {
-      const tag = document.createElement("script");
-      tag.src = "https://www.youtube.com/iframe_api";
-      window.onYouTubeIframeAPIReady = createPlayer;
-      document.body.appendChild(tag);
-    }
-  }, []);
-
-  const createPlayer = () => {
-    const ytPlayer = new window.YT.Player(iframeRef.current, {
-      videoId,
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        controls: 0,
-        loop: 1,
-        playlist: videoId,
-      },
-      events: {
-        onReady: (e) => {
-          setPlayer(e.target);
-        },
-      },
-    });
-  };
 
   useEffect(() => {
     if (user !== null) {
@@ -80,35 +46,18 @@ export default function Home() {
             </h6>
           </div>
           <button
-            className="text-white bg-blue-500 hover:bg-blue-700 rounded-lg px-8 py-2 text-lg hover:underline"
+            className="join-community-button text-white bg-blue-500 hover:bg-blue-700 rounded-lg px-8 py-2 text-lg hover:underline"
             onClick={() => navigate("/contact")}
           >
             Join the Community
           </button>
         </div>
-        <button
-          className="landing-volume-button"
-          onClick={async () => {
-            if (player) {
-              if (player.isMuted()) {
-                await player.unMute();
-                setVolume(true);
-              } else {
-                await player.mute();
-                setVolume(false);
-              }
-            }
-          }}
-        >
-          {!volume ? <FaVolumeXmark /> : <FaVolumeHigh />}
-        </button>
 
         <div className="video-wrapper">
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&controls=0&playlist=${videoId}&enablejsapi=1`}
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&controls=1&rel=0&playlist=${videoId}&enablejsapi=1`}
             title="YouTube Video"
             allow="autoplay"
-            ref={iframeRef}
             id="landing-iframe"
           ></iframe>
         </div>

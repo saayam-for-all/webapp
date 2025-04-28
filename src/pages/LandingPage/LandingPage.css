@@ -19,21 +19,19 @@
 }
 
 .video-wrapper {
-  width: 300%;
-  left: -100%;
-  pointer-events: none;
+  width: 100%;
+  left: 0%;
   position: relative;
-  padding-bottom: 85%; /* 16:9 aspect ratio (9 ÷ 16 = 0.5625 or 56.25%) */
+  padding-bottom: 56%; /* 16:9 aspect ratio (9 ÷ 16 = 0.5625 or 56.25%) */
 }
 
 .video-wrapper iframe {
   position: absolute;
-  top: -60px;
+  top: 0px;
   left: 0;
   width: 100%;
   height: 75%;
   border-radius: 10px; /* Optional: match the border-radius of other sections */
-  pointer-events: none;
 }
 
 .video-overlay {
@@ -48,7 +46,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  pointer-events: auto;
+  pointer-events: none;
 }
 .landing-volume-button {
   position: absolute;
@@ -60,6 +58,11 @@
   border: none;
   cursor: pointer;
 }
+
+.join-community-button {
+  pointer-events: auto;
+}
+
 .community-container {
   display: flex;
   justify-content: center;
