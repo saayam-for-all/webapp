@@ -143,7 +143,7 @@ const Directors = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col items-center">
+        {/* <div className="flex flex-col items-center">
           <h1 className="text-center text-3xl font-bold text-black">
             {t("Looking to join us?")}
           </h1>
@@ -156,7 +156,7 @@ const Directors = () => {
           >
             Join the community
           </button>
-        </div>
+        </div> */}
       </section>
     </div>
   );

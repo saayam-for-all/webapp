@@ -68,7 +68,7 @@ const ExecutiveTeamData = [
     // image: "https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0",
     image: Mohanakrishnan,
     name: "Mohana Krishanan R.",
-    role: "-Senior Data Architect",
+    role: "Senior Data Architect",
     linkedin: "https://www.linkedin.com/in/mohana-krishanan",
   },
   // {

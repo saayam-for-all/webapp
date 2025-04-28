@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 // import { requestsData } from "./data";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
-import { MdArrowForwardIos } from "react-icons/md";
+import { useSelector } from "react-redux";
 // import { useGetAllRequestQuery } from "../../services/requestApi";
 import {
   getManagedRequests,
@@ -33,6 +33,7 @@ const Dashboard = ({ userRole }) => {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [data, setData] = useState({});
+  const groups = useSelector((state) => state.auth.user?.groups);
   const isLoading = false;
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -230,24 +231,22 @@ const Dashboard = ({ userRole }) => {
   return (
     <div className="p-5">
       <div className="flex gap-10 mb-5">
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-          <Link
-            to="/request"
-            className="text-white "
-            style={{ color: "white" }}
-          >
-            {t("CREATE_HELP_REQUEST")}
-          </Link>
-        </button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+        <Link
+          to="/request"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+          style={{ color: "white" }}
+        >
+          {t("CREATE_HELP_REQUEST")}
+        </Link>
+        {!groups?.includes("Volunteers") && (
           <Link
             to="/promote-to-volunteer"
-            className="text-white "
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 "
             style={{ color: "white" }}
           >
             {t("BECOME_VOLUNTEER")}
           </Link>
-        </button>
+        )}
         <div className="flex ml-auto gap-2 items-center">
           {isDropdownVisible && (
             <select className="text-blue-500 font-semibold underline italic py-2">
@@ -263,23 +262,28 @@ const Dashboard = ({ userRole }) => {
 
       <div className="border">
         <div className="flex mb-5">
-          {["myRequests", "managedRequests"].map((tab) => (
-            <button
-              key={tab}
-              className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
-                activeTab === tab
-                  ? "bg-white border-gray-300"
-                  : "bg-gray-300 border-transparent hover:bg-gray-200"
-              } ${tab !== "managedRequests" ? "mr-1" : ""}`}
-              onClick={() => handleTabChange(tab)}
-            >
-              {tab === "myRequests"
-                ? t("MY_REQUESTS")
-                : tab === "othersRequests"
-                  ? t("OTHERS_REQUESTS")
-                  : t("MANAGED_REQUESTS")}
-            </button>
-          ))}
+          {["myRequests", "managedRequests"]
+            .filter(
+              (tab) =>
+                !(tab === "managedRequests" && !groups?.includes("Volunteers")),
+            )
+            .map((tab) => (
+              <button
+                key={tab}
+                className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+                  activeTab === tab
+                    ? "bg-white border-gray-300"
+                    : "bg-gray-300 border-transparent hover:bg-gray-200"
+                } ${tab !== "managedRequests" ? "mr-1" : ""}`}
+                onClick={() => handleTabChange(tab)}
+              >
+                {tab === "myRequests"
+                  ? t("MY_REQUESTS")
+                  : tab === "othersRequests"
+                    ? t("OTHERS_REQUESTS")
+                    : t("MANAGED_REQUESTS")}
+              </button>
+            ))}
         </div>
 
         <div className="mb-4 flex gap-2 px-10">
