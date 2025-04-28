@@ -249,7 +249,7 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Rashmi"
+                    alt="Rashmi Bilaskar"
                     class="w-full h-full object-cover"
                     src=""
                   />
@@ -263,13 +263,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Rashmi
+                    Rashmi Bilaskar
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Lead Application Developer
+                  Team Lead - Webapp and Mobile App Engineering
                 </div>
               </div>
               <div
@@ -309,7 +309,7 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Shubam"
+                    alt="Shubham Narkhede"
                     class="w-full h-full object-cover"
                     src=""
                   />
@@ -323,7 +323,7 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Shubam
+                    Shubham Narkhede
                   </a>
                 </div>
                 <div
@@ -369,7 +369,7 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Kavyasree"
+                    alt="Kavyasree Bommakanti"
                     class="w-full h-full object-cover"
                     src=""
                   />
@@ -383,13 +383,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Kavyasree
+                    Kavyasree Bommakanti
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Lead Project Manager
+                  Program Manager | Business Analyst
                 </div>
               </div>
               <div
@@ -479,7 +479,7 @@ exports[`Directors renders correctly 1`] = `
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  UX Lead
+                  Lead User Experience Designer
                 </div>
               </div>
             </div>
@@ -811,7 +811,7 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Rashmi"
+                  alt="Rashmi Bilaskar"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -825,13 +825,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Rashmi
+                  Rashmi Bilaskar
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Lead Application Developer
+                Team Lead - Webapp and Mobile App Engineering
               </div>
             </div>
             <div
@@ -871,7 +871,7 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Shubam"
+                  alt="Shubham Narkhede"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -885,7 +885,7 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Shubam
+                  Shubham Narkhede
                 </a>
               </div>
               <div
@@ -931,7 +931,7 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Kavyasree"
+                  alt="Kavyasree Bommakanti"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -945,13 +945,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Kavyasree
+                  Kavyasree Bommakanti
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Lead Project Manager
+                Program Manager | Business Analyst
               </div>
             </div>
             <div
@@ -1041,7 +1041,7 @@ exports[`Directors renders correctly 1`] = `
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                UX Lead
+                Lead User Experience Designer
               </div>
             </div>
           </div>
