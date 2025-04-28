@@ -49,12 +49,14 @@
     "react-time-picker": "^7.0.0",
     "react-toastify": "^11.0.5",
     "rsuite": "^5.77.1",
+    "swiper": "^11.2.6",
     "use-immer": "^0.10.0",
+    "youtube-iframe-ctrl": "^1.0.3",
     "yup": "^1.4.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
+    "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "@testing-library/dom": "^10.4.0",
