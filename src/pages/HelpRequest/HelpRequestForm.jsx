@@ -175,7 +175,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
           // Redirect to the dashboard after a short delay
           setTimeout(() => {
-            navigate("/dashboard");
+            navigate("/dashboard", {
+              state: {
+                successMessage:
+                  "New Request submitted successfully! Welcome to the dashboard.",
+              },
+            });
           }, 2000);
         }
       }
@@ -306,7 +311,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
       // Redirect to the dashboard after a short delay
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/dashboard", {
+          state: {
+            successMessage:
+              "New Request submitted successfully! Welcome to the dashboard.",
+          },
+        });
       }, 2000); // Wait 2 seconds before redirecting
     } catch (error) {
       console.error("Failed to submit request:", error);
@@ -395,8 +405,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   onChange={handleChange}
                   className="border p-2 w-full rounded-lg text-gray-700"
                 >
-                  <option value="No">{t("No")}</option>
-                  <option value="Yes">{t("Yes")}</option>
+                  <option value=""></option>
+                  <option value="for_self">{t("For Self")}</option>
                 </select>
               )}
             </div>
