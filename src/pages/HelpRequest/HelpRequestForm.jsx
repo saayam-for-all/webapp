@@ -395,8 +395,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   onChange={handleChange}
                   className="border p-2 w-full rounded-lg text-gray-700"
                 >
-                  <option value=""></option>
-                  <option value="for_self">{t("For Self")}</option>
+                  <option value="No">{t("No")}</option>
+                  <option value="Yes">{t("Yes")}</option>
                 </select>
               )}
             </div>
