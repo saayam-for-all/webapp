@@ -1,6 +1,6 @@
 import React from "react";
 import "./Footer.css";
-import logo from "../../../assets/saayam-logo-footer-transparent.png";
+import logo from "../../../assets/logo.svg";
 
 export default function Footer() {
   return (
@@ -35,15 +35,11 @@ export default function Footer() {
         {/* 2) Bottom grid: copyright + links */}
         <div className="footer-bottom-grid">
           <div className="footer-copy">
-            © 2025 Saayam For All. All rights reserved.
+            Copyright © 2025 Saayam For All. All rights reserved.
           </div>
-          <div className="footer-link-cell">
-            <a href="#">Site Map</a>
-          </div>
-          <div className="footer-link-cell">
+          <div className="footer-links">
+            <a href="/sitemap">Site Map</a>
             <a href="#">Terms and Conditions</a>
-          </div>
-          <div className="footer-link-cell">
             <a href="#">Privacy Policy</a>
           </div>
         </div>

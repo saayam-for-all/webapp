@@ -1,28 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Drawer, Menu, MenuItem, IconButton } from "@mui/material";
-import LOGO from "../../../assets/logo.svg";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Drawer, IconButton, Menu, MenuItem } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import LOGO from "../../../assets/logo.svg";
 
 // Individual imports for outlined icons
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import Diversity1OutlinedIcon from "@mui/icons-material/Diversity1Outlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import MenuIcon from "@mui/icons-material/Menu";
-import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
-import Diversity3Icon from "@mui/icons-material/Diversity3";
-import GroupsIcon from "@mui/icons-material/Groups";
+import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
+import Diversity1OutlinedIcon from "@mui/icons-material/Diversity1Outlined";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import GroupsIcon from "@mui/icons-material/Groups";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import MenuIcon from "@mui/icons-material/Menu";
+import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
 
-import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { IoLogInOutline } from "react-icons/io5";
+import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 
@@ -272,7 +273,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4">
+    <nav className="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4">
       <div className="flex items-center justify-between w-full px-4 h-full">
         {/* Logo aligned to the left */}
         <div
@@ -358,9 +359,7 @@ const Navbar = () => {
                 >
                   <GroupsIcon className="mr-2" /> {t("How We Operate")}
                 </MenuItem>
-                <MenuItem
-                  onClick={(e) => handleLinkClick(e, "/how-we-operate")}
-                >
+                <MenuItem onClick={(e) => handleLinkClick(e, "/collaborators")}>
                   <Diversity3Icon className="mr-2" /> {t("Our Collaborators")}
                 </MenuItem>
               </Menu>

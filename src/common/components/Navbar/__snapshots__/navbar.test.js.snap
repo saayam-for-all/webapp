@@ -6,7 +6,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
   "baseElement": <body>
     <div>
       <nav
-        class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4"
+        class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
       >
         <div
           class="flex items-center justify-between w-full px-4 h-full"
@@ -232,7 +232,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
   </body>,
   "container": <div>
     <nav
-      class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4"
+      class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
     >
       <div
         class="flex items-center justify-between w-full px-4 h-full"
@@ -522,7 +522,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
   "baseElement": <body>
     <div>
       <nav
-        class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4"
+        class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
       >
         <div
           class="flex items-center justify-between w-full px-4 h-full"
@@ -739,7 +739,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
   </body>,
   "container": <div>
     <nav
-      class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4"
+      class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
     >
       <div
         class="flex items-center justify-between w-full px-4 h-full"

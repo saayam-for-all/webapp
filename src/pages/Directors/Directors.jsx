@@ -6,7 +6,7 @@ import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
 import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
 import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
 import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
-import RaoImg from "../../assets/images/Rao.jpeg";
+
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
 import { useNavigate } from "react-router-dom";
@@ -143,7 +143,7 @@ const Directors = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col items-center">
+        {/* <div className="flex flex-col items-center">
           <h1 className="text-center text-3xl font-bold text-black">
             {t("Looking to join us?")}
           </h1>
@@ -156,7 +156,7 @@ const Directors = () => {
           >
             Join the community
           </button>
-        </div>
+        </div> */}
       </section>
     </div>
   );
