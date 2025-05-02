@@ -6,78 +6,342 @@ exports[`Donate renders correctly 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="donation-tab mt-20"
+        class="donate-container"
+        data-testid="donate-container"
       >
-        <h1
-          class="text-center"
-        >
-          mockTranslate(SCAN_ON_DONATE)
-        </h1>
         <div
-          class="flex items-center justify-center mt-6"
+          class="donate-grid"
+          data-testid="donate-grid"
         >
-          <img
-            alt="QR Code for Donation"
-            loading="lazy"
-            src=""
-          />
+          <div
+            class="donate-image-container"
+            data-testid="donate-image-container"
+          >
+            <img
+              alt="People helping each other"
+              class="donate-image"
+              src=""
+            />
+          </div>
+          <div
+            class="donate-content"
+            data-testid="donate-content"
+          >
+            <div>
+              <h1
+                class="donate-title"
+              >
+                Make a Donation
+              </h1>
+              <p
+                class="donate-subtitle"
+              >
+                Your contribution helps us continue our mission of providing assistance to those in need.
+              </p>
+              <div
+                class="donation-buttons"
+              >
+                <a
+                  class="donate-button-paypal"
+                  href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Donate via PayPal
+                </a>
+                <a
+                  class="donate-button-razorpay"
+                  href="#"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Donate via RazorPay
+                </a>
+                <a
+                  class="donate-button-stripe"
+                  href="#"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Donate via Stripe
+                </a>
+              </div>
+              <div
+                class="qr-section"
+              >
+                <h2
+                  class="qr-title"
+                >
+                  Scan to Donate
+                </h2>
+                <p
+                  class="qr-description"
+                >
+                  Scan this QR code with your mobile device to make a donation
+                </p>
+                <div
+                  class="qr-code-container"
+                >
+                  <img
+                    alt="Donation QR Code"
+                    class="qr-code"
+                    src=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div
-          class="flex justify-center gap-4 mt-6"
+          class="faq-section"
+          data-testid="faq-section"
         >
-          <button
-            class="btn bg-blue-500 text-white hover:bg-blue-700"
+          <h2
+            class="faq-title"
           >
-            mockTranslate(BACK)
-          </button>
-          <a
-            aria-label="Donate via PayPal"
-            class="btn btn-accent"
-            href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-            rel="noopener noreferrer"
-            target="_blank"
+            FAQ's
+          </h2>
+          <div
+            class="faq-list"
           >
-            mockTranslate(DONATE)
-          </a>
+            <div
+              class="faq-item"
+            >
+              <button
+                class="faq-question"
+              >
+                Are donations tax deductible?
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="faq-item"
+            >
+              <button
+                class="faq-question"
+              >
+                How will my donation be used?
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="faq-item"
+            >
+              <button
+                class="faq-question"
+              >
+                Can I cancel recurring donations?
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="donation-tab mt-20"
+      class="donate-container"
+      data-testid="donate-container"
     >
-      <h1
-        class="text-center"
-      >
-        mockTranslate(SCAN_ON_DONATE)
-      </h1>
       <div
-        class="flex items-center justify-center mt-6"
+        class="donate-grid"
+        data-testid="donate-grid"
       >
-        <img
-          alt="QR Code for Donation"
-          loading="lazy"
-          src=""
-        />
+        <div
+          class="donate-image-container"
+          data-testid="donate-image-container"
+        >
+          <img
+            alt="People helping each other"
+            class="donate-image"
+            src=""
+          />
+        </div>
+        <div
+          class="donate-content"
+          data-testid="donate-content"
+        >
+          <div>
+            <h1
+              class="donate-title"
+            >
+              Make a Donation
+            </h1>
+            <p
+              class="donate-subtitle"
+            >
+              Your contribution helps us continue our mission of providing assistance to those in need.
+            </p>
+            <div
+              class="donation-buttons"
+            >
+              <a
+                class="donate-button-paypal"
+                href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Donate via PayPal
+              </a>
+              <a
+                class="donate-button-razorpay"
+                href="#"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Donate via RazorPay
+              </a>
+              <a
+                class="donate-button-stripe"
+                href="#"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Donate via Stripe
+              </a>
+            </div>
+            <div
+              class="qr-section"
+            >
+              <h2
+                class="qr-title"
+              >
+                Scan to Donate
+              </h2>
+              <p
+                class="qr-description"
+              >
+                Scan this QR code with your mobile device to make a donation
+              </p>
+              <div
+                class="qr-code-container"
+              >
+                <img
+                  alt="Donation QR Code"
+                  class="qr-code"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
-        class="flex justify-center gap-4 mt-6"
+        class="faq-section"
+        data-testid="faq-section"
       >
-        <button
-          class="btn bg-blue-500 text-white hover:bg-blue-700"
+        <h2
+          class="faq-title"
         >
-          mockTranslate(BACK)
-        </button>
-        <a
-          aria-label="Donate via PayPal"
-          class="btn btn-accent"
-          href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-          rel="noopener noreferrer"
-          target="_blank"
+          FAQ's
+        </h2>
+        <div
+          class="faq-list"
         >
-          mockTranslate(DONATE)
-        </a>
+          <div
+            class="faq-item"
+          >
+            <button
+              class="faq-question"
+            >
+              Are donations tax deductible?
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="faq-item"
+          >
+            <button
+              class="faq-question"
+            >
+              How will my donation be used?
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="faq-item"
+          >
+            <button
+              class="faq-question"
+            >
+              Can I cancel recurring donations?
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>,
