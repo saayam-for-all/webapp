@@ -6,7 +6,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
   "baseElement": <body>
     <div>
       <nav
-        class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4"
+        class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
       >
         <div
           class="flex items-center justify-between w-full px-4 h-full"
@@ -144,6 +144,27 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 mockTranslate(Contact Us)
               </button>
             </div>
+            <div
+              class="relative"
+            >
+              <button
+                class="text-black hover:text-gray-600 flex items-center text-base"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 css-1umw9bq-MuiSvgIcon-root"
+                  data-testid="NotificationsIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"
+                  />
+                </svg>
+                 
+                mockTranslate(Notifications)
+              </button>
+            </div>
           </div>
           <div
             class="ml-auto mr-3"
@@ -211,7 +232,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
   </body>,
   "container": <div>
     <nav
-      class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4"
+      class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
     >
       <div
         class="flex items-center justify-between w-full px-4 h-full"
@@ -349,6 +370,27 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               mockTranslate(Contact Us)
             </button>
           </div>
+          <div
+            class="relative"
+          >
+            <button
+              class="text-black hover:text-gray-600 flex items-center text-base"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 css-1umw9bq-MuiSvgIcon-root"
+                data-testid="NotificationsIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"
+                />
+              </svg>
+               
+              mockTranslate(Notifications)
+            </button>
+          </div>
         </div>
         <div
           class="ml-auto mr-3"
@@ -480,7 +522,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
   "baseElement": <body>
     <div>
       <nav
-        class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4"
+        class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
       >
         <div
           class="flex items-center justify-between w-full px-4 h-full"
@@ -697,7 +739,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
   </body>,
   "container": <div>
     <nav
-      class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4"
+      class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
     >
       <div
         class="flex items-center justify-between w-full px-4 h-full"

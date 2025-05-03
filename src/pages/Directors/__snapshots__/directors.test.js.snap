@@ -191,13 +191,20 @@ exports[`Directors renders correctly 1`] = `
                   <img
                     alt="Rao K Bhethanabotla"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/42afdfb974265d5ede7e4b08aeff12e6a278dbec"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Rao K Bhethanabotla
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/raobhethanabotla"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Rao K Bhethanabotla
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -214,18 +221,25 @@ exports[`Directors renders correctly 1`] = `
                   <img
                     alt="Rishita Rapuri"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/cd09abc1a5a391a8775f93bf52dc1c7bd3bde48c"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Rishita Rapuri
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Rishita Rapuri
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Human Resources Manager
+                  Business Analyst Team Lead
                 </div>
               </div>
               <div
@@ -235,20 +249,27 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Rashmi"
+                    alt="Rashmi Bilaskar"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/42134acaa608afdb1f30b2328f3ef05c63c7aee1"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Rashmi
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/rashmi-b-874a482/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Rashmi Bilaskar
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Lead Application Developer
+                  Team Lead - Webapp and Mobile App Engineering
                 </div>
               </div>
               <div
@@ -266,7 +287,14 @@ exports[`Directors renders correctly 1`] = `
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Sriram Mahankali
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/sriram-mahankali"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sriram Mahankali
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -281,43 +309,27 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Shubam"
+                    alt="Shubham Narkhede"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1155d03bc35b0497b2368237a95f6943836844a"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Shubam
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/shubhamnarkhede"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Shubham Narkhede
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
                   AI/ML Team Lead
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Aatish Kayyath"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2fa182bfa332d6844de8112c9d522f03b2c678f"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Aatish Kayyath
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  ------
                 </div>
               </div>
               <div
@@ -335,7 +347,14 @@ exports[`Directors renders correctly 1`] = `
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Divya Tanwar
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/divya-tanwar"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Divya Tanwar
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -350,43 +369,27 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Kavyasree"
+                    alt="Kavyasree Bommakanti"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1f54ababf3e0deebac0fef1e47e682a9823e34e"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Kavyasree
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/kavyasree-b-b4941b299/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Kavyasree Bommakanti
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Lead Project Manager
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Purva Patil"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/6b58758ef77efe32c301deac6f4f0c1f6abb8fce"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Purva Patil
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  Lead Product Manager
+                  Program Manager | Business Analyst
                 </div>
               </div>
               <div
@@ -398,41 +401,25 @@ exports[`Directors renders correctly 1`] = `
                   <img
                     alt="Mohana Krishanan R."
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Mohana Krishanan R.
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/mohana-krishanan"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Mohana Krishanan R.
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  -----
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Rishab Ghosh"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/f0e403a7bcfa9d9be2f1c66f6fac4ca2218935ea"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Rishab Ghosh
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  -----
+                  Senior Data Architect
                 </div>
               </div>
               <div
@@ -444,41 +431,25 @@ exports[`Directors renders correctly 1`] = `
                   <img
                     alt="Sugandha Agarwal"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/bcb73fdde6f2bca35c1db86c6ecb36f58fcd4fae"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Sugandha Agarwal
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sugandha Agarwal
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  -----
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Uma"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6c938fe9f544ef0dacab7bd69eaca9a1a890fdb"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Uma
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  -----
+                  AI/ML Development Manager
                 </div>
               </div>
               <div
@@ -490,18 +461,25 @@ exports[`Directors renders correctly 1`] = `
                   <img
                     alt="Meghana Karri"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/091aca13a6e830ee2374f73b8d227506b2a90566"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Meghana Karri
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/meghanakarri/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Meghana Karri
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  UX Lead
+                  Lead User Experience Designer
                 </div>
               </div>
             </div>
@@ -583,25 +561,6 @@ exports[`Directors renders correctly 1`] = `
                 </h3>
               </div>
             </div>
-          </div>
-          <div
-            class="flex flex-col items-center"
-          >
-            <h1
-              class="text-center text-3xl font-bold text-black"
-            >
-              mockTranslate(Looking to join us?)
-            </h1>
-            <p
-              class="text-center text-lg text-gray-600 my-4"
-            >
-              mockTranslate(Chat with our community and get in touch with our team!)
-            </p>
-            <button
-              class="text-center bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-2 rounded-2xl"
-            >
-              Join the community
-            </button>
           </div>
         </section>
       </div>
@@ -794,13 +753,20 @@ exports[`Directors renders correctly 1`] = `
                 <img
                   alt="Rao K Bhethanabotla"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/42afdfb974265d5ede7e4b08aeff12e6a278dbec"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Rao K Bhethanabotla
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/raobhethanabotla"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Rao K Bhethanabotla
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -817,18 +783,25 @@ exports[`Directors renders correctly 1`] = `
                 <img
                   alt="Rishita Rapuri"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/cd09abc1a5a391a8775f93bf52dc1c7bd3bde48c"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Rishita Rapuri
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Rishita Rapuri
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Human Resources Manager
+                Business Analyst Team Lead
               </div>
             </div>
             <div
@@ -838,20 +811,27 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Rashmi"
+                  alt="Rashmi Bilaskar"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/42134acaa608afdb1f30b2328f3ef05c63c7aee1"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Rashmi
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/rashmi-b-874a482/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Rashmi Bilaskar
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Lead Application Developer
+                Team Lead - Webapp and Mobile App Engineering
               </div>
             </div>
             <div
@@ -869,7 +849,14 @@ exports[`Directors renders correctly 1`] = `
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Sriram Mahankali
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/sriram-mahankali"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sriram Mahankali
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -884,43 +871,27 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Shubam"
+                  alt="Shubham Narkhede"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1155d03bc35b0497b2368237a95f6943836844a"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Shubam
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/shubhamnarkhede"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Shubham Narkhede
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
                 AI/ML Team Lead
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Aatish Kayyath"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2fa182bfa332d6844de8112c9d522f03b2c678f"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Aatish Kayyath
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                ------
               </div>
             </div>
             <div
@@ -938,7 +909,14 @@ exports[`Directors renders correctly 1`] = `
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Divya Tanwar
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/divya-tanwar"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Divya Tanwar
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -953,43 +931,27 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Kavyasree"
+                  alt="Kavyasree Bommakanti"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1f54ababf3e0deebac0fef1e47e682a9823e34e"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Kavyasree
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/kavyasree-b-b4941b299/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Kavyasree Bommakanti
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Lead Project Manager
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Purva Patil"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/6b58758ef77efe32c301deac6f4f0c1f6abb8fce"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Purva Patil
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                Lead Product Manager
+                Program Manager | Business Analyst
               </div>
             </div>
             <div
@@ -1001,41 +963,25 @@ exports[`Directors renders correctly 1`] = `
                 <img
                   alt="Mohana Krishanan R."
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Mohana Krishanan R.
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/mohana-krishanan"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Mohana Krishanan R.
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                -----
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Rishab Ghosh"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/f0e403a7bcfa9d9be2f1c66f6fac4ca2218935ea"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Rishab Ghosh
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                -----
+                Senior Data Architect
               </div>
             </div>
             <div
@@ -1047,41 +993,25 @@ exports[`Directors renders correctly 1`] = `
                 <img
                   alt="Sugandha Agarwal"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/bcb73fdde6f2bca35c1db86c6ecb36f58fcd4fae"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Sugandha Agarwal
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sugandha Agarwal
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                -----
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Uma"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6c938fe9f544ef0dacab7bd69eaca9a1a890fdb"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Uma
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                -----
+                AI/ML Development Manager
               </div>
             </div>
             <div
@@ -1093,18 +1023,25 @@ exports[`Directors renders correctly 1`] = `
                 <img
                   alt="Meghana Karri"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/091aca13a6e830ee2374f73b8d227506b2a90566"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Meghana Karri
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/meghanakarri/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Meghana Karri
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                UX Lead
+                Lead User Experience Designer
               </div>
             </div>
           </div>
@@ -1186,25 +1123,6 @@ exports[`Directors renders correctly 1`] = `
               </h3>
             </div>
           </div>
-        </div>
-        <div
-          class="flex flex-col items-center"
-        >
-          <h1
-            class="text-center text-3xl font-bold text-black"
-          >
-            mockTranslate(Looking to join us?)
-          </h1>
-          <p
-            class="text-center text-lg text-gray-600 my-4"
-          >
-            mockTranslate(Chat with our community and get in touch with our team!)
-          </p>
-          <button
-            class="text-center bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-2 rounded-2xl"
-          >
-            Join the community
-          </button>
         </div>
       </section>
     </div>

@@ -16,6 +16,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
@@ -23,6 +24,7 @@ import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivism
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
+import { useNotifications } from "../../../context/NotificationContext";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,6 +34,7 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { state, dispatch: notificationDispatch } = useNotifications();
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
@@ -76,6 +79,92 @@ const Navbar = () => {
       window.removeEventListener("unsaved-changes", handleUnsavedChanges);
     };
   }, []);
+
+  useEffect(() => {
+    if (!user?.userId) return; // don't fetch unless user is logged in
+
+    const notificationButton = document.getElementById("notificationButton");
+
+    if (notificationButton) {
+      notificationButton.style.display = user ? "flex" : "none";
+    }
+    const fetchNotifications = async () => {
+      try {
+        // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
+        // const rawNotifications = response.data.notifications || [];
+        const rawNotifications = [
+          {
+            type: "Volunteer",
+            title: "New Match Request",
+            message: "You have new Volunteer match request in Logistics",
+            date: "Mar 15, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            title: "New Match Request",
+            message: "Hospital",
+            date: "Jun 15, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            title: "Logistic Help",
+            message: "Logistics",
+            date: "Nov 15, 2023, 10:30 AM",
+          },
+          {
+            type: "helpRequest",
+            title: "Educational Help",
+            message: "Need help with Logistics",
+            date: "Dec 16, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            title: "New Match Request",
+            message: "Education",
+            date: "Jan 15, 2023, 10:30 AM",
+          },
+        ];
+
+        // ✅ Add unique ID using crypto.randomUUID()
+        const notificationsWithIds = rawNotifications.map((note) => ({
+          ...note,
+          id: crypto.randomUUID(),
+        }));
+
+        notificationDispatch({
+          type: "SET_NOTIFICATIONS",
+          payload: notificationsWithIds,
+        });
+        const existing = new Set(
+          state.notifications.map((n) => n.message + n.date),
+        );
+        const newOnes = notificationsWithIds.filter(
+          (n) => !existing.has(n.message + n.date),
+        );
+
+        // Only update if new notifications exist
+        if (newOnes.length > 0) {
+          notificationDispatch({
+            type: "SET_NOTIFICATIONS",
+            payload: [...state.notifications, ...newOnes],
+          });
+
+          setNewNotificationCount((prev) => prev + newOnes.length);
+        }
+      } catch (error) {
+        console.error("Error fetching Notifications:", error);
+      }
+    };
+
+    fetchNotifications(); // Comment it after call ing the funciton below
+
+    const interval = setInterval(
+      "call fetchNotifications() here",
+      2 * 60 * 1000,
+    ); // fetch every 2 min
+
+    return () => clearInterval(interval);
+  }, [notificationDispatch, user]);
 
   const handleLinkClick = (e, route) => {
     if (hasUnsavedChanges) {
@@ -183,7 +272,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m font-josefin p-4">
+    <nav className="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4">
       <div className="flex items-center justify-between w-full px-4 h-full">
         {/* Logo aligned to the left */}
         <div
@@ -285,6 +374,18 @@ const Navbar = () => {
               <ContactMailOutlinedIcon className="mr-2" /> {t("Contact Us")}
             </button>
           </div>
+
+          {user?.userId && (
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/notifications")}
+                // className="text-black flex items-center hover:text-gray-600 text-base"
+                className="text-black hover:text-gray-600 flex items-center text-base"
+              >
+                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Donate button aligned to the rightmost */}
@@ -522,6 +623,17 @@ const Navbar = () => {
               <FavoriteBorderIcon className="mr-2" /> {t("Donate")}
             </button>
           </div>
+
+          {user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleDrawerClick(e, "/notifications")}
+                className="text-black flex items-center hover:text-blue-600"
+              >
+                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+              </button>
+            </div>
+          )}
         </div>
       </Drawer>
     </nav>

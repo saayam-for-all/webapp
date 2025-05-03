@@ -175,7 +175,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
           // Redirect to the dashboard after a short delay
           setTimeout(() => {
-            navigate("/dashboard");
+            navigate("/dashboard", {
+              state: {
+                successMessage:
+                  "New Request submitted successfully! Welcome to the dashboard.",
+              },
+            });
           }, 2000);
         }
       }
@@ -306,7 +311,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
       // Redirect to the dashboard after a short delay
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/dashboard", {
+          state: {
+            successMessage:
+              "New Request submitted successfully! Welcome to the dashboard.",
+          },
+        });
       }, 2000); // Wait 2 seconds before redirecting
     } catch (error) {
       console.error("Failed to submit request:", error);
