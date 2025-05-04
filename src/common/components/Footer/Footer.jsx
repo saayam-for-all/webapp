@@ -17,7 +17,7 @@ export default function Footer() {
             <nav className="footer-nav" aria-label="Footer navigation">
               <a href="/">Home</a>
               <a href="/our-mission">About Us</a>
-              <a href="/our-mission">Mission &amp; Vision</a>
+              <a href="/">Mission &amp; Vision</a>
               <a href="/directors">Our Team</a>
               <a href="/">What We Offer</a>
               <a href="/donate">Donate</a>
