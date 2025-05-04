@@ -52,7 +52,7 @@ jobs:
         run: npm run build
         
       - name: Zip the build
-        run: zip -r build.zip build/
+        run: zip -r build.zip dist/
         
       - name: Deploy to netlify
         run: curl -X POST -H "Content-Type:application/zip" -H "Authorization:Bearer nfp_uzHm5k7QSvQBQXoyMzZnYwenhwvgNF99ed6f" --data-binary "@build.zip" https://api.netlify.com/api/v1/sites/3252d3cb-6200-4dd6-8646-8641ca48e452/deploys
