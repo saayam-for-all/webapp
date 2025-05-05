@@ -30,32 +30,32 @@ exports[`Footer renders correctly 1`] = `
                 class="footer-nav"
               >
                 <a
-                  href="#"
+                  href="/"
                 >
                   Home
                 </a>
                 <a
-                  href="#"
+                  href="/our-mission"
                 >
                   About Us
                 </a>
                 <a
-                  href="#"
+                  href="/"
                 >
                   Mission & Vision
                 </a>
                 <a
-                  href="#"
+                  href="/directors"
                 >
                   Our Team
                 </a>
                 <a
-                  href="#"
+                  href="/"
                 >
                   What We Offer
                 </a>
                 <a
-                  href="#"
+                  href="/donate"
                 >
                   Donate
                 </a>
@@ -63,11 +63,15 @@ exports[`Footer renders correctly 1`] = `
               <div
                 class="footer-contact"
               >
-                <button
-                  type="button"
+                <a
+                  href="/contact"
                 >
-                  Contact Us
-                </button>
+                  <button
+                    type="button"
+                  >
+                    Contact Us
+                  </button>
+                </a>
               </div>
             </div>
             <hr
@@ -132,32 +136,32 @@ exports[`Footer renders correctly 1`] = `
               class="footer-nav"
             >
               <a
-                href="#"
+                href="/"
               >
                 Home
               </a>
               <a
-                href="#"
+                href="/our-mission"
               >
                 About Us
               </a>
               <a
-                href="#"
+                href="/"
               >
                 Mission & Vision
               </a>
               <a
-                href="#"
+                href="/directors"
               >
                 Our Team
               </a>
               <a
-                href="#"
+                href="/"
               >
                 What We Offer
               </a>
               <a
-                href="#"
+                href="/donate"
               >
                 Donate
               </a>
@@ -165,11 +169,15 @@ exports[`Footer renders correctly 1`] = `
             <div
               class="footer-contact"
             >
-              <button
-                type="button"
+              <a
+                href="/contact"
               >
-                Contact Us
-              </button>
+                <button
+                  type="button"
+                >
+                  Contact Us
+                </button>
+              </a>
             </div>
           </div>
           <hr
