@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
+import bottomOne from "../../assets/landingPageImages/bottomOne.jpg";
+import bottomThree from "../../assets/landingPageImages/bottomThree.jpg";
+import bottomTwo from "../../assets/landingPageImages/bottomTwo.jpg";
+import topOne from "../../assets/landingPageImages/topOne.jpg";
+import topTwo from "../../assets/landingPageImages/topTwo.jpg";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
 
@@ -19,18 +24,20 @@ export default function Home() {
   const cards = [
     {
       text: "Take help from our Volunteers",
-      image:
-        "https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
+      image: bottomOne,
+      altText: "Red rescue jacket and cap with Red Cross logos",
     },
     {
       text: "Planning and budgeting advice for travel",
-      image:
-        "https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
+      image: bottomTwo,
+      altText:
+        "A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings",
     },
     {
       text: "A whole new community of charity organisations",
-      image:
-        "https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
+      image: bottomThree,
+      altText:
+        "Woman hiking at sunset with a backpack and trekking poles, set against a mountainous landscape",
     },
   ];
 
@@ -64,9 +71,9 @@ export default function Home() {
       </section>
 
       {/* First Section */}
-      <div className="flex flex-row items-center bg-white h-96 mt-5 gap-10">
+      <div className="flex flex-row items-center bg-white h-80 mt-5 gap-10">
         <div className="flex flex-col justify-start items-start w-3/5 p-10 h-full">
-          <h3 className="font-bold text-3xl h-1/3 w-2/3">
+          <h3 className="font-bold text-3xl h-1/3 w-2/3 pb-5">
             Creating a World Where Help is Always Within Reach
           </h3>
           <p className="h-1/3 text-lg text-gray-500">
@@ -81,16 +88,16 @@ export default function Home() {
             How We Operate &rarr;
           </button>
         </div>
-        <div className="flex flex-row w-1/3 h-full gap-5">
+        <div className="flex flex-row w-2/5 h-full gap-5 overflow-hidden">
           <img
             className="w-1/2 rounded-lg"
-            src="https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400"
-            alt="Help 1"
+            src={topOne}
+            alt="A sunny day with two people looking at each other comfortingly"
           />
           <img
             className="w-1/2 rounded-lg"
-            src="https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400"
-            alt="Help 2"
+            src={topTwo}
+            alt="A joyful family stands in a lush field on a sunny day"
           />
         </div>
       </div>
@@ -103,15 +110,35 @@ export default function Home() {
         <div className="cards-section">
           {cards.map((card, index) => (
             <div
+              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+              style={{ marginTop: `${index * 120}px` }}
               key={index}
-              className="community-card"
-              style={{
-                backgroundImage: `url(${card.image})`,
-                marginTop: `${index * 120}px`,
-              }}
             >
-              <div className="card-overlay">{card.text}</div>
+              <img
+                src={card.image}
+                alt={card.altText}
+                class="absolute w-full h-full object-cover"
+              />
+
+              <div class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
+                <div class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2">
+                  <p class="text-white text-lg font-bold text-center">
+                    {card.text}
+                  </p>
+                </div>
+              </div>
             </div>
+            // <div
+            //   key={index}
+            //   className="community-card"
+            //   style={{
+            //     backgroundImage: `url(${card.image})`,
+            //     marginTop: `${index * 120}px`,
+            //   }}
+            //   alt={card.text}
+            // >
+            //   <div className="card-overlay">{card.text}</div>
+            // </div>
           ))}
         </div>
 
