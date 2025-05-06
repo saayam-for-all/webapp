@@ -691,6 +691,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               className="border p-2 w-full rounded-lg"
               maxLength={70}
               required
+              placeholder="Please give a brief description of the request"
             />
           </div>
 
@@ -712,6 +713,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               rows="5"
               maxLength={500}
               required
+              placeholder="Please give a detailed description of the request"
             ></textarea>
           </div>
 
