@@ -48,6 +48,7 @@
     "react-select-country-list": "^2.2.3",
     "react-time-picker": "^7.0.0",
     "react-toastify": "^11.0.5",
+    "react-tooltip": "^5.28.1",
     "rsuite": "^5.77.1",
     "swiper": "^11.2.6",
     "use-immer": "^0.10.0",
