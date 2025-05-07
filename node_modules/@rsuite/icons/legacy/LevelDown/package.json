@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LevelDown",
+  "private": true,
+  "main": "../../cjs/react/legacy/LevelDown.js",
+  "module": "../../esm/react/legacy/LevelDown.js",
+  "types": "../../esm/react/legacy/LevelDown.d.ts"
+}

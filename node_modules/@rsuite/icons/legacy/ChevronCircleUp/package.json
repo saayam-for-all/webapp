@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ChevronCircleUp",
+  "private": true,
+  "main": "../../cjs/react/legacy/ChevronCircleUp.js",
+  "module": "../../esm/react/legacy/ChevronCircleUp.js",
+  "types": "../../esm/react/legacy/ChevronCircleUp.d.ts"
+}

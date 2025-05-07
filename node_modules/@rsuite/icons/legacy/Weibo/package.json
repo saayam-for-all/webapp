@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Weibo",
+  "private": true,
+  "main": "../../cjs/react/legacy/Weibo.js",
+  "module": "../../esm/react/legacy/Weibo.js",
+  "types": "../../esm/react/legacy/Weibo.d.ts"
+}

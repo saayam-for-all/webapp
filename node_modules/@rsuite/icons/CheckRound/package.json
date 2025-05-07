@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/CheckRound",
+  "private": true,
+  "main": "../cjs/react/CheckRound.js",
+  "module": "../esm/react/CheckRound.js",
+  "types": "../esm/react/CheckRound.d.ts"
+}

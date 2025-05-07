@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/TableColumnGroup",
+  "private": true,
+  "main": "../cjs/Table/TableColumnGroup.js",
+  "module": "../esm/Table/TableColumnGroup.js",
+  "types": "../esm/Table/TableColumnGroup.d.ts"
+}

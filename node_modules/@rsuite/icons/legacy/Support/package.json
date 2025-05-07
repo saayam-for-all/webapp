@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Support",
+  "private": true,
+  "main": "../../cjs/react/legacy/Support.js",
+  "module": "../../esm/react/legacy/Support.js",
+  "types": "../../esm/react/legacy/Support.d.ts"
+}

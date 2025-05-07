@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/BreadcrumbItem",
+  "private": true,
+  "main": "../cjs/Breadcrumb/BreadcrumbItem.js",
+  "module": "../esm/Breadcrumb/BreadcrumbItem.js",
+  "types": "../esm/Breadcrumb/BreadcrumbItem.d.ts"
+}

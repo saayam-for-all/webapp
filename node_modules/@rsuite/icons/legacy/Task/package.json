@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Task",
+  "private": true,
+  "main": "../../cjs/react/legacy/Task.js",
+  "module": "../../esm/react/legacy/Task.js",
+  "types": "../../esm/react/legacy/Task.d.ts"
+}

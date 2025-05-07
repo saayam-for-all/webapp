@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/PlaceholderGraph",
+  "private": true,
+  "main": "../cjs/Placeholder/PlaceholderGraph.js",
+  "module": "../esm/Placeholder/PlaceholderGraph.js",
+  "types": "../esm/Placeholder/PlaceholderGraph.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Language",
+  "private": true,
+  "main": "../../cjs/react/legacy/Language.js",
+  "module": "../../esm/react/legacy/Language.js",
+  "types": "../../esm/react/legacy/Language.d.ts"
+}

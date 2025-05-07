@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CloudUpload",
+  "private": true,
+  "main": "../../cjs/react/legacy/CloudUpload.js",
+  "module": "../../esm/react/legacy/CloudUpload.js",
+  "types": "../../esm/react/legacy/CloudUpload.d.ts"
+}

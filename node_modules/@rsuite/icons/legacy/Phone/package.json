@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Phone",
+  "private": true,
+  "main": "../../cjs/react/legacy/Phone.js",
+  "module": "../../esm/react/legacy/Phone.js",
+  "types": "../../esm/react/legacy/Phone.d.ts"
+}

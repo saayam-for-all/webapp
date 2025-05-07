@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/InputGroupButton",
+  "private": true,
+  "main": "../cjs/InputGroup/InputGroupButton.js",
+  "module": "../esm/InputGroup/InputGroupButton.js",
+  "types": "../esm/InputGroup/InputGroupButton.d.ts"
+}

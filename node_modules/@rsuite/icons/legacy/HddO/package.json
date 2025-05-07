@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HddO",
+  "private": true,
+  "main": "../../cjs/react/legacy/HddO.js",
+  "module": "../../esm/react/legacy/HddO.js",
+  "types": "../../esm/react/legacy/HddO.d.ts"
+}

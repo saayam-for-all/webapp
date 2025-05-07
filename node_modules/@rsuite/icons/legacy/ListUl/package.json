@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ListUl",
+  "private": true,
+  "main": "../../cjs/react/legacy/ListUl.js",
+  "module": "../../esm/react/legacy/ListUl.js",
+  "types": "../../esm/react/legacy/ListUl.d.ts"
+}

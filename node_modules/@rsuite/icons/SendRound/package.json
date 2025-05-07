@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SendRound",
+  "private": true,
+  "main": "../cjs/react/SendRound.js",
+  "module": "../esm/react/SendRound.js",
+  "types": "../esm/react/SendRound.d.ts"
+}

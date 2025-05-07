@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CopyO",
+  "private": true,
+  "main": "../../cjs/react/legacy/CopyO.js",
+  "module": "../../esm/react/legacy/CopyO.js",
+  "types": "../../esm/react/legacy/CopyO.d.ts"
+}

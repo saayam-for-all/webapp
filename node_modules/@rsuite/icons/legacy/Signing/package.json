@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Signing",
+  "private": true,
+  "main": "../../cjs/react/legacy/Signing.js",
+  "module": "../../esm/react/legacy/Signing.js",
+  "types": "../../esm/react/legacy/Signing.d.ts"
+}

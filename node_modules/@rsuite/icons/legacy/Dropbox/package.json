@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Dropbox",
+  "private": true,
+  "main": "../../cjs/react/legacy/Dropbox.js",
+  "module": "../../esm/react/legacy/Dropbox.js",
+  "types": "../../esm/react/legacy/Dropbox.d.ts"
+}

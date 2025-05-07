@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Lock",
+  "private": true,
+  "main": "../cjs/react/Lock.js",
+  "module": "../esm/react/Lock.js",
+  "types": "../esm/react/Lock.d.ts"
+}

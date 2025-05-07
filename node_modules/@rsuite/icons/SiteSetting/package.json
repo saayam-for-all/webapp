@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SiteSetting",
+  "private": true,
+  "main": "../cjs/react/SiteSetting.js",
+  "module": "../esm/react/SiteSetting.js",
+  "types": "../esm/react/SiteSetting.d.ts"
+}

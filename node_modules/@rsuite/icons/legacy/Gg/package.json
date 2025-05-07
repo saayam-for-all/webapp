@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Gg",
+  "private": true,
+  "main": "../../cjs/react/legacy/Gg.js",
+  "module": "../../esm/react/legacy/Gg.js",
+  "types": "../../esm/react/legacy/Gg.d.ts"
+}

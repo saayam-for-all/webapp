@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Vine",
+  "private": true,
+  "main": "../../cjs/react/legacy/Vine.js",
+  "module": "../../esm/react/legacy/Vine.js",
+  "types": "../../esm/react/legacy/Vine.d.ts"
+}

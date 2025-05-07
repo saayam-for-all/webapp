@@ -1,0 +1,1 @@
+export { cognitoUserPoolTransferHandler } from './cognitoUserPoolTransferHandler';

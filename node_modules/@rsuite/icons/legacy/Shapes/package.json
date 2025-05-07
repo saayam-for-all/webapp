@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Shapes",
+  "private": true,
+  "main": "../../cjs/react/legacy/Shapes.js",
+  "module": "../../esm/react/legacy/Shapes.js",
+  "types": "../../esm/react/legacy/Shapes.d.ts"
+}

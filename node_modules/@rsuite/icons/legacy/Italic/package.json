@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Italic",
+  "private": true,
+  "main": "../../cjs/react/legacy/Italic.js",
+  "module": "../../esm/react/legacy/Italic.js",
+  "types": "../../esm/react/legacy/Italic.d.ts"
+}

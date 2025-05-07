@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Train",
+  "private": true,
+  "main": "../../cjs/react/legacy/Train.js",
+  "module": "../../esm/react/legacy/Train.js",
+  "types": "../../esm/react/legacy/Train.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HandOLeft",
+  "private": true,
+  "main": "../../cjs/react/legacy/HandOLeft.js",
+  "module": "../../esm/react/legacy/HandOLeft.js",
+  "types": "../../esm/react/legacy/HandOLeft.d.ts"
+}

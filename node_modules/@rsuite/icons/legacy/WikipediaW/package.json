@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/WikipediaW",
+  "private": true,
+  "main": "../../cjs/react/legacy/WikipediaW.js",
+  "module": "../../esm/react/legacy/WikipediaW.js",
+  "types": "../../esm/react/legacy/WikipediaW.d.ts"
+}

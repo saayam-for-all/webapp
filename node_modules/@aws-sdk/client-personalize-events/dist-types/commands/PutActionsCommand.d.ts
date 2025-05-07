@@ -1,0 +1,75 @@
+import { Command as $Command } from "@smithy/smithy-client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import { PutActionsRequest } from "../models/models_0";
+import { PersonalizeEventsClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../PersonalizeEventsClient";
+/**
+ * @public
+ */
+export type { __MetadataBearer };
+export { $Command };
+/**
+ * @public
+ *
+ * The input for {@link PutActionsCommand}.
+ */
+export interface PutActionsCommandInput extends PutActionsRequest {
+}
+/**
+ * @public
+ *
+ * The output of {@link PutActionsCommand}.
+ */
+export interface PutActionsCommandOutput extends __MetadataBearer {
+}
+declare const PutActionsCommand_base: {
+    new (input: PutActionsCommandInput): import("@smithy/smithy-client").CommandImpl<PutActionsCommandInput, PutActionsCommandOutput, PersonalizeEventsClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes>;
+    new (__0_0: PutActionsCommandInput): import("@smithy/smithy-client").CommandImpl<PutActionsCommandInput, PutActionsCommandOutput, PersonalizeEventsClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes>;
+    getEndpointParameterInstructions(): import("@smithy/middleware-endpoint").EndpointParameterInstructions;
+};
+/**
+ * <p>Adds one or more actions to an Actions dataset. For more information see
+ *       <a href="https://docs.aws.amazon.com/personalize/latest/dg/importing-actions.html">Importing actions individually</a>.
+ *     </p>
+ * @example
+ * Use a bare-bones client and the command you need to make an API call.
+ * ```javascript
+ * import { PersonalizeEventsClient, PutActionsCommand } from "@aws-sdk/client-personalize-events"; // ES Modules import
+ * // const { PersonalizeEventsClient, PutActionsCommand } = require("@aws-sdk/client-personalize-events"); // CommonJS import
+ * const client = new PersonalizeEventsClient(config);
+ * const input = { // PutActionsRequest
+ *   datasetArn: "STRING_VALUE", // required
+ *   actions: [ // ActionList // required
+ *     { // Action
+ *       actionId: "STRING_VALUE", // required
+ *       properties: "STRING_VALUE",
+ *     },
+ *   ],
+ * };
+ * const command = new PutActionsCommand(input);
+ * const response = await client.send(command);
+ * // {};
+ *
+ * ```
+ *
+ * @param PutActionsCommandInput - {@link PutActionsCommandInput}
+ * @returns {@link PutActionsCommandOutput}
+ * @see {@link PutActionsCommandInput} for command's `input` shape.
+ * @see {@link PutActionsCommandOutput} for command's `response` shape.
+ * @see {@link PersonalizeEventsClientResolvedConfig | config} for PersonalizeEventsClient's `config` shape.
+ *
+ * @throws {@link InvalidInputException} (client fault)
+ *  <p>Provide a valid value for the field or parameter.</p>
+ *
+ * @throws {@link ResourceInUseException} (client fault)
+ *  <p>The specified resource is in use.</p>
+ *
+ * @throws {@link ResourceNotFoundException} (client fault)
+ *  <p>Could not find the specified resource.</p>
+ *
+ * @throws {@link PersonalizeEventsServiceException}
+ * <p>Base exception class for all service exceptions from PersonalizeEvents service.</p>
+ *
+ * @public
+ */
+export declare class PutActionsCommand extends PutActionsCommand_base {
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Minus",
+  "private": true,
+  "main": "../cjs/react/Minus.js",
+  "module": "../esm/react/Minus.js",
+  "types": "../esm/react/Minus.d.ts"
+}

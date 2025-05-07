@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PauseCircle",
+  "private": true,
+  "main": "../../cjs/react/legacy/PauseCircle.js",
+  "module": "../../esm/react/legacy/PauseCircle.js",
+  "types": "../../esm/react/legacy/PauseCircle.d.ts"
+}

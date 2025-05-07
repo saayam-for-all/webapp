@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Width",
+  "private": true,
+  "main": "../cjs/react/Width.js",
+  "module": "../esm/react/Width.js",
+  "types": "../esm/react/Width.d.ts"
+}

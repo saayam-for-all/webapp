@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Jsfiddle",
+  "private": true,
+  "main": "../../cjs/react/legacy/Jsfiddle.js",
+  "module": "../../esm/react/legacy/Jsfiddle.js",
+  "types": "../../esm/react/legacy/Jsfiddle.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SingleSource",
+  "private": true,
+  "main": "../cjs/react/SingleSource.js",
+  "module": "../esm/react/SingleSource.js",
+  "types": "../esm/react/SingleSource.d.ts"
+}

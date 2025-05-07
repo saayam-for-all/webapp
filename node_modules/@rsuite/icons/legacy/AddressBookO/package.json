@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/AddressBookO",
+  "private": true,
+  "main": "../../cjs/react/legacy/AddressBookO.js",
+  "module": "../../esm/react/legacy/AddressBookO.js",
+  "types": "../../esm/react/legacy/AddressBookO.d.ts"
+}

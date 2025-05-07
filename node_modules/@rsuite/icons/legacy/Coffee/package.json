@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Coffee",
+  "private": true,
+  "main": "../../cjs/react/legacy/Coffee.js",
+  "module": "../../esm/react/legacy/Coffee.js",
+  "types": "../../esm/react/legacy/Coffee.d.ts"
+}

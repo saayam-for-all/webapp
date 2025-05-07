@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FrownO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FrownO.js",
+  "module": "../../esm/react/legacy/FrownO.js",
+  "types": "../../esm/react/legacy/FrownO.d.ts"
+}

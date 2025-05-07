@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function pathTransform(path) {
+    const arr = path.split('.');
+    if (arr.length === 1) {
+        return path;
+    }
+    return path
+        .split('.')
+        .map((item, index) => {
+        if (index === 0) {
+            return item;
+        }
+        // Check if the item is a number, e.g. `list.0`
+        return /^\d+$/.test(item) ? `array.${item}` : `object.${item}`;
+    })
+        .join('.');
+}
+exports.default = pathTransform;
+//# sourceMappingURL=pathTransform.js.map

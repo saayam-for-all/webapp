@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/GoogleWallet",
+  "private": true,
+  "main": "../../cjs/react/legacy/GoogleWallet.js",
+  "module": "../../esm/react/legacy/GoogleWallet.js",
+  "types": "../../esm/react/legacy/GoogleWallet.d.ts"
+}

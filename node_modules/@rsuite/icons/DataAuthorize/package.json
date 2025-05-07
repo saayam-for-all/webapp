@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/DataAuthorize",
+  "private": true,
+  "main": "../cjs/react/DataAuthorize.js",
+  "module": "../esm/react/DataAuthorize.js",
+  "types": "../esm/react/DataAuthorize.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/AdvancedAnalytics",
+  "private": true,
+  "main": "../cjs/react/AdvancedAnalytics.js",
+  "module": "../esm/react/AdvancedAnalytics.js",
+  "types": "../esm/react/AdvancedAnalytics.d.ts"
+}

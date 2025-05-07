@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ReviewRefuse",
+  "private": true,
+  "main": "../cjs/react/ReviewRefuse.js",
+  "module": "../esm/react/ReviewRefuse.js",
+  "types": "../esm/react/ReviewRefuse.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ShareOutline",
+  "private": true,
+  "main": "../cjs/react/ShareOutline.js",
+  "module": "../esm/react/ShareOutline.js",
+  "types": "../esm/react/ShareOutline.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Strikethrough",
+  "private": true,
+  "main": "../../cjs/react/legacy/Strikethrough.js",
+  "module": "../../esm/react/legacy/Strikethrough.js",
+  "types": "../../esm/react/legacy/Strikethrough.d.ts"
+}

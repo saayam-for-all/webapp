@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Globe",
+  "private": true,
+  "main": "../../cjs/react/legacy/Globe.js",
+  "module": "../../esm/react/legacy/Globe.js",
+  "types": "../../esm/react/legacy/Globe.d.ts"
+}

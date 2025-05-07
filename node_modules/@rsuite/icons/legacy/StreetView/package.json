@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/StreetView",
+  "private": true,
+  "main": "../../cjs/react/legacy/StreetView.js",
+  "module": "../../esm/react/legacy/StreetView.js",
+  "types": "../../esm/react/legacy/StreetView.d.ts"
+}

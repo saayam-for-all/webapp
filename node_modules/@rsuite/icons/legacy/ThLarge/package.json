@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ThLarge",
+  "private": true,
+  "main": "../../cjs/react/legacy/ThLarge.js",
+  "module": "../../esm/react/legacy/ThLarge.js",
+  "types": "../../esm/react/legacy/ThLarge.d.ts"
+}

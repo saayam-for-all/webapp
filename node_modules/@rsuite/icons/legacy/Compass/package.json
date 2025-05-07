@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Compass",
+  "private": true,
+  "main": "../../cjs/react/legacy/Compass.js",
+  "module": "../../esm/react/legacy/Compass.js",
+  "types": "../../esm/react/legacy/Compass.d.ts"
+}

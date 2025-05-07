@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Wpexplorer",
+  "private": true,
+  "main": "../../cjs/react/legacy/Wpexplorer.js",
+  "module": "../../esm/react/legacy/Wpexplorer.js",
+  "types": "../../esm/react/legacy/Wpexplorer.d.ts"
+}

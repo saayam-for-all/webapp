@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Cloud",
+  "private": true,
+  "main": "../../cjs/react/legacy/Cloud.js",
+  "module": "../../esm/react/legacy/Cloud.js",
+  "types": "../../esm/react/legacy/Cloud.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Check",
+  "private": true,
+  "main": "../../cjs/react/legacy/Check.js",
+  "module": "../../esm/react/legacy/Check.js",
+  "types": "../../esm/react/legacy/Check.d.ts"
+}

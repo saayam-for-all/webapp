@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BlackTie",
+  "private": true,
+  "main": "../../cjs/react/legacy/BlackTie.js",
+  "module": "../../esm/react/legacy/BlackTie.js",
+  "types": "../../esm/react/legacy/BlackTie.d.ts"
+}

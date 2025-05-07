@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/DrawerActions",
+  "private": true,
+  "main": "../cjs/Drawer/DrawerActions.js",
+  "module": "../esm/Drawer/DrawerActions.js",
+  "types": "../esm/Drawer/DrawerActions.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CcAmex",
+  "private": true,
+  "main": "../../cjs/react/legacy/CcAmex.js",
+  "module": "../../esm/react/legacy/CcAmex.js",
+  "types": "../../esm/react/legacy/CcAmex.d.ts"
+}

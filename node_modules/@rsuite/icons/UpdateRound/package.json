@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/UpdateRound",
+  "private": true,
+  "main": "../cjs/react/UpdateRound.js",
+  "module": "../esm/react/UpdateRound.js",
+  "types": "../esm/react/UpdateRound.d.ts"
+}

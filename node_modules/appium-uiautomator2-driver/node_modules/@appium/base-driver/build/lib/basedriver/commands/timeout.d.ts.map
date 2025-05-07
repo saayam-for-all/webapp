@@ -1,0 +1,1 @@
+{"version":3,"file":"timeout.d.ts","sourceRoot":"","sources":["../../../../lib/basedriver/commands/timeout.ts"],"names":[],"mappings":"AAKA,OAAO,EAAC,WAAW,EAAE,gBAAgB,EAAC,MAAM,eAAe,CAAC;AAG5D,OAAO,QAAQ,WAAW,CAAC;IAEzB,UAAU,UAAU,CAAC,CAAC,SAAS,WAAW,CAAE,SAAQ,gBAAgB;KAAG;CACxE"}

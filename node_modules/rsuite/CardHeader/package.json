@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/CardHeader",
+  "private": true,
+  "main": "../cjs/Card/CardHeader.js",
+  "module": "../esm/Card/CardHeader.js",
+  "types": "../esm/Card/CardHeader.d.ts"
+}

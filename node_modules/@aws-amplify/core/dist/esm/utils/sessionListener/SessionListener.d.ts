@@ -1,0 +1,10 @@
+import { SessionListenerInterface, SessionStateChangeListener } from './types';
+export declare class SessionListener implements SessionListenerInterface {
+    private listenerActive;
+    constructor();
+    addStateChangeListener(listener: SessionStateChangeListener, notifyOnAdd?: boolean): void;
+    removeStateChangeListener(handler: SessionStateChangeListener): void;
+    private handleVisibilityChange;
+    private notifyHandlers;
+    private getSessionState;
+}

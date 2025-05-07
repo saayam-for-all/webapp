@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Frame",
+  "private": true,
+  "main": "../../cjs/react/legacy/Frame.js",
+  "module": "../../esm/react/legacy/Frame.js",
+  "types": "../../esm/react/legacy/Frame.d.ts"
+}

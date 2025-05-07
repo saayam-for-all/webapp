@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Cc",
+  "private": true,
+  "main": "../../cjs/react/legacy/Cc.js",
+  "module": "../../esm/react/legacy/Cc.js",
+  "types": "../../esm/react/legacy/Cc.d.ts"
+}

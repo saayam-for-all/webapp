@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Indirect",
+  "private": true,
+  "main": "../cjs/react/Indirect.js",
+  "module": "../esm/react/Indirect.js",
+  "types": "../esm/react/Indirect.d.ts"
+}

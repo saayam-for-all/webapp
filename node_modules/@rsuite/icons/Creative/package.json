@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Creative",
+  "private": true,
+  "main": "../cjs/react/Creative.js",
+  "module": "../esm/react/Creative.js",
+  "types": "../esm/react/Creative.d.ts"
+}

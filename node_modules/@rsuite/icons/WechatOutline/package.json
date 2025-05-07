@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/WechatOutline",
+  "private": true,
+  "main": "../cjs/react/WechatOutline.js",
+  "module": "../esm/react/WechatOutline.js",
+  "types": "../esm/react/WechatOutline.d.ts"
+}

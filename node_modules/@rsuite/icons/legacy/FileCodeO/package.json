@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FileCodeO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FileCodeO.js",
+  "module": "../../esm/react/legacy/FileCodeO.js",
+  "types": "../../esm/react/legacy/FileCodeO.d.ts"
+}

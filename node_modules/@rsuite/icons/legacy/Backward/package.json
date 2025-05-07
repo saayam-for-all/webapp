@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Backward",
+  "private": true,
+  "main": "../../cjs/react/legacy/Backward.js",
+  "module": "../../esm/react/legacy/Backward.js",
+  "types": "../../esm/react/legacy/Backward.d.ts"
+}

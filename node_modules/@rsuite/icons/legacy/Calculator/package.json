@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Calculator",
+  "private": true,
+  "main": "../../cjs/react/legacy/Calculator.js",
+  "module": "../../esm/react/legacy/Calculator.js",
+  "types": "../../esm/react/legacy/Calculator.d.ts"
+}

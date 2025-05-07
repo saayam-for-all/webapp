@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HelpO",
+  "private": true,
+  "main": "../../cjs/react/legacy/HelpO.js",
+  "module": "../../esm/react/legacy/HelpO.js",
+  "types": "../../esm/react/legacy/HelpO.d.ts"
+}

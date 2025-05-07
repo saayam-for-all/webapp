@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Combination",
+  "private": true,
+  "main": "../cjs/react/Combination.js",
+  "module": "../esm/react/Combination.js",
+  "types": "../esm/react/Combination.d.ts"
+}

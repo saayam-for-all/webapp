@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Plug",
+  "private": true,
+  "main": "../../cjs/react/legacy/Plug.js",
+  "module": "../../esm/react/legacy/Plug.js",
+  "types": "../../esm/react/legacy/Plug.d.ts"
+}

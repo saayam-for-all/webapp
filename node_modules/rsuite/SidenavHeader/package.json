@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/SidenavHeader",
+  "private": true,
+  "main": "../cjs/Sidenav/SidenavHeader.js",
+  "module": "../esm/Sidenav/SidenavHeader.js",
+  "types": "../esm/Sidenav/SidenavHeader.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Mobile",
+  "private": true,
+  "main": "../cjs/react/Mobile.js",
+  "module": "../esm/react/Mobile.js",
+  "types": "../esm/react/Mobile.d.ts"
+}

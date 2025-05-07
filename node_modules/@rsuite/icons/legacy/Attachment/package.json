@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Attachment",
+  "private": true,
+  "main": "../../cjs/react/legacy/Attachment.js",
+  "module": "../../esm/react/legacy/Attachment.js",
+  "types": "../../esm/react/legacy/Attachment.d.ts"
+}

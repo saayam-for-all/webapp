@@ -1,0 +1,47 @@
+{
+  "name": "@aws-amplify/data-schema-types",
+  "version": "1.2.0",
+  "license": "Apache-2.0",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/esm/index.d.ts",
+  "react-native": "./src/index.ts",
+  "typesVersions": {
+    "<5": {
+      "dist/esm/index.d.ts": [
+        "./dist/esm/index.v3.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "npm run clean && npm run build:esm-cjs",
+    "build:esm-cjs": "rollup -c rollup.config.mjs",
+    "build:watch": "npm run build:esm-cjs -- --watch",
+    "clean": "rimraf dist",
+    "docs": "api-extractor run && api-documenter markdown --input-folder temp --output-folder docs",
+    "docs:temp": "api-extractor run && api-documenter markdown --input-folder temp --output-folder temp/docs",
+    "check:api": "rimraf temp && npm run docs:temp && tsx ../../scripts/shallow-dir-diff.ts docs temp/docs",
+    "test": "echo \"No tests\"",
+    "lint": "eslint ."
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js",
+      "react-native": "./src/index.ts"
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  },
+  "files": [
+    "src",
+    "dist/**",
+    "package.json"
+  ],
+  "dependencies": {
+    "graphql": "15.8.0",
+    "rxjs": "^7.8.1"
+  }
+}

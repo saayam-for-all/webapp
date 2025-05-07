@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Firefox",
+  "private": true,
+  "main": "../../cjs/react/legacy/Firefox.js",
+  "module": "../../esm/react/legacy/Firefox.js",
+  "types": "../../esm/react/legacy/Firefox.d.ts"
+}

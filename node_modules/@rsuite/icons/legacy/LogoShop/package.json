@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LogoShop",
+  "private": true,
+  "main": "../../cjs/react/legacy/LogoShop.js",
+  "module": "../../esm/react/legacy/LogoShop.js",
+  "types": "../../esm/react/legacy/LogoShop.d.ts"
+}

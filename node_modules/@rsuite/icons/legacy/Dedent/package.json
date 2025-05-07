@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Dedent",
+  "private": true,
+  "main": "../../cjs/react/legacy/Dedent.js",
+  "module": "../../esm/react/legacy/Dedent.js",
+  "types": "../../esm/react/legacy/Dedent.d.ts"
+}

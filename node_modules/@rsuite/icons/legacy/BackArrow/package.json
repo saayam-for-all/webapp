@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BackArrow",
+  "private": true,
+  "main": "../../cjs/react/legacy/BackArrow.js",
+  "module": "../../esm/react/legacy/BackArrow.js",
+  "types": "../../esm/react/legacy/BackArrow.d.ts"
+}

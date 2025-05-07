@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Code",
+  "private": true,
+  "main": "../cjs/react/Code.js",
+  "module": "../esm/react/Code.js",
+  "types": "../esm/react/Code.d.ts"
+}

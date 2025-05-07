@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/IdMapping",
+  "private": true,
+  "main": "../../cjs/react/legacy/IdMapping.js",
+  "module": "../../esm/react/legacy/IdMapping.js",
+  "types": "../../esm/react/legacy/IdMapping.d.ts"
+}

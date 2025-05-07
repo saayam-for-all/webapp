@@ -1,0 +1,17 @@
+import { windowExists, globalExists, keyPrefixMatch } from './helpers.mjs';
+
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+// Tested with next 13.4 / react 18.2
+function nextWebDetect() {
+    return (windowExists() &&
+        window.next &&
+        typeof window.next === 'object');
+}
+function nextSSRDetect() {
+    return (globalExists() &&
+        (keyPrefixMatch(global, '__next') || keyPrefixMatch(global, '__NEXT')));
+}
+
+export { nextSSRDetect, nextWebDetect };
+//# sourceMappingURL=Next.mjs.map

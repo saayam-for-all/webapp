@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/DropdownMenu",
+  "private": true,
+  "main": "../cjs/Dropdown/DropdownMenu.js",
+  "module": "../esm/Dropdown/DropdownMenu.js",
+  "types": "../esm/Dropdown/DropdownMenu.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Foursquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/Foursquare.js",
+  "module": "../../esm/react/legacy/Foursquare.js",
+  "types": "../../esm/react/legacy/Foursquare.d.ts"
+}

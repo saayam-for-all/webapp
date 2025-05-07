@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bank",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bank.js",
+  "module": "../../esm/react/legacy/Bank.js",
+  "types": "../../esm/react/legacy/Bank.d.ts"
+}

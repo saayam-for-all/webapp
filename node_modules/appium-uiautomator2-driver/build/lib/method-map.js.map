@@ -1,0 +1,1 @@
+{"version":3,"file":"method-map.js","sourceRoot":"","sources":["../../lib/method-map.ts"],"names":[],"mappings":";;;AAAA,iEAAoD;AAEvC,QAAA,YAAY,GAAG;IAC1B,GAAG,qCAAa,CAAC,YAAY;IAC7B,iDAAiD,EAAE;QACjD,IAAI,EAAE;YACJ,OAAO,EAAE,cAAc;YACvB,aAAa,EAAE,EAAC,QAAQ,EAAE,CAAC,aAAa,CAAC,EAAC;SAC3C;KACF;CACO,CAAC"}

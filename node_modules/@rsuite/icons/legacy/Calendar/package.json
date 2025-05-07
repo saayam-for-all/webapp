@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Calendar",
+  "private": true,
+  "main": "../../cjs/react/legacy/Calendar.js",
+  "module": "../../esm/react/legacy/Calendar.js",
+  "types": "../../esm/react/legacy/Calendar.d.ts"
+}

@@ -1,0 +1,80 @@
+import { allowForConversations } from '../Authorization.mjs';
+import { brand } from '../util/Brand.mjs';
+
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+const brandName = 'conversationCustomOperation';
+/**
+ * Define a data tool to be used within an AI conversation route.
+ *
+ * @remarks
+ *
+ * Data tools can use a model generated list query or a custom query.
+ * The tool's name must satisfy the following requirements:
+ * - Be unique across all tools for a given conversation.
+ * - Length must be between 1 and 64 characters.
+ * - Must start with a letter.
+ * - Must contain only letters, numbers, and underscores.
+ *
+ * The tool's `name` and `description` are used by the LLM to help it understand
+ * the tool's purpose.
+ *
+ * @example
+ *
+ * realtorChat: a.conversation({
+ *   aiModel: a.ai.model('Claude 3 Haiku'),
+ *   systemPrompt: 'You are a helpful real estate assistant',
+ *   tools: [
+ *     // Data tools can use a model generated list query.
+ *     a.ai.dataTool({
+ *       name: 'get_listed_properties',
+ *       description: 'Get properties currently listed for sale',
+ *       model: a.model('RealEstateProperty'),
+ *       modelOperation: 'list',
+ *     }),
+ *     // Data tools can also use a custom query.
+ *     a.ai.dataTool({
+ *       name: 'get_oncall_realtor',
+ *       description: 'Get the oncall realtor',
+ *       query: a.query('getOnCallRealtor'),
+ *     }),
+ *   ],
+ * })
+ * @returns a data tool definition
+ */
+function dataTool(input) {
+    return input;
+}
+function _conversation(input) {
+    const data = {
+        authorization: [],
+    };
+    const builder = {
+        authorization(callback) {
+            const rules = callback(allowForConversations);
+            data.authorization = Array.isArray(rules) ? rules : [rules];
+            return this;
+        },
+    };
+    return {
+        ...brand(brandName),
+        ...input,
+        ...builder,
+        data,
+    };
+}
+/**
+ * Define an AI conversation route which enables multi-turn conversation APIs for interacting with specified AI model.
+ * @example
+ * realtorChat: a.conversation({
+ *   aiModel: { resourcePath },
+ *   systemPrompt: 'You are a helpful real estate assistant',
+ * })
+ * @returns a conversation route definition
+ */
+function conversation(input) {
+    return _conversation(input);
+}
+
+export { brandName, conversation, dataTool };
+//# sourceMappingURL=ConversationType.mjs.map

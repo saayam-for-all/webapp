@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Others",
+  "private": true,
+  "main": "../cjs/react/Others.js",
+  "module": "../esm/react/Others.js",
+  "types": "../esm/react/Others.d.ts"
+}

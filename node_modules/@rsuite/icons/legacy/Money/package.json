@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Money",
+  "private": true,
+  "main": "../../cjs/react/legacy/Money.js",
+  "module": "../../esm/react/legacy/Money.js",
+  "types": "../../esm/react/legacy/Money.d.ts"
+}

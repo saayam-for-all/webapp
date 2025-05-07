@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/OffBranch",
+  "private": true,
+  "main": "../cjs/react/OffBranch.js",
+  "module": "../esm/react/OffBranch.js",
+  "types": "../esm/react/OffBranch.d.ts"
+}

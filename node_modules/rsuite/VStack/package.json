@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/VStack",
+  "private": true,
+  "main": "../cjs/Stack/VStack.js",
+  "module": "../esm/Stack/VStack.js",
+  "types": "../esm/Stack/VStack.d.ts"
+}

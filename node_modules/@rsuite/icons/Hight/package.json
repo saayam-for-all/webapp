@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Hight",
+  "private": true,
+  "main": "../cjs/react/Hight.js",
+  "module": "../esm/react/Hight.js",
+  "types": "../esm/react/Hight.d.ts"
+}

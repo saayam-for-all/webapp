@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Edit",
+  "private": true,
+  "main": "../cjs/react/Edit.js",
+  "module": "../esm/react/Edit.js",
+  "types": "../esm/react/Edit.d.ts"
+}

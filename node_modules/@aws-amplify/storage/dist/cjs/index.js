@@ -1,0 +1,21 @@
+'use strict';
+
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_PART_SIZE = exports.StorageError = exports.isCancelError = exports.getUrl = exports.copy = exports.getProperties = exports.list = exports.remove = exports.downloadData = exports.uploadData = void 0;
+var s3_1 = require("./providers/s3");
+Object.defineProperty(exports, "uploadData", { enumerable: true, get: function () { return s3_1.uploadData; } });
+Object.defineProperty(exports, "downloadData", { enumerable: true, get: function () { return s3_1.downloadData; } });
+Object.defineProperty(exports, "remove", { enumerable: true, get: function () { return s3_1.remove; } });
+Object.defineProperty(exports, "list", { enumerable: true, get: function () { return s3_1.list; } });
+Object.defineProperty(exports, "getProperties", { enumerable: true, get: function () { return s3_1.getProperties; } });
+Object.defineProperty(exports, "copy", { enumerable: true, get: function () { return s3_1.copy; } });
+Object.defineProperty(exports, "getUrl", { enumerable: true, get: function () { return s3_1.getUrl; } });
+var CanceledError_1 = require("./errors/CanceledError");
+Object.defineProperty(exports, "isCancelError", { enumerable: true, get: function () { return CanceledError_1.isCancelError; } });
+var StorageError_1 = require("./errors/StorageError");
+Object.defineProperty(exports, "StorageError", { enumerable: true, get: function () { return StorageError_1.StorageError; } });
+var constants_1 = require("./providers/s3/utils/constants");
+Object.defineProperty(exports, "DEFAULT_PART_SIZE", { enumerable: true, get: function () { return constants_1.DEFAULT_PART_SIZE; } });
+//# sourceMappingURL=index.js.map

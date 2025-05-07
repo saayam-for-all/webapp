@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/OdnoklassnikiSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/OdnoklassnikiSquare.js",
+  "module": "../../esm/react/legacy/OdnoklassnikiSquare.js",
+  "types": "../../esm/react/legacy/OdnoklassnikiSquare.d.ts"
+}

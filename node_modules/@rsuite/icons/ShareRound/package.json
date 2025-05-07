@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ShareRound",
+  "private": true,
+  "main": "../cjs/react/ShareRound.js",
+  "module": "../esm/react/ShareRound.js",
+  "types": "../esm/react/ShareRound.d.ts"
+}

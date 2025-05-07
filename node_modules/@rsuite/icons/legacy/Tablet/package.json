@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Tablet",
+  "private": true,
+  "main": "../../cjs/react/legacy/Tablet.js",
+  "module": "../../esm/react/legacy/Tablet.js",
+  "types": "../../esm/react/legacy/Tablet.d.ts"
+}

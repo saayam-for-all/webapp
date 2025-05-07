@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Home",
+  "private": true,
+  "main": "../../cjs/react/legacy/Home.js",
+  "module": "../../esm/react/legacy/Home.js",
+  "types": "../../esm/react/legacy/Home.d.ts"
+}

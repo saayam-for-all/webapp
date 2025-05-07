@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/TimePicker",
+  "private": true,
+  "main": "../cjs/TimePicker/index.js",
+  "module": "../esm/TimePicker/index.js",
+  "types": "../esm/TimePicker/index.d.ts"
+}

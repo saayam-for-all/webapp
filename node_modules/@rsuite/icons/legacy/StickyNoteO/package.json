@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/StickyNoteO",
+  "private": true,
+  "main": "../../cjs/react/legacy/StickyNoteO.js",
+  "module": "../../esm/react/legacy/StickyNoteO.js",
+  "types": "../../esm/react/legacy/StickyNoteO.d.ts"
+}

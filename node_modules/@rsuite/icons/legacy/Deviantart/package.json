@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Deviantart",
+  "private": true,
+  "main": "../../cjs/react/legacy/Deviantart.js",
+  "module": "../../esm/react/legacy/Deviantart.js",
+  "types": "../../esm/react/legacy/Deviantart.d.ts"
+}

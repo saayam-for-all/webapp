@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/QuoteRight",
+  "private": true,
+  "main": "../../cjs/react/legacy/QuoteRight.js",
+  "module": "../../esm/react/legacy/QuoteRight.js",
+  "types": "../../esm/react/legacy/QuoteRight.d.ts"
+}

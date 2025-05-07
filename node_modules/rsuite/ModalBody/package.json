@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/ModalBody",
+  "private": true,
+  "main": "../cjs/Modal/ModalBody.js",
+  "module": "../esm/Modal/ModalBody.js",
+  "types": "../esm/Modal/ModalBody.d.ts"
+}

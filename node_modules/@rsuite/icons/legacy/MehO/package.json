@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/MehO",
+  "private": true,
+  "main": "../../cjs/react/legacy/MehO.js",
+  "module": "../../esm/react/legacy/MehO.js",
+  "types": "../../esm/react/legacy/MehO.d.ts"
+}

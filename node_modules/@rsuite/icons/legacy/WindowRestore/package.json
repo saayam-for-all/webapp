@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/WindowRestore",
+  "private": true,
+  "main": "../../cjs/react/legacy/WindowRestore.js",
+  "module": "../../esm/react/legacy/WindowRestore.js",
+  "types": "../../esm/react/legacy/WindowRestore.d.ts"
+}

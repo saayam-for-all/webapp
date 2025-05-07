@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Male",
+  "private": true,
+  "main": "../../cjs/react/legacy/Male.js",
+  "module": "../../esm/react/legacy/Male.js",
+  "types": "../../esm/react/legacy/Male.d.ts"
+}

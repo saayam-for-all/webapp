@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BluetoothB",
+  "private": true,
+  "main": "../../cjs/react/legacy/BluetoothB.js",
+  "module": "../../esm/react/legacy/BluetoothB.js",
+  "types": "../../esm/react/legacy/BluetoothB.d.ts"
+}

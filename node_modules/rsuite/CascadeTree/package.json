@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/CascadeTree",
+  "private": true,
+  "main": "../cjs/CascadeTree/index.js",
+  "module": "../esm/CascadeTree/index.js",
+  "types": "../esm/CascadeTree/index.d.ts"
+}

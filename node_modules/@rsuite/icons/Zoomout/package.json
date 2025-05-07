@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Zoomout",
+  "private": true,
+  "main": "../cjs/react/Zoomout.js",
+  "module": "../esm/react/Zoomout.js",
+  "types": "../esm/react/Zoomout.d.ts"
+}

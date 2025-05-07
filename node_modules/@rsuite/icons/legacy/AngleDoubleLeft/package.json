@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/AngleDoubleLeft",
+  "private": true,
+  "main": "../../cjs/react/legacy/AngleDoubleLeft.js",
+  "module": "../../esm/react/legacy/AngleDoubleLeft.js",
+  "types": "../../esm/react/legacy/AngleDoubleLeft.d.ts"
+}

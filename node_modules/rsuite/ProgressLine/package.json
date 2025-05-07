@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/ProgressLine",
+  "private": true,
+  "main": "../cjs/Progress/ProgressLine.js",
+  "module": "../esm/Progress/ProgressLine.js",
+  "types": "../esm/Progress/ProgressLine.d.ts"
+}

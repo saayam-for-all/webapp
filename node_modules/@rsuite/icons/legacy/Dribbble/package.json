@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Dribbble",
+  "private": true,
+  "main": "../../cjs/react/legacy/Dribbble.js",
+  "module": "../../esm/react/legacy/Dribbble.js",
+  "types": "../../esm/react/legacy/Dribbble.d.ts"
+}

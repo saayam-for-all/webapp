@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/RunningRound",
+  "private": true,
+  "main": "../cjs/react/RunningRound.js",
+  "module": "../esm/react/RunningRound.js",
+  "types": "../esm/react/RunningRound.d.ts"
+}

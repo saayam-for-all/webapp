@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/GearCircle",
+  "private": true,
+  "main": "../../cjs/react/legacy/GearCircle.js",
+  "module": "../../esm/react/legacy/GearCircle.js",
+  "types": "../../esm/react/legacy/GearCircle.d.ts"
+}

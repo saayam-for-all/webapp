@@ -1,0 +1,86 @@
+import { Command as $Command } from "@smithy/smithy-client";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import { PutActionInteractionsRequest } from "../models/models_0";
+import { PersonalizeEventsClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../PersonalizeEventsClient";
+/**
+ * @public
+ */
+export type { __MetadataBearer };
+export { $Command };
+/**
+ * @public
+ *
+ * The input for {@link PutActionInteractionsCommand}.
+ */
+export interface PutActionInteractionsCommandInput extends PutActionInteractionsRequest {
+}
+/**
+ * @public
+ *
+ * The output of {@link PutActionInteractionsCommand}.
+ */
+export interface PutActionInteractionsCommandOutput extends __MetadataBearer {
+}
+declare const PutActionInteractionsCommand_base: {
+    new (input: PutActionInteractionsCommandInput): import("@smithy/smithy-client").CommandImpl<PutActionInteractionsCommandInput, PutActionInteractionsCommandOutput, PersonalizeEventsClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes>;
+    new (__0_0: PutActionInteractionsCommandInput): import("@smithy/smithy-client").CommandImpl<PutActionInteractionsCommandInput, PutActionInteractionsCommandOutput, PersonalizeEventsClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes>;
+    getEndpointParameterInstructions(): import("@smithy/middleware-endpoint").EndpointParameterInstructions;
+};
+/**
+ * <p>Records action interaction event data. An <i>action interaction</i> event is an interaction between a user and an <i>action</i>.
+ *       For example, a user taking an action, such a enrolling in a membership program or downloading your app.</p>
+ *          <p>
+ *       For more information about recording action interactions, see <a href="https://docs.aws.amazon.com/personalize/latest/dg/recording-action-interaction-events.html">Recording action interaction events</a>.
+ *       For more information about actions in an Actions dataset, see <a href="https://docs.aws.amazon.com/personalize/latest/dg/actions-datasets.html">Actions dataset</a>.</p>
+ * @example
+ * Use a bare-bones client and the command you need to make an API call.
+ * ```javascript
+ * import { PersonalizeEventsClient, PutActionInteractionsCommand } from "@aws-sdk/client-personalize-events"; // ES Modules import
+ * // const { PersonalizeEventsClient, PutActionInteractionsCommand } = require("@aws-sdk/client-personalize-events"); // CommonJS import
+ * const client = new PersonalizeEventsClient(config);
+ * const input = { // PutActionInteractionsRequest
+ *   trackingId: "STRING_VALUE", // required
+ *   actionInteractions: [ // ActionInteractionsList // required
+ *     { // ActionInteraction
+ *       actionId: "STRING_VALUE", // required
+ *       userId: "STRING_VALUE",
+ *       sessionId: "STRING_VALUE", // required
+ *       timestamp: new Date("TIMESTAMP"), // required
+ *       eventType: "STRING_VALUE", // required
+ *       eventId: "STRING_VALUE",
+ *       recommendationId: "STRING_VALUE",
+ *       impression: [ // ActionImpression
+ *         "STRING_VALUE",
+ *       ],
+ *       properties: "STRING_VALUE",
+ *     },
+ *   ],
+ * };
+ * const command = new PutActionInteractionsCommand(input);
+ * const response = await client.send(command);
+ * // {};
+ *
+ * ```
+ *
+ * @param PutActionInteractionsCommandInput - {@link PutActionInteractionsCommandInput}
+ * @returns {@link PutActionInteractionsCommandOutput}
+ * @see {@link PutActionInteractionsCommandInput} for command's `input` shape.
+ * @see {@link PutActionInteractionsCommandOutput} for command's `response` shape.
+ * @see {@link PersonalizeEventsClientResolvedConfig | config} for PersonalizeEventsClient's `config` shape.
+ *
+ * @throws {@link InvalidInputException} (client fault)
+ *  <p>Provide a valid value for the field or parameter.</p>
+ *
+ * @throws {@link ResourceInUseException} (client fault)
+ *  <p>The specified resource is in use.</p>
+ *
+ * @throws {@link ResourceNotFoundException} (client fault)
+ *  <p>Could not find the specified resource.</p>
+ *
+ * @throws {@link PersonalizeEventsServiceException}
+ * <p>Base exception class for all service exceptions from PersonalizeEvents service.</p>
+ *
+ * @public
+ */
+export declare class PutActionInteractionsCommand extends PutActionInteractionsCommand_base {
+}

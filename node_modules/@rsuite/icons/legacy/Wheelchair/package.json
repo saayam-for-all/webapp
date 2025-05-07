@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Wheelchair",
+  "private": true,
+  "main": "../../cjs/react/legacy/Wheelchair.js",
+  "module": "../../esm/react/legacy/Wheelchair.js",
+  "types": "../../esm/react/legacy/Wheelchair.d.ts"
+}

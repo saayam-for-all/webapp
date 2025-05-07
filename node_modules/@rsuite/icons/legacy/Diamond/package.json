@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Diamond",
+  "private": true,
+  "main": "../../cjs/react/legacy/Diamond.js",
+  "module": "../../esm/react/legacy/Diamond.js",
+  "types": "../../esm/react/legacy/Diamond.d.ts"
+}

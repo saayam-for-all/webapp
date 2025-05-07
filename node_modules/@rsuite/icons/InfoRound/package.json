@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/InfoRound",
+  "private": true,
+  "main": "../cjs/react/InfoRound.js",
+  "module": "../esm/react/InfoRound.js",
+  "types": "../esm/react/InfoRound.d.ts"
+}

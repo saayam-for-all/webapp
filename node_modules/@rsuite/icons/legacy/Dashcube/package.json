@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Dashcube",
+  "private": true,
+  "main": "../../cjs/react/legacy/Dashcube.js",
+  "module": "../../esm/react/legacy/Dashcube.js",
+  "types": "../../esm/react/legacy/Dashcube.d.ts"
+}

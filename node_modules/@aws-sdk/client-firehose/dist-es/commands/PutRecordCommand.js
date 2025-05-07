@@ -1,0 +1,24 @@
+import { getEndpointPlugin } from "@smithy/middleware-endpoint";
+import { getSerdePlugin } from "@smithy/middleware-serde";
+import { Command as $Command } from "@smithy/smithy-client";
+import { commonParams } from "../endpoint/EndpointParameters";
+import { de_PutRecordCommand, se_PutRecordCommand } from "../protocols/Aws_json1_1";
+export { $Command };
+export class PutRecordCommand extends $Command
+    .classBuilder()
+    .ep({
+    ...commonParams,
+})
+    .m(function (Command, cs, config, o) {
+    return [
+        getSerdePlugin(config, this.serialize, this.deserialize),
+        getEndpointPlugin(config, Command.getEndpointParameterInstructions()),
+    ];
+})
+    .s("Firehose_20150804", "PutRecord", {})
+    .n("FirehoseClient", "PutRecordCommand")
+    .f(void 0, void 0)
+    .ser(se_PutRecordCommand)
+    .de(de_PutRecordCommand)
+    .build() {
+}

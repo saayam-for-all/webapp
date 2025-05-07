@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Yc",
+  "private": true,
+  "main": "../../cjs/react/legacy/Yc.js",
+  "module": "../../esm/react/legacy/Yc.js",
+  "types": "../../esm/react/legacy/Yc.d.ts"
+}

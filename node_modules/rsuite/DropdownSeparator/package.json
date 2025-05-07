@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/DropdownSeparator",
+  "private": true,
+  "main": "../cjs/Dropdown/DropdownSeparator.js",
+  "module": "../esm/Dropdown/DropdownSeparator.js",
+  "types": "../esm/Dropdown/DropdownSeparator.d.ts"
+}

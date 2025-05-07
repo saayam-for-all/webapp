@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ClockO",
+  "private": true,
+  "main": "../../cjs/react/legacy/ClockO.js",
+  "module": "../../esm/react/legacy/ClockO.js",
+  "types": "../../esm/react/legacy/ClockO.d.ts"
+}

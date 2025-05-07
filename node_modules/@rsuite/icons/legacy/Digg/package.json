@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Digg",
+  "private": true,
+  "main": "../../cjs/react/legacy/Digg.js",
+  "module": "../../esm/react/legacy/Digg.js",
+  "types": "../../esm/react/legacy/Digg.d.ts"
+}

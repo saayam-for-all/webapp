@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LogoAds",
+  "private": true,
+  "main": "../../cjs/react/legacy/LogoAds.js",
+  "module": "../../esm/react/legacy/LogoAds.js",
+  "types": "../../esm/react/legacy/LogoAds.d.ts"
+}

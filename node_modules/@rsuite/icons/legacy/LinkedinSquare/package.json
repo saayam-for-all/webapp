@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LinkedinSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/LinkedinSquare.js",
+  "module": "../../esm/react/legacy/LinkedinSquare.js",
+  "types": "../../esm/react/legacy/LinkedinSquare.d.ts"
+}

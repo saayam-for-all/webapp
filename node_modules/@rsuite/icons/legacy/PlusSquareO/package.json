@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PlusSquareO",
+  "private": true,
+  "main": "../../cjs/react/legacy/PlusSquareO.js",
+  "module": "../../esm/react/legacy/PlusSquareO.js",
+  "types": "../../esm/react/legacy/PlusSquareO.d.ts"
+}

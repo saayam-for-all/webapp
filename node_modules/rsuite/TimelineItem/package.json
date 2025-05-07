@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/TimelineItem",
+  "private": true,
+  "main": "../cjs/Timeline/TimelineItem.js",
+  "module": "../esm/Timeline/TimelineItem.js",
+  "types": "../esm/Timeline/TimelineItem.d.ts"
+}

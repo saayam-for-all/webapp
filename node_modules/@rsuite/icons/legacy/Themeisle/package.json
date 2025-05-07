@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Themeisle",
+  "private": true,
+  "main": "../../cjs/react/legacy/Themeisle.js",
+  "module": "../../esm/react/legacy/Themeisle.js",
+  "types": "../../esm/react/legacy/Themeisle.d.ts"
+}

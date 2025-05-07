@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Ambulance",
+  "private": true,
+  "main": "../../cjs/react/legacy/Ambulance.js",
+  "module": "../../esm/react/legacy/Ambulance.js",
+  "types": "../../esm/react/legacy/Ambulance.d.ts"
+}

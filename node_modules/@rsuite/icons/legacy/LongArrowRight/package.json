@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LongArrowRight",
+  "private": true,
+  "main": "../../cjs/react/legacy/LongArrowRight.js",
+  "module": "../../esm/react/legacy/LongArrowRight.js",
+  "types": "../../esm/react/legacy/LongArrowRight.d.ts"
+}

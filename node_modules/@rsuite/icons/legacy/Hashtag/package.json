@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Hashtag",
+  "private": true,
+  "main": "../../cjs/react/legacy/Hashtag.js",
+  "module": "../../esm/react/legacy/Hashtag.js",
+  "types": "../../esm/react/legacy/Hashtag.d.ts"
+}

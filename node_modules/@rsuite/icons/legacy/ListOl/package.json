@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ListOl",
+  "private": true,
+  "main": "../../cjs/react/legacy/ListOl.js",
+  "module": "../../esm/react/legacy/ListOl.js",
+  "types": "../../esm/react/legacy/ListOl.d.ts"
+}

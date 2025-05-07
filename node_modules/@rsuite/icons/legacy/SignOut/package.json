@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/SignOut",
+  "private": true,
+  "main": "../../cjs/react/legacy/SignOut.js",
+  "module": "../../esm/react/legacy/SignOut.js",
+  "types": "../../esm/react/legacy/SignOut.d.ts"
+}

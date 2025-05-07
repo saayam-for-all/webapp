@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Columns",
+  "private": true,
+  "main": "../../cjs/react/legacy/Columns.js",
+  "module": "../../esm/react/legacy/Columns.js",
+  "types": "../../esm/react/legacy/Columns.d.ts"
+}

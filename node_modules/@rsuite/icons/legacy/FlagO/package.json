@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FlagO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FlagO.js",
+  "module": "../../esm/react/legacy/FlagO.js",
+  "types": "../../esm/react/legacy/FlagO.d.ts"
+}

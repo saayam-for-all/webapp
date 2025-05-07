@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Ioxhost",
+  "private": true,
+  "main": "../../cjs/react/legacy/Ioxhost.js",
+  "module": "../../esm/react/legacy/Ioxhost.js",
+  "types": "../../esm/react/legacy/Ioxhost.d.ts"
+}

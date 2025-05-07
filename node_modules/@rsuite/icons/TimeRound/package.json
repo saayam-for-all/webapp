@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/TimeRound",
+  "private": true,
+  "main": "../cjs/react/TimeRound.js",
+  "module": "../esm/react/TimeRound.js",
+  "types": "../esm/react/TimeRound.d.ts"
+}

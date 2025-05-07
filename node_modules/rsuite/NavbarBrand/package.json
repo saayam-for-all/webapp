@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/NavbarBrand",
+  "private": true,
+  "main": "../cjs/Navbar/NavbarBrand.js",
+  "module": "../esm/Navbar/NavbarBrand.js",
+  "types": "../esm/Navbar/NavbarBrand.d.ts"
+}

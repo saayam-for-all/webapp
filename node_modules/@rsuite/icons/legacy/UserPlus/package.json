@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/UserPlus",
+  "private": true,
+  "main": "../../cjs/react/legacy/UserPlus.js",
+  "module": "../../esm/react/legacy/UserPlus.js",
+  "types": "../../esm/react/legacy/UserPlus.d.ts"
+}

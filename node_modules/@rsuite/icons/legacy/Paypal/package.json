@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Paypal",
+  "private": true,
+  "main": "../../cjs/react/legacy/Paypal.js",
+  "module": "../../esm/react/legacy/Paypal.js",
+  "types": "../../esm/react/legacy/Paypal.d.ts"
+}

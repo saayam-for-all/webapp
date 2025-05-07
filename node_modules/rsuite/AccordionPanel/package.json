@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/AccordionPanel",
+  "private": true,
+  "main": "../cjs/Accordion/AccordionPanel.js",
+  "module": "../esm/Accordion/AccordionPanel.js",
+  "types": "../esm/Accordion/AccordionPanel.d.ts"
+}

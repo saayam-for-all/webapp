@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/FileUpload",
+  "private": true,
+  "main": "../cjs/react/FileUpload.js",
+  "module": "../esm/react/FileUpload.js",
+  "types": "../esm/react/FileUpload.d.ts"
+}

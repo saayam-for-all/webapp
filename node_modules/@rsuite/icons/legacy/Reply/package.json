@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Reply",
+  "private": true,
+  "main": "../../cjs/react/legacy/Reply.js",
+  "module": "../../esm/react/legacy/Reply.js",
+  "types": "../../esm/react/legacy/Reply.d.ts"
+}

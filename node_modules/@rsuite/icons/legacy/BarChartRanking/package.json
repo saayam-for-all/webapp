@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BarChartRanking",
+  "private": true,
+  "main": "../../cjs/react/legacy/BarChartRanking.js",
+  "module": "../../esm/react/legacy/BarChartRanking.js",
+  "types": "../../esm/react/legacy/BarChartRanking.d.ts"
+}

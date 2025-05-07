@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PauseOutline",
+  "private": true,
+  "main": "../cjs/react/PauseOutline.js",
+  "module": "../esm/react/PauseOutline.js",
+  "types": "../esm/react/PauseOutline.d.ts"
+}

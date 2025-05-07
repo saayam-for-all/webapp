@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bicycle",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bicycle.js",
+  "module": "../../esm/react/legacy/Bicycle.js",
+  "types": "../../esm/react/legacy/Bicycle.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Good",
+  "private": true,
+  "main": "../../cjs/react/legacy/Good.js",
+  "module": "../../esm/react/legacy/Good.js",
+  "types": "../../esm/react/legacy/Good.d.ts"
+}

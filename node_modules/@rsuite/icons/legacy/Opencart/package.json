@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Opencart",
+  "private": true,
+  "main": "../../cjs/react/legacy/Opencart.js",
+  "module": "../../esm/react/legacy/Opencart.js",
+  "types": "../../esm/react/legacy/Opencart.d.ts"
+}

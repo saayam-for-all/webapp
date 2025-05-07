@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PagePrevious",
+  "private": true,
+  "main": "../../cjs/react/legacy/PagePrevious.js",
+  "module": "../../esm/react/legacy/PagePrevious.js",
+  "types": "../../esm/react/legacy/PagePrevious.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Stat",
+  "private": true,
+  "main": "../cjs/Stat/index.js",
+  "module": "../esm/Stat/index.js",
+  "types": "../esm/Stat/index.d.ts"
+}

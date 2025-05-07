@@ -1,0 +1,176 @@
+'use strict';
+
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConsoleLogger = void 0;
+const constants_1 = require("../constants");
+const types_1 = require("./types");
+const LOG_LEVELS = {
+    VERBOSE: 1,
+    DEBUG: 2,
+    INFO: 3,
+    WARN: 4,
+    ERROR: 5,
+    NONE: 6,
+};
+/**
+ * Write logs
+ * @class Logger
+ */
+class ConsoleLogger {
+    /**
+     * @constructor
+     * @param {string} name - Name of the logger
+     */
+    constructor(name, level = types_1.LogType.WARN) {
+        this.name = name;
+        this.level = level;
+        this._pluggables = [];
+    }
+    _padding(n) {
+        return n < 10 ? '0' + n : '' + n;
+    }
+    _ts() {
+        const dt = new Date();
+        return ([this._padding(dt.getMinutes()), this._padding(dt.getSeconds())].join(':') +
+            '.' +
+            dt.getMilliseconds());
+    }
+    configure(config) {
+        if (!config)
+            return this._config;
+        this._config = config;
+        return this._config;
+    }
+    /**
+     * Write log
+     * @method
+     * @memeberof Logger
+     * @param {LogType|string} type - log type, default INFO
+     * @param {string|object} msg - Logging message or object
+     */
+    _log(type, ...msg) {
+        let loggerLevelName = this.level;
+        if (ConsoleLogger.LOG_LEVEL) {
+            loggerLevelName = ConsoleLogger.LOG_LEVEL;
+        }
+        if (typeof window !== 'undefined' && window.LOG_LEVEL) {
+            loggerLevelName = window.LOG_LEVEL;
+        }
+        const loggerLevel = LOG_LEVELS[loggerLevelName];
+        const typeLevel = LOG_LEVELS[type];
+        if (!(typeLevel >= loggerLevel)) {
+            // Do nothing if type is not greater than or equal to logger level (handle undefined)
+            return;
+        }
+        let log = console.log.bind(console);
+        if (type === types_1.LogType.ERROR && console.error) {
+            log = console.error.bind(console);
+        }
+        if (type === types_1.LogType.WARN && console.warn) {
+            log = console.warn.bind(console);
+        }
+        if (ConsoleLogger.BIND_ALL_LOG_LEVELS) {
+            if (type === types_1.LogType.INFO && console.info) {
+                log = console.info.bind(console);
+            }
+            if (type === types_1.LogType.DEBUG && console.debug) {
+                log = console.debug.bind(console);
+            }
+        }
+        const prefix = `[${type}] ${this._ts()} ${this.name}`;
+        let message = '';
+        if (msg.length === 1 && typeof msg[0] === 'string') {
+            message = `${prefix} - ${msg[0]}`;
+            log(message);
+        }
+        else if (msg.length === 1) {
+            message = `${prefix} ${msg[0]}`;
+            log(prefix, msg[0]);
+        }
+        else if (typeof msg[0] === 'string') {
+            let obj = msg.slice(1);
+            if (obj.length === 1) {
+                obj = obj[0];
+            }
+            message = `${prefix} - ${msg[0]} ${obj}`;
+            log(`${prefix} - ${msg[0]}`, obj);
+        }
+        else {
+            message = `${prefix} ${msg}`;
+            log(prefix, msg);
+        }
+        for (const plugin of this._pluggables) {
+            const logEvent = { message, timestamp: Date.now() };
+            plugin.pushLogs([logEvent]);
+        }
+    }
+    /**
+     * Write General log. Default to INFO
+     * @method
+     * @memeberof Logger
+     * @param {string|object} msg - Logging message or object
+     */
+    log(...msg) {
+        this._log(types_1.LogType.INFO, ...msg);
+    }
+    /**
+     * Write INFO log
+     * @method
+     * @memeberof Logger
+     * @param {string|object} msg - Logging message or object
+     */
+    info(...msg) {
+        this._log(types_1.LogType.INFO, ...msg);
+    }
+    /**
+     * Write WARN log
+     * @method
+     * @memeberof Logger
+     * @param {string|object} msg - Logging message or object
+     */
+    warn(...msg) {
+        this._log(types_1.LogType.WARN, ...msg);
+    }
+    /**
+     * Write ERROR log
+     * @method
+     * @memeberof Logger
+     * @param {string|object} msg - Logging message or object
+     */
+    error(...msg) {
+        this._log(types_1.LogType.ERROR, ...msg);
+    }
+    /**
+     * Write DEBUG log
+     * @method
+     * @memeberof Logger
+     * @param {string|object} msg - Logging message or object
+     */
+    debug(...msg) {
+        this._log(types_1.LogType.DEBUG, ...msg);
+    }
+    /**
+     * Write VERBOSE log
+     * @method
+     * @memeberof Logger
+     * @param {string|object} msg - Logging message or object
+     */
+    verbose(...msg) {
+        this._log(types_1.LogType.VERBOSE, ...msg);
+    }
+    addPluggable(pluggable) {
+        if (pluggable && pluggable.getCategoryName() === constants_1.AWS_CLOUDWATCH_CATEGORY) {
+            this._pluggables.push(pluggable);
+            pluggable.configure(this._config);
+        }
+    }
+    listPluggables() {
+        return this._pluggables;
+    }
+}
+exports.ConsoleLogger = ConsoleLogger;
+ConsoleLogger.LOG_LEVEL = null;
+ConsoleLogger.BIND_ALL_LOG_LEVELS = false;
+//# sourceMappingURL=ConsoleLogger.js.map

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PublicOpinion",
+  "private": true,
+  "main": "../../cjs/react/legacy/PublicOpinion.js",
+  "module": "../../esm/react/legacy/PublicOpinion.js",
+  "types": "../../esm/react/legacy/PublicOpinion.d.ts"
+}

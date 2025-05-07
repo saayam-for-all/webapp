@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Yelp",
+  "private": true,
+  "main": "../../cjs/react/legacy/Yelp.js",
+  "module": "../../esm/react/legacy/Yelp.js",
+  "types": "../../esm/react/legacy/Yelp.d.ts"
+}

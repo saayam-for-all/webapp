@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Reload",
+  "private": true,
+  "main": "../cjs/react/Reload.js",
+  "module": "../esm/react/Reload.js",
+  "types": "../esm/react/Reload.d.ts"
+}

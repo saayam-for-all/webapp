@@ -1,0 +1,1 @@
+{"version":3,"file":"event.d.ts","sourceRoot":"","sources":["../../../../lib/basedriver/commands/event.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,WAAW,EAAE,cAAc,EAAC,MAAM,eAAe,CAAC;AAK1D,OAAO,QAAQ,WAAW,CAAC;IAEzB,UAAU,UAAU,CAAC,CAAC,SAAS,WAAW,CAAE,SAAQ,cAAc;KAAG;CACtE"}

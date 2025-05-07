@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ThumbsDown",
+  "private": true,
+  "main": "../../cjs/react/legacy/ThumbsDown.js",
+  "module": "../../esm/react/legacy/ThumbsDown.js",
+  "types": "../../esm/react/legacy/ThumbsDown.d.ts"
+}

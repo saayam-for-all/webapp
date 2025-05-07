@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/SearchPeoples",
+  "private": true,
+  "main": "../../cjs/react/legacy/SearchPeoples.js",
+  "module": "../../esm/react/legacy/SearchPeoples.js",
+  "types": "../../esm/react/legacy/SearchPeoples.d.ts"
+}

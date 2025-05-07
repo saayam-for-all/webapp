@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Wpbeginner",
+  "private": true,
+  "main": "../../cjs/react/legacy/Wpbeginner.js",
+  "module": "../../esm/react/legacy/Wpbeginner.js",
+  "types": "../../esm/react/legacy/Wpbeginner.d.ts"
+}

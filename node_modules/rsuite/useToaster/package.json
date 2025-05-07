@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/useToaster",
+  "private": true,
+  "main": "../cjs/useToaster/index.js",
+  "module": "../esm/useToaster/index.js",
+  "types": "../esm/useToaster/index.d.ts"
+}

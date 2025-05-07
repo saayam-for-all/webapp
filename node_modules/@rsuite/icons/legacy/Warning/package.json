@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Warning",
+  "private": true,
+  "main": "../../cjs/react/legacy/Warning.js",
+  "module": "../../esm/react/legacy/Warning.js",
+  "types": "../../esm/react/legacy/Warning.d.ts"
+}

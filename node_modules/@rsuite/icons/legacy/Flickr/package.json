@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Flickr",
+  "private": true,
+  "main": "../../cjs/react/legacy/Flickr.js",
+  "module": "../../esm/react/legacy/Flickr.js",
+  "types": "../../esm/react/legacy/Flickr.d.ts"
+}

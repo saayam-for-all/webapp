@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Direct",
+  "private": true,
+  "main": "../cjs/react/Direct.js",
+  "module": "../esm/react/Direct.js",
+  "types": "../esm/react/Direct.d.ts"
+}

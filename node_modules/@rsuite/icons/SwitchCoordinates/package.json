@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SwitchCoordinates",
+  "private": true,
+  "main": "../cjs/react/SwitchCoordinates.js",
+  "module": "../esm/react/SwitchCoordinates.js",
+  "types": "../esm/react/SwitchCoordinates.d.ts"
+}

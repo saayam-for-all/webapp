@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/TwinkleStar",
+  "private": true,
+  "main": "../../cjs/react/legacy/TwinkleStar.js",
+  "module": "../../esm/react/legacy/TwinkleStar.js",
+  "types": "../../esm/react/legacy/TwinkleStar.d.ts"
+}

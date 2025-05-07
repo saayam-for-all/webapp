@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Trademark",
+  "private": true,
+  "main": "../../cjs/react/legacy/Trademark.js",
+  "module": "../../esm/react/legacy/Trademark.js",
+  "types": "../../esm/react/legacy/Trademark.d.ts"
+}

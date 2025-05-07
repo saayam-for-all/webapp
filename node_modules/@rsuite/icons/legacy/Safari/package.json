@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Safari",
+  "private": true,
+  "main": "../../cjs/react/legacy/Safari.js",
+  "module": "../../esm/react/legacy/Safari.js",
+  "types": "../../esm/react/legacy/Safari.d.ts"
+}

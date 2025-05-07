@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HandLizardO",
+  "private": true,
+  "main": "../../cjs/react/legacy/HandLizardO.js",
+  "module": "../../esm/react/legacy/HandLizardO.js",
+  "types": "../../esm/react/legacy/HandLizardO.d.ts"
+}

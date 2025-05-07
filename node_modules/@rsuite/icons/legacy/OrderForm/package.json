@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/OrderForm",
+  "private": true,
+  "main": "../../cjs/react/legacy/OrderForm.js",
+  "module": "../../esm/react/legacy/OrderForm.js",
+  "types": "../../esm/react/legacy/OrderForm.d.ts"
+}

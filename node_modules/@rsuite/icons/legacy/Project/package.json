@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Project",
+  "private": true,
+  "main": "../../cjs/react/legacy/Project.js",
+  "module": "../../esm/react/legacy/Project.js",
+  "types": "../../esm/react/legacy/Project.d.ts"
+}

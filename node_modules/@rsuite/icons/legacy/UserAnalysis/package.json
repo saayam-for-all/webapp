@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/UserAnalysis",
+  "private": true,
+  "main": "../../cjs/react/legacy/UserAnalysis.js",
+  "module": "../../esm/react/legacy/UserAnalysis.js",
+  "types": "../../esm/react/legacy/UserAnalysis.d.ts"
+}

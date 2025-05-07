@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Cutlery",
+  "private": true,
+  "main": "../../cjs/react/legacy/Cutlery.js",
+  "module": "../../esm/react/legacy/Cutlery.js",
+  "types": "../../esm/react/legacy/Cutlery.d.ts"
+}

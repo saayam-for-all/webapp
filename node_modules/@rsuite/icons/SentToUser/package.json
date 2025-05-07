@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SentToUser",
+  "private": true,
+  "main": "../cjs/react/SentToUser.js",
+  "module": "../esm/react/SentToUser.js",
+  "types": "../esm/react/SentToUser.d.ts"
+}

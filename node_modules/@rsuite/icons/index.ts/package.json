@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/index.ts",
+  "private": true,
+  "main": "../cjs/react/index.ts.js",
+  "module": "../esm/react/index.ts.js",
+  "types": "../esm/react/index.ts.d.ts"
+}

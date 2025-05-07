@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Try",
+  "private": true,
+  "main": "../../cjs/react/legacy/Try.js",
+  "module": "../../esm/react/legacy/Try.js",
+  "types": "../../esm/react/legacy/Try.d.ts"
+}

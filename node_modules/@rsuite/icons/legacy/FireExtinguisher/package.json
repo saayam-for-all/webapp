@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FireExtinguisher",
+  "private": true,
+  "main": "../../cjs/react/legacy/FireExtinguisher.js",
+  "module": "../../esm/react/legacy/FireExtinguisher.js",
+  "types": "../../esm/react/legacy/FireExtinguisher.d.ts"
+}

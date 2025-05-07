@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Gbp",
+  "private": true,
+  "main": "../../cjs/react/legacy/Gbp.js",
+  "module": "../../esm/react/legacy/Gbp.js",
+  "types": "../../esm/react/legacy/Gbp.d.ts"
+}

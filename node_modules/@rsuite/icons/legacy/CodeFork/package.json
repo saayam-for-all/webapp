@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CodeFork",
+  "private": true,
+  "main": "../../cjs/react/legacy/CodeFork.js",
+  "module": "../../esm/react/legacy/CodeFork.js",
+  "types": "../../esm/react/legacy/CodeFork.d.ts"
+}

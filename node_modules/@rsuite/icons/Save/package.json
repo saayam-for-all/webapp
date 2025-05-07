@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Save",
+  "private": true,
+  "main": "../cjs/react/Save.js",
+  "module": "../esm/react/Save.js",
+  "types": "../esm/react/Save.d.ts"
+}

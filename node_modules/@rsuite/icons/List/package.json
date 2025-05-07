@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/List",
+  "private": true,
+  "main": "../cjs/react/List.js",
+  "module": "../esm/react/List.js",
+  "types": "../esm/react/List.d.ts"
+}

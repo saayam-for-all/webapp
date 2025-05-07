@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Asterisk",
+  "private": true,
+  "main": "../../cjs/react/legacy/Asterisk.js",
+  "module": "../../esm/react/legacy/Asterisk.js",
+  "types": "../../esm/react/legacy/Asterisk.d.ts"
+}

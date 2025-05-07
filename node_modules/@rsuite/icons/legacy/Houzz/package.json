@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Houzz",
+  "private": true,
+  "main": "../../cjs/react/legacy/Houzz.js",
+  "module": "../../esm/react/legacy/Houzz.js",
+  "types": "../../esm/react/legacy/Houzz.d.ts"
+}

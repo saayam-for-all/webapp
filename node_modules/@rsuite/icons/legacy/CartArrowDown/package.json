@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CartArrowDown",
+  "private": true,
+  "main": "../../cjs/react/legacy/CartArrowDown.js",
+  "module": "../../esm/react/legacy/CartArrowDown.js",
+  "types": "../../esm/react/legacy/CartArrowDown.d.ts"
+}

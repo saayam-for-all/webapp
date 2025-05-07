@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Mixcloud",
+  "private": true,
+  "main": "../../cjs/react/legacy/Mixcloud.js",
+  "module": "../../esm/react/legacy/Mixcloud.js",
+  "types": "../../esm/react/legacy/Mixcloud.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Unlink",
+  "private": true,
+  "main": "../../cjs/react/legacy/Unlink.js",
+  "module": "../../esm/react/legacy/Unlink.js",
+  "types": "../../esm/react/legacy/Unlink.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/RadioTile",
+  "private": true,
+  "main": "../cjs/RadioTile/index.js",
+  "module": "../esm/RadioTile/index.js",
+  "types": "../esm/RadioTile/index.d.ts"
+}

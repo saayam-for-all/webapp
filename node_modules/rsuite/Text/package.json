@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Text",
+  "private": true,
+  "main": "../cjs/Text/index.js",
+  "module": "../esm/Text/index.js",
+  "types": "../esm/Text/index.d.ts"
+}

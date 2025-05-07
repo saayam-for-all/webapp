@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/TagLock",
+  "private": true,
+  "main": "../cjs/react/TagLock.js",
+  "module": "../esm/react/TagLock.js",
+  "types": "../esm/react/TagLock.d.ts"
+}

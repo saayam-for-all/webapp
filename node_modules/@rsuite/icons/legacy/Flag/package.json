@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Flag",
+  "private": true,
+  "main": "../../cjs/react/legacy/Flag.js",
+  "module": "../../esm/react/legacy/Flag.js",
+  "types": "../../esm/react/legacy/Flag.d.ts"
+}

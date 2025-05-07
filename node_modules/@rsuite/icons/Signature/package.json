@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Signature",
+  "private": true,
+  "main": "../cjs/react/Signature.js",
+  "module": "../esm/react/Signature.js",
+  "types": "../esm/react/Signature.d.ts"
+}

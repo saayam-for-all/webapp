@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HandshakeO",
+  "private": true,
+  "main": "../../cjs/react/legacy/HandshakeO.js",
+  "module": "../../esm/react/legacy/HandshakeO.js",
+  "types": "../../esm/react/legacy/HandshakeO.d.ts"
+}

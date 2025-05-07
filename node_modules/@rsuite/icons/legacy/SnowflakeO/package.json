@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/SnowflakeO",
+  "private": true,
+  "main": "../../cjs/react/legacy/SnowflakeO.js",
+  "module": "../../esm/react/legacy/SnowflakeO.js",
+  "types": "../../esm/react/legacy/SnowflakeO.d.ts"
+}

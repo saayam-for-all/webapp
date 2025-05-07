@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Percent",
+  "private": true,
+  "main": "../../cjs/react/legacy/Percent.js",
+  "module": "../../esm/react/legacy/Percent.js",
+  "types": "../../esm/react/legacy/Percent.d.ts"
+}

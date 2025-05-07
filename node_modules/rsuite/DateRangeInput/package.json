@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/DateRangeInput",
+  "private": true,
+  "main": "../cjs/DateRangeInput/index.js",
+  "module": "../esm/DateRangeInput/index.js",
+  "types": "../esm/DateRangeInput/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Print",
+  "private": true,
+  "main": "../../cjs/react/legacy/Print.js",
+  "module": "../../esm/react/legacy/Print.js",
+  "types": "../../esm/react/legacy/Print.d.ts"
+}

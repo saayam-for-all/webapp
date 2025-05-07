@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Music",
+  "private": true,
+  "main": "../../cjs/react/legacy/Music.js",
+  "module": "../../esm/react/legacy/Music.js",
+  "types": "../../esm/react/legacy/Music.d.ts"
+}

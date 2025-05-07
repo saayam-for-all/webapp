@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Yoast",
+  "private": true,
+  "main": "../../cjs/react/legacy/Yoast.js",
+  "module": "../../esm/react/legacy/Yoast.js",
+  "types": "../../esm/react/legacy/Yoast.d.ts"
+}

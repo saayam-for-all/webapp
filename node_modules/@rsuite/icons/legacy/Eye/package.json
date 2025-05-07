@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Eye",
+  "private": true,
+  "main": "../../cjs/react/legacy/Eye.js",
+  "module": "../../esm/react/legacy/Eye.js",
+  "types": "../../esm/react/legacy/Eye.d.ts"
+}

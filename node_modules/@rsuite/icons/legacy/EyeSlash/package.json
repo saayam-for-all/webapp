@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/EyeSlash",
+  "private": true,
+  "main": "../../cjs/react/legacy/EyeSlash.js",
+  "module": "../../esm/react/legacy/EyeSlash.js",
+  "types": "../../esm/react/legacy/EyeSlash.d.ts"
+}

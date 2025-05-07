@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/WindowMaximize",
+  "private": true,
+  "main": "../../cjs/react/legacy/WindowMaximize.js",
+  "module": "../../esm/react/legacy/WindowMaximize.js",
+  "types": "../../esm/react/legacy/WindowMaximize.d.ts"
+}

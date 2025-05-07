@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/WechatSubmessageOutline",
+  "private": true,
+  "main": "../cjs/react/WechatSubmessageOutline.js",
+  "module": "../esm/react/WechatSubmessageOutline.js",
+  "types": "../esm/react/WechatSubmessageOutline.d.ts"
+}

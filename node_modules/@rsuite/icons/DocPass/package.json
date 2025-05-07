@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/DocPass",
+  "private": true,
+  "main": "../cjs/react/DocPass.js",
+  "module": "../esm/react/DocPass.js",
+  "types": "../esm/react/DocPass.d.ts"
+}

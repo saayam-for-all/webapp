@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Audio",
+  "private": true,
+  "main": "../cjs/react/Audio.js",
+  "module": "../esm/react/Audio.js",
+  "types": "../esm/react/Audio.d.ts"
+}

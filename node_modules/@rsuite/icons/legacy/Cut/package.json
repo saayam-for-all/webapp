@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Cut",
+  "private": true,
+  "main": "../../cjs/react/legacy/Cut.js",
+  "module": "../../esm/react/legacy/Cut.js",
+  "types": "../../esm/react/legacy/Cut.d.ts"
+}

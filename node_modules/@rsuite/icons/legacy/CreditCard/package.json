@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CreditCard",
+  "private": true,
+  "main": "../../cjs/react/legacy/CreditCard.js",
+  "module": "../../esm/react/legacy/CreditCard.js",
+  "types": "../../esm/react/legacy/CreditCard.d.ts"
+}

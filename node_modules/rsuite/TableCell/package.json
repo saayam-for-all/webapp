@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/TableCell",
+  "private": true,
+  "main": "../cjs/Table/TableCell.js",
+  "module": "../esm/Table/TableCell.js",
+  "types": "../esm/Table/TableCell.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/UniversalAccess",
+  "private": true,
+  "main": "../../cjs/react/legacy/UniversalAccess.js",
+  "module": "../../esm/react/legacy/UniversalAccess.js",
+  "types": "../../esm/react/legacy/UniversalAccess.d.ts"
+}

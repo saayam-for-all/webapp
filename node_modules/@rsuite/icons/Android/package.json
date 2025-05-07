@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Android",
+  "private": true,
+  "main": "../cjs/react/Android.js",
+  "module": "../esm/react/Android.js",
+  "types": "../esm/react/Android.d.ts"
+}

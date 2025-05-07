@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LocationArrow",
+  "private": true,
+  "main": "../../cjs/react/legacy/LocationArrow.js",
+  "module": "../../esm/react/legacy/LocationArrow.js",
+  "types": "../../esm/react/legacy/LocationArrow.d.ts"
+}

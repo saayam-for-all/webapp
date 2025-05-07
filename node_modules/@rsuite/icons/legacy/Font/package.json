@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Font",
+  "private": true,
+  "main": "../../cjs/react/legacy/Font.js",
+  "module": "../../esm/react/legacy/Font.js",
+  "types": "../../esm/react/legacy/Font.d.ts"
+}

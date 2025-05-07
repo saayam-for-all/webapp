@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Mobile",
+  "private": true,
+  "main": "../../cjs/react/legacy/Mobile.js",
+  "module": "../../esm/react/legacy/Mobile.js",
+  "types": "../../esm/react/legacy/Mobile.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FileAudioO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FileAudioO.js",
+  "module": "../../esm/react/legacy/FileAudioO.js",
+  "types": "../../esm/react/legacy/FileAudioO.d.ts"
+}

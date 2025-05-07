@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/TumblrSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/TumblrSquare.js",
+  "module": "../../esm/react/legacy/TumblrSquare.js",
+  "types": "../../esm/react/legacy/TumblrSquare.d.ts"
+}

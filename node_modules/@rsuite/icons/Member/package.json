@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Member",
+  "private": true,
+  "main": "../cjs/react/Member.js",
+  "module": "../esm/react/Member.js",
+  "types": "../esm/react/Member.d.ts"
+}

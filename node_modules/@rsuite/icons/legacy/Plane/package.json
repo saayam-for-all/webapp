@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Plane",
+  "private": true,
+  "main": "../../cjs/react/legacy/Plane.js",
+  "module": "../../esm/react/legacy/Plane.js",
+  "types": "../../esm/react/legacy/Plane.d.ts"
+}

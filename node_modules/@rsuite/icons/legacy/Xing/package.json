@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Xing",
+  "private": true,
+  "main": "../../cjs/react/legacy/Xing.js",
+  "module": "../../esm/react/legacy/Xing.js",
+  "types": "../../esm/react/legacy/Xing.d.ts"
+}

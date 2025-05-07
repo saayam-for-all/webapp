@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/AngleDoubleUp",
+  "private": true,
+  "main": "../../cjs/react/legacy/AngleDoubleUp.js",
+  "module": "../../esm/react/legacy/AngleDoubleUp.js",
+  "types": "../../esm/react/legacy/AngleDoubleUp.d.ts"
+}

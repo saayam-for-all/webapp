@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Gift",
+  "private": true,
+  "main": "../../cjs/react/legacy/Gift.js",
+  "module": "../../esm/react/legacy/Gift.js",
+  "types": "../../esm/react/legacy/Gift.d.ts"
+}

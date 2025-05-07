@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Cookie",
+  "private": true,
+  "main": "../cjs/react/Cookie.js",
+  "module": "../esm/react/Cookie.js",
+  "types": "../esm/react/Cookie.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/DraftRound",
+  "private": true,
+  "main": "../cjs/react/DraftRound.js",
+  "module": "../esm/react/DraftRound.js",
+  "types": "../esm/react/DraftRound.d.ts"
+}

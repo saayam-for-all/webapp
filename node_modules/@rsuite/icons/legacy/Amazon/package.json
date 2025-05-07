@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Amazon",
+  "private": true,
+  "main": "../../cjs/react/legacy/Amazon.js",
+  "module": "../../esm/react/legacy/Amazon.js",
+  "types": "../../esm/react/legacy/Amazon.d.ts"
+}

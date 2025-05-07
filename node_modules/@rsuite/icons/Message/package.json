@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Message",
+  "private": true,
+  "main": "../cjs/react/Message.js",
+  "module": "../esm/react/Message.js",
+  "types": "../esm/react/Message.d.ts"
+}

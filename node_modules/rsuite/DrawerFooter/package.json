@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/DrawerFooter",
+  "private": true,
+  "main": "../cjs/Drawer/DrawerFooter.js",
+  "module": "../esm/Drawer/DrawerFooter.js",
+  "types": "../esm/Drawer/DrawerFooter.d.ts"
+}

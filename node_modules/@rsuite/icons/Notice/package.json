@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Notice",
+  "private": true,
+  "main": "../cjs/react/Notice.js",
+  "module": "../esm/react/Notice.js",
+  "types": "../esm/react/Notice.d.ts"
+}

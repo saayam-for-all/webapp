@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FilePdfO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FilePdfO.js",
+  "module": "../../esm/react/legacy/FilePdfO.js",
+  "types": "../../esm/react/legacy/FilePdfO.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/CardFooter",
+  "private": true,
+  "main": "../cjs/Card/CardFooter.js",
+  "module": "../esm/Card/CardFooter.js",
+  "types": "../esm/Card/CardFooter.d.ts"
+}

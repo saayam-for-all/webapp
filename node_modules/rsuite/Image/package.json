@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Image",
+  "private": true,
+  "main": "../cjs/Image/index.js",
+  "module": "../esm/Image/index.js",
+  "types": "../esm/Image/index.d.ts"
+}

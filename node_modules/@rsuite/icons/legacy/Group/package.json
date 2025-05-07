@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Group",
+  "private": true,
+  "main": "../../cjs/react/legacy/Group.js",
+  "module": "../../esm/react/legacy/Group.js",
+  "types": "../../esm/react/legacy/Group.d.ts"
+}

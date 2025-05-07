@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Link",
+  "private": true,
+  "main": "../../cjs/react/legacy/Link.js",
+  "module": "../../esm/react/legacy/Link.js",
+  "types": "../../esm/react/legacy/Link.d.ts"
+}

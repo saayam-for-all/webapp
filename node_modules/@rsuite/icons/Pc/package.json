@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Pc",
+  "private": true,
+  "main": "../cjs/react/Pc.js",
+  "module": "../esm/react/Pc.js",
+  "types": "../esm/react/Pc.d.ts"
+}

@@ -1,0 +1,12 @@
+import { KeyValueStorage } from './KeyValueStorage.mjs';
+
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+/**
+ * @internal
+ */
+class CookieStorage extends KeyValueStorage {
+}
+
+export { CookieStorage };
+//# sourceMappingURL=CookieStorage.native.mjs.map

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ArrowsAlt",
+  "private": true,
+  "main": "../../cjs/react/legacy/ArrowsAlt.js",
+  "module": "../../esm/react/legacy/ArrowsAlt.js",
+  "types": "../../esm/react/legacy/ArrowsAlt.d.ts"
+}

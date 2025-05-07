@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/UserChange",
+  "private": true,
+  "main": "../cjs/react/UserChange.js",
+  "module": "../esm/react/UserChange.js",
+  "types": "../esm/react/UserChange.d.ts"
+}

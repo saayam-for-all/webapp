@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Video",
+  "private": true,
+  "main": "../cjs/react/Video.js",
+  "module": "../esm/react/Video.js",
+  "types": "../esm/react/Video.d.ts"
+}

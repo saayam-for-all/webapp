@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/SidenavToggle",
+  "private": true,
+  "main": "../cjs/Sidenav/SidenavToggle.js",
+  "module": "../esm/Sidenav/SidenavToggle.js",
+  "types": "../esm/Sidenav/SidenavToggle.d.ts"
+}

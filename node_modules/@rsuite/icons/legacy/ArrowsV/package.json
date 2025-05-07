@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ArrowsV",
+  "private": true,
+  "main": "../../cjs/react/legacy/ArrowsV.js",
+  "module": "../../esm/react/legacy/ArrowsV.js",
+  "types": "../../esm/react/legacy/ArrowsV.d.ts"
+}

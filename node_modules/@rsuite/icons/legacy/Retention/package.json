@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Retention",
+  "private": true,
+  "main": "../../cjs/react/legacy/Retention.js",
+  "module": "../../esm/react/legacy/Retention.js",
+  "types": "../../esm/react/legacy/Retention.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Glass",
+  "private": true,
+  "main": "../../cjs/react/legacy/Glass.js",
+  "module": "../../esm/react/legacy/Glass.js",
+  "types": "../../esm/react/legacy/Glass.d.ts"
+}

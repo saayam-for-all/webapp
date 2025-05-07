@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ExclamationCircle",
+  "private": true,
+  "main": "../../cjs/react/legacy/ExclamationCircle.js",
+  "module": "../../esm/react/legacy/ExclamationCircle.js",
+  "types": "../../esm/react/legacy/ExclamationCircle.d.ts"
+}

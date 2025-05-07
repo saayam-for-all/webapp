@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Battery3",
+  "private": true,
+  "main": "../../cjs/react/legacy/Battery3.js",
+  "module": "../../esm/react/legacy/Battery3.js",
+  "types": "../../esm/react/legacy/Battery3.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CloseCircle",
+  "private": true,
+  "main": "../../cjs/react/legacy/CloseCircle.js",
+  "module": "../../esm/react/legacy/CloseCircle.js",
+  "types": "../../esm/react/legacy/CloseCircle.d.ts"
+}

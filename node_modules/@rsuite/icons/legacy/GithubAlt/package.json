@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/GithubAlt",
+  "private": true,
+  "main": "../../cjs/react/legacy/GithubAlt.js",
+  "module": "../../esm/react/legacy/GithubAlt.js",
+  "types": "../../esm/react/legacy/GithubAlt.d.ts"
+}

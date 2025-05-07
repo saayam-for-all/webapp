@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Pinterest",
+  "private": true,
+  "main": "../../cjs/react/legacy/Pinterest.js",
+  "module": "../../esm/react/legacy/Pinterest.js",
+  "types": "../../esm/react/legacy/Pinterest.d.ts"
+}

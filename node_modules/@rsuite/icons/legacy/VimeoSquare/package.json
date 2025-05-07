@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/VimeoSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/VimeoSquare.js",
+  "module": "../../esm/react/legacy/VimeoSquare.js",
+  "types": "../../esm/react/legacy/VimeoSquare.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Modx",
+  "private": true,
+  "main": "../../cjs/react/legacy/Modx.js",
+  "module": "../../esm/react/legacy/Modx.js",
+  "types": "../../esm/react/legacy/Modx.d.ts"
+}

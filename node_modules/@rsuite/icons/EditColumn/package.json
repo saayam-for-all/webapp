@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/EditColumn",
+  "private": true,
+  "main": "../cjs/react/EditColumn.js",
+  "module": "../esm/react/EditColumn.js",
+  "types": "../esm/react/EditColumn.d.ts"
+}

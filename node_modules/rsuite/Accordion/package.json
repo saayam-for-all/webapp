@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Accordion",
+  "private": true,
+  "main": "../cjs/Accordion/index.js",
+  "module": "../esm/Accordion/index.js",
+  "types": "../esm/Accordion/index.d.ts"
+}

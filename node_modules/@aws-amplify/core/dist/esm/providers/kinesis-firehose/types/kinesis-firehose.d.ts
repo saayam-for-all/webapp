@@ -1,0 +1,9 @@
+export interface KinesisFirehoseProviderConfig {
+    KinesisFirehose: {
+        region: string;
+        bufferSize?: number;
+        flushSize?: number;
+        flushInterval?: number;
+        resendLimit?: number;
+    };
+}

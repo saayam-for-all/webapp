@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/HSquare.js",
+  "module": "../../esm/react/legacy/HSquare.js",
+  "types": "../../esm/react/legacy/HSquare.d.ts"
+}

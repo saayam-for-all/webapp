@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Eject",
+  "private": true,
+  "main": "../../cjs/react/legacy/Eject.js",
+  "module": "../../esm/react/legacy/Eject.js",
+  "types": "../../esm/react/legacy/Eject.d.ts"
+}

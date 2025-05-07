@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SearchDataLive",
+  "private": true,
+  "main": "../cjs/react/SearchDataLive.js",
+  "module": "../esm/react/SearchDataLive.js",
+  "types": "../esm/react/SearchDataLive.d.ts"
+}

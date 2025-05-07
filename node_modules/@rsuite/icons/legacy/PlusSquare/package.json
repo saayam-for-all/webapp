@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PlusSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/PlusSquare.js",
+  "module": "../../esm/react/legacy/PlusSquare.js",
+  "types": "../../esm/react/legacy/PlusSquare.d.ts"
+}

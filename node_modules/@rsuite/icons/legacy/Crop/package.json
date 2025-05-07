@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Crop",
+  "private": true,
+  "main": "../../cjs/react/legacy/Crop.js",
+  "module": "../../esm/react/legacy/Crop.js",
+  "types": "../../esm/react/legacy/Crop.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Angellist",
+  "private": true,
+  "main": "../../cjs/react/legacy/Angellist.js",
+  "module": "../../esm/react/legacy/Angellist.js",
+  "types": "../../esm/react/legacy/Angellist.d.ts"
+}

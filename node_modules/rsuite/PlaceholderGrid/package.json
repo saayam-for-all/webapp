@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/PlaceholderGrid",
+  "private": true,
+  "main": "../cjs/Placeholder/PlaceholderGrid.js",
+  "module": "../esm/Placeholder/PlaceholderGrid.js",
+  "types": "../esm/Placeholder/PlaceholderGrid.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Gittip",
+  "private": true,
+  "main": "../../cjs/react/legacy/Gittip.js",
+  "module": "../../esm/react/legacy/Gittip.js",
+  "types": "../../esm/react/legacy/Gittip.d.ts"
+}

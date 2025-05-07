@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/InlineEdit",
+  "private": true,
+  "main": "../cjs/InlineEdit/index.js",
+  "module": "../esm/InlineEdit/index.js",
+  "types": "../esm/InlineEdit/index.d.ts"
+}

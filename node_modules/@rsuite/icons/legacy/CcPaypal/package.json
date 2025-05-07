@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CcPaypal",
+  "private": true,
+  "main": "../../cjs/react/legacy/CcPaypal.js",
+  "module": "../../esm/react/legacy/CcPaypal.js",
+  "types": "../../esm/react/legacy/CcPaypal.d.ts"
+}

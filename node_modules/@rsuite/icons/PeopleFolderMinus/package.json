@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeopleFolderMinus",
+  "private": true,
+  "main": "../cjs/react/PeopleFolderMinus.js",
+  "module": "../esm/react/PeopleFolderMinus.js",
+  "types": "../esm/react/PeopleFolderMinus.d.ts"
+}

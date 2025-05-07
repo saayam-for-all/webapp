@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CheckCircleO",
+  "private": true,
+  "main": "../../cjs/react/legacy/CheckCircleO.js",
+  "module": "../../esm/react/legacy/CheckCircleO.js",
+  "types": "../../esm/react/legacy/CheckCircleO.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/EyeClose",
+  "private": true,
+  "main": "../cjs/react/EyeClose.js",
+  "module": "../esm/react/EyeClose.js",
+  "types": "../esm/react/EyeClose.d.ts"
+}

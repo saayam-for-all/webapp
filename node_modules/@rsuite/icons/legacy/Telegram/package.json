@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Telegram",
+  "private": true,
+  "main": "../../cjs/react/legacy/Telegram.js",
+  "module": "../../esm/react/legacy/Telegram.js",
+  "types": "../../esm/react/legacy/Telegram.d.ts"
+}

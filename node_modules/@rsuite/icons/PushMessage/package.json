@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PushMessage",
+  "private": true,
+  "main": "../cjs/react/PushMessage.js",
+  "module": "../esm/react/PushMessage.js",
+  "types": "../esm/react/PushMessage.d.ts"
+}

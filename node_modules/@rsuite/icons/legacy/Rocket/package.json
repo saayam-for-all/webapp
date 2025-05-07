@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Rocket",
+  "private": true,
+  "main": "../../cjs/react/legacy/Rocket.js",
+  "module": "../../esm/react/legacy/Rocket.js",
+  "types": "../../esm/react/legacy/Rocket.d.ts"
+}

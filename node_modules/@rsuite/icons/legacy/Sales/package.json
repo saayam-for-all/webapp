@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Sales",
+  "private": true,
+  "main": "../../cjs/react/legacy/Sales.js",
+  "module": "../../esm/react/legacy/Sales.js",
+  "types": "../../esm/react/legacy/Sales.d.ts"
+}

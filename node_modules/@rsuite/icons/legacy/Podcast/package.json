@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Podcast",
+  "private": true,
+  "main": "../../cjs/react/legacy/Podcast.js",
+  "module": "../../esm/react/legacy/Podcast.js",
+  "types": "../../esm/react/legacy/Podcast.d.ts"
+}

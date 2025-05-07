@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Imdb",
+  "private": true,
+  "main": "../../cjs/react/legacy/Imdb.js",
+  "module": "../../esm/react/legacy/Imdb.js",
+  "types": "../../esm/react/legacy/Imdb.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Check",
+  "private": true,
+  "main": "../cjs/react/Check.js",
+  "module": "../esm/react/Check.js",
+  "types": "../esm/react/Check.d.ts"
+}

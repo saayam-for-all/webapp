@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/KeyboardO",
+  "private": true,
+  "main": "../../cjs/react/legacy/KeyboardO.js",
+  "module": "../../esm/react/legacy/KeyboardO.js",
+  "types": "../../esm/react/legacy/KeyboardO.d.ts"
+}

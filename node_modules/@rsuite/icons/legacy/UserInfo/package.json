@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/UserInfo",
+  "private": true,
+  "main": "../../cjs/react/legacy/UserInfo.js",
+  "module": "../../esm/react/legacy/UserInfo.js",
+  "types": "../../esm/react/legacy/UserInfo.d.ts"
+}

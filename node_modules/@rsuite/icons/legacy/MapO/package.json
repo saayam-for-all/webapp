@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/MapO",
+  "private": true,
+  "main": "../../cjs/react/legacy/MapO.js",
+  "module": "../../esm/react/legacy/MapO.js",
+  "types": "../../esm/react/legacy/MapO.d.ts"
+}

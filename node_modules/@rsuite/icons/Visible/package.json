@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Visible",
+  "private": true,
+  "main": "../cjs/react/Visible.js",
+  "module": "../esm/react/Visible.js",
+  "types": "../esm/react/Visible.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Lastfm",
+  "private": true,
+  "main": "../../cjs/react/legacy/Lastfm.js",
+  "module": "../../esm/react/legacy/Lastfm.js",
+  "types": "../../esm/react/legacy/Lastfm.d.ts"
+}

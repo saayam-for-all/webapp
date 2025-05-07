@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Minus",
+  "private": true,
+  "main": "../../cjs/react/legacy/Minus.js",
+  "module": "../../esm/react/legacy/Minus.js",
+  "types": "../../esm/react/legacy/Minus.d.ts"
+}

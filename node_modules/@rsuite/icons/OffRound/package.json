@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/OffRound",
+  "private": true,
+  "main": "../cjs/react/OffRound.js",
+  "module": "../esm/react/OffRound.js",
+  "types": "../esm/react/OffRound.d.ts"
+}

@@ -1,0 +1,1 @@
+export { registerPasskey } from './passkey';

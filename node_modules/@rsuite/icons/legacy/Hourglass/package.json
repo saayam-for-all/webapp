@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Hourglass",
+  "private": true,
+  "main": "../../cjs/react/legacy/Hourglass.js",
+  "module": "../../esm/react/legacy/Hourglass.js",
+  "types": "../../esm/react/legacy/Hourglass.d.ts"
+}

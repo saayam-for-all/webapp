@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Magnet",
+  "private": true,
+  "main": "../../cjs/react/legacy/Magnet.js",
+  "module": "../../esm/react/legacy/Magnet.js",
+  "types": "../../esm/react/legacy/Magnet.d.ts"
+}

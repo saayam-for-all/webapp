@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Motorcycle",
+  "private": true,
+  "main": "../../cjs/react/legacy/Motorcycle.js",
+  "module": "../../esm/react/legacy/Motorcycle.js",
+  "types": "../../esm/react/legacy/Motorcycle.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Stethoscope",
+  "private": true,
+  "main": "../../cjs/react/legacy/Stethoscope.js",
+  "module": "../../esm/react/legacy/Stethoscope.js",
+  "types": "../../esm/react/legacy/Stethoscope.d.ts"
+}

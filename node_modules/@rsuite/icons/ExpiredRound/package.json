@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ExpiredRound",
+  "private": true,
+  "main": "../cjs/react/ExpiredRound.js",
+  "module": "../esm/react/ExpiredRound.js",
+  "types": "../esm/react/ExpiredRound.d.ts"
+}

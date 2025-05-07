@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ExpandOutline",
+  "private": true,
+  "main": "../cjs/react/ExpandOutline.js",
+  "module": "../esm/react/ExpandOutline.js",
+  "types": "../esm/react/ExpandOutline.d.ts"
+}

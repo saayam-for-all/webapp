@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/HistoryTask",
+  "private": true,
+  "main": "../cjs/react/HistoryTask.js",
+  "module": "../esm/react/HistoryTask.js",
+  "types": "../esm/react/HistoryTask.d.ts"
+}

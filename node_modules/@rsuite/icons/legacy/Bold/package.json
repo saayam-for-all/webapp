@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bold",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bold.js",
+  "module": "../../esm/react/legacy/Bold.js",
+  "types": "../../esm/react/legacy/Bold.d.ts"
+}

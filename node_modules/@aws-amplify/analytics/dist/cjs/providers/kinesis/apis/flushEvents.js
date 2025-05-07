@@ -1,0 +1,39 @@
+'use strict';
+
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.flushEvents = void 0;
+const utils_1 = require("@aws-amplify/core/internals/utils");
+const core_1 = require("@aws-amplify/core");
+const resolveConfig_1 = require("../utils/resolveConfig");
+const utils_2 = require("../../../utils");
+const getEventBuffer_1 = require("../utils/getEventBuffer");
+const logger = new core_1.ConsoleLogger('Kinesis');
+/**
+ * Flushes all buffered Kinesis events to the service.
+ *
+ * @note
+ * This API will make a best-effort attempt to flush events from the buffer. Events recorded immediately after invoking
+ * this API may not be included in the flush.
+ */
+const flushEvents = () => {
+    const { region, flushSize, flushInterval, bufferSize, resendLimit } = (0, resolveConfig_1.resolveConfig)();
+    (0, utils_2.resolveCredentials)()
+        .then(({ credentials, identityId }) => (0, getEventBuffer_1.getEventBuffer)({
+        region,
+        flushSize,
+        flushInterval,
+        bufferSize,
+        credentials,
+        identityId,
+        resendLimit,
+        userAgentValue: (0, utils_2.getAnalyticsUserAgentString)(utils_1.AnalyticsAction.Record),
+    }))
+        .then(eventBuffer => eventBuffer.flushAll())
+        .catch(e => {
+        logger.warn('Failed to flush events.', e);
+    });
+};
+exports.flushEvents = flushEvents;
+//# sourceMappingURL=flushEvents.js.map

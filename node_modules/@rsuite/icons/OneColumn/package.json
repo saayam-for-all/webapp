@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/OneColumn",
+  "private": true,
+  "main": "../cjs/react/OneColumn.js",
+  "module": "../esm/react/OneColumn.js",
+  "types": "../esm/react/OneColumn.d.ts"
+}

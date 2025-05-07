@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ExpandO",
+  "private": true,
+  "main": "../../cjs/react/legacy/ExpandO.js",
+  "module": "../../esm/react/legacy/ExpandO.js",
+  "types": "../../esm/react/legacy/ExpandO.d.ts"
+}

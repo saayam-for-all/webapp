@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Edge",
+  "private": true,
+  "main": "../../cjs/react/legacy/Edge.js",
+  "module": "../../esm/react/legacy/Edge.js",
+  "types": "../../esm/react/legacy/Edge.d.ts"
+}

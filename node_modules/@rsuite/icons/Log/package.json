@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Log",
+  "private": true,
+  "main": "../cjs/react/Log.js",
+  "module": "../esm/react/Log.js",
+  "types": "../esm/react/Log.d.ts"
+}

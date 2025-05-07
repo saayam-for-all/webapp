@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CircleONotch",
+  "private": true,
+  "main": "../../cjs/react/legacy/CircleONotch.js",
+  "module": "../../esm/react/legacy/CircleONotch.js",
+  "types": "../../esm/react/legacy/CircleONotch.d.ts"
+}

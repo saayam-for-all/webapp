@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/useBreakpointValue",
+  "private": true,
+  "main": "../cjs/useBreakpointValue/index.js",
+  "module": "../esm/useBreakpointValue/index.js",
+  "types": "../esm/useBreakpointValue/index.d.ts"
+}

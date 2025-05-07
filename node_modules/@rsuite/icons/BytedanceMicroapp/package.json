@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/BytedanceMicroapp",
+  "private": true,
+  "main": "../cjs/react/BytedanceMicroapp.js",
+  "module": "../esm/react/BytedanceMicroapp.js",
+  "types": "../esm/react/BytedanceMicroapp.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/WarningRound",
+  "private": true,
+  "main": "../cjs/react/WarningRound.js",
+  "module": "../esm/react/WarningRound.js",
+  "types": "../esm/react/WarningRound.d.ts"
+}

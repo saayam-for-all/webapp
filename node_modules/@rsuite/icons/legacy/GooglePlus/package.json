@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/GooglePlus",
+  "private": true,
+  "main": "../../cjs/react/legacy/GooglePlus.js",
+  "module": "../../esm/react/legacy/GooglePlus.js",
+  "types": "../../esm/react/legacy/GooglePlus.d.ts"
+}

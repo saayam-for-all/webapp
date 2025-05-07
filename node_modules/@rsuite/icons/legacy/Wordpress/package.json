@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Wordpress",
+  "private": true,
+  "main": "../../cjs/react/legacy/Wordpress.js",
+  "module": "../../esm/react/legacy/Wordpress.js",
+  "types": "../../esm/react/legacy/Wordpress.d.ts"
+}

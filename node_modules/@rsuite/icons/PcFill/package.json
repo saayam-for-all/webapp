@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PcFill",
+  "private": true,
+  "main": "../cjs/react/PcFill.js",
+  "module": "../esm/react/PcFill.js",
+  "types": "../esm/react/PcFill.d.ts"
+}

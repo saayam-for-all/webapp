@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Image",
+  "private": true,
+  "main": "../cjs/react/Image.js",
+  "module": "../esm/react/Image.js",
+  "types": "../esm/react/Image.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Anchor",
+  "private": true,
+  "main": "../../cjs/react/legacy/Anchor.js",
+  "module": "../../esm/react/legacy/Anchor.js",
+  "types": "../../esm/react/legacy/Anchor.d.ts"
+}

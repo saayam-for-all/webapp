@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ThumbTack",
+  "private": true,
+  "main": "../../cjs/react/legacy/ThumbTack.js",
+  "module": "../../esm/react/legacy/ThumbTack.js",
+  "types": "../../esm/react/legacy/ThumbTack.d.ts"
+}

@@ -1,0 +1,7 @@
+export declare class WordArray {
+    words: number[];
+    sigBytes: number;
+    constructor(words?: number[], sigBytes?: number);
+    random(nBytes: number): WordArray;
+    toString(): string;
+}

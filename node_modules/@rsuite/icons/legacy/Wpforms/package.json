@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Wpforms",
+  "private": true,
+  "main": "../../cjs/react/legacy/Wpforms.js",
+  "module": "../../esm/react/legacy/Wpforms.js",
+  "types": "../../esm/react/legacy/Wpforms.d.ts"
+}

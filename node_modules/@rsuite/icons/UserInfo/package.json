@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/UserInfo",
+  "private": true,
+  "main": "../cjs/react/UserInfo.js",
+  "module": "../esm/react/UserInfo.js",
+  "types": "../esm/react/UserInfo.d.ts"
+}

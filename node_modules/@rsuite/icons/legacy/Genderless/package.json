@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Genderless",
+  "private": true,
+  "main": "../../cjs/react/legacy/Genderless.js",
+  "module": "../../esm/react/legacy/Genderless.js",
+  "types": "../../esm/react/legacy/Genderless.d.ts"
+}

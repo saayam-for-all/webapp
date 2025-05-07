@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Phone",
+  "private": true,
+  "main": "../cjs/react/Phone.js",
+  "module": "../esm/react/Phone.js",
+  "types": "../esm/react/Phone.d.ts"
+}

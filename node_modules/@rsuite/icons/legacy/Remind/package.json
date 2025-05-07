@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Remind",
+  "private": true,
+  "main": "../../cjs/react/legacy/Remind.js",
+  "module": "../../esm/react/legacy/Remind.js",
+  "types": "../../esm/react/legacy/Remind.d.ts"
+}

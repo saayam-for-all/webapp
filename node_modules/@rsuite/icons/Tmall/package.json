@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Tmall",
+  "private": true,
+  "main": "../cjs/react/Tmall.js",
+  "module": "../esm/react/Tmall.js",
+  "types": "../esm/react/Tmall.d.ts"
+}

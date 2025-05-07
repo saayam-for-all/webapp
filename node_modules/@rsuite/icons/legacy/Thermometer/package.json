@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Thermometer",
+  "private": true,
+  "main": "../../cjs/react/legacy/Thermometer.js",
+  "module": "../../esm/react/legacy/Thermometer.js",
+  "types": "../../esm/react/legacy/Thermometer.d.ts"
+}

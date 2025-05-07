@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FlagCheckered",
+  "private": true,
+  "main": "../../cjs/react/legacy/FlagCheckered.js",
+  "module": "../../esm/react/legacy/FlagCheckered.js",
+  "types": "../../esm/react/legacy/FlagCheckered.d.ts"
+}

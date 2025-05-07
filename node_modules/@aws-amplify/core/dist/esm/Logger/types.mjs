@@ -1,0 +1,14 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+var LogType;
+(function (LogType) {
+    LogType["DEBUG"] = "DEBUG";
+    LogType["ERROR"] = "ERROR";
+    LogType["INFO"] = "INFO";
+    LogType["WARN"] = "WARN";
+    LogType["VERBOSE"] = "VERBOSE";
+    LogType["NONE"] = "NONE";
+})(LogType || (LogType = {}));
+
+export { LogType };
+//# sourceMappingURL=types.mjs.map

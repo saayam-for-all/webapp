@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/EyeRound",
+  "private": true,
+  "main": "../cjs/react/EyeRound.js",
+  "module": "../esm/react/EyeRound.js",
+  "types": "../esm/react/EyeRound.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CaretRight",
+  "private": true,
+  "main": "../../cjs/react/legacy/CaretRight.js",
+  "module": "../../esm/react/legacy/CaretRight.js",
+  "types": "../../esm/react/legacy/CaretRight.d.ts"
+}

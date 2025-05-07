@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/RemindOutline",
+  "private": true,
+  "main": "../cjs/react/RemindOutline.js",
+  "module": "../esm/react/RemindOutline.js",
+  "types": "../esm/react/RemindOutline.d.ts"
+}

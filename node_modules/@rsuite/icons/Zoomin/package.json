@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Zoomin",
+  "private": true,
+  "main": "../cjs/react/Zoomin.js",
+  "module": "../esm/react/Zoomin.js",
+  "types": "../esm/react/Zoomin.d.ts"
+}

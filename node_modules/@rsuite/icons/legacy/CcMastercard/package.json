@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CcMastercard",
+  "private": true,
+  "main": "../../cjs/react/legacy/CcMastercard.js",
+  "module": "../../esm/react/legacy/CcMastercard.js",
+  "types": "../../esm/react/legacy/CcMastercard.d.ts"
+}

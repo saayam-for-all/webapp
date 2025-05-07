@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeoplesTarget",
+  "private": true,
+  "main": "../cjs/react/PeoplesTarget.js",
+  "module": "../esm/react/PeoplesTarget.js",
+  "types": "../esm/react/PeoplesTarget.d.ts"
+}

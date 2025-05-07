@@ -1,0 +1,14 @@
+'use strict';
+
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CookieStorage = void 0;
+const KeyValueStorage_1 = require("./KeyValueStorage");
+/**
+ * @internal
+ */
+class CookieStorage extends KeyValueStorage_1.KeyValueStorage {
+}
+exports.CookieStorage = CookieStorage;
+//# sourceMappingURL=CookieStorage.native.js.map

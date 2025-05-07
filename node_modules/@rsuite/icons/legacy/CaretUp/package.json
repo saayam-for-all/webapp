@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CaretUp",
+  "private": true,
+  "main": "../../cjs/react/legacy/CaretUp.js",
+  "module": "../../esm/react/legacy/CaretUp.js",
+  "types": "../../esm/react/legacy/CaretUp.d.ts"
+}

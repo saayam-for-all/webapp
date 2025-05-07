@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeopleRule",
+  "private": true,
+  "main": "../cjs/react/PeopleRule.js",
+  "module": "../esm/react/PeopleRule.js",
+  "types": "../esm/react/PeopleRule.d.ts"
+}

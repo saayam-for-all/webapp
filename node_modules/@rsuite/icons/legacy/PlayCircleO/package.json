@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PlayCircleO",
+  "private": true,
+  "main": "../../cjs/react/legacy/PlayCircleO.js",
+  "module": "../../esm/react/legacy/PlayCircleO.js",
+  "types": "../../esm/react/legacy/PlayCircleO.d.ts"
+}

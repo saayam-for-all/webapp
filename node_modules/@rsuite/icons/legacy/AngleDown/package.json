@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/AngleDown",
+  "private": true,
+  "main": "../../cjs/react/legacy/AngleDown.js",
+  "module": "../../esm/react/legacy/AngleDown.js",
+  "types": "../../esm/react/legacy/AngleDown.d.ts"
+}

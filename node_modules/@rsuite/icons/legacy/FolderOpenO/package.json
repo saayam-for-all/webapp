@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FolderOpenO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FolderOpenO.js",
+  "module": "../../esm/react/legacy/FolderOpenO.js",
+  "types": "../../esm/react/legacy/FolderOpenO.d.ts"
+}

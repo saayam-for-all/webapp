@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Flow",
+  "private": true,
+  "main": "../../cjs/react/legacy/Flow.js",
+  "module": "../../esm/react/legacy/Flow.js",
+  "types": "../../esm/react/legacy/Flow.d.ts"
+}

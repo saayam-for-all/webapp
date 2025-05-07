@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/OffExport",
+  "private": true,
+  "main": "../cjs/react/OffExport.js",
+  "module": "../esm/react/OffExport.js",
+  "types": "../esm/react/OffExport.d.ts"
+}

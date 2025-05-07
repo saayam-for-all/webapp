@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Trophy",
+  "private": true,
+  "main": "../../cjs/react/legacy/Trophy.js",
+  "module": "../../esm/react/legacy/Trophy.js",
+  "types": "../../esm/react/legacy/Trophy.d.ts"
+}

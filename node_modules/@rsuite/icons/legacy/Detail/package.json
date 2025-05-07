@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Detail",
+  "private": true,
+  "main": "../../cjs/react/legacy/Detail.js",
+  "module": "../../esm/react/legacy/Detail.js",
+  "types": "../../esm/react/legacy/Detail.d.ts"
+}

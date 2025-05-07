@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/TransgenderAlt",
+  "private": true,
+  "main": "../../cjs/react/legacy/TransgenderAlt.js",
+  "module": "../../esm/react/legacy/TransgenderAlt.js",
+  "types": "../../esm/react/legacy/TransgenderAlt.d.ts"
+}

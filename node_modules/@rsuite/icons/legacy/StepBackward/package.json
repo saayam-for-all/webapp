@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/StepBackward",
+  "private": true,
+  "main": "../../cjs/react/legacy/StepBackward.js",
+  "module": "../../esm/react/legacy/StepBackward.js",
+  "types": "../../esm/react/legacy/StepBackward.d.ts"
+}

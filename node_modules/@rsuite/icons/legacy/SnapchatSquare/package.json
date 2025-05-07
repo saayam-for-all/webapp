@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/SnapchatSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/SnapchatSquare.js",
+  "module": "../../esm/react/legacy/SnapchatSquare.js",
+  "types": "../../esm/react/legacy/SnapchatSquare.d.ts"
+}

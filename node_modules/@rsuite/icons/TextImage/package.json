@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/TextImage",
+  "private": true,
+  "main": "../cjs/react/TextImage.js",
+  "module": "../esm/react/TextImage.js",
+  "types": "../esm/react/TextImage.d.ts"
+}

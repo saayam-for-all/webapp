@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/NavMenu",
+  "private": true,
+  "main": "../cjs/Nav/NavMenu.js",
+  "module": "../esm/Nav/NavMenu.js",
+  "types": "../esm/Nav/NavMenu.d.ts"
+}

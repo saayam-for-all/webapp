@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Yahoo",
+  "private": true,
+  "main": "../../cjs/react/legacy/Yahoo.js",
+  "module": "../../esm/react/legacy/Yahoo.js",
+  "types": "../../esm/react/legacy/Yahoo.d.ts"
+}

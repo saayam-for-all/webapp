@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/BlockRound",
+  "private": true,
+  "main": "../cjs/react/BlockRound.js",
+  "module": "../esm/react/BlockRound.js",
+  "types": "../esm/react/BlockRound.d.ts"
+}

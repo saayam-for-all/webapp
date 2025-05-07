@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bars",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bars.js",
+  "module": "../../esm/react/legacy/Bars.js",
+  "types": "../../esm/react/legacy/Bars.d.ts"
+}

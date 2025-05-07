@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Simplybuilt",
+  "private": true,
+  "main": "../../cjs/react/legacy/Simplybuilt.js",
+  "module": "../../esm/react/legacy/Simplybuilt.js",
+  "types": "../../esm/react/legacy/Simplybuilt.d.ts"
+}

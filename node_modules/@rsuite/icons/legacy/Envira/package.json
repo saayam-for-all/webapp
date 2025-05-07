@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Envira",
+  "private": true,
+  "main": "../../cjs/react/legacy/Envira.js",
+  "module": "../../esm/react/legacy/Envira.js",
+  "types": "../../esm/react/legacy/Envira.d.ts"
+}

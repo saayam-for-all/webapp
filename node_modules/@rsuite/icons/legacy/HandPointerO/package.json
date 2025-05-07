@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HandPointerO",
+  "private": true,
+  "main": "../../cjs/react/legacy/HandPointerO.js",
+  "module": "../../esm/react/legacy/HandPointerO.js",
+  "types": "../../esm/react/legacy/HandPointerO.d.ts"
+}

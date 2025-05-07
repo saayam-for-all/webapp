@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bus",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bus.js",
+  "module": "../../esm/react/legacy/Bus.js",
+  "types": "../../esm/react/legacy/Bus.d.ts"
+}

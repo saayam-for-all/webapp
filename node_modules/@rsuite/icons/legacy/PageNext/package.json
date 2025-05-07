@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PageNext",
+  "private": true,
+  "main": "../../cjs/react/legacy/PageNext.js",
+  "module": "../../esm/react/legacy/PageNext.js",
+  "types": "../../esm/react/legacy/PageNext.d.ts"
+}

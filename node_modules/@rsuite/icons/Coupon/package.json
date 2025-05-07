@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Coupon",
+  "private": true,
+  "main": "../cjs/react/Coupon.js",
+  "module": "../esm/react/Coupon.js",
+  "types": "../esm/react/Coupon.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/YoutubeSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/YoutubeSquare.js",
+  "module": "../../esm/react/legacy/YoutubeSquare.js",
+  "types": "../../esm/react/legacy/YoutubeSquare.d.ts"
+}

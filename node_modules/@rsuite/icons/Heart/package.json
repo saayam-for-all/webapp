@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Heart",
+  "private": true,
+  "main": "../cjs/react/Heart.js",
+  "module": "../esm/react/Heart.js",
+  "types": "../esm/react/Heart.d.ts"
+}

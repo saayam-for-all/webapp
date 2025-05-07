@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SortBy",
+  "private": true,
+  "main": "../cjs/react/SortBy.js",
+  "module": "../esm/react/SortBy.js",
+  "types": "../esm/react/SortBy.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Transition",
+  "private": true,
+  "main": "../cjs/Animation/Transition.js",
+  "module": "../esm/Animation/Transition.js",
+  "types": "../esm/Animation/Transition.d.ts"
+}

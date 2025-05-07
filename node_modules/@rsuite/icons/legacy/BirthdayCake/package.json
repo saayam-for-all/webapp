@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BirthdayCake",
+  "private": true,
+  "main": "../../cjs/react/legacy/BirthdayCake.js",
+  "module": "../../esm/react/legacy/BirthdayCake.js",
+  "types": "../../esm/react/legacy/BirthdayCake.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/IdMapping",
+  "private": true,
+  "main": "../cjs/react/IdMapping.js",
+  "module": "../esm/react/IdMapping.js",
+  "types": "../esm/react/IdMapping.d.ts"
+}

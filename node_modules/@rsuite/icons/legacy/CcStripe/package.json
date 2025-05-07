@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CcStripe",
+  "private": true,
+  "main": "../../cjs/react/legacy/CcStripe.js",
+  "module": "../../esm/react/legacy/CcStripe.js",
+  "types": "../../esm/react/legacy/CcStripe.d.ts"
+}

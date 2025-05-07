@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Search",
+  "private": true,
+  "main": "../../cjs/react/legacy/Search.js",
+  "module": "../../esm/react/legacy/Search.js",
+  "types": "../../esm/react/legacy/Search.d.ts"
+}

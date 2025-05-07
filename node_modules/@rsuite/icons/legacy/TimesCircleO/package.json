@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/TimesCircleO",
+  "private": true,
+  "main": "../../cjs/react/legacy/TimesCircleO.js",
+  "module": "../../esm/react/legacy/TimesCircleO.js",
+  "types": "../../esm/react/legacy/TimesCircleO.d.ts"
+}

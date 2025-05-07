@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/SortAlphaAsc",
+  "private": true,
+  "main": "../../cjs/react/legacy/SortAlphaAsc.js",
+  "module": "../../esm/react/legacy/SortAlphaAsc.js",
+  "types": "../../esm/react/legacy/SortAlphaAsc.d.ts"
+}

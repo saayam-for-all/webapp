@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Spoon",
+  "private": true,
+  "main": "../../cjs/react/legacy/Spoon.js",
+  "module": "../../esm/react/legacy/Spoon.js",
+  "types": "../../esm/react/legacy/Spoon.d.ts"
+}

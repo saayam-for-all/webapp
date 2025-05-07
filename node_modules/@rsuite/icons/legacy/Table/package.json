@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Table",
+  "private": true,
+  "main": "../../cjs/react/legacy/Table.js",
+  "module": "../../esm/react/legacy/Table.js",
+  "types": "../../esm/react/legacy/Table.d.ts"
+}

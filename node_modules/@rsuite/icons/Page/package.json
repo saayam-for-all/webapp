@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Page",
+  "private": true,
+  "main": "../cjs/react/Page.js",
+  "module": "../esm/react/Page.js",
+  "types": "../esm/react/Page.d.ts"
+}

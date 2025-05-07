@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ArrowDown",
+  "private": true,
+  "main": "../../cjs/react/legacy/ArrowDown.js",
+  "module": "../../esm/react/legacy/ArrowDown.js",
+  "types": "../../esm/react/legacy/ArrowDown.d.ts"
+}

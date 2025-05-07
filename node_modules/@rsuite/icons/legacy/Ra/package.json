@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Ra",
+  "private": true,
+  "main": "../../cjs/react/legacy/Ra.js",
+  "module": "../../esm/react/legacy/Ra.js",
+  "types": "../../esm/react/legacy/Ra.d.ts"
+}

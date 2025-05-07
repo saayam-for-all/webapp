@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Quora",
+  "private": true,
+  "main": "../../cjs/react/legacy/Quora.js",
+  "module": "../../esm/react/legacy/Quora.js",
+  "types": "../../esm/react/legacy/Quora.d.ts"
+}

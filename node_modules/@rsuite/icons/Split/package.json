@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Split",
+  "private": true,
+  "main": "../cjs/react/Split.js",
+  "module": "../esm/react/Split.js",
+  "types": "../esm/react/Split.d.ts"
+}

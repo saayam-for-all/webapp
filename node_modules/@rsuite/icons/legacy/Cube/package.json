@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Cube",
+  "private": true,
+  "main": "../../cjs/react/legacy/Cube.js",
+  "module": "../../esm/react/legacy/Cube.js",
+  "types": "../../esm/react/legacy/Cube.d.ts"
+}

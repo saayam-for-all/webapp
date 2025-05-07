@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Codiepie",
+  "private": true,
+  "main": "../../cjs/react/legacy/Codiepie.js",
+  "module": "../../esm/react/legacy/Codiepie.js",
+  "types": "../../esm/react/legacy/Codiepie.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Alipay",
+  "private": true,
+  "main": "../cjs/react/Alipay.js",
+  "module": "../esm/react/Alipay.js",
+  "types": "../esm/react/Alipay.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ObjectUngroup",
+  "private": true,
+  "main": "../../cjs/react/legacy/ObjectUngroup.js",
+  "module": "../../esm/react/legacy/ObjectUngroup.js",
+  "types": "../../esm/react/legacy/ObjectUngroup.d.ts"
+}

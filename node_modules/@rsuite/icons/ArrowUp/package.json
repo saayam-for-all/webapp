@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ArrowUp",
+  "private": true,
+  "main": "../cjs/react/ArrowUp.js",
+  "module": "../esm/react/ArrowUp.js",
+  "types": "../esm/react/ArrowUp.d.ts"
+}

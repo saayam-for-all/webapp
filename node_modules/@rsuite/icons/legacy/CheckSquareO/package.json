@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CheckSquareO",
+  "private": true,
+  "main": "../../cjs/react/legacy/CheckSquareO.js",
+  "module": "../../esm/react/legacy/CheckSquareO.js",
+  "types": "../../esm/react/legacy/CheckSquareO.d.ts"
+}

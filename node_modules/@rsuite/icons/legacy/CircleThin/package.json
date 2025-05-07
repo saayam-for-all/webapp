@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CircleThin",
+  "private": true,
+  "main": "../../cjs/react/legacy/CircleThin.js",
+  "module": "../../esm/react/legacy/CircleThin.js",
+  "types": "../../esm/react/legacy/CircleThin.d.ts"
+}

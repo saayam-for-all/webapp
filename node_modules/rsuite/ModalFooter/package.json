@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/ModalFooter",
+  "private": true,
+  "main": "../cjs/Modal/ModalFooter.js",
+  "module": "../esm/Modal/ModalFooter.js",
+  "types": "../esm/Modal/ModalFooter.d.ts"
+}

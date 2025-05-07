@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Facebook",
+  "private": true,
+  "main": "../../cjs/react/legacy/Facebook.js",
+  "module": "../../esm/react/legacy/Facebook.js",
+  "types": "../../esm/react/legacy/Facebook.d.ts"
+}

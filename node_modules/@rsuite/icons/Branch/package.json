@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Branch",
+  "private": true,
+  "main": "../cjs/react/Branch.js",
+  "module": "../esm/react/Branch.js",
+  "types": "../esm/react/Branch.d.ts"
+}

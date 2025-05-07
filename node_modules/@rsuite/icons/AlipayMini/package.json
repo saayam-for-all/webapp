@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/AlipayMini",
+  "private": true,
+  "main": "../cjs/react/AlipayMini.js",
+  "module": "../esm/react/AlipayMini.js",
+  "types": "../esm/react/AlipayMini.d.ts"
+}

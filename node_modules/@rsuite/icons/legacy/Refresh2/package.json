@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Refresh2",
+  "private": true,
+  "main": "../../cjs/react/legacy/Refresh2.js",
+  "module": "../../esm/react/legacy/Refresh2.js",
+  "types": "../../esm/react/legacy/Refresh2.d.ts"
+}

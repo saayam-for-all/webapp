@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Highlight",
+  "private": true,
+  "main": "../cjs/Highlight/index.js",
+  "module": "../esm/Highlight/index.js",
+  "types": "../esm/Highlight/index.d.ts"
+}

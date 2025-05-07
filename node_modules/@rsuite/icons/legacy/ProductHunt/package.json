@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ProductHunt",
+  "private": true,
+  "main": "../../cjs/react/legacy/ProductHunt.js",
+  "module": "../../esm/react/legacy/ProductHunt.js",
+  "types": "../../esm/react/legacy/ProductHunt.d.ts"
+}

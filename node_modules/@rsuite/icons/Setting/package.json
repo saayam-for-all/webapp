@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Setting",
+  "private": true,
+  "main": "../cjs/react/Setting.js",
+  "module": "../esm/react/Setting.js",
+  "types": "../esm/react/Setting.d.ts"
+}

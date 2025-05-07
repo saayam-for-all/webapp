@@ -1,0 +1,2 @@
+import type { Base64Encoder } from '../types';
+export declare const base64Encoder: Base64Encoder;

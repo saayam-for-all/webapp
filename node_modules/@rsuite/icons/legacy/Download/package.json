@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Download",
+  "private": true,
+  "main": "../../cjs/react/legacy/Download.js",
+  "module": "../../esm/react/legacy/Download.js",
+  "types": "../../esm/react/legacy/Download.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/ListItem",
+  "private": true,
+  "main": "../cjs/List/ListItem.js",
+  "module": "../esm/List/ListItem.js",
+  "types": "../esm/List/ListItem.d.ts"
+}

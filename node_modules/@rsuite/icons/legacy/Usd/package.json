@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Usd",
+  "private": true,
+  "main": "../../cjs/react/legacy/Usd.js",
+  "module": "../../esm/react/legacy/Usd.js",
+  "types": "../../esm/react/legacy/Usd.d.ts"
+}

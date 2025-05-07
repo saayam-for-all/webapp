@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Whatsapp",
+  "private": true,
+  "main": "../../cjs/react/legacy/Whatsapp.js",
+  "module": "../../esm/react/legacy/Whatsapp.js",
+  "types": "../../esm/react/legacy/Whatsapp.d.ts"
+}

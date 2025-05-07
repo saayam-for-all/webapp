@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Child",
+  "private": true,
+  "main": "../../cjs/react/legacy/Child.js",
+  "module": "../../esm/react/legacy/Child.js",
+  "types": "../../esm/react/legacy/Child.d.ts"
+}

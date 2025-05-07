@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Attribution",
+  "private": true,
+  "main": "../../cjs/react/legacy/Attribution.js",
+  "module": "../../esm/react/legacy/Attribution.js",
+  "types": "../../esm/react/legacy/Attribution.d.ts"
+}

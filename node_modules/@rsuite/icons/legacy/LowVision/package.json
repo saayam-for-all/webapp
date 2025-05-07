@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LowVision",
+  "private": true,
+  "main": "../../cjs/react/legacy/LowVision.js",
+  "module": "../../esm/react/legacy/LowVision.js",
+  "types": "../../esm/react/legacy/LowVision.d.ts"
+}

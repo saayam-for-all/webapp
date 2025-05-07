@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Rate",
+  "private": true,
+  "main": "../cjs/react/Rate.js",
+  "module": "../esm/react/Rate.js",
+  "types": "../esm/react/Rate.d.ts"
+}

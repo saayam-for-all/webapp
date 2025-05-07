@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Rub",
+  "private": true,
+  "main": "../../cjs/react/legacy/Rub.js",
+  "module": "../../esm/react/legacy/Rub.js",
+  "types": "../../esm/react/legacy/Rub.d.ts"
+}

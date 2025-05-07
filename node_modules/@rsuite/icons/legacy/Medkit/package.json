@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Medkit",
+  "private": true,
+  "main": "../../cjs/react/legacy/Medkit.js",
+  "module": "../../esm/react/legacy/Medkit.js",
+  "types": "../../esm/react/legacy/Medkit.d.ts"
+}

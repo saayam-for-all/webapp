@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ToggleLeft",
+  "private": true,
+  "main": "../../cjs/react/legacy/ToggleLeft.js",
+  "module": "../../esm/react/legacy/ToggleLeft.js",
+  "types": "../../esm/react/legacy/ToggleLeft.d.ts"
+}

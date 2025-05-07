@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/IdRule",
+  "private": true,
+  "main": "../cjs/react/IdRule.js",
+  "module": "../esm/react/IdRule.js",
+  "types": "../esm/react/IdRule.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/TimeRangePicker",
+  "private": true,
+  "main": "../cjs/TimeRangePicker/index.js",
+  "module": "../esm/TimeRangePicker/index.js",
+  "types": "../esm/TimeRangePicker/index.d.ts"
+}

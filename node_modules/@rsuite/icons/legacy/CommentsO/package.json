@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CommentsO",
+  "private": true,
+  "main": "../../cjs/react/legacy/CommentsO.js",
+  "module": "../../esm/react/legacy/CommentsO.js",
+  "types": "../../esm/react/legacy/CommentsO.d.ts"
+}

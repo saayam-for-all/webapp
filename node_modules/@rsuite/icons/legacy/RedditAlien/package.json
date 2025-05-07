@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/RedditAlien",
+  "private": true,
+  "main": "../../cjs/react/legacy/RedditAlien.js",
+  "module": "../../esm/react/legacy/RedditAlien.js",
+  "types": "../../esm/react/legacy/RedditAlien.d.ts"
+}

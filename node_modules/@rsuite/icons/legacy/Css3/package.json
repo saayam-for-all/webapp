@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Css3",
+  "private": true,
+  "main": "../../cjs/react/legacy/Css3.js",
+  "module": "../../esm/react/legacy/Css3.js",
+  "types": "../../esm/react/legacy/Css3.d.ts"
+}

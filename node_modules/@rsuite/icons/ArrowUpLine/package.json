@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ArrowUpLine",
+  "private": true,
+  "main": "../cjs/react/ArrowUpLine.js",
+  "module": "../esm/react/ArrowUpLine.js",
+  "types": "../esm/react/ArrowUpLine.d.ts"
+}

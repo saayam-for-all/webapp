@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/StepItem",
+  "private": true,
+  "main": "../cjs/Steps/StepItem.js",
+  "module": "../esm/Steps/StepItem.js",
+  "types": "../esm/Steps/StepItem.d.ts"
+}

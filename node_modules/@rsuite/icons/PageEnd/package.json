@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PageEnd",
+  "private": true,
+  "main": "../cjs/react/PageEnd.js",
+  "module": "../esm/react/PageEnd.js",
+  "types": "../esm/react/PageEnd.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/TagFilter",
+  "private": true,
+  "main": "../cjs/react/TagFilter.js",
+  "module": "../esm/react/TagFilter.js",
+  "types": "../esm/react/TagFilter.d.ts"
+}

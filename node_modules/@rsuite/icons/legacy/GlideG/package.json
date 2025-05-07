@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/GlideG",
+  "private": true,
+  "main": "../../cjs/react/legacy/GlideG.js",
+  "module": "../../esm/react/legacy/GlideG.js",
+  "types": "../../esm/react/legacy/GlideG.d.ts"
+}

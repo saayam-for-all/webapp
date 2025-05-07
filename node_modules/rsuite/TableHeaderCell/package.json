@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/TableHeaderCell",
+  "private": true,
+  "main": "../cjs/Table/TableHeaderCell.js",
+  "module": "../esm/Table/TableHeaderCell.js",
+  "types": "../esm/Table/TableHeaderCell.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/History",
+  "private": true,
+  "main": "../../cjs/react/legacy/History.js",
+  "module": "../../esm/react/legacy/History.js",
+  "types": "../../esm/react/legacy/History.d.ts"
+}

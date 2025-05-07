@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Soundcloud",
+  "private": true,
+  "main": "../../cjs/react/legacy/Soundcloud.js",
+  "module": "../../esm/react/legacy/Soundcloud.js",
+  "types": "../../esm/react/legacy/Soundcloud.d.ts"
+}

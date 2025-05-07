@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PieChart",
+  "private": true,
+  "main": "../cjs/react/PieChart.js",
+  "module": "../esm/react/PieChart.js",
+  "types": "../esm/react/PieChart.d.ts"
+}

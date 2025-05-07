@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Linux",
+  "private": true,
+  "main": "../../cjs/react/legacy/Linux.js",
+  "module": "../../esm/react/legacy/Linux.js",
+  "types": "../../esm/react/legacy/Linux.d.ts"
+}

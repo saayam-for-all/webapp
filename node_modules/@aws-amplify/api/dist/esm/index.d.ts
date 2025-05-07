@@ -1,0 +1,10 @@
+import type { V6Client } from '@aws-amplify/api-graphql';
+export { GraphQLQuery, GraphQLSubscription, SelectionSet } from './types';
+export { generateClient } from './API';
+export { GraphQLAuthError, ConnectionState, EventsChannel, EventsOptions, } from '@aws-amplify/api-graphql';
+export type { GraphQLResult, GraphQLReturnType, } from '@aws-amplify/api-graphql';
+export { CONNECTION_STATE_CHANGE, events } from '@aws-amplify/api-graphql';
+type Client<T extends Record<any, any> = never> = V6Client<T>;
+export { Client };
+export { get, put, post, del, head, patch, isCancelError, } from '@aws-amplify/api-rest';
+export { ApiError } from '@aws-amplify/core/internals/utils';

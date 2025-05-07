@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bitbucket",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bitbucket.js",
+  "module": "../../esm/react/legacy/Bitbucket.js",
+  "types": "../../esm/react/legacy/Bitbucket.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/InternetExplorer",
+  "private": true,
+  "main": "../../cjs/react/legacy/InternetExplorer.js",
+  "module": "../../esm/react/legacy/InternetExplorer.js",
+  "types": "../../esm/react/legacy/InternetExplorer.d.ts"
+}

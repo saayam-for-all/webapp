@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Connectdevelop",
+  "private": true,
+  "main": "../../cjs/react/legacy/Connectdevelop.js",
+  "module": "../../esm/react/legacy/Connectdevelop.js",
+  "types": "../../esm/react/legacy/Connectdevelop.d.ts"
+}

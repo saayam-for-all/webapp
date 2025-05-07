@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CloudDownload",
+  "private": true,
+  "main": "../../cjs/react/legacy/CloudDownload.js",
+  "module": "../../esm/react/legacy/CloudDownload.js",
+  "types": "../../esm/react/legacy/CloudDownload.d.ts"
+}

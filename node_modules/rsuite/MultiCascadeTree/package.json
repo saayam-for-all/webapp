@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/MultiCascadeTree",
+  "private": true,
+  "main": "../cjs/MultiCascadeTree/index.js",
+  "module": "../esm/MultiCascadeTree/index.js",
+  "types": "../esm/MultiCascadeTree/index.d.ts"
+}

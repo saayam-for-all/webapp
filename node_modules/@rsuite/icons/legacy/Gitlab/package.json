@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Gitlab",
+  "private": true,
+  "main": "../../cjs/react/legacy/Gitlab.js",
+  "module": "../../esm/react/legacy/Gitlab.js",
+  "types": "../../esm/react/legacy/Gitlab.d.ts"
+}

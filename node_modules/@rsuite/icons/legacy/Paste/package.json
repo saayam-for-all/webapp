@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Paste",
+  "private": true,
+  "main": "../../cjs/react/legacy/Paste.js",
+  "module": "../../esm/react/legacy/Paste.js",
+  "types": "../../esm/react/legacy/Paste.d.ts"
+}

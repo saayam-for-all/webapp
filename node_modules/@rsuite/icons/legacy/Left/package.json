@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Left",
+  "private": true,
+  "main": "../../cjs/react/legacy/Left.js",
+  "module": "../../esm/react/legacy/Left.js",
+  "types": "../../esm/react/legacy/Left.d.ts"
+}

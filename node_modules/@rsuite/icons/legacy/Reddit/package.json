@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Reddit",
+  "private": true,
+  "main": "../../cjs/react/legacy/Reddit.js",
+  "module": "../../esm/react/legacy/Reddit.js",
+  "types": "../../esm/react/legacy/Reddit.d.ts"
+}

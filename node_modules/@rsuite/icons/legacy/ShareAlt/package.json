@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ShareAlt",
+  "private": true,
+  "main": "../../cjs/react/legacy/ShareAlt.js",
+  "module": "../../esm/react/legacy/ShareAlt.js",
+  "types": "../../esm/react/legacy/ShareAlt.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Subscript",
+  "private": true,
+  "main": "../../cjs/react/legacy/Subscript.js",
+  "module": "../../esm/react/legacy/Subscript.js",
+  "types": "../../esm/react/legacy/Subscript.d.ts"
+}

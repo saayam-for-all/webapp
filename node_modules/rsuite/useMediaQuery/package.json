@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/useMediaQuery",
+  "private": true,
+  "main": "../cjs/useMediaQuery/index.js",
+  "module": "../esm/useMediaQuery/index.js",
+  "types": "../esm/useMediaQuery/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/InternetSearch",
+  "private": true,
+  "main": "../cjs/react/InternetSearch.js",
+  "module": "../esm/react/InternetSearch.js",
+  "types": "../esm/react/InternetSearch.d.ts"
+}

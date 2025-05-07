@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Undo",
+  "private": true,
+  "main": "../cjs/react/Undo.js",
+  "module": "../esm/react/Undo.js",
+  "types": "../esm/react/Undo.d.ts"
+}

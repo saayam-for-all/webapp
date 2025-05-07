@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Rss",
+  "private": true,
+  "main": "../../cjs/react/legacy/Rss.js",
+  "module": "../../esm/react/legacy/Rss.js",
+  "types": "../../esm/react/legacy/Rss.d.ts"
+}

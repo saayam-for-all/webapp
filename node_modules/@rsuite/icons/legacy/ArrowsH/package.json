@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ArrowsH",
+  "private": true,
+  "main": "../../cjs/react/legacy/ArrowsH.js",
+  "module": "../../esm/react/legacy/ArrowsH.js",
+  "types": "../../esm/react/legacy/ArrowsH.d.ts"
+}

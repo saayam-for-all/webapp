@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ToggleOn",
+  "private": true,
+  "main": "../../cjs/react/legacy/ToggleOn.js",
+  "module": "../../esm/react/legacy/ToggleOn.js",
+  "types": "../../esm/react/legacy/ToggleOn.d.ts"
+}

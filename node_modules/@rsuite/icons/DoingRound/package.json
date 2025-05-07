@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/DoingRound",
+  "private": true,
+  "main": "../cjs/react/DoingRound.js",
+  "module": "../esm/react/DoingRound.js",
+  "types": "../esm/react/DoingRound.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/VisuallyHidden",
+  "private": true,
+  "main": "../cjs/VisuallyHidden/index.js",
+  "module": "../esm/VisuallyHidden/index.js",
+  "types": "../esm/VisuallyHidden/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/locales/ne_NP",
+  "private": true,
+  "main": "../../cjs/locales/ne_NP.js",
+  "module": "../../esm/locales/ne_NP.js",
+  "types": "../../esm/locales/ne_NP.d.ts"
+}

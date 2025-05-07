@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Fade",
+  "private": true,
+  "main": "../cjs/Animation/Fade.js",
+  "module": "../esm/Animation/Fade.js",
+  "types": "../esm/Animation/Fade.d.ts"
+}

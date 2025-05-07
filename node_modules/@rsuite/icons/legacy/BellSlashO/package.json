@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BellSlashO",
+  "private": true,
+  "main": "../../cjs/react/legacy/BellSlashO.js",
+  "module": "../../esm/react/legacy/BellSlashO.js",
+  "types": "../../esm/react/legacy/BellSlashO.d.ts"
+}

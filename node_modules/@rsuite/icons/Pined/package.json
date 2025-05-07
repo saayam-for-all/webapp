@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Pined",
+  "private": true,
+  "main": "../cjs/react/Pined.js",
+  "module": "../esm/react/Pined.js",
+  "types": "../esm/react/Pined.d.ts"
+}

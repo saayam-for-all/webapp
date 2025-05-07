@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/OperatePeople",
+  "private": true,
+  "main": "../cjs/react/OperatePeople.js",
+  "module": "../esm/react/OperatePeople.js",
+  "types": "../esm/react/OperatePeople.d.ts"
+}

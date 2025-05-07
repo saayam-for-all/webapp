@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Umbrella",
+  "private": true,
+  "main": "../../cjs/react/legacy/Umbrella.js",
+  "module": "../../esm/react/legacy/Umbrella.js",
+  "types": "../../esm/react/legacy/Umbrella.d.ts"
+}

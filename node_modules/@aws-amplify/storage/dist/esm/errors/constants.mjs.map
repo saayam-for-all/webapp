@@ -1,0 +1,1 @@
+{"version":3,"file":"constants.mjs","sources":["../../../src/errors/constants.ts"],"sourcesContent":["// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nexport const INVALID_STORAGE_INPUT = 'InvalidStorageInput';\n"],"names":[],"mappings":"AAAA;AACA;AACY,MAAC,qBAAqB,GAAG;;;;"}

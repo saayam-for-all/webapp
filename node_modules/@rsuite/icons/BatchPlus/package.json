@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/BatchPlus",
+  "private": true,
+  "main": "../cjs/react/BatchPlus.js",
+  "module": "../esm/react/BatchPlus.js",
+  "types": "../esm/react/BatchPlus.d.ts"
+}

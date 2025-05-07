@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Beer",
+  "private": true,
+  "main": "../../cjs/react/legacy/Beer.js",
+  "module": "../../esm/react/legacy/Beer.js",
+  "types": "../../esm/react/legacy/Beer.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/MapSigns",
+  "private": true,
+  "main": "../../cjs/react/legacy/MapSigns.js",
+  "module": "../../esm/react/legacy/MapSigns.js",
+  "types": "../../esm/react/legacy/MapSigns.d.ts"
+}

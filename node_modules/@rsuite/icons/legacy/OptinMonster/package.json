@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/OptinMonster",
+  "private": true,
+  "main": "../../cjs/react/legacy/OptinMonster.js",
+  "module": "../../esm/react/legacy/OptinMonster.js",
+  "types": "../../esm/react/legacy/OptinMonster.d.ts"
+}

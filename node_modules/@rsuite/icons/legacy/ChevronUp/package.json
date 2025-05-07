@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ChevronUp",
+  "private": true,
+  "main": "../../cjs/react/legacy/ChevronUp.js",
+  "module": "../../esm/react/legacy/ChevronUp.js",
+  "types": "../../esm/react/legacy/ChevronUp.d.ts"
+}

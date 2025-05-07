@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/FunnelTime",
+  "private": true,
+  "main": "../cjs/react/FunnelTime.js",
+  "module": "../esm/react/FunnelTime.js",
+  "types": "../esm/react/FunnelTime.d.ts"
+}

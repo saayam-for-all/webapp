@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bolt",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bolt.js",
+  "module": "../../esm/react/legacy/Bolt.js",
+  "types": "../../esm/react/legacy/Bolt.d.ts"
+}

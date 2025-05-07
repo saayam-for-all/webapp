@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Usb",
+  "private": true,
+  "main": "../../cjs/react/legacy/Usb.js",
+  "module": "../../esm/react/legacy/Usb.js",
+  "types": "../../esm/react/legacy/Usb.d.ts"
+}

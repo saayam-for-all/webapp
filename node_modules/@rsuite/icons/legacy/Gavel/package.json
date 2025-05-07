@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Gavel",
+  "private": true,
+  "main": "../../cjs/react/legacy/Gavel.js",
+  "module": "../../esm/react/legacy/Gavel.js",
+  "types": "../../esm/react/legacy/Gavel.d.ts"
+}

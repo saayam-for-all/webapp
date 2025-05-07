@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Forward",
+  "private": true,
+  "main": "../../cjs/react/legacy/Forward.js",
+  "module": "../../esm/react/legacy/Forward.js",
+  "types": "../../esm/react/legacy/Forward.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/UserMd",
+  "private": true,
+  "main": "../../cjs/react/legacy/UserMd.js",
+  "module": "../../esm/react/legacy/UserMd.js",
+  "types": "../../esm/react/legacy/UserMd.d.ts"
+}

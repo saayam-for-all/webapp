@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/UserCircle",
+  "private": true,
+  "main": "../../cjs/react/legacy/UserCircle.js",
+  "module": "../../esm/react/legacy/UserCircle.js",
+  "types": "../../esm/react/legacy/UserCircle.d.ts"
+}

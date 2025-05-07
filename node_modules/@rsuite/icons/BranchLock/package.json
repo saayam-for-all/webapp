@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/BranchLock",
+  "private": true,
+  "main": "../cjs/react/BranchLock.js",
+  "module": "../esm/react/BranchLock.js",
+  "types": "../esm/react/BranchLock.d.ts"
+}

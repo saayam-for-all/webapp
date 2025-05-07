@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Time",
+  "private": true,
+  "main": "../cjs/react/Time.js",
+  "module": "../esm/react/Time.js",
+  "types": "../esm/react/Time.d.ts"
+}

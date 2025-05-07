@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ReadyRound",
+  "private": true,
+  "main": "../cjs/react/ReadyRound.js",
+  "module": "../esm/react/ReadyRound.js",
+  "types": "../esm/react/ReadyRound.d.ts"
+}

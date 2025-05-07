@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/MoonO",
+  "private": true,
+  "main": "../../cjs/react/legacy/MoonO.js",
+  "module": "../../esm/react/legacy/MoonO.js",
+  "types": "../../esm/react/legacy/MoonO.d.ts"
+}

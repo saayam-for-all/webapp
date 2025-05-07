@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BtnOff",
+  "private": true,
+  "main": "../../cjs/react/legacy/BtnOff.js",
+  "module": "../../esm/react/legacy/BtnOff.js",
+  "types": "../../esm/react/legacy/BtnOff.d.ts"
+}

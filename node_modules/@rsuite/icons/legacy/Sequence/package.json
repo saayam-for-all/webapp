@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Sequence",
+  "private": true,
+  "main": "../../cjs/react/legacy/Sequence.js",
+  "module": "../../esm/react/legacy/Sequence.js",
+  "types": "../../esm/react/legacy/Sequence.d.ts"
+}

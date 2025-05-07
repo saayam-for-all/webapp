@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/StopCircleO",
+  "private": true,
+  "main": "../../cjs/react/legacy/StopCircleO.js",
+  "module": "../../esm/react/legacy/StopCircleO.js",
+  "types": "../../esm/react/legacy/StopCircleO.d.ts"
+}

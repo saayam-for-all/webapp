@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bell",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bell.js",
+  "module": "../../esm/react/legacy/Bell.js",
+  "types": "../../esm/react/legacy/Bell.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HospitalO",
+  "private": true,
+  "main": "../../cjs/react/legacy/HospitalO.js",
+  "module": "../../esm/react/legacy/HospitalO.js",
+  "types": "../../esm/react/legacy/HospitalO.d.ts"
+}

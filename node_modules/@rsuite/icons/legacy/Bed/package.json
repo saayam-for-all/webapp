@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bed",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bed.js",
+  "module": "../../esm/react/legacy/Bed.js",
+  "types": "../../esm/react/legacy/Bed.d.ts"
+}

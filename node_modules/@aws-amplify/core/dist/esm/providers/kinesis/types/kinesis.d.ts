@@ -1,0 +1,9 @@
+export interface KinesisProviderConfig {
+    Kinesis: {
+        region: string;
+        bufferSize?: number;
+        flushSize?: number;
+        flushInterval?: number;
+        resendLimit?: number;
+    };
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeopleSpeaker",
+  "private": true,
+  "main": "../cjs/react/PeopleSpeaker.js",
+  "module": "../esm/react/PeopleSpeaker.js",
+  "types": "../esm/react/PeopleSpeaker.d.ts"
+}

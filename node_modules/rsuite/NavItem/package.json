@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/NavItem",
+  "private": true,
+  "main": "../cjs/Nav/AdaptiveNavItem.js",
+  "module": "../esm/Nav/AdaptiveNavItem.js",
+  "types": "../esm/Nav/AdaptiveNavItem.d.ts"
+}

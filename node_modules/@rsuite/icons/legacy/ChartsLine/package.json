@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ChartsLine",
+  "private": true,
+  "main": "../../cjs/react/legacy/ChartsLine.js",
+  "module": "../../esm/react/legacy/ChartsLine.js",
+  "types": "../../esm/react/legacy/ChartsLine.d.ts"
+}

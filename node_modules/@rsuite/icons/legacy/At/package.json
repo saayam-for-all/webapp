@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/At",
+  "private": true,
+  "main": "../../cjs/react/legacy/At.js",
+  "module": "../../esm/react/legacy/At.js",
+  "types": "../../esm/react/legacy/At.d.ts"
+}

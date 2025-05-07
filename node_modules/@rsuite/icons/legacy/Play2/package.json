@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Play2",
+  "private": true,
+  "main": "../../cjs/react/legacy/Play2.js",
+  "module": "../../esm/react/legacy/Play2.js",
+  "types": "../../esm/react/legacy/Play2.d.ts"
+}

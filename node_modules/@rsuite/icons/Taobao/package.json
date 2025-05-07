@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Taobao",
+  "private": true,
+  "main": "../cjs/react/Taobao.js",
+  "module": "../esm/react/Taobao.js",
+  "types": "../esm/react/Taobao.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Road",
+  "private": true,
+  "main": "../../cjs/react/legacy/Road.js",
+  "module": "../../esm/react/legacy/Road.js",
+  "types": "../../esm/react/legacy/Road.d.ts"
+}

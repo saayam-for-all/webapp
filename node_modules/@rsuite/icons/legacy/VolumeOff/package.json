@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/VolumeOff",
+  "private": true,
+  "main": "../../cjs/react/legacy/VolumeOff.js",
+  "module": "../../esm/react/legacy/VolumeOff.js",
+  "types": "../../esm/react/legacy/VolumeOff.d.ts"
+}

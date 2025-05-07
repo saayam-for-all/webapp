@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SearchPeople",
+  "private": true,
+  "main": "../cjs/react/SearchPeople.js",
+  "module": "../esm/react/SearchPeople.js",
+  "types": "../esm/react/SearchPeople.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Funnel",
+  "private": true,
+  "main": "../cjs/react/Funnel.js",
+  "module": "../esm/react/Funnel.js",
+  "types": "../esm/react/Funnel.d.ts"
+}

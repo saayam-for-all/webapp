@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Flask",
+  "private": true,
+  "main": "../../cjs/react/legacy/Flask.js",
+  "module": "../../esm/react/legacy/Flask.js",
+  "types": "../../esm/react/legacy/Flask.d.ts"
+}

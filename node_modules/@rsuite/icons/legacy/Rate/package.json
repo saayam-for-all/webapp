@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Rate",
+  "private": true,
+  "main": "../../cjs/react/legacy/Rate.js",
+  "module": "../../esm/react/legacy/Rate.js",
+  "types": "../../esm/react/legacy/Rate.d.ts"
+}

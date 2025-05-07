@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/HeadingGroup",
+  "private": true,
+  "main": "../cjs/HeadingGroup/index.js",
+  "module": "../esm/HeadingGroup/index.js",
+  "types": "../esm/HeadingGroup/index.d.ts"
+}

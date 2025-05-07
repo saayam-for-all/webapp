@@ -1,0 +1,32 @@
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var React = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function Touch(props, svgRef) {
+  return /*#__PURE__*/React.createElement("svg", _extends({
+    width: "1em",
+    height: "1em",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    ref: svgRef
+  }, props), /*#__PURE__*/React.createElement("path", {
+    d: "M7.5 0a2.501 2.501 0 012.495 2.336L10 2.5v3.975l2.069-.423a1.767 1.767 0 011.963.99l1.851 4.058a1.3 1.3 0 01-.544 1.669l-5.475 3.126-.021.002a1.295 1.295 0 01-1.126-.054l-4.55-2.488a1.609 1.609 0 01-.8-1.782 1.308 1.308 0 011.499-.98l2.117.367-.561-.959H2.5A2.501 2.501 0 01.005 7.665L0 7.501v-5A2.501 2.501 0 012.336.006L2.5.001h5zM4.348 3.094a.675.675 0 00-.3.838l.044.09 3.754 6.432a1 1 0 01-.926 1.502l-.108-.013-2.116-.367a.308.308 0 00-.355.224.606.606 0 00.221.618l.086.057 4.55 2.488a.38.38 0 00.095.035l.084.013.085-.041 5.382-3.072a.3.3 0 00.15-.324l-.02-.061-1.851-4.058a.764.764 0 00-.747-.439l-.106.014-3.588.734a1.001 1.001 0 01-.993-.37l-.071-.106-2.302-3.943a.713.713 0 00-.967-.252zm3.296-2.087L7.5 1h-5a1.5 1.5 0 00-1.493 1.356L1 2.5v5a1.5 1.5 0 001.356 1.493L2.5 9h3.339L3.228 4.527c-.47-.806-.191-1.836.623-2.301s1.856-.189 2.327.617L8.48 6.786l.519-.106V2.5a1.5 1.5 0 00-1.356-1.493z"
+  }));
+}
+
+var ForwardRef = /*#__PURE__*/React.forwardRef(Touch);
+var _default = ForwardRef;
+exports["default"] = _default;

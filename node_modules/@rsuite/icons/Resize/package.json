@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Resize",
+  "private": true,
+  "main": "../cjs/react/Resize.js",
+  "module": "../esm/react/Resize.js",
+  "types": "../esm/react/Resize.d.ts"
+}

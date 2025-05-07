@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/VenusDouble",
+  "private": true,
+  "main": "../../cjs/react/legacy/VenusDouble.js",
+  "module": "../../esm/react/legacy/VenusDouble.js",
+  "types": "../../esm/react/legacy/VenusDouble.d.ts"
+}

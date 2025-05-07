@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Headphones",
+  "private": true,
+  "main": "../../cjs/react/legacy/Headphones.js",
+  "module": "../../esm/react/legacy/Headphones.js",
+  "types": "../../esm/react/legacy/Headphones.d.ts"
+}

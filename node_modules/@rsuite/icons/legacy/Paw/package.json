@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Paw",
+  "private": true,
+  "main": "../../cjs/react/legacy/Paw.js",
+  "module": "../../esm/react/legacy/Paw.js",
+  "types": "../../esm/react/legacy/Paw.d.ts"
+}

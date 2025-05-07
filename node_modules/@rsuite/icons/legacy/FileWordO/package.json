@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FileWordO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FileWordO.js",
+  "module": "../../esm/react/legacy/FileWordO.js",
+  "types": "../../esm/react/legacy/FileWordO.d.ts"
+}

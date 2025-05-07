@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/User",
+  "private": true,
+  "main": "../../cjs/react/legacy/User.js",
+  "module": "../../esm/react/legacy/User.js",
+  "types": "../../esm/react/legacy/User.d.ts"
+}

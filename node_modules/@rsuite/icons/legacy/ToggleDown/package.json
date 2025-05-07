@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ToggleDown",
+  "private": true,
+  "main": "../../cjs/react/legacy/ToggleDown.js",
+  "module": "../../esm/react/legacy/ToggleDown.js",
+  "types": "../../esm/react/legacy/ToggleDown.d.ts"
+}

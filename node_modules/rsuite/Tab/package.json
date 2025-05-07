@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Tab",
+  "private": true,
+  "main": "../cjs/Tabs/Tab.js",
+  "module": "../esm/Tabs/Tab.js",
+  "types": "../esm/Tabs/Tab.d.ts"
+}

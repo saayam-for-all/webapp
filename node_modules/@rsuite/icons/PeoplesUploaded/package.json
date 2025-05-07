@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeoplesUploaded",
+  "private": true,
+  "main": "../cjs/react/PeoplesUploaded.js",
+  "module": "../esm/react/PeoplesUploaded.js",
+  "types": "../esm/react/PeoplesUploaded.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Forumbee",
+  "private": true,
+  "main": "../../cjs/react/legacy/Forumbee.js",
+  "module": "../../esm/react/legacy/Forumbee.js",
+  "types": "../../esm/react/legacy/Forumbee.d.ts"
+}

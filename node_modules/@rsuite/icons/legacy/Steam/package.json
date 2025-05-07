@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Steam",
+  "private": true,
+  "main": "../../cjs/react/legacy/Steam.js",
+  "module": "../../esm/react/legacy/Steam.js",
+  "types": "../../esm/react/legacy/Steam.d.ts"
+}

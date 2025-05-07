@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/CreditCardPlus",
+  "private": true,
+  "main": "../cjs/react/CreditCardPlus.js",
+  "module": "../esm/react/CreditCardPlus.js",
+  "types": "../esm/react/CreditCardPlus.d.ts"
+}

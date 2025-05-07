@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Retweet",
+  "private": true,
+  "main": "../../cjs/react/legacy/Retweet.js",
+  "module": "../../esm/react/legacy/Retweet.js",
+  "types": "../../esm/react/legacy/Retweet.d.ts"
+}

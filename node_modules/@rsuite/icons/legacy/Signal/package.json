@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Signal",
+  "private": true,
+  "main": "../../cjs/react/legacy/Signal.js",
+  "module": "../../esm/react/legacy/Signal.js",
+  "types": "../../esm/react/legacy/Signal.d.ts"
+}

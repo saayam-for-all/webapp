@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Close",
+  "private": true,
+  "main": "../../cjs/react/legacy/Close.js",
+  "module": "../../esm/react/legacy/Close.js",
+  "types": "../../esm/react/legacy/Close.d.ts"
+}

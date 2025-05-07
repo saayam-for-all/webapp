@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/VenusMars",
+  "private": true,
+  "main": "../../cjs/react/legacy/VenusMars.js",
+  "module": "../../esm/react/legacy/VenusMars.js",
+  "types": "../../esm/react/legacy/VenusMars.d.ts"
+}

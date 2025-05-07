@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Wifi",
+  "private": true,
+  "main": "../../cjs/react/legacy/Wifi.js",
+  "module": "../../esm/react/legacy/Wifi.js",
+  "types": "../../esm/react/legacy/Wifi.d.ts"
+}

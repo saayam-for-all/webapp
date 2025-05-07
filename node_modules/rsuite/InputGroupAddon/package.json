@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/InputGroupAddon",
+  "private": true,
+  "main": "../cjs/InputGroup/InputGroupAddon.js",
+  "module": "../esm/InputGroup/InputGroupAddon.js",
+  "types": "../esm/InputGroup/InputGroupAddon.d.ts"
+}

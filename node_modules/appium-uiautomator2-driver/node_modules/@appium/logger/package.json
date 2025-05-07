@@ -1,0 +1,58 @@
+{
+  "name": "@appium/logger",
+  "version": "1.6.1",
+  "author": "https://github.com/appium",
+  "description": "A Universal Logger For The Appium Ecosystem",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/appium/appium.git",
+    "directory": "packages/logger"
+  },
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "index.ts",
+    "lib",
+    "build",
+    "tsconfig.json",
+    "!build/tsconfig.tsbuildinfo",
+    "CHANGELOG.md"
+  ],
+  "directories": {
+    "lib": "./lib"
+  },
+  "scripts": {
+    "test": "npm run test:unit",
+    "test:smoke": "node ./build/index.js",
+    "test:unit": "mocha --exit --timeout 1m \"./test/unit/**/*-specs.js\""
+  },
+  "dependencies": {
+    "console-control-strings": "1.1.0",
+    "lodash": "4.17.21",
+    "lru-cache": "10.4.3",
+    "set-blocking": "2.0.0"
+  },
+  "license": "ISC",
+  "engines": {
+    "node": "^14.17.0 || ^16.13.0 || >=18.0.0",
+    "npm": ">=8"
+  },
+  "bugs": {
+    "url": "https://github.com/appium/appium/issues"
+  },
+  "homepage": "https://appium.io",
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "edf2593e1729d8f06002fa5c5622e26d71d79545",
+  "keywords": [
+    "automation",
+    "javascript",
+    "selenium",
+    "webdriver",
+    "ios",
+    "android",
+    "firefoxos",
+    "testing"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ChevronLeft",
+  "private": true,
+  "main": "../../cjs/react/legacy/ChevronLeft.js",
+  "module": "../../esm/react/legacy/ChevronLeft.js",
+  "types": "../../esm/react/legacy/ChevronLeft.d.ts"
+}

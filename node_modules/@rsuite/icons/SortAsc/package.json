@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SortAsc",
+  "private": true,
+  "main": "../cjs/react/SortAsc.js",
+  "module": "../esm/react/SortAsc.js",
+  "types": "../esm/react/SortAsc.d.ts"
+}

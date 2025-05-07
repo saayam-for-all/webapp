@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/index.ts",
+  "private": true,
+  "main": "../../cjs/react/legacy/index.ts.js",
+  "module": "../../esm/react/legacy/index.ts.js",
+  "types": "../../esm/react/legacy/index.ts.d.ts"
+}

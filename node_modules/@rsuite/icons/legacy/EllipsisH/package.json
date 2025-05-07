@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/EllipsisH",
+  "private": true,
+  "main": "../../cjs/react/legacy/EllipsisH.js",
+  "module": "../../esm/react/legacy/EllipsisH.js",
+  "types": "../../esm/react/legacy/EllipsisH.d.ts"
+}

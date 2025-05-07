@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Upload",
+  "private": true,
+  "main": "../../cjs/react/legacy/Upload.js",
+  "module": "../../esm/react/legacy/Upload.js",
+  "types": "../../esm/react/legacy/Upload.d.ts"
+}

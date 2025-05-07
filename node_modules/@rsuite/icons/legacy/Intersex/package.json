@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Intersex",
+  "private": true,
+  "main": "../../cjs/react/legacy/Intersex.js",
+  "module": "../../esm/react/legacy/Intersex.js",
+  "types": "../../esm/react/legacy/Intersex.d.ts"
+}

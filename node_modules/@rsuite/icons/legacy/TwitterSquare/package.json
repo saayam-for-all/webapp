@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/TwitterSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/TwitterSquare.js",
+  "module": "../../esm/react/legacy/TwitterSquare.js",
+  "types": "../../esm/react/legacy/TwitterSquare.d.ts"
+}

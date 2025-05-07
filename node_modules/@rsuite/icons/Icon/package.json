@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Icon",
+  "private": true,
+  "main": "../cjs/Icon.js",
+  "module": "../esm/Icon.js",
+  "types": "../esm/Icon.d.ts"
+}

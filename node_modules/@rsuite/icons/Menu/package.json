@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Menu",
+  "private": true,
+  "main": "../cjs/react/Menu.js",
+  "module": "../esm/react/Menu.js",
+  "types": "../esm/react/Menu.d.ts"
+}

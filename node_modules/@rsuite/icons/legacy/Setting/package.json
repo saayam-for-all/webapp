@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Setting",
+  "private": true,
+  "main": "../../cjs/react/legacy/Setting.js",
+  "module": "../../esm/react/legacy/Setting.js",
+  "types": "../../esm/react/legacy/Setting.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FreeCodeCamp",
+  "private": true,
+  "main": "../../cjs/react/legacy/FreeCodeCamp.js",
+  "module": "../../esm/react/legacy/FreeCodeCamp.js",
+  "types": "../../esm/react/legacy/FreeCodeCamp.d.ts"
+}

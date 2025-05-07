@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Spinner",
+  "private": true,
+  "main": "../cjs/react/Spinner.js",
+  "module": "../esm/react/Spinner.js",
+  "types": "../esm/react/Spinner.d.ts"
+}

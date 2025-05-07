@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Trend",
+  "private": true,
+  "main": "../cjs/react/Trend.js",
+  "module": "../esm/react/Trend.js",
+  "types": "../esm/react/Trend.d.ts"
+}

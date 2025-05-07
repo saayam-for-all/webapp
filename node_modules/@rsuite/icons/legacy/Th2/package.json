@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Th2",
+  "private": true,
+  "main": "../../cjs/react/legacy/Th2.js",
+  "module": "../../esm/react/legacy/Th2.js",
+  "types": "../../esm/react/legacy/Th2.d.ts"
+}

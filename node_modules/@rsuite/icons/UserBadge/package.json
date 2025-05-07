@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/UserBadge",
+  "private": true,
+  "main": "../cjs/react/UserBadge.js",
+  "module": "../esm/react/UserBadge.js",
+  "types": "../esm/react/UserBadge.d.ts"
+}

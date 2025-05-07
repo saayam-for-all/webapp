@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Card",
+  "private": true,
+  "main": "../cjs/Card/index.js",
+  "module": "../esm/Card/index.js",
+  "types": "../esm/Card/index.d.ts"
+}

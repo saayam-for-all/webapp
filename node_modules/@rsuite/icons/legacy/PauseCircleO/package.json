@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PauseCircleO",
+  "private": true,
+  "main": "../../cjs/react/legacy/PauseCircleO.js",
+  "module": "../../esm/react/legacy/PauseCircleO.js",
+  "types": "../../esm/react/legacy/PauseCircleO.d.ts"
+}

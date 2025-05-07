@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/GetPocket",
+  "private": true,
+  "main": "../../cjs/react/legacy/GetPocket.js",
+  "module": "../../esm/react/legacy/GetPocket.js",
+  "types": "../../esm/react/legacy/GetPocket.d.ts"
+}

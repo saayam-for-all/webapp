@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Charts",
+  "private": true,
+  "main": "../../cjs/react/legacy/Charts.js",
+  "module": "../../esm/react/legacy/Charts.js",
+  "types": "../../esm/react/legacy/Charts.d.ts"
+}

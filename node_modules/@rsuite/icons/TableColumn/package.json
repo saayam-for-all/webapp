@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/TableColumn",
+  "private": true,
+  "main": "../cjs/react/TableColumn.js",
+  "module": "../esm/react/TableColumn.js",
+  "types": "../esm/react/TableColumn.d.ts"
+}

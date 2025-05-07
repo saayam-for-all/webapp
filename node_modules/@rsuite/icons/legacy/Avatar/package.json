@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Avatar",
+  "private": true,
+  "main": "../../cjs/react/legacy/Avatar.js",
+  "module": "../../esm/react/legacy/Avatar.js",
+  "types": "../../esm/react/legacy/Avatar.d.ts"
+}

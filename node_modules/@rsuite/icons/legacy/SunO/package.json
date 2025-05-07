@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/SunO",
+  "private": true,
+  "main": "../../cjs/react/legacy/SunO.js",
+  "module": "../../esm/react/legacy/SunO.js",
+  "types": "../../esm/react/legacy/SunO.d.ts"
+}

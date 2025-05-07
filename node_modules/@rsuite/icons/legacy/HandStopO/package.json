@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HandStopO",
+  "private": true,
+  "main": "../../cjs/react/legacy/HandStopO.js",
+  "module": "../../esm/react/legacy/HandStopO.js",
+  "types": "../../esm/react/legacy/HandStopO.d.ts"
+}

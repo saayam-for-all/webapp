@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Trash",
+  "private": true,
+  "main": "../cjs/react/Trash.js",
+  "module": "../esm/react/Trash.js",
+  "types": "../esm/react/Trash.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/IdInfo",
+  "private": true,
+  "main": "../../cjs/react/legacy/IdInfo.js",
+  "module": "../../esm/react/legacy/IdInfo.js",
+  "types": "../../esm/react/legacy/IdInfo.d.ts"
+}

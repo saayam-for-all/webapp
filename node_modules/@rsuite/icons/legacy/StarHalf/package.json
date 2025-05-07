@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/StarHalf",
+  "private": true,
+  "main": "../../cjs/react/legacy/StarHalf.js",
+  "module": "../../esm/react/legacy/StarHalf.js",
+  "types": "../../esm/react/legacy/StarHalf.d.ts"
+}

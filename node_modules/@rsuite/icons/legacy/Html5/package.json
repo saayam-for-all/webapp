@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Html5",
+  "private": true,
+  "main": "../../cjs/react/legacy/Html5.js",
+  "module": "../../esm/react/legacy/Html5.js",
+  "types": "../../esm/react/legacy/Html5.d.ts"
+}

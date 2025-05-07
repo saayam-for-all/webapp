@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/AlignCenter",
+  "private": true,
+  "main": "../../cjs/react/legacy/AlignCenter.js",
+  "module": "../../esm/react/legacy/AlignCenter.js",
+  "types": "../../esm/react/legacy/AlignCenter.d.ts"
+}

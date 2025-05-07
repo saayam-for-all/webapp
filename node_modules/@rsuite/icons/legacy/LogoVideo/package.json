@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LogoVideo",
+  "private": true,
+  "main": "../../cjs/react/legacy/LogoVideo.js",
+  "module": "../../esm/react/legacy/LogoVideo.js",
+  "types": "../../esm/react/legacy/LogoVideo.d.ts"
+}

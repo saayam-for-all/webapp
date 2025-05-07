@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Up",
+  "private": true,
+  "main": "../../cjs/react/legacy/Up.js",
+  "module": "../../esm/react/legacy/Up.js",
+  "types": "../../esm/react/legacy/Up.d.ts"
+}

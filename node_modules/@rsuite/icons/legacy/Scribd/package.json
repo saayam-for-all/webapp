@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Scribd",
+  "private": true,
+  "main": "../../cjs/react/legacy/Scribd.js",
+  "module": "../../esm/react/legacy/Scribd.js",
+  "types": "../../esm/react/legacy/Scribd.d.ts"
+}

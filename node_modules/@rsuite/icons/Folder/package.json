@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Folder",
+  "private": true,
+  "main": "../cjs/react/Folder.js",
+  "module": "../esm/react/Folder.js",
+  "types": "../esm/react/Folder.d.ts"
+}

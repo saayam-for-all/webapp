@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/PlaceholderParagraph",
+  "private": true,
+  "main": "../cjs/Placeholder/PlaceholderParagraph.js",
+  "module": "../esm/Placeholder/PlaceholderParagraph.js",
+  "types": "../esm/Placeholder/PlaceholderParagraph.d.ts"
+}

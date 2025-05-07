@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Github",
+  "private": true,
+  "main": "../../cjs/react/legacy/Github.js",
+  "module": "../../esm/react/legacy/Github.js",
+  "types": "../../esm/react/legacy/Github.d.ts"
+}

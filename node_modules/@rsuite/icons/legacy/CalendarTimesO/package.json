@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CalendarTimesO",
+  "private": true,
+  "main": "../../cjs/react/legacy/CalendarTimesO.js",
+  "module": "../../esm/react/legacy/CalendarTimesO.js",
+  "types": "../../esm/react/legacy/CalendarTimesO.d.ts"
+}

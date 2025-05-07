@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FastForward",
+  "private": true,
+  "main": "../../cjs/react/legacy/FastForward.js",
+  "module": "../../esm/react/legacy/FastForward.js",
+  "types": "../../esm/react/legacy/FastForward.d.ts"
+}

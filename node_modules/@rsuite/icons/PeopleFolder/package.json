@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeopleFolder",
+  "private": true,
+  "main": "../cjs/react/PeopleFolder.js",
+  "module": "../esm/react/PeopleFolder.js",
+  "types": "../esm/react/PeopleFolder.d.ts"
+}

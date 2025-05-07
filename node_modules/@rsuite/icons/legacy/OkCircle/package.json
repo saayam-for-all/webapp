@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/OkCircle",
+  "private": true,
+  "main": "../../cjs/react/legacy/OkCircle.js",
+  "module": "../../esm/react/legacy/OkCircle.js",
+  "types": "../../esm/react/legacy/OkCircle.d.ts"
+}

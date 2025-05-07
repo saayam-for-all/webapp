@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Random",
+  "private": true,
+  "main": "../../cjs/react/legacy/Random.js",
+  "module": "../../esm/react/legacy/Random.js",
+  "types": "../../esm/react/legacy/Random.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Tv",
+  "private": true,
+  "main": "../../cjs/react/legacy/Tv.js",
+  "module": "../../esm/react/legacy/Tv.js",
+  "types": "../../esm/react/legacy/Tv.d.ts"
+}

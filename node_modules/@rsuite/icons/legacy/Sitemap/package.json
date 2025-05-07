@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Sitemap",
+  "private": true,
+  "main": "../../cjs/react/legacy/Sitemap.js",
+  "module": "../../esm/react/legacy/Sitemap.js",
+  "types": "../../esm/react/legacy/Sitemap.d.ts"
+}

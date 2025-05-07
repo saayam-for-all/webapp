@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PiedPiper",
+  "private": true,
+  "main": "../../cjs/react/legacy/PiedPiper.js",
+  "module": "../../esm/react/legacy/PiedPiper.js",
+  "types": "../../esm/react/legacy/PiedPiper.d.ts"
+}

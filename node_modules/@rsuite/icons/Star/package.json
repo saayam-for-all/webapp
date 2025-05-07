@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Star",
+  "private": true,
+  "main": "../cjs/react/Star.js",
+  "module": "../esm/react/Star.js",
+  "types": "../esm/react/Star.d.ts"
+}

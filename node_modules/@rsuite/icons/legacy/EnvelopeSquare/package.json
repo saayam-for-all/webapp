@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/EnvelopeSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/EnvelopeSquare.js",
+  "module": "../../esm/react/legacy/EnvelopeSquare.js",
+  "types": "../../esm/react/legacy/EnvelopeSquare.d.ts"
+}

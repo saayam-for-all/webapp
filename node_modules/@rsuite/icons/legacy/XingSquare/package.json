@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/XingSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/XingSquare.js",
+  "module": "../../esm/react/legacy/XingSquare.js",
+  "types": "../../esm/react/legacy/XingSquare.d.ts"
+}

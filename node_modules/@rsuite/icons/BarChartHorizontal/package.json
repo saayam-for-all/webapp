@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/BarChartHorizontal",
+  "private": true,
+  "main": "../cjs/react/BarChartHorizontal.js",
+  "module": "../esm/react/BarChartHorizontal.js",
+  "types": "../esm/react/BarChartHorizontal.d.ts"
+}

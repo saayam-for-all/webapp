@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Contao",
+  "private": true,
+  "main": "../../cjs/react/legacy/Contao.js",
+  "module": "../../esm/react/legacy/Contao.js",
+  "types": "../../esm/react/legacy/Contao.d.ts"
+}

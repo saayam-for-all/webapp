@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Tag",
+  "private": true,
+  "main": "../../cjs/react/legacy/Tag.js",
+  "module": "../../esm/react/legacy/Tag.js",
+  "types": "../../esm/react/legacy/Tag.d.ts"
+}

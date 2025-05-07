@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/IdBadge",
+  "private": true,
+  "main": "../../cjs/react/legacy/IdBadge.js",
+  "module": "../../esm/react/legacy/IdBadge.js",
+  "types": "../../esm/react/legacy/IdBadge.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Building",
+  "private": true,
+  "main": "../../cjs/react/legacy/Building.js",
+  "module": "../../esm/react/legacy/Building.js",
+  "types": "../../esm/react/legacy/Building.d.ts"
+}

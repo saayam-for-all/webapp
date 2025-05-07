@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/createSvgIcon",
+  "private": true,
+  "main": "../cjs/createSvgIcon.js",
+  "module": "../esm/createSvgIcon.js",
+  "types": "../esm/createSvgIcon.d.ts"
+}

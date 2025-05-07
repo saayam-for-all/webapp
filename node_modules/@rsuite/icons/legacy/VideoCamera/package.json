@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/VideoCamera",
+  "private": true,
+  "main": "../../cjs/react/legacy/VideoCamera.js",
+  "module": "../../esm/react/legacy/VideoCamera.js",
+  "types": "../../esm/react/legacy/VideoCamera.d.ts"
+}

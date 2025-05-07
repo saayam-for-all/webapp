@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Pause",
+  "private": true,
+  "main": "../../cjs/react/legacy/Pause.js",
+  "module": "../../esm/react/legacy/Pause.js",
+  "types": "../../esm/react/legacy/Pause.d.ts"
+}

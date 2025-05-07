@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/SpaceShuttle",
+  "private": true,
+  "main": "../../cjs/react/legacy/SpaceShuttle.js",
+  "module": "../../esm/react/legacy/SpaceShuttle.js",
+  "types": "../../esm/react/legacy/SpaceShuttle.d.ts"
+}

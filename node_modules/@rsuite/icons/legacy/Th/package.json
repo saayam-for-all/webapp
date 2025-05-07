@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Th",
+  "private": true,
+  "main": "../../cjs/react/legacy/Th.js",
+  "module": "../../esm/react/legacy/Th.js",
+  "types": "../../esm/react/legacy/Th.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Question",
+  "private": true,
+  "main": "../../cjs/react/legacy/Question.js",
+  "module": "../../esm/react/legacy/Question.js",
+  "types": "../../esm/react/legacy/Question.d.ts"
+}

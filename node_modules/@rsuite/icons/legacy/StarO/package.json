@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/StarO",
+  "private": true,
+  "main": "../../cjs/react/legacy/StarO.js",
+  "module": "../../esm/react/legacy/StarO.js",
+  "types": "../../esm/react/legacy/StarO.d.ts"
+}

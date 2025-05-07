@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/AiCallout",
+  "private": true,
+  "main": "../cjs/react/AiCallout.js",
+  "module": "../esm/react/AiCallout.js",
+  "types": "../esm/react/AiCallout.d.ts"
+}

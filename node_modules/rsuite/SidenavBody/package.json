@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/SidenavBody",
+  "private": true,
+  "main": "../cjs/Sidenav/SidenavBody.js",
+  "module": "../esm/Sidenav/SidenavBody.js",
+  "types": "../esm/Sidenav/SidenavBody.d.ts"
+}

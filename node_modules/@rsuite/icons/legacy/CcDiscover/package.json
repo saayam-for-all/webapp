@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CcDiscover",
+  "private": true,
+  "main": "../../cjs/react/legacy/CcDiscover.js",
+  "module": "../../esm/react/legacy/CcDiscover.js",
+  "types": "../../esm/react/legacy/CcDiscover.d.ts"
+}

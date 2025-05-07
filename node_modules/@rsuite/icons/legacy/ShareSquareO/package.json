@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ShareSquareO",
+  "private": true,
+  "main": "../../cjs/react/legacy/ShareSquareO.js",
+  "module": "../../esm/react/legacy/ShareSquareO.js",
+  "types": "../../esm/react/legacy/ShareSquareO.d.ts"
+}

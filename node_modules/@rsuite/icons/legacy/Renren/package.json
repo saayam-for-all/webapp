@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Renren",
+  "private": true,
+  "main": "../../cjs/react/legacy/Renren.js",
+  "module": "../../esm/react/legacy/Renren.js",
+  "types": "../../esm/react/legacy/Renren.d.ts"
+}

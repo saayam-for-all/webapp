@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Windows",
+  "private": true,
+  "main": "../../cjs/react/legacy/Windows.js",
+  "module": "../../esm/react/legacy/Windows.js",
+  "types": "../../esm/react/legacy/Windows.d.ts"
+}

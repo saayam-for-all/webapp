@@ -1,0 +1,238 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+import {
+  AmplifyServer,
+  AuthModeParams,
+  BaseClient,
+  BaseBrowserClient,
+  BaseSSRClient,
+  ClientInternalsGetter,
+  GraphQLResult,
+  ListArgs,
+  ModelIntrospectionSchema,
+  SchemaModel,
+  CustomUserAgentDetails,
+} from '../../bridge-types';
+
+import {
+  authModeParams,
+  buildGraphQLVariables,
+  flattenItems,
+  generateGraphQLDocument,
+  getCustomHeaders,
+  initializeModel,
+} from '../APIClient';
+
+import { handleListGraphQlError } from './utils';
+import { selfAwareAsync } from '../../utils';
+
+import { extendCancellability } from '../cancellation';
+import { createUserAgentOverride } from '../ai/getCustomUserAgentDetails';
+
+export function listFactory(
+  client: BaseClient,
+  modelIntrospection: ModelIntrospectionSchema,
+  model: SchemaModel,
+  getInternals: ClientInternalsGetter,
+  context = false,
+  customUserAgentDetails?: CustomUserAgentDetails,
+) {
+  const listWithContext = (
+    contextSpec: AmplifyServer.ContextSpec,
+    args?: ListArgs,
+  ) => {
+    return _list(
+      client,
+      modelIntrospection,
+      model,
+      getInternals,
+      args,
+      contextSpec,
+      customUserAgentDetails,
+    );
+  };
+
+  const list = (args?: Record<string, any>) => {
+    return _list(
+      client,
+      modelIntrospection,
+      model,
+      getInternals,
+      args,
+      undefined,
+      customUserAgentDetails,
+    );
+  };
+
+  return context ? listWithContext : list;
+}
+
+function _list(
+  client: BaseClient,
+  modelIntrospection: ModelIntrospectionSchema,
+  model: SchemaModel,
+  getInternals: ClientInternalsGetter,
+  args?: ListArgs & AuthModeParams,
+  contextSpec?: AmplifyServer.ContextSpec,
+  customUserAgentDetails?: CustomUserAgentDetails,
+) {
+  return selfAwareAsync(async (resultPromise) => {
+    const { name } = model;
+
+    const query = generateGraphQLDocument(
+      modelIntrospection,
+      model,
+      'LIST',
+      args,
+    );
+    const variables = buildGraphQLVariables(
+      model,
+      'LIST',
+      args,
+      modelIntrospection,
+    );
+
+    const auth = authModeParams(client, getInternals, args);
+    const headers = getCustomHeaders(client, getInternals, args?.headers);
+
+    const userAgentOverride = createUserAgentOverride(customUserAgentDetails);
+
+    try {
+      const basePromise = contextSpec
+        ? ((client as BaseSSRClient).graphql(
+            contextSpec,
+            {
+              ...auth,
+              query,
+              variables,
+            },
+            headers,
+          ) as Promise<GraphQLResult>)
+        : ((client as BaseBrowserClient).graphql(
+            {
+              ...auth,
+              query,
+              variables,
+              ...userAgentOverride,
+            },
+            headers,
+          ) as Promise<GraphQLResult>);
+
+      const extendedPromise = extendCancellability(basePromise, resultPromise);
+      const { data, extensions } = await extendedPromise;
+
+      // flatten response
+      if (data !== undefined) {
+        const [key] = Object.keys(data);
+
+        if (data[key].items) {
+          const flattenedResult = data[key].items.map(
+            (value: Record<string, any>) =>
+              flattenItems(modelIntrospection, name, value),
+          );
+
+          // don't init if custom selection set
+          if (args?.selectionSet) {
+            return {
+              data: flattenedResult,
+              nextToken: data[key].nextToken,
+              extensions,
+            };
+          } else {
+            const initialized = initializeModel(
+              client,
+              name,
+              flattenedResult,
+              modelIntrospection,
+              auth.authMode,
+              auth.authToken,
+              !!contextSpec,
+            );
+
+            return {
+              data: initialized,
+              nextToken: data[key].nextToken,
+              extensions,
+            };
+          }
+        }
+
+        return {
+          data: data[key],
+          nextToken: data[key].nextToken,
+          extensions,
+        };
+      }
+    } catch (error: any) {
+      /**
+       * The `data` type returned by `error` here could be:
+       * 1) `null`
+       * 2) an empty object
+       * 3) "populated" but with a `null` value `data: { listPosts: null }`
+       * 4) actual records `data: { listPosts: items: [{ id: '1', ...etc }] }`
+       */
+      const { data, errors } = error;
+
+      // `data` is not `null`, and is not an empty object:
+      if (
+        data !== undefined &&
+        data !== null &&
+        Object.keys(data).length !== 0 &&
+        errors
+      ) {
+        const [key] = Object.keys(data);
+
+        if (data[key]?.items) {
+          const flattenedResult = data[key].items.map(
+            (value: Record<string, any>) =>
+              flattenItems(modelIntrospection, name, value),
+          );
+
+          /**
+           * Check exists since `flattenedResult` could be `null`.
+           * if `flattenedResult` exists, result is an actual record.
+           */
+          if (flattenedResult) {
+            // don't init if custom selection set
+            if (args?.selectionSet) {
+              return {
+                data: flattenedResult,
+                nextToken: data[key]?.nextToken,
+                errors,
+              };
+            } else {
+              const initialized = initializeModel(
+                client,
+                name,
+                flattenedResult,
+                modelIntrospection,
+                auth.authMode,
+                auth.authToken,
+                !!contextSpec,
+              );
+
+              // data is full record w/out selection set:
+              return {
+                data: initialized,
+                nextToken: data[key]?.nextToken,
+                errors,
+              };
+            }
+          }
+
+          return {
+            data: data[key],
+            nextToken: data[key]?.nextToken,
+            errors,
+          };
+        } else {
+          // response is of type `data: { getPost: null }`)
+          return handleListGraphQlError(error);
+        }
+      } else {
+        // `data` is `null` or an empty object:
+        return handleListGraphQlError(error);
+      }
+    }
+  });
+}

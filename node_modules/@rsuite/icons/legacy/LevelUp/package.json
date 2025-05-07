@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LevelUp",
+  "private": true,
+  "main": "../../cjs/react/legacy/LevelUp.js",
+  "module": "../../esm/react/legacy/LevelUp.js",
+  "types": "../../esm/react/legacy/LevelUp.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ViadeoSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/ViadeoSquare.js",
+  "module": "../../esm/react/legacy/ViadeoSquare.js",
+  "types": "../../esm/react/legacy/ViadeoSquare.d.ts"
+}

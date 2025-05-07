@@ -1,0 +1,25 @@
+{
+    "name": "@types/glob-to-regexp",
+    "version": "0.4.4",
+    "description": "TypeScript definitions for glob-to-regexp",
+    "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/glob-to-regexp",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "whatasoda",
+            "githubUsername": "whatasoda",
+            "url": "https://github.com/whatasoda"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/glob-to-regexp"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "f8235228756f45a8afacc5bdb7662f09664a2b95b51b4d9b2d08fe2a2b87e633",
+    "typeScriptVersion": "4.5"
+}

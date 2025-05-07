@@ -1,0 +1,1362 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+// SPDX-License-Identifier: Apache-2.0
+import {
+  AmplifyServer,
+  AssociationBelongsTo,
+  AssociationHasOne,
+  AuthModeParams,
+  BaseClient,
+  GraphQLAuthMode,
+  ClientInternalsGetter,
+  ListArgs,
+  Field,
+  ModelFieldType,
+  ModelIntrospectionSchema,
+  NonModelFieldType,
+  QueryArgs,
+  SchemaModel,
+  SchemaNonModel,
+} from '../bridge-types';
+
+import { CustomHeaders } from '../client';
+import { resolveOwnerFields, capitalize, selfAwareAsync } from '../utils';
+import { extendCancellability } from './cancellation';
+
+import type { IndexMeta } from './operations/indexQuery';
+
+interface LazyLoadOptions {
+  authMode?: GraphQLAuthMode;
+  authToken?: string | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined | null;
+  headers?: CustomHeaders | undefined;
+}
+
+const connectionType = {
+  HAS_ONE: 'HAS_ONE',
+  HAS_MANY: 'HAS_MANY',
+  BELONGS_TO: 'BELONGS_TO',
+};
+
+// When generating an SK's KeyConditionInput name, string-like types map to String
+const skGraphQlFieldTypeMap = {
+  ID: 'ID',
+  String: 'String',
+  AWSDate: 'String',
+  AWSTime: 'String',
+  AWSDateTime: 'String',
+  AWSTimestamp: 'Int',
+  AWSEmail: 'String',
+  AWSPhone: 'String',
+  AWSURL: 'String',
+  AWSIPAddress: 'String',
+  AWSJSON: 'String',
+  Boolean: 'Boolean',
+  Int: 'Int',
+  Float: 'Float',
+};
+
+// move to util
+const resolvedSkName = (sk: string[]): string => {
+  if (sk.length === 1) {
+    return sk[0];
+  } else {
+    return sk.reduce((acc, curr, idx) => {
+      if (idx === 0) {
+        return curr;
+      } else {
+        return acc + capitalize(curr);
+      }
+    }, '');
+  }
+};
+
+/**
+ * Crawls a model tree, starting with a given **individual** model instance record, looking
+ * for related hasMany children to extract from their `items` containers.
+ *
+ * E.g., if we have a record like this:
+ *
+ * ```js
+ * {
+ *   id: 'some-id',
+ *   children: {
+ *     items: [
+ *       { name: 'a' }
+ *       { name: 'b' }
+ *       { name: 'c' }
+ *     ]
+ *   }
+ * }
+ * ```
+ *
+ * And if `children` refers to *an array of another model* (as opposed to a custom type),
+ * the `items` will be extracted. We do this because `items` is just the mechanism for nesting
+ * child records -- we don't want customers to have to dig the items out in application code.
+ * Ultimately, we return this "flattened" structure:
+ *
+ * ```js
+ * {
+ *   id: 'some-id',
+ *   children: [
+ *     { name: 'a' }
+ *     { name: 'b' }
+ *     { name: 'c' }
+ *   ]
+ * }
+ * ```
+ *
+ * Notably, an identical record could be the result of a nested custom type that contains an
+ * `items` property. This will *not* be flattened, because in that case the `items` property is
+ * actually part of the customer's schema. Similarly if a model contains an explicit `items` field.
+ *
+ * @param modelIntrospection Top-level model introspection schema.
+ * @param modelName The name of the model. Can be `undefined`. E.g., for customOperation return types.
+ * @param modelRecord The individual "model instance record" to normalize.
+ */
+export const flattenItems = (
+  modelIntrospection: ModelIntrospectionSchema,
+  modelName: string | undefined,
+  modelRecord: Record<string, any>,
+): Record<string, any> | null => {
+  if (!modelRecord) return null;
+
+  const mapped = {} as Record<string, any>;
+  for (const [fieldName, value] of Object.entries(modelRecord)) {
+    const fieldDef = modelName
+      ? modelIntrospection.models[modelName]?.fields[fieldName]
+      : undefined;
+    const dvPair = { fieldDef, value };
+    if (isRelatedModelItemsArrayPair(dvPair)) {
+      mapped[fieldName] = dvPair.value.items.map((itemValue) =>
+        flattenItems(modelIntrospection, dvPair.fieldDef.type.model, itemValue),
+      );
+    } else if (isRelatedModelProperty(fieldDef)) {
+      mapped[fieldName] = flattenItems(
+        modelIntrospection,
+        fieldDef.type.model,
+        value,
+      );
+    } else {
+      mapped[fieldName] = value;
+    }
+  }
+  return mapped;
+};
+
+/**
+ * Determines whether the given field definition and associated result value
+ * represent a related model array from a HasMany-type relationship.
+ *
+ * @param dv Pair of field definition and associated result value
+ * @returns
+ */
+function isRelatedModelItemsArrayPair(dv: {
+  fieldDef: Field | undefined;
+  value: any;
+}): dv is {
+  fieldDef: Field & { type: ModelFieldType };
+  value: { items: Record<string, any>[] };
+} {
+  return (
+    typeof dv.fieldDef?.type === 'object' &&
+    'model' in dv.fieldDef.type &&
+    typeof dv.fieldDef.type.model === 'string' &&
+    dv.fieldDef.isArray &&
+    Array.isArray(dv.value?.items)
+  );
+}
+
+/**
+ * Determines whether the given field definition represents a relationship
+ * to another model.
+ *
+ * @param fieldDef
+ * @returns
+ */
+function isRelatedModelProperty(
+  fieldDef: Field | undefined,
+): fieldDef is Field & { type: ModelFieldType } {
+  return (
+    typeof fieldDef?.type === 'object' &&
+    'model' in fieldDef.type &&
+    typeof fieldDef.type.model === 'string'
+  );
+}
+
+// TODO: this should accept single result to support CRUD methods; create helper for array/list
+export function initializeModel(
+  client: BaseClient,
+  modelName: string,
+  result: any[],
+  modelIntrospection: ModelIntrospectionSchema,
+  authMode: GraphQLAuthMode | undefined,
+  authToken: string | undefined,
+  context = false,
+): any[] {
+  const introModel = modelIntrospection.models[modelName];
+  const introModelFields = introModel.fields;
+
+  const modelFields: string[] = Object.entries(introModelFields)
+    .filter(([_, field]: [string, any]) => field?.type?.model !== undefined)
+    .map(([fieldName]) => fieldName);
+
+  return result.map((record) => {
+    if (record === null || record === undefined) {
+      return record;
+    }
+    const initializedRelationshipFields: Record<string, any> = {};
+    for (const fieldName of modelFields) {
+      const modelField = introModelFields[fieldName];
+      const modelFieldType = modelField?.type as ModelFieldType;
+
+      const relatedModelName = modelFieldType.model;
+      const relatedModel = modelIntrospection.models[relatedModelName!];
+
+      const relatedModelPKFieldName =
+        relatedModel.primaryKeyInfo.primaryKeyFieldName;
+
+      const relatedModelSKFieldNames =
+        relatedModel.primaryKeyInfo.sortKeyFieldNames;
+
+      const relationType = modelField.association?.connectionType;
+
+      let connectionFields: string[] = [];
+      if (
+        modelField.association &&
+        'associatedWith' in modelField.association
+      ) {
+        connectionFields = modelField.association.associatedWith;
+      }
+
+      const targetNames: string[] = [];
+      if (modelField.association && 'targetNames' in modelField.association) {
+        targetNames.push(...modelField.association.targetNames);
+      }
+
+      switch (relationType) {
+        case connectionType.BELONGS_TO: {
+          const sortKeyValues = relatedModelSKFieldNames.reduce(
+            // TODO(Eslint): is this implementation correct?
+            // eslint-disable-next-line array-callback-return
+            (acc: Record<string, any>, curVal) => {
+              if (record[curVal]) {
+                acc[curVal] = record[curVal];
+              }
+              return acc;
+            },
+            {},
+          );
+
+          // if get is disabled on the related model
+          if ((client as any).models[relatedModelName]?.get === undefined) {
+            break;
+          }
+
+          if (context) {
+            initializedRelationshipFields[fieldName] = (
+              contextSpec: AmplifyServer.ContextSpec,
+              options?: LazyLoadOptions,
+            ) => {
+              if (record[targetNames[0]]) {
+                return (client as any).models[relatedModelName].get(
+                  contextSpec,
+                  {
+                    [relatedModelPKFieldName]: record[targetNames[0]],
+                    ...sortKeyValues,
+                  },
+                  {
+                    authMode: options?.authMode || authMode,
+                    authToken: options?.authToken || authToken,
+                  },
+                );
+              }
+
+              return { data: null };
+            };
+          } else {
+            initializedRelationshipFields[fieldName] = (
+              options?: LazyLoadOptions,
+            ) => {
+              if (record[targetNames[0]]) {
+                return (client as any).models[relatedModelName].get(
+                  {
+                    [relatedModelPKFieldName]: record[targetNames[0]],
+                    ...sortKeyValues,
+                  },
+                  {
+                    authMode: options?.authMode || authMode,
+                    authToken: options?.authToken || authToken,
+                  },
+                );
+              }
+
+              return { data: null };
+            };
+          }
+
+          break;
+        }
+        case connectionType.HAS_ONE:
+        case connectionType.HAS_MANY: {
+          /**
+           * If the loader is a HAS_ONE, we just need to attempt to grab the first item
+           * from the result.
+           */
+          const mapResult =
+            relationType === connectionType.HAS_ONE
+              ? (result: Record<string, any>) => {
+                  return {
+                    data: result?.data.shift() || null,
+                    errors: result.errors,
+                    extensions: result.extensions,
+                  };
+                }
+              : (result: Record<string, any>) => result;
+
+          const parentPk = introModel.primaryKeyInfo.primaryKeyFieldName;
+          const parentSK = introModel.primaryKeyInfo.sortKeyFieldNames;
+
+          // M:N check - TODO: refactor
+          const relatedModelField = relatedModel.fields[connectionFields[0]];
+          const relatedModelFieldType =
+            relatedModelField.type as ModelFieldType;
+          if (relatedModelFieldType.model) {
+            let relatedTargetNames: string[] = [];
+            if (
+              relatedModelField.association &&
+              'targetNames' in relatedModelField.association
+            ) {
+              relatedTargetNames = relatedModelField.association?.targetNames;
+            }
+
+            const hasManyFilter: Record<string, any> = relatedTargetNames.map(
+              (field, idx) => {
+                if (idx === 0) {
+                  return { [field]: { eq: record[parentPk] } };
+                }
+
+                return { [field]: { eq: record[parentSK[idx - 1]] } };
+              },
+            );
+
+            // if list is disabled on the related model
+            if ((client as any).models[relatedModelName]?.list === undefined) {
+              break;
+            }
+
+            if (context) {
+              initializedRelationshipFields[fieldName] = (
+                contextSpec: AmplifyServer.ContextSpec,
+                options?: LazyLoadOptions,
+              ) => {
+                if (record[parentPk]) {
+                  return selfAwareAsync(async (resultPromise) => {
+                    const basePromise = (client as any).models[
+                      relatedModelName
+                    ].list(contextSpec, {
+                      filter: { and: hasManyFilter },
+                      limit: options?.limit,
+                      nextToken: options?.nextToken,
+                      authMode: options?.authMode || authMode,
+                      authToken: options?.authToken || authToken,
+                    });
+                    const extendedBase = extendCancellability(
+                      basePromise,
+                      resultPromise,
+                    );
+                    return mapResult((await extendedBase) as any);
+                  });
+                }
+
+                return [];
+              };
+            } else {
+              initializedRelationshipFields[fieldName] = (
+                options?: LazyLoadOptions,
+              ) => {
+                if (record[parentPk]) {
+                  return selfAwareAsync(async (resultPromise) => {
+                    const basePromise = (client as any).models[
+                      relatedModelName
+                    ].list({
+                      filter: { and: hasManyFilter },
+                      limit: options?.limit,
+                      nextToken: options?.nextToken,
+                      authMode: options?.authMode || authMode,
+                      authToken: options?.authToken || authToken,
+                    });
+                    const extendedBase = extendCancellability(
+                      basePromise,
+                      resultPromise,
+                    );
+                    return mapResult((await extendedBase) as any);
+                  });
+                }
+
+                return [];
+              };
+            }
+
+            break;
+          }
+
+          const hasManyFilter: Record<string, any> = connectionFields.map(
+            (field, idx) => {
+              if (idx === 0) {
+                return { [field]: { eq: record[parentPk] } };
+              }
+
+              return { [field]: { eq: record[parentSK[idx - 1]] } };
+            },
+          );
+
+          // if list is disabled on the related model
+          if ((client as any).models[relatedModelName]?.list === undefined) {
+            break;
+          }
+
+          if (context) {
+            initializedRelationshipFields[fieldName] = (
+              contextSpec: AmplifyServer.ContextSpec,
+              options?: LazyLoadOptions,
+            ) => {
+              if (record[parentPk]) {
+                return selfAwareAsync(async (resultPromise) => {
+                  const basePromise = (client as any).models[
+                    relatedModelName
+                  ].list(contextSpec, {
+                    filter: { and: hasManyFilter },
+                    limit: options?.limit,
+                    nextToken: options?.nextToken,
+                    authMode: options?.authMode || authMode,
+                    authToken: options?.authToken || authToken,
+                  });
+                  const extendedBase = extendCancellability(
+                    basePromise,
+                    resultPromise,
+                  );
+                  return mapResult((await extendedBase) as any);
+                });
+              }
+
+              return [];
+            };
+          } else {
+            initializedRelationshipFields[fieldName] = (
+              options?: LazyLoadOptions,
+            ) => {
+              if (record[parentPk]) {
+                return selfAwareAsync(async (resultPromise) => {
+                  const basePromise = (client as any).models[
+                    relatedModelName
+                  ].list({
+                    filter: { and: hasManyFilter },
+                    limit: options?.limit,
+                    nextToken: options?.nextToken,
+                    authMode: options?.authMode || authMode,
+                    authToken: options?.authToken || authToken,
+                  });
+                  const extendedBase = extendCancellability(
+                    basePromise,
+                    resultPromise,
+                  );
+                  return mapResult((await extendedBase) as any);
+                });
+              }
+
+              return [];
+            };
+          }
+
+          break;
+        }
+        default:
+          break;
+      }
+    }
+
+    return { ...record, ...initializedRelationshipFields };
+  });
+}
+
+export const graphQLOperationsInfo = {
+  CREATE: { operationPrefix: 'create', usePlural: false },
+  GET: { operationPrefix: 'get', usePlural: false },
+  UPDATE: { operationPrefix: 'update', usePlural: false },
+  DELETE: { operationPrefix: 'delete', usePlural: false },
+  LIST: { operationPrefix: 'list', usePlural: true },
+  INDEX_QUERY: { operationPrefix: '', usePlural: false },
+  ONCREATE: { operationPrefix: 'onCreate', usePlural: false },
+  ONUPDATE: { operationPrefix: 'onUpdate', usePlural: false },
+  ONDELETE: { operationPrefix: 'onDelete', usePlural: false },
+  OBSERVEQUERY: { operationPrefix: 'observeQuery', usePlural: false },
+} as const;
+export type ModelOperation = keyof typeof graphQLOperationsInfo;
+
+const SELECTION_SET_WILDCARD = '*';
+
+export const getDefaultSelectionSetForNonModelWithIR = (
+  nonModelDefinition: SchemaNonModel,
+  modelIntrospection: ModelIntrospectionSchema,
+): Record<string, unknown> => {
+  const { fields } = nonModelDefinition;
+  const mappedFields = Object.values(fields)
+    .map(({ type, name }) => {
+      if (typeof (type as { enum: string }).enum === 'string') {
+        return [name, FIELD_IR];
+      }
+
+      if (typeof (type as NonModelFieldType).nonModel === 'string') {
+        return [
+          name,
+          getDefaultSelectionSetForNonModelWithIR(
+            modelIntrospection.nonModels[(type as NonModelFieldType).nonModel],
+            modelIntrospection,
+          ),
+        ];
+      }
+
+      if (typeof type === 'string') {
+        return [name, FIELD_IR];
+      }
+
+      return undefined;
+    })
+    .filter(
+      (
+        pair: (string | Record<string, unknown>)[] | undefined,
+      ): pair is (string | Record<string, unknown>)[] => pair !== undefined,
+    );
+
+  return Object.fromEntries(mappedFields);
+};
+
+const getDefaultSelectionSetForModelWithIR = (
+  modelDefinition: SchemaModel,
+  modelIntrospection: ModelIntrospectionSchema,
+): Record<string, unknown> => {
+  const { fields } = modelDefinition;
+  const mappedFields = Object.values(fields)
+    .map(({ type, name }) => {
+      if (
+        typeof (type as { enum: string }).enum === 'string' ||
+        typeof type === 'string'
+      ) {
+        return [name, FIELD_IR];
+      }
+
+      if (typeof (type as NonModelFieldType).nonModel === 'string') {
+        return [
+          name,
+          getDefaultSelectionSetForNonModelWithIR(
+            modelIntrospection.nonModels[(type as NonModelFieldType).nonModel],
+            modelIntrospection,
+          ),
+        ];
+      }
+
+      return undefined;
+    })
+    .filter(
+      (
+        pair: (string | Record<string, unknown>)[] | undefined,
+      ): pair is (string | Record<string, unknown>)[] => pair !== undefined,
+    );
+
+  const ownerFields = resolveOwnerFields(modelDefinition).map((field) => [
+    field,
+    FIELD_IR,
+  ]);
+
+  return Object.fromEntries(mappedFields.concat(ownerFields));
+};
+
+function defaultSelectionSetForModel(modelDefinition: SchemaModel): string[] {
+  // fields that are explicitly part of the graphql schema; not
+  // inferred from owner auth rules.
+  const { fields } = modelDefinition;
+  const explicitFields = Object.values<any>(fields)
+    // Default selection set omits model fields
+    .map(({ type, name }) => {
+      if (typeof type === 'string') return name;
+
+      if (typeof type === 'object') {
+        if (typeof type?.enum === 'string') {
+          return name;
+        } else if (typeof type?.nonModel === 'string') {
+          return `${name}.${SELECTION_SET_WILDCARD}`;
+        }
+      }
+
+      return undefined;
+    })
+    .filter(Boolean);
+
+  // fields used for owner auth rules that may or may not also
+  // be explicit on the model.
+  const ownerFields = resolveOwnerFields(modelDefinition);
+
+  return Array.from(new Set(explicitFields.concat(ownerFields)));
+}
+
+const FIELD_IR = '';
+
+/**
+ * Generates nested Custom Selection Set IR from path
+ *
+ * @param modelDefinitions
+ * @param modelName
+ * @param selectionSet - array of object paths
+ * @example
+ * ### Given
+ * `selectionSet = ['id', 'comments.post.id']`
+ * ### Returns
+ * ```ts
+ * {
+ *   id: '',
+ *   comments: {
+ *     items: { post: { id: '' } }
+ *   }
+ * }
+ * ```
+ */
+export function customSelectionSetToIR(
+  modelIntrospection: ModelIntrospectionSchema,
+  modelName: string,
+  selectionSet: string[],
+): Record<string, string | object> {
+  const dotNotationToObject = (path: string, modelOrNonModelName: string) => {
+    const [fieldName, ...rest] = path.split('.');
+
+    const nested = rest[0];
+    const modelOrNonModelDefinition =
+      modelIntrospection.models[modelOrNonModelName] ??
+      modelIntrospection.nonModels[modelOrNonModelName];
+
+    const modelOrNonModelFields = modelOrNonModelDefinition?.fields;
+    const relatedModel = (
+      modelOrNonModelFields?.[fieldName]?.type as ModelFieldType
+    )?.model;
+
+    const relatedModelDefinition = modelIntrospection.models[relatedModel];
+    const relatedNonModel = (
+      modelOrNonModelFields?.[fieldName]?.type as NonModelFieldType
+    )?.nonModel;
+    const relatedNonModelDefinition =
+      modelIntrospection.nonModels[relatedNonModel];
+
+    const isModelOrNonModelOrFieldType = relatedModelDefinition
+      ? 'model'
+      : relatedNonModelDefinition
+        ? 'nonModel'
+        : 'field';
+
+    if (isModelOrNonModelOrFieldType === 'nonModel') {
+      let result: Record<string, any> = {};
+
+      if (!nested) {
+        throw Error(
+          `${fieldName} must declare a wildcard (*) or a field of custom type ${relatedNonModel}`,
+        );
+      }
+
+      if (nested === SELECTION_SET_WILDCARD) {
+        result = {
+          [fieldName]: getDefaultSelectionSetForNonModelWithIR(
+            relatedNonModelDefinition,
+            modelIntrospection,
+          ),
+        };
+      } else {
+        result = {
+          [fieldName]: dotNotationToObject(rest.join('.'), relatedNonModel),
+        };
+      }
+
+      return result;
+    } else if (isModelOrNonModelOrFieldType === 'model') {
+      let result: Record<string, any> = {};
+
+      if (!nested) {
+        throw Error(
+          `${fieldName} must declare a wildcard (*) or a field of model ${relatedModel}`,
+        );
+      }
+
+      if (nested === SELECTION_SET_WILDCARD) {
+        const nestedRelatedModelDefinition =
+          modelIntrospection.models[relatedModel];
+
+        result = {
+          [fieldName]: getDefaultSelectionSetForModelWithIR(
+            nestedRelatedModelDefinition,
+            modelIntrospection,
+          ),
+        };
+      } else {
+        result = {
+          [fieldName]: dotNotationToObject(rest.join('.'), relatedModel),
+        };
+      }
+
+      if (modelOrNonModelFields[fieldName]?.isArray) {
+        result = {
+          [fieldName]: {
+            items: result[fieldName],
+          },
+        };
+      }
+
+      return result;
+    } else {
+      const modelField = modelOrNonModelFields?.[fieldName];
+
+      const nonModelDefinition =
+        modelIntrospection.nonModels[modelOrNonModelName];
+      const nonModelField = nonModelDefinition?.fields?.[fieldName];
+
+      if (!nonModelDefinition) {
+        const isOwnerField = resolveOwnerFields(
+          modelOrNonModelDefinition,
+        ).includes(fieldName);
+
+        if (!modelField && !isOwnerField) {
+          throw Error(
+            `${fieldName} is not a field of model ${modelOrNonModelName}`,
+          );
+        }
+      } else {
+        if (!nonModelField) {
+          throw Error(
+            `${fieldName} is not a field of custom type ${modelOrNonModelName}`,
+          );
+        }
+      }
+
+      return { [fieldName]: FIELD_IR };
+    }
+  };
+
+  return selectionSet.reduce(
+    (resultObj, path) =>
+      deepMergeSelectionSetObjects(
+        dotNotationToObject(path, modelName),
+        resultObj,
+      ),
+    {} as Record<string, any>,
+  );
+}
+
+/**
+ * Stringifies selection set IR
+ * * @example
+ * ### Given
+ * ```ts
+ * {
+ *   id: '',
+ *   comments: {
+ *     items: { post: { id: '' } }
+ *   }
+ * }
+ * ```
+ * ### Returns
+ * `'id comments { items { post { id } } }'`
+ */
+export function selectionSetIRToString(
+  obj: Record<string, string | any>,
+): string {
+  const res: string[] = [];
+
+  Object.entries(obj).forEach(([fieldName, value]) => {
+    if (value === FIELD_IR) {
+      res.push(fieldName);
+    } else if (typeof value === 'object' && value !== null) {
+      if (value?.items) {
+        res.push(
+          fieldName,
+          '{',
+          'items',
+          '{',
+          selectionSetIRToString(value.items),
+          '}',
+          '}',
+        );
+      } else {
+        res.push(fieldName, '{', selectionSetIRToString(value), '}');
+      }
+    }
+  });
+
+  return res.join(' ');
+}
+
+/**
+ * Recursively merges selection set objects from `source` onto `target`.
+ *
+ * `target` will be updated. `source` will be left alone.
+ *
+ * @param source The object to merge into target.
+ * @param target The object to be mutated.
+ */
+function deepMergeSelectionSetObjects<T extends Record<string, any>>(
+  source: T,
+  target: T,
+) {
+  const isObject = (obj: any) => obj && typeof obj === 'object';
+
+  for (const key in source) {
+    // This verification avoids 'Prototype Pollution' issue
+    if (!Object.prototype.hasOwnProperty.call(source, key)) continue;
+
+    if (
+      Object.prototype.hasOwnProperty.call(target, key) &&
+      isObject(target[key])
+    ) {
+      deepMergeSelectionSetObjects(source[key], target[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+export function generateSelectionSet(
+  modelIntrospection: ModelIntrospectionSchema,
+  modelName: string,
+  selectionSet?: string[],
+) {
+  const modelDefinition = modelIntrospection.models[modelName];
+
+  const selSetIr = customSelectionSetToIR(
+    modelIntrospection,
+    modelName,
+    selectionSet ?? defaultSelectionSetForModel(modelDefinition),
+  );
+  const selSetString = selectionSetIRToString(selSetIr);
+
+  return selSetString;
+}
+
+export function generateGraphQLDocument(
+  modelIntrospection: ModelIntrospectionSchema,
+  modelDefinition: SchemaModel,
+  modelOperation: ModelOperation,
+  listArgs?: ListArgs | QueryArgs,
+  indexMeta?: IndexMeta,
+): string {
+  const {
+    name,
+    pluralName,
+    fields,
+    primaryKeyInfo: {
+      isCustomPrimaryKey,
+      primaryKeyFieldName,
+      sortKeyFieldNames,
+    },
+    attributes,
+  } = modelDefinition;
+
+  // Use pascal case of the model name to generate the operations and the arguments.
+  // This is required to be in sync with the resources generated by the GraphQL transformers.
+  const namePascalCase = name.charAt(0).toUpperCase() + name.slice(1);
+  const pluralNamePascalCase =
+    pluralName.charAt(0).toUpperCase() + pluralName.slice(1);
+
+  const { operationPrefix, usePlural } = graphQLOperationsInfo[modelOperation];
+
+  const { selectionSet } = listArgs || {};
+
+  let graphQLFieldName;
+  let indexQueryArgs: Record<string, string>;
+
+  if (operationPrefix) {
+    graphQLFieldName = `${operationPrefix}${usePlural ? pluralNamePascalCase : namePascalCase}`;
+  } else if (indexMeta) {
+    const { queryField, pk, sk = [] } = indexMeta;
+    graphQLFieldName = queryField;
+
+    /**
+     * **a. Single field SK** -> single arg where name is the field name and the type is `Model${gqlFieldType}KeyConditionInput` (nullable)
+     *  Note: string-like data types e.g.,  AWSDateTime, AWSEmail, AWSPhone, etc. should map to String. See `skGraphQlFieldTypeMap` above
+     * @example
+     * ```
+     * sk1: ModelStringKeyConditionInput
+     * ```
+     *
+     * **b. Composite SK** -> single arg where the name is camelCase concatenation of all the field names that comprise the SK
+     *  and the type is `Model${modelName}${keyAttributeName}CompositeKeyConditionInput` (nullable)
+     * @example
+     * ```
+     * sk1Sk2: ModelMyModelMyModelByPkAndSk1AndSk2CompositeKeyConditionInput
+     */
+    let skQueryArgs = {};
+
+    if (sk.length === 1) {
+      const [skField] = sk;
+      const type = (
+        typeof fields[skField].type === 'string'
+          ? fields[skField].type
+          : 'String'
+      ) as keyof typeof skGraphQlFieldTypeMap;
+      const normalizedType = skGraphQlFieldTypeMap[type];
+
+      skQueryArgs = {
+        [skField]: `Model${normalizedType}KeyConditionInput`,
+      };
+    } else if (sk.length > 1) {
+      const compositeSkArgName = resolvedSkName(sk);
+
+      const keyName = attributes?.find(
+        (attr) => attr?.properties?.queryField === queryField,
+      )?.properties?.name;
+
+      skQueryArgs = {
+        [compositeSkArgName]: `Model${capitalize(name)}${capitalize(keyName)}CompositeKeyConditionInput`,
+      };
+    }
+
+    indexQueryArgs = {
+      [pk]: `${
+        Object.prototype.hasOwnProperty.call(fields[pk].type, 'enum')
+          ? (fields[pk].type as any).enum // AppSync schema sets enum type as the type of the enum fields that's used as PK
+          : fields[pk].type
+      }!`,
+      ...skQueryArgs,
+    };
+  } else {
+    throw new Error(
+      'Error generating GraphQL Document - invalid operation name',
+    );
+  }
+
+  let graphQLOperationType: 'mutation' | 'query' | 'subscription' | undefined;
+  let graphQLSelectionSet: string | undefined;
+  let graphQLArguments: Record<string, any> | undefined;
+
+  const selectionSetFields = generateSelectionSet(
+    modelIntrospection,
+    name,
+    selectionSet as ListArgs['selectionSet'],
+  );
+
+  // default PK args for get and list operations
+  // modified below for CPK
+  const getPkArgs = {
+    [primaryKeyFieldName]: `${fields[primaryKeyFieldName].type}!`,
+  };
+  const listPkArgs = {};
+
+  /**
+   * Generate query field args for the SK if it's defined
+   *
+   * **1. Get queries** require each SK field to be present as a separate arg where the type is the field's GraphQL scalar type (non-nullable)
+   * @example
+   * ```
+   * sk1: String!, sk2: Int!
+   * ```
+   *
+   * **2. List queries**
+   *
+   * **a. Single field SK** -> single arg where name is the field name and the type is `Model${gqlFieldType}KeyConditionInput` (nullable)
+   *      Note: string-like data types e.g.,  AWSDateTime, AWSEmail, AWSPhone, etc. should map to String. See `skGraphQlFieldTypeMap` above
+   * @example
+   * ```
+   * sk1: ModelStringKeyConditionInput
+   * ```
+   *
+   * **b. Composite SK** -> single arg where the name is camelCase concatenation of all the field names that comprise the SK
+   *  and the type is `Model${modelName}PrimaryCompositeKeyConditionInput` (nullable)
+   * @example
+   * ```
+   * sk1Sk2: ModelMyModelPrimaryCompositeKeyConditionInput
+   * ```
+   */
+  const generateSkArgs = (op: 'get' | 'list') => {
+    if (sortKeyFieldNames.length === 0) return {};
+
+    if (op === 'get') {
+      return sortKeyFieldNames.reduce(
+        (acc: Record<string, any>, fieldName: string) => {
+          const fieldType = fields[fieldName].type;
+
+          if (op === 'get') {
+            acc[fieldName] = `${fieldType}!`; // ! - SK args are non-nullable in Get queries
+          }
+
+          return acc;
+        },
+        {},
+      );
+    } else {
+      // list SK
+      if (sortKeyFieldNames.length === 1) {
+        // Single SK
+        const [sk] = sortKeyFieldNames;
+        const type = (
+          typeof fields[sk].type === 'string' ? fields[sk].type : 'String'
+        ) as keyof typeof skGraphQlFieldTypeMap;
+        const normalizedType = skGraphQlFieldTypeMap[type];
+
+        return {
+          [sk]: `Model${normalizedType}KeyConditionInput`,
+        };
+      } else {
+        // Composite SK
+        const compositeSkArgName = resolvedSkName(sortKeyFieldNames);
+
+        return {
+          [compositeSkArgName]: `Model${capitalize(name)}PrimaryCompositeKeyConditionInput`,
+        };
+      }
+    }
+  };
+
+  if (isCustomPrimaryKey) {
+    Object.assign(getPkArgs, generateSkArgs('get'));
+
+    Object.assign(
+      listPkArgs,
+      {
+        // PK is only included in list query field args in the generated GQL
+        // when explicitly specifying PK with .identifier(['fieldName']) or @primaryKey in the schema definition
+        [primaryKeyFieldName]: `${fields[primaryKeyFieldName].type}`, // PK is always a nullable arg for list (no `!` after the type)
+        sortDirection: 'ModelSortDirection',
+      },
+      generateSkArgs('list'),
+    );
+  }
+
+  switch (modelOperation) {
+    case 'CREATE':
+    case 'UPDATE':
+    case 'DELETE':
+      graphQLArguments ??
+        (graphQLArguments = {
+          input: `${
+            operationPrefix.charAt(0).toLocaleUpperCase() +
+            operationPrefix.slice(1)
+          }${namePascalCase}Input!`,
+        });
+      graphQLOperationType ?? (graphQLOperationType = 'mutation');
+    // TODO(Eslint): this this case clause correct without the break statement?
+    // eslint-disable-next-line no-fallthrough
+    case 'GET':
+      graphQLArguments ?? (graphQLArguments = getPkArgs);
+      graphQLSelectionSet ?? (graphQLSelectionSet = selectionSetFields);
+    // TODO(Eslint): this this case clause correct without the break statement?
+    // eslint-disable-next-line no-fallthrough
+    case 'LIST':
+      graphQLArguments ??
+        (graphQLArguments = {
+          ...listPkArgs,
+          // eslint doesn't like the ts-ignore, because it thinks it's unnecessary.
+          // But TS doesn't like the `filter: ...` because it think it will always be
+          // overwritten. (it won't be.) so, we need to ignore the TS error and then
+          // ignore the eslint error on the ts-ignore.
+          // eslint-disable-next-line
+          // @ts-ignore
+          filter: `Model${namePascalCase}FilterInput`,
+          limit: 'Int',
+          nextToken: 'String',
+        });
+      graphQLOperationType ?? (graphQLOperationType = 'query');
+      graphQLSelectionSet ??
+        (graphQLSelectionSet = `items { ${selectionSetFields} } nextToken __typename`);
+    // TODO(Eslint): this this case clause correct without the break statement?
+    // eslint-disable-next-line no-fallthrough
+    case 'INDEX_QUERY':
+      graphQLArguments ??
+        (graphQLArguments = {
+          ...indexQueryArgs!,
+          filter: `Model${namePascalCase}FilterInput`,
+          sortDirection: 'ModelSortDirection',
+          limit: 'Int',
+          nextToken: 'String',
+        });
+      graphQLOperationType ?? (graphQLOperationType = 'query');
+      graphQLSelectionSet ??
+        (graphQLSelectionSet = `items { ${selectionSetFields} } nextToken __typename`);
+    // TODO(Eslint): this this case clause correct without the break statement?
+    // eslint-disable-next-line no-fallthrough
+    case 'ONCREATE':
+    case 'ONUPDATE':
+    case 'ONDELETE':
+      graphQLArguments ??
+        (graphQLArguments = {
+          filter: `ModelSubscription${namePascalCase}FilterInput`,
+        });
+      graphQLOperationType ?? (graphQLOperationType = 'subscription');
+      graphQLSelectionSet ?? (graphQLSelectionSet = selectionSetFields);
+      break;
+    case 'OBSERVEQUERY':
+    default:
+      throw new Error(
+        'Internal error: Attempted to generate graphql document for observeQuery. Please report this error.',
+      );
+  }
+
+  const graphQLDocument = `${graphQLOperationType}${
+    graphQLArguments
+      ? `(${Object.entries(graphQLArguments).map(
+          ([fieldName, type]) => `$${fieldName}: ${type}`,
+        )})`
+      : ''
+  } { ${graphQLFieldName}${
+    graphQLArguments
+      ? `(${Object.keys(graphQLArguments).map(
+          (fieldName) => `${fieldName}: $${fieldName}`,
+        )})`
+      : ''
+  } { ${graphQLSelectionSet} } }`;
+
+  return graphQLDocument;
+}
+
+export function buildGraphQLVariables(
+  modelDefinition: SchemaModel,
+  operation: ModelOperation,
+  arg: QueryArgs | undefined,
+  modelIntrospection: ModelIntrospectionSchema,
+  indexMeta?: IndexMeta,
+): object {
+  const {
+    fields,
+    primaryKeyInfo: {
+      isCustomPrimaryKey,
+      primaryKeyFieldName,
+      sortKeyFieldNames,
+    },
+  } = modelDefinition;
+
+  const skName = sortKeyFieldNames?.length && resolvedSkName(sortKeyFieldNames);
+
+  let variables: Record<string, any> = {};
+
+  // TODO: process input
+  switch (operation) {
+    case 'CREATE':
+      variables = {
+        input: arg
+          ? normalizeMutationInput(arg, modelDefinition, modelIntrospection)
+          : {},
+      };
+      break;
+    case 'UPDATE':
+      // readonly fields are not  updated
+      variables = {
+        input: arg
+          ? Object.fromEntries(
+              Object.entries(
+                normalizeMutationInput(
+                  arg,
+                  modelDefinition,
+                  modelIntrospection,
+                ),
+              ).filter(([fieldName]) => {
+                const { isReadOnly } = fields[fieldName];
+
+                return !isReadOnly;
+              }),
+            )
+          : {},
+      };
+      break;
+    case 'GET':
+    case 'DELETE':
+      // only identifiers are sent
+      if (arg) {
+        variables = isCustomPrimaryKey
+          ? [primaryKeyFieldName, ...sortKeyFieldNames].reduce(
+              (acc: Record<string, any>, fieldName) => {
+                acc[fieldName] = arg[fieldName];
+
+                return acc;
+              },
+              {},
+            )
+          : { [primaryKeyFieldName]: arg[primaryKeyFieldName] };
+      }
+
+      if (operation === 'DELETE') {
+        variables = { input: variables };
+      }
+      break;
+    case 'LIST':
+      if (arg?.filter) {
+        variables.filter = arg.filter;
+      }
+      if (arg?.sortDirection) {
+        variables.sortDirection = arg.sortDirection;
+      }
+      if (arg && arg[primaryKeyFieldName]) {
+        variables[primaryKeyFieldName] = arg[primaryKeyFieldName];
+      }
+      if (skName && arg && arg[skName]) {
+        variables[skName] = arg[skName];
+      }
+      if (arg?.nextToken) {
+        variables.nextToken = arg.nextToken;
+      }
+      if (arg?.limit) {
+        variables.limit = arg.limit;
+      }
+      break;
+    case 'INDEX_QUERY': {
+      const { pk, sk = [] } = indexMeta!;
+
+      const indexQuerySkName = sk?.length && resolvedSkName(sk);
+
+      variables[pk] = arg![pk];
+
+      if (indexQuerySkName && arg && arg[indexQuerySkName]) {
+        variables[indexQuerySkName] = arg[indexQuerySkName];
+      }
+
+      if (arg?.filter) {
+        variables.filter = arg.filter;
+      }
+
+      if (arg?.sortDirection) {
+        variables.sortDirection = arg.sortDirection;
+      }
+
+      if (arg?.nextToken) {
+        variables.nextToken = arg.nextToken;
+      }
+      if (arg?.limit) {
+        variables.limit = arg.limit;
+      }
+      break;
+    }
+    case 'ONCREATE':
+    case 'ONUPDATE':
+    case 'ONDELETE':
+      if (arg?.filter) {
+        variables = { filter: arg.filter };
+      }
+      break;
+    case 'OBSERVEQUERY':
+      throw new Error(
+        'Internal error: Attempted to build variables for observeQuery. Please report this error.',
+      );
+    default: {
+      const exhaustiveCheck: never = operation;
+      throw new Error(`Unhandled operation case: ${exhaustiveCheck}`);
+    }
+  }
+
+  return variables;
+}
+
+/**
+ * Iterates over mutation input values and resolves any model inputs to their corresponding join fields/values
+ *
+ * @example
+ * ### Usage
+ * ```ts
+ * const result = normalizeMutationInput({ post: post }, model, modelDefinition);
+ * ```
+ * ### Result
+ * ```ts
+ * { postId: "abc123" }
+ * ```
+ *
+ */
+export function normalizeMutationInput(
+  mutationInput: QueryArgs,
+  model: SchemaModel,
+  modelIntrospection: ModelIntrospectionSchema,
+): QueryArgs {
+  const { fields } = model;
+
+  const normalized: Record<string, unknown> = {};
+
+  Object.entries(mutationInput).forEach(([inputFieldName, inputValue]) => {
+    const fieldType = fields[inputFieldName]?.type as ModelFieldType;
+    const relatedModelName = fieldType?.model;
+
+    if (relatedModelName) {
+      const association = fields[inputFieldName]?.association;
+      const relatedModelDef = modelIntrospection.models[relatedModelName];
+      const relatedModelPkInfo = relatedModelDef.primaryKeyInfo;
+
+      if (association?.connectionType === connectionType.HAS_ONE) {
+        const associationHasOne = association as AssociationHasOne;
+        associationHasOne.targetNames.forEach((targetName, idx) => {
+          const associatedFieldName = associationHasOne.associatedWith[idx];
+          normalized[targetName] = (inputValue as Record<string, unknown>)[
+            associatedFieldName
+          ];
+        });
+      }
+
+      if (association?.connectionType === connectionType.BELONGS_TO) {
+        const associationBelongsTo = association as AssociationBelongsTo;
+        associationBelongsTo.targetNames.forEach((targetName, idx) => {
+          if (idx === 0) {
+            const associatedFieldName = relatedModelPkInfo.primaryKeyFieldName;
+            normalized[targetName] = (inputValue as Record<string, unknown>)[
+              associatedFieldName
+            ];
+          } else {
+            const associatedFieldName =
+              relatedModelPkInfo.sortKeyFieldNames[idx - 1];
+            normalized[targetName] = (inputValue as Record<string, unknown>)[
+              associatedFieldName
+            ];
+          }
+        });
+      }
+    } else {
+      normalized[inputFieldName] = inputValue;
+    }
+  });
+
+  return normalized;
+}
+
+/**
+ * Produces a parameter object that can contains auth mode/token overrides
+ * only if present in either `options` (first) or configured on the `client`
+ * as a fallback.
+ *
+ * @param client Configured client from `generateClient`
+ * @param options Args/Options object from call site.
+ * @returns
+ */
+export function authModeParams(
+  client: BaseClient,
+  getInternals: ClientInternalsGetter,
+  options: AuthModeParams = {},
+): AuthModeParams {
+  const internals = getInternals(client);
+  return {
+    authMode: options.authMode || internals.authMode,
+    authToken: options.authToken || internals.authToken,
+  };
+}
+
+/**
+ * Retrieves custom headers from either the client or request options.
+ * @param client V6Client | V6ClientSSRRequest | V6ClientSSRCookies - for extracting client headers
+ * @param requestHeaders {@link CustomHeaders} - request headers
+ * @returns custom headers as {@link CustomHeaders}
+ */
+export function getCustomHeaders(
+  client: BaseClient,
+  getInternals: ClientInternalsGetter,
+  requestHeaders?: CustomHeaders,
+): CustomHeaders {
+  let headers: CustomHeaders = getInternals(client).headers || {};
+
+  // Individual request headers will take precedence over client headers.
+  // We intentionally do *not* merge client and request headers.
+  if (requestHeaders) {
+    headers = requestHeaders;
+  }
+
+  return headers;
+}

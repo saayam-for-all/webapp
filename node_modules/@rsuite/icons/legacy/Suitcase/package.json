@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Suitcase",
+  "private": true,
+  "main": "../../cjs/react/legacy/Suitcase.js",
+  "module": "../../esm/react/legacy/Suitcase.js",
+  "types": "../../esm/react/legacy/Suitcase.d.ts"
+}

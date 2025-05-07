@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Bounce",
+  "private": true,
+  "main": "../cjs/Animation/Bounce.js",
+  "module": "../esm/Animation/Bounce.js",
+  "types": "../esm/Animation/Bounce.d.ts"
+}

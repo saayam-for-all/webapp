@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/DrawerTitle",
+  "private": true,
+  "main": "../cjs/Drawer/DrawerTitle.js",
+  "module": "../esm/Drawer/DrawerTitle.js",
+  "types": "../esm/Drawer/DrawerTitle.d.ts"
+}

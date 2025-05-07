@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ArrowCircleDown",
+  "private": true,
+  "main": "../../cjs/react/legacy/ArrowCircleDown.js",
+  "module": "../../esm/react/legacy/ArrowCircleDown.js",
+  "types": "../../esm/react/legacy/ArrowCircleDown.d.ts"
+}

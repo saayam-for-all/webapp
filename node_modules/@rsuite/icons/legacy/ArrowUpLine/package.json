@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ArrowUpLine",
+  "private": true,
+  "main": "../../cjs/react/legacy/ArrowUpLine.js",
+  "module": "../../esm/react/legacy/ArrowUpLine.js",
+  "types": "../../esm/react/legacy/ArrowUpLine.d.ts"
+}

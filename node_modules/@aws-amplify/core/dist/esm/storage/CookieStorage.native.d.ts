@@ -1,0 +1,6 @@
+import { KeyValueStorage } from './KeyValueStorage';
+/**
+ * @internal
+ */
+export declare class CookieStorage extends KeyValueStorage {
+}

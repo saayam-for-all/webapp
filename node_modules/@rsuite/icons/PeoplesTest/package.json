@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeoplesTest",
+  "private": true,
+  "main": "../cjs/react/PeoplesTest.js",
+  "module": "../esm/react/PeoplesTest.js",
+  "types": "../esm/react/PeoplesTest.d.ts"
+}

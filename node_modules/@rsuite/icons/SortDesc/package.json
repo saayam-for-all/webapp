@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SortDesc",
+  "private": true,
+  "main": "../cjs/react/SortDesc.js",
+  "module": "../esm/react/SortDesc.js",
+  "types": "../esm/react/SortDesc.d.ts"
+}

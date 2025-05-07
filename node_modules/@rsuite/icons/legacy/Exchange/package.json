@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Exchange",
+  "private": true,
+  "main": "../../cjs/react/legacy/Exchange.js",
+  "module": "../../esm/react/legacy/Exchange.js",
+  "types": "../../esm/react/legacy/Exchange.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Laptop",
+  "private": true,
+  "main": "../../cjs/react/legacy/Laptop.js",
+  "module": "../../esm/react/legacy/Laptop.js",
+  "types": "../../esm/react/legacy/Laptop.d.ts"
+}

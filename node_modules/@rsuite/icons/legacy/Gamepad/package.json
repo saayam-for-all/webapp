@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Gamepad",
+  "private": true,
+  "main": "../../cjs/react/legacy/Gamepad.js",
+  "module": "../../esm/react/legacy/Gamepad.js",
+  "types": "../../esm/react/legacy/Gamepad.d.ts"
+}

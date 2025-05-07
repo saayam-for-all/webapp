@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ShareAltSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/ShareAltSquare.js",
+  "module": "../../esm/react/legacy/ShareAltSquare.js",
+  "types": "../../esm/react/legacy/ShareAltSquare.d.ts"
+}

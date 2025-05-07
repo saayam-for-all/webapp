@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BehanceSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/BehanceSquare.js",
+  "module": "../../esm/react/legacy/BehanceSquare.js",
+  "types": "../../esm/react/legacy/BehanceSquare.d.ts"
+}

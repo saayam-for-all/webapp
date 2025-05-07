@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ArrowRightLine",
+  "private": true,
+  "main": "../cjs/react/ArrowRightLine.js",
+  "module": "../esm/react/ArrowRightLine.js",
+  "types": "../esm/react/ArrowRightLine.d.ts"
+}

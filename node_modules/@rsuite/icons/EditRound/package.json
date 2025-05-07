@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/EditRound",
+  "private": true,
+  "main": "../cjs/react/EditRound.js",
+  "module": "../esm/react/EditRound.js",
+  "types": "../esm/react/EditRound.d.ts"
+}

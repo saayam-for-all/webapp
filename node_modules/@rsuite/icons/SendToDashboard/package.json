@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SendToDashboard",
+  "private": true,
+  "main": "../cjs/react/SendToDashboard.js",
+  "module": "../esm/react/SendToDashboard.js",
+  "types": "../esm/react/SendToDashboard.d.ts"
+}

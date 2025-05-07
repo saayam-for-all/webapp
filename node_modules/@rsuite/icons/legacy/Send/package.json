@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Send",
+  "private": true,
+  "main": "../../cjs/react/legacy/Send.js",
+  "module": "../../esm/react/legacy/Send.js",
+  "types": "../../esm/react/legacy/Send.d.ts"
+}

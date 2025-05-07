@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/DeviceOther",
+  "private": true,
+  "main": "../cjs/react/DeviceOther.js",
+  "module": "../esm/react/DeviceOther.js",
+  "types": "../esm/react/DeviceOther.d.ts"
+}

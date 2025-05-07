@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FiveHundredPx",
+  "private": true,
+  "main": "../../cjs/react/legacy/FiveHundredPx.js",
+  "module": "../../esm/react/legacy/FiveHundredPx.js",
+  "types": "../../esm/react/legacy/FiveHundredPx.d.ts"
+}

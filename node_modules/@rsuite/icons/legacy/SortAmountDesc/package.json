@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/SortAmountDesc",
+  "private": true,
+  "main": "../../cjs/react/legacy/SortAmountDesc.js",
+  "module": "../../esm/react/legacy/SortAmountDesc.js",
+  "types": "../../esm/react/legacy/SortAmountDesc.d.ts"
+}

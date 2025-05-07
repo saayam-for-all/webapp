@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Mercury",
+  "private": true,
+  "main": "../../cjs/react/legacy/Mercury.js",
+  "module": "../../esm/react/legacy/Mercury.js",
+  "types": "../../esm/react/legacy/Mercury.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Joomla",
+  "private": true,
+  "main": "../../cjs/react/legacy/Joomla.js",
+  "module": "../../esm/react/legacy/Joomla.js",
+  "types": "../../esm/react/legacy/Joomla.d.ts"
+}

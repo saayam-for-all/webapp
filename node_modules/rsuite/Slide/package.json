@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Slide",
+  "private": true,
+  "main": "../cjs/Animation/Slide.js",
+  "module": "../esm/Animation/Slide.js",
+  "types": "../esm/Animation/Slide.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/StatHelpText",
+  "private": true,
+  "main": "../cjs/Stat/StatHelpText.js",
+  "module": "../esm/Stat/StatHelpText.js",
+  "types": "../esm/Stat/StatHelpText.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/AngleUp",
+  "private": true,
+  "main": "../../cjs/react/legacy/AngleUp.js",
+  "module": "../../esm/react/legacy/AngleUp.js",
+  "types": "../../esm/react/legacy/AngleUp.d.ts"
+}

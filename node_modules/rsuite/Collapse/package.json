@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Collapse",
+  "private": true,
+  "main": "../cjs/Animation/Collapse.js",
+  "module": "../esm/Animation/Collapse.js",
+  "types": "../esm/Animation/Collapse.d.ts"
+}

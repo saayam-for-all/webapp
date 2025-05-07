@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Dragable",
+  "private": true,
+  "main": "../cjs/react/Dragable.js",
+  "module": "../esm/react/Dragable.js",
+  "types": "../esm/react/Dragable.d.ts"
+}

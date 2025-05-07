@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/CollaspedOutline",
+  "private": true,
+  "main": "../cjs/react/CollaspedOutline.js",
+  "module": "../esm/react/CollaspedOutline.js",
+  "types": "../esm/react/CollaspedOutline.d.ts"
+}

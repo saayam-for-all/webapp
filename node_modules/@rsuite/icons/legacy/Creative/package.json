@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Creative",
+  "private": true,
+  "main": "../../cjs/react/legacy/Creative.js",
+  "module": "../../esm/react/legacy/Creative.js",
+  "types": "../../esm/react/legacy/Creative.d.ts"
+}

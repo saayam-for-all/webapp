@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ViewsAuthorize",
+  "private": true,
+  "main": "../../cjs/react/legacy/ViewsAuthorize.js",
+  "module": "../../esm/react/legacy/ViewsAuthorize.js",
+  "types": "../../esm/react/legacy/ViewsAuthorize.d.ts"
+}

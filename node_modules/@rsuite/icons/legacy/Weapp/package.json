@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Weapp",
+  "private": true,
+  "main": "../../cjs/react/legacy/Weapp.js",
+  "module": "../../esm/react/legacy/Weapp.js",
+  "types": "../../esm/react/legacy/Weapp.d.ts"
+}

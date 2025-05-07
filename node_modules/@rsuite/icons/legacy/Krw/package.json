@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Krw",
+  "private": true,
+  "main": "../../cjs/react/legacy/Krw.js",
+  "module": "../../esm/react/legacy/Krw.js",
+  "types": "../../esm/react/legacy/Krw.d.ts"
+}

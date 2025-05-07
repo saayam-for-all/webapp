@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CharacterAuthorize",
+  "private": true,
+  "main": "../../cjs/react/legacy/CharacterAuthorize.js",
+  "module": "../../esm/react/legacy/CharacterAuthorize.js",
+  "types": "../../esm/react/legacy/CharacterAuthorize.d.ts"
+}

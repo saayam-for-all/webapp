@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Pin",
+  "private": true,
+  "main": "../cjs/react/Pin.js",
+  "module": "../esm/react/Pin.js",
+  "types": "../esm/react/Pin.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ThumbsODown",
+  "private": true,
+  "main": "../../cjs/react/legacy/ThumbsODown.js",
+  "module": "../../esm/react/legacy/ThumbsODown.js",
+  "types": "../../esm/react/legacy/ThumbsODown.d.ts"
+}

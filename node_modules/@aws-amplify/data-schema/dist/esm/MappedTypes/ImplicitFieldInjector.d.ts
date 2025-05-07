@@ -1,0 +1,47 @@
+import type { PrimaryIndexIrShape } from '../util';
+type DefaultIdentifierFields = {
+    readonly id: string;
+};
+type DefaultIdentifierType = {
+    pk: {
+        id: string;
+    };
+};
+type DefaultTimestampFields = {
+    readonly createdAt: string;
+    readonly updatedAt: string;
+};
+type InitialImplicitFields<Identifier> = Identifier extends DefaultIdentifierType ? DefaultIdentifierFields & DefaultTimestampFields : DefaultTimestampFields;
+/**
+ * @returns true if a string union `ExplicitFieldNames` contains a given string `FieldName`
+ */
+type FieldExists<ExplicitFieldNames extends string, FieldName extends string> = Extract<ExplicitFieldNames, FieldName> extends never ? false : true;
+/**
+ * @returns union of explicitly defined field names for a model
+ */
+type GetModelFieldNames<FlatModel> = FlatModel extends Record<infer R, any> ? R : never;
+/**
+ * Generate Record type containing all implicit fields for a given model
+ */
+type ImplicitFields<FlatModel, Identifier extends PrimaryIndexIrShape, ModelFieldNames = GetModelFieldNames<FlatModel>> = {
+    [ImplicitField in keyof InitialImplicitFields<Identifier> as FieldExists<ModelFieldNames & string, ImplicitField & string> extends true ? never : ImplicitField]: InitialImplicitFields<Identifier>[ImplicitField];
+};
+/**
+ * @returns intersection of explicit and implicit model fields
+ */
+type InjectDefaultFieldsForModel<FlatModel, ModelIdentifier extends {
+    identifier: PrimaryIndexIrShape;
+}> = FlatModel & ImplicitFields<FlatModel, 'identifier' extends keyof ModelIdentifier ? ModelIdentifier['identifier'] : never>;
+/**
+ * Mapped type that injects default implicit fields for a model
+ * 1. Add "id" field to models with neither an explicit field named "id" nor a custom identifier (`.identifier(['some-field'])`)
+ * 2. Add default timestamp fields ("createdAt", "updatedAt") unless they're already explicitly defined
+ *
+ * @typeParam FlattenedSchema - resolved schema type (TODO: add detail/example/link to type)
+ */
+export type InjectImplicitModelFields<FlattenedSchema, IdentifierMeta extends Record<string, {
+    identifier: PrimaryIndexIrShape;
+}>> = {
+    [ModelName in keyof FlattenedSchema]: InjectDefaultFieldsForModel<FlattenedSchema[ModelName], ModelName extends keyof IdentifierMeta ? IdentifierMeta[ModelName] : never>;
+};
+export {};

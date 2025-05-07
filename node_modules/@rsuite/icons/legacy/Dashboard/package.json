@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Dashboard",
+  "private": true,
+  "main": "../../cjs/react/legacy/Dashboard.js",
+  "module": "../../esm/react/legacy/Dashboard.js",
+  "types": "../../esm/react/legacy/Dashboard.d.ts"
+}

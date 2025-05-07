@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Ios",
+  "private": true,
+  "main": "../../cjs/react/legacy/Ios.js",
+  "module": "../../esm/react/legacy/Ios.js",
+  "types": "../../esm/react/legacy/Ios.d.ts"
+}

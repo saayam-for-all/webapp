@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ArrowDownLine",
+  "private": true,
+  "main": "../cjs/react/ArrowDownLine.js",
+  "module": "../esm/react/ArrowDownLine.js",
+  "types": "../esm/react/ArrowDownLine.d.ts"
+}

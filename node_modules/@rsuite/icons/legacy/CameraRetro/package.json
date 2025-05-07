@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CameraRetro",
+  "private": true,
+  "main": "../../cjs/react/legacy/CameraRetro.js",
+  "module": "../../esm/react/legacy/CameraRetro.js",
+  "types": "../../esm/react/legacy/CameraRetro.d.ts"
+}

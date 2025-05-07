@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/MoveDown",
+  "private": true,
+  "main": "../cjs/react/MoveDown.js",
+  "module": "../esm/react/MoveDown.js",
+  "types": "../esm/react/MoveDown.d.ts"
+}

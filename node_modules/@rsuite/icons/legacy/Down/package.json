@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Down",
+  "private": true,
+  "main": "../../cjs/react/legacy/Down.js",
+  "module": "../../esm/react/legacy/Down.js",
+  "types": "../../esm/react/legacy/Down.d.ts"
+}

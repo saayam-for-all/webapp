@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Off",
+  "private": true,
+  "main": "../cjs/react/Off.js",
+  "module": "../esm/react/Off.js",
+  "types": "../esm/react/Off.d.ts"
+}

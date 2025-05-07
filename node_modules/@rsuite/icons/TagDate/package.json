@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/TagDate",
+  "private": true,
+  "main": "../cjs/react/TagDate.js",
+  "module": "../esm/react/TagDate.js",
+  "types": "../esm/react/TagDate.d.ts"
+}

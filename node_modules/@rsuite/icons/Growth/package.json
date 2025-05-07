@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Growth",
+  "private": true,
+  "main": "../cjs/react/Growth.js",
+  "module": "../esm/react/Growth.js",
+  "types": "../esm/react/Growth.d.ts"
+}

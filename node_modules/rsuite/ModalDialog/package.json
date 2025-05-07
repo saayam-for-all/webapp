@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/ModalDialog",
+  "private": true,
+  "main": "../cjs/Modal/ModalDialog.js",
+  "module": "../esm/Modal/ModalDialog.js",
+  "types": "../esm/Modal/ModalDialog.d.ts"
+}

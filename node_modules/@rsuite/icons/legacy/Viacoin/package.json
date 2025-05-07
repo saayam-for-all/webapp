@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Viacoin",
+  "private": true,
+  "main": "../../cjs/react/legacy/Viacoin.js",
+  "module": "../../esm/react/legacy/Viacoin.js",
+  "types": "../../esm/react/legacy/Viacoin.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/StackExchange",
+  "private": true,
+  "main": "../../cjs/react/legacy/StackExchange.js",
+  "module": "../../esm/react/legacy/StackExchange.js",
+  "types": "../../esm/react/legacy/StackExchange.d.ts"
+}

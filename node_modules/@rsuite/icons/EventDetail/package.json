@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/EventDetail",
+  "private": true,
+  "main": "../cjs/react/EventDetail.js",
+  "module": "../esm/react/EventDetail.js",
+  "types": "../esm/react/EventDetail.d.ts"
+}

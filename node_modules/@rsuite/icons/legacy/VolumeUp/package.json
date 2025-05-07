@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/VolumeUp",
+  "private": true,
+  "main": "../../cjs/react/legacy/VolumeUp.js",
+  "module": "../../esm/react/legacy/VolumeUp.js",
+  "types": "../../esm/react/legacy/VolumeUp.d.ts"
+}

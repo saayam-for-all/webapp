@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Filter",
+  "private": true,
+  "main": "../../cjs/react/legacy/Filter.js",
+  "module": "../../esm/react/legacy/Filter.js",
+  "types": "../../esm/react/legacy/Filter.d.ts"
+}

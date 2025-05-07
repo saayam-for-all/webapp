@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CollaspedO",
+  "private": true,
+  "main": "../../cjs/react/legacy/CollaspedO.js",
+  "module": "../../esm/react/legacy/CollaspedO.js",
+  "types": "../../esm/react/legacy/CollaspedO.d.ts"
+}

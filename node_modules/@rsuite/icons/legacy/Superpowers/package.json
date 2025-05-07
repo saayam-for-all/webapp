@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Superpowers",
+  "private": true,
+  "main": "../../cjs/react/legacy/Superpowers.js",
+  "module": "../../esm/react/legacy/Superpowers.js",
+  "types": "../../esm/react/legacy/Superpowers.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/TreeClose",
+  "private": true,
+  "main": "../../cjs/react/legacy/TreeClose.js",
+  "module": "../../esm/react/legacy/TreeClose.js",
+  "types": "../../esm/react/legacy/TreeClose.d.ts"
+}

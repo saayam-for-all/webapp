@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Car",
+  "private": true,
+  "main": "../../cjs/react/legacy/Car.js",
+  "module": "../../esm/react/legacy/Car.js",
+  "types": "../../esm/react/legacy/Car.d.ts"
+}

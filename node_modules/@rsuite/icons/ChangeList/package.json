@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ChangeList",
+  "private": true,
+  "main": "../cjs/react/ChangeList.js",
+  "module": "../esm/react/ChangeList.js",
+  "types": "../esm/react/ChangeList.d.ts"
+}

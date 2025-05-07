@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Compress",
+  "private": true,
+  "main": "../../cjs/react/legacy/Compress.js",
+  "module": "../../esm/react/legacy/Compress.js",
+  "types": "../../esm/react/legacy/Compress.d.ts"
+}

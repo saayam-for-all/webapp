@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/VolumeControlPhone",
+  "private": true,
+  "main": "../../cjs/react/legacy/VolumeControlPhone.js",
+  "module": "../../esm/react/legacy/VolumeControlPhone.js",
+  "types": "../../esm/react/legacy/VolumeControlPhone.d.ts"
+}

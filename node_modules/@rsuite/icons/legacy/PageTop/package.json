@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PageTop",
+  "private": true,
+  "main": "../../cjs/react/legacy/PageTop.js",
+  "module": "../../esm/react/legacy/PageTop.js",
+  "types": "../../esm/react/legacy/PageTop.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PhoneSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/PhoneSquare.js",
+  "module": "../../esm/react/legacy/PhoneSquare.js",
+  "types": "../../esm/react/legacy/PhoneSquare.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BookmarkO",
+  "private": true,
+  "main": "../../cjs/react/legacy/BookmarkO.js",
+  "module": "../../esm/react/legacy/BookmarkO.js",
+  "types": "../../esm/react/legacy/BookmarkO.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PlayOutline",
+  "private": true,
+  "main": "../cjs/react/PlayOutline.js",
+  "module": "../esm/react/PlayOutline.js",
+  "types": "../esm/react/PlayOutline.d.ts"
+}

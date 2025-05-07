@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Unvisible",
+  "private": true,
+  "main": "../cjs/react/Unvisible.js",
+  "module": "../esm/react/Unvisible.js",
+  "types": "../esm/react/Unvisible.d.ts"
+}

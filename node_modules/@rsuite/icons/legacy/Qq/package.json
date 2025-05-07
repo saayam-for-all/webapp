@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Qq",
+  "private": true,
+  "main": "../../cjs/react/legacy/Qq.js",
+  "module": "../../esm/react/legacy/Qq.js",
+  "types": "../../esm/react/legacy/Qq.d.ts"
+}

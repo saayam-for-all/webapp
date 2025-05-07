@@ -1,0 +1,32 @@
+# Installation
+> `npm install --save @types/glob-to-regexp`
+
+# Summary
+This package contains type definitions for glob-to-regexp (https://github.com/fitzgen/glob-to-regexp#readme).
+
+# Details
+Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/glob-to-regexp.
+## [index.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/glob-to-regexp/index.d.ts)
+````ts
+export as namespace GlobToRegExp;
+
+export = GlobToRegExp;
+
+declare function GlobToRegExp(glob: string, options?: GlobToRegExp.Options): RegExp;
+
+declare namespace GlobToRegExp {
+    interface Options {
+        extended?: boolean | undefined;
+        globstar?: boolean | undefined;
+        flags?: string | undefined;
+    }
+}
+
+````
+
+### Additional Details
+ * Last updated: Tue, 07 Nov 2023 03:09:37 GMT
+ * Dependencies: none
+
+# Credits
+These definitions were written by [whatasoda](https://github.com/whatasoda).

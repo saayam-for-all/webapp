@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/RelatedMap",
+  "private": true,
+  "main": "../cjs/react/RelatedMap.js",
+  "module": "../esm/react/RelatedMap.js",
+  "types": "../esm/react/RelatedMap.d.ts"
+}

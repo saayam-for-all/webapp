@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/CharacterLock",
+  "private": true,
+  "main": "../cjs/react/CharacterLock.js",
+  "module": "../esm/react/CharacterLock.js",
+  "types": "../esm/react/CharacterLock.d.ts"
+}

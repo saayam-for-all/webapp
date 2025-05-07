@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FilePowerpointO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FilePowerpointO.js",
+  "module": "../../esm/react/legacy/FilePowerpointO.js",
+  "types": "../../esm/react/legacy/FilePowerpointO.d.ts"
+}

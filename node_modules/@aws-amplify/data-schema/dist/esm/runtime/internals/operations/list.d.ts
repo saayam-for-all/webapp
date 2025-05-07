@@ -1,0 +1,2 @@
+import { AmplifyServer, BaseClient, ClientInternalsGetter, ListArgs, ModelIntrospectionSchema, SchemaModel, CustomUserAgentDetails } from '../../bridge-types';
+export declare function listFactory(client: BaseClient, modelIntrospection: ModelIntrospectionSchema, model: SchemaModel, getInternals: ClientInternalsGetter, context?: boolean, customUserAgentDetails?: CustomUserAgentDetails): ((contextSpec: AmplifyServer.ContextSpec, args?: ListArgs) => Promise<unknown>) | ((args?: Record<string, any>) => Promise<unknown>);

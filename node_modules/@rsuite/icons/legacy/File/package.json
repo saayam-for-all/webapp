@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/File",
+  "private": true,
+  "main": "../../cjs/react/legacy/File.js",
+  "module": "../../esm/react/legacy/File.js",
+  "types": "../../esm/react/legacy/File.d.ts"
+}

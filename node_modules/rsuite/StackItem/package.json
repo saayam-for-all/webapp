@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/StackItem",
+  "private": true,
+  "main": "../cjs/Stack/StackItem.js",
+  "module": "../esm/Stack/StackItem.js",
+  "types": "../esm/Stack/StackItem.d.ts"
+}

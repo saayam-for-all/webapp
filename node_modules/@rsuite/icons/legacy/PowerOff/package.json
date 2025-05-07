@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PowerOff",
+  "private": true,
+  "main": "../../cjs/react/legacy/PowerOff.js",
+  "module": "../../esm/react/legacy/PowerOff.js",
+  "types": "../../esm/react/legacy/PowerOff.d.ts"
+}

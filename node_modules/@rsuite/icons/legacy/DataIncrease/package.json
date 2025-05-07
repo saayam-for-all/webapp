@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/DataIncrease",
+  "private": true,
+  "main": "../../cjs/react/legacy/DataIncrease.js",
+  "module": "../../esm/react/legacy/DataIncrease.js",
+  "types": "../../esm/react/legacy/DataIncrease.d.ts"
+}

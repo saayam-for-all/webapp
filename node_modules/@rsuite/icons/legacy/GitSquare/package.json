@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/GitSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/GitSquare.js",
+  "module": "../../esm/react/legacy/GitSquare.js",
+  "types": "../../esm/react/legacy/GitSquare.d.ts"
+}

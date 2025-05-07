@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Tree",
+  "private": true,
+  "main": "../../cjs/react/legacy/Tree.js",
+  "module": "../../esm/react/legacy/Tree.js",
+  "types": "../../esm/react/legacy/Tree.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeoplesCostomize",
+  "private": true,
+  "main": "../cjs/react/PeoplesCostomize.js",
+  "module": "../esm/react/PeoplesCostomize.js",
+  "types": "../esm/react/PeoplesCostomize.d.ts"
+}

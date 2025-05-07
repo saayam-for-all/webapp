@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Squares",
+  "private": true,
+  "main": "../../cjs/react/legacy/Squares.js",
+  "module": "../../esm/react/legacy/Squares.js",
+  "types": "../../esm/react/legacy/Squares.d.ts"
+}

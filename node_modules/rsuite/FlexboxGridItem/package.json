@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/FlexboxGridItem",
+  "private": true,
+  "main": "../cjs/FlexboxGrid/FlexboxGridItem.js",
+  "module": "../esm/FlexboxGrid/FlexboxGridItem.js",
+  "types": "../esm/FlexboxGrid/FlexboxGridItem.d.ts"
+}

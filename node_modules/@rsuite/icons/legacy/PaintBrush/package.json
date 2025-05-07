@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PaintBrush",
+  "private": true,
+  "main": "../../cjs/react/legacy/PaintBrush.js",
+  "module": "../../esm/react/legacy/PaintBrush.js",
+  "types": "../../esm/react/legacy/PaintBrush.d.ts"
+}

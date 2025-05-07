@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Eraser",
+  "private": true,
+  "main": "../../cjs/react/legacy/Eraser.js",
+  "module": "../../esm/react/legacy/Eraser.js",
+  "types": "../../esm/react/legacy/Eraser.d.ts"
+}

@@ -1,0 +1,15 @@
+const AuthTokenStorageKeys = {
+    accessToken: 'accessToken',
+    idToken: 'idToken',
+    oidcProvider: 'oidcProvider',
+    clockDrift: 'clockDrift',
+    refreshToken: 'refreshToken',
+    deviceKey: 'deviceKey',
+    randomPasswordKey: 'randomPasswordKey',
+    deviceGroupKey: 'deviceGroupKey',
+    signInDetails: 'signInDetails',
+    oauthMetadata: 'oauthMetadata',
+};
+
+export { AuthTokenStorageKeys };
+//# sourceMappingURL=types.mjs.map

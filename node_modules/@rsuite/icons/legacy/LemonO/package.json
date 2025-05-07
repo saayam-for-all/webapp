@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/LemonO",
+  "private": true,
+  "main": "../../cjs/react/legacy/LemonO.js",
+  "module": "../../esm/react/legacy/LemonO.js",
+  "types": "../../esm/react/legacy/LemonO.d.ts"
+}

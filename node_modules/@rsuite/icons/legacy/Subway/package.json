@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Subway",
+  "private": true,
+  "main": "../../cjs/react/legacy/Subway.js",
+  "module": "../../esm/react/legacy/Subway.js",
+  "types": "../../esm/react/legacy/Subway.d.ts"
+}

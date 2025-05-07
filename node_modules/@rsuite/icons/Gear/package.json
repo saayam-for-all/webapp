@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Gear",
+  "private": true,
+  "main": "../cjs/react/Gear.js",
+  "module": "../esm/react/Gear.js",
+  "types": "../esm/react/Gear.d.ts"
+}

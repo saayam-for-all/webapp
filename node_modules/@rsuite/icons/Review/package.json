@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Review",
+  "private": true,
+  "main": "../cjs/react/Review.js",
+  "module": "../esm/react/Review.js",
+  "types": "../esm/react/Review.d.ts"
+}

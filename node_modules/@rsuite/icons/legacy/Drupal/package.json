@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Drupal",
+  "private": true,
+  "main": "../../cjs/react/legacy/Drupal.js",
+  "module": "../../esm/react/legacy/Drupal.js",
+  "types": "../../esm/react/legacy/Drupal.d.ts"
+}

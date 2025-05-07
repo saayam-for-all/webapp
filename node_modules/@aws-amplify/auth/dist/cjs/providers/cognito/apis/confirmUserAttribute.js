@@ -1,0 +1,48 @@
+'use strict';
+
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.confirmUserAttribute = void 0;
+const core_1 = require("@aws-amplify/core");
+const utils_1 = require("@aws-amplify/core/internals/utils");
+const validation_1 = require("../../../errors/types/validation");
+const assertValidationError_1 = require("../../../errors/utils/assertValidationError");
+const parsers_1 = require("../../../foundation/parsers");
+const types_1 = require("../utils/types");
+const utils_2 = require("../../../utils");
+const cognitoIdentityProvider_1 = require("../../../foundation/factories/serviceClients/cognitoIdentityProvider");
+const factories_1 = require("../factories");
+/**
+ * Confirms a user attribute with the confirmation code.
+ *
+ * @param input -  The ConfirmUserAttributeInput object
+ * @throws  -{@link AuthValidationErrorCode } -
+ * Thrown when `confirmationCode` is not defined.
+ * @throws  -{@link VerifyUserAttributeException } - Thrown due to an invalid confirmation code or attribute.
+ * @throws AuthTokenConfigException - Thrown when the token provider config is invalid.
+ */
+async function confirmUserAttribute(input) {
+    const authConfig = core_1.Amplify.getConfig().Auth?.Cognito;
+    (0, utils_1.assertTokenProviderConfig)(authConfig);
+    const { userPoolEndpoint, userPoolId } = authConfig;
+    const { confirmationCode, userAttributeKey } = input;
+    (0, assertValidationError_1.assertValidationError)(!!confirmationCode, validation_1.AuthValidationErrorCode.EmptyConfirmUserAttributeCode);
+    const { tokens } = await (0, core_1.fetchAuthSession)({ forceRefresh: false });
+    (0, types_1.assertAuthTokens)(tokens);
+    const verifyUserAttribute = (0, cognitoIdentityProvider_1.createVerifyUserAttributeClient)({
+        endpointResolver: (0, factories_1.createCognitoUserPoolEndpointResolver)({
+            endpointOverride: userPoolEndpoint,
+        }),
+    });
+    await verifyUserAttribute({
+        region: (0, parsers_1.getRegionFromUserPoolId)(userPoolId),
+        userAgentValue: (0, utils_2.getAuthUserAgentValue)(utils_1.AuthAction.ConfirmUserAttribute),
+    }, {
+        AccessToken: tokens.accessToken.toString(),
+        AttributeName: userAttributeKey,
+        Code: confirmationCode,
+    });
+}
+exports.confirmUserAttribute = confirmUserAttribute;
+//# sourceMappingURL=confirmUserAttribute.js.map

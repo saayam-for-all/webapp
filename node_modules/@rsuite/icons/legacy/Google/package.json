@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Google",
+  "private": true,
+  "main": "../../cjs/react/legacy/Google.js",
+  "module": "../../esm/react/legacy/Google.js",
+  "types": "../../esm/react/legacy/Google.d.ts"
+}

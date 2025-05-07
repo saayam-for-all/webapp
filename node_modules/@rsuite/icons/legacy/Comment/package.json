@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Comment",
+  "private": true,
+  "main": "../../cjs/react/legacy/Comment.js",
+  "module": "../../esm/react/legacy/Comment.js",
+  "types": "../../esm/react/legacy/Comment.d.ts"
+}

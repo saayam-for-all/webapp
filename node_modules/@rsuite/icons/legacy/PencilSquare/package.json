@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PencilSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/PencilSquare.js",
+  "module": "../../esm/react/legacy/PencilSquare.js",
+  "types": "../../esm/react/legacy/PencilSquare.d.ts"
+}

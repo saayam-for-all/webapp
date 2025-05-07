@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Tint",
+  "private": true,
+  "main": "../../cjs/react/legacy/Tint.js",
+  "module": "../../esm/react/legacy/Tint.js",
+  "types": "../../esm/react/legacy/Tint.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/AppSelect",
+  "private": true,
+  "main": "../cjs/react/AppSelect.js",
+  "module": "../esm/react/AppSelect.js",
+  "types": "../esm/react/AppSelect.d.ts"
+}

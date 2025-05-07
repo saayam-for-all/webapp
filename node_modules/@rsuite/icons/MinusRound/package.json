@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/MinusRound",
+  "private": true,
+  "main": "../cjs/react/MinusRound.js",
+  "module": "../esm/react/MinusRound.js",
+  "types": "../esm/react/MinusRound.d.ts"
+}

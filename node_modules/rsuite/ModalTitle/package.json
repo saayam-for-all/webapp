@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/ModalTitle",
+  "private": true,
+  "main": "../cjs/Modal/ModalTitle.js",
+  "module": "../esm/Modal/ModalTitle.js",
+  "types": "../esm/Modal/ModalTitle.d.ts"
+}

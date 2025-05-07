@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Collasped",
+  "private": true,
+  "main": "../../cjs/react/legacy/Collasped.js",
+  "module": "../../esm/react/legacy/Collasped.js",
+  "types": "../../esm/react/legacy/Collasped.d.ts"
+}

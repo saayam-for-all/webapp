@@ -1,0 +1,7 @@
+{
+  "name": "dom-lib/PointerMoveTracker",
+  "private": true,
+  "main": "../cjs/PointerMoveTracker.js",
+  "module": "../esm/PointerMoveTracker.js",
+  "types": "../esm/PointerMoveTracker.d.ts"
+}

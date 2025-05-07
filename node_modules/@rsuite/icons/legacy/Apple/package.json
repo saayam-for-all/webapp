@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Apple",
+  "private": true,
+  "main": "../../cjs/react/legacy/Apple.js",
+  "module": "../../esm/react/legacy/Apple.js",
+  "types": "../../esm/react/legacy/Apple.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Certificate",
+  "private": true,
+  "main": "../../cjs/react/legacy/Certificate.js",
+  "module": "../../esm/react/legacy/Certificate.js",
+  "types": "../../esm/react/legacy/Certificate.d.ts"
+}

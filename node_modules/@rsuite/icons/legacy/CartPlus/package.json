@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/CartPlus",
+  "private": true,
+  "main": "../../cjs/react/legacy/CartPlus.js",
+  "module": "../../esm/react/legacy/CartPlus.js",
+  "types": "../../esm/react/legacy/CartPlus.d.ts"
+}

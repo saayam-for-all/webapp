@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/CollaspedArrow",
+  "private": true,
+  "main": "../cjs/react/CollaspedArrow.js",
+  "module": "../esm/react/CollaspedArrow.js",
+  "types": "../esm/react/CollaspedArrow.d.ts"
+}

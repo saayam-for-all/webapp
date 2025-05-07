@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/StatTrend",
+  "private": true,
+  "main": "../cjs/Stat/StatTrend.js",
+  "module": "../esm/Stat/StatTrend.js",
+  "types": "../esm/Stat/StatTrend.d.ts"
+}

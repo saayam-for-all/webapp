@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/YoutubePlay",
+  "private": true,
+  "main": "../../cjs/react/legacy/YoutubePlay.js",
+  "module": "../../esm/react/legacy/YoutubePlay.js",
+  "types": "../../esm/react/legacy/YoutubePlay.d.ts"
+}

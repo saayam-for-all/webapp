@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ImportSite",
+  "private": true,
+  "main": "../cjs/react/ImportSite.js",
+  "module": "../esm/react/ImportSite.js",
+  "types": "../esm/react/ImportSite.d.ts"
+}

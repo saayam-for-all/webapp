@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Tag",
+  "private": true,
+  "main": "../cjs/react/Tag.js",
+  "module": "../esm/react/Tag.js",
+  "types": "../esm/react/Tag.d.ts"
+}

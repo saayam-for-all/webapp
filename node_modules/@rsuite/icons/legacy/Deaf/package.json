@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Deaf",
+  "private": true,
+  "main": "../../cjs/react/legacy/Deaf.js",
+  "module": "../../esm/react/legacy/Deaf.js",
+  "types": "../../esm/react/legacy/Deaf.d.ts"
+}

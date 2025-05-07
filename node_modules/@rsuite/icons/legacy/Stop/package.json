@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Stop",
+  "private": true,
+  "main": "../../cjs/react/legacy/Stop.js",
+  "module": "../../esm/react/legacy/Stop.js",
+  "types": "../../esm/react/legacy/Stop.d.ts"
+}

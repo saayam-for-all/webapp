@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Desktop",
+  "private": true,
+  "main": "../../cjs/react/legacy/Desktop.js",
+  "module": "../../esm/react/legacy/Desktop.js",
+  "types": "../../esm/react/legacy/Desktop.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Heartbeat",
+  "private": true,
+  "main": "../../cjs/react/legacy/Heartbeat.js",
+  "module": "../../esm/react/legacy/Heartbeat.js",
+  "types": "../../esm/react/legacy/Heartbeat.d.ts"
+}

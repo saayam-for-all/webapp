@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/WheelchairAlt",
+  "private": true,
+  "main": "../../cjs/react/legacy/WheelchairAlt.js",
+  "module": "../../esm/react/legacy/WheelchairAlt.js",
+  "types": "../../esm/react/legacy/WheelchairAlt.d.ts"
+}

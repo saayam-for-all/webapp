@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/SiteFill",
+  "private": true,
+  "main": "../cjs/react/SiteFill.js",
+  "module": "../esm/react/SiteFill.js",
+  "types": "../esm/react/SiteFill.d.ts"
+}

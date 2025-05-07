@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Fire",
+  "private": true,
+  "main": "../../cjs/react/legacy/Fire.js",
+  "module": "../../esm/react/legacy/Fire.js",
+  "types": "../../esm/react/legacy/Fire.d.ts"
+}

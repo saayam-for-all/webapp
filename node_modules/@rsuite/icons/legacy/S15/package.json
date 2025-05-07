@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/S15",
+  "private": true,
+  "main": "../../cjs/react/legacy/S15.js",
+  "module": "../../esm/react/legacy/S15.js",
+  "types": "../../esm/react/legacy/S15.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PeopleExpand",
+  "private": true,
+  "main": "../cjs/react/PeopleExpand.js",
+  "module": "../esm/react/PeopleExpand.js",
+  "types": "../esm/react/PeopleExpand.d.ts"
+}

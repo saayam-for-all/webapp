@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/StepForward",
+  "private": true,
+  "main": "../../cjs/react/legacy/StepForward.js",
+  "module": "../../esm/react/legacy/StepForward.js",
+  "types": "../../esm/react/legacy/StepForward.d.ts"
+}

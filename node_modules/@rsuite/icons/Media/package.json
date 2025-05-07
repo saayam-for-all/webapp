@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Media",
+  "private": true,
+  "main": "../cjs/react/Media.js",
+  "module": "../esm/react/Media.js",
+  "types": "../esm/react/Media.d.ts"
+}

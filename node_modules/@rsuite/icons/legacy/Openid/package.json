@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Openid",
+  "private": true,
+  "main": "../../cjs/react/legacy/Openid.js",
+  "module": "../../esm/react/legacy/Openid.js",
+  "types": "../../esm/react/legacy/Openid.d.ts"
+}

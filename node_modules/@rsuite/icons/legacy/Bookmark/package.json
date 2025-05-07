@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Bookmark",
+  "private": true,
+  "main": "../../cjs/react/legacy/Bookmark.js",
+  "module": "../../esm/react/legacy/Bookmark.js",
+  "types": "../../esm/react/legacy/Bookmark.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ReplyAll",
+  "private": true,
+  "main": "../../cjs/react/legacy/ReplyAll.js",
+  "module": "../../esm/react/legacy/ReplyAll.js",
+  "types": "../../esm/react/legacy/ReplyAll.d.ts"
+}

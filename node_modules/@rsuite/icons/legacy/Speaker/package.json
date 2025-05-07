@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Speaker",
+  "private": true,
+  "main": "../../cjs/react/legacy/Speaker.js",
+  "module": "../../esm/react/legacy/Speaker.js",
+  "types": "../../esm/react/legacy/Speaker.d.ts"
+}

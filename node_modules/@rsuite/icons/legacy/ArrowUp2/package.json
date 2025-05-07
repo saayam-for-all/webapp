@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ArrowUp2",
+  "private": true,
+  "main": "../../cjs/react/legacy/ArrowUp2.js",
+  "module": "../../esm/react/legacy/ArrowUp2.js",
+  "types": "../../esm/react/legacy/ArrowUp2.d.ts"
+}

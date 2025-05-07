@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Chrome",
+  "private": true,
+  "main": "../../cjs/react/legacy/Chrome.js",
+  "module": "../../esm/react/legacy/Chrome.js",
+  "types": "../../esm/react/legacy/Chrome.d.ts"
+}

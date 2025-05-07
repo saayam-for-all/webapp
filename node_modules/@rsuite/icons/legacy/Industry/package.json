@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Industry",
+  "private": true,
+  "main": "../../cjs/react/legacy/Industry.js",
+  "module": "../../esm/react/legacy/Industry.js",
+  "types": "../../esm/react/legacy/Industry.d.ts"
+}

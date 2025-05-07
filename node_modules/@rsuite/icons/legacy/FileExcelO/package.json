@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FileExcelO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FileExcelO.js",
+  "module": "../../esm/react/legacy/FileExcelO.js",
+  "types": "../../esm/react/legacy/FileExcelO.d.ts"
+}

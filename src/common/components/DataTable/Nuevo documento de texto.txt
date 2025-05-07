@@ -1,0 +1,20 @@
+Enumerating objects: 22, done.
+Counting objects: 100% (18/18), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (10/10), 1.41 KiB | 481.00 KiB/s, done.
+Total 10 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (6/6), completed with 5 local objects.
+remote: error: GH013: Repository rule violations found for refs/heads/test.
+remote: Review all repository rules at https://github.com/saayam-for-all/webapp/
+rules?ref=refs%2Fheads%2Ftest
+remote:
+remote: - Changes must be made through a pull request.
+remote:
+remote: - Required status check "build" is expected.
+remote:
+To https://github.com/saayam-for-all/webapp.git
+ ! [remote rejected] test -> test (push declined due to repository rule violatio
+ns)
+error: failed to push some refs to 'https://github.com/saayam-for-all/webapp.git
+'

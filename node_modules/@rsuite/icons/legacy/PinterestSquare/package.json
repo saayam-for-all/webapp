@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/PinterestSquare",
+  "private": true,
+  "main": "../../cjs/react/legacy/PinterestSquare.js",
+  "module": "../../esm/react/legacy/PinterestSquare.js",
+  "types": "../../esm/react/legacy/PinterestSquare.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Indent",
+  "private": true,
+  "main": "../../cjs/react/legacy/Indent.js",
+  "module": "../../esm/react/legacy/Indent.js",
+  "types": "../../esm/react/legacy/Indent.d.ts"
+}

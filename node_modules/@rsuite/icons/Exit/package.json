@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Exit",
+  "private": true,
+  "main": "../cjs/react/Exit.js",
+  "module": "../esm/react/Exit.js",
+  "types": "../esm/react/Exit.d.ts"
+}

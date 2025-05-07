@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/HStack",
+  "private": true,
+  "main": "../cjs/Stack/HStack.js",
+  "module": "../esm/Stack/HStack.js",
+  "types": "../esm/Stack/HStack.d.ts"
+}

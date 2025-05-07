@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FortAwesome",
+  "private": true,
+  "main": "../../cjs/react/legacy/FortAwesome.js",
+  "module": "../../esm/react/legacy/FortAwesome.js",
+  "types": "../../esm/react/legacy/FortAwesome.d.ts"
+}

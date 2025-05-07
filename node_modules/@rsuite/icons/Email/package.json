@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Email",
+  "private": true,
+  "main": "../cjs/react/Email.js",
+  "module": "../esm/react/Email.js",
+  "types": "../esm/react/Email.d.ts"
+}

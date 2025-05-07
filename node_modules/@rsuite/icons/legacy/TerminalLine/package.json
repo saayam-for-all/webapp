@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/TerminalLine",
+  "private": true,
+  "main": "../../cjs/react/legacy/TerminalLine.js",
+  "module": "../../esm/react/legacy/TerminalLine.js",
+  "types": "../../esm/react/legacy/TerminalLine.d.ts"
+}

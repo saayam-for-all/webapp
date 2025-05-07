@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/BellO",
+  "private": true,
+  "main": "../../cjs/react/legacy/BellO.js",
+  "module": "../../esm/react/legacy/BellO.js",
+  "types": "../../esm/react/legacy/BellO.d.ts"
+}

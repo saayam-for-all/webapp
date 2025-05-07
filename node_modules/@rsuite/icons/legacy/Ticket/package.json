@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Ticket",
+  "private": true,
+  "main": "../../cjs/react/legacy/Ticket.js",
+  "module": "../../esm/react/legacy/Ticket.js",
+  "types": "../../esm/react/legacy/Ticket.d.ts"
+}

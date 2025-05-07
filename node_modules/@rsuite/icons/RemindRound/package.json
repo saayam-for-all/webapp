@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/RemindRound",
+  "private": true,
+  "main": "../cjs/react/RemindRound.js",
+  "module": "../esm/react/RemindRound.js",
+  "types": "../esm/react/RemindRound.d.ts"
+}

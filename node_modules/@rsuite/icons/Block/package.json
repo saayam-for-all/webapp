@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Block",
+  "private": true,
+  "main": "../cjs/react/Block.js",
+  "module": "../esm/react/Block.js",
+  "types": "../esm/react/Block.d.ts"
+}

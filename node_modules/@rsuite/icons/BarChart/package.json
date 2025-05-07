@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/BarChart",
+  "private": true,
+  "main": "../cjs/react/BarChart.js",
+  "module": "../esm/react/BarChart.js",
+  "types": "../esm/react/BarChart.d.ts"
+}

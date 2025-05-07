@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Global",
+  "private": true,
+  "main": "../cjs/react/Global.js",
+  "module": "../esm/react/Global.js",
+  "types": "../esm/react/Global.d.ts"
+}

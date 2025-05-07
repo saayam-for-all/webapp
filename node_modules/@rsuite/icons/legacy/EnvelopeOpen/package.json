@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/EnvelopeOpen",
+  "private": true,
+  "main": "../../cjs/react/legacy/EnvelopeOpen.js",
+  "module": "../../esm/react/legacy/EnvelopeOpen.js",
+  "types": "../../esm/react/legacy/EnvelopeOpen.d.ts"
+}

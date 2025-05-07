@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/PauseRound",
+  "private": true,
+  "main": "../cjs/react/PauseRound.js",
+  "module": "../esm/react/PauseRound.js",
+  "types": "../esm/react/PauseRound.d.ts"
+}

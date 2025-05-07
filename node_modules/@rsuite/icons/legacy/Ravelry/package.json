@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Ravelry",
+  "private": true,
+  "main": "../../cjs/react/legacy/Ravelry.js",
+  "module": "../../esm/react/legacy/Ravelry.js",
+  "types": "../../esm/react/legacy/Ravelry.d.ts"
+}

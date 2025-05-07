@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/ExternalLink",
+  "private": true,
+  "main": "../../cjs/react/legacy/ExternalLink.js",
+  "module": "../../esm/react/legacy/ExternalLink.js",
+  "types": "../../esm/react/legacy/ExternalLink.d.ts"
+}

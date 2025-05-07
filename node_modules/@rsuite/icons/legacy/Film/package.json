@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Film",
+  "private": true,
+  "main": "../../cjs/react/legacy/Film.js",
+  "module": "../../esm/react/legacy/Film.js",
+  "types": "../../esm/react/legacy/Film.d.ts"
+}

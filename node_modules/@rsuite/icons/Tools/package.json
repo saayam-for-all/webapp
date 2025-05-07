@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Tools",
+  "private": true,
+  "main": "../cjs/react/Tools.js",
+  "module": "../esm/react/Tools.js",
+  "types": "../esm/react/Tools.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/IOs",
+  "private": true,
+  "main": "../cjs/react/IOs.js",
+  "module": "../esm/react/IOs.js",
+  "types": "../esm/react/IOs.d.ts"
+}

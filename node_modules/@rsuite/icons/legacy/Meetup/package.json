@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Meetup",
+  "private": true,
+  "main": "../../cjs/react/legacy/Meetup.js",
+  "module": "../../esm/react/legacy/Meetup.js",
+  "types": "../../esm/react/legacy/Meetup.d.ts"
+}

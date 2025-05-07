@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Share",
+  "private": true,
+  "main": "../../cjs/react/legacy/Share.js",
+  "module": "../../esm/react/legacy/Share.js",
+  "types": "../../esm/react/legacy/Share.d.ts"
+}

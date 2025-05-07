@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/AngleRight",
+  "private": true,
+  "main": "../../cjs/react/legacy/AngleRight.js",
+  "module": "../../esm/react/legacy/AngleRight.js",
+  "types": "../../esm/react/legacy/AngleRight.d.ts"
+}

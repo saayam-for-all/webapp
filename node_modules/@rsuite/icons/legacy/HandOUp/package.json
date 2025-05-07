@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/HandOUp",
+  "private": true,
+  "main": "../../cjs/react/legacy/HandOUp.js",
+  "module": "../../esm/react/legacy/HandOUp.js",
+  "types": "../../esm/react/legacy/HandOUp.d.ts"
+}

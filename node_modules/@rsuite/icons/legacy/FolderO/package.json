@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/FolderO",
+  "private": true,
+  "main": "../../cjs/react/legacy/FolderO.js",
+  "module": "../../esm/react/legacy/FolderO.js",
+  "types": "../../esm/react/legacy/FolderO.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Ban",
+  "private": true,
+  "main": "../../cjs/react/legacy/Ban.js",
+  "module": "../../esm/react/legacy/Ban.js",
+  "types": "../../esm/react/legacy/Ban.d.ts"
+}

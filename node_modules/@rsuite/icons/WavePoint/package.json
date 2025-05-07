@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/WavePoint",
+  "private": true,
+  "main": "../cjs/react/WavePoint.js",
+  "module": "../esm/react/WavePoint.js",
+  "types": "../esm/react/WavePoint.d.ts"
+}

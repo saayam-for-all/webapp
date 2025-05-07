@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Fonticons",
+  "private": true,
+  "main": "../../cjs/react/legacy/Fonticons.js",
+  "module": "../../esm/react/legacy/Fonticons.js",
+  "types": "../../esm/react/legacy/Fonticons.d.ts"
+}

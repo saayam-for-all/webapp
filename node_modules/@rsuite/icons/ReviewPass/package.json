@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/ReviewPass",
+  "private": true,
+  "main": "../cjs/react/ReviewPass.js",
+  "module": "../esm/react/ReviewPass.js",
+  "types": "../esm/react/ReviewPass.d.ts"
+}

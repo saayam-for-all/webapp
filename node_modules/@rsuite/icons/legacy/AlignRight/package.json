@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/AlignRight",
+  "private": true,
+  "main": "../../cjs/react/legacy/AlignRight.js",
+  "module": "../../esm/react/legacy/AlignRight.js",
+  "types": "../../esm/react/legacy/AlignRight.d.ts"
+}

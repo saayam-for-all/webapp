@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/CloseOutline",
+  "private": true,
+  "main": "../cjs/react/CloseOutline.js",
+  "module": "../esm/react/CloseOutline.js",
+  "types": "../esm/react/CloseOutline.d.ts"
+}

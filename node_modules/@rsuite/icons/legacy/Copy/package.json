@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/legacy/Copy",
+  "private": true,
+  "main": "../../cjs/react/legacy/Copy.js",
+  "module": "../../esm/react/legacy/Copy.js",
+  "types": "../../esm/react/legacy/Copy.d.ts"
+}

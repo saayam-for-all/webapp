@@ -1,0 +1,50 @@
+{
+  "name": "react-use-set",
+  "version": "1.0.0",
+  "description": "Use Set-like API with React hook",
+  "bugs": {
+    "url": "https://github.com/SevenOutman/react-use-set/issues"
+  },
+  "repository": "github:SevenOutman/react-use-set",
+  "license": "MIT",
+  "author": "Doma <leishenghao@126.com>",
+  "sideEffects": false,
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm run build-fast -- --dts-resolve",
+    "build-fast": "tsup src/index.ts --format cjs,esm",
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --passWithNoTests --coverage"
+  },
+  "devDependencies": {
+    "@egoist/prettier-config": "1.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@vitest/coverage-c8": "^0.30.1",
+    "happy-dom": "^9.8.1",
+    "prettier": "^2.8.4",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tsup": "6.4.0",
+    "typescript": "^4.9.5",
+    "vitest": "0.30.1"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

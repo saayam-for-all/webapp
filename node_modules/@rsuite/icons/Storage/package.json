@@ -1,0 +1,7 @@
+{
+  "name": "@rsuite/icons/Storage",
+  "private": true,
+  "main": "../cjs/react/Storage.js",
+  "module": "../esm/react/Storage.js",
+  "types": "../esm/react/Storage.d.ts"
+}
