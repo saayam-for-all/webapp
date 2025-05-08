@@ -8,9 +8,11 @@ import img5 from "../../assets/imagesOfHowWePperate/Image5.png";
 import img6 from "../../assets/imagesOfHowWePperate/Image6.png";
 import img7 from "../../assets/imagesOfHowWePperate/Image7.png";
 import img8 from "../../assets/imagesOfHowWePperate/Image8.png";
+import { useNavigate } from "react-router-dom";
 
 const HowWeOperate = () => {
   const timelineRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -128,21 +130,27 @@ const HowWeOperate = () => {
               <TimelineItem
                 number={5}
                 title="Receive Assistance"
-                description="The volunteer provides the help you requested, making sure you reach your destination."
+                description="The volunteer provides the help you requested,working with other if needed-making sure you reach your destination."
                 image={img8}
                 align="right"
               />
+              <div className="absolute left-1/2 bottom-[-60px] transform -translate-x-1/2 text-blue-600 font-semibold text-2xl tracking-wide text-center">
+                Connecting help to those who need it.
+              </div>
             </div>
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-32">
             <h3 className="text-2xl font-bold mb-4">
               Looking to volunteer with us?
             </h3>
             <p className="text-gray-600 mb-6">
               Chat with our community and get in touch with us!
             </p>
-            <button className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+            <button
+              className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+              onClick={() => navigate("/Contact")}
+            >
               Join the community
             </button>
           </div>
