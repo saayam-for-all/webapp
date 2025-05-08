@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import img1 from "../../assets/imagesOfHowWeOperate/Image1.jpeg";
-import img2 from "../../assets/imagesOfHowWeOperate/Image2.jpeg";
-import img3 from "../../assets/imagesOfHowWeOperate/Image3.jpeg";
-import img4 from "../../assets/imagesOfHowWeOperate/Image4.png";
-import img5 from "../../assets/imagesOfHowWeOperate/Image5.png";
-import img6 from "../../assets/imagesOfHowWeOperate/Image6.png";
-import img7 from "../../assets/imagesOfHowWeOperate/Image7.png";
-import img8 from "../../assets/imagesOfHowWeOperate/Image8.png";
+import img1 from "../../assets/imagesOfHowWeOperate/ima1.jpeg";
+import img2 from "../../assets/imagesOfHowWeOperate/ima2.jpeg";
+import img3 from "../../assets/imagesOfHowWeOperate/ima3.jpeg";
+import img4 from "../../assets/imagesOfHowWeOperate/step1.png";
+import img5 from "../../assets/imagesOfHowWeOperate/step2.png";
+import img6 from "../../assets/imagesOfHowWeOperate/step3.png";
+import img7 from "../../assets/imagesOfHowWeOperate/step4.png";
+import img8 from "../../assets/imagesOfHowWeOperate/step5.png";
 import { useNavigate } from "react-router-dom";
 
 const HowWeOperate = () => {
