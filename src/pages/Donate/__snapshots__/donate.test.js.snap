@@ -65,29 +65,22 @@ exports[`Donate renders correctly 1`] = `
                 >
                   Donate via Stripe
                 </a>
-              </div>
-              <div
-                class="qr-section"
-              >
-                <h2
-                  class="qr-title"
+                <a
+                  class="donate-button-charity"
+                  href="https://www.charitynavigator.org/ein/932798273"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
-                  Scan to Donate
-                </h2>
-                <p
-                  class="qr-description"
+                  Donate via Charity Navigator
+                </a>
+                <a
+                  class="donate-button-benevity"
+                  href="https://Benevity.org"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
-                  Scan this QR code with your mobile device to make a donation
-                </p>
-                <div
-                  class="qr-code-container"
-                >
-                  <img
-                    alt="Donation QR Code"
-                    class="qr-code"
-                    src=""
-                  />
-                </div>
+                  Donate via Benevity
+                </a>
               </div>
             </div>
           </div>
@@ -236,29 +229,22 @@ exports[`Donate renders correctly 1`] = `
               >
                 Donate via Stripe
               </a>
-            </div>
-            <div
-              class="qr-section"
-            >
-              <h2
-                class="qr-title"
+              <a
+                class="donate-button-charity"
+                href="https://www.charitynavigator.org/ein/932798273"
+                rel="noopener noreferrer"
+                target="_blank"
               >
-                Scan to Donate
-              </h2>
-              <p
-                class="qr-description"
+                Donate via Charity Navigator
+              </a>
+              <a
+                class="donate-button-benevity"
+                href="https://Benevity.org"
+                rel="noopener noreferrer"
+                target="_blank"
               >
-                Scan this QR code with your mobile device to make a donation
-              </p>
-              <div
-                class="qr-code-container"
-              >
-                <img
-                  alt="Donation QR Code"
-                  class="qr-code"
-                  src=""
-                />
-              </div>
+                Donate via Benevity
+              </a>
             </div>
           </div>
         </div>

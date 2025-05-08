@@ -73,20 +73,22 @@ const Donate = () => {
               >
                 Donate via Stripe
               </a>
-            </div>
-
-            <div className="qr-section">
-              <h2 className="qr-title">Scan to Donate</h2>
-              <p className="qr-description">
-                Scan this QR code with your mobile device to make a donation
-              </p>
-              <div className="qr-code-container">
-                <img
-                  src={qrCodeImage}
-                  alt="Donation QR Code"
-                  className="qr-code"
-                />
-              </div>
+              <a
+                href="https://www.charitynavigator.org/ein/932798273"
+                className="donate-button-charity"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Donate via Charity Navigator
+              </a>
+              <a
+                href="https://Benevity.org"
+                className="donate-button-benevity"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Donate via Benevity
+              </a>
             </div>
           </div>
         </div>
