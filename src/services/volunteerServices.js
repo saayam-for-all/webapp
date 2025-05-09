@@ -17,3 +17,7 @@ export const updateVolunteer = async (volunteerData) => {
   const response = await api.put(endpoints.UPDATE_VOLUNTEER, volunteerData);
   return response.data;
 };
+export const getRequestVolunteers = async () => {
+  const response = await api.get(endpoints.GET_REQUEST_VOLUNTEER);
+  return response.data;
+};
