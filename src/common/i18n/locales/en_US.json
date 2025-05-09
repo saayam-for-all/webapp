@@ -153,5 +153,20 @@
   "SKILLS": "Skills",
   "YOUR_SKILLS": "Your Skills",
   "SELECT_SKILLS_DESCRIPTION": "Select the skills you can offer as a volunteer. These skills will help match you with relevant help requests.",
-  "USER_ALREADY_EXISTS": "User already exists. Please sign in or use a different email."
+  "USER_ALREADY_EXISTS": "User already exists. Please sign in or use a different email.",
+  "MAKE_DONATION": "Make a Donation",
+  "DONATION_SUBTITLE": "Your contribution helps us continue our mission of providing assistance to those in need.",
+  "DONATION_ACHIEVEMENT_1": "Support our global network of volunteers and organizations",
+  "DONATION_ACHIEVEMENT_2": "Help fund critical assistance programs and initiatives",
+  "DONATION_ACHIEVEMENT_3": "Enable us to reach more people in need of support",
+  "DONATE_VIA_PAYPAL": "Donate via PayPal",
+  "SCAN_QR_CODE": "Scan QR Code to Donate",
+  "QR_CODE_DESCRIPTION": "Scan this QR code with your mobile device to make a donation",
+  "FAQ_TITLE": "Frequently Asked Questions",
+  "FAQ_TAX_QUESTION": "Are donations tax deductible?",
+  "FAQ_TAX_ANSWER": "Yes, Saayam For All is a registered 501(c)(3) non-profit organization. All donations are tax deductible to the extent allowed by law.",
+  "FAQ_USE_QUESTION": "How will my donation be used?",
+  "FAQ_USE_ANSWER": "Your donation will be used to support our various programs, including volunteer coordination, assistance programs, and operational costs to maintain our platform.",
+  "FAQ_CANCEL_QUESTION": "Can I cancel my recurring donation?",
+  "FAQ_CANCEL_ANSWER": "Yes, you can cancel by contacting our support team."
 }

@@ -46,13 +46,13 @@ exports[`LandingPage renders correctly 1`] = `
           </div>
         </section>
         <div
-          class="flex flex-row items-center bg-white h-96 mt-5 gap-10"
+          class="flex flex-row items-center bg-white h-80 mt-5 gap-10"
         >
           <div
             class="flex flex-col justify-start items-start w-3/5 p-10 h-full"
           >
             <h3
-              class="font-bold text-3xl h-1/3 w-2/3"
+              class="font-bold text-3xl h-1/3 w-2/3 pb-5"
             >
               Creating a World Where Help is Always Within Reach
             </h3>
@@ -68,17 +68,17 @@ exports[`LandingPage renders correctly 1`] = `
             </button>
           </div>
           <div
-            class="flex flex-row w-1/3 h-full gap-5"
+            class="flex flex-row w-2/5 h-full gap-5 overflow-hidden"
           >
             <img
-              alt="Help 1"
+              alt="A sunny day with two people looking at each other comfortingly"
               class="w-1/2 rounded-lg"
-              src="https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400"
+              src=""
             />
             <img
-              alt="Help 2"
+              alt="A joyful family stands in a lush field on a sunny day"
               class="w-1/2 rounded-lg"
-              src="https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400"
+              src=""
             />
           </div>
         </div>
@@ -90,33 +90,72 @@ exports[`LandingPage renders correctly 1`] = `
             class="cards-section"
           >
             <div
-              class="community-card"
-              style="background-image: url(https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400); margin-top: 0px;"
+              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+              style="margin-top: 0px;"
             >
+              <img
+                alt="Red rescue jacket and cap with Red Cross logos"
+                class="absolute w-full h-full object-cover"
+                src=""
+              />
               <div
-                class="card-overlay"
+                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
               >
-                Take help from our Volunteers
+                <div
+                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+                >
+                  <p
+                    class="text-white text-lg font-bold text-center"
+                  >
+                    Take help from our Volunteers
+                  </p>
+                </div>
               </div>
             </div>
             <div
-              class="community-card"
-              style="background-image: url(https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400); margin-top: 120px;"
+              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+              style="margin-top: 120px;"
             >
+              <img
+                alt="A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
+                class="absolute w-full h-full object-cover"
+                src=""
+              />
               <div
-                class="card-overlay"
+                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
               >
-                Planning and budgeting advice for travel
+                <div
+                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+                >
+                  <p
+                    class="text-white text-lg font-bold text-center"
+                  >
+                    Planning and budgeting advice for travel
+                  </p>
+                </div>
               </div>
             </div>
             <div
-              class="community-card"
-              style="background-image: url(https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400); margin-top: 240px;"
+              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+              style="margin-top: 240px;"
             >
+              <img
+                alt="Woman hiking at sunset with a backpack and trekking poles, set against a mountainous landscape"
+                class="absolute w-full h-full object-cover"
+                src=""
+              />
               <div
-                class="card-overlay"
+                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
               >
-                A whole new community of charity organisations
+                <div
+                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+                >
+                  <p
+                    class="text-white text-lg font-bold text-center"
+                  >
+                    A whole new community of charity organisations
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -181,13 +220,13 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
       </section>
       <div
-        class="flex flex-row items-center bg-white h-96 mt-5 gap-10"
+        class="flex flex-row items-center bg-white h-80 mt-5 gap-10"
       >
         <div
           class="flex flex-col justify-start items-start w-3/5 p-10 h-full"
         >
           <h3
-            class="font-bold text-3xl h-1/3 w-2/3"
+            class="font-bold text-3xl h-1/3 w-2/3 pb-5"
           >
             Creating a World Where Help is Always Within Reach
           </h3>
@@ -203,17 +242,17 @@ exports[`LandingPage renders correctly 1`] = `
           </button>
         </div>
         <div
-          class="flex flex-row w-1/3 h-full gap-5"
+          class="flex flex-row w-2/5 h-full gap-5 overflow-hidden"
         >
           <img
-            alt="Help 1"
+            alt="A sunny day with two people looking at each other comfortingly"
             class="w-1/2 rounded-lg"
-            src="https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400"
+            src=""
           />
           <img
-            alt="Help 2"
+            alt="A joyful family stands in a lush field on a sunny day"
             class="w-1/2 rounded-lg"
-            src="https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400"
+            src=""
           />
         </div>
       </div>
@@ -225,33 +264,72 @@ exports[`LandingPage renders correctly 1`] = `
           class="cards-section"
         >
           <div
-            class="community-card"
-            style="background-image: url(https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400); margin-top: 0px;"
+            class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+            style="margin-top: 0px;"
           >
+            <img
+              alt="Red rescue jacket and cap with Red Cross logos"
+              class="absolute w-full h-full object-cover"
+              src=""
+            />
             <div
-              class="card-overlay"
+              class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
             >
-              Take help from our Volunteers
+              <div
+                class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+              >
+                <p
+                  class="text-white text-lg font-bold text-center"
+                >
+                  Take help from our Volunteers
+                </p>
+              </div>
             </div>
           </div>
           <div
-            class="community-card"
-            style="background-image: url(https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400); margin-top: 120px;"
+            class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+            style="margin-top: 120px;"
           >
+            <img
+              alt="A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
+              class="absolute w-full h-full object-cover"
+              src=""
+            />
             <div
-              class="card-overlay"
+              class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
             >
-              Planning and budgeting advice for travel
+              <div
+                class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+              >
+                <p
+                  class="text-white text-lg font-bold text-center"
+                >
+                  Planning and budgeting advice for travel
+                </p>
+              </div>
             </div>
           </div>
           <div
-            class="community-card"
-            style="background-image: url(https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/STK093_GOOGLE_E.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400); margin-top: 240px;"
+            class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+            style="margin-top: 240px;"
           >
+            <img
+              alt="Woman hiking at sunset with a backpack and trekking poles, set against a mountainous landscape"
+              class="absolute w-full h-full object-cover"
+              src=""
+            />
             <div
-              class="card-overlay"
+              class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
             >
-              A whole new community of charity organisations
+              <div
+                class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+              >
+                <p
+                  class="text-white text-lg font-bold text-center"
+                >
+                  A whole new community of charity organisations
+                </p>
+              </div>
             </div>
           </div>
         </div>

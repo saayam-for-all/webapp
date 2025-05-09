@@ -45,7 +45,12 @@ export default function Carousel() {
         className="mySwiper "
       >
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+          <div>
+            <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+            <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2  text-white text-sm px-3 py-1 rounded">
+              Forest Sunrise
+            </div>
+          </div>
         </SwiperSlide>
         <SwiperSlide>
           <img src="https://swiperjs.com/demos/images/nature-2.jpg" />

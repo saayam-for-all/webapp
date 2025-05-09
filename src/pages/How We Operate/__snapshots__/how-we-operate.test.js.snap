@@ -6,93 +6,317 @@ exports[`HowWeOperate renders correctly 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="px-20 mt-6"
+        class="font-sans"
       >
-        <div>
-          <h1
-            class="text-3xl font-semibold text-center"
+        <section
+          class="text-center px-4 py-12 bg-white"
+        >
+          <h2
+            class="text-3xl font-bold mb-4"
           >
-            mockTranslate(HOW_WE_OPERATE)
-          </h1>
+            Volunteer Services
+          </h2>
+          <p
+            class="text-gray-700 max-w-3xl mx-auto mb-4"
+          >
+            At Saayam for All, we connect individuals who need assistance with compassionate volunteers ready to help.
+          </p>
+          <p
+            class="text-gray-700 max-w-3xl mx-auto mb-10"
+          >
+            Whether it's delivering groceries, providing companionship, or supporting small everyday tasks, our volunteers make a real difference—one request at a time. We believe in building a community where help is just a request away.
+          </p>
           <div
-            class="flex"
+            class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto"
           >
-            <div
-              class="w-5/12"
+            <img
+              alt="Grocery Delivery"
+              class="rounded-xl object-cover h-64 w-full"
+              src="s5"
+            />
+            <img
+              alt="Group Volunteering"
+              class="rounded-xl object-cover h-64 w-full"
+              src="s5"
+            />
+            <img
+              alt="Beach Cleanup"
+              class="rounded-xl object-cover h-64 w-full"
+              src="s5"
+            />
+          </div>
+        </section>
+        <div
+          class="py-16 px-4"
+        >
+          <div
+            class="max-w-4xl mx-auto"
+          >
+            <h2
+              class="text-3xl font-bold text-center mb-4"
             >
-              <a
-                href="https://youtu.be/9CBLVoSSuwM"
+              How We Operate
+            </h2>
+            <p
+              class="text-center text-gray-600 mb-12"
+            >
+              At Saayam For All, getting help is as simple and seamless as requesting a ride.
+              <br />
+              Get help in 5 easy steps.
+            </p>
+            <div
+              class="relative h-full min-h-[800px]"
+            >
+              <div
+                class="absolute left-1/2 top-28 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+              />
+              <div
+                class="step-box"
               >
-                <img
-                  alt="how we operate"
-                  class="h-96 mt-5"
-                  src=""
-                />
-              </a>
+                <div
+                  class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-center mb-16"
+                >
+                  <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                  />
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                  >
+                    <img
+                      alt="Request for Help"
+                      class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                  >
+                    <div
+                      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                    >
+                      1
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pl-16 sm:justify-start sm:-translate-x-12"
+                  >
+                    <div
+                      class="my-auto text-center sm:text-left px-4 sm:px-0"
+                    >
+                      <h3
+                        class="text-xl font-bold leading-tight mb-2"
+                      >
+                        Request for Help
+                      </h3>
+                      <p
+                        class="text-gray-600"
+                      >
+                        Submit a request for the support you need—just like booking a ride through an app.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative flex flex-col sm:flex-row  items-center mb-16"
+                >
+                  <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                  />
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                  >
+                    <img
+                      alt=" Get Matching With a Volunteer"
+                      class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                  >
+                    <div
+                      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                    >
+                      2
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pr-16 sm:justify-end sm:translate-x-12"
+                  >
+                    <div
+                      class="my-auto text-center sm:text-left px-4 sm:px-0"
+                    >
+                      <h3
+                        class="text-xl font-bold leading-tight mb-2"
+                      >
+                         Get Matching With a Volunteer
+                      </h3>
+                      <p
+                        class="text-gray-600"
+                      >
+                        We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-center mb-16"
+                >
+                  <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                  />
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                  >
+                    <img
+                      alt="Confirm Your Volunteer"
+                      class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                  >
+                    <div
+                      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                    >
+                      3
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pl-16 sm:justify-start sm:-translate-x-12"
+                  >
+                    <div
+                      class="my-auto text-center sm:text-left px-4 sm:px-0"
+                    >
+                      <h3
+                        class="text-xl font-bold leading-tight mb-2"
+                      >
+                        Confirm Your Volunteer
+                      </h3>
+                      <p
+                        class="text-gray-600"
+                      >
+                        From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative flex flex-col sm:flex-row  items-center mb-16"
+                >
+                  <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                  />
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                  >
+                    <img
+                      alt="Connect and Coordinate"
+                      class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                  >
+                    <div
+                      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                    >
+                      4
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pr-16 sm:justify-end sm:translate-x-12"
+                  >
+                    <div
+                      class="my-auto text-center sm:text-left px-4 sm:px-0"
+                    >
+                      <h3
+                        class="text-xl font-bold leading-tight mb-2"
+                      >
+                        Connect and Coordinate
+                      </h3>
+                      <p
+                        class="text-gray-600"
+                      >
+                        Your volunteer reaches out to finalize details and schedule the support you need.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-center mb-16"
+                >
+                  <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                  />
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                  >
+                    <img
+                      alt="Receive Assistance"
+                      class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                  >
+                    <div
+                      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                    >
+                      5
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pl-16 sm:justify-start sm:-translate-x-12"
+                  >
+                    <div
+                      class="my-auto text-center sm:text-left px-4 sm:px-0"
+                    >
+                      <h3
+                        class="text-xl font-bold leading-tight mb-2"
+                      >
+                        Receive Assistance
+                      </h3>
+                      <p
+                        class="text-gray-600"
+                      >
+                        The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
-              class="flex flex-col text-left justify-center w-7/12"
+              class="text-center mt-32"
             >
-              <div>
-                <h1
-                  class="mt-5 text-lg font-semibold px-5"
-                >
-                  mockTranslate(HELP_REQUEST)
-                </h1>
-                <p
-                  class="text-sm px-5"
-                >
-                  mockTranslate(ASK_FOR_HELP)
-                </p>
-              </div>
-              <div>
-                <h1
-                  class="mt-5 text-lg font-semibold px-5"
-                >
-                  mockTranslate(MATCHING_PROCESS)
-                </h1>
-                <p
-                  class="text-sm px-5"
-                >
-                  mockTranslate(REQUEST_WILL_BE_MATCHED)
-                </p>
-              </div>
-              <div>
-                <h1
-                  class="mt-5 text-lg font-semibold px-5"
-                >
-                  mockTranslate(VOLUNTEER_SELECTION)
-                </h1>
-                <p
-                  class="text-sm px-5"
-                >
-                  mockTranslate(FROM_POTENTIAL_MATCHES)
-                </p>
-              </div>
-              <div>
-                <h1
-                  class="mt-5 text-lg font-semibold px-5"
-                >
-                  mockTranslate(VOLUNTEER_APPROACH)
-                </h1>
-                <p
-                  class="text-sm px-5"
-                >
-                  mockTranslate(VOLUNTEER_WILL_CONTACT)
-                </p>
-              </div>
-              <div>
-                <h1
-                  class="mt-5 text-lg font-semibold px-5"
-                >
-                  mockTranslate(ASSISTANCE_PROVIDED)
-                </h1>
-                <p
-                  class="text-sm px-5"
-                >
-                  mockTranslate(VOLUNTEER_WILL_WORK)
-                </p>
-              </div>
+              <span
+                class="text-blue-500 text-2xl font-bold"
+              >
+                Connecting help to those who need it.
+              </span>
+            </div>
+            <div
+              class="text-center mt-32"
+            >
+              <h3
+                class="text-2xl font-bold mb-4"
+              >
+                Looking to volunteer with us?
+              </h3>
+              <p
+                class="text-gray-600 mb-6"
+              >
+                Chat with our community and get in touch with us!
+              </p>
+              <button
+                class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                Join the community
+              </button>
             </div>
           </div>
         </div>
@@ -101,93 +325,317 @@ exports[`HowWeOperate renders correctly 1`] = `
   </body>,
   "container": <div>
     <div
-      class="px-20 mt-6"
+      class="font-sans"
     >
-      <div>
-        <h1
-          class="text-3xl font-semibold text-center"
+      <section
+        class="text-center px-4 py-12 bg-white"
+      >
+        <h2
+          class="text-3xl font-bold mb-4"
         >
-          mockTranslate(HOW_WE_OPERATE)
-        </h1>
+          Volunteer Services
+        </h2>
+        <p
+          class="text-gray-700 max-w-3xl mx-auto mb-4"
+        >
+          At Saayam for All, we connect individuals who need assistance with compassionate volunteers ready to help.
+        </p>
+        <p
+          class="text-gray-700 max-w-3xl mx-auto mb-10"
+        >
+          Whether it's delivering groceries, providing companionship, or supporting small everyday tasks, our volunteers make a real difference—one request at a time. We believe in building a community where help is just a request away.
+        </p>
         <div
-          class="flex"
+          class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto"
         >
-          <div
-            class="w-5/12"
+          <img
+            alt="Grocery Delivery"
+            class="rounded-xl object-cover h-64 w-full"
+            src="s5"
+          />
+          <img
+            alt="Group Volunteering"
+            class="rounded-xl object-cover h-64 w-full"
+            src="s5"
+          />
+          <img
+            alt="Beach Cleanup"
+            class="rounded-xl object-cover h-64 w-full"
+            src="s5"
+          />
+        </div>
+      </section>
+      <div
+        class="py-16 px-4"
+      >
+        <div
+          class="max-w-4xl mx-auto"
+        >
+          <h2
+            class="text-3xl font-bold text-center mb-4"
           >
-            <a
-              href="https://youtu.be/9CBLVoSSuwM"
+            How We Operate
+          </h2>
+          <p
+            class="text-center text-gray-600 mb-12"
+          >
+            At Saayam For All, getting help is as simple and seamless as requesting a ride.
+            <br />
+            Get help in 5 easy steps.
+          </p>
+          <div
+            class="relative h-full min-h-[800px]"
+          >
+            <div
+              class="absolute left-1/2 top-28 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+            />
+            <div
+              class="step-box"
             >
-              <img
-                alt="how we operate"
-                class="h-96 mt-5"
-                src=""
-              />
-            </a>
+              <div
+                class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-center mb-16"
+              >
+                <div
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                />
+                <div
+                  class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                >
+                  <img
+                    alt="Request for Help"
+                    class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                >
+                  <div
+                    class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                  >
+                    1
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pl-16 sm:justify-start sm:-translate-x-12"
+                >
+                  <div
+                    class="my-auto text-center sm:text-left px-4 sm:px-0"
+                  >
+                    <h3
+                      class="text-xl font-bold leading-tight mb-2"
+                    >
+                      Request for Help
+                    </h3>
+                    <p
+                      class="text-gray-600"
+                    >
+                      Submit a request for the support you need—just like booking a ride through an app.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative flex flex-col sm:flex-row  items-center mb-16"
+              >
+                <div
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                />
+                <div
+                  class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                >
+                  <img
+                    alt=" Get Matching With a Volunteer"
+                    class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                >
+                  <div
+                    class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                  >
+                    2
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pr-16 sm:justify-end sm:translate-x-12"
+                >
+                  <div
+                    class="my-auto text-center sm:text-left px-4 sm:px-0"
+                  >
+                    <h3
+                      class="text-xl font-bold leading-tight mb-2"
+                    >
+                       Get Matching With a Volunteer
+                    </h3>
+                    <p
+                      class="text-gray-600"
+                    >
+                      We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-center mb-16"
+              >
+                <div
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                />
+                <div
+                  class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                >
+                  <img
+                    alt="Confirm Your Volunteer"
+                    class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                >
+                  <div
+                    class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                  >
+                    3
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pl-16 sm:justify-start sm:-translate-x-12"
+                >
+                  <div
+                    class="my-auto text-center sm:text-left px-4 sm:px-0"
+                  >
+                    <h3
+                      class="text-xl font-bold leading-tight mb-2"
+                    >
+                      Confirm Your Volunteer
+                    </h3>
+                    <p
+                      class="text-gray-600"
+                    >
+                      From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative flex flex-col sm:flex-row  items-center mb-16"
+              >
+                <div
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                />
+                <div
+                  class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                >
+                  <img
+                    alt="Connect and Coordinate"
+                    class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                >
+                  <div
+                    class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                  >
+                    4
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pr-16 sm:justify-end sm:translate-x-12"
+                >
+                  <div
+                    class="my-auto text-center sm:text-left px-4 sm:px-0"
+                  >
+                    <h3
+                      class="text-xl font-bold leading-tight mb-2"
+                    >
+                      Connect and Coordinate
+                    </h3>
+                    <p
+                      class="text-gray-600"
+                    >
+                      Your volunteer reaches out to finalize details and schedule the support you need.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-center mb-16"
+              >
+                <div
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0"
+                />
+                <div
+                  class="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none"
+                >
+                  <img
+                    alt="Receive Assistance"
+                    class="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2"
+                >
+                  <div
+                    class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg"
+                  >
+                    5
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 z-10 flex order-2 sm:order-none sm:pl-16 sm:justify-start sm:-translate-x-12"
+                >
+                  <div
+                    class="my-auto text-center sm:text-left px-4 sm:px-0"
+                  >
+                    <h3
+                      class="text-xl font-bold leading-tight mb-2"
+                    >
+                      Receive Assistance
+                    </h3>
+                    <p
+                      class="text-gray-600"
+                    >
+                      The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div
-            class="flex flex-col text-left justify-center w-7/12"
+            class="text-center mt-32"
           >
-            <div>
-              <h1
-                class="mt-5 text-lg font-semibold px-5"
-              >
-                mockTranslate(HELP_REQUEST)
-              </h1>
-              <p
-                class="text-sm px-5"
-              >
-                mockTranslate(ASK_FOR_HELP)
-              </p>
-            </div>
-            <div>
-              <h1
-                class="mt-5 text-lg font-semibold px-5"
-              >
-                mockTranslate(MATCHING_PROCESS)
-              </h1>
-              <p
-                class="text-sm px-5"
-              >
-                mockTranslate(REQUEST_WILL_BE_MATCHED)
-              </p>
-            </div>
-            <div>
-              <h1
-                class="mt-5 text-lg font-semibold px-5"
-              >
-                mockTranslate(VOLUNTEER_SELECTION)
-              </h1>
-              <p
-                class="text-sm px-5"
-              >
-                mockTranslate(FROM_POTENTIAL_MATCHES)
-              </p>
-            </div>
-            <div>
-              <h1
-                class="mt-5 text-lg font-semibold px-5"
-              >
-                mockTranslate(VOLUNTEER_APPROACH)
-              </h1>
-              <p
-                class="text-sm px-5"
-              >
-                mockTranslate(VOLUNTEER_WILL_CONTACT)
-              </p>
-            </div>
-            <div>
-              <h1
-                class="mt-5 text-lg font-semibold px-5"
-              >
-                mockTranslate(ASSISTANCE_PROVIDED)
-              </h1>
-              <p
-                class="text-sm px-5"
-              >
-                mockTranslate(VOLUNTEER_WILL_WORK)
-              </p>
-            </div>
+            <span
+              class="text-blue-500 text-2xl font-bold"
+            >
+              Connecting help to those who need it.
+            </span>
+          </div>
+          <div
+            class="text-center mt-32"
+          >
+            <h3
+              class="text-2xl font-bold mb-4"
+            >
+              Looking to volunteer with us?
+            </h3>
+            <p
+              class="text-gray-600 mb-6"
+            >
+              Chat with our community and get in touch with us!
+            </p>
+            <button
+              class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Join the community
+            </button>
           </div>
         </div>
       </div>
