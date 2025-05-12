@@ -50,44 +50,74 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
         <mock-carousel />
         <div
-          class="w-full flex flex-col items-center mt-[100px] mb-[100px]"
+          class="relative w-full flex flex-col overflow-hidden items-center mb-[50px]"
         >
           <h3
-            class="font-bold text-4xl pb-5"
+            class="font-bold text-4xl mb-[40px]"
           >
             Our Collaborators
           </h3>
           <div
-            class="w-full flex flex-row justify-center gap-20 items-center"
+            class="w-full flex flex-row overflow-hidden"
           >
-            <img
-              class="w-[100px] h-fit"
-              src=""
-            />
-            <img
-              class="w-[100px] h-fit"
-              src=""
-            />
-            <img
-              class="w-[80px] h-fit"
-              src=""
-            />
-            <img
-              class="w-[100px] h-fit"
-              src=""
-            />
-            <img
-              class="w-[100px] h-fit"
-              src=""
-            />
-            <img
-              class="w-[140px] h-fit"
-              src=""
-            />
-            <img
-              class="w-[70px] h-fit"
-              src=""
-            />
+            <div
+              class="scroll imgBox"
+            >
+              <div>
+                <img
+                  class="w-[150px] ml-[75px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  class="w-[125px]"
+                  src=""
+                />
+              </div>
+              <div>
+                <img
+                  class="w-[150px] ml-[75px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  class="w-[125px]"
+                  src=""
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -310,44 +340,74 @@ exports[`LandingPage renders correctly 1`] = `
       </div>
       <mock-carousel />
       <div
-        class="w-full flex flex-col items-center mt-[100px] mb-[100px]"
+        class="relative w-full flex flex-col overflow-hidden items-center mb-[50px]"
       >
         <h3
-          class="font-bold text-4xl pb-5"
+          class="font-bold text-4xl mb-[40px]"
         >
           Our Collaborators
         </h3>
         <div
-          class="w-full flex flex-row justify-center gap-20 items-center"
+          class="w-full flex flex-row overflow-hidden"
         >
-          <img
-            class="w-[100px] h-fit"
-            src=""
-          />
-          <img
-            class="w-[100px] h-fit"
-            src=""
-          />
-          <img
-            class="w-[80px] h-fit"
-            src=""
-          />
-          <img
-            class="w-[100px] h-fit"
-            src=""
-          />
-          <img
-            class="w-[100px] h-fit"
-            src=""
-          />
-          <img
-            class="w-[140px] h-fit"
-            src=""
-          />
-          <img
-            class="w-[70px] h-fit"
-            src=""
-          />
+          <div
+            class="scroll imgBox"
+          >
+            <div>
+              <img
+                class="w-[150px] ml-[75px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                class="w-[125px]"
+                src=""
+              />
+            </div>
+            <div>
+              <img
+                class="w-[150px] ml-[75px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                class="w-[125px]"
+                src=""
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div

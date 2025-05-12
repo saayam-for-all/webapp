@@ -54,16 +54,48 @@ export default function Home() {
         </div>
       </div>
       <Carousel />
-      <div className="w-full flex flex-col items-center mt-[100px] mb-[100px]">
-        <h3 className="font-bold text-4xl pb-5">Our Collaborators</h3>
-        <div className="w-full flex flex-row justify-center gap-20 items-center">
-          <img src={collabOne} className="w-[100px] h-fit"></img>
-          <img src={collabTwo} className="w-[100px] h-fit"></img>
-          <img src={collabThree} className="w-[80px] h-fit"></img>
-          <img src={collabFour} className="w-[100px] h-fit"></img>
-          <img src={collabFive} className="w-[100px] h-fit"></img>
-          <img src={collabSix} className="w-[140px] h-fit"></img>
-          <img src={collabSeven} className="w-[70px] h-fit"></img>
+      <div className="relative w-full flex flex-col overflow-hidden items-center mb-[50px]">
+        <h3 className="font-bold text-4xl mb-[40px]">Our Collaborators</h3>
+
+        <div className="w-full flex flex-row overflow-hidden">
+          <div className="scroll imgBox">
+            <div>
+              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
+              <img src={collabTwo}></img>
+              <img src={collabThree} className="w-[200px]"></img>
+              <img src={collabFour}></img>
+              <img src={collabFive}></img>
+              <img src={collabSix} className="w-[200px]"></img>
+              <img src={collabSeven} className="w-[125px]"></img>
+            </div>
+            <div>
+              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
+              <img src={collabTwo}></img>
+              <img src={collabThree} className="w-[200px]"></img>
+              <img src={collabFour}></img>
+              <img src={collabFive}></img>
+              <img src={collabSix} className="w-[200px]"></img>
+              <img src={collabSeven} className="w-[125px]"></img>
+            </div>
+          </div>
+          {/* <div className="landing-colab-scroll">
+            <img src={collabOne} className="w-[100px] h-fit"></img>
+            <img src={collabTwo} className="w-[150px] h-fit"></img>
+            <img src={collabThree} className="w-[120px] h-fit"></img>
+            <img src={collabFour} className="w-[100px] h-fit"></img>
+            <img src={collabFive} className="w-[100px] h-fit"></img>
+            <img src={collabSix} className="w-[160px] h-fit"></img>
+            <img src={collabSeven} className="w-[70px] h-fit"></img>
+          </div>
+          <div className="landing-colab landing-colab-scroll-two">
+            <img src={collabOne} className="w-[100px] h-fit"></img>
+            <img src={collabTwo} className="w-[100px] h-fit"></img>
+            <img src={collabThree} className="w-[80px] h-fit"></img>
+            <img src={collabFour} className="w-[100px] h-fit"></img>
+            <img src={collabFive} className="w-[100px] h-fit"></img>
+            <img src={collabSix} className="w-[140px] h-fit"></img>
+            <img src={collabSeven} className="w-[70px] h-fit"></img>
+          </div> */}
         </div>
       </div>
       {/* First Section */}

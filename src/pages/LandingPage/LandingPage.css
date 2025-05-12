@@ -24,3 +24,85 @@
   background-color: #3c54d1;
   cursor: pointer;
 }
+
+.landing-colab-scroll {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  /* animation: scroll-left 10s linear infinite; */
+  justify-content: space-around;
+}
+
+.landing-colab-scroll-two {
+  /* animation: scroll-left 10s linear infinite; */
+  margin-left: 100%;
+  animation-delay: 5s;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.scroll {
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #fff 20%,
+    #fff 80%,
+    transparent
+  );
+}
+
+.scroll div {
+  white-space: nowrap;
+  animation: scroll 25s linear infinite;
+  animation-delay: calc(25s * -1);
+}
+
+.scroll div:nth-child(2) {
+  animation: scroll2 25s linear infinite;
+  animation-delay: calc(25s / -2);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scroll2 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+.imgBox div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 50px;
+}
+
+.imgBox img {
+  max-width: 250px;
+  scale: 0.8;
+}
