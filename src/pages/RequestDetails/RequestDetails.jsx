@@ -94,7 +94,7 @@ const RequestDetails = () => {
               document.body,
             )}
           <div className="flex flex-row justify-between md:items-center">
-            <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 uppercase">
+            <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 capitalize">
               {requestData.subject}
             </h2>
             {/**Edit Button was previously here */}
