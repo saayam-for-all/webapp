@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 // import RequestDetailsSidebar from "./RequestDetailsSidebar";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import RequestButton from "../../common/components/RequestButton/RequestButton";
 import { getComments, getMyRequests } from "../../services/requestServices";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
@@ -22,6 +22,7 @@ const RequestDetails = () => {
   const [comments, setComments] = useState([]);
   const [tab, setTab] = useState("Comments");
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isEditing) {
@@ -67,6 +68,14 @@ const RequestDetails = () => {
 
   return (
     <div className="m-8 grid grid-cols-13 gap-4">
+      <div className="w-full px-4 mb-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+        >
+          <span className="text-2xl mr-2">&lt;</span> Back to Home
+        </button>
+      </div>
       {!requestData ? (
         <div>Loading...</div>
       ) : (
@@ -94,7 +103,7 @@ const RequestDetails = () => {
               document.body,
             )}
           <div className="flex flex-row justify-between md:items-center">
-            <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 uppercase">
+            <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 capitalize">
               {requestData.subject}
             </h2>
             {/**Edit Button was previously here */}
