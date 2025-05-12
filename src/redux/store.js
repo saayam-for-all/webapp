@@ -6,14 +6,16 @@ import volunteerReducer from "./features/volunteer/volunteerSlice";
 import adminReducer from "./features/admin/adminSlice";
 import requestReducer from "./features/help_request/requestSlice";
 import { requestApi } from "../services/requestApi";
+import profileImgReducer from "./features/user/profileImgSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     // signup: signupReducer,
-    // user: userReducer,
+    user: userReducer,
     // volunteer: volunteerReducer,
     // admin: adminReducer,
+    profileImg: profileImgReducer,
     request: requestReducer,
     [requestApi.reducerPath]: requestApi.reducer,
   },

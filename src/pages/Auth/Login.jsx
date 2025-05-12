@@ -8,7 +8,10 @@ import { z } from "zod";
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 import "./Login.css";
-
+import { setUserId } from "../../redux/features/user/userSlice.js";
+import { setProfileImgUrl } from "../../redux/features/user/profileImgSlice.js";
+import axios from "axios";
+//import { C } from "vitest/dist/chunks/reporters.d.CqBhtcTq.js";
 const loginSchema = z.object({
   email: z.string().min(1, "Please enter your email"),
   password: z.string().min(1, "Please enter your password"),
@@ -25,6 +28,7 @@ const LoginPage = () => {
   const [passwordFocus, setPasswordFocus] = useState(false);
 
   const [errors, setErrors] = useState({});
+  // const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
 
@@ -36,7 +40,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const token = useSelector((state) => state.auth.idToken);
   const handleSignIn = async () => {
     try {
       const result = loginSchema.safeParse({
@@ -58,6 +62,41 @@ const LoginPage = () => {
       });
       if (isSignedIn) {
         await dispatch(checkAuthStatus());
+        const getUserProfileId = async function (emailId) {
+          try {
+            const response = await axios({
+              method: "GET",
+              url: `http://localhost:8080/0.0.1/users/login/${encodeURIComponent(emailId)}`,
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, // Ensure token is available in the scope
+              },
+            });
+            if (response.status === 200) {
+              const data = response.data; // Axios automatically parses the response as JSON
+              const userId = data.data.id; // Assuming the response has a userId field
+              const profilePhoto = data.data.profileImageUrl; // Assuming the response has a profilePhoto field
+              return [userId, profilePhoto]; // Return the userId or any other necessary data from the response
+            } else {
+              console.error(
+                "Failed to fetch user profile, status code:",
+                response.status,
+              );
+            }
+          } catch (error) {
+            console.error("Error fetching user profile:", error); // Log any errors that occur
+          }
+        };
+        const [userIdFromApi, url] = await getUserProfileId(emailValue);
+        console.log("userIdFromApi", userIdFromApi);
+        console.log("url", url);
+        // console.log("userIdFromApi", userIdFromApi);
+        dispatch(setUserId(userIdFromApi));
+        if (url !== null) {
+          dispatch(setProfileImgUrl(url));
+          localStorage.setItem("profilePhoto", url);
+          window.dispatchEvent(new Event("profile-photo-updated"));
+        }
         navigate("/dashboard");
       }
     } catch (error) {

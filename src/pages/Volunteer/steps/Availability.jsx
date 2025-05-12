@@ -143,7 +143,7 @@ const TimeInputList = ({ components, setComponents }) => {
       ...components,
       {
         id: newId,
-        day: "Everyday",
+        day: component.day,
         startTime: "00:00",
         endTime: "00:00",
       },

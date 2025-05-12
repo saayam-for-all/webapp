@@ -13,8 +13,9 @@ import {
   updateVolunteer,
 } from "../../services/volunteerServices";
 import { getCurrentUser } from "aws-amplify/auth";
+import { setUserId } from "../../redux/features/user/userSlice";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -28,61 +29,34 @@ const PromoteToVolunteer = () => {
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
-  const [userId, setUserId] = useState(null);
+  //const [userId, setUserId] = useState(null);
+  const userId = useSelector((state) => state.user.userId);
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first selected file
+    setGovtIdFile(file); // Set it to state
+  };
   useEffect(() => {
     const fetchUserId = async () => {
       try {
         // Fetch current user details (loginId)
-        const user = await getCurrentUser(); // Assuming getCurrentUser is a function that fetches the user data
-        // setUserId("SID-00-000-000-");
-        const loginId = user.signInDetails.loginId;
-
-        // Fetch user profile using loginId
-        const userIdFromApi = await getUserProfile(loginId);
-
-        if (userIdFromApi) {
-          //console.log(userIdFromApi, "userIdFromApi out call");  // Log the fetched userId
-          setUserId(userIdFromApi); // Set the fetched userId to state
-        }
+        const user = await getCurrentUser();
       } catch (error) {
         console.error("Error fetching user ID:", error);
       }
     };
-
     // Only fetch userId once when the component mounts
     fetchUserId();
   }, []);
-  const getUserProfile = async function (emailId) {
-    try {
-      const response = await axios({
-        method: "GET", // Use GET method
-        url: `http://localhost:8080/0.0.1/users/login/${encodeURIComponent(emailId)}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Ensure token is available in the scope
-        },
-      });
-
-      // Assuming response.status is 200 for a successful request
-      if (response.status === 200) {
-        const data = response.data; // Axios automatically parses the response as JSON
-        const userId = data.data.id; // Assuming the response has a userId field
-
-        //console.log(data);  // Log the data received from backend
-        console.log(userId, "userId in call"); // Log the userId
-        return userId; // Return the userId or any other necessary data from the response
-      } else {
-        console.error(
-          "Failed to fetch user profile, status code:",
-          response.status,
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching user profile:", error); // Log any errors that occur
+  useEffect(() => {
+    // This will run after userId has been updated
+    if (userId) {
+      console.log("User ID is set:", userId);
+    } else {
+      console.log("User ID is not set");
     }
-  };
-
+  }, [userId]); // This hook will run whenever userId changes
   const fetchSkills = async () => {
     try {
       const response = await getVolunteerSkills();
@@ -170,40 +144,54 @@ const PromoteToVolunteer = () => {
   };
 
   const saveVolunteerData = async () => {
-    //console.log(volunteerDataRef.current, "volunteerDataRef.current");
-    //console.log("Current Step:", volunteerDataRef.current.step);
     try {
-      // console.log("Sending API Request with volunteerData:", volunteerDataRef.current);
+      const formData = new FormData();
+      if (
+        volunteerDataRef.current.step === 2 &&
+        govtIdFile &&
+        govtIdFile.name !== ""
+      ) {
+        formData.append("file", govtIdFile); // Assuming govtIdFile is the file you want to send
+      }
 
-      /* .........Uncomment this for local testing without aws api ...........*/
+      formData.append(
+        "volunteerData",
+        JSON.stringify(volunteerDataRef.current),
+      );
 
+      // Determine the API URL based on the current step
+      const apiUrl =
+        volunteerDataRef.current.step === 1
+          ? "http://localhost:8080/0.0.1/volunteers/createvolunteer"
+          : volunteerDataRef.current.step === 2
+            ? "http://localhost:8080/0.0.1/volunteers/updatestep2"
+            : volunteerDataRef.current.step === 3
+              ? "http://localhost:8080/0.0.1/volunteers/updatestep3"
+              : "http://localhost:8080/0.0.1/volunteers/updatestep4";
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const data =
+        volunteerDataRef.current.step === 2
+          ? formData // For step 2, send FormData (with the file and other metadata)
+          : volunteerDataRef.current;
       const response = await axios({
         method: volunteerDataRef.current.step === 1 ? "post" : "put",
-        url:
-          volunteerDataRef.current.step === 1
-            ? "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/volunteers/v0.0.1/create-volunteer" //"http://localhost:8080/0.0.1/volunteers/createvolunteer"//
-            : "http://localhost:8080/0.0.1/volunteers/updatevolunteer",
-
-        data: volunteerDataRef.current, // Get latest data from ref
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        timeout: 20000,
+        url: apiUrl,
+        data: data,
+        headers: headers,
       });
       return response;
-      // if (volunteerDataRef.current.step === 1) {
-      //   const response = await createVolunteer(volunteerDataRef.current);
-      //   return response;
-      // } else {
-      //   const response = await updateVolunteer(volunteerDataRef.current);
-      //   return response;
-      // }
     } catch (error) {
-      console.error(
-        "API Error:",
-        error.response ? error.response.data : error.message,
-      );
+      const errorMessage =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
+
+      console.error("API Error:", errorMessage);
+
+      // Show the message to the user
+      alert(errorMessage); // You can replace this with a toast/snackbar if preferred
+
       return null;
     }
   };
@@ -231,7 +219,6 @@ const PromoteToVolunteer = () => {
 
   const updateVolunteerData = (updates) => {
     volunteerDataRef.current = { ...volunteerDataRef.current, ...updates };
-    // console.log("Updated volunteerDataRef:", volunteerDataRef.current);
   };
 
   const handleClick = async (direction) => {
@@ -248,7 +235,6 @@ const PromoteToVolunteer = () => {
             termsAndConditions: isAcknowledged,
           });
           saveVolunteerData();
-          //testLocalBe();
           break;
         case 2:
           isValidStep = govtIdFile && govtIdFile.name !== "";
@@ -286,13 +272,7 @@ const PromoteToVolunteer = () => {
 
       if (isValidStep) {
         try {
-          // await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure all updates are made
-          // const result = await saveVolunteerData();
-          // if (!result || !result.data || result.data.statusCode !== 200) {
-          //   console.error("Save failed. Step not increased.");
-          //   setErrorMessage("Save Failed.");
-          //   return;
-          // }
+          setErrorMessage("");
           newStep++;
         } catch (error) {
           console.error("Error in handleClick:", error);

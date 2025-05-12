@@ -6,7 +6,8 @@ import Sidebar from "./Sidebar";
 import Modal from "./Modal";
 import OrganizationDetails from "./OrganizationDetails";
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
-
+import { useSelector } from "react-redux";
+import { setProfileImgUrl } from "../../redux/features/user/profileImgSlice.js";
 function Profile() {
   const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
   const [tempProfilePhoto, setTempProfilePhoto] =
@@ -17,6 +18,7 @@ function Profile() {
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
+
     if (savedProfilePhoto) {
       setProfilePhoto(savedProfilePhoto);
       setTempProfilePhoto(savedProfilePhoto);

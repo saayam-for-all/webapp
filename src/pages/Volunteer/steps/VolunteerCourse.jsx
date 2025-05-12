@@ -10,29 +10,32 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
   const fileInputRef = useRef(null); // Reference to the file input
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+    const uploadedFile = e.target.files[0];
+    setSelectedFile(uploadedFile);
 
-    if (selectedFile) {
+    if (uploadedFile) {
       // Validate file size (2MB = 2 * 1024 * 1024 bytes)
-      if (selectedFile.size > 2 * 1024 * 1024) {
+      if (uploadedFile.size > 2 * 1024 * 1024) {
         setError("File size should not exceed 2MB");
         setFile(null);
         setPreview("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
         return;
       }
 
       // Validate file type
       const allowedTypes = ["image/jpg", "image/jpeg", "application/pdf"];
-      if (!allowedTypes.includes(selectedFile.type)) {
+      if (!allowedTypes.includes(uploadedFile.type)) {
         setError("Only JPEG, JPG, and PDF files are allowed");
         setFile(null);
         setPreview("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
         return;
       }
 
       setError("");
-      setFile(selectedFile);
-      setPreview(URL.createObjectURL(selectedFile));
+      setFile(uploadedFile);
+      setPreview(URL.createObjectURL(uploadedFile));
     }
   };
 
@@ -181,7 +184,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
       {/* Upload and Remove Buttons */}
       <div className="flex justify-between items-center">
         <button
-          onClick={handleUpload}
+          // onClick={handleUpload}
           disabled={!file || isLoading}
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
         >

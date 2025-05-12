@@ -32,7 +32,7 @@ const Navbar = () => {
 
     const handleStorageChange = (event) => {
       if (event.key === "profilePhoto") {
-        setProfileIcon(event.newValue);
+        setProfileIcon(savedProfilePhoto);
       }
     };
 
