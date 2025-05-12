@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { List, ListItem, ListItemText } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaEdit, FaSave } from "react-icons/fa";
 import { useImmer } from "use-immer";
 import { getVolunteerSkills } from "../../services/volunteerServices";
-import { List, ListItem, ListItemText } from "@mui/material";
 
 const Skills = ({ setHasUnsavedChanges }) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
+  const mockCategories = {
+    Books: { checked: true },
+    Education: {
+      checked: true,
+      Elementary: { checked: true },
+      "Middle School": { checked: true },
+    },
+    Gardening: { checked: true },
+    Matrimonial: { checked: true },
+    Shopping: { checked: true },
+  };
   // Update with user skills data from the API once that is created
-  const [checkedCategories, setCheckedCategories] = useImmer({});
+  const [checkedCategories, setCheckedCategories] = useImmer(mockCategories);
   const [categoriesData, setCategoriesData] = useState();
 
   const getSelectedSkills = (categories, parentPath = "", selected = []) => {
@@ -143,28 +153,6 @@ const Skills = ({ setHasUnsavedChanges }) => {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex space-x-4">
-          {isEditing ? (
-            <button
-              onClick={handleSave}
-              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              <FaSave className="mr-2" />
-              {t("SAVE")}
-            </button>
-          ) : (
-            <button
-              onClick={() => setIsEditing(true)}
-              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              <FaEdit className="mr-2" />
-              {t("EDIT")}
-            </button>
-          )}
-        </div>
-      </div>
-
       <div className="bg-white rounded-lg shadow p-6">
         <div className="space-y-4">
           {categoriesData?.categories?.length > 0 &&
@@ -176,6 +164,23 @@ const Skills = ({ setHasUnsavedChanges }) => {
               </List>
             ))}
         </div>
+      </div>
+      <div className="flex flex-row justify-center items-center mb-6 mt-4">
+        {isEditing ? (
+          <button
+            onClick={handleSave}
+            className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            {t("SAVE")}
+          </button>
+        ) : (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            {t("EDIT")}
+          </button>
+        )}
       </div>
     </div>
   );
