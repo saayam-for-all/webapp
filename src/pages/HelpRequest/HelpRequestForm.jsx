@@ -1,19 +1,27 @@
 import { StandaloneSearchBox } from "@react-google-maps/api";
-import React, { useEffect, useRef, useState } from "react"; //added for testing
+import { useEffect, useRef, useState } from "react"; //added for testing
 import { useTranslation } from "react-i18next";
 import { IoMdInformationCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
+import Modal from "../../common/components/Modal/Modal";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
   useAddRequestMutation,
   useGetAllRequestQuery,
 } from "../../services/requestApi";
-import { checkProfanity, createRequest } from "../../services/requestServices";
+import {
+  checkProfanity,
+  createRequest,
+  predictCategories,
+} from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
+
 const genderOptions = [
   { value: "Select", label: "Select" },
   { value: "Woman", label: "Woman" },
@@ -30,18 +38,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
   const token = useSelector((state) => state.auth.idToken);
+  const groups = useSelector((state) => state.auth.user?.groups);
   const [location, setLocation] = useState("");
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
 
   const [languages, setLanguages] = useState([]);
 
+  const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("General");
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [requestType, setRequestType] = useState("");
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [suggestedCategories, setSuggestedCategories] = useState([]);
 
   const { data, error, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
@@ -58,12 +69,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     phone: "",
     age: "",
     gender: "Select",
+    lead_volunteer: "Ethan Marshall",
     preferred_language: "",
     category: "General",
     request_type: "remote",
     location: "",
     subject: "",
     description: "",
+    priority: "MEDIUM",
   });
 
   const handleChange = (e) => {
@@ -74,6 +87,40 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const closeForm = () => {
     navigate("/dashboard");
   };
+
+  // Fetch predicted categories when category is "General" and debounced values change
+  const fetchPredictedCategories = async () => {
+    if (formData.category !== "General") return; // Only call the API if category is "General"
+    if (!formData.subject || !formData.description) return; // Skip if no relevant data
+
+    try {
+      const requestBody = {
+        subject: formData.subject,
+        description: formData.description,
+      };
+
+      const response = await predictCategories(requestBody);
+      console.log("API Response:", response);
+      const formattedCategories = (response || []).map((category) => ({
+        id: category.toLowerCase(),
+        name: category,
+      }));
+
+      if (formattedCategories.length > 0) {
+        const categoriesWithGeneral = [
+          { id: "general", name: "General" },
+          ...formattedCategories,
+        ];
+
+        setSuggestedCategories(categoriesWithGeneral);
+      } else {
+        setSuggestedCategories([{ id: "general", name: "General" }]);
+      }
+    } catch (error) {
+      console.error("Error fetching predicted categories:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -89,14 +136,23 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
 
       if (res.contains_profanity) {
-        alert(
+        toast.error(
           "Profanity detected. Please remove these word(s) : " +
             res.profanity +
             "  from Subject/Description and submit request again!",
+          {
+            position: "top-center", // You can customize the position
+            autoClose: 2000, // Toast auto-closes after 2 seconds
+            hideProgressBar: true, // Optional: Hide progress bar
+          },
         );
       } else {
         // Proceed with submitting the request if no profanity is found
-        const response = await createRequest(submissionData);
+
+        await fetchPredictedCategories();
+        if (formData.category == "General") {
+          setShowModal(true);
+        }
         // const response = await axios.post(
         //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
         //   submissionData,
@@ -107,11 +163,26 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         //     },
         //   }
         // );
+        else {
+          toast.success(
+            "Request submitted successfully! You will now be redirected to the dashboard.",
+            {
+              position: "top-center", // You can customize the position
+              autoClose: 2000, // Toast auto-closes after 2 seconds
+              hideProgressBar: true, // Optional: Hide progress bar
+            },
+          );
 
-        alert(
-          "Request submitted successfully! You will now be redirected to the dashboard.",
-        );
-        navigate("/dashboard");
+          // Redirect to the dashboard after a short delay
+          setTimeout(() => {
+            navigate("/dashboard", {
+              state: {
+                successMessage:
+                  "New Request #REQ-00-000-000-00011 submitted successfully!",
+              },
+            });
+          }, 2000);
+        }
       }
     } catch (error) {
       console.error("Failed to process request:", error);
@@ -219,10 +290,53 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const [selfFlag, setSelfFlag] = useState(true);
 
+  const handleConfirmCategorySelection = async () => {
+    const submissionData = {
+      ...formData,
+    };
+
+    try {
+      const response = await createRequest(submissionData);
+
+      setShowModal(false);
+      // Show the alert
+      toast.success(
+        "Request submitted successfully! You will now be redirected to the dashboard.",
+        {
+          position: "top-center", // You can customize the position
+          autoClose: 2000, // Toast auto-closes after 2 seconds
+          hideProgressBar: true, // Optional: Hide progress bar
+        },
+      );
+
+      // Redirect to the dashboard after a short delay
+      setTimeout(() => {
+        navigate("/dashboard", {
+          state: {
+            successMessage:
+              "New Request #REQ-00-000-000-00011 submitted successfully!",
+          },
+        });
+      }, 2000); // Wait 2 seconds before redirecting
+    } catch (error) {
+      console.error("Failed to submit request:", error);
+      alert("Failed to submit request!");
+    }
+  };
+
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
+      <ToastContainer />
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
+        <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+          <button
+            onClick={() => navigate("/")}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> Back to Home
+          </button>
+        </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
@@ -239,22 +353,83 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           </div>
 
-          <div className="mt-3" data-testid="parentDivOne">
-            <label
-              htmlFor="self"
-              className="block mb-1 text-gray-700 font-medium"
-            >
-              {t("FOR_SELF")}
-            </label>
-            <select
-              id="self"
-              data-testid="dropdown"
-              className="border border-gray-300 text-gray-700 rounded-lg p-2 w-24"
-              onChange={(e) => setSelfFlag(e.target.value === "yes")}
-              disabled
-            >
-              <option value="yes">{t("YES")}</option>
-            </select>
+          <div className="mt-3 flex gap-4" data-testid="parentDivOne">
+            {/* For Self Dropdown */}
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <label htmlFor="self" className="text-gray-700 font-medium">
+                  {t("FOR_SELF")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select if this request is for yourself or another person.
+                  </div>
+                </div>
+              </div>
+              <select
+                id="self"
+                data-testid="dropdown"
+                className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                onChange={(e) => setSelfFlag(e.target.value === "yes")}
+                disabled
+              >
+                <option value="yes">{t("YES")}</option>
+              </select>
+            </div>
+
+            {/* Lead Volunteer */}
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="lead_volunteer"
+                  className="text-gray-700 font-medium"
+                >
+                  {t("Lead Volunteer")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select if you are a lead volunteer for this request.
+                  </div>
+                </div>
+              </div>
+              {isEdit ? (
+                <input
+                  type="text"
+                  id="lead_volunteer"
+                  name="lead_volunteer"
+                  disabled={
+                    !(
+                      groups?.includes("Admins") ||
+                      groups?.includes("SuperAdmins")
+                    )
+                  }
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg disabled:text-gray-400"
+                />
+              ) : (
+                <select
+                  id="lead_volunteer"
+                  name="lead_volunteer"
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg text-gray-700"
+                >
+                  <option value="No">{t("No")}</option>
+                  <option value="Yes">{t("Yes")}</option>
+                </select>
+              )}
+            </div>
           </div>
           {/* 
           Temporarily commented out as MVP only allows for self requests
@@ -383,19 +558,28 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           )} */}
           <div className="mt-3 grid grid-cols-2 gap-4">
-            <div className="relative">
-              <label
-                htmlFor="category"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("REQUEST_CATEGORY")}
-              </label>
+            <div className="flex-1 relative">
+              <div className="flex items-center gap-2 mb-1">
+                <label htmlFor="category" className="font-medium text-gray-700">
+                  {t("REQUEST_CATEGORY")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select a category that best describes your request.
+                  </div>
+                </div>
+              </div>
               <input
                 type="text"
                 id="category"
                 value={formData.category}
                 onChange={handleSearchInput}
-                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
+                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
                 onFocus={() => setShowDropdown(true)}
                 onBlur={(e) => {
                   if (!dropdownRef.current?.contains(e.relatedTarget)) {
@@ -448,13 +632,25 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               )}
             </div>
 
-            <div>
-              <label
-                htmlFor="requestType"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("REQUEST_TYPE")}
-              </label>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="requestType"
+                  className="font-medium text-gray-700"
+                >
+                  {t("REQUEST_TYPE")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select the type of request required Remotely or In Person.
+                  </div>
+                </div>
+              </div>
               <select
                 id="requestType"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
@@ -464,14 +660,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 }
               >
                 <option value="Remote">{t("REMOTE")}</option>
-                <option value="In Person" style={{ display: "none" }}>
-                  {t("IN_PERSON")}
-                </option>
+                <option value="In Person">{t("IN_PERSON")}</option>
               </select>
             </div>
 
             {formData.request_type === "In Person" && (
-              <div className="mt-3">
+              <div>
                 <label
                   htmlFor="location"
                   className="block mb-1 font-medium text-gray-700"
@@ -496,6 +690,38 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 )}
               </div>
             )}
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="requestPriority"
+                  className="font-medium text-gray-700"
+                >
+                  {t("Request Priority")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select the priority level of your request.
+                  </div>
+                </div>
+              </div>
+              <select
+                id="requestPriority"
+                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
+                value={formData.priority || "MEDIUM"}
+                onChange={(e) =>
+                  setFormData({ ...formData, priority: e.target.value })
+                }
+              >
+                <option value="LOW">{t("Low")}</option>
+                <option value="MEDIUM">{t("Medium")}</option>
+                <option value="HIGH">{t("High")}</option>
+              </select>
+            </div>
           </div>
 
           <div className="mt-3" data-testid="parentDivSix">
@@ -518,6 +744,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               className="border p-2 w-full rounded-lg"
               maxLength={70}
               required
+              placeholder="Please give a brief description of the request"
             />
           </div>
 
@@ -539,6 +766,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               rows="5"
               maxLength={500}
               required
+              placeholder="Please give a detailed description of the request"
             ></textarea>
           </div>
 
@@ -559,6 +787,35 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </div>
         </div>
       </form>
+      {/* Modal Component */}
+      <Modal
+        show={showModal}
+        onSubmit={handleConfirmCategorySelection}
+        onClose={() => setShowModal(false)}
+      >
+        <h2 className="text-xl font-bold mb-4">Select a Category</h2>
+
+        {/* Message to the user */}
+        <p className="mb-4 text-gray-700">
+          Dear User, please fill in the category or select one of the
+          recommended categories.
+        </p>
+
+        {/* Dropdown for selecting a category */}
+        <select
+          value={formData.category}
+          onChange={(e) =>
+            setFormData({ ...formData, category: e.target.value })
+          }
+          className="p-2 border rounded w-full"
+        >
+          {suggestedCategories.map((category, index) => (
+            <option key={index} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </Modal>
     </div>
   );
 };
