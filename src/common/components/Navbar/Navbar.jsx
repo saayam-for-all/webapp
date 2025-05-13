@@ -598,7 +598,7 @@ const Navbar = () => {
                   <GroupsIcon className="mr-2" /> {t("How We Operate")}
                 </MenuItem>
                 <MenuItem
-                  onClick={(e) => handleDrawerClick(e, "/how-we-operate")}
+                  onClick={(e) => handleDrawerClick(e, "/collaborators")}
                 >
                   <Diversity3Icon className="mr-2" /> {t("Our Collaborators")}
                 </MenuItem>
