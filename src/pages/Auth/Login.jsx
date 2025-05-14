@@ -89,9 +89,9 @@ const LoginPage = () => {
           }
         };
         const [userIdFromApi, url] = await getUserProfileId(emailValue);
-        console.log("userIdFromApi", userIdFromApi);
-        console.log("url", url);
         // console.log("userIdFromApi", userIdFromApi);
+        // console.log("url", url);
+
         dispatch(setUserId(userIdFromApi));
         if (url !== null) {
           dispatch(setProfileImgUrl(url));

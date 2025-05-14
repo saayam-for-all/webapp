@@ -149,7 +149,7 @@ const Navbar = () => {
             payload: [...state.notifications, ...newOnes],
           });
 
-          setNewNotificationCount((prev) => prev + newOnes.length);
+          //setNewNotificationCount((prev) => prev + newOnes.length);
         }
       } catch (error) {
         console.error("Error fetching Notifications:", error);
