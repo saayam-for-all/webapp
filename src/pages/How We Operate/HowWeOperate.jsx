@@ -9,10 +9,12 @@ import img6 from "../../assets/imagesOfHowWeOperate/step3.png";
 import img7 from "../../assets/imagesOfHowWeOperate/step4.png";
 import img8 from "../../assets/imagesOfHowWeOperate/step5.png";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const HowWeOperate = () => {
   const timelineRef = useRef(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,7 +56,7 @@ const HowWeOperate = () => {
     <div className="font-sans">
       {/* Volunteer Services Section */}
       <section className="text-center px-4 py-12 bg-white">
-        <h2 className="text-3xl font-bold mb-4">Volunteer Services</h2>
+        <h2 className="text-3xl font-bold mb-4">{t("VOLUNTEER_SERVICES")}</h2>
         <p className="text-gray-700 max-w-3xl mx-auto mb-4">
           At Saayam for All, we connect individuals who need assistance with
           compassionate volunteers ready to help.
@@ -87,7 +89,7 @@ const HowWeOperate = () => {
       <div className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-4">
-            How We Operate
+            {t("HOW_WE_OPERATE")}
           </h2>
           <p className="text-center text-gray-600 mb-12">
             At Saayam For All, getting help is as simple and seamless as
