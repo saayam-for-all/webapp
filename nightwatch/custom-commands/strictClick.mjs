@@ -11,7 +11,7 @@
  *
  */
 
-module.exports = {
+export default {
   command: function(selector) {
     return this
       .waitForElementVisible(selector)

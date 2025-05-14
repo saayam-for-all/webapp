@@ -14,7 +14,7 @@
  * @param {function} cb Callback to be called with the result returned by the executed script
  */
 
-module.exports = class AngularCommand {
+export default class AngularCommand {
 
   async command(listName, cb = function(r) {return r}) {
     // Script to be executed in the browser
