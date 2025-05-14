@@ -382,7 +382,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={handleSaveClick}
             >
-              {t("SAVE_CHANGES")}
+              {t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
