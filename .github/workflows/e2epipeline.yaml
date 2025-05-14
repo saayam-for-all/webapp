@@ -2,7 +2,7 @@ name: e2epipeline
 
 on:
   push:
-    branches: ["test", "dev", "main",dockerTest]
+    branches: ["test", "dev", "main","dockerTest"]
   pull_request:
     branches: ["test", "dev", "main"]
   workflow_dispatch:
