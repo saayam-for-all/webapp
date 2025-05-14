@@ -1,0 +1,29 @@
+name: e2epipeline
+
+on:
+  push:
+    branches: ["test", "dev", "main",dockerTest]
+  pull_request:
+    branches: ["test", "dev", "main"]
+  workflow_dispatch:
+
+jobs:
+  nightwatch_tests:
+    name: Ejecutar pruebas Nightwatch
+    runs-on: ubuntu-latest
+    container:
+      image: moddebaixa/saayamimage:latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: run nightwatch
+        run: |
+          echo "testing e2e"
+          npx nightwatch
+
+      - name: run nightwatch on firefox
+        run: |
+          echo "testing on firefox"
+          npx nightwatch --env firefox
+
