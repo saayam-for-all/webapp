@@ -71,6 +71,7 @@
     "lint-staged": "^15.4.2",
     "lz-string": "^1.5.0",
     "nightwatch": "^3.12.1",
+    "nightwatch-axe-verbose": "^2.3.1",
     "postcss": "^8.5.3",
     "prettier": "=3.4.2",
     "pretty-format": "^29.7.0",
