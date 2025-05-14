@@ -118,7 +118,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     );
     return country ? country.isoCode : null;
   };
-
+  const [errors, setErrors] = useState({});
   const [languages, setLanguages] = useState([]);
   const [locale, setLocale] = useState("en-US");
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
@@ -165,6 +165,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       ...prevInfo,
       [name]: value,
     }));
+    const error = validateField(name, value);
+    setErrors({ ...errors, [name]: error });
     setHasUnsavedChanges(true);
   };
 
@@ -178,13 +180,108 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   };
 
   const handleSaveClick = () => {
+    const newErrors = {};
+    const fieldsToValidate = [
+      "dateOfBirth",
+      "gender",
+      "streetAddress",
+      "streetAddress2",
+      "country",
+      "state",
+      "zipCode",
+      "languagePreference1",
+      "secondaryEmail",
+      "secondaryPhone",
+      "secondaryPhoneCountryCode",
+    ];
+
+    fieldsToValidate.forEach((field) => {
+      const error = validateField(field, personalInfo[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // Prevent saving if there are errors
+    }
+
     setIsEditing(false);
     localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
     setHasUnsavedChanges(false);
     // Call changeUiLanguage to update the UI based on the first language preference.
     changeUiLanguage(personalInfo);
   };
+  const validateField = (name, value) => {
+    let error = "";
 
+    if (name === "streetAddress") {
+      if (!value.trim()) {
+        error = "Street Address is required.";
+      } else if (value.length < 5) {
+        error = "Street Address must be at least 5 characters long.";
+      }
+    }
+
+    if (name === "streetAddress2") {
+      if (value && value.length < 5) {
+        error = "Street Address 2 must be at least 5 characters long.";
+      }
+    }
+    if (name === "dateOfBirth") {
+      if (!value) {
+        error = "Date of Birth is required.";
+      } else if (new Date(value) > new Date()) {
+        error = "Date of Birth cannot be in the future.";
+      }
+    }
+    if (name === "country") {
+      if (!value) {
+        error = "Country is required.";
+      }
+    }
+
+    if (name === "state") {
+      if (!value) {
+        error = "State is required.";
+      }
+    }
+
+    if (name === "zipCode") {
+      if (!value || !/^[0-9-]+$/.test(value)) {
+        error = "ZIP Code is required.";
+      }
+    }
+    if (name === "languagePreference1") {
+      if (!value || value.trim() === "") {
+        error = "First language preference is required.";
+      }
+    }
+    if (name === "secondaryEmail") {
+      if (!value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        error = "Please enter a valid email address.";
+      }
+    }
+
+    if (name === "secondaryPhone") {
+      if (!value || !/^[0-9]+$/.test(value)) {
+        error = "Please enter a valid phone number.";
+      }
+    }
+    if (name === "gender") {
+      if (!value) {
+        return "Gender is required."; // Validation error message
+      }
+    }
+
+    if (name === "secondaryPhoneCountryCode") {
+      if (!value) {
+        error = "Country Code is required.";
+      }
+    }
+    return error;
+  };
   return (
     <div className="flex flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
       {/* Date of Birth and Gender */}
@@ -194,13 +291,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("BIRTHDAY")}
           </label>
           {isEditing ? (
-            <DatePicker
-              selected={personalInfo.dateOfBirth || null}
-              onChange={(date) => handleInputChange("dateOfBirth", date)}
-              dateFormat={dateFormat}
-              placeholderText={placeholder}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <DatePicker
+                selected={personalInfo.dateOfBirth || null}
+                onChange={(date) => handleInputChange("dateOfBirth", date)}
+                dateFormat={dateFormat}
+                placeholderText={placeholder}
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.dateOfBirth ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.dateOfBirth && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.dateOfBirth}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.dateOfBirth ? (
@@ -216,16 +322,21 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("GENDER")}
           </label>
           {isEditing ? (
-            <Select
-              value={genderOptions.find(
-                (option) => option.value === personalInfo.gender,
+            <>
+              <Select
+                value={genderOptions.find(
+                  (option) => option.value === personalInfo.gender,
+                )}
+                options={genderOptions}
+                onChange={(selectedOption) =>
+                  handleInputChange("gender", selectedOption?.value || "")
+                }
+                className="w-full"
+              />
+              {errors.gender && (
+                <p className="text-red-500 text-xs mt-1">{errors.gender}</p>
               )}
-              options={genderOptions}
-              onChange={(selectedOption) =>
-                handleInputChange("gender", selectedOption?.value || "")
-              }
-              className="w-full"
-            />
+            </>
           ) : (
             <p className="text-lg text-gray-900">{personalInfo.gender || ""}</p>
           )}
@@ -239,16 +350,25 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
-            <input
-              ref={streetAddressRef}
-              type="text"
-              name="streetAddress"
-              value={personalInfo.streetAddress}
-              onChange={(e) =>
-                handleInputChange("streetAddress", e.target.value)
-              }
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <input
+                ref={streetAddressRef}
+                type="text"
+                name="streetAddress"
+                value={personalInfo.streetAddress}
+                onChange={(e) =>
+                  handleInputChange("streetAddress", e.target.value)
+                }
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.streetAddress ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.streetAddress && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.streetAddress}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.streetAddress || ""}
@@ -284,22 +404,31 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("COUNTRY")}
           </label>
           {isEditing ? (
-            <Select
-              value={countries.find(
-                (option) => option.label === personalInfo.country,
+            <>
+              <Select
+                value={countries.find(
+                  (option) => option.label === personalInfo.country,
+                )}
+                options={countries}
+                onChange={(selectedOption) => {
+                  handleInputChange("country", selectedOption?.label || "");
+                  // This will reset the selected State to "" otherwise it will create inconsistency if someone updates state and changes Country.
+                  setPersonalInfo((prevInfo) => ({
+                    ...prevInfo,
+                    state: "",
+                  }));
+                  getLatestStatesList(selectedOption?.value || "");
+                }}
+                className={`w-full ${
+                  errors.country ? "border border-red-500" : ""
+                }`}
+              />
+              {errors.country && (
+                <p className="text-red-500 text-xs italic mt-1">
+                  {errors.country}
+                </p>
               )}
-              options={countries}
-              onChange={(selectedOption) => {
-                handleInputChange("country", selectedOption?.label || "");
-                // This will reset the selected State to "" otherwise it will create inconsistency if someone updates state and changes Country.
-                setPersonalInfo((prevInfo) => ({
-                  ...prevInfo,
-                  state: "",
-                }));
-                getLatestStatesList(selectedOption?.value || "");
-              }}
-              className="w-full"
-            />
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.country || ""}
@@ -311,16 +440,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("STATE")}
           </label>
           {isEditing ? (
-            <Select
-              value={
-                states.find((option) => option.label === personalInfo.state) ||
-                null
-              }
-              options={states}
-              onChange={(selectedOption) => {
-                handleInputChange("state", selectedOption?.label || "");
-              }}
-            />
+            <>
+              <Select
+                value={
+                  states.find(
+                    (option) => option.label === personalInfo.state,
+                  ) || null
+                }
+                options={states}
+                onChange={(selectedOption) => {
+                  handleInputChange("state", selectedOption?.label || "");
+                }}
+              />
+              {errors.state && (
+                <p className="text-red-500 text-xs mt-1">{errors.state}</p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">{personalInfo.state || ""}</p>
           )}
@@ -330,13 +465,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("ZIP_CODE")}
           </label>
           {isEditing ? (
-            <input
-              type="text"
-              name="zipCode"
-              value={personalInfo.zipCode}
-              onChange={(e) => handleInputChange("zipCode", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <input
+                type="text"
+                name="zipCode"
+                value={personalInfo.zipCode}
+                onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.zipCode ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.zipCode && (
+                <p className="text-red-500 text-xs italic mt-1">
+                  {errors.zipCode}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.zipCode || ""}
@@ -353,19 +497,26 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("FIRST_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
-            <Select
-              value={languages.find(
-                (option) => option.value === personalInfo.languagePreference1,
+            <>
+              <Select
+                value={languages.find(
+                  (option) => option.value === personalInfo.languagePreference1,
+                )}
+                options={languages}
+                onChange={(selectedOption) =>
+                  handleInputChange(
+                    "languagePreference1",
+                    selectedOption?.value || "",
+                  )
+                }
+                className="w-full"
+              />
+              {errors.languagePreference1 && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.languagePreference1}
+                </p>
               )}
-              options={languages}
-              onChange={(selectedOption) =>
-                handleInputChange(
-                  "languagePreference1",
-                  selectedOption?.value || "",
-                )
-              }
-              className="w-full"
-            />
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.languagePreference1 || ""}
@@ -437,15 +588,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             Secondary Email
           </label>
           {isEditing ? (
-            <input
-              type="email"
-              name="secondaryEmail"
-              value={personalInfo.secondaryEmail}
-              onChange={(e) =>
-                handleInputChange("secondaryEmail", e.target.value)
-              }
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <input
+                type="email"
+                name="secondaryEmail"
+                value={personalInfo.secondaryEmail}
+                onChange={(e) =>
+                  handleInputChange("secondaryEmail", e.target.value)
+                }
+                className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              />
+              {errors.secondaryEmail && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.secondaryEmail}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.secondaryEmail || ""}
@@ -458,22 +616,29 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           </label>
           {isEditing ? (
             <div className="flex">
-              <Select
-                value={phoneCodeOptions.find(
-                  (option) =>
-                    option.code === personalInfo.secondaryPhoneCountryCode,
+              <>
+                <Select
+                  value={phoneCodeOptions.find(
+                    (option) =>
+                      option.code === personalInfo.secondaryPhoneCountryCode,
+                  )}
+                  getOptionLabel={(e) => `${e.country} (${e.dialCode})`}
+                  getOptionValue={(e) => e.code}
+                  options={phoneCodeOptions}
+                  onChange={(selectedOption) =>
+                    handleInputChange(
+                      "secondaryPhoneCountryCode",
+                      selectedOption?.code || "",
+                    )
+                  }
+                  className="w-full max-w-[100px] mr-2"
+                />
+                {errors.secondaryPhoneCountryCode && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.secondaryPhoneCountryCode}
+                  </p>
                 )}
-                getOptionLabel={(e) => `${e.country} (${e.dialCode})`}
-                getOptionValue={(e) => e.code}
-                options={phoneCodeOptions}
-                onChange={(selectedOption) =>
-                  handleInputChange(
-                    "secondaryPhoneCountryCode",
-                    selectedOption?.code || "",
-                  )
-                }
-                className="w-full max-w-[100px] mr-2"
-              />
+              </>
               <input
                 type="text"
                 name="secondaryPhone"
@@ -489,6 +654,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               {personalInfo.secondaryPhoneCountryCode}{" "}
               {personalInfo.secondaryPhone || ""}
             </p>
+          )}
+          {errors.secondaryPhone && (
+            <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone}</p>
           )}
         </div>
       </div>
@@ -541,6 +709,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                   });
                 }
                 setIsEditing(false);
+                setErrors({});
               }}
             >
               {t("CANCEL")}

@@ -112,12 +112,6 @@ const SignUp = () => {
   const handleSignUp = async () => {
     try {
       setErrors({});
-      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
-
-      if (!isValidPhoneNumber(fullPhoneNumber)) {
-        setErrors({ ...errors, phone: "Please enter a valid phone number" });
-        return;
-      }
 
       const result = signUpSchema.safeParse({
         firstName,
@@ -140,12 +134,27 @@ const SignUp = () => {
         return;
       }
 
-      if (passwordValue !== confirmPasswordValue) {
-        setPasswordsMatch(false);
-        setErrors({ ...errors, confirmPassword: "Passwords do not match" });
+      // Now, after basic field validation, check if phone number is really valid
+      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+
+      if (!isValidPhoneNumber(fullPhoneNumber)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          phone: "Please enter a valid phone number",
+        }));
         return;
       }
 
+      if (passwordValue !== confirmPasswordValue) {
+        setPasswordsMatch(false);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          confirmPassword: "Passwords do not match",
+        }));
+        return;
+      }
+
+      // Proceed with signup
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
@@ -273,12 +282,15 @@ const SignUp = () => {
             onChange={(e) => setCountry(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-xl"
           >
+            {/**
             <option value="">Select your country</option>
             {countries.map((option) => (
               <option key={option.value} value={option.label}>
                 {option.label}
               </option>
             ))}
+             */}
+            <option value="United States">United States</option>
           </select>
         </div>
 
@@ -391,7 +403,7 @@ const SignUp = () => {
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignUp}
         >
-          Sign up
+          Sign Up
         </button>
 
         {/* Uncomment this snippet when the signup functionality is fully developed  */}

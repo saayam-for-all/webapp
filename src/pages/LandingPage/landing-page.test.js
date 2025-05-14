@@ -4,10 +4,7 @@ import LandingPage from "./LandingPage";
 // Mock internal dependencies
 jest.mock("react-router");
 
-// Mock custom components
-jest.mock("./components/HeroSection");
-jest.mock("./components/Info");
-jest.mock("./components/Dynamic_img");
+jest.mock("./components/Carousel");
 
 describe("LandingPage", () => {
   it("renders correctly", () => {

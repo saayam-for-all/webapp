@@ -150,8 +150,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         // Proceed with submitting the request if no profanity is found
 
         await fetchPredictedCategories();
-
-        setShowModal(true);
+        if (formData.category == "General") {
+          setShowModal(true);
+        }
         // const response = await axios.post(
         //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
         //   submissionData,
@@ -162,6 +163,26 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         //     },
         //   }
         // );
+        else {
+          toast.success(
+            "Request submitted successfully! You will now be redirected to the dashboard.",
+            {
+              position: "top-center", // You can customize the position
+              autoClose: 2000, // Toast auto-closes after 2 seconds
+              hideProgressBar: true, // Optional: Hide progress bar
+            },
+          );
+
+          // Redirect to the dashboard after a short delay
+          setTimeout(() => {
+            navigate("/dashboard", {
+              state: {
+                successMessage:
+                  "New Request #REQ-00-000-000-00011 submitted successfully!",
+              },
+            });
+          }, 2000);
+        }
       }
     } catch (error) {
       console.error("Failed to process request:", error);
@@ -290,7 +311,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
       // Redirect to the dashboard after a short delay
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/dashboard", {
+          state: {
+            successMessage:
+              "New Request #REQ-00-000-000-00011 submitted successfully!",
+          },
+        });
       }, 2000); // Wait 2 seconds before redirecting
     } catch (error) {
       console.error("Failed to submit request:", error);
@@ -330,12 +356,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           <div className="mt-3 flex gap-4" data-testid="parentDivOne">
             {/* For Self Dropdown */}
             <div className="flex-1">
-              <label
-                htmlFor="self"
-                className="block mb-1 text-gray-700 font-medium"
-              >
-                {t("FOR_SELF")}
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <label htmlFor="self" className="text-gray-700 font-medium">
+                  {t("FOR_SELF")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select if this request is for yourself or another person.
+                  </div>
+                </div>
+              </div>
               <select
                 id="self"
                 data-testid="dropdown"
@@ -349,26 +384,51 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
             {/* Lead Volunteer */}
             <div className="flex-1">
-              <label
-                htmlFor="lead_volunteer"
-                className="block mb-1 text-gray-700 font-medium"
-              >
-                {t("Lead Volunteer")}
-              </label>
-              <input
-                type="text"
-                id="lead_volunteer"
-                name="lead_volunteer"
-                disabled={
-                  !(
-                    groups?.includes("Admins") ||
-                    groups?.includes("SuperAdmins")
-                  )
-                }
-                value={formData.lead_volunteer}
-                onChange={handleChange}
-                className="border p-2 w-full rounded-lg disabled:text-gray-400"
-              />
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="lead_volunteer"
+                  className="text-gray-700 font-medium"
+                >
+                  {t("Lead Volunteer")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select if you are a lead volunteer for this request.
+                  </div>
+                </div>
+              </div>
+              {isEdit ? (
+                <input
+                  type="text"
+                  id="lead_volunteer"
+                  name="lead_volunteer"
+                  disabled={
+                    !(
+                      groups?.includes("Admins") ||
+                      groups?.includes("SuperAdmins")
+                    )
+                  }
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg disabled:text-gray-400"
+                />
+              ) : (
+                <select
+                  id="lead_volunteer"
+                  name="lead_volunteer"
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg text-gray-700"
+                >
+                  <option value="No">{t("No")}</option>
+                  <option value="Yes">{t("Yes")}</option>
+                </select>
+              )}
             </div>
           </div>
           {/* 
@@ -498,19 +558,28 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           )} */}
           <div className="mt-3 grid grid-cols-2 gap-4">
-            <div className="relative">
-              <label
-                htmlFor="category"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("REQUEST_CATEGORY")}
-              </label>
+            <div className="flex-1 relative">
+              <div className="flex items-center gap-2 mb-1">
+                <label htmlFor="category" className="font-medium text-gray-700">
+                  {t("REQUEST_CATEGORY")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select a category that best describes your request.
+                  </div>
+                </div>
+              </div>
               <input
                 type="text"
                 id="category"
                 value={formData.category}
                 onChange={handleSearchInput}
-                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
+                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
                 onFocus={() => setShowDropdown(true)}
                 onBlur={(e) => {
                   if (!dropdownRef.current?.contains(e.relatedTarget)) {
@@ -563,13 +632,25 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               )}
             </div>
 
-            <div>
-              <label
-                htmlFor="requestType"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("REQUEST_TYPE")}
-              </label>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="requestType"
+                  className="font-medium text-gray-700"
+                >
+                  {t("REQUEST_TYPE")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select the type of request required Remotely or In Person.
+                  </div>
+                </div>
+              </div>
               <select
                 id="requestType"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
@@ -609,13 +690,25 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 )}
               </div>
             )}
-            <div>
-              <label
-                htmlFor="requestPriority"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("Request Priority")}
-              </label>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="requestPriority"
+                  className="font-medium text-gray-700"
+                >
+                  {t("Request Priority")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    Select the priority level of your request.
+                  </div>
+                </div>
+              </div>
               <select
                 id="requestPriority"
                 className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
@@ -651,6 +744,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               className="border p-2 w-full rounded-lg"
               maxLength={70}
               required
+              placeholder="Please give a brief description of the request"
             />
           </div>
 
@@ -672,6 +766,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               rows="5"
               maxLength={500}
               required
+              placeholder="Please give a detailed description of the request"
             ></textarea>
           </div>
 

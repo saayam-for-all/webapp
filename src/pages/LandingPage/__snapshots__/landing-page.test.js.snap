@@ -5,18 +5,582 @@ exports[`LandingPage renders correctly 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div>
-        <mock-images />
-        <mock-hero-setion />
-        <mock-info />
+      <div
+        class="w-full overflow-hidden"
+      >
+        <div
+          class="landing-banner-container flex flex-row p-5 justify-between"
+        >
+          <div
+            class="w-1/2 h-full flex flex-row justify-center"
+          >
+            <div
+              class="w-3/4 h-full flex flex-col gap-10"
+            >
+              <div
+                class="text-lg text-gray-400"
+              >
+                Real help. Real people. Right when you need it.
+              </div>
+              <h1
+                class="font-bold text-6xl tracking-wide"
+              >
+                Here to help or hoping for help?
+              </h1>
+              <div
+                class="text-lg text-gray-500"
+              >
+                At Saayam for All, your support can make a real difference today.
+              </div>
+              <button
+                class="join-btn"
+              >
+                Join the community
+              </button>
+            </div>
+          </div>
+          <div
+            class="w-1/2 h-full flex flex-col justify-center items-center"
+          >
+            <img
+              class="w-4/5"
+              src=""
+            />
+          </div>
+        </div>
+        <mock-carousel />
+        <div
+          class="relative w-full flex flex-col overflow-hidden items-center mb-[50px]"
+        >
+          <h3
+            class="font-bold text-4xl mb-[40px]"
+          >
+            Our Collaborators
+          </h3>
+          <div
+            class="w-full flex flex-row overflow-hidden"
+          >
+            <div
+              class="scroll imgBox"
+            >
+              <div>
+                <img
+                  class="w-[150px] ml-[75px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  class="w-[125px]"
+                  src=""
+                />
+              </div>
+              <div>
+                <img
+                  class="w-[150px] ml-[75px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  class="w-[125px]"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex flex-row items-center bg-white h-80 mt-5 gap-10 mb-[100px]"
+        >
+          <div
+            class="flex flex-col justify-start items-start w-3/5 p-10 h-full"
+          >
+            <h3
+              class="font-bold text-4xl h-1/3 w-3/4 mb-[30px]"
+            >
+              Creating a World Where Help is Always Within Reach
+            </h3>
+            <p
+              class="h-1/3 text-lg text-gray-500"
+            >
+              Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.
+            </p>
+            <button
+              class="mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline "
+            >
+              Our Mission →
+            </button>
+          </div>
+          <div
+            class="flex flex-row w-2/5 h-full gap-5 overflow-hidden"
+          >
+            <img
+              alt="A sunny day with two people looking at each other comfortingly"
+              class="w-1/2 rounded-lg"
+              src=""
+            />
+            <img
+              alt="A joyful family stands in a lush field on a sunny day"
+              class="w-1/2 rounded-lg"
+              src=""
+            />
+          </div>
+        </div>
+        <div
+          class="flex flex-row items-center bg-white h-80 mt-5 gap-10 mb-[100px]"
+        >
+          <div
+            class="flex flex-row w-1/2 h-full gap-5 overflow-hidden ml-5"
+          >
+            <iframe
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;fullscreen"
+              class="landing-iframe"
+              src="https://www.youtube.com/embed/9CBLVoSSuwM?autoplay=1&mute=0&controls=1&rel=0"
+              title="YouTube Video"
+            />
+          </div>
+          <div
+            class="flex flex-col justify-start items-start w-1/2 p-10 h-full"
+          >
+            <h3
+              class="font-bold text-4xl h-1/3 w-2/3 pb-5"
+            >
+              How We Operate
+            </h3>
+            <p
+              class="h-1/3 text-lg text-gray-500"
+            >
+              Watch our 5 minute video to understand how Saayam for All works and how we make a difference.
+            </p>
+            <button
+              class="mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+            >
+              Learn More →
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex flex-row mt-5 mb-[100px]"
+        >
+          <div
+            class="w-1/3 flex flex-row justify-end mt-[75px] mr-2"
+          >
+            <div
+              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+            >
+              <img
+                alt="Red rescue jacket and cap with Red Cross logos"
+                class="absolute w-full h-full object-cover"
+                src=""
+              />
+              <div
+                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
+              >
+                <div
+                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+                >
+                  <p
+                    class="text-white text-lg font-bold text-center"
+                  >
+                    Take help from our Volunteers
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex flex-col w-2/3"
+          >
+            <div
+              class="w-full h-fit flex flex-col pl-[200px]"
+            >
+              <h3
+                class="font-bold text-4xl h-1/3 w-2/3"
+              >
+                Discover Our Community
+              </h3>
+              <p
+                class="text-lg text-gray-500 pb-4 pt-[30px] w-4/5"
+              >
+                Chat with our community and get in touch with different charity organizations!
+              </p>
+              <button
+                class="join-btn"
+              >
+                Join the community
+              </button>
+            </div>
+            <div
+              class="flex flex-row h-3/4"
+            >
+              <div
+                class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden mt-[50px] mr-2"
+              >
+                <img
+                  alt="A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
+                  class="absolute w-full h-full object-cover"
+                  src=""
+                />
+                <div
+                  class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
+                >
+                  <div
+                    class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+                  >
+                    <p
+                      class="text-white text-lg font-bold text-center"
+                    >
+                      Planning and budgeting advice for travel
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden mt-[175px]"
+              >
+                <img
+                  alt="A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
+                  class="absolute w-full h-full object-cover"
+                  src=""
+                />
+                <div
+                  class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
+                >
+                  <div
+                    class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+                  >
+                    <p
+                      class="text-white text-lg font-bold text-center"
+                    >
+                      Woman hiking at sunset with a backpack and trekking poles, set against a mountainous landscape
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>,
   "container": <div>
-    <div>
-      <mock-images />
-      <mock-hero-setion />
-      <mock-info />
+    <div
+      class="w-full overflow-hidden"
+    >
+      <div
+        class="landing-banner-container flex flex-row p-5 justify-between"
+      >
+        <div
+          class="w-1/2 h-full flex flex-row justify-center"
+        >
+          <div
+            class="w-3/4 h-full flex flex-col gap-10"
+          >
+            <div
+              class="text-lg text-gray-400"
+            >
+              Real help. Real people. Right when you need it.
+            </div>
+            <h1
+              class="font-bold text-6xl tracking-wide"
+            >
+              Here to help or hoping for help?
+            </h1>
+            <div
+              class="text-lg text-gray-500"
+            >
+              At Saayam for All, your support can make a real difference today.
+            </div>
+            <button
+              class="join-btn"
+            >
+              Join the community
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-1/2 h-full flex flex-col justify-center items-center"
+        >
+          <img
+            class="w-4/5"
+            src=""
+          />
+        </div>
+      </div>
+      <mock-carousel />
+      <div
+        class="relative w-full flex flex-col overflow-hidden items-center mb-[50px]"
+      >
+        <h3
+          class="font-bold text-4xl mb-[40px]"
+        >
+          Our Collaborators
+        </h3>
+        <div
+          class="w-full flex flex-row overflow-hidden"
+        >
+          <div
+            class="scroll imgBox"
+          >
+            <div>
+              <img
+                class="w-[150px] ml-[75px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                class="w-[125px]"
+                src=""
+              />
+            </div>
+            <div>
+              <img
+                class="w-[150px] ml-[75px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                class="w-[125px]"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-row items-center bg-white h-80 mt-5 gap-10 mb-[100px]"
+      >
+        <div
+          class="flex flex-col justify-start items-start w-3/5 p-10 h-full"
+        >
+          <h3
+            class="font-bold text-4xl h-1/3 w-3/4 mb-[30px]"
+          >
+            Creating a World Where Help is Always Within Reach
+          </h3>
+          <p
+            class="h-1/3 text-lg text-gray-500"
+          >
+            Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.
+          </p>
+          <button
+            class="mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline "
+          >
+            Our Mission →
+          </button>
+        </div>
+        <div
+          class="flex flex-row w-2/5 h-full gap-5 overflow-hidden"
+        >
+          <img
+            alt="A sunny day with two people looking at each other comfortingly"
+            class="w-1/2 rounded-lg"
+            src=""
+          />
+          <img
+            alt="A joyful family stands in a lush field on a sunny day"
+            class="w-1/2 rounded-lg"
+            src=""
+          />
+        </div>
+      </div>
+      <div
+        class="flex flex-row items-center bg-white h-80 mt-5 gap-10 mb-[100px]"
+      >
+        <div
+          class="flex flex-row w-1/2 h-full gap-5 overflow-hidden ml-5"
+        >
+          <iframe
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;fullscreen"
+            class="landing-iframe"
+            src="https://www.youtube.com/embed/9CBLVoSSuwM?autoplay=1&mute=0&controls=1&rel=0"
+            title="YouTube Video"
+          />
+        </div>
+        <div
+          class="flex flex-col justify-start items-start w-1/2 p-10 h-full"
+        >
+          <h3
+            class="font-bold text-4xl h-1/3 w-2/3 pb-5"
+          >
+            How We Operate
+          </h3>
+          <p
+            class="h-1/3 text-lg text-gray-500"
+          >
+            Watch our 5 minute video to understand how Saayam for All works and how we make a difference.
+          </p>
+          <button
+            class="mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+          >
+            Learn More →
+          </button>
+        </div>
+      </div>
+      <div
+        class="flex flex-row mt-5 mb-[100px]"
+      >
+        <div
+          class="w-1/3 flex flex-row justify-end mt-[75px] mr-2"
+        >
+          <div
+            class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
+          >
+            <img
+              alt="Red rescue jacket and cap with Red Cross logos"
+              class="absolute w-full h-full object-cover"
+              src=""
+            />
+            <div
+              class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
+            >
+              <div
+                class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+              >
+                <p
+                  class="text-white text-lg font-bold text-center"
+                >
+                  Take help from our Volunteers
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex flex-col w-2/3"
+        >
+          <div
+            class="w-full h-fit flex flex-col pl-[200px]"
+          >
+            <h3
+              class="font-bold text-4xl h-1/3 w-2/3"
+            >
+              Discover Our Community
+            </h3>
+            <p
+              class="text-lg text-gray-500 pb-4 pt-[30px] w-4/5"
+            >
+              Chat with our community and get in touch with different charity organizations!
+            </p>
+            <button
+              class="join-btn"
+            >
+              Join the community
+            </button>
+          </div>
+          <div
+            class="flex flex-row h-3/4"
+          >
+            <div
+              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden mt-[50px] mr-2"
+            >
+              <img
+                alt="A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
+                class="absolute w-full h-full object-cover"
+                src=""
+              />
+              <div
+                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
+              >
+                <div
+                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+                >
+                  <p
+                    class="text-white text-lg font-bold text-center"
+                  >
+                    Planning and budgeting advice for travel
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden mt-[175px]"
+            >
+              <img
+                alt="A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
+                class="absolute w-full h-full object-cover"
+                src=""
+              />
+              <div
+                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
+              >
+                <div
+                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
+                >
+                  <p
+                    class="text-white text-lg font-bold text-center"
+                  >
+                    Woman hiking at sunset with a backpack and trekking poles, set against a mountainous landscape
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>,
   "debug": [Function],

@@ -1,89 +1,123 @@
-import { useEffect, useState } from "react";
-import FOOD1 from "../../../assets/carouselImages/food.jpg";
-import FOOD2 from "../../../assets/carouselImages/food3.jpg";
-import HANDS from "../../../assets/carouselImages/hands.jpg";
-import HANDS2 from "../../../assets/carouselImages/hands2.jpg";
-import HEALTH from "../../../assets/carouselImages/health.jpg";
-import HEALTH2 from "../../../assets/carouselImages/health2.jpg";
-import CLOTHES from "../../../assets/carouselImages/clothes.jpg";
-import EDUCATION from "../../../assets/carouselImages/education3.jpg";
-import REFERRALS from "../../../assets/carouselImages/referrals.jpeg";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-const CarouselImages = [
-  FOOD1,
-  FOOD2,
-  HANDS,
-  HEALTH,
-  HANDS2,
-  HEALTH2,
-  CLOTHES,
-  EDUCATION,
-  REFERRALS,
-];
+// Import Swiper styles and modules
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+
+import carouselFive from "../../../assets/landingPageImages/carousel_five.jpg";
+import carouselFour from "../../../assets/landingPageImages/carousel_four.jpg";
+import carouselOne from "../../../assets/landingPageImages/carousel_one.jpg";
+import carouselThree from "../../../assets/landingPageImages/carousel_three.jpg";
+import carouselTwo from "../../../assets/landingPageImages/carousel_two.jpg";
+import "./Carousel.css";
+
+import {
+  Autoplay,
+  EffectCoverflow,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
 
 export default function Carousel() {
-  let [current, setCurrent] = useState(0);
-
-  let previousSlide = () => {
-    if (current === 0) setCurrent(CarouselImages.length - 1);
-    else setCurrent(current - 1);
-  };
-
-  let nextSlide = () => {
-    if (current === CarouselImages.length - 1) setCurrent(0);
-    else setCurrent(current + 1);
-  };
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      nextSlide();
-    }, 3000);
-    return () => clearInterval(intervalId);
-  }, [current]);
-
   return (
-    <div className="overflow-hidden relative h-[500px]">
-      <div
-        className={`flex transition ease-out duration-1000`}
-        style={{
-          transform: `translateX(-${current * 100}%)`,
+    <div className="flex flex-col items-center justify-center w-full bg-white mb-10 h-[400px]">
+      <Swiper
+        effect={"coverflow"}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={2}
+        coverflowEffect={{
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 3,
+          slideShadows: false,
         }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          el: ".swiper-custom-pagination",
+        }}
+        loop={true}
+        navigation={{
+          nextEl: ".custom-swiper-button-next",
+          prevEl: ".custom-swiper-button-prev",
+        }}
+        modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
+        className="mySwiper h-[400px]"
       >
-        {CarouselImages.map((s, idx) => {
-          return <img src={s} alt={s} key={idx} />;
-        })}
-      </div>
-
-      <div className="absolute top-0 h-full w-full justify-between items-center flex text-3xl px-2">
-        <div
-          onClick={previousSlide}
-          className="bg-black opacity-25 hover:opacity-100 rounded-full p-1 text-white hover:bg-slate-700 flex items-center justify-center cursor-pointer"
-        >
-          <IoIosArrowBack />
-        </div>
-        <div
-          onClick={nextSlide}
-          className="bg-black opacity-25 hover:opacity-100 rounded-full p-1 text-white hover:bg-slate-700 flex items-center justify-center cursor-pointer"
-        >
-          <IoIosArrowForward />
-        </div>
-      </div>
-
-      <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full">
-        {CarouselImages.map((s, i) => {
-          return (
-            <div
-              onClick={() => {
-                setCurrent(i);
-              }}
-              key={"circle" + i}
-              className={`rounded-full w-3 h-3 cursor-pointer  ${
-                i == current ? "bg-white" : "bg-gray-500"
-              }`}
-            ></div>
-          );
-        })}
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselOne}
+              className="h-full w-full object-contain"
+              alt="Smiling children joyfully pose with peace signs in hand, their faces close together, conveying a playful and cheerful atmosphere on a sunny day."
+            />
+            <div className="absolute bottom-1/4 left-[100px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              School
+            </div>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselTwo}
+              className="h-full w-full object-contain"
+              alt="A volunteer in a colorful shirt and red cap faces away, holding up a smartphone. "
+            />
+            <div className="absolute bottom-1/4 left-[140px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              General Help
+            </div>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselThree}
+              className="h-full w-full object-contain"
+              alt="A person wearing a mask and a green sweater sorts through paper bags in a food pantry."
+            />
+            <div className="absolute bottom-1/4 left-[140px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              Giving
+            </div>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselFour}
+              className="h-full w-full object-contain"
+              alt="A group of children sit on the floor indoors, smiling and looking ahead, with adults in the background."
+            />
+            <div className="absolute bottom-1/4 left-[140px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              Laughter
+            </div>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselFive}
+              className="h-full w-full object-contain"
+              alt="Two people gently touch hands, conveying comfort and connection."
+            />
+            <div className="absolute bottom-1/4 left-[140px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              Connection
+            </div>
+          </div>
+        </SwiperSlide>
+      </Swiper>
+      {/* Minimal Arrows */}
+      <div className="w-fit flex justify-center items-center px-6 z-10 text-xl font-bold gap-5">
+        <button className="custom-swiper-button-prev text-gray-400 text-4xl hover:text-gray-600">
+          ‹
+        </button>
+        <button className="custom-swiper-button-next text-gray-400 text-4xl hover:text-gray-600">
+          ›
+        </button>
       </div>
     </div>
   );

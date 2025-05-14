@@ -6,6 +6,11 @@ jest.mock("react", () => ({
   Suspense: ({ children }) => <mock-suspense>{children}</mock-suspense>,
 }));
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useMatches: () => [{ pathname: "/", params: {} }],
+}));
+
 // Mock all the custom components because they have their own snapshot tests
 jest.mock("#components/Loader/MainLoader");
 jest.mock("#components/Navbar/Navbar");
