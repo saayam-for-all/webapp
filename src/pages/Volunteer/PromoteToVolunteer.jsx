@@ -26,7 +26,7 @@ const PromoteToVolunteer = () => {
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState({});
   const [availabilitySlots, setAvailabilitySlots] = useImmer([
-    { id: 1, dayOfWeek: "Everyday", startTime: "00:00", endTime: "00:00" },
+    { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
@@ -34,6 +34,7 @@ const PromoteToVolunteer = () => {
   // const userId = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -124,6 +125,7 @@ const PromoteToVolunteer = () => {
           <VolunteerCourse
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
+            setIsUploaded={setIsUploaded}
           />
         );
       case 3:
@@ -350,6 +352,12 @@ const PromoteToVolunteer = () => {
           currentStep={currentStep}
           steps={steps}
           isAcknowledged={isAcknowledged}
+          isUploaded={isUploaded}
+          isCheckedCategories={Object.keys(checkedCategories).length !== 0}
+          isAvailabilitySlots={availabilitySlots.every(
+            ({ startTime, endTime }) =>
+              startTime !== null && endTime !== null && endTime > startTime,
+          )}
         />
       )}
     </div>

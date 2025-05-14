@@ -5,6 +5,9 @@ const StepperControl = ({
   currentStep,
   steps,
   isAcknowledged,
+  isUploaded,
+  isCheckedCategories,
+  isAvailabilitySlots,
 }) => {
   return (
     <div className="container flex justify-around mt-16 mb-8">
@@ -27,12 +30,20 @@ const StepperControl = ({
             handleClick(currentStep === steps.length ? "confirm" : "next")
           }
           className={`uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 ${
-            (currentStep === 1 && !isAcknowledged) || currentStep > steps.length
+            (currentStep === 1 && !isAcknowledged) ||
+            (currentStep === 2 && !isUploaded) ||
+            (currentStep === 3 && !isCheckedCategories) ||
+            (currentStep === 4 && !isAvailabilitySlots) ||
+            currentStep > steps.length
               ? "bg-green-300 text-gray border-green-300 opacity-50 cursor-not-allowed"
               : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
           }`}
           disabled={
-            (currentStep === 1 && !isAcknowledged) || currentStep > steps.length
+            (currentStep === 1 && !isAcknowledged) ||
+            (currentStep === 2 && !isUploaded) ||
+            (currentStep === 3 && !isCheckedCategories) ||
+            (currentStep === 4 && !isAvailabilitySlots) ||
+            currentStep > steps.length
           }
         >
           {currentStep === steps.length ? "Confirm" : "Next"}

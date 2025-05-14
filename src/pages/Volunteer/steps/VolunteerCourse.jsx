@@ -1,9 +1,17 @@
 import { useState, useRef } from "react";
 import React from "react"; //added for testing
+import * as pdfjsLib from "pdfjs-dist";
+import { OPS } from "pdfjs-dist";
 
-const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url,
+).toString();
+
+const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
+  const [ack, setAck] = useState("");
   const [preview, setPreview] = useState("");
   const [source, setSource] = useState("device");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +44,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
 
       setError("");
       setFile(uploadedFile);
-      setPreview(URL.createObjectURL(uploadedFile));
+      setPreview(URL.createObjectURL(selectedFile));
     }
   };
 
@@ -91,6 +99,8 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
     setFile(null);
     setPreview("");
     setError("");
+    setIsUploaded(false);
+    setAck("");
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Reset the file input
     }
@@ -99,35 +109,56 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
   const handleUpload = async () => {
     if (!file) return;
 
-    const timestamp = new Date().toISOString(); // Get the current timestamp
-    const formData = new FormData();
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
-    formData.append("file", file);
-    formData.append("timestamp", timestamp);
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
 
-    try {
-      setIsLoading(true); // Show loading state if needed
-
-      const response = await fetch("/your-backend-api-endpoint", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        // Handle successful response
-        console.log("File uploaded successfully");
+      const opList = await page.getOperatorList();
+      const hasImage = opList.fnArray.some(
+        (fn) =>
+          fn === OPS.paintImageXObject || fn === OPS.paintInlineImageXObject,
+      );
+      if (hasImage) {
+        setIsUploaded(true);
+        setError("");
+        setAck("PDF File Uploaded Successfully");
       } else {
-        // Handle errors
-        const errorData = await response.json();
-        setError(errorData.message || "File upload failed");
+        setIsUploaded(false);
+        setError("Please upload a Valid PDF");
       }
-    } catch (err) {
-      setError("An error occurred during file upload");
-      console.error(err);
-    } finally {
-      setIsLoading(false); // Hide loading state
     }
   };
+  // const timestamp = new Date().toISOString(); // Get the current timestamp
+  // const formData = new FormData();
+
+  // formData.append("file", file);
+  // formData.append("timestamp", timestamp);
+
+  // try {
+  //   setIsLoading(true); // Show loading state if needed
+
+  //   const response = await fetch("/your-backend-api-endpoint", {
+  //     method: "POST",
+  //     body: formData,
+  //   });
+
+  //   if (response.ok) {
+  //     // Handle successful response
+  //     console.log("File uploaded successfully");
+  //   } else {
+  //     // Handle errors
+  //     const errorData = await response.json();
+  //     setError(errorData.message || "File upload failed");
+  //   }
+  // } catch (err) {
+  //   setError("An error occurred during file upload");
+  //   console.error(err);
+  // } finally {
+  //   setIsLoading(false); // Hide loading state
+  // }
+  // };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -181,6 +212,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
 
       {/* Error Message */}
       {error && <p className="text-sm text-red-600">{error}</p>}
+      {ack && <p className="text-sm text-green-600">{ack}</p>}
 
       {/* Upload and Remove Buttons */}
       <div className="flex justify-between items-center">

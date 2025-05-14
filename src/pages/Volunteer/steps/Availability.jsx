@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { TimePicker } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
@@ -11,6 +11,7 @@ const TimeInputComponent = ({
   onDayChange,
   onTimeChange,
   onRemove,
+  setTimeCheck,
 }) => {
   const days = [
     "Everyday",
@@ -33,6 +34,7 @@ const TimeInputComponent = ({
   };
 
   const handleEndTimeChange = (newEndTime) => {
+    setTimeCheck(newEndTime > startTime);
     onTimeChange(index, "endTime", newEndTime);
   };
 
@@ -51,7 +53,7 @@ const TimeInputComponent = ({
       </select>
       <TimePicker
         className="rounded-md w-40"
-        // value={startTime}
+        value={startTime}
         onChange={handleStartTimeChange}
         onOk={handleStartTimeChange}
         disableClock={true}
@@ -100,7 +102,7 @@ const TimeInputComponent = ({
   );
 };
 
-const TimeInputList = ({ components, setComponents }) => {
+const TimeInputList = ({ components, setComponents, setTimeCheck }) => {
   // Initializing state with 5 TimeInputComponents
   // const [components, setComponents] = useState(
   //   Array.from({ length: 1 }, (_, i) => ({
@@ -144,8 +146,8 @@ const TimeInputList = ({ components, setComponents }) => {
       {
         id: newId,
         day: "Everyday",
-        startTime: "00:00",
-        endTime: "00:00",
+        startTime: null,
+        endTime: null,
       },
     ]);
     console.log(`components: ${JSON.stringify(components)}`);
@@ -163,6 +165,7 @@ const TimeInputList = ({ components, setComponents }) => {
           onDayChange={handleDayChange}
           onTimeChange={handleTimeChange}
           onRemove={handleRemoveComponent}
+          setTimeCheck={setTimeCheck}
         />
       ))}
       <button
@@ -199,6 +202,15 @@ const Availability = ({
   setAvailabilitySlots,
   setNotification,
 }) => {
+  const [timeCheck, setTimeCheck] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (!timeCheck)
+      setErrorMessage("End time cannot be lesser than start time");
+    else setErrorMessage("");
+  }, [timeCheck]);
+
   const handleCheckboxChange = () => {
     setNotification((tobeNotified) => !tobeNotified);
   };
@@ -211,6 +223,7 @@ const Availability = ({
       <TimeInputList
         components={availabilitySlots}
         setComponents={setAvailabilitySlots}
+        setTimeCheck={setTimeCheck}
       />
       <div className="flex items-center mt-6 mb-2">
         <input
@@ -225,6 +238,7 @@ const Availability = ({
           critical situations?
         </label>
       </div>
+      {errorMessage && <p className="text-sm text-red-600">{errorMessage}</p>}
     </div>
   );
 };
