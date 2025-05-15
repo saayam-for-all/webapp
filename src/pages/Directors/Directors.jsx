@@ -101,7 +101,7 @@ const Directors = () => {
                 <img
                   src={director.image}
                   alt={director.name}
-                  className="rounded-2xl shadow-lg w-full max-w-[280px] h-[380px] object-cover"
+                  className="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
                 />
               </div>
 
