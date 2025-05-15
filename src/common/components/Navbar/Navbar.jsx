@@ -20,6 +20,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
+import ArticleIcon from "@mui/icons-material/Article";
 
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
@@ -327,7 +328,7 @@ const Navbar = () => {
                 <MenuItem
                   onClick={(e) => handleLinkClick(e, "/news-our-stories")}
                 >
-                  <CrisisAlertIcon className="mr-2" /> {t("News: Our Stories")}
+                  <ArticleIcon className="mr-2" /> {t("In the news")}
                 </MenuItem>
               </Menu>
             )}
@@ -572,7 +573,7 @@ const Navbar = () => {
                 <MenuItem
                   onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
                 >
-                  <CrisisAlertIcon className="mr-2" /> {t("News: Our Stories")}
+                  <ArticleIcon className="mr-2" /> {t("In the news")}
                 </MenuItem>
               </Menu>
             )}
