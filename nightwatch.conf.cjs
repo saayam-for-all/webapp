@@ -14,7 +14,7 @@ module.exports = {
       desiredCapabilities: { browserName: 'chrome' },
       webdriver: {
         start_process: true,
-        server_path: '/usr/bin/chromedriver'
+        server_path: '/usr/local/bin/chromedriver'
       }
     },
     firefox: {
@@ -27,7 +27,7 @@ module.exports = {
       },
       webdriver: {
         start_process: true,
-        server_path: '/usr/bin/geckodriver'
+        server_path: '/usr/local/bin/geckodriver'
       }
     },
     chrome: {
@@ -37,7 +37,7 @@ module.exports = {
       },
       webdriver: {
         start_process: true,
-        server_path: '/usr/bin/chromedriver'
+        server_path: '/usr/local/bin/chromedriver'
       }
     }
   },
