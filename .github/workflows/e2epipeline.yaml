@@ -21,6 +21,9 @@ jobs:
         run: |
           echo "testing e2e"
           npm install nightwatch-axe-verbose
+          npm install
+          npm run build
+          npm run dev
           npm run e2e
 
       - name: run nightwatch on firefox
