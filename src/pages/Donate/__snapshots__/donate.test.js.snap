@@ -57,14 +57,11 @@ exports[`Donate renders correctly 1`] = `
                 >
                   Donate via RazorPay
                 </a>
-                <a
+                <button
                   class="donate-button-stripe"
-                  href="#"
-                  rel="noopener noreferrer"
-                  target="_blank"
                 >
                   Donate via Stripe
-                </a>
+                </button>
                 <a
                   class="donate-button-charity"
                   href="https://www.charitynavigator.org/ein/932798273"
@@ -221,14 +218,11 @@ exports[`Donate renders correctly 1`] = `
               >
                 Donate via RazorPay
               </a>
-              <a
+              <button
                 class="donate-button-stripe"
-                href="#"
-                rel="noopener noreferrer"
-                target="_blank"
               >
                 Donate via Stripe
-              </a>
+              </button>
               <a
                 class="donate-button-charity"
                 href="https://www.charitynavigator.org/ein/932798273"
