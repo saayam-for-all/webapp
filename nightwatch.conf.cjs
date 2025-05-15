@@ -4,7 +4,7 @@ module.exports = {
   custom_commands_path: ['nightwatch/custom-commands'],
   custom_assertions_path: ['nightwatch/custom-assertions'],
    plugins: 
-    [],
+    ['nightwatch-axe-verbose'],
     
   test_workers: { enabled: true },
   test_settings: {
