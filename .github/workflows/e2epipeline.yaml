@@ -20,7 +20,7 @@ jobs:
       - name: run nightwatch
         run: |
           echo "testing e2e"
-          npx nightwatch
+          npm run e2e
 
       - name: run nightwatch on firefox
         run: |
