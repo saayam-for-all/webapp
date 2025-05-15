@@ -3,9 +3,9 @@ module.exports = {
   page_objects_path: ['nightwatch/page-objects'],
   custom_commands_path: ['nightwatch/custom-commands'],
   custom_assertions_path: ['nightwatch/custom-assertions'],
-   // plugins: [
-   // ['nightwatch-axe-verbose']
-    //],
+   plugins: [
+    []
+    ],
   test_workers: { enabled: true },
   test_settings: {
     default: {
