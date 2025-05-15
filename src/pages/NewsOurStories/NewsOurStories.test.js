@@ -1,15 +1,14 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import NewsOurStories from "./NewsOurStories";
 import { BrowserRouter } from "react-router-dom";
 
 describe("NewsOurStories", () => {
-  it("renders the News: Our Stories page", () => {
-    render(
+  it("renders correctly", () => {
+    const tree = render(
       <BrowserRouter>
         <NewsOurStories />
       </BrowserRouter>,
     );
-    expect(screen.getByText("News: Our Stories")).toBeInTheDocument();
-    expect(screen.getByText("Want to join us?")).toBeInTheDocument();
+    expect(tree).toMatchSnapshot();
   });
 });

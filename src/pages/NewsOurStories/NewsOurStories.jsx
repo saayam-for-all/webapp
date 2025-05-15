@@ -4,6 +4,7 @@ import communityUpliftment from "../../assets/news_our_stoires/community_upliftm
 import tieCon from "../../assets/news_our_stoires/tie_con.png";
 import { useNavigate } from "react-router-dom";
 import "./NewsOurStories.css";
+import { useTranslation } from "react-i18next";
 
 const stories = [
   {
@@ -34,20 +35,22 @@ const stories = [
 ];
 
 export default function NewsOurStories() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <div className="news-our-stories-container">
       {/* Hero Section */}
       <section className="news-our-stories-hero">
-        <h1 className="news-our-stories-title">News: Our Stories</h1>
+        <h1 className="news-our-stories-title">{t("News: Our Stories")}</h1>
         <p className="news-our-stories-subtitle">
-          Explore how Saayam for All is making headlines and gaining recognition
-          for its work in uplifting communities, empowering volunteers, and
-          building an inclusive support network.
+          {t(
+            "Explore how Saayam for All is making headlines and gaining recognition for its work in uplifting communities, empowering volunteers, and building an inclusive support network.",
+          )}
         </p>
         <p className="news-our-stories-desc">
-          From local stories to national features, discover how our mission is
-          resonating beyond the platform and into the world.
+          {t(
+            "From local stories to national features, discover how our mission is resonating beyond the platform and into the world.",
+          )}
         </p>
       </section>
 
@@ -61,12 +64,14 @@ export default function NewsOurStories() {
             className="news-our-stories-img-lg"
           />
           <div className="news-our-stories-date">{stories[0].date}</div>
-          <h2 className="news-our-stories-story-title">{stories[0].title}</h2>
+          <h2 className="news-our-stories-story-title">
+            {t(stories[0].title)}
+          </h2>
           <p className="news-our-stories-story-desc">
-            {stories[0].description}
+            {t(stories[0].description)}
           </p>
           <a href={stories[0].link} className="news-our-stories-link">
-            Read More
+            {t("Read More")}
           </a>
         </div>
         {/* Next two stories: two columns on desktop, stacked on mobile, no card effect */}
@@ -79,10 +84,12 @@ export default function NewsOurStories() {
                 className="news-our-stories-img-sm"
               />
               <div className="news-our-stories-date">{story.date}</div>
-              <h2 className="news-our-stories-story-title">{story.title}</h2>
-              <p className="news-our-stories-story-desc">{story.description}</p>
+              <h2 className="news-our-stories-story-title">{t(story.title)}</h2>
+              <p className="news-our-stories-story-desc">
+                {t(story.description)}
+              </p>
               <a href={story.link} className="news-our-stories-link">
-                Read More
+                {t("Read More")}
               </a>
             </div>
           ))}
@@ -91,16 +98,17 @@ export default function NewsOurStories() {
 
       {/* Call to Action Section */}
       <section className="news-our-stories-cta">
-        <h2 className="news-our-stories-cta-title">Want to join us?</h2>
+        <h2 className="news-our-stories-cta-title">{t("Want to join us?")}</h2>
         <p className="news-our-stories-cta-desc">
-          Chat with our community and get in touch with different charity
-          organizations!
+          {t(
+            "Chat with our community and get in touch with different charity organizations!",
+          )}
         </p>
         <button
           className="news-our-stories-cta-btn"
           onClick={() => navigate("/contact")}
         >
-          Join the community
+          {t("Join the community")}
         </button>
       </section>
     </div>
