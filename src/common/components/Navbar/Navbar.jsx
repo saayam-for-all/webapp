@@ -328,7 +328,7 @@ const Navbar = () => {
                 <MenuItem
                   onClick={(e) => handleLinkClick(e, "/news-our-stories")}
                 >
-                  <ArticleIcon className="mr-2" /> {t("In the news")}
+                  <ArticleIcon className="mr-2" /> {t("In The News")}
                 </MenuItem>
               </Menu>
             )}
