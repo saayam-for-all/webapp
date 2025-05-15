@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import handsTogetherImage from "../../assets/hands-together.png";
 import qrCodeImage from "../../assets/QR.png";
@@ -7,9 +7,56 @@ import "./Donate.css";
 const Donate = () => {
   const { t } = useTranslation();
   const [openFaq, setOpenFaq] = useState(null);
+  const [showStripeDonation, setShowStripeDonation] = useState(false);
+  const [donationType, setDonationType] = useState("one-time");
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
+  };
+
+  useEffect(() => {
+    if (showStripeDonation) {
+      // Load Stripe script
+      const script = document.createElement("script");
+      script.src = "https://js.stripe.com/v3/buy-button.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      // Initialize Stripe buttons after script loads
+      script.onload = () => {
+        const publishableKey =
+          "pk_live_51RLYdDFTNrTBTK6lenmwJGxbrv1uxOqKWi4GnpWIocFGTpIJNVr7p4OwP0n2vcJwp8c89vw7fOHGFISOAMYtOwUZ002no86gkT";
+        const stripeButtons = {
+          oneTime: "buy_btn_1ROTosFTNrTBTK6lack9IclC",
+          monthly: "buy_btn_1ROTobFTNrTBTK6lJdV1DIpA",
+        };
+
+        const insertStripeButton = (containerId, buttonId) => {
+          const container = document.getElementById(containerId);
+          if (container) {
+            const btn = document.createElement("stripe-buy-button");
+            btn.setAttribute("buy-button-id", buttonId);
+            btn.setAttribute("publishable-key", publishableKey);
+            container.appendChild(btn);
+          }
+        };
+
+        insertStripeButton("one-time-button-container", stripeButtons.oneTime);
+        insertStripeButton("monthly-button-container", stripeButtons.monthly);
+      };
+
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [showStripeDonation]);
+
+  const handleStripeClick = () => {
+    setShowStripeDonation(true);
+  };
+
+  const selectType = (type) => {
+    setDonationType(type);
   };
 
   const faqItems = [
@@ -26,6 +73,52 @@ const Donate = () => {
       answer: t("FAQ_CANCEL_ANSWER"),
     },
   ];
+
+  if (showStripeDonation) {
+    return (
+      <div className="donate-container">
+        <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg mx-auto">
+          <button
+            onClick={() => setShowStripeDonation(false)}
+            className="back-button"
+          >
+            ← Back to Donate
+          </button>
+          <div className="flex justify-center mb-6 space-x-4">
+            <button
+              onClick={() => selectType("one-time")}
+              className={`tab-btn ${donationType === "one-time" ? "active" : ""}`}
+            >
+              One-Time
+            </button>
+            <button
+              onClick={() => selectType("monthly")}
+              className={`tab-btn ${donationType === "monthly" ? "active" : ""}`}
+            >
+              Monthly
+            </button>
+          </div>
+
+          <div
+            id="section-one-time"
+            className={`donation-section ${donationType === "one-time" ? "" : "hidden"}`}
+          >
+            <div id="one-time-button-container"></div>
+          </div>
+
+          <div
+            id="section-monthly"
+            className={`donation-section ${donationType === "monthly" ? "" : "hidden"}`}
+          >
+            <div
+              className="flex flex-col items-center space-y-6"
+              id="monthly-button-container"
+            ></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div data-testid="donate-container" className="donate-container">
@@ -65,14 +158,12 @@ const Donate = () => {
               >
                 Donate via RazorPay
               </a>
-              <a
-                href="#"
+              <button
+                onClick={handleStripeClick}
                 className="donate-button-stripe"
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 Donate via Stripe
-              </a>
+              </button>
               <a
                 href="https://www.charitynavigator.org/ein/932798273"
                 className="donate-button-charity"
