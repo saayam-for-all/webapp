@@ -14,20 +14,14 @@ jobs:
     container:
       image: moddebaixa/saayamimage:latest
     steps:
-      - name: Checkout código
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: run nightwatch
-        run: |
-          echo "testing e2e"
-          npm install nightwatch-axe-verbose
-          npm install
-          npm run build
-          npm run dev
-          npm run e2e
+      - name: Install dependencies
+        run: npm ci
 
-      - name: run nightwatch on firefox
-        run: |
-          echo "testing on firefox"
-          npx nightwatch --env firefox
+      - name: Build application
+        run: npm run build
 
+      - name: Run E2E (build already hecho, preview + wait + e2e)
+        run: npx start-server-and-test preview http://localhost:4173 e2e
