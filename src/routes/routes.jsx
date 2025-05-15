@@ -13,6 +13,7 @@ import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 import HowWeOperate from "../pages/How We Operate/HowWeOperate";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import Mission from "../pages/Mission/Mission";
+import NewsOurStories from "../pages/NewsOurStories/NewsOurStories";
 import Notifications from "../pages/Notifications/Notifications";
 import Profile from "../pages/Profile/Profile";
 import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
@@ -61,8 +62,8 @@ const routes = [
     element: <Sitemap />,
   },
   {
-    path: "sitemap",
-    element: <Sitemap />,
+    path: "news-our-stories",
+    element: <NewsOurStories />,
   },
   {
     path: "notifications",

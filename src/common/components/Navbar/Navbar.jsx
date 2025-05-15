@@ -324,6 +324,11 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
+                <MenuItem
+                  onClick={(e) => handleLinkClick(e, "/news-our-stories")}
+                >
+                  <CrisisAlertIcon className="mr-2" /> {t("News: Our Stories")}
+                </MenuItem>
               </Menu>
             )}
           </div>
@@ -563,6 +568,11 @@ const Navbar = () => {
                 </MenuItem>
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/vision")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_VISION_NAVBAR")}
+                </MenuItem>
+                <MenuItem
+                  onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
+                >
+                  <CrisisAlertIcon className="mr-2" /> {t("News: Our Stories")}
                 </MenuItem>
               </Menu>
             )}
