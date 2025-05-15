@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewsOurStories renders the News: Our Stories page 1`] = `
+<DocumentFragment>
+  <div
+    class="news-our-stories-container"
+  >
+    <section
+      class="news-our-stories-hero"
+    >
+      <h1
+        class="news-our-stories-title"
+      >
+        News: Our Stories
+      </h1>
+      <p
+        class="news-our-stories-subtitle"
+      >
+        Explore how Saayam for All is making headlines and gaining recognition for its work in uplifting communities, empowering volunteers, and building an inclusive support network.
+      </p>
+      <p
+        class="news-our-stories-desc"
+      >
+        From local stories to national features, discover how our mission is resonating beyond the platform and into the world.
+      </p>
+    </section>
+    <section
+      class="news-our-stories-section"
+    >
+      <div
+        class="news-our-stories-story"
+      >
+        <img
+          alt="Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara"
+          class="news-our-stories-img-lg"
+          src="tieCon.png"
+        />
+        <div
+          class="news-our-stories-date"
+        >
+          05/02/2025
+        </div>
+        <h2
+          class="news-our-stories-story-title"
+        >
+          Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara
+        </h2>
+        <p
+          class="news-our-stories-story-desc"
+        >
+          Our CEO, Rao K Bhehanabobla recently attended TiEcon 2025 at the Santa Clara Convention Center, one of the premier global gatherings for entrepreneurs and innovators. He shared Saayam's journey in leveraging technology to build a support-driven community platform. The event spotlighted Saayam's mission and growing influence in the social impact ecosystem.
+        </p>
+        <a
+          class="news-our-stories-link"
+          href="#"
+        >
+          Read More
+        </a>
+      </div>
+      <div
+        class="news-our-stories-row"
+      >
+        <div
+          class="news-our-stories-col"
+        >
+          <img
+            alt="Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment"
+            class="news-our-stories-img-sm"
+            src="communityUpliftment.png"
+          />
+          <div
+            class="news-our-stories-date"
+          >
+            05/02/2025
+          </div>
+          <h2
+            class="news-our-stories-story-title"
+          >
+            Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment
+          </h2>
+          <p
+            class="news-our-stories-story-desc"
+          >
+            Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.
+          </p>
+          <a
+            class="news-our-stories-link"
+            href="#"
+          >
+            Read More
+          </a>
+        </div>
+        <div
+          class="news-our-stories-col"
+        >
+          <img
+            alt="In Step with the Community: A 17-Mile Walk in San Ramon"
+            class="news-our-stories-img-sm"
+            src="seventeenMileWalk.png"
+          />
+          <div
+            class="news-our-stories-date"
+          >
+            05/02/2025
+          </div>
+          <h2
+            class="news-our-stories-story-title"
+          >
+            In Step with the Community: A 17-Mile Walk in San Ramon
+          </h2>
+          <p
+            class="news-our-stories-story-desc"
+          >
+            Our CEO and Satesth Mudrala recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.
+          </p>
+          <a
+            class="news-our-stories-link"
+            href="#"
+          >
+            Read More
+          </a>
+        </div>
+      </div>
+    </section>
+    <section
+      class="news-our-stories-cta"
+    >
+      <h2
+        class="news-our-stories-cta-title"
+      >
+        Want to join us?
+      </h2>
+      <p
+        class="news-our-stories-cta-desc"
+      >
+        Chat with our community and get in touch with different charity organizations!
+      </p>
+      <button
+        class="news-our-stories-cta-btn"
+      >
+        Join the community
+      </button>
+    </section>
+  </div>
+</DocumentFragment>
+
+</code_block_to_apply_changes_from>
