@@ -5,6 +5,11 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
+import carouselFive from "../../../assets/landingPageImages/carousel_five.jpg";
+import carouselFour from "../../../assets/landingPageImages/carousel_four.jpg";
+import carouselOne from "../../../assets/landingPageImages/carousel_one.jpg";
+import carouselThree from "../../../assets/landingPageImages/carousel_three.jpg";
+import carouselTwo from "../../../assets/landingPageImages/carousel_two.jpg";
 import "./Carousel.css";
 
 import {
@@ -16,12 +21,12 @@ import {
 
 export default function Carousel() {
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full bg-white mb-10">
+    <div className="flex flex-col items-center justify-center w-full bg-white mb-10 h-[400px]">
       <Swiper
         effect={"coverflow"}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={3}
+        slidesPerView={2}
         coverflowEffect={{
           rotate: 0,
           stretch: 0,
@@ -42,39 +47,67 @@ export default function Carousel() {
           prevEl: ".custom-swiper-button-prev",
         }}
         modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-        className="mySwiper "
+        className="mySwiper h-[400px]"
       >
-        <SwiperSlide>
-          <div>
-            <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-            <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2  text-white text-sm px-3 py-1 rounded">
-              Forest Sunrise
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselOne}
+              className="h-full w-full object-contain"
+              alt="Smiling children joyfully pose with peace signs in hand, their faces close together, conveying a playful and cheerful atmosphere on a sunny day."
+            />
+            <div className="absolute bottom-1/4 left-[100px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              School
             </div>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselTwo}
+              className="h-full w-full object-contain"
+              alt="A volunteer in a colorful shirt and red cap faces away, holding up a smartphone. "
+            />
+            <div className="absolute bottom-1/4 left-[140px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              General Help
+            </div>
+          </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselThree}
+              className="h-full w-full object-contain"
+              alt="A person wearing a mask and a green sweater sorts through paper bags in a food pantry."
+            />
+            <div className="absolute bottom-1/4 left-[140px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              Giving
+            </div>
+          </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselFour}
+              className="h-full w-full object-contain"
+              alt="A group of children sit on the floor indoors, smiling and looking ahead, with adults in the background."
+            />
+            <div className="absolute bottom-1/4 left-[140px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              Laughter
+            </div>
+          </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+        <SwiperSlide className="h-[400px] flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center">
+            <img
+              src={carouselFive}
+              className="h-full w-full object-contain"
+              alt="Two people gently touch hands, conveying comfort and connection."
+            />
+            <div className="absolute bottom-1/4 left-[140px] transform -translate-x-1/2 text-white font-bold text-4xl px-3 py-1 rounded">
+              Connection
+            </div>
+          </div>
         </SwiperSlide>
       </Swiper>
       {/* Minimal Arrows */}

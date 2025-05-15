@@ -178,7 +178,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             navigate("/dashboard", {
               state: {
                 successMessage:
-                  "New Request submitted successfully! Welcome to the dashboard.",
+                  "New Request #REQ-00-000-000-00011 submitted successfully!",
               },
             });
           }, 2000);
@@ -314,7 +314,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         navigate("/dashboard", {
           state: {
             successMessage:
-              "New Request submitted successfully! Welcome to the dashboard.",
+              "New Request #REQ-00-000-000-00011 submitted successfully!",
           },
         });
       }, 2000); // Wait 2 seconds before redirecting

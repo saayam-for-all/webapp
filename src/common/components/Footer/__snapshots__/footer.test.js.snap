@@ -32,32 +32,34 @@ exports[`Footer renders correctly 1`] = `
                 <a
                   href="/"
                 >
-                  Home
+                  mockTranslate(HOME)
                 </a>
                 <a
                   href="/our-mission"
                 >
-                  About Us
+                  mockTranslate(ABOUT)
                 </a>
                 <a
-                  href="/"
+                  href="#"
                 >
-                  Mission & Vision
+                  mockTranslate(MISSION)
+                   & 
+                  mockTranslate(VISION)
                 </a>
                 <a
                   href="/directors"
                 >
-                  Our Team
+                  mockTranslate(OUR_TEAM)
                 </a>
                 <a
-                  href="/"
+                  href="/how-we-operate"
                 >
-                  What We Offer
+                  mockTranslate(How We Operate)
                 </a>
                 <a
                   href="/donate"
                 >
-                  Donate
+                  mockTranslate(DONATE)
                 </a>
               </nav>
               <div
@@ -69,7 +71,7 @@ exports[`Footer renders correctly 1`] = `
                   <button
                     type="button"
                   >
-                    Contact Us
+                    mockTranslate(CONTACT)
                   </button>
                 </a>
               </div>
@@ -92,17 +94,17 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/sitemap"
               >
-                Site Map
+                mockTranslate(SITE_MAP)
               </a>
               <a
                 href="#"
               >
-                Terms and Conditions
+                mockTranslate(TERMS_AND_CONDITIONS)
               </a>
               <a
                 href="#"
               >
-                Privacy Policy
+                mockTranslate(PRIVACY_POLICY)
               </a>
             </div>
           </div>
@@ -138,32 +140,34 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/"
               >
-                Home
+                mockTranslate(HOME)
               </a>
               <a
                 href="/our-mission"
               >
-                About Us
+                mockTranslate(ABOUT)
               </a>
               <a
-                href="/"
+                href="#"
               >
-                Mission & Vision
+                mockTranslate(MISSION)
+                 & 
+                mockTranslate(VISION)
               </a>
               <a
                 href="/directors"
               >
-                Our Team
+                mockTranslate(OUR_TEAM)
               </a>
               <a
-                href="/"
+                href="/how-we-operate"
               >
-                What We Offer
+                mockTranslate(How We Operate)
               </a>
               <a
                 href="/donate"
               >
-                Donate
+                mockTranslate(DONATE)
               </a>
             </nav>
             <div
@@ -175,7 +179,7 @@ exports[`Footer renders correctly 1`] = `
                 <button
                   type="button"
                 >
-                  Contact Us
+                  mockTranslate(CONTACT)
                 </button>
               </a>
             </div>
@@ -198,17 +202,17 @@ exports[`Footer renders correctly 1`] = `
             <a
               href="/sitemap"
             >
-              Site Map
+              mockTranslate(SITE_MAP)
             </a>
             <a
               href="#"
             >
-              Terms and Conditions
+              mockTranslate(TERMS_AND_CONDITIONS)
             </a>
             <a
               href="#"
             >
-              Privacy Policy
+              mockTranslate(PRIVACY_POLICY)
             </a>
           </div>
         </div>

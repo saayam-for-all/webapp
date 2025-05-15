@@ -20,6 +20,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
+import ArticleIcon from "@mui/icons-material/Article";
 
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
@@ -290,7 +291,7 @@ const Navbar = () => {
               // className="text-black flex items-center hover:text-gray-600 text-base"
               className="text-black hover:text-gray-600 flex items-center text-base"
             >
-              <HomeOutlinedIcon className="mr-2" /> {t("Home")}
+              <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
             </button>
           </div>
 
@@ -300,7 +301,7 @@ const Navbar = () => {
               onClick={handleAUMenuClick}
               className="text-black flex items-center hover:text-gray-600 text-base"
             >
-              <PeopleOutlinedIcon className="mr-2" /> {t("About Us")}
+              <PeopleOutlinedIcon className="mr-2" /> {t("ABOUT")}
               <ArrowDropDownIcon />
             </button>
             {aboutUsOpenMenu && (
@@ -319,10 +320,15 @@ const Navbar = () => {
                 }}
               >
                 <MenuItem onClick={(e) => handleLinkClick(e, "/directors")}>
-                  <GroupsIcon className="mr-2" /> {t("Our Team")}
+                  <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
-                  <CrisisAlertIcon className="mr-2" /> {t("Our Mission")}
+                  <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
+                </MenuItem>
+                <MenuItem
+                  onClick={(e) => handleLinkClick(e, "/news-our-stories")}
+                >
+                  <ArticleIcon className="mr-2" /> {t("In The News")}
                 </MenuItem>
               </Menu>
             )}
@@ -335,7 +341,7 @@ const Navbar = () => {
               className="text-black flex items-center hover:text-gray-600 text-base"
             >
               <Diversity1OutlinedIcon className="mr-2" />
-              {t("Volunteer Services")}
+              {t("VOLUNTEER_SERVICES")}
               <ArrowDropDownIcon />
             </button>
             {volunteerOpenMenu && (
@@ -356,10 +362,10 @@ const Navbar = () => {
                 <MenuItem
                   onClick={(e) => handleLinkClick(e, "/how-we-operate")}
                 >
-                  <GroupsIcon className="mr-2" /> {t("How We Operate")}
+                  <GroupsIcon className="mr-2" /> {t("HOW_WE_OPERATE")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleLinkClick(e, "/collaborators")}>
-                  <Diversity3Icon className="mr-2" /> {t("Our Collaborators")}
+                  <Diversity3Icon className="mr-2" /> {t("OUR_COLLABORATORS")}
                 </MenuItem>
               </Menu>
             )}
@@ -371,7 +377,7 @@ const Navbar = () => {
               // className="text-black flex items-center hover:text-gray-600 text-base"
               className="text-black hover:text-gray-600 flex items-center text-base"
             >
-              <ContactMailOutlinedIcon className="mr-2" /> {t("Contact Us")}
+              <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
             </button>
           </div>
 
@@ -397,7 +403,7 @@ const Navbar = () => {
             className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
           >
             <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
-            {t("Donate")}
+            {t("DONATE")}
           </button>
         </div>
 
@@ -531,7 +537,7 @@ const Navbar = () => {
               onClick={(e) => handleDrawerClick(e, "/")}
               className="text-black flex items-center hover:text-blue-600"
             >
-              <HomeOutlinedIcon className="mr-2" /> {t("Home")}
+              <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
             </button>
           </div>
 
@@ -540,7 +546,7 @@ const Navbar = () => {
               onClick={handleAUMenuClick}
               className="text-black flex items-center hover:text-blue-600"
             >
-              <PeopleOutlinedIcon className="mr-2" /> {t("About Us")}
+              <PeopleOutlinedIcon className="mr-2" /> {t("ABOUT")}
               <ArrowDropDownIcon />
             </button>
             {aboutUsOpenMenu && (
@@ -559,10 +565,15 @@ const Navbar = () => {
                 }}
               >
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/directors")}>
-                  <GroupsIcon className="mr-2" /> {t("Our Team")}
+                  <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/vision")}>
-                  <CrisisAlertIcon className="mr-2" /> {t("Our Vision")}
+                  <CrisisAlertIcon className="mr-2" /> {t("OUR_VISION_NAVBAR")}
+                </MenuItem>
+                <MenuItem
+                  onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
+                >
+                  <ArticleIcon className="mr-2" /> {t("In the news")}
                 </MenuItem>
               </Menu>
             )}
@@ -574,7 +585,7 @@ const Navbar = () => {
               className="text-black flex items-center hover:text-blue-600"
             >
               <Diversity1OutlinedIcon className="mr-2" />
-              {t("Volunteer Services")}
+              {t("VOLUNTEER_SERVICES")}
               <ArrowDropDownIcon />
             </button>
             {volunteerOpenMenu && (
@@ -595,12 +606,12 @@ const Navbar = () => {
                 <MenuItem
                   onClick={(e) => handleDrawerClick(e, "/how-we-operate")}
                 >
-                  <GroupsIcon className="mr-2" /> {t("How We Operate")}
+                  <GroupsIcon className="mr-2" /> {t("HOW_WE_OPERATE")}
                 </MenuItem>
                 <MenuItem
-                  onClick={(e) => handleDrawerClick(e, "/how-we-operate")}
+                  onClick={(e) => handleDrawerClick(e, "/collaborators")}
                 >
-                  <Diversity3Icon className="mr-2" /> {t("Our Collaborators")}
+                  <Diversity3Icon className="mr-2" /> {t("OUR_COLLABORATORS")}
                 </MenuItem>
               </Menu>
             )}
@@ -611,7 +622,7 @@ const Navbar = () => {
               onClick={(e) => handleDrawerClick(e, "/contact")}
               className="text-black flex items-center hover:text-blue-600"
             >
-              <ContactMailOutlinedIcon className="mr-2" /> {t("Contact Us")}
+              <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
             </button>
           </div>
 
