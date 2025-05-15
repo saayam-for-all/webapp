@@ -6,6 +6,8 @@ import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
 import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
 import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
 import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
+import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
+import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
 
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
@@ -42,6 +44,18 @@ const DirectorsData = [
     role: "Director & Treasurer",
     linkedin: "https://www.linkedin.com/in/rajeshwary-jaldu/",
     image: RajeshwaryImg,
+  },
+  {
+    name: "Prabhakar Yellai",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/prabhakara-yellai/",
+    image: PrabhakarImg,
+  },
+  {
+    name: "Srividhya Gopalan",
+    role: "Chief Financial Officer",
+    linkedin: "https://www.linkedin.com/in/srividhyagopalan/",
+    image: SrividhyaImg,
   },
 ];
 
