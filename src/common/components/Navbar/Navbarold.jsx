@@ -288,7 +288,7 @@ const Navbar = () => {
             onClick={handleLinkClick}
           >
             <li>
-              <NavLink to="/directors" name="directors">
+              <NavLink to="/our-team" name="directors">
                 <img src={OurTeamIcon} alt="Team" className="w-5 h-5" />
                 {t("Our Team")}
               </NavLink>

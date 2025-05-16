@@ -329,7 +329,7 @@ const Navbar = () => {
                   },
                 }}
               >
-                <MenuItem onClick={(e) => handleLinkClick(e, "/directors")}>
+                <MenuItem onClick={(e) => handleLinkClick(e, "/our-team")}>
                   <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
@@ -572,7 +572,7 @@ const Navbar = () => {
                   },
                 }}
               >
-                <MenuItem onClick={(e) => handleDrawerClick(e, "/directors")}>
+                <MenuItem onClick={(e) => handleDrawerClick(e, "/our-team")}>
                   <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/vision")}>
