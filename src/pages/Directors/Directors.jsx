@@ -8,6 +8,7 @@ import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
 import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
 import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
 import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
+import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
 
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
@@ -51,6 +52,13 @@ const DirectorsData = [
     linkedin: "https://www.linkedin.com/in/prabhakara-yellai/",
     image: PrabhakarImg,
   },
+  {
+    name: "Sharadha V Subramanian",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/sharadha/",
+    image: SharadhaImg,
+  },
+
   {
     name: "Srividhya Gopalan",
     role: "Chief Financial Officer",
@@ -97,11 +105,11 @@ const Directors = () => {
               key={index}
               className="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div className="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg">
                 <img
                   src={director.image}
                   alt={director.name}
-                  className="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
