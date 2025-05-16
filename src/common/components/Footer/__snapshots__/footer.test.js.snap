@@ -47,7 +47,7 @@ exports[`Footer renders correctly 1`] = `
                   mockTranslate(VISION)
                 </a>
                 <a
-                  href="/directors"
+                  href="/our-team"
                 >
                   mockTranslate(OUR_TEAM)
                 </a>
@@ -155,7 +155,7 @@ exports[`Footer renders correctly 1`] = `
                 mockTranslate(VISION)
               </a>
               <a
-                href="/directors"
+                href="/our-team"
               >
                 mockTranslate(OUR_TEAM)
               </a>

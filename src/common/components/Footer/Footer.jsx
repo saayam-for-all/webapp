@@ -22,7 +22,7 @@ export default function Footer() {
               <a href="#">
                 {t("MISSION")} &amp; {t("VISION")}
               </a>
-              <a href="/directors">{t("OUR_TEAM")}</a>
+              <a href="/our-team">{t("OUR_TEAM")}</a>
               <a href="/how-we-operate">{t("How We Operate")}</a>
               <a href="/donate">{t("DONATE")}</a>
             </nav>

@@ -30,7 +30,7 @@ const routes = [
     element: <LandingPage />,
   },
   {
-    path: "directors",
+    path: "our-team",
     element: <Directors />,
   },
   {
