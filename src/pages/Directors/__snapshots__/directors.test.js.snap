@@ -25,10 +25,12 @@ exports[`Directors renders correctly 1`] = `
             <div
               class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Ramesh Maturu"
-                  class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                  class="w-full h-full object-cover"
                   src=""
                 />
               </div>
@@ -56,10 +58,12 @@ exports[`Directors renders correctly 1`] = `
             <div
               class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Rao Panuganti"
-                  class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                  class="w-full h-full object-cover"
                   src=""
                 />
               </div>
@@ -87,10 +91,12 @@ exports[`Directors renders correctly 1`] = `
             <div
               class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Naveen Sharma"
-                  class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                  class="w-full h-full object-cover"
                   src=""
                 />
               </div>
@@ -118,10 +124,12 @@ exports[`Directors renders correctly 1`] = `
             <div
               class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Rajeshwary Jaldu"
-                  class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                  class="w-full h-full object-cover"
                   src=""
                 />
               </div>
@@ -149,10 +157,12 @@ exports[`Directors renders correctly 1`] = `
             <div
               class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Prabhakar Yellai"
-                  class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                  class="w-full h-full object-cover"
                   src=""
                 />
               </div>
@@ -180,10 +190,45 @@ exports[`Directors renders correctly 1`] = `
             <div
               class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Sharadha V Subramanian"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/sharadha/"
+                    target="_blank"
+                  >
+                    Sharadha V Subramanian
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director
+                </h3>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Srividhya Gopalan"
-                  class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                  class="w-full h-full object-cover"
                   src=""
                 />
               </div>
@@ -641,10 +686,12 @@ exports[`Directors renders correctly 1`] = `
           <div
             class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Ramesh Maturu"
-                class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                class="w-full h-full object-cover"
                 src=""
               />
             </div>
@@ -672,10 +719,12 @@ exports[`Directors renders correctly 1`] = `
           <div
             class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Rao Panuganti"
-                class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                class="w-full h-full object-cover"
                 src=""
               />
             </div>
@@ -703,10 +752,12 @@ exports[`Directors renders correctly 1`] = `
           <div
             class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Naveen Sharma"
-                class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                class="w-full h-full object-cover"
                 src=""
               />
             </div>
@@ -734,10 +785,12 @@ exports[`Directors renders correctly 1`] = `
           <div
             class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Rajeshwary Jaldu"
-                class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                class="w-full h-full object-cover"
                 src=""
               />
             </div>
@@ -765,10 +818,12 @@ exports[`Directors renders correctly 1`] = `
           <div
             class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Prabhakar Yellai"
-                class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                class="w-full h-full object-cover"
                 src=""
               />
             </div>
@@ -796,10 +851,45 @@ exports[`Directors renders correctly 1`] = `
           <div
             class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Sharadha V Subramanian"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/sharadha/"
+                  target="_blank"
+                >
+                  Sharadha V Subramanian
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Director
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Srividhya Gopalan"
-                class="rounded-2xl shadow-lg w-full max-w-[280px] aspect-[3/4] object-cover"
+                class="w-full h-full object-cover"
                 src=""
               />
             </div>
