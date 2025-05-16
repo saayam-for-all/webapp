@@ -24,8 +24,9 @@ const ExecutiveTeamData = [
     image: Rashmi_Bilaskar,
     name: "Rashmi Bilaskar",
     role: "Team Lead - Webapp and Mobile App Engineering",
-    linkedin: "https://www.linkedin.com/in/rashmi-b-874a482/",
+    linkedin: "https://www.linkedin.com/in/rashmi-bilaskar",
   },
+
   {
     image:
       "https://cdn.builder.io/api/v1/image/assets/TEMP/8f181836a0df98180bc82bea522f96509eea4a8d",
