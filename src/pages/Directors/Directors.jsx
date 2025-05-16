@@ -6,6 +6,9 @@ import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
 import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
 import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
 import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
+import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
+import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
+import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
 
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
@@ -43,6 +46,25 @@ const DirectorsData = [
     linkedin: "https://www.linkedin.com/in/rajeshwary-jaldu/",
     image: RajeshwaryImg,
   },
+  {
+    name: "Prabhakar Yellai",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/prabhakara-yellai/",
+    image: PrabhakarImg,
+  },
+  {
+    name: "Sharadha V Subramanian",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/sharadha/",
+    image: SharadhaImg,
+  },
+
+  {
+    name: "Srividhya Gopalan",
+    role: "Chief Financial Officer",
+    linkedin: "https://www.linkedin.com/in/srividhyagopalan/",
+    image: SrividhyaImg,
+  },
 ];
 
 const advisorsData = [
@@ -79,21 +101,19 @@ const Directors = () => {
 
         <div className="directors flex items-center justify-center flex-wrap gap-10 my-20">
           {DirectorsData.map((director, index) => (
-            <div key={index} className="">
-              <div>
+            <div
+              key={index}
+              className="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div className="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg">
                 <img
                   src={director.image}
                   alt={director.name}
-                  width={300}
-                  height={400}
-                  style={{
-                    aspectRatio: "3/3",
-                  }}
-                  className="rounded-2xl shadow-lg"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
-              <div className="text-left self-start w-full px-6">
+              <div className="text-center w-full px-4 mt-4">
                 <h2 className="flex gap-2 mt-5">
                   <a
                     href={director.linkedin}

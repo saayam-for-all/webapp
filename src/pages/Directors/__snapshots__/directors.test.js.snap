@@ -23,19 +23,19 @@ exports[`Directors renders correctly 1`] = `
             class="directors flex items-center justify-center flex-wrap gap-10 my-20"
           >
             <div
-              class=""
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Ramesh Maturu"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
+                  class="w-full h-full object-cover"
                   src=""
-                  width="300"
                 />
               </div>
               <div
-                class="text-left self-start w-full px-6"
+                class="text-center w-full px-4 mt-4"
               >
                 <h2
                   class="flex gap-2 mt-5"
@@ -56,19 +56,19 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class=""
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Rao Panuganti"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
+                  class="w-full h-full object-cover"
                   src=""
-                  width="300"
                 />
               </div>
               <div
-                class="text-left self-start w-full px-6"
+                class="text-center w-full px-4 mt-4"
               >
                 <h2
                   class="flex gap-2 mt-5"
@@ -89,19 +89,19 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class=""
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Naveen Sharma"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
+                  class="w-full h-full object-cover"
                   src=""
-                  width="300"
                 />
               </div>
               <div
-                class="text-left self-start w-full px-6"
+                class="text-center w-full px-4 mt-4"
               >
                 <h2
                   class="flex gap-2 mt-5"
@@ -122,19 +122,19 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class=""
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
                   alt="Rajeshwary Jaldu"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
+                  class="w-full h-full object-cover"
                   src=""
-                  width="300"
                 />
               </div>
               <div
-                class="text-left self-start w-full px-6"
+                class="text-center w-full px-4 mt-4"
               >
                 <h2
                   class="flex gap-2 mt-5"
@@ -154,6 +154,105 @@ exports[`Directors renders correctly 1`] = `
                 </h3>
               </div>
             </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Prabhakar Yellai"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/prabhakara-yellai/"
+                    target="_blank"
+                  >
+                    Prabhakar Yellai
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director
+                </h3>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Sharadha V Subramanian"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/sharadha/"
+                    target="_blank"
+                  >
+                    Sharadha V Subramanian
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director
+                </h3>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Srividhya Gopalan"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/srividhyagopalan/"
+                    target="_blank"
+                  >
+                    Srividhya Gopalan
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Chief Financial Officer
+                </h3>
+              </div>
+            </div>
           </div>
         </section>
         <section>
@@ -161,20 +260,20 @@ exports[`Directors renders correctly 1`] = `
             class="bg-gray-100 py-16 px-24"
           >
             <div
-              class="text-center max-w-3xl mx-auto mb-12"
+              class="text-center max-w-3xl mx-auto mb-12 px-4"
             >
               <h2
-                class="font-extrabold text-3xl mb-4"
+                class="font-extrabold text-2xl sm:text-3xl mb-4"
               >
                 mockTranslate(EXECUTIVE_TEAM)
               </h2>
               <p
-                class="text-gray-600 text-base leading-[0.5]"
+                class="text-gray-600 text-sm sm:text-base leading-relaxed mb-2"
               >
                 mockTranslate(EXECUTIVE_DESCRIPTION_1)
               </p>
               <p
-                class="text-gray-600 text-base leading-[0.5]"
+                class="text-gray-600 text-sm sm:text-base leading-relaxed"
               >
                 mockTranslate(EXECUTIVE_DESCRIPTION_2)
               </p>
@@ -259,7 +358,7 @@ exports[`Directors renders correctly 1`] = `
                 >
                   <a
                     class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/rashmi-b-874a482/"
+                    href="https://www.linkedin.com/in/rashmi-bilaskar"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -585,19 +684,19 @@ exports[`Directors renders correctly 1`] = `
           class="directors flex items-center justify-center flex-wrap gap-10 my-20"
         >
           <div
-            class=""
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Ramesh Maturu"
-                class="rounded-2xl shadow-lg"
-                height="400"
+                class="w-full h-full object-cover"
                 src=""
-                width="300"
               />
             </div>
             <div
-              class="text-left self-start w-full px-6"
+              class="text-center w-full px-4 mt-4"
             >
               <h2
                 class="flex gap-2 mt-5"
@@ -618,19 +717,19 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class=""
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Rao Panuganti"
-                class="rounded-2xl shadow-lg"
-                height="400"
+                class="w-full h-full object-cover"
                 src=""
-                width="300"
               />
             </div>
             <div
-              class="text-left self-start w-full px-6"
+              class="text-center w-full px-4 mt-4"
             >
               <h2
                 class="flex gap-2 mt-5"
@@ -651,19 +750,19 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class=""
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Naveen Sharma"
-                class="rounded-2xl shadow-lg"
-                height="400"
+                class="w-full h-full object-cover"
                 src=""
-                width="300"
               />
             </div>
             <div
-              class="text-left self-start w-full px-6"
+              class="text-center w-full px-4 mt-4"
             >
               <h2
                 class="flex gap-2 mt-5"
@@ -684,19 +783,19 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class=""
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
                 alt="Rajeshwary Jaldu"
-                class="rounded-2xl shadow-lg"
-                height="400"
+                class="w-full h-full object-cover"
                 src=""
-                width="300"
               />
             </div>
             <div
-              class="text-left self-start w-full px-6"
+              class="text-center w-full px-4 mt-4"
             >
               <h2
                 class="flex gap-2 mt-5"
@@ -716,6 +815,105 @@ exports[`Directors renders correctly 1`] = `
               </h3>
             </div>
           </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Prabhakar Yellai"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/prabhakara-yellai/"
+                  target="_blank"
+                >
+                  Prabhakar Yellai
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Director
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Sharadha V Subramanian"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/sharadha/"
+                  target="_blank"
+                >
+                  Sharadha V Subramanian
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Director
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Srividhya Gopalan"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/srividhyagopalan/"
+                  target="_blank"
+                >
+                  Srividhya Gopalan
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Chief Financial Officer
+              </h3>
+            </div>
+          </div>
         </div>
       </section>
       <section>
@@ -723,20 +921,20 @@ exports[`Directors renders correctly 1`] = `
           class="bg-gray-100 py-16 px-24"
         >
           <div
-            class="text-center max-w-3xl mx-auto mb-12"
+            class="text-center max-w-3xl mx-auto mb-12 px-4"
           >
             <h2
-              class="font-extrabold text-3xl mb-4"
+              class="font-extrabold text-2xl sm:text-3xl mb-4"
             >
               mockTranslate(EXECUTIVE_TEAM)
             </h2>
             <p
-              class="text-gray-600 text-base leading-[0.5]"
+              class="text-gray-600 text-sm sm:text-base leading-relaxed mb-2"
             >
               mockTranslate(EXECUTIVE_DESCRIPTION_1)
             </p>
             <p
-              class="text-gray-600 text-base leading-[0.5]"
+              class="text-gray-600 text-sm sm:text-base leading-relaxed"
             >
               mockTranslate(EXECUTIVE_DESCRIPTION_2)
             </p>
@@ -821,7 +1019,7 @@ exports[`Directors renders correctly 1`] = `
               >
                 <a
                   class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/rashmi-b-874a482/"
+                  href="https://www.linkedin.com/in/rashmi-bilaskar"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
