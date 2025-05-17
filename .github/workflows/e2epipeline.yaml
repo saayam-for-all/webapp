@@ -30,6 +30,11 @@ jobs:
           PREVIEW_PID=$!
           echo "Preview running with PID $PREVIEW_PID"
           npx wait-on --verbose http://localhost:4173 --timeout 60000
+      - name: Debug GeckoDriver in container
+        run: |
+          echo "PATH is: $PATH"
+          which geckodriver
+          geckodriver --version
 
       - name: Run E2E tests in Firefox
         run: npm run e2e

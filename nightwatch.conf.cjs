@@ -17,20 +17,20 @@ module.exports = {
         server_path: '/usr/local/bin/chromedriver'
       }
     },
-    firefox: {
+     firefox: {
       desiredCapabilities: {
         browserName: 'firefox',
-        alwaysMatch: {
-          acceptInsecureCerts: true,
-          'moz:firefoxOptions': { args: [] }
+        'moz:firefoxOptions': {
+          args: ['-headless']
         }
       },
       webdriver: {
         start_process: true,
-        server_path: '/usr/local/bin/geckodriver'
+        // eliminamos server_path para confiar en el PATH del contenedor
+        
+        cli_args: ['-vv']  // opcional, para logs detallados de diagnóstico
       }
-    },
-    chrome: {
+    }, chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
         'goog:chromeOptions': { w3c: true, args: [] }
