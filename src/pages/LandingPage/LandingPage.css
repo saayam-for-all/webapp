@@ -20,6 +20,18 @@
   align-self: flex-start;
 }
 
+.join-btn-mobile-view {
+  background-color: #4a67f8;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.5rem;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
 .join-btn:hover {
   background-color: #3c54d1;
   cursor: pointer;

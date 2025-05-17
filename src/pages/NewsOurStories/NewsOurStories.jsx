@@ -38,7 +38,7 @@ export default function NewsOurStories() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (
-    <div className="news-our-stories-container">
+    <div className="news-our-stories-container px-4 md:px-0">
       {/* Hero Section */}
       <section className="news-our-stories-hero">
         <h1 className="news-our-stories-title">{t("News: Our Stories")}</h1>
