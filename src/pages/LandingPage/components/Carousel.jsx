@@ -60,7 +60,7 @@ export default function Carousel() {
         ].map((src, i) => (
           <SwiperSlide
             key={i}
-            className="h-[300px] md:h-[400px] flex items-center justify-center relative w-[240px] sm:w-[280px] md:w-[300px] aspect-[3/2]"
+            className="flex items-center justify-center relative w-[240px] sm:w-[280px] md:w-[300px] aspect-[3/2]"
           >
             <img
               src={src}
