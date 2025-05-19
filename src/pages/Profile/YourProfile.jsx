@@ -21,7 +21,8 @@ function YourProfile({ setHasUnsavedChanges }) {
 
   const user = useSelector((state) => state.auth.user);
 
-  const [profileInfo, setProfileInfo] = useState({
+  // Store original data separately from the editable form data
+  const [originalData, setOriginalData] = useState({
     firstName: user?.given_name || "",
     lastName: user?.family_name || "",
     email: user?.email || "",
@@ -30,16 +31,20 @@ function YourProfile({ setHasUnsavedChanges }) {
     country: user?.zoneinfo || "",
   });
 
+  const [profileInfo, setProfileInfo] = useState({ ...originalData });
+
   useEffect(() => {
     if (user) {
-      setProfileInfo({
+      const userData = {
         firstName: user.given_name || "",
         lastName: user.family_name || "",
         email: user.email || "",
         phone: user.phone_number || "",
         phoneCountryCode: "US",
         country: user.zoneinfo || "",
-      });
+      };
+      setOriginalData(userData);
+      setProfileInfo(userData);
     }
   }, [user]);
 
@@ -51,8 +56,6 @@ function YourProfile({ setHasUnsavedChanges }) {
   const handleSave = async () => {
     try {
       setLoading(true);
-      setIsEditing(false);
-      setHasUnsavedChanges(false);
 
       // Prepare updated attributes for Cognito
       const updatedAttributes = {
@@ -66,8 +69,12 @@ function YourProfile({ setHasUnsavedChanges }) {
       console.log("Updating Cognito with:", updatedAttributes);
       await updateUserAttributes(updatedAttributes);
 
-      // Update Redux state
       dispatch(updateUserProfileSuccess(updatedAttributes));
+
+      setOriginalData({ ...profileInfo });
+
+      setHasUnsavedChanges(false);
+      setIsEditing(false);
 
       console.log("Profile successfully updated!");
     } catch (error) {
@@ -76,6 +83,12 @@ function YourProfile({ setHasUnsavedChanges }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCancel = () => {
+    setProfileInfo({ ...originalData });
+    setIsEditing(false);
+    setHasUnsavedChanges(false);
   };
 
   return (
@@ -92,7 +105,6 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-
               className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
@@ -209,7 +221,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={() => setIsEditing(false)}
+              onClick={handleCancel}
             >
               {t("CANCEL")}
             </button>

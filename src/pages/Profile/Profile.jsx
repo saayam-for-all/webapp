@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useBeforeUnload } from "react-router-dom";
 import YourProfile from "./YourProfile";
 import PersonalInformation from "./PersonalInformation";
 import ChangePassword from "./ChangePassword";
@@ -8,9 +8,11 @@ import Modal from "./Modal";
 import OrganizationDetails from "./OrganizationDetails";
 import Skills from "./Skills";
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
+import { useTranslation } from "react-i18next";
 
 function Profile() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
   const [tempProfilePhoto, setTempProfilePhoto] =
     useState(DEFAULT_PROFILE_ICON);
@@ -31,7 +33,46 @@ function Profile() {
       detail: { hasUnsavedChanges },
     });
     window.dispatchEvent(event);
+
+    return () => {
+      if (hasUnsavedChanges) {
+        const resetEvent = new CustomEvent("unsaved-changes", {
+          detail: { hasUnsavedChanges: false },
+        });
+        window.dispatchEvent(resetEvent);
+      }
+    };
   }, [hasUnsavedChanges]);
+
+  useBeforeUnload(
+    (event) => {
+      if (hasUnsavedChanges) {
+        event.preventDefault();
+        return "";
+      }
+    },
+    [hasUnsavedChanges],
+  );
+
+  const checkNavigationAllowed = (callback) => {
+    if (hasUnsavedChanges) {
+      const confirmMessage = t(
+        "UNSAVED_CHANGES_WARNING",
+        "You have unsaved changes. Do you want to proceed without saving?",
+      );
+
+      if (window.confirm(confirmMessage)) {
+        setHasUnsavedChanges(false);
+
+        if (callback) callback();
+        return true;
+      }
+      return false;
+    }
+
+    if (callback) callback();
+    return true;
+  };
 
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
@@ -62,31 +103,29 @@ function Profile() {
   };
 
   const handleTabChange = (tab) => {
-    if (hasUnsavedChanges) {
-      const proceed = window.confirm(
-        "You have unsaved changes. Do you want to proceed without saving?",
-      );
-      if (proceed) {
-        setActiveTab(tab);
-        setHasUnsavedChanges(false);
-      }
-    } else {
+    const changeTab = () => {
       setActiveTab(tab);
-    }
+    };
+
+    checkNavigationAllowed(changeTab);
   };
 
   const openModal = () => {
-    if (hasUnsavedChanges) {
-      const proceed = window.confirm(
-        "You have unsaved changes in your profile. Do you want to proceed without saving?",
-      );
-      if (proceed) {
-        setIsModalOpen(true);
-        setHasUnsavedChanges(false);
-      }
-    } else {
+    const showModal = () => {
       setIsModalOpen(true);
-    }
+    };
+
+    checkNavigationAllowed(showModal);
+  };
+
+  const handleBackToHome = (e) => {
+    e.preventDefault();
+
+    const goToHome = () => {
+      navigate("/");
+    };
+
+    checkNavigationAllowed(goToHome);
   };
 
   const renderTabContent = () => {
@@ -112,10 +151,10 @@ function Profile() {
 
   return (
     <div className="flex flex-col items-center p-4 min-h-screen bg-gray-100">
-      {/* ✅ Back Button */}
+      {/* Back Button */}
       <div className="w-full max-w-6xl mb-4">
         <button
-          onClick={() => navigate("/")}
+          onClick={handleBackToHome}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
           <span className="text-2xl mr-2">&lt;</span> Back to Home

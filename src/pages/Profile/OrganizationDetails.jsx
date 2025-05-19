@@ -13,8 +13,10 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   const organizationNameRef = useRef(null);
 
   const [errors, setErrors] = useState({});
+  const [countryOptions, setCountryOptions] = useState([]);
 
-  const [organizationInfo, setOrganizationInfo] = useState({
+  // Initialize empty state
+  const initialOrgInfo = {
     organizationName: "",
     phoneNumber: "",
     phoneCountryCode: "",
@@ -26,7 +28,13 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     state: "",
     zipCode: "",
     organizationType: t("NON_PROFIT"),
-  });
+  };
+
+  // Store original data
+  const [originalData, setOriginalData] = useState(initialOrgInfo);
+
+  // Form state
+  const [organizationInfo, setOrganizationInfo] = useState(initialOrgInfo);
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
   useEffect(() => {
@@ -53,6 +61,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     );
     if (savedOrganizationInfo) {
       setOrganizationInfo(savedOrganizationInfo);
+      setOriginalData(savedOrganizationInfo);
     }
   }, []);
 
@@ -108,10 +117,14 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
     setIsEditing(false);
     localStorage.setItem("organizationInfo", JSON.stringify(organizationInfo));
+    // Update original data after saving
+    setOriginalData({ ...organizationInfo });
     setHasUnsavedChanges(false);
   };
 
   const handleCancelClick = () => {
+    // Reset to original data on cancel
+    setOrganizationInfo({ ...originalData });
     setIsEditing(false);
     setHasUnsavedChanges(false);
   };

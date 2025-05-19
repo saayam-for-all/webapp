@@ -1,8 +1,8 @@
 import { Drawer, IconButton, Menu, MenuItem } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import LOGO from "../../../assets/logo.svg";
 
 // Individual imports for outlined icons
@@ -42,6 +42,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
 
   const { t } = useTranslation();
 
@@ -165,60 +166,68 @@ const Navbar = () => {
     ); // fetch every 2 min
 
     return () => clearInterval(interval);
-  }, [notificationDispatch, user]);
+  }, [notificationDispatch, user, state.notifications]);
+
+  /**
+   * Check if navigation is allowed with unsaved changes
+   * @param {Function} callback - Function to call if navigation is allowed
+   * @returns {boolean} - Whether navigation is allowed
+   */
+  const checkNavigationAllowed = (callback) => {
+    if (hasUnsavedChanges) {
+      const confirmMessage = t(
+        "UNSAVED_CHANGES_WARNING",
+        "You have unsaved changes. Do you want to proceed without saving?",
+      );
+
+      if (window.confirm(confirmMessage)) {
+        // Reset the unsaved changes flag
+        setHasUnsavedChanges(false);
+        const event = new CustomEvent("unsaved-changes", {
+          detail: { hasUnsavedChanges: false },
+        });
+        window.dispatchEvent(event);
+
+        // Execute the callback
+        if (callback) callback();
+        return true;
+      }
+      return false;
+    }
+
+    // No unsaved changes, proceed
+    if (callback) callback();
+    return true;
+  };
 
   const handleLinkClick = (e, route) => {
-    if (hasUnsavedChanges) {
-      e.preventDefault();
-      if (
-        window.confirm(
-          "You have unsaved changes. Do you want to proceed without saving?",
-        )
-      ) {
-        setHasUnsavedChanges(false);
+    e.preventDefault();
 
-        setVolunteerOpenMenu(false);
-        setAboutUsOpenMenu(false);
-        setProfileOpenMenu(false);
+    const navigateToRoute = () => {
+      // Close all dropdowns
+      setVolunteerOpenMenu(false);
+      setAboutUsOpenMenu(false);
+      setProfileOpenMenu(false);
 
-        navigate(route);
-      } else {
-        return;
-      }
-    }
-    // Close all dropdowns
-    setVolunteerOpenMenu(false);
-    setAboutUsOpenMenu(false);
-    setProfileOpenMenu(false);
+      navigate(route);
+    };
 
-    navigate(route);
+    checkNavigationAllowed(navigateToRoute);
   };
 
   const handleLogoutClick = (e) => {
-    if (hasUnsavedChanges) {
-      e.preventDefault();
-      if (
-        window.confirm(
-          "You have unsaved changes. Do you want to proceed without saving?",
-        )
-      ) {
-        setHasUnsavedChanges(false);
+    if (e) e.preventDefault();
 
-        setVolunteerOpenMenu(false);
-        setAboutUsOpenMenu(false);
-        setProfileOpenMenu(false);
-
-        setIsLogoutModalOpen(true);
-      } else {
-        return;
-      }
-    } else {
+    const openLogoutModal = () => {
+      // Close all dropdowns
       setVolunteerOpenMenu(false);
       setAboutUsOpenMenu(false);
       setProfileOpenMenu(false);
 
       setIsLogoutModalOpen(true);
-    }
+    };
+
+    checkNavigationAllowed(openLogoutModal);
   };
 
   const handleSignOut = () => {
@@ -228,14 +237,20 @@ const Navbar = () => {
   };
 
   const handleDrawerClick = (e, route) => {
-    // Close all dropdowns
-    setVolunteerOpenMenu(false);
-    setAboutUsOpenMenu(false);
+    e.preventDefault();
 
-    // Close Drawer
-    setDrawerOpen(false);
+    const navigateFromDrawer = () => {
+      // Close all dropdowns
+      setVolunteerOpenMenu(false);
+      setAboutUsOpenMenu(false);
 
-    navigate(route);
+      // Close Drawer
+      setDrawerOpen(false);
+
+      navigate(route);
+    };
+
+    checkNavigationAllowed(navigateFromDrawer);
   };
 
   const handleVSMenuClick = (event) => {
@@ -259,8 +274,12 @@ const Navbar = () => {
   };
 
   const handlePMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setProfileOpenMenu(true);
+    const openProfileMenu = () => {
+      setAnchorEl(event.currentTarget);
+      setProfileOpenMenu(true);
+    };
+
+    checkNavigationAllowed(openProfileMenu);
   };
 
   const handlePMenuClose = () => {
@@ -298,7 +317,6 @@ const Navbar = () => {
           <div className="relative">
             <button
               onClick={(e) => handleLinkClick(e, "/")}
-              // className="text-black flex items-center hover:text-gray-600 text-base"
               className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
             >
               <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
@@ -384,7 +402,6 @@ const Navbar = () => {
           <div className="relative">
             <button
               onClick={(e) => handleLinkClick(e, "/contact")}
-              // className="text-black flex items-center hover:text-gray-600 text-base"
               className="text-black hover:text-gray-600 flex items-center text-base"
             >
               <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
@@ -395,7 +412,6 @@ const Navbar = () => {
             <div className="relative">
               <button
                 onClick={(e) => handleLinkClick(e, "/notifications")}
-                // className="text-black flex items-center hover:text-gray-600 text-base"
                 className="text-black hover:text-gray-600 flex items-center text-base"
               >
                 <NotificationsIcon className="mr-2" /> {t("Notifications")}
@@ -413,34 +429,16 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Donate button aligned to the rightmost */}
-
         {/* Login Part */}
         {user?.userId ? (
-          <div
-            className="relative flex flex-col items-center mr-2"
-            // ref={profileDropdownRef}
-          >
+          <div className="relative flex flex-col items-center mr-2">
             <div className="flex items-center">
               <IconButton color="inherit" edge="end">
                 <img
                   src={profileIcon}
                   alt="Profile Icon"
                   className="w-8 h-8 rounded-full cursor-pointer"
-                  onClick={(e) => {
-                    if (hasUnsavedChanges) {
-                      if (
-                        window.confirm(
-                          "You have unsaved changes. Do you want to proceed without saving?",
-                        )
-                      ) {
-                        setHasUnsavedChanges(false);
-                        handlePMenuClick(e);
-                      }
-                    } else {
-                      handlePMenuClick(e);
-                    }
-                  }}
+                  onClick={handlePMenuClick}
                 />
               </IconButton>
             </div>
@@ -463,7 +461,7 @@ const Navbar = () => {
                   <AccountCircleIcon className="mr-2" />
                   {t("Profile")}
                 </MenuItem>
-                <MenuItem onClick={(e) => handleLogoutClick()}>
+                <MenuItem onClick={handleLogoutClick}>
                   <LogoutIcon className="mr-2" />
                   {t("Logout")}
                 </MenuItem>
@@ -471,15 +469,14 @@ const Navbar = () => {
             )}
           </div>
         ) : (
-          <NavLink
-            to="/login"
-            className="font-semibold flex flex-col items-center ml-2 mr-2"
+          <button
+            className="font-semibold flex flex-col items-center ml-2 mr-2 cursor-pointer"
             id="loginButton"
             onClick={(e) => handleLinkClick(e, "/login")}
           >
             <IoLogInOutline className="mr-1 text-xl" />
             {t("LOGIN")}
-          </NavLink>
+          </button>
         )}
 
         {/* Logout Confirmation Modal */}
@@ -487,9 +484,10 @@ const Navbar = () => {
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <p className="text-lg font-semibold mb-4">
-                {
-                  "Are you sure, you want to log out? There may be unsaved data on the page."
-                }
+                {t(
+                  "LOGOUT_CONFIRM",
+                  "Are you sure, you want to log out? There may be unsaved data on the page.",
+                )}
               </p>
               <div className="mt-8 flex justify-end gap-2">
                 <button
