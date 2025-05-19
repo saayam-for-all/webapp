@@ -67,13 +67,13 @@ const DirectorsData = [
   // },
   {
     name: "Madhukar Govindaraju",
-    role: "Advisor",
+    role: "Director",
     linkedin: "https://www.linkedin.com/in/madhukar/",
     image: MadhukarImg,
   },
   {
     name: "Sateesh Mucharla",
-    role: "Advisor",
+    role: "Director",
     linkedin: "https://www.linkedin.com/in/mucharla",
     image: SateeshImg,
   },

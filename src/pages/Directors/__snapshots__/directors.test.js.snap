@@ -249,7 +249,7 @@ exports[`Directors renders correctly 1`] = `
                 <h3
                   class="flex gap-2"
                 >
-                  Advisor
+                  Director
                 </h3>
               </div>
             </div>
@@ -282,7 +282,7 @@ exports[`Directors renders correctly 1`] = `
                 <h3
                   class="flex gap-2"
                 >
-                  Advisor
+                  Director
                 </h3>
               </div>
             </div>
@@ -835,7 +835,7 @@ exports[`Directors renders correctly 1`] = `
               <h3
                 class="flex gap-2"
               >
-                Advisor
+                Director
               </h3>
             </div>
           </div>
@@ -868,7 +868,7 @@ exports[`Directors renders correctly 1`] = `
               <h3
                 class="flex gap-2"
               >
-                Advisor
+                Director
               </h3>
             </div>
           </div>
