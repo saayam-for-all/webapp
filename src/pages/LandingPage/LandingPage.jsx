@@ -21,7 +21,7 @@ import Carousel from "./components/Carousel";
 export default function Home() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const videoId = "9CBLVoSSuwM";
+  const videoId = "zupN0-zXrLQ";
 
   useEffect(() => {
     if (user !== null) {
@@ -81,24 +81,6 @@ export default function Home() {
               <img src={collabSeven} className="w-[125px]"></img>
             </div>
           </div>
-          {/* <div className="landing-colab-scroll">
-            <img src={collabOne} className="w-[100px] h-fit"></img>
-            <img src={collabTwo} className="w-[150px] h-fit"></img>
-            <img src={collabThree} className="w-[120px] h-fit"></img>
-            <img src={collabFour} className="w-[100px] h-fit"></img>
-            <img src={collabFive} className="w-[100px] h-fit"></img>
-            <img src={collabSix} className="w-[160px] h-fit"></img>
-            <img src={collabSeven} className="w-[70px] h-fit"></img>
-          </div>
-          <div className="landing-colab landing-colab-scroll-two">
-            <img src={collabOne} className="w-[100px] h-fit"></img>
-            <img src={collabTwo} className="w-[100px] h-fit"></img>
-            <img src={collabThree} className="w-[80px] h-fit"></img>
-            <img src={collabFour} className="w-[100px] h-fit"></img>
-            <img src={collabFive} className="w-[100px] h-fit"></img>
-            <img src={collabSix} className="w-[140px] h-fit"></img>
-            <img src={collabSeven} className="w-[70px] h-fit"></img>
-          </div> */}
         </div>
       </div>
 
