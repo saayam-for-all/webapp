@@ -7,6 +7,7 @@ import Sidebar from "./Sidebar";
 import Modal from "./Modal";
 import OrganizationDetails from "./OrganizationDetails";
 import Skills from "./Skills";
+import Availability from "./Availability"; // Import the new Availability component
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
 function Profile() {
@@ -105,6 +106,8 @@ function Profile() {
         );
       case "skills":
         return <Skills setHasUnsavedChanges={setHasUnsavedChanges} />;
+      case "availability":
+        return <Availability setHasUnsavedChanges={setHasUnsavedChanges} />;
       default:
         return null;
     }
