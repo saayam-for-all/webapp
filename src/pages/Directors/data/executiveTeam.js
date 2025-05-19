@@ -5,6 +5,7 @@ import Kavyasree_Bommakanti from "../../../assets/images/Kavyasree Bommakanti.jp
 import Meghana_Karri from "../../../assets/images/Meghana Karri.jpeg";
 import Sunandha_agarwal from "../../../assets/images/Sunandha_agarwal.jpg";
 import Mohanakrishnan from "../../../assets/images/Mohanakrishnan.jpg";
+import Divya_Tanwar from "../../../assets/images/Divya Tanwar.jpeg";
 
 const ExecutiveTeamData = [
   {
@@ -16,7 +17,7 @@ const ExecutiveTeamData = [
 
   {
     image: Rishita_Rapuri,
-    name: "Rishita Rapuri",
+    name: "Rishitha Rapuri",
     role: "Business Analyst Team Lead",
     linkedin: "https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/",
   },
@@ -46,11 +47,12 @@ const ExecutiveTeamData = [
   //   linkedin: "https://www.linkedin.com/in/aatish-kayyath"
   // },
   {
-    image:
-      "https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38",
+    // image:
+    //   "https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38",
+    image: Divya_Tanwar,
     name: "Divya Tanwar",
-    role: "-----",
-    linkedin: "https://www.linkedin.com/in/divya-tanwar",
+    role: "Devops Engineer",
+    linkedin: "https://www.linkedin.com/in/divya-tanwar26/",
   },
 
   // {
