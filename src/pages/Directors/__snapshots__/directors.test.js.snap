@@ -351,7 +351,7 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Rishita Rapuri"
+                    alt="Rishitha Rapuri"
                     class="w-full h-full object-cover"
                     src=""
                   />
@@ -365,7 +365,7 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Rishita Rapuri
+                    Rishitha Rapuri
                   </a>
                 </div>
                 <div
@@ -473,7 +473,7 @@ exports[`Directors renders correctly 1`] = `
                   <img
                     alt="Divya Tanwar"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38"
+                    src=""
                   />
                 </div>
                 <div
@@ -481,7 +481,7 @@ exports[`Directors renders correctly 1`] = `
                 >
                   <a
                     class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/divya-tanwar"
+                    href="https://www.linkedin.com/in/divya-tanwar26/"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -491,7 +491,7 @@ exports[`Directors renders correctly 1`] = `
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  -----
+                  Devops Engineer
                 </div>
               </div>
               <div
@@ -937,7 +937,7 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Rishita Rapuri"
+                  alt="Rishitha Rapuri"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -951,7 +951,7 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Rishita Rapuri
+                  Rishitha Rapuri
                 </a>
               </div>
               <div
@@ -1059,7 +1059,7 @@ exports[`Directors renders correctly 1`] = `
                 <img
                   alt="Divya Tanwar"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38"
+                  src=""
                 />
               </div>
               <div
@@ -1067,7 +1067,7 @@ exports[`Directors renders correctly 1`] = `
               >
                 <a
                   class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/divya-tanwar"
+                  href="https://www.linkedin.com/in/divya-tanwar26/"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -1077,7 +1077,7 @@ exports[`Directors renders correctly 1`] = `
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                -----
+                Devops Engineer
               </div>
             </div>
             <div
