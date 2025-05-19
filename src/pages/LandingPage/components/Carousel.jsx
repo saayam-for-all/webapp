@@ -21,7 +21,7 @@ import {
 
 export default function Carousel() {
   return (
-    <div className="flex flex-col items-center justify-center w-full bg-white mb-10 ">
+    <div className="flex flex-col items-center justify-center w-full bg-white mb-12 ">
       <Swiper
         effect={"coverflow"}
         grabCursor={true}
@@ -49,7 +49,7 @@ export default function Carousel() {
           prevEl: ".custom-swiper-button-prev",
         }}
         modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-        className="mySwiper h-[300px] md:h-[500px]"
+        className="mySwiper h-[300px] md:h-[350px]"
       >
         {[
           carouselOne,
