@@ -84,7 +84,7 @@ exports[`Directors renders correctly 1`] = `
                 <h3
                   class="flex gap-2"
                 >
-                  Chief Financial Officer
+                  Director & Chief Financial Officer
                 </h3>
               </div>
             </div>
@@ -117,7 +117,7 @@ exports[`Directors renders correctly 1`] = `
                 <h3
                   class="flex gap-2"
                 >
-                  Director
+                  Director & Secretary
                 </h3>
               </div>
             </div>
@@ -128,7 +128,7 @@ exports[`Directors renders correctly 1`] = `
                 class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
               >
                 <img
-                  alt="Prabhakar Yellai"
+                  alt="Prabhakara Yellai"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -144,7 +144,7 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/prabhakara-yellai/"
                     target="_blank"
                   >
-                    Prabhakar Yellai
+                    Prabhakara Yellai
                   </a>
                 </h2>
                 <h3
@@ -341,7 +341,7 @@ exports[`Directors renders correctly 1`] = `
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Team Lead - Webapp and Mobile App Engineering
+                  Director of Engineering
                 </div>
               </div>
               <div
@@ -491,7 +491,7 @@ exports[`Directors renders correctly 1`] = `
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Devops Engineer
+                  Lead DevSecOps Engineer
                 </div>
               </div>
               <div
@@ -531,7 +531,7 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Sugandha Agarwal"
+                    alt="Sugandha Agrawal"
                     class="w-full h-full object-cover"
                     src=""
                   />
@@ -545,7 +545,7 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Sugandha Agarwal
+                    Sugandha Agrawal
                   </a>
                 </div>
                 <div
@@ -670,7 +670,7 @@ exports[`Directors renders correctly 1`] = `
               <h3
                 class="flex gap-2"
               >
-                Chief Financial Officer
+                Director & Chief Financial Officer
               </h3>
             </div>
           </div>
@@ -703,7 +703,7 @@ exports[`Directors renders correctly 1`] = `
               <h3
                 class="flex gap-2"
               >
-                Director
+                Director & Secretary
               </h3>
             </div>
           </div>
@@ -714,7 +714,7 @@ exports[`Directors renders correctly 1`] = `
               class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
             >
               <img
-                alt="Prabhakar Yellai"
+                alt="Prabhakara Yellai"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -730,7 +730,7 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/prabhakara-yellai/"
                   target="_blank"
                 >
-                  Prabhakar Yellai
+                  Prabhakara Yellai
                 </a>
               </h2>
               <h3
@@ -927,7 +927,7 @@ exports[`Directors renders correctly 1`] = `
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Team Lead - Webapp and Mobile App Engineering
+                Director of Engineering
               </div>
             </div>
             <div
@@ -1077,7 +1077,7 @@ exports[`Directors renders correctly 1`] = `
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Devops Engineer
+                Lead DevSecOps Engineer
               </div>
             </div>
             <div
@@ -1117,7 +1117,7 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Sugandha Agarwal"
+                  alt="Sugandha Agrawal"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -1131,7 +1131,7 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Sugandha Agarwal
+                  Sugandha Agrawal
                 </a>
               </div>
               <div
