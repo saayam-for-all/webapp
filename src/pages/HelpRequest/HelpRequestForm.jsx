@@ -366,7 +366,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     Choose ‘Yes’ if you’re submitting this request on your own
                     behalf else ‘No’ if you’re requesting for someone else.
                   </div>
@@ -398,7 +398,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     Select ‘Yes’ if you’re the main volunteer coordinating this
                     request.
                   </div>
@@ -571,7 +571,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     Choose the category that best describes your need (e.g.,
                     Medical, Food, Jobs).
                     <br /> If you select ‘General,’ please describe your need
@@ -651,7 +651,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     Indicate how you’d like help delivered: ‘Remote’ for virtual
                     support or ‘In Person’ for onsite assistance.
                   </div>
@@ -710,7 +710,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     How urgent is this request? <br />
                     • Low – Not time sensitive <br />
                     • Medium – Within few days <br />• High – Immediate support
