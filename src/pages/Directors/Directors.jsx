@@ -24,18 +24,18 @@ const DirectorsData = [
   },
   {
     name: "Srividhya Gopalan",
-    role: "Chief Financial Officer",
+    role: "Director & Chief Financial Officer",
     linkedin: "https://www.linkedin.com/in/srividhyagopalan/",
     image: SrividhyaImg,
   },
   {
     name: "Naveen Sharma",
-    role: "Director",
+    role: "Director & Secretary",
     linkedin: "https://www.linkedin.com/in/nsharma2/",
     image: NaveenIMG,
   },
   {
-    name: "Prabhakar Yellai",
+    name: "Prabhakara Yellai",
     role: "Director",
     linkedin: "https://www.linkedin.com/in/prabhakara-yellai/",
     image: PrabhakarImg,
