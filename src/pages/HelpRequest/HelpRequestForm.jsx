@@ -362,12 +362,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select if this request is for yourself or another person.
+                    Choose ‘Yes’ if you’re submitting this request on your own
+                    behalf else ‘No’ if you’re requesting for someone else.
                   </div>
                 </div>
               </div>
@@ -393,12 +394,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select if you are a lead volunteer for this request.
+                    Select ‘Yes’ if you’re the main volunteer coordinating this
+                    request.
                   </div>
                 </div>
               </div>
@@ -565,12 +567,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select a category that best describes your request.
+                    Choose the category that best describes your need (e.g.,
+                    Medical, Food, Jobs).
+                    <br /> If you select ‘General,’ please describe your need
+                    fully in the Description field.
                   </div>
                 </div>
               </div>
@@ -642,12 +647,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select the type of request required Remotely or In Person.
+                    Indicate how you’d like help delivered: ‘Remote’ for virtual
+                    support or ‘In Person’ for onsite assistance.
                   </div>
                 </div>
               </div>
@@ -700,12 +706,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select the priority level of your request.
+                    How urgent is this request? <br />
+                    • Low – Not time sensitive <br />
+                    • Medium – Within few days <br />• High – Immediate support
                   </div>
                 </div>
               </div>
