@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import banner from "../../assets/landingPageImages/bannerImage.jpg";
+import bannerImageOne from "../../assets/landingPageImages/bannerImageOne.jpg";
+import bannerImageThree from "../../assets/landingPageImages/bannerImageThree.jpg";
+import bannerImageTwo from "../../assets/landingPageImages/bannerImageTwo.jpg";
+import bottomFour from "../../assets/landingPageImages/bottomFour.jpg";
 import bottomOne from "../../assets/landingPageImages/bottomOne.jpg";
 import bottomThree from "../../assets/landingPageImages/bottomThree.jpg";
 import bottomTwo from "../../assets/landingPageImages/bottomTwo.jpg";
@@ -31,26 +34,56 @@ export default function Home() {
 
   return (
     <div className="w-full overflow-hidden">
-      <div className="md:landing-banner-container flex flex-col-reverse md:flex-row md:p-5 justify-between">
-        <div className="w-full md:w-1/2 h-full flex flex-row justify-center">
-          <div className="w-11/12 md:w-3/4 h-full flex flex-col gap-4 md:gap-10 pl-8 md:pl-0">
-            <div className="text-sm md:text-lg text-gray-400">
-              Real help. Real people. Right when you need it.
-            </div>
-            <h1 className="font-bold text-4xl md:text-6xl tracking-wide">
-              Here to help or hoping for help?
-            </h1>
-            <div className="text-sm md:text-lg text-gray-500">
-              At Saayam for All, your support can make a real difference today.
-            </div>
-            <button className="join-btn" onClick={() => navigate("/contact")}>
-              Join the community
-            </button>
+      <div className="w-full">
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="text-sm md:text-lg text-gray-400 mb-[50px] mt-[20px]">
+            Real help. Real people. Right when you need it.
+          </div>
+          <h1 className="font-bold text-4xl md:text-6xl tracking-wide mb-[50px]">
+            Need help? Here to help?
+          </h1>
+          <div className="w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center">
+            At Saayam for All, your support can make a real difference today.
           </div>
         </div>
-
-        <div className="w-full md:w-1/2 h-full flex flex-col justify-center items-center mb-4 md:mb-0">
-          <img src={banner} className="w-4/5" alt="Banner" />
+      </div>
+      <div className="w-full flex flex-row justify-center  ">
+        <div className="w-[22%] h-[50%] flex flex-col justify-center items-center">
+          <img
+            src={bannerImageOne}
+            className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+          />
+          <h3 className="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+            "Sarve jana sukhino bhavantu"
+          </h3>
+          <div className="text-sm md:text-lg text-gray-400 text-center">
+            May all live happily.
+          </div>
+        </div>
+        <div className="w-[33%] h-full flex flex-col justify-center items-center">
+          <img
+            src={bannerImageTwo}
+            className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+          />
+          <h3 className="font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+            "j&ntilde;&#257;nam vardhati sanchay&#257;t"
+          </h3>
+          <div className="text-sm md:text-lg text-gray-400 text-center">
+            Sharing knowledge expands one's own understanding and the knowledge
+            of others.
+          </div>
+        </div>
+        <div className="w-[22%] h-full flex flex-col justify-center items-center">
+          <img
+            src={bannerImageThree}
+            className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+          />
+          <h3 className="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+            "Manava sevaye Madhava seva"
+          </h3>
+          <div className="text-sm md:text-lg text-gray-400 text-center w-2/3">
+            Service to mankind is Service to God.
+          </div>
         </div>
       </div>
 
@@ -143,146 +176,50 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Desktop View */}
-      <div className="hidden md:block">
-        <div className="flex flex-row mt-5 mb-[100px]">
-          <div className="w-1/3 flex flex-row justify-end mt-[75px] mr-2">
-            <div className="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden">
-              <img
-                src={bottomOne}
-                alt={"Red rescue jacket and cap with Red Cross logos"}
-                className="absolute w-full h-full object-cover"
-              />
-
-              <div className="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                <div className="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2">
-                  <p className="text-white text-lg font-bold text-center">
-                    Take help from our Volunteers
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col w-2/3">
-            <div className="w-full h-fit flex flex-col pl-[200px]">
-              <h3 className="font-bold text-4xl h-1/3 w-2/3">
-                Discover Our Community
-              </h3>
-              <p className="text-lg text-gray-500 pb-4 pt-[30px] w-4/5">
-                Chat with our community and get in touch with different charity
-                organizations!
-              </p>
-              <button className="join-btn" onClick={() => navigate("/contact")}>
-                Join the community
-              </button>
-            </div>
-            <div className="flex flex-row h-3/4">
-              <div className="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden mt-[50px] mr-2">
-                <img
-                  src={bottomTwo}
-                  alt={
-                    "A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
-                  }
-                  className="absolute w-full h-full object-cover"
-                />
-
-                <div className="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                  <div className="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2">
-                    <p className="text-white text-lg font-bold text-center">
-                      Planning and budgeting advice for travel
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden mt-[175px]">
-                <img
-                  src={bottomThree}
-                  alt={
-                    "A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
-                  }
-                  className="absolute w-full h-full object-cover"
-                />
-
-                <div className="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                  <div className="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2">
-                    <p className="text-white text-lg font-bold text-center">
-                      Woman hiking at sunset with a backpack and trekking poles,
-                      set against a mountainous landscape
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="bg-gray-100 flex flex-col w-full items-center justify-center">
+        <h1 className="w-[60%] font-bold text-3xl md:text-4xl tracking-wide mb-[50px] mt-[50px] text-center">
+          One Platform. Many Ways to Contribute.
+        </h1>
+        <div className="w-[60%] text-sm md:text-lg text-black mb-[40px] text-center">
+          Learn about different roles in our ecosystem and how each one
+          contributes to creating an impact.
         </div>
-      </div>
-
-      {/* mobile View */}
-      <div className="block md:hidden">
-        <div className="flex flex-col items-center mt-5 mb-[100px] px-4">
-          {/* Right section for text */}
-          <div className="w-full pl-3">
-            <h3 className="font-bold text-2xl">Discover our community</h3>
-            <p className="text-md text-gray-500 py-4">
-              Chat with our community and get in touch with different charity
-              organisations!
-            </p>
-            <button className="jjoin-btn-mobile-view px-6 py-2 rounded-full text-white font-bold bg-blue-600 hover:bg-blue-700">
-              Join the community
-            </button>
-          </div>
-
-          {/* Bottom image row */}
-          <div className="flex flex-row justify-center gap-0 mt-10">
-            {/* Image 1 */}
-            <div className="relative w-[125px] h-[210px] rounded-[25px] overflow-hidden -mt-8">
-              <img
-                src={bottomOne}
-                alt="Volunteer"
-                className="absolute w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                <div className="border-2 border-white rounded-[25px] w-full h-full p-4">
-                  <p className="text-white text-sm font-bold text-center">
-                    Take help from our Volunteers
-                  </p>
-                </div>
+        <div className="w-[80%] flex flex-riw items-center justify-center gap-5 mb-[75px]">
+          {[bottomOne, bottomTwo, bottomThree, bottomFour].map((src, i) => (
+            <div
+              style={{
+                backgroundImage: `url(${src})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "25%",
+                height: "400px",
+                borderRadius: "10px",
+              }}
+            >
+              <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]">
+                <h3 className="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+                  {
+                    [
+                      "Beneficiaries",
+                      "Volunteers",
+                      "Voluntary Organizations",
+                      "Donors",
+                    ][i]
+                  }
+                </h3>
+                <h6 className="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center">
+                  {
+                    [
+                      "Recieve help for their requests",
+                      "Provide guidance and solutions to beneficiaries",
+                      "Offer necessary support to beneficiaries",
+                      "Provide financial assistance to voluntary organization",
+                    ][i]
+                  }
+                </h6>
               </div>
             </div>
-
-            {/* Image 2 */}
-            <div className="relative w-[125px] h-[210px] rounded-[25px] overflow-hidden">
-              <img
-                src={bottomTwo}
-                alt="Travel advice"
-                className="absolute w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                <div className="border-2 border-white rounded-[25px] w-full h-full p-4">
-                  <p className="text-white text-sm font-bold text-center">
-                    Planning and budgeting advice for travel
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Image 3 */}
-            <div className="relative w-[125px] h-[210px] rounded-[25px] overflow-hidden mt-8">
-              <img
-                src={bottomThree}
-                alt="Hiking"
-                className="absolute w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                <div className="border-2 border-white rounded-[25px] w-full h-full p-4">
-                  <p className="text-white text-sm font-bold text-center">
-                    A whole new community of charity organisations
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
