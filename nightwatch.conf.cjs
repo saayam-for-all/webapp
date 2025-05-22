@@ -41,9 +41,15 @@ module.exports = {
         'goog:chromeOptions': { w3c: true, args: [] }
       },
       webdriver: {
-        start_process: true,
-        server_path: '/usr/local/bin/chromedriver'
-      }
+     start_process: true,
+     server_path: 'node_modules/.bin/chromedriver',
+     port: undefined,
+     host: 'localhost',
+     ssl: false,
+     default_path_prefix: '',
+     proxy: undefined,
+     cli_args: [ '-vv' ]
+  }
     }
   },
   usage_analytics: {
