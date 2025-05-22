@@ -20,6 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+      - name: install gecko  
         run: npm i geckodriver 
 
       - name: Build the web app
