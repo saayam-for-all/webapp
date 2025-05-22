@@ -24,12 +24,17 @@ module.exports = {
           args: ['-headless']
         }
       },
-      webdriver: {
-        start_process: true,
-        // eliminamos server_path para confiar en el PATH del contenedor
-        server_path: 'node_modules/.bin/geckodriver',
-        cli_args: ['-vv']  // opcional, para logs detallados de diagnóstico
-      }
+      webdriver:  {
+     start_process: true,
+     server_path: 'node_modules/.bin/geckodriver',
+     port: undefined,
+     host: 'localhost',
+     ssl: false,
+     default_path_prefix: '',
+     proxy: undefined,
+     cli_args: [ '-vv' ]
+  }
+ 
     }, chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
