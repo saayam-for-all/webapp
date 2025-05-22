@@ -28,7 +28,7 @@ module.exports = {
      start_process: true,
      server_path: 'node_modules/.bin/geckodriver',
      port: undefined,
-     host: 'localhost',
+     host: 'http://10.1.0.60:4173/',
      ssl: false,
      default_path_prefix: '',
      proxy: undefined,
