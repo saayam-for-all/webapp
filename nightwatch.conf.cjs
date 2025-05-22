@@ -27,7 +27,7 @@ module.exports = {
       webdriver:  {
      start_process: true,
      server_path: 'node_modules/.bin/geckodriver',
-     port: undefined,
+     port: 4444,
      host: 'localhost',
      ssl: false,
      default_path_prefix: '',
@@ -43,7 +43,7 @@ module.exports = {
       webdriver:   {
      start_process: true,
      server_path: 'node_modules/.bin/chromedriver',
-     port: undefined,
+     port: 9515,
      host: 'localhost',
      ssl: false,
      default_path_prefix: '',
