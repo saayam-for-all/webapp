@@ -27,7 +27,7 @@ module.exports = {
       webdriver: {
         start_process: true,
         // eliminamos server_path para confiar en el PATH del contenedor
-        
+        server_path: 'node_modules/.bin/geckodriver',
         cli_args: ['-vv']  // opcional, para logs detallados de diagnóstico
       }
     }, chrome: {
