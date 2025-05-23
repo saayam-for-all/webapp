@@ -42,6 +42,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
 
   const { t } = useTranslation();
 
@@ -517,7 +518,7 @@ const Navbar = () => {
             color="inherit"
             edge="end"
             onClick={() => toggleDrawer(true)}
-            sx={{ display: { xs: "block", sm: "none" } }}
+            // sx={{ display: { xs: "block", sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
