@@ -41,6 +41,13 @@ jobs:
       - name: Run E2E tests in Chrome
         run: npm run e2eChrome
         continue-on-error: true
+
+      - name: Upload Nightwatch HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightwatch-html-report
+          path: tests_output/nightwatch-html-report
+
       - name: Kill preview server
         if: always()
         run: |
