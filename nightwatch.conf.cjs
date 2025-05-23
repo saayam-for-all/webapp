@@ -40,9 +40,9 @@ module.exports = {
         browserName: 'chrome',
         'goog:chromeOptions': { w3c: true, args: [] }
       },
-      webdriver:     {
+      webdriver:       {
      start_process: true,
-     server_path: 'node_modules/chromedriver/lib/chromedriver/chromedriver',
+     server_path: './usr/bin/chromedriver',
      port: undefined,
      host: 'localhost',
      ssl: false,
