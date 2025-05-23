@@ -1,4 +1,4 @@
-name: e2epipeline
+name: e2e-firefox-pipeline
 
 on:
   push:
@@ -38,16 +38,11 @@ jobs:
           echo "PATH is: $PATH"
           which geckodriver
           geckodriver --version
-      - name: Debug ChromeDriver in container
-        run: |
-          which chromedriver
-          chromedriver --version
-
+      
       - name: Run E2E tests in Firefox
         run: npm run e2eFirefox
         continue-on-error: true
-      - name: Run E2E tests in Chrome
-        run: npm run e2eChrome
+      
 
       - name: Kill preview server
         if: always()
