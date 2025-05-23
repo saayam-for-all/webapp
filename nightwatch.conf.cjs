@@ -1,4 +1,9 @@
+const timestamp = new Date().getTime();
+const userDataDir = `/tmp/chrome-profile-${timestamp}`;
+
 module.exports = {
+
+  
   src_folders: ['test', 'nightwatch/examples'],
   page_objects_path: ['nightwatch/page-objects'],
   custom_commands_path: ['nightwatch/custom-commands'],
@@ -49,7 +54,7 @@ module.exports = {
             '--disable-gpu',
             '--no-sandbox',
             '--disable-dev-shm-usage',
-            `--user-data-dir=/tmp/chrome-profile-${Date.now()}`
+            `--user-data-dir=${userDataDir}`
           ]
         }
       },
