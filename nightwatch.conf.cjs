@@ -1,5 +1,4 @@
-const timestamp = new Date().getTime();
-const userDataDir = `/tmp/chrome-profile-${timestamp}`;
+
 
 module.exports = {
 
@@ -53,8 +52,8 @@ module.exports = {
             '--headless=new',
             '--disable-gpu',
             '--no-sandbox',
-            //'--disable-dev-shm-usage',
-           // `--user-data-dir=${userDataDir}`
+            '--disable-dev-shm-usage',
+            `--user-data-dir=/tmp/chrome-profile-${Date.now()}`
           ]
         }
       },
