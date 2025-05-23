@@ -39,7 +39,7 @@ jobs:
           chromedriver --version
 
       - name: Run E2E tests in Chrome
-        run: npm run npx nightwatch
+        run: npm run e2eChrome
         continue-on-error: true
 
       - name: Upload Nightwatch HTML Report

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "e2eFirefox": "npx nightwatch --env firefox",
-    "e2eChrome": "npx nightwatch --env chrome",
+    "e2eChrome": "npx nightwatch ",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
