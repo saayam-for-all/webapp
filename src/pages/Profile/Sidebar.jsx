@@ -112,6 +112,23 @@ function Sidebar({
             <FiChevronRight className="text-gray-400" />
           )}
         </button>
+
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "identity-docs"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("identity-docs")}
+        >
+          <div className="flex items-center">
+            <FaUserCircle className="mr-2 text-gray-500" />
+            {t("IDENTITY_DOCUMENTS")}
+          </div>
+          {activeTab !== "identity-docs" && (
+            <FiChevronRight className="text-gray-400" />
+          )}
+        </button>
       </div>
     </div>
   );

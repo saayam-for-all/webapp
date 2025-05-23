@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import Modal from "./Modal";
 import OrganizationDetails from "./OrganizationDetails";
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
+import IdentityDocuments from "./IdentityDocuments";
 
 function Profile() {
   const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
@@ -83,6 +84,8 @@ function Profile() {
         return (
           <OrganizationDetails setHasUnsavedChanges={setHasUnsavedChanges} />
         );
+      case "identity-docs":
+        return <IdentityDocuments />;
       default:
         return null;
     }
