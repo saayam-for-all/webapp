@@ -53,8 +53,8 @@ module.exports = {
             '--headless=new',
             '--disable-gpu',
             '--no-sandbox',
-            '--disable-dev-shm-usage',
-            `--user-data-dir=${userDataDir}`
+            //'--disable-dev-shm-usage',
+           // `--user-data-dir=${userDataDir}`
           ]
         }
       },
