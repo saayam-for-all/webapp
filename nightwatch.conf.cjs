@@ -44,6 +44,7 @@ module.exports = {
         'goog:chromeOptions': {
           w3c: true,
           args: [
+            '--no-sandbox',
             '--headless=new',
             '--disable-gpu',
             '--no-sandbox',
@@ -54,7 +55,7 @@ module.exports = {
       },
       webdriver: {
         start_process: true,
-        //server_path: './usr/bin/chromedriver',
+        server_path: '/usr/bin/chromedriver',
         port: undefined,
         host: 'localhost',
         ssl: false,
