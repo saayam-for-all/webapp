@@ -38,7 +38,7 @@ module.exports = {
     }, chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
-        'goog:chromeOptions': { w3c: true, args: [] }
+        'goog:chromeOptions': { w3c: true, args: ['-headless'] }
       },
       webdriver:       {
      start_process: true,
