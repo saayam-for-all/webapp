@@ -32,13 +32,12 @@ jobs:
           echo "Preview running with PID $PREVIEW_PID"
           npx wait-on --verbose http://localhost:4173 --timeout 60000
 
-      - name: Debug edgeDriver in container
-        run: |
-          which edgedriver
-          edgedriver --version
       
-      - name: run edgeDriver on port 4444
-        run: npx edgedriver --port=4444
+      
+      - name: Start EdgeDriver on port 4444 in background
+        run: |
+          npx edgedriver --port=4444 &
+          sleep 5  # tiempo para arrancar antes de que Nightwatch se conecte
 
       - name: Run E2E tests in edge
         run: npm run e2eEdge
