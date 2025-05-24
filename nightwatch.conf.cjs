@@ -42,7 +42,7 @@ module.exports = {
       }
     },
 
-    chrome: {
+    /*chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
         'goog:chromeOptions': {
@@ -78,8 +78,28 @@ module.exports = {
       globals: {
         waitForConditionTimeout: 10000
       }
+    }*/
+  "edge": {
+  desiredCapabilities: {
+    browserName: "MicrosoftEdge",
+    'ms:edgeOptions': {
+      args: [
+        '--headless',
+        '--disable-gpu',
+        '--no-sandbox',
+        '--disable-dev-shm-usage'
+      ]
     }
   },
+  webdriver: {
+    start_process: true,
+    server_path: "/usr/local/bin/edgedriver",
+    port: 9515,
+    cli_args: [
+      "--verbose"
+    ]
+  }
+}},
 
   usage_analytics: {
     enabled: true,
