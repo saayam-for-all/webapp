@@ -33,7 +33,7 @@ module.exports = {
       webdriver: {
         start_process: true,
         server_path: 'node_modules/.bin/geckodriver',
-        port: 4444,
+        port: undefined ,
         host: 'localhost',
         ssl: false,
         default_path_prefix: '',
@@ -92,9 +92,9 @@ module.exports = {
     }
   },
   webdriver: {
-    start_process: true,
+    start_process: false,
     server_path: "/usr/local/bin/edgedriver",
-    port: 9515,
+    port: 4444,
     cli_args: [
       "--verbose"
     ]
