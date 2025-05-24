@@ -204,20 +204,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           return; // Don’t submit yet
         }
 
-        // ✅ Submit the request
         const response = await createRequest(submissionData);
-
-        setSnackbar({
-          open: true,
-          message: "Request submitted successfully!",
-          severity: "success",
-        });
 
         setTimeout(() => {
           navigate("/dashboard", {
             state: {
-              successMessage:
-                "New Request #REQ-00-000-000-00011 submitted successfully!",
+              successMessage: "New Request submitted successfully!",
             },
           });
         }, 2000);
@@ -329,7 +321,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [selfFlag, setSelfFlag] = useState(true);
 
   const handleConfirmCategorySelection = () => {
-    const oldCategory = "general";
+    const oldCategory = "General";
     const newCategory = formData.category;
 
     setCategoryConfirmed(true); // unlock submission
@@ -850,7 +842,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             {suggestedCategories.map((category, index) => (
               <FormControlLabel
                 key={index}
-                value={category.id}
+                value={category.name}
                 control={<Radio />}
                 label={category.name}
               />
