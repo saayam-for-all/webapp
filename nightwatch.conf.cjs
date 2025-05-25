@@ -16,13 +16,18 @@ module.exports = {
     default: {
       launch_url: 'http://localhost',
       screenshots: { enabled: false, path: 'screens', on_failure: true },
-      desiredCapabilities: { browserName: 'chrome' },
+      desiredCapabilities: {
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+          args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage']
+        }
+      },
       webdriver: {
         start_process: true,
-        server_path: '/usr/local/bin/chromedriver'
+        server_path: '/usr/local/bin/chromedriver',
+        port: 9515 
       }
     },
-
     firefox: {
       desiredCapabilities: {
         browserName: 'firefox',
