@@ -53,7 +53,7 @@ module.exports = {
       },
 
       webdriver: {
-        start_process: true,
+        start_process: false,
         server_path: "",
       },
     },
