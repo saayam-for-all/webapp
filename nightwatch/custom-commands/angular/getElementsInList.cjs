@@ -3,7 +3,7 @@
  *
  * Usage:
  *   browser.angular.getElementsInList(listName)
- * 
+ *
  * See the example test using this object:
  *   specs/with-custom-commands/angularTodo.js
  *
@@ -14,16 +14,24 @@
  * @param {function} cb Callback to be called with the result returned by the executed script
  */
 
-export default class AngularCommand {
-
-  async command(listName, cb = function(r) {return r}) {
+module.exports = class AngularCommand {
+  async command(
+    listName,
+    cb = function (r) {
+      return r;
+    },
+  ) {
     // Script to be executed in the browser
-    const script = function(listName) {
+    const script = function (listName) {
       // executed in the browser context
       // eslint-disable-next-line
-      var elements = document.querySelectorAll('*[ng-repeat$="'+listName+'"]');
+      var elements = document.querySelectorAll(
+        '*[ng-repeat$="' + listName + '"]',
+      );
 
-      if (elements) {return elements}
+      if (elements) {
+        return elements;
+      }
 
       return null;
     };
@@ -33,7 +41,7 @@ export default class AngularCommand {
 
     // Callback to be called when the script finishes its execution,
     // with the result returned by the script passed as argument.
-    const callback = async function(result) {
+    const callback = async function (result) {
       const cbResult = await cb(result);
 
       if (cbResult.value) {

@@ -6,7 +6,7 @@
   "scripts": {
     "e2eFirefox": "npx nightwatch --env firefox",
     "e2eChrome": "npx nightwatch ",
-    "e2eEdge" : "npx nightwatch --env edge",
+    "e2eEdge": "npx nightwatch --env edge",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
@@ -45,6 +45,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
+    "@nightwatch/mobile-helper": "^2.0.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -103,4 +104,3 @@
   "author": "",
   "license": "ISC"
 }
-

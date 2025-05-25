@@ -1,0 +1,883 @@
+{
+  "report": {
+    "uuid": "a6b9dd54-1095-4483-b9fb-ba6bffe0532a",
+    "reportPrefix": "CHROME_136.0.7103.114__",
+    "assertionsCount": 3,
+    "lastError": null,
+    "skippedAtRuntime": [],
+    "skippedByUser": [],
+    "skipped": [],
+    "time": "10.08",
+    "timeMs": 10076,
+    "completed": {
+      "Search Nightwatch.js and check results": {
+        "time": "10.07",
+        "assertions": [
+          {
+            "name": "NightwatchAssertError",
+            "message": "Element <input[name=q]> was visible after 379 milliseconds.",
+            "stackTrace": "",
+            "fullMsg": "Element <input[name=q]> was visible after 379 milliseconds.",
+            "failure": false
+          },
+          {
+            "name": "NightwatchAssertError",
+            "message": "Testing if element <#react-layout> is visible (95ms)",
+            "stackTrace": "",
+            "fullMsg": "Testing if element \u001b[33m<#react-layout>\u001b[39m is visible \u001b[90m(95ms)\u001b[39m",
+            "failure": false
+          },
+          {
+            "name": "NightwatchAssertError",
+            "message": "Testing if element <#react-layout> contains text 'Nightwatch.js' (507ms)",
+            "stackTrace": "",
+            "fullMsg": "Testing if element \u001b[33m<#react-layout>\u001b[39m contains text \u001b[33m'Nightwatch.js'\u001b[39m \u001b[90m(507ms)\u001b[39m",
+            "failure": false
+          }
+        ],
+        "commands": [],
+        "passed": 3,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 3,
+        "status": "pass",
+        "startTimestamp": "Sun, 25 May 2025 18:43:31 GMT",
+        "httpOutput": [],
+        "steps": [],
+        "stackTrace": "",
+        "testcases": {
+          "Search Nightwatch.js and check results": {
+            "time": "10.07",
+            "assertions": [
+              {
+                "name": "NightwatchAssertError",
+                "message": "Element <input[name=q]> was visible after 379 milliseconds.",
+                "stackTrace": "",
+                "fullMsg": "Element <input[name=q]> was visible after 379 milliseconds.",
+                "failure": false
+              },
+              {
+                "name": "NightwatchAssertError",
+                "message": "Testing if element \u001b[33m<#react-layout>\u001b[39m is visible \u001b[90m(95ms)\u001b[39m",
+                "stackTrace": "",
+                "fullMsg": "Testing if element \u001b[33m<#react-layout>\u001b[39m is visible \u001b[90m(95ms)\u001b[39m",
+                "failure": false
+              },
+              {
+                "name": "NightwatchAssertError",
+                "message": "Testing if element \u001b[33m<#react-layout>\u001b[39m contains text \u001b[33m'Nightwatch.js'\u001b[39m \u001b[90m(507ms)\u001b[39m",
+                "stackTrace": "",
+                "fullMsg": "Testing if element \u001b[33m<#react-layout>\u001b[39m contains text \u001b[33m'Nightwatch.js'\u001b[39m \u001b[90m(507ms)\u001b[39m",
+                "failure": false
+              }
+            ],
+            "tests": 3,
+            "commands": [],
+            "passed": 3,
+            "errors": 0,
+            "failed": 0,
+            "skipped": 0,
+            "status": "pass",
+            "startTimestamp": "Sun, 25 May 2025 18:43:31 GMT",
+            "httpOutput": [],
+            "steps": [],
+            "stackTrace": "",
+            "timeMs": 10067,
+            "endTimestamp": "Sun, 25 May 2025 18:43:41 GMT"
+          }
+        },
+        "timeMs": 10067,
+        "endTimestamp": "Sun, 25 May 2025 18:43:41 GMT"
+      }
+    },
+    "completedSections": {
+      "__global_beforeEach_hook": {
+        "time": "0.007000",
+        "assertions": [],
+        "commands": [],
+        "passed": 0,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198611082,
+        "httpOutput": [
+          [
+            "2025-05-25T18:43:28.173Z",
+            "  Request POST /session  ",
+            "{\n     capabilities: {\n       firstMatch: [ {} ],\n       alwaysMatch: {\n         browserName: \u001b[32m&#39;chrome&#39;\u001b[39m,\n         \u001b[32m&#39;goog:chromeOptions&#39;\u001b[39m: {\n           binary: \u001b[32m&#39;C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe&#39;\u001b[39m\n         }\n       }\n     }\n  }"
+          ],
+          [
+            "2025-05-25T18:43:31.062Z",
+            "  Response 200 POST /session (2899ms)",
+            "{\n     value: {\n       capabilities: {\n         acceptInsecureCerts: \u001b[33mfalse\u001b[39m,\n         browserName: \u001b[32m&#39;chrome&#39;\u001b[39m,\n         browserVersion: \u001b[32m&#39;136.0.7103.114&#39;\u001b[39m,\n         chrome: {\n           chromedriverVersion: \u001b[32m&#39;136.0.7103.113 (76fa3c1782406c63308c70b54f228fd39c7aaa71-refs/branch-heads/7103_108@{#3})&#39;\u001b[39m,\n           userDataDir: \u001b[32m&#39;C:\\\\Users\\\\Oscar\\\\AppData\\\\Local\\\\Temp\\\\scoped_dir12908_411991045&#39;\u001b[39m\n         },\n         \u001b[32m&#39;fedcm:accounts&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;goog:chromeOptions&#39;\u001b[39m: { debuggerAddress: \u001b[32m&#39;localhost:41741&#39;\u001b[39m },\n         networkConnectionEnabled: \u001b[33mfalse\u001b[39m,\n         pageLoadStrategy: \u001b[32m&#39;normal&#39;\u001b[39m,\n         platformName: \u001b[32m&#39;windows&#39;\u001b[39m,\n         proxy: {},\n         setWindowRect: \u001b[33mtrue\u001b[39m,\n         strictFileInteractability: \u001b[33mfalse\u001b[39m,\n         timeouts: { implicit: \u001b[33m0\u001b[39m, pageLoad: \u001b[33m300000\u001b[39m, script: \u001b[33m30000\u001b[39m },\n         unhandledPromptBehavior: \u001b[32m&#39;dismiss and notify&#39;\u001b[39m,\n         \u001b[32m&#39;webauthn:extension:credBlob&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;webauthn:extension:largeBlob&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;webauthn:extension:minPinLength&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;webauthn:extension:prf&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;webauthn:virtualAuthenticators&#39;\u001b[39m: \u001b[33mtrue\u001b[39m\n       },\n       sessionId: \u001b[32m&#39;996a2b1718651e3ff5ffbb278a089f6e&#39;\u001b[39m\n     }\n  }"
+          ]
+        ],
+        "timeMs": 7,
+        "endTimestamp": 1748198611089
+      },
+      "__before_hook": {
+        "time": "0.001000",
+        "assertions": [],
+        "commands": [],
+        "passed": 0,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198611094,
+        "httpOutput": [],
+        "timeMs": 1,
+        "endTimestamp": 1748198611095
+      },
+      "Search Nightwatch.js and check results": {
+        "time": "10.07",
+        "assertions": [],
+        "commands": [
+          {
+            "name": "navigateTo",
+            "args": ["\"https://duckduckgo.com\""],
+            "startTime": 1748198611120,
+            "endTime": 1748198614296,
+            "elapsedTime": 3176,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "waitForElementVisible",
+            "args": ["\"input[name=q]\""],
+            "startTime": 1748198614297,
+            "endTime": 1748198614682,
+            "elapsedTime": 385,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "sendKeys",
+            "args": ["\"input[name=q]\"", "[\"Nightwatch.js\"]"],
+            "startTime": 1748198614682,
+            "endTime": 1748198615137,
+            "elapsedTime": 455,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "click",
+            "args": ["\"*[type=\\\"submit\\\"]\""],
+            "startTime": 1748198615138,
+            "endTime": 1748198620549,
+            "elapsedTime": 5411,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "assert.visible",
+            "args": ["\"#react-layout\""],
+            "startTime": 1748198620550,
+            "endTime": 1748198620649,
+            "elapsedTime": 99,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "assert.textContains",
+            "args": ["\"#react-layout\"", "\"Nightwatch.js\""],
+            "startTime": 1748198620649,
+            "endTime": 1748198621162,
+            "elapsedTime": 513,
+            "status": "pass",
+            "result": { "status": 0 }
+          }
+        ],
+        "passed": 3,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198611097,
+        "httpOutput": [
+          [
+            "2025-05-25T18:43:31.127Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/url  ",
+            "{ url: \u001b[32m&#39;https://duckduckgo.com&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:34.294Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/url (3168ms)",
+            "{ value: \u001b[1mnull\u001b[22m }"
+          ],
+          [
+            "2025-05-25T18:43:34.304Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;input[name=q]&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:34.568Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (264ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:34.576Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync  ",
+            "{\n     script: \u001b[32m&#39;/* isDisplayed */return (function(){return (function(){var g=this||self;\\n&#39;\u001b[39m +\n       \u001b[32m&#39;function aa(a){var b=typeof a;if(&quot;object&quot;==b)if(a){if(a instanceof Array)return&quot;array&quot;;if(a instanceof Object)return b;var c=Ob... (17053 characters)&#39;\u001b[39m,\n     args: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;\u001b[39m,\n         ELEMENT: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:34.678Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync (105ms)",
+            "{ value: \u001b[33mtrue\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:34.686Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;input[name=q]&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:34.714Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (29ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:34.717Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9/value  ",
+            "{\n     text: \u001b[32m&#39;Nightwatch.js&#39;\u001b[39m,\n     value: [\n       \u001b[32m&#39;N&#39;\u001b[39m, \u001b[32m&#39;i&#39;\u001b[39m, \u001b[32m&#39;g&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m,\n       \u001b[32m&#39;t&#39;\u001b[39m, \u001b[32m&#39;w&#39;\u001b[39m, \u001b[32m&#39;a&#39;\u001b[39m, \u001b[32m&#39;t&#39;\u001b[39m,\n       \u001b[32m&#39;c&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m, \u001b[32m&#39;.&#39;\u001b[39m, \u001b[32m&#39;j&#39;\u001b[39m,\n       \u001b[32m&#39;s&#39;\u001b[39m\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:35.135Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9/value (418ms)",
+            "{ value: \u001b[1mnull\u001b[22m }"
+          ],
+          [
+            "2025-05-25T18:43:35.142Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;*[type=&quot;submit&quot;]&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:35.167Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (26ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:35.170Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18/click  ",
+            "{}"
+          ],
+          [
+            "2025-05-25T18:43:40.548Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18/click (5379ms)",
+            "{ value: \u001b[1mnull\u001b[22m }"
+          ],
+          [
+            "2025-05-25T18:43:40.564Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#react-layout&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:40.605Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (41ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:40.612Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync  ",
+            "{\n     script: \u001b[32m&#39;/* isDisplayed */return (function(){return (function(){var g=this||self;\\n&#39;\u001b[39m +\n       \u001b[32m&#39;function aa(a){var b=typeof a;if(&quot;object&quot;==b)if(a){if(a instanceof Array)return&quot;array&quot;;if(a instanceof Object)return b;var c=Ob... (17053 characters)&#39;\u001b[39m,\n     args: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;\u001b[39m,\n         ELEMENT: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:40.646Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync (35ms)",
+            "{ value: \u001b[33mtrue\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:40.661Z",
+            "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#react-layout&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:40.681Z",
+            "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (20ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:40.685Z",
+            "  Request GET /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40/text  ",
+            "\u001b[32m&#39;&#39;\u001b[39m"
+          ],
+          [
+            "2025-05-25T18:43:41.156Z",
+            "  Response 200 GET /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40/text (470ms)",
+            "{\n     value: \u001b[32m&#39;Siempre protegidas\\n&#39;\u001b[39m +\n       \u001b[32m&#39;España (es)\\n&#39;\u001b[39m +\n       \u001b[32m&#39;Búsqueda segura: moderada\\n&#39;\u001b[39m +\n       \u001b[32m&#39;En cualquier momento\\n&#39;\u001b[39m +\n       \u001b[32m&#39;Nightwatch.js\\n&#39;\u001b[39m +\n       \u001b[32m&#39;https://...&#39;\u001b[39m,\n     suppressBase64Data: \u001b[33mtrue\u001b[39m\n  }"
+          ]
+        ],
+        "beforeEach": {
+          "time": "0.001000",
+          "assertions": [],
+          "commands": [],
+          "passed": 0,
+          "errors": 0,
+          "failed": 0,
+          "skipped": 0,
+          "tests": 0,
+          "status": "pass",
+          "startTimestamp": 1748198611097,
+          "httpOutput": [],
+          "endTimestamp": 1748198611098,
+          "timeMs": 1
+        },
+        "testcase": {
+          "time": "10.06",
+          "assertions": [],
+          "commands": [
+            {
+              "name": "navigateTo",
+              "args": ["\"https://duckduckgo.com\""],
+              "startTime": 1748198611120,
+              "endTime": 1748198614296,
+              "elapsedTime": 3176,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "waitForElementVisible",
+              "args": ["\"input[name=q]\""],
+              "startTime": 1748198614297,
+              "endTime": 1748198614682,
+              "elapsedTime": 385,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "sendKeys",
+              "args": ["\"input[name=q]\"", "[\"Nightwatch.js\"]"],
+              "startTime": 1748198614682,
+              "endTime": 1748198615137,
+              "elapsedTime": 455,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "click",
+              "args": ["\"*[type=\\\"submit\\\"]\""],
+              "startTime": 1748198615138,
+              "endTime": 1748198620549,
+              "elapsedTime": 5411,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "assert.visible",
+              "args": ["\"#react-layout\""],
+              "startTime": 1748198620550,
+              "endTime": 1748198620649,
+              "elapsedTime": 99,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "assert.textContains",
+              "args": ["\"#react-layout\"", "\"Nightwatch.js\""],
+              "startTime": 1748198620649,
+              "endTime": 1748198621162,
+              "elapsedTime": 513,
+              "status": "pass",
+              "result": { "status": 0 }
+            }
+          ],
+          "passed": 3,
+          "errors": 0,
+          "failed": 0,
+          "skipped": 0,
+          "tests": 0,
+          "status": "pass",
+          "startTimestamp": 1748198611098,
+          "httpOutput": [
+            [
+              "2025-05-25T18:43:31.127Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/url  ",
+              "{ url: \u001b[32m&#39;https://duckduckgo.com&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:34.294Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/url (3168ms)",
+              "{ value: \u001b[1mnull\u001b[22m }"
+            ],
+            [
+              "2025-05-25T18:43:34.304Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;input[name=q]&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:34.568Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (264ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:34.576Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync  ",
+              "{\n     script: \u001b[32m&#39;/* isDisplayed */return (function(){return (function(){var g=this||self;\\n&#39;\u001b[39m +\n       \u001b[32m&#39;function aa(a){var b=typeof a;if(&quot;object&quot;==b)if(a){if(a instanceof Array)return&quot;array&quot;;if(a instanceof Object)return b;var c=Ob... (17053 characters)&#39;\u001b[39m,\n     args: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;\u001b[39m,\n         ELEMENT: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:34.678Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync (105ms)",
+              "{ value: \u001b[33mtrue\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:34.686Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;input[name=q]&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:34.714Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (29ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:34.717Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9/value  ",
+              "{\n     text: \u001b[32m&#39;Nightwatch.js&#39;\u001b[39m,\n     value: [\n       \u001b[32m&#39;N&#39;\u001b[39m, \u001b[32m&#39;i&#39;\u001b[39m, \u001b[32m&#39;g&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m,\n       \u001b[32m&#39;t&#39;\u001b[39m, \u001b[32m&#39;w&#39;\u001b[39m, \u001b[32m&#39;a&#39;\u001b[39m, \u001b[32m&#39;t&#39;\u001b[39m,\n       \u001b[32m&#39;c&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m, \u001b[32m&#39;.&#39;\u001b[39m, \u001b[32m&#39;j&#39;\u001b[39m,\n       \u001b[32m&#39;s&#39;\u001b[39m\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:35.135Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9/value (418ms)",
+              "{ value: \u001b[1mnull\u001b[22m }"
+            ],
+            [
+              "2025-05-25T18:43:35.142Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;*[type=&quot;submit&quot;]&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:35.167Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (26ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:35.170Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18/click  ",
+              "{}"
+            ],
+            [
+              "2025-05-25T18:43:40.548Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18/click (5379ms)",
+              "{ value: \u001b[1mnull\u001b[22m }"
+            ],
+            [
+              "2025-05-25T18:43:40.564Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#react-layout&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:40.605Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (41ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:40.612Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync  ",
+              "{\n     script: \u001b[32m&#39;/* isDisplayed */return (function(){return (function(){var g=this||self;\\n&#39;\u001b[39m +\n       \u001b[32m&#39;function aa(a){var b=typeof a;if(&quot;object&quot;==b)if(a){if(a instanceof Array)return&quot;array&quot;;if(a instanceof Object)return b;var c=Ob... (17053 characters)&#39;\u001b[39m,\n     args: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;\u001b[39m,\n         ELEMENT: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:40.646Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync (35ms)",
+              "{ value: \u001b[33mtrue\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:40.661Z",
+              "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#react-layout&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:40.681Z",
+              "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (20ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:40.685Z",
+              "  Request GET /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40/text  ",
+              "\u001b[32m&#39;&#39;\u001b[39m"
+            ],
+            [
+              "2025-05-25T18:43:41.156Z",
+              "  Response 200 GET /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40/text (470ms)",
+              "{\n     value: \u001b[32m&#39;Siempre protegidas\\n&#39;\u001b[39m +\n       \u001b[32m&#39;España (es)\\n&#39;\u001b[39m +\n       \u001b[32m&#39;Búsqueda segura: moderada\\n&#39;\u001b[39m +\n       \u001b[32m&#39;En cualquier momento\\n&#39;\u001b[39m +\n       \u001b[32m&#39;Nightwatch.js\\n&#39;\u001b[39m +\n       \u001b[32m&#39;https://...&#39;\u001b[39m,\n     suppressBase64Data: \u001b[33mtrue\u001b[39m\n  }"
+            ]
+          ],
+          "endTimestamp": 1748198621163,
+          "timeMs": 10065
+        },
+        "afterEach": {
+          "time": "0.001000",
+          "assertions": [],
+          "commands": [],
+          "passed": 0,
+          "errors": 0,
+          "failed": 0,
+          "skipped": 0,
+          "tests": 0,
+          "status": "pass",
+          "startTimestamp": 1748198621163,
+          "httpOutput": [],
+          "endTimestamp": 1748198621164,
+          "timeMs": 1
+        },
+        "timeMs": 10067,
+        "endTimestamp": 1748198621164
+      },
+      "__after_hook": {
+        "time": "0.001000",
+        "assertions": [],
+        "commands": [],
+        "passed": 0,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198621166,
+        "httpOutput": [],
+        "timeMs": 1,
+        "endTimestamp": 1748198621167
+      },
+      "__global_afterEach_hook": {
+        "time": "0.000",
+        "assertions": [],
+        "commands": [
+          {
+            "name": "end",
+            "args": ["true"],
+            "startTime": 1748198621168,
+            "endTime": 1748198621427,
+            "elapsedTime": 259,
+            "status": "pass"
+          }
+        ],
+        "passed": 0,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198621167,
+        "httpOutput": [],
+        "timeMs": 0,
+        "endTimestamp": 1748198621167
+      }
+    },
+    "errmessages": [],
+    "testsCount": 1,
+    "skippedCount": 0,
+    "failedCount": 0,
+    "errorsCount": 0,
+    "passedCount": 3,
+    "group": "basic",
+    "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\basic\\duckDuckGo.js",
+    "startTimestamp": "Sun, 25 May 2025 18:43:26 GMT",
+    "endTimestamp": "Sun, 25 May 2025 18:43:41 GMT",
+    "sessionCapabilities": {
+      "acceptInsecureCerts": false,
+      "browserName": "chrome",
+      "browserVersion": "136.0.7103.114",
+      "chrome": {
+        "chromedriverVersion": "136.0.7103.113 (76fa3c1782406c63308c70b54f228fd39c7aaa71-refs/branch-heads/7103_108@{#3})",
+        "userDataDir": "C:\\Users\\Oscar\\AppData\\Local\\Temp\\scoped_dir12908_411991045"
+      },
+      "fedcm:accounts": true,
+      "goog:chromeOptions": { "debuggerAddress": "localhost:41741" },
+      "networkConnectionEnabled": false,
+      "pageLoadStrategy": "normal",
+      "platformName": "windows",
+      "proxy": {},
+      "setWindowRect": true,
+      "strictFileInteractability": false,
+      "timeouts": { "implicit": 0, "pageLoad": 300000, "script": 30000 },
+      "unhandledPromptBehavior": "dismiss and notify",
+      "webauthn:extension:credBlob": true,
+      "webauthn:extension:largeBlob": true,
+      "webauthn:extension:minPinLength": true,
+      "webauthn:extension:prf": true,
+      "webauthn:virtualAuthenticators": true
+    },
+    "sessionId": "996a2b1718651e3ff5ffbb278a089f6e",
+    "projectName": "",
+    "buildName": "",
+    "testEnv": "default",
+    "isMobile": false,
+    "status": "pass",
+    "seleniumLog": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\logs\\basic\\duckDuckGo_chromedriver.log",
+    "host": "localhost",
+    "name": "duckduckgo example",
+    "tags": [],
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "httpOutput": [
+      [
+        "2025-05-25T18:43:28.173Z",
+        "  Request POST /session  ",
+        "{\n     capabilities: {\n       firstMatch: [ {} ],\n       alwaysMatch: {\n         browserName: <span style=\"color:#0A0\">&#39;chrome&#39;<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;goog:chromeOptions&#39;<span style=\"color:#FFF\">: {\n           binary: <span style=\"color:#0A0\">&#39;C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe&#39;<span style=\"color:#FFF\">\n         }\n       }\n     }\n  }</span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:31.062Z",
+        "  Response 200 POST /session (2899ms)",
+        "{\n     value: {\n       capabilities: {\n         acceptInsecureCerts: <span style=\"color:#A50\">false<span style=\"color:#FFF\">,\n         browserName: <span style=\"color:#0A0\">&#39;chrome&#39;<span style=\"color:#FFF\">,\n         browserVersion: <span style=\"color:#0A0\">&#39;136.0.7103.114&#39;<span style=\"color:#FFF\">,\n         chrome: {\n           chromedriverVersion: <span style=\"color:#0A0\">&#39;136.0.7103.113 (76fa3c1782406c63308c70b54f228fd39c7aaa71-refs/branch-heads/7103_108@{#3})&#39;<span style=\"color:#FFF\">,\n           userDataDir: <span style=\"color:#0A0\">&#39;C:\\\\Users\\\\Oscar\\\\AppData\\\\Local\\\\Temp\\\\scoped_dir12908_411991045&#39;<span style=\"color:#FFF\">\n         },\n         <span style=\"color:#0A0\">&#39;fedcm:accounts&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;goog:chromeOptions&#39;<span style=\"color:#FFF\">: { debuggerAddress: <span style=\"color:#0A0\">&#39;localhost:41741&#39;<span style=\"color:#FFF\"> },\n         networkConnectionEnabled: <span style=\"color:#A50\">false<span style=\"color:#FFF\">,\n         pageLoadStrategy: <span style=\"color:#0A0\">&#39;normal&#39;<span style=\"color:#FFF\">,\n         platformName: <span style=\"color:#0A0\">&#39;windows&#39;<span style=\"color:#FFF\">,\n         proxy: {},\n         setWindowRect: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         strictFileInteractability: <span style=\"color:#A50\">false<span style=\"color:#FFF\">,\n         timeouts: { implicit: <span style=\"color:#A50\">0<span style=\"color:#FFF\">, pageLoad: <span style=\"color:#A50\">300000<span style=\"color:#FFF\">, script: <span style=\"color:#A50\">30000<span style=\"color:#FFF\"> },\n         unhandledPromptBehavior: <span style=\"color:#0A0\">&#39;dismiss and notify&#39;<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:extension:credBlob&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:extension:largeBlob&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:extension:minPinLength&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:extension:prf&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:virtualAuthenticators&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">\n       },\n       sessionId: <span style=\"color:#0A0\">&#39;996a2b1718651e3ff5ffbb278a089f6e&#39;<span style=\"color:#FFF\">\n     }\n  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:31.127Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/url  ",
+        "{ url: <span style=\"color:#0A0\">&#39;https://duckduckgo.com&#39;<span style=\"color:#FFF\"> }</span></span>"
+      ],
+      [
+        "2025-05-25T18:43:34.294Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/url (3168ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ],
+      [
+        "2025-05-25T18:43:34.304Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;input[name=q]&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:34.568Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (264ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:34.576Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync  ",
+        "{\n     script: <span style=\"color:#0A0\">&#39;/* isDisplayed */return (function(){return (function(){var g=this||self;\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;function aa(a){var b=typeof a;if(&quot;object&quot;==b)if(a){if(a instanceof Array)return&quot;array&quot;;if(a instanceof Object)return b;var c=Ob... (17053 characters)&#39;<span style=\"color:#FFF\">,\n     args: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;<span style=\"color:#FFF\">,\n         ELEMENT: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:34.678Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync (105ms)",
+        "{ value: <span style=\"color:#A50\">true<span style=\"color:#FFF\"> }</span></span>"
+      ],
+      [
+        "2025-05-25T18:43:34.686Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;input[name=q]&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:34.714Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (29ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:34.717Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9/value  ",
+        "{\n     text: <span style=\"color:#0A0\">&#39;Nightwatch.js&#39;<span style=\"color:#FFF\">,\n     value: [\n       <span style=\"color:#0A0\">&#39;N&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;i&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;g&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;h&#39;<span style=\"color:#FFF\">,\n       <span style=\"color:#0A0\">&#39;t&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;w&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;a&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;t&#39;<span style=\"color:#FFF\">,\n       <span style=\"color:#0A0\">&#39;c&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;h&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;.&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;j&#39;<span style=\"color:#FFF\">,\n       <span style=\"color:#0A0\">&#39;s&#39;<span style=\"color:#FFF\">\n     ]\n  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:35.135Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9/value (418ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ],
+      [
+        "2025-05-25T18:43:35.142Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;*[type=&quot;submit&quot;]&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:35.167Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (26ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:35.170Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18/click  ",
+        "{}"
+      ],
+      [
+        "2025-05-25T18:43:40.548Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18/click (5379ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ],
+      [
+        "2025-05-25T18:43:40.564Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;#react-layout&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:40.605Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (41ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:40.612Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync  ",
+        "{\n     script: <span style=\"color:#0A0\">&#39;/* isDisplayed */return (function(){return (function(){var g=this||self;\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;function aa(a){var b=typeof a;if(&quot;object&quot;==b)if(a){if(a instanceof Array)return&quot;array&quot;;if(a instanceof Object)return b;var c=Ob... (17053 characters)&#39;<span style=\"color:#FFF\">,\n     args: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;<span style=\"color:#FFF\">,\n         ELEMENT: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:40.646Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync (35ms)",
+        "{ value: <span style=\"color:#A50\">true<span style=\"color:#FFF\"> }</span></span>"
+      ],
+      [
+        "2025-05-25T18:43:40.661Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;#react-layout&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:40.681Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (20ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:40.685Z",
+        "  Request GET /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40/text  ",
+        "<span style=\"color:#0A0\">&#39;&#39;<span style=\"color:#FFF\"></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:41.156Z",
+        "  Response 200 GET /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40/text (470ms)",
+        "{\n     value: <span style=\"color:#0A0\">&#39;Siempre protegidas\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;España (es)\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;Búsqueda segura: moderada\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;En cualquier momento\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;Nightwatch.js\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;https://...&#39;<span style=\"color:#FFF\">,\n     suppressBase64Data: <span style=\"color:#A50\">true<span style=\"color:#FFF\">\n  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:41.180Z",
+        "  Request DELETE /session/996a2b1718651e3ff5ffbb278a089f6e  ",
+        "<span style=\"color:#0A0\">&#39;&#39;<span style=\"color:#FFF\"></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:41.421Z",
+        "  Response 200 DELETE /session/996a2b1718651e3ff5ffbb278a089f6e (241ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ]
+    ],
+    "rawHttpOutput": [
+      [
+        "2025-05-25T18:43:28.173Z",
+        "  Request POST /session  ",
+        "{\n     capabilities: {\n       firstMatch: [ {} ],\n       alwaysMatch: {\n         browserName: 'chrome',\n         'goog:chromeOptions': {\n           binary: 'C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe'\n         }\n       }\n     }\n  }"
+      ],
+      [
+        "2025-05-25T18:43:31.062Z",
+        "  Response 200 POST /session (2899ms)",
+        "{\n     value: {\n       capabilities: {\n         acceptInsecureCerts: false,\n         browserName: 'chrome',\n         browserVersion: '136.0.7103.114',\n         chrome: {\n           chromedriverVersion: '136.0.7103.113 (76fa3c1782406c63308c70b54f228fd39c7aaa71-refs/branch-heads/7103_108@{#3})',\n           userDataDir: 'C:\\\\Users\\\\Oscar\\\\AppData\\\\Local\\\\Temp\\\\scoped_dir12908_411991045'\n         },\n         'fedcm:accounts': true,\n         'goog:chromeOptions': { debuggerAddress: 'localhost:41741' },\n         networkConnectionEnabled: false,\n         pageLoadStrategy: 'normal',\n         platformName: 'windows',\n         proxy: {},\n         setWindowRect: true,\n         strictFileInteractability: false,\n         timeouts: { implicit: 0, pageLoad: 300000, script: 30000 },\n         unhandledPromptBehavior: 'dismiss and notify',\n         'webauthn:extension:credBlob': true,\n         'webauthn:extension:largeBlob': true,\n         'webauthn:extension:minPinLength': true,\n         'webauthn:extension:prf': true,\n         'webauthn:virtualAuthenticators': true\n       },\n       sessionId: '996a2b1718651e3ff5ffbb278a089f6e'\n     }\n  }"
+      ],
+      [
+        "2025-05-25T18:43:31.127Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/url  ",
+        "{ url: 'https://duckduckgo.com' }"
+      ],
+      [
+        "2025-05-25T18:43:34.294Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/url (3168ms)",
+        "{ value: null }"
+      ],
+      [
+        "2025-05-25T18:43:34.304Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: 'css selector', value: 'input[name=q]' }"
+      ],
+      [
+        "2025-05-25T18:43:34.568Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (264ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:34.576Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync  ",
+        "{\n     script: '/* isDisplayed */return (function(){return (function(){var g=this||self;\\n' +\n       'function aa(a){var b=typeof a;if(&quot;object&quot;==b)if(a){if(a instanceof Array)return&quot;array&quot;;if(a instanceof Object)return b;var c=Ob... (17053 characters)',\n     args: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9',\n         ELEMENT: 'f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:34.678Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync (105ms)",
+        "{ value: true }"
+      ],
+      [
+        "2025-05-25T18:43:34.686Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: 'css selector', value: 'input[name=q]' }"
+      ],
+      [
+        "2025-05-25T18:43:34.714Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (29ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:34.717Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9/value  ",
+        "{\n     text: 'Nightwatch.js',\n     value: [\n       'N', 'i', 'g', 'h',\n       't', 'w', 'a', 't',\n       'c', 'h', '.', 'j',\n       's'\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:35.135Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.9/value (418ms)",
+        "{ value: null }"
+      ],
+      [
+        "2025-05-25T18:43:35.142Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: 'css selector', value: '*[type=&quot;submit&quot;]' }"
+      ],
+      [
+        "2025-05-25T18:43:35.167Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (26ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:35.170Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18/click  ",
+        "{}"
+      ],
+      [
+        "2025-05-25T18:43:40.548Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.E00AF58804DA231CADAF4F2C4E7C2301.e.18/click (5379ms)",
+        "{ value: null }"
+      ],
+      [
+        "2025-05-25T18:43:40.564Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: 'css selector', value: '#react-layout' }"
+      ],
+      [
+        "2025-05-25T18:43:40.605Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (41ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:40.612Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync  ",
+        "{\n     script: '/* isDisplayed */return (function(){return (function(){var g=this||self;\\n' +\n       'function aa(a){var b=typeof a;if(&quot;object&quot;==b)if(a){if(a instanceof Array)return&quot;array&quot;;if(a instanceof Object)return b;var c=Ob... (17053 characters)',\n     args: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40',\n         ELEMENT: 'f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:40.646Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/execute/sync (35ms)",
+        "{ value: true }"
+      ],
+      [
+        "2025-05-25T18:43:40.661Z",
+        "  Request POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements  ",
+        "{ using: 'css selector', value: '#react-layout' }"
+      ],
+      [
+        "2025-05-25T18:43:40.681Z",
+        "  Response 200 POST /session/996a2b1718651e3ff5ffbb278a089f6e/elements (20ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:40.685Z",
+        "  Request GET /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40/text  ",
+        "''"
+      ],
+      [
+        "2025-05-25T18:43:41.156Z",
+        "  Response 200 GET /session/996a2b1718651e3ff5ffbb278a089f6e/element/f.D121AAD55129AD8EE49524B27125790C.d.BFDA1CE824CFED71A0C5E8CE7090EF66.e.40/text (470ms)",
+        "{\n     value: 'Siempre protegidas\\n' +\n       'España (es)\\n' +\n       'Búsqueda segura: moderada\\n' +\n       'En cualquier momento\\n' +\n       'Nightwatch.js\\n' +\n       'https://...',\n     suppressBase64Data: true\n  }"
+      ],
+      [
+        "2025-05-25T18:43:41.180Z",
+        "  Request DELETE /session/996a2b1718651e3ff5ffbb278a089f6e  ",
+        "''"
+      ],
+      [
+        "2025-05-25T18:43:41.421Z",
+        "  Response 200 DELETE /session/996a2b1718651e3ff5ffbb278a089f6e (241ms)",
+        "{ value: null }"
+      ]
+    ]
+  },
+  "name": "duckDuckGo",
+  "httpOutput": [],
+  "systemerr": " TimeoutError\n   An error occurred while running .setValue() command on <Element [name=@searchBar]>: element not interactable\n  (Session info: chrome=136.0.7103.114)\n    {\"error\":{\"name\":\"ElementNotInteractableError\",\"remoteStacktrace\":\"\"},\"status\":-1,\"value\":null}"
+}

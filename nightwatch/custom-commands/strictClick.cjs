@@ -3,7 +3,7 @@
  *
  * Usage:
  *   browser.strictClick(selector)
- * 
+ *
  * This command is not used yet used in any of the examples.
  *
  * For more information on working with custom-commands see:
@@ -11,10 +11,8 @@
  *
  */
 
-export default {
-  command: function(selector) {
-    return this
-      .waitForElementVisible(selector)
-      .click(selector);
-  }
+module.exports = {
+  command: function (selector) {
+    return this.waitForElementVisible(selector).click(selector);
+  },
 };

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="1">
+
+  <testsuite name="Ecosia.org Demo" id="basic.ecosia"
+    errors="0" failures="1" hostname="" package="basic" skipped="0"
+    tests="1" time="25.08" timestamp="">
+  
+    <testcase name="Demo test ecosia.org" classname="Ecosia.org Demo" time="10.24" assertions="5">
+
+    
+
+    
+
+    
+
+      <failure message="Testing if element &lt;.layout__content&gt; contains text &#39;Nightwatch.js&#39; in 5000ms - expected &#34;contains text &#39;Nightwatch.js&#39;&#34; but got: &#34;does not contain &#39;Nightwatch.js&#39;&#34; (5931ms)">    at DescribeInstance.&lt;anonymous&gt; (file:///C:/Users/Oscar/Desktop/proyectosHoy/currentRao/current/webapp/nightwatch/examples/basic/ecosia.js:12:15)</failure>
+
+    
+    </testcase>
+  
+
+  
+    <system-err>
+       TimeoutError
+   An error occurred while running .setValue() command on &lt;Element [name=@searchBar]&gt;: element not interactable
+  (Session info: chrome=136.0.7103.114)
+    {&#34;error&#34;:{&#34;name&#34;:&#34;ElementNotInteractableError&#34;,&#34;remoteStacktrace&#34;:&#34;&#34;},&#34;status&#34;:-1,&#34;value&#34;:null}
+    </system-err>
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>

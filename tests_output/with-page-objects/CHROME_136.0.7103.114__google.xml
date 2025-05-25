@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="1"
+            tests="1">
+
+  <testsuite name="google search with consent form - page objects" id="with-page-objects.google"
+    errors="1" failures="1" hostname="" package="with-page-objects" skipped="0"
+    tests="1" time="10.36" timestamp="">
+  
+    <testcase name="should find nightwatch.js in results" classname="google search with consent form - page objects" time="6.556" assertions="1">  <failure message="Timed out while waiting for element &lt;input[value=&#34;Google Search&#34;]&gt; to be present for 1000 milliseconds. - expected &#34;visible&#34; but got: &#34;not found&#34; (1051ms)">    at Page.submit (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\nightwatch\page-objects\google\search.cjs:17:10)
+    at DescribeInstance.&lt;anonymous&gt; (file:///C:/Users/Oscar/Desktop/proyectosHoy/currentRao/current/webapp/nightwatch/examples/with-page-objects/google.js:20:14)</failure>
+
+    
+    <error message="Timed out while waiting for element &lt;input[value=&#34;Google Search&#34;]&gt; to be present for 1000 milliseconds. - expected [32m&#34;visible&#34;[39m but got: [31m&#34;not found&#34;[39m [90m(1051ms)[39m" type="error"><![CDATA[
+    Error
+    at Command.executeCommand (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\node_modules\nightwatch\lib\page-object\command-wrapper.js:281:22)
+    at Page.waitForElementVisible (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\node_modules\nightwatch\lib\page-object\command-wrapper.js:86:27)
+    at Page.submit (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\nightwatch\page-objects\google\search.cjs:17:10)
+    at DescribeInstance.&lt;anonymous&gt; (file:///C:/Users/Oscar/Desktop/proyectosHoy/currentRao/current/webapp/nightwatch/examples/with-page-objects/google.js:20:14)
+    at Context.call (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\node_modules\nightwatch\lib\testsuite\context.js:528:43)
+    at TestCase.run (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\node_modules\nightwatch\lib\testsuite\testcase.js:58:31)
+    at Runnable.__runFn (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\node_modules\nightwatch\lib\testsuite\index.js:842:80)
+    at Runnable.run (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\node_modules\nightwatch\lib\testsuite\runnable.js:126:21)
+    at TestSuite.executeRunnable (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\node_modules\nightwatch\lib\testsuite\index.js:1003:49)
+    at TestSuite.handleRunnable (C:\Users\Oscar\Desktop\proyectosHoy\currentRao\current\webapp\node_modules\nightwatch\lib\testsuite\index.js:1018:33)
+    ]]></error>
+    
+    </testcase>
+  
+
+  
+    <system-err>
+       TimeoutError
+   An error occurred while running .setValue() command on &lt;Element [name=@searchBar]&gt;: element not interactable
+  (Session info: chrome=136.0.7103.114)
+    {&#34;error&#34;:{&#34;name&#34;:&#34;ElementNotInteractableError&#34;,&#34;remoteStacktrace&#34;:&#34;&#34;},&#34;status&#34;:-1,&#34;value&#34;:null}
+    </system-err>
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>

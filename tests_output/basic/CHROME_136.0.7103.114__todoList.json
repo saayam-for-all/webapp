@@ -1,0 +1,941 @@
+{
+  "report": {
+    "uuid": "9b31e6b3-52de-4c88-a395-d34560293e4d",
+    "reportPrefix": "CHROME_136.0.7103.114__",
+    "assertionsCount": 3,
+    "lastError": null,
+    "skippedAtRuntime": [],
+    "skippedByUser": [],
+    "skipped": [],
+    "time": "2.374",
+    "timeMs": 2374,
+    "completed": {
+      "should add a todo using global element()": {
+        "time": "2.359",
+        "assertions": [
+          {
+            "name": "NightwatchAssertError",
+            "message": "Expected elements <#todo-list ul li> count to equal: \"5\" (40ms)",
+            "stackTrace": "",
+            "fullMsg": "Expected elements <#todo-list ul li> count to equal: \u001b[33m\"5\"\u001b[39m\u001b[90m (40ms)\u001b[39m",
+            "failure": false
+          },
+          {
+            "name": "NightwatchAssertError",
+            "message": "Expected element <#todo-list ul li> text to contain: \"what is nightwatch?\" (86ms)",
+            "stackTrace": "",
+            "fullMsg": "Expected element <#todo-list ul li> text to contain: \u001b[33m\"what is nightwatch?\"\u001b[39m\u001b[90m (86ms)\u001b[39m",
+            "failure": false
+          },
+          {
+            "name": "NightwatchAssertError",
+            "message": "Expected elements <#todo-list ul li input:checked> count to equal: \"3\" (24ms)",
+            "stackTrace": "",
+            "fullMsg": "Expected elements <#todo-list ul li input:checked> count to equal: \u001b[33m\"3\"\u001b[39m\u001b[90m (24ms)\u001b[39m",
+            "failure": false
+          }
+        ],
+        "commands": [],
+        "passed": 3,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 3,
+        "status": "pass",
+        "startTimestamp": "Sun, 25 May 2025 18:43:52 GMT",
+        "httpOutput": [],
+        "steps": [],
+        "stackTrace": "",
+        "testcases": {
+          "should add a todo using global element()": {
+            "time": "2.359",
+            "assertions": [
+              {
+                "name": "NightwatchAssertError",
+                "message": "Expected elements <#todo-list ul li> count to equal: \u001b[33m\"5\"\u001b[39m\u001b[90m (40ms)\u001b[39m",
+                "stackTrace": "",
+                "fullMsg": "Expected elements <#todo-list ul li> count to equal: \u001b[33m\"5\"\u001b[39m\u001b[90m (40ms)\u001b[39m",
+                "failure": false
+              },
+              {
+                "name": "NightwatchAssertError",
+                "message": "Expected element <#todo-list ul li> text to contain: \u001b[33m\"what is nightwatch?\"\u001b[39m\u001b[90m (86ms)\u001b[39m",
+                "stackTrace": "",
+                "fullMsg": "Expected element <#todo-list ul li> text to contain: \u001b[33m\"what is nightwatch?\"\u001b[39m\u001b[90m (86ms)\u001b[39m",
+                "failure": false
+              },
+              {
+                "name": "NightwatchAssertError",
+                "message": "Expected elements <#todo-list ul li input:checked> count to equal: \u001b[33m\"3\"\u001b[39m\u001b[90m (24ms)\u001b[39m",
+                "stackTrace": "",
+                "fullMsg": "Expected elements <#todo-list ul li input:checked> count to equal: \u001b[33m\"3\"\u001b[39m\u001b[90m (24ms)\u001b[39m",
+                "failure": false
+              }
+            ],
+            "tests": 3,
+            "commands": [],
+            "passed": 3,
+            "errors": 0,
+            "failed": 0,
+            "skipped": 0,
+            "status": "pass",
+            "startTimestamp": "Sun, 25 May 2025 18:43:52 GMT",
+            "httpOutput": [],
+            "steps": [],
+            "stackTrace": "",
+            "timeMs": 2359,
+            "endTimestamp": "Sun, 25 May 2025 18:43:54 GMT"
+          }
+        },
+        "timeMs": 2359,
+        "endTimestamp": "Sun, 25 May 2025 18:43:54 GMT"
+      }
+    },
+    "completedSections": {
+      "__global_beforeEach_hook": {
+        "time": "0.000",
+        "assertions": [],
+        "commands": [],
+        "passed": 0,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198632463,
+        "httpOutput": [
+          [
+            "2025-05-25T18:43:48.899Z",
+            "  Request POST /session  ",
+            "{\n     capabilities: {\n       firstMatch: [ {} ],\n       alwaysMatch: {\n         browserName: \u001b[32m&#39;chrome&#39;\u001b[39m,\n         \u001b[32m&#39;goog:chromeOptions&#39;\u001b[39m: {\n           binary: \u001b[32m&#39;C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe&#39;\u001b[39m\n         }\n       }\n     }\n  }"
+          ],
+          [
+            "2025-05-25T18:43:52.456Z",
+            "  Response 200 POST /session (3556ms)",
+            "{\n     value: {\n       capabilities: {\n         acceptInsecureCerts: \u001b[33mfalse\u001b[39m,\n         browserName: \u001b[32m&#39;chrome&#39;\u001b[39m,\n         browserVersion: \u001b[32m&#39;136.0.7103.114&#39;\u001b[39m,\n         chrome: {\n           chromedriverVersion: \u001b[32m&#39;136.0.7103.113 (76fa3c1782406c63308c70b54f228fd39c7aaa71-refs/branch-heads/7103_108@{#3})&#39;\u001b[39m,\n           userDataDir: \u001b[32m&#39;C:\\\\Users\\\\Oscar\\\\AppData\\\\Local\\\\Temp\\\\scoped_dir6496_1046356264&#39;\u001b[39m\n         },\n         \u001b[32m&#39;fedcm:accounts&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;goog:chromeOptions&#39;\u001b[39m: { debuggerAddress: \u001b[32m&#39;localhost:41848&#39;\u001b[39m },\n         networkConnectionEnabled: \u001b[33mfalse\u001b[39m,\n         pageLoadStrategy: \u001b[32m&#39;normal&#39;\u001b[39m,\n         platformName: \u001b[32m&#39;windows&#39;\u001b[39m,\n         proxy: {},\n         setWindowRect: \u001b[33mtrue\u001b[39m,\n         strictFileInteractability: \u001b[33mfalse\u001b[39m,\n         timeouts: { implicit: \u001b[33m0\u001b[39m, pageLoad: \u001b[33m300000\u001b[39m, script: \u001b[33m30000\u001b[39m },\n         unhandledPromptBehavior: \u001b[32m&#39;dismiss and notify&#39;\u001b[39m,\n         \u001b[32m&#39;webauthn:extension:credBlob&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;webauthn:extension:largeBlob&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;webauthn:extension:minPinLength&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;webauthn:extension:prf&#39;\u001b[39m: \u001b[33mtrue\u001b[39m,\n         \u001b[32m&#39;webauthn:virtualAuthenticators&#39;\u001b[39m: \u001b[33mtrue\u001b[39m\n       },\n       sessionId: \u001b[32m&#39;f5952c0163201470d941fe13f63a9008&#39;\u001b[39m\n     }\n  }"
+          ]
+        ],
+        "timeMs": 0,
+        "endTimestamp": 1748198632463
+      },
+      "__before_hook": {
+        "time": "0.000",
+        "assertions": [],
+        "commands": [],
+        "passed": 0,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198632463,
+        "httpOutput": [],
+        "timeMs": 0,
+        "endTimestamp": 1748198632463
+      },
+      "should add a todo using global element()": {
+        "time": "2.359",
+        "assertions": [],
+        "commands": [
+          {
+            "name": "navigateTo",
+            "args": ["\"https://todo-vue3-vite.netlify.app/\""],
+            "startTime": 1748198632486,
+            "endTime": 1748198633891,
+            "elapsedTime": 1405,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "sendKeys",
+            "args": [
+              "{\"__selector\":\"#new-todo-input\",\"locateStrategy\":\"css selector\",\"pseudoSelector\":null,\"resolvedElement\":\"f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2\"}",
+              "\"what is nightwatch?\""
+            ],
+            "startTime": 1748198633892,
+            "endTime": 1748198634287,
+            "elapsedTime": 395,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "click",
+            "args": [
+              "{\"__selector\":\"form button[type=\\\"submit\\\"]\",\"locateStrategy\":\"css selector\",\"pseudoSelector\":null,\"resolvedElement\":\"f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10\"}"
+            ],
+            "startTime": 1748198634287,
+            "endTime": 1748198634465,
+            "elapsedTime": 178,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "expect.elements",
+            "args": ["\"#todo-list ul li\""],
+            "startTime": 1748198634485,
+            "endTime": 1748198634527,
+            "elapsedTime": 42,
+            "status": "pass",
+            "result": {}
+          },
+          {
+            "name": "expect.element",
+            "args": [
+              "{\"__index\":4,\"__selector\":\"#todo-list ul li\",\"locateStrategy\":\"css selector\",\"pseudoSelector\":null,\"resolvedElement\":\"f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27\"}"
+            ],
+            "startTime": 1748198634528,
+            "endTime": 1748198634615,
+            "elapsedTime": 87,
+            "status": "pass",
+            "result": {}
+          },
+          {
+            "name": "element().findElement",
+            "args": [
+              "{\"value\":\"input[type=\\\"checkbox\\\"]\",\"using\":\"css selector\"}"
+            ],
+            "startTime": 1748198634615,
+            "endTime": 1748198634645,
+            "elapsedTime": 30,
+            "status": "pass",
+            "result": {}
+          },
+          {
+            "name": "click",
+            "args": [
+              "{\"driver_\":{\"session_\":{},\"executor_\":{\"customCommands_\":{},\"log_\":{\"name_\":\"driver.http.Executor\",\"level_\":null,\"parent_\":{\"name_\":\"driver.http\",\"level_\":null,\"parent_\":{\"name_\":\"driver\",\"level_\":null,\"parent_\":{\"name_\":\"\",\"level_\":{\"name_\":\"OFF\",\"value_\":null},\"parent_\":null,\"handlers_\":null},\"handlers_\":null},\"handlers_\":null},\"handlers_\":null},\"w3c\":true},\"fileDetector_\":null,\"authenticatorId_\":null,\"pinnedScripts_\":{}},\"id_\":{},\"log_\":{\"name_\":\"driver\",\"level_\":null,\"parent_\":{\"name_\":\"\",\"level_\":{\"name_\":\"OFF\",\"value_\":null},\"parent_\":null,\"handlers_\":null},\"handlers_\":null}}"
+            ],
+            "startTime": 1748198634646,
+            "endTime": 1748198634780,
+            "elapsedTime": 134,
+            "status": "pass",
+            "result": { "status": 0 }
+          },
+          {
+            "name": "expect.elements",
+            "args": ["\"#todo-list ul li input:checked\""],
+            "startTime": 1748198634791,
+            "endTime": 1748198634815,
+            "elapsedTime": 24,
+            "status": "pass",
+            "result": {}
+          }
+        ],
+        "passed": 3,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198632464,
+        "httpOutput": [
+          [
+            "2025-05-25T18:43:52.488Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/url  ",
+            "{ url: \u001b[32m&#39;https://todo-vue3-vite.netlify.app/&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:53.888Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/url (1400ms)",
+            "{ value: \u001b[1mnull\u001b[22m }"
+          ],
+          [
+            "2025-05-25T18:43:53.899Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#new-todo-input&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:53.965Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (66ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:53.971Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2/value  ",
+            "{\n     text: \u001b[32m&#39;what is nightwatch?&#39;\u001b[39m,\n     value: [\n       \u001b[32m&#39;w&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m, \u001b[32m&#39;a&#39;\u001b[39m, \u001b[32m&#39;t&#39;\u001b[39m, \u001b[32m&#39; &#39;\u001b[39m,\n       \u001b[32m&#39;i&#39;\u001b[39m, \u001b[32m&#39;s&#39;\u001b[39m, \u001b[32m&#39; &#39;\u001b[39m, \u001b[32m&#39;n&#39;\u001b[39m, \u001b[32m&#39;i&#39;\u001b[39m,\n       \u001b[32m&#39;g&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m, \u001b[32m&#39;t&#39;\u001b[39m, \u001b[32m&#39;w&#39;\u001b[39m, \u001b[32m&#39;a&#39;\u001b[39m,\n       \u001b[32m&#39;t&#39;\u001b[39m, \u001b[32m&#39;c&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m, \u001b[32m&#39;?&#39;\u001b[39m\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:54.285Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2/value (315ms)",
+            "{ value: \u001b[1mnull\u001b[22m }"
+          ],
+          [
+            "2025-05-25T18:43:54.289Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;form button[type=&quot;submit&quot;]&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:54.314Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (26ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:54.317Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10/click  ",
+            "{}"
+          ],
+          [
+            "2025-05-25T18:43:54.464Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10/click (148ms)",
+            "{ value: \u001b[1mnull\u001b[22m }"
+          ],
+          [
+            "2025-05-25T18:43:54.488Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#todo-list ul li&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:54.522Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (35ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.23&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.24&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.25&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.26&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:54.529Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#todo-list ul li&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:54.562Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (32ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.23&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.24&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.25&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.26&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27&#39;\u001b[39m\n       }\n     ]\n  }"
+          ],
+          [
+            "2025-05-25T18:43:54.566Z",
+            "  Request GET /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/text  ",
+            "\u001b[32m&#39;&#39;\u001b[39m"
+          ],
+          [
+            "2025-05-25T18:43:54.612Z",
+            "  Response 200 GET /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/text (47ms)",
+            "{\n     value: \u001b[32m&#39;new taskwhat is nightwatch?\\n&#39;\u001b[39m +\n       \u001b[32m&#39;Edit\\n&#39;\u001b[39m +\n       \u001b[32m&#39;New Taskwhat Is Nightwatch?\\n&#39;\u001b[39m +\n       \u001b[32m&#39;Delete\\n&#39;\u001b[39m +\n       \u001b[32m&#39;New Taskwhat Is Nightwatch?&#39;\u001b[39m\n  }"
+          ],
+          [
+            "2025-05-25T18:43:54.617Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/element  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;input[type=&quot;checkbox&quot;]&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:54.644Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/element (27ms)",
+            "{\n     value: {\n       \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22&#39;\u001b[39m\n     }\n  }"
+          ],
+          [
+            "2025-05-25T18:43:54.647Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22/click  ",
+            "{}"
+          ],
+          [
+            "2025-05-25T18:43:54.779Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22/click (132ms)",
+            "{ value: \u001b[1mnull\u001b[22m }"
+          ],
+          [
+            "2025-05-25T18:43:54.792Z",
+            "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+            "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#todo-list ul li input:checked&#39;\u001b[39m }"
+          ],
+          [
+            "2025-05-25T18:43:54.814Z",
+            "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (22ms)",
+            "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.5&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.6&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22&#39;\u001b[39m\n       }\n     ]\n  }"
+          ]
+        ],
+        "beforeEach": {
+          "time": "0.000",
+          "assertions": [],
+          "commands": [],
+          "passed": 0,
+          "errors": 0,
+          "failed": 0,
+          "skipped": 0,
+          "tests": 0,
+          "status": "pass",
+          "startTimestamp": 1748198632464,
+          "httpOutput": [],
+          "endTimestamp": 1748198632464,
+          "timeMs": 0
+        },
+        "testcase": {
+          "time": "2.352",
+          "assertions": [],
+          "commands": [
+            {
+              "name": "navigateTo",
+              "args": ["\"https://todo-vue3-vite.netlify.app/\""],
+              "startTime": 1748198632486,
+              "endTime": 1748198633891,
+              "elapsedTime": 1405,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "sendKeys",
+              "args": [
+                "{\"__selector\":\"#new-todo-input\",\"locateStrategy\":\"css selector\",\"pseudoSelector\":null,\"resolvedElement\":\"f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2\"}",
+                "\"what is nightwatch?\""
+              ],
+              "startTime": 1748198633892,
+              "endTime": 1748198634287,
+              "elapsedTime": 395,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "click",
+              "args": [
+                "{\"__selector\":\"form button[type=\\\"submit\\\"]\",\"locateStrategy\":\"css selector\",\"pseudoSelector\":null,\"resolvedElement\":\"f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10\"}"
+              ],
+              "startTime": 1748198634287,
+              "endTime": 1748198634465,
+              "elapsedTime": 178,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "expect.elements",
+              "args": ["\"#todo-list ul li\""],
+              "startTime": 1748198634485,
+              "endTime": 1748198634527,
+              "elapsedTime": 42,
+              "status": "pass",
+              "result": {}
+            },
+            {
+              "name": "expect.element",
+              "args": [
+                "{\"__index\":4,\"__selector\":\"#todo-list ul li\",\"locateStrategy\":\"css selector\",\"pseudoSelector\":null,\"resolvedElement\":\"f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27\"}"
+              ],
+              "startTime": 1748198634528,
+              "endTime": 1748198634615,
+              "elapsedTime": 87,
+              "status": "pass",
+              "result": {}
+            },
+            {
+              "name": "element().findElement",
+              "args": [
+                "{\"value\":\"input[type=\\\"checkbox\\\"]\",\"using\":\"css selector\"}"
+              ],
+              "startTime": 1748198634615,
+              "endTime": 1748198634645,
+              "elapsedTime": 30,
+              "status": "pass",
+              "result": {}
+            },
+            {
+              "name": "click",
+              "args": [
+                "{\"driver_\":{\"session_\":{},\"executor_\":{\"customCommands_\":{},\"log_\":{\"name_\":\"driver.http.Executor\",\"level_\":null,\"parent_\":{\"name_\":\"driver.http\",\"level_\":null,\"parent_\":{\"name_\":\"driver\",\"level_\":null,\"parent_\":{\"name_\":\"\",\"level_\":{\"name_\":\"OFF\",\"value_\":null},\"parent_\":null,\"handlers_\":null},\"handlers_\":null},\"handlers_\":null},\"handlers_\":null},\"w3c\":true},\"fileDetector_\":null,\"authenticatorId_\":null,\"pinnedScripts_\":{}},\"id_\":{},\"log_\":{\"name_\":\"driver\",\"level_\":null,\"parent_\":{\"name_\":\"\",\"level_\":{\"name_\":\"OFF\",\"value_\":null},\"parent_\":null,\"handlers_\":null},\"handlers_\":null}}"
+              ],
+              "startTime": 1748198634646,
+              "endTime": 1748198634780,
+              "elapsedTime": 134,
+              "status": "pass",
+              "result": { "status": 0 }
+            },
+            {
+              "name": "expect.elements",
+              "args": ["\"#todo-list ul li input:checked\""],
+              "startTime": 1748198634791,
+              "endTime": 1748198634815,
+              "elapsedTime": 24,
+              "status": "pass",
+              "result": {}
+            }
+          ],
+          "passed": 3,
+          "errors": 0,
+          "failed": 0,
+          "skipped": 0,
+          "tests": 0,
+          "status": "pass",
+          "startTimestamp": 1748198632464,
+          "httpOutput": [
+            [
+              "2025-05-25T18:43:52.488Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/url  ",
+              "{ url: \u001b[32m&#39;https://todo-vue3-vite.netlify.app/&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:53.888Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/url (1400ms)",
+              "{ value: \u001b[1mnull\u001b[22m }"
+            ],
+            [
+              "2025-05-25T18:43:53.899Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#new-todo-input&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:53.965Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (66ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:53.971Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2/value  ",
+              "{\n     text: \u001b[32m&#39;what is nightwatch?&#39;\u001b[39m,\n     value: [\n       \u001b[32m&#39;w&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m, \u001b[32m&#39;a&#39;\u001b[39m, \u001b[32m&#39;t&#39;\u001b[39m, \u001b[32m&#39; &#39;\u001b[39m,\n       \u001b[32m&#39;i&#39;\u001b[39m, \u001b[32m&#39;s&#39;\u001b[39m, \u001b[32m&#39; &#39;\u001b[39m, \u001b[32m&#39;n&#39;\u001b[39m, \u001b[32m&#39;i&#39;\u001b[39m,\n       \u001b[32m&#39;g&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m, \u001b[32m&#39;t&#39;\u001b[39m, \u001b[32m&#39;w&#39;\u001b[39m, \u001b[32m&#39;a&#39;\u001b[39m,\n       \u001b[32m&#39;t&#39;\u001b[39m, \u001b[32m&#39;c&#39;\u001b[39m, \u001b[32m&#39;h&#39;\u001b[39m, \u001b[32m&#39;?&#39;\u001b[39m\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:54.285Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2/value (315ms)",
+              "{ value: \u001b[1mnull\u001b[22m }"
+            ],
+            [
+              "2025-05-25T18:43:54.289Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;form button[type=&quot;submit&quot;]&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:54.314Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (26ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:54.317Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10/click  ",
+              "{}"
+            ],
+            [
+              "2025-05-25T18:43:54.464Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10/click (148ms)",
+              "{ value: \u001b[1mnull\u001b[22m }"
+            ],
+            [
+              "2025-05-25T18:43:54.488Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#todo-list ul li&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:54.522Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (35ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.23&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.24&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.25&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.26&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:54.529Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#todo-list ul li&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:54.562Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (32ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.23&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.24&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.25&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.26&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27&#39;\u001b[39m\n       }\n     ]\n  }"
+            ],
+            [
+              "2025-05-25T18:43:54.566Z",
+              "  Request GET /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/text  ",
+              "\u001b[32m&#39;&#39;\u001b[39m"
+            ],
+            [
+              "2025-05-25T18:43:54.612Z",
+              "  Response 200 GET /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/text (47ms)",
+              "{\n     value: \u001b[32m&#39;new taskwhat is nightwatch?\\n&#39;\u001b[39m +\n       \u001b[32m&#39;Edit\\n&#39;\u001b[39m +\n       \u001b[32m&#39;New Taskwhat Is Nightwatch?\\n&#39;\u001b[39m +\n       \u001b[32m&#39;Delete\\n&#39;\u001b[39m +\n       \u001b[32m&#39;New Taskwhat Is Nightwatch?&#39;\u001b[39m\n  }"
+            ],
+            [
+              "2025-05-25T18:43:54.617Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/element  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;input[type=&quot;checkbox&quot;]&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:54.644Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/element (27ms)",
+              "{\n     value: {\n       \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22&#39;\u001b[39m\n     }\n  }"
+            ],
+            [
+              "2025-05-25T18:43:54.647Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22/click  ",
+              "{}"
+            ],
+            [
+              "2025-05-25T18:43:54.779Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22/click (132ms)",
+              "{ value: \u001b[1mnull\u001b[22m }"
+            ],
+            [
+              "2025-05-25T18:43:54.792Z",
+              "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+              "{ using: \u001b[32m&#39;css selector&#39;\u001b[39m, value: \u001b[32m&#39;#todo-list ul li input:checked&#39;\u001b[39m }"
+            ],
+            [
+              "2025-05-25T18:43:54.814Z",
+              "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (22ms)",
+              "{\n     value: [\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.5&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.6&#39;\u001b[39m\n       },\n       {\n         \u001b[32m&#39;element-6066-11e4-a52e-4f735466cecf&#39;\u001b[39m: \u001b[32m&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22&#39;\u001b[39m\n       }\n     ]\n  }"
+            ]
+          ],
+          "endTimestamp": 1748198634816,
+          "timeMs": 2352
+        },
+        "afterEach": {
+          "time": "0.007000",
+          "assertions": [],
+          "commands": [],
+          "passed": 0,
+          "errors": 0,
+          "failed": 0,
+          "skipped": 0,
+          "tests": 0,
+          "status": "pass",
+          "startTimestamp": 1748198634816,
+          "httpOutput": [],
+          "endTimestamp": 1748198634823,
+          "timeMs": 7
+        },
+        "timeMs": 2359,
+        "endTimestamp": 1748198634823
+      },
+      "__after_hook": {
+        "time": "0.01500",
+        "assertions": [],
+        "commands": [],
+        "passed": 0,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198634824,
+        "httpOutput": [],
+        "timeMs": 15,
+        "endTimestamp": 1748198634839
+      },
+      "__global_afterEach_hook": {
+        "time": "0.000",
+        "assertions": [],
+        "commands": [
+          {
+            "name": "end",
+            "args": ["true"],
+            "startTime": 1748198634870,
+            "endTime": 1748198636079,
+            "elapsedTime": 1209,
+            "status": "pass"
+          }
+        ],
+        "passed": 0,
+        "errors": 0,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "status": "pass",
+        "startTimestamp": 1748198634840,
+        "httpOutput": [],
+        "timeMs": 0,
+        "endTimestamp": 1748198634840
+      }
+    },
+    "errmessages": [],
+    "testsCount": 1,
+    "skippedCount": 0,
+    "failedCount": 0,
+    "errorsCount": 0,
+    "passedCount": 3,
+    "group": "basic",
+    "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\basic\\todoList.js",
+    "startTimestamp": "Sun, 25 May 2025 18:43:45 GMT",
+    "endTimestamp": "Sun, 25 May 2025 18:43:54 GMT",
+    "sessionCapabilities": {
+      "acceptInsecureCerts": false,
+      "browserName": "chrome",
+      "browserVersion": "136.0.7103.114",
+      "chrome": {
+        "chromedriverVersion": "136.0.7103.113 (76fa3c1782406c63308c70b54f228fd39c7aaa71-refs/branch-heads/7103_108@{#3})",
+        "userDataDir": "C:\\Users\\Oscar\\AppData\\Local\\Temp\\scoped_dir6496_1046356264"
+      },
+      "fedcm:accounts": true,
+      "goog:chromeOptions": { "debuggerAddress": "localhost:41848" },
+      "networkConnectionEnabled": false,
+      "pageLoadStrategy": "normal",
+      "platformName": "windows",
+      "proxy": {},
+      "setWindowRect": true,
+      "strictFileInteractability": false,
+      "timeouts": { "implicit": 0, "pageLoad": 300000, "script": 30000 },
+      "unhandledPromptBehavior": "dismiss and notify",
+      "webauthn:extension:credBlob": true,
+      "webauthn:extension:largeBlob": true,
+      "webauthn:extension:minPinLength": true,
+      "webauthn:extension:prf": true,
+      "webauthn:virtualAuthenticators": true
+    },
+    "sessionId": "f5952c0163201470d941fe13f63a9008",
+    "projectName": "",
+    "buildName": "",
+    "testEnv": "default",
+    "isMobile": false,
+    "status": "pass",
+    "seleniumLog": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\logs\\basic\\todoList_chromedriver.log",
+    "host": "localhost",
+    "name": "To-Do List End-to-End Test",
+    "tags": [],
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "httpOutput": [
+      [
+        "2025-05-25T18:43:48.899Z",
+        "  Request POST /session  ",
+        "{\n     capabilities: {\n       firstMatch: [ {} ],\n       alwaysMatch: {\n         browserName: <span style=\"color:#0A0\">&#39;chrome&#39;<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;goog:chromeOptions&#39;<span style=\"color:#FFF\">: {\n           binary: <span style=\"color:#0A0\">&#39;C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe&#39;<span style=\"color:#FFF\">\n         }\n       }\n     }\n  }</span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:52.456Z",
+        "  Response 200 POST /session (3556ms)",
+        "{\n     value: {\n       capabilities: {\n         acceptInsecureCerts: <span style=\"color:#A50\">false<span style=\"color:#FFF\">,\n         browserName: <span style=\"color:#0A0\">&#39;chrome&#39;<span style=\"color:#FFF\">,\n         browserVersion: <span style=\"color:#0A0\">&#39;136.0.7103.114&#39;<span style=\"color:#FFF\">,\n         chrome: {\n           chromedriverVersion: <span style=\"color:#0A0\">&#39;136.0.7103.113 (76fa3c1782406c63308c70b54f228fd39c7aaa71-refs/branch-heads/7103_108@{#3})&#39;<span style=\"color:#FFF\">,\n           userDataDir: <span style=\"color:#0A0\">&#39;C:\\\\Users\\\\Oscar\\\\AppData\\\\Local\\\\Temp\\\\scoped_dir6496_1046356264&#39;<span style=\"color:#FFF\">\n         },\n         <span style=\"color:#0A0\">&#39;fedcm:accounts&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;goog:chromeOptions&#39;<span style=\"color:#FFF\">: { debuggerAddress: <span style=\"color:#0A0\">&#39;localhost:41848&#39;<span style=\"color:#FFF\"> },\n         networkConnectionEnabled: <span style=\"color:#A50\">false<span style=\"color:#FFF\">,\n         pageLoadStrategy: <span style=\"color:#0A0\">&#39;normal&#39;<span style=\"color:#FFF\">,\n         platformName: <span style=\"color:#0A0\">&#39;windows&#39;<span style=\"color:#FFF\">,\n         proxy: {},\n         setWindowRect: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         strictFileInteractability: <span style=\"color:#A50\">false<span style=\"color:#FFF\">,\n         timeouts: { implicit: <span style=\"color:#A50\">0<span style=\"color:#FFF\">, pageLoad: <span style=\"color:#A50\">300000<span style=\"color:#FFF\">, script: <span style=\"color:#A50\">30000<span style=\"color:#FFF\"> },\n         unhandledPromptBehavior: <span style=\"color:#0A0\">&#39;dismiss and notify&#39;<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:extension:credBlob&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:extension:largeBlob&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:extension:minPinLength&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:extension:prf&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">,\n         <span style=\"color:#0A0\">&#39;webauthn:virtualAuthenticators&#39;<span style=\"color:#FFF\">: <span style=\"color:#A50\">true<span style=\"color:#FFF\">\n       },\n       sessionId: <span style=\"color:#0A0\">&#39;f5952c0163201470d941fe13f63a9008&#39;<span style=\"color:#FFF\">\n     }\n  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:52.488Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/url  ",
+        "{ url: <span style=\"color:#0A0\">&#39;https://todo-vue3-vite.netlify.app/&#39;<span style=\"color:#FFF\"> }</span></span>"
+      ],
+      [
+        "2025-05-25T18:43:53.888Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/url (1400ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ],
+      [
+        "2025-05-25T18:43:53.899Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;#new-todo-input&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:53.965Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (66ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:53.971Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2/value  ",
+        "{\n     text: <span style=\"color:#0A0\">&#39;what is nightwatch?&#39;<span style=\"color:#FFF\">,\n     value: [\n       <span style=\"color:#0A0\">&#39;w&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;h&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;a&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;t&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39; &#39;<span style=\"color:#FFF\">,\n       <span style=\"color:#0A0\">&#39;i&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;s&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39; &#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;n&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;i&#39;<span style=\"color:#FFF\">,\n       <span style=\"color:#0A0\">&#39;g&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;h&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;t&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;w&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;a&#39;<span style=\"color:#FFF\">,\n       <span style=\"color:#0A0\">&#39;t&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;c&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;h&#39;<span style=\"color:#FFF\">, <span style=\"color:#0A0\">&#39;?&#39;<span style=\"color:#FFF\">\n     ]\n  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.285Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2/value (315ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ],
+      [
+        "2025-05-25T18:43:54.289Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;form button[type=&quot;submit&quot;]&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.314Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (26ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.317Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10/click  ",
+        "{}"
+      ],
+      [
+        "2025-05-25T18:43:54.464Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10/click (148ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ],
+      [
+        "2025-05-25T18:43:54.488Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;#todo-list ul li&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.522Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (35ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.23&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.24&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.25&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.26&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.529Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;#todo-list ul li&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.562Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (32ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.23&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.24&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.25&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.26&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.566Z",
+        "  Request GET /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/text  ",
+        "<span style=\"color:#0A0\">&#39;&#39;<span style=\"color:#FFF\"></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.612Z",
+        "  Response 200 GET /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/text (47ms)",
+        "{\n     value: <span style=\"color:#0A0\">&#39;new taskwhat is nightwatch?\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;Edit\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;New Taskwhat Is Nightwatch?\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;Delete\\n&#39;<span style=\"color:#FFF\"> +\n       <span style=\"color:#0A0\">&#39;New Taskwhat Is Nightwatch?&#39;<span style=\"color:#FFF\">\n  }</span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.617Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/element  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;input[type=&quot;checkbox&quot;]&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.644Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/element (27ms)",
+        "{\n     value: {\n       <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22&#39;<span style=\"color:#FFF\">\n     }\n  }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.647Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22/click  ",
+        "{}"
+      ],
+      [
+        "2025-05-25T18:43:54.779Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22/click (132ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ],
+      [
+        "2025-05-25T18:43:54.792Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: <span style=\"color:#0A0\">&#39;css selector&#39;<span style=\"color:#FFF\">, value: <span style=\"color:#0A0\">&#39;#todo-list ul li input:checked&#39;<span style=\"color:#FFF\"> }</span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.814Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (22ms)",
+        "{\n     value: [\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.5&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.6&#39;<span style=\"color:#FFF\">\n       },\n       {\n         <span style=\"color:#0A0\">&#39;element-6066-11e4-a52e-4f735466cecf&#39;<span style=\"color:#FFF\">: <span style=\"color:#0A0\">&#39;f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22&#39;<span style=\"color:#FFF\">\n       }\n     ]\n  }</span></span></span></span></span></span></span></span></span></span></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:54.873Z",
+        "  Request DELETE /session/f5952c0163201470d941fe13f63a9008  ",
+        "<span style=\"color:#0A0\">&#39;&#39;<span style=\"color:#FFF\"></span></span>"
+      ],
+      [
+        "2025-05-25T18:43:56.078Z",
+        "  Response 200 DELETE /session/f5952c0163201470d941fe13f63a9008 (1205ms)",
+        "{ value: <b>null<span style=\"font-weight:normal;text-decoration:none;font-style:normal\"> }</span></b>"
+      ]
+    ],
+    "rawHttpOutput": [
+      [
+        "2025-05-25T18:43:48.899Z",
+        "  Request POST /session  ",
+        "{\n     capabilities: {\n       firstMatch: [ {} ],\n       alwaysMatch: {\n         browserName: 'chrome',\n         'goog:chromeOptions': {\n           binary: 'C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe'\n         }\n       }\n     }\n  }"
+      ],
+      [
+        "2025-05-25T18:43:52.456Z",
+        "  Response 200 POST /session (3556ms)",
+        "{\n     value: {\n       capabilities: {\n         acceptInsecureCerts: false,\n         browserName: 'chrome',\n         browserVersion: '136.0.7103.114',\n         chrome: {\n           chromedriverVersion: '136.0.7103.113 (76fa3c1782406c63308c70b54f228fd39c7aaa71-refs/branch-heads/7103_108@{#3})',\n           userDataDir: 'C:\\\\Users\\\\Oscar\\\\AppData\\\\Local\\\\Temp\\\\scoped_dir6496_1046356264'\n         },\n         'fedcm:accounts': true,\n         'goog:chromeOptions': { debuggerAddress: 'localhost:41848' },\n         networkConnectionEnabled: false,\n         pageLoadStrategy: 'normal',\n         platformName: 'windows',\n         proxy: {},\n         setWindowRect: true,\n         strictFileInteractability: false,\n         timeouts: { implicit: 0, pageLoad: 300000, script: 30000 },\n         unhandledPromptBehavior: 'dismiss and notify',\n         'webauthn:extension:credBlob': true,\n         'webauthn:extension:largeBlob': true,\n         'webauthn:extension:minPinLength': true,\n         'webauthn:extension:prf': true,\n         'webauthn:virtualAuthenticators': true\n       },\n       sessionId: 'f5952c0163201470d941fe13f63a9008'\n     }\n  }"
+      ],
+      [
+        "2025-05-25T18:43:52.488Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/url  ",
+        "{ url: 'https://todo-vue3-vite.netlify.app/' }"
+      ],
+      [
+        "2025-05-25T18:43:53.888Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/url (1400ms)",
+        "{ value: null }"
+      ],
+      [
+        "2025-05-25T18:43:53.899Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: 'css selector', value: '#new-todo-input' }"
+      ],
+      [
+        "2025-05-25T18:43:53.965Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (66ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:53.971Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2/value  ",
+        "{\n     text: 'what is nightwatch?',\n     value: [\n       'w', 'h', 'a', 't', ' ',\n       'i', 's', ' ', 'n', 'i',\n       'g', 'h', 't', 'w', 'a',\n       't', 'c', 'h', '?'\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:54.285Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.2/value (315ms)",
+        "{ value: null }"
+      ],
+      [
+        "2025-05-25T18:43:54.289Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: 'css selector', value: 'form button[type=&quot;submit&quot;]' }"
+      ],
+      [
+        "2025-05-25T18:43:54.314Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (26ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:54.317Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10/click  ",
+        "{}"
+      ],
+      [
+        "2025-05-25T18:43:54.464Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.10/click (148ms)",
+        "{ value: null }"
+      ],
+      [
+        "2025-05-25T18:43:54.488Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: 'css selector', value: '#todo-list ul li' }"
+      ],
+      [
+        "2025-05-25T18:43:54.522Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (35ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.23'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.24'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.25'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.26'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:54.529Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: 'css selector', value: '#todo-list ul li' }"
+      ],
+      [
+        "2025-05-25T18:43:54.562Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (32ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.23'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.24'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.25'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.26'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:54.566Z",
+        "  Request GET /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/text  ",
+        "''"
+      ],
+      [
+        "2025-05-25T18:43:54.612Z",
+        "  Response 200 GET /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/text (47ms)",
+        "{\n     value: 'new taskwhat is nightwatch?\\n' +\n       'Edit\\n' +\n       'New Taskwhat Is Nightwatch?\\n' +\n       'Delete\\n' +\n       'New Taskwhat Is Nightwatch?'\n  }"
+      ],
+      [
+        "2025-05-25T18:43:54.617Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/element  ",
+        "{ using: 'css selector', value: 'input[type=&quot;checkbox&quot;]' }"
+      ],
+      [
+        "2025-05-25T18:43:54.644Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.27/element (27ms)",
+        "{\n     value: {\n       'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22'\n     }\n  }"
+      ],
+      [
+        "2025-05-25T18:43:54.647Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22/click  ",
+        "{}"
+      ],
+      [
+        "2025-05-25T18:43:54.779Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/element/f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22/click (132ms)",
+        "{ value: null }"
+      ],
+      [
+        "2025-05-25T18:43:54.792Z",
+        "  Request POST /session/f5952c0163201470d941fe13f63a9008/elements  ",
+        "{ using: 'css selector', value: '#todo-list ul li input:checked' }"
+      ],
+      [
+        "2025-05-25T18:43:54.814Z",
+        "  Response 200 POST /session/f5952c0163201470d941fe13f63a9008/elements (22ms)",
+        "{\n     value: [\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.5'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.6'\n       },\n       {\n         'element-6066-11e4-a52e-4f735466cecf': 'f.8FDC3FBBE2971EA3465C7B934F9EA55C.d.78A7C83069F940C2FF0D47321B7C51AF.e.22'\n       }\n     ]\n  }"
+      ],
+      [
+        "2025-05-25T18:43:54.873Z",
+        "  Request DELETE /session/f5952c0163201470d941fe13f63a9008  ",
+        "''"
+      ],
+      [
+        "2025-05-25T18:43:56.078Z",
+        "  Response 200 DELETE /session/f5952c0163201470d941fe13f63a9008 (1205ms)",
+        "{ value: null }"
+      ]
+    ]
+  },
+  "name": "todoList",
+  "httpOutput": [],
+  "systemerr": " TimeoutError\n   An error occurred while running .setValue() command on <Element [name=@searchBar]>: element not interactable\n  (Session info: chrome=136.0.7103.114)\n    {\"error\":{\"name\":\"ElementNotInteractableError\",\"remoteStacktrace\":\"\"},\"status\":-1,\"value\":null}"
+}

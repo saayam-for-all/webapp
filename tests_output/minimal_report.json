@@ -1,0 +1,32 @@
+{
+  "modules": {
+    "basic\\duckDuckGo": {
+      "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\basic\\duckDuckGo.js",
+      "status": "pass"
+    },
+    "accessibilty-tests\\websiteAccessibility": {
+      "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\accessibilty-tests\\websiteAccessibility.js",
+      "status": "pass"
+    },
+    "basic\\todoList": {
+      "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\basic\\todoList.js",
+      "status": "pass"
+    },
+    "with-custom-assertions\\todoList": {
+      "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\with-custom-assertions\\todoList.js",
+      "status": "pass"
+    },
+    "basic\\ecosia": {
+      "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\basic\\ecosia.js",
+      "status": "fail"
+    },
+    "with-custom-commands\\angularTodo": {
+      "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\with-custom-commands\\angularTodo.js",
+      "status": "pass"
+    },
+    "with-page-objects\\google": {
+      "modulePath": "C:\\Users\\Oscar\\Desktop\\proyectosHoy\\currentRao\\current\\webapp\\nightwatch\\examples\\with-page-objects\\google.js",
+      "status": "fail"
+    }
+  }
+}
