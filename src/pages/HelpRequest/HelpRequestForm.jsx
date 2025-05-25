@@ -218,7 +218,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         setTimeout(() => {
           navigate("/dashboard", {
             state: {
-              successMessage: "New Request submitted successfully!",
+              successMessage:
+                "New Request #REQ-00-000-000-00011 submitted successfully!",
             },
           });
         }, 2000);
