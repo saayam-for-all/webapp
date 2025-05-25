@@ -1,0 +1,52 @@
+name: e2e-chrome-pipeline
+
+on:
+  push:
+    branches: ["test", "dev", "main","dockerTest"]
+  pull_request:
+    branches: ["test", "dev", "main"]
+  workflow_dispatch:
+
+jobs:
+  test-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+      
+
+      - name: Build the web app
+        run: npm run build
+
+      - name: Start preview server in background
+        run: |
+          npm run preview -- --host --port 4173 &
+          PREVIEW_PID=$!
+          echo "Preview running with PID $PREVIEW_PID"
+          
+      - name: Debug ChromeDriver in container
+        run: |
+          which chromedriver
+          chromedriver --version
+
+      - name: Run E2E tests in Chrome
+        run: npm run e2eChrome
+        continue-on-error: true
+
+      - name: Upload Nightwatch HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightwatch-html-report
+          path: tests_output/nightwatch-html-report
+
+      - name: Kill preview server
+        if: always()
+        run: |
+          pkill -f "vite preview" || echo "No preview to kill"
