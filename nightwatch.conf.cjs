@@ -23,7 +23,7 @@ module.exports = {
         }
       },
       webdriver: {
-        start_process: true,
+        start_process: false,
         server_path: 'node_modules/chromedriver/lib/chromedriver/chromedriver',
         port: 9515 
       }
