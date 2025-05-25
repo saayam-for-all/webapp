@@ -169,16 +169,25 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
 
       if (res.contains_profanity) {
-        toast.error(
-          "Profanity detected. Please remove these word(s) : " +
+        setSnackbar({
+          open: true,
+          message:
+            "Profanity detected. Please remove these word(s): " +
             res.profanity +
-            "  from Subject/Description and submit request again!",
-          {
-            position: "top-center", // You can customize the position
-            autoClose: 2000, // Toast auto-closes after 2 seconds
-            hideProgressBar: true, // Optional: Hide progress bar
-          },
-        );
+            " from Subject/Description and submit again!",
+          severity: "error",
+        });
+
+        // toast.error(
+        //   "Profanity detected. Please remove these word(s) : " +
+        //     res.profanity +
+        //     "  from Subject/Description and submit request again!",
+        //   {
+        //     position: "top-center", // You can customize the position
+        //     autoClose: 2000, // Toast auto-closes after 2 seconds
+        //     hideProgressBar: true, // Optional: Hide progress bar
+        //   },
+        // );
       }
       // Proceed with submitting the request if no profanity is found
 
