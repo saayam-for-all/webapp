@@ -1,317 +1,105 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`YourProfile renders correctly 1`] = `
-{
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <div
-        class="flex flex-col border p-6 rounded-lg w-full"
-      >
-        <div
-          class="grid grid-cols-2 gap-4 mb-6"
-        >
-          <div>
-            <label
-              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >
-              mockTranslate(FIRST_NAME)
-            </label>
-            <p
-              class="text-lg text-gray-900"
-            />
-          </div>
-          <div>
-            <label
-              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >
-              mockTranslate(LAST_NAME)
-            </label>
-            <p
-              class="text-lg text-gray-900"
-            />
-          </div>
-        </div>
-        <div
-          class="grid grid-cols-1 gap-4 mb-6"
-          data-testid="container-test-3"
-        >
-          <div>
-            <label
-              class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >
-              mockTranslate(EMAIL)
-            </label>
-            <p
-              class="text-lg text-gray-900"
-            />
-          </div>
-        </div>
-        <div
-          class="mb-6"
-        >
-          <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-          >
-            mockTranslate(PHONE_NUMBER)
-          </label>
-          <div
-            class="flex items-center space-x-2"
-          >
-            <p
-              class="text-lg text-gray-900"
-            >
-              US
-               
-            </p>
-            <svg
-              class="text-gray-500 cursor-pointer hover:text-gray-700"
-              fill="none"
-              height="1em"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-              />
-            </svg>
-            <svg
-              class="text-gray-500 cursor-pointer hover:text-gray-700"
-              fill="none"
-              height="1em"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <polygon
-                points="23 7 16 12 23 17 23 7"
-              />
-              <rect
-                height="14"
-                rx="2"
-                ry="2"
-                width="15"
-                x="1"
-                y="5"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          class="mb-6"
-        >
-          <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-          >
-            mockTranslate(COUNTRY)
-          </label>
-          <p
-            class="text-lg text-gray-900"
-          />
-        </div>
-        <div
-          class="flex justify-center mt-6"
-        >
-          <button
-            class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          >
-            mockTranslate(EDIT)
-          </button>
-        </div>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
+exports[`YourProfile matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="flex flex-col border p-6 rounded-lg w-full"
+  >
     <div
-      class="flex flex-col border p-6 rounded-lg w-full"
+      class="grid grid-cols-2 gap-4 mb-6"
     >
-      <div
-        class="grid grid-cols-2 gap-4 mb-6"
-      >
-        <div>
-          <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-          >
-            mockTranslate(FIRST_NAME)
-          </label>
-          <p
-            class="text-lg text-gray-900"
-          />
-        </div>
-        <div>
-          <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-          >
-            mockTranslate(LAST_NAME)
-          </label>
-          <p
-            class="text-lg text-gray-900"
-          />
-        </div>
-      </div>
-      <div
-        class="grid grid-cols-1 gap-4 mb-6"
-        data-testid="container-test-3"
-      >
-        <div>
-          <label
-            class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-          >
-            mockTranslate(EMAIL)
-          </label>
-          <p
-            class="text-lg text-gray-900"
-          />
-        </div>
-      </div>
-      <div
-        class="mb-6"
-      >
+      <div>
         <label
           class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
         >
-          mockTranslate(PHONE_NUMBER)
-        </label>
-        <div
-          class="flex items-center space-x-2"
-        >
-          <p
-            class="text-lg text-gray-900"
-          >
-            US
-             
-          </p>
-          <svg
-            class="text-gray-500 cursor-pointer hover:text-gray-700"
-            fill="none"
-            height="1em"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-            />
-          </svg>
-          <svg
-            class="text-gray-500 cursor-pointer hover:text-gray-700"
-            fill="none"
-            height="1em"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              points="23 7 16 12 23 17 23 7"
-            />
-            <rect
-              height="14"
-              rx="2"
-              ry="2"
-              width="15"
-              x="1"
-              y="5"
-            />
-          </svg>
-        </div>
-      </div>
-      <div
-        class="mb-6"
-      >
-        <label
-          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-        >
-          mockTranslate(COUNTRY)
+          FIRST_NAME
         </label>
         <p
           class="text-lg text-gray-900"
-        />
-      </div>
-      <div
-        class="flex justify-center mt-6"
-      >
-        <button
-          class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
         >
-          mockTranslate(EDIT)
+          John
+        </p>
+      </div>
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          LAST_NAME
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          Doe
+        </p>
+      </div>
+    </div>
+    <div
+      class="mb-6"
+    >
+      <label
+        class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+      >
+        EMAIL
+      </label>
+      <p
+        class="text-lg text-gray-900"
+      >
+        john@example.com
+      </p>
+    </div>
+    <div
+      class="mb-6"
+    >
+      <label
+        class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+      >
+        PHONE_NUMBER
+      </label>
+      <div
+        class="flex items-center gap-2"
+      >
+        <p
+          class="text-lg text-gray-900"
+        >
+          United States (+1) 234567890
+        </p>
+        <button
+          class="text-gray-500 cursor-pointer hover:text-gray-700 ml-2"
+          data-testid="phone-call-icon"
+        >
+          📞
+        </button>
+        <button
+          class="text-gray-500 cursor-pointer hover:text-gray-700"
+          data-testid="video-call-icon"
+        >
+          📹
         </button>
       </div>
     </div>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "store": {
-    "@@observable": [Function],
-    "dispatch": [Function],
-    "getState": [Function],
-    "replaceReducer": [Function],
-    "subscribe": [Function],
-  },
-  "unmount": [Function],
-}
+    <div
+      class="mb-6"
+    >
+      <label
+        class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+      >
+        COUNTRY
+      </label>
+      <p
+        class="text-lg text-gray-900"
+      >
+        United States
+      </p>
+    </div>
+    <div
+      class="flex justify-center mt-6"
+    >
+      <button
+        class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+      >
+        EDIT
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
 `;
