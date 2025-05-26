@@ -286,7 +286,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     <div className="flex flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
       {/* Date of Birth and Gender */}
       <div className="grid grid-cols-2 gap-8 mb-6">
-        <div>
+        <div title="We need date of birth to ascertain user's age as we can only entertain users over 21 years of age. If it is left blank then we are free to assume that the user is over 21 years of age">
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("BIRTHDAY")}
           </label>
