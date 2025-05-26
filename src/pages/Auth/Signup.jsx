@@ -112,12 +112,6 @@ const SignUp = () => {
   const handleSignUp = async () => {
     try {
       setErrors({});
-      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
-
-      if (!isValidPhoneNumber(fullPhoneNumber)) {
-        setErrors({ ...errors, phone: "Please enter a valid phone number" });
-        return;
-      }
 
       const result = signUpSchema.safeParse({
         firstName,
@@ -140,12 +134,27 @@ const SignUp = () => {
         return;
       }
 
-      if (passwordValue !== confirmPasswordValue) {
-        setPasswordsMatch(false);
-        setErrors({ ...errors, confirmPassword: "Passwords do not match" });
+      // Now, after basic field validation, check if phone number is really valid
+      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+
+      if (!isValidPhoneNumber(fullPhoneNumber)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          phone: "Please enter a valid phone number",
+        }));
         return;
       }
 
+      if (passwordValue !== confirmPasswordValue) {
+        setPasswordsMatch(false);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          confirmPassword: "Passwords do not match",
+        }));
+        return;
+      }
+
+      // Proceed with signup
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
@@ -174,17 +183,17 @@ const SignUp = () => {
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
-        <h1 className="my-4 text-3xl font-bold text-center">Sign Up</h1>
+        <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
 
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
           <div className="flex-1">
-            <label htmlFor="firstName">First Name</label>
+            <label htmlFor="firstName">{t("FIRST_NAME")}</label>
             <input
               id="firstName"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First Name"
+              placeholder={t("FIRST_NAME")}
               type="text"
               className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
               required={true}
@@ -196,12 +205,12 @@ const SignUp = () => {
 
           {/* Last Name */}
           <div className="flex-1">
-            <label htmlFor="lastName">Last Name</label>
+            <label htmlFor="lastName">{t("LAST_NAME")}</label>
             <input
               id="lastName"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last Name"
+              placeholder={t("LAST_NAME")}
               type="text"
               className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
               required={true}
@@ -214,12 +223,12 @@ const SignUp = () => {
 
         {/* Email */}
         <div className="my-1 flex flex-col">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{t("EMAIL")}</label>
           <input
             id="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
-            placeholder="Your Email"
+            placeholder={t("EMAIL")}
             type="text"
             className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
             required={true}
@@ -231,7 +240,7 @@ const SignUp = () => {
 
         {/* Phone Number */}
         <div className="my-2 flex flex-col relative">
-          <label htmlFor="phone">Phone Number</label>
+          <label htmlFor="phone">{t("PHONE_NUMBER")}</label>
           <div className="flex space-x-2">
             {/* Country Code Dropdown */}
             <select
@@ -251,7 +260,7 @@ const SignUp = () => {
               id="phone"
               value={phone}
               onChange={handlePhoneChange}
-              placeholder="Your Phone Number"
+              placeholder={t("YOUR_PHONE_NUMBER")}
               type="text"
               className={`w-2/3 px-4 py-2 border rounded-xl ${
                 errors.phone ? "border-red-500" : "border-gray-300"
@@ -266,25 +275,28 @@ const SignUp = () => {
 
         {/* Country */}
         <div className="my-2 flex flex-col">
-          <label htmlFor="country">Country</label>
+          <label htmlFor="country">{t("COUNTRY")}</label>
           <select
             id="country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-xl"
           >
+            {/**
             <option value="">Select your country</option>
             {countries.map((option) => (
               <option key={option.value} value={option.label}>
                 {option.label}
               </option>
             ))}
+             */}
+            <option value="United States">{t("UNITED_STATES")}</option>
           </select>
         </div>
 
         {/* Password */}
         <div className="my-2 flex flex-col relative">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">{t("PASSWORD")}</label>
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
@@ -296,7 +308,7 @@ const SignUp = () => {
           >
             <input
               id="password"
-              placeholder="Password"
+              placeholder={t("PASSWORD")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
               onChange={(e) => {
@@ -354,7 +366,7 @@ const SignUp = () => {
 
         {/* Confirm Password */}
         <div className="my-2 flex flex-col">
-          <label htmlFor="confirmPassword">Confirm Password</label>
+          <label htmlFor="confirmPassword">{t("CONFIRM_PASSWORD")}</label>
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               confirmPasswordFocus
@@ -366,7 +378,7 @@ const SignUp = () => {
           >
             <input
               id="confirmPassword"
-              placeholder="Confirm Password"
+              placeholder={t("CONFIRM_PASSWORD")}
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
               onChange={(e) => setConfirmPasswordValue(e.target.value)}
@@ -391,7 +403,7 @@ const SignUp = () => {
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignUp}
         >
-          Sign up
+          Sign Up
         </button>
 
         {/* Uncomment this snippet when the signup functionality is fully developed  */}

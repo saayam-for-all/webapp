@@ -6,7 +6,7 @@ exports[`Directors renders correctly 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="py-5"
+        class="p-5"
       >
         <section>
           <h1
@@ -20,22 +20,187 @@ exports[`Directors renders correctly 1`] = `
             mockTranslate(DIRECTORS_DESCRIPTION)
           </p>
           <div
-            class="directors flex items-center justify-center flex-wrap gap-10 my-20"
+            class="directors flex items-center justify-center flex-wrap gap-10 my-20 pl-[95px] pr-[95px]"
           >
             <div
-              class=""
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
-                  alt="Ramesh Maturu"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
+                  alt="Rao K Bhethanabotla"
+                  class="w-full h-full object-cover"
                   src=""
-                  width="300"
                 />
               </div>
               <div
-                class="text-left self-start w-full px-6"
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/raobhethanabotla"
+                    target="_blank"
+                  >
+                    Rao K Bhethanabotla
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Founder, CEO, CTO, President
+                </h3>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Srividhya Gopalan"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/srividhyagopalan/"
+                    target="_blank"
+                  >
+                    Srividhya Gopalan
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director & Chief Financial Officer
+                </h3>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Naveen Sharma"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/nsharma2/"
+                    target="_blank"
+                  >
+                    Naveen Sharma
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director & Secretary
+                </h3>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Prabhakara Yellai"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/prabhakara-yellai/"
+                    target="_blank"
+                  >
+                    Prabhakara Yellai
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director
+                </h3>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Sharadha V Subramanian"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
+              >
+                <h2
+                  class="flex gap-2 mt-5"
+                >
+                  <a
+                    class="text-black font-bold text-xl"
+                    href="https://www.linkedin.com/in/sharadha/"
+                    target="_blank"
+                  >
+                    Sharadha V Subramanian
+                  </a>
+                </h2>
+                <h3
+                  class="flex gap-2"
+                >
+                  Director
+                </h3>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
+                <img
+                  alt="Ramesh Maturu"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="text-center w-full px-4 mt-4"
               >
                 <h2
                   class="flex gap-2 mt-5"
@@ -56,29 +221,29 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class=""
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
-                  alt="Rao Panuganti"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
+                  alt="Madhukar Govindaraju"
+                  class="w-full h-full object-cover"
                   src=""
-                  width="300"
                 />
               </div>
               <div
-                class="text-left self-start w-full px-6"
+                class="text-center w-full px-4 mt-4"
               >
                 <h2
                   class="flex gap-2 mt-5"
                 >
                   <a
                     class="text-black font-bold text-xl"
-                    href="https://www.linkedin.com/in/rao-panuganti-654443/"
+                    href="https://www.linkedin.com/in/madhukar/"
                     target="_blank"
                   >
-                    Rao Panuganti
+                    Madhukar Govindaraju
                   </a>
                 </h2>
                 <h3
@@ -89,68 +254,35 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class=""
+              class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
             >
-              <div>
+              <div
+                class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+              >
                 <img
-                  alt="Naveen Sharma"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
+                  alt="Sateesh Mucharla"
+                  class="w-full h-full object-cover"
                   src=""
-                  width="300"
                 />
               </div>
               <div
-                class="text-left self-start w-full px-6"
+                class="text-center w-full px-4 mt-4"
               >
                 <h2
                   class="flex gap-2 mt-5"
                 >
                   <a
                     class="text-black font-bold text-xl"
-                    href="https://www.linkedin.com/in/nsharma2/"
+                    href="https://www.linkedin.com/in/mucharla"
                     target="_blank"
                   >
-                    Naveen Sharma
+                    Sateesh Mucharla
                   </a>
                 </h2>
                 <h3
                   class="flex gap-2"
                 >
                   Director
-                </h3>
-              </div>
-            </div>
-            <div
-              class=""
-            >
-              <div>
-                <img
-                  alt="Rajeshwary Jaldu"
-                  class="rounded-2xl shadow-lg"
-                  height="400"
-                  src=""
-                  width="300"
-                />
-              </div>
-              <div
-                class="text-left self-start w-full px-6"
-              >
-                <h2
-                  class="flex gap-2 mt-5"
-                >
-                  <a
-                    class="text-black font-bold text-xl"
-                    href="https://www.linkedin.com/in/rajeshwary-jaldu/"
-                    target="_blank"
-                  >
-                    Rajeshwary Jaldu
-                  </a>
-                </h2>
-                <h3
-                  class="flex gap-2"
-                >
-                  Director & Treasurer
                 </h3>
               </div>
             </div>
@@ -158,23 +290,23 @@ exports[`Directors renders correctly 1`] = `
         </section>
         <section>
           <div
-            class="bg-gray-100 py-16 px-24"
+            class="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]"
           >
             <div
-              class="text-center max-w-3xl mx-auto mb-12"
+              class="text-center max-w-3xl mx-auto mb-12 px-4"
             >
               <h2
-                class="font-extrabold text-3xl mb-4"
+                class="font-extrabold text-2xl sm:text-3xl mb-4"
               >
                 mockTranslate(EXECUTIVE_TEAM)
               </h2>
               <p
-                class="text-gray-600 text-base leading-[0.5]"
+                class="text-gray-600 text-sm sm:text-base leading-relaxed mb-2"
               >
                 mockTranslate(EXECUTIVE_DESCRIPTION_1)
               </p>
               <p
-                class="text-gray-600 text-base leading-[0.5]"
+                class="text-gray-600 text-sm sm:text-base leading-relaxed"
               >
                 mockTranslate(EXECUTIVE_DESCRIPTION_2)
               </p>
@@ -189,20 +321,27 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Rao K Bhethanabotla"
+                    alt="Rashmi Bilaskar"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/42afdfb974265d5ede7e4b08aeff12e6a278dbec"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Rao K Bhethanabotla
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/rashmi-bilaskar"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Rashmi Bilaskar
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Founder, CEO, CTO, President
+                  Director of Engineering
                 </div>
               </div>
               <div
@@ -212,20 +351,27 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Rishita Rapuri"
+                    alt="Rishitha Rapuri"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/cd09abc1a5a391a8775f93bf52dc1c7bd3bde48c"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Rishita Rapuri
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Rishitha Rapuri
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Human Resources Manager
+                  Business Analyst Team Lead
                 </div>
               </div>
               <div
@@ -235,20 +381,27 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Rashmi"
+                    alt="Kavyasree Bommakanti"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/42134acaa608afdb1f30b2328f3ef05c63c7aee1"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Rashmi
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/kavyasree-b-b4941b299/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Kavyasree Bommakanti
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Lead Application Developer
+                  Program Manager | Business Analyst
                 </div>
               </div>
               <div
@@ -266,7 +419,14 @@ exports[`Directors renders correctly 1`] = `
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Sriram Mahankali
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/sriram-mahankali"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sriram Mahankali
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -281,15 +441,22 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Shubam"
+                    alt="Shubham Narkhede"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1155d03bc35b0497b2368237a95f6943836844a"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Shubam
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/shubhamnarkhede"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Shubham Narkhede
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -304,89 +471,27 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Aatish Kayyath"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2fa182bfa332d6844de8112c9d522f03b2c678f"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Aatish Kayyath
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  ------
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
                     alt="Divya Tanwar"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Divya Tanwar
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/divya-tanwar26/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Divya Tanwar
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  -----
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Kavyasree"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1f54ababf3e0deebac0fef1e47e682a9823e34e"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Kavyasree
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  Lead Project Manager
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Purva Patil"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/6b58758ef77efe32c301deac6f4f0c1f6abb8fce"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Purva Patil
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  Lead Product Manager
+                  Lead DevSecOps Engineer
                 </div>
               </div>
               <div
@@ -398,18 +503,25 @@ exports[`Directors renders correctly 1`] = `
                   <img
                     alt="Mohana Krishanan R."
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Mohana Krishanan R.
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/mohana-krishanan"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Mohana Krishanan R.
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  -----
+                  Senior Data Architect
                 </div>
               </div>
               <div
@@ -419,66 +531,27 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Rishab Ghosh"
+                    alt="Sugandha Agrawal"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/f0e403a7bcfa9d9be2f1c66f6fac4ca2218935ea"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Rishab Ghosh
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sugandha Agrawal
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  -----
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Sugandha Agarwal"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/bcb73fdde6f2bca35c1db86c6ecb36f58fcd4fae"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Sugandha Agarwal
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  -----
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Uma"
-                    class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6c938fe9f544ef0dacab7bd69eaca9a1a890fdb"
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  Uma
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  -----
+                  AI/ML Development Manager
                 </div>
               </div>
               <div
@@ -490,118 +563,28 @@ exports[`Directors renders correctly 1`] = `
                   <img
                     alt="Meghana Karri"
                     class="w-full h-full object-cover"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/091aca13a6e830ee2374f73b8d227506b2a90566"
+                    src=""
                   />
                 </div>
                 <div
                   class="font-semibold text-base mt-3 text-left pl-1"
                 >
-                  Meghana Karri
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/meghanakarri/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Meghana Karri
+                  </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  UX Lead
+                  Lead User Experience Designer
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-        <section
-          class="py-20"
-        >
-          <h1
-            class="text-center text-3xl font-bold text-black"
-          >
-            mockTranslate(ADVISORS)
-          </h1>
-          <p
-            class="text-center text-lg text-gray-600 my-4"
-          >
-            mockTranslate(ADVISORS_DESCRIPTION)
-          </p>
-          <div
-            class="flex items-center justify-center flex-wrap gap-10 my-20"
-          >
-            <div
-              class=""
-            >
-              <img
-                alt="Madhukar Govindaraju"
-                class="object-cover aspect-[2.5/3] rounded-xl"
-                src=""
-                width="250"
-              />
-              <div
-                class="text-left self-start"
-              >
-                <h2
-                  class="flex gap-2 mt-5"
-                >
-                  <a
-                    class="text-black font-bold text-xl"
-                    href="https://www.linkedin.com/in/madhukar/"
-                    target="_blank"
-                  >
-                    Madhukar Govindaraju
-                  </a>
-                </h2>
-                <h3
-                  class="flex gap-2"
-                >
-                  Advisor
-                </h3>
-              </div>
-            </div>
-            <div
-              class=""
-            >
-              <img
-                alt="Sateesh Mucharla"
-                class="object-cover aspect-[2.5/3] rounded-xl"
-                src=""
-                width="250"
-              />
-              <div
-                class="text-left self-start"
-              >
-                <h2
-                  class="flex gap-2 mt-5"
-                >
-                  <a
-                    class="text-black font-bold text-xl"
-                    href="https://www.linkedin.com/in/mucharla"
-                    target="_blank"
-                  >
-                    Sateesh Mucharla
-                  </a>
-                </h2>
-                <h3
-                  class="flex gap-2"
-                >
-                  Advisor
-                </h3>
-              </div>
-            </div>
-          </div>
-          <div
-            class="flex flex-col items-center"
-          >
-            <h1
-              class="text-center text-3xl font-bold text-black"
-            >
-              mockTranslate(Looking to join us?)
-            </h1>
-            <p
-              class="text-center text-lg text-gray-600 my-4"
-            >
-              mockTranslate(Chat with our community and get in touch with our team!)
-            </p>
-            <button
-              class="text-center bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-2 rounded-2xl"
-            >
-              Join the community
-            </button>
           </div>
         </section>
       </div>
@@ -609,7 +592,7 @@ exports[`Directors renders correctly 1`] = `
   </body>,
   "container": <div>
     <div
-      class="py-5"
+      class="p-5"
     >
       <section>
         <h1
@@ -623,22 +606,187 @@ exports[`Directors renders correctly 1`] = `
           mockTranslate(DIRECTORS_DESCRIPTION)
         </p>
         <div
-          class="directors flex items-center justify-center flex-wrap gap-10 my-20"
+          class="directors flex items-center justify-center flex-wrap gap-10 my-20 pl-[95px] pr-[95px]"
         >
           <div
-            class=""
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
-                alt="Ramesh Maturu"
-                class="rounded-2xl shadow-lg"
-                height="400"
+                alt="Rao K Bhethanabotla"
+                class="w-full h-full object-cover"
                 src=""
-                width="300"
               />
             </div>
             <div
-              class="text-left self-start w-full px-6"
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/raobhethanabotla"
+                  target="_blank"
+                >
+                  Rao K Bhethanabotla
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Founder, CEO, CTO, President
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Srividhya Gopalan"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/srividhyagopalan/"
+                  target="_blank"
+                >
+                  Srividhya Gopalan
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Director & Chief Financial Officer
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Naveen Sharma"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/nsharma2/"
+                  target="_blank"
+                >
+                  Naveen Sharma
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Director & Secretary
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Prabhakara Yellai"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/prabhakara-yellai/"
+                  target="_blank"
+                >
+                  Prabhakara Yellai
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Director
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Sharadha V Subramanian"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
+            >
+              <h2
+                class="flex gap-2 mt-5"
+              >
+                <a
+                  class="text-black font-bold text-xl"
+                  href="https://www.linkedin.com/in/sharadha/"
+                  target="_blank"
+                >
+                  Sharadha V Subramanian
+                </a>
+              </h2>
+              <h3
+                class="flex gap-2"
+              >
+                Director
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+          >
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
+              <img
+                alt="Ramesh Maturu"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="text-center w-full px-4 mt-4"
             >
               <h2
                 class="flex gap-2 mt-5"
@@ -659,29 +807,29 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class=""
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
-                alt="Rao Panuganti"
-                class="rounded-2xl shadow-lg"
-                height="400"
+                alt="Madhukar Govindaraju"
+                class="w-full h-full object-cover"
                 src=""
-                width="300"
               />
             </div>
             <div
-              class="text-left self-start w-full px-6"
+              class="text-center w-full px-4 mt-4"
             >
               <h2
                 class="flex gap-2 mt-5"
               >
                 <a
                   class="text-black font-bold text-xl"
-                  href="https://www.linkedin.com/in/rao-panuganti-654443/"
+                  href="https://www.linkedin.com/in/madhukar/"
                   target="_blank"
                 >
-                  Rao Panuganti
+                  Madhukar Govindaraju
                 </a>
               </h2>
               <h3
@@ -692,68 +840,35 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class=""
+            class="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
           >
-            <div>
+            <div
+              class="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg"
+            >
               <img
-                alt="Naveen Sharma"
-                class="rounded-2xl shadow-lg"
-                height="400"
+                alt="Sateesh Mucharla"
+                class="w-full h-full object-cover"
                 src=""
-                width="300"
               />
             </div>
             <div
-              class="text-left self-start w-full px-6"
+              class="text-center w-full px-4 mt-4"
             >
               <h2
                 class="flex gap-2 mt-5"
               >
                 <a
                   class="text-black font-bold text-xl"
-                  href="https://www.linkedin.com/in/nsharma2/"
+                  href="https://www.linkedin.com/in/mucharla"
                   target="_blank"
                 >
-                  Naveen Sharma
+                  Sateesh Mucharla
                 </a>
               </h2>
               <h3
                 class="flex gap-2"
               >
                 Director
-              </h3>
-            </div>
-          </div>
-          <div
-            class=""
-          >
-            <div>
-              <img
-                alt="Rajeshwary Jaldu"
-                class="rounded-2xl shadow-lg"
-                height="400"
-                src=""
-                width="300"
-              />
-            </div>
-            <div
-              class="text-left self-start w-full px-6"
-            >
-              <h2
-                class="flex gap-2 mt-5"
-              >
-                <a
-                  class="text-black font-bold text-xl"
-                  href="https://www.linkedin.com/in/rajeshwary-jaldu/"
-                  target="_blank"
-                >
-                  Rajeshwary Jaldu
-                </a>
-              </h2>
-              <h3
-                class="flex gap-2"
-              >
-                Director & Treasurer
               </h3>
             </div>
           </div>
@@ -761,23 +876,23 @@ exports[`Directors renders correctly 1`] = `
       </section>
       <section>
         <div
-          class="bg-gray-100 py-16 px-24"
+          class="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]"
         >
           <div
-            class="text-center max-w-3xl mx-auto mb-12"
+            class="text-center max-w-3xl mx-auto mb-12 px-4"
           >
             <h2
-              class="font-extrabold text-3xl mb-4"
+              class="font-extrabold text-2xl sm:text-3xl mb-4"
             >
               mockTranslate(EXECUTIVE_TEAM)
             </h2>
             <p
-              class="text-gray-600 text-base leading-[0.5]"
+              class="text-gray-600 text-sm sm:text-base leading-relaxed mb-2"
             >
               mockTranslate(EXECUTIVE_DESCRIPTION_1)
             </p>
             <p
-              class="text-gray-600 text-base leading-[0.5]"
+              class="text-gray-600 text-sm sm:text-base leading-relaxed"
             >
               mockTranslate(EXECUTIVE_DESCRIPTION_2)
             </p>
@@ -792,20 +907,27 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Rao K Bhethanabotla"
+                  alt="Rashmi Bilaskar"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/42afdfb974265d5ede7e4b08aeff12e6a278dbec"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Rao K Bhethanabotla
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/rashmi-bilaskar"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Rashmi Bilaskar
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Founder, CEO, CTO, President
+                Director of Engineering
               </div>
             </div>
             <div
@@ -815,20 +937,27 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Rishita Rapuri"
+                  alt="Rishitha Rapuri"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/cd09abc1a5a391a8775f93bf52dc1c7bd3bde48c"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Rishita Rapuri
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Rishitha Rapuri
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Human Resources Manager
+                Business Analyst Team Lead
               </div>
             </div>
             <div
@@ -838,20 +967,27 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Rashmi"
+                  alt="Kavyasree Bommakanti"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/42134acaa608afdb1f30b2328f3ef05c63c7aee1"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Rashmi
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/kavyasree-b-b4941b299/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Kavyasree Bommakanti
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Lead Application Developer
+                Program Manager | Business Analyst
               </div>
             </div>
             <div
@@ -869,7 +1005,14 @@ exports[`Directors renders correctly 1`] = `
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Sriram Mahankali
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/sriram-mahankali"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sriram Mahankali
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -884,15 +1027,22 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Shubam"
+                  alt="Shubham Narkhede"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1155d03bc35b0497b2368237a95f6943836844a"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Shubam
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/shubhamnarkhede"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Shubham Narkhede
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
@@ -907,89 +1057,27 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Aatish Kayyath"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2fa182bfa332d6844de8112c9d522f03b2c678f"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Aatish Kayyath
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                ------
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
                   alt="Divya Tanwar"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Divya Tanwar
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/divya-tanwar26/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Divya Tanwar
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                -----
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Kavyasree"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1f54ababf3e0deebac0fef1e47e682a9823e34e"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Kavyasree
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                Lead Project Manager
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Purva Patil"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/6b58758ef77efe32c301deac6f4f0c1f6abb8fce"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Purva Patil
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                Lead Product Manager
+                Lead DevSecOps Engineer
               </div>
             </div>
             <div
@@ -1001,18 +1089,25 @@ exports[`Directors renders correctly 1`] = `
                 <img
                   alt="Mohana Krishanan R."
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Mohana Krishanan R.
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/mohana-krishanan"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Mohana Krishanan R.
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                -----
+                Senior Data Architect
               </div>
             </div>
             <div
@@ -1022,66 +1117,27 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Rishab Ghosh"
+                  alt="Sugandha Agrawal"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/f0e403a7bcfa9d9be2f1c66f6fac4ca2218935ea"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Rishab Ghosh
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sugandha Agrawal
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                -----
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Sugandha Agarwal"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/bcb73fdde6f2bca35c1db86c6ecb36f58fcd4fae"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Sugandha Agarwal
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                -----
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Uma"
-                  class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6c938fe9f544ef0dacab7bd69eaca9a1a890fdb"
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                Uma
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                -----
+                AI/ML Development Manager
               </div>
             </div>
             <div
@@ -1093,118 +1149,28 @@ exports[`Directors renders correctly 1`] = `
                 <img
                   alt="Meghana Karri"
                   class="w-full h-full object-cover"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/091aca13a6e830ee2374f73b8d227506b2a90566"
+                  src=""
                 />
               </div>
               <div
                 class="font-semibold text-base mt-3 text-left pl-1"
               >
-                Meghana Karri
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/meghanakarri/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Meghana Karri
+                </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                UX Lead
+                Lead User Experience Designer
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section
-        class="py-20"
-      >
-        <h1
-          class="text-center text-3xl font-bold text-black"
-        >
-          mockTranslate(ADVISORS)
-        </h1>
-        <p
-          class="text-center text-lg text-gray-600 my-4"
-        >
-          mockTranslate(ADVISORS_DESCRIPTION)
-        </p>
-        <div
-          class="flex items-center justify-center flex-wrap gap-10 my-20"
-        >
-          <div
-            class=""
-          >
-            <img
-              alt="Madhukar Govindaraju"
-              class="object-cover aspect-[2.5/3] rounded-xl"
-              src=""
-              width="250"
-            />
-            <div
-              class="text-left self-start"
-            >
-              <h2
-                class="flex gap-2 mt-5"
-              >
-                <a
-                  class="text-black font-bold text-xl"
-                  href="https://www.linkedin.com/in/madhukar/"
-                  target="_blank"
-                >
-                  Madhukar Govindaraju
-                </a>
-              </h2>
-              <h3
-                class="flex gap-2"
-              >
-                Advisor
-              </h3>
-            </div>
-          </div>
-          <div
-            class=""
-          >
-            <img
-              alt="Sateesh Mucharla"
-              class="object-cover aspect-[2.5/3] rounded-xl"
-              src=""
-              width="250"
-            />
-            <div
-              class="text-left self-start"
-            >
-              <h2
-                class="flex gap-2 mt-5"
-              >
-                <a
-                  class="text-black font-bold text-xl"
-                  href="https://www.linkedin.com/in/mucharla"
-                  target="_blank"
-                >
-                  Sateesh Mucharla
-                </a>
-              </h2>
-              <h3
-                class="flex gap-2"
-              >
-                Advisor
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div
-          class="flex flex-col items-center"
-        >
-          <h1
-            class="text-center text-3xl font-bold text-black"
-          >
-            mockTranslate(Looking to join us?)
-          </h1>
-          <p
-            class="text-center text-lg text-gray-600 my-4"
-          >
-            mockTranslate(Chat with our community and get in touch with our team!)
-          </p>
-          <button
-            class="text-center bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-2 rounded-2xl"
-          >
-            Join the community
-          </button>
         </div>
       </section>
     </div>

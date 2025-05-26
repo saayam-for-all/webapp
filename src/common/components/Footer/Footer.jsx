@@ -1,8 +1,10 @@
 import React from "react";
 import "./Footer.css";
-import logo from "../../../assets/saayam-logo-footer-transparent.png";
+import logo from "../../../assets/logo.svg";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -15,16 +17,20 @@ export default function Footer() {
             </div>
 
             <nav className="footer-nav" aria-label="Footer navigation">
-              <a href="#">Home</a>
-              <a href="#">About Us</a>
-              <a href="#">Mission &amp; Vision</a>
-              <a href="#">Our Team</a>
-              <a href="#">What We Offer</a>
-              <a href="#">Donate</a>
+              <a href="/">{t("HOME")}</a>
+              <a href="/our-mission">{t("ABOUT")}</a>
+              <a href="#">
+                {t("MISSION")} &amp; {t("VISION")}
+              </a>
+              <a href="/our-team">{t("OUR_TEAM")}</a>
+              <a href="/how-we-operate">{t("How We Operate")}</a>
+              <a href="/donate">{t("DONATE")}</a>
             </nav>
 
             <div className="footer-contact">
-              <button type="button">Contact Us</button>
+              <a href="/contact">
+                <button type="button">{t("CONTACT")}</button>
+              </a>
             </div>
           </div>
           {/* Divider exactly under that row */}
@@ -35,16 +41,12 @@ export default function Footer() {
         {/* 2) Bottom grid: copyright + links */}
         <div className="footer-bottom-grid">
           <div className="footer-copy">
-            © 2025 Saayam For All. All rights reserved.
+            Copyright © 2025 Saayam For All. All rights reserved.
           </div>
-          <div className="footer-link-cell">
-            <a href="#">Site Map</a>
-          </div>
-          <div className="footer-link-cell">
-            <a href="#">Terms and Conditions</a>
-          </div>
-          <div className="footer-link-cell">
-            <a href="#">Privacy Policy</a>
+          <div className="footer-links">
+            <a href="/sitemap">{t("SITE_MAP")}</a>
+            <a href="#">{t("TERMS_AND_CONDITIONS")}</a>
+            <a href="#">{t("PRIVACY_POLICY")}</a>
           </div>
         </div>
         {/* /.footer-bottom-grid */}

@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
-import HeroSection from "./HeroSection";
+import NewsOurStories from "./NewsOurStories";
 
-describe("HeroSection", () => {
+describe("NewsOurStories", () => {
   it("renders correctly", () => {
-    const tree = render(<HeroSection />);
+    const tree = render(<NewsOurStories />);
     expect(tree).toMatchSnapshot();
   });
 });

@@ -1,64 +1,98 @@
 import { useTranslation } from "react-i18next";
 
 import "./Directors.css";
-
-import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
-import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
-import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
-import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
 import RaoImg from "../../assets/images/Rao.jpeg";
+import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
+// import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
+import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
+// import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
+import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
+import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
+import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
+
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
 import { useNavigate } from "react-router-dom";
 import ExecutiveTeam from "./Executives/executiveTeam";
 
 const DirectorsData = [
-  // {
-  //   name: "Rao K Bhethanabotla",
-  //   role: "Founder, CEO, CTO, President",
-  //   linkedin: "https://www.linkedin.com/in/raobhethanabotla",
-  //   image: RaoImg,
-  // },
+  {
+    image: RaoImg,
+    name: "Rao K Bhethanabotla",
+    role: "Founder, CEO, CTO, President",
+    linkedin: "https://www.linkedin.com/in/raobhethanabotla",
+  },
+  {
+    name: "Srividhya Gopalan",
+    role: "Director & Chief Financial Officer",
+    linkedin: "https://www.linkedin.com/in/srividhyagopalan/",
+    image: SrividhyaImg,
+  },
+  {
+    name: "Naveen Sharma",
+    role: "Director & Secretary",
+    linkedin: "https://www.linkedin.com/in/nsharma2/",
+    image: NaveenIMG,
+  },
+  {
+    name: "Prabhakara Yellai",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/prabhakara-yellai/",
+    image: PrabhakarImg,
+  },
+  {
+    name: "Sharadha V Subramanian",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/sharadha/",
+    image: SharadhaImg,
+  },
   {
     name: "Ramesh Maturu",
     role: "Director",
     linkedin: "https://www.linkedin.com/in/rameshmaturu/",
     image: RameshImg,
   },
-  {
-    name: "Rao Panuganti",
-    role: "Director",
-    linkedin: "https://www.linkedin.com/in/rao-panuganti-654443/",
-    image: RaoPanugantiImg,
-  },
-  {
-    name: "Naveen Sharma",
-    role: "Director",
-    linkedin: "https://www.linkedin.com/in/nsharma2/",
-    image: NaveenIMG,
-  },
-  {
-    name: "Rajeshwary Jaldu",
-    role: "Director & Treasurer",
-    linkedin: "https://www.linkedin.com/in/rajeshwary-jaldu/",
-    image: RajeshwaryImg,
-  },
-];
+  // {
+  //   name: "Rao Panuganti",
+  //   role: "Director",
+  //   linkedin: "https://www.linkedin.com/in/rao-panuganti-654443/",
+  //   image: RaoPanugantiImg,
+  // },
 
-const advisorsData = [
+  // {
+  //   name: "Rajeshwary Jaldu",
+  //   role: "Director & Treasurer",
+  //   linkedin: "https://www.linkedin.com/in/rajeshwary-jaldu/",
+  //   image: RajeshwaryImg,
+  // },
   {
     name: "Madhukar Govindaraju",
-    role: "Advisor",
+    role: "Director",
     linkedin: "https://www.linkedin.com/in/madhukar/",
-    imgUrl: MadhukarImg,
+    image: MadhukarImg,
   },
   {
     name: "Sateesh Mucharla",
-    role: "Advisor",
+    role: "Director",
     linkedin: "https://www.linkedin.com/in/mucharla",
-    imgUrl: SateeshImg,
+    image: SateeshImg,
   },
 ];
+
+// const advisorsData = [
+//   {
+//     name: "Madhukar Govindaraju",
+//     role: "Advisor",
+//     linkedin: "https://www.linkedin.com/in/madhukar/",
+//     imgUrl: MadhukarImg,
+//   },
+//   {
+//     name: "Sateesh Mucharla",
+//     role: "Advisor",
+//     linkedin: "https://www.linkedin.com/in/mucharla",
+//     imgUrl: SateeshImg,
+//   },
+// ];
 
 const Directors = () => {
   const { t } = useTranslation();
@@ -68,7 +102,7 @@ const Directors = () => {
     navigate("/contact");
   };
   return (
-    <div className="py-5">
+    <div className="p-5">
       <section>
         <h1 className="text-center text-3xl font-bold text-black">
           {t("DIRECTORS")}
@@ -77,23 +111,21 @@ const Directors = () => {
           {t("DIRECTORS_DESCRIPTION")}
         </p>
 
-        <div className="directors flex items-center justify-center flex-wrap gap-10 my-20">
+        <div className="directors flex items-center justify-center flex-wrap gap-10 my-20 pl-[95px] pr-[95px]">
           {DirectorsData.map((director, index) => (
-            <div key={index} className="">
-              <div>
+            <div
+              key={index}
+              className="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+            >
+              <div className="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg">
                 <img
                   src={director.image}
                   alt={director.name}
-                  width={300}
-                  height={400}
-                  style={{
-                    aspectRatio: "3/3",
-                  }}
-                  className="rounded-2xl shadow-lg"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
-              <div className="text-left self-start w-full px-6">
+              <div className="text-center w-full px-4 mt-4">
                 <h2 className="flex gap-2 mt-5">
                   <a
                     href={director.linkedin}
@@ -112,7 +144,7 @@ const Directors = () => {
       <section>
         <ExecutiveTeam />
       </section>
-      <section className="py-20">
+      {/* <section className="py-20">
         <h1 className="text-center text-3xl font-bold text-black">
           {t("ADVISORS")}
         </h1>
@@ -143,21 +175,7 @@ const Directors = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col items-center">
-          <h1 className="text-center text-3xl font-bold text-black">
-            {t("Looking to join us?")}
-          </h1>
-          <p className="text-center text-lg text-gray-600 my-4">
-            {t("Chat with our community and get in touch with our team!")}
-          </p>
-          <button
-            className="text-center bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-2 rounded-2xl"
-            onClick={btnOnClick}
-          >
-            Join the community
-          </button>
-        </div>
-      </section>
+      </section> */}
     </div>
   );
 };

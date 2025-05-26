@@ -30,44 +30,50 @@ exports[`Footer renders correctly 1`] = `
                 class="footer-nav"
               >
                 <a
-                  href="#"
+                  href="/"
                 >
-                  Home
+                  mockTranslate(HOME)
+                </a>
+                <a
+                  href="/our-mission"
+                >
+                  mockTranslate(ABOUT)
                 </a>
                 <a
                   href="#"
                 >
-                  About Us
+                  mockTranslate(MISSION)
+                   & 
+                  mockTranslate(VISION)
                 </a>
                 <a
-                  href="#"
+                  href="/our-team"
                 >
-                  Mission & Vision
+                  mockTranslate(OUR_TEAM)
                 </a>
                 <a
-                  href="#"
+                  href="/how-we-operate"
                 >
-                  Our Team
+                  mockTranslate(How We Operate)
                 </a>
                 <a
-                  href="#"
+                  href="/donate"
                 >
-                  What We Offer
-                </a>
-                <a
-                  href="#"
-                >
-                  Donate
+                  mockTranslate(DONATE)
                 </a>
               </nav>
               <div
                 class="footer-contact"
               >
-                <button
-                  type="button"
+                <a
+                  href="/contact"
                 >
-                  Contact Us
-                </button>
+                  <button
+                    type="button"
+                  >
+                    mockTranslate(CONTACT)
+                  </button>
+                </a>
               </div>
             </div>
             <hr
@@ -80,33 +86,25 @@ exports[`Footer renders correctly 1`] = `
             <div
               class="footer-copy"
             >
-              © 2025 Saayam For All. All rights reserved.
+              Copyright © 2025 Saayam For All. All rights reserved.
             </div>
             <div
-              class="footer-link-cell"
+              class="footer-links"
             >
               <a
-                href="#"
+                href="/sitemap"
               >
-                Site Map
+                mockTranslate(SITE_MAP)
               </a>
-            </div>
-            <div
-              class="footer-link-cell"
-            >
               <a
                 href="#"
               >
-                Terms and Conditions
+                mockTranslate(TERMS_AND_CONDITIONS)
               </a>
-            </div>
-            <div
-              class="footer-link-cell"
-            >
               <a
                 href="#"
               >
-                Privacy Policy
+                mockTranslate(PRIVACY_POLICY)
               </a>
             </div>
           </div>
@@ -140,44 +138,50 @@ exports[`Footer renders correctly 1`] = `
               class="footer-nav"
             >
               <a
-                href="#"
+                href="/"
               >
-                Home
+                mockTranslate(HOME)
+              </a>
+              <a
+                href="/our-mission"
+              >
+                mockTranslate(ABOUT)
               </a>
               <a
                 href="#"
               >
-                About Us
+                mockTranslate(MISSION)
+                 & 
+                mockTranslate(VISION)
               </a>
               <a
-                href="#"
+                href="/our-team"
               >
-                Mission & Vision
+                mockTranslate(OUR_TEAM)
               </a>
               <a
-                href="#"
+                href="/how-we-operate"
               >
-                Our Team
+                mockTranslate(How We Operate)
               </a>
               <a
-                href="#"
+                href="/donate"
               >
-                What We Offer
-              </a>
-              <a
-                href="#"
-              >
-                Donate
+                mockTranslate(DONATE)
               </a>
             </nav>
             <div
               class="footer-contact"
             >
-              <button
-                type="button"
+              <a
+                href="/contact"
               >
-                Contact Us
-              </button>
+                <button
+                  type="button"
+                >
+                  mockTranslate(CONTACT)
+                </button>
+              </a>
             </div>
           </div>
           <hr
@@ -190,33 +194,25 @@ exports[`Footer renders correctly 1`] = `
           <div
             class="footer-copy"
           >
-            © 2025 Saayam For All. All rights reserved.
+            Copyright © 2025 Saayam For All. All rights reserved.
           </div>
           <div
-            class="footer-link-cell"
+            class="footer-links"
           >
             <a
-              href="#"
+              href="/sitemap"
             >
-              Site Map
+              mockTranslate(SITE_MAP)
             </a>
-          </div>
-          <div
-            class="footer-link-cell"
-          >
             <a
               href="#"
             >
-              Terms and Conditions
+              mockTranslate(TERMS_AND_CONDITIONS)
             </a>
-          </div>
-          <div
-            class="footer-link-cell"
-          >
             <a
               href="#"
             >
-              Privacy Policy
+              mockTranslate(PRIVACY_POLICY)
             </a>
           </div>
         </div>
