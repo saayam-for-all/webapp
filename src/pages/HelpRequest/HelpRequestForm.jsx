@@ -411,7 +411,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               <select
                 id="self"
                 data-testid="dropdown"
-                className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                 onChange={(e) => setSelfFlag(e.target.value === "yes")}
                 disabled
               >
@@ -461,7 +461,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   name="lead_volunteer"
                   value={formData.lead_volunteer}
                   onChange={handleChange}
-                  className="border p-2 w-full rounded-lg text-gray-700"
+                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                 >
                   <option value="No">{t("No")}</option>
                   <option value="Yes">{t("Yes")}</option>
@@ -698,7 +698,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
               <select
                 id="requestType"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
+                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                 value={formData.request_type || "Remote"}
                 onChange={(e) =>
                   setFormData({ ...formData, request_type: e.target.value })
@@ -713,7 +713,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               <div>
                 <label
                   htmlFor="location"
-                  className="block mb-1 font-medium text-gray-700"
+                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                 >
                   Location
                 </label>
@@ -758,7 +758,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
               <select
                 id="requestPriority"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
+                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                 value={formData.priority || "MEDIUM"}
                 onChange={(e) =>
                   setFormData({ ...formData, priority: e.target.value })
