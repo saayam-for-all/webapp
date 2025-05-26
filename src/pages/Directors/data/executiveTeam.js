@@ -1,4 +1,3 @@
-import RaoImg from "../../../assets/images/Rao.jpeg";
 import Rishita_Rapuri from "../../../assets/images/Rishitha Rapuri.jpg";
 import Rashmi_Bilaskar from "../../../assets/images/Rashmi Bilaskar.jpeg";
 import Shubham_Narkhede from "../../../assets/images/Shubham Narkhede.jpg";
@@ -6,27 +5,28 @@ import Kavyasree_Bommakanti from "../../../assets/images/Kavyasree Bommakanti.jp
 import Meghana_Karri from "../../../assets/images/Meghana Karri.jpeg";
 import Sunandha_agarwal from "../../../assets/images/Sunandha_agarwal.jpg";
 import Mohanakrishnan from "../../../assets/images/Mohanakrishnan.jpg";
+import Divya_Tanwar from "../../../assets/images/Divya Tanwar.jpg";
 
 const ExecutiveTeamData = [
   {
-    image: RaoImg,
-    name: "Rao K Bhethanabotla",
-    role: "Founder, CEO, CTO, President",
-    linkedin: "https://www.linkedin.com/in/raobhethanabotla",
+    image: Rashmi_Bilaskar,
+    name: "Rashmi Bilaskar",
+    role: "Director of Engineering",
+    linkedin: "https://www.linkedin.com/in/rashmi-bilaskar",
   },
+
   {
     image: Rishita_Rapuri,
-    name: "Rishita Rapuri",
+    name: "Rishitha Rapuri",
     role: "Business Analyst Team Lead",
     linkedin: "https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/",
   },
   {
-    image: Rashmi_Bilaskar,
-    name: "Rashmi Bilaskar",
-    role: "Team Lead - Webapp and Mobile App Engineering",
-    linkedin: "https://www.linkedin.com/in/rashmi-bilaskar",
+    image: Kavyasree_Bommakanti,
+    name: "Kavyasree Bommakanti",
+    role: "Program Manager | Business Analyst",
+    linkedin: "https://www.linkedin.com/in/kavyasree-b-b4941b299/",
   },
-
   {
     image:
       "https://cdn.builder.io/api/v1/image/assets/TEMP/8f181836a0df98180bc82bea522f96509eea4a8d",
@@ -47,18 +47,14 @@ const ExecutiveTeamData = [
   //   linkedin: "https://www.linkedin.com/in/aatish-kayyath"
   // },
   {
-    image:
-      "https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38",
+    // image:
+    //   "https://cdn.builder.io/api/v1/image/assets/TEMP/ce8a2aa126df5bac3884b96f7fe05a41fba85b38",
+    image: Divya_Tanwar,
     name: "Divya Tanwar",
-    role: "-----",
-    linkedin: "https://www.linkedin.com/in/divya-tanwar",
+    role: "Lead DevSecOps Engineer",
+    linkedin: "https://www.linkedin.com/in/divya-tanwar26/",
   },
-  {
-    image: Kavyasree_Bommakanti,
-    name: "Kavyasree Bommakanti",
-    role: "Program Manager | Business Analyst",
-    linkedin: "https://www.linkedin.com/in/kavyasree-b-b4941b299/",
-  },
+
   // {
   //   image: "https://cdn.builder.io/api/v1/image/assets/TEMP/6b58758ef77efe32c301deac6f4f0c1f6abb8fce",
   //   name: "Purva Patil",
@@ -80,7 +76,7 @@ const ExecutiveTeamData = [
   // },
   {
     image: Sunandha_agarwal,
-    name: "Sugandha Agarwal",
+    name: "Sugandha Agrawal",
     role: "AI/ML Development Manager",
     linkedin:
       "https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details",

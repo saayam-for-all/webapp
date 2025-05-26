@@ -302,6 +302,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               </div>
             </div>
           </div>
+
           {isEditing ? (
             <>
               <DatePicker

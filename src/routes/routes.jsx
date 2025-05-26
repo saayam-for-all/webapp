@@ -12,7 +12,7 @@ import VerifyAccountPage from "../pages/ForgotPasswordPage/VerifyAccountPage";
 import HelpRequestForm from "../pages/HelpRequest/HelpRequestForm";
 import HowWeOperate from "../pages/How We Operate/HowWeOperate";
 import LandingPage from "../pages/LandingPage/LandingPage";
-import Mission from "../pages/Mission/Mission";
+// import Mission from "../pages/Mission/Mission";
 import NewsOurStories from "../pages/NewsOurStories/NewsOurStories";
 import Notifications from "../pages/Notifications/Notifications";
 import Profile from "../pages/Profile/Profile";
@@ -20,7 +20,7 @@ import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
 import RequestDetails from "../pages/RequestDetails/RequestDetails";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
 import Sitemap from "../pages/Sitemap/Sitemap";
-import Vision from "../pages/Vision/Vision";
+// import Vision from "../pages/Vision/Vision";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -45,14 +45,14 @@ const routes = [
     path: "collaborators",
     element: <Collaborators />,
   },
-  {
-    path: "mission",
-    element: <Mission />,
-  },
-  {
-    path: "vision",
-    element: <Vision />,
-  },
+  // {
+  //   path: "mission",
+  //   element: <Mission />,
+  // },
+  // {
+  //   path: "vision",
+  //   element: <Vision />,
+  // },
   {
     path: "contact",
     element: <ContactUs />,

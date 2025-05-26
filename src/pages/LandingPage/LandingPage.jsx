@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import banner from "../../assets/landingPageImages/bannerImage.jpg";
+import bannerImageOne from "../../assets/landingPageImages/bannerImageOne.jpg";
+import bannerImageThree from "../../assets/landingPageImages/bannerImageThree.jpg";
+import bannerImageTwo from "../../assets/landingPageImages/bannerImageTwo.jpg";
+import bottomFour from "../../assets/landingPageImages/bottomFour.jpg";
 import bottomOne from "../../assets/landingPageImages/bottomOne.jpg";
 import bottomThree from "../../assets/landingPageImages/bottomThree.jpg";
 import bottomTwo from "../../assets/landingPageImages/bottomTwo.jpg";
@@ -21,7 +24,7 @@ import Carousel from "./components/Carousel";
 export default function Home() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const videoId = "9CBLVoSSuwM";
+  const videoId = "zupN0-zXrLQ";
 
   useEffect(() => {
     if (user !== null) {
@@ -31,31 +34,64 @@ export default function Home() {
 
   return (
     <div className="w-full overflow-hidden">
-      {/* Hero Section */}
-      <div className="landing-banner-container flex flex-row p-5 justify-between">
-        <div className="w-1/2 h-full flex flex-row justify-center">
-          <div className="w-3/4 h-full flex flex-col gap-10">
-            <div className="text-lg text-gray-400">
-              Real help. Real people. Right when you need it.
-            </div>
-            <h1 className="font-bold text-6xl tracking-wide">
-              Here to help or hoping for help?
-            </h1>
-            <div className="text-lg text-gray-500">
-              At Saayam for All, your support can make a real difference today.
-            </div>
-            <button className="join-btn" onClick={() => navigate("/contact")}>
-              Join the community
-            </button>
+      <div className="w-full">
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="text-sm md:text-lg text-gray-400 mb-[50px] mt-[20px]">
+            Real help. Real people. Right when you need it.
+          </div>
+          <h1 className="font-bold text-4xl md:text-6xl tracking-wide mb-[50px]">
+            Need help? Here to help?
+          </h1>
+          <div className="w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center">
+            At Saayam for All, your support can make a real difference today.
           </div>
         </div>
-        <div className="w-1/2 h-full flex flex-col justify-center items-center">
-          <img src={banner} className="w-4/5"></img>
+      </div>
+      <div className="w-full flex flex-row justify-center  ">
+        <div className="w-[22%] h-[50%] flex flex-col justify-center items-center">
+          <img
+            src={bannerImageOne}
+            className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+          />
+          <h3 className="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+            "Sarve jana sukhino bhavantu"
+          </h3>
+          <div className="text-sm md:text-lg text-gray-400 text-center">
+            May all live happily.
+          </div>
+        </div>
+        <div className="w-[33%] h-full flex flex-col justify-center items-center">
+          <img
+            src={bannerImageTwo}
+            className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+          />
+          <h3 className="font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+            "j&ntilde;&#257;nam vardhati sanchay&#257;t"
+          </h3>
+          <div className="text-sm md:text-lg text-gray-400 text-center">
+            Sharing knowledge expands one's own understanding and the knowledge
+            of others.
+          </div>
+        </div>
+        <div className="w-[22%] h-full flex flex-col justify-center items-center">
+          <img
+            src={bannerImageThree}
+            className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+          />
+          <h3 className="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+            "Manava sevaye Madhava seva"
+          </h3>
+          <div className="text-sm md:text-lg text-gray-400 text-center w-2/3">
+            Service to mankind is Service to God.
+          </div>
         </div>
       </div>
+
       <Carousel />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[50px]">
-        <h3 className="font-bold text-4xl mb-[40px]">Our Collaborators</h3>
+        <h3 className="font-bold text-3xl md:text-4xl mb-[40px]">
+          Our Collaborators
+        </h3>
 
         <div className="w-full flex flex-row overflow-hidden">
           <div className="scroll imgBox">
@@ -78,154 +114,112 @@ export default function Home() {
               <img src={collabSeven} className="w-[125px]"></img>
             </div>
           </div>
-          {/* <div className="landing-colab-scroll">
-            <img src={collabOne} className="w-[100px] h-fit"></img>
-            <img src={collabTwo} className="w-[150px] h-fit"></img>
-            <img src={collabThree} className="w-[120px] h-fit"></img>
-            <img src={collabFour} className="w-[100px] h-fit"></img>
-            <img src={collabFive} className="w-[100px] h-fit"></img>
-            <img src={collabSix} className="w-[160px] h-fit"></img>
-            <img src={collabSeven} className="w-[70px] h-fit"></img>
-          </div>
-          <div className="landing-colab landing-colab-scroll-two">
-            <img src={collabOne} className="w-[100px] h-fit"></img>
-            <img src={collabTwo} className="w-[100px] h-fit"></img>
-            <img src={collabThree} className="w-[80px] h-fit"></img>
-            <img src={collabFour} className="w-[100px] h-fit"></img>
-            <img src={collabFive} className="w-[100px] h-fit"></img>
-            <img src={collabSix} className="w-[140px] h-fit"></img>
-            <img src={collabSeven} className="w-[70px] h-fit"></img>
-          </div> */}
         </div>
       </div>
-      {/* First Section */}
-      <div className="flex flex-row items-center bg-white h-80 mt-5 gap-10 mb-[100px]">
-        <div className="flex flex-col justify-start items-start w-3/5 p-10 h-full">
-          <h3 className="font-bold text-4xl h-1/3 w-3/4 mb-[30px]">
+
+      <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0">
+        <div className="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full">
+          <h3 className="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]">
             Creating a World Where Help is Always Within Reach
           </h3>
-          <p className="h-1/3 text-lg text-gray-500">
+          <p className="text-base md:text-lg text-gray-500 md:h-1/3">
             Through our global network of volunteers and donors, we empower
             communities to support one another, fostering a culture of
             compassion and solidarity that transcends geographical boundaries.
           </p>
           <button
-            className="mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline "
+            className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/our-mission")}
           >
             Our Mission &rarr;
           </button>
         </div>
-        <div className="flex flex-row w-2/5 h-full gap-5 overflow-hidden">
+        <div className="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center">
           <img
-            className="w-1/2 rounded-lg"
+            className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
             src={topOne}
             alt="A sunny day with two people looking at each other comfortingly"
           />
           <img
-            className="w-1/2 rounded-lg"
+            className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
             src={topTwo}
             alt="A joyful family stands in a lush field on a sunny day"
           />
         </div>
       </div>
 
-      <div className="flex flex-row items-center bg-white h-80 mt-5 gap-10 mb-[100px]">
-        <div className="flex flex-row w-1/2 h-full gap-5 overflow-hidden ml-5">
-          <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1&rel=0`}
-            title="YouTube Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;fullscreen"
-            className="landing-iframe"
-          ></iframe>
-        </div>
-        <div className="flex flex-col justify-start items-start w-1/2 p-10 h-full">
-          <h3 className="font-bold text-4xl h-1/3 w-2/3 pb-5">
+      <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0">
+        <div className="order-1 md:order-2 flex flex-col justify-start items-start w-full md:w-1/2 p-4 md:p-10 h-auto md:h-full">
+          <h3 className="font-bold text-2xl md:text-4xl w-full md:w-2/3 pb-4 md:pb-5">
             How We Operate
           </h3>
-          <p className="h-1/3 text-lg text-gray-500">
+          <p className="text-base md:text-lg text-gray-500">
             Watch our 5 minute video to understand how Saayam for All works and
             how we make a difference.
           </p>
           <button
-            className="mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+            className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/how-we-operate")}
           >
             Learn More &rarr;
           </button>
         </div>
+
+        {/* Video Section - Second on mobile, first on desktop */}
+        <div className="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1&rel=0`}
+            title="YouTube Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            className="landing-iframe "
+          ></iframe>
+        </div>
       </div>
 
-      {/* Community Section */}
-      <div className="flex flex-row mt-5 mb-[100px]">
-        <div className="w-1/3 flex flex-row justify-end mt-[75px] mr-2">
-          <div className="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden">
-            <img
-              src={bottomOne}
-              alt={"Red rescue jacket and cap with Red Cross logos"}
-              class="absolute w-full h-full object-cover"
-            />
-
-            <div class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-              <div class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2">
-                <p class="text-white text-lg font-bold text-center">
-                  Take help from our Volunteers
-                </p>
-              </div>
-            </div>
-          </div>
+      <div className="bg-gray-100 flex flex-col w-full items-center justify-center">
+        <h1 className="w-[60%] font-bold text-3xl md:text-4xl tracking-wide mb-[50px] mt-[50px] text-center">
+          One Platform. Many Ways to Contribute.
+        </h1>
+        <div className="w-[60%] text-sm md:text-lg text-black mb-[40px] text-center">
+          Learn about different roles in our ecosystem and how each one
+          contributes to creating an impact.
         </div>
-
-        <div className="flex flex-col w-2/3">
-          <div className="w-full h-fit flex flex-col pl-[200px]">
-            <h3 className="font-bold text-4xl h-1/3 w-2/3">
-              Discover Our Community
-            </h3>
-            <p className="text-lg text-gray-500 pb-4 pt-[30px] w-4/5">
-              Chat with our community and get in touch with different charity
-              organizations!
-            </p>
-            <button className="join-btn" onClick={() => navigate("/contact")}>
-              Join the community
-            </button>
-          </div>
-          <div className="flex flex-row h-3/4">
-            <div className="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden mt-[50px] mr-2">
-              <img
-                src={bottomTwo}
-                alt={
-                  "A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
-                }
-                class="absolute w-full h-full object-cover"
-              />
-
-              <div className="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                <div className="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2">
-                  <p className="text-white text-lg font-bold text-center">
-                    Planning and budgeting advice for travel
-                  </p>
-                </div>
+        <div className="w-[80%] flex flex-riw items-center justify-center gap-5 mb-[75px]">
+          {[bottomOne, bottomTwo, bottomThree, bottomFour].map((src, i) => (
+            <div
+              style={{
+                backgroundImage: `url(${src})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "25%",
+                height: "400px",
+                borderRadius: "10px",
+              }}
+            >
+              <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]">
+                <h3 className="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+                  {
+                    [
+                      "Beneficiaries",
+                      "Volunteers",
+                      "Voluntary Organizations",
+                      "Donors",
+                    ][i]
+                  }
+                </h3>
+                <h6 className="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center">
+                  {
+                    [
+                      "Recieve help for their requests",
+                      "Provide guidance and solutions to beneficiaries",
+                      "Offer necessary support to beneficiaries",
+                      "Provide financial assistance to voluntary organization",
+                    ][i]
+                  }
+                </h6>
               </div>
             </div>
-            <div className="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden mt-[175px]">
-              <img
-                src={bottomThree}
-                alt={
-                  "A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
-                }
-                class="absolute w-full h-full object-cover"
-              />
-
-              <div class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                <div class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2">
-                  <p class="text-white text-lg font-bold text-center">
-                    Woman hiking at sunset with a backpack and trekking poles,
-                    set against a mountainous landscape
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

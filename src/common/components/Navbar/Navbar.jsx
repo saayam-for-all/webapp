@@ -42,6 +42,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
 
   const { t } = useTranslation();
 
@@ -512,12 +513,12 @@ const Navbar = () => {
         )}
 
         {/* Mobile Menu Icon (visible only on mobile) */}
-        <div className="md:hidden mr-4">
+        <div className=" md:hidden mr-4">
           <IconButton
             color="inherit"
             edge="end"
             onClick={() => toggleDrawer(true)}
-            sx={{ display: { xs: "block", sm: "none" } }}
+            // sx={{ display: { xs: "block", sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -575,8 +576,8 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/our-team")}>
                   <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
                 </MenuItem>
-                <MenuItem onClick={(e) => handleDrawerClick(e, "/vision")}>
-                  <CrisisAlertIcon className="mr-2" /> {t("OUR_VISION_NAVBAR")}
+                <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
+                  <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
                 <MenuItem
                   onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
@@ -606,7 +607,7 @@ const Navbar = () => {
                     position: "absolute",
                     right: 0,
                     top: "40px",
-                    zIndex: 1300, // to appear above other elements
+                    zIndex: 1300,
                     maxWidth: "fit-content",
                   },
                 }}

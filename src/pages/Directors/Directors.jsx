@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
 
 import "./Directors.css";
-
+import RaoImg from "../../assets/images/Rao.jpeg";
 import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
-import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
+// import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
 import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
-import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
+// import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
 import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
 import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
 import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
@@ -16,38 +16,26 @@ import { useNavigate } from "react-router-dom";
 import ExecutiveTeam from "./Executives/executiveTeam";
 
 const DirectorsData = [
-  // {
-  //   name: "Rao K Bhethanabotla",
-  //   role: "Founder, CEO, CTO, President",
-  //   linkedin: "https://www.linkedin.com/in/raobhethanabotla",
-  //   image: RaoImg,
-  // },
   {
-    name: "Ramesh Maturu",
-    role: "Director",
-    linkedin: "https://www.linkedin.com/in/rameshmaturu/",
-    image: RameshImg,
+    image: RaoImg,
+    name: "Rao K Bhethanabotla",
+    role: "Founder, CEO, CTO, President",
+    linkedin: "https://www.linkedin.com/in/raobhethanabotla",
   },
   {
-    name: "Rao Panuganti",
-    role: "Director",
-    linkedin: "https://www.linkedin.com/in/rao-panuganti-654443/",
-    image: RaoPanugantiImg,
+    name: "Srividhya Gopalan",
+    role: "Director & Chief Financial Officer",
+    linkedin: "https://www.linkedin.com/in/srividhyagopalan/",
+    image: SrividhyaImg,
   },
   {
     name: "Naveen Sharma",
-    role: "Director",
+    role: "Director & Secretary",
     linkedin: "https://www.linkedin.com/in/nsharma2/",
     image: NaveenIMG,
   },
   {
-    name: "Rajeshwary Jaldu",
-    role: "Director & Treasurer",
-    linkedin: "https://www.linkedin.com/in/rajeshwary-jaldu/",
-    image: RajeshwaryImg,
-  },
-  {
-    name: "Prabhakar Yellai",
+    name: "Prabhakara Yellai",
     role: "Director",
     linkedin: "https://www.linkedin.com/in/prabhakara-yellai/",
     image: PrabhakarImg,
@@ -58,29 +46,53 @@ const DirectorsData = [
     linkedin: "https://www.linkedin.com/in/sharadha/",
     image: SharadhaImg,
   },
-
   {
-    name: "Srividhya Gopalan",
-    role: "Chief Financial Officer",
-    linkedin: "https://www.linkedin.com/in/srividhyagopalan/",
-    image: SrividhyaImg,
+    name: "Ramesh Maturu",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/rameshmaturu/",
+    image: RameshImg,
   },
-];
+  // {
+  //   name: "Rao Panuganti",
+  //   role: "Director",
+  //   linkedin: "https://www.linkedin.com/in/rao-panuganti-654443/",
+  //   image: RaoPanugantiImg,
+  // },
 
-const advisorsData = [
+  // {
+  //   name: "Rajeshwary Jaldu",
+  //   role: "Director & Treasurer",
+  //   linkedin: "https://www.linkedin.com/in/rajeshwary-jaldu/",
+  //   image: RajeshwaryImg,
+  // },
   {
     name: "Madhukar Govindaraju",
-    role: "Advisor",
+    role: "Director",
     linkedin: "https://www.linkedin.com/in/madhukar/",
-    imgUrl: MadhukarImg,
+    image: MadhukarImg,
   },
   {
     name: "Sateesh Mucharla",
-    role: "Advisor",
+    role: "Director",
     linkedin: "https://www.linkedin.com/in/mucharla",
-    imgUrl: SateeshImg,
+    image: SateeshImg,
   },
 ];
+
+// const advisorsData = [
+//   {
+//     name: "Madhukar Govindaraju",
+//     role: "Advisor",
+//     linkedin: "https://www.linkedin.com/in/madhukar/",
+//     imgUrl: MadhukarImg,
+//   },
+//   {
+//     name: "Sateesh Mucharla",
+//     role: "Advisor",
+//     linkedin: "https://www.linkedin.com/in/mucharla",
+//     imgUrl: SateeshImg,
+//   },
+// ];
 
 const Directors = () => {
   const { t } = useTranslation();
@@ -90,7 +102,7 @@ const Directors = () => {
     navigate("/contact");
   };
   return (
-    <div className="py-5">
+    <div className="p-5">
       <section>
         <h1 className="text-center text-3xl font-bold text-black">
           {t("DIRECTORS")}
@@ -99,7 +111,7 @@ const Directors = () => {
           {t("DIRECTORS_DESCRIPTION")}
         </p>
 
-        <div className="directors flex items-center justify-center flex-wrap gap-10 my-20">
+        <div className="directors flex items-center justify-center flex-wrap gap-10 my-20 pl-[95px] pr-[95px]">
           {DirectorsData.map((director, index) => (
             <div
               key={index}
@@ -132,7 +144,7 @@ const Directors = () => {
       <section>
         <ExecutiveTeam />
       </section>
-      <section className="py-20">
+      {/* <section className="py-20">
         <h1 className="text-center text-3xl font-bold text-black">
           {t("ADVISORS")}
         </h1>
@@ -163,21 +175,7 @@ const Directors = () => {
             </div>
           ))}
         </div>
-        {/* <div className="flex flex-col items-center">
-          <h1 className="text-center text-3xl font-bold text-black">
-            {t("Looking to join us?")}
-          </h1>
-          <p className="text-center text-lg text-gray-600 my-4">
-            {t("Chat with our community and get in touch with our team!")}
-          </p>
-          <button
-            className="text-center bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 my-2 rounded-2xl"
-            onClick={btnOnClick}
-          >
-            Join the community
-          </button>
-        </div> */}
-      </section>
+      </section> */}
     </div>
   );
 };

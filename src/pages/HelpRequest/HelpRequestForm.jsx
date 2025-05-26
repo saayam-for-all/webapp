@@ -21,6 +21,21 @@ import {
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  Typography,
+  MenuItem,
+  Select,
+  Snackbar,
+  Alert,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+} from "@mui/material";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -53,6 +68,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
+  const [categoryConfirmed, setCategoryConfirmed] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "info", // 'success', 'error', 'warning' also valid
+  });
 
   const { data, error, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
@@ -78,6 +99,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     description: "",
     priority: "MEDIUM",
   });
+
+  // useEffect(() => {
+  //   if (
+  //     formData.category === "General" &&
+  //     formData.subject.trim() !== "" &&
+  //     formData.description.trim() !== "" &&
+  //     !categoryConfirmed
+  //   ) {
+  //     fetchPredictedCategories();
+  //     setShowModal(true);
+  //   }
+  // }, [formData.subject, formData.description, formData.category]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -136,53 +169,60 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
 
       if (res.contains_profanity) {
-        toast.error(
-          "Profanity detected. Please remove these word(s) : " +
+        setSnackbar({
+          open: true,
+          message:
+            "Profanity detected. Please remove these word(s): " +
             res.profanity +
-            "  from Subject/Description and submit request again!",
-          {
-            position: "top-center", // You can customize the position
-            autoClose: 2000, // Toast auto-closes after 2 seconds
-            hideProgressBar: true, // Optional: Hide progress bar
-          },
-        );
-      } else {
-        // Proceed with submitting the request if no profanity is found
+            " from Subject/Description and submit again!",
+          severity: "error",
+        });
 
-        await fetchPredictedCategories();
-        if (formData.category == "General") {
-          setShowModal(true);
-        }
-        // const response = await axios.post(
-        //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-        //   submissionData,
+        // toast.error(
+        //   "Profanity detected. Please remove these word(s) : " +
+        //     res.profanity +
+        //     "  from Subject/Description and submit request again!",
         //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
+        //     position: "top-center", // You can customize the position
+        //     autoClose: 2000, // Toast auto-closes after 2 seconds
+        //     hideProgressBar: true, // Optional: Hide progress bar
+        //   },
         // );
-        else {
-          toast.success(
-            "Request submitted successfully! You will now be redirected to the dashboard.",
-            {
-              position: "top-center", // You can customize the position
-              autoClose: 2000, // Toast auto-closes after 2 seconds
-              hideProgressBar: true, // Optional: Hide progress bar
-            },
-          );
+      }
+      // Proceed with submitting the request if no profanity is found
 
-          // Redirect to the dashboard after a short delay
-          setTimeout(() => {
-            navigate("/dashboard", {
-              state: {
-                successMessage:
-                  "New Request #REQ-00-000-000-00011 submitted successfully!",
-              },
-            });
-          }, 2000);
+      // const response = await axios.post(
+      //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
+      //   submissionData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+      else {
+        if (
+          formData.category === "General" &&
+          formData.subject.trim() !== "" &&
+          formData.description.trim() !== "" &&
+          !categoryConfirmed
+        ) {
+          await fetchPredictedCategories();
+          setShowModal(true);
+          return; // Don’t submit yet
         }
+
+        const response = await createRequest(submissionData);
+
+        setTimeout(() => {
+          navigate("/dashboard", {
+            state: {
+              successMessage:
+                "New Request #REQ-00-000-000-00011 submitted successfully!",
+            },
+          });
+        }, 2000);
       }
     } catch (error) {
       console.error("Failed to process request:", error);
@@ -290,44 +330,40 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const [selfFlag, setSelfFlag] = useState(true);
 
-  const handleConfirmCategorySelection = async () => {
-    const submissionData = {
-      ...formData,
-    };
+  const handleConfirmCategorySelection = () => {
+    const oldCategory = "General";
+    const newCategory = formData.category;
 
-    try {
-      const response = await createRequest(submissionData);
+    setCategoryConfirmed(true); // unlock submission
+    setShowModal(false);
 
-      setShowModal(false);
-      // Show the alert
-      toast.success(
-        "Request submitted successfully! You will now be redirected to the dashboard.",
-        {
-          position: "top-center", // You can customize the position
-          autoClose: 2000, // Toast auto-closes after 2 seconds
-          hideProgressBar: true, // Optional: Hide progress bar
-        },
-      );
-
-      // Redirect to the dashboard after a short delay
-      setTimeout(() => {
-        navigate("/dashboard", {
-          state: {
-            successMessage:
-              "New Request #REQ-00-000-000-00011 submitted successfully!",
-          },
-        });
-      }, 2000); // Wait 2 seconds before redirecting
-    } catch (error) {
-      console.error("Failed to submit request:", error);
-      alert("Failed to submit request!");
+    if (oldCategory !== newCategory) {
+      setSnackbar({
+        open: true,
+        message: `Category updated from \"${oldCategory}\" to \"${newCategory}\". Click Submit to continue.`,
+        severity: "info",
+      });
     }
   };
 
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
-      <ToastContainer />
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="w-full max-w-2xl mx-auto px-4 mt-4">
           <button
@@ -362,12 +398,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select if this request is for yourself or another person.
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    Choose ‘Yes’ if you’re submitting this request on your own
+                    behalf else ‘No’ if you’re requesting for someone else.
                   </div>
                 </div>
               </div>
@@ -393,12 +430,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select if you are a lead volunteer for this request.
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    Select ‘Yes’ if you’re the main volunteer coordinating this
+                    request.
                   </div>
                 </div>
               </div>
@@ -565,19 +603,25 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select a category that best describes your request.
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    Choose the category that best describes your need (e.g.,
+                    Medical, Food, Jobs).
+                    <br /> If you select ‘General,’ please describe your need
+                    fully in the Description field.
                   </div>
                 </div>
               </div>
               <input
                 type="text"
                 id="category"
-                value={formData.category}
+                value={
+                  filteredCategories.find((cat) => cat.id === formData.category)
+                    ?.name || formData.category
+                }
                 onChange={handleSearchInput}
                 className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
                 onFocus={() => setShowDropdown(true)}
@@ -642,12 +686,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select the type of request required Remotely or In Person.
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    Indicate how you’d like help delivered: ‘Remote’ for virtual
+                    support or ‘In Person’ for onsite assistance.
                   </div>
                 </div>
               </div>
@@ -700,12 +745,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-300 text-white text-xs font-bold">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                    Select the priority level of your request.
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    How urgent is this request? <br />
+                    • Low – Not time sensitive <br />
+                    • Medium – Within few days <br />• High – Immediate support
                   </div>
                 </div>
               </div>
@@ -788,34 +835,48 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         </div>
       </form>
       {/* Modal Component */}
-      <Modal
-        show={showModal}
-        onSubmit={handleConfirmCategorySelection}
-        onClose={() => setShowModal(false)}
-      >
-        <h2 className="text-xl font-bold mb-4">Select a Category</h2>
+      <Dialog open={showModal} onClose={() => setShowModal(false)}>
+        <DialogTitle>Select a Category</DialogTitle>
+        <DialogContent>
+          <Typography className="mb-4">
+            Select an appropriate help category so we can match the right
+            volunteers for your request.
+          </Typography>
 
-        {/* Message to the user */}
-        <p className="mb-4 text-gray-700">
-          Dear User, please fill in the category or select one of the
-          recommended categories.
-        </p>
+          <RadioGroup
+            value={formData.category}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
+            {suggestedCategories.map((category, index) => (
+              <FormControlLabel
+                key={index}
+                value={category.name}
+                control={<Radio />}
+                label={category.name}
+              />
+            ))}
+          </RadioGroup>
+        </DialogContent>
 
-        {/* Dropdown for selecting a category */}
-        <select
-          value={formData.category}
-          onChange={(e) =>
-            setFormData({ ...formData, category: e.target.value })
-          }
-          className="p-2 border rounded w-full"
-        >
-          {suggestedCategories.map((category, index) => (
-            <option key={index} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </Modal>
+        <DialogActions>
+          <Button
+            onClick={handleConfirmCategorySelection}
+            variant="contained"
+            color="primary"
+          >
+            Select
+          </Button>
+          <Button
+            onClick={() => setShowModal(false)}
+            color="primary"
+            variant="contained"
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

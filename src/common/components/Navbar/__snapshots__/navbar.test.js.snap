@@ -226,10 +226,10 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             </div>
           </div>
           <div
-            class="md:hidden mr-4"
+            class=" md:hidden mr-4"
           >
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-u6p6pm-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-ij6izv-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
@@ -472,10 +472,10 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           </div>
         </div>
         <div
-          class="md:hidden mr-4"
+          class=" md:hidden mr-4"
         >
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-u6p6pm-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-ij6izv-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
@@ -773,10 +773,10 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             mockTranslate(LOGIN)
           </mock-nav-link>
           <div
-            class="md:hidden mr-4"
+            class=" md:hidden mr-4"
           >
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-u6p6pm-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-ij6izv-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
@@ -1010,10 +1010,10 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
           mockTranslate(LOGIN)
         </mock-nav-link>
         <div
-          class="md:hidden mr-4"
+          class=" md:hidden mr-4"
         >
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-u6p6pm-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-ij6izv-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
