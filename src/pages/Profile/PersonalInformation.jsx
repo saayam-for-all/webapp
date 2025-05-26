@@ -286,10 +286,23 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     <div className="flex flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
       {/* Date of Birth and Gender */}
       <div className="grid grid-cols-2 gap-8 mb-6">
-        <div title="We need date of birth to ascertain user's age as we can only entertain users over 21 years of age. If it is left blank then we are free to assume that the user is over 21 years of age">
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("BIRTHDAY")}
-          </label>
+        <div>
+          {/* Label and Tooltip */}
+          <div className="flex items-center gap-1 mb-2">
+            <label className="tracking-wide text-gray-700 text-xs font-bold">
+              {t("BIRTHDAY")}
+            </label>
+            <div className="relative group cursor-pointer">
+              <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-500 text-white text-xs font-bold">
+                ?
+              </div>
+              <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                We require your date of birth to confirm you're at least 21. If
+                left blank, we'll assume you meet this age requirement{" "}
+              </div>
+            </div>
+          </div>
+
           {isEditing ? (
             <>
               <DatePicker
