@@ -2,17 +2,24 @@ import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import YourProfile from "./YourProfile";
 
-// Mock i18n and react-i18next
+jest.mock("i18next", () => ({
+  use: jest.fn().mockReturnThis(),
+  init: jest.fn().mockReturnThis(),
+}));
+
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => `mockTranslate(${key})`, // Modified to match snapshot format
+    t: (key) => `mockTranslate(${key})`,
     i18n: {
       changeLanguage: jest.fn(),
     },
   }),
+  initReactI18next: {
+    type: "3rdParty",
+    init: jest.fn(),
+  },
 }));
 
-// Mock other dependencies
 jest.mock("aws-amplify/auth", () => ({
   updateUserAttributes: jest.fn(),
 }));
@@ -71,27 +78,21 @@ describe("YourProfile Component", () => {
 
   it("renders user profile information correctly", () => {
     render(<YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />);
-
-    // Check for translation keys in labels
     expect(screen.getByText("mockTranslate(FIRST_NAME)")).toBeInTheDocument();
     expect(screen.getByText("mockTranslate(LAST_NAME)")).toBeInTheDocument();
     expect(screen.getByText("mockTranslate(EMAIL)")).toBeInTheDocument();
-
-    // Check for edit button
     expect(screen.getByText("mockTranslate(EDIT)")).toBeInTheDocument();
   });
 
   it("switches between view and edit modes", async () => {
     render(<YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />);
 
-    // Initial view mode assertions
     expect(screen.getByText("mockTranslate(EDIT)")).toBeInTheDocument();
 
     await act(async () => {
       fireEvent.click(screen.getByText("mockTranslate(EDIT)"));
     });
 
-    // Edit mode assertions
     expect(screen.getByText("mockTranslate(SAVE)")).toBeInTheDocument();
     expect(screen.getByText("mockTranslate(CANCEL)")).toBeInTheDocument();
   });
@@ -103,7 +104,6 @@ describe("YourProfile Component", () => {
       fireEvent.click(screen.getByText("mockTranslate(EDIT)"));
     });
 
-    // Find inputs by their labels
     const firstNameInput = screen.getByLabelText("mockTranslate(FIRST_NAME)");
     await act(async () => {
       fireEvent.change(firstNameInput, { target: { value: "Jane" } });
