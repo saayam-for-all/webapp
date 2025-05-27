@@ -31,7 +31,7 @@ const Sitemap = () => {
                     <a href="/our-mission">Our Mission</a>
                   </li>
                   <li>
-                    <a href="/directors">Our Team</a>
+                    <a href="/our-team">Our Team</a>
                   </li>
                 </ul>
               </div>

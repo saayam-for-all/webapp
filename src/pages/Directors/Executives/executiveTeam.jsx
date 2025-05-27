@@ -5,13 +5,15 @@ import { useTranslation } from "react-i18next";
 const ExecutiveTeam = () => {
   const { t } = useTranslation();
   return (
-    <div className="bg-gray-100 py-16 px-24">
-      <div className="text-center max-w-3xl mx-auto mb-12">
-        <h2 className="font-extrabold text-3xl mb-4">{t("EXECUTIVE_TEAM")}</h2>
-        <p className="text-gray-600 text-base leading-[0.5]">
+    <div className="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]">
+      <div className="text-center max-w-3xl mx-auto mb-12 px-4">
+        <h2 className="font-extrabold text-2xl sm:text-3xl mb-4">
+          {t("EXECUTIVE_TEAM")}
+        </h2>
+        <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-2">
           {t("EXECUTIVE_DESCRIPTION_1")}
         </p>
-        <p className="text-gray-600 text-base leading-[0.5]">
+        <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
           {t("EXECUTIVE_DESCRIPTION_2")}
         </p>
       </div>

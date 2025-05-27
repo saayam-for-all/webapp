@@ -34,6 +34,11 @@ const PromoteToVolunteer = () => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
+  const [uploadAck, setUploadAck] = useState("");
+  const [uploadError, setUploadError] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
+  const fileInputRef = useRef(null);
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -103,6 +108,13 @@ const PromoteToVolunteer = () => {
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
             setIsUploaded={setIsUploaded}
+            ack={uploadAck}
+            setAck={setUploadAck}
+            error={uploadError}
+            setError={setUploadError}
+            preview={previewUrl}
+            setPreview={setPreviewUrl}
+            fileInputRef={fileInputRef}
           />
         );
       case 3:

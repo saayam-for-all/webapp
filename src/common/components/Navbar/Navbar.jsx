@@ -20,6 +20,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
+import ArticleIcon from "@mui/icons-material/Article";
 
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
@@ -41,6 +42,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
 
   const { t } = useTranslation();
 
@@ -273,7 +275,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4">
-      <div className="flex items-center justify-between w-full px-4 h-full">
+      <div className="flex items-center justify-between w-full px-2 h-full gap-2 sm:gap-4">
         {/* Logo aligned to the left */}
         <div
           className="flex items-center cursor-pointer"
@@ -281,14 +283,24 @@ const Navbar = () => {
         >
           <img src={LOGO} alt="Company Logo" className="w-[60px] h-[60px]" />
         </div>
+        {/* Mobile Donate button - visible next to logo */}
+        <div className="flex md:hidden items-center ml-2">
+          <button
+            onClick={(e) => handleLinkClick(e, "/donate")}
+            className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+          >
+            <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
+            {t("DONATE")}
+          </button>
+        </div>
 
         {/* Desktop Menu (visible only on larger screens) */}
-        <div className="hidden md:flex items-center space-x-8 ml-auto">
+        <div className="hidden md:flex items-center justify-center space-x-8 flex-1">
           <div className="relative">
             <button
               onClick={(e) => handleLinkClick(e, "/")}
               // className="text-black flex items-center hover:text-gray-600 text-base"
-              className="text-black hover:text-gray-600 flex items-center text-base"
+              className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
             >
               <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
             </button>
@@ -318,11 +330,16 @@ const Navbar = () => {
                   },
                 }}
               >
-                <MenuItem onClick={(e) => handleLinkClick(e, "/directors")}>
+                <MenuItem onClick={(e) => handleLinkClick(e, "/our-team")}>
                   <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
+                </MenuItem>
+                <MenuItem
+                  onClick={(e) => handleLinkClick(e, "/news-our-stories")}
+                >
+                  <ArticleIcon className="mr-2" /> {t("In The News")}
                 </MenuItem>
               </Menu>
             )}
@@ -386,20 +403,18 @@ const Navbar = () => {
               </button>
             </div>
           )}
+          <div className="relative">
+            <button
+              onClick={(e) => handleLinkClick(e, "/donate")}
+              className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
+            >
+              <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
+              {t("DONATE")}
+            </button>
+          </div>
         </div>
 
         {/* Donate button aligned to the rightmost */}
-
-        <div className="ml-auto mr-3">
-          <button
-            onClick={(e) => handleLinkClick(e, "/donate")}
-            // className="text-black flex items-center hover:text-gray-600 text-base"
-            className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
-          >
-            <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
-            {t("DONATE")}
-          </button>
-        </div>
 
         {/* Login Part */}
         {user?.userId ? (
@@ -459,7 +474,7 @@ const Navbar = () => {
         ) : (
           <NavLink
             to="/login"
-            className="font-semibold flex flex-col items-center mr-2"
+            className="font-semibold flex flex-col items-center ml-2 mr-2"
             id="loginButton"
             onClick={(e) => handleLinkClick(e, "/login")}
           >
@@ -498,12 +513,12 @@ const Navbar = () => {
         )}
 
         {/* Mobile Menu Icon (visible only on mobile) */}
-        <div className="md:hidden mr-4">
+        <div className=" md:hidden mr-4">
           <IconButton
             color="inherit"
             edge="end"
             onClick={() => toggleDrawer(true)}
-            sx={{ display: { xs: "block", sm: "none" } }}
+            // sx={{ display: { xs: "block", sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -558,11 +573,16 @@ const Navbar = () => {
                   },
                 }}
               >
-                <MenuItem onClick={(e) => handleDrawerClick(e, "/directors")}>
+                <MenuItem onClick={(e) => handleDrawerClick(e, "/our-team")}>
                   <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
                 </MenuItem>
-                <MenuItem onClick={(e) => handleDrawerClick(e, "/vision")}>
-                  <CrisisAlertIcon className="mr-2" /> {t("OUR_VISION_NAVBAR")}
+                <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
+                  <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
+                </MenuItem>
+                <MenuItem
+                  onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
+                >
+                  <ArticleIcon className="mr-2" /> {t("In the news")}
                 </MenuItem>
               </Menu>
             )}
@@ -587,7 +607,7 @@ const Navbar = () => {
                     position: "absolute",
                     right: 0,
                     top: "40px",
-                    zIndex: 1300, // to appear above other elements
+                    zIndex: 1300,
                     maxWidth: "fit-content",
                   },
                 }}

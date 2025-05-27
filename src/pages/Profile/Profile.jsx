@@ -157,6 +157,8 @@ function Profile() {
         );
       case "skills":
         return <Skills setHasUnsavedChanges={setHasUnsavedChanges} />;
+      case "availability":
+        return <Availability setHasUnsavedChanges={setHasUnsavedChanges} />;
       default:
         return null;
     }

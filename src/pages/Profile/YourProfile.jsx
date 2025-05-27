@@ -7,7 +7,8 @@ import { getPhoneCodeslist } from "../../utils/utils";
 import CountryList from "react-select-country-list";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
 import CallModal from "./CallModal.jsx";
-import { updateUserProfileSuccess } from "../../redux/features/authentication/authSlice";
+import { updateUserProfile } from "../../redux/features/authentication/authActions";
+import LoadingIndicator from "../../common/components/Loading/Loading";
 
 function YourProfile({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
@@ -16,71 +17,199 @@ function YourProfile({ setHasUnsavedChanges }) {
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [callType, setCallType] = useState("audio");
   const [loading, setLoading] = useState(false);
+  const [saveError, setSaveError] = useState("");
   const firstNameRef = useRef(null);
   const countries = CountryList().getData();
-
   const user = useSelector((state) => state.auth.user);
 
   const [profileInfo, setProfileInfo] = useState({
-    firstName: user?.given_name || "",
-    lastName: user?.family_name || "",
-    email: user?.email || "",
-    phone: user?.phone_number || "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
     phoneCountryCode: "US",
-    country: user?.zoneinfo || "",
+    country: "",
   });
 
   useEffect(() => {
     if (user) {
+      let extractedCountryCode = "US";
+      let extractedPhone = user.phone_number || "";
+
+      if (user.phone_number && user.phone_number.startsWith("+")) {
+        const userCountry = user.zoneinfo || "United States";
+        const possibleCountryCodes = Object.entries(PHONECODESEN)
+          .filter(([_, data]) => data.primary === userCountry)
+          .map(([code, data]) => ({
+            code,
+            dialCode: data.secondary,
+            length: data.secondary.length,
+          }));
+
+        if (possibleCountryCodes.length > 0) {
+          possibleCountryCodes.sort((a, b) => b.length - a.length);
+
+          for (const { code, dialCode } of possibleCountryCodes) {
+            if (user.phone_number.startsWith(dialCode)) {
+              extractedCountryCode = code;
+              extractedPhone = user.phone_number
+                .slice(dialCode.length)
+                .replace(/\D/g, "");
+              break;
+            }
+          }
+        } else {
+          const countryCodes = Object.entries(PHONECODESEN)
+            .map(([code, data]) => ({
+              code,
+              dialCode: data.secondary,
+              length: data.secondary.length,
+            }))
+            .sort((a, b) => b.length - a.length);
+
+          for (const { code, dialCode } of countryCodes) {
+            if (user.phone_number.startsWith(dialCode)) {
+              extractedCountryCode = code;
+              extractedPhone = user.phone_number
+                .slice(dialCode.length)
+                .replace(/\D/g, "");
+              break;
+            }
+          }
+        }
+      }
+
       setProfileInfo({
         firstName: user.given_name || "",
         lastName: user.family_name || "",
         email: user.email || "",
-        phone: user.phone_number || "",
-        phoneCountryCode: "US",
+        phone: extractedPhone,
+        phoneCountryCode: extractedCountryCode,
         country: user.zoneinfo || "",
       });
     }
   }, [user]);
 
   const handleInputChange = (name, value) => {
-    setProfileInfo({ ...profileInfo, [name]: value });
+    setProfileInfo((prev) => ({ ...prev, [name]: value }));
     setHasUnsavedChanges(true);
   };
 
   const handleSave = async () => {
     try {
       setLoading(true);
-      setIsEditing(false);
-      setHasUnsavedChanges(false);
+      setSaveError("");
 
-      // Prepare updated attributes for Cognito
-      const updatedAttributes = {
-        given_name: profileInfo.firstName,
-        family_name: profileInfo.lastName,
-        email: profileInfo.email,
-        phone_number: profileInfo.phone,
-        "custom:Country": profileInfo.country,
-      };
+      const countryCodeValue =
+        PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || "+1";
+      const formattedPhone = `${countryCodeValue}${profileInfo.phone.replace(/\D/g, "")}`;
 
-      console.log("Updating Cognito with:", updatedAttributes);
-      await updateUserAttributes(updatedAttributes);
+      // Basic validation
+      if (!profileInfo.firstName.trim() || !profileInfo.lastName.trim()) {
+        throw new Error("First and last name are required");
+      }
 
-      // Update Redux state
-      dispatch(updateUserProfileSuccess(updatedAttributes));
+      if (!profileInfo.email.trim()) {
+        throw new Error("Email is required");
+      }
 
-      console.log("Profile successfully updated!");
+      if (profileInfo.phone && !/^\d+$/.test(profileInfo.phone)) {
+        throw new Error("Phone number must contain only digits");
+      }
+
+      const result = await dispatch(
+        updateUserProfile({
+          firstName: profileInfo.firstName,
+          lastName: profileInfo.lastName,
+          email: profileInfo.email,
+          phone: formattedPhone,
+          country: profileInfo.country,
+        }),
+      )
+        .then((response) => response)
+        .catch((error) => {
+          throw error;
+        });
+
+      if (result?.success) {
+        alert(t("PROFILE_UPDATE_SUCCESS"));
+        setIsEditing(false);
+        setHasUnsavedChanges(false);
+      } else {
+        throw new Error(result?.error || t("PROFILE_UPDATE_FAILED"));
+      }
     } catch (error) {
-      console.error("Error updating Cognito attributes:", error);
-      alert("Failed to save changes. Please try again.");
+      console.error("Profile save error:", error);
+      setSaveError(error.message);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleCallInitiation = (type) => {
+    setCallType(type);
+    setIsCallModalOpen(true);
+  };
+
+  const resetFormData = () => {
+    if (user) {
+      let extractedCountryCode = "US";
+      let extractedPhone = user.phone_number || "";
+
+      if (user.phone_number && user.phone_number.startsWith("+")) {
+        const userCountry = user.zoneinfo || "United States";
+        const possibleCountryCodes = Object.entries(PHONECODESEN)
+          .filter(([_, data]) => data.primary === userCountry)
+          .map(([code, data]) => ({
+            code,
+            dialCode: data.secondary,
+            length: data.secondary.length,
+          }));
+
+        if (possibleCountryCodes.length > 0) {
+          possibleCountryCodes.sort((a, b) => b.length - a.length);
+
+          for (const { code, dialCode } of possibleCountryCodes) {
+            if (user.phone_number.startsWith(dialCode)) {
+              extractedCountryCode = code;
+              extractedPhone = user.phone_number
+                .slice(dialCode.length)
+                .replace(/\D/g, "");
+              break;
+            }
+          }
+        } else {
+          const countryCodes = Object.entries(PHONECODESEN)
+            .map(([code, data]) => ({ code, dialCode: data.secondary }))
+            .sort((a, b) => b.dialCode.length - a.dialCode.length);
+
+          for (const { code, dialCode } of countryCodes) {
+            if (user.phone_number.startsWith(dialCode)) {
+              extractedCountryCode = code;
+              extractedPhone = user.phone_number
+                .slice(dialCode.length)
+                .replace(/\D/g, "");
+              break;
+            }
+          }
+        }
+      }
+
+      setProfileInfo({
+        firstName: user.given_name || "",
+        lastName: user.family_name || "",
+        email: user.email || "",
+        phone: extractedPhone,
+        phoneCountryCode: extractedCountryCode,
+        country: user.zoneinfo || "",
+      });
+    }
+    setSaveError("");
+  };
+
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
-      {/* First Name and Last Name */}
+      {/* Name */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -92,12 +221,10 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
-            <p className="text-lg text-gray-900">
-              {profileInfo.firstName || ""}
-            </p>
+            <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
           )}
         </div>
         <div>
@@ -109,37 +236,29 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="text"
               value={profileInfo.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
             />
           ) : (
-            <p className="text-lg text-gray-900">
-              {profileInfo.lastName || ""}
-            </p>
+            <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
           )}
         </div>
       </div>
 
       {/* Email */}
-      <div
-        className="grid grid-cols-1 gap-4 mb-6"
-        data-testid="container-test-3"
-      >
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("EMAIL")}
-          </label>
-          {isEditing ? (
-            <input
-              type="email"
-              name="email"
-              value={profileInfo.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">{profileInfo.email || ""}</p>
-          )}
-        </div>
+      <div className="mb-6">
+        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          {t("EMAIL")}
+        </label>
+        {isEditing ? (
+          <input
+            type="email"
+            value={profileInfo.email}
+            onChange={(e) => handleInputChange("email", e.target.value)}
+            className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+          />
+        ) : (
+          <p className="text-lg text-gray-900">{profileInfo.email}</p>
+        )}
       </div>
 
       {/* Phone Number */}
@@ -147,27 +266,53 @@ function YourProfile({ setHasUnsavedChanges }) {
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
           {t("PHONE_NUMBER")}
         </label>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           {isEditing ? (
-            <input
-              type="text"
-              value={profileInfo.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <select
+                value={profileInfo.phoneCountryCode}
+                onChange={(e) =>
+                  handleInputChange("phoneCountryCode", e.target.value)
+                }
+                className="w-1/3 bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              >
+                {getPhoneCodeslist(PHONECODESEN).map((option) => (
+                  <option key={option.code} value={option.code}>
+                    {option.country} ({option.dialCode})
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                value={profileInfo.phone}
+                onChange={(e) =>
+                  handleInputChange("phone", e.target.value.replace(/\D/g, ""))
+                }
+                className="w-2/3 bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+                placeholder="1234567890"
+              />
+            </>
           ) : (
-            <p className="text-lg text-gray-900">
-              {profileInfo.phoneCountryCode} {profileInfo.phone}
-            </p>
+            <>
+              <p className="text-lg text-gray-900">
+                {PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
+                  PHONECODESEN[profileInfo.phoneCountryCode]?.country ||
+                  ""}{" "}
+                {PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode
+                  ? `(${PHONECODESEN[profileInfo.phoneCountryCode].dialCode})`
+                  : ""}{" "}
+                {profileInfo.phone}
+              </p>
+              <FiPhoneCall
+                className="text-gray-500 cursor-pointer hover:text-gray-700 ml-2"
+                onClick={() => handleCallInitiation("audio")}
+              />
+              <FiVideo
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                onClick={() => handleCallInitiation("video")}
+              />
+            </>
           )}
-          <FiPhoneCall
-            className="text-gray-500 cursor-pointer hover:text-gray-700"
-            onClick={() => setIsCallModalOpen(true)}
-          />
-          <FiVideo
-            className="text-gray-500 cursor-pointer hover:text-gray-700"
-            onClick={() => setIsCallModalOpen(true)}
-          />
         </div>
       </div>
 
@@ -177,38 +322,70 @@ function YourProfile({ setHasUnsavedChanges }) {
           {t("COUNTRY")}
         </label>
         {isEditing ? (
-          <input
-            type="text"
+          <select
             value={profileInfo.country}
             onChange={(e) => handleInputChange("country", e.target.value)}
-            className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          />
+            className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+          >
+            <option value="">{t("SELECT_COUNTRY")}</option>
+            {countries.map((option) => (
+              <option key={option.value} value={option.label}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.country}</p>
         )}
       </div>
 
-      {/* Edit / Save Buttons */}
+      {/* Error Message */}
+      {saveError && (
+        <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
+          {saveError}
+        </div>
+      )}
+
+      {/* Buttons */}
       <div className="flex justify-center mt-6">
         {!isEditing ? (
           <button
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            onClick={() => setIsEditing(true)}
+            onClick={() => {
+              setIsEditing(true);
+              setTimeout(() => {
+                if (firstNameRef.current) {
+                  firstNameRef.current.focus();
+                }
+              }, 0);
+            }}
           >
             {t("EDIT")}
           </button>
         ) : (
           <>
             <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
+              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 flex items-center justify-center"
               onClick={handleSave}
               disabled={loading}
             >
-              {loading ? "Saving..." : t("SAVE")}
+              {loading ? (
+                <>
+                  <LoadingIndicator size="20px" className="mr-2" />
+                  {t("SAVING")}
+                </>
+              ) : (
+                t("SAVE")
+              )}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={() => setIsEditing(false)}
+              onClick={() => {
+                setIsEditing(false);
+                setHasUnsavedChanges(false);
+                resetFormData();
+              }}
+              disabled={loading}
             >
               {t("CANCEL")}
             </button>

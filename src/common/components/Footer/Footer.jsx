@@ -19,11 +19,11 @@ export default function Footer() {
             <nav className="footer-nav" aria-label="Footer navigation">
               <a href="/">{t("HOME")}</a>
               <a href="/our-mission">{t("ABOUT")}</a>
-              <a href="/">
+              <a href="#">
                 {t("MISSION")} &amp; {t("VISION")}
               </a>
-              <a href="/directors">{t("OUR_TEAM")}</a>
-              <a href="/">{t("WHAT_WE_OFFER")}</a>
+              <a href="/our-team">{t("OUR_TEAM")}</a>
+              <a href="/how-we-operate">{t("How We Operate")}</a>
               <a href="/donate">{t("DONATE")}</a>
             </nav>
 

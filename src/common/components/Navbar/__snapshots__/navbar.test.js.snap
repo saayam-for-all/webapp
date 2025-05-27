@@ -9,7 +9,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
         class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
       >
         <div
-          class="flex items-center justify-between w-full px-4 h-full"
+          class="flex items-center justify-between w-full px-2 h-full gap-2 sm:gap-4"
         >
           <div
             class="flex items-center cursor-pointer"
@@ -21,13 +21,33 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             />
           </div>
           <div
-            class="hidden md:flex items-center space-x-8 ml-auto"
+            class="flex md:hidden items-center ml-2"
+          >
+            <button
+              class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                data-testid="VolunteerActivismOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
+                />
+              </svg>
+              mockTranslate(DONATE)
+            </button>
+          </div>
+          <div
+            class="hidden md:flex items-center justify-center space-x-8 flex-1"
           >
             <div
               class="relative"
             >
               <button
-                class="text-black hover:text-gray-600 flex items-center text-base"
+                class="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
               >
                 <svg
                   aria-hidden="true"
@@ -165,26 +185,26 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 mockTranslate(Notifications)
               </button>
             </div>
-          </div>
-          <div
-            class="ml-auto mr-3"
-          >
-            <button
-              class="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
+            <div
+              class="relative"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
-                data-testid="VolunteerActivismOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <button
+                class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
               >
-                <path
-                  d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
-                />
-              </svg>
-              mockTranslate(DONATE)
-            </button>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                  data-testid="VolunteerActivismOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
+                  />
+                </svg>
+                mockTranslate(DONATE)
+              </button>
+            </div>
           </div>
           <div
             class="relative flex flex-col items-center mr-2"
@@ -206,10 +226,10 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             </div>
           </div>
           <div
-            class="md:hidden mr-4"
+            class=" md:hidden mr-4"
           >
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-u6p6pm-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-ij6izv-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
@@ -235,7 +255,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
       class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
     >
       <div
-        class="flex items-center justify-between w-full px-4 h-full"
+        class="flex items-center justify-between w-full px-2 h-full gap-2 sm:gap-4"
       >
         <div
           class="flex items-center cursor-pointer"
@@ -247,13 +267,33 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           />
         </div>
         <div
-          class="hidden md:flex items-center space-x-8 ml-auto"
+          class="flex md:hidden items-center ml-2"
+        >
+          <button
+            class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+              data-testid="VolunteerActivismOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
+              />
+            </svg>
+            mockTranslate(DONATE)
+          </button>
+        </div>
+        <div
+          class="hidden md:flex items-center justify-center space-x-8 flex-1"
         >
           <div
             class="relative"
           >
             <button
-              class="text-black hover:text-gray-600 flex items-center text-base"
+              class="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
             >
               <svg
                 aria-hidden="true"
@@ -391,26 +431,26 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               mockTranslate(Notifications)
             </button>
           </div>
-        </div>
-        <div
-          class="ml-auto mr-3"
-        >
-          <button
-            class="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
+          <div
+            class="relative"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
-              data-testid="VolunteerActivismOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <button
+              class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
             >
-              <path
-                d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
-              />
-            </svg>
-            mockTranslate(DONATE)
-          </button>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                data-testid="VolunteerActivismOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
+                />
+              </svg>
+              mockTranslate(DONATE)
+            </button>
+          </div>
         </div>
         <div
           class="relative flex flex-col items-center mr-2"
@@ -432,10 +472,10 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           </div>
         </div>
         <div
-          class="md:hidden mr-4"
+          class=" md:hidden mr-4"
         >
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-u6p6pm-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-ij6izv-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
@@ -525,7 +565,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
         class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
       >
         <div
-          class="flex items-center justify-between w-full px-4 h-full"
+          class="flex items-center justify-between w-full px-2 h-full gap-2 sm:gap-4"
         >
           <div
             class="flex items-center cursor-pointer"
@@ -537,13 +577,33 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             />
           </div>
           <div
-            class="hidden md:flex items-center space-x-8 ml-auto"
+            class="flex md:hidden items-center ml-2"
+          >
+            <button
+              class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                data-testid="VolunteerActivismOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
+                />
+              </svg>
+              mockTranslate(DONATE)
+            </button>
+          </div>
+          <div
+            class="hidden md:flex items-center justify-center space-x-8 flex-1"
           >
             <div
               class="relative"
             >
               <button
-                class="text-black hover:text-gray-600 flex items-center text-base"
+                class="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
               >
                 <svg
                   aria-hidden="true"
@@ -660,29 +720,29 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                 mockTranslate(CONTACT)
               </button>
             </div>
-          </div>
-          <div
-            class="ml-auto mr-3"
-          >
-            <button
-              class="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
+            <div
+              class="relative"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
-                data-testid="VolunteerActivismOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <button
+                class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
               >
-                <path
-                  d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
-                />
-              </svg>
-              mockTranslate(DONATE)
-            </button>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                  data-testid="VolunteerActivismOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
+                  />
+                </svg>
+                mockTranslate(DONATE)
+              </button>
+            </div>
           </div>
           <mock-nav-link
-            props="{"className":"font-semibold flex flex-col items-center mr-2","id":"loginButton"}"
+            props="{"className":"font-semibold flex flex-col items-center ml-2 mr-2","id":"loginButton"}"
             to="/login"
           >
             <svg
@@ -713,10 +773,10 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             mockTranslate(LOGIN)
           </mock-nav-link>
           <div
-            class="md:hidden mr-4"
+            class=" md:hidden mr-4"
           >
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-u6p6pm-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-ij6izv-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
@@ -742,7 +802,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
       class="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4"
     >
       <div
-        class="flex items-center justify-between w-full px-4 h-full"
+        class="flex items-center justify-between w-full px-2 h-full gap-2 sm:gap-4"
       >
         <div
           class="flex items-center cursor-pointer"
@@ -754,13 +814,33 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
           />
         </div>
         <div
-          class="hidden md:flex items-center space-x-8 ml-auto"
+          class="flex md:hidden items-center ml-2"
+        >
+          <button
+            class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+              data-testid="VolunteerActivismOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
+              />
+            </svg>
+            mockTranslate(DONATE)
+          </button>
+        </div>
+        <div
+          class="hidden md:flex items-center justify-center space-x-8 flex-1"
         >
           <div
             class="relative"
           >
             <button
-              class="text-black hover:text-gray-600 flex items-center text-base"
+              class="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
             >
               <svg
                 aria-hidden="true"
@@ -877,29 +957,29 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               mockTranslate(CONTACT)
             </button>
           </div>
-        </div>
-        <div
-          class="ml-auto mr-3"
-        >
-          <button
-            class="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 ml-auto flex items-center"
+          <div
+            class="relative"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
-              data-testid="VolunteerActivismOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <button
+              class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
             >
-              <path
-                d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
-              />
-            </svg>
-            mockTranslate(DONATE)
-          </button>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                data-testid="VolunteerActivismOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
+                />
+              </svg>
+              mockTranslate(DONATE)
+            </button>
+          </div>
         </div>
         <mock-nav-link
-          props="{"className":"font-semibold flex flex-col items-center mr-2","id":"loginButton"}"
+          props="{"className":"font-semibold flex flex-col items-center ml-2 mr-2","id":"loginButton"}"
           to="/login"
         >
           <svg
@@ -930,10 +1010,10 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
           mockTranslate(LOGIN)
         </mock-nav-link>
         <div
-          class="md:hidden mr-4"
+          class=" md:hidden mr-4"
         >
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-u6p6pm-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-ij6izv-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >

@@ -20,10 +20,6 @@ body {
   padding: 0 1rem;
 }
 
-.sitemap-content-wrapper {
-  transform: translateX(20px);
-}
-
 .sitemap-title {
   text-align: center;
   font-family: "Roboto", sans-serif;
