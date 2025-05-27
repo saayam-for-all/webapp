@@ -17,5 +17,4 @@ const userSlice = createSlice({
   extraReducers: (builder) => {},
 });
 export const { setUserId } = userSlice.actions;
-
 export default userSlice.reducer;

@@ -20,28 +20,37 @@ import { useSelector, useDispatch } from "react-redux";
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isAcknowledged, setIsAcknowledged] = useState(false);
-  const [govtIdFile, setGovtIdFile] = useState({});
+  const [govtIdFile, setGovtIdFile] = useState(null);
   const token = useSelector((state) => state.auth.idToken);
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState({});
   const [availabilitySlots, setAvailabilitySlots] = useImmer([
-    { id: 1, dayOfWeek: "Everyday", startTime: "00:00", endTime: "00:00" },
+    { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
-  //const [userId, setUserId] = useState(null);
-  const userId = useSelector((state) => state.user.userId);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [userId, setUserId] = useState(null);
+  // const userId = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the first selected file
-    setGovtIdFile(file); // Set it to state
-  };
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
   useEffect(() => {
     const fetchUserId = async () => {
       try {
         // Fetch current user details (loginId)
         const user = await getCurrentUser();
+        const user = await getCurrentUser(); // Assuming getCurrentUser is a function that fetches the user data
+        // setUserId("SID-00-000-000-");
+        const loginId = user.signInDetails.loginId;
+
+        // Fetch user profile using loginId
+        const userIdFromApi = await getUserProfile(loginId);
+
+        if (userIdFromApi) {
+          //console.log(userIdFromApi, "userIdFromApi out call");  // Log the fetched userId
+          // dispatch(setUserId(userIdFromApi)); // Set the fetched userId to state
+          setUserId(userIdFromApi);
+        }
       } catch (error) {
         console.error("Error fetching user ID:", error);
       }
@@ -93,6 +102,7 @@ const PromoteToVolunteer = () => {
           <VolunteerCourse
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
+            setIsUploaded={setIsUploaded}
           />
         );
       case 3:
@@ -273,6 +283,14 @@ const PromoteToVolunteer = () => {
       if (isValidStep) {
         try {
           setErrorMessage("");
+          // await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure all updates are made
+          // const result = await saveVolunteerData();
+          // if (!result || !result.data || result.data.statusCode !== 200) {
+          //   console.error("Save failed. Step not increased.");
+          //   setErrorMessage("Save Failed.");
+          //   return;
+          // }
+          setErrorMessage("");
           newStep++;
         } catch (error) {
           console.error("Error in handleClick:", error);
@@ -316,6 +334,12 @@ const PromoteToVolunteer = () => {
           currentStep={currentStep}
           steps={steps}
           isAcknowledged={isAcknowledged}
+          isUploaded={isUploaded}
+          isCheckedCategories={Object.keys(checkedCategories).length !== 0}
+          isAvailabilitySlots={availabilitySlots.every(
+            ({ startTime, endTime }) =>
+              startTime !== null && endTime !== null && endTime > startTime,
+          )}
         />
       )}
     </div>

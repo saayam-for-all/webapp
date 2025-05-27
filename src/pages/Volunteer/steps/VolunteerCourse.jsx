@@ -1,13 +1,32 @@
 import { useState, useRef } from "react";
 import React from "react"; //added for testing
+import * as pdfjsLib from "pdfjs-dist";
+import { OPS } from "pdfjs-dist";
 
-const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
-  const [file, setFile] = useState(null);
-  const [error, setError] = useState("");
-  const [preview, setPreview] = useState("");
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url,
+).toString();
+
+const VolunteerCourse = ({
+  selectedFile,
+  setSelectedFile,
+  setIsUploaded,
+  ack,
+  setAck,
+  error,
+  setError,
+  preview,
+  setPreview,
+  fileInputRef,
+}) => {
+  // const [file, setFile] = useState(null);
+  // const [error, setError] = useState("");
+  // const [ack, setAck] = useState("");
+  // const [preview, setPreview] = useState("");
   const [source, setSource] = useState("device");
   const [isLoading, setIsLoading] = useState(false);
-  const fileInputRef = useRef(null); // Reference to the file input
+  //const fileInputRef = useRef(null); // Reference to the file input
 
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
@@ -17,7 +36,8 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
       // Validate file size (2MB = 2 * 1024 * 1024 bytes)
       if (uploadedFile.size > 2 * 1024 * 1024) {
         setError("File size should not exceed 2MB");
-        setFile(null);
+        // setFile(null);
+        setSelectedFile(null);
         setPreview("");
         if (fileInputRef.current) fileInputRef.current.value = "";
         return;
@@ -27,14 +47,16 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
       const allowedTypes = ["image/jpg", "image/jpeg", "application/pdf"];
       if (!allowedTypes.includes(uploadedFile.type)) {
         setError("Only JPEG, JPG, and PDF files are allowed");
-        setFile(null);
+        //setFile(null);
+        setSelectedFile(null);
         setPreview("");
         if (fileInputRef.current) fileInputRef.current.value = "";
         return;
       }
 
       setError("");
-      setFile(uploadedFile);
+      //setFile(uploadedFile);
+      setSelectedFile(uploadedFile);
       setPreview(URL.createObjectURL(uploadedFile));
     }
   };
@@ -87,46 +109,70 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
   };
 
   const handleRemoveFile = () => {
-    setFile(null);
+    //setFile(null);
+    setSelectedFile(null);
     setPreview("");
     setError("");
+    setIsUploaded(false);
+    setAck("");
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Reset the file input
     }
   };
 
   const handleUpload = async () => {
-    if (!file) return;
+    if (!selectedFile) return;
 
-    const timestamp = new Date().toISOString(); // Get the current timestamp
-    const formData = new FormData();
+    const arrayBuffer = await selectedFile.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
-    formData.append("file", file);
-    formData.append("timestamp", timestamp);
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
 
-    try {
-      setIsLoading(true); // Show loading state if needed
-
-      const response = await fetch("/your-backend-api-endpoint", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        // Handle successful response
-        console.log("File uploaded successfully");
+      const opList = await page.getOperatorList();
+      const hasImage = opList.fnArray.some(
+        (fn) =>
+          fn === OPS.paintImageXObject || fn === OPS.paintInlineImageXObject,
+      );
+      if (hasImage) {
+        setIsUploaded(true);
+        setError("");
+        setAck("PDF File Uploaded Successfully");
       } else {
-        // Handle errors
-        const errorData = await response.json();
-        setError(errorData.message || "File upload failed");
+        setIsUploaded(false);
+        setError("Please upload a Valid PDF");
       }
-    } catch (err) {
-      setError("An error occurred during file upload");
-      console.error(err);
-    } finally {
-      setIsLoading(false); // Hide loading state
     }
   };
+  // const timestamp = new Date().toISOString(); // Get the current timestamp
+  // const formData = new FormData();
+
+  // formData.append("file", file);
+  // formData.append("timestamp", timestamp);
+
+  // try {
+  //   setIsLoading(true); // Show loading state if needed
+
+  //   const response = await fetch("/your-backend-api-endpoint", {
+  //     method: "POST",
+  //     body: formData,
+  //   });
+
+  //   if (response.ok) {
+  //     // Handle successful response
+  //     console.log("File uploaded successfully");
+  //   } else {
+  //     // Handle errors
+  //     const errorData = await response.json();
+  //     setError(errorData.message || "File upload failed");
+  //   }
+  // } catch (err) {
+  //   setError("An error occurred during file upload");
+  //   console.error(err);
+  // } finally {
+  //   setIsLoading(false); // Hide loading state
+  // }
+  // };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -172,25 +218,28 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
       )}
 
       {/* File Preview */}
-      {file && (
+      {selectedFile && (
         <div className="mb-4">
-          <p className="text-sm font-medium text-gray-700">File: {file.name}</p>
+          <p className="text-sm font-medium text-gray-700">
+            File: {selectedFile.name}
+          </p>
         </div>
       )}
 
       {/* Error Message */}
       {error && <p className="text-sm text-red-600">{error}</p>}
+      {ack && <p className="text-sm text-green-600">{ack}</p>}
 
       {/* Upload and Remove Buttons */}
       <div className="flex justify-between items-center">
         <button
-          // onClick={handleUpload}
-          disabled={!file || isLoading}
+          onClick={handleUpload}
+          disabled={!selectedFile || isLoading}
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           {isLoading ? "Uploading..." : "Upload"}
         </button>
-        {file && (
+        {selectedFile && (
           <button
             onClick={handleRemoveFile}
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
