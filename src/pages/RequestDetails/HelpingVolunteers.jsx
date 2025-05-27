@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [chooseVolunteer, setChooseVolunteer] = useState(false);
-  const [volunteersCount, setVolunteersCount] = useState("");
+  const [chooseVolunteer, setChooseVolunteer] = useState(true);
+  const [volunteersCount, setVolunteersCount] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [sortConfig, setSortConfig] = useState({
@@ -110,7 +110,11 @@ const HelpingVolunteers = () => {
 
   // Sorting and filtering logic
   const filteredAndSortedVolunteers = useMemo(() => {
-    let filteredVolunteers = volunteerData.filter((volunteer) =>
+    let topN = volunteerData.slice(
+      0,
+      Math.min(volunteerData.length, volunteersCount),
+    );
+    let filteredVolunteers = topN.filter((volunteer) =>
       volunteer.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
@@ -139,7 +143,7 @@ const HelpingVolunteers = () => {
     });
 
     return filteredVolunteers;
-  }, [volunteerData, searchTerm, filter, sortConfig]);
+  }, [volunteerData, searchTerm, filter, sortConfig, volunteersCount]);
 
   const totalRows = filteredAndSortedVolunteers.length;
   const totalPages = Math.ceil(totalRows / itemsPerPage);
