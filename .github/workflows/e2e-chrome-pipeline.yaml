@@ -42,8 +42,11 @@ jobs:
           which chromedriver
           chromedriver --version
         continue-on-error: true
-      - name: kill chrome
-        run: pkill -f chromium || true
+      - name: Kill Chrome processes
+        run: |
+          pkill -f chrome || true
+          pkill -f chromium || true
+          pkill -f google-chrome || true
 
       - name: Run E2E tests in Chrome
         run: npm run e2eChrome
