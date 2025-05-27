@@ -43,7 +43,7 @@ const PromoteToVolunteer = () => {
     const fetchUserId = async () => {
       try {
         // Fetch current user details (loginId)
-        const user = await getCurrentUser();
+
         const user = await getCurrentUser(); // Assuming getCurrentUser is a function that fetches the user data
         // setUserId("SID-00-000-000-");
         const loginId = user.signInDetails.loginId;
