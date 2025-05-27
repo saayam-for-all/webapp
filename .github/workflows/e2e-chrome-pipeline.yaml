@@ -17,7 +17,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-
+      - name: Eliminar chromedriver si está presente
+        run: |
+          if command -v chromedriver; then
+            echo "Chromedriver encontrado en $(which chromedriver), eliminando..."
+            sudo rm -f $(which chromedriver)
+          else
+            echo "Chromedriver no está instalado."
+          fi
       - name: Install dependencies
         run: npm ci
 
