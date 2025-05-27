@@ -21,7 +21,7 @@ const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
-  const [govtIdFile, setGovtIdFile] = useState({});
+  const [govtIdFile, setGovtIdFile] = useState(null);
   const token = useSelector((state) => state.auth.idToken);
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState({});
@@ -35,6 +35,11 @@ const PromoteToVolunteer = () => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
+  const [uploadAck, setUploadAck] = useState("");
+  const [uploadError, setUploadError] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
+  const fileInputRef = useRef(null);
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -126,6 +131,13 @@ const PromoteToVolunteer = () => {
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
             setIsUploaded={setIsUploaded}
+            ack={uploadAck}
+            setAck={setUploadAck}
+            error={uploadError}
+            setError={setUploadError}
+            preview={previewUrl}
+            setPreview={setPreviewUrl}
+            fileInputRef={fileInputRef}
           />
         );
       case 3:

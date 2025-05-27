@@ -8,14 +8,25 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).toString();
 
-const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
-  const [file, setFile] = useState(null);
-  const [error, setError] = useState("");
-  const [ack, setAck] = useState("");
-  const [preview, setPreview] = useState("");
+const VolunteerCourse = ({
+  selectedFile,
+  setSelectedFile,
+  setIsUploaded,
+  ack,
+  setAck,
+  error,
+  setError,
+  preview,
+  setPreview,
+  fileInputRef,
+}) => {
+  // const [file, setFile] = useState(null);
+  // const [error, setError] = useState("");
+  // const [ack, setAck] = useState("");
+  // const [preview, setPreview] = useState("");
   const [source, setSource] = useState("device");
   const [isLoading, setIsLoading] = useState(false);
-  const fileInputRef = useRef(null); // Reference to the file input
+  //const fileInputRef = useRef(null); // Reference to the file input
 
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
@@ -23,10 +34,10 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
 
     if (uploadedFile) {
       // Validate file size (2MB = 2 * 1024 * 1024 bytes)
-      console.log(uploadedFile);
       if (uploadedFile.size > 2 * 1024 * 1024) {
         setError("File size should not exceed 2MB");
-        setFile(null);
+        // setFile(null);
+        setSelectedFile(null);
         setPreview("");
         if (fileInputRef.current) fileInputRef.current.value = "";
         return;
@@ -36,15 +47,17 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
       const allowedTypes = ["image/jpg", "image/jpeg", "application/pdf"];
       if (!allowedTypes.includes(uploadedFile.type)) {
         setError("Only JPEG, JPG, and PDF files are allowed");
-        setFile(null);
+        //setFile(null);
+        setSelectedFile(null);
         setPreview("");
         if (fileInputRef.current) fileInputRef.current.value = "";
         return;
       }
 
       setError("");
-      setFile(uploadedFile);
-      setPreview(URL.createObjectURL(selectedFile));
+      //setFile(uploadedFile);
+      setSelectedFile(uploadedFile);
+      setPreview(URL.createObjectURL(uploadedFile));
     }
   };
 
@@ -96,7 +109,8 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
   };
 
   const handleRemoveFile = () => {
-    setFile(null);
+    //setFile(null);
+    setSelectedFile(null);
     setPreview("");
     setError("");
     setIsUploaded(false);
@@ -107,9 +121,9 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
   };
 
   const handleUpload = async () => {
-    if (!file) return;
+    if (!selectedFile) return;
 
-    const arrayBuffer = await file.arrayBuffer();
+    const arrayBuffer = await selectedFile.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
     for (let i = 1; i <= pdf.numPages; i++) {
@@ -204,9 +218,11 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
       )}
 
       {/* File Preview */}
-      {file && (
+      {selectedFile && (
         <div className="mb-4">
-          <p className="text-sm font-medium text-gray-700">File: {file.name}</p>
+          <p className="text-sm font-medium text-gray-700">
+            File: {selectedFile.name}
+          </p>
         </div>
       )}
 
@@ -218,12 +234,12 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
       <div className="flex justify-between items-center">
         <button
           onClick={handleUpload}
-          disabled={!file || isLoading}
+          disabled={!selectedFile || isLoading}
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           {isLoading ? "Uploading..." : "Upload"}
         </button>
-        {file && (
+        {selectedFile && (
           <button
             onClick={handleRemoveFile}
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
