@@ -29,8 +29,8 @@ const PromoteToVolunteer = () => {
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
-  const [userId, setUserId] = useState(null);
-  // const userId = useSelector((state) => state.user.userId);
+  // const [userId, setUserId] = useState(null);
+  const userId = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
@@ -43,19 +43,7 @@ const PromoteToVolunteer = () => {
     const fetchUserId = async () => {
       try {
         // Fetch current user details (loginId)
-
-        const user = await getCurrentUser(); // Assuming getCurrentUser is a function that fetches the user data
-        // setUserId("SID-00-000-000-");
-        const loginId = user.signInDetails.loginId;
-
-        // Fetch user profile using loginId
-        const userIdFromApi = await getUserProfile(loginId);
-
-        if (userIdFromApi) {
-          //console.log(userIdFromApi, "userIdFromApi out call");  // Log the fetched userId
-          // dispatch(setUserId(userIdFromApi)); // Set the fetched userId to state
-          setUserId(userIdFromApi);
-        }
+        const user = await getCurrentUser();
       } catch (error) {
         console.error("Error fetching user ID:", error);
       }
