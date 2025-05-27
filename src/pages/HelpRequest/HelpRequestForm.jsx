@@ -30,6 +30,8 @@ import {
   Typography,
   MenuItem,
   Select,
+  FormControl,
+  InputLabel,
   Snackbar,
   Alert,
   RadioGroup,
@@ -90,10 +92,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     phone: "",
     age: "",
     gender: "Select",
-    lead_volunteer: "Ethan Marshall",
+    lead_volunteer: "Yes",
     preferred_language: "",
     category: "General",
-    request_type: "remote",
+    request_type: "Remote",
     location: "",
     subject: "",
     description: "",
@@ -440,33 +442,42 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              {isEdit ? (
-                <input
-                  type="text"
+              <FormControl
+                fullWidth
+                variant="outlined"
+                size="small"
+                sx={{ mb: 4 }}
+              >
+                <InputLabel id="lead-volunteer-label"></InputLabel>
+                <Select
+                  labelId="lead-volunteer-label"
                   id="lead_volunteer"
-                  name="lead_volunteer"
-                  disabled={
-                    !(
-                      groups?.includes("Admins") ||
-                      groups?.includes("SuperAdmins")
-                    )
+                  value={formData.lead_volunteer}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      lead_volunteer: e.target.value,
+                    }))
                   }
-                  value={formData.lead_volunteer}
-                  onChange={handleChange}
-                  className="border p-2 w-full rounded-lg disabled:text-gray-400"
-                />
-              ) : (
-                <select
-                  id="lead_volunteer"
-                  name="lead_volunteer"
-                  value={formData.lead_volunteer}
-                  onChange={handleChange}
-                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
+                  sx={{
+                    backgroundColor: "white",
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "gray.300",
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "gray.400",
+                    },
+                    "& .MuiSelect-icon": { color: "gray.600" },
+                  }}
+                  MenuProps={{
+                    PaperProps: { sx: { bgcolor: "white" } },
+                  }}
                 >
-                  <option value="No">{t("No")}</option>
-                  <option value="Yes">{t("Yes")}</option>
-                </select>
-              )}
+                  {/* this one shows up as “placeholder” */}
+                  <MenuItem value="No">No</MenuItem>
+                  <MenuItem value="Yes">Yes</MenuItem>
+                </Select>
+              </FormControl>
             </div>
           </div>
           {/* 
@@ -615,22 +626,45 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              <input
-                type="text"
-                id="category"
-                value={
-                  filteredCategories.find((cat) => cat.id === formData.category)
-                    ?.name || formData.category
-                }
-                onChange={handleSearchInput}
-                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
-                onFocus={() => setShowDropdown(true)}
-                onBlur={(e) => {
-                  if (!dropdownRef.current?.contains(e.relatedTarget)) {
-                    setShowDropdown(false);
+              <FormControl
+                fullWidth
+                variant="outlined"
+                size="small"
+                sx={{ mb: 4 }}
+              >
+                <InputLabel id="category-label"></InputLabel>
+                <Select
+                  labelId="category-label"
+                  id="category"
+                  value={formData.category}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
                   }
-                }}
-              />
+                  sx={{
+                    backgroundColor: "white", // white fill
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "gray.300", // light gray border
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "gray.400",
+                    },
+                    "& .MuiSelect-icon": {
+                      color: "gray.600", // gray arrow
+                    },
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: { bgcolor: "white" }, // white dropdown panel
+                    },
+                  }}
+                >
+                  {filteredCategories.map((cat) => (
+                    <MenuItem key={cat.id} value={cat.name}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               {showDropdown && (
                 <div
                   className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
@@ -696,17 +730,36 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              <select
-                id="requestType"
-                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
-                value={formData.request_type || "Remote"}
-                onChange={(e) =>
-                  setFormData({ ...formData, request_type: e.target.value })
-                }
-              >
-                <option value="Remote">{t("REMOTE")}</option>
-                <option value="In Person">{t("IN_PERSON")}</option>
-              </select>
+              <FormControl fullWidth variant="outlined" size="small">
+                <InputLabel id="request-type-label"></InputLabel>
+                <Select
+                  labelId="request-type-label"
+                  id="requestType"
+                  value={formData.request_type}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      request_type: e.target.value,
+                    }))
+                  }
+                  sx={{
+                    backgroundColor: "white",
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "gray.300",
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "gray.400",
+                    },
+                    "& .MuiSelect-icon": { color: "gray.600" },
+                  }}
+                  MenuProps={{
+                    PaperProps: { sx: { bgcolor: "white" } },
+                  }}
+                >
+                  <MenuItem value="Remote">Remote</MenuItem>
+                  <MenuItem value="In Person">In Person</MenuItem>
+                </Select>
+              </FormControl>
             </div>
 
             {formData.request_type === "In Person" && (
@@ -756,18 +809,46 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              <select
-                id="requestPriority"
-                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
-                value={formData.priority || "MEDIUM"}
-                onChange={(e) =>
-                  setFormData({ ...formData, priority: e.target.value })
-                }
+              <FormControl
+                fullWidth
+                variant="outlined"
+                size="small"
+                sx={{ mb: 2 }}
               >
-                <option value="LOW">{t("Low")}</option>
-                <option value="MEDIUM">{t("Medium")}</option>
-                <option value="HIGH">{t("High")}</option>
-              </select>
+                <InputLabel id="priority-label"></InputLabel>
+                <Select
+                  labelId="priority-label"
+                  id="requestPriority"
+                  value={formData.priority}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      priority: e.target.value,
+                    }))
+                  }
+                  sx={{
+                    backgroundColor: "white",
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "gray.300",
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "gray.400",
+                    },
+                    "& .MuiSelect-icon": {
+                      color: "gray.600",
+                    },
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: { bgcolor: "white" },
+                    },
+                  }}
+                >
+                  <MenuItem value="LOW">{t("Low")}</MenuItem>
+                  <MenuItem value="MEDIUM">{t("Medium")}</MenuItem>
+                  <MenuItem value="HIGH">{t("High")}</MenuItem>
+                </Select>
+              </FormControl>
             </div>
           </div>
 
