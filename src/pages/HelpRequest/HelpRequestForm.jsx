@@ -480,132 +480,133 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </FormControl>
             </div>
           </div>
-          {/* 
-          Temporarily commented out as MVP only allows for self requests
-          {!selfFlag && (
-            <div className="mt-3" data-testid="parentDivTwo">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="requester_first_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("FIRST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_first_name"
-                    value={formData.requester_first_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="requester_last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("LAST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_last_name"
-                    value={formData.requester_last_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-              </div>
-              <div className="mt-3" data-testid="parentDivThree">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 mb-1 font-medium"
-                >
-                  {t("EMAIL")}
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-              </div>
+          {/*
+         Temporarily commented out as MVP only allows for self requests
+         {!selfFlag && (
+           <div className="mt-3" data-testid="parentDivTwo">
+             <div className="grid grid-cols-2 gap-4">
+               <div>
+                 <label
+                   htmlFor="requester_first_name"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("FIRST_NAME")}
+                 </label>
+                 <input
+                   type="text"
+                   id="requester_first_name"
+                   value={formData.requester_first_name}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div>
+                 <label
+                   htmlFor="requester_last_name"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("LAST_NAME")}
+                 </label>
+                 <input
+                   type="text"
+                   id="requester_last_name"
+                   value={formData.requester_last_name}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+             </div>
+             <div className="mt-3" data-testid="parentDivThree">
+               <label
+                 htmlFor="email"
+                 className="block text-gray-700 mb-1 font-medium"
+               >
+                 {t("EMAIL")}
+               </label>
+               <input
+                 type="email"
+                 id="email"
+                 value={formData.email}
+                 onChange={handleChange}
+                 className="w-full rounded-lg border py-2 px-3"
+               />
+             </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PHONE")}
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("AGE")}
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div className="mt-3" data-testid="parentDivFour">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("GENDER")}
-                  </label>
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {genderOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mt-3" data-testid="parentDivFive">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PREFERRED_LANGUAGE")}
-                  </label>
-                  <select
-                    id="language"
-                    value={formData.language}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-          )} */}
+
+             <div className="mt-3 grid grid-cols-2 gap-4">
+               <div>
+                 <label
+                   htmlFor="phone"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("PHONE")}
+                 </label>
+                 <input
+                   type="text"
+                   id="phone"
+                   value={formData.phone}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div>
+                 <label
+                   htmlFor="age"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("AGE")}
+                 </label>
+                 <input
+                   type="number"
+                   id="age"
+                   value={formData.age}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div className="mt-3" data-testid="parentDivFour">
+                 <label
+                   htmlFor="gender"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("GENDER")}
+                 </label>
+                 <select
+                   id="gender"
+                   value={formData.gender}
+                   onChange={handleChange}
+                   className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                 >
+                   {genderOptions.map((option) => (
+                     <option key={option.value} value={option.value}>
+                       {option.label}
+                     </option>
+                   ))}
+                 </select>
+               </div>
+               <div className="mt-3" data-testid="parentDivFive">
+                 <label
+                   htmlFor="language"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("PREFERRED_LANGUAGE")}
+                 </label>
+                 <select
+                   id="language"
+                   value={formData.language}
+                   onChange={handleChange}
+                   className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                 >
+                   {languages.map((language) => (
+                     <option key={language.value} value={language.value}>
+                       {language.label}
+                     </option>
+                   ))}
+                 </select>
+               </div>
+             </div>
+           </div>
+         )} */}
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
@@ -654,7 +655,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   }}
                   MenuProps={{
                     PaperProps: {
-                      sx: { bgcolor: "white" }, // white dropdown panel
+                      sx: { bgcolor: "white", maxHeight: 300 }, // white dropdown panel, max height
+                      style: { maxHeight: 300 }, // fallback for inline style
                     },
                   }}
                 >
