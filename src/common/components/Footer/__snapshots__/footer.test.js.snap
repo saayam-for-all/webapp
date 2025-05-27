@@ -40,21 +40,21 @@ exports[`Footer renders correctly 1`] = `
                   mockTranslate(ABOUT)
                 </a>
                 <a
-                  href="/"
+                  href="#"
                 >
                   mockTranslate(MISSION)
                    & 
                   mockTranslate(VISION)
                 </a>
                 <a
-                  href="/directors"
+                  href="/our-team"
                 >
                   mockTranslate(OUR_TEAM)
                 </a>
                 <a
-                  href="/"
+                  href="/how-we-operate"
                 >
-                  mockTranslate(WHAT_WE_OFFER)
+                  mockTranslate(How We Operate)
                 </a>
                 <a
                   href="/donate"
@@ -148,21 +148,21 @@ exports[`Footer renders correctly 1`] = `
                 mockTranslate(ABOUT)
               </a>
               <a
-                href="/"
+                href="#"
               >
                 mockTranslate(MISSION)
                  & 
                 mockTranslate(VISION)
               </a>
               <a
-                href="/directors"
+                href="/our-team"
               >
                 mockTranslate(OUR_TEAM)
               </a>
               <a
-                href="/"
+                href="/how-we-operate"
               >
-                mockTranslate(WHAT_WE_OFFER)
+                mockTranslate(How We Operate)
               </a>
               <a
                 href="/donate"

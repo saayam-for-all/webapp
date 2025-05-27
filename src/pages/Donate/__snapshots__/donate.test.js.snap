@@ -5,184 +5,160 @@ exports[`Donate renders correctly 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div>
+      <div
+        class="donate-container"
+        data-testid="donate-container"
+      >
         <div
-          class="donate-container"
+          class="donate-grid"
+          data-testid="donate-grid"
         >
           <div
-            class="w-full flex justify-start px-4 mt-4 mb-4"
-            style="max-width: 1200px; margin: 0px auto;"
+            class="donate-image-container"
+            data-testid="donate-image-container"
           >
-            <button
-              class="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-            >
-              <span
-                class="text-2xl mr-2"
-              >
-                &lt;
-              </span>
-               Back
-            </button>
+            <img
+              alt="People helping each other"
+              class="donate-image"
+              src=""
+            />
           </div>
           <div
-            class="donate-container"
-            data-testid="donate-container"
+            class="donate-content"
+            data-testid="donate-content"
           >
-            <div
-              class="donate-grid"
-              data-testid="donate-grid"
-            >
-              <div
-                class="donate-image-container"
-                data-testid="donate-image-container"
+            <div>
+              <h1
+                class="donate-title"
               >
-                <img
-                  alt="People helping each other"
-                  class="donate-image"
-                  src=""
-                />
-              </div>
-              <div
-                class="donate-content"
-                data-testid="donate-content"
+                Make a Donation
+              </h1>
+              <p
+                class="donate-subtitle"
               >
-                <div>
-                  <h1
-                    class="donate-title"
-                  >
-                    Make a Donation
-                  </h1>
-                  <p
-                    class="donate-subtitle"
-                  >
-                    Your contribution helps us continue our mission of providing assistance to those in need.
-                  </p>
-                  <div
-                    class="donation-buttons"
-                  >
-                    <a
-                      class="donate-button-paypal"
-                      href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Donate via PayPal
-                    </a>
-                    <a
-                      class="donate-button-razorpay"
-                      href="#"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Donate via RazorPay
-                    </a>
-                    <a
-                      class="donate-button-stripe"
-                      href="#"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Donate via Stripe
-                    </a>
-                    <a
-                      class="donate-button-charity"
-                      href="https://www.charitynavigator.org/ein/932798273"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Donate via Charity Navigator
-                    </a>
-                    <a
-                      class="donate-button-benevity"
-                      href="https://Benevity.org"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Donate via Benevity
-                    </a>
-                  </div>
-                </div>
+                Your contribution helps us continue our mission of providing assistance to those in need.
+              </p>
+              <div
+                class="donation-buttons"
+              >
+                <a
+                  class="donate-button-paypal"
+                  href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Donate via PayPal
+                </a>
+                <a
+                  class="donate-button-razorpay"
+                  href="#"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Donate via RazorPay
+                </a>
+                <button
+                  class="donate-button-stripe"
+                >
+                  Donate via Stripe
+                </button>
+                <a
+                  class="donate-button-charity"
+                  href="https://www.charitynavigator.org/ein/932798273"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Donate via Charity Navigator
+                </a>
+                <a
+                  class="donate-button-benevity"
+                  href="https://Benevity.org"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Donate via Benevity
+                </a>
               </div>
             </div>
+          </div>
+        </div>
+        <div
+          class="faq-section"
+          data-testid="faq-section"
+        >
+          <h2
+            class="faq-title"
+          >
+            FAQ's
+          </h2>
+          <div
+            class="faq-list"
+          >
             <div
-              class="faq-section"
-              data-testid="faq-section"
+              class="faq-item"
             >
-              <h2
-                class="faq-title"
+              <button
+                class="faq-question"
               >
-                FAQ's
-              </h2>
-              <div
-                class="faq-list"
+                Are donations tax deductible?
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="faq-item"
+            >
+              <button
+                class="faq-question"
               >
-                <div
-                  class="faq-item"
+                How will my donation be used?
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <button
-                    class="faq-question"
-                  >
-                    Are donations tax deductible?
-                    <svg
-                      class="faq-icon "
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 9l-7 7-7-7"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div
-                  class="faq-item"
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="faq-item"
+            >
+              <button
+                class="faq-question"
+              >
+                Can I cancel recurring donations?
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <button
-                    class="faq-question"
-                  >
-                    How will my donation be used?
-                    <svg
-                      class="faq-icon "
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 9l-7 7-7-7"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div
-                  class="faq-item"
-                >
-                  <button
-                    class="faq-question"
-                  >
-                    Can I cancel recurring donations?
-                    <svg
-                      class="faq-icon "
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 9l-7 7-7-7"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -190,184 +166,160 @@ exports[`Donate renders correctly 1`] = `
     </div>
   </body>,
   "container": <div>
-    <div>
+    <div
+      class="donate-container"
+      data-testid="donate-container"
+    >
       <div
-        class="donate-container"
+        class="donate-grid"
+        data-testid="donate-grid"
       >
         <div
-          class="w-full flex justify-start px-4 mt-4 mb-4"
-          style="max-width: 1200px; margin: 0px auto;"
+          class="donate-image-container"
+          data-testid="donate-image-container"
         >
-          <button
-            class="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-          >
-            <span
-              class="text-2xl mr-2"
-            >
-              &lt;
-            </span>
-             Back
-          </button>
+          <img
+            alt="People helping each other"
+            class="donate-image"
+            src=""
+          />
         </div>
         <div
-          class="donate-container"
-          data-testid="donate-container"
+          class="donate-content"
+          data-testid="donate-content"
         >
-          <div
-            class="donate-grid"
-            data-testid="donate-grid"
-          >
-            <div
-              class="donate-image-container"
-              data-testid="donate-image-container"
+          <div>
+            <h1
+              class="donate-title"
             >
-              <img
-                alt="People helping each other"
-                class="donate-image"
-                src=""
-              />
-            </div>
-            <div
-              class="donate-content"
-              data-testid="donate-content"
+              Make a Donation
+            </h1>
+            <p
+              class="donate-subtitle"
             >
-              <div>
-                <h1
-                  class="donate-title"
-                >
-                  Make a Donation
-                </h1>
-                <p
-                  class="donate-subtitle"
-                >
-                  Your contribution helps us continue our mission of providing assistance to those in need.
-                </p>
-                <div
-                  class="donation-buttons"
-                >
-                  <a
-                    class="donate-button-paypal"
-                    href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Donate via PayPal
-                  </a>
-                  <a
-                    class="donate-button-razorpay"
-                    href="#"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Donate via RazorPay
-                  </a>
-                  <a
-                    class="donate-button-stripe"
-                    href="#"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Donate via Stripe
-                  </a>
-                  <a
-                    class="donate-button-charity"
-                    href="https://www.charitynavigator.org/ein/932798273"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Donate via Charity Navigator
-                  </a>
-                  <a
-                    class="donate-button-benevity"
-                    href="https://Benevity.org"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Donate via Benevity
-                  </a>
-                </div>
-              </div>
+              Your contribution helps us continue our mission of providing assistance to those in need.
+            </p>
+            <div
+              class="donation-buttons"
+            >
+              <a
+                class="donate-button-paypal"
+                href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Donate via PayPal
+              </a>
+              <a
+                class="donate-button-razorpay"
+                href="#"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Donate via RazorPay
+              </a>
+              <button
+                class="donate-button-stripe"
+              >
+                Donate via Stripe
+              </button>
+              <a
+                class="donate-button-charity"
+                href="https://www.charitynavigator.org/ein/932798273"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Donate via Charity Navigator
+              </a>
+              <a
+                class="donate-button-benevity"
+                href="https://Benevity.org"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Donate via Benevity
+              </a>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        class="faq-section"
+        data-testid="faq-section"
+      >
+        <h2
+          class="faq-title"
+        >
+          FAQ's
+        </h2>
+        <div
+          class="faq-list"
+        >
           <div
-            class="faq-section"
-            data-testid="faq-section"
+            class="faq-item"
           >
-            <h2
-              class="faq-title"
+            <button
+              class="faq-question"
             >
-              FAQ's
-            </h2>
-            <div
-              class="faq-list"
+              Are donations tax deductible?
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="faq-item"
+          >
+            <button
+              class="faq-question"
             >
-              <div
-                class="faq-item"
+              How will my donation be used?
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <button
-                  class="faq-question"
-                >
-                  Are donations tax deductible?
-                  <svg
-                    class="faq-icon "
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 9l-7 7-7-7"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div
-                class="faq-item"
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="faq-item"
+          >
+            <button
+              class="faq-question"
+            >
+              Can I cancel recurring donations?
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <button
-                  class="faq-question"
-                >
-                  How will my donation be used?
-                  <svg
-                    class="faq-icon "
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 9l-7 7-7-7"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div
-                class="faq-item"
-              >
-                <button
-                  class="faq-question"
-                >
-                  Can I cancel recurring donations?
-                  <svg
-                    class="faq-icon "
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 9l-7 7-7-7"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
