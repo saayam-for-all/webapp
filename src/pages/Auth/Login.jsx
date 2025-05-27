@@ -89,14 +89,9 @@ const LoginPage = () => {
           }
         };
         const [userIdFromApi, url] = await getUserProfileId(emailValue);
-        // console.log("userIdFromApi", userIdFromApi);
-        // console.log("url", url);
-
         dispatch(setUserId(userIdFromApi));
         if (url !== null) {
-          dispatch(setProfileImgUrl(url));
-          localStorage.setItem("profilePhoto", url);
-          window.dispatchEvent(new Event("profile-photo-updated"));
+          fetchAndStoreImage(url, "profilePhoto");
         }
         const newExpiry = Date.now() + INACTIVITY_TIMEOUT;
         localStorage.setItem("expireTime", newExpiry.toString());
@@ -107,6 +102,28 @@ const LoginPage = () => {
       setErrors({ root: "Invalid email or password" });
     }
   };
+  async function fetchAndStoreImage(presignedUrl, storageKey) {
+    // Fetch image as blob from presigned URL
+    const response = await fetch(presignedUrl);
+    if (!response.ok) throw new Error("Failed to fetch image");
+
+    const blob = await response.blob();
+
+    // Convert blob to base64 string
+    const base64 = await blobToBase64(blob);
+    dispatch(setProfileImgUrl(base64));
+    // Store in localStorage
+    localStorage.setItem(storageKey, base64);
+    window.dispatchEvent(new Event("profile-photo-updated"));
+  }
+  function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result); // base64 string here
+      reader.onerror = reject;
+      reader.readAsDataURL(blob); // includes mime type prefix
+    });
+  }
 
   return (
     <div className="flex items-center h-full justify-center">
