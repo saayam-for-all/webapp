@@ -17,6 +17,10 @@ const HowWeOperate = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       const line = timelineRef.current;
       if (!line) return;
