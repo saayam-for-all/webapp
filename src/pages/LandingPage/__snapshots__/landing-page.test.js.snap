@@ -224,9 +224,9 @@ exports[`LandingPage renders correctly 1`] = `
             class="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5"
           >
             <iframe
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               class="landing-iframe "
-              src="https://www.youtube.com/embed/zupN0-zXrLQ?autoplay=1&mute=0&controls=1&rel=0"
+              src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0"
               title="YouTube Video"
             />
           </div>
@@ -544,9 +544,9 @@ exports[`LandingPage renders correctly 1`] = `
           class="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5"
         >
           <iframe
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             class="landing-iframe "
-            src="https://www.youtube.com/embed/zupN0-zXrLQ?autoplay=1&mute=0&controls=1&rel=0"
+            src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0"
             title="YouTube Video"
           />
         </div>
