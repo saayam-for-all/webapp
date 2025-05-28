@@ -49,8 +49,6 @@ const ContactUs = () => {
     e.preventDefault();
     const newErrors = {};
     const nameRegex = /^[A-Za-z\s]+$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\d{10,15}$/;
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First Name is required";
     } else if (!nameRegex.test(formData.firstName.trim())) {
@@ -63,18 +61,13 @@ const ContactUs = () => {
     }
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!emailRegex.test(formData.email.trim())) {
-      newErrors.email = "Enter a valid email";
     }
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone is required";
-    } else if (!phoneRegex.test(formData.phone.trim())) {
-      newErrors.phone = "Enter a valid phone number (10–15 digits)";
     }
     if (!formData.message) {
       newErrors.message = "Message is required";
     }
-    console.log("Validation Errors:", newErrors);
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
