@@ -123,24 +123,32 @@ const VolunteerCourse = ({
   const handleUpload = async () => {
     if (!selectedFile) return;
 
-    const arrayBuffer = await selectedFile.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    if (
+      selectedFile.type === "image/jpg" ||
+      selectedFile.type === "image/jpeg"
+    ) {
+      setIsUploaded(true);
+      setAck("Image Uploaded Successfully");
+    } else {
+      const arrayBuffer = await selectedFile.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
 
-      const opList = await page.getOperatorList();
-      const hasImage = opList.fnArray.some(
-        (fn) =>
-          fn === OPS.paintImageXObject || fn === OPS.paintInlineImageXObject,
-      );
-      if (hasImage) {
-        setIsUploaded(true);
-        setError("");
-        setAck("PDF File Uploaded Successfully");
-      } else {
-        setIsUploaded(false);
-        setError("Please upload a Valid PDF");
+        const opList = await page.getOperatorList();
+        const hasImage = opList.fnArray.some(
+          (fn) =>
+            fn === OPS.paintImageXObject || fn === OPS.paintInlineImageXObject,
+        );
+        if (hasImage) {
+          setIsUploaded(true);
+          setError("");
+          setAck("PDF File Uploaded Successfully");
+        } else {
+          setIsUploaded(false);
+          setError("Please upload a Valid PDF");
+        }
       }
     }
   };

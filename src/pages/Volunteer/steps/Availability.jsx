@@ -30,6 +30,7 @@ const TimeInputComponent = ({
   };
 
   const handleStartTimeChange = (newStartTime) => {
+    if (endTime !== null) setTimeCheck(endTime > newStartTime);
     onTimeChange(index, "startTime", newStartTime);
   };
 
