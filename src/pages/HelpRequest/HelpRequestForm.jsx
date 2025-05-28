@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { IoMdInformationCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { HiChevronDown } from "react-icons/hi";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
@@ -22,6 +21,7 @@ import {
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
+import { HiChevronDown } from "react-icons/hi";
 import {
   Dialog,
   DialogActions,
@@ -31,6 +31,8 @@ import {
   Typography,
   MenuItem,
   Select,
+  FormControl,
+  InputLabel,
   Snackbar,
   Alert,
   RadioGroup,
@@ -412,16 +414,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               <select
                 id="self"
                 data-testid="dropdown"
-                className="
-                    appearance-none
-                    bg-white
-                    disabled:bg-white
-                    border border-gray-300
-                    text-gray-700
-                    rounded-lg
-                    p-2
-                    w-full
-                  "
+                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                 onChange={(e) => setSelfFlag(e.target.value === "yes")}
                 disabled
               >
@@ -429,6 +422,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </select>
             </div>
 
+            {/* Lead Volunteer */}
             {/* Lead Volunteer */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
@@ -439,20 +433,20 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("Lead Volunteer")}
                 </label>
                 <div className="relative group cursor-pointer">
-                  {/* Info icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
                   <div
-                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
+                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 
                                   opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
                   >
-                    Select ‘Yes’ if you’re the main volunteer coordinating this
+                    Select “Yes” if you’re the main volunteer coordinating this
                     request.
                   </div>
                 </div>
               </div>
 
+              {/* when editing, admins can type new name; otherwise show a dropdown */}
               {isEdit ? (
                 <input
                   type="text"
@@ -475,13 +469,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     name="lead_volunteer"
                     value={formData.lead_volunteer}
                     onChange={handleChange}
-                    className="block w-full appearance-none bg-white border border-gray-300 rounded-lg
+                    className="block w-full appearance-none bg-white border border-gray-300 rounded-lg 
                               py-2 px-3 pr-8 text-gray-700 focus:outline-none"
                   >
                     <option value="No">{t("No")}</option>
                     <option value="Yes">{t("Yes")}</option>
                   </select>
-                  {/* absolutely positioned arrow */}
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <HiChevronDown className="h-5 w-5 text-gray-400" />
                   </div>
@@ -652,23 +645,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     if (!dropdownRef.current?.contains(e.relatedTarget)) {
                       setShowDropdown(false);
                     }
-                  sx={{
-                    backgroundColor: "white", // white fill
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.300", // light gray border
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.400",
-                    },
-                    "& .MuiSelect-icon": {
-                      color: "gray.600", // gray arrow
-                    },
-                  }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: { bgcolor: "white", maxHeight: 300 }, // white dropdown panel, max height
-                      style: { maxHeight: 300 }, // fallback for inline style
-                    },
                   }}
                 />
 
