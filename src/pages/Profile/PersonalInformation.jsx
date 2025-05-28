@@ -254,28 +254,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         error = "First language preference is required.";
       }
     }
-    // if (name === "secondaryEmail") {
-    //   if (!value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-    //     error = "Please enter a valid email address.";
-    //   }
-    // }
-
-    // if (name === "secondaryPhone") {
-    //   if (!value || !/^[0-9]+$/.test(value)) {
-    //     error = "Please enter a valid phone number.";
-    //   }
-    // }
-    // if (name === "gender") {
-    //   if (!value) {
-    //     return "Gender is required."; // Validation error message
-    //   }
-    // }
-
-    // if (name === "secondaryPhoneCountryCode") {
-    //   if (!value) {
-    //     error = "Country Code is required.";
-    //   }
-    // }
     return error;
   };
   return (
