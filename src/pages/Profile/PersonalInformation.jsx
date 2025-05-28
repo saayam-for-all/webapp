@@ -183,16 +183,12 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     const newErrors = {};
     const fieldsToValidate = [
       "dateOfBirth",
-      "gender",
       "streetAddress",
       "streetAddress2",
       "country",
       "state",
       "zipCode",
       "languagePreference1",
-      "secondaryEmail",
-      "secondaryPhone",
-      "secondaryPhoneCountryCode",
     ];
 
     fieldsToValidate.forEach((field) => {
@@ -258,28 +254,28 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         error = "First language preference is required.";
       }
     }
-    if (name === "secondaryEmail") {
-      if (!value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        error = "Please enter a valid email address.";
-      }
-    }
+    // if (name === "secondaryEmail") {
+    //   if (!value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+    //     error = "Please enter a valid email address.";
+    //   }
+    // }
 
-    if (name === "secondaryPhone") {
-      if (!value || !/^[0-9]+$/.test(value)) {
-        error = "Please enter a valid phone number.";
-      }
-    }
-    if (name === "gender") {
-      if (!value) {
-        return "Gender is required."; // Validation error message
-      }
-    }
+    // if (name === "secondaryPhone") {
+    //   if (!value || !/^[0-9]+$/.test(value)) {
+    //     error = "Please enter a valid phone number.";
+    //   }
+    // }
+    // if (name === "gender") {
+    //   if (!value) {
+    //     return "Gender is required."; // Validation error message
+    //   }
+    // }
 
-    if (name === "secondaryPhoneCountryCode") {
-      if (!value) {
-        error = "Country Code is required.";
-      }
-    }
+    // if (name === "secondaryPhoneCountryCode") {
+    //   if (!value) {
+    //     error = "Country Code is required.";
+    //   }
+    // }
     return error;
   };
   return (
@@ -656,9 +652,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 type="text"
                 name="secondaryPhone"
                 value={personalInfo.secondaryPhone}
-                onChange={(e) =>
-                  handleInputChange("secondaryPhone", e.target.value)
-                }
+                onChange={(e) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                  handleInputChange("secondaryPhone", numericValue);
+                }}
                 className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
