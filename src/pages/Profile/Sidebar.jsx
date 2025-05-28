@@ -113,6 +113,24 @@ function Sidebar({
           )}
         </button>
 
+        {/* New Preferences Tab */}
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "preferences"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("preferences")}
+        >
+          <div className="flex items-center">
+            <FaCalendarAlt className="mr-2 text-gray-500" />
+            {t("Preferences")}
+          </div>
+          {activeTab !== "preferences" && (
+            <FiChevronRight className="text-gray-400" />
+          )}
+        </button>
+
         {/* Skills Tab */}
         <button
           className={`flex items-center justify-between py-3 px-4 w-full text-left ${
