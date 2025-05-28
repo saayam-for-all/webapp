@@ -640,27 +640,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   type="text"
                   id="category"
                   value={
-                    filteredCategories.find((c) => c.id === formData.category)
-                      ?.name || formData.category
+                    filteredCategories.find(
+                      (cat) => cat.id === formData.category,
+                    )?.name || formData.category
                   }
                   onChange={handleSearchInput}
+                  className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
                   onFocus={() => setShowDropdown(true)}
                   onBlur={(e) => {
                     if (!dropdownRef.current?.contains(e.relatedTarget)) {
                       setShowDropdown(false);
                     }
                   }}
-                  placeholder="Select…"
-                  className="
-                    block w-full appearance-none
-                    bg-white border border-gray-300
-                    rounded-lg py-2 px-3 pr-8
-                    text-gray-700
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                  "
                 />
 
-                {/* custom dropdown arrow */}
+                {/* the dropdown arrow, pointer-events-none so it doesn’t block input clicks */}
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <HiChevronDown className="h-5 w-5 text-gray-400" />
                 </div>
