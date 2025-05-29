@@ -99,7 +99,7 @@ const ContactUs = () => {
             {faqs.map((faq, index) => (
               <div key={index} className="mb-4 border-b border-gray-300 pb-2">
                 <button
-                  // className="text-left w-full flex justify-between items-center font-medium text-gray-800"
+                  className="text-left w-full flex justify-between items-center font-medium text-gray-800"
                   onClick={() => toggleFAQ(index)}
                 >
                   <span>{faq.question}</span>
