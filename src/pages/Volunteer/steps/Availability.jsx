@@ -5,7 +5,7 @@ import "rsuite/dist/rsuite.min.css";
 
 const TimeInputComponent = ({
   index,
-  day,
+  dayOfWeek,
   startTime,
   endTime,
   onDayChange,
@@ -30,6 +30,7 @@ const TimeInputComponent = ({
   };
 
   const handleStartTimeChange = (newStartTime) => {
+    if (endTime !== null) setTimeCheck(endTime > newStartTime);
     onTimeChange(index, "startTime", newStartTime);
   };
 
@@ -42,7 +43,7 @@ const TimeInputComponent = ({
     <div className="flex items-center space-x-4 mb-1">
       <select
         className="w-40 border border-gray-300 rounded-md p-2"
-        value={day}
+        value={dayOfWeek}
         onChange={handleDayChange}
       >
         {days.map((d) => (
@@ -113,10 +114,10 @@ const TimeInputList = ({ components, setComponents, setTimeCheck }) => {
   //   })),
   // );
 
-  const handleDayChange = (index, day) => {
-    console.log(`Day change at index ${index}: ${day}`);
+  const handleDayChange = (index, dayOfWeek) => {
+    console.log(`Day change at index ${index}: ${dayOfWeek}`);
     const newComponents = components.map((component, i) =>
-      i === index ? { ...component, day } : component,
+      i === index ? { ...component, dayOfWeek } : component,
     );
     setComponents(newComponents);
   };
@@ -145,7 +146,7 @@ const TimeInputList = ({ components, setComponents, setTimeCheck }) => {
       ...components,
       {
         id: newId,
-        day: "Everyday",
+        dayOfWeek: "Everyday",
         startTime: null,
         endTime: null,
       },
@@ -159,7 +160,7 @@ const TimeInputList = ({ components, setComponents, setTimeCheck }) => {
         <TimeInputComponent
           key={component.id}
           index={index}
-          day={component.day}
+          dayOfWeek={component.dayOfWeek}
           startTime={component.startTime}
           endTime={component.endTime}
           onDayChange={handleDayChange}

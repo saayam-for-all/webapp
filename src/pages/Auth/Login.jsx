@@ -88,10 +88,13 @@ const LoginPage = () => {
             console.error("Error fetching user profile:", error); // Log any errors that occur
           }
         };
-        const [userIdFromApi, url] = await getUserProfileId(emailValue);
+        const [userIdFromApi, profileImageUrl] =
+          await getUserProfileId(emailValue);
         dispatch(setUserId(userIdFromApi));
-        if (url !== null) {
-          fetchAndStoreImage(url, "profilePhoto");
+        if (profileImageUrl !== null) {
+          const absoluteUrl = `http://localhost:8080${profileImageUrl}`;
+          console.log("absoluteUrl", absoluteUrl);
+          fetchAndStoreImage(absoluteUrl, "profilePhoto");
         }
         const newExpiry = Date.now() + INACTIVITY_TIMEOUT;
         localStorage.setItem("expireTime", newExpiry.toString());
@@ -102,9 +105,10 @@ const LoginPage = () => {
       setErrors({ root: "Invalid email or password" });
     }
   };
-  async function fetchAndStoreImage(presignedUrl, storageKey) {
+  async function fetchAndStoreImage(bootproxyUrl, storageKey) {
     // Fetch image as blob from presigned URL
-    const response = await fetch(presignedUrl);
+    const response = await fetch(bootproxyUrl);
+    console.log("bootproxyUrl fetch:", bootproxyUrl);
     if (!response.ok) throw new Error("Failed to fetch image");
 
     const blob = await response.blob();

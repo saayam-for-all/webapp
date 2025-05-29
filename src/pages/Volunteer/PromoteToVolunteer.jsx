@@ -191,6 +191,7 @@ const PromoteToVolunteer = () => {
         data: data,
         headers: headers,
       });
+
       return response;
     } catch (error) {
       const errorMessage =
@@ -312,6 +313,7 @@ const PromoteToVolunteer = () => {
         availability: availabilitySlots,
       });
       saveVolunteerData();
+      newStep++; // Move to the confirmation step
     }
 
     if (newStep > 0 && newStep <= steps.length + 1) {
