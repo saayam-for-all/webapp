@@ -15,6 +15,7 @@
     "preview": "vite preview",
     "jest": "jest",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "prepare": "husky"
   },
   "dependencies": {
