@@ -49,6 +49,8 @@ const ContactUs = () => {
     e.preventDefault();
     const newErrors = {};
     const nameRegex = /^[A-Za-z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/;
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First Name is required";
     } else if (!nameRegex.test(formData.firstName.trim())) {
@@ -61,9 +63,15 @@ const ContactUs = () => {
     }
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Email is invalid";
     }
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone is required";
+    } else if (!phoneRegex.test(formData.phone.trim())) {
+      newErrors.phone = "Phone number must be 10 digits";
+    } else if (formData.phone.trim().length !== 10) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
     }
     if (!formData.message) {
       newErrors.message = "Message is required";
