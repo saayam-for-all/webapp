@@ -472,6 +472,7 @@ const Navbar = () => {
             )}
           </div>
         ) : (
+
           <NavLink
             to="/login"
             className="font-semibold flex flex-col items-center ml-2 mr-2"
@@ -481,6 +482,15 @@ const Navbar = () => {
             <IoLogInOutline className="mr-1 text-xl" />
             {t("LOGIN")}
           </NavLink>
+          // <NavLink
+          //   to="/login"
+          //   className="font-semibold flex flex-col items-center"
+          //   id="loginButton"
+          // >
+          //   <IoLogInOutline className="mr-1 text-xl" />
+          //   {t("LOGIN")}
+          // </NavLink>
+          <></>
         )}
 
         {/* Logout Confirmation Modal */}
