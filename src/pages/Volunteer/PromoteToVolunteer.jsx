@@ -26,7 +26,7 @@ const PromoteToVolunteer = () => {
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState({});
   const [availabilitySlots, setAvailabilitySlots] = useImmer([
-    { id: 1, day: "Everyday", startTime: null, endTime: null },
+    { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
@@ -334,6 +334,7 @@ const PromoteToVolunteer = () => {
         availability: availabilitySlots,
       });
       saveVolunteerData();
+      newStep++;
     }
 
     if (newStep > 0 && newStep <= steps.length + 1) {
