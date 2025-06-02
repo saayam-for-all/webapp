@@ -14,7 +14,7 @@ exports[`HowWeOperate renders correctly 1`] = `
           <h2
             class="text-3xl font-bold mb-4"
           >
-            Volunteer Services
+            mockTranslate(VOLUNTEER_SERVICES)
           </h2>
           <p
             class="text-gray-700 max-w-3xl mx-auto mb-4"
@@ -55,7 +55,7 @@ exports[`HowWeOperate renders correctly 1`] = `
             <h2
               class="text-3xl font-bold text-center mb-4"
             >
-              How We Operate
+              mockTranslate(HOW_WE_OPERATE)
             </h2>
             <p
               class="text-center text-gray-600 mb-12"
@@ -333,7 +333,7 @@ exports[`HowWeOperate renders correctly 1`] = `
         <h2
           class="text-3xl font-bold mb-4"
         >
-          Volunteer Services
+          mockTranslate(VOLUNTEER_SERVICES)
         </h2>
         <p
           class="text-gray-700 max-w-3xl mx-auto mb-4"
@@ -374,7 +374,7 @@ exports[`HowWeOperate renders correctly 1`] = `
           <h2
             class="text-3xl font-bold text-center mb-4"
           >
-            How We Operate
+            mockTranslate(HOW_WE_OPERATE)
           </h2>
           <p
             class="text-center text-gray-600 mb-12"

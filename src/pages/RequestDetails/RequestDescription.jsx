@@ -9,22 +9,31 @@ import { VscCalendar } from "react-icons/vsc";
 import { useSelector } from "react-redux";
 import "./RequestDescription.css";
 
-const attributes = [
-  {
-    context: "July 1, 2024",
-    type: "Creation Date",
-    icon: <VscCalendar size={22} />,
-  },
-  {
-    context: "Maintenance",
-    type: "Category",
-    icon: <TbTriangleSquareCircle size={22} />,
-  },
-];
-
 const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
+
+  const cDate = new Date(requestData.creationDate + "T00:00:00");
+  const formattedDate = cDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  console.log(requestData);
+
+  const attributes = [
+    {
+      context: formattedDate,
+      type: "Creation Date",
+      icon: <VscCalendar size={22} />,
+    },
+    {
+      context: requestData.category,
+      type: "Category",
+      icon: <TbTriangleSquareCircle size={22} />,
+    },
+  ];
 
   return (
     <>

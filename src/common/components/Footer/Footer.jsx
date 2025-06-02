@@ -1,12 +1,57 @@
 import React from "react";
 import "./Footer.css";
+import logo from "../../../assets/logo.svg";
+import { useTranslation } from "react-i18next";
 
-const Footer = () => {
+export default function Footer() {
+  const { t } = useTranslation();
   return (
-    <div className="bg-slate-200 text-center p-1">
-      <h1>Copyright © 2024 Saayam For All. All Rights Reserved</h1>
-    </div>
-  );
-};
+    <footer className="footer">
+      <div className="footer-inner">
+        {/* 1) Wrap top row + divider */}
+        <div className="footer-top-wrapper">
+          {/* Top row: logo | nav | contact */}
+          <div className="footer-top">
+            <div className="footer-logo">
+              <img src={logo} alt="Saayam logo" />
+            </div>
 
-export default Footer;
+            <nav className="footer-nav" aria-label="Footer navigation">
+              <a href="/">{t("HOME")}</a>
+              <a href="/our-mission">{t("ABOUT")}</a>
+              <a href="#">
+                {t("MISSION")} &amp; {t("VISION")}
+              </a>
+              <a href="/our-team">{t("OUR_TEAM")}</a>
+              <a href="/how-we-operate">{t("How We Operate")}</a>
+              <a href="/donate">{t("DONATE")}</a>
+            </nav>
+
+            <div className="footer-contact">
+              <a href="/contact">
+                <button type="button">{t("CONTACT")}</button>
+              </a>
+            </div>
+          </div>
+          {/* Divider exactly under that row */}
+          <hr className="footer-divider" />
+        </div>
+        {/* /.footer-top-wrapper */}
+
+        {/* 2) Bottom grid: copyright + links */}
+        <div className="footer-bottom-grid">
+          <div className="footer-copy">
+            Copyright © 2025 Saayam For All. All rights reserved.
+          </div>
+          <div className="footer-links">
+            <a href="/sitemap">{t("SITE_MAP")}</a>
+            <a href="#">{t("TERMS_AND_CONDITIONS")}</a>
+            <a href="#">{t("PRIVACY_POLICY")}</a>
+          </div>
+        </div>
+        {/* /.footer-bottom-grid */}
+      </div>
+      {/* /.footer-inner */}
+    </footer>
+  );
+}

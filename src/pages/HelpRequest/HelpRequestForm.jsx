@@ -21,6 +21,24 @@ import {
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
+import { HiChevronDown } from "react-icons/hi";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  Typography,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Snackbar,
+  Alert,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+} from "@mui/material";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -53,6 +71,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
+  const [categoryConfirmed, setCategoryConfirmed] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "info", // 'success', 'error', 'warning' also valid
+  });
 
   const { data, error, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
@@ -78,6 +102,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     description: "",
     priority: "MEDIUM",
   });
+
+  // useEffect(() => {
+  //   if (
+  //     formData.category === "General" &&
+  //     formData.subject.trim() !== "" &&
+  //     formData.description.trim() !== "" &&
+  //     !categoryConfirmed
+  //   ) {
+  //     fetchPredictedCategories();
+  //     setShowModal(true);
+  //   }
+  // }, [formData.subject, formData.description, formData.category]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -136,48 +172,60 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
 
       if (res.contains_profanity) {
-        toast.error(
-          "Profanity detected. Please remove these word(s) : " +
+        setSnackbar({
+          open: true,
+          message:
+            "Profanity detected. Please remove these word(s): " +
             res.profanity +
-            "  from Subject/Description and submit request again!",
-          {
-            position: "top-center", // You can customize the position
-            autoClose: 2000, // Toast auto-closes after 2 seconds
-            hideProgressBar: true, // Optional: Hide progress bar
-          },
-        );
-      } else {
-        // Proceed with submitting the request if no profanity is found
+            " from Subject/Description and submit again!",
+          severity: "error",
+        });
 
-        await fetchPredictedCategories();
-        if (formData.category == "General") {
-          setShowModal(true);
-        }
-        // const response = await axios.post(
-        //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-        //   submissionData,
+        // toast.error(
+        //   "Profanity detected. Please remove these word(s) : " +
+        //     res.profanity +
+        //     "  from Subject/Description and submit request again!",
         //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
+        //     position: "top-center", // You can customize the position
+        //     autoClose: 2000, // Toast auto-closes after 2 seconds
+        //     hideProgressBar: true, // Optional: Hide progress bar
+        //   },
         // );
-        else {
-          toast.success(
-            "Request submitted successfully! You will now be redirected to the dashboard.",
-            {
-              position: "top-center", // You can customize the position
-              autoClose: 2000, // Toast auto-closes after 2 seconds
-              hideProgressBar: true, // Optional: Hide progress bar
-            },
-          );
+      }
+      // Proceed with submitting the request if no profanity is found
 
-          // Redirect to the dashboard after a short delay
-          setTimeout(() => {
-            navigate("/dashboard");
-          }, 2000);
+      // const response = await axios.post(
+      //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
+      //   submissionData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+      else {
+        if (
+          formData.category === "General" &&
+          formData.subject.trim() !== "" &&
+          formData.description.trim() !== "" &&
+          !categoryConfirmed
+        ) {
+          await fetchPredictedCategories();
+          setShowModal(true);
+          return; // Don’t submit yet
         }
+
+        const response = await createRequest(submissionData);
+
+        setTimeout(() => {
+          navigate("/dashboard", {
+            state: {
+              successMessage:
+                "New Request #REQ-00-000-000-00011 submitted successfully!",
+            },
+          });
+        }, 2000);
       }
     } catch (error) {
       console.error("Failed to process request:", error);
@@ -285,39 +333,40 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const [selfFlag, setSelfFlag] = useState(true);
 
-  const handleConfirmCategorySelection = async () => {
-    const submissionData = {
-      ...formData,
-    };
+  const handleConfirmCategorySelection = () => {
+    const oldCategory = "General";
+    const newCategory = formData.category;
 
-    try {
-      const response = await createRequest(submissionData);
+    setCategoryConfirmed(true); // unlock submission
+    setShowModal(false);
 
-      setShowModal(false);
-      // Show the alert
-      toast.success(
-        "Request submitted successfully! You will now be redirected to the dashboard.",
-        {
-          position: "top-center", // You can customize the position
-          autoClose: 2000, // Toast auto-closes after 2 seconds
-          hideProgressBar: true, // Optional: Hide progress bar
-        },
-      );
-
-      // Redirect to the dashboard after a short delay
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 2000); // Wait 2 seconds before redirecting
-    } catch (error) {
-      console.error("Failed to submit request:", error);
-      alert("Failed to submit request!");
+    if (oldCategory !== newCategory) {
+      setSnackbar({
+        open: true,
+        message: `Category updated from \"${oldCategory}\" to \"${newCategory}\". Click Submit to continue.`,
+        severity: "info",
+      });
     }
   };
 
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
-      <ToastContainer />
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="w-full max-w-2xl mx-auto px-4 mt-4">
           <button
@@ -346,16 +395,26 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           <div className="mt-3 flex gap-4" data-testid="parentDivOne">
             {/* For Self Dropdown */}
             <div className="flex-1">
-              <label
-                htmlFor="self"
-                className="block mb-1 text-gray-700 font-medium"
-              >
-                {t("FOR_SELF")}
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <label htmlFor="self" className="text-gray-700 font-medium">
+                  {t("FOR_SELF")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    Choose ‘Yes’ if you’re submitting this request on your own
+                    behalf else ‘No’ if you’re requesting for someone else.
+                  </div>
+                </div>
+              </div>
               <select
                 id="self"
                 data-testid="dropdown"
-                className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                 onChange={(e) => setSelfFlag(e.target.value === "yes")}
                 disabled
               >
@@ -364,14 +423,30 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
 
             {/* Lead Volunteer */}
+            {/* Lead Volunteer */}
             <div className="flex-1">
-              <label
-                htmlFor="lead_volunteer"
-                className="block mb-1 text-gray-700 font-medium"
-              >
-                {t("Lead Volunteer")}
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="lead_volunteer"
+                  className="text-gray-700 font-medium"
+                >
+                  {t("Lead Volunteer")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  <div
+                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 
+                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                  >
+                    Select “Yes” if you’re the main volunteer coordinating this
+                    request.
+                  </div>
+                </div>
+              </div>
 
+              {/* when editing, admins can type new name; otherwise show a dropdown */}
               {isEdit ? (
                 <input
                   type="text"
@@ -388,166 +463,196 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   className="border p-2 w-full rounded-lg disabled:text-gray-400"
                 />
               ) : (
-                <select
-                  id="lead_volunteer"
-                  name="lead_volunteer"
-                  value={formData.lead_volunteer}
-                  onChange={handleChange}
-                  className="border p-2 w-full rounded-lg text-gray-700"
-                >
-                  <option value=""></option>
-                  <option value="for_self">{t("For Self")}</option>
-                </select>
+                <div className="relative">
+                  <select
+                    id="lead_volunteer"
+                    name="lead_volunteer"
+                    value={formData.lead_volunteer}
+                    onChange={handleChange}
+                    className="block w-full appearance-none bg-white border border-gray-300 rounded-lg 
+                              py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                  >
+                    <option value="No">{t("No")}</option>
+                    <option value="Yes">{t("Yes")}</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <HiChevronDown className="h-5 w-5 text-gray-400" />
+                  </div>
+                </div>
               )}
             </div>
           </div>
-          {/* 
-          Temporarily commented out as MVP only allows for self requests
-          {!selfFlag && (
-            <div className="mt-3" data-testid="parentDivTwo">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="requester_first_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("FIRST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_first_name"
-                    value={formData.requester_first_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="requester_last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("LAST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_last_name"
-                    value={formData.requester_last_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-              </div>
-              <div className="mt-3" data-testid="parentDivThree">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 mb-1 font-medium"
-                >
-                  {t("EMAIL")}
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-              </div>
+          {/*
+         Temporarily commented out as MVP only allows for self requests
+         {!selfFlag && (
+           <div className="mt-3" data-testid="parentDivTwo">
+             <div className="grid grid-cols-2 gap-4">
+               <div>
+                 <label
+                   htmlFor="requester_first_name"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("FIRST_NAME")}
+                 </label>
+                 <input
+                   type="text"
+                   id="requester_first_name"
+                   value={formData.requester_first_name}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div>
+                 <label
+                   htmlFor="requester_last_name"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("LAST_NAME")}
+                 </label>
+                 <input
+                   type="text"
+                   id="requester_last_name"
+                   value={formData.requester_last_name}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+             </div>
+             <div className="mt-3" data-testid="parentDivThree">
+               <label
+                 htmlFor="email"
+                 className="block text-gray-700 mb-1 font-medium"
+               >
+                 {t("EMAIL")}
+               </label>
+               <input
+                 type="email"
+                 id="email"
+                 value={formData.email}
+                 onChange={handleChange}
+                 className="w-full rounded-lg border py-2 px-3"
+               />
+             </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PHONE")}
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("AGE")}
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div className="mt-3" data-testid="parentDivFour">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("GENDER")}
-                  </label>
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {genderOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mt-3" data-testid="parentDivFive">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PREFERRED_LANGUAGE")}
-                  </label>
-                  <select
-                    id="language"
-                    value={formData.language}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </select>
+
+             <div className="mt-3 grid grid-cols-2 gap-4">
+               <div>
+                 <label
+                   htmlFor="phone"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("PHONE")}
+                 </label>
+                 <input
+                   type="text"
+                   id="phone"
+                   value={formData.phone}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div>
+                 <label
+                   htmlFor="age"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("AGE")}
+                 </label>
+                 <input
+                   type="number"
+                   id="age"
+                   value={formData.age}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div className="mt-3" data-testid="parentDivFour">
+                 <label
+                   htmlFor="gender"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("GENDER")}
+                 </label>
+                 <select
+                   id="gender"
+                   value={formData.gender}
+                   onChange={handleChange}
+                   className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                 >
+                   {genderOptions.map((option) => (
+                     <option key={option.value} value={option.value}>
+                       {option.label}
+                     </option>
+                   ))}
+                 </select>
+               </div>
+               <div className="mt-3" data-testid="parentDivFive">
+                 <label
+                   htmlFor="language"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("PREFERRED_LANGUAGE")}
+                 </label>
+                 <select
+                   id="language"
+                   value={formData.language}
+                   onChange={handleChange}
+                   className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                 >
+                   {languages.map((language) => (
+                     <option key={language.value} value={language.value}>
+                       {language.label}
+                     </option>
+                   ))}
+                 </select>
+               </div>
+             </div>
+           </div>
+         )} */}
+          <div className="mt-3 grid grid-cols-2 gap-4">
+            <div className="flex-1 relative">
+              <div className="flex items-center gap-2 mb-1">
+                <label htmlFor="category" className="font-medium text-gray-700">
+                  {t("REQUEST_CATEGORY")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    Choose the category that best describes your need (e.g.,
+                    Medical, Food, Jobs).
+                    <br /> If you select ‘General,’ please describe your need
+                    fully in the Description field.
+                  </div>
                 </div>
               </div>
-            </div>
-          )} */}
-          <div className="mt-3 grid grid-cols-2 gap-4">
-            <div className="relative">
-              <label
-                htmlFor="category"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("REQUEST_CATEGORY")}
-              </label>
-              <input
-                type="text"
-                id="category"
-                value={formData.category}
-                onChange={handleSearchInput}
-                className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full"
-                onFocus={() => setShowDropdown(true)}
-                onBlur={(e) => {
-                  if (!dropdownRef.current?.contains(e.relatedTarget)) {
-                    setShowDropdown(false);
+              <div className="relative">
+                <input
+                  type="text"
+                  id="category"
+                  value={
+                    filteredCategories.find(
+                      (cat) => cat.id === formData.category,
+                    )?.name || formData.category
                   }
-                }}
-              />
+                  onChange={handleSearchInput}
+                  className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
+                  onFocus={() => setShowDropdown(true)}
+                  onBlur={(e) => {
+                    if (!dropdownRef.current?.contains(e.relatedTarget)) {
+                      setShowDropdown(false);
+                    }
+                  }}
+                />
+
+                {/* the dropdown arrow, pointer-events-none so it doesn’t block input clicks */}
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
               {showDropdown && (
                 <div
                   className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
@@ -593,24 +698,51 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               )}
             </div>
 
-            <div>
-              <label
-                htmlFor="requestType"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("REQUEST_TYPE")}
-              </label>
-              <select
-                id="requestType"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                value={formData.request_type || "Remote"}
-                onChange={(e) =>
-                  setFormData({ ...formData, request_type: e.target.value })
-                }
-              >
-                <option value="Remote">{t("REMOTE")}</option>
-                <option value="In Person">{t("IN_PERSON")}</option>
-              </select>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="requestType"
+                  className="font-medium text-gray-700"
+                >
+                  {t("REQUEST_TYPE")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  <div
+                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
+                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none"
+                  >
+                    Indicate how you’d like help delivered: “Remote” for virtual
+                    support or “In Person” for onsite assistance.
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative">
+                <select
+                  id="requestType"
+                  value={formData.request_type}
+                  onChange={(e) =>
+                    setFormData({ ...formData, request_type: e.target.value })
+                  }
+                  className="
+                    block w-full appearance-none
+                    bg-white border border-gray-300
+                    rounded-lg py-2 px-3 pr-8
+                    text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                  "
+                >
+                  <option value="Remote">{t("REMOTE")}</option>
+                  <option value="In Person">{t("IN_PERSON")}</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
             </div>
 
             {formData.request_type === "In Person" && (
@@ -639,25 +771,51 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 )}
               </div>
             )}
-            <div>
-              <label
-                htmlFor="requestPriority"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                {t("Request Priority")}
-              </label>
-              <select
-                id="requestPriority"
-                className="border border-gray-300 text-gray-700 rounded-lg block w-full p-2.5"
-                value={formData.priority || "MEDIUM"}
-                onChange={(e) =>
-                  setFormData({ ...formData, priority: e.target.value })
-                }
-              >
-                <option value="LOW">{t("Low")}</option>
-                <option value="MEDIUM">{t("Medium")}</option>
-                <option value="HIGH">{t("High")}</option>
-              </select>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <label
+                  htmlFor="requestPriority"
+                  className="font-medium text-gray-700"
+                >
+                  {t("Request Priority")}
+                </label>
+                <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
+                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                    ?
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    How urgent is this request? <br />
+                    • Low – Not time sensitive <br />
+                    • Medium – Within few days <br />• High – Immediate support
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                <select
+                  id="requestPriority"
+                  value={formData.priority || "MEDIUM"}
+                  onChange={(e) =>
+                    setFormData({ ...formData, priority: e.target.value })
+                  }
+                  className="
+                    block w-full appearance-none
+                    bg-white border border-gray-300
+                    rounded-lg px-3 py-2 pr-8
+                    text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                  "
+                >
+                  <option value="LOW">{t("Low")}</option>
+                  <option value="MEDIUM">{t("Medium")}</option>
+                  <option value="HIGH">{t("High")}</option>
+                </select>
+
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -681,6 +839,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               className="border p-2 w-full rounded-lg"
               maxLength={70}
               required
+              placeholder="Please give a brief description of the request"
             />
           </div>
 
@@ -702,6 +861,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               rows="5"
               maxLength={500}
               required
+              placeholder="Please give a detailed description of the request"
             ></textarea>
           </div>
 
@@ -723,34 +883,48 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         </div>
       </form>
       {/* Modal Component */}
-      <Modal
-        show={showModal}
-        onSubmit={handleConfirmCategorySelection}
-        onClose={() => setShowModal(false)}
-      >
-        <h2 className="text-xl font-bold mb-4">Select a Category</h2>
+      <Dialog open={showModal} onClose={() => setShowModal(false)}>
+        <DialogTitle>Select a Category</DialogTitle>
+        <DialogContent>
+          <Typography className="mb-4">
+            Select an appropriate help category so we can match the right
+            volunteers for your request.
+          </Typography>
 
-        {/* Message to the user */}
-        <p className="mb-4 text-gray-700">
-          Dear User, please fill in the category or select one of the
-          recommended categories.
-        </p>
+          <RadioGroup
+            value={formData.category}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
+            {suggestedCategories.map((category, index) => (
+              <FormControlLabel
+                key={index}
+                value={category.name}
+                control={<Radio />}
+                label={category.name}
+              />
+            ))}
+          </RadioGroup>
+        </DialogContent>
 
-        {/* Dropdown for selecting a category */}
-        <select
-          value={formData.category}
-          onChange={(e) =>
-            setFormData({ ...formData, category: e.target.value })
-          }
-          className="p-2 border rounded w-full"
-        >
-          {suggestedCategories.map((category, index) => (
-            <option key={index} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </Modal>
+        <DialogActions>
+          <Button
+            onClick={handleConfirmCategorySelection}
+            variant="contained"
+            color="primary"
+          >
+            Select
+          </Button>
+          <Button
+            onClick={() => setShowModal(false)}
+            color="primary"
+            variant="contained"
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
