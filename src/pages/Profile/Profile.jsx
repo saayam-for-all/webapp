@@ -9,6 +9,7 @@ import OrganizationDetails from "./OrganizationDetails";
 import Skills from "./Skills";
 import Availability from "./Availability"; // Import the new Availability component
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
+import Preferences from "./Preferences"; // Import the new Preferences component
 
 function Profile() {
   const navigate = useNavigate();
@@ -108,6 +109,8 @@ function Profile() {
         return <Skills setHasUnsavedChanges={setHasUnsavedChanges} />;
       case "availability":
         return <Availability setHasUnsavedChanges={setHasUnsavedChanges} />;
+      case "preferences":
+        return <Preferences setHasUnsavedChanges={setHasUnsavedChanges} />;
       default:
         return null;
     }
