@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import img1 from "../../assets/imagesOfHowWeOperate/ima1.jpeg";
-import img2 from "../../assets/imagesOfHowWeOperate/ima2.jpeg";
-import img3 from "../../assets/imagesOfHowWeOperate/ima3.jpeg";
+// import img1 from "../../assets/imagesOfHowWeOperate/ima1.jpeg";
+// import img2 from "../../assets/imagesOfHowWeOperate/ima2.jpeg";
+// import img3 from "../../assets/imagesOfHowWeOperate/ima3.jpeg";
 import img4 from "../../assets/imagesOfHowWeOperate/step1.png";
 import img5 from "../../assets/imagesOfHowWeOperate/step2.png";
 import img6 from "../../assets/imagesOfHowWeOperate/step3.png";
@@ -59,7 +59,7 @@ const HowWeOperate = () => {
   return (
     <div className="font-sans">
       {/* Volunteer Services Section */}
-      <section className="text-center px-4 py-12 bg-white">
+      {/* <section className="text-center px-4 py-12 bg-white">
         <h2 className="text-3xl font-bold mb-4">{t("VOLUNTEER_SERVICES")}</h2>
         <p className="text-gray-700 max-w-3xl mx-auto mb-4">
           At Saayam for All, we connect individuals who need assistance with
@@ -89,7 +89,7 @@ const HowWeOperate = () => {
             className="rounded-xl object-cover h-64 w-full"
           />
         </div>
-      </section>
+      </section> */}
       <div className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-4">
