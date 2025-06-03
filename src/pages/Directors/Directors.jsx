@@ -41,7 +41,7 @@ const DirectorsData = [
     image: PrabhakarImg,
   },
   {
-    name: "Sharadha V Subramanian",
+    name: "Sharadha Venketasubramanian",
     role: "Director",
     linkedin: "https://www.linkedin.com/in/sharadha/",
     image: SharadhaImg,
@@ -125,17 +125,23 @@ const Directors = () => {
                 />
               </div>
 
-              <div className="text-center w-full px-4 mt-4">
-                <h2 className="flex gap-2 mt-5">
+              <div className="w-full px-4 mt-4 min-h-[64px]">
+                <h2
+                  className={`${
+                    director.name === "Sharadha Venketasubramanian"
+                      ? "mt-4 text-[17px] leading-[1.1]"
+                      : "mt-5 text-xl"
+                  } font-bold`}
+                >
                   <a
                     href={director.linkedin}
-                    className="text-black font-bold text-xl"
+                    className="text-black"
                     target="_blank"
                   >
                     {director.name}
                   </a>
                 </h2>
-                <h3 className="flex gap-2">{director.role}</h3>
+                <h3>{director.role}</h3>
               </div>
             </div>
           ))}
