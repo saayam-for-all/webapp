@@ -20,7 +20,7 @@ const DirectorsData = [
   {
     image: RaoImg,
     name: "Rao K Bhethanabotla",
-    role: "Founder, CEO, CTO, President",
+    role: "Founder, President, CEO, CTO",
     linkedin: "https://www.linkedin.com/in/raobhethanabotla",
   },
   {
