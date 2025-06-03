@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import handsTogetherImage from "../../assets/hands-together.png";
 import qrCodeImage from "../../assets/QR.png";
+import donateImgBg from "../../assets/donate_img_bg.png";
+import PayPalLogo from "../../assets/donate_buttons/PayPal.svg";
+import StripeLogo from "../../assets/donate_buttons/Stripe_Logo.png";
+import CharityNavLogo from "../../assets/donate_buttons/CharityNav_Logo_Stack.png";
+import BenevityLogo from "../../assets/donate_buttons/Benevity_logo.svg";
 import "./Donate.css";
 
 const Donate = () => {
@@ -9,6 +14,7 @@ const Donate = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [showStripeDonation, setShowStripeDonation] = useState(false);
   const [donationType, setDonationType] = useState("one-time");
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -74,6 +80,37 @@ const Donate = () => {
     },
   ];
 
+  const donationOptions = [
+    {
+      key: "paypal",
+      label: "PayPal",
+      img: PayPalLogo,
+      alt: "PayPal",
+      href: "https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S",
+    },
+    {
+      key: "stripe",
+      label: "Stripe",
+      img: StripeLogo,
+      alt: "Stripe",
+      href: null, // Stripe handled in code
+    },
+    {
+      key: "charity",
+      label: "Charity Navigator",
+      img: CharityNavLogo,
+      alt: "Charity Navigator",
+      href: "https://www.charitynavigator.org/ein/932798273",
+    },
+    {
+      key: "benevity",
+      label: "Benevity",
+      img: BenevityLogo,
+      alt: "Benevity",
+      href: "https://Benevity.org",
+    },
+  ];
+
   if (showStripeDonation) {
     return (
       <div className="donate-container">
@@ -122,69 +159,56 @@ const Donate = () => {
 
   return (
     <div data-testid="donate-container" className="donate-container">
-      <div data-testid="donate-grid" className="donate-grid">
-        <div
-          data-testid="donate-image-container"
-          className="donate-image-container"
-        >
-          <img
-            className="donate-image"
-            alt="People helping each other"
-            src={handsTogetherImage}
-          />
-        </div>
-        <div data-testid="donate-content" className="donate-content">
-          <div>
-            <h1 className="donate-title">Make a Donation</h1>
-            <p className="donate-subtitle">
-              Your contribution helps us continue our mission of providing
-              assistance to those in need.
-            </p>
-
-            <div className="donation-buttons">
-              <a
-                className="donate-button-paypal"
-                href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Donate via PayPal
-              </a>
-              <a
-                href="#"
-                className="donate-button-razorpay"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Donate via RazorPay
-              </a>
+      <div
+        data-testid="donate-image-overlay-bg"
+        className="donate-image-overlay-bg"
+      >
+        <img
+          className="donate-bg-image"
+          alt="Donate background"
+          src={donateImgBg}
+        />
+        <div className="donate-card-overlay">
+          <h1 className="donate-title">Make a donation</h1>
+          <p className="donate-subtitle">
+            Your donation helps us create lasting change in communities across
+            the globe.
+          </p>
+          <div className="donation-options-grid">
+            {donationOptions.map((opt) => (
               <button
-                onClick={handleStripeClick}
-                className="donate-button-stripe"
+                key={opt.key}
+                className={`donation-option-btn${selectedOption === opt.key ? " selected" : ""}`}
+                onClick={() => setSelectedOption(opt.key)}
+                type="button"
               >
-                Donate via Stripe
+                <img
+                  src={opt.img}
+                  alt={opt.alt}
+                  style={{
+                    height: "32px",
+                    width: "auto",
+                    display: "block",
+                    margin: "0 auto",
+                  }}
+                />
               </button>
-              <a
-                href="https://www.charitynavigator.org/ein/932798273"
-                className="donate-button-charity"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Donate via Charity Navigator
-              </a>
-              <a
-                href="https://Benevity.org"
-                className="donate-button-benevity"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Donate via Benevity
-              </a>
-            </div>
+            ))}
           </div>
+          <button
+            className="donate-main-btn"
+            disabled={!selectedOption}
+            onClick={() => {
+              const opt = donationOptions.find((o) => o.key === selectedOption);
+              if (opt.key === "stripe") handleStripeClick();
+              else if (opt.href)
+                window.open(opt.href, "_blank", "noopener,noreferrer");
+            }}
+          >
+            Donate
+          </button>
         </div>
       </div>
-
       <div data-testid="faq-section" className="faq-section">
         <h2 className="faq-title">FAQ's</h2>
         <div className="faq-list">

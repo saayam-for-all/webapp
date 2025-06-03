@@ -302,3 +302,220 @@
 .back-button:hover {
   color: #1d4ed8;
 }
+
+/* Overlay background section for donate */
+.donate-image-overlay-bg {
+  background: url("../../assets/donate_img_bg.png") no-repeat center center;
+  background-size: cover;
+  width: 100%;
+  max-width: 1200px;
+  height: 60vh;
+  min-height: 340px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 auto 2.5rem auto;
+  border-radius: 15px;
+}
+
+.donate-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(0.92);
+  transform: none;
+}
+
+.donate-card-overlay {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+  max-width: 340px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.donate-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #181818;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+
+.donate-subtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1.1rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.donation-buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.7rem;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+}
+
+.donation-buttons-row a,
+.donation-buttons-row button {
+  flex: 1 1 45%;
+  min-width: 100px;
+  max-width: 120px;
+  font-size: 0.85rem;
+  padding: 5px 0 5px 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.donate-main-btn {
+  width: 100%;
+  background: #0070ba;
+  color: #fff;
+  padding: 10px 0;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.3rem;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+.donate-main-btn:hover {
+  background: #005ea6;
+}
+
+.donate-btn-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.donate-btn-icon.paypal {
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg");
+}
+.donate-btn-icon.stripe {
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/4/4e/Stripe_Logo%2C_revised_2016.svg");
+}
+.donate-btn-icon.charity {
+  background-image: url("https://www.charitynavigator.org/images/logos/cn-logo.svg");
+}
+.donate-btn-icon.benevity {
+  background-image: url("https://www.benevity.com/hubfs/Benevity_2021/Images/benevity-logo.svg");
+}
+
+@media (max-width: 900px) {
+  .donate-image-overlay-bg {
+    height: 340px;
+    min-height: 220px;
+    max-width: 100vw;
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 18px;
+  }
+  .donate-bg-image {
+    width: 100%;
+  }
+  .donate-card-overlay {
+    position: static;
+    transform: none;
+    margin: 0 auto;
+    right: auto;
+    left: auto;
+    max-width: 98vw;
+    border-radius: 14px;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+  }
+  .donate-title {
+    font-size: 1.05rem;
+  }
+  .donate-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.donation-option-btn {
+  background: #fff;
+  border: 2.5px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  transition:
+    border 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  width: 100%;
+  justify-content: flex-start;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  outline: none;
+}
+.donation-option-btn:hover,
+.donation-option-btn:focus {
+  border: 2.5px solid #b3d4fc;
+  box-shadow: 0 4px 16px rgba(0, 112, 186, 0.08);
+  background: #f6faff;
+}
+.donation-option-btn.selected {
+  border: 2.5px solid #0070ba;
+  background: #eaf4fb;
+  box-shadow: 0 4px 16px rgba(0, 112, 186, 0.13);
+}
+.donate-btn-icon {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin-right: 12px;
+  margin-left: 0;
+  vertical-align: middle;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.donation-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+}
