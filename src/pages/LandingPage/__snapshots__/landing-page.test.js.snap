@@ -188,7 +188,7 @@ exports[`LandingPage renders correctly 1`] = `
           >
             <img
               alt="A sunny day with two people looking at each other comfortingly"
-              class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
+              class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
               src=""
             />
             <img
@@ -508,7 +508,7 @@ exports[`LandingPage renders correctly 1`] = `
         >
           <img
             alt="A sunny day with two people looking at each other comfortingly"
-            class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
+            class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
             src=""
           />
           <img
