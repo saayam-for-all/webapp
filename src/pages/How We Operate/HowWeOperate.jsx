@@ -58,38 +58,6 @@ const HowWeOperate = () => {
 
   return (
     <div className="font-sans">
-      {/* Volunteer Services Section */}
-      <section className="text-center px-4 py-12 bg-white">
-        <h2 className="text-3xl font-bold mb-4">{t("VOLUNTEER_SERVICES")}</h2>
-        <p className="text-gray-700 max-w-3xl mx-auto mb-4">
-          At Saayam for All, we connect individuals who need assistance with
-          compassionate volunteers ready to help.
-        </p>
-        <p className="text-gray-700 max-w-3xl mx-auto mb-10">
-          Whether it&apos;s delivering groceries, providing companionship, or
-          supporting small everyday tasks, our volunteers make a real
-          difference—one request at a time. We believe in building a community
-          where help is just a request away.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <img
-            src={img1}
-            alt="Grocery Delivery"
-            className="rounded-xl object-cover h-64 w-full"
-          />
-          <img
-            src={img2}
-            alt="Group Volunteering"
-            className="rounded-xl object-cover h-64 w-full"
-          />
-          <img
-            src={img3}
-            alt="Beach Cleanup"
-            className="rounded-xl object-cover h-64 w-full"
-          />
-        </div>
-      </section>
       <div className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-4">
