@@ -86,24 +86,28 @@ const Donate = () => {
       label: "PayPal",
       img: PayPalLogo,
       alt: "PayPal",
+      href: "https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S",
     },
     {
       key: "stripe",
       label: "Stripe",
       img: StripeLogo,
       alt: "Stripe",
+      href: null, // Stripe handled in code
     },
     {
       key: "charity",
       label: "Charity Navigator",
       img: CharityNavLogo,
       alt: "Charity Navigator",
+      href: "https://www.charitynavigator.org/ein/932798273",
     },
     {
       key: "benevity",
       label: "Benevity",
       img: BenevityLogo,
       alt: "Benevity",
+      href: "https://Benevity.org",
     },
   ];
 
@@ -197,7 +201,8 @@ const Donate = () => {
             onClick={() => {
               const opt = donationOptions.find((o) => o.key === selectedOption);
               if (opt.key === "stripe") handleStripeClick();
-              else if (opt.href) window.open(opt.href, "_blank");
+              else if (opt.href)
+                window.open(opt.href, "_blank", "noopener,noreferrer");
             }}
           >
             Donate
