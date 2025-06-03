@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import handsTogetherImage from "../../assets/hands-together.png";
-import qrCodeImage from "../../assets/QR.png";
-import donateImgBg from "../../assets/donate_img_bg.png";
+import BenevityLogo from "../../assets/donate_buttons/Benevity_logo.svg";
+import CharityNavLogo from "../../assets/donate_buttons/CharityNav_Logo_Stack.png";
 import PayPalLogo from "../../assets/donate_buttons/PayPal.svg";
 import StripeLogo from "../../assets/donate_buttons/Stripe_Logo.png";
-import CharityNavLogo from "../../assets/donate_buttons/CharityNav_Logo_Stack.png";
-import BenevityLogo from "../../assets/donate_buttons/Benevity_logo.svg";
+import donateImgBg from "../../assets/donate_img_bg.png";
 import "./Donate.css";
 
 const Donate = () => {
@@ -186,7 +184,7 @@ const Donate = () => {
                   src={opt.img}
                   alt={opt.alt}
                   style={{
-                    height: "32px",
+                    height: "25px",
                     width: "auto",
                     display: "block",
                     margin: "0 auto",
