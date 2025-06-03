@@ -178,5 +178,8 @@
   "FAQ_USE_QUESTION": "How will my donation be used?",
   "FAQ_USE_ANSWER": "Your donation will be used to support our various programs, including volunteer coordination, assistance programs, and operational costs to maintain our platform.",
   "FAQ_CANCEL_QUESTION": "Can I cancel my recurring donation?",
-  "FAQ_CANCEL_ANSWER": "Yes, you can cancel by contacting our support team."
+  "FAQ_CANCEL_ANSWER": "Yes, you can cancel by contacting our support team.",
+  "EMAIL_REQUIRED": "Please enter your email",
+  "PASSWORD_REQUIRED": "Please enter your password",
+  "INVALID_CREDENTIALS": "Invalid email or password"
 }
