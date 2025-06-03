@@ -10,76 +10,77 @@ exports[`Donate renders correctly 1`] = `
         data-testid="donate-container"
       >
         <div
-          class="donate-grid"
-          data-testid="donate-grid"
+          class="donate-image-overlay-bg"
+          data-testid="donate-image-overlay-bg"
         >
+          <img
+            alt="Donate background"
+            class="donate-bg-image"
+            src=""
+          />
           <div
-            class="donate-image-container"
-            data-testid="donate-image-container"
+            class="donate-card-overlay"
           >
-            <img
-              alt="People helping each other"
-              class="donate-image"
-              src=""
-            />
-          </div>
-          <div
-            class="donate-content"
-            data-testid="donate-content"
-          >
-            <div>
-              <h1
-                class="donate-title"
+            <h1
+              class="donate-title"
+            >
+              Make a donation
+            </h1>
+            <p
+              class="donate-subtitle"
+            >
+              Your donation helps us create lasting change in communities across the globe.
+            </p>
+            <div
+              class="donation-options-grid"
+            >
+              <button
+                class="donation-option-btn"
+                type="button"
               >
-                Make a Donation
-              </h1>
-              <p
-                class="donate-subtitle"
+                <img
+                  alt="PayPal"
+                  src=""
+                  style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                />
+              </button>
+              <button
+                class="donation-option-btn"
+                type="button"
               >
-                Your contribution helps us continue our mission of providing assistance to those in need.
-              </p>
-              <div
-                class="donation-buttons"
+                <img
+                  alt="Stripe"
+                  src=""
+                  style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                />
+              </button>
+              <button
+                class="donation-option-btn"
+                type="button"
               >
-                <a
-                  class="donate-button-paypal"
-                  href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Donate via PayPal
-                </a>
-                <a
-                  class="donate-button-razorpay"
-                  href="#"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Donate via RazorPay
-                </a>
-                <button
-                  class="donate-button-stripe"
-                >
-                  Donate via Stripe
-                </button>
-                <a
-                  class="donate-button-charity"
-                  href="https://www.charitynavigator.org/ein/932798273"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Donate via Charity Navigator
-                </a>
-                <a
-                  class="donate-button-benevity"
-                  href="https://Benevity.org"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Donate via Benevity
-                </a>
-              </div>
+                <img
+                  alt="Charity Navigator"
+                  src=""
+                  style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                />
+              </button>
+              <button
+                class="donation-option-btn"
+                type="button"
+              >
+                <img
+                  alt="Benevity"
+                  src=""
+                  style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                />
+              </button>
             </div>
+            <button
+              class="donate-main-btn"
+              disabled=""
+            >
+              Donate
+            </button>
           </div>
         </div>
         <div
@@ -171,76 +172,77 @@ exports[`Donate renders correctly 1`] = `
       data-testid="donate-container"
     >
       <div
-        class="donate-grid"
-        data-testid="donate-grid"
+        class="donate-image-overlay-bg"
+        data-testid="donate-image-overlay-bg"
       >
+        <img
+          alt="Donate background"
+          class="donate-bg-image"
+          src=""
+        />
         <div
-          class="donate-image-container"
-          data-testid="donate-image-container"
+          class="donate-card-overlay"
         >
-          <img
-            alt="People helping each other"
-            class="donate-image"
-            src=""
-          />
-        </div>
-        <div
-          class="donate-content"
-          data-testid="donate-content"
-        >
-          <div>
-            <h1
-              class="donate-title"
+          <h1
+            class="donate-title"
+          >
+            Make a donation
+          </h1>
+          <p
+            class="donate-subtitle"
+          >
+            Your donation helps us create lasting change in communities across the globe.
+          </p>
+          <div
+            class="donation-options-grid"
+          >
+            <button
+              class="donation-option-btn"
+              type="button"
             >
-              Make a Donation
-            </h1>
-            <p
-              class="donate-subtitle"
+              <img
+                alt="PayPal"
+                src=""
+                style="height: 32px; width: auto; display: block; margin: 0px auto;"
+              />
+            </button>
+            <button
+              class="donation-option-btn"
+              type="button"
             >
-              Your contribution helps us continue our mission of providing assistance to those in need.
-            </p>
-            <div
-              class="donation-buttons"
+              <img
+                alt="Stripe"
+                src=""
+                style="height: 32px; width: auto; display: block; margin: 0px auto;"
+              />
+            </button>
+            <button
+              class="donation-option-btn"
+              type="button"
             >
-              <a
-                class="donate-button-paypal"
-                href="https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Donate via PayPal
-              </a>
-              <a
-                class="donate-button-razorpay"
-                href="#"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Donate via RazorPay
-              </a>
-              <button
-                class="donate-button-stripe"
-              >
-                Donate via Stripe
-              </button>
-              <a
-                class="donate-button-charity"
-                href="https://www.charitynavigator.org/ein/932798273"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Donate via Charity Navigator
-              </a>
-              <a
-                class="donate-button-benevity"
-                href="https://Benevity.org"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Donate via Benevity
-              </a>
-            </div>
+              <img
+                alt="Charity Navigator"
+                src=""
+                style="height: 32px; width: auto; display: block; margin: 0px auto;"
+              />
+            </button>
+            <button
+              class="donation-option-btn"
+              type="button"
+            >
+              <img
+                alt="Benevity"
+                src=""
+                style="height: 32px; width: auto; display: block; margin: 0px auto;"
+              />
+            </button>
           </div>
+          <button
+            class="donate-main-btn"
+            disabled=""
+          >
+            Donate
+          </button>
         </div>
       </div>
       <div
