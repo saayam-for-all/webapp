@@ -31,7 +31,7 @@ const DirectorsData = [
   },
   {
     name: "Naveen Sharma",
-    role: "Director & Secretary",
+    role: "Director and Secretary",
     linkedin: "https://www.linkedin.com/in/nsharma2/",
     image: NaveenIMG,
   },
