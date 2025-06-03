@@ -6,6 +6,7 @@ import Meghana_Karri from "../../../assets/images/Meghana Karri.jpeg";
 import Sunandha_agarwal from "../../../assets/images/Sunandha_agarwal.jpg";
 import Mohanakrishnan from "../../../assets/images/Mohanakrishnan.jpg";
 import Divya_Tanwar from "../../../assets/images/Divya Tanwar.jpg";
+import Sriram_Mahankali from "../../../assets/images/Sriram_Mahankali.jpeg";
 
 const ExecutiveTeamData = [
   {
@@ -28,8 +29,7 @@ const ExecutiveTeamData = [
     linkedin: "https://www.linkedin.com/in/kavyasree-b-b4941b299/",
   },
   {
-    image:
-      "https://cdn.builder.io/api/v1/image/assets/TEMP/8f181836a0df98180bc82bea522f96509eea4a8d",
+    image: Sriram_Mahankali,
     name: "Sriram Mahankali",
     role: "Design and Creative Lead",
     linkedin: "https://www.linkedin.com/in/sriram-mahankali",
@@ -77,7 +77,7 @@ const ExecutiveTeamData = [
   {
     image: Sunandha_agarwal,
     name: "Sugandha Agrawal",
-    role: "AI/ML Development Manager",
+    role: "Developer Advocate/AI/ML Dev Manager",
     linkedin:
       "https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details",
   },

@@ -8,44 +8,6 @@ exports[`HowWeOperate renders correctly 1`] = `
       <div
         class="font-sans"
       >
-        <section
-          class="text-center px-4 py-12 bg-white"
-        >
-          <h2
-            class="text-3xl font-bold mb-4"
-          >
-            mockTranslate(VOLUNTEER_SERVICES)
-          </h2>
-          <p
-            class="text-gray-700 max-w-3xl mx-auto mb-4"
-          >
-            At Saayam for All, we connect individuals who need assistance with compassionate volunteers ready to help.
-          </p>
-          <p
-            class="text-gray-700 max-w-3xl mx-auto mb-10"
-          >
-            Whether it's delivering groceries, providing companionship, or supporting small everyday tasks, our volunteers make a real difference—one request at a time. We believe in building a community where help is just a request away.
-          </p>
-          <div
-            class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto"
-          >
-            <img
-              alt="Grocery Delivery"
-              class="rounded-xl object-cover h-64 w-full"
-              src="s5"
-            />
-            <img
-              alt="Group Volunteering"
-              class="rounded-xl object-cover h-64 w-full"
-              src="s5"
-            />
-            <img
-              alt="Beach Cleanup"
-              class="rounded-xl object-cover h-64 w-full"
-              src="s5"
-            />
-          </div>
-        </section>
         <div
           class="py-16 px-4"
         >
@@ -317,44 +279,6 @@ exports[`HowWeOperate renders correctly 1`] = `
     <div
       class="font-sans"
     >
-      <section
-        class="text-center px-4 py-12 bg-white"
-      >
-        <h2
-          class="text-3xl font-bold mb-4"
-        >
-          mockTranslate(VOLUNTEER_SERVICES)
-        </h2>
-        <p
-          class="text-gray-700 max-w-3xl mx-auto mb-4"
-        >
-          At Saayam for All, we connect individuals who need assistance with compassionate volunteers ready to help.
-        </p>
-        <p
-          class="text-gray-700 max-w-3xl mx-auto mb-10"
-        >
-          Whether it's delivering groceries, providing companionship, or supporting small everyday tasks, our volunteers make a real difference—one request at a time. We believe in building a community where help is just a request away.
-        </p>
-        <div
-          class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto"
-        >
-          <img
-            alt="Grocery Delivery"
-            class="rounded-xl object-cover h-64 w-full"
-            src="s5"
-          />
-          <img
-            alt="Group Volunteering"
-            class="rounded-xl object-cover h-64 w-full"
-            src="s5"
-          />
-          <img
-            alt="Beach Cleanup"
-            class="rounded-xl object-cover h-64 w-full"
-            src="s5"
-          />
-        </div>
-      </section>
       <div
         class="py-16 px-4"
       >
