@@ -41,7 +41,7 @@ exports[`Donate renders correctly 1`] = `
                 <img
                   alt="PayPal"
                   src=""
-                  style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                  style="height: 25px; width: auto; display: block; margin: 0px auto;"
                 />
               </button>
               <button
@@ -51,7 +51,7 @@ exports[`Donate renders correctly 1`] = `
                 <img
                   alt="Stripe"
                   src=""
-                  style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                  style="height: 25px; width: auto; display: block; margin: 0px auto;"
                 />
               </button>
               <button
@@ -61,7 +61,7 @@ exports[`Donate renders correctly 1`] = `
                 <img
                   alt="Charity Navigator"
                   src=""
-                  style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                  style="height: 25px; width: auto; display: block; margin: 0px auto;"
                 />
               </button>
               <button
@@ -71,7 +71,7 @@ exports[`Donate renders correctly 1`] = `
                 <img
                   alt="Benevity"
                   src=""
-                  style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                  style="height: 25px; width: auto; display: block; margin: 0px auto;"
                 />
               </button>
             </div>
@@ -203,7 +203,7 @@ exports[`Donate renders correctly 1`] = `
               <img
                 alt="PayPal"
                 src=""
-                style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                style="height: 25px; width: auto; display: block; margin: 0px auto;"
               />
             </button>
             <button
@@ -213,7 +213,7 @@ exports[`Donate renders correctly 1`] = `
               <img
                 alt="Stripe"
                 src=""
-                style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                style="height: 25px; width: auto; display: block; margin: 0px auto;"
               />
             </button>
             <button
@@ -223,7 +223,7 @@ exports[`Donate renders correctly 1`] = `
               <img
                 alt="Charity Navigator"
                 src=""
-                style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                style="height: 25px; width: auto; display: block; margin: 0px auto;"
               />
             </button>
             <button
@@ -233,7 +233,7 @@ exports[`Donate renders correctly 1`] = `
               <img
                 alt="Benevity"
                 src=""
-                style="height: 32px; width: auto; display: block; margin: 0px auto;"
+                style="height: 25px; width: auto; display: block; margin: 0px auto;"
               />
             </button>
           </div>

@@ -136,7 +136,7 @@ export default function Home() {
         </div>
         <div className="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center">
           <img
-            className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
+            className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
             src={topOne}
             alt="A sunny day with two people looking at each other comfortingly"
           />

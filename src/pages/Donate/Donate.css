@@ -1,11 +1,10 @@
 /* Donate Page CSS - Traditional (no Tailwind) */
 
 .donate-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 32px 8px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 100px;
 }
 
 .donate-grid {
@@ -23,8 +22,7 @@
 .donate-image-container {
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
-  height: 560px;
+  height: 650px;
   min-height: 0;
   display: flex;
 }
@@ -41,14 +39,6 @@
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
-}
-
-.donate-title {
-  /* font-family: 'Montserrat', 'Futura', Arial, sans-serif; */
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  color: #222;
 }
 
 .donate-subtitle {
@@ -199,7 +189,7 @@
 
 .faq-title {
   /* font-family: 'Montserrat', 'Futura', Arial, sans-serif; */
-  font-size: 1.2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
   margin-bottom: 1.5rem;
@@ -207,21 +197,22 @@
 }
 
 .faq-list {
-  max-width: 28rem;
   margin: 0 auto;
+  width: 60%;
 }
 
 .faq-item {
   border-bottom: 1px solid #e5e7eb;
+  margin-top: 20px;
 }
 
 .faq-question {
   width: 100%;
   padding: 0.8rem 0;
   text-align: left;
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   font-weight: 500;
-  color: #222;
+  color: rgb(120, 119, 119);
   background: none;
   border: none;
   outline: none;
@@ -308,8 +299,7 @@
   background: url("../../assets/donate_img_bg.png") no-repeat center center;
   background-size: cover;
   width: 100%;
-  max-width: 1200px;
-  height: 60vh;
+  height: 70vh;
   min-height: 340px;
   position: relative;
   overflow: hidden;
@@ -317,7 +307,7 @@
   align-items: center;
   justify-content: flex-end;
   margin: 0 auto 2.5rem auto;
-  border-radius: 15px;
+  padding: 50px 0;
 }
 
 .donate-bg-image {
@@ -343,8 +333,8 @@
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.08);
-  padding: 1.5rem 1.5rem 1.2rem 1.5rem;
-  max-width: 340px;
+  padding: 0.3rem 1.5rem 1.2rem 1.5rem;
+  max-width: 500px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -352,7 +342,7 @@
 }
 
 .donate-title {
-  font-size: 1.3rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: #181818;
   margin-bottom: 0.4rem;
@@ -362,7 +352,7 @@
 .donate-subtitle {
   font-size: 0.95rem;
   color: #666;
-  margin-bottom: 1.1rem;
+  margin-bottom: 30px;
   text-align: center;
   line-height: 1.4;
 }
@@ -391,18 +381,19 @@
 }
 
 .donate-main-btn {
-  width: 100%;
+  width: 90%;
   background: #0070ba;
   color: #fff;
   padding: 10px 0;
   border-radius: 20px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border: none;
   cursor: pointer;
-  margin-top: 0.3rem;
+  margin-top: 10px;
   transition: background 0.2s;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
 }
 .donate-main-btn:hover {
   background: #005ea6;
