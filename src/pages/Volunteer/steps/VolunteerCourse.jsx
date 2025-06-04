@@ -122,12 +122,30 @@ const VolunteerCourse = ({
 
   const handleUpload = async () => {
     if (!selectedFile) return;
+
     if (
       selectedFile.type === "image/jpg" ||
       selectedFile.type === "image/jpeg"
     ) {
-      setIsUploaded(true);
-      setAck("Image Uploaded Successfully");
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+
+        img.onload = () => {
+          setIsUploaded(true);
+          setError("");
+          setAck("Image Uploaded Successfully");
+        };
+
+        img.onerror = () => {
+          setIsUploaded(false);
+          setError("The file is not a valid image!");
+          setAck("");
+        };
+
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(selectedFile);
     } else {
       const arrayBuffer = await selectedFile.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -147,6 +165,7 @@ const VolunteerCourse = ({
         } else {
           setIsUploaded(false);
           setError("Please upload a Valid PDF");
+          setAck("");
         }
       }
     }

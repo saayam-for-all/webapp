@@ -168,9 +168,9 @@ export default function Home() {
         {/* Video Section - Second on mobile, first on desktop */}
         <div className="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5">
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1&rel=0`}
+            src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0`}
             title="YouTube Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             className="landing-iframe "
           ></iframe>
         </div>

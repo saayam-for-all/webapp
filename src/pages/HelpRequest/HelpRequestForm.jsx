@@ -21,6 +21,7 @@ import {
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
+import { HiChevronDown } from "react-icons/hi";
 import {
   Dialog,
   DialogActions,
@@ -92,10 +93,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     phone: "",
     age: "",
     gender: "Select",
-    lead_volunteer: "Yes",
+    lead_volunteer: "Ethan Marshall",
     preferred_language: "",
     category: "General",
-    request_type: "Remote",
+    request_type: "remote",
     location: "",
     subject: "",
     description: "",
@@ -422,6 +423,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
 
             {/* Lead Volunteer */}
+            {/* Lead Volunteer */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <label
@@ -431,181 +433,182 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("Lead Volunteer")}
                 </label>
                 <div className="relative group cursor-pointer">
-                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
-                  {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
-                    Select ‘Yes’ if you’re the main volunteer coordinating this
+                  <div
+                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 
+                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                  >
+                    Select “Yes” if you’re the main volunteer coordinating this
                     request.
                   </div>
                 </div>
               </div>
-              <FormControl
-                fullWidth
-                variant="outlined"
-                size="small"
-                sx={{ mb: 4 }}
-              >
-                <InputLabel id="lead-volunteer-label"></InputLabel>
-                <Select
-                  labelId="lead-volunteer-label"
+
+              {/* when editing, admins can type new name; otherwise show a dropdown */}
+              {isEdit ? (
+                <input
+                  type="text"
                   id="lead_volunteer"
-                  value={formData.lead_volunteer}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      lead_volunteer: e.target.value,
-                    }))
+                  name="lead_volunteer"
+                  disabled={
+                    !(
+                      groups?.includes("Admins") ||
+                      groups?.includes("SuperAdmins")
+                    )
                   }
-                  sx={{
-                    backgroundColor: "white",
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.300",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.400",
-                    },
-                    "& .MuiSelect-icon": { color: "gray.600" },
-                  }}
-                  MenuProps={{
-                    PaperProps: { sx: { bgcolor: "white" } },
-                  }}
-                >
-                  {/* this one shows up as “placeholder” */}
-                  <MenuItem value="No">No</MenuItem>
-                  <MenuItem value="Yes">Yes</MenuItem>
-                </Select>
-              </FormControl>
+                  value={formData.lead_volunteer}
+                  onChange={handleChange}
+                  className="border p-2 w-full rounded-lg disabled:text-gray-400"
+                />
+              ) : (
+                <div className="relative">
+                  <select
+                    id="lead_volunteer"
+                    name="lead_volunteer"
+                    value={formData.lead_volunteer}
+                    onChange={handleChange}
+                    className="block w-full appearance-none bg-white border border-gray-300 rounded-lg 
+                              py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                  >
+                    <option value="No">{t("No")}</option>
+                    <option value="Yes">{t("Yes")}</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <HiChevronDown className="h-5 w-5 text-gray-400" />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          {/* 
-          Temporarily commented out as MVP only allows for self requests
-          {!selfFlag && (
-            <div className="mt-3" data-testid="parentDivTwo">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="requester_first_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("FIRST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_first_name"
-                    value={formData.requester_first_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="requester_last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("LAST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_last_name"
-                    value={formData.requester_last_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-              </div>
-              <div className="mt-3" data-testid="parentDivThree">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 mb-1 font-medium"
-                >
-                  {t("EMAIL")}
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-              </div>
+          {/*
+         Temporarily commented out as MVP only allows for self requests
+         {!selfFlag && (
+           <div className="mt-3" data-testid="parentDivTwo">
+             <div className="grid grid-cols-2 gap-4">
+               <div>
+                 <label
+                   htmlFor="requester_first_name"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("FIRST_NAME")}
+                 </label>
+                 <input
+                   type="text"
+                   id="requester_first_name"
+                   value={formData.requester_first_name}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div>
+                 <label
+                   htmlFor="requester_last_name"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("LAST_NAME")}
+                 </label>
+                 <input
+                   type="text"
+                   id="requester_last_name"
+                   value={formData.requester_last_name}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+             </div>
+             <div className="mt-3" data-testid="parentDivThree">
+               <label
+                 htmlFor="email"
+                 className="block text-gray-700 mb-1 font-medium"
+               >
+                 {t("EMAIL")}
+               </label>
+               <input
+                 type="email"
+                 id="email"
+                 value={formData.email}
+                 onChange={handleChange}
+                 className="w-full rounded-lg border py-2 px-3"
+               />
+             </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PHONE")}
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("AGE")}
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div className="mt-3" data-testid="parentDivFour">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("GENDER")}
-                  </label>
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {genderOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mt-3" data-testid="parentDivFive">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PREFERRED_LANGUAGE")}
-                  </label>
-                  <select
-                    id="language"
-                    value={formData.language}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-          )} */}
+
+             <div className="mt-3 grid grid-cols-2 gap-4">
+               <div>
+                 <label
+                   htmlFor="phone"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("PHONE")}
+                 </label>
+                 <input
+                   type="text"
+                   id="phone"
+                   value={formData.phone}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div>
+                 <label
+                   htmlFor="age"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("AGE")}
+                 </label>
+                 <input
+                   type="number"
+                   id="age"
+                   value={formData.age}
+                   onChange={handleChange}
+                   className="w-full rounded-lg border py-2 px-3"
+                 />
+               </div>
+               <div className="mt-3" data-testid="parentDivFour">
+                 <label
+                   htmlFor="gender"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("GENDER")}
+                 </label>
+                 <select
+                   id="gender"
+                   value={formData.gender}
+                   onChange={handleChange}
+                   className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                 >
+                   {genderOptions.map((option) => (
+                     <option key={option.value} value={option.value}>
+                       {option.label}
+                     </option>
+                   ))}
+                 </select>
+               </div>
+               <div className="mt-3" data-testid="parentDivFive">
+                 <label
+                   htmlFor="language"
+                   className="block text-gray-700 mb-1 font-medium"
+                 >
+                   {t("PREFERRED_LANGUAGE")}
+                 </label>
+                 <select
+                   id="language"
+                   value={formData.language}
+                   onChange={handleChange}
+                   className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                 >
+                   {languages.map((language) => (
+                     <option key={language.value} value={language.value}>
+                       {language.label}
+                     </option>
+                   ))}
+                 </select>
+               </div>
+             </div>
+           </div>
+         )} */}
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
@@ -626,45 +629,30 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              <FormControl
-                fullWidth
-                variant="outlined"
-                size="small"
-                sx={{ mb: 4 }}
-              >
-                <InputLabel id="category-label"></InputLabel>
-                <Select
-                  labelId="category-label"
+              <div className="relative">
+                <input
+                  type="text"
                   id="category"
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
+                  value={
+                    filteredCategories.find(
+                      (cat) => cat.id === formData.category,
+                    )?.name || formData.category
                   }
-                  sx={{
-                    backgroundColor: "white", // white fill
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.300", // light gray border
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.400",
-                    },
-                    "& .MuiSelect-icon": {
-                      color: "gray.600", // gray arrow
-                    },
+                  onChange={handleSearchInput}
+                  className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
+                  onFocus={() => setShowDropdown(true)}
+                  onBlur={(e) => {
+                    if (!dropdownRef.current?.contains(e.relatedTarget)) {
+                      setShowDropdown(false);
+                    }
                   }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: { bgcolor: "white" }, // white dropdown panel
-                    },
-                  }}
-                >
-                  {filteredCategories.map((cat) => (
-                    <MenuItem key={cat.id} value={cat.name}>
-                      {cat.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                />
+
+                {/* the dropdown arrow, pointer-events-none so it doesn’t block input clicks */}
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
               {showDropdown && (
                 <div
                   className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
@@ -723,50 +711,45 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
-                  {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
-                    Indicate how you’d like help delivered: ‘Remote’ for virtual
-                    support or ‘In Person’ for onsite assistance.
+                  <div
+                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
+                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none"
+                  >
+                    Indicate how you’d like help delivered: “Remote” for virtual
+                    support or “In Person” for onsite assistance.
                   </div>
                 </div>
               </div>
-              <FormControl fullWidth variant="outlined" size="small">
-                <InputLabel id="request-type-label"></InputLabel>
-                <Select
-                  labelId="request-type-label"
+
+              <div className="relative">
+                <select
                   id="requestType"
                   value={formData.request_type}
                   onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      request_type: e.target.value,
-                    }))
+                    setFormData({ ...formData, request_type: e.target.value })
                   }
-                  sx={{
-                    backgroundColor: "white",
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.300",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.400",
-                    },
-                    "& .MuiSelect-icon": { color: "gray.600" },
-                  }}
-                  MenuProps={{
-                    PaperProps: { sx: { bgcolor: "white" } },
-                  }}
+                  className="
+                    block w-full appearance-none
+                    bg-white border border-gray-300
+                    rounded-lg py-2 px-3 pr-8
+                    text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                  "
                 >
-                  <MenuItem value="Remote">Remote</MenuItem>
-                  <MenuItem value="In Person">In Person</MenuItem>
-                </Select>
-              </FormControl>
+                  <option value="Remote">{t("REMOTE")}</option>
+                  <option value="In Person">{t("IN_PERSON")}</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
             </div>
 
             {formData.request_type === "In Person" && (
               <div>
                 <label
                   htmlFor="location"
-                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
+                  className="block mb-1 font-medium text-gray-700"
                 >
                   Location
                 </label>
@@ -809,46 +792,30 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              <FormControl
-                fullWidth
-                variant="outlined"
-                size="small"
-                sx={{ mb: 2 }}
-              >
-                <InputLabel id="priority-label"></InputLabel>
-                <Select
-                  labelId="priority-label"
+              <div className="relative">
+                <select
                   id="requestPriority"
-                  value={formData.priority}
+                  value={formData.priority || "MEDIUM"}
                   onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      priority: e.target.value,
-                    }))
+                    setFormData({ ...formData, priority: e.target.value })
                   }
-                  sx={{
-                    backgroundColor: "white",
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.300",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "gray.400",
-                    },
-                    "& .MuiSelect-icon": {
-                      color: "gray.600",
-                    },
-                  }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: { bgcolor: "white" },
-                    },
-                  }}
+                  className="
+                    block w-full appearance-none
+                    bg-white border border-gray-300
+                    rounded-lg px-3 py-2 pr-8
+                    text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                  "
                 >
-                  <MenuItem value="LOW">{t("Low")}</MenuItem>
-                  <MenuItem value="MEDIUM">{t("Medium")}</MenuItem>
-                  <MenuItem value="HIGH">{t("High")}</MenuItem>
-                </Select>
-              </FormControl>
+                  <option value="LOW">{t("Low")}</option>
+                  <option value="MEDIUM">{t("Medium")}</option>
+                  <option value="HIGH">{t("High")}</option>
+                </select>
+
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
             </div>
           </div>
 
