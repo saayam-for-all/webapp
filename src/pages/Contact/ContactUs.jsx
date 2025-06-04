@@ -48,12 +48,34 @@ const ContactUs = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (!formData.firstName) newErrors.firstName = "First Name is required";
-    if (!formData.lastName) newErrors.lastName = "Last Name is required";
-    if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.phone) newErrors.phone = "Phone is required";
-    if (!formData.message) newErrors.message = "Message is required";
-
+    const nameRegex = /^[A-Za-z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/;
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First Name is required";
+    } else if (!nameRegex.test(formData.firstName.trim())) {
+      newErrors.firstName = "First Name should contain only letters";
+    }
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last Name is required";
+    } else if (!nameRegex.test(formData.lastName.trim())) {
+      newErrors.lastName = "Last Name should contain only letters";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Email is invalid";
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone is required";
+    } else if (!phoneRegex.test(formData.phone.trim())) {
+      newErrors.phone = "Phone number must be 10 digits";
+    } else if (formData.phone.trim().length !== 10) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
+    }
+    if (!formData.message) {
+      newErrors.message = "Message is required";
+    }
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
