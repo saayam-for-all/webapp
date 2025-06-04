@@ -76,6 +76,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const streetAddressRef = useRef(null);
+  const dateOfBirthRef = useRef(null);
 
   const [personalInfo, setPersonalInfo] = useState({
     dateOfBirth: null,
@@ -170,11 +171,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     setHasUnsavedChanges(true);
   };
 
-  const handleEditClick = () => {
+  /*const handleEditClick = () => {
     setIsEditing(true);
     setTimeout(() => {
       if (streetAddressRef.current) {
         streetAddressRef.current.focus();
+      }
+    }, 0);
+  };*/
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setTimeout(() => {
+      if (dateOfBirthRef.current) {
+        dateOfBirthRef.current.setFocus
+          ? dateOfBirthRef.current.setFocus() // react-datepicker specific method
+          : dateOfBirthRef.current.focus();
       }
     }, 0);
   };
@@ -280,6 +292,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           {isEditing ? (
             <>
               <DatePicker
+                ref={dateOfBirthRef}
                 selected={personalInfo.dateOfBirth || null}
                 onChange={(date) => handleInputChange("dateOfBirth", date)}
                 dateFormat={dateFormat}
