@@ -99,7 +99,7 @@ exports[`LandingPage renders correctly 1`] = `
             Our Collaborators
           </h3>
           <div
-            class="w-full flex flex-row overflow-hidden"
+            class="w-full flex flex-row overflow-hidden hidden"
           >
             <div
               class="scroll imgBox"
@@ -419,7 +419,7 @@ exports[`LandingPage renders correctly 1`] = `
           Our Collaborators
         </h3>
         <div
-          class="w-full flex flex-row overflow-hidden"
+          class="w-full flex flex-row overflow-hidden hidden"
         >
           <div
             class="scroll imgBox"
