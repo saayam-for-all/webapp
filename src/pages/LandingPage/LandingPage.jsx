@@ -93,7 +93,8 @@ export default function Home() {
           Our Collaborators
         </h3>
 
-        <div className="w-full flex flex-row overflow-hidden">
+        {/* Hid collaborators until we get permission from them all*/}
+        <div className="w-full flex flex-row overflow-hidden hidden">
           <div className="scroll imgBox">
             <div>
               <img src={collabOne} className="w-[150px] ml-[75px]"></img>
