@@ -76,7 +76,9 @@ const LoginPage = () => {
             if (response.status === 200) {
               const data = response.data; // Axios automatically parses the response as JSON
               const userId = data.data.id; // Assuming the response has a userId field
-              const profilePhoto = data.data.profileImageUrl; // Assuming the response has a profilePhoto field
+              const profilePhoto = data.data.base64ProfileImage; // Assuming the response has a profilePhoto field
+
+              console.log("Profile Photo URL:", profilePhoto);
               return [userId, profilePhoto]; // Return the userId or any other necessary data from the response
             } else {
               console.error(
@@ -92,9 +94,10 @@ const LoginPage = () => {
           await getUserProfileId(emailValue);
         dispatch(setUserId(userIdFromApi));
         if (profileImageUrl !== null) {
-          const absoluteUrl = `http://localhost:8080${profileImageUrl}`;
-          console.log("absoluteUrl", absoluteUrl);
-          fetchAndStoreImage(absoluteUrl, "profilePhoto");
+          dispatch(setProfileImgUrl(profileImageUrl));
+          // Store in localStorage
+          localStorage.setItem("profilePhoto", profileImageUrl);
+          window.dispatchEvent(new Event("profile-photo-updated"));
         }
         const newExpiry = Date.now() + INACTIVITY_TIMEOUT;
         localStorage.setItem("expireTime", newExpiry.toString());
@@ -105,29 +108,8 @@ const LoginPage = () => {
       setErrors({ root: "Invalid email or password" });
     }
   };
-  async function fetchAndStoreImage(bootproxyUrl, storageKey) {
-    // Fetch image as blob from presigned URL
-    const response = await fetch(bootproxyUrl);
-    console.log("bootproxyUrl fetch:", bootproxyUrl);
-    if (!response.ok) throw new Error("Failed to fetch image");
-
-    const blob = await response.blob();
-
-    // Convert blob to base64 string
-    const base64 = await blobToBase64(blob);
-    dispatch(setProfileImgUrl(base64));
-    // Store in localStorage
-    localStorage.setItem(storageKey, base64);
-    window.dispatchEvent(new Event("profile-photo-updated"));
-  }
-  function blobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result); // base64 string here
-      reader.onerror = reject;
-      reader.readAsDataURL(blob); // includes mime type prefix
-    });
-  }
+  // The 'fetchAndStoreImage' function has been commented out. If needed in the future, it can be restored to handle image fetching and storage.
+  // Ensure to uncomment and test it before use.
 
   return (
     <div className="flex items-center h-full justify-center">
