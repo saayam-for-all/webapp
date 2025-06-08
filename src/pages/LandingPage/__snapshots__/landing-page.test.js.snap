@@ -15,17 +15,17 @@ exports[`LandingPage renders correctly 1`] = `
             class="w-full flex flex-col items-center justify-center"
           >
             <div
-              class="text-sm md:text-lg text-gray-400 mb-[50px] mt-[20px]"
+              class="text-sm md:text-lg text-gray-400 mb-[30px] md:mb-[50px] mt-[20px]"
             >
               Real help. Real people. Right when you need it.
             </div>
             <h1
-              class="font-bold text-4xl md:text-6xl tracking-wide mb-[50px]"
+              class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]"
             >
               Need help? Here to help?
             </h1>
             <div
-              class="w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center"
+              class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center"
             >
               At Saayam for All, your support can make a real difference today.
             </div>
@@ -42,12 +42,12 @@ exports[`LandingPage renders correctly 1`] = `
               src=""
             />
             <h3
-              class="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+              class="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center"
             >
               "Sarve jana sukhino bhavantu"
             </h3>
             <div
-              class="text-sm md:text-lg text-gray-400 text-center"
+              class="text-xs md:text-sm md:text-lg text-gray-400 text-center"
             >
               May all live happily.
             </div>
@@ -60,12 +60,12 @@ exports[`LandingPage renders correctly 1`] = `
               src=""
             />
             <h3
-              class="font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+              class="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
             >
               "jñānam vardhati sanchayāt"
             </h3>
             <div
-              class="text-sm md:text-lg text-gray-400 text-center"
+              class="text-xs md:text-sm  md:text-lg text-gray-400 text-center"
             >
               Sharing knowledge expands one's own understanding and the knowledge of others.
             </div>
@@ -78,12 +78,12 @@ exports[`LandingPage renders correctly 1`] = `
               src=""
             />
             <h3
-              class="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+              class="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
             >
               "Manava sevaye Madhava seva"
             </h3>
             <div
-              class="text-sm md:text-lg text-gray-400 text-center w-2/3"
+              class="text-xs md:text-sm md:text-lg text-gray-400 text-center w-2/3"
             >
               Service to mankind is Service to God.
             </div>
@@ -91,10 +91,10 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
         <mock-carousel />
         <div
-          class="relative w-full flex flex-col overflow-hidden items-center mb-[50px]"
+          class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
           <h3
-            class="font-bold text-3xl md:text-4xl mb-[40px]"
+            class="font-bold text-3xl md:text-4xl md:mb-[40px]"
           >
             Our Collaborators
           </h3>
@@ -235,85 +235,89 @@ exports[`LandingPage renders correctly 1`] = `
           class="bg-gray-100 flex flex-col w-full items-center justify-center"
         >
           <h1
-            class="w-[60%] font-bold text-3xl md:text-4xl tracking-wide mb-[50px] mt-[50px] text-center"
+            class="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center"
           >
             One Platform. Many Ways to Contribute.
           </h1>
           <div
-            class="w-[60%] text-sm md:text-lg text-black mb-[40px] text-center"
+            class="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center"
           >
             Learn about different roles in our ecosystem and how each one contributes to creating an impact.
           </div>
           <div
-            class="w-[80%] flex flex-riw items-center justify-center gap-5 mb-[75px]"
+            class="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]"
           >
             <div
-              style="background-image: url(); background-size: cover; background-position: center; width: 25%; height: 400px; border-radius: 10px;"
+              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style="background-image: url();"
             >
               <div
-                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]"
+                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
               >
                 <h3
-                  class="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
                   Beneficiaries
                 </h3>
                 <h6
-                  class="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center"
+                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
                   Recieve help for their requests
                 </h6>
               </div>
             </div>
             <div
-              style="background-image: url(); background-size: cover; background-position: center; width: 25%; height: 400px; border-radius: 10px;"
+              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style="background-image: url();"
             >
               <div
-                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]"
+                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
               >
                 <h3
-                  class="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
                   Volunteers
                 </h3>
                 <h6
-                  class="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center"
+                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
                   Provide guidance and solutions to beneficiaries
                 </h6>
               </div>
             </div>
             <div
-              style="background-image: url(); background-size: cover; background-position: center; width: 25%; height: 400px; border-radius: 10px;"
+              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style="background-image: url();"
             >
               <div
-                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]"
+                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
               >
                 <h3
-                  class="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
                   Voluntary Organizations
                 </h3>
                 <h6
-                  class="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center"
+                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
                   Offer necessary support to beneficiaries
                 </h6>
               </div>
             </div>
             <div
-              style="background-image: url(); background-size: cover; background-position: center; width: 25%; height: 400px; border-radius: 10px;"
+              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style="background-image: url();"
             >
               <div
-                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]"
+                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
               >
                 <h3
-                  class="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
                   Donors
                 </h3>
                 <h6
-                  class="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center"
+                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
                   Provide financial assistance to voluntary organization
                 </h6>
@@ -335,17 +339,17 @@ exports[`LandingPage renders correctly 1`] = `
           class="w-full flex flex-col items-center justify-center"
         >
           <div
-            class="text-sm md:text-lg text-gray-400 mb-[50px] mt-[20px]"
+            class="text-sm md:text-lg text-gray-400 mb-[30px] md:mb-[50px] mt-[20px]"
           >
             Real help. Real people. Right when you need it.
           </div>
           <h1
-            class="font-bold text-4xl md:text-6xl tracking-wide mb-[50px]"
+            class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]"
           >
             Need help? Here to help?
           </h1>
           <div
-            class="w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center"
+            class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center"
           >
             At Saayam for All, your support can make a real difference today.
           </div>
@@ -362,12 +366,12 @@ exports[`LandingPage renders correctly 1`] = `
             src=""
           />
           <h3
-            class="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+            class="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center"
           >
             "Sarve jana sukhino bhavantu"
           </h3>
           <div
-            class="text-sm md:text-lg text-gray-400 text-center"
+            class="text-xs md:text-sm md:text-lg text-gray-400 text-center"
           >
             May all live happily.
           </div>
@@ -380,12 +384,12 @@ exports[`LandingPage renders correctly 1`] = `
             src=""
           />
           <h3
-            class="font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+            class="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
           >
             "jñānam vardhati sanchayāt"
           </h3>
           <div
-            class="text-sm md:text-lg text-gray-400 text-center"
+            class="text-xs md:text-sm  md:text-lg text-gray-400 text-center"
           >
             Sharing knowledge expands one's own understanding and the knowledge of others.
           </div>
@@ -398,12 +402,12 @@ exports[`LandingPage renders correctly 1`] = `
             src=""
           />
           <h3
-            class="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+            class="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
           >
             "Manava sevaye Madhava seva"
           </h3>
           <div
-            class="text-sm md:text-lg text-gray-400 text-center w-2/3"
+            class="text-xs md:text-sm md:text-lg text-gray-400 text-center w-2/3"
           >
             Service to mankind is Service to God.
           </div>
@@ -411,10 +415,10 @@ exports[`LandingPage renders correctly 1`] = `
       </div>
       <mock-carousel />
       <div
-        class="relative w-full flex flex-col overflow-hidden items-center mb-[50px]"
+        class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >
         <h3
-          class="font-bold text-3xl md:text-4xl mb-[40px]"
+          class="font-bold text-3xl md:text-4xl md:mb-[40px]"
         >
           Our Collaborators
         </h3>
@@ -555,85 +559,89 @@ exports[`LandingPage renders correctly 1`] = `
         class="bg-gray-100 flex flex-col w-full items-center justify-center"
       >
         <h1
-          class="w-[60%] font-bold text-3xl md:text-4xl tracking-wide mb-[50px] mt-[50px] text-center"
+          class="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center"
         >
           One Platform. Many Ways to Contribute.
         </h1>
         <div
-          class="w-[60%] text-sm md:text-lg text-black mb-[40px] text-center"
+          class="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center"
         >
           Learn about different roles in our ecosystem and how each one contributes to creating an impact.
         </div>
         <div
-          class="w-[80%] flex flex-riw items-center justify-center gap-5 mb-[75px]"
+          class="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]"
         >
           <div
-            style="background-image: url(); background-size: cover; background-position: center; width: 25%; height: 400px; border-radius: 10px;"
+            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            style="background-image: url();"
           >
             <div
-              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]"
+              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
             >
               <h3
-                class="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
                 Beneficiaries
               </h3>
               <h6
-                class="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center"
+                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
                 Recieve help for their requests
               </h6>
             </div>
           </div>
           <div
-            style="background-image: url(); background-size: cover; background-position: center; width: 25%; height: 400px; border-radius: 10px;"
+            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            style="background-image: url();"
           >
             <div
-              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]"
+              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
             >
               <h3
-                class="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
                 Volunteers
               </h3>
               <h6
-                class="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center"
+                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
                 Provide guidance and solutions to beneficiaries
               </h6>
             </div>
           </div>
           <div
-            style="background-image: url(); background-size: cover; background-position: center; width: 25%; height: 400px; border-radius: 10px;"
+            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            style="background-image: url();"
           >
             <div
-              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]"
+              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
             >
               <h3
-                class="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
                 Voluntary Organizations
               </h3>
               <h6
-                class="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center"
+                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
                 Offer necessary support to beneficiaries
               </h6>
             </div>
           </div>
           <div
-            style="background-image: url(); background-size: cover; background-position: center; width: 25%; height: 400px; border-radius: 10px;"
+            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            style="background-image: url();"
           >
             <div
-              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]"
+              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
             >
               <h3
-                class="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center"
+                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
                 Donors
               </h3>
               <h6
-                class="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center"
+                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
                 Provide financial assistance to voluntary organization
               </h6>
