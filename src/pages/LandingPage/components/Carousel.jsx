@@ -50,7 +50,7 @@ export default function Carousel() {
           prevEl: ".custom-swiper-button-prev",
         }}
         modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-        className="mySwiper h-[300px] md:h-[350px]"
+        className="mySwiper h-[350px] md:h-[350px]"
       >
         {[
           carouselOne,
