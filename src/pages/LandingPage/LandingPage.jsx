@@ -36,13 +36,13 @@ export default function Home() {
     <div className="w-full overflow-hidden">
       <div className="w-full">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-sm md:text-lg text-gray-400 mb-[50px] mt-[20px]">
+          <div className="text-sm md:text-lg text-gray-400 mb-[30px] md:mb-[50px] mt-[20px]">
             Real help. Real people. Right when you need it.
           </div>
-          <h1 className="font-bold text-4xl md:text-6xl tracking-wide mb-[50px]">
+          <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]">
             Need help? Here to help?
           </h1>
-          <div className="w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center">
+          <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center">
             At Saayam for All, your support can make a real difference today.
           </div>
         </div>
@@ -53,10 +53,10 @@ export default function Home() {
             src={bannerImageOne}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
           />
-          <h3 className="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+          <h3 className="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center">
             "Sarve jana sukhino bhavantu"
           </h3>
-          <div className="text-sm md:text-lg text-gray-400 text-center">
+          <div className="text-xs md:text-sm md:text-lg text-gray-400 text-center">
             May all live happily.
           </div>
         </div>
@@ -65,10 +65,10 @@ export default function Home() {
             src={bannerImageTwo}
             className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
           />
-          <h3 className="font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+          <h3 className="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
             "j&ntilde;&#257;nam vardhati sanchay&#257;t"
           </h3>
-          <div className="text-sm md:text-lg text-gray-400 text-center">
+          <div className="text-xs md:text-sm  md:text-lg text-gray-400 text-center">
             Sharing knowledge expands one's own understanding and the knowledge
             of others.
           </div>
@@ -78,18 +78,18 @@ export default function Home() {
             src={bannerImageThree}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
           />
-          <h3 className="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+          <h3 className="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
             "Manava sevaye Madhava seva"
           </h3>
-          <div className="text-sm md:text-lg text-gray-400 text-center w-2/3">
+          <div className="text-xs md:text-sm md:text-lg text-gray-400 text-center w-2/3">
             Service to mankind is Service to God.
           </div>
         </div>
       </div>
 
       <Carousel />
-      <div className="relative w-full flex flex-col overflow-hidden items-center mb-[50px]">
-        <h3 className="font-bold text-3xl md:text-4xl mb-[40px]">
+      <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
+        <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
           Our Collaborators
         </h3>
 
@@ -178,27 +178,29 @@ export default function Home() {
       </div>
 
       <div className="bg-gray-100 flex flex-col w-full items-center justify-center">
-        <h1 className="w-[60%] font-bold text-3xl md:text-4xl tracking-wide mb-[50px] mt-[50px] text-center">
+        <h1 className="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center">
           One Platform. Many Ways to Contribute.
         </h1>
-        <div className="w-[60%] text-sm md:text-lg text-black mb-[40px] text-center">
+        <div className="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center">
           Learn about different roles in our ecosystem and how each one
           contributes to creating an impact.
         </div>
-        <div className="w-[80%] flex flex-riw items-center justify-center gap-5 mb-[75px]">
+        <div className="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]">
           {[bottomOne, bottomTwo, bottomThree, bottomFour].map((src, i) => (
             <div
+              key={`bottom-image-${i}`}
+              className="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
               style={{
                 backgroundImage: `url(${src})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                width: "25%",
-                height: "400px",
-                borderRadius: "10px",
+                // backgroundSize: "cover",
+                // backgroundPosition: "center",
+                // width: "25%",
+                // height: "400px",
+                // borderRadius: "10px",
               }}
             >
-              <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]">
-                <h3 className="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
+              <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]">
+                <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
                   {
                     [
                       "Beneficiaries",
@@ -208,7 +210,7 @@ export default function Home() {
                     ][i]
                   }
                 </h3>
-                <h6 className="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center">
+                <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
                   {
                     [
                       "Recieve help for their requests",
