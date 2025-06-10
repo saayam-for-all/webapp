@@ -9,6 +9,7 @@ import Modal from "./Modal";
 import OrganizationDetails from "./OrganizationDetails";
 import Skills from "./Skills";
 import Availability from "./Availability";
+import Preferences from "./Preferences";
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
 function Profile() {
@@ -112,6 +113,8 @@ function Profile() {
         return <Skills setHasUnsavedChanges={setHasUnsavedChanges} />;
       case "availability":
         return <Availability setHasUnsavedChanges={setHasUnsavedChanges} />;
+      case "preferences":
+        return <Preferences setHasUnsavedChanges={setHasUnsavedChanges} />;
       default:
         return null;
     }

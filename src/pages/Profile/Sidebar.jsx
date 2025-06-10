@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { FaUserCircle, FaLock, FaTags, FaClock } from "react-icons/fa";
+import { FaUserCircle, FaLock, FaTags, FaClock, FaCog } from "react-icons/fa";
 // REMOVED: FaCalendarAlt for preferences
 import { FiChevronRight } from "react-icons/fi";
 import { FiEdit2 } from "react-icons/fi";
@@ -146,6 +146,24 @@ function Sidebar({
             {t("Availability")}
           </div>
           {activeTab !== "availability" && (
+            <FiChevronRight className="text-gray-400" />
+          )}
+        </button>
+
+        {/* Preferences Tab */}
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "preferences"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("preferences")}
+        >
+          <div className="flex items-center">
+            <FaCog className="mr-2 text-gray-500" />
+            {t("Preferences")}
+          </div>
+          {activeTab !== "preferences" && (
             <FiChevronRight className="text-gray-400" />
           )}
         </button>

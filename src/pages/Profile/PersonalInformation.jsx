@@ -217,6 +217,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
     setIsEditing(false);
     localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
+
+    window.dispatchEvent(new Event("personal-info-updated"));
+
     setHasUnsavedChanges(false);
     // Call changeUiLanguage to update the UI based on the first language preference.
     changeUiLanguage(personalInfo);
