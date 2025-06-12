@@ -23,6 +23,7 @@ import Sitemap from "../pages/Sitemap/Sitemap";
 // import Vision from "../pages/Vision/Vision";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import ProtectedRoute from "./ProtectedRoute";
+import BenevityInfo from "../pages/Benevity/BenevityInfo";
 
 const routes = [
   {
@@ -132,6 +133,10 @@ const routes = [
   {
     path: "verify-account",
     element: <VerifyAccountPage />,
+  },
+  {
+    path: "benevity",
+    element: <BenevityInfo />,
   },
 ];
 

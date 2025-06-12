@@ -4,7 +4,10 @@
   padding: 8px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 100px;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 .donate-grid {
@@ -14,6 +17,11 @@
 }
 
 @media (max-width: 900px) {
+  .donate-container {
+    min-height: 100vh;
+    height: auto;
+    padding: 4px;
+  }
   .donate-grid {
     grid-template-columns: 1fr;
   }
@@ -157,6 +165,7 @@
 }
 
 .qr-title {
+  /* font-family: 'Montserrat', 'Futura', Arial, sans-serif; */
   font-size: 1.4rem;
   font-weight: bold;
   color: #1a1a1a;
@@ -296,18 +305,18 @@
 
 /* Overlay background section for donate */
 .donate-image-overlay-bg {
-  background: url("../../assets/donate_img_bg.png") no-repeat center center;
-  background-size: cover;
+  position: relative;
   width: 100%;
   height: 70vh;
-  min-height: 340px;
-  position: relative;
+  min-height: 500px;
+  max-height: 700px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin: 0 auto 2.5rem auto;
-  padding: 50px 0;
+  margin: 0 auto 2rem auto;
+  padding: 0;
+  border-radius: 10px;
 }
 
 .donate-bg-image {
@@ -317,9 +326,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   z-index: 1;
   filter: brightness(0.92);
-  transform: none;
+  border-radius: 10px;
 }
 
 .donate-card-overlay {
@@ -423,18 +433,18 @@
 
 @media (max-width: 900px) {
   .donate-image-overlay-bg {
-    height: 340px;
-    min-height: 220px;
-    max-width: 100vw;
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
     width: 100%;
-    left: 0;
-    right: 0;
-    margin-left: 0;
-    margin-right: 0;
-    border-radius: 18px;
+    margin: 0 auto 1.5rem auto;
+    padding: 0;
+    border-radius: 10px;
   }
   .donate-bg-image {
-    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
   }
   .donate-card-overlay {
     position: static;
@@ -442,15 +452,25 @@
     margin: 0 auto;
     right: auto;
     left: auto;
-    max-width: 98vw;
+    max-width: 90%;
+    width: auto;
     border-radius: 14px;
-    padding: 1rem 0.5rem 1rem 0.5rem;
+    padding: 0.8rem 1rem;
   }
   .donate-title {
-    font-size: 1.05rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
   }
   .donate-subtitle {
     font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  .donation-options-grid {
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .donation-option-btn {
+    padding: 0.6rem 1rem;
   }
 }
 
