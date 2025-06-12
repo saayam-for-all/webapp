@@ -23,21 +23,33 @@ function getUserLanguages(personalInfo) {
 
 export const changeUiLanguage = (personalInfo = null) => {
   const languages = getUserLanguages(personalInfo);
+
+  // If no personal info or no preferences, skip and use browser language.
   if (!validateArray(languages)) {
+    console.log(
+      "No valid user language preferences, keeping browser language.",
+    );
     return;
   }
 
   const pattern = Object.keys(localeList);
-  for (const language of languages) {
-    if (!validateString(language) || !pattern.includes(language)) {
-      continue;
-    }
 
-    i18n.changeLanguage(localeList[language]);
+  const firstLanguage = languages[0];
+
+  if (
+    validateString(firstLanguage) &&
+    pattern.includes(firstLanguage) &&
+    firstLanguage !== "English"
+  ) {
+    console.log("Changing language to:", localeList[firstLanguage]);
+    i18n.changeLanguage(localeList[firstLanguage]);
     return;
   }
 
-  returnDefaultLanguage();
+  console.log(
+    "No valid first language preference found, keeping browser language.",
+  );
+  // DO NOT force 2nd/3rd language — leave i18n on browser language.
 };
 
 export const returnDefaultLanguage = () => {
