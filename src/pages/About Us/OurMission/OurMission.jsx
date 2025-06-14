@@ -11,8 +11,8 @@ export default function OurMission() {
 
   return (
     <>
-      <Mission />
       <MissionHero />
+      <Mission />
       <Vision />
       <JoinCTA />
     </>
