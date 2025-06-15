@@ -294,7 +294,7 @@ const HelpingVolunteers = () => {
                   {`${volunteersAssigned} Assigned`}
                 </div>
               </div>
-              <div className="text-md text-gray-400 font-light">{`${formattedDate}`}</div>
+              <div className="text-md text-gray-600 font-light">{`${formattedDate}`}</div>
             </div>
           )}
 

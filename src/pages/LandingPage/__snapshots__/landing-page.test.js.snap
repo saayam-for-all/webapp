@@ -15,7 +15,7 @@ exports[`LandingPage renders correctly 1`] = `
             class="w-full flex flex-col items-center justify-center"
           >
             <div
-              class="text-sm md:text-lg text-gray-400 mb-[30px] md:mb-[50px] mt-[20px]"
+              class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]"
             >
               Real help. Real people. Right when you need it.
             </div>
@@ -25,7 +25,7 @@ exports[`LandingPage renders correctly 1`] = `
               Need help? Here to help?
             </h1>
             <div
-              class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center"
+              class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center"
             >
               At Saayam for All, your support can make a real difference today.
             </div>
@@ -47,7 +47,7 @@ exports[`LandingPage renders correctly 1`] = `
               "Sarve jana sukhino bhavantu"
             </h3>
             <div
-              class="text-xs md:text-sm md:text-lg text-gray-400 text-center"
+              class="text-xs md:text-sm md:text-lg text-gray-600 text-center"
             >
               May all live happily.
             </div>
@@ -65,7 +65,7 @@ exports[`LandingPage renders correctly 1`] = `
               "jñānam vardhati sanchayāt"
             </h3>
             <div
-              class="text-xs md:text-sm  md:text-lg text-gray-400 text-center"
+              class="text-xs md:text-sm  md:text-lg text-gray-600 text-center"
             >
               Sharing knowledge expands one's own understanding and the knowledge of others.
             </div>
@@ -83,7 +83,7 @@ exports[`LandingPage renders correctly 1`] = `
               "Manava sevaye Madhava seva"
             </h3>
             <div
-              class="text-xs md:text-sm md:text-lg text-gray-400 text-center w-2/3"
+              class="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3"
             >
               Service to mankind is Service to God.
             </div>
@@ -339,7 +339,7 @@ exports[`LandingPage renders correctly 1`] = `
           class="w-full flex flex-col items-center justify-center"
         >
           <div
-            class="text-sm md:text-lg text-gray-400 mb-[30px] md:mb-[50px] mt-[20px]"
+            class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]"
           >
             Real help. Real people. Right when you need it.
           </div>
@@ -349,7 +349,7 @@ exports[`LandingPage renders correctly 1`] = `
             Need help? Here to help?
           </h1>
           <div
-            class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center"
+            class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center"
           >
             At Saayam for All, your support can make a real difference today.
           </div>
@@ -371,7 +371,7 @@ exports[`LandingPage renders correctly 1`] = `
             "Sarve jana sukhino bhavantu"
           </h3>
           <div
-            class="text-xs md:text-sm md:text-lg text-gray-400 text-center"
+            class="text-xs md:text-sm md:text-lg text-gray-600 text-center"
           >
             May all live happily.
           </div>
@@ -389,7 +389,7 @@ exports[`LandingPage renders correctly 1`] = `
             "jñānam vardhati sanchayāt"
           </h3>
           <div
-            class="text-xs md:text-sm  md:text-lg text-gray-400 text-center"
+            class="text-xs md:text-sm  md:text-lg text-gray-600 text-center"
           >
             Sharing knowledge expands one's own understanding and the knowledge of others.
           </div>
@@ -407,7 +407,7 @@ exports[`LandingPage renders correctly 1`] = `
             "Manava sevaye Madhava seva"
           </h3>
           <div
-            class="text-xs md:text-sm md:text-lg text-gray-400 text-center w-2/3"
+            class="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3"
           >
             Service to mankind is Service to God.
           </div>
