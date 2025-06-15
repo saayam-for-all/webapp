@@ -1,7 +1,7 @@
 export function Mission() {
   return (
     <section className="flex justify-center items-center py-10 bg-white">
-      <div className="w-full max-w-[1100px] md:h-[565px] rounded-[30px] p-6 shadow-md border border-blue-200 flex flex-col justify-between">
+      <div className="w-full max-w-[1100px] md:h-[565px] rounded-[30px] p-6 border-blue-200 flex flex-col justify-between">
         {/* Header Row: Our Mission + Paragraph in single row */}
         <div className="flex flex-col md:flex-row mb-6">
           <h2 className="text-2xl font-bold mb-2 md:mb-0 md:mr-4 whitespace-nowrap">
