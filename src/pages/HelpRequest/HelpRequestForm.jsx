@@ -745,32 +745,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </div>
 
-            {formData.request_type === "In Person" && (
-              <div>
-                <label
-                  htmlFor="location"
-                  className="block mb-1 font-medium text-gray-700"
-                >
-                  Location
-                </label>
-                {isLoaded && (
-                  <StandaloneSearchBox
-                    onLoad={(ref) => (inputRef.current = ref)}
-                    onPlacesChanged={handleOnPlacesChanged}
-                  >
-                    <input
-                      type="text"
-                      id="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      name="location"
-                      className="border p-2 w-full rounded-lg"
-                      placeholder="Search for location..."
-                    />
-                  </StandaloneSearchBox>
-                )}
-              </div>
-            )}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <label
@@ -817,6 +791,33 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
             </div>
+
+            {formData.request_type === "In Person" && (
+              <div>
+                <label
+                  htmlFor="location"
+                  className="block mb-1 font-medium text-gray-700"
+                >
+                  Location
+                </label>
+                {isLoaded && (
+                  <StandaloneSearchBox
+                    onLoad={(ref) => (inputRef.current = ref)}
+                    onPlacesChanged={handleOnPlacesChanged}
+                  >
+                    <input
+                      type="text"
+                      id="location"
+                      value={formData.location}
+                      onChange={handleChange}
+                      name="location"
+                      className="border p-2 w-full rounded-lg"
+                      placeholder="Search for location..."
+                    />
+                  </StandaloneSearchBox>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="mt-3" data-testid="parentDivSix">
