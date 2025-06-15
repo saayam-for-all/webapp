@@ -56,7 +56,7 @@ export default function Home() {
           <h3 className="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center">
             "Sarve jana sukhino bhavantu"
           </h3>
-          <div className="text-xs md:text-sm md:text-lg text-gray-400 text-center">
+          <div className="text-xs md:text-sm md:text-lg text-gray-600 text-center">
             May all live happily.
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function Home() {
           <h3 className="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
             "j&ntilde;&#257;nam vardhati sanchay&#257;t"
           </h3>
-          <div className="text-xs md:text-sm  md:text-lg text-gray-400 text-center">
+          <div className="text-xs md:text-sm  md:text-lg text-gray-600 text-center">
             Sharing knowledge expands one's own understanding and the knowledge
             of others.
           </div>
@@ -81,7 +81,7 @@ export default function Home() {
           <h3 className="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
             "Manava sevaye Madhava seva"
           </h3>
-          <div className="text-xs md:text-sm md:text-lg text-gray-400 text-center w-2/3">
+          <div className="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3">
             Service to mankind is Service to God.
           </div>
         </div>

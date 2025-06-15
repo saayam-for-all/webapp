@@ -30,7 +30,7 @@ function Sidebar({
               className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto cursor-pointer border-2 border-dashed border-gray-300"
               onClick={openModal}
             >
-              <span className="text-gray-400">{t("UPLOAD_PHOTO")}</span>
+              <span className="text-gray-600">{t("UPLOAD_PHOTO")}</span>
             </div>
           )}
           <div
@@ -59,7 +59,7 @@ function Sidebar({
             {t("YOUR_PROFILE")}
           </div>
           {activeTab !== "profile" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
@@ -76,7 +76,7 @@ function Sidebar({
             {t("PERSONAL_INFORMATION")}
           </div>
           {activeTab !== "personal" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
@@ -93,7 +93,7 @@ function Sidebar({
             {t("CHANGE_PASSWORD")}
           </div>
           {activeTab !== "password" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
@@ -110,7 +110,7 @@ function Sidebar({
             {t("ORGANIZATION_DETAILS")}
           </div>
           {activeTab !== "organization" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
@@ -128,7 +128,7 @@ function Sidebar({
             {t("SKILLS")}
           </div>
           {activeTab !== "skills" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
@@ -146,7 +146,7 @@ function Sidebar({
             {t("Availability")}
           </div>
           {activeTab !== "availability" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
@@ -164,7 +164,7 @@ function Sidebar({
             {t("Preferences")}
           </div>
           {activeTab !== "preferences" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
       </div>
