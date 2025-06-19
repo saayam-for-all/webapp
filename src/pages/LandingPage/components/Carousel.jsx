@@ -50,7 +50,7 @@ export default function Carousel() {
           prevEl: ".custom-swiper-button-prev",
         }}
         modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-        className="mySwiper h-[300px] md:h-[350px]"
+        className="mySwiper h-[350px] md:h-[350px]"
       >
         {[
           carouselOne,
@@ -87,10 +87,10 @@ export default function Carousel() {
 
       {/* Arrows */}
       <div className="w-fit flex justify-center items-center mt-4 px-6 text-xl font-bold gap-5">
-        <button className="custom-swiper-button-prev text-gray-400 text-4xl hover:text-gray-600">
+        <button className="custom-swiper-button-prev text-gray-600 text-4xl hover:text-gray-600">
           ‹
         </button>
-        <button className="custom-swiper-button-next text-gray-400 text-4xl hover:text-gray-600">
+        <button className="custom-swiper-button-next text-gray-600 text-4xl hover:text-gray-600">
           ›
         </button>
       </div>

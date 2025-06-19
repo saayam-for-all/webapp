@@ -18,18 +18,15 @@ export default function Footer() {
 
             <nav className="footer-nav" aria-label="Footer navigation">
               <a href="/">{t("HOME")}</a>
-              <a href="/our-mission">{t("ABOUT")}</a>
-              <a href="#">
-                {t("MISSION")} &amp; {t("VISION")}
-              </a>
+              <a href="/our-mission">{t("Our Mission")}</a>
               <a href="/our-team">{t("OUR_TEAM")}</a>
               <a href="/how-we-operate">{t("How We Operate")}</a>
-              <a href="/donate">{t("DONATE")}</a>
+              <a href="/contact">{t("CONTACT")}</a>
             </nav>
 
             <div className="footer-contact">
-              <a href="/contact">
-                <button type="button">{t("CONTACT")}</button>
+              <a href="/donate">
+                <button type="button">{t("DONATE")}</button>
               </a>
             </div>
           </div>

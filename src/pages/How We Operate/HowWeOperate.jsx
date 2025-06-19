@@ -1,8 +1,5 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import img1 from "../../assets/imagesOfHowWeOperate/ima1.jpeg";
-import img2 from "../../assets/imagesOfHowWeOperate/ima2.jpeg";
-import img3 from "../../assets/imagesOfHowWeOperate/ima3.jpeg";
 import img4 from "../../assets/imagesOfHowWeOperate/step1.png";
 import img5 from "../../assets/imagesOfHowWeOperate/step2.png";
 import img6 from "../../assets/imagesOfHowWeOperate/step3.png";
@@ -58,38 +55,6 @@ const HowWeOperate = () => {
 
   return (
     <div className="font-sans">
-      {/* Volunteer Services Section */}
-      <section className="text-center px-4 py-12 bg-white">
-        <h2 className="text-3xl font-bold mb-4">{t("VOLUNTEER_SERVICES")}</h2>
-        <p className="text-gray-700 max-w-3xl mx-auto mb-4">
-          At Saayam for All, we connect individuals who need assistance with
-          compassionate volunteers ready to help.
-        </p>
-        <p className="text-gray-700 max-w-3xl mx-auto mb-10">
-          Whether it&apos;s delivering groceries, providing companionship, or
-          supporting small everyday tasks, our volunteers make a real
-          difference—one request at a time. We believe in building a community
-          where help is just a request away.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <img
-            src={img1}
-            alt="Grocery Delivery"
-            className="rounded-xl object-cover h-64 w-full"
-          />
-          <img
-            src={img2}
-            alt="Group Volunteering"
-            className="rounded-xl object-cover h-64 w-full"
-          />
-          <img
-            src={img3}
-            alt="Beach Cleanup"
-            className="rounded-xl object-cover h-64 w-full"
-          />
-        </div>
-      </section>
       <div className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-4">
@@ -105,7 +70,7 @@ const HowWeOperate = () => {
           <div className="relative h-full min-h-[800px]">
             {/* Animated line */}
             <div
-              className="absolute left-1/2 top-28 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+              className="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
               ref={timelineRef}
             />
 
@@ -116,7 +81,7 @@ const HowWeOperate = () => {
                 title="Request for Help"
                 description="Submit a request for the support you need—just like booking a ride through an app."
                 image={img4}
-                align="right"
+                align="left"
               />
 
               <TimelineItem
@@ -124,7 +89,7 @@ const HowWeOperate = () => {
                 title=" Get Matching With a Volunteer"
                 description="We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care ."
                 image={img5}
-                align="left"
+                align="right"
               />
 
               <TimelineItem
@@ -132,7 +97,7 @@ const HowWeOperate = () => {
                 title="Confirm Your Volunteer"
                 description="From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car."
                 image={img6}
-                align="right"
+                align="left"
               />
 
               <TimelineItem
@@ -140,7 +105,7 @@ const HowWeOperate = () => {
                 title="Connect and Coordinate"
                 description="Your volunteer reaches out to finalize details and schedule the support you need."
                 image={img7}
-                align="left"
+                align="right"
               />
 
               <TimelineItem
@@ -148,7 +113,7 @@ const HowWeOperate = () => {
                 title="Receive Assistance"
                 description="The volunteer provides the help you requested,working with other if needed-making sure you reach your destination."
                 image={img8}
-                align="right"
+                align="left"
               />
             </div>
           </div>
@@ -179,45 +144,48 @@ const HowWeOperate = () => {
 };
 
 const TimelineItem = ({ number, title, description, image, align }) => {
-  const isRight = align === "right";
+  const isTextOnRight = align === "right";
+
   return (
     <div
       className={`relative flex flex-col sm:flex-row ${
-        isRight ? "sm:flex-row-reverse" : ""
-      } items-center mb-16`}
+        isTextOnRight ? "" : "sm:flex-row-reverse"
+      } items-stretch justify-center mb-12 sm:mb-20 md:mb-24`}
     >
-      {/* Overlapping blue background (visible on desktop and mobile) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-3/4 h-72 sm:h-64 bg-blue-50 rounded-2xl z-0" />
-
-      {/* Image - always on top for mobile, left/right for desktop */}
-      <div className="w-full sm:w-1/2 flex justify-center z-10 mb-6 sm:mb-0 order-1 sm:order-none">
+      {/* Image Container: takes 50% width on sm screens. Inner padding adjusts for step number. */}
+      <div
+        className={`w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    ${isTextOnRight ? "sm:pr-[1.5rem]" : "sm:pl-[1.5rem]"} p-2`}
+      >
         {image && (
           <img
             src={image}
             alt={title}
-            className="rounded-xl object-cover h-40 sm:h-60 lg:h-60"
+            className="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
           />
         )}
       </div>
 
-      {/* Step number – centered on blue background for mobile and desktop */}
-      <div className="z-20 mb-4 sm:mb-0 absolute left-1/2 top-[88px] sm:static sm:left-auto sm:top-auto sm:transform-none -translate-x-1/2">
-        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg">
+      {/* Step Number: In flow for mobile (order-2), absolute centered for sm+ */}
+      <div className="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg">
           {number}
         </div>
       </div>
 
-      {/* Text */}
+      {/* Text Content Container: takes 50% width on sm screens. Inner padding adjusts for step number. */}
       <div
-        className={`w-full sm:w-1/2 z-10 flex order-2 sm:order-none ${
-          isRight
-            ? "sm:pl-16 sm:justify-start sm:-translate-x-12"
-            : "sm:pr-16 sm:justify-end sm:translate-x-12"
+        className={`w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 ${
+          isTextOnRight ? "sm:pl-0" : "sm:pr-0"
         }`}
       >
-        <div className="my-auto text-center sm:text-left px-4 sm:px-0">
-          <h3 className="text-xl font-bold leading-tight mb-2">{title}</h3>
-          <p className="text-gray-600">{description}</p>
+        <div className="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center">
+          <h3 className="text-lg md:text-xl font-bold leading-tight mb-2 text-left">
+            {title}
+          </h3>
+          <p className="text-sm md:text-base text-gray-600 text-left">
+            {description}
+          </p>
         </div>
       </div>
     </div>

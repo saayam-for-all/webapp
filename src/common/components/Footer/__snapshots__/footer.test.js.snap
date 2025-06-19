@@ -37,14 +37,7 @@ exports[`Footer renders correctly 1`] = `
                 <a
                   href="/our-mission"
                 >
-                  mockTranslate(ABOUT)
-                </a>
-                <a
-                  href="#"
-                >
-                  mockTranslate(MISSION)
-                   & 
-                  mockTranslate(VISION)
+                  mockTranslate(Our Mission)
                 </a>
                 <a
                   href="/our-team"
@@ -57,21 +50,21 @@ exports[`Footer renders correctly 1`] = `
                   mockTranslate(How We Operate)
                 </a>
                 <a
-                  href="/donate"
+                  href="/contact"
                 >
-                  mockTranslate(DONATE)
+                  mockTranslate(CONTACT)
                 </a>
               </nav>
               <div
                 class="footer-contact"
               >
                 <a
-                  href="/contact"
+                  href="/donate"
                 >
                   <button
                     type="button"
                   >
-                    mockTranslate(CONTACT)
+                    mockTranslate(DONATE)
                   </button>
                 </a>
               </div>
@@ -145,14 +138,7 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/our-mission"
               >
-                mockTranslate(ABOUT)
-              </a>
-              <a
-                href="#"
-              >
-                mockTranslate(MISSION)
-                 & 
-                mockTranslate(VISION)
+                mockTranslate(Our Mission)
               </a>
               <a
                 href="/our-team"
@@ -165,21 +151,21 @@ exports[`Footer renders correctly 1`] = `
                 mockTranslate(How We Operate)
               </a>
               <a
-                href="/donate"
+                href="/contact"
               >
-                mockTranslate(DONATE)
+                mockTranslate(CONTACT)
               </a>
             </nav>
             <div
               class="footer-contact"
             >
               <a
-                href="/contact"
+                href="/donate"
               >
                 <button
                   type="button"
                 >
-                  mockTranslate(CONTACT)
+                  mockTranslate(DONATE)
                 </button>
               </a>
             </div>

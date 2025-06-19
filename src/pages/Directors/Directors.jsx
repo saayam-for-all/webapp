@@ -9,6 +9,7 @@ import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
 import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
 import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
 import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
+import AshwaniImg from "../../assets/images/Ashwani_Dhawan.png";
 
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
@@ -19,7 +20,7 @@ const DirectorsData = [
   {
     image: RaoImg,
     name: "Rao K Bhethanabotla",
-    role: "Founder, CEO, CTO, President",
+    role: "Founder, President, CEO, CTO",
     linkedin: "https://www.linkedin.com/in/raobhethanabotla",
   },
   {
@@ -30,7 +31,7 @@ const DirectorsData = [
   },
   {
     name: "Naveen Sharma",
-    role: "Director & Secretary",
+    role: "Director and Secretary",
     linkedin: "https://www.linkedin.com/in/nsharma2/",
     image: NaveenIMG,
   },
@@ -41,7 +42,7 @@ const DirectorsData = [
     image: PrabhakarImg,
   },
   {
-    name: "Sharadha V Subramanian",
+    name: "Sharadha Venketasubramanian",
     role: "Director",
     linkedin: "https://www.linkedin.com/in/sharadha/",
     image: SharadhaImg,
@@ -77,6 +78,12 @@ const DirectorsData = [
     linkedin: "https://www.linkedin.com/in/mucharla",
     image: SateeshImg,
   },
+  {
+    name: "Ashwani Dhawan",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/mantrapaloalto/",
+    image: AshwaniImg, // We'll import this below
+  },
 ];
 
 // const advisorsData = [
@@ -111,13 +118,13 @@ const Directors = () => {
           {t("DIRECTORS_DESCRIPTION")}
         </p>
 
-        <div className="directors flex items-center justify-center flex-wrap gap-10 my-20 pl-[95px] pr-[95px]">
+        <div className="directors grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 my-20 px-[40px] justify-items-center">
           {DirectorsData.map((director, index) => (
             <div
               key={index}
-              className="flex flex-col items-center w-full sm:w-[45%] md:w-[30%] lg:w-[20%]"
+              className="flex flex-col items-center w-full max-w-[280px]"
             >
-              <div className="w-full max-w-[280px] aspect-[3/4] overflow-hidden rounded-2xl shadow-lg">
+              <div className="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full">
                 <img
                   src={director.image}
                   alt={director.name}
@@ -125,17 +132,17 @@ const Directors = () => {
                 />
               </div>
 
-              <div className="text-center w-full px-4 mt-4">
-                <h2 className="flex gap-2 mt-5">
+              <div className="w-full px-1 pt-4 text-left">
+                <h2 className="text-lg font-semibold">
                   <a
                     href={director.linkedin}
-                    className="text-black font-bold text-xl"
+                    className="text-black"
                     target="_blank"
                   >
                     {director.name}
                   </a>
                 </h2>
-                <h3 className="flex gap-2">{director.role}</h3>
+                <h3 className="text-sm">{director.role}</h3>
               </div>
             </div>
           ))}
