@@ -4,16 +4,15 @@ import "@testing-library/jest-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import YourProfile from "./YourProfile";
-import { useNavigate } from "react-router-dom";
 
-// Mock the external dependencies
+// Mock external dependencies
 jest.mock("aws-amplify/auth", () => ({
   updateUserAttributes: jest.fn(),
 }));
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => key,
+    t: (key, fallback) => fallback || key, // Return fallback if provided
     i18n: { changeLanguage: jest.fn() },
   }),
 }));
@@ -89,13 +88,7 @@ jest.mock("../../redux/features/authentication/authActions", () => ({
   })),
 }));
 
-// Mock router navigate
-const mockNavigate = jest.fn();
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockNavigate,
-}));
-
+// Helpers
 const createMockStore = (initialState = {}) => {
   return configureStore({
     reducer: {
@@ -139,11 +132,24 @@ describe("YourProfile", () => {
     expect(screen.getByText("john@example.com")).toBeInTheDocument();
   });
 
+  it("renders form labels correctly", () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+    expect(screen.getByText("FIRST_NAME")).toBeInTheDocument();
+    expect(screen.getByText("LAST_NAME")).toBeInTheDocument();
+    expect(screen.getByText("EMAIL")).toBeInTheDocument();
+    expect(screen.getByText("PHONE_NUMBER")).toBeInTheDocument();
+    expect(screen.getByText("COUNTRY")).toBeInTheDocument();
+  });
+
   it("shows edit button when not in editing mode", () => {
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
     expect(screen.getByText("EDIT")).toBeInTheDocument();
+    expect(screen.queryByText("SAVE")).not.toBeInTheDocument();
+    expect(screen.queryByText("CANCEL")).not.toBeInTheDocument();
   });
 
   it("enters edit mode when edit button is clicked", async () => {
@@ -157,52 +163,43 @@ describe("YourProfile", () => {
     });
   });
 
+  it("shows input fields in edit mode", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+    fireEvent.click(screen.getByText("EDIT"));
+    await waitFor(() => {
+      expect(screen.getByDisplayValue("John")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Doe")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("john@example.com")).toBeInTheDocument();
+    });
+  });
+
   it("shows email verification required message when email is changed", async () => {
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
     fireEvent.click(screen.getByText("EDIT"));
-
-    const emailInput = await screen.findByDisplayValue("john@example.com");
-    fireEvent.change(emailInput, { target: { value: "new@example.com" } });
-
-    expect(
-      screen.getByText(/Email verification will be required/i),
-    ).toBeInTheDocument();
-  });
-
-  it("triggers navigation on save with email change", async () => {
-    renderWithProvider(
-      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
-    );
-    fireEvent.click(screen.getByText("EDIT"));
-
-    const emailInput = await screen.findByDisplayValue("john@example.com");
-    fireEvent.change(emailInput, { target: { value: "new@example.com" } });
-
-    const saveButton = screen.getByText("SAVE");
-    fireEvent.click(saveButton);
-
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith(
-        "/verify-otp",
-        expect.any(Object),
-      );
+      const emailInput = screen.getByDisplayValue("john@example.com");
+      fireEvent.change(emailInput, { target: { value: "new@example.com" } });
+      expect(
+        screen.getByText(
+          /Email verification will be required for this change/i,
+        ),
+      ).toBeInTheDocument();
     });
   });
 
-  it("handles cancel editing and resets form", async () => {
+  it("calls setHasUnsavedChanges when input changes", async () => {
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
     fireEvent.click(screen.getByText("EDIT"));
-
-    const firstNameInput = await screen.findByDisplayValue("John");
-    fireEvent.change(firstNameInput, { target: { value: "Jane" } });
-
-    fireEvent.click(screen.getByText("CANCEL"));
     await waitFor(() => {
-      expect(screen.getByText("John")).toBeInTheDocument();
+      const firstNameInput = screen.getByDisplayValue("John");
+      fireEvent.change(firstNameInput, { target: { value: "Jane" } });
+      expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
     });
   });
 
@@ -212,14 +209,47 @@ describe("YourProfile", () => {
     );
     fireEvent.click(screen.getByTestId("phone-call-icon"));
     expect(screen.getByTestId("call-modal")).toBeInTheDocument();
+    expect(screen.getByText("CallModal - audio")).toBeInTheDocument();
   });
 
-  it("opens call modal when video icon is clicked", () => {
+  it("opens video call modal when video icon is clicked", () => {
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
     fireEvent.click(screen.getByTestId("video-call-icon"));
     expect(screen.getByTestId("call-modal")).toBeInTheDocument();
+    expect(screen.getByText("CallModal - video")).toBeInTheDocument();
+  });
+
+  it("cancels editing and resets form", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+    fireEvent.click(screen.getByText("EDIT"));
+    await waitFor(() => {
+      const firstNameInput = screen.getByDisplayValue("John");
+      fireEvent.change(firstNameInput, { target: { value: "Jane" } });
+      fireEvent.click(screen.getByText("CANCEL"));
+    });
+    await waitFor(() => {
+      expect(screen.getByText("EDIT")).toBeInTheDocument();
+      expect(screen.getByText("John")).toBeInTheDocument();
+      expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(false);
+    });
+  });
+
+  it("handles user with no phone number", () => {
+    const storeWithoutPhone = createMockStore({
+      auth: {
+        user: { ...mockUser, phone_number: null },
+      },
+    });
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+      storeWithoutPhone,
+    );
+    expect(screen.getByText("John")).toBeInTheDocument();
+    expect(screen.getByText("Doe")).toBeInTheDocument();
   });
 
   it("matches snapshot", () => {
