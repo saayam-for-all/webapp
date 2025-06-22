@@ -363,12 +363,11 @@ function YourProfile({ setHasUnsavedChanges }) {
           ) : (
             <>
               <p className="text-lg text-gray-900">
-                {PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
+                {(PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode || "") +
+                  ""}
+                {(PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
                   PHONECODESEN[profileInfo.phoneCountryCode]?.country ||
-                  ""}{" "}
-                {PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode
-                  ? `(${PHONECODESEN[profileInfo.phoneCountryCode].dialCode})`
-                  : ""}{" "}
+                  "") + " "}
                 {profileInfo.phone}
               </p>
               <FiPhoneCall
