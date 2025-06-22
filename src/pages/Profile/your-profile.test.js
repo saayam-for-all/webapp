@@ -3,16 +3,25 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+import { BrowserRouter } from "react-router-dom";
 import YourProfile from "./YourProfile";
 
 // Mock the external dependencies
+const mockUpdateUserAttributes = jest.fn();
+const mockNavigate = jest.fn();
+
 jest.mock("aws-amplify/auth", () => ({
-  updateUserAttributes: jest.fn(),
+  updateUserAttributes: mockUpdateUserAttributes,
+}));
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
 }));
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => key, // Return the key instead of translated string
+    t: (key, fallback) => fallback || key, // Return fallback or key
     i18n: { changeLanguage: jest.fn() },
   }),
 }));
@@ -83,12 +92,13 @@ jest.mock("../../utils/utils", () => ({
 }));
 
 // Mock the auth actions
+const mockUpdateUserProfile = jest.fn();
 jest.mock("../../redux/features/authentication/authActions", () => ({
-  updateUserProfile: jest.fn(() => ({
-    type: "UPDATE_USER_PROFILE",
-    payload: { success: true },
-  })),
+  updateUserProfile: mockUpdateUserProfile,
 }));
+
+// Mock window.alert
+global.alert = jest.fn();
 
 // Create a mock store
 const createMockStore = (initialState = {}) => {
@@ -115,7 +125,11 @@ const defaultStore = createMockStore({
 });
 
 const renderWithProvider = (component, store = defaultStore) => {
-  return render(<Provider store={store}>{component}</Provider>);
+  return render(
+    <Provider store={store}>
+      <BrowserRouter>{component}</BrowserRouter>
+    </Provider>,
+  );
 };
 
 describe("YourProfile", () => {
@@ -123,6 +137,7 @@ describe("YourProfile", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUpdateUserProfile.mockReturnValue(Promise.resolve({ success: true }));
   });
 
   it("renders basic user info", () => {
@@ -203,6 +218,233 @@ describe("YourProfile", () => {
     });
   });
 
+  it("shows email verification warning when email is changed", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const emailInput = screen.getByDisplayValue("john@example.com");
+      fireEvent.change(emailInput, {
+        target: { value: "newemail@example.com" },
+      });
+
+      expect(
+        screen.getByText("Email verification will be required for this change"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("does not show email verification warning when email is unchanged", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText(
+          "Email verification will be required for this change",
+        ),
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it("navigates to OTP verification when email is changed and saved", async () => {
+    mockUpdateUserAttributes.mockResolvedValue(true);
+
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const emailInput = screen.getByDisplayValue("john@example.com");
+      fireEvent.change(emailInput, {
+        target: { value: "newemail@example.com" },
+      });
+    });
+
+    const saveButton = screen.getByText("SAVE");
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(mockUpdateUserAttributes).toHaveBeenCalledWith({
+        userAttributes: {
+          email: "newemail@example.com",
+        },
+      });
+      expect(mockNavigate).toHaveBeenCalledWith("/verify-otp", {
+        state: {
+          email: "newemail@example.com",
+          isEmailUpdate: true,
+          pendingProfileData: {
+            firstName: "John",
+            lastName: "Doe",
+            email: "newemail@example.com",
+            phone: "+1234567890",
+            country: "United States",
+          },
+        },
+      });
+    });
+  });
+
+  it("saves profile normally when email is not changed", async () => {
+    mockUpdateUserProfile.mockResolvedValue({ success: true });
+
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const firstNameInput = screen.getByDisplayValue("John");
+      fireEvent.change(firstNameInput, { target: { value: "Jane" } });
+    });
+
+    const saveButton = screen.getByText("SAVE");
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(mockUpdateUserProfile).toHaveBeenCalledWith({
+        firstName: "Jane",
+        lastName: "Doe",
+        email: "john@example.com",
+        phone: "+1234567890",
+        country: "United States",
+      });
+      expect(global.alert).toHaveBeenCalledWith("PROFILE_UPDATE_SUCCESS");
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+  });
+
+  it("handles email verification failure", async () => {
+    mockUpdateUserAttributes.mockRejectedValue(
+      new Error("Verification failed"),
+    );
+
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const emailInput = screen.getByDisplayValue("john@example.com");
+      fireEvent.change(emailInput, {
+        target: { value: "newemail@example.com" },
+      });
+    });
+
+    const saveButton = screen.getByText("SAVE");
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Failed to send verification email"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("validates required fields", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const firstNameInput = screen.getByDisplayValue("John");
+      fireEvent.change(firstNameInput, { target: { value: "" } });
+    });
+
+    const saveButton = screen.getByText("SAVE");
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("First and last name are required"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("validates email field", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const emailInput = screen.getByDisplayValue("john@example.com");
+      fireEvent.change(emailInput, { target: { value: "" } });
+    });
+
+    const saveButton = screen.getByText("SAVE");
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("Email is required")).toBeInTheDocument();
+    });
+  });
+
+  it("validates phone number format", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const phoneInput = screen.getByDisplayValue("234567890");
+      fireEvent.change(phoneInput, { target: { value: "abc123" } });
+    });
+
+    const saveButton = screen.getByText("SAVE");
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Phone number must contain only digits"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("shows loading state during save", async () => {
+    mockUpdateUserProfile.mockImplementation(() => new Promise(() => {})); // Never resolves
+
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const saveButton = screen.getByText("SAVE");
+      fireEvent.click(saveButton);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("loading-indicator")).toBeInTheDocument();
+      expect(screen.getByText("SAVING")).toBeInTheDocument();
+    });
+  });
+
   it("opens call modal when phone icon is clicked", () => {
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
@@ -270,6 +512,80 @@ describe("YourProfile", () => {
 
     expect(screen.getByText("John")).toBeInTheDocument();
     expect(screen.getByText("Doe")).toBeInTheDocument();
+  });
+
+  it("handles profile update failure", async () => {
+    mockUpdateUserProfile.mockResolvedValue({
+      success: false,
+      error: "Update failed",
+    });
+
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    const saveButton = screen.getByText("SAVE");
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("Update failed")).toBeInTheDocument();
+    });
+  });
+
+  it("disables buttons during loading", async () => {
+    mockUpdateUserProfile.mockImplementation(() => new Promise(() => {})); // Never resolves
+
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const saveButton = screen.getByText("SAVE");
+      fireEvent.click(saveButton);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("SAVING")).toBeDisabled();
+      expect(screen.getByText("CANCEL")).toBeDisabled();
+    });
+  });
+
+  it("clears errors when resetting form", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    const editButton = screen.getByText("EDIT");
+    fireEvent.click(editButton);
+
+    await waitFor(() => {
+      const firstNameInput = screen.getByDisplayValue("John");
+      fireEvent.change(firstNameInput, { target: { value: "" } });
+    });
+
+    const saveButton = screen.getByText("SAVE");
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("First and last name are required"),
+      ).toBeInTheDocument();
+    });
+
+    const cancelButton = screen.getByText("CANCEL");
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText("First and last name are required"),
+      ).not.toBeInTheDocument();
+    });
   });
 
   it("matches snapshot", () => {
