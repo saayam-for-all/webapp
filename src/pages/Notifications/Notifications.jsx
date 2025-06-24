@@ -128,7 +128,7 @@ export default function NotificationUI() {
                   )}
               </div>
             </div>
-            <div className="text-sm text-gray-400 mt-2 sm:mt-0 sm:text-right">
+            <div className="text-sm text-gray-600 mt-2 sm:mt-0 sm:text-right">
               {note.date}
             </div>
           </div>

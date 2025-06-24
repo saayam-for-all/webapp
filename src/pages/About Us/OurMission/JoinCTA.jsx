@@ -5,7 +5,7 @@ export function JoinCTA() {
   return (
     <section className="flex flex-col items-center justify-center py-16 bg-white text-center">
       <h2 className="text-[24px] font-bold mb-1">Looking to join us?</h2>
-      <p className="text-gray-400 text-sm leading-snug max-w-md mb-4">
+      <p className="text-gray-600 text-sm leading-snug max-w-md mb-4">
         Chat with our community and get in touch with different charity
         organizations!
       </p>

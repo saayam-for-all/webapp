@@ -460,7 +460,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   }
                   value={formData.lead_volunteer}
                   onChange={handleChange}
-                  className="border p-2 w-full rounded-lg disabled:text-gray-400"
+                  className="border p-2 w-full rounded-lg disabled:text-gray-600"
                 />
               ) : (
                 <div className="relative">
@@ -476,7 +476,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     <option value="Yes">{t("Yes")}</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <HiChevronDown className="h-5 w-5 text-gray-400" />
+                    <HiChevronDown className="h-5 w-5 text-gray-600" />
                   </div>
                 </div>
               )}
@@ -650,7 +650,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
                 {/* the dropdown arrow, pointer-events-none so it doesn’t block input clicks */}
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                  <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
               </div>
               {showDropdown && (
@@ -740,37 +740,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <option value="In Person">{t("IN_PERSON")}</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                  <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
               </div>
             </div>
 
-            {formData.request_type === "In Person" && (
-              <div>
-                <label
-                  htmlFor="location"
-                  className="block mb-1 font-medium text-gray-700"
-                >
-                  Location
-                </label>
-                {isLoaded && (
-                  <StandaloneSearchBox
-                    onLoad={(ref) => (inputRef.current = ref)}
-                    onPlacesChanged={handleOnPlacesChanged}
-                  >
-                    <input
-                      type="text"
-                      id="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      name="location"
-                      className="border p-2 w-full rounded-lg"
-                      placeholder="Search for location..."
-                    />
-                  </StandaloneSearchBox>
-                )}
-              </div>
-            )}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <label
@@ -813,10 +787,37 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </select>
 
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <HiChevronDown className="h-5 w-5 text-gray-400" />
+                  <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
               </div>
             </div>
+
+            {formData.request_type === "In Person" && (
+              <div>
+                <label
+                  htmlFor="location"
+                  className="block mb-1 font-medium text-gray-700"
+                >
+                  Location
+                </label>
+                {isLoaded && (
+                  <StandaloneSearchBox
+                    onLoad={(ref) => (inputRef.current = ref)}
+                    onPlacesChanged={handleOnPlacesChanged}
+                  >
+                    <input
+                      type="text"
+                      id="location"
+                      value={formData.location}
+                      onChange={handleChange}
+                      name="location"
+                      className="border p-2 w-full rounded-lg"
+                      placeholder="Search for location..."
+                    />
+                  </StandaloneSearchBox>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="mt-3" data-testid="parentDivSix">

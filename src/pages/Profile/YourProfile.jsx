@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserAttributes } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import CountryList from "react-select-country-list";
@@ -13,11 +14,13 @@ import LoadingIndicator from "../../common/components/Loading/Loading";
 function YourProfile({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [callType, setCallType] = useState("audio");
   const [loading, setLoading] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [pendingEmailChange, setPendingEmailChange] = useState(null);
   const firstNameRef = useRef(null);
   const countries = CountryList().getData();
   const user = useSelector((state) => state.auth.user);
@@ -30,6 +33,8 @@ function YourProfile({ setHasUnsavedChanges }) {
     phoneCountryCode: "US",
     country: "",
   });
+
+  const [originalEmail, setOriginalEmail] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -79,10 +84,12 @@ function YourProfile({ setHasUnsavedChanges }) {
         }
       }
 
+      const userEmail = user.email || "";
+      setOriginalEmail(userEmail);
       setProfileInfo({
         firstName: user.given_name || "",
         lastName: user.family_name || "",
-        email: user.email || "",
+        email: userEmail,
         phone: extractedPhone,
         phoneCountryCode: extractedCountryCode,
         country: user.zoneinfo || "",
@@ -93,6 +100,21 @@ function YourProfile({ setHasUnsavedChanges }) {
   const handleInputChange = (name, value) => {
     setProfileInfo((prev) => ({ ...prev, [name]: value }));
     setHasUnsavedChanges(true);
+  };
+
+  const sendEmailVerification = async (newEmail) => {
+    try {
+      // Send verification code to new email
+      await updateUserAttributes({
+        userAttributes: {
+          email: newEmail,
+        },
+      });
+      return true;
+    } catch (error) {
+      console.error("Error sending email verification:", error);
+      throw new Error("Failed to send verification email");
+    }
   };
 
   const handleSave = async () => {
@@ -117,6 +139,41 @@ function YourProfile({ setHasUnsavedChanges }) {
         throw new Error("Phone number must contain only digits");
       }
 
+      // Check if email has changed
+      const emailChanged = profileInfo.email !== originalEmail;
+
+      if (emailChanged) {
+        // Store the pending email change and send verification
+        setPendingEmailChange({
+          firstName: profileInfo.firstName,
+          lastName: profileInfo.lastName,
+          email: profileInfo.email,
+          phone: formattedPhone,
+          country: profileInfo.country,
+        });
+
+        // Send verification email
+        await sendEmailVerification(profileInfo.email);
+
+        // Navigate to OTP verification page
+        navigate("/verify-otp", {
+          state: {
+            email: profileInfo.email,
+            isEmailUpdate: true,
+            pendingProfileData: {
+              firstName: profileInfo.firstName,
+              lastName: profileInfo.lastName,
+              email: profileInfo.email,
+              phone: formattedPhone,
+              country: profileInfo.country,
+            },
+          },
+        });
+
+        return;
+      }
+
+      // If email hasn't changed, proceed with regular update
       const result = await dispatch(
         updateUserProfile({
           firstName: profileInfo.firstName,
@@ -205,6 +262,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       });
     }
     setSaveError("");
+    setPendingEmailChange(null);
   };
 
   return (
@@ -250,12 +308,22 @@ function YourProfile({ setHasUnsavedChanges }) {
           {t("EMAIL")}
         </label>
         {isEditing ? (
-          <input
-            type="email"
-            value={profileInfo.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
-            className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-          />
+          <div>
+            <input
+              type="email"
+              value={profileInfo.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+            />
+            {profileInfo.email !== originalEmail && (
+              <p className="text-sm text-orange-600 mt-1">
+                {t(
+                  "EMAIL_VERIFICATION_REQUIRED",
+                  "Email verification will be required for this change",
+                )}
+              </p>
+            )}
+          </div>
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.email}</p>
         )}
@@ -295,12 +363,11 @@ function YourProfile({ setHasUnsavedChanges }) {
           ) : (
             <>
               <p className="text-lg text-gray-900">
-                {PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
+                {(PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode || "") +
+                  ""}
+                {(PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
                   PHONECODESEN[profileInfo.phoneCountryCode]?.country ||
-                  ""}{" "}
-                {PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode
-                  ? `(${PHONECODESEN[profileInfo.phoneCountryCode].dialCode})`
-                  : ""}{" "}
+                  "") + " "}
                 {profileInfo.phone}
               </p>
               <FiPhoneCall
