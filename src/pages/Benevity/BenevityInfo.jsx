@@ -1,17 +1,18 @@
 import React from "react";
 import "./Benevity.css";
+import heartHandIcon from "../../assets/donate_buttons/hearticon.png";
 
 const companies = [
-  { name: "Microsoft Employees", url: "https://microsoft.benevity.org/" },
-  { name: "Amazon Employees", url: "https://amazon.benevity.org/" },
-  { name: "Apple Employees", url: "https://apple.benevity.org/" },
-  { name: "Google Employees", url: "https://google.benevity.org/" },
-  { name: "Salesforce Employees", url: "https://salesforce.benevity.org/" },
-  { name: "Oracle Employees", url: "https://oracle.benevity.org/" },
-  { name: "Nvidia Employees", url: "https://nvidia.benevity.org/" },
-  { name: "Visa Employees", url: "https://visa.benevity.org/" },
-  { name: "Intel Employees", url: "https://intel.benevity.org/" },
-  { name: "Cisco Employees", url: "https://cisco.benevity.org/" },
+  { name: "Microsoft", url: "https://microsoft.benevity.org/" },
+  { name: "Amazon", url: "https://amazon.benevity.org/" },
+  { name: "Apple", url: "https://apple.benevity.org/" },
+  { name: "Google", url: "https://google.benevity.org/" },
+  { name: "Salesforce", url: "https://salesforce.benevity.org/" },
+  { name: "Oracle", url: "https://oracle.benevity.org/" },
+  { name: "Nvidia", url: "https://nvidia.benevity.org/" },
+  { name: "Visa", url: "https://visa.benevity.org/" },
+  { name: "Intel", url: "https://intel.benevity.org/" },
+  { name: "Cisco", url: "https://cisco.benevity.org/" },
 ];
 
 const BenevityInfo = () => (
@@ -94,20 +95,11 @@ const BenevityInfo = () => (
         <div className="benevity-step">
           <div className="benevity-step-circle">3</div>
           <div className="benevity-icon-container">
-            <svg
+            <img
+              src={heartHandIcon}
+              alt="Hand holding heart icon"
               className="benevity-step-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.815 3 8.25c0 7.219 2.912 11.38 7.514 14.026a2.25 2.25 0 002.972 0C18.088 19.63 21 15.469 21 8.25z"
-              />
-            </svg>
+            />
           </div>
           <div className="benevity-step-title">Log Your Hours or Donate</div>
           <div className="benevity-step-desc">
@@ -122,18 +114,27 @@ const BenevityInfo = () => (
       <p className="benevity-corp-desc">
         You can find the links for which you can donate.
       </p>
-      <div className="benevity-corp-grid">
-        {companies.map((c) => (
-          <a
-            href={c.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="benevity-corp-card"
-            key={c.name}
-          >
-            <div className="benevity-corp-name">{c.name}</div>
-          </a>
-        ))}
+      <div className="benevity-corp-table-container">
+        <table className="benevity-corp-table">
+          <thead>
+            <tr>
+              <th>Company Name</th>
+              <th>Link to Portal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {companies.map((c) => (
+              <tr key={c.name}>
+                <td>{c.name}</td>
+                <td>
+                  <a href={c.url} target="_blank" rel="noopener noreferrer">
+                    {c.url}
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
     {/* Footer can be reused from the main app layout */}

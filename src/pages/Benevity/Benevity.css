@@ -210,6 +210,58 @@
   text-align: center;
 }
 
+.benevity-corp-table-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 10px;
+  overflow-x: auto;
+}
+.benevity-corp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.benevity-corp-table th,
+.benevity-corp-table td {
+  border: 1px solid #e0e0e0;
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 1rem;
+}
+.benevity-corp-table th {
+  background: #f7fcff;
+  font-weight: 700;
+  color: #222;
+}
+.benevity-corp-table td {
+  background: #fff;
+  color: #333;
+}
+.benevity-corp-table a {
+  color: #007bff;
+  text-decoration: underline;
+  word-break: break-all;
+}
+.benevity-corp-table a:hover {
+  color: #0056b3;
+}
+.benevity-corp-table th:first-child {
+  border-top-left-radius: 16px;
+}
+.benevity-corp-table th:last-child {
+  border-top-right-radius: 16px;
+}
+.benevity-corp-table tr:last-child td:first-child {
+  border-bottom-left-radius: 16px;
+}
+.benevity-corp-table tr:last-child td:last-child {
+  border-bottom-right-radius: 16px;
+}
+
 @media (max-width: 768px) {
   .benevity-header h1 {
     font-size: 1.8rem;
@@ -283,5 +335,13 @@
   }
   .benevity-corp-card {
     padding: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .benevity-corp-table th,
+  .benevity-corp-table td {
+    padding: 10px 6px;
+    font-size: 0.92rem;
   }
 }
