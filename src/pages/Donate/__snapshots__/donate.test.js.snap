@@ -75,12 +75,6 @@ exports[`Donate renders correctly 1`] = `
                 />
               </button>
             </div>
-            <button
-              class="donate-main-btn"
-              disabled=""
-            >
-              Donate
-            </button>
           </div>
         </div>
         <div
@@ -237,12 +231,6 @@ exports[`Donate renders correctly 1`] = `
               />
             </button>
           </div>
-          <button
-            class="donate-main-btn"
-            disabled=""
-          >
-            Donate
-          </button>
         </div>
       </div>
       <div
