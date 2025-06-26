@@ -26,7 +26,7 @@ export function MissionHero() {
       icon: img7, // 🤝 Collaboration
       title: "Collaboration, Not Competition",
       description:
-        "Match requestors with existing voluntary organizations without starting new ones that compete.",
+        "Match requestors with existing voluntary organizations without starting new ones that compete. ",
     },
     {
       icon: img2, // 🏢
