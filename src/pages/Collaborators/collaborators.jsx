@@ -11,9 +11,9 @@ function Collaborators() {
   return (
     <div className="flex flex-col items-center p-8 min-h-screen bg-white">
       <div className="w-full max-w-6xl">
-        <h1 className="text-4xl font-bold text-center mb-6">
+        {/* <h1 className="text-4xl font-bold text-center mb-6">
           Our Collaborators
-        </h1>
+        </h1> */}
 
         <p className="text-lg text-center mb-12 text-gray-700">
           In some cases, our volunteers partner with local NGOs, community
