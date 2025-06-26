@@ -192,5 +192,8 @@
   "SAVING": "Saving...",
   "CANCEL": "Cancel",
   "EMAIL COMMUNICATION PREFERENCE": "Email Communication Preference",
-  "PHONE COMMUNICATION PREFERENCE": "Phone Communication Preference"
+  "PHONE COMMUNICATION PREFERENCE": "Phone Communication Preference",
+  "EMAIL_REQUIRED": "Please enter your email",
+  "PASSWORD_REQUIRED": "Please enter your password",
+  "INVALID_CREDENTIALS": "Invalid email or password"
 }

@@ -10,11 +10,6 @@ import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 import "./Login.css";
 
-const loginSchema = z.object({
-  email: z.string().min(1, "Please enter your email"),
-  password: z.string().min(1, "Please enter your password"),
-});
-
 const LoginPage = () => {
   const { t } = useTranslation();
   const { loading } = useSelector((state) => state.auth);
@@ -29,14 +24,19 @@ const LoginPage = () => {
 
   const { user } = useSelector((state) => state.auth);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const loginSchema = z.object({
+    email: z.string().min(1, { message: t("EMAIL_REQUIRED") }),
+    password: z.string().min(1, { message: t("PASSWORD_REQUIRED") }),
+  });
+
   useEffect(() => {
     if (user) {
       navigate("/dashboard");
     }
   }, [user]);
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleSignIn = async () => {
     try {
@@ -65,7 +65,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.log("error", error);
-      setErrors({ root: "Invalid email or password" });
+      setErrors({ root: t("INVALID_CREDENTIALS") });
     }
   };
 
@@ -79,7 +79,7 @@ const LoginPage = () => {
             id="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
-            placeholder="Your Email"
+            placeholder={t("Email")}
             type="text"
             className="px-4 py-2 border border-gray-300 rounded-xl"
             required={true}
@@ -99,7 +99,7 @@ const LoginPage = () => {
           >
             <input
               id="password"
-              placeholder="Password"
+              placeholder={t("Password")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
               onChange={(e) => setPasswordValue(e.target.value)}
