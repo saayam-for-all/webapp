@@ -32,7 +32,7 @@ const ExecutiveTeamData = [
     image: Sriram_Mahankali,
     name: "Sriram Mahankali",
     role: "Design and Creative Lead",
-    linkedin: "https://www.linkedin.com/in/sriram-mahankali",
+    linkedin: "https://www.linkedin.com/in/sriram-mahankali-393047342",
   },
   {
     image: Shubham_Narkhede,
@@ -66,7 +66,7 @@ const ExecutiveTeamData = [
     image: Mohanakrishnan,
     name: "Mohana Krishanan R.",
     role: "Senior Data Architect",
-    linkedin: "https://www.linkedin.com/in/mohana-krishanan",
+    linkedin: "https://in.linkedin.com/in/mohanakrishnan-rajamani",
   },
   // {
   //   image: "https://cdn.builder.io/api/v1/image/assets/TEMP/f0e403a7bcfa9d9be2f1c66f6fac4ca2218935ea",
