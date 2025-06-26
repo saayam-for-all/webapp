@@ -24,32 +24,32 @@ function getUserLanguages(personalInfo) {
 export const changeUiLanguage = (personalInfo = null) => {
   const languages = getUserLanguages(personalInfo);
 
-  // If no personal info or no preferences, skip and use browser language.
   if (!validateArray(languages)) {
-    console.log(
-      "No valid user language preferences, keeping browser language.",
-    );
-    return;
+    console.log("No valid user preferences — using browser language");
+    return; // Letting i18n use browser default
   }
 
   const pattern = Object.keys(localeList);
-
   const firstLanguage = languages[0];
 
-  if (
-    validateString(firstLanguage) &&
-    pattern.includes(firstLanguage) &&
-    firstLanguage !== "English"
-  ) {
-    console.log("Changing language to:", localeList[firstLanguage]);
-    i18n.changeLanguage(localeList[firstLanguage]);
+  if (validateString(firstLanguage) && pattern.includes(firstLanguage)) {
+    const targetLang = localeList[firstLanguage];
+
+    if (i18n.language !== targetLang) {
+      console.log("Switching to user preferred language:", targetLang);
+      i18n.changeLanguage(targetLang);
+    } else {
+      console.log("Language already active:", targetLang, "— forcing event.");
+      i18n.emit("languageChanged", targetLang);
+    }
+
     return;
   }
 
   console.log(
-    "No valid first language preference found, keeping browser language.",
+    "First preference is invalid — falling back to browser language.",
   );
-  // DO NOT force 2nd/3rd language — leave i18n on browser language.
+  // Don't force change — browser language will persist
 };
 
 export const returnDefaultLanguage = () => {
