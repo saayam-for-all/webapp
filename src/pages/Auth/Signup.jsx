@@ -54,6 +54,7 @@ const SignUp = () => {
   const [countryCode, setCountryCode] = useState("US");
   const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [acceptedTOS, setAcceptedTOS] = useState(false);
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -339,9 +340,32 @@ const SignUp = () => {
           </div>
         </div>
 
+        <div className="mb-4 flex items-center space-x-2">
+          <input
+            type="checkbox"
+            className="w-3 h-3"
+            checked={acceptedTOS}
+            onChange={(e) => setAcceptedTOS(e.target.checked)}
+          />
+          <label className="text-xs text-gray-700">
+            I acknowledge that I have read, understand, and agree to the{" "}
+            <a
+              href="/terms-and-conditions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              Terms and Conditions
+            </a>
+            .
+          </label>
+        </div>
         <button
-          className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
+          className={`my-4 py-2 rounded-xl text-white 
+    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
+  `}
           onClick={handleSignUp}
+          disabled={!acceptedTOS}
         >
           Sign up
         </button>
