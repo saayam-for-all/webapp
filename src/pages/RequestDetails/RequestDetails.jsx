@@ -1,18 +1,17 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 // import RequestDetailsSidebar from "./RequestDetailsSidebar";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { FaPhoneAlt, FaVideo } from "react-icons/fa";
+import { IoPersonCircle } from "react-icons/io5";
+import { RiUserStarLine } from "react-icons/ri";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RequestButton from "../../common/components/RequestButton/RequestButton";
 import { getComments, getMyRequests } from "../../services/requestServices";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import CommentsSection from "./CommentsSection";
 import HelpingVolunteers from "./HelpingVolunteers";
 import RequestDescription from "./RequestDescription";
-import { FaPhoneAlt, FaVideo } from "react-icons/fa";
-import { IoPersonCircle } from "react-icons/io5";
-import { RiUserStarLine } from "react-icons/ri";
 
 const RequestDetails = () => {
   const { t } = useTranslation();
@@ -58,11 +57,13 @@ const RequestDetails = () => {
       context: "Peter parker",
       type: "Beneficiary",
       icon: <IoPersonCircle size={26} />,
+      isClickable: true,
     },
     {
       context: "Ethan Marshall",
       type: "Volunteer",
       icon: <RiUserStarLine size={22} />,
+      isClickable: false,
     },
   ];
 
@@ -118,7 +119,23 @@ const RequestDetails = () => {
                   className="flex items-center gap-2 group relative"
                 >
                   {header.icon}
-                  {header.context}
+                  {header.isClickable ? (
+                    <button
+                      onClick={() =>
+                        navigate("/profile", {
+                          state: {
+                            activeTab: "profile",
+                            beneficiaryId: header.beneficiaryId,
+                          },
+                        })
+                      }
+                      className="text-blue-600 hover:text-blue-800 hover:underline font-medium cursor-pointer transition-colors duration-200"
+                    >
+                      {header.context}
+                    </button>
+                  ) : (
+                    <span>{header.context}</span>
+                  )}
                   <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>
