@@ -20,8 +20,10 @@ import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.jpg";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { t } = useTranslation();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const videoId = "zupN0-zXrLQ";
@@ -37,13 +39,15 @@ export default function Home() {
       <div className="w-full">
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]">
-            Real help. Real people. Right when you need it.
+            {t("Real help. Real people. Right when you need it.")}
           </div>
           <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]">
-            Need help? Here to help?
+            {t("Need help? Here to help?")}
           </h1>
           <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
-            At Saayam for All, your support can make a real difference today.
+            {t(
+              "At Saayam for All, your support can make a real difference today.",
+            )}
           </div>
         </div>
       </div>
@@ -54,10 +58,10 @@ export default function Home() {
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
           />
           <h3 className="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center">
-            "Sarve jana sukhino bhavantu"
+            {t("Sarve jana sukhino bhavantu")}
           </h3>
           <div className="text-xs md:text-sm md:text-lg text-gray-600 text-center">
-            May all live happily.
+            {t("May all live happily.")}
           </div>
         </div>
         <div className="w-[33%] h-full flex flex-col justify-center items-center">
@@ -66,11 +70,12 @@ export default function Home() {
             className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
           />
           <h3 className="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
-            "j&ntilde;&#257;nam vardhati sanchay&#257;t"
+            {t("jñānam vardhati sanchayāt")}
           </h3>
           <div className="text-xs md:text-sm  md:text-lg text-gray-600 text-center">
-            Sharing knowledge expands one's own understanding and the knowledge
-            of others.
+            {t(
+              "Sharing knowledge expands one's own understanding and the knowledge of others.",
+            )}
           </div>
         </div>
         <div className="w-[22%] h-full flex flex-col justify-center items-center">
@@ -79,10 +84,10 @@ export default function Home() {
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
           />
           <h3 className="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
-            "Manava sevaye Madhava seva"
+            {t("Manava sevaye Madhava seva")}
           </h3>
           <div className="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3">
-            Service to mankind is Service to God.
+            {t("Service to mankind is Service to God.")}
           </div>
         </div>
       </div>
@@ -90,7 +95,7 @@ export default function Home() {
       <Carousel />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
         <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
-          Our Collaborators
+          {t("Our Collaborators")}
         </h3>
 
         {/* Hid collaborators until we get permission from them all*/}
@@ -121,18 +126,18 @@ export default function Home() {
       <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0">
         <div className="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full">
           <h3 className="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]">
-            Creating a World Where Help is Always Within Reach
+            {t("Creating a World Where Help is Always Within Reach")}
           </h3>
           <p className="text-base md:text-lg text-gray-500 md:h-1/3">
-            Through our global network of volunteers and donors, we empower
-            communities to support one another, fostering a culture of
-            compassion and solidarity that transcends geographical boundaries.
+            {t(
+              "Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.",
+            )}
           </p>
           <button
             className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/our-mission")}
           >
-            Our Mission &rarr;
+            {t("Our Mission")} &rarr;
           </button>
         </div>
         <div className="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center">
@@ -152,17 +157,18 @@ export default function Home() {
       <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0">
         <div className="order-1 md:order-2 flex flex-col justify-start items-start w-full md:w-1/2 p-4 md:p-10 h-auto md:h-full">
           <h3 className="font-bold text-2xl md:text-4xl w-full md:w-2/3 pb-4 md:pb-5">
-            How We Operate
+            {t("How We Operate")}
           </h3>
           <p className="text-base md:text-lg text-gray-500">
-            Watch our 5 minute video to understand how Saayam for All works and
-            how we make a difference.
+            {t(
+              "Watch our 5 minute video to understand how Saayam for All works and how we make a difference.",
+            )}
           </p>
           <button
             className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/how-we-operate")}
           >
-            Learn More &rarr;
+            {t("Learn More")} &rarr;
           </button>
         </div>
 
@@ -179,11 +185,12 @@ export default function Home() {
 
       <div className="bg-gray-100 flex flex-col w-full items-center justify-center">
         <h1 className="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center">
-          One Platform. Many Ways to Contribute.
+          {t("One Platform. Many Ways to Contribute.")}
         </h1>
         <div className="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center">
-          Learn about different roles in our ecosystem and how each one
-          contributes to creating an impact.
+          {t(
+            "Learn about different roles in our ecosystem and how each one contributes to creating an impact.",
+          )}
         </div>
         <div className="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]">
           {[bottomOne, bottomTwo, bottomThree, bottomFour].map((src, i) => (
@@ -203,20 +210,22 @@ export default function Home() {
                 <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
                   {
                     [
-                      "Beneficiaries",
-                      "Volunteers",
-                      "Voluntary Organizations",
-                      "Donors",
+                      t("Beneficiaries"),
+                      t("Volunteers"),
+                      t("Voluntary Organizations"),
+                      t("Donors"),
                     ][i]
                   }
                 </h3>
                 <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
                   {
                     [
-                      "Recieve help for their requests",
-                      "Provide guidance and solutions to beneficiaries",
-                      "Offer necessary support to beneficiaries",
-                      "Provide financial assistance to voluntary organization",
+                      t("Recieve help for their requests"),
+                      t("Provide guidance and solutions to beneficiaries"),
+                      t("Offer necessary support to beneficiaries"),
+                      t(
+                        "Provide financial assistance to voluntary organization",
+                      ),
                     ][i]
                   }
                 </h6>

@@ -17,17 +17,17 @@ exports[`LandingPage renders correctly 1`] = `
             <div
               class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]"
             >
-              Real help. Real people. Right when you need it.
+              mockTranslate(Real help. Real people. Right when you need it.)
             </div>
             <h1
               class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]"
             >
-              Need help? Here to help?
+              mockTranslate(Need help? Here to help?)
             </h1>
             <div
               class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center"
             >
-              At Saayam for All, your support can make a real difference today.
+              mockTranslate(At Saayam for All, your support can make a real difference today.)
             </div>
           </div>
         </div>
@@ -44,12 +44,12 @@ exports[`LandingPage renders correctly 1`] = `
             <h3
               class="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center"
             >
-              "Sarve jana sukhino bhavantu"
+              mockTranslate(Sarve jana sukhino bhavantu)
             </h3>
             <div
               class="text-xs md:text-sm md:text-lg text-gray-600 text-center"
             >
-              May all live happily.
+              mockTranslate(May all live happily.)
             </div>
           </div>
           <div
@@ -62,12 +62,12 @@ exports[`LandingPage renders correctly 1`] = `
             <h3
               class="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
             >
-              "jñānam vardhati sanchayāt"
+              mockTranslate(jñānam vardhati sanchayāt)
             </h3>
             <div
               class="text-xs md:text-sm  md:text-lg text-gray-600 text-center"
             >
-              Sharing knowledge expands one's own understanding and the knowledge of others.
+              mockTranslate(Sharing knowledge expands one's own understanding and the knowledge of others.)
             </div>
           </div>
           <div
@@ -80,12 +80,12 @@ exports[`LandingPage renders correctly 1`] = `
             <h3
               class="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
             >
-              "Manava sevaye Madhava seva"
+              mockTranslate(Manava sevaye Madhava seva)
             </h3>
             <div
               class="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3"
             >
-              Service to mankind is Service to God.
+              mockTranslate(Service to mankind is Service to God.)
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ exports[`LandingPage renders correctly 1`] = `
           <h3
             class="font-bold text-3xl md:text-4xl md:mb-[40px]"
           >
-            Our Collaborators
+            mockTranslate(Our Collaborators)
           </h3>
           <div
             class="w-full flex flex-row overflow-hidden hidden"
@@ -170,17 +170,18 @@ exports[`LandingPage renders correctly 1`] = `
             <h3
               class="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]"
             >
-              Creating a World Where Help is Always Within Reach
+              mockTranslate(Creating a World Where Help is Always Within Reach)
             </h3>
             <p
               class="text-base md:text-lg text-gray-500 md:h-1/3"
             >
-              Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.
+              mockTranslate(Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.)
             </p>
             <button
               class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             >
-              Our Mission →
+              mockTranslate(Our Mission)
+               →
             </button>
           </div>
           <div
@@ -207,17 +208,18 @@ exports[`LandingPage renders correctly 1`] = `
             <h3
               class="font-bold text-2xl md:text-4xl w-full md:w-2/3 pb-4 md:pb-5"
             >
-              How We Operate
+              mockTranslate(How We Operate)
             </h3>
             <p
               class="text-base md:text-lg text-gray-500"
             >
-              Watch our 5 minute video to understand how Saayam for All works and how we make a difference.
+              mockTranslate(Watch our 5 minute video to understand how Saayam for All works and how we make a difference.)
             </p>
             <button
               class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             >
-              Learn More →
+              mockTranslate(Learn More)
+               →
             </button>
           </div>
           <div
@@ -237,12 +239,12 @@ exports[`LandingPage renders correctly 1`] = `
           <h1
             class="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center"
           >
-            One Platform. Many Ways to Contribute.
+            mockTranslate(One Platform. Many Ways to Contribute.)
           </h1>
           <div
             class="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center"
           >
-            Learn about different roles in our ecosystem and how each one contributes to creating an impact.
+            mockTranslate(Learn about different roles in our ecosystem and how each one contributes to creating an impact.)
           </div>
           <div
             class="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]"
@@ -257,12 +259,12 @@ exports[`LandingPage renders correctly 1`] = `
                 <h3
                   class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
-                  Beneficiaries
+                  mockTranslate(Beneficiaries)
                 </h3>
                 <h6
                   class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
-                  Recieve help for their requests
+                  mockTranslate(Recieve help for their requests)
                 </h6>
               </div>
             </div>
@@ -276,12 +278,12 @@ exports[`LandingPage renders correctly 1`] = `
                 <h3
                   class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
-                  Volunteers
+                  mockTranslate(Volunteers)
                 </h3>
                 <h6
                   class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
-                  Provide guidance and solutions to beneficiaries
+                  mockTranslate(Provide guidance and solutions to beneficiaries)
                 </h6>
               </div>
             </div>
@@ -295,12 +297,12 @@ exports[`LandingPage renders correctly 1`] = `
                 <h3
                   class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
-                  Voluntary Organizations
+                  mockTranslate(Voluntary Organizations)
                 </h3>
                 <h6
                   class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
-                  Offer necessary support to beneficiaries
+                  mockTranslate(Offer necessary support to beneficiaries)
                 </h6>
               </div>
             </div>
@@ -314,12 +316,12 @@ exports[`LandingPage renders correctly 1`] = `
                 <h3
                   class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
-                  Donors
+                  mockTranslate(Donors)
                 </h3>
                 <h6
                   class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
-                  Provide financial assistance to voluntary organization
+                  mockTranslate(Provide financial assistance to voluntary organization)
                 </h6>
               </div>
             </div>
@@ -341,17 +343,17 @@ exports[`LandingPage renders correctly 1`] = `
           <div
             class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]"
           >
-            Real help. Real people. Right when you need it.
+            mockTranslate(Real help. Real people. Right when you need it.)
           </div>
           <h1
             class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]"
           >
-            Need help? Here to help?
+            mockTranslate(Need help? Here to help?)
           </h1>
           <div
             class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center"
           >
-            At Saayam for All, your support can make a real difference today.
+            mockTranslate(At Saayam for All, your support can make a real difference today.)
           </div>
         </div>
       </div>
@@ -368,12 +370,12 @@ exports[`LandingPage renders correctly 1`] = `
           <h3
             class="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center"
           >
-            "Sarve jana sukhino bhavantu"
+            mockTranslate(Sarve jana sukhino bhavantu)
           </h3>
           <div
             class="text-xs md:text-sm md:text-lg text-gray-600 text-center"
           >
-            May all live happily.
+            mockTranslate(May all live happily.)
           </div>
         </div>
         <div
@@ -386,12 +388,12 @@ exports[`LandingPage renders correctly 1`] = `
           <h3
             class="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
           >
-            "jñānam vardhati sanchayāt"
+            mockTranslate(jñānam vardhati sanchayāt)
           </h3>
           <div
             class="text-xs md:text-sm  md:text-lg text-gray-600 text-center"
           >
-            Sharing knowledge expands one's own understanding and the knowledge of others.
+            mockTranslate(Sharing knowledge expands one's own understanding and the knowledge of others.)
           </div>
         </div>
         <div
@@ -404,12 +406,12 @@ exports[`LandingPage renders correctly 1`] = `
           <h3
             class="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
           >
-            "Manava sevaye Madhava seva"
+            mockTranslate(Manava sevaye Madhava seva)
           </h3>
           <div
             class="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3"
           >
-            Service to mankind is Service to God.
+            mockTranslate(Service to mankind is Service to God.)
           </div>
         </div>
       </div>
@@ -420,7 +422,7 @@ exports[`LandingPage renders correctly 1`] = `
         <h3
           class="font-bold text-3xl md:text-4xl md:mb-[40px]"
         >
-          Our Collaborators
+          mockTranslate(Our Collaborators)
         </h3>
         <div
           class="w-full flex flex-row overflow-hidden hidden"
@@ -494,17 +496,18 @@ exports[`LandingPage renders correctly 1`] = `
           <h3
             class="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]"
           >
-            Creating a World Where Help is Always Within Reach
+            mockTranslate(Creating a World Where Help is Always Within Reach)
           </h3>
           <p
             class="text-base md:text-lg text-gray-500 md:h-1/3"
           >
-            Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.
+            mockTranslate(Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.)
           </p>
           <button
             class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
           >
-            Our Mission →
+            mockTranslate(Our Mission)
+             →
           </button>
         </div>
         <div
@@ -531,17 +534,18 @@ exports[`LandingPage renders correctly 1`] = `
           <h3
             class="font-bold text-2xl md:text-4xl w-full md:w-2/3 pb-4 md:pb-5"
           >
-            How We Operate
+            mockTranslate(How We Operate)
           </h3>
           <p
             class="text-base md:text-lg text-gray-500"
           >
-            Watch our 5 minute video to understand how Saayam for All works and how we make a difference.
+            mockTranslate(Watch our 5 minute video to understand how Saayam for All works and how we make a difference.)
           </p>
           <button
             class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
           >
-            Learn More →
+            mockTranslate(Learn More)
+             →
           </button>
         </div>
         <div
@@ -561,12 +565,12 @@ exports[`LandingPage renders correctly 1`] = `
         <h1
           class="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center"
         >
-          One Platform. Many Ways to Contribute.
+          mockTranslate(One Platform. Many Ways to Contribute.)
         </h1>
         <div
           class="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center"
         >
-          Learn about different roles in our ecosystem and how each one contributes to creating an impact.
+          mockTranslate(Learn about different roles in our ecosystem and how each one contributes to creating an impact.)
         </div>
         <div
           class="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]"
@@ -581,12 +585,12 @@ exports[`LandingPage renders correctly 1`] = `
               <h3
                 class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
-                Beneficiaries
+                mockTranslate(Beneficiaries)
               </h3>
               <h6
                 class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
-                Recieve help for their requests
+                mockTranslate(Recieve help for their requests)
               </h6>
             </div>
           </div>
@@ -600,12 +604,12 @@ exports[`LandingPage renders correctly 1`] = `
               <h3
                 class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
-                Volunteers
+                mockTranslate(Volunteers)
               </h3>
               <h6
                 class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
-                Provide guidance and solutions to beneficiaries
+                mockTranslate(Provide guidance and solutions to beneficiaries)
               </h6>
             </div>
           </div>
@@ -619,12 +623,12 @@ exports[`LandingPage renders correctly 1`] = `
               <h3
                 class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
-                Voluntary Organizations
+                mockTranslate(Voluntary Organizations)
               </h3>
               <h6
                 class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
-                Offer necessary support to beneficiaries
+                mockTranslate(Offer necessary support to beneficiaries)
               </h6>
             </div>
           </div>
@@ -638,12 +642,12 @@ exports[`LandingPage renders correctly 1`] = `
               <h3
                 class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
-                Donors
+                mockTranslate(Donors)
               </h3>
               <h6
                 class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
-                Provide financial assistance to voluntary organization
+                mockTranslate(Provide financial assistance to voluntary organization)
               </h6>
             </div>
           </div>
