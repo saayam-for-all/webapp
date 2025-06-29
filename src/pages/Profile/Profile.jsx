@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import YourProfile from "./YourProfile";
 import PersonalInformation from "./PersonalInformation";
+import IdentityDocument from "./IdentityDocument";
 import ChangePassword from "./ChangePassword";
 import Sidebar from "./Sidebar";
 import Modal from "./Modal";
@@ -103,6 +104,8 @@ function Profile() {
         return (
           <PersonalInformation setHasUnsavedChanges={setHasUnsavedChanges} />
         );
+      case "uploadDocument":
+        return <IdentityDocument setHasUnsavedChanges={setHasUnsavedChanges} />;
       case "password":
         return <ChangePassword setHasUnsavedChanges={setHasUnsavedChanges} />;
       case "organization":
