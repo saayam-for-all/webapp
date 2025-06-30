@@ -22,12 +22,6 @@ jobs:
           cache: "npm"
 
       - name: Jest coverage report
-        id: coverage
         uses: ArtiomTr/jest-coverage-report-action@v2.3.1
         with:
           output: comment, report-markdown
-
-      - uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          # pass output from the previous step by id.
-          message: ${{ steps.coverage.outputs.report }}
