@@ -117,12 +117,11 @@ const Directors = () => {
         <p className="text-center text-lg text-gray-600 my-4">
           {t("DIRECTORS_DESCRIPTION")}
         </p>
-
-        <div className="directors grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 my-20 px-[40px] justify-items-center">
+        <div className="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center">
           {DirectorsData.map((director, index) => (
             <div
               key={index}
-              className="flex flex-col items-center w-full max-w-[280px]"
+              className="w-[190px] text-center flex flex-col justify-start"
             >
               <div className="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full">
                 <img
@@ -132,17 +131,26 @@ const Directors = () => {
                 />
               </div>
 
-              <div className="w-full px-1 pt-4 text-left">
-                <h2 className="text-lg font-semibold">
+              <div className="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]">
+                <h2
+                  className={`${
+                    director.name === "Sharadha Venketasubramanian"
+                      ? "text-[13px]"
+                      : "text-[16px]"
+                  } font-semibold text-black text-left w-full break-words leading-snug`}
+                >
                   <a
                     href={director.linkedin}
-                    className="text-black"
+                    className="block"
                     target="_blank"
+                    rel="noopener noreferrer"
+                    title={director.name}
                   >
                     {director.name}
                   </a>
                 </h2>
-                <h3 className="text-sm">{director.role}</h3>
+
+                <h3 className="text-[12.5px] text-gray-700">{director.role}</h3>
               </div>
             </div>
           ))}
