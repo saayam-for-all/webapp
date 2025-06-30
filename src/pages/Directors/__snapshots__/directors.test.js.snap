@@ -20,7 +20,7 @@ exports[`Directors renders correctly 1`] = `
             mockTranslate(DIRECTORS_DESCRIPTION)
           </p>
           <div
-            class="max-w-[700px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-1 gap-y-4 place-items-center"
+            class="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center"
           >
             <div
               class="w-[190px] text-center flex flex-col justify-start"
@@ -432,36 +432,6 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Kavyasree Bommakanti"
-                    class="w-full h-full object-cover"
-                    src=""
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  <a
-                    class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/kavyasree-b-b4941b299/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Kavyasree Bommakanti
-                  </a>
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  Program Manager | Business Analyst
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
                     alt="Sriram Mahankali"
                     class="w-full h-full object-cover"
                     src=""
@@ -483,36 +453,6 @@ exports[`Directors renders correctly 1`] = `
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
                   Design and Creative Lead
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Shubham Narkhede"
-                    class="w-full h-full object-cover"
-                    src=""
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  <a
-                    class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/shubhamnarkhede"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Shubham Narkhede
-                  </a>
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  AI/ML Team Lead
                 </div>
               </div>
               <div
@@ -657,7 +597,7 @@ exports[`Directors renders correctly 1`] = `
           mockTranslate(DIRECTORS_DESCRIPTION)
         </p>
         <div
-          class="max-w-[700px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-1 gap-y-4 place-items-center"
+          class="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center"
         >
           <div
             class="w-[190px] text-center flex flex-col justify-start"
@@ -1069,36 +1009,6 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Kavyasree Bommakanti"
-                  class="w-full h-full object-cover"
-                  src=""
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                <a
-                  class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/kavyasree-b-b4941b299/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Kavyasree Bommakanti
-                </a>
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                Program Manager | Business Analyst
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
                   alt="Sriram Mahankali"
                   class="w-full h-full object-cover"
                   src=""
@@ -1120,36 +1030,6 @@ exports[`Directors renders correctly 1`] = `
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
                 Design and Creative Lead
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Shubham Narkhede"
-                  class="w-full h-full object-cover"
-                  src=""
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                <a
-                  class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/shubhamnarkhede"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Shubham Narkhede
-                </a>
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                AI/ML Team Lead
               </div>
             </div>
             <div
