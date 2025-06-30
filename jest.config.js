@@ -13,4 +13,9 @@ export default {
       "<rootDir>/__mocks__/fileMock.js",
   },
   collectCoverageFrom: ["src/**/*.{js,jsx}"],
+  coverageThreshold: {
+    global: {
+      lines: 80,
+    },
+  },
 };
