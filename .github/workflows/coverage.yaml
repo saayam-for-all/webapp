@@ -23,5 +23,3 @@ jobs:
 
       - name: Jest coverage report
         uses: ArtiomTr/jest-coverage-report-action@v2.3.1
-        with:
-          output: comment, report-markdown
