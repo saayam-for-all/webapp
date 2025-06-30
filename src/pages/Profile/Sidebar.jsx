@@ -82,6 +82,23 @@ function Sidebar({
 
         <button
           className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "uploadDocument"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("uploadDocument")}
+        >
+          <div className="flex items-center">
+            <FaUserCircle className="mr-2 text-gray-500" />
+            {t("IDENTITY_DOCUMENT")}
+          </div>
+          {activeTab !== "uploadDocument" && (
+            <FiChevronRight className="text-gray-600" />
+          )}
+        </button>
+
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
             activeTab === "password"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
               : "hover:bg-gray-100 text-gray-700"
