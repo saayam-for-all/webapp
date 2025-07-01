@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -11,6 +11,8 @@ const ContactUs = () => {
     phone: "",
     message: "",
   });
+
+  const formRef = useRef(null);
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -80,6 +82,7 @@ const ContactUs = () => {
 
     if (Object.keys(newErrors).length === 0) {
       setSubmitted(true);
+      formRef.current?.submit();
       // Add submission logic here
     }
   };
@@ -98,9 +101,7 @@ const ContactUs = () => {
             Email, call, or complete the form to learn how Saayam for All can
             help you with your challenges
           </p>
-          <p className="text-[#807D7D] text-base mb-10">
-            info@saayamforall.org
-          </p>
+          <p className="text-[#807D7D] text-base mb-10">hr@saayamforall.org</p>
 
           <h1 className="text-2xl font-bold mb-4">FAQ's</h1>
           <div className="w-full">
@@ -132,6 +133,9 @@ const ContactUs = () => {
           <Box
             component="form"
             onSubmit={handleSubmit}
+            ref={formRef}
+            action="https://formsubmit.co/hr@saayamforall.org"
+            method="POST"
             className="w-full max-w-2xl bg-white p-6 rounded-3xl shadow-md"
           >
             <h1 className="text-2xl font-bold mb-1">Get In Touch</h1>
