@@ -139,8 +139,9 @@ const RequestDetails = () => {
                   <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>
+                  {/*
                   <FaPhoneAlt className="cursor-pointer" size={15} />
-                  <FaVideo className="cursor-pointer" size={17} />
+                  <FaVideo className="cursor-pointer" size={17} /> */}
                 </li>
               ))}
             </div>

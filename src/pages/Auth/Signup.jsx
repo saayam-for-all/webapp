@@ -55,6 +55,7 @@ const SignUp = () => {
   const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
+  const [acceptedTOS, setAcceptedTOS] = useState(false);
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -398,12 +399,42 @@ const SignUp = () => {
             </p>
           )}
         </div>
-
+        {/*
         <button
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignUp}
         >
           Sign Up
+        </button>
+        */}
+        <div className="mb-2 flex items-center space-x-2">
+          <input
+            type="checkbox"
+            className="w-3.2 h-3.2"
+            checked={acceptedTOS}
+            onChange={(e) => setAcceptedTOS(e.target.checked)}
+          />
+          <label className="my-2 text-gray-700">
+            I acknowledge that I have read, understand, and agree to the{" "}
+            <a
+              href="/terms-and-conditions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              Terms and Conditions
+            </a>
+            .
+          </label>
+        </div>
+        <button
+          className={`my-4 py-2 rounded-xl text-white 
+    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
+  `}
+          onClick={handleSignUp}
+          disabled={!acceptedTOS}
+        >
+          Sign up
         </button>
 
         {/* Uncomment this snippet when the signup functionality is fully developed  */}
@@ -426,7 +457,7 @@ const SignUp = () => {
           </button>
         </div> */}
 
-        <div className="mt-16 flex flex-row justify-center">
+        <div className="mt-8 flex flex-row justify-center">
           <p>Already have an account?</p>
           <button
             className="mx-2 text-left underline"
