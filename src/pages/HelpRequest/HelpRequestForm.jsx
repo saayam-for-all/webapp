@@ -270,7 +270,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   useEffect(() => {
     if (categories && categories.length > 0) {
-      setFilteredCategories(categories);
+      // Sort categories alphabetically by name, but keep 'General' last
+      const general = categories.find((cat) => cat.name === "General");
+      const others = categories.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      if (general) sorted.push(general);
+      setFilteredCategories(sorted);
     }
   }, [categories]);
 
@@ -283,12 +288,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     });
 
     if (searchTerm.trim() === "") {
-      setFilteredCategories(categories);
+      // Sort categories alphabetically by name, keep 'General' last
+      const general = categories.find((cat) => cat.name === "General");
+      const others = categories.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      if (general) sorted.push(general);
+      setFilteredCategories(sorted);
     } else {
       const filtered = categories.filter((category) =>
         category.name.toLowerCase().startsWith(searchTerm.toLowerCase()),
       );
-      setFilteredCategories(filtered);
+      // Sort filtered categories alphabetically, keep 'General' last if present
+      const general = filtered.find((cat) => cat.name === "General");
+      const others = filtered.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      if (general) sorted.push(general);
+      setFilteredCategories(sorted);
     }
     setShowDropdown(true);
   };
@@ -655,45 +670,105 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
               {showDropdown && (
                 <div
-                  className="absolute z-10 bg-white border mt-1 rounded shadow-lg w-full overflow-y-auto"
-                  style={{ maxHeight: "200px" }}
+                  className={`absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex${
+                    hoveredCategory &&
+                    hoveredCategory.subcategories &&
+                    hoveredCategory.subcategories.length > 0
+                      ? ""
+                      : " flex-col"
+                  }`}
+                  style={{
+                    maxHeight: "240px",
+                    minHeight: "120px",
+                    overflow: "hidden",
+                    zIndex: 30,
+                    background: "#fff",
+                  }}
                   ref={dropdownRef}
                   tabIndex={0}
                 >
-                  {filteredCategories.map((category) => (
-                    <div
-                      key={category.id}
-                      className="p-2 border-b cursor-pointer hover:bg-gray-100 relative"
-                      onClick={() =>
-                        !category.subcategories &&
-                        handleCategoryClick(category.name)
-                      }
-                      onMouseEnter={() => setHoveredCategory(category)}
-                      onMouseLeave={() => setHoveredCategory(null)}
-                    >
-                      {category.name}
-
-                      {/* Show subcategories if the category is hovered and it has subcategories */}
-                      {hoveredCategory === category &&
-                        category.subcategories && (
-                          <div className="bg-white border rounded shadow-lg p-2 z-20 mt-2">
-                            {category.subcategories.map(
-                              (subcategory, index) => (
-                                <div
-                                  key={index}
-                                  className="cursor-pointer hover:bg-gray-200"
-                                  onClick={() =>
-                                    handleSubcategoryClick(subcategory)
-                                  }
-                                >
-                                  {subcategory}
-                                </div>
-                              ),
-                            )}
-                          </div>
-                        )}
-                    </div>
-                  ))}
+                  {/* Main categories column */}
+                  <div
+                    className={
+                      hoveredCategory &&
+                      hoveredCategory.subcategories &&
+                      hoveredCategory.subcategories.length > 0
+                        ? "w-1/2 overflow-y-auto"
+                        : "w-full overflow-y-auto"
+                    }
+                    style={{ maxHeight: "240px" }}
+                  >
+                    {filteredCategories.map((category) => (
+                      <div
+                        key={category.id}
+                        className={`p-2 cursor-pointer hover:bg-gray-100 bg-white flex items-center justify-between ${
+                          hoveredCategory?.id === category.id
+                            ? "font-semibold bg-gray-50"
+                            : ""
+                        }`}
+                        style={{ background: "#fff" }}
+                        onClick={(e) => {
+                          if (
+                            !category.subcategories ||
+                            category.subcategories.length === 0
+                          ) {
+                            handleCategoryClick(category.name);
+                          }
+                        }}
+                        onMouseEnter={() => setHoveredCategory(category)}
+                      >
+                        <span>{category.name}</span>
+                        {/* Show chevron if subcategories exist */}
+                        {category.subcategories &&
+                          category.subcategories.length > 0 && (
+                            <span className="ml-2 text-gray-400">&gt;</span>
+                          )}
+                      </div>
+                    ))}
+                  </div>
+                  {/* Only show subcategories column if there are subcategories */}
+                  {hoveredCategory &&
+                    hoveredCategory.subcategories &&
+                    hoveredCategory.subcategories.length > 0 && (
+                      <>
+                        {/* Vertical divider */}
+                        <div
+                          className="w-px bg-gray-300 mx-1"
+                          style={{ minHeight: "100%" }}
+                        />
+                        {/* Subcategories column */}
+                        <div
+                          className="w-1/2 overflow-y-auto"
+                          style={{ maxHeight: "240px" }}
+                        >
+                          {hoveredCategory.subcategories.map(
+                            (subcategory, index) => (
+                              <div
+                                key={index}
+                                className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
+                                  index !==
+                                  hoveredCategory.subcategories.length - 1
+                                    ? " border-b-0 border-t border-gray-200"
+                                    : ""
+                                }`}
+                                style={{
+                                  background: "#fff",
+                                  borderTop:
+                                    index !== 0 ? "1px solid #e5e7eb" : "none",
+                                  borderBottom: "none",
+                                }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleSubcategoryClick(subcategory);
+                                }}
+                              >
+                                {subcategory}
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </>
+                    )}
                 </div>
               )}
             </div>
