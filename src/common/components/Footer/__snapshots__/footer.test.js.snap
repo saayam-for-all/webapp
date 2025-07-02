@@ -79,7 +79,7 @@ exports[`Footer renders correctly 1`] = `
             <div
               class="footer-copy"
             >
-              Copyright © 2025 Saayam For All. All rights reserved.
+              mockTranslate(Copyright © 2025 Saayam For All. All rights reserved.)
             </div>
             <div
               class="footer-links"
@@ -180,7 +180,7 @@ exports[`Footer renders correctly 1`] = `
           <div
             class="footer-copy"
           >
-            Copyright © 2025 Saayam For All. All rights reserved.
+            mockTranslate(Copyright © 2025 Saayam For All. All rights reserved.)
           </div>
           <div
             class="footer-links"
