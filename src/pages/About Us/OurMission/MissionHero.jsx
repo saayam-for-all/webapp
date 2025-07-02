@@ -12,57 +12,113 @@ export function MissionHero() {
   const values = [
     {
       icon: img5, // 💧
-      title: "Address Basic Necessities",
-      description:
-        "Focus on food, clothing, shelter, education, medical, healthcare.",
+      title: (
+        <>
+          Address Basic <br />
+          Necessities
+        </>
+      ),
+      description: (
+        <>
+          Focus on food, clothing,
+          <br /> shelter, education,
+          <br /> medical, healthcare.
+        </>
+      ),
     },
     {
       icon: img4, // 🤝 Inclusivity
-      title: "Inclusivity and Respect",
-      description:
-        "Open to all, regardless of beliefs, religion, location, country, or politics, without desecrating any beliefs.",
+      title: (
+        <>
+          Inclusivity and
+          <br /> Respect
+        </>
+      ),
+      description: (
+        <>
+          Open to all, regardless of beliefs,
+          <br /> religion, location, country, or politics,
+          <br /> without desecrating any beliefs.
+        </>
+      ),
     },
     {
       icon: img7, // 🤝 Collaboration
-      title: "Collaboration, Not Competition",
-      description:
-        "Match requestors with existing voluntary organizations without starting new ones that compete. ",
+      title: (
+        <>
+          Collaboration,
+          <br /> Not Competition
+        </>
+      ),
+      description: (
+        <>
+          Match requestors with existing
+          <br /> voluntary organizations without
+          <br /> starting new ones that compete.
+        </>
+      ),
     },
     {
       icon: img2, // 🏢
-      title: "No Infrastructure or Money Distribution",
-      description:
-        "No building of schools or hospitals and no direct distribution of money.",
+      title: (
+        <>
+          No Infrastructure or <br />
+          Money Distribution
+        </>
+      ),
+      description: (
+        <>
+          No building of schools or hospitals and
+          <br /> no direct distribution of money.
+        </>
+      ),
     },
     {
       icon: img6, // 👐
       title: "Volunteer-Based",
-      description:
-        "Purely volunteer-driven with no or nominal payments; cost reimbursement is allowed.",
+      description: (
+        <>
+          Purely volunteer-driven with no pay or <br /> benefits; Cost
+          reimbursement is allowed.
+        </>
+      ),
     },
     {
       icon: img8, // 🏆
       title: "Motivation",
-      description: "Use Saayam Dollars to motivate volunteers.",
+      description: (
+        <>
+          Use Saayam Dollars to motivate
+          <br /> volunteers.
+        </>
+      ),
     },
     {
       icon: img1, // 🤖
       title: "Automation",
-      description:
-        "Implement a software solution with minimal human intervention.",
+      description: (
+        <>
+          Implement a software solution with <br />
+          minimal human intervention.
+        </>
+      ),
     },
     {
       icon: img3, // 💲
       title: "Cost-Efficiency",
-      description:
-        "Utilize free resources like WhatsApp, Zoom, and GitHub to keep costs low.",
+      description: (
+        <>
+          Utilize free resources like WhatsApp,
+          <br /> Zoom, and GitHub to keep costs low.
+        </>
+      ),
     },
   ];
   return (
     <section className="flex justify-center items-center py-10 bg-white">
       <div className="w-[945px]  text-center ">
         <h2 className="text-2xl font-bold mb-2">Our Values</h2>
-        <p className="text-gray-600 text-base leading-relaxed mb-6 max-w-xl mx-auto">
+        <p className="text-gray-600 text-base leading-relaxed mb-6 mx-auto whitespace-nowrap">
           At Saayam For All, our shared values keep us connected and guide us as
           one team.
         </p>
