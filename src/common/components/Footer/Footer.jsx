@@ -1,7 +1,6 @@
-import React from "react";
-import "./Footer.css";
-import logo from "../../../assets/logo.svg";
 import { useTranslation } from "react-i18next";
+import logo from "../../../assets/logo.svg";
+import "./Footer.css";
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -38,7 +37,7 @@ export default function Footer() {
         {/* 2) Bottom grid: copyright + links */}
         <div className="footer-bottom-grid">
           <div className="footer-copy">
-            Copyright © 2025 Saayam For All. All rights reserved.
+            {t("Copyright © 2025 Saayam For All. All rights reserved.")}
           </div>
           <div className="footer-links">
             <a href="/sitemap">{t("SITE_MAP")}</a>
