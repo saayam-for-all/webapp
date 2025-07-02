@@ -67,6 +67,7 @@
   "ADDRESS": "सड़क का पता{{optional}}",
   "YOUR_PROFILE": "आपकी प्रोफ़ाइल",
   "PERSONAL_INFORMATION": "व्यक्तिगत जानकारी",
+  "IDENTITY_DOCUMENT": "पहचान दस्तावेज़",
   "UPLOAD_PHOTO": "फोटो अपलोड करें",
   "ORGANIZATION_DETAILS": "संगठन विवरण",
   "ORGANIZATION_NAME": "संगठन का नाम",

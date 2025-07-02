@@ -69,6 +69,7 @@
   "ADDRESS": "街道地址{{optional}}",
   "YOUR_PROFILE": "你的简介",
   "PERSONAL_INFORMATION": "个人信息",
+  "IDENTITY_DOCUMENT": "身份证明文件",
   "UPLOAD_PHOTO": "上传照片",
   "ORGANIZATION_DETAILS": "组织详情",
   "ORGANIZATION_NAME": "组织名称",

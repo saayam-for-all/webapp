@@ -72,6 +72,7 @@
   "ADDRESS": "Street Address{{optional}}",
   "YOUR_PROFILE": "Your Profile",
   "PERSONAL_INFORMATION": "Personal Information",
+  "IDENTITY_DOCUMENT": "Identity Document",
   "UPLOAD_PHOTO": "Upload your photo",
   "ORGANIZATION_DETAILS": "Organization Details",
   "ORGANIZATION_NAME": "Organization Name",
