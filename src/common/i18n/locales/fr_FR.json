@@ -152,5 +152,6 @@
   "ACKNOWLEDGMENT_CONTENT": "En acceptant ce document, le Bénévole reconnaît avoir lu, compris et accepté ces conditions. Le Bénévole s'engage à respecter toutes les directives, politiques et attentes énoncées dans le présent Accord et comprend que son statut de bénévole en dépend.",
   "EMAIL_REQUIRED": "Veuillez entrer votre adresse e-mail",
   "PASSWORD_REQUIRED": "Veuillez entrer votre mot de passe",
-  "INVALID_CREDENTIALS": "Adresse e-mail ou mot de passe invalide"
+  "INVALID_CREDENTIALS": "Adresse e-mail ou mot de passe invalide",
+  "COPYRIGHT": "Droits d’auteur © 2025 Saayam For All. Tous droits réservés."
 }

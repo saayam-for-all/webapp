@@ -196,5 +196,6 @@
   "PHONE COMMUNICATION PREFERENCE": "Phone Communication Preference",
   "EMAIL_REQUIRED": "Please enter your email",
   "PASSWORD_REQUIRED": "Please enter your password",
-  "INVALID_CREDENTIALS": "Invalid email or password"
+  "INVALID_CREDENTIALS": "Invalid email or password",
+  "COPYRIGHT": "Copyright © 2025 Saayam For All. All rights reserved."
 }
