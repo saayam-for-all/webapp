@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
           <div className="footer-links">
             <a href="/sitemap">{t("SITE_MAP")}</a>
-            <a href="#">{t("TERMS_AND_CONDITIONS")}</a>
+            <a href="/terms-and-conditions">{t("TERMS_AND_CONDITIONS")}</a>
             <a href="#">{t("PRIVACY_POLICY")}</a>
           </div>
         </div>
