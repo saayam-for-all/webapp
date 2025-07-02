@@ -152,5 +152,6 @@
   "ACKNOWLEDGMENT_CONTENT": "Durch Zustimmung zu diesem Dokument erkennt der Freiwillige an, dass er diese Bedingungen gelesen, verstanden und akzeptiert hat. Der Freiwillige verpflichtet sich, alle hierin dargelegten Richtlinien, Vorschriften und Erwartungen einzuhalten, und versteht, dass sein Freiwilligenstatus an die Einhaltung dieser Vereinbarung gebunden ist.",
   "EMAIL_REQUIRED": "Bitte geben Sie Ihre E-Mail-Adresse ein",
   "PASSWORD_REQUIRED": "Bitte geben Sie Ihr Passwort ein",
-  "INVALID_CREDENTIALS": "Ungültige E-Mail-Adresse oder Passwort"
+  "INVALID_CREDENTIALS": "Ungültige E-Mail-Adresse oder Passwort",
+  "COPYRIGHT": "Copyright © 2025 Saayam For All. Alle Rechte vorbehalten."
 }
