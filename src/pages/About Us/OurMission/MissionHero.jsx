@@ -12,106 +12,60 @@ export function MissionHero() {
   const values = [
     {
       icon: img5, // 💧
-      title: (
-        <>
-          Address Basic <br />
-          Necessities
-        </>
-      ),
-      description: (
-        <>
-          Focus on food, clothing,
-          <br /> shelter, education,
-          <br /> medical, healthcare.
-        </>
-      ),
+      titleLine1: "Address Basic",
+      titleLine2: "Necessities",
+      description1: "Focus on food, clothing,",
+      description2: "shelter, education,",
+      description3: "medical, healthcare.",
     },
     {
       icon: img4, // 🤝 Inclusivity
-      title: (
-        <>
-          Inclusivity and
-          <br /> Respect
-        </>
-      ),
-      description: (
-        <>
-          Open to all, regardless of beliefs,
-          <br /> religion, location, country, or politics,
-          <br /> without desecrating any beliefs.
-        </>
-      ),
+      titleLine1: "Inclusivity and ",
+      titleLine2: "Respect",
+      description1: "Open to all, regardless of beliefs,",
+      description2: " religion, location, country, or politics,",
+      description3: "without desecrating any beliefs.",
     },
     {
       icon: img7, // 🤝 Collaboration
-      title: (
-        <>
-          Collaboration,
-          <br /> Not Competition
-        </>
-      ),
-      description: (
-        <>
-          Match requestors with existing
-          <br /> voluntary organizations without
-          <br /> starting new ones that compete.
-        </>
-      ),
+      titleLine1: "Collaboration,",
+      titleLine2: "Not Competition",
+
+      description1: "Match Requestors with existing",
+      description2: "voluntary organizations without",
+      description3: "starting new ones that compete.",
     },
     {
       icon: img2, // 🏢
-      title: (
-        <>
-          No Infrastructure or <br />
-          Money Distribution
-        </>
-      ),
-      description: (
-        <>
-          No building of schools or hospitals and
-          <br /> no direct distribution of money.
-        </>
-      ),
+      titleLine1: "No Infrastructure or",
+      titleLine2: " Money Distribution",
+
+      description1: "No building of schools or hospitals and",
+      description2: "no direct distribution of money.",
     },
     {
       icon: img6, // 👐
-      title: "Volunteer-Based",
-      description: (
-        <>
-          Purely volunteer-driven with no pay or <br /> benefits; Cost
-          reimbursement is allowed.
-        </>
-      ),
+      titleLine1: "Volunteer-Based",
+      description1: "Purely volunteer-driven with no pay or",
+      description2: "benefits; cost reimbursement is allowed.",
     },
     {
       icon: img8, // 🏆
-      title: "Motivation",
-      description: (
-        <>
-          Use Saayam Dollars to motivate
-          <br /> volunteers.
-        </>
-      ),
+      titleLine1: "Motivation",
+      description1: "Use Saayam Dollars to motivate",
+      description2: "volunteers.",
     },
     {
       icon: img1, // 🤖
-      title: "Automation",
-      description: (
-        <>
-          Implement a software solution with <br />
-          minimal human intervention.
-        </>
-      ),
+      titleLine1: "Automation",
+      description1: "Implement a software solution with",
+      description2: "minimal human intervention.",
     },
     {
       icon: img3, // 💲
-      title: "Cost-Efficiency",
-      description: (
-        <>
-          Utilize free resources like WhatsApp,
-          <br /> Zoom, and GitHub to keep costs low.
-        </>
-      ),
+      titleLine1: "Cost-Efficiency",
+      description1: "Utilize free resources like WhatsApp,",
+      description2: " Zoom, and GitHub to keep costs low.",
     },
   ];
   return (
@@ -122,23 +76,29 @@ export function MissionHero() {
           At Saayam For All, our shared values keep us connected and guide us as
           one team.
         </p>
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="max-w-2xl mx-auto grid grid-cols-3 sm:grid-cols-2 gap-4">
           {values.map((item, index) => (
             <div
               key={index}
-              className="bg-blue-50 rounded-2xl p-5 text-center shadow-sm border border-blue-100 aspect-square flex flex-col justify-center w-68 h-68"
+              className="bg-blue-50 rounded-2xl p-6 text-center shadow-sm border border-blue-100 w-[320px] h-[320px] flex flex-col justify-center items-center"
             >
-              <div className="mb-4">
+              <div className="mb-12">
                 <img
                   src={item.icon}
                   alt={item.title}
                   className="w-12 h-12 mx-auto"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {item.title}
+
+              <h3 className="text-xl font-bold text-gray-900 mb-1 leading-tight">
+                {item.titleLine1} <br /> {item.titleLine2}
               </h3>
-              <p className="text-sm text-gray-600">{item.description}</p>
+
+              <p className="text-sm text-gray-600">
+                {item.description1}
+                <br /> {item.description2}
+                <br /> {item.description3}
+              </p>
             </div>
           ))}
         </div>
