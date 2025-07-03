@@ -1,6 +1,6 @@
 export function Vision() {
   return (
-    <section className="bg-gray-200 py-16">
+    <section className="bg-gray-50 py-16">
       <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row justify-between items-start px-4 gap-6">
         {/* Left Text Block */}
         <div className="w-full md:w-[42%]">
