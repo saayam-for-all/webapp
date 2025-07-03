@@ -21,8 +21,6 @@ jobs:
           node-version: "22"
           cache: "npm"
 
-      - name: Jest coverage report
-        uses: ArtiomTr/jest-coverage-report-action@v2.3.1
       - uses: codecov/codecov-action@v5
         with:
           fail_ci_if_error: true # optional (default = false)
