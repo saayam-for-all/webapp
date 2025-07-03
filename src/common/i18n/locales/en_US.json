@@ -72,6 +72,7 @@
   "ADDRESS": "Street Address{{optional}}",
   "YOUR_PROFILE": "Your Profile",
   "PERSONAL_INFORMATION": "Personal Information",
+  "IDENTITY_DOCUMENT": "Identity Document",
   "UPLOAD_PHOTO": "Upload your photo",
   "ORGANIZATION_DETAILS": "Organization Details",
   "ORGANIZATION_NAME": "Organization Name",
@@ -192,5 +193,9 @@
   "SAVING": "Saving...",
   "CANCEL": "Cancel",
   "EMAIL COMMUNICATION PREFERENCE": "Email Communication Preference",
-  "PHONE COMMUNICATION PREFERENCE": "Phone Communication Preference"
+  "PHONE COMMUNICATION PREFERENCE": "Phone Communication Preference",
+  "EMAIL_REQUIRED": "Please enter your email",
+  "PASSWORD_REQUIRED": "Please enter your password",
+  "INVALID_CREDENTIALS": "Invalid email or password",
+  "COPYRIGHT": "Copyright © 2025 Saayam For All. All rights reserved."
 }

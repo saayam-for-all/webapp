@@ -1,0 +1,347 @@
+.benevity-page-container {
+  font-family: "Poppins", Arial, sans-serif;
+  background: #fff;
+  min-height: 100vh;
+  padding: 0 0 40px 0;
+}
+
+.benevity-header {
+  text-align: center;
+  padding: 40px 20px 0 20px;
+  margin-bottom: 32px;
+}
+
+.benevity-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+.benevity-desc {
+  color: #666;
+  font-size: 1.05rem;
+  margin-bottom: 28px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.benevity-info-card {
+  background: #e9f1fe;
+  border-radius: 16px;
+  padding: 35px 28px;
+  max-width: 600px;
+  margin: 0 auto 40px auto;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  text-align: center;
+}
+
+.benevity-info-card div {
+  margin-bottom: 12px;
+  color: #000;
+  font-weight: normal;
+}
+
+.benevity-info-card div:last-child {
+  margin-bottom: 0;
+}
+
+.benevity-search-btn {
+  margin-top: 35px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 14px 35px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s ease;
+  align-self: center;
+}
+.benevity-search-btn:hover {
+  background: #0069d9;
+}
+
+.benevity-how-section {
+  margin: 60px 20px 40px 20px;
+  text-align: center;
+}
+.benevity-how-section h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #222;
+}
+.benevity-how-desc {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+.benevity-how-steps {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+.benevity-step {
+  background: #e9f1fe;
+  border-radius: 12px;
+  padding: 60px 25px 30px 25px;
+  width: 280px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #eee;
+  transition: transform 0.2s ease;
+  position: relative;
+}
+.benevity-step:hover {
+  transform: translateY(-5px);
+}
+.benevity-step-circle {
+  background: #007bff;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: -22.5px; /* Half of height to center vertically above border */
+  left: 50%;
+  transform: translateX(-50%);
+}
+.benevity-icon-container {
+  background-color: #e9f1fe; /* Light grey background for the circle */
+  border-radius: 50%;
+  width: 70px; /* Size of the icon circle */
+  height: 70px; /* Size of the icon circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px; /* Space between step circle and icon container */
+  margin-bottom: 20px; /* Space between icon container and title */
+}
+.benevity-step-icon {
+  width: 35px; /* Adjusted size of the icon inside the circle */
+  height: 35px; /* Adjusted size of the icon inside the circle */
+  color: #555; /* Darker grey color for the icon */
+  /* margin-bottom removed as it's now controlled by parent container */
+}
+.benevity-step-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #222;
+}
+.benevity-step-desc {
+  color: #777;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.benevity-corporate-section {
+  margin: 60px 20px 80px 20px;
+  text-align: center;
+}
+.benevity-corporate-section h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #222;
+}
+.benevity-corp-desc {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+.benevity-corp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.benevity-corp-card {
+  background: #f7fcff; /* Very subtle light blue background */
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* More prominent shadow */
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  border: 1px solid #e0e0e0; /* Slightly darker border */
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+.benevity-corp-card:hover {
+  transform: translateY(-7px); /* Slightly more lift on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+  background-color: #f0f8ff; /* Slightly darker background on hover */
+}
+.benevity-corp-name {
+  font-size: 1.05rem; /* Slightly larger font size */
+  font-weight: 600;
+  color: #333; /* Darker text color */
+  text-align: center;
+}
+
+.benevity-corp-table-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 10px;
+  overflow-x: auto;
+}
+.benevity-corp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.benevity-corp-table th,
+.benevity-corp-table td {
+  border: 1px solid #e0e0e0;
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 1rem;
+}
+.benevity-corp-table th {
+  background: #f7fcff;
+  font-weight: 700;
+  color: #222;
+}
+.benevity-corp-table td {
+  background: #fff;
+  color: #333;
+}
+.benevity-corp-table a {
+  color: #007bff;
+  text-decoration: underline;
+  word-break: break-all;
+}
+.benevity-corp-table a:hover {
+  color: #0056b3;
+}
+.benevity-corp-table th:first-child {
+  border-top-left-radius: 16px;
+}
+.benevity-corp-table th:last-child {
+  border-top-right-radius: 16px;
+}
+.benevity-corp-table tr:last-child td:first-child {
+  border-bottom-left-radius: 16px;
+}
+.benevity-corp-table tr:last-child td:last-child {
+  border-bottom-right-radius: 16px;
+}
+
+@media (max-width: 768px) {
+  .benevity-header h1 {
+    font-size: 1.8rem;
+  }
+  .benevity-info-card {
+    padding: 20px;
+    margin: 0 auto 30px auto;
+  }
+  .benevity-how-section h2,
+  .benevity-corporate-section h2 {
+    font-size: 1.5rem;
+  }
+  .benevity-how-steps {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  .benevity-step {
+    padding: 50px 20px 20px 20px;
+  }
+  .benevity-step-circle {
+    top: -22.5px;
+  }
+  .benevity-icon-container {
+    width: 60px;
+    height: 60px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+  .benevity-step-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .benevity-corp-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .benevity-header h1 {
+    font-size: 1.5rem;
+  }
+  .benevity-desc {
+    font-size: 0.9rem;
+  }
+  .benevity-info-card {
+    font-size: 0.95rem;
+  }
+  .benevity-search-btn {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+  .benevity-how-section h2,
+  .benevity-corporate-section h2 {
+    font-size: 1.3rem;
+  }
+  .benevity-how-desc,
+  .benevity-corp-desc {
+    font-size: 0.85rem;
+  }
+  .benevity-step-title {
+    font-size: 1rem;
+  }
+  .benevity-step-desc {
+    font-size: 0.8rem;
+  }
+  .benevity-corp-grid {
+    grid-template-columns: 1fr;
+  }
+  .benevity-corp-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .benevity-corp-table th,
+  .benevity-corp-table td {
+    padding: 10px 6px;
+    font-size: 0.92rem;
+  }
+}

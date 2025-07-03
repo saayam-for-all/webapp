@@ -20,10 +20,10 @@ exports[`Directors renders correctly 1`] = `
             mockTranslate(DIRECTORS_DESCRIPTION)
           </p>
           <div
-            class="directors grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 my-20 px-[40px] justify-items-center"
+            class="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center"
           >
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -35,28 +35,30 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/raobhethanabotla"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Rao K Bhethanabotla"
                   >
                     Rao K Bhethanabotla
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Founder, President, CEO, CTO
                 </h3>
               </div>
             </div>
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -68,28 +70,30 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/srividhyagopalan/"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Srividhya Gopalan"
                   >
                     Srividhya Gopalan
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Director & Chief Financial Officer
                 </h3>
               </div>
             </div>
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -101,28 +105,30 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/nsharma2/"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Naveen Sharma"
                   >
                     Naveen Sharma
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Director and Secretary
                 </h3>
               </div>
             </div>
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -134,28 +140,30 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/prabhakara-yellai/"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Prabhakara Yellai"
                   >
                     Prabhakara Yellai
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Director
                 </h3>
               </div>
             </div>
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -167,28 +175,30 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[13px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/sharadha/"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Sharadha Venketasubramanian"
                   >
                     Sharadha Venketasubramanian
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Director
                 </h3>
               </div>
             </div>
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -200,28 +210,30 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/rameshmaturu/"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Ramesh Maturu"
                   >
                     Ramesh Maturu
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Director
                 </h3>
               </div>
             </div>
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -233,28 +245,30 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/madhukar/"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Madhukar Govindaraju"
                   >
                     Madhukar Govindaraju
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Director
                 </h3>
               </div>
             </div>
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -266,28 +280,30 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/mucharla"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Sateesh Mucharla"
                   >
                     Sateesh Mucharla
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Director
                 </h3>
               </div>
             </div>
             <div
-              class="flex flex-col items-center w-full max-w-[280px]"
+              class="w-[190px] text-center flex flex-col justify-start"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -299,21 +315,23 @@ exports[`Directors renders correctly 1`] = `
                 />
               </div>
               <div
-                class="w-full px-1 pt-4 text-left"
+                class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
                 >
                   <a
-                    class="text-black"
+                    class="block"
                     href="https://www.linkedin.com/in/mantrapaloalto/"
+                    rel="noopener noreferrer"
                     target="_blank"
+                    title="Ashwani Dhawan"
                   >
                     Ashwani Dhawan
                   </a>
                 </h2>
                 <h3
-                  class="text-sm"
+                  class="text-[12.5px] text-gray-700"
                 >
                   Director
                 </h3>
@@ -414,36 +432,6 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Kavyasree Bommakanti"
-                    class="w-full h-full object-cover"
-                    src=""
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  <a
-                    class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/kavyasree-b-b4941b299/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Kavyasree Bommakanti
-                  </a>
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  Program Manager | Business Analyst
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
                     alt="Sriram Mahankali"
                     class="w-full h-full object-cover"
                     src=""
@@ -454,7 +442,7 @@ exports[`Directors renders correctly 1`] = `
                 >
                   <a
                     class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/sriram-mahankali"
+                    href="https://www.linkedin.com/in/sriram-mahankali-393047342"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -465,36 +453,6 @@ exports[`Directors renders correctly 1`] = `
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
                   Design and Creative Lead
-                </div>
-              </div>
-              <div
-                class="w-[180px] text-center"
-              >
-                <div
-                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-                >
-                  <img
-                    alt="Shubham Narkhede"
-                    class="w-full h-full object-cover"
-                    src=""
-                  />
-                </div>
-                <div
-                  class="font-semibold text-base mt-3 text-left pl-1"
-                >
-                  <a
-                    class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/shubhamnarkhede"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Shubham Narkhede
-                  </a>
-                </div>
-                <div
-                  class="text-sm text-gray-500 mt-1 text-left pl-1"
-                >
-                  AI/ML Team Lead
                 </div>
               </div>
               <div
@@ -544,7 +502,7 @@ exports[`Directors renders correctly 1`] = `
                 >
                   <a
                     class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/mohana-krishanan"
+                    href="https://in.linkedin.com/in/mohanakrishnan-rajamani"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -639,10 +597,10 @@ exports[`Directors renders correctly 1`] = `
           mockTranslate(DIRECTORS_DESCRIPTION)
         </p>
         <div
-          class="directors grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 my-20 px-[40px] justify-items-center"
+          class="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center"
         >
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -654,28 +612,30 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/raobhethanabotla"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Rao K Bhethanabotla"
                 >
                   Rao K Bhethanabotla
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Founder, President, CEO, CTO
               </h3>
             </div>
           </div>
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -687,28 +647,30 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/srividhyagopalan/"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Srividhya Gopalan"
                 >
                   Srividhya Gopalan
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Director & Chief Financial Officer
               </h3>
             </div>
           </div>
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -720,28 +682,30 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/nsharma2/"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Naveen Sharma"
                 >
                   Naveen Sharma
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Director and Secretary
               </h3>
             </div>
           </div>
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -753,28 +717,30 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/prabhakara-yellai/"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Prabhakara Yellai"
                 >
                   Prabhakara Yellai
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Director
               </h3>
             </div>
           </div>
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -786,28 +752,30 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[13px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/sharadha/"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Sharadha Venketasubramanian"
                 >
                   Sharadha Venketasubramanian
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Director
               </h3>
             </div>
           </div>
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -819,28 +787,30 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Ramesh Maturu"
                 >
                   Ramesh Maturu
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Director
               </h3>
             </div>
           </div>
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -852,28 +822,30 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/madhukar/"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Madhukar Govindaraju"
                 >
                   Madhukar Govindaraju
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Director
               </h3>
             </div>
           </div>
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -885,28 +857,30 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/mucharla"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Sateesh Mucharla"
                 >
                   Sateesh Mucharla
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Director
               </h3>
             </div>
           </div>
           <div
-            class="flex flex-col items-center w-full max-w-[280px]"
+            class="w-[190px] text-center flex flex-col justify-start"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
@@ -918,21 +892,23 @@ exports[`Directors renders correctly 1`] = `
               />
             </div>
             <div
-              class="w-full px-1 pt-4 text-left"
+              class="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]"
             >
               <h2
-                class="text-lg font-semibold"
+                class="text-[16px] font-semibold text-black text-left w-full break-words leading-snug"
               >
                 <a
-                  class="text-black"
+                  class="block"
                   href="https://www.linkedin.com/in/mantrapaloalto/"
+                  rel="noopener noreferrer"
                   target="_blank"
+                  title="Ashwani Dhawan"
                 >
                   Ashwani Dhawan
                 </a>
               </h2>
               <h3
-                class="text-sm"
+                class="text-[12.5px] text-gray-700"
               >
                 Director
               </h3>
@@ -1033,36 +1009,6 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Kavyasree Bommakanti"
-                  class="w-full h-full object-cover"
-                  src=""
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                <a
-                  class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/kavyasree-b-b4941b299/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Kavyasree Bommakanti
-                </a>
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                Program Manager | Business Analyst
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
                   alt="Sriram Mahankali"
                   class="w-full h-full object-cover"
                   src=""
@@ -1073,7 +1019,7 @@ exports[`Directors renders correctly 1`] = `
               >
                 <a
                   class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/sriram-mahankali"
+                  href="https://www.linkedin.com/in/sriram-mahankali-393047342"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -1084,36 +1030,6 @@ exports[`Directors renders correctly 1`] = `
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
                 Design and Creative Lead
-              </div>
-            </div>
-            <div
-              class="w-[180px] text-center"
-            >
-              <div
-                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
-              >
-                <img
-                  alt="Shubham Narkhede"
-                  class="w-full h-full object-cover"
-                  src=""
-                />
-              </div>
-              <div
-                class="font-semibold text-base mt-3 text-left pl-1"
-              >
-                <a
-                  class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/shubhamnarkhede"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Shubham Narkhede
-                </a>
-              </div>
-              <div
-                class="text-sm text-gray-500 mt-1 text-left pl-1"
-              >
-                AI/ML Team Lead
               </div>
             </div>
             <div
@@ -1163,7 +1079,7 @@ exports[`Directors renders correctly 1`] = `
               >
                 <a
                   class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/mohana-krishanan"
+                  href="https://in.linkedin.com/in/mohanakrishnan-rajamani"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

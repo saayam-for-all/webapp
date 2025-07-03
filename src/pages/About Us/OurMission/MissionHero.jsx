@@ -72,7 +72,7 @@ export function MissionHero() {
     <section className="flex justify-center items-center py-10 bg-white">
       <div className="w-[945px]  text-center ">
         <h2 className="text-2xl font-bold mb-2">Our Values</h2>
-        <p className="text-gray-600 text-base leading-relaxed mb-6 max-w-xl mx-auto">
+        <p className="text-gray-600 text-base leading-relaxed mb-6 mx-auto whitespace-nowrap">
           At Saayam For All, our shared values keep us connected and guide us as
           one team.
         </p>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import BenevityLogo from "../../assets/donate_buttons/Benevity_logo.svg";
 import CharityNavLogo from "../../assets/donate_buttons/CharityNav_Logo_Stack.png";
 import PayPalLogo from "../../assets/donate_buttons/PayPal.svg";
@@ -9,6 +10,7 @@ import "./Donate.css";
 
 const Donate = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState(null);
   const [showStripeDonation, setShowStripeDonation] = useState(false);
   const [donationType, setDonationType] = useState("one-time");
@@ -177,7 +179,15 @@ const Donate = () => {
               <button
                 key={opt.key}
                 className={`donation-option-btn${selectedOption === opt.key ? " selected" : ""}`}
-                onClick={() => setSelectedOption(opt.key)}
+                onClick={() => {
+                  if (opt.key === "stripe") {
+                    handleStripeClick();
+                  } else if (opt.key === "benevity") {
+                    navigate("/benevity");
+                  } else if (opt.href) {
+                    window.open(opt.href, "_blank", "noopener,noreferrer");
+                  }
+                }}
                 type="button"
               >
                 <img
@@ -193,18 +203,6 @@ const Donate = () => {
               </button>
             ))}
           </div>
-          <button
-            className="donate-main-btn"
-            disabled={!selectedOption}
-            onClick={() => {
-              const opt = donationOptions.find((o) => o.key === selectedOption);
-              if (opt.key === "stripe") handleStripeClick();
-              else if (opt.href)
-                window.open(opt.href, "_blank", "noopener,noreferrer");
-            }}
-          >
-            Donate
-          </button>
         </div>
       </div>
       <div data-testid="faq-section" className="faq-section">
