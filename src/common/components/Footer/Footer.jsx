@@ -41,7 +41,7 @@ export default function Footer() {
           <div className="footer-links">
             <a href="/sitemap">{t("SITE_MAP")}</a>
             <a href="#">{t("TERMS_AND_CONDITIONS")}</a>
-            <a href="#">{t("PRIVACY_POLICY")}</a>
+            <a href="/privacy-policy">{t("PRIVACY_POLICY")}</a>
           </div>
         </div>
         {/* /.footer-bottom-grid */}
