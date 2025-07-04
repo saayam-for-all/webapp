@@ -196,7 +196,7 @@ exports[`Footer renders correctly 1`] = `
               mockTranslate(TERMS_AND_CONDITIONS)
             </a>
             <a
-              href="#"
+              href="/privacy-policy"
             >
               mockTranslate(PRIVACY_POLICY)
             </a>
