@@ -1,0 +1,47 @@
+.privacy-policy-container {
+  background-color: #ffffff;
+  padding: 3rem 1rem;
+}
+
+.privacy-policy-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  line-height: 1.8;
+}
+
+.privacy-policy-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #000;
+}
+
+.privacy-policy-inner h2 {
+  font-size: 1.4rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+  font-weight: 600;
+}
+
+.privacy-policy-inner p,
+.privacy-policy-inner ul {
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.privacy-policy-inner ul {
+  padding-left: 1.5rem;
+}
+
+.privacy-policy-inner li {
+  margin-bottom: 0.5rem;
+}
+
+.privacy-policy-container a {
+  color: #007afd;
+  text-decoration: underline;
+}
