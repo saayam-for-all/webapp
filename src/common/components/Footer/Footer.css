@@ -1,0 +1,155 @@
+/* ---------------------------------------------------
+   1) Base & inner wrapper
+--------------------------------------------------- */
+.footer {
+  background-color: #333;
+  padding: 24px 20px;
+  font-family: sans-serif;
+  color: #fff;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------------------------------------------------
+     2) Top row + single divider wrapper
+  --------------------------------------------------- */
+.footer-top-wrapper {
+  display: inline-block; /* shrink‑wrap around its contents */
+  position: relative; /* for absolute <hr> positioning */
+  margin: 0 auto; /* center it in the footer */
+  padding-bottom: 20px; /* space between divider & bottom grid */
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-logo img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-self: center;
+}
+
+.footer-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+.footer-contact button {
+  background-color: #2a72ff;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.footer-contact button:hover {
+  background-color: #1e5dcc;
+}
+
+/* Divider positioned at the bottom of the wrapper */
+.footer-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ---------------------------------------------------
+     3) Bottom grid: 4 equal columns
+  --------------------------------------------------- */
+.footer-bottom-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.footer-copy {
+  text-align: center;
+  font-size: 13px;
+  color: #ccc;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------
+     4) Mobile responsive
+  --------------------------------------------------- */
+@media (max-width: 768px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-contact {
+    justify-self: center;
+  }
+
+  .footer-bottom-grid {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
