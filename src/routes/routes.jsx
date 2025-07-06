@@ -26,6 +26,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import BenevityInfo from "../pages/Benevity/BenevityInfo";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+
 const routes = [
   {
     path: "",
@@ -66,6 +68,10 @@ const routes = [
   {
     path: "terms-and-conditions",
     element: <TermsAndConditions />,
+  },
+  {
+    path: "privacy-policy",
+    element: <PrivacyPolicy />,
   },
   {
     path: "news-our-stories",

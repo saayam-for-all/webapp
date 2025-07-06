@@ -67,6 +67,7 @@
   "ADDRESS": "सड़क का पता{{optional}}",
   "YOUR_PROFILE": "आपकी प्रोफ़ाइल",
   "PERSONAL_INFORMATION": "व्यक्तिगत जानकारी",
+  "IDENTITY_DOCUMENT": "पहचान दस्तावेज़",
   "UPLOAD_PHOTO": "फोटो अपलोड करें",
   "ORGANIZATION_DETAILS": "संगठन विवरण",
   "ORGANIZATION_NAME": "संगठन का नाम",
@@ -184,5 +185,5 @@
   "Offer necessary support to beneficiaries": "लाभार्थियों को आवश्यक सहायता प्रदान करते हैं",
   "Donors": "दाता",
   "Provide financial assistance to voluntary organization": "स्वयंसेवी संगठनों को वित्तीय सहायता प्रदान करते हैं",
-  "": ""
+  "COPYRIGHT": "कॉपीराइट © 2025 सायम फॉर ऑल। सर्वाधिकार सुरक्षित।"
 }

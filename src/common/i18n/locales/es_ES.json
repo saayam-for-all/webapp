@@ -67,6 +67,7 @@
   "ADDRESS": "Dirección de la calle{{optional}}",
   "YOUR_PROFILE": "Tu perfil",
   "PERSONAL_INFORMATION": "Información personal",
+  "IDENTITY_DOCUMENT": "Documento de identidad",
   "UPLOAD_PHOTO": "Subir foto",
   "ORGANIZATION_DETAILS": "Detalles de la organización",
   "ORGANIZATION_NAME": "Nombre de la organización",
@@ -151,5 +152,6 @@
   "ACKNOWLEDGMENT_CONTENT": "Al aceptar este documento, el Voluntario reconoce que ha leído, comprendido y aceptado estos términos. El Voluntario se compromete a cumplir con todas las directrices, políticas y expectativas aquí expuestas, y entiende que su condición de voluntario está sujeta al cumplimiento de este Acuerdo.",
   "EMAIL_REQUIRED": "Por favor ingrese su correo electrónico",
   "PASSWORD_REQUIRED": "Por favor ingrese su contraseña",
-  "INVALID_CREDENTIALS": "Correo electrónico o contraseña inválidos"
+  "INVALID_CREDENTIALS": "Correo electrónico o contraseña inválidos",
+  "COPYRIGHT": "Derechos de autor © 2025 Saayam For All. Todos los derechos reservados."
 }
