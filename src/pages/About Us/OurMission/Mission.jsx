@@ -1,18 +1,24 @@
+import { useTranslation } from "react-i18next";
 export function Mission() {
+  const { t } = useTranslation();
   return (
     <section className="flex justify-center items-center py-10 bg-white">
       <div className="w-full max-w-[1100px] md:h-auto rounded-[30px] p-6 border-blue-200 flex flex-col justify-between">
         {/* Header Row: Our Mission + Paragraph in single row */}
         <div className="flex flex-col md:flex-row mb-2 justify-center items-center text-center md:text-left">
           <h2 className="text-2xl font-bold mb-2 md:mb-0 md:mr-4 whitespace-nowrap">
-            Our Mission
+            {t("Our Mission")}
           </h2>
           <p className="text-gray-600 text-base leading-relaxed">
-            Our mission is to provide timely and targeted assistance to those,
+            {t(
+              "Our mission is to provide timely and targeted assistance to those,",
+            )}
             <br />
-            facing challenges in their lives, fostering a culture of compassion,
+            {t(
+              "facing challenges in their lives, fostering a culture of compassion,",
+            )}
             <br />
-            solidarity, and service to humanity.
+            {t("solidarity, and service to humanity.")}
           </p>
         </div>
         {/* Image Row */}

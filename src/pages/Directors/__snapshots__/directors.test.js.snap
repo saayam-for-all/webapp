@@ -45,15 +45,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/raobhethanabotla"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Rao K Bhethanabotla"
+                    title="mockTranslate(Rao K Bhethanabotla)"
                   >
-                    Rao K Bhethanabotla
+                    mockTranslate(Rao K Bhethanabotla)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Founder, President, CEO, CTO
+                  mockTranslate(Founder, President, CEO, CTO)
                 </h3>
               </div>
             </div>
@@ -80,15 +80,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/srividhyagopalan/"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Srividhya Gopalan"
+                    title="mockTranslate(Srividhya Gopalan)"
                   >
-                    Srividhya Gopalan
+                    mockTranslate(Srividhya Gopalan)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Director & Chief Financial Officer
+                  mockTranslate(Director & Chief Financial Officer)
                 </h3>
               </div>
             </div>
@@ -115,15 +115,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/nsharma2/"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Naveen Sharma"
+                    title="mockTranslate(Naveen Sharma)"
                   >
-                    Naveen Sharma
+                    mockTranslate(Naveen Sharma)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Director and Secretary
+                  mockTranslate(Director and Secretary)
                 </h3>
               </div>
             </div>
@@ -150,15 +150,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/prabhakara-yellai/"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Prabhakara Yellai"
+                    title="mockTranslate(Prabhakara Yellai)"
                   >
-                    Prabhakara Yellai
+                    mockTranslate(Prabhakara Yellai)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Director
+                  mockTranslate(Director)
                 </h3>
               </div>
             </div>
@@ -185,15 +185,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/sharadha/"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Sharadha Venketasubramanian"
+                    title="mockTranslate(Sharadha Venketasubramanian)"
                   >
-                    Sharadha Venketasubramanian
+                    mockTranslate(Sharadha Venketasubramanian)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Director
+                  mockTranslate(Director)
                 </h3>
               </div>
             </div>
@@ -220,15 +220,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/rameshmaturu/"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Ramesh Maturu"
+                    title="mockTranslate(Ramesh Maturu)"
                   >
-                    Ramesh Maturu
+                    mockTranslate(Ramesh Maturu)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Director
+                  mockTranslate(Director)
                 </h3>
               </div>
             </div>
@@ -255,15 +255,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/madhukar/"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Madhukar Govindaraju"
+                    title="mockTranslate(Madhukar Govindaraju)"
                   >
-                    Madhukar Govindaraju
+                    mockTranslate(Madhukar Govindaraju)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Director
+                  mockTranslate(Director)
                 </h3>
               </div>
             </div>
@@ -290,15 +290,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/mucharla"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Sateesh Mucharla"
+                    title="mockTranslate(Sateesh Mucharla)"
                   >
-                    Sateesh Mucharla
+                    mockTranslate(Sateesh Mucharla)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Director
+                  mockTranslate(Director)
                 </h3>
               </div>
             </div>
@@ -325,15 +325,15 @@ exports[`Directors renders correctly 1`] = `
                     href="https://www.linkedin.com/in/mantrapaloalto/"
                     rel="noopener noreferrer"
                     target="_blank"
-                    title="Ashwani Dhawan"
+                    title="mockTranslate(Ashwani Dhawan)"
                   >
-                    Ashwani Dhawan
+                    mockTranslate(Ashwani Dhawan)
                   </a>
                 </h2>
                 <h3
                   class="text-[12.5px] text-gray-700"
                 >
-                  Director
+                  mockTranslate(Director)
                 </h3>
               </div>
             </div>
@@ -386,13 +386,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Rashmi Bilaskar
+                    mockTranslate(Rashmi Bilaskar)
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Director of Engineering
+                  mockTranslate(Director of Engineering)
                 </div>
               </div>
               <div
@@ -416,13 +416,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Rishitha Rapuri
+                    mockTranslate(Rishitha Rapuri)
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Business Analyst Team Lead
+                  mockTranslate(Business Analyst Team Lead)
                 </div>
               </div>
               <div
@@ -446,13 +446,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Sriram Mahankali
+                    mockTranslate(Sriram Mahankali)
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Design and Creative Lead
+                  mockTranslate(Design and Creative Lead)
                 </div>
               </div>
               <div
@@ -476,13 +476,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Divya Tanwar
+                    mockTranslate(Divya Tanwar)
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Lead DevSecOps Engineer
+                  mockTranslate(Lead DevSecOps Engineer)
                 </div>
               </div>
               <div
@@ -506,13 +506,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Mohana Krishanan R.
+                    mockTranslate(Mohana Krishanan R.)
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Senior Data Architect
+                  mockTranslate(Senior Data Architect)
                 </div>
               </div>
               <div
@@ -536,13 +536,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Sugandha Agrawal
+                    mockTranslate(Sugandha Agrawal)
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Developer Advocate/AI/ML Dev Manager
+                  mockTranslate(Developer Advocate/AI/ML Dev Manager)
                 </div>
               </div>
               <div
@@ -566,13 +566,13 @@ exports[`Directors renders correctly 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Meghana Karri
+                    mockTranslate(Meghana Karri)
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  Lead User Experience Designer
+                  mockTranslate(Lead User Experience Designer)
                 </div>
               </div>
             </div>
@@ -622,15 +622,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/raobhethanabotla"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Rao K Bhethanabotla"
+                  title="mockTranslate(Rao K Bhethanabotla)"
                 >
-                  Rao K Bhethanabotla
+                  mockTranslate(Rao K Bhethanabotla)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Founder, President, CEO, CTO
+                mockTranslate(Founder, President, CEO, CTO)
               </h3>
             </div>
           </div>
@@ -657,15 +657,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/srividhyagopalan/"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Srividhya Gopalan"
+                  title="mockTranslate(Srividhya Gopalan)"
                 >
-                  Srividhya Gopalan
+                  mockTranslate(Srividhya Gopalan)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Director & Chief Financial Officer
+                mockTranslate(Director & Chief Financial Officer)
               </h3>
             </div>
           </div>
@@ -692,15 +692,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/nsharma2/"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Naveen Sharma"
+                  title="mockTranslate(Naveen Sharma)"
                 >
-                  Naveen Sharma
+                  mockTranslate(Naveen Sharma)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Director and Secretary
+                mockTranslate(Director and Secretary)
               </h3>
             </div>
           </div>
@@ -727,15 +727,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/prabhakara-yellai/"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Prabhakara Yellai"
+                  title="mockTranslate(Prabhakara Yellai)"
                 >
-                  Prabhakara Yellai
+                  mockTranslate(Prabhakara Yellai)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Director
+                mockTranslate(Director)
               </h3>
             </div>
           </div>
@@ -762,15 +762,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/sharadha/"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Sharadha Venketasubramanian"
+                  title="mockTranslate(Sharadha Venketasubramanian)"
                 >
-                  Sharadha Venketasubramanian
+                  mockTranslate(Sharadha Venketasubramanian)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Director
+                mockTranslate(Director)
               </h3>
             </div>
           </div>
@@ -797,15 +797,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/rameshmaturu/"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Ramesh Maturu"
+                  title="mockTranslate(Ramesh Maturu)"
                 >
-                  Ramesh Maturu
+                  mockTranslate(Ramesh Maturu)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Director
+                mockTranslate(Director)
               </h3>
             </div>
           </div>
@@ -832,15 +832,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/madhukar/"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Madhukar Govindaraju"
+                  title="mockTranslate(Madhukar Govindaraju)"
                 >
-                  Madhukar Govindaraju
+                  mockTranslate(Madhukar Govindaraju)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Director
+                mockTranslate(Director)
               </h3>
             </div>
           </div>
@@ -867,15 +867,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/mucharla"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Sateesh Mucharla"
+                  title="mockTranslate(Sateesh Mucharla)"
                 >
-                  Sateesh Mucharla
+                  mockTranslate(Sateesh Mucharla)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Director
+                mockTranslate(Director)
               </h3>
             </div>
           </div>
@@ -902,15 +902,15 @@ exports[`Directors renders correctly 1`] = `
                   href="https://www.linkedin.com/in/mantrapaloalto/"
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Ashwani Dhawan"
+                  title="mockTranslate(Ashwani Dhawan)"
                 >
-                  Ashwani Dhawan
+                  mockTranslate(Ashwani Dhawan)
                 </a>
               </h2>
               <h3
                 class="text-[12.5px] text-gray-700"
               >
-                Director
+                mockTranslate(Director)
               </h3>
             </div>
           </div>
@@ -963,13 +963,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Rashmi Bilaskar
+                  mockTranslate(Rashmi Bilaskar)
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Director of Engineering
+                mockTranslate(Director of Engineering)
               </div>
             </div>
             <div
@@ -993,13 +993,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Rishitha Rapuri
+                  mockTranslate(Rishitha Rapuri)
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Business Analyst Team Lead
+                mockTranslate(Business Analyst Team Lead)
               </div>
             </div>
             <div
@@ -1023,13 +1023,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Sriram Mahankali
+                  mockTranslate(Sriram Mahankali)
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Design and Creative Lead
+                mockTranslate(Design and Creative Lead)
               </div>
             </div>
             <div
@@ -1053,13 +1053,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Divya Tanwar
+                  mockTranslate(Divya Tanwar)
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Lead DevSecOps Engineer
+                mockTranslate(Lead DevSecOps Engineer)
               </div>
             </div>
             <div
@@ -1083,13 +1083,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Mohana Krishanan R.
+                  mockTranslate(Mohana Krishanan R.)
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Senior Data Architect
+                mockTranslate(Senior Data Architect)
               </div>
             </div>
             <div
@@ -1113,13 +1113,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Sugandha Agrawal
+                  mockTranslate(Sugandha Agrawal)
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Developer Advocate/AI/ML Dev Manager
+                mockTranslate(Developer Advocate/AI/ML Dev Manager)
               </div>
             </div>
             <div
@@ -1143,13 +1143,13 @@ exports[`Directors renders correctly 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Meghana Karri
+                  mockTranslate(Meghana Karri)
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                Lead User Experience Designer
+                mockTranslate(Lead User Experience Designer)
               </div>
             </div>
           </div>
