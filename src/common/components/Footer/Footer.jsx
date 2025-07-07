@@ -43,7 +43,6 @@ export default function Footer() {
 
             <a href="/terms-and-conditions">{t("TERMS_AND_CONDITIONS")}</a>
             <a href="/privacy-policy">{t("PRIVACY_POLICY")}</a>
-
           </div>
         </div>
         {/* /.footer-bottom-grid */}
