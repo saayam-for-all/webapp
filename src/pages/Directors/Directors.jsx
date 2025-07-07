@@ -144,13 +144,15 @@ const Directors = () => {
                     className="block"
                     target="_blank"
                     rel="noopener noreferrer"
-                    title={director.name}
+                    title={t(director.name)}
                   >
-                    {director.name}
+                    {t(director.name)}
                   </a>
                 </h2>
 
-                <h3 className="text-[12.5px] text-gray-700">{director.role}</h3>
+                <h3 className="text-[12.5px] text-gray-700">
+                  {t(director.role)}
+                </h3>
               </div>
             </div>
           ))}

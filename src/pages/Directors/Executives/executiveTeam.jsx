@@ -1,6 +1,6 @@
 // import { Typography, Box } from "@mui/material";
-import executiveTeamData from "../data/executiveTeam";
 import { useTranslation } from "react-i18next";
+import executiveTeamData from "../data/executiveTeam";
 
 const ExecutiveTeam = () => {
   const { t } = useTranslation();
@@ -38,11 +38,11 @@ const ExecutiveTeam = () => {
                 rel="noopener noreferrer"
                 className="text-black hover:underline"
               >
-                {member.name}
+                {t(member.name)}
               </a>
             </div>
             <div className="text-sm text-gray-500 mt-1 text-left pl-1">
-              {member.role || " "}
+              {t(member.role) || " "}
             </div>
           </div>
         ))}
