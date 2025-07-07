@@ -37,7 +37,7 @@ exports[`Footer renders correctly 1`] = `
                 <a
                   href="/our-mission"
                 >
-                  mockTranslate(Our Mission)
+                  mockTranslate(OUR_MISSION)
                 </a>
                 <a
                   href="/our-team"
@@ -47,7 +47,7 @@ exports[`Footer renders correctly 1`] = `
                 <a
                   href="/how-we-operate"
                 >
-                  mockTranslate(How We Operate)
+                  mockTranslate(HOW_WE_OPERATE)
                 </a>
                 <a
                   href="/contact"
@@ -79,7 +79,7 @@ exports[`Footer renders correctly 1`] = `
             <div
               class="footer-copy"
             >
-              mockTranslate(Copyright © 2025 Saayam For All. All rights reserved.)
+              mockTranslate(COPYRIGHT)
             </div>
             <div
               class="footer-links"
@@ -95,7 +95,7 @@ exports[`Footer renders correctly 1`] = `
                 mockTranslate(TERMS_AND_CONDITIONS)
               </a>
               <a
-                href="#"
+                href="/privacy-policy"
               >
                 mockTranslate(PRIVACY_POLICY)
               </a>
@@ -138,7 +138,7 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/our-mission"
               >
-                mockTranslate(Our Mission)
+                mockTranslate(OUR_MISSION)
               </a>
               <a
                 href="/our-team"
@@ -148,7 +148,7 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/how-we-operate"
               >
-                mockTranslate(How We Operate)
+                mockTranslate(HOW_WE_OPERATE)
               </a>
               <a
                 href="/contact"
@@ -180,7 +180,7 @@ exports[`Footer renders correctly 1`] = `
           <div
             class="footer-copy"
           >
-            mockTranslate(Copyright © 2025 Saayam For All. All rights reserved.)
+            mockTranslate(COPYRIGHT)
           </div>
           <div
             class="footer-links"
@@ -196,7 +196,7 @@ exports[`Footer renders correctly 1`] = `
               mockTranslate(TERMS_AND_CONDITIONS)
             </a>
             <a
-              href="#"
+              href="/privacy-policy"
             >
               mockTranslate(PRIVACY_POLICY)
             </a>
