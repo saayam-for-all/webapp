@@ -12,6 +12,7 @@
   "NEWEST": "Mais recente",
   "OLDEST": "Mais antigo",
   "ABOUT": "Sobre nós",
+  "DASHBOARD": "Painel de controlo",
   "DONATE": "Doar",
   "PROFILE": "Perfil",
   "LOGIN": "Conecte-se",
@@ -152,5 +153,6 @@
   "ACKNOWLEDGMENT_CONTENT": "Ao aceitar este documento, o Voluntário reconhece que leu, compreendeu e aceitou os seus termos. O Voluntário compromete-se a cumprir todas as orientações, políticas e expectativas aqui estabelecidas, e compreende que o seu estatuto de voluntário depende do cumprimento deste Acordo.",
   "EMAIL_REQUIRED": "Por favor, introduza o seu e-mail",
   "PASSWORD_REQUIRED": "Por favor, introduza a sua palavra-passe",
-  "INVALID_CREDENTIALS": "E-mail ou palavra-passe inválidos"
+  "INVALID_CREDENTIALS": "E-mail ou palavra-passe inválidos",
+  "COPYRIGHT": "Direitos de autor © 2025 Saayam For All. Todos os direitos reservados."
 }

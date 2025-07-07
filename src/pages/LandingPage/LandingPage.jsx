@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import bannerImageOne from "../../assets/landingPageImages/bannerImageOne.jpg";
@@ -24,15 +23,8 @@ import { useTranslation } from "react-i18next";
 
 export default function Home() {
   const { t } = useTranslation();
-  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const videoId = "zupN0-zXrLQ";
-
-  useEffect(() => {
-    if (user !== null) {
-      navigate("/dashboard");
-    }
-  }, [user]);
 
   return (
     <div className="w-full overflow-hidden">

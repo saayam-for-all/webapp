@@ -12,6 +12,7 @@
   "NEWEST": "Más reciente",
   "OLDEST": "Más antiguo",
   "ABOUT": "Sobre nosotros",
+  "DASHBOARD": "Panel de control",
   "DONATE": "Donar",
   "PROFILE": "Perfil",
   "LOGIN": "Acceso",
@@ -196,5 +197,6 @@
   "PHONE COMMUNICATION PREFERENCE": "Preferencia de Comunicación por Teléfono",
   "EMAIL_REQUIRED": "Por favor ingrese su correo electrónico",
   "PASSWORD_REQUIRED": "Por favor ingrese su contraseña",
-  "INVALID_CREDENTIALS": "Correo electrónico o contraseña inválidos"
+  "INVALID_CREDENTIALS": "Correo electrónico o contraseña inválidos",
+  "COPYRIGHT": "Derechos de autor © 2025 Saayam For All. Todos los derechos reservados."
 }

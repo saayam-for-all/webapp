@@ -13,6 +13,7 @@
   "NEWEST": "最新",
   "OLDEST": "最旧",
   "ABOUT": "关于我们",
+  "DASHBOARD": "仪表盘",
   "DONATE": "捐款",
   "PROFILE": "轮廓",
   "LOGIN": "登录",
@@ -154,5 +155,6 @@
   "ACKNOWLEDGMENT_CONTENT": "通过同意本文件，志愿者确认其已阅读、理解并接受这些条款。志愿者同意遵守此处列出的所有指导方针、政策和期望，并理解其志愿者身份取决于遵守本协议。",
   "EMAIL_REQUIRED": "请输入您的电子邮件",
   "PASSWORD_REQUIRED": "请输入您的密码",
-  "INVALID_CREDENTIALS": "电子邮件或密码无效"
+  "INVALID_CREDENTIALS": "电子邮件或密码无效",
+  "COPYRIGHT": "版权所有 © 2025 Saayam For All。保留所有权利。"
 }
