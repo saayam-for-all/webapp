@@ -61,10 +61,11 @@ const HowWeOperate = () => {
             {t("HOW_WE_OPERATE")}
           </h2>
           <p className="text-center text-gray-600 mb-12">
-            At Saayam For All, getting help is as simple and seamless as
-            requesting a ride.
+            {t(
+              "At Saayam For All, getting help is as simple and seamless as requesting a ride.",
+            )}
             <br />
-            Get help in 5 easy steps.
+            {t("Get help in 5 easy steps.")}
           </p>
 
           <div className="relative h-full min-h-[800px]">
@@ -78,40 +79,50 @@ const HowWeOperate = () => {
             <div className="step-box">
               <TimelineItem
                 number={1}
-                title="Request for Help"
-                description="Submit a request for the support you need—just like booking a ride through an app."
+                title={t("Request for Help")}
+                description={t(
+                  "Submit a request for the support you need—just like booking a ride through an app.",
+                )}
                 image={img4}
                 align="left"
               />
 
               <TimelineItem
                 number={2}
-                title=" Get Matching With a Volunteer"
-                description="We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care ."
+                title={t("Get Matching With a Volunteer")}
+                description={t(
+                  "We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .",
+                )}
                 image={img5}
                 align="right"
               />
 
               <TimelineItem
                 number={3}
-                title="Confirm Your Volunteer"
-                description="From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car."
+                title={t("Confirm Your Volunteer")}
+                description={t(
+                  "From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.",
+                )}
                 image={img6}
                 align="left"
               />
 
               <TimelineItem
                 number={4}
-                title="Connect and Coordinate"
-                description="Your volunteer reaches out to finalize details and schedule the support you need."
+                title={t("Connect and Coordinate")}
+                description={t(
+                  "Your volunteer reaches out to finalize details and schedule the support you need.",
+                )}
                 image={img7}
                 align="right"
               />
 
               <TimelineItem
                 number={5}
-                title="Receive Assistance"
-                description="The volunteer provides the help you requested,working with other if needed-making sure you reach your destination."
+                title={t("Receive Assistance")}
+                description={t(
+                  "The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.",
+                )}
                 image={img8}
                 align="left"
               />
@@ -120,21 +131,21 @@ const HowWeOperate = () => {
           {/* End marker text – line will stop here */}
           <div className="text-center mt-32">
             <span className="text-blue-500 text-2xl font-bold">
-              Connecting help to those who need it.
+              {t("Connecting help to those who need it.")}
             </span>
           </div>
           <div className="text-center mt-32">
             <h3 className="text-2xl font-bold mb-4">
-              Looking to volunteer with us?
+              {t("Looking to volunteer with us?")}
             </h3>
             <p className="text-gray-600 mb-6">
-              Chat with our community and get in touch with us!
+              {t("Chat with our community and get in touch with us!")}
             </p>
             <button
               className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
               onClick={() => navigate("/Contact")}
             >
-              Join the community
+              {t("Join the community")}
             </button>
           </div>
         </div>
