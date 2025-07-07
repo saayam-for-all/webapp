@@ -415,7 +415,7 @@ const SignUp = () => {
             onChange={(e) => setAcceptedTOS(e.target.checked)}
           />
           <label className="my-2 text-gray-700">
-            I acknowledge that I have read, understand, and agree to the{" "}
+            By checking this box, you are agreeing to the{" "}
             <a
               href="/terms-and-conditions"
               target="_blank"
