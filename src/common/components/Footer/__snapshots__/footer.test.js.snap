@@ -87,7 +87,7 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/sitemap"
               >
-                mockTranslate(SITE_MAP) 
+                mockTranslate(SITE_MAP)
               </a>
               <a
                 href="/terms-and-conditions"
