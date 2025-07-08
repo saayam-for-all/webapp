@@ -1,7 +1,6 @@
-import React from "react";
-import "./Footer.css";
-import logo from "../../../assets/logo.svg";
 import { useTranslation } from "react-i18next";
+import logo from "../../../assets/logo.svg";
+import "./Footer.css";
 
 export default function Footer() {
   const { t } = useTranslation();

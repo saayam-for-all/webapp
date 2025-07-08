@@ -22,9 +22,9 @@ exports[`HowWeOperate renders correctly 1`] = `
             <p
               class="text-center text-gray-600 mb-12"
             >
-              At Saayam For All, getting help is as simple and seamless as requesting a ride.
+              mockTranslate(At Saayam For All, getting help is as simple and seamless as requesting a ride.)
               <br />
-              Get help in 5 easy steps.
+              mockTranslate(Get help in 5 easy steps.)
             </p>
             <div
               class="relative h-full min-h-[800px]"
@@ -43,7 +43,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pl-[1.5rem] p-2"
                   >
                     <img
-                      alt="Request for Help"
+                      alt="mockTranslate(Request for Help)"
                       class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                       src="s5"
                     />
@@ -66,12 +66,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                       <h3
                         class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                       >
-                        Request for Help
+                        mockTranslate(Request for Help)
                       </h3>
                       <p
                         class="text-sm md:text-base text-gray-600 text-left"
                       >
-                        Submit a request for the support you need—just like booking a ride through an app.
+                        mockTranslate(Submit a request for the support you need—just like booking a ride through an app.)
                       </p>
                     </div>
                   </div>
@@ -84,7 +84,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pr-[1.5rem] p-2"
                   >
                     <img
-                      alt=" Get Matching With a Volunteer"
+                      alt="mockTranslate(Get Matching With a Volunteer)"
                       class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                       src="s5"
                     />
@@ -107,12 +107,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                       <h3
                         class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                       >
-                         Get Matching With a Volunteer
+                        mockTranslate(Get Matching With a Volunteer)
                       </h3>
                       <p
                         class="text-sm md:text-base text-gray-600 text-left"
                       >
-                        We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .
+                        mockTranslate(We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .)
                       </p>
                     </div>
                   </div>
@@ -125,7 +125,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pl-[1.5rem] p-2"
                   >
                     <img
-                      alt="Confirm Your Volunteer"
+                      alt="mockTranslate(Confirm Your Volunteer)"
                       class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                       src="s5"
                     />
@@ -148,12 +148,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                       <h3
                         class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                       >
-                        Confirm Your Volunteer
+                        mockTranslate(Confirm Your Volunteer)
                       </h3>
                       <p
                         class="text-sm md:text-base text-gray-600 text-left"
                       >
-                        From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.
+                        mockTranslate(From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.)
                       </p>
                     </div>
                   </div>
@@ -166,7 +166,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pr-[1.5rem] p-2"
                   >
                     <img
-                      alt="Connect and Coordinate"
+                      alt="mockTranslate(Connect and Coordinate)"
                       class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                       src="s5"
                     />
@@ -189,12 +189,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                       <h3
                         class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                       >
-                        Connect and Coordinate
+                        mockTranslate(Connect and Coordinate)
                       </h3>
                       <p
                         class="text-sm md:text-base text-gray-600 text-left"
                       >
-                        Your volunteer reaches out to finalize details and schedule the support you need.
+                        mockTranslate(Your volunteer reaches out to finalize details and schedule the support you need.)
                       </p>
                     </div>
                   </div>
@@ -207,7 +207,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pl-[1.5rem] p-2"
                   >
                     <img
-                      alt="Receive Assistance"
+                      alt="mockTranslate(Receive Assistance)"
                       class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                       src="s5"
                     />
@@ -230,12 +230,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                       <h3
                         class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                       >
-                        Receive Assistance
+                        mockTranslate(Receive Assistance)
                       </h3>
                       <p
                         class="text-sm md:text-base text-gray-600 text-left"
                       >
-                        The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.
+                        mockTranslate(The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.)
                       </p>
                     </div>
                   </div>
@@ -248,7 +248,7 @@ exports[`HowWeOperate renders correctly 1`] = `
               <span
                 class="text-blue-500 text-2xl font-bold"
               >
-                Connecting help to those who need it.
+                mockTranslate(Connecting help to those who need it.)
               </span>
             </div>
             <div
@@ -257,17 +257,17 @@ exports[`HowWeOperate renders correctly 1`] = `
               <h3
                 class="text-2xl font-bold mb-4"
               >
-                Looking to volunteer with us?
+                mockTranslate(Looking to volunteer with us?)
               </h3>
               <p
                 class="text-gray-600 mb-6"
               >
-                Chat with our community and get in touch with us!
+                mockTranslate(Chat with our community and get in touch with us!)
               </p>
               <button
                 class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
               >
-                Join the community
+                mockTranslate(Join the community)
               </button>
             </div>
           </div>
@@ -293,9 +293,9 @@ exports[`HowWeOperate renders correctly 1`] = `
           <p
             class="text-center text-gray-600 mb-12"
           >
-            At Saayam For All, getting help is as simple and seamless as requesting a ride.
+            mockTranslate(At Saayam For All, getting help is as simple and seamless as requesting a ride.)
             <br />
-            Get help in 5 easy steps.
+            mockTranslate(Get help in 5 easy steps.)
           </p>
           <div
             class="relative h-full min-h-[800px]"
@@ -314,7 +314,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pl-[1.5rem] p-2"
                 >
                   <img
-                    alt="Request for Help"
+                    alt="mockTranslate(Request for Help)"
                     class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                     src="s5"
                   />
@@ -337,12 +337,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                     <h3
                       class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                     >
-                      Request for Help
+                      mockTranslate(Request for Help)
                     </h3>
                     <p
                       class="text-sm md:text-base text-gray-600 text-left"
                     >
-                      Submit a request for the support you need—just like booking a ride through an app.
+                      mockTranslate(Submit a request for the support you need—just like booking a ride through an app.)
                     </p>
                   </div>
                 </div>
@@ -355,7 +355,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pr-[1.5rem] p-2"
                 >
                   <img
-                    alt=" Get Matching With a Volunteer"
+                    alt="mockTranslate(Get Matching With a Volunteer)"
                     class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                     src="s5"
                   />
@@ -378,12 +378,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                     <h3
                       class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                     >
-                       Get Matching With a Volunteer
+                      mockTranslate(Get Matching With a Volunteer)
                     </h3>
                     <p
                       class="text-sm md:text-base text-gray-600 text-left"
                     >
-                      We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .
+                      mockTranslate(We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .)
                     </p>
                   </div>
                 </div>
@@ -396,7 +396,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pl-[1.5rem] p-2"
                 >
                   <img
-                    alt="Confirm Your Volunteer"
+                    alt="mockTranslate(Confirm Your Volunteer)"
                     class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                     src="s5"
                   />
@@ -419,12 +419,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                     <h3
                       class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                     >
-                      Confirm Your Volunteer
+                      mockTranslate(Confirm Your Volunteer)
                     </h3>
                     <p
                       class="text-sm md:text-base text-gray-600 text-left"
                     >
-                      From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.
+                      mockTranslate(From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.)
                     </p>
                   </div>
                 </div>
@@ -437,7 +437,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pr-[1.5rem] p-2"
                 >
                   <img
-                    alt="Connect and Coordinate"
+                    alt="mockTranslate(Connect and Coordinate)"
                     class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                     src="s5"
                   />
@@ -460,12 +460,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                     <h3
                       class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                     >
-                      Connect and Coordinate
+                      mockTranslate(Connect and Coordinate)
                     </h3>
                     <p
                       class="text-sm md:text-base text-gray-600 text-left"
                     >
-                      Your volunteer reaches out to finalize details and schedule the support you need.
+                      mockTranslate(Your volunteer reaches out to finalize details and schedule the support you need.)
                     </p>
                   </div>
                 </div>
@@ -478,7 +478,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pl-[1.5rem] p-2"
                 >
                   <img
-                    alt="Receive Assistance"
+                    alt="mockTranslate(Receive Assistance)"
                     class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                     src="s5"
                   />
@@ -501,12 +501,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                     <h3
                       class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                     >
-                      Receive Assistance
+                      mockTranslate(Receive Assistance)
                     </h3>
                     <p
                       class="text-sm md:text-base text-gray-600 text-left"
                     >
-                      The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.
+                      mockTranslate(The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.)
                     </p>
                   </div>
                 </div>
@@ -519,7 +519,7 @@ exports[`HowWeOperate renders correctly 1`] = `
             <span
               class="text-blue-500 text-2xl font-bold"
             >
-              Connecting help to those who need it.
+              mockTranslate(Connecting help to those who need it.)
             </span>
           </div>
           <div
@@ -528,17 +528,17 @@ exports[`HowWeOperate renders correctly 1`] = `
             <h3
               class="text-2xl font-bold mb-4"
             >
-              Looking to volunteer with us?
+              mockTranslate(Looking to volunteer with us?)
             </h3>
             <p
               class="text-gray-600 mb-6"
             >
-              Chat with our community and get in touch with us!
+              mockTranslate(Chat with our community and get in touch with us!)
             </p>
             <button
               class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
             >
-              Join the community
+              mockTranslate(Join the community)
             </button>
           </div>
         </div>

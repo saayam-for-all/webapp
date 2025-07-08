@@ -264,7 +264,7 @@ exports[`LandingPage renders correctly 1`] = `
                 <h6
                   class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
                 >
-                  mockTranslate(Recieve help for their requests)
+                  mockTranslate(Receive help for their requests)
                 </h6>
               </div>
             </div>
@@ -590,7 +590,7 @@ exports[`LandingPage renders correctly 1`] = `
               <h6
                 class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
               >
-                mockTranslate(Recieve help for their requests)
+                mockTranslate(Receive help for their requests)
               </h6>
             </div>
           </div>

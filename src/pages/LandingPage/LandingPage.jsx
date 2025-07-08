@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
+import { useTranslation } from "react-i18next";
 import bannerImageOne from "../../assets/landingPageImages/bannerImageOne.jpg";
 import bannerImageThree from "../../assets/landingPageImages/bannerImageThree.jpg";
 import bannerImageTwo from "../../assets/landingPageImages/bannerImageTwo.jpg";
@@ -19,7 +20,6 @@ import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.jpg";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
-import { useTranslation } from "react-i18next";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -212,7 +212,7 @@ export default function Home() {
                 <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
                   {
                     [
-                      t("Recieve help for their requests"),
+                      t("Receive help for their requests"),
                       t("Provide guidance and solutions to beneficiaries"),
                       t("Offer necessary support to beneficiaries"),
                       t(
