@@ -1,7 +1,6 @@
+import React from "react";
 import { useTranslation } from "react-i18next";
-import VolunteerMatchLogo from "../../assets/Collab_logos/volunteer-match.png"; // You'll need to add these images
-import IdealistLogo from "../../assets/Collab_logos/idealist.jpeg";
-import RedCrossLogo from "../../assets/Collab_logos/red-cross.jpeg";
+import VolunteerMatchLogo from "../../assets/Collab_logos/volunteer-match.png";
 import { Link } from "react-router-dom";
 
 function Collaborators() {
@@ -20,9 +19,9 @@ function Collaborators() {
           )}
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {/* Volunteer Match */}
-          <div className="flex flex-col items-center">
+        {/* Centered Volunteer Match section */}
+        <div className="flex justify-center mb-16">
+          <div className="flex flex-col items-center max-w-md">
             <img
               src={VolunteerMatchLogo}
               alt="Volunteer Match"
@@ -34,40 +33,6 @@ function Collaborators() {
             <p className="text-center text-gray-600 text-sm">
               {t(
                 "U.S based nonprofit organization which provides a national digital infrastructure to serve volunteers and nonprofits organization.",
-              )}
-            </p>
-          </div>
-
-          {/* Idealist */}
-          <div className="flex flex-col items-center">
-            <img
-              src={IdealistLogo}
-              alt="Idealist (Action without Borders)"
-              className="w-40 h-40 object-contain mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">
-              {t("Idealist (Action without Borders)")}
-            </h3>
-            <p className="text-center text-gray-600 text-sm">
-              {t(
-                "Action Without Borders also known as Idealist is a non-profit service organization based in New York City.",
-              )}
-            </p>
-          </div>
-
-          {/* American RedCross */}
-          <div className="flex flex-col items-center">
-            <img
-              src={RedCrossLogo}
-              alt="American RedCross"
-              className="w-40 h-40 object-contain mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">
-              {t("American RedCross")}
-            </h3>
-            <p className="text-center text-gray-600 text-sm">
-              {t(
-                "Red Cross volunteers and staff work to deliver vital services – from providing relief and support to those in crisis.",
               )}
             </p>
           </div>
