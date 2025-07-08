@@ -24,12 +24,12 @@ exports[`Donate renders correctly 1`] = `
             <h1
               class="donate-title"
             >
-              Make a donation
+              mockTranslate(Make a donation)
             </h1>
             <p
               class="donate-subtitle"
             >
-              Your donation helps us create lasting change in communities across the globe.
+              mockTranslate(Your donation helps us create lasting change in communities across the globe.)
             </p>
             <div
               class="donation-options-grid"
@@ -84,7 +84,7 @@ exports[`Donate renders correctly 1`] = `
           <h2
             class="faq-title"
           >
-            FAQ's
+            mockTranslate(FAQ's)
           </h2>
           <div
             class="faq-list"
@@ -95,7 +95,7 @@ exports[`Donate renders correctly 1`] = `
               <button
                 class="faq-question"
               >
-                Are donations tax deductible?
+                mockTranslate(Are donations tax deductible?)
                 <svg
                   class="faq-icon "
                   fill="none"
@@ -117,7 +117,7 @@ exports[`Donate renders correctly 1`] = `
               <button
                 class="faq-question"
               >
-                How will my donation be used?
+                mockTranslate(How will my donation be used?)
                 <svg
                   class="faq-icon "
                   fill="none"
@@ -139,7 +139,7 @@ exports[`Donate renders correctly 1`] = `
               <button
                 class="faq-question"
               >
-                Can I cancel recurring donations?
+                mockTranslate(Can I cancel recurring donations?)
                 <svg
                   class="faq-icon "
                   fill="none"
@@ -180,12 +180,12 @@ exports[`Donate renders correctly 1`] = `
           <h1
             class="donate-title"
           >
-            Make a donation
+            mockTranslate(Make a donation)
           </h1>
           <p
             class="donate-subtitle"
           >
-            Your donation helps us create lasting change in communities across the globe.
+            mockTranslate(Your donation helps us create lasting change in communities across the globe.)
           </p>
           <div
             class="donation-options-grid"
@@ -240,7 +240,7 @@ exports[`Donate renders correctly 1`] = `
         <h2
           class="faq-title"
         >
-          FAQ's
+          mockTranslate(FAQ's)
         </h2>
         <div
           class="faq-list"
@@ -251,7 +251,7 @@ exports[`Donate renders correctly 1`] = `
             <button
               class="faq-question"
             >
-              Are donations tax deductible?
+              mockTranslate(Are donations tax deductible?)
               <svg
                 class="faq-icon "
                 fill="none"
@@ -273,7 +273,7 @@ exports[`Donate renders correctly 1`] = `
             <button
               class="faq-question"
             >
-              How will my donation be used?
+              mockTranslate(How will my donation be used?)
               <svg
                 class="faq-icon "
                 fill="none"
@@ -295,7 +295,7 @@ exports[`Donate renders correctly 1`] = `
             <button
               class="faq-question"
             >
-              Can I cancel recurring donations?
+              mockTranslate(Can I cancel recurring donations?)
               <svg
                 class="faq-icon "
                 fill="none"
