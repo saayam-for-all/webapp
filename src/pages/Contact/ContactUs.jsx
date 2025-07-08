@@ -3,6 +3,9 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Box, Button, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import PHONECODESEN from "../../utils/phone-codes-en";
 
 const ContactUs = () => {
   const { t } = useTranslation();
@@ -10,7 +13,6 @@ const ContactUs = () => {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
     message: "",
   });
 
@@ -19,6 +21,9 @@ const ContactUs = () => {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [openFAQIndex, setOpenFAQIndex] = useState(null);
+  const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("US");
+  const [phoneError, setPhoneError] = useState("");
 
   const faqs = [
     {
@@ -57,7 +62,7 @@ const ContactUs = () => {
     const newErrors = {};
     const nameRegex = /^[A-Za-z\s]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\d{10}$/;
+    const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First Name is required";
     } else if (!nameRegex.test(formData.firstName.trim())) {
@@ -73,22 +78,19 @@ const ContactUs = () => {
     } else if (!emailRegex.test(formData.email.trim())) {
       newErrors.email = "Email is invalid";
     }
-    if (!formData.phone.trim()) {
+    if (!phone) {
       newErrors.phone = "Phone is required";
-    } else if (!phoneRegex.test(formData.phone.trim())) {
-      newErrors.phone = "Phone number must be 10 digits";
-    } else if (formData.phone.trim().length !== 10) {
-      newErrors.phone = "Phone number must be exactly 10 digits";
+    } else if (!isValidPhoneNumber(fullPhoneNumber)) {
+      newErrors.phone = "Please enter a valid phone number";
     }
     if (!formData.message) {
       newErrors.message = "Message is required";
     }
     setErrors(newErrors);
-
+    setPhoneError(newErrors.phone || "");
     if (Object.keys(newErrors).length === 0) {
       setSubmitted(true);
       formRef.current?.submit();
-      // Add submission logic here
     }
   };
 
@@ -222,28 +224,22 @@ const ContactUs = () => {
             </div>
 
             {/* Phone */}
-            <div className="mb-4">
-              <label
-                htmlFor="phone"
-                className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
-              >
-                <span className="text-red-500 mr-1">*</span>
-                {t("Phone")}
-              </label>
-              <TextField
-                id="phone"
-                name="phone"
-                placeholder={t("Enter your phone number")}
-                variant="outlined"
-                fullWidth
-                margin="dense"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                error={!!errors.phone}
-                helperText={errors.phone}
-              />
-            </div>
+            <PhoneNumberInputWithCountry
+              phone={phone}
+              setPhone={setPhone}
+              countryCode={countryCode}
+              setCountryCode={setCountryCode}
+              error={phoneError}
+              setError={setPhoneError}
+              label={t("Phone")}
+              required={true}
+              t={t}
+            />
+            <input
+              type="hidden"
+              name="phone"
+              value={`${PHONECODESEN[countryCode]["secondary"]}${phone}`}
+            />
 
             {/* Message */}
             <div className="mb-4">
