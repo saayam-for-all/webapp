@@ -7,6 +7,7 @@ import CountryList from "react-select-country-list";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import { State, Country } from "country-state-city";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 
 const genderOptions = [
   { value: "Female", label: "Female" },
@@ -504,49 +505,26 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             Secondary Phone
           </label>
           {isEditing ? (
-            <div className="flex">
-              <>
-                <Select
-                  value={phoneCodeOptions.find(
-                    (option) =>
-                      option.code === personalInfo.secondaryPhoneCountryCode,
-                  )}
-                  getOptionLabel={(e) => `${e.country} (${e.dialCode})`}
-                  getOptionValue={(e) => e.code}
-                  options={phoneCodeOptions}
-                  onChange={(selectedOption) =>
-                    handleInputChange(
-                      "secondaryPhoneCountryCode",
-                      selectedOption?.code || "",
-                    )
-                  }
-                  className="w-full max-w-[100px] mr-2"
-                />
-                {errors.secondaryPhoneCountryCode && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.secondaryPhoneCountryCode}
-                  </p>
-                )}
-              </>
-              <input
-                type="text"
-                name="secondaryPhone"
-                value={personalInfo.secondaryPhone}
-                onChange={(e) => {
-                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
-                  handleInputChange("secondaryPhone", numericValue);
-                }}
-                className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              />
-            </div>
+            <PhoneNumberInputWithCountry
+              phone={personalInfo.secondaryPhone}
+              setPhone={(value) => handleInputChange("secondaryPhone", value)}
+              countryCode={personalInfo.secondaryPhoneCountryCode}
+              setCountryCode={(value) =>
+                handleInputChange("secondaryPhoneCountryCode", value)
+              }
+              error={errors.secondaryPhone}
+              setError={(err) =>
+                setErrors((prev) => ({ ...prev, secondaryPhone: err }))
+              }
+              label={t("Secondary Phone")}
+              required={false}
+              t={t}
+            />
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.secondaryPhoneCountryCode}{" "}
               {personalInfo.secondaryPhone || ""}
             </p>
-          )}
-          {errors.secondaryPhone && (
-            <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone}</p>
           )}
         </div>
       </div>
