@@ -4,6 +4,8 @@ import { updateUserAttributes } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import { updateUserProfileSuccess } from "../../redux/features/authentication/authSlice";
+import { changeUiLanguage } from "../../common/i18n/utils";
+import languagesData from "../../common/i18n/languagesData";
 
 // Dashboard options based on user roles
 const dashboardOptions = [
@@ -13,45 +15,6 @@ const dashboardOptions = [
   { value: "volunteer", label: "Volunteer Dashboard" },
   { value: "beneficiary", label: "Beneficiary Dashboard" },
 ];
-
-// Supported languages for release
-const languageOptions = [
-  { value: "bn", label: "Bengali" },
-  { value: "de", label: "German" },
-  { value: "en", label: "English" },
-  { value: "es", label: "Spanish" },
-  { value: "fr", label: "French" },
-  { value: "hi", label: "Hindi" },
-  { value: "pt", label: "Portuguese" },
-  { value: "ru", label: "Russian" },
-  { value: "te", label: "Telugu" },
-  { value: "zh", label: "Mandarin Chinese" },
-];
-
-// Helper function to map language names to codes
-const mapLanguageNameToCode = (languageName) => {
-  const mapping = {
-    English: "en",
-    Telugu: "te",
-    Hindi: "hi",
-    Bengali: "bn",
-    German: "de",
-    Spanish: "es",
-    French: "fr",
-    Portuguese: "pt",
-    Russian: "ru",
-    "Mandarin Chinese": "zh",
-    Chinese: "zh", // Handle both "Chinese" and "Mandarin Chinese"
-  };
-
-  return mapping[languageName] || languageName || "";
-};
-
-// Helper function to map language codes back to names
-const mapLanguageCodeToName = (languageCode) => {
-  const language = languageOptions.find((lang) => lang.value === languageCode);
-  return language ? language.label : "";
-};
 
 function Preferences({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
@@ -64,25 +27,67 @@ function Preferences({ setHasUnsavedChanges }) {
 
   const [preferencesInfo, setPreferencesInfo] = useState({
     defaultDashboard: "beneficiary",
-    firstLanguagePreference: "en", // Changed to language code
-    secondLanguagePreference: "",
-    thirdLanguagePreference: "",
+    languagePreference1: "", // Using the same naming as PersonalInformation
+    languagePreference2: "",
+    languagePreference3: "",
     primaryEmailPreference: "",
     secondaryEmailPreference: "",
-    selectedEmailPreference: "primary", // New: which email is selected for communication
+    selectedEmailPreference: "primary",
     primaryPhonePreference: "",
     secondaryPhonePreference: "",
-    selectedPhonePreference: "primary", // New: which phone is selected for communication
+    selectedPhonePreference: "primary",
     receiveEmergencyNotifications: false,
   });
 
+  const [languages, setLanguages] = useState([]);
+
   useEffect(() => {
+    // Build languages options directly from languagesData.js
+    const languageOptions = languagesData.map((lang) => ({
+      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
+      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
+      label: lang.name,
+    }));
+    setLanguages(languageOptions);
+
     // Get personal information from localStorage (only for email/phone, NOT language preferences)
     const savedPersonalInfo =
       JSON.parse(localStorage.getItem("personalInfo")) || {};
-    // Get saved preferences from localStorage (independent from personal info)
+
+    // Get saved preferences from localStorage
     const savedPreferences =
       JSON.parse(localStorage.getItem("userPreferences")) || {};
+
+    // Migrate language preferences from personalInfo if they exist there
+    let migratedLanguagePrefs = {};
+    if (
+      savedPersonalInfo.languagePreference1 ||
+      savedPersonalInfo.languagePreference2 ||
+      savedPersonalInfo.languagePreference3
+    ) {
+      migratedLanguagePrefs = {
+        languagePreference1: savedPersonalInfo.languagePreference1 || "",
+        languagePreference2: savedPersonalInfo.languagePreference2 || "",
+        languagePreference3: savedPersonalInfo.languagePreference3 || "",
+      };
+
+      // Save migrated preferences and remove from personalInfo
+      const updatedPreferences = {
+        ...savedPreferences,
+        ...migratedLanguagePrefs,
+      };
+      localStorage.setItem(
+        "userPreferences",
+        JSON.stringify(updatedPreferences),
+      );
+
+      // Remove language preferences from personalInfo
+      const updatedPersonalInfo = { ...savedPersonalInfo };
+      delete updatedPersonalInfo.languagePreference1;
+      delete updatedPersonalInfo.languagePreference2;
+      delete updatedPersonalInfo.languagePreference3;
+      localStorage.setItem("personalInfo", JSON.stringify(updatedPersonalInfo));
+    }
 
     if (user) {
       setPreferencesInfo({
@@ -92,19 +97,22 @@ function Preferences({ setHasUnsavedChanges }) {
           user["custom:dashboard_view"] ||
           "beneficiary",
 
-        // Language preferences are INDEPENDENT - only from saved preferences or Cognito
-        firstLanguagePreference:
-          savedPreferences.firstLanguagePreference ||
+        // Language preferences prioritize migrated data, then saved preferences, then Cognito
+        languagePreference1:
+          migratedLanguagePrefs.languagePreference1 ||
+          savedPreferences.languagePreference1 ||
           user.first_language_preference ||
           user["custom:first_language_preference"] ||
-          "en",
-        secondLanguagePreference:
-          savedPreferences.secondLanguagePreference ||
+          "",
+        languagePreference2:
+          migratedLanguagePrefs.languagePreference2 ||
+          savedPreferences.languagePreference2 ||
           user.second_language_preference ||
           user["custom:second_language_preference"] ||
           "",
-        thirdLanguagePreference:
-          savedPreferences.thirdLanguagePreference ||
+        languagePreference3:
+          migratedLanguagePrefs.languagePreference3 ||
+          savedPreferences.languagePreference3 ||
           user.third_language_preference ||
           user["custom:third_language_preference"] ||
           "",
@@ -194,6 +202,9 @@ function Preferences({ setHasUnsavedChanges }) {
       // First save to localStorage as backup
       localStorage.setItem("userPreferences", JSON.stringify(preferencesInfo));
 
+      // Call changeUiLanguage to update the UI based on the first language preference (same as PersonalInformation)
+      changeUiLanguage(preferencesInfo);
+
       // Try to update Cognito attributes
       try {
         const updatedAttributes = {};
@@ -204,20 +215,20 @@ function Preferences({ setHasUnsavedChanges }) {
             preferencesInfo.defaultDashboard;
         }
 
-        // Store language preferences as codes (independent system)
-        if (preferencesInfo.firstLanguagePreference) {
+        // Store language preferences
+        if (preferencesInfo.languagePreference1) {
           updatedAttributes["custom:pref_first_language"] =
-            preferencesInfo.firstLanguagePreference;
+            preferencesInfo.languagePreference1;
         }
 
-        if (preferencesInfo.secondLanguagePreference) {
+        if (preferencesInfo.languagePreference2) {
           updatedAttributes["custom:pref_second_language"] =
-            preferencesInfo.secondLanguagePreference;
+            preferencesInfo.languagePreference2;
         }
 
-        if (preferencesInfo.thirdLanguagePreference) {
+        if (preferencesInfo.languagePreference3) {
           updatedAttributes["custom:pref_third_language"] =
-            preferencesInfo.thirdLanguagePreference;
+            preferencesInfo.languagePreference3;
         }
 
         if (preferencesInfo.secondaryEmailPreference) {
@@ -300,43 +311,22 @@ function Preferences({ setHasUnsavedChanges }) {
       }
     }
 
-    if (savedPreferences) {
-      try {
-        const parsed = JSON.parse(savedPreferences);
-        setPreferencesInfo({
-          ...parsed,
-          // Always get the latest secondary email/phone from personal info
-          secondaryEmailPreference:
-            savedPersonalInfo.secondaryEmail ||
-            parsed.secondaryEmailPreference ||
-            "",
-          secondaryPhonePreference:
-            savedPersonalInfo.secondaryPhone ||
-            parsed.secondaryPhonePreference ||
-            "",
-        });
-        return;
-      } catch (e) {
-        console.warn("Failed to parse saved preferences");
-      }
-    }
-
     // Fallback to user data
     if (user) {
       setPreferencesInfo({
         defaultDashboard:
           user.dashboard_view || user["custom:dashboard_view"] || "beneficiary",
-        firstLanguagePreference:
+        languagePreference1:
           user["custom:pref_first_language"] ||
           user.first_language_preference ||
           user["custom:first_language_preference"] ||
-          "en",
-        secondLanguagePreference:
+          "",
+        languagePreference2:
           user["custom:pref_second_language"] ||
           user.second_language_preference ||
           user["custom:second_language_preference"] ||
           "",
-        thirdLanguagePreference:
+        languagePreference3:
           user["custom:pref_third_language"] ||
           user.third_language_preference ||
           user["custom:third_language_preference"] ||
@@ -371,8 +361,6 @@ function Preferences({ setHasUnsavedChanges }) {
 
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
-      <h3 className="font-bold text-xl mb-4">{t("PREFERENCES")}</h3>
-
       {/* Default Dashboard View */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -400,93 +388,90 @@ function Preferences({ setHasUnsavedChanges }) {
         )}
       </div>
 
-      {/* Language Preferences */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      {/* Language Preferences - Exact same implementation as PersonalInformation.jsx */}
+      <div className="grid grid-cols-3 gap-8 mb-6">
+        {/* Preference 1 - full list */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("FIRST LANGUAGE PREFERENCE")}
+            {t("FIRST_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
-              value={languageOptions.find(
+              value={languages.find(
                 (option) =>
-                  option.value === preferencesInfo.firstLanguagePreference,
+                  option.value === preferencesInfo.languagePreference1,
               )}
-              options={languageOptions}
+              options={languages}
               onChange={(selectedOption) =>
                 handleInputChange(
-                  "firstLanguagePreference",
+                  "languagePreference1",
                   selectedOption?.value || "",
                 )
               }
               className="w-full"
-              placeholder={t("SELECT LANGUAGE")}
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {languageOptions.find(
-                (opt) => opt.value === preferencesInfo.firstLanguagePreference,
-              )?.label || "English"}
+              {preferencesInfo.languagePreference1 || ""}
             </p>
           )}
         </div>
-
+        {/* Preference 2 - filter out languagePreference1 */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("SECOND LANGUAGE PREFERENCE")}
+            {t("SECOND_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
-              value={languageOptions.find(
+              value={languages.find(
                 (option) =>
-                  option.value === preferencesInfo.secondLanguagePreference,
+                  option.value === preferencesInfo.languagePreference2,
               )}
-              options={languageOptions}
+              options={languages.filter(
+                (option) =>
+                  option.value !== preferencesInfo.languagePreference1,
+              )}
               onChange={(selectedOption) =>
                 handleInputChange(
-                  "secondLanguagePreference",
+                  "languagePreference2",
                   selectedOption?.value || "",
                 )
               }
               className="w-full"
-              placeholder={t("SELECT LANGUAGE")}
-              isClearable
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {languageOptions.find(
-                (opt) => opt.value === preferencesInfo.secondLanguagePreference,
-              )?.label || "None"}
+              {preferencesInfo.languagePreference2 || ""}
             </p>
           )}
         </div>
-
+        {/* Preference 3 - filter out languagePreference1 and languagePreference2 */}
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("THIRD LANGUAGE PREFERENCE")}
+            {t("THIRD_LANGUAGE_PREFERENCE")}
           </label>
           {isEditing ? (
             <Select
-              value={languageOptions.find(
+              value={languages.find(
                 (option) =>
-                  option.value === preferencesInfo.thirdLanguagePreference,
+                  option.value === preferencesInfo.languagePreference3,
               )}
-              options={languageOptions}
+              options={languages.filter(
+                (option) =>
+                  option.value !== preferencesInfo.languagePreference1 &&
+                  option.value !== preferencesInfo.languagePreference2,
+              )}
               onChange={(selectedOption) =>
                 handleInputChange(
-                  "thirdLanguagePreference",
+                  "languagePreference3",
                   selectedOption?.value || "",
                 )
               }
               className="w-full"
-              placeholder={t("SELECT LANGUAGE")}
-              isClearable
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {languageOptions.find(
-                (opt) => opt.value === preferencesInfo.thirdLanguagePreference,
-              )?.label || "None"}
+              {preferencesInfo.languagePreference3 || ""}
             </p>
           )}
         </div>
