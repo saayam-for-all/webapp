@@ -7,6 +7,7 @@ import RightAds from "#components/RightAds/RightAds";
 import { Suspense } from "react";
 import { Outlet, useMatches } from "react-router-dom";
 import { NotificationProvider } from "../context/NotificationContext";
+import Breadcrumbs from "#components/BreadCrumbs/BreadCrumbs";
 
 const Layout = () => {
   const matches = useMatches();
@@ -33,6 +34,7 @@ const Layout = () => {
           )}
 
           <main className="flex-[6] overflow-auto">
+            <Breadcrumbs />
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
