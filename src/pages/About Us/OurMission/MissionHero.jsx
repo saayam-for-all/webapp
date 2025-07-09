@@ -72,14 +72,14 @@ export function MissionHero() {
   ];
   return (
     <section className="flex justify-center items-center py-10 bg-white">
-      <div className="w-[945px]  text-center ">
+      <div className="text-center ">
         <h2 className="text-2xl font-bold mb-2">{t("Our Values")}</h2>
-        <p className="text-gray-600 text-base leading-relaxed mb-6 mx-auto whitespace-nowrap">
+        <p className="text-gray-600 text-base leading-relaxed mb-6 mx-auto md:whitespace-nowrap">
           {t(
             "At Saayam For All, our shared values keep us connected and guide us as one team.",
           )}
         </p>
-        <div className="max-w-2xl mx-auto grid grid-cols-3 sm:grid-cols-2 gap-4">
+        <div className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2  gap-4 pl-[25px] md:pl-0">
           {values.map((item, index) => (
             <div
               key={index}

@@ -5,7 +5,7 @@ export function Vision() {
     <section className="bg-gray-50 py-16">
       <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row justify-between items-start px-4 gap-6">
         {/* Left Text Block */}
-        <div className="w-full md:w-[42%] ml-[90px]">
+        <div className="w-full md:w-[42%] ml-[10px] md:ml-[90px]">
           <h2 className="text-2xl font-bold mb-4">{t("Our Vision")}</h2>
           <p className="text-gray-700 text-base leading-relaxed">
             {t("Our vision is to cultivate a community")} <br />
