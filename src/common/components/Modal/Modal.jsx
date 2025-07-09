@@ -11,7 +11,11 @@ const Modal = ({
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl flex flex-col max-h-[90vh]">
+      <div
+        className="bg-white rounded-lg shadow-lg w-full max-w-2xl flex flex-col max-h-[90vh]"
+        role="dialog"
+        aria-modal="true"
+      >
         {/* Scrollable content area */}
         <div className="overflow-y-auto p-6 flex-1">{children}</div>
 
