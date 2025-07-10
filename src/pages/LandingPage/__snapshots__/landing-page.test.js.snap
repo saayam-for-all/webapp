@@ -38,6 +38,7 @@ exports[`LandingPage renders correctly 1`] = `
             class="w-[22%] h-[50%] flex flex-col justify-center items-center"
           >
             <img
+              alt="mockTranslate(SARVE_JANA_SUKHINO_BHAVANTU_ALT)"
               class="aspect-[.77] w-full object-cover object-center rounded-[10px]"
               src=""
             />
@@ -56,6 +57,7 @@ exports[`LandingPage renders correctly 1`] = `
             class="w-[33%] h-full flex flex-col justify-center items-center"
           >
             <img
+              alt="mockTranslate(JNANAM_VARDHATI_SANCHAYAT_ALT)"
               class="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
               src=""
             />
@@ -74,6 +76,7 @@ exports[`LandingPage renders correctly 1`] = `
             class="w-[22%] h-full flex flex-col justify-center items-center"
           >
             <img
+              alt="mockTranslate(MANAVA_SEVAYE_MADHAVA_SEVA_ALT)"
               class="aspect-[.77] w-full object-cover object-center rounded-[10px]"
               src=""
             />
@@ -188,12 +191,12 @@ exports[`LandingPage renders correctly 1`] = `
             class="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center"
           >
             <img
-              alt="A sunny day with two people looking at each other comfortingly"
+              alt="mockTranslate(LANDING_IMAGE_ALT_1)"
               class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
               src=""
             />
             <img
-              alt="A joyful family stands in a lush field on a sunny day"
+              alt="mockTranslate(LANDING_IMAGE_ALT_2)"
               class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
               src=""
             />
@@ -229,7 +232,7 @@ exports[`LandingPage renders correctly 1`] = `
               allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               class="landing-iframe "
               src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0"
-              title="YouTube Video"
+              title="mockTranslate(YOUTUBE_VIDEO_TITLE)"
             />
           </div>
         </div>
@@ -364,6 +367,7 @@ exports[`LandingPage renders correctly 1`] = `
           class="w-[22%] h-[50%] flex flex-col justify-center items-center"
         >
           <img
+            alt="mockTranslate(SARVE_JANA_SUKHINO_BHAVANTU_ALT)"
             class="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             src=""
           />
@@ -382,6 +386,7 @@ exports[`LandingPage renders correctly 1`] = `
           class="w-[33%] h-full flex flex-col justify-center items-center"
         >
           <img
+            alt="mockTranslate(JNANAM_VARDHATI_SANCHAYAT_ALT)"
             class="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
             src=""
           />
@@ -400,6 +405,7 @@ exports[`LandingPage renders correctly 1`] = `
           class="w-[22%] h-full flex flex-col justify-center items-center"
         >
           <img
+            alt="mockTranslate(MANAVA_SEVAYE_MADHAVA_SEVA_ALT)"
             class="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             src=""
           />
@@ -514,12 +520,12 @@ exports[`LandingPage renders correctly 1`] = `
           class="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center"
         >
           <img
-            alt="A sunny day with two people looking at each other comfortingly"
+            alt="mockTranslate(LANDING_IMAGE_ALT_1)"
             class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
             src=""
           />
           <img
-            alt="A joyful family stands in a lush field on a sunny day"
+            alt="mockTranslate(LANDING_IMAGE_ALT_2)"
             class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
             src=""
           />
@@ -555,7 +561,7 @@ exports[`LandingPage renders correctly 1`] = `
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             class="landing-iframe "
             src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0"
-            title="YouTube Video"
+            title="mockTranslate(YOUTUBE_VIDEO_TITLE)"
           />
         </div>
       </div>
