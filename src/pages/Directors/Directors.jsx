@@ -82,7 +82,7 @@ const DirectorsData = [
     name: "Ashwani Dhawan",
     role: "Director",
     linkedin: "https://www.linkedin.com/in/mantrapaloalto/",
-    image: AshwaniImg, // We'll import this below
+    image: AshwaniImg,
   },
 ];
 
@@ -117,16 +117,17 @@ const Directors = () => {
         <p className="text-center text-lg text-gray-600 my-4">
           {t("DIRECTORS_DESCRIPTION")}
         </p>
+
         <div className="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center">
           {DirectorsData.map((director, index) => (
             <div
               key={index}
-              className="w-[190px] text-center flex flex-col justify-start"
+              className="flex flex-col items-center w-full max-w-[280px]"
             >
               <div className="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full">
                 <img
                   src={director.image}
-                  alt={director.name}
+                  alt={t(director.name)}
                   className="w-full h-full object-cover"
                 />
               </div>

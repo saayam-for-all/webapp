@@ -122,3 +122,27 @@ hr {
 .bod_container {
   margin-top: 1rem;
 }
+
+.person-card {
+  min-height: 450px;
+  box-sizing: border-box;
+}
+
+.person_name {
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.telugu-text {
+  font-family: "Noto Sans Telugu", "Mukti", "Lohit Telugu", Arial, sans-serif;
+  line-height: 1.4;
+}
+
+.person_name.telugu-text {
+  font-size: 1.4rem;
+}

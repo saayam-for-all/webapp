@@ -23,13 +23,13 @@ exports[`Directors renders correctly 1`] = `
             class="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center"
           >
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Rao K Bhethanabotla"
+                  alt="mockTranslate(Rao K Bhethanabotla)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -58,13 +58,13 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Srividhya Gopalan"
+                  alt="mockTranslate(Srividhya Gopalan)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -93,13 +93,13 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Naveen Sharma"
+                  alt="mockTranslate(Naveen Sharma)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -128,13 +128,13 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Prabhakara Yellai"
+                  alt="mockTranslate(Prabhakara Yellai)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -163,13 +163,13 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Sharadha Venketasubramanian"
+                  alt="mockTranslate(Sharadha Venketasubramanian)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -198,13 +198,13 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Ramesh Maturu"
+                  alt="mockTranslate(Ramesh Maturu)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -233,13 +233,13 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Madhukar Govindaraju"
+                  alt="mockTranslate(Madhukar Govindaraju)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -268,13 +268,13 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Sateesh Mucharla"
+                  alt="mockTranslate(Sateesh Mucharla)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -303,13 +303,13 @@ exports[`Directors renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="w-[190px] text-center flex flex-col justify-start"
+              class="flex flex-col items-center w-full max-w-[280px]"
             >
               <div
                 class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
               >
                 <img
-                  alt="Ashwani Dhawan"
+                  alt="mockTranslate(Ashwani Dhawan)"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -600,13 +600,13 @@ exports[`Directors renders correctly 1`] = `
           class="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center"
         >
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Rao K Bhethanabotla"
+                alt="mockTranslate(Rao K Bhethanabotla)"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -635,13 +635,13 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Srividhya Gopalan"
+                alt="mockTranslate(Srividhya Gopalan)"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -670,13 +670,13 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Naveen Sharma"
+                alt="mockTranslate(Naveen Sharma)"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -705,13 +705,13 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Prabhakara Yellai"
+                alt="mockTranslate(Prabhakara Yellai)"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -740,13 +740,13 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Sharadha Venketasubramanian"
+                alt="mockTranslate(Sharadha Venketasubramanian)"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -775,13 +775,13 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Ramesh Maturu"
+                alt="mockTranslate(Ramesh Maturu)"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -810,13 +810,13 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Madhukar Govindaraju"
+                alt="mockTranslate(Madhukar Govindaraju)"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -845,13 +845,13 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Sateesh Mucharla"
+                alt="mockTranslate(Sateesh Mucharla)"
                 class="w-full h-full object-cover"
                 src=""
               />
@@ -880,13 +880,13 @@ exports[`Directors renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[190px] text-center flex flex-col justify-start"
+            class="flex flex-col items-center w-full max-w-[280px]"
           >
             <div
               class="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full"
             >
               <img
-                alt="Ashwani Dhawan"
+                alt="mockTranslate(Ashwani Dhawan)"
                 class="w-full h-full object-cover"
                 src=""
               />
