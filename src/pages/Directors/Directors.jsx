@@ -86,7 +86,6 @@ const DirectorsData = [
   },
 ];
 
-// The commented out advisorsData remains untouched as per your request
 // const advisorsData = [
 //   {
 //     name: "Madhukar Govindaraju",
@@ -148,11 +147,13 @@ const Directors = () => {
                     rel="noopener noreferrer"
                     title={t(director.name)}
                   >
-                    {t(director.name)} 
+                    {t(director.name)}
                   </a>
                 </h2>
 
-                <h3 className="text-[12.5px] text-gray-700">{t(director.role)}</h3>
+                <h3 className="text-[12.5px] text-gray-700">
+                  {t(director.role)}
+                </h3>
               </div>
             </div>
           ))}
