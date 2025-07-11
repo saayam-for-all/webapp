@@ -62,7 +62,9 @@ const ContactUs = () => {
     const newErrors = {};
     const nameRegex = /^[A-Za-z\s]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+    const fullPhoneNumber =
+      PHONECODESEN[countryCode] &&
+      `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First Name is required";
     } else if (!nameRegex.test(formData.firstName.trim())) {
@@ -80,7 +82,7 @@ const ContactUs = () => {
     }
     if (!phone) {
       newErrors.phone = "Phone is required";
-    } else if (!isValidPhoneNumber(fullPhoneNumber)) {
+    } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
       newErrors.phone = "Please enter a valid phone number";
     }
     if (!formData.message) {
@@ -238,7 +240,11 @@ const ContactUs = () => {
             <input
               type="hidden"
               name="phone"
-              value={`${PHONECODESEN[countryCode]["secondary"]}${phone}`}
+              value={
+                PHONECODESEN[countryCode]
+                  ? `${PHONECODESEN[countryCode]["secondary"]}${phone}`
+                  : phone
+              }
             />
 
             {/* Message */}
