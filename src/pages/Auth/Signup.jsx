@@ -10,6 +10,7 @@ import "./Login.css";
 import { useTranslation } from "react-i18next";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+//import { useTranslation } from "react-i18next";
 
 const signUpSchema = z.object({
   firstName: z
@@ -363,14 +364,16 @@ const SignUp = () => {
             onChange={(e) => setAcceptedTOS(e.target.checked)}
           />
           <label className="my-2 text-gray-700">
-            By checking this box, you are agreeing to the{" "}
+            {/* By checking this box, you are agreeing to the*/}
+            {t("By checking this box, you are agreeing to the ")}
             <a
               href="/terms-and-conditions"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 underline"
             >
-              Terms and Conditions
+              {/* Terms and Conditions */}
+              {t("Terms and Conditions")}
             </a>
             .
           </label>
@@ -406,12 +409,16 @@ const SignUp = () => {
         </div> */}
 
         <div className="mt-8 flex flex-row justify-center">
-          <p>Already have an account?</p>
+          <p>
+            {/*Already have an account? */}
+            {t("Already have an account?")}
+          </p>
           <button
             className="mx-2 text-left underline"
             onClick={() => navigate("/login")}
           >
-            Sign In
+            {/*Sign In*/}
+            {t("Sign In")}
           </button>
         </div>
       </div>
