@@ -12,12 +12,12 @@ describe("Modal", () => {
   });
 
   it("renders when show = true", () => {
-    const { container } = render(
+    render(
       <Modal show={true} onClose={onClose}>
         {children}
       </Modal>,
     );
-    expect(container).toMatchSnapshot();
+    expect(screen.getByRole("dialog")).toMatchSnapshot();
   });
 
   it("does not render when show = false", () => {
