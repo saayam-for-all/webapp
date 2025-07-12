@@ -95,7 +95,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="organizationName"
               value={organizationInfo.organizationName}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -176,7 +176,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                 name="phoneNumber"
                 value={organizationInfo.phoneNumber}
                 onChange={handleInputChange}
-                className="appearance-none block w-2/3 bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-2/3 bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
           ) : (
@@ -196,7 +196,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="email"
               value={organizationInfo.email}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -217,7 +217,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="url"
               value={organizationInfo.url}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -238,7 +238,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="streetAddress"
               value={organizationInfo.streetAddress}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -256,7 +256,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="streetAddress2"
               value={organizationInfo.streetAddress2}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -277,7 +277,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="city"
               value={organizationInfo.city}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -295,7 +295,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="state"
               value={organizationInfo.state}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -313,7 +313,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="zipCode"
               value={organizationInfo.zipCode}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">

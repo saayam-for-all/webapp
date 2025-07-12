@@ -125,7 +125,7 @@ const LoginPage = () => {
           {t("FORGOT_PASSWORD")}
         </button>
         <button
-          disabled={loading}
+          disabled
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignIn}
         >
@@ -162,6 +162,7 @@ const LoginPage = () => {
           <button
             className="mx-2 text-left underline"
             onClick={() => navigate("/signup")}
+            disabled
           >
             {t("SIGNUP")}
           </button>
