@@ -240,6 +240,11 @@ const ContactUs = () => {
               name="phone"
               value={`${PHONECODESEN[countryCode]["secondary"]}${phone}`}
             />
+            <input
+              type="hidden"
+              name="_next"
+              value={`${window.location.origin}/thanks`}
+            />
 
             {/* Message */}
             <div className="mb-4">
