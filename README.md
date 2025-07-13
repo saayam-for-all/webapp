@@ -32,16 +32,17 @@ Saayam Web Application.
 
 ### Installation
 
-Clone the repository:
+Clone to the test branch:
 
 ```bash
-git clone https://github.com/saayam-for-all/saayam_web.git
+git clone -b test https://github.com/saayam-for-all/webapp.git
+
 ```
 
 Navigate to the project directory:
 
 ```bash
-cd your-project
+cd webapp
 ```
 
 Install dependencies:

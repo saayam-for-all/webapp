@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"; // <--- ADDED THIS IMPORT BACK
 import { useNavigate } from "react-router";
+import { useTranslation, Trans } from "react-i18next"; // Keep this one import
 
 import bannerImageOne from "../../assets/landingPageImages/bannerImageOne.jpg";
 import bannerImageThree from "../../assets/landingPageImages/bannerImageThree.jpg";
@@ -20,13 +21,13 @@ import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.jpg";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
-import { useTranslation } from "react-i18next";
 
 export default function Home() {
-  const { t } = useTranslation();
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth); // <--- Make sure this line is present
   const navigate = useNavigate();
   const videoId = "zupN0-zXrLQ";
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (user !== null) {
@@ -45,9 +46,7 @@ export default function Home() {
             {t("Need help? Here to help?")}
           </h1>
           <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
-            {t(
-              "At Saayam for All, your support can make a real difference today.",
-            )}
+            {t("At Saayam for All, your support can make a real difference today.")}
           </div>
         </div>
       </div>
@@ -56,6 +55,7 @@ export default function Home() {
           <img
             src={bannerImageOne}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+            alt={t("SARVE_JANA_SUKHINO_BHAVANTU_ALT")} 
           />
           <h3 className="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center">
             {t("Sarve jana sukhino bhavantu")}
@@ -68,20 +68,20 @@ export default function Home() {
           <img
             src={bannerImageTwo}
             className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+            alt={t("JNANAM_VARDHATI_SANCHAYAT_ALT")} 
           />
           <h3 className="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
             {t("jñānam vardhati sanchayāt")}
           </h3>
           <div className="text-xs md:text-sm  md:text-lg text-gray-600 text-center">
-            {t(
-              "Sharing knowledge expands one's own understanding and the knowledge of others.",
-            )}
+            {t("Sharing knowledge expands one's own understanding and the knowledge of others.")}
           </div>
         </div>
         <div className="w-[22%] h-full flex flex-col justify-center items-center">
           <img
             src={bannerImageThree}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+            alt={t("MANAVA_SEVAYE_MADHAVA_SEVA_ALT")} 
           />
           <h3 className="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
             {t("Manava sevaye Madhava seva")}
@@ -129,27 +129,25 @@ export default function Home() {
             {t("Creating a World Where Help is Always Within Reach")}
           </h3>
           <p className="text-base md:text-lg text-gray-500 md:h-1/3">
-            {t(
-              "Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.",
-            )}
+            {t("Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.")}
           </p>
           <button
             className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/our-mission")}
           >
-            {t("Our Mission")} &rarr;
+            {t("Our Mission")} →
           </button>
         </div>
         <div className="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center">
           <img
             className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
             src={topOne}
-            alt="A sunny day with two people looking at each other comfortingly"
+            alt={t("LANDING_IMAGE_ALT_1")} 
           />
           <img
             className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
             src={topTwo}
-            alt="A joyful family stands in a lush field on a sunny day"
+            alt={t("LANDING_IMAGE_ALT_2")} 
           />
         </div>
       </div>
@@ -160,15 +158,13 @@ export default function Home() {
             {t("How We Operate")}
           </h3>
           <p className="text-base md:text-lg text-gray-500">
-            {t(
-              "Watch our 5 minute video to understand how Saayam for All works and how we make a difference.",
-            )}
+            {t("Watch our 5 minute video to understand how Saayam for All works and how we make a difference.")}
           </p>
           <button
             className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/how-we-operate")}
           >
-            {t("Learn More")} &rarr;
+            {t("Learn More")} →
           </button>
         </div>
 
@@ -176,7 +172,7 @@ export default function Home() {
         <div className="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5">
           <iframe
             src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0`}
-            title="YouTube Video"
+            title={t("YOUTUBE_VIDEO_TITLE")} 
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             className="landing-iframe "
           ></iframe>
@@ -188,46 +184,35 @@ export default function Home() {
           {t("One Platform. Many Ways to Contribute.")}
         </h1>
         <div className="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center">
-          {t(
-            "Learn about different roles in our ecosystem and how each one contributes to creating an impact.",
-          )}
+          {t("Learn about different roles in our ecosystem and how each one contributes to creating an impact.")}
         </div>
         <div className="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]">
           {[bottomOne, bottomTwo, bottomThree, bottomFour].map((src, i) => (
             <div
               key={`bottom-image-${i}`}
               className="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${src})`,
-                // backgroundSize: "cover",
-                // backgroundPosition: "center",
-                // width: "25%",
-                // height: "400px",
-                // borderRadius: "10px",
-              }}
+              style={{ backgroundImage: `url(${src})` }}
             >
               <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]">
                 <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
-                  {
+                  {t(
                     [
-                      t("Beneficiaries"),
-                      t("Volunteers"),
-                      t("Voluntary Organizations"),
-                      t("Donors"),
+                      "Beneficiaries",
+                      "Volunteers",
+                      "Voluntary Organizations",
+                      "Donors",
                     ][i]
-                  }
+                  )}
                 </h3>
                 <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
-                  {
+                  {t(
                     [
-                      t("Recieve help for their requests"),
-                      t("Provide guidance and solutions to beneficiaries"),
-                      t("Offer necessary support to beneficiaries"),
-                      t(
-                        "Provide financial assistance to voluntary organization",
-                      ),
+                      "Receive help for their requests",
+                      "Provide guidance and solutions to beneficiaries",
+                      "Offer necessary support to beneficiaries",
+                      "Provide financial assistance to voluntary organization",
                     ][i]
-                  }
+                  )}
                 </h6>
               </div>
             </div>

@@ -67,15 +67,15 @@ const Donate = () => {
 
   const faqItems = [
     {
-      question: "Are donations tax deductible?",
+      question: t("Are donations tax deductible?"),
       answer: t("FAQ_TAX_ANSWER"),
     },
     {
-      question: "How will my donation be used?",
+      question: t("How will my donation be used?"),
       answer: t("FAQ_USE_ANSWER"),
     },
     {
-      question: "Can I cancel recurring donations?",
+      question: t("Can I cancel recurring donations?"),
       answer: t("FAQ_CANCEL_ANSWER"),
     },
   ];
@@ -169,10 +169,11 @@ const Donate = () => {
           src={donateImgBg}
         />
         <div className="donate-card-overlay">
-          <h1 className="donate-title">Make a donation</h1>
+          <h1 className="donate-title">{t("Make a donation")}</h1>
           <p className="donate-subtitle">
-            Your donation helps us create lasting change in communities across
-            the globe.
+            {t(
+              "Your donation helps us create lasting change in communities across the globe.",
+            )}
           </p>
           <div className="donation-options-grid">
             {donationOptions.map((opt) => (
@@ -206,7 +207,7 @@ const Donate = () => {
         </div>
       </div>
       <div data-testid="faq-section" className="faq-section">
-        <h2 className="faq-title">FAQ's</h2>
+        <h2 className="faq-title">{t("FAQ's")}</h2>
         <div className="faq-list">
           {faqItems.map((faq, index) => (
             <div key={index} className="faq-item">

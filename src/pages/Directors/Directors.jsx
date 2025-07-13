@@ -1,19 +1,19 @@
 import { useTranslation } from "react-i18next";
 
-import "./Directors.css";
-import RaoImg from "../../assets/images/Rao.jpeg";
 import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
+import RaoImg from "../../assets/images/Rao.jpeg";
+import "./Directors.css";
 // import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
 import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
 // import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
-import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
-import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
-import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
 import AshwaniImg from "../../assets/images/Ashwani_Dhawan.png";
+import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
+import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
+import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
 
+import { useNavigate } from "react-router-dom";
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
-import { useNavigate } from "react-router-dom";
 import ExecutiveTeam from "./Executives/executiveTeam";
 
 const DirectorsData = [
@@ -82,7 +82,7 @@ const DirectorsData = [
     name: "Ashwani Dhawan",
     role: "Director",
     linkedin: "https://www.linkedin.com/in/mantrapaloalto/",
-    image: AshwaniImg, // We'll import this below
+    image: AshwaniImg,
   },
 ];
 
@@ -109,53 +109,43 @@ const Directors = () => {
     navigate("/contact");
   };
   return (
-    <div className="p-5">
-      <section>
-        <h1 className="text-center text-3xl font-bold text-black">
-          {t("DIRECTORS")}
-        </h1>
-        <p className="text-center text-lg text-gray-600 my-4">
-          {t("DIRECTORS_DESCRIPTION")}
-        </p>
-        <div className="max-w-[1000px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-1 gap-y-4 place-items-center">
+    <div>
+      <div className="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]">
+        <div className="text-center max-w-3xl mx-auto mb-12 px-4">
+          <h2 className="font-extrabold text-2xl sm:text-3xl mb-4">
+            {t("DIRECTORS")}
+          </h2>
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-2">
+            {t("DIRECTORS_DESCRIPTION")}
+          </p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-10">
           {DirectorsData.map((director, index) => (
-            <div
-              key={index}
-              className="w-[190px] text-center flex flex-col justify-start"
-            >
-              <div className="aspect-[3/4] overflow-hidden rounded-2xl shadow-lg w-full">
+            <div key={index} className="w-[180px] text-center">
+              <div className="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto">
                 <img
                   src={director.image}
-                  alt={director.name}
+                  alt={t(director.name)}
                   className="w-full h-full object-cover"
                 />
               </div>
-
-              <div className="w-full px-1 pt-4 text-left flex flex-col justify-between min-h-[60px]">
-                <h2
-                  className={`${
-                    director.name === "Sharadha Venketasubramanian"
-                      ? "text-[13px]"
-                      : "text-[16px]"
-                  } font-semibold text-black text-left w-full break-words leading-snug`}
+              <div className="font-semibold text-base mt-3 text-left pl-1">
+                <a
+                  href={director.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:underline"
                 >
-                  <a
-                    href={director.linkedin}
-                    className="block"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={director.name}
-                  >
-                    {director.name}
-                  </a>
-                </h2>
-
-                <h3 className="text-[12.5px] text-gray-700">{director.role}</h3>
+                  {t(director.name)}
+                </a>
+              </div>
+              <div className="text-sm text-gray-500 mt-1 text-left pl-1">
+                {t(director.role)}
               </div>
             </div>
           ))}
         </div>
-      </section>
+      </div>
       <section>
         <ExecutiveTeam />
       </section>
