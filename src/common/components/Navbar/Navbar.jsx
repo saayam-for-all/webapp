@@ -691,15 +691,6 @@ const Navbar = () => {
             </button>
           </div>
 
-          <div className="block text-black py-2 flex items-center">
-            <button
-              onClick={(e) => handleDrawerClick(e, "/donate")}
-              className="text-black flex items-center hover:text-blue-600"
-            >
-              <FavoriteBorderIcon className="mr-2" /> {t("Donate")}
-            </button>
-          </div>
-
           {user?.userId && (
             <div className="block text-black py-2 flex items-center">
               <button

@@ -1,19 +1,23 @@
+import { useTranslation } from "react-i18next";
 export function Vision() {
+  const { t } = useTranslation();
   return (
     <section className="bg-gray-50 py-16">
       <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row justify-between items-start px-4 gap-6">
         {/* Left Text Block */}
-        <div className="w-full md:w-[42%] ml-[90px]">
-          <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
+        <div className="w-full md:w-[42%] ml-[10px] md:ml-[90px]">
+          <h2 className="text-2xl font-bold mb-4">{t("Our Vision")}</h2>
           <p className="text-gray-700 text-base leading-relaxed">
-            Our vision is to cultivate a community <br />
-            where the ethos of "Manava Sevaye Madhava
+            {t("Our vision is to cultivate a community")} <br />
+            {t('where the ethos of "Manava Sevaye Madhava')}
             <br />
-            Seva" ( Service to mankind is Service to God )<br /> and "Sarve jana
-            sukhino bhavantu" ( May all <br /> live happily) guides our actions,
-            driving <br />
-            positive change and fostering a more
-            <br /> compassionate and equitable world for all.
+            {t('Seva" ( Service to mankind is Service to God )')}
+            <br /> {t('and "Sarve jana sukhino bhavantu" ( May ')}
+            <br />
+            {t("all live happily) guides our actions, driving")}
+            <br />
+            {t("positive change and fostering a more")}
+            <br /> {t("compassionate and equitable world for all.")}
           </p>
         </div>
         {/* Right Image Grid */}

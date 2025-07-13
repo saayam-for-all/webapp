@@ -1,7 +1,6 @@
-import React from "react";
-import "./Footer.css";
-import logo from "../../../assets/logo.svg";
 import { useTranslation } from "react-i18next";
+import logo from "../../../assets/logo.svg";
+import "./Footer.css";
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -40,7 +39,8 @@ export default function Footer() {
           <div className="footer-copy">{t("COPYRIGHT")}</div>
           <div className="footer-links">
             <a href="/sitemap">{t("SITE_MAP")}</a>
-            <a href="#">{t("TERMS_AND_CONDITIONS")}</a>
+
+            <a href="/terms-and-conditions">{t("TERMS_AND_CONDITIONS")}</a>
             <a href="/privacy-policy">{t("PRIVACY_POLICY")}</a>
           </div>
         </div>

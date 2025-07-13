@@ -356,10 +356,6 @@ function Availability({ setHasUnsavedChanges }) {
 
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
-      <h3 className="font-bold text-xl mb-4" ref={titleRef} tabIndex="-1">
-        {t("AVAILABILITY")}
-      </h3>
-
       {isEditing ? (
         <div className="mb-6">
           {/* Timezone Selection */}

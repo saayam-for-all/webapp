@@ -4,11 +4,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import CountryList from "react-select-country-list";
-import { changeUiLanguage } from "../../common/i18n/utils";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import { State, Country } from "country-state-city";
-import languagesData from "../../common/i18n/languagesData";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 
 const genderOptions = [
   { value: "Female", label: "Female" },
@@ -86,9 +85,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     country: "",
     state: "",
     zipCode: "",
-    languagePreference1: "",
-    languagePreference2: "",
-    languagePreference3: "",
     secondaryEmail: "",
     secondaryPhone: "",
     secondaryPhoneCountryCode: "US",
@@ -120,7 +116,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     return country ? country.isoCode : null;
   };
   const [errors, setErrors] = useState({});
-  const [languages, setLanguages] = useState([]);
   const [locale, setLocale] = useState("en-US");
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
@@ -151,14 +146,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       // If savedInfo, need to set the State field.
       getLatestStatesList(getCountryIsoCode(savedPersonalInfo.country));
     }
-
-    // Build languages options directly from languagesData.js (limits to the 10 available languages)
-    const languageOptions = languagesData.map((lang) => ({
-      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
-      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
-      label: lang.name,
-    }));
-    setLanguages(languageOptions);
   }, []);
 
   const handleInputChange = (name, value) => {
@@ -200,7 +187,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       "country",
       "state",
       "zipCode",
-      "languagePreference1",
     ];
 
     fieldsToValidate.forEach((field) => {
@@ -221,8 +207,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     window.dispatchEvent(new Event("personal-info-updated"));
 
     setHasUnsavedChanges(false);
-    // Call changeUiLanguage to update the UI based on the first language preference.
-    changeUiLanguage(personalInfo);
   };
   const validateField = (name, value) => {
     let error = "";
@@ -262,11 +246,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     if (name === "zipCode") {
       if (!value || !/^[0-9-]+$/.test(value)) {
         error = "ZIP Code is required.";
-      }
-    }
-    if (name === "languagePreference1") {
-      if (!value || value.trim() === "") {
-        error = "First language preference is required.";
       }
     }
     return error;
@@ -492,98 +471,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
       </div>
 
-      {/* Language Preferences */}
-      <div className="grid grid-cols-3 gap-8 mb-6">
-        {/* Preference 1 - full list */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("FIRST_LANGUAGE_PREFERENCE")}
-          </label>
-          {isEditing ? (
-            <>
-              <Select
-                value={languages.find(
-                  (option) => option.value === personalInfo.languagePreference1,
-                )}
-                options={languages}
-                onChange={(selectedOption) =>
-                  handleInputChange(
-                    "languagePreference1",
-                    selectedOption?.value || "",
-                  )
-                }
-                className="w-full"
-              />
-              {errors.languagePreference1 && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.languagePreference1}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.languagePreference1 || ""}
-            </p>
-          )}
-        </div>
-        {/* Preference 2 - filter out languagePreference1 */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("SECOND_LANGUAGE_PREFERENCE")}
-          </label>
-          {isEditing ? (
-            <Select
-              value={languages.find(
-                (option) => option.value === personalInfo.languagePreference2,
-              )}
-              options={languages.filter(
-                (option) => option.value !== personalInfo.languagePreference1,
-              )}
-              onChange={(selectedOption) =>
-                handleInputChange(
-                  "languagePreference2",
-                  selectedOption?.value || "",
-                )
-              }
-              className="w-full"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.languagePreference2 || ""}
-            </p>
-          )}
-        </div>
-        {/* Preference 3 - filter out languagePreference1 and languagePreference2 */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("THIRD_LANGUAGE_PREFERENCE")}
-          </label>
-          {isEditing ? (
-            <Select
-              value={languages.find(
-                (option) => option.value === personalInfo.languagePreference3,
-              )}
-              options={languages.filter(
-                (option) =>
-                  option.value !== personalInfo.languagePreference1 &&
-                  option.value !== personalInfo.languagePreference2,
-              )}
-              onChange={(selectedOption) =>
-                handleInputChange(
-                  "languagePreference3",
-                  selectedOption?.value || "",
-                )
-              }
-              className="w-full"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.languagePreference3 || ""}
-            </p>
-          )}
-        </div>
-      </div>
-
       {/* Secondary Email and Secondary Phone */}
       <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
@@ -618,49 +505,26 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             Secondary Phone
           </label>
           {isEditing ? (
-            <div className="flex">
-              <>
-                <Select
-                  value={phoneCodeOptions.find(
-                    (option) =>
-                      option.code === personalInfo.secondaryPhoneCountryCode,
-                  )}
-                  getOptionLabel={(e) => `${e.country} (${e.dialCode})`}
-                  getOptionValue={(e) => e.code}
-                  options={phoneCodeOptions}
-                  onChange={(selectedOption) =>
-                    handleInputChange(
-                      "secondaryPhoneCountryCode",
-                      selectedOption?.code || "",
-                    )
-                  }
-                  className="w-full max-w-[100px] mr-2"
-                />
-                {errors.secondaryPhoneCountryCode && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.secondaryPhoneCountryCode}
-                  </p>
-                )}
-              </>
-              <input
-                type="text"
-                name="secondaryPhone"
-                value={personalInfo.secondaryPhone}
-                onChange={(e) => {
-                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
-                  handleInputChange("secondaryPhone", numericValue);
-                }}
-                className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              />
-            </div>
+            <PhoneNumberInputWithCountry
+              phone={personalInfo.secondaryPhone}
+              setPhone={(value) => handleInputChange("secondaryPhone", value)}
+              countryCode={personalInfo.secondaryPhoneCountryCode}
+              setCountryCode={(value) =>
+                handleInputChange("secondaryPhoneCountryCode", value)
+              }
+              error={errors.secondaryPhone}
+              setError={(err) =>
+                setErrors((prev) => ({ ...prev, secondaryPhone: err }))
+              }
+              label={t("Secondary Phone")}
+              required={false}
+              t={t}
+            />
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.secondaryPhoneCountryCode}{" "}
               {personalInfo.secondaryPhone || ""}
             </p>
-          )}
-          {errors.secondaryPhone && (
-            <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone}</p>
           )}
         </div>
       </div>
@@ -704,9 +568,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                     country: "",
                     state: "",
                     zipCode: "",
-                    languagePreference1: "",
-                    languagePreference2: "",
-                    languagePreference3: "",
                     secondaryEmail: "",
                     secondaryPhone: "",
                     secondaryPhoneCountryCode: "US",
@@ -714,6 +575,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 }
                 setIsEditing(false);
                 setErrors({});
+                setHasUnsavedChanges(false);
               }}
             >
               {t("CANCEL")}

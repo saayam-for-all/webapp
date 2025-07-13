@@ -9,6 +9,7 @@ import { getPhoneCodeslist } from "../../utils/utils";
 import "./Login.css";
 import { useTranslation } from "react-i18next";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 
 const signUpSchema = z.object({
   firstName: z
@@ -56,6 +57,7 @@ const SignUp = () => {
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [acceptedTOS, setAcceptedTOS] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -87,33 +89,10 @@ const SignUp = () => {
       password,
     );
 
-  const handlePhoneChange = (e) => {
-    const value = e.target.value;
-    // Only allow digits
-    if (/^\d*$/.test(value)) {
-      setPhone(value);
-      // Validate phone number
-      const fullNumber = `${PHONECODESEN[countryCode]["secondary"]}${value}`;
-      if (value.length > 0 && !isValidPhoneNumber(fullNumber)) {
-        setErrors({ ...errors, phone: "Please enter a valid phone number" });
-      } else {
-        setErrors({ ...errors, phone: undefined });
-      }
-    }
-  };
-
-  const handleCountryCodeChange = (e) => {
-    const selectedCode = e.target.value;
-    setCountryCode(selectedCode);
-    const selectedCountry = PHONECODESEN[selectedCode]?.primary || "";
-    setCountry(selectedCountry);
-    setErrors({ ...errors, phone: undefined });
-  };
-
   const handleSignUp = async () => {
     try {
       setErrors({});
-
+      setPhoneError("");
       const result = signUpSchema.safeParse({
         firstName,
         lastName,
@@ -121,7 +100,6 @@ const SignUp = () => {
         phone,
         password: passwordValue,
       });
-
       if (!result.success) {
         const formattedErrors = result.error.format();
         setErrors({
@@ -134,18 +112,11 @@ const SignUp = () => {
         setShowPasswordValidation(true);
         return;
       }
-
-      // Now, after basic field validation, check if phone number is really valid
       const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
-
       if (!isValidPhoneNumber(fullPhoneNumber)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          phone: "Please enter a valid phone number",
-        }));
+        setPhoneError("Please enter a valid phone number");
         return;
       }
-
       if (passwordValue !== confirmPasswordValue) {
         setPasswordsMatch(false);
         setErrors((prevErrors) => ({
@@ -154,8 +125,6 @@ const SignUp = () => {
         }));
         return;
       }
-
-      // Proceed with signup
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
@@ -169,7 +138,6 @@ const SignUp = () => {
           },
         },
       });
-
       if (user && user.isSignUpComplete === false) {
         navigate("/verify-otp", { state: { email: emailValue } });
       }
@@ -241,37 +209,17 @@ const SignUp = () => {
 
         {/* Phone Number */}
         <div className="my-2 flex flex-col relative">
-          <label htmlFor="phone">{t("PHONE_NUMBER")}</label>
-          <div className="flex space-x-2">
-            {/* Country Code Dropdown */}
-            <select
-              id="countryCode"
-              value={countryCode}
-              onChange={handleCountryCodeChange}
-              className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
-            >
-              {getPhoneCodeslist(PHONECODESEN).map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.country} ({option.dialCode})
-                </option>
-              ))}
-            </select>
-
-            <input
-              id="phone"
-              value={phone}
-              onChange={handlePhoneChange}
-              placeholder={t("YOUR_PHONE_NUMBER")}
-              type="text"
-              className={`w-2/3 px-4 py-2 border rounded-xl ${
-                errors.phone ? "border-red-500" : "border-gray-300"
-              }`}
-              required={true}
-            />
-          </div>
-          {errors.phone && (
-            <p className="text-sm text-red-500">{errors.phone}</p>
-          )}
+          <PhoneNumberInputWithCountry
+            phone={phone}
+            setPhone={setPhone}
+            countryCode={countryCode}
+            setCountryCode={setCountryCode}
+            error={phoneError}
+            setError={setPhoneError}
+            label={t("PHONE_NUMBER")}
+            required={true}
+            t={t}
+          />
         </div>
 
         {/* Country */}
@@ -415,7 +363,7 @@ const SignUp = () => {
             onChange={(e) => setAcceptedTOS(e.target.checked)}
           />
           <label className="my-2 text-gray-700">
-            I acknowledge that I have read, understand, and agree to the{" "}
+            By checking this box, you are agreeing to the{" "}
             <a
               href="/terms-and-conditions"
               target="_blank"
