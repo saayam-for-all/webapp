@@ -27,6 +27,7 @@ import BenevityInfo from "../pages/Benevity/BenevityInfo";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import Thanks from "../pages/Thanks/Thanks";
 
 const routes = [
   {
@@ -60,6 +61,10 @@ const routes = [
   {
     path: "contact",
     element: <ContactUs />,
+  },
+  {
+    path: "thanks",
+    element: <Thanks />,
   },
   {
     path: "sitemap",
