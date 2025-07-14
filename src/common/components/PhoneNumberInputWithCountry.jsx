@@ -20,7 +20,9 @@ const PhoneNumberInputWithCountry = ({
     if (/^\d*$/.test(value)) {
       setPhone(value);
       const fullNumber = `${PHONECODESEN[countryCode]["secondary"]}${value}`;
-      if (value.length > 0 && !isValidPhoneNumber(fullNumber)) {
+      if (value.length === 0) {
+        setError("Phone number is required");
+      } else if (!isValidPhoneNumber(fullNumber)) {
         setError("Please enter a valid phone number");
       } else {
         setError(undefined);
