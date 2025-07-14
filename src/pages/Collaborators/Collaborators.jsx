@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import VolunteerMatchLogo from "../../assets/Collab_logos/volunteer-match.png";
 import { Link } from "react-router-dom";
+import VolunteerMatchLogo from "../../assets/Collab_logos/volunteer-match.png";
 
 function Collaborators() {
   const { t } = useTranslation();
+  const volunteerLinkRef = useRef(null);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && volunteerLinkRef.current) {
+        volunteerLinkRef.current.blur();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col items-center p-8 min-h-screen bg-white">
@@ -19,9 +33,14 @@ function Collaborators() {
           )}
         </p>
 
-        {/* Centered Volunteer Match section */}
         <div className="flex justify-center mb-16">
-          <div className="flex flex-col items-center max-w-md">
+          <a
+            ref={volunteerLinkRef}
+            href="https://www.volunteermatch.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center max-w-md text-blue-700 hover:underline focus:outline-none"
+          >
             <img
               src={VolunteerMatchLogo}
               alt="Volunteer Match"
@@ -35,7 +54,7 @@ function Collaborators() {
                 "U.S based nonprofit organization which provides a national digital infrastructure to serve volunteers and nonprofits organization.",
               )}
             </p>
-          </div>
+          </a>
         </div>
 
         <div className="text-center mt-16 mb-16">
