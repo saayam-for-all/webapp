@@ -92,7 +92,6 @@ const SignUp = () => {
   const handleSignUp = async () => {
     try {
       setErrors({});
-      setPhoneError("");
       setPhoneEmptyError("");
       // Always run Zod schema validation
       const result = signUpSchema.safeParse({
@@ -127,16 +126,21 @@ const SignUp = () => {
         setPasswordsMatch(false);
         newErrors.confirmPassword = "Passwords do not match";
       }
-      if (Object.keys(newErrors).length > 0 || !phone) {
+      // Phone validity check (run before early return)
+      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+      if (phone && !isValidPhoneNumber(fullPhoneNumber)) {
+        setPhoneError("Please enter a valid phone number");
+      }
+      if (
+        Object.keys(newErrors).length > 0 ||
+        !phone ||
+        (phone && !isValidPhoneNumber(fullPhoneNumber))
+      ) {
         setErrors(newErrors);
         setShowPasswordValidation(true);
         return;
       }
-      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
-      if (!isValidPhoneNumber(fullPhoneNumber)) {
-        setPhoneError("Please enter a valid phone number");
-        return;
-      }
+      setPhoneError(""); // clear only if all is valid
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
