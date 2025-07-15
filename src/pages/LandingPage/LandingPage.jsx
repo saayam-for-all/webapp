@@ -23,8 +23,37 @@ import Carousel from "./components/Carousel";
 export default function Home() {
   const navigate = useNavigate();
   const videoId = "zupN0-zXrLQ";
+  const { t, i18n } = useTranslation();
 
-  const { t } = useTranslation();
+  // Get the current language and map it to YouTube language codes
+  const getYouTubeLanguageCode = (language) => {
+    // Extract base language code (remove region code if present)
+    const baseLanguage = language ? language.split("-")[0] : "en";
+
+    const languageMap = {
+      en: "en",
+      es: "es",
+      fr: "fr",
+      de: "de",
+      pt: "pt",
+      ru: "ru",
+      zh: "zh",
+      hi: "hi",
+      bn: "bn",
+      te: "te",
+    };
+    return languageMap[baseLanguage] || "en"; // Default to English if language not supported
+  };
+
+  const currentLanguage = getYouTubeLanguageCode(i18n.language);
+
+  // uncomment this for debugging
+  // console.log("Current i18n language:", i18n.language);
+  // console.log("Mapped YouTube language:", currentLanguage);
+  // console.log(
+  //   "YouTube URL:",
+  //   `https://www.youtube.com/embed/${videoId}?controls=1&rel=0&hl=${currentLanguage}&cc_lang_pref=${currentLanguage}`,
+  // );
 
   return (
     <div className="w-full overflow-hidden">
@@ -170,7 +199,7 @@ export default function Home() {
         {/* Video Section - Second on mobile, first on desktop */}
         <div className="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5">
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0`}
+            src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0&hl=${currentLanguage}&cc_lang_pref=${currentLanguage}`}
             title={t("YOUTUBE_VIDEO_TITLE")}
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             className="landing-iframe "
