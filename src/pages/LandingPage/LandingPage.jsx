@@ -47,13 +47,13 @@ export default function Home() {
 
   const currentLanguage = getYouTubeLanguageCode(i18n.language);
 
-  // Add this for debugging
-  console.log("Current i18n language:", i18n.language);
-  console.log("Mapped YouTube language:", currentLanguage);
-  console.log(
-    "YouTube URL:",
-    `https://www.youtube.com/embed/${videoId}?controls=1&rel=0&hl=${currentLanguage}&cc_lang_pref=${currentLanguage}`,
-  );
+  // uncomment this for debugging
+  // console.log("Current i18n language:", i18n.language);
+  // console.log("Mapped YouTube language:", currentLanguage);
+  // console.log(
+  //   "YouTube URL:",
+  //   `https://www.youtube.com/embed/${videoId}?controls=1&rel=0&hl=${currentLanguage}&cc_lang_pref=${currentLanguage}`,
+  // );
 
   return (
     <div className="w-full overflow-hidden">
