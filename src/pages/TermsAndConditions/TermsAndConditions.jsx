@@ -18,7 +18,7 @@ const TermsAndConditions = () => {
         </p>
 
         <section className="terms-section">
-          <h2>Overview</h2>
+          <h2 className="terms-heading">Overview</h2>
           <p>
             Saayam For All is a volunteer-based organization that helps connect
             people in need with compassionate local volunteers. We operate
@@ -32,7 +32,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>1. Our Mission</h2>
+          <h2 className="terms-heading">1. Our Mission</h2>
           <p>
             Saayam For All is a humanitarian platform rooted in compassion,
             built entirely by volunteers and experts who believe in service to
@@ -46,7 +46,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>2. Eligibility</h2>
+          <h2 className="terms-heading">2. Eligibility</h2>
           <p>
             To use Saayam For All, individuals must be at least 18 years of age
             or must use the Platform under the supervision and consent of a
@@ -57,7 +57,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>3. User Roles</h2>
+          <h2 className="terms-heading">3. User Roles</h2>
           <p>
             The Platform is composed of different user roles: Beneficiaries,
             Volunteers, Organizations, and Admins. Each role has specific
@@ -68,7 +68,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>4. Services Provided</h2>
+          <h2 className="terms-heading">4. Services Provided</h2>
           <p>
             Saayam For All acts as a connector and facilitator. We do not
             directly provide emergency services or professional advice. Our
@@ -79,7 +79,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>5. Limitations of Services</h2>
+          <h2 className="terms-heading">5. Limitations of Services</h2>
           <p>
             We are not a replacement for emergency services and do not provide
             licensed medical, legal, or financial advice. Verification of
@@ -89,7 +89,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>6. Acceptable Use</h2>
+          <h2 className="terms-heading">6. Acceptable Use</h2>
           <p>
             Users agree to use the Platform for lawful and constructive purposes
             only. Prohibited activities include fraudulent requests, harassment,
@@ -99,7 +99,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>7. Privacy and Data</h2>
+          <h2 className="terms-heading">7. Privacy and Data</h2>
           <p>
             We collect only necessary data to operate the Platform. We do not
             sell your information. Your data may be shared only to fulfill
@@ -109,7 +109,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>8. Non-Discrimination</h2>
+          <h2 className="terms-heading">8. Non-Discrimination</h2>
           <p>
             We serve all individuals regardless of race, color, religion,
             gender, sexual orientation, age, disability, nationality, or
@@ -118,7 +118,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>9. Disclaimers</h2>
+          <h2 className="terms-heading">9. Disclaimers</h2>
           <p>
             We do not verify professional qualifications unless explicitly
             mentioned. Interactions are based on mutual trust. We disclaim
@@ -127,7 +127,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>10. Intellectual Property</h2>
+          <h2 className="terms-heading">10. Intellectual Property</h2>
           <p>
             All content on the Platform is owned or licensed by us. You may not
             copy or distribute it without permission. User-generated content
@@ -137,7 +137,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>11. Indemnification</h2>
+          <h2 className="terms-heading">11. Indemnification</h2>
           <p>
             You agree to indemnify and hold harmless Saayam and its affiliates
             from any claims arising out of your use of the Platform or violation
@@ -146,7 +146,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>12. Modifications</h2>
+          <h2 className="terms-heading">12. Modifications</h2>
           <p>
             We may update these Terms at any time. Continued use after changes
             constitutes acceptance of the revised Terms.
@@ -154,7 +154,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>13. Termination</h2>
+          <h2 className="terms-heading">13. Termination</h2>
           <p>
             We may suspend or terminate your access for violations. You can also
             deactivate your account by contacting support.
@@ -162,7 +162,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>14. Limitation of Liability</h2>
+          <h2 className="terms-heading">14. Limitation of Liability</h2>
           <p>
             To the fullest extent permitted by law, we are not liable for
             indirect or consequential damages from your use of the Platform.
@@ -170,7 +170,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>15. Governing Law</h2>
+          <h2 className="terms-heading">15. Governing Law</h2>
           <p>
             These Terms are governed by the laws of our registered jurisdiction.
             Disputes will be resolved as appropriate under local laws.
@@ -178,7 +178,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>16. Waiver and Severability</h2>
+          <h2 className="terms-heading">16. Waiver and Severability</h2>
           <p>
             Failure to enforce a provision does not waive it. If any provision
             is invalid, the remaining provisions remain effective.
@@ -186,7 +186,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>17. Entire Agreement</h2>
+          <h2 className="terms-heading">17. Entire Agreement</h2>
           <p>
             These Terms and our Privacy Policy constitute the entire agreement
             between you and Saayam.
@@ -194,7 +194,7 @@ const TermsAndConditions = () => {
         </section>
 
         <section className="terms-section">
-          <h2>18. Contact</h2>
+          <h2 className="terms-heading">18. Contact</h2>
           <p>
             For any questions, contact us at 📧 info@SaayamForAll.org or 📍
             Saayam For All, 3046 Rosato Ct., San Jose, California 95135.

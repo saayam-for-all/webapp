@@ -19,6 +19,28 @@
   color: #000;
 }
 
+/* === Add this for blue line headings === */
+.privacy-policy-heading {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem; /* To precisely match Site Map's headings */
+  font-weight: 700;
+  color: #000;
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 0.5rem;
+  margin-top: 2rem; /* Adds vertical spacing before section */
+}
+.privacy-policy-heading::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 28px;
+  background-color: #007afd;
+  border-radius: 9999px;
+  margin-right: 12px;
+}
+
+/* === existing styles below === */
 .privacy-policy-inner h2 {
   font-size: 1.4rem;
   margin-top: 2rem;
