@@ -13,7 +13,7 @@ export function JoinCTA() {
       </p>
       <button
         className="bg-[#00B2FF] text-white text-xs font-semibold px-5 py-2 rounded-full hover:bg-[#009ee0] transition"
-        onClick={() => naviate("/contact")}
+        onClick={() => navigate("/contact")}
       >
         {t("Join the community")}
       </button>
