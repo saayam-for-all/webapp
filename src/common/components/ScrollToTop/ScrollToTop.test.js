@@ -1,7 +1,3 @@
-import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
-import ScrollToTop from "./ScrollToTop";
-
 //Mock IntersectionObserver for Jest environment which is supported by React
 beforeAll(() => {
   global.IntersectionObserver = class {
@@ -15,6 +11,10 @@ beforeAll(() => {
     disconnect() {}
   };
 });
+
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import ScrollToTop from "./ScrollToTop";
 
 describe("ScrollToTop", () => {
   beforeEach(() => {
