@@ -118,9 +118,9 @@ export default function Home() {
 
       <Carousel />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
-        <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
+        {/* <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
           {t("Our Collaborators")}
-        </h3>
+        </h3> */}
 
         {/* Hid collaborators until we get permission from them all*/}
         <div className="w-full flex flex-row overflow-hidden hidden">
