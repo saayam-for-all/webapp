@@ -1,0 +1,11 @@
+coverage:
+  range: "80...90"
+  status:
+    project:
+      default: # default is the status check's name, not default settings
+        target: auto
+        threshold: 5
+    patch:
+      default: # default is the status check's name, not default settings
+        target: 80%
+        threshold: 0
