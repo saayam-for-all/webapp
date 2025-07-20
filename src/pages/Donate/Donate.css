@@ -530,3 +530,136 @@ body {
   gap: 1rem 1.2rem;
   margin-bottom: 1.5rem;
 }
+/* ---------- BASE MOBILE STYLES FOR WIDTH <= 768px (Tablets & Large Phones) ---------- */
+@media (max-width: 768px) {
+  .donate-image-overlay-bg {
+    height: 400px; /* Reduced height for smaller screens */
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+  }
+
+  .donate-bg-image {
+    object-position: center left; /* Ensure important part of image (e.g., jar) is visible */
+  }
+
+  .donate-card-overlay {
+    position: absolute;
+    left: 50%;
+    top: 54%;
+    transform: translateY(-50%);
+    max-width: 90%;
+    width: 310px; /* Larger card for tablet-sized screens */
+    z-index: 2;
+    padding: 0.8rem 1rem;
+    background: white;
+    border-radius: 16px;
+  }
+}
+
+/* ---------- FOR SCREENS <= 724px (Smaller Phones) ---------- */
+@media (max-width: 724px) {
+  .donate-image-overlay-bg {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+  }
+
+  .donate-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    filter: brightness(0.9);
+  }
+
+  .donate-card-overlay {
+    position: absolute;
+    top: 50%;
+    left: 70%; /* Slight right alignment */
+    transform: translate(-50%, -50%);
+    width: 230px;
+    height: 230px; /* Square card */
+    background: white;
+    border-radius: 14px;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.4rem;
+  }
+
+  .donate-title {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+    line-height: 1.1;
+  }
+
+  .donate-subtitle {
+    font-size: 0.7rem;
+    margin-bottom: 0.4rem;
+    max-width: 90%;
+    line-height: 1.2;
+  }
+
+  .donate-main-btn {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    width: 90%;
+    border-radius: 10px;
+  }
+}
+
+/* ---------- FOR SCREENS <= 400px (e.g. iPhone SE, Pixel 4a) ---------- */
+@media (max-width: 400px) {
+  .donate-card-overlay {
+    width: 170px;
+    height: 170px; /* Smaller square card */
+    left: 72%; /* Further right to accommodate narrower view */
+    padding: 0.25rem;
+    border-radius: 12px;
+  }
+
+  .donate-title {
+    font-size: 0.72rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .donate-subtitle {
+    font-size: 0.62rem;
+    margin-bottom: 0.3rem;
+    line-height: 1.1;
+  }
+
+  .donation-options-grid {
+    gap: 0.5rem 0.8rem;
+  }
+
+  .donation-option-btn {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.6rem;
+    gap: 0.4rem;
+    max-width: 100px;
+  }
+
+  .donate-btn-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+  }
+
+  .donate-main-btn {
+    font-size: 0.65rem;
+    padding: 5px 6px;
+    width: 90%;
+  }
+}
