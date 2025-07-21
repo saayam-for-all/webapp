@@ -18,7 +18,7 @@ const ScrollToTop = () => {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-4 right-4 w-8 h-8 sm:w-12 sm:h-12 bg-black/20 text-white rounded-full z-50 flex items-center justify-center text-lg sm:text-xl"
+      className="fixed bottom-4 right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gray-200 text-black hover:bg-gray-300 rounded-full z-50 flex items-center justify-center text-xl sm:text-2xl font-extrabold"
     >
       ↑
     </button>
