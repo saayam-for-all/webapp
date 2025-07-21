@@ -32,7 +32,7 @@ const Table = ({
     if (sortConfig.key === key) {
       return sortConfig.direction === "ascending" ? "↑" : "↓";
     }
-    return "";
+    return "Another test change";
   };
 
   return (
