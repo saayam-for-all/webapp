@@ -5,8 +5,7 @@ on:
   pull_request:
     branches: ["test", "dev", "main"]
   push:
-    #TODO: Remove this after base report is uploaded
-    branches: ["lorkenpeist/codecov"]
+    branches: ["test", "dev", "main"]
 
 jobs:
   coverage:
