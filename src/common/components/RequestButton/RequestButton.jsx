@@ -56,8 +56,6 @@ const RequestButton = ({
           const country = user.zoneinfo;
           const emergencyContact = response.body[country];
 
-          console.error("Look at me, I'm an error message!");
-
           formattedResponse = (
             <div>
               <span>
