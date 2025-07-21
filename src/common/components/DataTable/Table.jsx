@@ -37,7 +37,6 @@ const Table = ({
 
   return (
     <div className="relative h-full" data-testid="container">
-      <p>Temporary change to make tests fail</p>
       <div className="overflow-auto h-4/5">
         <table
           className="min-w-full divide-y divide-gray-200"

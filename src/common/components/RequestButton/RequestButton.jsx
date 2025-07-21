@@ -108,7 +108,6 @@ const RequestButton = ({
 
   return (
     <>
-      <p>Change to an untested file.</p>
       <button
         onClick={handleClick}
         className={`${customStyle} h-12 flex items-center justify-center sm:justify-center lg:justify-start `}
