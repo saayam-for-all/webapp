@@ -3,7 +3,7 @@ name: Code Coverage
 on:
   # Triggers the workflow on push or pull request events
   pull_request:
-    branches: ["test", "dev", "main"]
+    branches: ["lorkenpeist/codecov"]
   push:
     branches: ["test", "dev", "main"]
 
