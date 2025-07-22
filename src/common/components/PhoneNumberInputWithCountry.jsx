@@ -14,7 +14,7 @@ const PhoneNumberInputWithCountry = ({
   label = "Phone Number",
   required = false,
   t = (x) => x,
-  isRequiredAsterik = true,
+  isRequiredAsterisk = true,
 }) => {
   const handlePhoneChange = (e) => {
     const value = e.target.value;
@@ -40,7 +40,7 @@ const PhoneNumberInputWithCountry = ({
   return (
     <div className="my-2 flex flex-col relative">
       <div>
-        {isRequiredAsterik && <span className="text-red-500 mr-1">*</span>}
+        {isRequiredAsterisk && <span className="text-red-500 mr-1">*</span>}
         <label htmlFor="phone">{label}</label>{" "}
       </div>
 

@@ -232,7 +232,7 @@ const ContactUs = () => {
               setError={setPhoneError}
               required={true}
               t={t}
-              isRequiredAsterik={true}
+              isRequiredAsterisk={true}
             />
             <input
               type="hidden"
