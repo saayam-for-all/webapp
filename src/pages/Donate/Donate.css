@@ -193,12 +193,12 @@
 }
 
 .faq-section {
-  margin-top: 3.5rem;
+  margin-top: 0.5rem;
 }
 
 .faq-title {
   /* font-family: 'Montserrat', 'Futura', Arial, sans-serif; */
-  font-size: 2.5rem;
+  font-size: 1.25rem; /*font size for faq title */
   font-weight: 700;
   text-align: center;
   margin-bottom: 1.5rem;
@@ -217,9 +217,9 @@
 
 .faq-question {
   width: 100%;
-  padding: 0.8rem 0;
+  padding: 0.9rem 0;
   text-align: left;
-  font-size: 1.2rem;
+  font-size: 1rem; /* font size for faq question */
   font-weight: 500;
   color: rgb(120, 119, 119);
   background: none;
