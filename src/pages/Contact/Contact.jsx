@@ -35,7 +35,7 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            {t("FIRST_NAME")}
+            {t("FIRST_NAME")} <span className="text-red-500">*</span>
           </span>
         </label>
         <label
@@ -53,7 +53,7 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            {t("LAST_NAME")}
+            {t("LAST_NAME")} <span className="text-red-500">*</span>
           </span>
         </label>
         <label
@@ -71,7 +71,7 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            {t("EMAIL")}
+            {t("EMAIL")} <span className="text-red-500">*</span>
           </span>
         </label>
         <label
@@ -89,7 +89,7 @@ const Contact = () => {
           />
 
           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            {t("PHONE")}
+            {t("PHONE")} <span className="text-red-500">*</span>
           </span>
         </label>
         <label
