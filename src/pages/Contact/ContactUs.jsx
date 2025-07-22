@@ -152,7 +152,6 @@ const ContactUs = () => {
             <p className="text-sm text-[#807D7D] mb-4">
               {t("You can reach us anytime")}
             </p>
-
             {/* First Name */}
             <div className="mb-4">
               <label
@@ -176,7 +175,6 @@ const ContactUs = () => {
                 helperText={errors.firstName}
               />
             </div>
-
             {/* Last Name */}
             <div className="mb-4">
               <label
@@ -200,7 +198,6 @@ const ContactUs = () => {
                 helperText={errors.lastName}
               />
             </div>
-
             {/* Email */}
             <div className="mb-4">
               <label
@@ -224,8 +221,8 @@ const ContactUs = () => {
                 helperText={errors.email}
               />
             </div>
-
             {/* Phone */}
+
             <PhoneNumberInputWithCountry
               phone={phone}
               setPhone={setPhone}
@@ -233,18 +230,9 @@ const ContactUs = () => {
               setCountryCode={setCountryCode}
               error={phoneError}
               setError={setPhoneError}
-              label={t("Phone")}
               required={true}
               t={t}
-            />
-            <input
-              type="hidden"
-              name="phone"
-              value={
-                PHONECODESEN[countryCode]
-                  ? `${PHONECODESEN[countryCode]["secondary"]}${phone}`
-                  : phone
-              }
+              isRequiredAsterik={true}
             />
             <input
               type="hidden"
@@ -252,7 +240,6 @@ const ContactUs = () => {
               value={`${window.location.origin}/thanks`}
             />
 
-            {/* Message */}
             <div className="mb-4">
               <label
                 htmlFor="message"
@@ -277,7 +264,6 @@ const ContactUs = () => {
                 helperText={errors.message}
               />
             </div>
-
             {/* Submit */}
             <Button
               type="submit"
@@ -293,7 +279,6 @@ const ContactUs = () => {
             >
               {t("Submit")}
             </Button>
-
             <p className="text-sm text-gray-500 mt-4 text-center">
               {t("*By clicking Submit, you are agreeing to our")}{" "}
               <a href="#" className="text-blue-600">
