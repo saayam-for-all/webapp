@@ -226,17 +226,27 @@ const ContactUs = () => {
             </div>
 
             {/* Phone */}
-            <PhoneNumberInputWithCountry
-              phone={phone}
-              setPhone={setPhone}
-              countryCode={countryCode}
-              setCountryCode={setCountryCode}
-              error={phoneError}
-              setError={setPhoneError}
-              label={t("Phone")}
-              required={true}
-              t={t}
-            />
+            <div className="mb-4">
+              <label
+                htmlFor="phone"
+                className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
+              >
+                <span className="text-red-500 mr-1">*</span>
+                {t("Phone")}
+              </label>
+              <PhoneNumberInputWithCountry
+                phone={phone}
+                setPhone={setPhone}
+                countryCode={countryCode}
+                setCountryCode={setCountryCode}
+                error={phoneError}
+                setError={setPhoneError}
+                label={t("Phone")}
+                required={true}
+                t={t}
+              />
+            </div>
+
             <input
               type="hidden"
               name="phone"
