@@ -241,9 +241,9 @@ const ContactUs = () => {
                 setCountryCode={setCountryCode}
                 error={phoneError}
                 setError={setPhoneError}
-                label={t("Phone")}
                 required={true}
                 t={t}
+                hideLabel={true}
               />
             </div>
 
