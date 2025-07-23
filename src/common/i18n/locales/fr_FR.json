@@ -31,6 +31,45 @@
   "VISION": "Vision",
   "CONTACT": "Contactez-nous",
   "PRIVACY_POLICY": "Politique de confidentialité",
+
+  "PRIVACY_POLICY_TITLE": "Politique de confidentialité",
+  "PRIVACY_POLICY_INTRO": "Chez Saayam for All (\"Saayam\", \"nous\", \"notre\"), votre vie privée est une priorité absolue...",
+
+  "PRIVACY_INFO_HEADING": "1. Informations que nous collectons",
+  "PRIVACY_INFO_PERSONAL": "Identifiants personnels : nom, adresse e-mail, numéro de téléphone, etc.",
+  "PRIVACY_INFO_PROFILE": "Informations de profil : rôle, compétences, disponibilité.",
+  "PRIVACY_INFO_LOCATION": "Données de localisation : collectées via l’adresse IP ou l’appareil.",
+  "PRIVACY_INFO_USAGE": "Données d’utilisation : pages visitées, informations sur l’appareil/le navigateur.",
+  "PRIVACY_INFO_REQUESTS": "Requêtes et réponses : journaux de service.",
+
+  "PRIVACY_USE_HEADING": "2. Comment nous utilisons vos informations",
+  "PRIVACY_USE_TEXT": "Nous utilisons vos données pour faire correspondre les demandes avec des bénévoles, améliorer votre expérience et assurer les performances du système. Nous ne vendons jamais vos données.",
+
+  "PRIVACY_SHARING_HEADING": "3. Partage des informations",
+  "PRIVACY_SHARING_TEXT": "Partagées uniquement avec des partenaires vérifiés ou des autorités légales si nécessaire, dans le cadre d'accords de confidentialité.",
+
+  "PRIVACY_RETENTION_HEADING": "4. Conservation des données",
+  "PRIVACY_RETENTION_TEXT": "Les données sont conservées aussi longtemps que nécessaire et supprimées ou anonymisées de manière sécurisée lorsqu'elles ne sont plus requises. Contactez-nous pour demander leur suppression.",
+
+  "PRIVACY_SECURITY_HEADING": "5. Mesures de sécurité",
+  "PRIVACY_SECURITY_TEXT": "Nous utilisons le chiffrement, des serveurs sécurisés et des contrôles d’accès. Les notifications de violation suivront les lois applicables.",
+
+  "PRIVACY_RIGHTS_HEADING": "6. Vos droits",
+  "PRIVACY_RIGHTS_ACCESS": "Accéder à / mettre à jour vos données",
+  "PRIVACY_RIGHTS_DELETE": "Demander la suppression",
+  "PRIVACY_RIGHTS_WITHDRAW": "Retirer votre consentement",
+
+  "PRIVACY_COOKIES_HEADING": "7. Cookies",
+  "PRIVACY_COOKIES_TEXT": "Nous utilisons des cookies à des fins d’analyse et de fonctionnalité essentielle. Vous pouvez les désactiver dans les paramètres de votre navigateur.",
+
+  "PRIVACY_THIRD_PARTY_HEADING": "8. Liens de tiers",
+  "PRIVACY_THIRD_PARTY_TEXT": "Nous ne sommes pas responsables des pratiques de confidentialité des liens externes. Veuillez consulter leurs politiques.",
+
+  "PRIVACY_CHANGES_HEADING": "9. Modifications de cette politique",
+  "PRIVACY_CHANGES_TEXT": "Nous pouvons mettre à jour cette politique. L'utilisation continue implique votre acceptation.",
+
+  "PRIVACY_CONTACT_HEADING": "10. Contactez-nous",
+  "PRIVACY_CONTACT_TEXT": "📧 info@SaayamForAll.org\n📍 Saayam for All, 3046 Rosato Ct., San Jose, Californie 95135",
   "TERMS_AND_CONDITIONS": "Conditions générales",
   "SITE_MAP": "Plan du site",
   "SCAN_ON_DONATE": "Vous pouvez scanner ou cliquer sur Faire un don",

@@ -37,6 +37,44 @@
   "VISION": "Vision",
   "CONTACT": "Contact Us",
   "PRIVACY_POLICY": "Privacy Policy",
+  "PRIVACY_POLICY_TITLE": "Privacy Policy",
+  "PRIVACY_POLICY_INTRO": "At Saayam for All (\"Saayam,\" \"we,\" \"us,\" or \"our\"), your privacy is a top priority...",
+
+  "PRIVACY_INFO_HEADING": "1. Information We Collect",
+  "PRIVACY_INFO_PERSONAL": "Personal Identifiers: Name, email address, phone number, etc.",
+  "PRIVACY_INFO_PROFILE": "Profile Information: Role, skills, availability.",
+  "PRIVACY_INFO_LOCATION": "Location Data: Collected via IP or device.",
+  "PRIVACY_INFO_USAGE": "Usage Data: Pages visited, device/browser info.",
+  "PRIVACY_INFO_REQUESTS": "Request and Response Records: Service logs.",
+
+  "PRIVACY_USE_HEADING": "2. How We Use Your Information",
+  "PRIVACY_USE_TEXT": "We use your data to match requests with volunteers, enhance your experience, and ensure system performance. We never sell your data.",
+
+  "PRIVACY_SHARING_HEADING": "3. Information Sharing",
+  "PRIVACY_SHARING_TEXT": "Only shared with verified partners or legal authorities when necessary, under confidentiality agreements.",
+
+  "PRIVACY_RETENTION_HEADING": "4. Data Retention",
+  "PRIVACY_RETENTION_TEXT": "Data is retained as needed and securely deleted or anonymized when no longer required. Contact us to request deletion.",
+
+  "PRIVACY_SECURITY_HEADING": "5. Security Measures",
+  "PRIVACY_SECURITY_TEXT": "We use encryption, secure servers, and access controls. Breach notifications will follow applicable laws.",
+
+  "PRIVACY_RIGHTS_HEADING": "6. Your Rights",
+  "PRIVACY_RIGHTS_ACCESS": "Access/update your data",
+  "PRIVACY_RIGHTS_DELETE": "Request deletion",
+  "PRIVACY_RIGHTS_WITHDRAW": "Withdraw consent",
+
+  "PRIVACY_COOKIES_HEADING": "7. Cookies",
+  "PRIVACY_COOKIES_TEXT": "We use cookies for analytics and essential functionality. You may disable them in your browser settings.",
+
+  "PRIVACY_THIRD_PARTY_HEADING": "8. Third-Party Links",
+  "PRIVACY_THIRD_PARTY_TEXT": "We are not responsible for external links’ privacy practices. Please review their policies.",
+
+  "PRIVACY_CHANGES_HEADING": "9. Changes to This Policy",
+  "PRIVACY_CHANGES_TEXT": "We may update this policy. Continued use implies acceptance.",
+
+  "PRIVACY_CONTACT_HEADING": "10. Contact Us",
+  "PRIVACY_CONTACT_TEXT": "📧 info@SaayamForAll.org\n📍 Saayam for All, 3046 Rosato Ct., San Jose, California 95135",
   "TERMS_AND_CONDITIONS": "Terms and Conditions",
   "SITE_MAP": "Site Map",
   "SCAN_ON_DONATE": "You can scan or click on Donate",
