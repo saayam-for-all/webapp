@@ -358,14 +358,14 @@ const SignUp = () => {
             onChange={(e) => setAcceptedTOS(e.target.checked)}
           />
           <label className="my-2 text-gray-700">
-            By checking this box, you are agreeing to the{" "}
+            {t("TOS_AGREEMENT")}{" "}
             <a
               href="/terms-and-conditions"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 underline"
             >
-              Terms and Conditions
+              {t("TERMS_AND_CONDITIONS")}
             </a>
             .
           </label>
@@ -401,12 +401,12 @@ const SignUp = () => {
         </div> */}
 
         <div className="mt-8 flex flex-row justify-center">
-          <p>Already have an account?</p>
+          <p>{t("ALREADY_HAVE_ACCOUNT")}</p>
           <button
             className="mx-2 text-left underline"
             onClick={() => navigate("/login")}
           >
-            Sign In
+            {t("SIGN_IN")}
           </button>
         </div>
       </div>
