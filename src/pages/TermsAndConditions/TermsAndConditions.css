@@ -34,14 +34,33 @@
   margin-bottom: 30px;
 }
 
-.terms-section h2 {
+/* === Updated heading style === */
+.terms-heading {
+  display: flex;
+  align-items: center;
   font-size: 1.3rem;
-  font-weight: 600;
-  color: #111;
+  font-weight: 700;
+  color: #000;
+  font-family: "Roboto", sans-serif;
   margin-bottom: 12px;
+}
+
+.terms-heading::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 28px;
+  background-color: #007afd;
+  border-radius: 9999px;
+  margin-right: 12px;
+}
+
+/* Remove these old lines to avoid conflict:
+.terms-section h2 {
   border-left: 4px solid #2563eb;
   padding-left: 12px;
 }
+*/
 
 .terms-section p {
   line-height: 1.7;

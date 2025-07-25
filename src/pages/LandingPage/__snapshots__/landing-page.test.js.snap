@@ -96,11 +96,6 @@ exports[`LandingPage renders correctly 1`] = `
         <div
           class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
-          <h3
-            class="font-bold text-3xl md:text-4xl md:mb-[40px]"
-          >
-            mockTranslate(Our Collaborators)
-          </h3>
           <div
             class="w-full flex flex-row overflow-hidden hidden"
           >
@@ -231,7 +226,7 @@ exports[`LandingPage renders correctly 1`] = `
             <iframe
               allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               class="landing-iframe "
-              src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0"
+              src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0&hl=en&cc_lang_pref=en"
               title="mockTranslate(YOUTUBE_VIDEO_TITLE)"
             />
           </div>
@@ -425,11 +420,6 @@ exports[`LandingPage renders correctly 1`] = `
       <div
         class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >
-        <h3
-          class="font-bold text-3xl md:text-4xl md:mb-[40px]"
-        >
-          mockTranslate(Our Collaborators)
-        </h3>
         <div
           class="w-full flex flex-row overflow-hidden hidden"
         >
@@ -560,7 +550,7 @@ exports[`LandingPage renders correctly 1`] = `
           <iframe
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             class="landing-iframe "
-            src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0"
+            src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0&hl=en&cc_lang_pref=en"
             title="mockTranslate(YOUTUBE_VIDEO_TITLE)"
           />
         </div>
