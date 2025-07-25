@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../redux/features/authentication/authActions";
 
-const INACTIVITY_TIMEOUT = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
+export const INACTIVITY_TIMEOUT = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
 
 const InactivityLogoutTimer = ({ children }) => {
   const dispatch = useDispatch();

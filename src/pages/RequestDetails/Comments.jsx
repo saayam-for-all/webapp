@@ -14,7 +14,7 @@ const Comments = ({ name, message, date }) => {
 
     //           {name}
     //         </p>
-    //         <p className="text-sm text-gray-600 dark:text-gray-400">
+    //         <p className="text-sm text-gray-600 dark:text-gray-600">
     //           <time dateTime="2022-03-12" title={date}>
     //             {date}
     //           </time>

@@ -1,0 +1,1130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Directors renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <div
+          class="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]"
+        >
+          <div
+            class="text-center max-w-3xl mx-auto mb-12 px-4"
+          >
+            <h2
+              class="font-extrabold text-2xl sm:text-3xl mb-4"
+            >
+              mockTranslate(DIRECTORS)
+            </h2>
+            <p
+              class="text-gray-600 text-sm sm:text-base leading-relaxed mb-2"
+            >
+              mockTranslate(DIRECTORS_DESCRIPTION)
+            </p>
+          </div>
+          <div
+            class="flex flex-wrap justify-center gap-10"
+          >
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Rao K Bhethanabotla)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/raobhethanabotla"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Rao K Bhethanabotla)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Founder, President, CEO, CTO)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Srividhya Gopalan)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/srividhyagopalan/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Srividhya Gopalan)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director & Chief Financial Officer)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Naveen Sharma)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/nsharma2/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Naveen Sharma)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director and Secretary)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Prabhakara Yellai)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/prabhakara-yellai/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Prabhakara Yellai)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Sharadha Venketasubramanian)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/sharadha/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Sharadha Venketasubramanian)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Ramesh Maturu)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Ramesh Maturu)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Madhukar Govindaraju)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/madhukar/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Madhukar Govindaraju)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Sateesh Mucharla)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/mucharla"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Sateesh Mucharla)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Ashwani Dhawan)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/mantrapaloalto/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Ashwani Dhawan)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director)
+              </div>
+            </div>
+          </div>
+        </div>
+        <section>
+          <div
+            class="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]"
+          >
+            <div
+              class="text-center max-w-3xl mx-auto mb-12 px-4"
+            >
+              <h2
+                class="font-extrabold text-2xl sm:text-3xl mb-4"
+              >
+                mockTranslate(EXECUTIVE_TEAM)
+              </h2>
+              <p
+                class="text-gray-600 text-sm sm:text-base leading-relaxed mb-2"
+              >
+                mockTranslate(EXECUTIVE_DESCRIPTION_1)
+              </p>
+              <p
+                class="text-gray-600 text-sm sm:text-base leading-relaxed"
+              >
+                mockTranslate(EXECUTIVE_DESCRIPTION_2)
+              </p>
+            </div>
+            <div
+              class="flex flex-wrap justify-center gap-10"
+            >
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Rashmi Bilaskar"
+                    class="w-full h-full object-cover"
+                    src=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/rashmi-bilaskar"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Rashmi Bilaskar)
+                  </a>
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  mockTranslate(Director of Engineering)
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Rishitha Rapuri"
+                    class="w-full h-full object-cover"
+                    src=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Rishitha Rapuri)
+                  </a>
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  mockTranslate(Business Analyst Team Lead)
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Sriram Mahankali"
+                    class="w-full h-full object-cover"
+                    src=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/sriram-mahankali-393047342"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Sriram Mahankali)
+                  </a>
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  mockTranslate(Design and Creative Lead)
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Divya Tanwar"
+                    class="w-full h-full object-cover"
+                    src=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/divya-tanwar26/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Divya Tanwar)
+                  </a>
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  mockTranslate(Lead DevSecOps Engineer)
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Mohana Krishanan R."
+                    class="w-full h-full object-cover"
+                    src=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  <a
+                    class="text-black hover:underline"
+                    href="https://in.linkedin.com/in/mohanakrishnan-rajamani"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Mohana Krishanan R.)
+                  </a>
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  mockTranslate(Senior Data Architect)
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Sugandha Agrawal"
+                    class="w-full h-full object-cover"
+                    src=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Sugandha Agrawal)
+                  </a>
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  mockTranslate(Developer Advocate/AI/ML Dev Manager)
+                </div>
+              </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Meghana Karri"
+                    class="w-full h-full object-cover"
+                    src=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/meghanakarri/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Meghana Karri)
+                  </a>
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  mockTranslate(Lead User Experience Designer)
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <div
+        class="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]"
+      >
+        <div
+          class="text-center max-w-3xl mx-auto mb-12 px-4"
+        >
+          <h2
+            class="font-extrabold text-2xl sm:text-3xl mb-4"
+          >
+            mockTranslate(DIRECTORS)
+          </h2>
+          <p
+            class="text-gray-600 text-sm sm:text-base leading-relaxed mb-2"
+          >
+            mockTranslate(DIRECTORS_DESCRIPTION)
+          </p>
+        </div>
+        <div
+          class="flex flex-wrap justify-center gap-10"
+        >
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Rao K Bhethanabotla)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/raobhethanabotla"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Rao K Bhethanabotla)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Founder, President, CEO, CTO)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Srividhya Gopalan)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/srividhyagopalan/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Srividhya Gopalan)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director & Chief Financial Officer)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Naveen Sharma)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/nsharma2/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Naveen Sharma)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director and Secretary)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Prabhakara Yellai)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/prabhakara-yellai/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Prabhakara Yellai)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Sharadha Venketasubramanian)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/sharadha/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Sharadha Venketasubramanian)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Ramesh Maturu)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/rameshmaturu/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Ramesh Maturu)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Madhukar Govindaraju)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/madhukar/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Madhukar Govindaraju)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Sateesh Mucharla)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/mucharla"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Sateesh Mucharla)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Ashwani Dhawan)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/mantrapaloalto/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Ashwani Dhawan)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director)
+            </div>
+          </div>
+        </div>
+      </div>
+      <section>
+        <div
+          class="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]"
+        >
+          <div
+            class="text-center max-w-3xl mx-auto mb-12 px-4"
+          >
+            <h2
+              class="font-extrabold text-2xl sm:text-3xl mb-4"
+            >
+              mockTranslate(EXECUTIVE_TEAM)
+            </h2>
+            <p
+              class="text-gray-600 text-sm sm:text-base leading-relaxed mb-2"
+            >
+              mockTranslate(EXECUTIVE_DESCRIPTION_1)
+            </p>
+            <p
+              class="text-gray-600 text-sm sm:text-base leading-relaxed"
+            >
+              mockTranslate(EXECUTIVE_DESCRIPTION_2)
+            </p>
+          </div>
+          <div
+            class="flex flex-wrap justify-center gap-10"
+          >
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Rashmi Bilaskar"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/rashmi-bilaskar"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Rashmi Bilaskar)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director of Engineering)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Rishitha Rapuri"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Rishitha Rapuri)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Business Analyst Team Lead)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Sriram Mahankali"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/sriram-mahankali-393047342"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Sriram Mahankali)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Design and Creative Lead)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Divya Tanwar"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/divya-tanwar26/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Divya Tanwar)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Lead DevSecOps Engineer)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Mohana Krishanan R."
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://in.linkedin.com/in/mohanakrishnan-rajamani"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Mohana Krishanan R.)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Senior Data Architect)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Sugandha Agrawal"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Sugandha Agrawal)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Developer Advocate/AI/ML Dev Manager)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Meghana Karri"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/meghanakarri/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Meghana Karri)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Lead User Experience Designer)
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

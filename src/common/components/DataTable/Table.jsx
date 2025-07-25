@@ -47,7 +47,7 @@ const Table = ({
               {headers.map((key) => (
                 <th
                   key={key}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                   data-testid="map-header-one"
                 >
                   <button type="button" onClick={() => requestSort(key)}>
@@ -100,6 +100,7 @@ const Table = ({
             onPageChange={setCurrentPage}
             rowsPerPage={itemsPerPage}
             totalRows={totalRows}
+            onRowsPerPageChange={onRowsPerPageChange}
           />
         )}
       </div>

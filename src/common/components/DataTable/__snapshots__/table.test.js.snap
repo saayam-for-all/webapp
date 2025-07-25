@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="relative h-full"
+        data-testid="container"
+      >
+        <div
+          class="overflow-auto h-4/5"
+        >
+          <table
+            class="min-w-full divide-y divide-gray-200"
+            data-testid="table"
+          >
+            <thead
+              class=""
+              data-testid="table-header"
+            >
+              <tr>
+                <th
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  data-testid="map-header-one"
+                >
+                  <button
+                    type="button"
+                  >
+                    Id
+                  </button>
+                </th>
+                <th
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  data-testid="map-header-one"
+                >
+                  <button
+                    type="button"
+                  >
+                    Name
+                    ↑
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-white divide-y divide-gray-200 "
+              data-testid="table-body"
+            >
+              <tr>
+                <td
+                  class="px-6 py-4 whitespace-nowrap"
+                  data-testid="map-data-one"
+                >
+                  <mock-link
+                    props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                    to="/mock-link-path"
+                  >
+                    1
+                  </mock-link>
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap"
+                  data-testid="map-data-one"
+                >
+                  Item 1
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="px-6 py-4 whitespace-nowrap"
+                  data-testid="map-data-one"
+                >
+                  <mock-link
+                    props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                    to="/mock-link-path"
+                  >
+                    2
+                  </mock-link>
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap"
+                  data-testid="map-data-one"
+                >
+                  Item 2
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="h-1/5"
+        >
+          <mock-pagination
+            currentpage="1"
+            rowsperpage="2"
+            totalpages="2"
+            totalrows="2"
+          />
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="relative h-full"
+      data-testid="container"
+    >
+      <div
+        class="overflow-auto h-4/5"
+      >
+        <table
+          class="min-w-full divide-y divide-gray-200"
+          data-testid="table"
+        >
+          <thead
+            class=""
+            data-testid="table-header"
+          >
+            <tr>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                data-testid="map-header-one"
+              >
+                <button
+                  type="button"
+                >
+                  Id
+                </button>
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                data-testid="map-header-one"
+              >
+                <button
+                  type="button"
+                >
+                  Name
+                  ↑
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="bg-white divide-y divide-gray-200 "
+            data-testid="table-body"
+          >
+            <tr>
+              <td
+                class="px-6 py-4 whitespace-nowrap"
+                data-testid="map-data-one"
+              >
+                <mock-link
+                  props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                  to="/mock-link-path"
+                >
+                  1
+                </mock-link>
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap"
+                data-testid="map-data-one"
+              >
+                Item 1
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="px-6 py-4 whitespace-nowrap"
+                data-testid="map-data-one"
+              >
+                <mock-link
+                  props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                  to="/mock-link-path"
+                >
+                  2
+                </mock-link>
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap"
+                data-testid="map-data-one"
+              >
+                Item 2
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="h-1/5"
+      >
+        <mock-pagination
+          currentpage="1"
+          rowsperpage="2"
+          totalpages="2"
+          totalrows="2"
+        />
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
