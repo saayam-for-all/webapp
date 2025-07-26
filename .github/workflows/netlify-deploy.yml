@@ -50,6 +50,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Add _redirects file
+        run: echo '/* /index.html 200' > dist/_redirects
         
       - name: Zip the build
         run: |
