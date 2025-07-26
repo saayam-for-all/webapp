@@ -38,6 +38,9 @@ jobs:
       - name: Testing
         run: npm test
 
+      - name: Inject env variable
+        run: echo "VITE_BASE_API_URL=${{ secrets.VITE_BASE_API_URL }}" > .env
+
       - name: Build application
         run: npm run build
 
