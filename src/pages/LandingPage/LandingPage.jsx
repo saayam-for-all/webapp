@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import bannerImageOne from "../../assets/landingPageImages/bannerImageOne.jpg";
 import bannerImageThree from "../../assets/landingPageImages/bannerImageThree.jpg";
@@ -20,19 +19,41 @@ import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.jpg";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
-import { useTranslation } from "react-i18next";
 
 export default function Home() {
-  const { t } = useTranslation();
-  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const videoId = "zupN0-zXrLQ";
+  const { t, i18n } = useTranslation();
 
-  useEffect(() => {
-    if (user !== null) {
-      navigate("/dashboard");
-    }
-  }, [user]);
+  // Get the current language and map it to YouTube language codes
+  const getYouTubeLanguageCode = (language) => {
+    // Extract base language code (remove region code if present)
+    const baseLanguage = language ? language.split("-")[0] : "en";
+
+    const languageMap = {
+      en: "en",
+      es: "es",
+      fr: "fr",
+      de: "de",
+      pt: "pt",
+      ru: "ru",
+      zh: "zh",
+      hi: "hi",
+      bn: "bn",
+      te: "te",
+    };
+    return languageMap[baseLanguage] || "en"; // Default to English if language not supported
+  };
+
+  const currentLanguage = getYouTubeLanguageCode(i18n.language);
+
+  // uncomment this for debugging
+  // console.log("Current i18n language:", i18n.language);
+  // console.log("Mapped YouTube language:", currentLanguage);
+  // console.log(
+  //   "YouTube URL:",
+  //   `https://www.youtube.com/embed/${videoId}?controls=1&rel=0&hl=${currentLanguage}&cc_lang_pref=${currentLanguage}`,
+  // );
 
   return (
     <div className="w-full overflow-hidden">
@@ -56,6 +77,7 @@ export default function Home() {
           <img
             src={bannerImageOne}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+            alt={t("SARVE_JANA_SUKHINO_BHAVANTU_ALT")}
           />
           <h3 className="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center">
             {t("Sarve jana sukhino bhavantu")}
@@ -68,6 +90,7 @@ export default function Home() {
           <img
             src={bannerImageTwo}
             className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+            alt={t("JNANAM_VARDHATI_SANCHAYAT_ALT")}
           />
           <h3 className="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
             {t("jñānam vardhati sanchayāt")}
@@ -82,6 +105,7 @@ export default function Home() {
           <img
             src={bannerImageThree}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+            alt={t("MANAVA_SEVAYE_MADHAVA_SEVA_ALT")}
           />
           <h3 className="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
             {t("Manava sevaye Madhava seva")}
@@ -94,9 +118,9 @@ export default function Home() {
 
       <Carousel />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
-        <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
+        {/* <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
           {t("Our Collaborators")}
-        </h3>
+        </h3> */}
 
         {/* Hid collaborators until we get permission from them all*/}
         <div className="w-full flex flex-row overflow-hidden hidden">
@@ -137,19 +161,19 @@ export default function Home() {
             className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/our-mission")}
           >
-            {t("Our Mission")} &rarr;
+            {t("Our Mission")} →
           </button>
         </div>
         <div className="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center">
           <img
             className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
             src={topOne}
-            alt="A sunny day with two people looking at each other comfortingly"
+            alt={t("LANDING_IMAGE_ALT_1")}
           />
           <img
             className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
             src={topTwo}
-            alt="A joyful family stands in a lush field on a sunny day"
+            alt={t("LANDING_IMAGE_ALT_2")}
           />
         </div>
       </div>
@@ -168,15 +192,15 @@ export default function Home() {
             className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/how-we-operate")}
           >
-            {t("Learn More")} &rarr;
+            {t("Learn More")} →
           </button>
         </div>
 
         {/* Video Section - Second on mobile, first on desktop */}
         <div className="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5">
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0`}
-            title="YouTube Video"
+            src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0&hl=${currentLanguage}&cc_lang_pref=${currentLanguage}`}
+            title={t("YOUTUBE_VIDEO_TITLE")}
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             className="landing-iframe "
           ></iframe>
@@ -197,37 +221,28 @@ export default function Home() {
             <div
               key={`bottom-image-${i}`}
               className="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${src})`,
-                // backgroundSize: "cover",
-                // backgroundPosition: "center",
-                // width: "25%",
-                // height: "400px",
-                // borderRadius: "10px",
-              }}
+              style={{ backgroundImage: `url(${src})` }}
             >
               <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]">
                 <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
-                  {
+                  {t(
                     [
-                      t("Beneficiaries"),
-                      t("Volunteers"),
-                      t("Voluntary Organizations"),
-                      t("Donors"),
-                    ][i]
-                  }
+                      "Beneficiaries",
+                      "Volunteers",
+                      "Voluntary Organizations",
+                      "Donors",
+                    ][i],
+                  )}
                 </h3>
                 <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
-                  {
+                  {t(
                     [
-                      t("Recieve help for their requests"),
-                      t("Provide guidance and solutions to beneficiaries"),
-                      t("Offer necessary support to beneficiaries"),
-                      t(
-                        "Provide financial assistance to voluntary organization",
-                      ),
-                    ][i]
-                  }
+                      "Receive help for their requests",
+                      "Provide guidance and solutions to beneficiaries",
+                      "Offer necessary support to beneficiaries",
+                      "Provide financial assistance to voluntary organization",
+                    ][i],
+                  )}
                 </h6>
               </div>
             </div>

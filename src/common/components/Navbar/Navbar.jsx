@@ -21,6 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
 import ArticleIcon from "@mui/icons-material/Article";
+import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
@@ -296,15 +297,42 @@ const Navbar = () => {
 
         {/* Desktop Menu (visible only on larger screens) */}
         <div className="hidden md:flex items-center justify-center space-x-8 flex-1">
-          <div className="relative">
-            <button
-              onClick={(e) => handleLinkClick(e, "/")}
-              // className="text-black flex items-center hover:text-gray-600 text-base"
-              className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
-            >
-              <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-            </button>
-          </div>
+          {/* Showing Home button for guest users */}
+          {!user?.userId && (
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/")}
+                className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
+              >
+                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+              </button>
+            </div>
+          )}
+
+          {/* Showing Home button for logged in users*/}
+          {user?.userId && (
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/")}
+                className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
+              >
+                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+              </button>
+            </div>
+          )}
+
+          {/* Dashboard Button for logged in users - Land to Request Page */}
+          {user?.userId && (
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/dashboard")}
+                // className="text-black flex items-center hover:text-gray-600 text-base"
+                className="text-black hover:text-gray-600 flex items-center text-base"
+              >
+                <DashboardCustomizeIcon className="mr-2" /> {t("DASHBOARD")}
+              </button>
+            </div>
+          )}
 
           {/* About Us Dropdown */}
           <div className="relative">
@@ -542,14 +570,42 @@ const Navbar = () => {
         }}
       >
         <div className="p-6 w-64">
-          <div className="block text-black py-2 flex items-center">
-            <button
-              onClick={(e) => handleDrawerClick(e, "/")}
-              className="text-black flex items-center hover:text-blue-600"
-            >
-              <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-            </button>
-          </div>
+          {/* Showing Home button for guest users */}
+          {!user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleLinkClick(e, "/")}
+                className="text-black flex items-center hover:text-blue-600"
+              >
+                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+              </button>
+            </div>
+          )}
+
+          {/* Showing Home button for logged in users*/}
+          {user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleLinkClick(e, "/")}
+                className="text-black flex items-center hover:text-blue-600"
+              >
+                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+              </button>
+            </div>
+          )}
+
+          {/* Dashboard Button for logged in users - Land to Request Page */}
+          {user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleLinkClick(e, "/dashboard")}
+                // className="text-black flex items-center hover:text-gray-600 text-base"
+                className="text-black flex items-center hover:text-blue-600"
+              >
+                <DashboardCustomizeIcon className="mr-2" /> {t("DASHBOARD")}
+              </button>
+            </div>
+          )}
 
           <div className="block text-black py-2 flex items-center">
             <button
@@ -633,15 +689,6 @@ const Navbar = () => {
               className="text-black flex items-center hover:text-blue-600"
             >
               <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
-            </button>
-          </div>
-
-          <div className="block text-black py-2 flex items-center">
-            <button
-              onClick={(e) => handleDrawerClick(e, "/donate")}
-              className="text-black flex items-center hover:text-blue-600"
-            >
-              <FavoriteBorderIcon className="mr-2" /> {t("Donate")}
             </button>
           </div>
 

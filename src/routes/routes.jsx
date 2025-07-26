@@ -24,7 +24,10 @@ import Sitemap from "../pages/Sitemap/Sitemap";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
 import ProtectedRoute from "./ProtectedRoute";
 import BenevityInfo from "../pages/Benevity/BenevityInfo";
+import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
+
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import Thanks from "../pages/Thanks/Thanks";
 
 const routes = [
   {
@@ -60,8 +63,16 @@ const routes = [
     element: <ContactUs />,
   },
   {
+    path: "thanks",
+    element: <Thanks />,
+  },
+  {
     path: "sitemap",
     element: <Sitemap />,
+  },
+  {
+    path: "terms-and-conditions",
+    element: <TermsAndConditions />,
   },
   {
     path: "privacy-policy",

@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
-import { TextField, Button, Typography, Box } from "@mui/material";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { Box, Button, TextField } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import PHONECODESEN from "../../utils/phone-codes-en";
 
 const ContactUs = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
     message: "",
   });
 
@@ -17,22 +21,28 @@ const ContactUs = () => {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [openFAQIndex, setOpenFAQIndex] = useState(null);
+  const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("US");
+  const [phoneError, setPhoneError] = useState("");
 
   const faqs = [
     {
-      question: "What services does Saayam for All offer?",
-      answer:
+      question: t("What services does Saayam for All offer?"),
+      answer: t(
         "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.",
+      ),
     },
     {
-      question: "How can I become a volunteer?",
-      answer:
+      question: t("How can I become a volunteer?"),
+      answer: t(
         "Fill out the contact form and our team will reach out with onboarding steps!",
+      ),
     },
     {
-      question: "Is Saayam for All a non-profit?",
-      answer:
+      question: t("Is Saayam for All a non-profit?"),
+      answer: t(
         "Yes, we are a non-profit organization focused on community support and outreach.",
+      ),
     },
   ];
 
@@ -52,7 +62,9 @@ const ContactUs = () => {
     const newErrors = {};
     const nameRegex = /^[A-Za-z\s]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\d{10}$/;
+    const fullPhoneNumber =
+      PHONECODESEN[countryCode] &&
+      `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First Name is required";
     } else if (!nameRegex.test(formData.firstName.trim())) {
@@ -68,22 +80,19 @@ const ContactUs = () => {
     } else if (!emailRegex.test(formData.email.trim())) {
       newErrors.email = "Email is invalid";
     }
-    if (!formData.phone.trim()) {
+    if (!phone) {
       newErrors.phone = "Phone is required";
-    } else if (!phoneRegex.test(formData.phone.trim())) {
-      newErrors.phone = "Phone number must be 10 digits";
-    } else if (formData.phone.trim().length !== 10) {
-      newErrors.phone = "Phone number must be exactly 10 digits";
+    } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
+      newErrors.phone = "Please enter a valid phone number";
     }
     if (!formData.message) {
       newErrors.message = "Message is required";
     }
     setErrors(newErrors);
-
+    setPhoneError(newErrors.phone || "");
     if (Object.keys(newErrors).length === 0) {
       setSubmitted(true);
       formRef.current?.submit();
-      // Add submission logic here
     }
   };
 
@@ -96,14 +105,15 @@ const ContactUs = () => {
       <div className="flex flex-col md:flex-row w-full gap-6">
         {/* Left Column: Contact Info + FAQ */}
         <div className="flex flex-col w-full md:w-1/2 p-4">
-          <h1 className="text-3xl font-bold mb-2">Contact Us</h1>
+          <h1 className="text-3xl font-bold mb-2">{t("Contact Us")}</h1>
           <p className="text-[#807D7D] text-lg mb-4">
-            Email, call, or complete the form to learn how Saayam for All can
-            help you with your challenges
+            {t(
+              "Email, call, or complete the form to learn how Saayam for All can help you with your challenges",
+            )}
           </p>
           <p className="text-[#807D7D] text-base mb-10">hr@saayamforall.org</p>
 
-          <h1 className="text-2xl font-bold mb-4">FAQ's</h1>
+          <h1 className="text-2xl font-bold mb-4">{t("FAQ's")}</h1>
           <div className="w-full">
             {faqs.map((faq, index) => (
               <div key={index} className="mb-4 border-b border-gray-300 pb-2">
@@ -138,9 +148,9 @@ const ContactUs = () => {
             method="POST"
             className="w-full max-w-2xl bg-white p-6 rounded-3xl shadow-md"
           >
-            <h1 className="text-2xl font-bold mb-1">Get In Touch</h1>
+            <h1 className="text-2xl font-bold mb-1">{t("Get In Touch")}</h1>
             <p className="text-sm text-[#807D7D] mb-4">
-              You can reach us anytime
+              {t("You can reach us anytime")}
             </p>
 
             {/* First Name */}
@@ -149,12 +159,13 @@ const ContactUs = () => {
                 htmlFor="firstName"
                 className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
               >
-                <span className="text-red-500 mr-1">*</span>First Name
+                <span className="text-red-500 mr-1">*</span>
+                {t("First Name")}
               </label>
               <TextField
                 id="firstName"
                 name="firstName"
-                placeholder="Enter your first name"
+                placeholder={t("Enter your first name")}
                 variant="outlined"
                 fullWidth
                 margin="dense"
@@ -172,12 +183,13 @@ const ContactUs = () => {
                 htmlFor="lastName"
                 className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
               >
-                <span className="text-red-500 mr-1">*</span>Last Name
+                <span className="text-red-500 mr-1">*</span>
+                {t("Last Name")}
               </label>
               <TextField
                 id="lastName"
                 name="lastName"
-                placeholder="Enter your last name"
+                placeholder={t("Enter your last name")}
                 variant="outlined"
                 fullWidth
                 margin="dense"
@@ -195,12 +207,13 @@ const ContactUs = () => {
                 htmlFor="email"
                 className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
               >
-                <span className="text-red-500 mr-1">*</span>Email
+                <span className="text-red-500 mr-1">*</span>
+                {t("Email")}
               </label>
               <TextField
                 id="email"
                 name="email"
-                placeholder="Enter your email"
+                placeholder={t("Enter your email")}
                 variant="outlined"
                 fullWidth
                 margin="dense"
@@ -218,22 +231,36 @@ const ContactUs = () => {
                 htmlFor="phone"
                 className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
               >
-                <span className="text-red-500 mr-1">*</span>Phone
+                <span className="text-red-500 mr-1">*</span>
+                {t("Phone")} ({t("preferably WhatsApp")})
               </label>
-              <TextField
-                id="phone"
-                name="phone"
-                placeholder="Enter your phone number"
-                variant="outlined"
-                fullWidth
-                margin="dense"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                error={!!errors.phone}
-                helperText={errors.phone}
+              <PhoneNumberInputWithCountry
+                phone={phone}
+                setPhone={setPhone}
+                countryCode={countryCode}
+                setCountryCode={setCountryCode}
+                error={phoneError}
+                setError={setPhoneError}
+                required={true}
+                t={t}
+                hideLabel={true}
               />
             </div>
+
+            <input
+              type="hidden"
+              name="phone"
+              value={
+                PHONECODESEN[countryCode]
+                  ? `${PHONECODESEN[countryCode]["secondary"]}${phone}`
+                  : phone
+              }
+            />
+            <input
+              type="hidden"
+              name="_next"
+              value={`${window.location.origin}/thanks`}
+            />
 
             {/* Message */}
             <div className="mb-4">
@@ -241,12 +268,13 @@ const ContactUs = () => {
                 htmlFor="message"
                 className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
               >
-                <span className="text-red-500 mr-1">*</span>Message
+                <span className="text-red-500 mr-1">*</span>
+                {t("Message")}
               </label>
               <TextField
                 id="message"
                 name="message"
-                placeholder="Type your message..."
+                placeholder={t("Enter your message")}
                 variant="outlined"
                 fullWidth
                 margin="dense"
@@ -273,13 +301,16 @@ const ContactUs = () => {
                 fontWeight: "bold",
               }}
             >
-              Submit
+              {t("Submit")}
             </Button>
 
             <p className="text-sm text-gray-500 mt-4 text-center">
-              *By clicking Submit, you are agreeing to our{" "}
-              <a href="#" className="text-blue-600">
-                terms and conditions
+              {t("*By clicking Submit, you are agreeing to our")}{" "}
+              <a
+                href="/terms-and-conditions"
+                className="text-blue-600 hover:underline"
+              >
+                {t("terms and conditions")}
               </a>
               .
             </p>

@@ -108,7 +108,7 @@ const RequestButton = ({
     <>
       <button
         onClick={handleClick}
-        className={`${customStyle} h-12 flex items-center justify-center sm:justify-center lg:justify-start `}
+        className={`${customStyle} h-12 flex items-center justify-center sm:justify-center lg:justify-start`}
       >
         <span>{getIcon()}</span>
         <span className="hidden lg:inline">{text}</span>

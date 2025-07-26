@@ -1,3 +1,15 @@
+//Mock IntersectionObserver for Scroll To Top Button
+global.IntersectionObserver = class {
+  constructor(callback) {
+    this.callback = callback;
+  }
+  observe() {
+    this.callback([{ isIntersecting: false }]);
+  }
+  unobserve() {}
+  disconnect() {}
+};
+
 import { render } from "@testing-library/react";
 import Layout from "./Layout";
 
