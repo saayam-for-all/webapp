@@ -55,4 +55,4 @@ jobs:
         run: zip -r build.zip dist/
         
       - name: Deploy to netlify
-        run: curl -X POST -H "Content-Type:application/zip" -H "Authorization:Bearer ${{ secrest.NETLIFY_ACCESS_TOKEN }}" --data-binary "@build.zip" https://api.netlify.com/api/v1/sites/${{ secrets.NETLIFY_SITE_ID }}/deploys
+        run: curl -X POST -H "Content-Type:application/zip" -H "Authorization:Bearer ${{ secrets.NETLIFY_ACCESS_TOKEN }}" --data-binary "@build.zip" https://api.netlify.com/api/v1/sites/${{ secrets.NETLIFY_SITE_ID }}/deploys
