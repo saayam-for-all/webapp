@@ -238,6 +238,33 @@ const SignUp = () => {
           />
         </div>
 
+        {/* Country */}
+        <div className="my-2 flex flex-col">
+          <label htmlFor="country">{t("COUNTRY")}</label>
+          <select
+            id="country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-xl"
+            required
+          >
+            {/**
+            <option value="">Select your country</option>
+            {countries.map((option) => (
+              <option key={option.value} value={option.label}>
+                {option.label}
+              </option>
+            ))}
+             */}
+            <option value="">{t("SELECT_COUNTRY")}</option>
+            {countries.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Password */}
         <div className="my-2 flex flex-col relative">
           <label htmlFor="password">{t("PASSWORD")}</label>
