@@ -79,11 +79,7 @@ const PrivacyPolicy = () => {
         <h2 className="privacy-policy-heading">
           {t("PRIVACY_SECTION_10_TITLE")}
         </h2>
-        <p>
-          📧 <a href="mailto:info@SaayamForAll.org">info@SaayamForAll.org</a>
-          <br />
-          📍 Saayam for All, 3046 Rosato Ct., San Jose, California 95135
-        </p>
+        <p>{t("PRIVACY_CONTACT_CONTENT")}</p>
       </div>
     </div>
   );
