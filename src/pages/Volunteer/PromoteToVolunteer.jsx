@@ -244,10 +244,10 @@ const PromoteToVolunteer = () => {
     <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
       <div className="w-full max-w-2xl mx-auto px-4 mt-4">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> Back to Home
+          <span className="text-2xl mr-2">&lt;</span> Back to Dashboard
         </button>
       </div>
       <div className="container horizontal mt-5 p-12">

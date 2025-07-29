@@ -8,27 +8,34 @@ const PrivacyPolicy = () => {
   return (
     <div className="privacy-policy-container">
       <div className="privacy-policy-inner">
-        <h1 className="privacy-policy-title">{t("PRIVACY_TITLE")}</h1>
-        <p>{t("PRIVACY_INTRO")}</p>
+        <h1 className="privacy-policy-title">{t("PRIVACY_POLICY")}</h1>
+        <p>
+          {t("AT")} <strong>Saayam for All</strong> {t("PRIVACY_INTRO")}
+        </p>
 
         <h2 className="privacy-policy-heading">
           {t("PRIVACY_SECTION_1_TITLE")}
         </h2>
         <ul>
           <li>
-            <strong>{t("PRIVACY_1_PERSONAL")}</strong>
+            <strong>{t("PRIVACY_INFO_PERSONAL")}</strong>{" "}
+            {t("PRIVACY_INFO_PERSONAL_CONTENT")}
           </li>
           <li>
-            <strong>{t("PRIVACY_1_PROFILE")}</strong>
+            <strong>{t("PRIVACY_INFO_PROFILE")}</strong>{" "}
+            {t("PRIVACY_INFO_PROFILE_CONTENT")}
           </li>
           <li>
-            <strong>{t("PRIVACY_1_LOCATION")}</strong>
+            <strong>{t("PRIVACY_INFO_LOCATION")}</strong>{" "}
+            {t("PRIVACY_INFO_LOCATION_CONTENT")}
           </li>
           <li>
-            <strong>{t("PRIVACY_1_USAGE")}</strong>
+            <strong>{t("PRIVACY_INFO_USAGE")}</strong>{" "}
+            {t("PRIVACY_INFO_USAGE_CONTENT")}
           </li>
           <li>
-            <strong>{t("PRIVACY_1_RECORDS")}</strong>
+            <strong>{t("PRIVACY_INFO_REQUEST_RESPONSE")}</strong>{" "}
+            {t("PRIVACY_INFO_REQUEST_RESPONSE_CONTENT")}
           </li>
         </ul>
 
@@ -82,7 +89,7 @@ const PrivacyPolicy = () => {
         <p>
           📧 <a href="mailto:info@SaayamForAll.org">info@SaayamForAll.org</a>
           <br />
-          📍 Saayam for All, 3046 Rosato Ct., San Jose, California 95135
+          📍 {t("PRIVACY_CONTACT_CONTENT")}
         </p>
       </div>
     </div>
