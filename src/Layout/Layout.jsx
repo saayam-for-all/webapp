@@ -7,6 +7,7 @@ import RightAds from "#components/RightAds/RightAds";
 import { Suspense } from "react";
 import { Outlet, useMatches } from "react-router-dom";
 import { NotificationProvider } from "../context/NotificationContext";
+import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
 
 const Layout = () => {
   const matches = useMatches();
@@ -20,7 +21,7 @@ const Layout = () => {
         <NavigationGuard />
 
         {/* header includes Navbar which spans full width */}
-        <header className="sticky z-10">
+        <header className="sticky z-10" id="header">
           <Navbar />
         </header>
 
@@ -48,6 +49,7 @@ const Layout = () => {
         <footer className="">
           <Footer />
         </footer>
+        <ScrollToTop />
       </NotificationProvider>
     </div>
   );

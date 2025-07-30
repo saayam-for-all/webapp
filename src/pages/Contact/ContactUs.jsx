@@ -226,17 +226,27 @@ const ContactUs = () => {
             </div>
 
             {/* Phone */}
-            <PhoneNumberInputWithCountry
-              phone={phone}
-              setPhone={setPhone}
-              countryCode={countryCode}
-              setCountryCode={setCountryCode}
-              error={phoneError}
-              setError={setPhoneError}
-              label={t("Phone")}
-              required={true}
-              t={t}
-            />
+            <div className="mb-4">
+              <label
+                htmlFor="phone"
+                className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
+              >
+                <span className="text-red-500 mr-1">*</span>
+                {t("Phone")} ({t("preferably WhatsApp")})
+              </label>
+              <PhoneNumberInputWithCountry
+                phone={phone}
+                setPhone={setPhone}
+                countryCode={countryCode}
+                setCountryCode={setCountryCode}
+                error={phoneError}
+                setError={setPhoneError}
+                required={true}
+                t={t}
+                hideLabel={true}
+              />
+            </div>
+
             <input
               type="hidden"
               name="phone"
@@ -296,7 +306,10 @@ const ContactUs = () => {
 
             <p className="text-sm text-gray-500 mt-4 text-center">
               {t("*By clicking Submit, you are agreeing to our")}{" "}
-              <a href="#" className="text-blue-600">
+              <a
+                href="/terms-and-conditions"
+                className="text-blue-600 hover:underline"
+              >
                 {t("terms and conditions")}
               </a>
               .

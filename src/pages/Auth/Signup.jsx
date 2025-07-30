@@ -2,7 +2,6 @@ import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "aws-amplify/auth";
-import CountryList from "react-select-country-list";
 import { z } from "zod";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
@@ -10,7 +9,6 @@ import "./Login.css";
 import { useTranslation } from "react-i18next";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
-
 const signUpSchema = z.object({
   firstName: z
     .string()
@@ -53,11 +51,10 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [country, setCountry] = useState("United States");
+  const [country] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [acceptedTOS, setAcceptedTOS] = useState(false);
-  const [phoneError, setPhoneError] = useState("");
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -67,6 +64,8 @@ const SignUp = () => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [errors, setErrors] = useState({});
   const [showPasswordValidation, setShowPasswordValidation] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+  const [phoneEmptyError, setPhoneEmptyError] = useState("");
 
   const hasNumber = /\d/.test(passwordValue);
   const hasUppercase = /[A-Z]/.test(passwordValue);
@@ -78,7 +77,6 @@ const SignUp = () => {
   const allRequirementsMet =
     hasNumber && hasUppercase && hasLowercase && hasSpecialChar && hasMinLength;
 
-  const countries = CountryList().getData();
   const navigate = useNavigate();
 
   //name, email and phone number validation functions
@@ -92,7 +90,8 @@ const SignUp = () => {
   const handleSignUp = async () => {
     try {
       setErrors({});
-      setPhoneError("");
+      setPhoneEmptyError("");
+      // Always run Zod schema validation
       const result = signUpSchema.safeParse({
         firstName,
         lastName,
@@ -100,31 +99,46 @@ const SignUp = () => {
         phone,
         password: passwordValue,
       });
+      let newErrors = {};
+      // Empty field errors
+      if (!firstName) newErrors.firstName = "First name is required";
+      if (!lastName) newErrors.lastName = "Last name is required";
+      if (!emailValue) newErrors.email = "Email is required";
+      if (!phone) setPhoneEmptyError("Phone number is required");
+      if (!passwordValue) newErrors.password = "Password is required";
+      if (!confirmPasswordValue)
+        newErrors.confirmPassword = "Confirm password is required";
+      // Zod schema errors (only if field is not empty)
       if (!result.success) {
         const formattedErrors = result.error.format();
-        setErrors({
-          firstName: formattedErrors.firstName?._errors[0],
-          lastName: formattedErrors.lastName?._errors[0],
-          email: formattedErrors.email?._errors[0],
-          phone: formattedErrors.phone?._errors[0],
-          password: formattedErrors.password?._errors[0],
-        });
-        setShowPasswordValidation(true);
-        return;
-      }
-      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
-      if (!isValidPhoneNumber(fullPhoneNumber)) {
-        setPhoneError("Please enter a valid phone number");
-        return;
+        if (firstName && formattedErrors.firstName?._errors[0])
+          newErrors.firstName = formattedErrors.firstName._errors[0];
+        if (lastName && formattedErrors.lastName?._errors[0])
+          newErrors.lastName = formattedErrors.lastName._errors[0];
+        if (emailValue && formattedErrors.email?._errors[0])
+          newErrors.email = formattedErrors.email._errors[0];
+        if (passwordValue && formattedErrors.password?._errors[0])
+          newErrors.password = formattedErrors.password._errors[0];
       }
       if (passwordValue !== confirmPasswordValue) {
         setPasswordsMatch(false);
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          confirmPassword: "Passwords do not match",
-        }));
+        newErrors.confirmPassword = "Passwords do not match";
+      }
+      // Phone validity check (run before early return)
+      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+      if (phone && !isValidPhoneNumber(fullPhoneNumber)) {
+        setPhoneError("Please enter a valid phone number");
+      }
+      if (
+        Object.keys(newErrors).length > 0 ||
+        !phone ||
+        (phone && !isValidPhoneNumber(fullPhoneNumber))
+      ) {
+        setErrors(newErrors);
+        setShowPasswordValidation(true);
         return;
       }
+      setPhoneError(""); // clear only if all is valid
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
@@ -214,33 +228,12 @@ const SignUp = () => {
             setPhone={setPhone}
             countryCode={countryCode}
             setCountryCode={setCountryCode}
-            error={phoneError}
             setError={setPhoneError}
+            error={phoneError || phoneEmptyError}
             label={t("PHONE_NUMBER")}
             required={true}
             t={t}
           />
-        </div>
-
-        {/* Country */}
-        <div className="my-2 flex flex-col">
-          <label htmlFor="country">{t("COUNTRY")}</label>
-          <select
-            id="country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-xl"
-          >
-            {/**
-            <option value="">Select your country</option>
-            {countries.map((option) => (
-              <option key={option.value} value={option.label}>
-                {option.label}
-              </option>
-            ))}
-             */}
-            <option value="United States">{t("UNITED_STATES")}</option>
-          </select>
         </div>
 
         {/* Password */}
@@ -363,14 +356,14 @@ const SignUp = () => {
             onChange={(e) => setAcceptedTOS(e.target.checked)}
           />
           <label className="my-2 text-gray-700">
-            By checking this box, you are agreeing to the{" "}
+            {t("TOS_AGREEMENT")}{" "}
             <a
               href="/terms-and-conditions"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 underline"
             >
-              Terms and Conditions
+              {t("TERMS_AND_CONDITIONS")}
             </a>
             .
           </label>
@@ -406,12 +399,12 @@ const SignUp = () => {
         </div> */}
 
         <div className="mt-8 flex flex-row justify-center">
-          <p>Already have an account?</p>
+          <p>{t("ALREADY_HAVE_ACCOUNT")}</p>
           <button
             className="mx-2 text-left underline"
             onClick={() => navigate("/login")}
           >
-            Sign In
+            {t("SIGN_IN")}
           </button>
         </div>
       </div>
