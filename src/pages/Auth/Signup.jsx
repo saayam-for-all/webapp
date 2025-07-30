@@ -51,7 +51,7 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [country] = useState("United States");
+  const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [acceptedTOS, setAcceptedTOS] = useState(false);
@@ -234,6 +234,28 @@ const SignUp = () => {
             required={true}
             t={t}
           />
+        </div>
+
+        {/* Country */}
+        <div className="my-2 flex flex-col">
+          <label htmlFor="country">{t("COUNTRY")}</label>
+          <select
+            id="country"
+            value={country}
+            disabled={true}
+            onChange={(e) => setCountry(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-xl"
+          >
+            {/**
+            <option value="">Select your country</option>
+            {countries.map((option) => (
+              <option key={option.value} value={option.label}>
+                {option.label}
+              </option>
+            ))}
+             */}
+            <option value="United States">{t("UNITED_STATES")}</option>
+          </select>
         </div>
 
         {/* Password */}
