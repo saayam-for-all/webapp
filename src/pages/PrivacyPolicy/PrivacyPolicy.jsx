@@ -1,13 +1,23 @@
 import React from "react";
 import "./PrivacyPolicy.css";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const PrivacyPolicy = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <div className="privacy-policy-container">
       <div className="privacy-policy-inner">
+        <div className="w-full mb-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> Back
+          </button>
+        </div>
         <h1 className="privacy-policy-title">{t("PRIVACY_POLICY")}</h1>
         <p>
           {t("AT")} <strong>Saayam for All</strong> {t("PRIVACY_INTRO")}
