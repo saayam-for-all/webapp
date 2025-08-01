@@ -510,7 +510,7 @@ const Navbar = () => {
           //    <IoLogInOutline className="mr-1 text-xl" />
           //    {t("LOGIN")}
           //  </NavLink>
-          )
+          // )
           // <NavLink
           //   to="/login"
           //   className="font-semibold flex flex-col items-center"
