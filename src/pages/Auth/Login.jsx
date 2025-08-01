@@ -39,6 +39,8 @@ const LoginPage = () => {
   }, [user]);
 
   const handleSignIn = async () => {
+    setErrors({ root: "Login is currently disabled." });
+    return;
     try {
       const result = loginSchema.safeParse({
         email: emailValue,
