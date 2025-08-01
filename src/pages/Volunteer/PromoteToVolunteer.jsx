@@ -250,9 +250,9 @@ const PromoteToVolunteer = () => {
           <span className="text-2xl mr-2">&lt;</span> Back to Dashboard
         </button>
       </div>
-      <div className="container horizontal mt-5 p-12">
+      <div className="container horizontal mt-4 p-4">
         <Stepper steps={steps} currentStep={currentStep} />
-        <div className="mt-12 p-12">{displayStep(currentStep)}</div>
+        <div className="mt-4 p-4">{displayStep(currentStep)}</div>
       </div>
       {errorMessage && (
         <div className="text-red-500 text-center my-4">{errorMessage}</div>
