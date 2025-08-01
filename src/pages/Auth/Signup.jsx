@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-// import { FaFacebookF } from "react-icons/fa";
-// import { FcGoogle } from "react-icons/fc";
 import { signUp } from "aws-amplify/auth";
 import CountryList from "react-select-country-list";
 import { z } from "zod";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import "./Login.css";
-
+import { useTranslation } from "react-i18next";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 const signUpSchema = z.object({
   firstName: z
     .string()
@@ -46,24 +46,27 @@ const signUpSchema = z.object({
 });
 
 const SignUp = () => {
+  const { t } = useTranslation();
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("US");
   const [country, setCountry] = useState("United States");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [countryCode, setCountryCode] = useState("US");
+  const [acceptedTOS, setAcceptedTOS] = useState(false);
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
-
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-
   const [errors, setErrors] = useState({});
+  const [showPasswordValidation, setShowPasswordValidation] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+  const [phoneEmptyError, setPhoneEmptyError] = useState("");
 
   const hasNumber = /\d/.test(passwordValue);
   const hasUppercase = /[A-Z]/.test(passwordValue);
@@ -71,23 +74,28 @@ const SignUp = () => {
   const hasSpecialChar = /[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+-]/.test(
     passwordValue,
   );
+  const hasMinLength = passwordValue.length >= 8;
+  const allRequirementsMet =
+    hasNumber && hasUppercase && hasLowercase && hasSpecialChar && hasMinLength;
 
   const countries = CountryList().getData();
-
   const navigate = useNavigate();
 
   //name, email and phone number validation functions
   const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePhone = (phone) => /^[0-9]{10}$/.test(phone); //Exactly 10 digits phone number
   const validatePassword = (password) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
       password,
     );
 
   const handleSignUp = async () => {
+    setErrors({ root: "Signup is currently disabled." });
+    return;
     try {
       setErrors({});
+      setPhoneEmptyError("");
+      // Always run Zod schema validation
       const result = signUpSchema.safeParse({
         firstName,
         lastName,
@@ -95,22 +103,46 @@ const SignUp = () => {
         phone,
         password: passwordValue,
       });
+      let newErrors = {};
+      // Empty field errors
+      if (!firstName) newErrors.firstName = "First name is required";
+      if (!lastName) newErrors.lastName = "Last name is required";
+      if (!emailValue) newErrors.email = "Email is required";
+      if (!phone) setPhoneEmptyError("Phone number is required");
+      if (!passwordValue) newErrors.password = "Password is required";
+      if (!confirmPasswordValue)
+        newErrors.confirmPassword = "Confirm password is required";
+      // Zod schema errors (only if field is not empty)
       if (!result.success) {
         const formattedErrors = result.error.format();
-        setErrors({
-          firstName: formattedErrors.firstName?._errors[0],
-          lastName: formattedErrors.lastName?._errors[0],
-          email: formattedErrors.email?._errors[0],
-          phone: formattedErrors.phone?._errors[0],
-        });
-        return;
+        if (firstName && formattedErrors.firstName?._errors[0])
+          newErrors.firstName = formattedErrors.firstName._errors[0];
+        if (lastName && formattedErrors.lastName?._errors[0])
+          newErrors.lastName = formattedErrors.lastName._errors[0];
+        if (emailValue && formattedErrors.email?._errors[0])
+          newErrors.email = formattedErrors.email._errors[0];
+        if (passwordValue && formattedErrors.password?._errors[0])
+          newErrors.password = formattedErrors.password._errors[0];
       }
-
       if (passwordValue !== confirmPasswordValue) {
-        setPasswordsMatch(confirmPasswordValue === passwordValue);
+        setPasswordsMatch(false);
+        newErrors.confirmPassword = "Passwords do not match";
+      }
+      // Phone validity check (run before early return)
+      const fullPhoneNumber = `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+      if (phone && !isValidPhoneNumber(fullPhoneNumber)) {
+        setPhoneError("Please enter a valid phone number");
+      }
+      if (
+        Object.keys(newErrors).length > 0 ||
+        !phone ||
+        (phone && !isValidPhoneNumber(fullPhoneNumber))
+      ) {
+        setErrors(newErrors);
+        setShowPasswordValidation(true);
         return;
       }
-
+      setPhoneError(""); // clear only if all is valid
       const user = await signUp({
         username: emailValue,
         password: passwordValue,
@@ -119,7 +151,7 @@ const SignUp = () => {
             given_name: firstName,
             family_name: lastName,
             email: emailValue,
-            phone_number: `${PHONECODESEN[countryCode]["secondary"]}${phone}`,
+            phone_number: fullPhoneNumber,
             "custom:Country": country,
           },
         },
@@ -128,26 +160,27 @@ const SignUp = () => {
         navigate("/verify-otp", { state: { email: emailValue } });
       }
     } catch (error) {
+      if (error.name === "UsernameExistsException") {
+        setErrors({ email: t("USER_ALREADY_EXISTS") });
+      }
       console.log("Sign up error:", error);
     }
-
-    //dispatch(signup(fullName, phone, country, emailValue, passwordValue));
   };
 
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
-        <h1 className="my-4 text-3xl font-bold text-center">Sign Up</h1>
+        <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
 
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
           <div className="flex-1">
-            <label htmlFor="firstName">First Name</label>
+            <label htmlFor="firstName">{t("FIRST_NAME")}</label>
             <input
               id="firstName"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First Name"
+              placeholder={t("FIRST_NAME")}
               type="text"
               className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
               required={true}
@@ -159,12 +192,12 @@ const SignUp = () => {
 
           {/* Last Name */}
           <div className="flex-1">
-            <label htmlFor="lastName">Last Name</label>
+            <label htmlFor="lastName">{t("LAST_NAME")}</label>
             <input
               id="lastName"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last Name"
+              placeholder={t("LAST_NAME")}
               type="text"
               className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
               required={true}
@@ -177,12 +210,12 @@ const SignUp = () => {
 
         {/* Email */}
         <div className="my-1 flex flex-col">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{t("EMAIL")}</label>
           <input
             id="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
-            placeholder="Your Email"
+            placeholder={t("EMAIL")}
             type="text"
             className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
             required={true}
@@ -192,81 +225,46 @@ const SignUp = () => {
           )}
         </div>
 
-        {/* Phone  Number */}
-        <div className="my-2 flex flex-col">
-          <label htmlFor="phone">Phone Number</label>
-          <div className="flex space-x-2">
-            {/* Country Code Dropdown */}
-            <select
-              id="countryCode"
-              value={countryCode}
-              onChange={(e) => {
-                const selectedCode = e.target.value;
-                setCountryCode(selectedCode);
-                const selectedCountry =
-                  PHONECODESEN[selectedCode]?.primary || "";
-                setCountry(selectedCountry);
-              }}
-              className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
-            >
-              {getPhoneCodeslist(PHONECODESEN).map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.country} ({option.dialCode})
-                </option>
-              ))}
-            </select>
-
-            <input
-              id="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Your Phone Number"
-              type="text"
-              maxLength={10}
-              className={`w-2/3 px-4 py-2 border border-gray-300 rounded-xl ${errors.phone ? "border-red-500" : "border-gray-300"}`}
-              required={true}
-            />
-            {errors.phone && (
-              <p className="text-sm text-red-500">{errors.phone}</p>
-            )}
-          </div>
-        </div>
-
-        {/* Country */}
-        <div className="my-2 flex flex-col">
-          <label htmlFor="country">Country</label>
-          <select
-            id="country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-xl"
-          >
-            <option value="">Select your country</option>
-            {countries.map((option) => (
-              <option key={option.value} value={option.label}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+        {/* Phone Number */}
+        <div className="my-2 flex flex-col relative">
+          <PhoneNumberInputWithCountry
+            phone={phone}
+            setPhone={setPhone}
+            countryCode={countryCode}
+            setCountryCode={setCountryCode}
+            setError={setPhoneError}
+            error={phoneError || phoneEmptyError}
+            label={t("PHONE_NUMBER")}
+            required={true}
+            t={t}
+          />
         </div>
 
         {/* Password */}
         <div className="my-2 flex flex-col relative">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">{t("PASSWORD")}</label>
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
                 ? "border-2 border-black -m-px"
-                : " border border-gray-300"
+                : errors.password
+                  ? "border border-red-500"
+                  : "border border-gray-300"
             }`}
           >
             <input
               id="password"
-              placeholder="Password"
+              placeholder={t("PASSWORD")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
-              onChange={(e) => setPasswordValue(e.target.value)}
-              onFocus={() => setPasswordFocus(true)}
+              onChange={(e) => {
+                setPasswordValue(e.target.value);
+                setShowPasswordValidation(true);
+              }}
+              onFocus={() => {
+                setPasswordFocus(true);
+                setShowPasswordValidation(true);
+              }}
               onBlur={() => setPasswordFocus(false)}
               className="mr-auto w-full outline-none"
             />
@@ -276,14 +274,15 @@ const SignUp = () => {
           </div>
 
           {/* Password validation */}
-          {passwordFocus && (
+          {((showPasswordValidation && !allRequirementsMet) ||
+            errors.password) && (
             <div
-              className="flex flex-col items-start absolute top-0 left-full
-             ml-2 w-[clamp(100px,55vw,200px)] border border-gray-300 bg-white p-2
-             rounded shadow z-[1000] whitespace-normal break-words"
+              className={`flex flex-col items-start absolute left-full top-0
+               ml-2 w-[clamp(200px,25vw,300px)] border border-gray-300 bg-white p-2
+               rounded shadow z-[1000] whitespace-normal break-words`}
             >
               <p
-                className={`${passwordValue.length >= 8 ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+                className={`${hasMinLength ? "text-sm text-green-500" : "text-sm text-red-500"}`}
               >
                 Password must contain at least 8 characters.
               </p>
@@ -313,17 +312,19 @@ const SignUp = () => {
 
         {/* Confirm Password */}
         <div className="my-2 flex flex-col">
-          <label htmlFor="confirmPassword">Confirm Password</label>
+          <label htmlFor="confirmPassword">{t("CONFIRM_PASSWORD")}</label>
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               confirmPasswordFocus
                 ? "border-2 border-black -m-px"
-                : " border border-gray-300"
+                : errors.confirmPassword
+                  ? "border border-red-500"
+                  : "border border-gray-300"
             }`}
           >
             <input
-              id="password"
-              placeholder="Confirm Password"
+              id="confirmPassword"
+              placeholder={t("CONFIRM_PASSWORD")}
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
               onChange={(e) => setConfirmPasswordValue(e.target.value)}
@@ -337,16 +338,51 @@ const SignUp = () => {
               {confirmPasswordVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           </div>
+          {errors.confirmPassword && (
+            <p className="text-sm text-red-500 mt-1">
+              {errors.confirmPassword}
+            </p>
+          )}
         </div>
-
+        {/*
         <button
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignUp}
         >
+          Sign Up
+        </button>
+        */}
+        <div className="mb-2 flex items-center space-x-2">
+          <input
+            type="checkbox"
+            className="w-3.2 h-3.2"
+            checked={acceptedTOS}
+            onChange={(e) => setAcceptedTOS(e.target.checked)}
+          />
+          <label className="my-2 text-gray-700">
+            {t("TOS_AGREEMENT")}{" "}
+            <a
+              href="/terms-and-conditions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              {t("TERMS_AND_CONDITIONS")}
+            </a>
+            .
+          </label>
+        </div>
+        <button
+          className={`my-4 py-2 rounded-xl text-white 
+    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
+  `}
+          onClick={handleSignUp}
+          disabled={!acceptedTOS}
+        >
           Sign up
         </button>
 
-        {/* Uncomment this snippet when the singup functionality is fully developed  */}
+        {/* Uncomment this snippet when the signup functionality is fully developed  */}
 
         {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
@@ -366,13 +402,13 @@ const SignUp = () => {
           </button>
         </div> */}
 
-        <div className="mt-16 flex flex-row justify-center">
-          <p>Already have an account?</p>
+        <div className="mt-8 flex flex-row justify-center">
+          <p>{t("ALREADY_HAVE_ACCOUNT")}</p>
           <button
             className="mx-2 text-left underline"
             onClick={() => navigate("/login")}
           >
-            Sign In
+            {t("SIGN_IN")}
           </button>
         </div>
       </div>

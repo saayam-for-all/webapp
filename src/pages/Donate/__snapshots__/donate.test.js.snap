@@ -1,0 +1,370 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Donate renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="donate-container"
+        data-testid="donate-container"
+      >
+        <div
+          class="donate-image-overlay-bg"
+          data-testid="donate-image-overlay-bg"
+        >
+          <img
+            alt="Donate background"
+            class="donate-bg-image"
+            src=""
+          />
+          <div
+            class="donate-card-overlay"
+          >
+            <h1
+              class="donate-title"
+            >
+              mockTranslate(Make a donation)
+            </h1>
+            <p
+              class="donate-subtitle"
+            >
+              mockTranslate(Your donation helps us create lasting change in communities across the globe.)
+            </p>
+            <div
+              class="donation-options-grid"
+            >
+              <button
+                class="donation-option-btn"
+                type="button"
+              >
+                <img
+                  alt="PayPal"
+                  src=""
+                  style="height: 25px; width: auto; display: block; margin: 0px auto;"
+                />
+              </button>
+              <button
+                class="donation-option-btn"
+                type="button"
+              >
+                <img
+                  alt="Stripe"
+                  src=""
+                  style="height: 25px; width: auto; display: block; margin: 0px auto;"
+                />
+              </button>
+              <button
+                class="donation-option-btn"
+                type="button"
+              >
+                <img
+                  alt="Charity Navigator"
+                  src=""
+                  style="height: 25px; width: auto; display: block; margin: 0px auto;"
+                />
+              </button>
+              <button
+                class="donation-option-btn"
+                type="button"
+              >
+                <img
+                  alt="Benevity"
+                  src=""
+                  style="height: 25px; width: auto; display: block; margin: 0px auto;"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="faq-section"
+          data-testid="faq-section"
+        >
+          <h2
+            class="faq-title"
+          >
+            mockTranslate(FAQ's)
+          </h2>
+          <div
+            class="faq-list"
+          >
+            <div
+              class="faq-item"
+            >
+              <button
+                class="faq-question"
+              >
+                mockTranslate(Are donations tax deductible?)
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="faq-item"
+            >
+              <button
+                class="faq-question"
+              >
+                mockTranslate(How will my donation be used?)
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="faq-item"
+            >
+              <button
+                class="faq-question"
+              >
+                mockTranslate(Can I cancel recurring donations?)
+                <svg
+                  class="faq-icon "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="donate-container"
+      data-testid="donate-container"
+    >
+      <div
+        class="donate-image-overlay-bg"
+        data-testid="donate-image-overlay-bg"
+      >
+        <img
+          alt="Donate background"
+          class="donate-bg-image"
+          src=""
+        />
+        <div
+          class="donate-card-overlay"
+        >
+          <h1
+            class="donate-title"
+          >
+            mockTranslate(Make a donation)
+          </h1>
+          <p
+            class="donate-subtitle"
+          >
+            mockTranslate(Your donation helps us create lasting change in communities across the globe.)
+          </p>
+          <div
+            class="donation-options-grid"
+          >
+            <button
+              class="donation-option-btn"
+              type="button"
+            >
+              <img
+                alt="PayPal"
+                src=""
+                style="height: 25px; width: auto; display: block; margin: 0px auto;"
+              />
+            </button>
+            <button
+              class="donation-option-btn"
+              type="button"
+            >
+              <img
+                alt="Stripe"
+                src=""
+                style="height: 25px; width: auto; display: block; margin: 0px auto;"
+              />
+            </button>
+            <button
+              class="donation-option-btn"
+              type="button"
+            >
+              <img
+                alt="Charity Navigator"
+                src=""
+                style="height: 25px; width: auto; display: block; margin: 0px auto;"
+              />
+            </button>
+            <button
+              class="donation-option-btn"
+              type="button"
+            >
+              <img
+                alt="Benevity"
+                src=""
+                style="height: 25px; width: auto; display: block; margin: 0px auto;"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="faq-section"
+        data-testid="faq-section"
+      >
+        <h2
+          class="faq-title"
+        >
+          mockTranslate(FAQ's)
+        </h2>
+        <div
+          class="faq-list"
+        >
+          <div
+            class="faq-item"
+          >
+            <button
+              class="faq-question"
+            >
+              mockTranslate(Are donations tax deductible?)
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="faq-item"
+          >
+            <button
+              class="faq-question"
+            >
+              mockTranslate(How will my donation be used?)
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="faq-item"
+          >
+            <button
+              class="faq-question"
+            >
+              mockTranslate(Can I cancel recurring donations?)
+              <svg
+                class="faq-icon "
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

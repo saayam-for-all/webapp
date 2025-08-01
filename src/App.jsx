@@ -5,7 +5,6 @@ import Layout from "./Layout/Layout";
 import Error404 from "./pages/Error404/Error404";
 import { checkAuthStatus } from "./redux/features/authentication/authActions";
 import routes from "./routes/routes";
-
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
 

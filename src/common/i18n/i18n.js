@@ -41,37 +41,29 @@ i18n
   .init({
     fallbackLng: "en",
     resources: {
-      bn: {
-        translation: bnTranslation,
-      },
-      de: {
-        translation: deTranslation,
-      },
-      en: {
-        translation: enTranslation,
-      },
-      es: {
-        translation: esTranslation,
-      },
-      fr: {
-        translation: frTranslation,
-      },
-      hi: {
-        translation: hiTranslation,
-      },
-      pt: {
-        translation: ptTranslation,
-      },
-      ru: {
-        translation: ruTranslation,
-      },
-      te: {
-        translation: teTranslation,
-      },
-      zh: {
-        translation: zhTranslation,
-      },
+      bn: { translation: bnTranslation },
+      de: { translation: deTranslation },
+      en: { translation: enTranslation },
+      es: { translation: esTranslation },
+      fr: { translation: frTranslation },
+      hi: { translation: hiTranslation },
+      pt: { translation: ptTranslation },
+      ru: { translation: ruTranslation },
+      te: { translation: teTranslation },
+      zh: { translation: zhTranslation },
     },
+    detection: {
+      order: [
+        "localStorage",
+        "navigator",
+        "htmlTag",
+        "cookie",
+        "path",
+        "subdomain",
+      ],
+      caches: ["localStorage", "cookie"],
+    },
+    debug: true,
   });
 
 export default i18n;
