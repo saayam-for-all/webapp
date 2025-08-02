@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Comments from "./Comments";
 
@@ -14,27 +14,38 @@ import Comments from "./Comments";
   });
   */
 
-const CommentsSection = ({ comments }) => {
+const CommentsSection = ({ comments = [] }) => {
   const { t } = useTranslation();
   const [comment, setComment] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Remove itemsPerPage, use only rowsPerPage
   const [searchText, setSearchText] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
   const [commentsData, setComments] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const getComments = async () => {
-    try {
-      const response = await getRequestComments();
-      setComments(response?.body);
-    } catch (error) {
-      console.error("Error fetching volunteer organizations:", error);
-    }
-  };
+  // Move filteredComments definition before useEffect
+  const filteredComments = useMemo(() => {
+    return (comments || [])
+      .filter(
+        (c) =>
+          c.name.toLowerCase().includes(searchText.toLowerCase()) ||
+          c.message.toLowerCase().includes(searchText.toLowerCase()),
+      )
+      .sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+      });
+  }, [comments, searchText, sortOrder]);
 
   useEffect(() => {
-    getComments();
-  }, []);
+    // Calculate total pages whenever filtered comments or rows per page changes
+    const calculatedTotalPages = Math.ceil(
+      filteredComments.length / rowsPerPage,
+    );
+    setTotalPages(calculatedTotalPages || 1); // Ensure at least 1 page
+  }, [filteredComments, rowsPerPage]);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -48,25 +59,13 @@ const CommentsSection = ({ comments }) => {
   const handleSortChange = () =>
     setSortOrder((prev) => (prev === "newest" ? "oldest" : "newest"));
 
-  const filteredComments = comments
-    .filter(
-      (c) =>
-        c.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        c.message.toLowerCase().includes(searchText.toLowerCase()),
-    )
-    .sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
-    });
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // Update pagination calculations to use rowsPerPage
+  const indexOfLastItem = currentPage * rowsPerPage;
+  const indexOfFirstItem = indexOfLastItem - rowsPerPage;
   const currentComments = filteredComments.slice(
     indexOfFirstItem,
     indexOfLastItem,
   );
-  const totalPages = Math.ceil(filteredComments.length / itemsPerPage);
 
   const handlePaginationClick = (direction) => {
     if (direction === "next" && currentPage < totalPages) {
@@ -77,6 +76,11 @@ const CommentsSection = ({ comments }) => {
   };
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleRowsPerPageChange = (newRowsPerPage) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1); // Reset to first page when changing rows per page
+  };
 
   const renderPagination = () => {
     const pageNumbers = [];
@@ -172,35 +176,67 @@ const CommentsSection = ({ comments }) => {
       </div>
       <div onClick={(e) => e.stopPropagation()}>
         <div className="mt-4 bg-gray-100 p-6 shadow-md w-full rounded-lg">
-          <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
-            <input
-              type="text"
-              value={searchText}
-              onChange={handleSearchChange}
-              placeholder="Search..."
-              className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-1/3 focus:border-black focus:outline-none"
-            />
+          {/* Only show pagination if there are comments */}
+          {filteredComments.length > 0 ? (
+            <>
+              {/* Add rows per page selector */}
+              <div className="flex justify-end mb-4">
+                <select
+                  value={rowsPerPage}
+                  onChange={(e) =>
+                    handleRowsPerPageChange(Number(e.target.value))
+                  }
+                  className="px-2 py-1 border rounded"
+                >
+                  <option value={5}>5 per page</option>
+                  <option value={10}>10 per page</option>
+                  <option value={20}>20 per page</option>
+                </select>
+              </div>
 
-            <button
-              onClick={handleSortChange}
-              className="p-2 border border-gray-300 rounded-md"
-            >
-              {t("SORT_BY")}:{" "}
-              {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
-            </button>
-          </div>
-          {currentComments.map((comment) => {
-            const { message, name, date, id } = comment;
-            return (
-              <Comments
-                key={comment.id}
-                message={message}
-                name={name}
-                date={date}
-              />
-            );
-          })}
-          {renderPagination()}
+              <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
+                <input
+                  type="text"
+                  value={searchText}
+                  onChange={handleSearchChange}
+                  placeholder="Search..."
+                  className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-1/3 focus:border-black focus:outline-none"
+                />
+
+                <button
+                  onClick={handleSortChange}
+                  className="p-2 border border-gray-300 rounded-md"
+                >
+                  {t("SORT_BY")}:{" "}
+                  {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
+                </button>
+              </div>
+              {/* Comments list */}
+              {currentComments.map((comment) => {
+                const { message, name, date, id } = comment;
+                return (
+                  <Comments
+                    key={comment.id}
+                    message={message}
+                    name={name}
+                    date={date}
+                  />
+                );
+              })}
+
+              {/* Pagination controls */}
+              {renderPagination()}
+
+              {/* Add pagination info */}
+              <div className="text-sm text-gray-500 mt-2 text-right">
+                Showing {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, filteredComments.length)} of{" "}
+                {filteredComments.length} comments
+              </div>
+            </>
+          ) : (
+            <div className="text-center text-gray-500">No comments found</div>
+          )}
         </div>
       </div>
     </div>
