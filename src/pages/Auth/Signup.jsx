@@ -363,8 +363,6 @@ const SignUp = () => {
             {t("TOS_AGREEMENT")}{" "}
             <a
               href="/terms-and-conditions"
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-blue-500 underline"
             >
               {t("TERMS_AND_CONDITIONS")}
