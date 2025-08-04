@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { signUp } from "aws-amplify/auth";
-import { z } from "zod";
-import PHONECODESEN from "../../utils/phone-codes-en";
-import { getPhoneCodeslist } from "../../utils/utils";
-import "./Login.css";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import "./Login.css";
 const signUpSchema = z.object({
   firstName: z
     .string()
@@ -381,7 +380,6 @@ const SignUp = () => {
             {t("TOS_AGREEMENT")}{" "}
             <a
               href="/terms-and-conditions"
-              target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 underline"
             >
