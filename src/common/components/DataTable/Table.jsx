@@ -82,6 +82,18 @@ const Table = ({
                       >
                         {request[header]}
                       </Link>
+                    ) : header === "creationDate" || header === "closedDate" ? (
+                      request[header] ? (
+                        new Intl.DateTimeFormat(navigator.language, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }).format(new Date(request[header]))
+                      ) : (
+                        ""
+                      )
                     ) : (
                       request[header]
                     )}
