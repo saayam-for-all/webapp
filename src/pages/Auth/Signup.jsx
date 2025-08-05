@@ -1,15 +1,13 @@
-import { useState } from "react";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { signUp } from "aws-amplify/auth";
-import CountryList from "react-select-country-list";
-import { z } from "zod";
-import PHONECODESEN from "../../utils/phone-codes-en";
-import { getPhoneCodeslist } from "../../utils/utils";
-import "./Login.css";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import "./Login.css";
 const signUpSchema = z.object({
   firstName: z
     .string()
@@ -78,7 +76,6 @@ const SignUp = () => {
   const allRequirementsMet =
     hasNumber && hasUppercase && hasLowercase && hasSpecialChar && hasMinLength;
 
-  const countries = CountryList().getData();
   const navigate = useNavigate();
 
   //name, email and phone number validation functions
@@ -238,6 +235,28 @@ const SignUp = () => {
           />
         </div>
 
+        {/* Country */}
+        <div className="my-2 flex flex-col">
+          <label htmlFor="country">{t("COUNTRY")}</label>
+          <select
+            id="country"
+            value={country}
+            disabled={true}
+            onChange={(e) => setCountry(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-xl"
+          >
+            {/**
+            <option value="">Select your country</option>
+            {countries.map((option) => (
+              <option key={option.value} value={option.label}>
+                {option.label}
+              </option>
+            ))}
+             */}
+            <option value="United States">{t("UNITED_STATES")}</option>
+          </select>
+        </div>
+
         {/* Password */}
         <div className="my-2 flex flex-col relative">
           <label htmlFor="password">{t("PASSWORD")}</label>
@@ -361,7 +380,6 @@ const SignUp = () => {
             {t("TOS_AGREEMENT")}{" "}
             <a
               href="/terms-and-conditions"
-              target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 underline"
             >
