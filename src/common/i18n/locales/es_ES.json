@@ -362,5 +362,15 @@
   "TERMS_CONTACT_TITLE": "18. Contacto",
   "TERMS_CONTACT_CONTENT": "Para cualquier pregunta, contáctenos en 📧 info@SaayamForAll.org o 📍 Saayam For All, 3046 Rosato Ct., San Jose, California 95135.",
   "TERMS_THANK_YOU": "Gracias por ser parte de nuestra misión de ayudar a la humanidad a través de la tecnología, la compasión y el servicio comunitario.",
-  "preferably WhatsApp": "preferiblemente WhatsApp"
+  "preferably WhatsApp": "preferiblemente WhatsApp",
+  "SIGN_OFF": "Cerrar Sesión",
+  "I_WANT_TO_DELETE_MY_ACCOUNT": "Quiero eliminar mi cuenta",
+  "ACCOUNT_DELETION_WARNING_TITLE": "Advertencia: Eliminación de Cuenta",
+  "ACCOUNT_DELETION_WARNING_TEXT": "Esta acción eliminará permanentemente su cuenta y todos los datos asociados. Esta acción no se puede deshacer. Asegúrese de haber respaldado cualquier información importante antes de continuar.",
+  "ACCOUNT_DELETION_CONFIRMATION_TEXT": "Al marcar esta casilla, reconoce que comprende las consecuencias de eliminar su cuenta.",
+  "CONFIRM_ACCOUNT_DELETION": "Confirmar Eliminación de Cuenta",
+  "CONFIRM_ACCOUNT_DELETION_TEXT": "¿Está absolutamente seguro de que desea eliminar su cuenta? Esta acción no se puede deshacer y todos sus datos serán eliminados permanentemente.",
+  "DELETE_ACCOUNT": "Eliminar Cuenta",
+  "DELETING": "Eliminando...",
+  "ACCOUNT_DELETION_ERROR": "Ocurrió un error al eliminar su cuenta. Por favor, inténtelo de nuevo."
 }

@@ -275,5 +275,15 @@
   "PRIVACY_SECTION_9_TITLE": "9. Changes to This Policy",
   "PRIVACY_SECTION_9_CONTENT": "We may update this policy. Continued use implies acceptance.",
   "PRIVACY_SECTION_10_TITLE": "10. Contact Us",
-  "PRIVACY_CONTACT_CONTENT": "Saayam for All, 3046 Rosato Ct., San Jose, California 95135"
+  "PRIVACY_CONTACT_CONTENT": "Saayam for All, 3046 Rosato Ct., San Jose, California 95135",
+  "SIGN_OFF": "Sign Off",
+  "I_WANT_TO_DELETE_MY_ACCOUNT": "I want to delete my account",
+  "ACCOUNT_DELETION_WARNING_TITLE": "Warning: Account Deletion",
+  "ACCOUNT_DELETION_WARNING_TEXT": "This action will permanently delete your account and all associated data. This action cannot be undone. Please ensure you have backed up any important information before proceeding.",
+  "ACCOUNT_DELETION_CONFIRMATION_TEXT": "By checking this box, you acknowledge that you understand the consequences of deleting your account.",
+  "CONFIRM_ACCOUNT_DELETION": "Confirm Account Deletion",
+  "CONFIRM_ACCOUNT_DELETION_TEXT": "Are you absolutely sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.",
+  "DELETE_ACCOUNT": "Delete Account",
+  "DELETING": "Deleting...",
+  "ACCOUNT_DELETION_ERROR": "An error occurred while deleting your account. Please try again."
 }

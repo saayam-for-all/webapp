@@ -398,5 +398,15 @@
   "PRIVACY_SECTION_9_TITLE": "9. Modifications de cette politique",
   "PRIVACY_SECTION_9_CONTENT": "Nous pouvons mettre à jour cette politique. L'utilisation continue implique votre acceptation.",
   "PRIVACY_SECTION_10_TITLE": "10. Contactez-nous",
-  "PRIVACY_CONTACT_CONTENT": "Saayam for All, 3046 Rosato Ct., San José, Californie 95135"
+  "PRIVACY_CONTACT_CONTENT": "Saayam for All, 3046 Rosato Ct., San José, Californie 95135",
+  "SIGN_OFF": "Se désinscrire",
+  "I_WANT_TO_DELETE_MY_ACCOUNT": "Je veux supprimer mon compte",
+  "ACCOUNT_DELETION_WARNING_TITLE": "Avertissement : Suppression de compte",
+  "ACCOUNT_DELETION_WARNING_TEXT": "Cette action supprimera définitivement votre compte et toutes les données associées. Cette action ne peut pas être annulée. Veuillez vous assurer d'avoir sauvegardé toutes les informations importantes avant de continuer.",
+  "ACCOUNT_DELETION_CONFIRMATION_TEXT": "En cochant cette case, vous reconnaissez que vous comprenez les conséquences de la suppression de votre compte.",
+  "CONFIRM_ACCOUNT_DELETION": "Confirmer la suppression du compte",
+  "CONFIRM_ACCOUNT_DELETION_TEXT": "Êtes-vous absolument sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée et toutes vos données seront définitivement supprimées.",
+  "DELETE_ACCOUNT": "Supprimer le compte",
+  "DELETING": "Suppression...",
+  "ACCOUNT_DELETION_ERROR": "Une erreur s'est produite lors de la suppression de votre compte. Veuillez réessayer."
 }
