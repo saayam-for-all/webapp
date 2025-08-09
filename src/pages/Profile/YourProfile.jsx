@@ -21,9 +21,19 @@ function YourProfile({ setHasUnsavedChanges }) {
   const [loading, setLoading] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [pendingEmailChange, setPendingEmailChange] = useState(null);
+  const [saveAttempted, setSaveAttempted] = useState(false); // Track if save was attempted
   const firstNameRef = useRef(null);
   const countries = CountryList().getData();
   const user = useSelector((state) => state.auth.user);
+
+  // Name validation states - Removed general validation message
+  const [nameErrors, setNameErrors] = useState({
+    firstName: "",
+    lastName: "",
+  });
+
+  // Phone validation state
+  const [phoneError, setPhoneError] = useState("");
 
   const [profileInfo, setProfileInfo] = useState({
     firstName: "",
@@ -97,8 +107,138 @@ function YourProfile({ setHasUnsavedChanges }) {
     }
   }, [user]);
 
+  // Validate name function - for real-time validation (numbers, character limit, and multiple spaces)
+  const validateName = (name, value) => {
+    let error = "";
+
+    if (value.length > 50) {
+      error = "Maximum 50 characters allowed";
+    } else if (/\d/.test(value)) {
+      error = "Numbers are not allowed";
+    } else if (/\s{2,}/.test(value)) {
+      error = "Multiple consecutive spaces are not allowed";
+    }
+
+    setNameErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
+
+    return error === "";
+  };
+
+  // Enhanced phone validation function
+  const validatePhone = (value) => {
+    let error = "";
+
+    // Remove any non-digit characters for validation
+    const cleanPhone = value.replace(/\D/g, "");
+
+    // Only allow digits and check length
+    if (cleanPhone.length > 10) {
+      error = "Please enter only 10 digits";
+    }
+
+    setPhoneError(error);
+    return error === "";
+  };
+
+  // Validate phone for save - shows "less than 10 digits" error only when saving
+  const validatePhoneForSave = (value) => {
+    let error = "";
+
+    // Remove any non-digit characters for validation
+    const cleanPhone = value.replace(/\D/g, "");
+
+    if (cleanPhone.length > 10) {
+      error = "Please enter only 10 digits";
+    } else if (cleanPhone.length < 10 && cleanPhone.length > 0) {
+      error = "Phone number should contain 10 digits";
+    }
+
+    setPhoneError(error);
+    return error === "";
+  };
+
+  // Validate required fields - for save validation
+  const validateRequiredFields = () => {
+    const errors = { firstName: "", lastName: "" };
+    let hasError = false;
+
+    const firstNameEmpty =
+      !profileInfo.firstName || profileInfo.firstName.trim() === "";
+    const lastNameEmpty =
+      !profileInfo.lastName || profileInfo.lastName.trim() === "";
+
+    if (firstNameEmpty) {
+      errors.firstName = "First name is required";
+      hasError = true;
+    }
+
+    if (lastNameEmpty) {
+      errors.lastName = "Last name is required";
+      hasError = true;
+    }
+
+    // Also check for existing validation errors (numbers, character limit, multiple spaces)
+    if (nameErrors.firstName && !firstNameEmpty) {
+      errors.firstName = nameErrors.firstName;
+      hasError = true;
+    }
+
+    if (nameErrors.lastName && !lastNameEmpty) {
+      errors.lastName = nameErrors.lastName;
+      hasError = true;
+    }
+
+    setNameErrors(errors);
+    return !hasError;
+  };
+
   const handleInputChange = (name, value) => {
-    setProfileInfo((prev) => ({ ...prev, [name]: value }));
+    if (name === "firstName" || name === "lastName") {
+      // Limit to 50 characters
+      const limitedValue = value.slice(0, 50);
+      setProfileInfo((prev) => ({ ...prev, [name]: limitedValue }));
+
+      // Real-time validation for numbers, character limit, and multiple spaces
+      validateName(name, limitedValue);
+
+      // If save was attempted and user starts typing, clear the "required" error for that field
+      if (saveAttempted && limitedValue.trim()) {
+        setNameErrors((prev) => ({
+          ...prev,
+          [name]: prev[name].includes("required") ? "" : prev[name],
+        }));
+      }
+
+      // Clear save error if user is correcting name fields
+      if (
+        saveError &&
+        (saveError.includes("validation errors") ||
+          saveError.includes("First name") ||
+          saveError.includes("Last name"))
+      ) {
+        setSaveError("");
+      }
+    } else if (name === "phone") {
+      // Only allow digits and limit to 10 characters - ensure no country codes get mixed in
+      const phoneValue = value.replace(/\D/g, "").slice(0, 10);
+      setProfileInfo((prev) => ({ ...prev, [name]: phoneValue }));
+
+      // Real-time phone validation
+      validatePhone(phoneValue);
+
+      // Clear save error if user is correcting phone number
+      if (saveError && saveError.includes("phone")) {
+        setSaveError("");
+      }
+    } else if (name === "phoneCountryCode") {
+      // When changing phone country code, don't modify the phone number itself
+      setProfileInfo((prev) => ({ ...prev, [name]: value }));
+    } else {
+      setProfileInfo((prev) => ({ ...prev, [name]: value }));
+    }
     setHasUnsavedChanges(true);
   };
 
@@ -121,22 +261,46 @@ function YourProfile({ setHasUnsavedChanges }) {
     try {
       setLoading(true);
       setSaveError("");
+      setSaveAttempted(true); // Mark that save was attempted
 
       const countryCodeValue =
         PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || "+1";
-      const formattedPhone = `${countryCodeValue}${profileInfo.phone.replace(/\D/g, "")}`;
 
-      // Basic validation
-      if (!profileInfo.firstName.trim() || !profileInfo.lastName.trim()) {
-        throw new Error("First and last name are required");
+      let formattedPhone = countryCodeValue; // Default to just country code
+
+      // Validate required fields and show field-specific errors
+      if (!validateRequiredFields()) {
+        throw new Error("Please fix the validation errors before saving");
       }
 
       if (!profileInfo.email.trim()) {
         throw new Error("Email is required");
       }
 
-      if (profileInfo.phone && !/^\d+$/.test(profileInfo.phone)) {
-        throw new Error("Phone number must contain only digits");
+      // Phone validation for save
+      if (profileInfo.phone) {
+        // Ensure phone contains only digits and extract just the numeric part
+        const cleanPhone = profileInfo.phone.replace(/\D/g, "");
+
+        // Update the profileInfo to ensure it's clean before validation
+        if (cleanPhone !== profileInfo.phone) {
+          setProfileInfo((prev) => ({ ...prev, phone: cleanPhone }));
+        }
+
+        if (!/^\d+$/.test(cleanPhone)) {
+          throw new Error("Phone number must contain only digits");
+        }
+        if (!validatePhoneForSave(cleanPhone)) {
+          throw new Error(
+            "Please fix the phone number validation errors before saving",
+          );
+        }
+        if (cleanPhone.length !== 10) {
+          throw new Error("Phone number must be exactly 10 digits");
+        }
+
+        // Use the clean phone for formatting
+        formattedPhone = `${countryCodeValue}${cleanPhone}`;
       }
 
       // Check if email has changed
@@ -192,6 +356,8 @@ function YourProfile({ setHasUnsavedChanges }) {
         alert(t("PROFILE_UPDATE_SUCCESS"));
         setIsEditing(false);
         setHasUnsavedChanges(false);
+        setSaveAttempted(false);
+        setSaveAttempted(false); // Reset save attempt flag on success
       } else {
         throw new Error(result?.error || t("PROFILE_UPDATE_FAILED"));
       }
@@ -263,6 +429,14 @@ function YourProfile({ setHasUnsavedChanges }) {
     }
     setSaveError("");
     setPendingEmailChange(null);
+    setSaveAttempted(false); // Reset save attempt flag
+    // Reset name validation errors
+    setNameErrors({
+      firstName: "",
+      lastName: "",
+    });
+    // Reset phone validation error
+    setPhoneError("");
   };
 
   return (
@@ -274,13 +448,36 @@ function YourProfile({ setHasUnsavedChanges }) {
             {t("FIRST_NAME")}
           </label>
           {isEditing ? (
-            <input
-              ref={firstNameRef}
-              type="text"
-              value={profileInfo.firstName}
-              onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-            />
+            <div>
+              <input
+                ref={firstNameRef}
+                type="text"
+                value={profileInfo.firstName}
+                onChange={(e) => handleInputChange("firstName", e.target.value)}
+                className={`block w-full bg-white text-gray-700 border ${
+                  nameErrors.firstName ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 focus:outline-none`}
+                maxLength={50}
+              />
+              <div className="flex justify-between items-center mt-1">
+                {nameErrors.firstName &&
+                  !nameErrors.firstName.includes("required") && (
+                    <p className="text-sm text-red-600">
+                      {nameErrors.firstName}
+                    </p>
+                  )}
+                {saveAttempted &&
+                  nameErrors.firstName &&
+                  nameErrors.firstName.includes("required") && (
+                    <p className="text-sm text-red-600">
+                      {nameErrors.firstName}
+                    </p>
+                  )}
+                <p className="text-xs text-gray-500 ml-auto">
+                  {profileInfo.firstName.length}/50
+                </p>
+              </div>
+            </div>
           ) : (
             <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
           )}
@@ -290,12 +487,35 @@ function YourProfile({ setHasUnsavedChanges }) {
             {t("LAST_NAME")}
           </label>
           {isEditing ? (
-            <input
-              type="text"
-              value={profileInfo.lastName}
-              onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-            />
+            <div>
+              <input
+                type="text"
+                value={profileInfo.lastName}
+                onChange={(e) => handleInputChange("lastName", e.target.value)}
+                className={`block w-full bg-white text-gray-700 border ${
+                  nameErrors.lastName ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 focus:outline-none`}
+                maxLength={50}
+              />
+              <div className="flex justify-between items-center mt-1">
+                {nameErrors.lastName &&
+                  !nameErrors.lastName.includes("required") && (
+                    <p className="text-sm text-red-600">
+                      {nameErrors.lastName}
+                    </p>
+                  )}
+                {saveAttempted &&
+                  nameErrors.lastName &&
+                  nameErrors.lastName.includes("required") && (
+                    <p className="text-sm text-red-600">
+                      {nameErrors.lastName}
+                    </p>
+                  )}
+                <p className="text-xs text-gray-500 ml-auto">
+                  {profileInfo.lastName.length}/50
+                </p>
+              </div>
+            </div>
           ) : (
             <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
           )}
@@ -350,24 +570,37 @@ function YourProfile({ setHasUnsavedChanges }) {
                   </option>
                 ))}
               </select>
-              <input
-                type="text"
-                value={profileInfo.phone}
-                onChange={(e) =>
-                  handleInputChange("phone", e.target.value.replace(/\D/g, ""))
-                }
-                className="w-2/3 bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-                placeholder="1234567890"
-              />
+              <div className="w-2/3">
+                <input
+                  type="text"
+                  value={profileInfo.phone}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "phone",
+                      e.target.value.replace(/\D/g, ""),
+                    )
+                  }
+                  className={`block w-full bg-white text-gray-700 border ${
+                    phoneError ? "border-red-500" : "border-gray-200"
+                  } rounded py-3 px-4 focus:outline-none`}
+                  placeholder="1234567890"
+                  maxLength={10}
+                />
+                {phoneError && (
+                  <p className="text-sm text-red-600 mt-1">{phoneError}</p>
+                )}
+                <p className="text-xs text-gray-500 mt-1">
+                  {profileInfo.phone.length}/10
+                </p>
+              </div>
             </>
           ) : (
             <>
               <p className="text-lg text-gray-900">
-                {(PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode || "") +
-                  ""}
-                {(PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
+                {PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
                   PHONECODESEN[profileInfo.phoneCountryCode]?.country ||
-                  "") + " "}
+                  ""}{" "}
+                {PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || ""}
                 {profileInfo.phone}
               </p>
               <FiPhoneCall
