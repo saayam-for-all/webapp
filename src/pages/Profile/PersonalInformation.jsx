@@ -9,6 +9,11 @@ import { getPhoneCodeslist } from "../../utils/utils";
 import { State, Country } from "country-state-city";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 
+const Required = () => (
+  <span className="text-red-500 font-semibold" aria-hidden="true">
+    *
+  </span>
+);
 const genderOptions = [
   { value: "Female", label: "Female" },
   { value: "Male", label: "Male" },
@@ -328,8 +333,12 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       {/* Street Address */}
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ADDRESS", { optional: "" })}
+          <label
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            aria-required="true"
+          >
+            {t("ADDRESS", { optional: "" })} <Required />
+            <span className="sr-only"> required</span>
           </label>
           {isEditing ? (
             <>
@@ -382,9 +391,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       {/* Country, State, and Zip Code */}
       <div className="grid grid-cols-3 gap-8 mb-6">
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("COUNTRY")}
+          <label
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            aria-required="true"
+          >
+            {t("COUNTRY")} <Required />
+            <span className="sr-only"> required</span>
           </label>
+
           {isEditing ? (
             <>
               <Select
@@ -418,9 +432,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           )}
         </div>
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("STATE")}
+          <label
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            aria-required="true"
+          >
+            {t("STATE")} <Required />
+            <span className="sr-only"> required</span>
           </label>
+
           {isEditing ? (
             <>
               <Select
@@ -443,9 +462,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           )}
         </div>
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ZIP_CODE")}
+          <label
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+            aria-required="true"
+          >
+            {t("ZIP_CODE")} <Required />
+            <span className="sr-only"> required</span>
           </label>
+
           {isEditing ? (
             <>
               <input
