@@ -1,0 +1,324 @@
+" ( May ":
+" ( Service to mankind is Service to God )":
+" Money Distribution":
+" Zoom, and GitHub to keep costs low.":
+" religion, location, country, or politics,":
+"":
+"*By clicking Submit, you are agreeing to our":
+"ABOUT":
+"ACKNOWLEDGE_TERMS":
+"ACKNOWLEDGMENT":
+"ACKNOWLEDGMENT_CONTENT":
+"ADDRESS":
+"ADMINISTRATE":
+"AGE":
+"ASK_FOR_HELP":
+"ASSISTANCE_PROVIDED":
+"AT_SAAYAM":
+"Action Without Borders also known as Idealist is a non-profit service organization based in New York City.":
+"Address Basic":
+"American RedCross":
+"Are donations tax deductible?":
+"Ashwani Dhawan":
+"At Saayam For All, getting help is as simple and seamless as requesting a ride.":
+"At Saayam For All, our shared values keep us connected and guide us as one team.":
+"At Saayam for All, your support can make a real difference today.":
+"Automation":
+"BECOME_VOLUNTEER":
+"BIRTHDAY":
+"Beneficiaries":
+"Business Analyst Team Lead":
+"CANCEL":
+"CHANGE_PASSWORD":
+"CITY":
+"COMMITMENT":
+"COMMITMENT_CONTENT":
+"CONDUCT_CODE":
+"CONDUCT_CODE_CONTENT":
+"CONFIDENTIALITY_AGREEMENT":
+"CONFIDENTIALITY_AGREEMENT_CONTENT":
+"CONFIRM_PASSWORD":
+"CONTACT":
+"COPYRIGHT":
+"COUNTRY":
+"CREATE_HELP_REQUEST":
+"CURRENT_PASSWORD":
+"Can I cancel recurring donations?":
+"Chat with our community and get in touch with different charity organizations!":
+"Chat with our community and get in touch with different charity":
+"Chat with our community and get in touch with us!":
+"Clothing Support":
+"Collaboration,":
+"Confirm Your Volunteer":
+"Connect and Coordinate":
+"Connecting help to those who need it.":
+"Contact Us":
+"Cost-Efficiency":
+"Creating a World Where Help is Always Within Reach":
+"DASHBOARD":
+"DATA_PRIVACY":
+"DATA_PRIVACY_CONTENT":
+"DESCRIPTION":
+"DIRECTORS":
+"DIRECTORS_DESCRIPTION":
+"DISPUTE_RESOLUTION":
+"DISPUTE_RESOLUTION_CONTENT":
+"DONATE":
+"DONATE_MONEY":
+"Design and Creative Lead":
+"Developer Advocate/AI/ML Dev Manager":
+"Director & Chief Financial Officer":
+"Director and Secretary":
+"Director of Engineering":
+"Director":
+"Divya Tanwar":
+"Donors":
+"EDIT":
+"EDIT_HELP_REQUEST":
+"EDIT_PASSWORD":
+"EMAIL":
+"EMAIL_REQUIRED":
+"EMERGENCY_CONTACT":
+"EMPOWER_INDIVIDUALS":
+"ENTER_DETAILS":
+"EXECUTIVE_DESCRIPTION_1":
+"EXECUTIVE_DESCRIPTION_2":
+"EXECUTIVE_TEAM":
+"Education and Career Support":
+"Email":
+"Email, call, or complete the form to learn how Saayam for All can help you with your challenges":
+"Enter your email":
+"Enter your first name":
+"Enter your last name":
+"Enter your message":
+"Enter your phone":
+"FACEBOOK":
+"FAQ's":
+"FAQ_CANCEL_ANSWER":
+"FAQ_TAX_ANSWER":
+"FAQ_USE_ANSWER":
+"FILTER_BY":
+"FIRST_LANGUAGE_PREFERENCE":
+"FIRST_NAME":
+"FORGOT_PASSWORD":
+"FOR_PROFIT":
+"FOR_SELF":
+"FROM_POTENTIAL_MATCHES":
+"Fill out the contact form and our team will reach out with onboarding steps!":
+"First Name":
+"Focus on food, clothing,":
+"Food and Essentials Support":
+"Founder, President, CEO, CTO":
+"From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.":
+"GENDER":
+"GOOGLE":
+"GOVERNING_LAW":
+"GOVERNING_LAW_CONTENT":
+"General Support":
+"Get In Touch":
+"Get Matching With a Volunteer":
+"Get help in 5 easy steps.":
+"HEALTH_SAFETY":
+"HEALTH_SAFETY_CONTENT":
+"HELPING_VOLUNTEERS":
+"HELP_REQUEST":
+"HERO_TEXT":
+"HOME":
+"HOW_WE_OPERATE":
+"Healthcare and Wellbeing Support":
+"Housing Support":
+"How We Operate":
+"How can I become a volunteer?":
+"How will my donation be used?":
+"IDENTITY_DOCUMENT":
+"INDEMNIFICATION":
+"INDEMNIFICATION_CONTENT":
+"INTELLECTUAL_PROPERTY":
+"INTELLECTUAL_PROPERTY_CONTENT":
+"INTRODUCTION":
+"INTRODUCTION_CONTENT":
+"INVALID_CREDENTIALS":
+"IN_PERSON":
+"I_HAVE_READ":
+"Idealist (Action without Borders)":
+"Implement a software solution with":
+"In some cases, our volunteers partner with local NGOs, community groups, and service organizations to ensure that every request is fulfilled effectively. Saayam For All builds a collaborative ecosystem that strengthens community support—because helping hands are stronger together.":
+"Inclusivity and ":
+"Is Saayam for All a non-profit?":
+"JOIN_TODAY":
+"JOIN_US":
+"Join the community":
+"LAST_NAME":
+"LIABILITY_WAIVER":
+"LIABILITY_WAIVER_CONTENT":
+"LIFE_THREATENING_REQUESTS":
+"LOGIN":
+"LOGOUT":
+"Last Name":
+"Lead DevSecOps Engineer":
+"Lead User Experience Designer":
+"Learn More":
+"Learn about different roles in our ecosystem and how each one contributes to creating an impact.":
+"Looking to join us?":
+"Looking to volunteer with us?":
+"MANAGED_REQUESTS":
+"MATCHING_PROCESS":
+"MAX_CHARACTERS":
+"MESSAGE":
+"MISSION":
+"MORE_INFORMATION":
+"MY_REQUESTS":
+"Madhukar Govindaraju":
+"Make a donation":
+"Manava Sevaye Madhava":
+"Manava sevaye Madhava seva":
+"Match Requestors with existing":
+"May all live happily.":
+"Meghana Karri":
+"Message":
+"Mohana Krishanan R.":
+"Motivation":
+"NEWEST":
+"NEW_PASSWORD":
+"NO":
+"NONE_ACCOUNT":
+"NON_PROFIT":
+"NOTE":
+"NOTIFICATIONS":
+"NUMBER_OF_VOLUNTEERS":
+"Naveen Sharma":
+"Necessities":
+"Need help? Here to help?":
+"No Infrastructure or":
+"No building of schools or hospitals and":
+"Not Competition":
+"OLDEST":
+"ORGANIZATION_DETAILS":
+"ORGANIZATION_NAME":
+"ORGANIZATION_TYPE":
+"OR_WITH":
+"OTHERS_REQUESTS":
+"OUR_COLLABORATORS":
+"OUR_MISSION":
+"OUR_MOTTO":
+"OUR_TEAM":
+"OUR_VISION":
+"Offer necessary support to beneficiaries":
+"One Platform. Many Ways to Contribute.":
+"Open to all, regardless of beliefs,":
+"Our Collaborators":
+"Our Mission":
+"Our Values":
+"Our Vision":
+"Our mission is to provide timely and targeted assistance to those,":
+"Our vision is to cultivate a community":
+"PASSWORD":
+"PASSWORD_REQUIRED":
+"PASSWORD_REQUIREMENTS":
+"PERSONAL_INFORMATION":
+"PHONE":
+"PHONE_NUMBER":
+"PREFERRED_LANGUAGE":
+"PRIVACY_POLICY":
+"PROFILE":
+"Phone":
+"Prabhakara Yellai":
+"Provide financial assistance to voluntary organization":
+"Provide guidance and solutions to beneficiaries":
+"Purely volunteer-driven with no pay or":
+"READ_MORE":
+"REMOTE":
+"REQUEST_CATEGORY":
+"REQUEST_TYPE":
+"REQUEST_VOLUNTEERS":
+"REQUEST_WILL_BE_MATCHED":
+"Ramesh Maturu":
+"Rao K Bhethanabotla":
+"Rashmi Bilaskar":
+"Real help. Real people. Right when you need it.":
+"Receive Assistance":
+"Receive help for their requests":
+"Red Cross volunteers and staff work to deliver vital services – from providing relief and support to those in crisis.":
+"Request for Help":
+"Respect":
+"Rishitha Rapuri":
+"SAVE":
+"SCAN_ON_DONATE":
+"SECOND_LANGUAGE_PREFERENCE":
+"SELECT_COUNTRY":
+"SIGNUP":
+"SITE_MAP":
+"SORT_BY":
+"STATE":
+"STATUS":
+"STAY_UPDATED":
+"SUBJECT":
+"SUBMIT":
+"Sarve jana sukhino bhavantu":
+"Sateesh Mucharla":
+"Senior Data Architect":
+"Service to mankind is Service to God.":
+"Sharadha Venketasubramanian":
+"Sharing knowledge expands one's own understanding and the knowledge of others.":
+"Sriram Mahankali":
+"Srividhya Gopalan":
+"Submit a request for the support you need—just like booking a ride through an app.":
+"Submit":
+"Sugandha Agrawal":
+"TERMS_AND_CONDITIONS":
+"TERMS_DOCUMENT":
+"THIRD_LANGUAGE_PREFERENCE":
+"TRAINING_SUPERVISION":
+"TRAINING_SUPERVISION_CONTENT":
+"The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.":
+"Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.":
+"U.S based nonprofit organization which provides a national digital infrastructure to serve volunteers and nonprofits organization.":
+"UPLOAD_PHOTO":
+"Use Saayam Dollars to motivate":
+"Utilize free resources like WhatsApp,":
+"VISION":
+"VISION_DESCRIPTION":
+"VOLUNTEER_AGREEMENT":
+"VOLUNTEER_APPROACH":
+"VOLUNTEER_ORGANIZATIONS":
+"VOLUNTEER_ROLE":
+"VOLUNTEER_ROLE_CONTENT":
+"VOLUNTEER_SELECTION":
+"VOLUNTEER_SERVICES":
+"VOLUNTEER_WILL_CONTACT":
+"VOLUNTEER_WILL_WORK":
+"Voluntary Organizations":
+"Volunteer Match":
+"Volunteer-Based":
+"Volunteers":
+"WHAT_WE_OFFER":
+"Want to join us?":
+"Watch our 5 minute video to understand how Saayam for All works and how we make a difference.":
+"We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .":
+"We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.":
+"What services does Saayam for All offer?":
+"YES":
+"YOUR_PHONE_NUMBER":
+"YOUR_PROFILE":
+"Yes, we are a non-profit organization focused on community support and outreach.":
+"You can reach us anytime":
+"Your donation helps us create lasting change in communities across the globe.":
+"Your volunteer reaches out to finalize details and schedule the support you need.":
+"ZIP_CODE":
+"all live happily) guides our actions, driving":
+"benefits; cost reimbursement is allowed.":
+"compassionate and equitable world for all.":
+"facing challenges in their lives, fostering a culture of compassion,":
+"jñānam vardhati sanchayāt":
+"medical, healthcare.":
+"minimal human intervention.":
+"no direct distribution of money.":
+"organizations!":
+"positive change and fostering a more":
+"shelter, education,":
+"solidarity, and service to humanity.":
+"starting new ones that compete.":
+"terms and conditions":
+"voluntary organizations without":
+"volunteers.":
+"without desecrating any beliefs.":
