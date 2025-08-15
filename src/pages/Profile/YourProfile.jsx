@@ -442,8 +442,10 @@ function YourProfile({ setHasUnsavedChanges }) {
           ) : (
             <>
               <p className="text-lg text-gray-900">
-                {(PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || "") +
-                  " "}
+                {PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || ""}
+                {(PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
+                  PHONECODESEN[profileInfo.phoneCountryCode]?.country ||
+                  "") + " "}
                 {profileInfo.phone}
               </p>
               <FiPhoneCall
