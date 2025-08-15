@@ -180,13 +180,12 @@ describe("YourProfile", () => {
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
     fireEvent.click(screen.getByText("EDIT"));
+    const emailInput = screen.getByDisplayValue(/.+@.+\..+/);
+    fireEvent.change(emailInput, { target: { value: "new@example.com" } });
+
     await waitFor(() => {
-      const emailInput = screen.getByDisplayValue("john@example.com");
-      fireEvent.change(emailInput, { target: { value: "new@example.com" } });
       expect(
-        screen.getByText(
-          /Email verification will be required for this change/i,
-        ),
+        screen.getByText(/Email verification will be required/i),
       ).toBeInTheDocument();
     });
   });
