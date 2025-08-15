@@ -365,5 +365,131 @@
   "TERMS_ENTIRE_AGREEMENT_CONTENT": "Diese Bedingungen und unsere Datenschutzrichtlinie stellen die gesamte Vereinbarung zwischen Ihnen und Saayam dar.",
   "TERMS_CONTACT_TITLE": "18. Kontakt",
   "TERMS_CONTACT_CONTENT": "Bei Fragen kontaktieren Sie uns unter 📧 info@SaayamForAll.org oder 📍 Saayam For All, 3046 Rosato Ct., San Jose, California 95135.",
-  "TERMS_THANK_YOU": "Vielen Dank, dass Sie Teil unserer Mission sind, der Menschheit durch Technologie, Mitgefühl und gemeinnützige Arbeit zu helfen."
+  "TERMS_THANK_YOU": "Vielen Dank, dass Sie Teil unserer Mission sind, der Menschheit durch Technologie, Mitgefühl und gemeinnützige Arbeit zu helfen.",
+  "REQUEST_CATEGORIES": {
+    "FOOD_ESSENTIALS": {
+      "LABEL": "Lebensmittel & Grundbedarf",
+      "DESC": "Zugang zu Lebensmittelhilfe, Einkaufsdiensten und Kochhilfe.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Lebensmittelhilfe",
+          "DESC": "Finden Sie Tafeln, Lebensmittelbanken oder Essensprogramme."
+        },
+        "GROCERY_SHOPPING_DELIVERY": {
+          "LABEL": "Einkaufen & Lieferung",
+          "DESC": "Bitten Sie um Hilfe beim Einkaufen und Liefern von Lebensmitteln."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Kochhilfe",
+          "DESC": "Erhalten Sie Anleitung bei der Essenszubereitung und beim Kochen."
+        }
+      }
+    },
+    "CLOTHING_AND_SUPPORT": {
+      "LABEL": "Kleidung und Unterstützung",
+      "DESC": "Kleidung spenden, ausleihen, reparieren oder um Kleidungshilfe bitten.",
+      "SUBCATEGORIES": {
+        "LEND_BORROW_CLOTHES": {
+          "LABEL": "Kleidung verleihen/ausleihen",
+          "DESC": "Teilen oder leihen Sie gut erhaltene Kleidung."
+        },
+        "DONATE_CLOTHES": {
+          "LABEL": "Kleidung spenden",
+          "DESC": "Geben Sie Kleidung an Bedürftige weiter."
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "Wohnungshilfe",
+      "DESC": "Mitbewohner, Mietberatung, Umzug und Einrichtungshilfe.",
+      "SUBCATEGORIES": {
+        "FINDING_A_ROOMMATE": {
+          "LABEL": "Mitbewohner finden",
+          "DESC": "Erhalten Sie Hilfe bei der Suche nach einem Mitbewohner."
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "Mietunterstützung",
+          "DESC": "Hilfe beim Mieten und bei den Grundlagen von Mietverträgen."
+        },
+        "BUY_SELL_HOUSEHOLD_ITEMS": {
+          "LABEL": "Haushaltsgegenstände kaufen/verkaufen",
+          "DESC": "Hilfe beim Kauf oder Verkauf von Haushaltsgegenständen."
+        },
+        "MOVING_PACKING_HELP": {
+          "LABEL": "Umzugs- & Packhilfe",
+          "DESC": "Unterstützung beim Umzug und Packen."
+        },
+        "CLEANING_HELP": {
+          "LABEL": "Reinigungshilfe",
+          "DESC": "Hilfe bei grundlegenden Reinigungsaufgaben."
+        },
+        "HOME_BUYING_SELLING_ASSISTANCE": {
+          "LABEL": "Hauskauf/-verkauf Unterstützung",
+          "DESC": "Beratung beim Hauskauf- oder -verkaufsprozess."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Bildungs- & Karriereunterstützung",
+      "DESC": "College-Bewerbungen, SOP-Überprüfungen, Nachhilfe und Lernunterstützung.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATIONS_HELP": {
+          "LABEL": "College-Bewerbungshilfe",
+          "DESC": "Hilfe bei Bewerbungen und Formularen."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOP & Aufsatz-Überprüfung",
+          "DESC": "Feedback zu Statements und Aufsätzen."
+        },
+        "TUTORING": {
+          "LABEL": "Nachhilfe",
+          "DESC": "Fachnachhilfe und Lernunterstützung."
+        }
+      }
+    },
+    "HEALTHCARE_WELLBEING": {
+      "LABEL": "Gesundheit & Wohlbefinden",
+      "DESC": "Nicht-klinische Gesundheitsnavigation und Wellness-Unterstützung.",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "Medizinische Beratung",
+          "DESC": "Grundlegende Navigation und nicht-klinische Beratung."
+        },
+        "MEDICINE_DELIVERY_ASSISTANCE": {
+          "LABEL": "Medikamentenlieferung",
+          "DESC": "Abholung und Lieferung von rezeptfreien Medikamenten."
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_SUPPORT": {
+      "LABEL": "Senioren- & Gemeinschaftsunterstützung",
+      "DESC": "Nicht-medizinische Hilfe für Senioren und Gemeinschaftsunterstützung.",
+      "SUBCATEGORIES": {
+        "ELDERLY_ASSISTANCE": {
+          "LABEL": "Seniorenhilfe",
+          "DESC": "Hilfe bei alltäglichen Aufgaben und Gesellschaft."
+        },
+        "TECH_HELP_FOR_SENIORS": {
+          "LABEL": "Technikhilfe für Senioren",
+          "DESC": "Unterstützung bei Geräten und Apps."
+        },
+        "HELP_WITH_GOVERNMENT_SERVICES": {
+          "LABEL": "Hilfe bei Behördenleistungen",
+          "DESC": "Beratung für öffentliche Dienstleistungen und Formulare."
+        },
+        "RIDE_ASSISTANCE": {
+          "LABEL": "Fahrhilfe",
+          "DESC": "Hilfe bei der Organisation von Fahrten zu Terminen."
+        },
+        "SHOPPING_ASSISTANCE": {
+          "LABEL": "Einkaufshilfe",
+          "DESC": "Unterstützung bei Einkaufsbedürfnissen."
+        }
+      }
+    },
+    "GENERAL": {
+      "LABEL": "Allgemein",
+      "DESC": "Verwenden Sie dies, wenn Sie unsicher sind; beschreiben Sie Ihren Bedarf im Detail."
+    }
+  }
 }
