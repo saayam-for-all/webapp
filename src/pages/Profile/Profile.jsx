@@ -11,6 +11,7 @@ import OrganizationDetails from "./OrganizationDetails";
 import Skills from "./Skills";
 import Availability from "./Availability";
 import Preferences from "./Preferences";
+import SignOff from "./SignOff";
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
 function Profile() {
@@ -118,6 +119,8 @@ function Profile() {
         return <Availability setHasUnsavedChanges={setHasUnsavedChanges} />;
       case "preferences":
         return <Preferences setHasUnsavedChanges={setHasUnsavedChanges} />;
+      case "signoff":
+        return <SignOff setHasUnsavedChanges={setHasUnsavedChanges} />;
       default:
         return null;
     }
@@ -144,7 +147,7 @@ function Profile() {
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center transition-colors duration-200"
         >
           <span className="text-2xl mr-2">&larr;</span>{" "}
-          {t("BACK_TO_HOME") || "Back to Home"}
+          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
         </button>
       </div>
 
