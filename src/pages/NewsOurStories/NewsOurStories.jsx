@@ -1,7 +1,7 @@
 import React from "react";
-import seventeenMileWalk from "../../assets/news_our_stoires/17_Mile_walk.png";
-import communityUpliftment from "../../assets/news_our_stoires/community_upliftment.png";
-import tieCon from "../../assets/news_our_stoires/tie_con.png";
+import seventeenMileWalk from "../../assets/news_our_stoires/17_Mile_walk.webp";
+import communityUpliftment from "../../assets/news_our_stoires/community_upliftment.webp";
+import tieCon from "../../assets/news_our_stoires/tie_con.webp";
 import { useNavigate } from "react-router-dom";
 import "./NewsOurStories.css";
 import { useTranslation } from "react-i18next";
