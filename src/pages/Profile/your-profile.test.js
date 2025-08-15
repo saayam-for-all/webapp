@@ -7,7 +7,7 @@ import YourProfile from "./YourProfile";
 
 // Mock external dependencies
 jest.mock("aws-amplify/auth", () => ({
-  updateUserAttributes: jest.fn(),
+  updateUserAttributes: jest.fn().mockResolvedValue({}),
 }));
 
 jest.mock("react-i18next", () => ({
@@ -79,6 +79,14 @@ jest.mock("../../utils/utils", () => ({
       country: data.primary,
       dialCode: data.secondary,
     })),
+}));
+
+// ✅ one shared navigate mock for all tests
+const mockNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
 }));
 
 jest.mock("../../redux/features/authentication/authActions", () => ({
@@ -175,18 +183,39 @@ describe("YourProfile", () => {
     });
   });
 
-  it("shows email verification required message when email is changed", async () => {
+  it("sends verification and navigates when email is changed and saved", async () => {
+    const { updateUserAttributes } = require("aws-amplify/auth");
+
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
+
+    // enter edit mode
     fireEvent.click(screen.getByText("EDIT"));
+
+    // change email
     const emailInput = screen.getByDisplayValue(/.+@.+\..+/);
     fireEvent.change(emailInput, { target: { value: "new@example.com" } });
 
+    // click SAVE to trigger verification + navigation
+    fireEvent.click(screen.getByText("SAVE"));
+
     await waitFor(() => {
-      expect(
-        screen.getByText(/Email verification will be required/i),
-      ).toBeInTheDocument();
+      expect(updateUserAttributes).toHaveBeenCalledWith({
+        userAttributes: { email: "new@example.com" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith(
+        "/verify-otp",
+        expect.objectContaining({
+          state: expect.objectContaining({
+            email: "new@example.com",
+            isEmailUpdate: true,
+          }),
+        }),
+      );
     });
   });
 
