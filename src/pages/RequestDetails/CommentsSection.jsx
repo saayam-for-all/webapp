@@ -82,6 +82,7 @@ const CommentsSection = ({ comments = [] }) => {
     setCurrentPage(1); // Reset to first page when changing rows per page
   };
 
+  // Update the renderPagination function
   const renderPagination = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -89,7 +90,7 @@ const CommentsSection = ({ comments = [] }) => {
     }
 
     return (
-      <div className="flex justify-end items-center space-x-2">
+      <div className="flex justify-end items-center space-x-2 w-full">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -179,19 +180,29 @@ const CommentsSection = ({ comments = [] }) => {
           {/* Only show pagination if there are comments */}
           {filteredComments.length > 0 ? (
             <>
-              {/* Add rows per page selector */}
-              <div className="flex justify-end mb-4">
-                <select
-                  value={rowsPerPage}
-                  onChange={(e) =>
-                    handleRowsPerPageChange(Number(e.target.value))
-                  }
-                  className="px-2 py-1 border rounded"
-                >
-                  <option value={5}>5 per page</option>
-                  <option value={10}>10 per page</option>
-                  <option value={20}>20 per page</option>
-                </select>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600">
+                    {t("ROWS_PER_VIEW")}:
+                  </span>
+                  <select
+                    value={rowsPerPage}
+                    onChange={(e) =>
+                      handleRowsPerPageChange(Number(e.target.value))
+                    }
+                    className="px-3 py-1 border rounded-md text-sm bg-white"
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                  </select>
+                </div>
+
+                <div className="text-sm text-gray-600">
+                  {t("SHOWING")} {indexOfFirstItem + 1} {t("TO")}{" "}
+                  {Math.min(indexOfLastItem, filteredComments.length)} {t("OF")}{" "}
+                  {filteredComments.length} {t("COMMENTS")}
+                </div>
               </div>
 
               <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
@@ -224,18 +235,13 @@ const CommentsSection = ({ comments = [] }) => {
                 );
               })}
 
-              {/* Pagination controls */}
-              {renderPagination()}
-
-              {/* Add pagination info */}
-              <div className="text-sm text-gray-500 mt-2 text-right">
-                Showing {indexOfFirstItem + 1} to{" "}
-                {Math.min(indexOfLastItem, filteredComments.length)} of{" "}
-                {filteredComments.length} comments
-              </div>
+              {/* Pagination controls with updated styling */}
+              <div className="mt-4 flex justify-end">{renderPagination()}</div>
             </>
           ) : (
-            <div className="text-center text-gray-500">No comments found</div>
+            <div className="text-center text-gray-500">
+              {t("NO_COMMENTS_FOUND")}
+            </div>
           )}
         </div>
       </div>
