@@ -1,4 +1,6 @@
 coverage:
+  # This range only affects the color coding in the codcov report.
+  # Actual thresholds are defined in the status section below.
   range: "80...90"
   status:
     project:
