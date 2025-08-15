@@ -181,24 +181,6 @@ const CommentsSection = ({ comments = [] }) => {
           {filteredComments.length > 0 ? (
             <>
               {/* Remove the showing text from the top section */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">
-                    {t("ROWS_PER_VIEW")}:
-                  </span>
-                  <select
-                    value={rowsPerPage}
-                    onChange={(e) =>
-                      handleRowsPerPageChange(Number(e.target.value))
-                    }
-                    className="px-3 py-1 border rounded-md text-sm bg-white"
-                  >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                  </select>
-                </div>
-              </div>
 
               <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
                 <input
@@ -231,13 +213,34 @@ const CommentsSection = ({ comments = [] }) => {
               })}
 
               {/* Update the bottom pagination section */}
-              <div className="mt-4 flex justify-between items-center">
+              <div className="mt-4 grid grid-cols-3 items-center gap-4">
+                {/* Showing text - Left */}
                 <div className="text-sm text-gray-600 whitespace-nowrap">
                   {t("Showing")} {indexOfFirstItem + 1} {t("to")}{" "}
                   {Math.min(indexOfLastItem, filteredComments.length)} {t("of")}{" "}
                   {filteredComments.length} {t("comments")}
                 </div>
-                {renderPagination()}
+
+                {/* Rows per page - Center */}
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-sm text-gray-600">
+                    {t("Rows per view")}:
+                  </span>
+                  <select
+                    value={rowsPerPage}
+                    onChange={(e) =>
+                      handleRowsPerPageChange(Number(e.target.value))
+                    }
+                    className="px-3 py-1 border rounded-md text-sm bg-white"
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                  </select>
+                </div>
+
+                {/* Pagination - Right */}
+                <div className="flex justify-end">{renderPagination()}</div>
               </div>
             </>
           ) : (
