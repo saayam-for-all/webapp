@@ -22,6 +22,8 @@ function YourProfile({ setHasUnsavedChanges }) {
   const [saveError, setSaveError] = useState("");
   const [pendingEmailChange, setPendingEmailChange] = useState(null);
   const [saveAttempted, setSaveAttempted] = useState(false); // Track if save was attempted
+  const [showEmailVerificationMessage, setShowEmailVerificationMessage] =
+    useState(false); // New state to control email verification message
   const firstNameRef = useRef(null);
   const countries = CountryList().getData();
   const user = useSelector((state) => state.auth.user);
@@ -32,8 +34,8 @@ function YourProfile({ setHasUnsavedChanges }) {
     lastName: "",
   });
 
-  // Phone validation state
-  const [phoneError, setPhoneError] = useState("");
+  // Email validation state
+  const [emailError, setEmailError] = useState("");
 
   const [profileInfo, setProfileInfo] = useState({
     firstName: "",
@@ -127,36 +129,23 @@ function YourProfile({ setHasUnsavedChanges }) {
     return error === "";
   };
 
-  // Enhanced phone validation function
-  const validatePhone = (value) => {
+  // Validate email function - for save validation only (not real-time)
+  const validateEmail = (value, showError = false) => {
     let error = "";
 
-    // Remove any non-digit characters for validation
-    const cleanPhone = value.replace(/\D/g, "");
+    if (value) {
+      // Basic email format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-    // Only allow digits and check length
-    if (cleanPhone.length > 10) {
-      error = "Please enter only 10 digits";
+      if (!emailRegex.test(value)) {
+        error = "Please enter a valid email address";
+      }
     }
 
-    setPhoneError(error);
-    return error === "";
-  };
-
-  // Validate phone for save - shows "less than 10 digits" error only when saving
-  const validatePhoneForSave = (value) => {
-    let error = "";
-
-    // Remove any non-digit characters for validation
-    const cleanPhone = value.replace(/\D/g, "");
-
-    if (cleanPhone.length > 10) {
-      error = "Please enter only 10 digits";
-    } else if (cleanPhone.length < 10 && cleanPhone.length > 0) {
-      error = "Phone number should contain 10 digits";
+    // Only set the error if showError is true (during save)
+    if (showError) {
+      setEmailError(error);
     }
-
-    setPhoneError(error);
     return error === "";
   };
 
@@ -222,20 +211,28 @@ function YourProfile({ setHasUnsavedChanges }) {
         setSaveError("");
       }
     } else if (name === "phone") {
-      // Only allow digits and limit to 10 characters - ensure no country codes get mixed in
-      const phoneValue = value.replace(/\D/g, "").slice(0, 10);
-      setProfileInfo((prev) => ({ ...prev, [name]: phoneValue }));
-
-      // Real-time phone validation
-      validatePhone(phoneValue);
-
-      // Clear save error if user is correcting phone number
-      if (saveError && saveError.includes("phone")) {
-        setSaveError("");
-      }
+      // Simple phone handling - just store the value as-is (like old code)
+      setProfileInfo((prev) => ({ ...prev, [name]: value.replace(/\D/g, "") }));
     } else if (name === "phoneCountryCode") {
       // When changing phone country code, don't modify the phone number itself
       setProfileInfo((prev) => ({ ...prev, [name]: value }));
+    } else if (name === "email") {
+      setProfileInfo((prev) => ({ ...prev, [name]: value }));
+
+      // Clear email validation error when user is typing
+      if (emailError) {
+        setEmailError("");
+      }
+
+      // Clear save error if user is correcting email
+      if (saveError && saveError.includes("email")) {
+        setSaveError("");
+      }
+
+      // Hide email verification message when user is typing
+      if (showEmailVerificationMessage) {
+        setShowEmailVerificationMessage(false);
+      }
     } else {
       setProfileInfo((prev) => ({ ...prev, [name]: value }));
     }
@@ -277,36 +274,31 @@ function YourProfile({ setHasUnsavedChanges }) {
         throw new Error("Email is required");
       }
 
-      // Phone validation for save
-      if (profileInfo.phone) {
-        // Ensure phone contains only digits and extract just the numeric part
-        const cleanPhone = profileInfo.phone.replace(/\D/g, "");
-
-        // Update the profileInfo to ensure it's clean before validation
-        if (cleanPhone !== profileInfo.phone) {
-          setProfileInfo((prev) => ({ ...prev, phone: cleanPhone }));
+      // Email validation for save - using proper email format validation
+      if (profileInfo.email) {
+        if (!validateEmail(profileInfo.email, true)) {
+          throw new Error("Please enter a valid email address");
         }
-
-        if (!/^\d+$/.test(cleanPhone)) {
-          throw new Error("Phone number must contain only digits");
-        }
-        if (!validatePhoneForSave(cleanPhone)) {
-          throw new Error(
-            "Please fix the phone number validation errors before saving",
-          );
-        }
-        if (cleanPhone.length !== 10) {
-          throw new Error("Phone number must be exactly 10 digits");
-        }
-
-        // Use the clean phone for formatting
-        formattedPhone = `${countryCodeValue}${cleanPhone}`;
       }
 
-      // Check if email has changed
+      // Simple phone validation (like old code)
+      if (profileInfo.phone) {
+        // Basic validation - only check if it contains only digits
+        if (!/^\d+$/.test(profileInfo.phone)) {
+          throw new Error("Phone number must contain only digits");
+        }
+
+        // Use the phone for formatting
+        formattedPhone = `${countryCodeValue}${profileInfo.phone}`;
+      }
+
+      // Check if email has changed - show verification message only when attempting to save
       const emailChanged = profileInfo.email !== originalEmail;
 
       if (emailChanged) {
+        // Show email verification message
+        setShowEmailVerificationMessage(true);
+
         // Store the pending email change and send verification
         setPendingEmailChange({
           firstName: profileInfo.firstName,
@@ -358,6 +350,7 @@ function YourProfile({ setHasUnsavedChanges }) {
         setHasUnsavedChanges(false);
         setSaveAttempted(false);
         setSaveAttempted(false); // Reset save attempt flag on success
+        setShowEmailVerificationMessage(false); // Reset email verification message
       } else {
         throw new Error(result?.error || t("PROFILE_UPDATE_FAILED"));
       }
@@ -430,13 +423,14 @@ function YourProfile({ setHasUnsavedChanges }) {
     setSaveError("");
     setPendingEmailChange(null);
     setSaveAttempted(false); // Reset save attempt flag
+    setShowEmailVerificationMessage(false); // Reset email verification message
     // Reset name validation errors
     setNameErrors({
       firstName: "",
       lastName: "",
     });
-    // Reset phone validation error
-    setPhoneError("");
+    // Reset email validation error
+    setEmailError("");
   };
 
   return (
@@ -533,16 +527,23 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="email"
               value={profileInfo.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              className={`block w-full bg-white text-gray-700 border ${
+                emailError ? "border-red-500" : "border-gray-200"
+              } rounded py-3 px-4 focus:outline-none`}
             />
-            {profileInfo.email !== originalEmail && (
-              <p className="text-sm text-orange-600 mt-1">
-                {t(
-                  "EMAIL_VERIFICATION_REQUIRED",
-                  "Email verification will be required for this change",
-                )}
-              </p>
+            {emailError && (
+              <p className="text-sm text-red-600 mt-1">{emailError}</p>
             )}
+            {showEmailVerificationMessage &&
+              profileInfo.email !== originalEmail &&
+              !emailError && (
+                <p className="text-sm text-orange-600 mt-1">
+                  {t(
+                    "EMAIL_VERIFICATION_REQUIRED",
+                    "Email verification will be required for this change",
+                  )}
+                </p>
+              )}
           </div>
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.email}</p>
@@ -570,29 +571,15 @@ function YourProfile({ setHasUnsavedChanges }) {
                   </option>
                 ))}
               </select>
-              <div className="w-2/3">
-                <input
-                  type="text"
-                  value={profileInfo.phone}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "phone",
-                      e.target.value.replace(/\D/g, ""),
-                    )
-                  }
-                  className={`block w-full bg-white text-gray-700 border ${
-                    phoneError ? "border-red-500" : "border-gray-200"
-                  } rounded py-3 px-4 focus:outline-none`}
-                  placeholder="1234567890"
-                  maxLength={10}
-                />
-                {phoneError && (
-                  <p className="text-sm text-red-600 mt-1">{phoneError}</p>
-                )}
-                <p className="text-xs text-gray-500 mt-1">
-                  {profileInfo.phone.length}/10
-                </p>
-              </div>
+              <input
+                type="text"
+                value={profileInfo.phone}
+                onChange={(e) =>
+                  handleInputChange("phone", e.target.value.replace(/\D/g, ""))
+                }
+                className="w-2/3 bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+                placeholder="1234567890"
+              />
             </>
           ) : (
             <>
