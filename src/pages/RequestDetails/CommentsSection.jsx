@@ -180,6 +180,7 @@ const CommentsSection = ({ comments = [] }) => {
           {/* Only show pagination if there are comments */}
           {filteredComments.length > 0 ? (
             <>
+              {/* Remove the showing text from the top section */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-600">
@@ -196,12 +197,6 @@ const CommentsSection = ({ comments = [] }) => {
                     <option value={10}>10</option>
                     <option value={20}>20</option>
                   </select>
-                </div>
-
-                <div className="text-sm text-gray-600">
-                  {t("SHOWING")} {indexOfFirstItem + 1} {t("TO")}{" "}
-                  {Math.min(indexOfLastItem, filteredComments.length)} {t("OF")}{" "}
-                  {filteredComments.length} {t("COMMENTS")}
                 </div>
               </div>
 
@@ -235,8 +230,15 @@ const CommentsSection = ({ comments = [] }) => {
                 );
               })}
 
-              {/* Pagination controls with updated styling */}
-              <div className="mt-4 flex justify-end">{renderPagination()}</div>
+              {/* Update the bottom pagination section */}
+              <div className="mt-4 flex justify-between items-center">
+                <div className="text-sm text-gray-600 whitespace-nowrap">
+                  {t("Showing")} {indexOfFirstItem + 1} {t("to")}{" "}
+                  {Math.min(indexOfLastItem, filteredComments.length)} {t("of")}{" "}
+                  {filteredComments.length} {t("comments")}
+                </div>
+                {renderPagination()}
+              </div>
             </>
           ) : (
             <div className="text-center text-gray-500">
