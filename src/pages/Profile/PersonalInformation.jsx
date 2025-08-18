@@ -359,6 +359,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <span className="text-red-500 mr-1">*</span>
             {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
@@ -413,6 +414,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-3 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <span className="text-red-500 mr-1">*</span>
             {t("COUNTRY")}
           </label>
           {isEditing ? (
@@ -453,6 +455,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <span className="text-red-500 mr-1">*</span>
             {t("STATE")}
           </label>
           {isEditing ? (
@@ -478,6 +481,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <span className="text-red-500 mr-1">*</span>
             {t("ZIP_CODE")}
           </label>
           {isEditing ? (
