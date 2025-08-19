@@ -35,9 +35,9 @@ export const changeUiLanguage = (personalInfo = null) => {
   const languages = getUserLanguages(personalInfo);
 
   if (!validateArray(languages)) {
-    console.log("No valid user preferences — forcing en-US");
-    localStorage.setItem("i18nextLng", "en-US");
-    i18n.changeLanguage("en-US");
+    console.log("No valid user preferences — using browser language");
+    localStorage.removeItem("i18nextLng");
+    i18n.changeLanguage(); // re-run detection to respect browser language
     return;
   }
 
@@ -65,6 +65,6 @@ export const changeUiLanguage = (personalInfo = null) => {
 };
 
 export const returnDefaultLanguage = () => {
-  localStorage.setItem("i18nextLng", "en-US");
+  localStorage.removeItem("i18nextLng");
   i18n.changeLanguage();
 };
