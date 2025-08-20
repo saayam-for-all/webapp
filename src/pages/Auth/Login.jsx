@@ -11,7 +11,7 @@ import { checkAuthStatus } from "../../redux/features/authentication/authActions
 import "./Login.css";
 
 const LoginPage = () => {
-  const { t } = useTranslation(["common", "auth"]);
+  const { t } = useTranslation(["common"]);
   const { loading } = useSelector((state) => state.auth);
 
   const [emailValue, setEmailValue] = useState("");
@@ -28,8 +28,8 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const loginSchema = z.object({
-    email: z.string().min(1, { message: t("auth:EMAIL_REQUIRED") }),
-    password: z.string().min(1, { message: t("auth:PASSWORD_REQUIRED") }),
+    email: z.string().min(1, { message: t("common:EMAIL_REQUIRED") }),
+    password: z.string().min(1, { message: t("common:PASSWORD_REQUIRED") }),
   });
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.log("error", error);
-      setErrors({ root: t("auth:INVALID_CREDENTIALS") });
+      setErrors({ root: t("common:INVALID_CREDENTIALS") });
     }
   };
 
@@ -73,15 +73,15 @@ const LoginPage = () => {
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">
-          {t("auth:LOGIN")}
+          {t("common:LOGIN")}
         </h1>
         <div className="my-2 flex flex-col">
-          <label htmlFor="email">{t("auth:EMAIL")}</label>
+          <label htmlFor="email">{t("common:EMAIL")}</label>
           <input
             id="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
-            placeholder={t("auth:EMAIL")}
+            placeholder={t("common:EMAIL")}
             type="text"
             className="px-4 py-2 border border-gray-300 rounded-xl"
             required={true}
@@ -91,7 +91,7 @@ const LoginPage = () => {
           )}
         </div>
         <div className="my-2 flex flex-col">
-          <label htmlFor="password">{t("PASSWORD")}</label>
+          <label htmlFor="password">{t("common:PASSWORD")}</label>
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               passwordFocus
@@ -101,7 +101,7 @@ const LoginPage = () => {
           >
             <input
               id="password"
-              placeholder={t("Password")}
+              placeholder={t("common:PASSWORD")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
               onChange={(e) => setPasswordValue(e.target.value)}
@@ -127,7 +127,7 @@ const LoginPage = () => {
           className="my-2 text-left underline"
           onClick={() => navigate("/forgot-password")}
         >
-          {t("FORGOT_PASSWORD")}
+          {t("common:FORGOT_PASSWORD")}
         </button>
         <button
           disabled={loading}
@@ -135,7 +135,7 @@ const LoginPage = () => {
           onClick={handleSignIn}
         >
           <div className="flex items-center justify-center">
-            <span className={loading ? "mr-2" : ""}>{t("LOGIN")}</span>
+            <span className={loading ? "mr-2" : ""}>{t("common:LOGIN")}</span>
             {loading && <LoadingIndicator size="24px" />}
           </div>
         </button>
@@ -146,29 +146,29 @@ const LoginPage = () => {
         {/* Uncommment for Google and Facebook signin is fully functional*/}
         {/* <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="px-4 text-gray-500">{t("OR_WITH")}</span>
+          <span className="px-4 text-gray-500">{t("common:OR_WITH")}</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div> 
 
          <div className="flex flex-row items-center">
           <button className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
             <FaFacebookF className="mx-2 text-xl text-blue-800" />
-            <span>{t("FACEBOOK")}</span>
+            <span>{t("common:FACEBOOK")}</span>
           </button>
 
           <button className="ml-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
             <FcGoogle className="mx-2 text-xl" />
-            <span>{t("GOOGLE")}</span>
+            <span>{t("common:GOOGLE")}</span>
           </button>
         </div> */}
 
         <div className="mt-16 flex flex-row justify-center">
-          <p>{t("NONE_ACCOUNT")}</p>
+          <p>{t("common:NONE_ACCOUNT")}</p>
           <button
             className="mx-2 text-left underline"
             onClick={() => navigate("/signup")}
           >
-            {t("SIGNUP")}
+            {t("common:SIGNUP")}
           </button>
         </div>
       </div>
