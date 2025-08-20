@@ -16,7 +16,7 @@ import collabSix from "../../assets/landingPageImages/collab_six.jpg";
 import collabThree from "../../assets/landingPageImages/collab_three.jpg";
 import collabTwo from "../../assets/landingPageImages/collab_two.jpg";
 import topOne from "../../assets/landingPageImages/topOne.jpg";
-import topTwo from "../../assets/landingPageImages/topTwo.jpg";
+import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
 
