@@ -93,7 +93,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     phone: "",
     age: "",
     gender: "Select",
-    lead_volunteer: "Ethan Marshall",
+    lead_volunteer: "No",
     preferred_language: "",
     category: "General",
     request_type: "remote",
@@ -431,9 +431,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 data-testid="dropdown"
                 className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                 onChange={(e) => setSelfFlag(e.target.value === "yes")}
-                disabled
+                defaultValue="yes"
               >
                 <option value="yes">{t("YES")}</option>
+                <option value="no">{t("NO")}</option>
               </select>
             </div>
 
