@@ -51,7 +51,7 @@ const genderOptions = [
 ];
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
@@ -268,16 +268,51 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, [data]);
 
+  const resolveCategoryLabel = (selectedKeyOrText) => {
+    if (!selectedKeyOrText) return "";
+    // If matches a category key
+    const cat = categories?.find((c) => (c.key || c.id) === selectedKeyOrText);
+    if (cat) {
+      return t(`REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
+        defaultValue: cat.name,
+      });
+    }
+    // If matches a subcategory key
+    for (const c of categories || []) {
+      const subs = c.subcategories || [];
+      const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
+      if (match) {
+        return t(
+          `REQUEST_CATEGORIES.${c.key || c.id}.SUBCATEGORIES.${match.key || match}.LABEL`,
+          { defaultValue: match.label || match },
+        );
+      }
+    }
+    // Fallback to free text typed by user
+    return selectedKeyOrText;
+  };
+
   useEffect(() => {
     if (categories && categories.length > 0) {
-      // Sort categories alphabetically by name, but keep 'General' last
-      const general = categories.find((cat) => cat.name === "General");
-      const others = categories.filter((cat) => cat.name !== "General");
-      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      const general = categories.find(
+        (cat) => cat.key === "GENERAL" || cat.name === "General",
+      );
+      const others = categories.filter(
+        (cat) =>
+          (cat.key || cat.name) !==
+          (general ? general.key || general.name : ""),
+      );
+      const resolvedLabel = (cat) =>
+        t(`REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
+          defaultValue: cat.name,
+        });
+      const sorted = others.sort((a, b) =>
+        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
+      );
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     }
-  }, [categories]);
+  }, [categories, i18n.language, t]);
 
   const handleSearchInput = (e) => {
     const searchTerm = e.target.value;
@@ -287,21 +322,42 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       category: searchTerm,
     });
 
+    const resolvedLabel = (cat) =>
+      t(`REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
+        defaultValue: cat.name,
+      });
+
     if (searchTerm.trim() === "") {
-      // Sort categories alphabetically by name, keep 'General' last
-      const general = categories.find((cat) => cat.name === "General");
-      const others = categories.filter((cat) => cat.name !== "General");
-      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      const general = categories.find(
+        (cat) => cat.key === "GENERAL" || cat.name === "General",
+      );
+      const others = categories.filter(
+        (cat) =>
+          (cat.key || cat.name) !==
+          (general ? general.key || general.name : ""),
+      );
+      const sorted = others.sort((a, b) =>
+        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
+      );
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     } else {
       const filtered = categories.filter((category) =>
-        category.name.toLowerCase().startsWith(searchTerm.toLowerCase()),
+        resolvedLabel(category)
+          .toLowerCase()
+          .startsWith(searchTerm.toLowerCase()),
       );
-      // Sort filtered categories alphabetically, keep 'General' last if present
-      const general = filtered.find((cat) => cat.name === "General");
-      const others = filtered.filter((cat) => cat.name !== "General");
-      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      const general = filtered.find(
+        (cat) => cat.key === "GENERAL" || cat.name === "General",
+      );
+      const others = filtered.filter(
+        (cat) =>
+          (cat.key || cat.name) !==
+          (general ? general.key || general.name : ""),
+      );
+      const sorted = others.sort((a, b) =>
+        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
+      );
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     }
@@ -324,23 +380,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
   }, []);
 
-  const handleCategoryClick = (categoryName) => {
-    // setSelectedCategory(categoryName);
-    //setSearchInput(categoryName);
+  const handleCategoryClick = (categoryKeyOrId) => {
     setFormData({
       ...formData,
-      category: categoryName,
+      category: categoryKeyOrId,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
   };
 
-  const handleSubcategoryClick = (subcategoryName) => {
-    // setSelectedCategory(subcategoryName);
-    //setSearchInput(subcategoryName);
+  const handleSubcategoryClick = (subcategory) => {
+    const subKey =
+      typeof subcategory === "string" ? subcategory : subcategory.key;
     setFormData({
       ...formData,
-      category: subcategoryName,
+      category: subKey,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
@@ -649,11 +703,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 <input
                   type="text"
                   id="category"
-                  value={
-                    filteredCategories.find(
-                      (cat) => cat.id === formData.category,
-                    )?.name || formData.category
-                  }
+                  value={resolveCategoryLabel(formData.category)}
                   onChange={handleSearchInput}
                   className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
                   onFocus={() => setShowDropdown(true)}
@@ -713,12 +763,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             !category.subcategories ||
                             category.subcategories.length === 0
                           ) {
-                            handleCategoryClick(category.name);
+                            handleCategoryClick(category.key || category.id);
                           }
                         }}
                         onMouseEnter={() => setHoveredCategory(category)}
                       >
-                        <span>{category.name}</span>
+                        <span
+                          title={t(
+                            `REQUEST_CATEGORIES.${category.key || category.id}.DESC`,
+                            { defaultValue: "" },
+                          )}
+                        >
+                          {t(
+                            `REQUEST_CATEGORIES.${category.key || category.id}.LABEL`,
+                            { defaultValue: category.name },
+                          )}
+                        </span>
                         {/* Show chevron if subcategories exist */}
                         {category.subcategories &&
                           category.subcategories.length > 0 && (
@@ -763,7 +823,20 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                   handleSubcategoryClick(subcategory);
                                 }}
                               >
-                                {subcategory}
+                                <span
+                                  title={t(
+                                    `REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.DESC`,
+                                    { defaultValue: "" },
+                                  )}
+                                >
+                                  {t(
+                                    `REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.LABEL`,
+                                    {
+                                      defaultValue:
+                                        subcategory.label || subcategory,
+                                    },
+                                  )}
+                                </span>
                               </div>
                             ),
                           )}

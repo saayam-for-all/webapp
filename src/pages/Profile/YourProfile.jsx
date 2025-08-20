@@ -15,15 +15,32 @@ function YourProfile({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [isEditing, setIsEditing] = useState(false);
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [callType, setCallType] = useState("audio");
   const [loading, setLoading] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [pendingEmailChange, setPendingEmailChange] = useState(null);
+
+  // Track if save was attempted (useful if you later want to show required errors after first save attempt)
+  const [saveAttempted, setSaveAttempted] = useState(false);
+  // Show a hint that email verification will be required when email changes
+  const [showEmailVerificationMessage, setShowEmailVerificationMessage] =
+    useState(false);
+
   const firstNameRef = useRef(null);
   const countries = CountryList().getData();
   const user = useSelector((state) => state.auth.user);
+
+  // Name validation states
+  const [nameErrors, setNameErrors] = useState({
+    firstName: "",
+    lastName: "",
+  });
+
+  // Email validation state
+  const [emailError, setEmailError] = useState("");
 
   const [profileInfo, setProfileInfo] = useState({
     firstName: "",
@@ -53,7 +70,6 @@ function YourProfile({ setHasUnsavedChanges }) {
 
         if (possibleCountryCodes.length > 0) {
           possibleCountryCodes.sort((a, b) => b.length - a.length);
-
           for (const { code, dialCode } of possibleCountryCodes) {
             if (user.phone_number.startsWith(dialCode)) {
               extractedCountryCode = code;
@@ -97,18 +113,74 @@ function YourProfile({ setHasUnsavedChanges }) {
     }
   }, [user]);
 
+  // Real-time name validation (numbers, 50-char limit, multiple spaces)
+  const validateName = (name, value) => {
+    let error = "";
+    if (value.length > 50) {
+      error = "Maximum 50 characters allowed";
+    } else if (/\d/.test(value)) {
+      error = "Numbers are not allowed";
+    } else if (/\s{2,}/.test(value)) {
+      error = "Multiple consecutive spaces are not allowed";
+    }
+    setNameErrors((prev) => ({ ...prev, [name]: error }));
+    return error === "";
+  };
+
+  // Email validation – called on save (not real-time)
+  const validateEmail = (value, showError = false) => {
+    let error = "";
+    if (value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      if (!emailRegex.test(value)) {
+        error = "Please enter a valid email address";
+      }
+    }
+    if (showError) setEmailError(error);
+    return error === "";
+  };
+
   const handleInputChange = (name, value) => {
-    setProfileInfo((prev) => ({ ...prev, [name]: value }));
+    if (name === "firstName" || name === "lastName") {
+      const limitedValue = value.slice(0, 50);
+      setProfileInfo((prev) => ({ ...prev, [name]: limitedValue }));
+      validateName(name, limitedValue);
+
+      // If save was attempted and the user starts typing, clear "required" messages
+      if (saveAttempted && limitedValue.trim()) {
+        setNameErrors((prev) => ({
+          ...prev,
+          [name]: prev[name].includes("required") ? "" : prev[name],
+        }));
+      }
+
+      if (
+        saveError &&
+        (saveError.includes("validation errors") ||
+          saveError.includes("First name") ||
+          saveError.includes("Last name"))
+      ) {
+        setSaveError("");
+      }
+    } else if (name === "phone") {
+      setProfileInfo((prev) => ({ ...prev, [name]: value.replace(/\D/g, "") }));
+    } else if (name === "phoneCountryCode") {
+      setProfileInfo((prev) => ({ ...prev, [name]: value }));
+    } else if (name === "email") {
+      setProfileInfo((prev) => ({ ...prev, [name]: value }));
+      if (emailError) setEmailError("");
+      if (saveError && saveError.includes("email")) setSaveError("");
+      if (showEmailVerificationMessage) setShowEmailVerificationMessage(false);
+    } else {
+      setProfileInfo((prev) => ({ ...prev, [name]: value }));
+    }
     setHasUnsavedChanges(true);
   };
 
   const sendEmailVerification = async (newEmail) => {
     try {
-      // Send verification code to new email
       await updateUserAttributes({
-        userAttributes: {
-          email: newEmail,
-        },
+        userAttributes: { email: newEmail },
       });
       return true;
     } catch (error) {
@@ -121,29 +193,38 @@ function YourProfile({ setHasUnsavedChanges }) {
     try {
       setLoading(true);
       setSaveError("");
+      setSaveAttempted(true);
 
       const countryCodeValue =
         PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || "+1";
-      const formattedPhone = `${countryCodeValue}${profileInfo.phone.replace(/\D/g, "")}`;
 
-      // Basic validation
+      // Basic required checks
       if (!profileInfo.firstName.trim() || !profileInfo.lastName.trim()) {
         throw new Error("First and last name are required");
       }
-
       if (!profileInfo.email.trim()) {
         throw new Error("Email is required");
       }
 
+      // Email format validation
+      if (profileInfo.email && !validateEmail(profileInfo.email, true)) {
+        throw new Error("Please enter a valid email address");
+      }
+
+      // Phone validation – digits only
       if (profileInfo.phone && !/^\d+$/.test(profileInfo.phone)) {
         throw new Error("Phone number must contain only digits");
       }
 
-      // Check if email has changed
-      const emailChanged = profileInfo.email !== originalEmail;
+      let formattedPhone = "";
+      if (profileInfo.phone) {
+        formattedPhone = `${countryCodeValue}${profileInfo.phone}`;
+      }
 
+      // If email changed, trigger verification flow
+      const emailChanged = profileInfo.email !== originalEmail;
       if (emailChanged) {
-        // Store the pending email change and send verification
+        setShowEmailVerificationMessage(true);
         setPendingEmailChange({
           firstName: profileInfo.firstName,
           lastName: profileInfo.lastName,
@@ -152,10 +233,8 @@ function YourProfile({ setHasUnsavedChanges }) {
           country: profileInfo.country,
         });
 
-        // Send verification email
         await sendEmailVerification(profileInfo.email);
 
-        // Navigate to OTP verification page
         navigate("/verify-otp", {
           state: {
             email: profileInfo.email,
@@ -169,11 +248,10 @@ function YourProfile({ setHasUnsavedChanges }) {
             },
           },
         });
-
         return;
       }
 
-      // If email hasn't changed, proceed with regular update
+      // Otherwise, update profile directly
       const result = await dispatch(
         updateUserProfile({
           firstName: profileInfo.firstName,
@@ -192,6 +270,8 @@ function YourProfile({ setHasUnsavedChanges }) {
         alert(t("PROFILE_UPDATE_SUCCESS"));
         setIsEditing(false);
         setHasUnsavedChanges(false);
+        setSaveAttempted(false);
+        setShowEmailVerificationMessage(false);
       } else {
         throw new Error(result?.error || t("PROFILE_UPDATE_FAILED"));
       }
@@ -220,34 +300,16 @@ function YourProfile({ setHasUnsavedChanges }) {
           .map(([code, data]) => ({
             code,
             dialCode: data.secondary,
-            length: data.secondary.length,
-          }));
+          }))
+          .sort((a, b) => b.dialCode.length - a.dialCode.length);
 
-        if (possibleCountryCodes.length > 0) {
-          possibleCountryCodes.sort((a, b) => b.length - a.length);
-
-          for (const { code, dialCode } of possibleCountryCodes) {
-            if (user.phone_number.startsWith(dialCode)) {
-              extractedCountryCode = code;
-              extractedPhone = user.phone_number
-                .slice(dialCode.length)
-                .replace(/\D/g, "");
-              break;
-            }
-          }
-        } else {
-          const countryCodes = Object.entries(PHONECODESEN)
-            .map(([code, data]) => ({ code, dialCode: data.secondary }))
-            .sort((a, b) => b.dialCode.length - a.dialCode.length);
-
-          for (const { code, dialCode } of countryCodes) {
-            if (user.phone_number.startsWith(dialCode)) {
-              extractedCountryCode = code;
-              extractedPhone = user.phone_number
-                .slice(dialCode.length)
-                .replace(/\D/g, "");
-              break;
-            }
+        for (const { code, dialCode } of possibleCountryCodes) {
+          if (user.phone_number.startsWith(dialCode)) {
+            extractedCountryCode = code;
+            extractedPhone = user.phone_number
+              .slice(dialCode.length)
+              .replace(/\D/g, "");
+            break;
           }
         }
       }
@@ -263,6 +325,10 @@ function YourProfile({ setHasUnsavedChanges }) {
     }
     setSaveError("");
     setPendingEmailChange(null);
+    setSaveAttempted(false);
+    setShowEmailVerificationMessage(false);
+    setNameErrors({ firstName: "", lastName: "" });
+    setEmailError("");
   };
 
   return (
@@ -284,6 +350,9 @@ function YourProfile({ setHasUnsavedChanges }) {
           ) : (
             <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
           )}
+          {nameErrors.firstName && isEditing && (
+            <p className="text-sm text-red-600 mt-1">{nameErrors.firstName}</p>
+          )}
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -299,6 +368,9 @@ function YourProfile({ setHasUnsavedChanges }) {
           ) : (
             <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
           )}
+          {nameErrors.lastName && isEditing && (
+            <p className="text-sm text-red-600 mt-1">{nameErrors.lastName}</p>
+          )}
         </div>
       </div>
 
@@ -313,16 +385,23 @@ function YourProfile({ setHasUnsavedChanges }) {
               type="email"
               value={profileInfo.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+              className={`block w-full bg-white text-gray-700 border ${
+                emailError ? "border-red-500" : "border-gray-200"
+              } rounded py-3 px-4 focus:outline-none`}
             />
-            {profileInfo.email !== originalEmail && (
-              <p className="text-sm text-orange-600 mt-1">
-                {t(
-                  "EMAIL_VERIFICATION_REQUIRED",
-                  "Email verification will be required for this change",
-                )}
-              </p>
+            {emailError && (
+              <p className="text-sm text-red-600 mt-1">{emailError}</p>
             )}
+            {showEmailVerificationMessage &&
+              profileInfo.email !== originalEmail &&
+              !emailError && (
+                <p className="text-sm text-orange-600 mt-1">
+                  {t(
+                    "EMAIL_VERIFICATION_REQUIRED",
+                    "Email verification will be required for this change",
+                  )}
+                </p>
+              )}
           </div>
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.email}</p>
@@ -363,8 +442,7 @@ function YourProfile({ setHasUnsavedChanges }) {
           ) : (
             <>
               <p className="text-lg text-gray-900">
-                {(PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode || "") +
-                  ""}
+                {PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || ""}
                 {(PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
                   PHONECODESEN[profileInfo.phoneCountryCode]?.country ||
                   "") + " "}
@@ -421,9 +499,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             onClick={() => {
               setIsEditing(true);
               setTimeout(() => {
-                if (firstNameRef.current) {
-                  firstNameRef.current.focus();
-                }
+                if (firstNameRef.current) firstNameRef.current.focus();
               }, 0);
             }}
           >
