@@ -8,6 +8,8 @@ import bnTranslation from "./locales/bn_BD.json";
 //import doiTranslation from './locales/doi_IN.json';
 import deTranslation from "./locales/de_DE.json";
 import enTranslation from "./locales/en_US.json";
+import enCommon from "./locales/en/common.json";
+import enTerms from "./locales/en/terms.json";
 import esTranslation from "./locales/es_ES.json";
 //import filTranslation from './locales/fil_PH.json';
 import frTranslation from "./locales/fr_FR.json";
@@ -41,16 +43,56 @@ i18n
   .init({
     fallbackLng: "en",
     resources: {
-      bn: { translation: bnTranslation },
-      de: { translation: deTranslation },
-      en: { translation: enTranslation },
-      es: { translation: esTranslation },
-      fr: { translation: frTranslation },
-      hi: { translation: hiTranslation },
-      pt: { translation: ptTranslation },
-      ru: { translation: ruTranslation },
-      te: { translation: teTranslation },
-      zh: { translation: zhTranslation },
+      bn: {
+        translation: bnTranslation,
+        common: bnTranslation, // Fallback to main translation for now
+        terms: bnTranslation,
+      },
+      de: {
+        translation: deTranslation,
+        common: deTranslation,
+        terms: deTranslation,
+      },
+      en: {
+        translation: enTranslation,
+        common: enCommon,
+        terms: enTerms,
+      },
+      es: {
+        translation: esTranslation,
+        common: esTranslation,
+        terms: esTranslation,
+      },
+      fr: {
+        translation: frTranslation,
+        common: frTranslation,
+        terms: frTranslation,
+      },
+      hi: {
+        translation: hiTranslation,
+        common: hiTranslation,
+        terms: hiTranslation,
+      },
+      pt: {
+        translation: ptTranslation,
+        common: ptTranslation,
+        terms: ptTranslation,
+      },
+      ru: {
+        translation: ruTranslation,
+        common: ruTranslation,
+        terms: ruTranslation,
+      },
+      te: {
+        translation: teTranslation,
+        common: teTranslation,
+        terms: teTranslation,
+      },
+      zh: {
+        translation: zhTranslation,
+        common: zhTranslation,
+        terms: zhTranslation,
+      },
     },
     detection: {
       order: [

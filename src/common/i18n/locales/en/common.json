@@ -3,14 +3,6 @@
   "NO": "No",
   "NOTE": "Note",
   "HOME": "Home",
-  "FOR_SELF": "For Self",
-  "SUBJECT": "Subject",
-  "DESCRIPTION": "Description",
-  "REMOTE": "Remote",
-  "IN_PERSON": "In Person",
-  "SORT_BY": "Sort by",
-  "NEWEST": "Newest",
-  "OLDEST": "Oldest",
   "ABOUT": "About Us",
   "DASHBOARD": "Dashboard",
   "DONATE": "Donate",
@@ -105,15 +97,6 @@
   "TERMS_DOCUMENT": "Please read the following document carefully and acknowledge that you have understood its contents.",
   "VOLUNTEER_AGREEMENT": "Volunteer Agreement for Saayam for All",
   "I_HAVE_READ": "I have read and understood the document",
-  "HERO_TEXT": "Welcome to <1>Saayam For All</1>, a non-profit organization – is your gateway to assistance and support in times of need. Saayam means Help in Telugu, Sahaay in Sanskrit/Hindi, Bangzhu in Mandarin, and Ayuda in Spanish.",
-  "AT_SAAYAM": "At <1>Saayam For All</1>, we believe in the power of helping hands reaching out to those facing challenges. Our platform connects individuals and communities worldwide, bridging the gap between those who need assistance and those who are willing to provide it.",
-  "OUR_VISION": "Our vision is of a world where everyone has access to the help they need to overcome obstacles and lead fulfilling lives. We aspire to be a global leader in humanitarian aid, leveraging technology and collaboration to create a seamless network of support that transcends barriers.",
-  "JOIN_US": "Join us in our mission to make a difference. Whether you're looking to lend a helping hand or seeking assistance, Saayam For All is here for you. Together, let's create a more compassionate and equitable world for all.",
-  "JOIN_TODAY": "Experience the joy of assisting others – join Saayam For All today. Together, we can make a difference.",
-  "OUR_MOTTO": "Remember, at Saayam For All, our motto is simple: \"Service to mankind is service to God,\" and \"May all live happily.\" Join us in spreading kindness and compassion, one act of assistance at a time. Anybody from anywhere in the world can make a request for help on any type of social media platform/communication device.",
-  "STAY_UPDATED": "Stay updated on our progress and initiatives – keep checking back here for the latest updates. Together, we can build a better world for everyone.",
-  "DONATE_MONEY": "Saayam For All is a non profit organization with 501(c)(3) status. All donations to this organization are tax deductible. You can use this <1 className=\"text-blue-500 underline\" target=\"_blank\" to=\"https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S\">PayPal link</1> to donate money.",
-  "READ_MORE": "Read More <1 className=\"text-blue-500 underline\" to={\"how-we-operate\"}>How we Operate</1>!",
   "MAX_CHARACTERS": "Max {{count}} characters",
   "HELP_REQUEST": "Request for Help : ",
   "ASK_FOR_HELP": "As a requestor, you can ask for help (similar to requesting a ride).",
@@ -163,21 +146,6 @@
   "YOUR_SKILLS": "Your Skills",
   "SELECT_SKILLS_DESCRIPTION": "Select the skills you can offer as a volunteer. These skills will help match you with relevant help requests.",
   "USER_ALREADY_EXISTS": "User already exists. Please sign in or use a different email.",
-  "MAKE_DONATION": "Make a Donation",
-  "DONATION_SUBTITLE": "Your contribution helps us continue our mission of providing assistance to those in need.",
-  "DONATION_ACHIEVEMENT_1": "Support our global network of volunteers and organizations",
-  "DONATION_ACHIEVEMENT_2": "Help fund critical assistance programs and initiatives",
-  "DONATION_ACHIEVEMENT_3": "Enable us to reach more people in need of support",
-  "DONATE_VIA_PAYPAL": "Donate via PayPal",
-  "SCAN_QR_CODE": "Scan QR Code to Donate",
-  "QR_CODE_DESCRIPTION": "Scan this QR code with your mobile device to make a donation",
-  "FAQ_TITLE": "Frequently Asked Questions",
-  "FAQ_TAX_QUESTION": "Are donations tax deductible?",
-  "FAQ_TAX_ANSWER": "Yes, Saayam For All is a registered 501(c)(3) non-profit organization. All donations are tax deductible to the extent allowed by law.",
-  "FAQ_USE_QUESTION": "How will my donation be used?",
-  "FAQ_USE_ANSWER": "Your donation will be used to support our various programs, including volunteer coordination, assistance programs, and operational costs to maintain our platform.",
-  "FAQ_CANCEL_QUESTION": "Can I cancel my recurring donation?",
-  "FAQ_CANCEL_ANSWER": "Yes, you can cancel by contacting our support team.",
   "PREFERENCES": "Preferences",
   "DEFAULT DASHBOARD VIEW": "Default Dashboard View",
   "SELECT DASHBOARD": "Select Dashboard",
@@ -204,38 +172,6 @@
   "COPYRIGHT": "Copyright © 2025 Saayam For All. All rights reserved.",
   "preferably WhatsApp": "preferably WhatsApp",
   "AT": "At",
-  "PRIVACY_INTRO": "(\"Saayam,\" \"we,\" \"us,\" or \"our\"), your privacy is a top priority...",
-  "PRIVACY_SECTION_1_TITLE": "1. Information We Collect",
-  "PRIVACY_INFO_PERSONAL": "Personal Identifiers:",
-  "PRIVACY_INFO_PERSONAL_CONTENT": "Name, email address, phone number, etc.",
-  "PRIVACY_INFO_PROFILE": "Profile Information:",
-  "PRIVACY_INFO_PROFILE_CONTENT": "Role, skills, availability.",
-  "PRIVACY_INFO_LOCATION": "Location Data:",
-  "PRIVACY_INFO_LOCATION_CONTENT": "Collected via IP or device.",
-  "PRIVACY_INFO_USAGE": "Usage Data:",
-  "PRIVACY_INFO_USAGE_CONTENT": "Pages visited, device/browser info.",
-  "PRIVACY_INFO_REQUEST_RESPONSE": "Request and Response Records:",
-  "PRIVACY_INFO_REQUEST_RESPONSE_CONTENT": "Service logs.",
-  "PRIVACY_SECTION_2_TITLE": "2. How We Use Your Information",
-  "PRIVACY_SECTION_2_CONTENT": "We use your data to match requests with volunteers, enhance your experience, and ensure system performance. We never sell your data.",
-  "PRIVACY_SECTION_3_TITLE": "3. Information Sharing",
-  "PRIVACY_SECTION_3_CONTENT": "Only shared with verified partners or legal authorities when necessary, under confidentiality agreements.",
-  "PRIVACY_SECTION_4_TITLE": "4. Data Retention",
-  "PRIVACY_SECTION_4_CONTENT": "Data is retained as needed and securely deleted or anonymized when no longer required. Contact us to request deletion.",
-  "PRIVACY_SECTION_5_TITLE": "5. Security Measures",
-  "PRIVACY_SECTION_5_CONTENT": "We use encryption, secure servers, and access controls. Breach notifications will follow applicable laws.",
-  "PRIVACY_SECTION_6_TITLE": "6. Your Rights",
-  "PRIVACY_6_ACCESS": "Access/update your data",
-  "PRIVACY_6_DELETE": "Request deletion",
-  "PRIVACY_6_WITHDRAW": "Withdraw consent",
-  "PRIVACY_SECTION_7_TITLE": "7. Cookies",
-  "PRIVACY_SECTION_7_CONTENT": "We use cookies for analytics and essential functionality. You may disable them in your browser settings.",
-  "PRIVACY_SECTION_8_TITLE": "8. Third-Party Links",
-  "PRIVACY_SECTION_8_CONTENT": "We are not responsible for external links’ privacy practices. Please review their policies.",
-  "PRIVACY_SECTION_9_TITLE": "9. Changes to This Policy",
-  "PRIVACY_SECTION_9_CONTENT": "We may update this policy. Continued use implies acceptance.",
-  "PRIVACY_SECTION_10_TITLE": "10. Contact Us",
-  "PRIVACY_CONTACT_CONTENT": "Saayam for All, 3046 Rosato Ct., San Jose, California 95135",
   "SIGN_OFF": "Sign Off",
   "I_WANT_TO_DELETE_MY_ACCOUNT": "I want to delete my account",
   "ACCOUNT_DELETION_WARNING_TITLE": "Warning: Account Deletion",
@@ -246,130 +182,12 @@
   "DELETE_ACCOUNT": "Delete Account",
   "DELETING": "Deleting...",
   "ACCOUNT_DELETION_ERROR": "An error occurred while deleting your account. Please try again.",
-  "REQUEST_CATEGORIES": {
-    "FOOD_ESSENTIALS": {
-      "LABEL": "Food & Essentials",
-      "DESC": "Access food support, grocery services, and cooking help.",
-      "SUBCATEGORIES": {
-        "FOOD_ASSISTANCE": {
-          "LABEL": "Food Assistance",
-          "DESC": "Find food banks, pantries, or meal programs."
-        },
-        "GROCERY_SHOPPING_DELIVERY": {
-          "LABEL": "Grocery Shopping & Delivery",
-          "DESC": "Request help shopping for and delivering groceries."
-        },
-        "COOKING_HELP": {
-          "LABEL": "Cooking Help",
-          "DESC": "Get guidance with meal prep and cooking."
-        }
-      }
-    },
-    "CLOTHING_AND_SUPPORT": {
-      "LABEL": "Clothing and Support",
-      "DESC": "Donate, borrow, repair, or request clothing assistance.",
-      "SUBCATEGORIES": {
-        "LEND_BORROW_CLOTHES": {
-          "LABEL": "Lend/Borrow Clothes",
-          "DESC": "Share or borrow gently used clothing."
-        },
-        "DONATE_CLOTHES": {
-          "LABEL": "Donate Clothes",
-          "DESC": "Give clothing to those in need."
-        }
-      }
-    },
-    "HOUSING_ASSISTANCE": {
-      "LABEL": "Housing Assistance",
-      "DESC": "Roommates, renting guidance, moving and home setup support.",
-      "SUBCATEGORIES": {
-        "FINDING_A_ROOMMATE": {
-          "LABEL": "Finding a Roommate",
-          "DESC": "Get help finding a roommate."
-        },
-        "RENTING_SUPPORT": {
-          "LABEL": "Renting Support",
-          "DESC": "Assistance with renting and lease basics."
-        },
-        "BUY_SELL_HOUSEHOLD_ITEMS": {
-          "LABEL": "Buy/Sell Household Items",
-          "DESC": "Help with buying or selling household items."
-        },
-        "MOVING_PACKING_HELP": {
-          "LABEL": "Moving & Packing Help",
-          "DESC": "Support with moving and packing."
-        },
-        "CLEANING_HELP": {
-          "LABEL": "Cleaning Help",
-          "DESC": "Assistance with basic cleaning tasks."
-        },
-        "HOME_BUYING_SELLING_ASSISTANCE": {
-          "LABEL": "Home Buying/Selling Assistance",
-          "DESC": "Guidance on home buying or selling process."
-        }
-      }
-    },
-    "EDUCATION_CAREER_SUPPORT": {
-      "LABEL": "Education & Career Support",
-      "DESC": "College apps, SOP reviews, tutoring, and study support.",
-      "SUBCATEGORIES": {
-        "COLLEGE_APPLICATIONS_HELP": {
-          "LABEL": "College Applications Help",
-          "DESC": "Help with applications and forms."
-        },
-        "SOP_ESSAY_REVIEW": {
-          "LABEL": "SOP & Essay Review",
-          "DESC": "Feedback on statements and essays."
-        },
-        "TUTORING": {
-          "LABEL": "Tutoring",
-          "DESC": "Subject tutoring and study support."
-        }
-      }
-    },
-    "HEALTHCARE_WELLBEING": {
-      "LABEL": "Healthcare & Well-being",
-      "DESC": "Non-clinical health navigation and wellness support.",
-      "SUBCATEGORIES": {
-        "MEDICAL_CONSULTATION": {
-          "LABEL": "Medical Consultation",
-          "DESC": "Basic navigation and non-clinical guidance."
-        },
-        "MEDICINE_DELIVERY_ASSISTANCE": {
-          "LABEL": "Medicine Delivery Assistance",
-          "DESC": "Pickup and delivery of OTC medicines."
-        }
-      }
-    },
-    "ELDERLY_COMMUNITY_SUPPORT": {
-      "LABEL": "Elderly & Community Support",
-      "DESC": "Non-medical assistance for seniors and community support.",
-      "SUBCATEGORIES": {
-        "ELDERLY_ASSISTANCE": {
-          "LABEL": "Elderly Assistance",
-          "DESC": "Daily task help and companionship."
-        },
-        "TECH_HELP_FOR_SENIORS": {
-          "LABEL": "Tech help for Seniors",
-          "DESC": "Assistance with devices and apps."
-        },
-        "HELP_WITH_GOVERNMENT_SERVICES": {
-          "LABEL": "Help with Government Services",
-          "DESC": "Guidance for public services and forms."
-        },
-        "RIDE_ASSISTANCE": {
-          "LABEL": "Ride Assistance",
-          "DESC": "Help arranging rides for appointments."
-        },
-        "SHOPPING_ASSISTANCE": {
-          "LABEL": "Shopping Assistance",
-          "DESC": "Support with shopping needs."
-        }
-      }
-    },
-    "GENERAL": {
-      "LABEL": "General",
-      "DESC": "Use when you’re unsure; describe your need in detail."
-    }
-  }
+  "FOR_SELF": "For Self",
+  "SUBJECT": "Subject",
+  "DESCRIPTION": "Description",
+  "REMOTE": "Remote",
+  "IN_PERSON": "In Person",
+  "SORT_BY": "Sort by",
+  "NEWEST": "Newest",
+  "OLDEST": "Oldest"
 }
