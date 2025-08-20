@@ -11,7 +11,7 @@ import { checkAuthStatus } from "../../redux/features/authentication/authActions
 import "./Login.css";
 
 const LoginPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common", "auth"]);
   const { loading } = useSelector((state) => state.auth);
 
   const [emailValue, setEmailValue] = useState("");
@@ -28,8 +28,8 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const loginSchema = z.object({
-    email: z.string().min(1, { message: t("EMAIL_REQUIRED") }),
-    password: z.string().min(1, { message: t("PASSWORD_REQUIRED") }),
+    email: z.string().min(1, { message: t("auth:EMAIL_REQUIRED") }),
+    password: z.string().min(1, { message: t("auth:PASSWORD_REQUIRED") }),
   });
 
   useEffect(() => {
@@ -65,21 +65,23 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.log("error", error);
-      setErrors({ root: t("INVALID_CREDENTIALS") });
+      setErrors({ root: t("auth:INVALID_CREDENTIALS") });
     }
   };
 
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
-        <h1 className="my-4 text-3xl font-bold text-center">{t("LOGIN")}</h1>
+        <h1 className="my-4 text-3xl font-bold text-center">
+          {t("auth:LOGIN")}
+        </h1>
         <div className="my-2 flex flex-col">
-          <label htmlFor="email">{t("EMAIL")}</label>
+          <label htmlFor="email">{t("auth:EMAIL")}</label>
           <input
             id="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
-            placeholder={t("Email")}
+            placeholder={t("auth:EMAIL")}
             type="text"
             className="px-4 py-2 border border-gray-300 rounded-xl"
             required={true}

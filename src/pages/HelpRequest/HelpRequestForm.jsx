@@ -51,7 +51,7 @@ const genderOptions = [
 ];
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
@@ -273,7 +273,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     // If matches a category key
     const cat = categories?.find((c) => (c.key || c.id) === selectedKeyOrText);
     if (cat) {
-      return t(`REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
+      return t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
         defaultValue: cat.name,
       });
     }
@@ -283,7 +283,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
       if (match) {
         return t(
-          `REQUEST_CATEGORIES.${c.key || c.id}.SUBCATEGORIES.${match.key || match}.LABEL`,
+          `categories:REQUEST_CATEGORIES.${c.key || c.id}.SUBCATEGORIES.${match.key || match}.LABEL`,
           { defaultValue: match.label || match },
         );
       }
@@ -303,7 +303,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           (general ? general.key || general.name : ""),
       );
       const resolvedLabel = (cat) =>
-        t(`REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
+        t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
           defaultValue: cat.name,
         });
       const sorted = others.sort((a, b) =>
@@ -323,7 +323,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     });
 
     const resolvedLabel = (cat) =>
-      t(`REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
+      t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
         defaultValue: cat.name,
       });
 
@@ -769,12 +769,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       >
                         <span
                           title={t(
-                            `REQUEST_CATEGORIES.${category.key || category.id}.DESC`,
+                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.DESC`,
                             { defaultValue: "" },
                           )}
                         >
                           {t(
-                            `REQUEST_CATEGORIES.${category.key || category.id}.LABEL`,
+                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.LABEL`,
                             { defaultValue: category.name },
                           )}
                         </span>
@@ -824,12 +824,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                               >
                                 <span
                                   title={t(
-                                    `REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.DESC`,
+                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.DESC`,
                                     { defaultValue: "" },
                                   )}
                                 >
                                   {t(
-                                    `REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.LABEL`,
+                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.LABEL`,
                                     {
                                       defaultValue:
                                         subcategory.label || subcategory,

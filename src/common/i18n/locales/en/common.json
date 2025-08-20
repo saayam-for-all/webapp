@@ -63,6 +63,9 @@
   "NEW_PASSWORD": "New Password",
   "CONFIRM_PASSWORD": "Confirm Password",
   "PASSWORD_REQUIREMENTS": "Must contain at least 8 characters.",
+  "PASSWORD_REQUIREMENTS_ERROR": "Password must be at least 8 characters long, include 1 uppercase letter, 1 lowercase letter, 1 special character, and 1 number.",
+  "PASSWORD_MISMATCH_ERROR": "Passwords do not match.",
+  "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
   "COUNTRY": "Country",
   "UNITED_STATES": "United States",
   "SELECT_COUNTRY": "Select your country",
@@ -156,9 +159,6 @@
   "GOVERNING_LAW_CONTENT": "This Agreement shall be governed by and construed in accordance with global laws applicable to the activities and interactions facilitated by the Organization. Any legal proceedings arising out of or related to this Agreement shall be brought in the appropriate courts of a jurisdiction mutually agreed upon by both parties.",
   "ACKNOWLEDGMENT": "Acknowledgment and Consent",
   "ACKNOWLEDGMENT_CONTENT": "By agreeing to this document, the Volunteer acknowledges that they have read, understood, and accepted these terms. The Volunteer agrees to abide by all the guidelines, policies, and expectations outlined herein and understands that their volunteer status is contingent upon adherence to this Agreement.",
-  "PASSWORD_REQUIREMENTS_ERROR": "Password must be at least 8 characters long, include 1 uppercase letter, 1 lowercase letter, 1 special character, and 1 number.",
-  "PASSWORD_MISMATCH_ERROR": "Passwords do not match.",
-  "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
   "SKILLS": "Skills",
   "YOUR_SKILLS": "Your Skills",
   "SELECT_SKILLS_DESCRIPTION": "Select the skills you can offer as a volunteer. These skills will help match you with relevant help requests.",
@@ -271,7 +271,7 @@
   "PRIVACY_SECTION_7_TITLE": "7. Cookies",
   "PRIVACY_SECTION_7_CONTENT": "We use cookies for analytics and essential functionality. You may disable them in your browser settings.",
   "PRIVACY_SECTION_8_TITLE": "8. Third-Party Links",
-  "PRIVACY_SECTION_8_CONTENT": "We are not responsible for external links’ privacy practices. Please review their policies.",
+  "PRIVACY_SECTION_8_CONTENT": "We are not responsible for external links' privacy practices. Please review their policies.",
   "PRIVACY_SECTION_9_TITLE": "9. Changes to This Policy",
   "PRIVACY_SECTION_9_CONTENT": "We may update this policy. Continued use implies acceptance.",
   "PRIVACY_SECTION_10_TITLE": "10. Contact Us",
@@ -285,131 +285,5 @@
   "CONFIRM_ACCOUNT_DELETION_TEXT": "Are you absolutely sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.",
   "DELETE_ACCOUNT": "Delete Account",
   "DELETING": "Deleting...",
-  "ACCOUNT_DELETION_ERROR": "An error occurred while deleting your account. Please try again.",
-  "REQUEST_CATEGORIES": {
-    "FOOD_ESSENTIALS": {
-      "LABEL": "Food & Essentials",
-      "DESC": "Access food support, grocery services, and cooking help.",
-      "SUBCATEGORIES": {
-        "FOOD_ASSISTANCE": {
-          "LABEL": "Food Assistance",
-          "DESC": "Find food banks, pantries, or meal programs."
-        },
-        "GROCERY_SHOPPING_DELIVERY": {
-          "LABEL": "Grocery Shopping & Delivery",
-          "DESC": "Request help shopping for and delivering groceries."
-        },
-        "COOKING_HELP": {
-          "LABEL": "Cooking Help",
-          "DESC": "Get guidance with meal prep and cooking."
-        }
-      }
-    },
-    "CLOTHING_AND_SUPPORT": {
-      "LABEL": "Clothing and Support",
-      "DESC": "Donate, borrow, repair, or request clothing assistance.",
-      "SUBCATEGORIES": {
-        "LEND_BORROW_CLOTHES": {
-          "LABEL": "Lend/Borrow Clothes",
-          "DESC": "Share or borrow gently used clothing."
-        },
-        "DONATE_CLOTHES": {
-          "LABEL": "Donate Clothes",
-          "DESC": "Give clothing to those in need."
-        }
-      }
-    },
-    "HOUSING_ASSISTANCE": {
-      "LABEL": "Housing Assistance",
-      "DESC": "Roommates, renting guidance, moving and home setup support.",
-      "SUBCATEGORIES": {
-        "FINDING_A_ROOMMATE": {
-          "LABEL": "Finding a Roommate",
-          "DESC": "Get help finding a roommate."
-        },
-        "RENTING_SUPPORT": {
-          "LABEL": "Renting Support",
-          "DESC": "Assistance with renting and lease basics."
-        },
-        "BUY_SELL_HOUSEHOLD_ITEMS": {
-          "LABEL": "Buy/Sell Household Items",
-          "DESC": "Help with buying or selling household items."
-        },
-        "MOVING_PACKING_HELP": {
-          "LABEL": "Moving & Packing Help",
-          "DESC": "Support with moving and packing."
-        },
-        "CLEANING_HELP": {
-          "LABEL": "Cleaning Help",
-          "DESC": "Assistance with basic cleaning tasks."
-        },
-        "HOME_BUYING_SELLING_ASSISTANCE": {
-          "LABEL": "Home Buying/Selling Assistance",
-          "DESC": "Guidance on home buying or selling process."
-        }
-      }
-    },
-    "EDUCATION_CAREER_SUPPORT": {
-      "LABEL": "Education & Career Support",
-      "DESC": "College apps, SOP reviews, tutoring, and study support.",
-      "SUBCATEGORIES": {
-        "COLLEGE_APPLICATIONS_HELP": {
-          "LABEL": "College Applications Help",
-          "DESC": "Help with applications and forms."
-        },
-        "SOP_ESSAY_REVIEW": {
-          "LABEL": "SOP & Essay Review",
-          "DESC": "Feedback on statements and essays."
-        },
-        "TUTORING": {
-          "LABEL": "Tutoring",
-          "DESC": "Subject tutoring and study support."
-        }
-      }
-    },
-    "HEALTHCARE_WELLBEING": {
-      "LABEL": "Healthcare & Well-being",
-      "DESC": "Non-clinical health navigation and wellness support.",
-      "SUBCATEGORIES": {
-        "MEDICAL_CONSULTATION": {
-          "LABEL": "Medical Consultation",
-          "DESC": "Basic navigation and non-clinical guidance."
-        },
-        "MEDICINE_DELIVERY_ASSISTANCE": {
-          "LABEL": "Medicine Delivery Assistance",
-          "DESC": "Pickup and delivery of OTC medicines."
-        }
-      }
-    },
-    "ELDERLY_COMMUNITY_SUPPORT": {
-      "LABEL": "Elderly & Community Support",
-      "DESC": "Non-medical assistance for seniors and community support.",
-      "SUBCATEGORIES": {
-        "ELDERLY_ASSISTANCE": {
-          "LABEL": "Elderly Assistance",
-          "DESC": "Daily task help and companionship."
-        },
-        "TECH_HELP_FOR_SENIORS": {
-          "LABEL": "Tech help for Seniors",
-          "DESC": "Assistance with devices and apps."
-        },
-        "HELP_WITH_GOVERNMENT_SERVICES": {
-          "LABEL": "Help with Government Services",
-          "DESC": "Guidance for public services and forms."
-        },
-        "RIDE_ASSISTANCE": {
-          "LABEL": "Ride Assistance",
-          "DESC": "Help arranging rides for appointments."
-        },
-        "SHOPPING_ASSISTANCE": {
-          "LABEL": "Shopping Assistance",
-          "DESC": "Support with shopping needs."
-        }
-      }
-    },
-    "GENERAL": {
-      "LABEL": "General",
-      "DESC": "Use when you’re unsure; describe your need in detail."
-    }
-  }
+  "ACCOUNT_DELETION_ERROR": "An error occurred while deleting your account. Please try again."
 }
