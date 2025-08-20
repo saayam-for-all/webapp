@@ -2,39 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-// Import existing translation files (for backward compatibility)
-import arTranslation from "./locales/ar_SA.json";
-import asTranslation from "./locales/as_IN.json";
-import bnTranslation from "./locales/bn_BD.json";
-import deTranslation from "./locales/de_DE.json";
-import doiTranslation from "./locales/doi_IN.json";
-import enTranslation from "./locales/en_US.json";
-import esTranslation from "./locales/es_ES.json";
-import filTranslation from "./locales/fil_PH.json";
-import frTranslation from "./locales/fr_FR.json";
-import guTranslation from "./locales/gu_IN.json";
-import hiTranslation from "./locales/hi_IN.json";
-import idTranslation from "./locales/id_ID.json";
-import jaTranslation from "./locales/ja_JP.json";
-import knTranslation from "./locales/kn_IN.json";
-import koTranslation from "./locales/ko_KR.json";
-import maiTranslation from "./locales/mai_IN.json";
-import mlTranslation from "./locales/ml_IN.json";
-import mrTranslation from "./locales/mr_IN.json";
-import neTranslation from "./locales/ne_NP.json";
-import orTranslation from "./locales/or_IN.json";
-import paTranslation from "./locales/pa_IN.json";
-import ptTranslation from "./locales/pt_PT.json";
-import ruTranslation from "./locales/ru_RU.json";
-import saTranslation from "./locales/sa_IN.json";
-import sdTranslation from "./locales/sd_IN.json";
-import taTranslation from "./locales/ta_IN.json";
-import teTranslation from "./locales/te_IN.json";
-import thTranslation from "./locales/th_TH.json";
-import tlTranslation from "./locales/tl_PH.json";
-import zhTranslation from "./locales/zh_CN.json";
-
-// Import new namespaced translations under locales/ (as Rashmi requested)
+// Import all namespaced translations
 import enCommon from "./locales/en/common.json";
 import enAuth from "./locales/en/auth.json";
 import enCategories from "./locales/en/categories.json";
@@ -155,6 +123,14 @@ import tlCommon from "./locales/tl/common.json";
 import tlAuth from "./locales/tl/auth.json";
 import tlCategories from "./locales/tl/categories.json";
 
+import urCommon from "./locales/ur/common.json";
+import urAuth from "./locales/ur/auth.json";
+import urCategories from "./locales/ur/categories.json";
+
+import viCommon from "./locales/vi/common.json";
+import viAuth from "./locales/vi/auth.json";
+import viCategories from "./locales/vi/categories.json";
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -165,185 +141,165 @@ i18n
     // Define all namespaces that will be used
     ns: ["common", "auth", "categories"],
     resources: {
+      en: {
+        common: enCommon,
+        auth: enAuth,
+        categories: enCategories,
+      },
+      de: {
+        common: deCommon,
+        auth: deAuth,
+        categories: deCategories,
+      },
+      es: {
+        common: esCommon,
+        auth: esAuth,
+        categories: esCategories,
+      },
+      fr: {
+        common: frCommon,
+        auth: frAuth,
+        categories: frCategories,
+      },
+      ru: {
+        common: ruCommon,
+        auth: ruAuth,
+        categories: ruCategories,
+      },
+      hi: {
+        common: hiCommon,
+        auth: hiAuth,
+        categories: hiCategories,
+      },
+      te: {
+        common: teCommon,
+        auth: teAuth,
+        categories: teCategories,
+      },
+      zh: {
+        common: zhCommon,
+        auth: zhAuth,
+        categories: zhCategories,
+      },
+      pt: {
+        common: ptCommon,
+        auth: ptAuth,
+        categories: ptCategories,
+      },
+      bn: {
+        common: bnCommon,
+        auth: bnAuth,
+        categories: bnCategories,
+      },
       ar: {
-        translation: arTranslation,
         common: arCommon,
         auth: arAuth,
         categories: arCategories,
       },
       as: {
-        translation: asTranslation,
         common: asCommon,
         auth: asAuth,
         categories: asCategories,
       },
-      bn: {
-        translation: bnTranslation,
-        common: bnCommon,
-        auth: bnAuth,
-        categories: bnCategories,
-      },
-      de: {
-        translation: deTranslation,
-        common: deCommon,
-        auth: deAuth,
-        categories: deCategories,
-      },
       doi: {
-        translation: doiTranslation,
         common: doiCommon,
         auth: doiAuth,
         categories: doiCategories,
       },
-      en: {
-        translation: enTranslation,
-        common: enCommon,
-        auth: enAuth,
-        categories: enCategories,
-      },
-      es: {
-        translation: esTranslation,
-        common: esCommon,
-        auth: esAuth,
-        categories: esCategories,
-      },
       fil: {
-        translation: filTranslation,
         common: filCommon,
         auth: filAuth,
         categories: filCategories,
       },
-      fr: {
-        translation: frTranslation,
-        common: frCommon,
-        auth: frAuth,
-        categories: frCategories,
-      },
       gu: {
-        translation: guTranslation,
         common: guCommon,
         auth: guAuth,
         categories: guCategories,
       },
-      hi: {
-        translation: hiTranslation,
-        common: hiCommon,
-        auth: hiAuth,
-        categories: hiCategories,
-      },
       id: {
-        translation: idTranslation,
         common: idCommon,
         auth: idAuth,
         categories: idCategories,
       },
       ja: {
-        translation: jaTranslation,
         common: jaCommon,
         auth: jaAuth,
         categories: jaCategories,
       },
       kn: {
-        translation: knTranslation,
         common: knCommon,
         auth: knAuth,
         categories: knCategories,
       },
       ko: {
-        translation: koTranslation,
         common: koCommon,
         auth: koAuth,
         categories: koCategories,
       },
       mai: {
-        translation: maiTranslation,
         common: maiCommon,
         auth: maiAuth,
         categories: maiCategories,
       },
       ml: {
-        translation: mlTranslation,
         common: mlCommon,
         auth: mlAuth,
         categories: mlCategories,
       },
       mr: {
-        translation: mrTranslation,
         common: mrCommon,
         auth: mrAuth,
         categories: mrCategories,
       },
       ne: {
-        translation: neTranslation,
         common: neCommon,
         auth: neAuth,
         categories: neCategories,
       },
       or: {
-        translation: orTranslation,
         common: orCommon,
         auth: orAuth,
         categories: orCategories,
       },
       pa: {
-        translation: paTranslation,
         common: paCommon,
         auth: paAuth,
         categories: paCategories,
       },
-      pt: {
-        translation: ptTranslation,
-        common: ptCommon,
-        auth: ptAuth,
-        categories: ptCategories,
-      },
-      ru: {
-        translation: ruTranslation,
-        common: ruCommon,
-        auth: ruAuth,
-        categories: ruCategories,
-      },
       sa: {
-        translation: saTranslation,
         common: saCommon,
         auth: saAuth,
         categories: saCategories,
       },
       sd: {
-        translation: sdTranslation,
         common: sdCommon,
         auth: sdAuth,
         categories: sdCategories,
       },
       ta: {
-        translation: taTranslation,
         common: taCommon,
         auth: taAuth,
         categories: taCategories,
       },
-      te: {
-        translation: teTranslation,
-        common: teCommon,
-        auth: teAuth,
-        categories: teCategories,
-      },
       th: {
-        translation: thTranslation,
         common: thCommon,
         auth: thAuth,
         categories: thCategories,
       },
       tl: {
-        translation: tlTranslation,
         common: tlCommon,
         auth: tlAuth,
         categories: tlCategories,
       },
-      zh: {
-        translation: zhTranslation,
-        common: zhCommon,
-        auth: zhAuth,
-        categories: zhCategories,
+      ur: {
+        common: urCommon,
+        auth: urAuth,
+        categories: urCategories,
+      },
+      vi: {
+        common: viCommon,
+        auth: viAuth,
+        categories: viCategories,
       },
     },
     detection: {
