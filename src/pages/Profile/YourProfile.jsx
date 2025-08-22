@@ -10,6 +10,8 @@ import { FiPhoneCall, FiVideo } from "react-icons/fi";
 import CallModal from "./CallModal.jsx";
 import { updateUserProfile } from "../../redux/features/authentication/authActions";
 import LoadingIndicator from "../../common/components/Loading/Loading";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 
 function YourProfile({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
@@ -24,6 +26,8 @@ function YourProfile({ setHasUnsavedChanges }) {
   const firstNameRef = useRef(null);
   const countries = CountryList().getData();
   const user = useSelector((state) => state.auth.user);
+  const [phoneError, setPhoneError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [profileInfo, setProfileInfo] = useState({
     firstName: "",
@@ -119,13 +123,24 @@ function YourProfile({ setHasUnsavedChanges }) {
 
   const handleSave = async () => {
     try {
-      setLoading(true);
+      const newErrors = {};
       setSaveError("");
 
       const countryCodeValue =
         PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || "+1";
       const formattedPhone = `${countryCodeValue}${profileInfo.phone.replace(/\D/g, "")}`;
+      // Phone validation
+      if (!profileInfo.phone) {
+        newErrors.phone = "Phone number is required";
+      } else {
+        const countryCodeValue =
+          PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || "+1";
+        const formattedPhone = `${countryCodeValue}${profileInfo.phone.replace(/\D/g, "")}`;
 
+        if (!isValidPhoneNumber(formattedPhone)) {
+          newErrors.phone = "Please enter a valid phone number";
+        }
+      }
       // Basic validation
       if (!profileInfo.firstName.trim() || !profileInfo.lastName.trim()) {
         throw new Error("First and last name are required");
@@ -187,8 +202,15 @@ function YourProfile({ setHasUnsavedChanges }) {
         .catch((error) => {
           throw error;
         });
-
+      if (Object.keys(newErrors).length > 0) {
+        setLoading(false);
+        setErrors(newErrors); // <-- this will show error under phone input
+        return;
+      } else {
+        setErrors({});
+      }
       if (result?.success) {
+        setLoading(true);
         alert(t("PROFILE_UPDATE_SUCCESS"));
         setIsEditing(false);
         setHasUnsavedChanges(false);
@@ -336,39 +358,25 @@ function YourProfile({ setHasUnsavedChanges }) {
         </label>
         <div className="flex items-center gap-2">
           {isEditing ? (
-            <>
-              <select
-                value={profileInfo.phoneCountryCode}
-                onChange={(e) =>
-                  handleInputChange("phoneCountryCode", e.target.value)
-                }
-                className="w-1/3 bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-              >
-                {getPhoneCodeslist(PHONECODESEN).map((option) => (
-                  <option key={option.code} value={option.code}>
-                    {option.country} ({option.dialCode})
-                  </option>
-                ))}
-              </select>
-              <input
-                type="text"
-                value={profileInfo.phone}
-                onChange={(e) =>
-                  handleInputChange("phone", e.target.value.replace(/\D/g, ""))
-                }
-                className="w-2/3 bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-                placeholder="1234567890"
-              />
-            </>
+            <PhoneNumberInputWithCountry
+              phone={profileInfo.phone}
+              setPhone={(val) => handleInputChange("phone", val)}
+              countryCode={profileInfo.phoneCountryCode}
+              setCountryCode={(val) =>
+                handleInputChange("phoneCountryCode", val)
+              }
+              error={phoneError}
+              setError={setPhoneError}
+              required={true}
+              t={t}
+              hideLabel={true}
+            />
           ) : (
             <>
               <p className="text-lg text-gray-900">
-                {(PHONECODESEN[profileInfo.phoneCountryCode]?.dialCode || "") +
-                  ""}
-                {(PHONECODESEN[profileInfo.phoneCountryCode]?.primary ||
-                  PHONECODESEN[profileInfo.phoneCountryCode]?.country ||
-                  "") + " "}
-                {profileInfo.phone}
+                {profileInfo.phone
+                  ? `${PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || ""}${profileInfo.phone}`
+                  : ""}
               </p>
               <FiPhoneCall
                 className="text-gray-500 cursor-pointer hover:text-gray-700 ml-2"
