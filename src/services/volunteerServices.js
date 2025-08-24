@@ -17,3 +17,16 @@ export const updateVolunteer = async (volunteerData) => {
   const response = await api.put(endpoints.UPDATE_VOLUNTEER, volunteerData);
   return response.data;
 };
+
+export const getUserId = async (email) => {
+  try {
+    const response = await api.get(`${endpoints.GET_USER_ID}/${email}`);
+    return response.data;
+  } catch (error) {
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Unknown error while fetching user ID";
+    throw new Error(message);
+  }
+};

@@ -47,7 +47,7 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
       <div
         ref={scrollBoxRef}
         className="scrolling-box mt-4 mb-4 p-4 border border-gray-300"
-        style={{ height: "150px", overflowY: "auto" }}
+        style={{ height: "350px", overflowY: "auto" }}
       >
         <h3 className="font-bold text-lg mb-2">{t("VOLUNTEER_AGREEMENT")}</h3>
         <div>

@@ -283,7 +283,7 @@ const Dashboard = ({ userRole }) => {
       )}
       <div className="border">
         <div className="flex mb-5">
-          {["myRequests", "managedRequests"]
+          {["myRequests", "othersRequests", "managedRequests"]
             .filter(
               (tab) =>
                 !(tab === "managedRequests" && !groups?.includes("Volunteers")),
