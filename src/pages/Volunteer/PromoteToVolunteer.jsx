@@ -32,6 +32,9 @@ const PromoteToVolunteer = () => {
   const volunteerDataRef = useRef({});
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [textboxCheck, setTextboxCheck] = useState(true);
+  const [textboxValue, setTextboxValue] = useState("");
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -90,6 +93,9 @@ const PromoteToVolunteer = () => {
             checkedCategories={checkedCategories}
             setCheckedCategories={setCheckedCategories}
             categoriesData={categoriesData}
+            setTextboxCheck={setTextboxCheck}
+            textboxValue={textboxValue}
+            setTextboxValue={setTextboxValue}
           />
         );
       case 4:
@@ -191,7 +197,9 @@ const PromoteToVolunteer = () => {
           break;
         case 3:
           const selectedSkills = extractSkillsWithHierarchy(checkedCategories);
-          isValidStep = selectedSkills !== "";
+          isValidStep =
+            selectedSkills !== "" &&
+            (textboxCheck || (!textboxCheck && textboxValue.trim().length > 0));
           updateVolunteerData({
             step: currentStep,
             userId: userId,
@@ -221,6 +229,7 @@ const PromoteToVolunteer = () => {
           //   setErrorMessage("Save Failed.");
           //   return;
           // }
+          setErrorMessage("");
           newStep++;
         } catch (error) {
           console.error("Error in handleClick:", error);
