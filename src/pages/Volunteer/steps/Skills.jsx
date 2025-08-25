@@ -6,8 +6,11 @@ const Skills = ({
   checkedCategories,
   setCheckedCategories,
   categoriesData,
+  setTextboxCheck,
+  textboxValue,
+  setTextboxValue,
 }) => {
-  const [text, setText] = useState("");
+  // const [text, setText] = useState("");
   const { t } = useTranslation();
   // Recursive function to handle rendering categories and subcategories
   const renderCategories = (categories, parentPath = "") => {
@@ -52,9 +55,9 @@ const Skills = ({
                 {t("MAX_CHARACTERS", { count: 500 })})
               </label>
               <textarea
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="Please enter the details here"
+                value={textboxValue}
+                onChange={(e) => setTextboxValue(e.target.value)}
+                placeholder="Please enter the details here (Required)"
                 maxLength={500}
                 className="border p-2 w-full rounded-lg"
               ></textarea>
@@ -105,9 +108,15 @@ const Skills = ({
         if (checked) {
           // If the checkbox is checked, set it to true
           currentLevel[key] = { checked: true };
+          if (key == "General") {
+            setTextboxCheck(false);
+          }
         } else {
           // If unchecked, remove the key entirely
           delete currentLevel[key];
+          if (key == "General") {
+            setTextboxCheck(true);
+          }
         }
       } else {
         if (!currentLevel[key]) {
