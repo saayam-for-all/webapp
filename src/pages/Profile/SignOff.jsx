@@ -50,31 +50,33 @@ function SignOff({ setHasUnsavedChanges }) {
     setShowConfirmationModal(false);
   };
 
+  const handleCancelClick = () => {
+    setIsDeleteChecked(false);
+    setHasUnsavedChanges(false);
+  };
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex items-center mb-6">
-          <FaTrash className="text-red-500 text-2xl mr-3" />
+          <FaTrash className="text-orange-500 text-2xl mr-3" />
           <h2 className="text-2xl font-bold text-gray-800">
             {t("SIGN_OFF") || "Sign Off"}
           </h2>
         </div>
 
         <div className="mb-6">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <div className="flex items-start">
-              <FaExclamationTriangle className="text-red-500 text-xl mr-3 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="text-red-800 font-semibold mb-2">
-                  {t("ACCOUNT_DELETION_WARNING_TITLE") ||
-                    "Warning: Account Deletion"}
-                </h3>
-                <p className="text-red-700 text-sm">
-                  {t("ACCOUNT_DELETION_WARNING_TEXT") ||
-                    "This action will permanently delete your account and all associated data. This action cannot be undone. Please ensure you have backed up any important information before proceeding."}
-                </p>
-              </div>
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
+            <div className="flex items-center mb-2">
+              <FaExclamationTriangle className="text-orange-500 text-xl mr-3 flex-shrink-0" />
+              <h3 className="text-orange-800 font-semibold">
+                {t("ACCOUNT_DELETION_WARNING_TITLE") || "Account Deletion"}
+              </h3>
             </div>
+            <p className="text-orange-700 text-sm">
+              {t("ACCOUNT_DELETION_WARNING_TEXT") ||
+                "This action will permanently delete your account and all associated data. This action cannot be undone. Please ensure you have backed up any important information before proceeding."}
+            </p>
           </div>
 
           <div className="space-y-4">
@@ -90,7 +92,7 @@ function SignOff({ setHasUnsavedChanges }) {
                 htmlFor="deleteAccount"
                 className="ml-3 text-sm text-gray-700"
               >
-                <span className="font-medium text-red-600">
+                <span className="font-medium text-orange-600">
                   {t("I_WANT_TO_DELETE_MY_ACCOUNT") ||
                     "I want to delete my account"}
                 </span>
@@ -103,7 +105,14 @@ function SignOff({ setHasUnsavedChanges }) {
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end space-x-3">
+          <button
+            onClick={handleCancelClick}
+            className="px-6 py-2 rounded-lg font-medium bg-gray-500 text-white hover:bg-gray-600 transition-colors duration-200"
+          >
+            {t("CANCEL") || "Cancel"}
+          </button>
+
           <button
             onClick={handleSubmit}
             disabled={!isDeleteChecked}

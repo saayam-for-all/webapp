@@ -278,7 +278,7 @@
   "PRIVACY_CONTACT_CONTENT": "Saayam for All, 3046 Rosato Ct., San Jose, California 95135",
   "SIGN_OFF": "Sign Off",
   "I_WANT_TO_DELETE_MY_ACCOUNT": "I want to delete my account",
-  "ACCOUNT_DELETION_WARNING_TITLE": "Warning: Account Deletion",
+  "ACCOUNT_DELETION_WARNING_TITLE": "Account Deletion",
   "ACCOUNT_DELETION_WARNING_TEXT": "This action will permanently delete your account and all associated data. This action cannot be undone. Please ensure you have backed up any important information before proceeding.",
   "ACCOUNT_DELETION_CONFIRMATION_TEXT": "By checking this box, you acknowledge that you understand the consequences of deleting your account.",
   "CONFIRM_ACCOUNT_DELETION": "Confirm Account Deletion",
