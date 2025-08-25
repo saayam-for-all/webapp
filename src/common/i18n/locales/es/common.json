@@ -365,7 +365,7 @@
   "preferably WhatsApp": "preferiblemente WhatsApp",
   "SIGN_OFF": "Cerrar Sesión",
   "I_WANT_TO_DELETE_MY_ACCOUNT": "Quiero eliminar mi cuenta",
-  "ACCOUNT_DELETION_WARNING_TITLE": "Advertencia: Eliminación de Cuenta",
+  "ACCOUNT_DELETION_WARNING_TITLE": "Eliminación de Cuenta",
   "ACCOUNT_DELETION_WARNING_TEXT": "Esta acción eliminará permanentemente su cuenta y todos los datos asociados. Esta acción no se puede deshacer. Asegúrese de haber respaldado cualquier información importante antes de continuar.",
   "ACCOUNT_DELETION_CONFIRMATION_TEXT": "Al marcar esta casilla, reconoce que comprende las consecuencias de eliminar su cuenta.",
   "CONFIRM_ACCOUNT_DELETION": "Confirmar Eliminación de Cuenta",

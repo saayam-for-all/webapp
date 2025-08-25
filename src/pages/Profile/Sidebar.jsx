@@ -196,13 +196,13 @@ function Sidebar({
         <button
           className={`flex items-center justify-between py-3 px-4 w-full text-left ${
             activeTab === "signoff"
-              ? "font-semibold text-red-500 border-b-2 border-red-500"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
               : "hover:bg-gray-100 text-gray-700"
           }`}
           onClick={() => handleTabChange("signoff")}
         >
           <div className="flex items-center">
-            <FaSignOutAlt className="mr-2 text-red-500" />
+            <FaSignOutAlt className="mr-2 text-gray-500" />
             {t("SIGN_OFF")}
           </div>
           {activeTab !== "signoff" && (
