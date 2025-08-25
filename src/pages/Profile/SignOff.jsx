@@ -7,10 +7,19 @@ function SignOff({ setHasUnsavedChanges }) {
   const [isDeleteChecked, setIsDeleteChecked] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [reasonForLeaving, setReasonForLeaving] = useState("");
 
   const handleCheckboxChange = (e) => {
     setIsDeleteChecked(e.target.checked);
     setHasUnsavedChanges(e.target.checked);
+  };
+
+  const handleReasonChange = (e) => {
+    const value = e.target.value;
+    if (value.length <= 500) {
+      setReasonForLeaving(value);
+      setHasUnsavedChanges(true);
+    }
   };
 
   const handleSubmit = () => {
@@ -78,6 +87,26 @@ function SignOff({ setHasUnsavedChanges }) {
           </div>
 
           <div className="space-y-4">
+            <div className="space-y-3">
+              <label
+                htmlFor="reasonForLeaving"
+                className="block text-sm font-medium text-gray-700"
+              >
+                {"Reason for leaving (Optional)"}
+              </label>
+              <textarea
+                id="reasonForLeaving"
+                value={reasonForLeaving}
+                onChange={handleReasonChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 resize-none"
+                rows="3"
+                maxLength="500"
+              />
+              <div className="text-xs text-gray-500 text-right">
+                {reasonForLeaving.length}/500 characters
+              </div>
+            </div>
+
             <div className="flex items-start">
               <input
                 type="checkbox"
