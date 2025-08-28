@@ -50,6 +50,20 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
+// ---- Preferred language options (10 total) ----
+const LANGUAGE_OPTIONS = [
+  { value: "en", label: "English" },
+  { value: "hi", label: "Hindi" },
+  { value: "te", label: "Telugu" },
+  { value: "bn", label: "Bengali" },
+  { value: "pt", label: "Portuguese" },
+  { value: "es", label: "Spanish" },
+  { value: "fr", label: "French" },
+  { value: "ru", label: "Russian" },
+  { value: "de", label: "German" },
+  { value: "zh", label: "Mandarin Chinese" },
+];
+
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
@@ -95,6 +109,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     gender: "Select",
     lead_volunteer: "Ethan Marshall",
     preferred_language: "",
+    language: "", // <-- added so Preferred Language select is controlled
     category: "General",
     request_type: "remote",
     location: "",
@@ -102,18 +117,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     description: "",
     priority: "MEDIUM",
   });
-
-  // useEffect(() => {
-  //   if (
-  //     formData.category === "General" &&
-  //     formData.subject.trim() !== "" &&
-  //     formData.description.trim() !== "" &&
-  //     !categoryConfirmed
-  //   ) {
-  //     fetchPredictedCategories();
-  //     setShowModal(true);
-  //   }
-  // }, [formData.subject, formData.description, formData.category]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -124,10 +127,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     navigate("/dashboard");
   };
 
-  // Fetch predicted categories when category is "General" and debounced values change
   const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return; // Only call the API if category is "General"
-    if (!formData.subject || !formData.description) return; // Skip if no relevant data
+    if (formData.category !== "General") return;
+    if (!formData.subject || !formData.description) return;
 
     try {
       const requestBody = {
@@ -180,31 +182,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             " from Subject/Description and submit again!",
           severity: "error",
         });
-
-        // toast.error(
-        //   "Profanity detected. Please remove these word(s) : " +
-        //     res.profanity +
-        //     "  from Subject/Description and submit request again!",
-        //   {
-        //     position: "top-center", // You can customize the position
-        //     autoClose: 2000, // Toast auto-closes after 2 seconds
-        //     hideProgressBar: true, // Optional: Hide progress bar
-        //   },
-        // );
-      }
-      // Proceed with submitting the request if no profanity is found
-
-      // const response = await axios.post(
-      //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-      //   submissionData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      else {
+      } else {
         if (
           formData.category === "General" &&
           formData.subject.trim() !== "" &&
@@ -232,7 +210,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       alert("Failed to submit request!");
     }
   };
+
   useEffect(() => {
+    // keep as-is; categories still need to load. Language fetch is unused now but harmless.
     const fetchLanguages = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
@@ -270,14 +250,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
-    // If matches a category key
     const cat = categories?.find((c) => (c.key || c.id) === selectedKeyOrText);
     if (cat) {
       return t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
         defaultValue: cat.name,
       });
     }
-    // If matches a subcategory key
     for (const c of categories || []) {
       const subs = c.subcategories || [];
       const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
@@ -288,7 +266,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       }
     }
-    // Fallback to free text typed by user
     return selectedKeyOrText;
   };
 
@@ -491,7 +468,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
 
             {/* Lead Volunteer */}
-            {/* Lead Volunteer */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <label
@@ -550,10 +526,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               )}
             </div>
           </div>
-          Temporarily commented out as MVP only allows for self requests
+
+          {/* Requester details box (only when For Self = No) */}
           {!selfFlag && (
-            <div className="mt-3" data-testid="parentDivTwo">
-              <div className="grid grid-cols-2 gap-4">
+            <fieldset
+              className="mt-4 border rounded-lg p-4 md:p-5 bg-gray-50"
+              data-testid="parentDivTwo"
+            >
+              <legend className="text-sm font-medium px-1 text-gray-700">
+                Requester details (not for self)
+              </legend>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label
                     htmlFor="requester_first_name"
@@ -566,7 +550,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     id="requester_first_name"
                     value={formData.requester_first_name}
                     onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
+                    className="w-full rounded-lg border py-2 px-3 bg-white"
                   />
                 </div>
                 <div>
@@ -581,27 +565,26 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     id="requester_last_name"
                     value={formData.requester_last_name}
                     onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
+                    className="w-full rounded-lg border py-2 px-3 bg-white"
                   />
                 </div>
-              </div>
-              <div className="mt-3" data-testid="parentDivThree">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 mb-1 font-medium"
-                >
-                  {t("EMAIL")}
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-              </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-4">
+                <div className="md:col-span-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    {t("EMAIL")}
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border py-2 px-3 bg-white"
+                  />
+                </div>
+
                 <div>
                   <label
                     htmlFor="phone"
@@ -614,7 +597,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     id="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
+                    className="w-full rounded-lg border py-2 px-3 bg-white"
                   />
                 </div>
                 <div>
@@ -629,52 +612,79 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     id="age"
                     value={formData.age}
                     onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
+                    className="w-full rounded-lg border py-2 px-3 bg-white"
                   />
                 </div>
-                <div className="mt-3" data-testid="parentDivFour">
+
+                {/* Gender (styled like Request Priority) */}
+                <div className="mt-1" data-testid="parentDivFour">
                   <label
                     htmlFor="gender"
                     className="block text-gray-700 mb-1 font-medium"
                   >
                     {t("GENDER")}
                   </label>
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {genderOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <select
+                      id="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                      className="
+                        block w-full appearance-none
+                        bg-white border border-gray-300
+                        rounded-lg px-3 py-2 pr-8
+                        text-gray-700
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      "
+                    >
+                      {genderOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <HiChevronDown className="h-5 w-5 text-gray-600" />
+                    </div>
+                  </div>
                 </div>
-                <div className="mt-3" data-testid="parentDivFive">
+
+                {/* Preferred Language (styled like Request Priority) */}
+                <div className="mt-1" data-testid="parentDivFive">
                   <label
                     htmlFor="language"
                     className="block text-gray-700 mb-1 font-medium"
                   >
                     {t("PREFERRED_LANGUAGE")}
                   </label>
-                  <select
-                    id="language"
-                    value={formData.language}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <select
+                      id="language"
+                      value={formData.language}
+                      onChange={handleChange}
+                      className="
+                        block w-full appearance-none
+                        bg-white border border-gray-300
+                        rounded-lg px-3 py-2 pr-8
+                        text-gray-700
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      "
+                    >
+                      {LANGUAGE_OPTIONS.map((language) => (
+                        <option key={language.value} value={language.value}>
+                          {language.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <HiChevronDown className="h-5 w-5 text-gray-600" />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </fieldset>
           )}
+
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
