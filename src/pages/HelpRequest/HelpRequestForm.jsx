@@ -5,9 +5,8 @@ import { IoMdInformationCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
-import Modal from "../../common/components/Modal/Modal";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
   useAddRequestMutation,
@@ -29,16 +28,13 @@ import {
   DialogTitle,
   Button,
   Typography,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
   Snackbar,
   Alert,
   RadioGroup,
   Radio,
   FormControlLabel,
 } from "@mui/material";
+import languagesData from "../../common/i18n/languagesData";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -50,38 +46,26 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
-// ---- Preferred language options (10 total) ----
-const LANGUAGE_OPTIONS = [
-  { value: "en", label: "English" },
-  { value: "hi", label: "Hindi" },
-  { value: "te", label: "Telugu" },
-  { value: "bn", label: "Bengali" },
-  { value: "pt", label: "Portuguese" },
-  { value: "es", label: "Spanish" },
-  { value: "fr", label: "French" },
-  { value: "ru", label: "Russian" },
-  { value: "de", label: "German" },
-  { value: "zh", label: "Mandarin Chinese" },
-];
+const LANGUAGE_OPTIONS = (languagesData || []).map((lang) => ({
+  // Preserve label as-is; normalize value for consistency with existing forms
+  value:
+    lang?.code ||
+    (lang?.name === "Mandarin Chinese" ? "Chinese" : lang?.name || ""),
+  label: lang?.name || "",
+}));
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
-  const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
   const [location, setLocation] = useState("");
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
 
-  const [languages, setLanguages] = useState([]);
-
   const [showModal, setShowModal] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("General");
   const [filteredCategories, setFilteredCategories] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [requestType, setRequestType] = useState("");
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
@@ -89,14 +73,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "info", // 'success', 'error', 'warning' also valid
+    severity: "info",
   });
 
-  const { data, error, isLoading } = useGetAllRequestQuery();
+  const { data, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
   const { id } = useParams();
 
-  const inputref = useRef(null);
   const dropdownRef = useRef(null);
 
   const [formData, setFormData] = useState({
@@ -109,7 +92,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     gender: "Select",
     lead_volunteer: "Ethan Marshall",
     preferred_language: "",
-    language: "", // <-- added so Preferred Language select is controlled
+    language: "",
     category: "General",
     request_type: "remote",
     location: "",
@@ -138,7 +121,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       };
 
       const response = await predictCategories(requestBody);
-      console.log("API Response:", response);
       const formattedCategories = (response || []).map((category) => ({
         id: category.toLowerCase(),
         name: category,
@@ -194,7 +176,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           return; // Don’t submit yet
         }
 
-        const response = await createRequest(submissionData);
+        await createRequest(submissionData);
 
         setTimeout(() => {
           navigate("/dashboard", {
@@ -212,50 +194,33 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   };
 
   useEffect(() => {
-    // keep as-is; categories still need to load. Language fetch is unused now but harmless.
-    const fetchLanguages = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        const languageSet = new Set();
-        data.forEach((country) => {
-          if (country.languages) {
-            Object.values(country.languages).forEach((language) =>
-              languageSet.add(language),
-            );
-          }
-        });
-        setLanguages(
-          [...languageSet].map((lang) => ({ value: lang, label: lang })),
-        );
-      } catch (error) {
-        console.error("Error fetching languages:", error);
-      }
-    };
     dispatch(loadCategories());
-    fetchLanguages();
   }, [dispatch]);
 
   useEffect(() => {
     if (id && data) {
       const requestData = data.body?.find((item) => item.id === id);
-      setFormData({
-        category: requestData.category,
-        description: requestData.description,
-        subject: requestData.subject,
-        ...requestData,
-      });
+      if (requestData) {
+        setFormData({
+          category: requestData.category,
+          description: requestData.description,
+          subject: requestData.subject,
+          ...requestData,
+        });
+      }
     }
-  }, [data]);
+  }, [data, id]);
 
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
+    // If matches a category key
     const cat = categories?.find((c) => (c.key || c.id) === selectedKeyOrText);
     if (cat) {
       return t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
         defaultValue: cat.name,
       });
     }
+    // If matches a subcategory key
     for (const c of categories || []) {
       const subs = c.subcategories || [];
       const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
@@ -266,6 +231,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       }
     }
+    // Fallback to free text typed by user
     return selectedKeyOrText;
   };
 
@@ -293,7 +259,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const handleSearchInput = (e) => {
     const searchTerm = e.target.value;
-    setSearchInput(searchTerm);
     setFormData({
       ...formData,
       category: searchTerm,
