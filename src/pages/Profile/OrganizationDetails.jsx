@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import { getPhoneCodeslist } from "../../utils/utils";
+import PropTypes from "prop-types";
 
 const COUNTRY_CODE_API =
   "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json";
@@ -9,6 +12,8 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const organizationNameRef = useRef(null);
+
+  const [errors, setErrors] = useState({});
 
   const [organizationInfo, setOrganizationInfo] = useState({
     organizationName: "",
@@ -23,8 +28,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     zipCode: "",
     organizationType: t("NON_PROFIT"),
   });
-
-  const [countryOptions, setCountryOptions] = useState([]);
+  const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
   useEffect(() => {
     fetch(COUNTRY_CODE_API)
@@ -53,8 +57,59 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     }
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const validateField = (name, value) => {
+    let error = "";
+
+    if (name === "organizationName") {
+      if (!value.trim()) {
+        error = "Organization Name is required.";
+      }
+    }
+
+    if (name === "email") {
+      if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$/.test(value)) {
+        error = "Please enter a valid Email Address.";
+      }
+    }
+    if (name === "phoneNumber") {
+      if (!/^\d{10}$/.test(value)) {
+        error = "Please enter a valid Phone Number.";
+      }
+    }
+
+    if (name === "streetAddress") {
+      if (!value) {
+        error = "Street Address is required.";
+      } else if (value.length < 5) {
+        error = "Street Address must be at least 5 characters long.";
+      }
+    }
+
+    if (name === "city") {
+      if (!value) {
+        error = "City is required.";
+      }
+    }
+
+    if (name === "state") {
+      if (!value) {
+        error = "State is required.";
+      }
+    }
+
+    if (name === "zipCode") {
+      if (!value && !/^[0-9-]+$/.test(value)) {
+        error = "ZIP Code is required.";
+      } else if (value.length < 5) {
+        error = "ZIP Code must be at least 5 characters long.";
+      }
+    }
+    return error;
+  };
+
+  const handleInputChange = (name, value) => {
+    const error = validateField(name, value);
+    setErrors({ ...errors, [name]: error });
     setOrganizationInfo((prevInfo) => ({
       ...prevInfo,
       [name]: value,
@@ -72,13 +127,34 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   };
 
   const handleSaveClick = () => {
+    const newErrors = {};
+    const fieldsToValidate = [
+      "organizationName",
+      "phoneNumber",
+      "phoneCountryCode",
+      "email",
+      "streetAddress",
+      "city",
+      "state",
+      "zipCode",
+    ];
+
+    fieldsToValidate.forEach((field) => {
+      const error = validateField(field, organizationInfo[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // Prevent saving if there are errors
+    }
+
     setIsEditing(false);
     localStorage.setItem("organizationInfo", JSON.stringify(organizationInfo));
+    window.dispatchEvent(new Event("organization-info-updated"));
     setHasUnsavedChanges(false);
-  };
-
-  const handleCancelClick = () => {
-    setIsEditing(false);
   };
 
   return (
@@ -94,13 +170,18 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="organizationName"
               value={organizationInfo.organizationName}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                handleInputChange("organizationName", e.target.value)
+              }
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.organizationName || ""}
             </p>
+          )}
+          {errors.organizationName && (
+            <p className="text-red-500 text-xs">{errors.organizationName}</p>
           )}
         </div>
       </div>
@@ -120,7 +201,12 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                   checked={
                     organizationInfo.organizationType === t("NON_PROFIT")
                   }
-                  onChange={handleInputChange}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "organizationType",
+                      e.target.value || t("NON_PROFIT"),
+                    )
+                  }
                   className="form-radio h-4 w-4 text-blue-500"
                 />
                 <span className="ml-2">{t("NON_PROFIT")}</span>
@@ -133,7 +219,12 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                   checked={
                     organizationInfo.organizationType === t("FOR_PROFIT")
                   }
-                  onChange={handleInputChange}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "organizationType",
+                      e.target.value || t("FOR_PROFIT"),
+                    )
+                  }
                   className="form-radio h-4 w-4 text-blue-500"
                 />
                 <span className="ml-2">{t("FOR_PROFIT")}</span>
@@ -156,16 +247,19 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
             <div className="flex">
               <Select
                 name="phoneCountryCode"
-                value={countryOptions.find(
-                  (option) =>
-                    option.value === organizationInfo.phoneCountryCode,
+                value={phoneCodeOptions.find(
+                  (option) => option.code === organizationInfo.phoneCountryCode,
                 )}
-                options={countryOptions}
+                getOptionLabel={(option) =>
+                  `${option.country} (${option.dialCode})`
+                }
+                getOptionValue={(option) => option.code}
+                options={phoneCodeOptions}
                 onChange={(selectedOption) =>
                   handleInputChange({
                     target: {
                       name: "phoneCountryCode",
-                      value: selectedOption.value,
+                      value: selectedOption.code,
                     },
                   })
                 }
@@ -175,7 +269,11 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                 type="text"
                 name="phoneNumber"
                 value={organizationInfo.phoneNumber}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  const onlyDigits = e.target.value.replace(/\D/g, "");
+                  handleInputChange("phoneNumber", onlyDigits);
+                }}
+                maxLength={10}
                 className="appearance-none block w-2/3 bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
@@ -184,6 +282,9 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               {organizationInfo.phoneCountryCode}{" "}
               {organizationInfo.phoneNumber || ""}
             </p>
+          )}
+          {errors.phoneNumber && (
+            <p className="text-red-500 text-xs">{errors.phoneNumber}</p>
           )}
         </div>
         <div>
@@ -195,13 +296,16 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="email"
               name="email"
               value={organizationInfo.email}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("email", e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.email || ""}
             </p>
+          )}
+          {errors.email && (
+            <p className="text-red-500 text-xs">{errors.email}</p>
           )}
         </div>
       </div>
@@ -216,7 +320,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="url"
               value={organizationInfo.url}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("url", e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
@@ -237,13 +341,18 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="streetAddress"
               value={organizationInfo.streetAddress}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                handleInputChange("streetAddress", e.target.value)
+              }
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.streetAddress || ""}
             </p>
+          )}
+          {errors.streetAddress && (
+            <p className="text-red-500 text-xs">{errors.streetAddress}</p>
           )}
         </div>
         <div>
@@ -255,7 +364,9 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="streetAddress2"
               value={organizationInfo.streetAddress2}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                handleInputChange("streetAddress2", e.target.value)
+              }
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
@@ -276,7 +387,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="city"
               value={organizationInfo.city}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("city", e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
@@ -284,6 +395,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               {organizationInfo.city || ""}
             </p>
           )}
+          {errors.city && <p className="text-red-500 text-xs">{errors.city}</p>}
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -294,13 +406,16 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="state"
               value={organizationInfo.state}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("state", e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.state || ""}
             </p>
+          )}
+          {errors.state && (
+            <p className="text-red-500 text-xs">{errors.state}</p>
           )}
         </div>
         <div>
@@ -312,13 +427,21 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="zipCode"
               value={organizationInfo.zipCode}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                const onlyDigits = e.target.value
+                  .replace(/\D/g, "")
+                  .slice(0, 10);
+                handleInputChange("zipCode", onlyDigits);
+              }}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.zipCode || ""}
             </p>
+          )}
+          {errors.zipCode && (
+            <p className="text-red-500 text-xs">{errors.zipCode}</p>
           )}
         </div>
       </div>
@@ -337,11 +460,35 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={handleSaveClick}
             >
-              {t("SAVE_CHANGES")}
+              {t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={handleCancelClick}
+              onClick={() => {
+                const savedOrganizationInfo = JSON.parse(
+                  localStorage.getItem("organizationInfo"),
+                );
+                if (!savedOrganizationInfo) {
+                  setOrganizationInfo({
+                    organizationName: "",
+                    phoneNumber: "",
+                    phoneCountryCode: "",
+                    email: "",
+                    url: "",
+                    streetAddress: "",
+                    streetAddress2: "",
+                    city: "",
+                    state: "",
+                    zipCode: "",
+                    organizationType: t("NON_PROFIT"),
+                  });
+                } else {
+                  setOrganizationInfo(savedOrganizationInfo);
+                }
+                setIsEditing(false);
+                setErrors({});
+                setHasUnsavedChanges(false);
+              }}
             >
               {t("CANCEL")}
             </button>
@@ -353,3 +500,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 }
 
 export default OrganizationDetails;
+
+OrganizationDetails.propTypes = {
+  setHasUnsavedChanges: PropTypes.func.isRequired,
+};

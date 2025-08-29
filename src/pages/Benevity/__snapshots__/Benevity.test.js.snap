@@ -1,0 +1,724 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BenevityInfo renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="benevity-page-container"
+      >
+        <header
+          class="benevity-header"
+        >
+          <h1>
+            Double Your Impact through Benevity
+          </h1>
+          <p
+            class="benevity-desc"
+          >
+            Many companies offer donation or volunteer matching through Benevity.
+             
+            <br />
+            If your employer is one of them, you can help Saayam for All even more.
+          </p>
+          <div
+            class="benevity-info-card"
+          >
+            <div>
+              Charity Name: Saayam for All
+            </div>
+            <div>
+              Charity Identifier: 840-932798273
+            </div>
+            <div>
+              IRS Federal EIN: 9308382873
+            </div>
+            <a
+              class="benevity-search-btn"
+              href="https://benevity.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Search on Benevity
+            </a>
+          </div>
+        </header>
+        <section
+          class="benevity-how-section"
+        >
+          <h2>
+            How to Donate
+          </h2>
+          <p
+            class="benevity-how-desc"
+          >
+            Follow these steps to donate or volunteer through Benevity.
+          </p>
+          <div
+            class="benevity-how-steps"
+          >
+            <div
+              class="benevity-step"
+            >
+              <div
+                class="benevity-step-circle"
+              >
+                1
+              </div>
+              <div
+                class="benevity-icon-container"
+              >
+                <svg
+                  class="benevity-step-icon"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <div
+                class="benevity-step-title"
+              >
+                Go to Your Company's Portal
+              </div>
+              <div
+                class="benevity-step-desc"
+              >
+                Log in to your company's giving or volunteer portal where all your corporate social responsibility programs are listed.
+              </div>
+            </div>
+            <div
+              class="benevity-step"
+            >
+              <div
+                class="benevity-step-circle"
+              >
+                2
+              </div>
+              <div
+                class="benevity-icon-container"
+              >
+                <svg
+                  class="benevity-step-icon"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <div
+                class="benevity-step-title"
+              >
+                Search for "Saayam for All"
+              </div>
+              <div
+                class="benevity-step-desc"
+              >
+                Type "Saayam for All" into the portal's search bar to locate our cause and explore how you can support us.
+              </div>
+            </div>
+            <div
+              class="benevity-step"
+            >
+              <div
+                class="benevity-step-circle"
+              >
+                3
+              </div>
+              <div
+                class="benevity-icon-container"
+              >
+                <img
+                  alt="Hand holding heart icon"
+                  class="benevity-step-icon"
+                  src=""
+                />
+              </div>
+              <div
+                class="benevity-step-title"
+              >
+                Log Your Hours or Donate
+              </div>
+              <div
+                class="benevity-step-desc"
+              >
+                Track your volunteer hours or make a financial donation – your company may even match your efforts!
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="benevity-corporate-section"
+        >
+          <h2>
+            Corporate Matching and Giving Programs
+          </h2>
+          <p
+            class="benevity-corp-desc"
+          >
+            You can find the links for which you can donate.
+          </p>
+          <div
+            class="benevity-corp-table-container"
+          >
+            <table
+              class="benevity-corp-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    Company Name
+                  </th>
+                  <th>
+                    Link to Portal
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Microsoft
+                  </td>
+                  <td>
+                    <a
+                      href="https://microsoft.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://microsoft.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Amazon
+                  </td>
+                  <td>
+                    <a
+                      href="https://amazon.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://amazon.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Apple
+                  </td>
+                  <td>
+                    <a
+                      href="https://apple.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://apple.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Google
+                  </td>
+                  <td>
+                    <a
+                      href="https://google.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://google.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Salesforce
+                  </td>
+                  <td>
+                    <a
+                      href="https://salesforce.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://salesforce.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Oracle
+                  </td>
+                  <td>
+                    <a
+                      href="https://oracle.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://oracle.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Nvidia
+                  </td>
+                  <td>
+                    <a
+                      href="https://nvidia.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://nvidia.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Visa
+                  </td>
+                  <td>
+                    <a
+                      href="https://visa.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://visa.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Intel
+                  </td>
+                  <td>
+                    <a
+                      href="https://intel.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://intel.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Cisco
+                  </td>
+                  <td>
+                    <a
+                      href="https://cisco.benevity.org/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      https://cisco.benevity.org/
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="benevity-page-container"
+    >
+      <header
+        class="benevity-header"
+      >
+        <h1>
+          Double Your Impact through Benevity
+        </h1>
+        <p
+          class="benevity-desc"
+        >
+          Many companies offer donation or volunteer matching through Benevity.
+           
+          <br />
+          If your employer is one of them, you can help Saayam for All even more.
+        </p>
+        <div
+          class="benevity-info-card"
+        >
+          <div>
+            Charity Name: Saayam for All
+          </div>
+          <div>
+            Charity Identifier: 840-932798273
+          </div>
+          <div>
+            IRS Federal EIN: 9308382873
+          </div>
+          <a
+            class="benevity-search-btn"
+            href="https://benevity.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Search on Benevity
+          </a>
+        </div>
+      </header>
+      <section
+        class="benevity-how-section"
+      >
+        <h2>
+          How to Donate
+        </h2>
+        <p
+          class="benevity-how-desc"
+        >
+          Follow these steps to donate or volunteer through Benevity.
+        </p>
+        <div
+          class="benevity-how-steps"
+        >
+          <div
+            class="benevity-step"
+          >
+            <div
+              class="benevity-step-circle"
+            >
+              1
+            </div>
+            <div
+              class="benevity-icon-container"
+            >
+              <svg
+                class="benevity-step-icon"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div
+              class="benevity-step-title"
+            >
+              Go to Your Company's Portal
+            </div>
+            <div
+              class="benevity-step-desc"
+            >
+              Log in to your company's giving or volunteer portal where all your corporate social responsibility programs are listed.
+            </div>
+          </div>
+          <div
+            class="benevity-step"
+          >
+            <div
+              class="benevity-step-circle"
+            >
+              2
+            </div>
+            <div
+              class="benevity-icon-container"
+            >
+              <svg
+                class="benevity-step-icon"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div
+              class="benevity-step-title"
+            >
+              Search for "Saayam for All"
+            </div>
+            <div
+              class="benevity-step-desc"
+            >
+              Type "Saayam for All" into the portal's search bar to locate our cause and explore how you can support us.
+            </div>
+          </div>
+          <div
+            class="benevity-step"
+          >
+            <div
+              class="benevity-step-circle"
+            >
+              3
+            </div>
+            <div
+              class="benevity-icon-container"
+            >
+              <img
+                alt="Hand holding heart icon"
+                class="benevity-step-icon"
+                src=""
+              />
+            </div>
+            <div
+              class="benevity-step-title"
+            >
+              Log Your Hours or Donate
+            </div>
+            <div
+              class="benevity-step-desc"
+            >
+              Track your volunteer hours or make a financial donation – your company may even match your efforts!
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="benevity-corporate-section"
+      >
+        <h2>
+          Corporate Matching and Giving Programs
+        </h2>
+        <p
+          class="benevity-corp-desc"
+        >
+          You can find the links for which you can donate.
+        </p>
+        <div
+          class="benevity-corp-table-container"
+        >
+          <table
+            class="benevity-corp-table"
+          >
+            <thead>
+              <tr>
+                <th>
+                  Company Name
+                </th>
+                <th>
+                  Link to Portal
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Microsoft
+                </td>
+                <td>
+                  <a
+                    href="https://microsoft.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://microsoft.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Amazon
+                </td>
+                <td>
+                  <a
+                    href="https://amazon.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://amazon.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Apple
+                </td>
+                <td>
+                  <a
+                    href="https://apple.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://apple.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Google
+                </td>
+                <td>
+                  <a
+                    href="https://google.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://google.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Salesforce
+                </td>
+                <td>
+                  <a
+                    href="https://salesforce.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://salesforce.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Oracle
+                </td>
+                <td>
+                  <a
+                    href="https://oracle.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://oracle.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Nvidia
+                </td>
+                <td>
+                  <a
+                    href="https://nvidia.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://nvidia.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Visa
+                </td>
+                <td>
+                  <a
+                    href="https://visa.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://visa.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Intel
+                </td>
+                <td>
+                  <a
+                    href="https://intel.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://intel.benevity.org/
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Cisco
+                </td>
+                <td>
+                  <a
+                    href="https://cisco.benevity.org/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    https://cisco.benevity.org/
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

@@ -1,12 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 // import { requestsData } from "./data";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdArrowForwardIos } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
+
 // import { useGetAllRequestQuery } from "../../services/requestApi";
+
 import {
   getManagedRequests,
   getMyRequests,
@@ -16,7 +21,13 @@ import "./Dashboard.css";
 
 const Dashboard = ({ userRole }) => {
   const { t } = useTranslation();
-
+  const location = useLocation();
+  const [successMessage, setSuccessMessage] = useState("");
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      setSuccessMessage(location.state.successMessage);
+    }
+  }, [location.state?.successMessage]);
   const [activeTab, setActiveTab] = useState("myRequests");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
@@ -33,7 +44,14 @@ const Dashboard = ({ userRole }) => {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [data, setData] = useState({});
+  const groups = useSelector((state) => state.auth.user?.groups);
   const isLoading = false;
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
   // const { data, isLoading } = useGetAllRequestQuery();
 
   const getAllRequests = async (activeTab) => {
@@ -47,6 +65,10 @@ const Dashboard = ({ userRole }) => {
       console.error("Error fetching skills:", error);
     }
   };
+
+  useEffect(() => {
+    toggleDropdown();
+  }, []);
 
   useEffect(() => {
     getAllRequests(activeTab);
@@ -220,51 +242,69 @@ const Dashboard = ({ userRole }) => {
   return (
     <div className="p-5">
       <div className="flex gap-10 mb-5">
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-          <Link
-            to="/request"
-            className="text-white "
-            style={{ color: "white" }}
-          >
-            {t("CREATE_HELP_REQUEST")}
-          </Link>
-        </button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+        <Link
+          to="/request"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center"
+          style={{ color: "white", textDecoration: "none" }}
+        >
+          <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
+        </Link>
+        {!groups?.includes("Volunteers") && (
           <Link
             to="/promote-to-volunteer"
-            className="text-white "
-            style={{ color: "white" }}
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center"
+            style={{ color: "white", textDecoration: "none" }}
           >
-            {t("BECOME_VOLUNTEER")}
+            <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
           </Link>
-        </button>
+        )}
         <div className="flex ml-auto gap-2 items-center">
-          <button className="text-blue-500 font-semibold underline italic py-2">
-            {t("ADMINISTRATE")}
-          </button>
-          <MdArrowForwardIos className="text-blue-500" />
+          {isDropdownVisible && (
+            <select className="text-blue-500 font-semibold underline italic py-2">
+              <option value="superAdmin">Super Admin Dashboard</option>
+              <option value="admin">Admin Dashboard</option>
+              <option value="steward">Steward Dashboard</option>
+              <option value="volunteer">Volunteer Dashboard</option>
+              <option value="beneficiary">Beneficiary Dashboard</option>
+            </select>
+          )}
         </div>
       </div>
-
+      {successMessage && (
+        <div className="relative bg-green-100 text-green-700 p-3 mb-5 rounded-md text-center font-semibold">
+          {successMessage}
+          <button
+            onClick={() => setSuccessMessage("")}
+            className="absolute top-2 right-4 text-green-700 font-bold text-lg"
+          >
+            ×
+          </button>
+        </div>
+      )}
       <div className="border">
         <div className="flex mb-5">
-          {["myRequests", "managedRequests"].map((tab) => (
-            <button
-              key={tab}
-              className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
-                activeTab === tab
-                  ? "bg-white border-gray-300"
-                  : "bg-gray-300 border-transparent hover:bg-gray-200"
-              } ${tab !== "managedRequests" ? "mr-1" : ""}`}
-              onClick={() => handleTabChange(tab)}
-            >
-              {tab === "myRequests"
-                ? t("MY_REQUESTS")
-                : tab === "othersRequests"
-                  ? t("OTHERS_REQUESTS")
-                  : t("MANAGED_REQUESTS")}
-            </button>
-          ))}
+          {["myRequests", "othersRequests", "managedRequests"]
+            .filter(
+              (tab) =>
+                !(tab === "managedRequests" && !groups?.includes("Volunteers")),
+            )
+            .map((tab) => (
+              <button
+                key={tab}
+                className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+                  activeTab === tab
+                    ? "bg-white border-gray-300"
+                    : "bg-gray-300 border-transparent hover:bg-gray-200"
+                } ${tab !== "managedRequests" ? "mr-1" : ""}`}
+                onClick={() => handleTabChange(tab)}
+              >
+                {tab === "myRequests"
+                  ? t("MY_REQUESTS")
+                  : tab === "othersRequests"
+                    ? t("OTHERS_REQUESTS")
+                    : t("MANAGED_REQUESTS")}
+              </button>
+            ))}
         </div>
 
         <div className="mb-4 flex gap-2 px-10">

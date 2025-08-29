@@ -1,89 +1,102 @@
-import { useEffect, useState } from "react";
-import FOOD1 from "../../../assets/carouselImages/food.jpg";
-import FOOD2 from "../../../assets/carouselImages/food3.jpg";
-import HANDS from "../../../assets/carouselImages/hands.jpg";
-import HANDS2 from "../../../assets/carouselImages/hands2.jpg";
-import HEALTH from "../../../assets/carouselImages/health.jpg";
-import HEALTH2 from "../../../assets/carouselImages/health2.jpg";
-import CLOTHES from "../../../assets/carouselImages/clothes.jpg";
-import EDUCATION from "../../../assets/carouselImages/education3.jpg";
-import REFERRALS from "../../../assets/carouselImages/referrals.jpeg";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+// Keep only one useTranslation import. This one is sufficient.
+import { useTranslation } from "react-i18next";
 
-const CarouselImages = [
-  FOOD1,
-  FOOD2,
-  HANDS,
-  HEALTH,
-  HANDS2,
-  HEALTH2,
-  CLOTHES,
-  EDUCATION,
-  REFERRALS,
-];
+// Import Swiper styles and modules
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+
+import carouselFive from "../../../assets/landingPageImages/carousel_five.jpg";
+import carouselFour from "../../../assets/landingPageImages/carousel_four.jpg";
+import carouselOne from "../../../assets/landingPageImages/carousel_one.jpg";
+import carouselSix from "../../../assets/landingPageImages/carousel_six.jpg";
+import carouselThree from "../../../assets/landingPageImages/carousel_three.jpg";
+import carouselTwo from "../../../assets/landingPageImages/carousel_two.jpg";
+import "./Carousel.css";
+
+import {
+  Autoplay,
+  EffectCoverflow,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
 
 export default function Carousel() {
-  let [current, setCurrent] = useState(0);
+  const { t } = useTranslation();
 
-  let previousSlide = () => {
-    if (current === 0) setCurrent(CarouselImages.length - 1);
-    else setCurrent(current - 1);
-  };
-
-  let nextSlide = () => {
-    if (current === CarouselImages.length - 1) setCurrent(0);
-    else setCurrent(current + 1);
-  };
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      nextSlide();
-    }, 3000);
-    return () => clearInterval(intervalId);
-  }, [current]);
+  const carouselTitles = [
+    "Food and Essentials Support",       
+    "Clothing Support",                  
+    "Education and Career Support",      
+    "Healthcare and Wellbeing Support",  
+    "Housing Support",                   
+    "General Support",                   
+  ];
 
   return (
-    <div className="overflow-hidden relative h-[500px]">
-      <div
-        className={`flex transition ease-out duration-1000`}
-        style={{
-          transform: `translateX(-${current * 100}%)`,
+    <div className="flex flex-col items-center justify-center w-full bg-white mb-12 ">
+      <Swiper
+        effect={"coverflow"}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={1.2}
+        breakpoints={{
+          640: { slidesPerView: 1.5 },
+          768: { slidesPerView: 2 },
         }}
+        coverflowEffect={{
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 3,
+          slideShadows: true,
+        }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{ el: ".swiper-custom-pagination" }}
+        loop={true}
+        navigation={{
+          nextEl: ".custom-swiper-button-next",
+          prevEl: ".custom-swiper-button-prev",
+        }}
+        modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
+        className="mySwiper h-[350px] md:h-[350px]"
       >
-        {CarouselImages.map((s, idx) => {
-          return <img src={s} alt={s} key={idx} />;
-        })}
-      </div>
+        {[
+          carouselOne,
+          carouselTwo,
+          carouselThree,
+          carouselFour,
+          carouselFive,
+          carouselSix,
+        ].map((src, i) => (
+          <SwiperSlide
+            key={i}
+            className="flex items-center justify-center relative w-[240px] sm:w-[280px] md:w-[300px] aspect-[3/2]"
+          >
+            <img
+              src={src}
+              className="h-full w-full object-cover rounded-lg"
+              alt={`${t("CAROUSEL_SLIDE_ALT_PREFIX")} ${i + 1}`}
+            />
+            <div className="absolute bottom-[5%] left-1/2 transform -translate-x-1/2 text-white font-bold text-xl sm:text-2xl md:text-3xl text-center px-3 py-1 rounded-2xl">
+              {t(carouselTitles[i])}
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-      <div className="absolute top-0 h-full w-full justify-between items-center flex text-3xl px-2">
-        <div
-          onClick={previousSlide}
-          className="bg-black opacity-25 hover:opacity-100 rounded-full p-1 text-white hover:bg-slate-700 flex items-center justify-center cursor-pointer"
-        >
-          <IoIosArrowBack />
-        </div>
-        <div
-          onClick={nextSlide}
-          className="bg-black opacity-25 hover:opacity-100 rounded-full p-1 text-white hover:bg-slate-700 flex items-center justify-center cursor-pointer"
-        >
-          <IoIosArrowForward />
-        </div>
-      </div>
-
-      <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full">
-        {CarouselImages.map((s, i) => {
-          return (
-            <div
-              onClick={() => {
-                setCurrent(i);
-              }}
-              key={"circle" + i}
-              className={`rounded-full w-3 h-3 cursor-pointer  ${
-                i == current ? "bg-white" : "bg-gray-500"
-              }`}
-            ></div>
-          );
-        })}
+      <div className="w-fit flex justify-center items-center mt-4 px-6 text-xl font-bold gap-5">
+        <button className="custom-swiper-button-prev text-gray-600 text-4xl hover:text-gray-600">
+          ‹
+        </button>
+        <button className="custom-swiper-button-next text-gray-600 text-4xl hover:text-gray-600">
+          ›
+        </button>
       </div>
     </div>
   );

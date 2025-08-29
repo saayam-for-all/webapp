@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Footer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 40px;
+      font-size: 14px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #555;
+    }
+
+    .footer-logo {
+        flex: 0 0 auto;
+    }
+
+    .footer-contact {
+     flex: 0 0 auto;
+    }
+
+    .footer-logo img {
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .footer-nav {
+     flex: 1 1 auto;
+     min-width: 0;
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+     gap: 20px;
+    }
+
+    .footer-nav a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .footer-nav a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-contact button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .footer-bottom {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      color: #ccc;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+        .footer-nav {
+            justify-content: center;
+        }
+
+        .footer-links {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* OPTIONAL: Let nav wrap fully on mobile */
+        .footer-nav a {
+            flex: 1 0 45%;
+            text-align: center;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <img src="saayam-logo-footer-transparent.png" alt="Saayam Logo">
+      </div>
+      <div class="footer-nav">
+        <a href="#">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Mission & Vision</a>
+        <a href="#">Our Team</a>
+        <a href="#">What we Offer</a>
+        <a href="#">Donate</a>
+      </div>
+      <div class="footer-contact">
+        <button>Contact Us</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 Saayam For All. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Site Map</a>
+        <a href="#">Terms and Conditions</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+

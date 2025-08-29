@@ -1,0 +1,600 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HowWeOperate renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="font-sans"
+      >
+        <div
+          class="py-16 px-4"
+        >
+          <div
+            class="max-w-4xl mx-auto"
+          >
+            <h2
+              class="text-3xl font-bold text-center mb-4"
+            >
+              mockTranslate(HOW_WE_OPERATE)
+            </h2>
+            <p
+              class="text-center text-gray-600 mb-12"
+            >
+              mockTranslate(At Saayam For All, getting help is as simple and seamless as requesting a ride.)
+              <br />
+              mockTranslate(Get help in 5 easy steps.)
+            </p>
+            <div
+              class="relative h-full min-h-[800px]"
+            >
+              <div
+                class="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+              />
+              <div
+                class="step-box"
+              >
+                <div
+                  class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+                >
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pl-[1.5rem] p-2"
+                  >
+                    <img
+                      alt="mockTranslate(Request for Help)"
+                      class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                  >
+                    <div
+                      class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                    >
+                      1
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  >
+                    <div
+                      class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                    >
+                      <h3
+                        class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                      >
+                        mockTranslate(Request for Help)
+                      </h3>
+                      <p
+                        class="text-sm md:text-base text-gray-600 text-left"
+                      >
+                        mockTranslate(Submit a request for the support you need—just like booking a ride through an app.)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative flex flex-col sm:flex-row  items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+                >
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pr-[1.5rem] p-2"
+                  >
+                    <img
+                      alt="mockTranslate(Get Matching With a Volunteer)"
+                      class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                  >
+                    <div
+                      class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                    >
+                      2
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                  >
+                    <div
+                      class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                    >
+                      <h3
+                        class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                      >
+                        mockTranslate(Get Matching With a Volunteer)
+                      </h3>
+                      <p
+                        class="text-sm md:text-base text-gray-600 text-left"
+                      >
+                        mockTranslate(We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+                >
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pl-[1.5rem] p-2"
+                  >
+                    <img
+                      alt="mockTranslate(Confirm Your Volunteer)"
+                      class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                  >
+                    <div
+                      class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                    >
+                      3
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  >
+                    <div
+                      class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                    >
+                      <h3
+                        class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                      >
+                        mockTranslate(Confirm Your Volunteer)
+                      </h3>
+                      <p
+                        class="text-sm md:text-base text-gray-600 text-left"
+                      >
+                        mockTranslate(From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative flex flex-col sm:flex-row  items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+                >
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pr-[1.5rem] p-2"
+                  >
+                    <img
+                      alt="mockTranslate(Connect and Coordinate)"
+                      class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                  >
+                    <div
+                      class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                    >
+                      4
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                  >
+                    <div
+                      class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                    >
+                      <h3
+                        class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                      >
+                        mockTranslate(Connect and Coordinate)
+                      </h3>
+                      <p
+                        class="text-sm md:text-base text-gray-600 text-left"
+                      >
+                        mockTranslate(Your volunteer reaches out to finalize details and schedule the support you need.)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+                >
+                  <div
+                    class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pl-[1.5rem] p-2"
+                  >
+                    <img
+                      alt="mockTranslate(Receive Assistance)"
+                      class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                      src="s5"
+                    />
+                  </div>
+                  <div
+                    class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                  >
+                    <div
+                      class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                    >
+                      5
+                    </div>
+                  </div>
+                  <div
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  >
+                    <div
+                      class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                    >
+                      <h3
+                        class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                      >
+                        mockTranslate(Receive Assistance)
+                      </h3>
+                      <p
+                        class="text-sm md:text-base text-gray-600 text-left"
+                      >
+                        mockTranslate(The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="text-center mt-32"
+            >
+              <span
+                class="text-blue-500 text-2xl font-bold"
+              >
+                mockTranslate(Connecting help to those who need it.)
+              </span>
+            </div>
+            <div
+              class="text-center mt-32"
+            >
+              <h3
+                class="text-2xl font-bold mb-4"
+              >
+                mockTranslate(Looking to volunteer with us?)
+              </h3>
+              <p
+                class="text-gray-600 mb-6"
+              >
+                mockTranslate(Chat with our community and get in touch with us!)
+              </p>
+              <button
+                class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                mockTranslate(Join the community)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="font-sans"
+    >
+      <div
+        class="py-16 px-4"
+      >
+        <div
+          class="max-w-4xl mx-auto"
+        >
+          <h2
+            class="text-3xl font-bold text-center mb-4"
+          >
+            mockTranslate(HOW_WE_OPERATE)
+          </h2>
+          <p
+            class="text-center text-gray-600 mb-12"
+          >
+            mockTranslate(At Saayam For All, getting help is as simple and seamless as requesting a ride.)
+            <br />
+            mockTranslate(Get help in 5 easy steps.)
+          </p>
+          <div
+            class="relative h-full min-h-[800px]"
+          >
+            <div
+              class="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+            />
+            <div
+              class="step-box"
+            >
+              <div
+                class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+              >
+                <div
+                  class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pl-[1.5rem] p-2"
+                >
+                  <img
+                    alt="mockTranslate(Request for Help)"
+                    class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                >
+                  <div
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                  >
+                    1
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                >
+                  <div
+                    class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                  >
+                    <h3
+                      class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                    >
+                      mockTranslate(Request for Help)
+                    </h3>
+                    <p
+                      class="text-sm md:text-base text-gray-600 text-left"
+                    >
+                      mockTranslate(Submit a request for the support you need—just like booking a ride through an app.)
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative flex flex-col sm:flex-row  items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+              >
+                <div
+                  class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pr-[1.5rem] p-2"
+                >
+                  <img
+                    alt="mockTranslate(Get Matching With a Volunteer)"
+                    class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                >
+                  <div
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                  >
+                    2
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                >
+                  <div
+                    class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                  >
+                    <h3
+                      class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                    >
+                      mockTranslate(Get Matching With a Volunteer)
+                    </h3>
+                    <p
+                      class="text-sm md:text-base text-gray-600 text-left"
+                    >
+                      mockTranslate(We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .)
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+              >
+                <div
+                  class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pl-[1.5rem] p-2"
+                >
+                  <img
+                    alt="mockTranslate(Confirm Your Volunteer)"
+                    class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                >
+                  <div
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                  >
+                    3
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                >
+                  <div
+                    class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                  >
+                    <h3
+                      class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                    >
+                      mockTranslate(Confirm Your Volunteer)
+                    </h3>
+                    <p
+                      class="text-sm md:text-base text-gray-600 text-left"
+                    >
+                      mockTranslate(From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.)
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative flex flex-col sm:flex-row  items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+              >
+                <div
+                  class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pr-[1.5rem] p-2"
+                >
+                  <img
+                    alt="mockTranslate(Connect and Coordinate)"
+                    class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                >
+                  <div
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                  >
+                    4
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                >
+                  <div
+                    class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                  >
+                    <h3
+                      class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                    >
+                      mockTranslate(Connect and Coordinate)
+                    </h3>
+                    <p
+                      class="text-sm md:text-base text-gray-600 text-left"
+                    >
+                      mockTranslate(Your volunteer reaches out to finalize details and schedule the support you need.)
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="relative flex flex-col sm:flex-row sm:flex-row-reverse items-stretch justify-center mb-12 sm:mb-20 md:mb-24"
+              >
+                <div
+                  class="w-full sm:w-1/2 flex justify-center items-center order-1 sm:order-none mb-4 sm:mb-0
+                    sm:pl-[1.5rem] p-2"
+                >
+                  <img
+                    alt="mockTranslate(Receive Assistance)"
+                    class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
+                    src="s5"
+                  />
+                </div>
+                <div
+                  class="order-2 sm:absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-20 my-3 sm:my-0 flex justify-center"
+                >
+                  <div
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
+                  >
+                    5
+                  </div>
+                </div>
+                <div
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                >
+                  <div
+                    class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
+                  >
+                    <h3
+                      class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
+                    >
+                      mockTranslate(Receive Assistance)
+                    </h3>
+                    <p
+                      class="text-sm md:text-base text-gray-600 text-left"
+                    >
+                      mockTranslate(The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.)
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="text-center mt-32"
+          >
+            <span
+              class="text-blue-500 text-2xl font-bold"
+            >
+              mockTranslate(Connecting help to those who need it.)
+            </span>
+          </div>
+          <div
+            class="text-center mt-32"
+          >
+            <h3
+              class="text-2xl font-bold mb-4"
+            >
+              mockTranslate(Looking to volunteer with us?)
+            </h3>
+            <p
+              class="text-gray-600 mb-6"
+            >
+              mockTranslate(Chat with our community and get in touch with us!)
+            </p>
+            <button
+              class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              mockTranslate(Join the community)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
