@@ -61,7 +61,7 @@ exports[`YourProfile matches snapshot 1`] = `
         <p
           class="text-lg text-gray-900"
         >
-          +1United States 234567890
+          +1United States 2345678901
         </p>
         <button
           class="text-gray-500 cursor-pointer hover:text-gray-700 ml-2"

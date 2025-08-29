@@ -5,28 +5,36 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import YourProfile from "./YourProfile";
 
-// Mock external dependencies
+// --- Mocks ---
+
+// Amplify auth: mock both updateUserAttributes and fetchAuthSession (valid session)
 jest.mock("aws-amplify/auth", () => ({
-  updateUserAttributes: jest.fn(),
+  updateUserAttributes: jest.fn().mockResolvedValue({}),
+  fetchAuthSession: jest
+    .fn()
+    .mockResolvedValue({ tokens: { idToken: "valid" } }),
 }));
 
+// i18n: return fallback/keys
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key, fallback) => fallback || key, // Return fallback if provided
+    t: (key, fallback) => fallback || key,
     i18n: { changeLanguage: jest.fn() },
   }),
 }));
 
+// Call modal: keep simple
 jest.mock("./CallModal.jsx", () => {
-  return function CallModal({ isOpen, onClose, callType }) {
+  return function CallModal({ isOpen, callType }) {
     return isOpen ? (
       <div data-testid="call-modal">CallModal - {callType}</div>
     ) : null;
   };
 });
 
+// Loading spinner
 jest.mock("../../common/components/Loading/Loading", () => {
-  return function LoadingIndicator({ size, className }) {
+  return function LoadingIndicator({ className }) {
     return (
       <div data-testid="loading-indicator" className={className}>
         Loading...
@@ -35,6 +43,7 @@ jest.mock("../../common/components/Loading/Loading", () => {
   };
 });
 
+// Country list
 jest.mock("react-select-country-list", () => {
   return jest.fn(() => ({
     getData: () => [
@@ -45,6 +54,7 @@ jest.mock("react-select-country-list", () => {
   }));
 });
 
+// Icons -> buttons we can click
 jest.mock("react-icons/fi", () => ({
   FiPhoneCall: ({ onClick, className }) => (
     <button
@@ -66,21 +76,36 @@ jest.mock("react-icons/fi", () => ({
   ),
 }));
 
+// Phone codes used by component
 jest.mock("../../utils/phone-codes-en", () => ({
   US: { primary: "United States", secondary: "+1", dialCode: "+1" },
   CA: { primary: "Canada", secondary: "+1", dialCode: "+1" },
   UK: { primary: "United Kingdom", secondary: "+44", dialCode: "+44" },
 }));
 
-jest.mock("../../utils/utils", () => ({
-  getPhoneCodeslist: (phoneCodesEn) =>
-    Object.entries(phoneCodesEn).map(([code, data]) => ({
-      code,
-      country: data.primary,
-      dialCode: data.secondary,
-    })),
+//react-phone-number-input: make validation pass *and* force country to US
+jest.mock("react-phone-number-input", () => ({
+  isValidPhoneNumber: jest.fn(() => true),
+  parsePhoneNumber: jest.fn(() => ({
+    isValid: () => true,
+    country: "US",
+  })),
 }));
 
+// Replace the complex phone input with a simple stub that sets a valid phone on mount
+jest.mock("../../common/components/PhoneNumberInputWithCountry", () => {
+  const React = require("react");
+  return function PhoneNumberInputWithCountryMock(props) {
+    React.useLayoutEffect(() => {
+      props.setCountryCode?.("US");
+      props.setPhone?.("2345678901"); // 10 digits
+      props.setError?.("");
+    }, []);
+    return <div data-testid="phone-input-mock" />;
+  };
+});
+
+// Redux action
 jest.mock("../../redux/features/authentication/authActions", () => ({
   updateUserProfile: jest.fn(() => ({
     type: "UPDATE_USER_PROFILE",
@@ -88,34 +113,38 @@ jest.mock("../../redux/features/authentication/authActions", () => ({
   })),
 }));
 
-// Helpers
-const createMockStore = (initialState = {}) => {
-  return configureStore({
+// Router navigate
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
+// --- Helpers ---
+const createMockStore = (initialState = {}) =>
+  configureStore({
     reducer: {
       auth: (state = initialState.auth || {}, action) => state,
     },
     preloadedState: initialState,
   });
-};
 
 const mockUser = {
   given_name: "John",
   family_name: "Doe",
   email: "john@example.com",
-  phone_number: "+1234567890",
+  phone_number: "+12345678901", // good: strips to 2345678901 (10 digits)
   zoneinfo: "United States",
 };
 
 const defaultStore = createMockStore({
-  auth: {
-    user: mockUser,
-  },
+  auth: { user: mockUser },
 });
 
-const renderWithProvider = (component, store = defaultStore) => {
-  return render(<Provider store={store}>{component}</Provider>);
-};
+const renderWithProvider = (ui, store = defaultStore) =>
+  render(<Provider store={store}>{ui}</Provider>);
 
+// --- Tests ---
 describe("YourProfile", () => {
   const mockSetHasUnsavedChanges = jest.fn();
 
@@ -175,19 +204,39 @@ describe("YourProfile", () => {
     });
   });
 
-  it("shows email verification required message when email is changed", async () => {
+  it("sends verification and navigates when email is changed and saved", async () => {
+    const { updateUserAttributes } = require("aws-amplify/auth");
+
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
+
     fireEvent.click(screen.getByText("EDIT"));
+    // ensure the phone input mock mounted & set the phone before saving
+    await screen.findByTestId("phone-input-mock");
+    await new Promise((r) => setTimeout(r, 0)); // flush state microtask
+
+    const emailInput = screen.getByDisplayValue(/.+@.+\..+/);
+    fireEvent.change(emailInput, { target: { value: "new@example.com" } });
+
+    fireEvent.click(screen.getByText("SAVE"));
+
     await waitFor(() => {
-      const emailInput = screen.getByDisplayValue("john@example.com");
-      fireEvent.change(emailInput, { target: { value: "new@example.com" } });
-      expect(
-        screen.getByText(
-          /Email verification will be required for this change/i,
-        ),
-      ).toBeInTheDocument();
+      expect(updateUserAttributes).toHaveBeenCalledWith({
+        userAttributes: { email: "new@example.com" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith(
+        "/verify-otp",
+        expect.objectContaining({
+          state: expect.objectContaining({
+            email: "new@example.com",
+            isEmailUpdate: true,
+          }),
+        }),
+      );
     });
   });
 
@@ -240,9 +289,7 @@ describe("YourProfile", () => {
 
   it("handles user with no phone number", () => {
     const storeWithoutPhone = createMockStore({
-      auth: {
-        user: { ...mockUser, phone_number: null },
-      },
+      auth: { user: { ...mockUser, phone_number: null } },
     });
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,

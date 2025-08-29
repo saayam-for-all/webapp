@@ -1,0 +1,128 @@
+{
+  "REQUEST_CATEGORIES": {
+    "FOOD_ESSENTIALS": {
+      "LABEL": "식량 및 필수품",
+      "DESC": "식량 지원, 식료품 서비스, 요리 도움을 받으세요.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "식량 지원",
+          "DESC": "푸드뱅크, 팬트리 또는 식사 프로그램을 찾으세요."
+        },
+        "GROCERY_SHOPPING_DELIVERY": {
+          "LABEL": "식료품 쇼핑 및 배송",
+          "DESC": "식료품 쇼핑과 배송에 도움을 요청하세요."
+        },
+        "COOKING_HELP": {
+          "LABEL": "요리 도움",
+          "DESC": "식사 준비와 요리에 대한 안내를 받으세요."
+        }
+      }
+    },
+    "CLOTHING_AND_SUPPORT": {
+      "LABEL": "의류 및 지원",
+      "DESC": "기부, 대여, 수리 또는 의류 지원을 요청하세요.",
+      "SUBCATEGORIES": {
+        "LEND_BORROW_CLOTHES": {
+          "LABEL": "의류 대여/차용",
+          "DESC": "가벼운 사용의 의류를 공유하거나 빌리세요."
+        },
+        "DONATE_CLOTHES": {
+          "LABEL": "의류 기부",
+          "DESC": "필요한 사람들에게 의류를 제공하세요."
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "주거 지원",
+      "DESC": "룸메이트, 임대 가이드, 이사 및 집 설치 지원.",
+      "SUBCATEGORIES": {
+        "FINDING_A_ROOMMATE": {
+          "LABEL": "룸메이트 찾기",
+          "DESC": "룸메이트를 찾는 데 도움을 받으세요."
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "임대 지원",
+          "DESC": "임대 및 임대차 기본사항에 대한 지원."
+        },
+        "BUY_SELL_HOUSEHOLD_ITEMS": {
+          "LABEL": "가정용품 구매/판매",
+          "DESC": "가정용품 구매 또는 판매에 도움."
+        },
+        "MOVING_PACKING_HELP": {
+          "LABEL": "이사 및 포장 도움",
+          "DESC": "이사와 포장에 대한 지원."
+        },
+        "CLEANING_HELP": {
+          "LABEL": "청소 도움",
+          "DESC": "기본 청소 작업에 대한 지원."
+        },
+        "HOME_BUYING_SELLING_ASSISTANCE": {
+          "LABEL": "주택 구매/판매 지원",
+          "DESC": "주택 구매 또는 판매 과정에 대한 안내."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "교육 및 경력 지원",
+      "DESC": "대학 지원, SOP 검토, 과외, 학습 지원.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATIONS_HELP": {
+          "LABEL": "대학 지원 도움",
+          "DESC": "지원서와 양식에 대한 도움."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOP 및 에세이 검토",
+          "DESC": "자기소개서와 에세이에 대한 피드백."
+        },
+        "TUTORING": {
+          "LABEL": "과외",
+          "DESC": "과목별 과외 및 학습 지원."
+        }
+      }
+    },
+    "HEALTHCARE_WELLBEING": {
+      "LABEL": "의료 및 웰빙",
+      "DESC": "비임상 의료 내비게이션 및 웰빙 지원.",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "의료 상담",
+          "DESC": "기본 내비게이션 및 비임상 안내."
+        },
+        "MEDICINE_DELIVERY_ASSISTANCE": {
+          "LABEL": "약물 배송 지원",
+          "DESC": "일반의약품 픽업 및 배송."
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_SUPPORT": {
+      "LABEL": "노인 및 커뮤니티 지원",
+      "DESC": "노인을 위한 비의료 지원 및 커뮤니티 지원.",
+      "SUBCATEGORIES": {
+        "ELDERLY_ASSISTANCE": {
+          "LABEL": "노인 지원",
+          "DESC": "일상적인 작업 도움과 동반."
+        },
+        "TECH_HELP_FOR_SENIORS": {
+          "LABEL": "노인을 위한 기술 지원",
+          "DESC": "기기 및 앱에 대한 지원."
+        },
+        "HELP_WITH_GOVERNMENT_SERVICES": {
+          "LABEL": "정부 서비스 지원",
+          "DESC": "공공 서비스 및 양식에 대한 안내."
+        },
+        "RIDE_ASSISTANCE": {
+          "LABEL": "승차 지원",
+          "DESC": "약속을 위한 승차 준비 지원."
+        },
+        "SHOPPING_ASSISTANCE": {
+          "LABEL": "쇼핑 지원",
+          "DESC": "쇼핑 필요에 대한 지원."
+        }
+      }
+    },
+    "GENERAL": {
+      "LABEL": "일반",
+      "DESC": "확실하지 않을 때 사용하세요; 필요사항을 자세히 설명하세요."
+    }
+  }
+}

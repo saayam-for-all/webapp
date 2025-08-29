@@ -1,0 +1,128 @@
+{
+  "REQUEST_CATEGORIES": {
+    "FOOD_ESSENTIALS": {
+      "LABEL": "Makanan & Kebutuhan Pokok",
+      "DESC": "Akses bantuan makanan, layanan belanja, dan bantuan memasak.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Bantuan Makanan",
+          "DESC": "Temukan bank makanan, dapur umum, atau program makanan."
+        },
+        "GROCERY_SHOPPING_DELIVERY": {
+          "LABEL": "Belanja & Pengiriman Bahan Makanan",
+          "DESC": "Minta bantuan berbelanja dan mengirimkan bahan makanan."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Bantuan Memasak",
+          "DESC": "Dapatkan panduan tentang persiapan makanan dan memasak."
+        }
+      }
+    },
+    "CLOTHING_AND_SUPPORT": {
+      "LABEL": "Pakaian dan Dukungan",
+      "DESC": "Sumbang, pinjam, perbaiki, atau minta bantuan pakaian.",
+      "SUBCATEGORIES": {
+        "LEND_BORROW_CLOTHES": {
+          "LABEL": "Meminjamkan/Meminjam Pakaian",
+          "DESC": "Bagikan atau pinjam pakaian yang masih layak pakai."
+        },
+        "DONATE_CLOTHES": {
+          "LABEL": "Sumbang Pakaian",
+          "DESC": "Berikan pakaian kepada yang membutuhkan."
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "Bantuan Perumahan",
+      "DESC": "Teman sekamar, panduan sewa, bantuan pindah dan setup rumah.",
+      "SUBCATEGORIES": {
+        "FINDING_A_ROOMMATE": {
+          "LABEL": "Mencari Teman Sekamar",
+          "DESC": "Dapatkan bantuan mencari teman sekamar."
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "Dukungan Sewa",
+          "DESC": "Bantuan dengan sewa dan dasar-dasar sewa."
+        },
+        "BUY_SELL_HOUSEHOLD_ITEMS": {
+          "LABEL": "Beli/Jual Barang Rumah Tangga",
+          "DESC": "Bantuan dengan membeli atau menjual barang rumah tangga."
+        },
+        "MOVING_PACKING_HELP": {
+          "LABEL": "Bantuan Pindah & Packing",
+          "DESC": "Dukungan dengan pindah dan packing."
+        },
+        "CLEANING_HELP": {
+          "LABEL": "Bantuan Membersihkan",
+          "DESC": "Bantuan dengan tugas pembersihan dasar."
+        },
+        "HOME_BUYING_SELLING_ASSISTANCE": {
+          "LABEL": "Bantuan Beli/Jual Rumah",
+          "DESC": "Panduan tentang proses membeli atau menjual rumah."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Dukungan Pendidikan & Karir",
+      "DESC": "Aplikasi kuliah, review SOP, bimbingan belajar, dan dukungan studi.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATIONS_HELP": {
+          "LABEL": "Bantuan Aplikasi Kuliah",
+          "DESC": "Bantuan dengan aplikasi dan formulir."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "Review SOP & Esai",
+          "DESC": "Feedback tentang pernyataan dan esai."
+        },
+        "TUTORING": {
+          "LABEL": "Bimbingan Belajar",
+          "DESC": "Bimbingan mata pelajaran dan dukungan studi."
+        }
+      }
+    },
+    "HEALTHCARE_WELLBEING": {
+      "LABEL": "Kesehatan & Kesejahteraan",
+      "DESC": "Navigasi kesehatan non-klinis dan dukungan kesejahteraan.",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "Konsultasi Medis",
+          "DESC": "Navigasi dasar dan panduan non-klinis."
+        },
+        "MEDICINE_DELIVERY_ASSISTANCE": {
+          "LABEL": "Bantuan Pengiriman Obat",
+          "DESC": "Pengambilan dan pengiriman obat OTC."
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_SUPPORT": {
+      "LABEL": "Dukungan Lansia & Komunitas",
+      "DESC": "Bantuan non-medis untuk lansia dan dukungan komunitas.",
+      "SUBCATEGORIES": {
+        "ELDERLY_ASSISTANCE": {
+          "LABEL": "Bantuan Lansia",
+          "DESC": "Bantuan tugas harian dan persahabatan."
+        },
+        "TECH_HELP_FOR_SENIORS": {
+          "LABEL": "Bantuan Teknologi untuk Lansia",
+          "DESC": "Bantuan dengan perangkat dan aplikasi."
+        },
+        "HELP_WITH_GOVERNMENT_SERVICES": {
+          "LABEL": "Bantuan dengan Layanan Pemerintah",
+          "DESC": "Panduan untuk layanan publik dan formulir."
+        },
+        "RIDE_ASSISTANCE": {
+          "LABEL": "Bantuan Transportasi",
+          "DESC": "Bantuan mengatur transportasi untuk janji temu."
+        },
+        "SHOPPING_ASSISTANCE": {
+          "LABEL": "Bantuan Belanja",
+          "DESC": "Dukungan dengan kebutuhan belanja."
+        }
+      }
+    },
+    "GENERAL": {
+      "LABEL": "Umum",
+      "DESC": "Gunakan ketika tidak yakin; jelaskan kebutuhan Anda secara detail."
+    }
+  }
+}

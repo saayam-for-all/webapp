@@ -1,0 +1,128 @@
+{
+  "REQUEST_CATEGORIES": {
+    "FOOD_ESSENTIALS": {
+      "LABEL": "Thực phẩm & Nhu yếu phẩm",
+      "DESC": "Tiếp cận hỗ trợ thực phẩm, dịch vụ tạp hóa và giúp đỡ nấu ăn.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Hỗ trợ thực phẩm",
+          "DESC": "Tìm ngân hàng thực phẩm, kho thực phẩm hoặc chương trình bữa ăn."
+        },
+        "GROCERY_SHOPPING_DELIVERY": {
+          "LABEL": "Mua sắm & Giao hàng tạp hóa",
+          "DESC": "Yêu cầu giúp đỡ mua sắm và giao hàng tạp hóa."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Giúp đỡ nấu ăn",
+          "DESC": "Nhận hướng dẫn về chuẩn bị bữa ăn và nấu ăn."
+        }
+      }
+    },
+    "CLOTHING_AND_SUPPORT": {
+      "LABEL": "Quần áo và Hỗ trợ",
+      "DESC": "Quyên góp, mượn, sửa chữa hoặc yêu cầu hỗ trợ quần áo.",
+      "SUBCATEGORIES": {
+        "LEND_BORROW_CLOTHES": {
+          "LABEL": "Cho mượn/Mượn quần áo",
+          "DESC": "Chia sẻ hoặc mượn quần áo đã sử dụng nhẹ."
+        },
+        "DONATE_CLOTHES": {
+          "LABEL": "Quyên góp quần áo",
+          "DESC": "Tặng quần áo cho những người cần."
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "Hỗ trợ nhà ở",
+      "DESC": "Bạn cùng phòng, hướng dẫn thuê nhà, giúp đỡ di chuyển và thiết lập nhà.",
+      "SUBCATEGORIES": {
+        "FINDING_A_ROOMMATE": {
+          "LABEL": "Tìm bạn cùng phòng",
+          "DESC": "Nhận giúp đỡ tìm bạn cùng phòng."
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "Hỗ trợ thuê nhà",
+          "DESC": "Hỗ trợ với thuê nhà và cơ bản về thuê."
+        },
+        "BUY_SELL_HOUSEHOLD_ITEMS": {
+          "LABEL": "Mua/Bán đồ gia dụng",
+          "DESC": "Giúp đỡ mua hoặc bán đồ gia dụng."
+        },
+        "MOVING_PACKING_HELP": {
+          "LABEL": "Giúp đỡ di chuyển & Đóng gói",
+          "DESC": "Hỗ trợ với di chuyển và đóng gói."
+        },
+        "CLEANING_HELP": {
+          "LABEL": "Giúp đỡ dọn dẹp",
+          "DESC": "Hỗ trợ với các công việc dọn dẹp cơ bản."
+        },
+        "HOME_BUYING_SELLING_ASSISTANCE": {
+          "LABEL": "Hỗ trợ mua/Bán nhà",
+          "DESC": "Hướng dẫn về quy trình mua hoặc bán nhà."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Hỗ trợ Giáo dục & Nghề nghiệp",
+      "DESC": "Đơn đại học, đánh giá SOP, gia sư và hỗ trợ học tập.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATIONS_HELP": {
+          "LABEL": "Giúp đỡ đơn đại học",
+          "DESC": "Giúp đỡ với đơn và biểu mẫu."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "Đánh giá SOP & Bài luận",
+          "DESC": "Phản hồi về tuyên bố và bài luận."
+        },
+        "TUTORING": {
+          "LABEL": "Gia sư",
+          "DESC": "Gia sư môn học và hỗ trợ học tập."
+        }
+      }
+    },
+    "HEALTHCARE_WELLBEING": {
+      "LABEL": "Chăm sóc sức khỏe & Hạnh phúc",
+      "DESC": "Điều hướng sức khỏe phi lâm sàng và hỗ trợ hạnh phúc.",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "Tư vấn y tế",
+          "DESC": "Điều hướng cơ bản và hướng dẫn phi lâm sàng."
+        },
+        "MEDICINE_DELIVERY_ASSISTANCE": {
+          "LABEL": "Hỗ trợ giao thuốc",
+          "DESC": "Nhận và giao thuốc OTC."
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_SUPPORT": {
+      "LABEL": "Hỗ trợ Người cao tuổi & Cộng đồng",
+      "DESC": "Hỗ trợ phi y tế cho người cao tuổi và hỗ trợ cộng đồng.",
+      "SUBCATEGORIES": {
+        "ELDERLY_ASSISTANCE": {
+          "LABEL": "Hỗ trợ người cao tuổi",
+          "DESC": "Giúp đỡ công việc hàng ngày và đồng hành."
+        },
+        "TECH_HELP_FOR_SENIORS": {
+          "LABEL": "Giúp đỡ công nghệ cho người cao tuổi",
+          "DESC": "Hỗ trợ với thiết bị và ứng dụng."
+        },
+        "HELP_WITH_GOVERNMENT_SERVICES": {
+          "LABEL": "Giúp đỡ với dịch vụ chính phủ",
+          "DESC": "Hướng dẫn cho dịch vụ công và biểu mẫu."
+        },
+        "RIDE_ASSISTANCE": {
+          "LABEL": "Hỗ trợ đi lại",
+          "DESC": "Giúp đỡ sắp xếp đi lại cho các cuộc hẹn."
+        },
+        "SHOPPING_ASSISTANCE": {
+          "LABEL": "Hỗ trợ mua sắm",
+          "DESC": "Hỗ trợ với nhu cầu mua sắm."
+        }
+      }
+    },
+    "GENERAL": {
+      "LABEL": "Chung",
+      "DESC": "Sử dụng khi không chắc chắn; mô tả chi tiết nhu cầu của bạn."
+    }
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "REQUEST_CATEGORIES": {
+    "FOOD_ESSENTIALS": {
+      "LABEL": "کاڻو ۽ ضروري شيون",
+      "DESC": "کاڻي جي مدد، ڪريانا خدمتون ۽ پاڪ مدد حاصل ڪريو۔",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "کاڻي جي مدد",
+          "DESC": "کاڻي جي بينڪون، پينٽريون يا کاڻي پروگرام ڳولي وٺو۔"
+        },
+        "GROCERY_SHOPPING_DELIVERY": {
+          "LABEL": "ڪريانا خريداري ۽ ترسيل",
+          "DESC": "ڪريانا خريداري ۽ ترسيل ۾ مدد گهريو۔"
+        },
+        "COOKING_HELP": {
+          "LABEL": "پاڪ مدد",
+          "DESC": "کاڻي جي تياري ۽ پاڪ ۾ رهنمائي حاصل ڪريو۔"
+        }
+      }
+    },
+    "CLOTHING_AND_SUPPORT": {
+      "LABEL": "ڪپڙا ۽ مدد",
+      "DESC": "دان ڪريو، قرض وٺو، مرمت ڪريو يا ڪپڙي جي مدد گهريو۔",
+      "SUBCATEGORIES": {
+        "LEND_BORROW_CLOTHES": {
+          "LABEL": "ڪپڙا قرض ڏيڻ/وٺڻ",
+          "DESC": "هلڪو استعمال ٿيل ڪپڙا شيئر ڪريو يا قرض وٺو۔"
+        },
+        "DONATE_CLOTHES": {
+          "LABEL": "ڪپڙا دان ڪريو",
+          "DESC": "ضرورت مند ماڻهن کي ڪپڙا ڏيو۔"
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "رهاڪشي مدد",
+      "DESC": "رومميٽ، ڪرائو رهنمائي، منتقلي ۽ گهر سيٽ اپ مدد۔",
+      "SUBCATEGORIES": {
+        "FINDING_A_ROOMMATE": {
+          "LABEL": "رومميٽ ڳولڻ",
+          "DESC": "رومميٽ ڳولڻ ۾ مدد حاصل ڪريو۔"
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "ڪرائو مدد",
+          "DESC": "ڪرائو ۽ ليز جي بنيادي معاملن ۾ مدد۔"
+        },
+        "BUY_SELL_HOUSEHOLD_ITEMS": {
+          "LABEL": "گهر جي شيون خريداري/وڪرو",
+          "DESC": "گهر جي شيون خريداري يا وڪرو ۾ مدد۔"
+        },
+        "MOVING_PACKING_HELP": {
+          "LABEL": "منتقلي ۽ پيڪنگ مدد",
+          "DESC": "منتقلي ۽ پيڪنگ ۾ مدد۔"
+        },
+        "CLEANING_HELP": {
+          "LABEL": "صافائي مدد",
+          "DESC": "بنيادي صافائي ڪم ۾ مدد۔"
+        },
+        "HOME_BUYING_SELLING_ASSISTANCE": {
+          "LABEL": "گهر خريداري/وڪرو مدد",
+          "DESC": "گهر خريداري يا وڪرو جي عمل ۾ رهنمائي۔"
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "تعليم ۽ ڪيريئر مدد",
+      "DESC": "ڪاليج درخواستون، SOP جائزو، ٽيوٽرنگ ۽ پڙهائي مدد۔",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATIONS_HELP": {
+          "LABEL": "ڪاليج درخواست مدد",
+          "DESC": "درخواستن ۽ فارمن ۾ مدد۔"
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOP ۽ مضمون جائزو",
+          "DESC": "بيانن ۽ مضمونن تي راءِ۔"
+        },
+        "TUTORING": {
+          "LABEL": "ٽيوٽرنگ",
+          "DESC": "مضمونن ۾ ٽيوٽرنگ ۽ پڙهائي مدد۔"
+        }
+      }
+    },
+    "HEALTHCARE_WELLBEING": {
+      "LABEL": "صحت سانچو ۽ خوشحالي",
+      "DESC": "غير-ڪلينيڪل صحت نيويگيشن ۽ خوشحالي مدد۔",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "طبي صلاح",
+          "DESC": "بنيادي نيويگيشن ۽ غير-ڪلينيڪل رهنمائي۔"
+        },
+        "MEDICINE_DELIVERY_ASSISTANCE": {
+          "LABEL": "دوا ترسيل مدد",
+          "DESC": "OTC دواون پڪ اپ ۽ ترسيل۔"
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_SUPPORT": {
+      "LABEL": "وڏن ۽ سماجي مدد",
+      "DESC": "وڏن لاءِ غير-طبي مدد ۽ سماجي مدد۔",
+      "SUBCATEGORIES": {
+        "ELDERLY_ASSISTANCE": {
+          "LABEL": "وڏن جي مدد",
+          "DESC": "روزانه ڪم ۾ مدد ۽ سنگت۔"
+        },
+        "TECH_HELP_FOR_SENIORS": {
+          "LABEL": "وڏن لاءِ ٽيڪ مدد",
+          "DESC": "اوزارن ۽ ايپس ۾ مدد۔"
+        },
+        "HELP_WITH_GOVERNMENT_SERVICES": {
+          "LABEL": "حڪومتي خدمتن ۾ مدد",
+          "DESC": "عوامي خدمتن ۽ فارمن لاءِ رهنمائي۔"
+        },
+        "RIDE_ASSISTANCE": {
+          "LABEL": "سواري مدد",
+          "DESC": "ملاقاتن لاءِ سواري ترتيب ڏيڻ ۾ مدد۔"
+        },
+        "SHOPPING_ASSISTANCE": {
+          "LABEL": "خريداري مدد",
+          "DESC": "خريداري ضرورتن ۾ مدد۔"
+        }
+      }
+    },
+    "GENERAL": {
+      "LABEL": "عام",
+      "DESC": "يقيني نه هجي ته استعمال ڪريو؛ پنهنجي ضرورت کي تفصيلي طور تي بيان ڪريو۔"
+    }
+  }
+}

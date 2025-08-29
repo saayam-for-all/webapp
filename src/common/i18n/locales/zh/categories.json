@@ -1,0 +1,128 @@
+{
+  "REQUEST_CATEGORIES": {
+    "FOOD_ESSENTIALS": {
+      "LABEL": "食品和必需品",
+      "DESC": "获得食品支持、杂货服务和烹饪帮助。",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "食品援助",
+          "DESC": "寻找食品银行、食品储藏室或膳食计划。"
+        },
+        "GROCERY_SHOPPING_DELIVERY": {
+          "LABEL": "杂货购物和配送",
+          "DESC": "请求帮助购买和配送杂货。"
+        },
+        "COOKING_HELP": {
+          "LABEL": "烹饪帮助",
+          "DESC": "获得膳食准备和烹饪指导。"
+        }
+      }
+    },
+    "CLOTHING_AND_SUPPORT": {
+      "LABEL": "服装和支持",
+      "DESC": "捐赠、借用、修理或请求服装援助。",
+      "SUBCATEGORIES": {
+        "LEND_BORROW_CLOTHES": {
+          "LABEL": "借出/借用服装",
+          "DESC": "分享或借用轻微使用过的服装。"
+        },
+        "DONATE_CLOTHES": {
+          "LABEL": "捐赠服装",
+          "DESC": "向有需要的人提供服装。"
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "住房援助",
+      "DESC": "室友、租房指导、搬家安置和家庭设置支持。",
+      "SUBCATEGORIES": {
+        "FINDING_A_ROOMMATE": {
+          "LABEL": "寻找室友",
+          "DESC": "获得寻找室友的帮助。"
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "租房支持",
+          "DESC": "租房和租赁基础知识的援助。"
+        },
+        "BUY_SELL_HOUSEHOLD_ITEMS": {
+          "LABEL": "购买/出售家居用品",
+          "DESC": "购买或出售家居用品的帮助。"
+        },
+        "MOVING_PACKING_HELP": {
+          "LABEL": "搬家打包帮助",
+          "DESC": "搬家打包的支持。"
+        },
+        "CLEANING_HELP": {
+          "LABEL": "清洁帮助",
+          "DESC": "基本清洁任务的援助。"
+        },
+        "HOME_BUYING_SELLING_ASSISTANCE": {
+          "LABEL": "购房/售房援助",
+          "DESC": "购房或售房过程的指导。"
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "教育和职业支持",
+      "DESC": "大学申请、SOP审查、辅导和学习支持。",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATIONS_HELP": {
+          "LABEL": "大学申请帮助",
+          "DESC": "申请和表格的帮助。"
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOP和论文审查",
+          "DESC": "陈述和论文的反馈。"
+        },
+        "TUTORING": {
+          "LABEL": "辅导",
+          "DESC": "学科辅导和学习支持。"
+        }
+      }
+    },
+    "HEALTHCARE_WELLBEING": {
+      "LABEL": "医疗保健和福祉",
+      "DESC": "非临床健康导航和福祉支持。",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "医疗咨询",
+          "DESC": "基本导航和非临床指导。"
+        },
+        "MEDICINE_DELIVERY_ASSISTANCE": {
+          "LABEL": "药物配送援助",
+          "DESC": "非处方药的取货和配送。"
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_SUPPORT": {
+      "LABEL": "老年人和社区支持",
+      "DESC": "老年人的非医疗援助和社区支持。",
+      "SUBCATEGORIES": {
+        "ELDERLY_ASSISTANCE": {
+          "LABEL": "老年人援助",
+          "DESC": "日常任务帮助和陪伴。"
+        },
+        "TECH_HELP_FOR_SENIORS": {
+          "LABEL": "老年人技术帮助",
+          "DESC": "设备和应用程序的援助。"
+        },
+        "HELP_WITH_GOVERNMENT_SERVICES": {
+          "LABEL": "政府服务帮助",
+          "DESC": "公共服务和表格的指导。"
+        },
+        "RIDE_ASSISTANCE": {
+          "LABEL": "乘车援助",
+          "DESC": "安排预约用车的帮助。"
+        },
+        "SHOPPING_ASSISTANCE": {
+          "LABEL": "购物援助",
+          "DESC": "购物需求的支持。"
+        }
+      }
+    },
+    "GENERAL": {
+      "LABEL": "一般",
+      "DESC": "不确定时使用；详细描述您的需求。"
+    }
+  }
+}

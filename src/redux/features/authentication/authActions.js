@@ -7,6 +7,7 @@ import {
   signOut,
   updateUserAttributes,
 } from "aws-amplify/auth";
+import { getUserId } from "../../../services/volunteerServices";
 import {
   changeUiLanguage,
   returnDefaultLanguage,
@@ -35,6 +36,18 @@ export const checkAuthStatus = () => async (dispatch) => {
     } = await fetchUserAttributes();
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
+
+    let userDbId = null;
+    try {
+      const result = await getUserId(email);
+      userDbId = result?.data?.id || null;
+    } catch (dbError) {
+      console.warn(
+        "Database lookup failed, continuing without databaseId:",
+        dbError.message,
+      );
+    }
+
     const user = {
       userId,
       email,
@@ -43,6 +56,7 @@ export const checkAuthStatus = () => async (dispatch) => {
       phone_number,
       zoneinfo,
       groups,
+      userDbId,
     };
     if (user.userId) {
       dispatch(
