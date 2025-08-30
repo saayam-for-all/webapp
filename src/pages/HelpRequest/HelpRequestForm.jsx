@@ -490,10 +490,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <option value="yes">{t("YES")}</option>
                   <option value="no">{t("NO")}</option>
                 </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-600" />
+                </div>
               </div>
-            </div>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <HiChevronDown className="h-5 w-5 text-gray-600" />
             </div>
 
             {/* Lead Volunteer */}
