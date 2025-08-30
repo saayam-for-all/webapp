@@ -7,10 +7,19 @@ function SignOff({ setHasUnsavedChanges }) {
   const [isDeleteChecked, setIsDeleteChecked] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [reasonForLeaving, setReasonForLeaving] = useState("");
 
   const handleCheckboxChange = (e) => {
     setIsDeleteChecked(e.target.checked);
     setHasUnsavedChanges(e.target.checked);
+  };
+
+  const handleReasonChange = (e) => {
+    const value = e.target.value;
+    if (value.length <= 500) {
+      setReasonForLeaving(value);
+      setHasUnsavedChanges(true);
+    }
   };
 
   const handleSubmit = () => {
@@ -50,34 +59,56 @@ function SignOff({ setHasUnsavedChanges }) {
     setShowConfirmationModal(false);
   };
 
+  const handleCancelClick = () => {
+    setIsDeleteChecked(false);
+    setHasUnsavedChanges(false);
+  };
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex items-center mb-6">
-          <FaTrash className="text-red-500 text-2xl mr-3" />
+          <FaTrash className="text-orange-500 text-2xl mr-3" />
           <h2 className="text-2xl font-bold text-gray-800">
             {t("SIGN_OFF") || "Sign Off"}
           </h2>
         </div>
 
         <div className="mb-6">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <div className="flex items-start">
-              <FaExclamationTriangle className="text-red-500 text-xl mr-3 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="text-red-800 font-semibold mb-2">
-                  {t("ACCOUNT_DELETION_WARNING_TITLE") ||
-                    "Warning: Account Deletion"}
-                </h3>
-                <p className="text-red-700 text-sm">
-                  {t("ACCOUNT_DELETION_WARNING_TEXT") ||
-                    "This action will permanently delete your account and all associated data. This action cannot be undone. Please ensure you have backed up any important information before proceeding."}
-                </p>
-              </div>
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
+            <div className="flex items-center mb-2">
+              <FaExclamationTriangle className="text-orange-500 text-xl mr-3 flex-shrink-0" />
+              <h3 className="text-orange-800 font-semibold">
+                {t("ACCOUNT_DELETION_WARNING_TITLE") || "Account Deletion"}
+              </h3>
             </div>
+            <p className="text-orange-700 text-sm">
+              {t("ACCOUNT_DELETION_WARNING_TEXT") ||
+                "This action will permanently delete your account and all associated data. This action cannot be undone. Please ensure you have backed up any important information before proceeding."}
+            </p>
           </div>
 
           <div className="space-y-4">
+            <div className="space-y-3">
+              <label
+                htmlFor="reasonForLeaving"
+                className="block text-sm font-medium text-gray-700"
+              >
+                {"Reason for leaving (Optional)"}
+              </label>
+              <textarea
+                id="reasonForLeaving"
+                value={reasonForLeaving}
+                onChange={handleReasonChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 resize-none"
+                rows="3"
+                maxLength="500"
+              />
+              <div className="text-xs text-gray-500 text-right">
+                {reasonForLeaving.length}/500 characters
+              </div>
+            </div>
+
             <div className="flex items-start">
               <input
                 type="checkbox"
@@ -90,7 +121,7 @@ function SignOff({ setHasUnsavedChanges }) {
                 htmlFor="deleteAccount"
                 className="ml-3 text-sm text-gray-700"
               >
-                <span className="font-medium text-red-600">
+                <span className="font-medium text-orange-600">
                   {t("I_WANT_TO_DELETE_MY_ACCOUNT") ||
                     "I want to delete my account"}
                 </span>
@@ -103,7 +134,14 @@ function SignOff({ setHasUnsavedChanges }) {
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end space-x-3">
+          <button
+            onClick={handleCancelClick}
+            className="px-6 py-2 rounded-lg font-medium bg-gray-500 text-white hover:bg-gray-600 transition-colors duration-200"
+          >
+            {t("CANCEL") || "Cancel"}
+          </button>
+
           <button
             onClick={handleSubmit}
             disabled={!isDeleteChecked}
