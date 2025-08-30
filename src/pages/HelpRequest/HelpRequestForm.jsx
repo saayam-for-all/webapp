@@ -40,6 +40,9 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
+// ✅ Preferred Language options from i18n JSON (requested)
+import languagesData from "../../common/i18n/languagesData";
+
 const genderOptions = [
   { value: "Select", label: "Select" },
   { value: "Woman", label: "Woman" },
@@ -51,7 +54,7 @@ const genderOptions = [
 ];
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
-  const { t, i18n } = useTranslation(["common", "categories"]);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
@@ -235,19 +238,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        const languageSet = new Set();
-        data.forEach((country) => {
-          if (country.languages) {
-            Object.values(country.languages).forEach((language) =>
-              languageSet.add(language),
-            );
-          }
-        });
-        setLanguages(
-          [...languageSet].map((lang) => ({ value: lang, label: lang })),
-        );
+        setLanguages(languagesData);
       } catch (error) {
         console.error("Error fetching languages:", error);
       }
@@ -268,51 +259,16 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, [data]);
 
-  const resolveCategoryLabel = (selectedKeyOrText) => {
-    if (!selectedKeyOrText) return "";
-    // If matches a category key
-    const cat = categories?.find((c) => (c.key || c.id) === selectedKeyOrText);
-    if (cat) {
-      return t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-        defaultValue: cat.name,
-      });
-    }
-    // If matches a subcategory key
-    for (const c of categories || []) {
-      const subs = c.subcategories || [];
-      const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
-      if (match) {
-        return t(
-          `categories:REQUEST_CATEGORIES.${c.key || c.id}.SUBCATEGORIES.${match.key || match}.LABEL`,
-          { defaultValue: match.label || match },
-        );
-      }
-    }
-    // Fallback to free text typed by user
-    return selectedKeyOrText;
-  };
-
   useEffect(() => {
     if (categories && categories.length > 0) {
-      const general = categories.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = categories.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
-      const resolvedLabel = (cat) =>
-        t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-          defaultValue: cat.name,
-        });
-      const sorted = others.sort((a, b) =>
-        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
-      );
+      // Sort categories alphabetically by name, but keep 'General' last
+      const general = categories.find((cat) => cat.name === "General");
+      const others = categories.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     }
-  }, [categories, i18n.language, t]);
+  }, [categories]);
 
   const handleSearchInput = (e) => {
     const searchTerm = e.target.value;
@@ -322,42 +278,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       category: searchTerm,
     });
 
-    const resolvedLabel = (cat) =>
-      t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-        defaultValue: cat.name,
-      });
-
     if (searchTerm.trim() === "") {
-      const general = categories.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = categories.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
-      const sorted = others.sort((a, b) =>
-        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
-      );
+      // Sort categories alphabetically by name, keep 'General' last
+      const general = categories.find((cat) => cat.name === "General");
+      const others = categories.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     } else {
       const filtered = categories.filter((category) =>
-        resolvedLabel(category)
-          .toLowerCase()
-          .startsWith(searchTerm.toLowerCase()),
+        category.name.toLowerCase().startsWith(searchTerm.toLowerCase()),
       );
-      const general = filtered.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = filtered.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
-      const sorted = others.sort((a, b) =>
-        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
-      );
+      // Sort filtered categories alphabetically, keep 'General' last if present
+      const general = filtered.find((cat) => cat.name === "General");
+      const others = filtered.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     }
@@ -380,21 +315,23 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
   }, []);
 
-  const handleCategoryClick = (categoryKeyOrId) => {
+  const handleCategoryClick = (categoryName) => {
+    // setSelectedCategory(categoryName);
+    //setSearchInput(categoryName);
     setFormData({
       ...formData,
-      category: categoryKeyOrId,
+      category: categoryName,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
   };
 
-  const handleSubcategoryClick = (subcategory) => {
-    const subKey =
-      typeof subcategory === "string" ? subcategory : subcategory.key;
+  const handleSubcategoryClick = (subcategoryName) => {
+    // setSelectedCategory(subcategoryName);
+    //setSearchInput(subcategoryName);
     setFormData({
       ...formData,
-      category: subKey,
+      category: subcategoryName,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
@@ -439,10 +376,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="w-full max-w-2xl mx-auto px-4 mt-4">
           <button
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/")}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
           >
-            <span className="text-2xl mr-2">&lt;</span> Back to Dashboard
+            <span className="text-2xl mr-2">&lt;</span> Back to Home
           </button>
         </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
@@ -553,126 +490,157 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           Temporarily commented out as MVP only allows for self requests
           {!selfFlag && (
             <div className="mt-3" data-testid="parentDivTwo">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="requester_first_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("FIRST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_first_name"
-                    value={formData.requester_first_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="requester_last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("LAST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_last_name"
-                    value={formData.requester_last_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-              </div>
-              <div className="mt-3" data-testid="parentDivThree">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 mb-1 font-medium"
-                >
-                  {t("EMAIL")}
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-              </div>
+              {/* ✅ Indented fieldset for requester details (requested) */}
+              <fieldset className="border border-gray-300 rounded-lg p-4 bg-gray-50 ml-4">
+                <legend className="text-sm font-semibold text-gray-700 px-2">
+                  {t("REQUESTER_DETAILS")}
+                </legend>
 
-              <div className="mt-3 grid grid-cols-2 gap-4">
-                <div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="requester_first_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("FIRST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_first_name"
+                      value={formData.requester_first_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="requester_last_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("LAST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_last_name"
+                      value={formData.requester_last_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                </div>
+                <div className="mt-3" data-testid="parentDivThree">
                   <label
-                    htmlFor="phone"
+                    htmlFor="email"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    {t("PHONE")}
+                    {t("EMAIL")}
                   </label>
                   <input
-                    type="text"
-                    id="phone"
-                    value={formData.phone}
+                    type="email"
+                    id="email"
+                    value={formData.email}
                     onChange={handleChange}
                     className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
-                <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("AGE")}
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
+
+                <div className="mt-3 grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PHONE")}
+                    </label>
+                    <input
+                      type="text"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="age"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("AGE")}
+                    </label>
+                    <input
+                      type="number"
+                      id="age"
+                      value={formData.age}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFour">
+                    <label
+                      htmlFor="gender"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("GENDER")}
+                    </label>
+                    {/* ✅ Styled like Request Priority */}
+                    <div className="relative">
+                      <select
+                        id="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                        className="
+                          block w-full appearance-none
+                          bg-white border border-gray-300
+                          rounded-lg px-3 py-2 pr-8
+                          text-gray-700
+                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                        "
+                      >
+                        {genderOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <HiChevronDown className="h-5 w-5 text-gray-600" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFive">
+                    <label
+                      htmlFor="preferred_language"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PREFERRED_LANGUAGE")}
+                    </label>
+                    {/* ✅ Styled like Request Priority + source from i18n/languages.json */}
+                    <div className="relative">
+                      <select
+                        id="preferred_language"
+                        value={formData.preferred_language}
+                        onChange={handleChange}
+                        className="
+                          block w-full appearance-none
+                          bg-white border border-gray-300
+                          rounded-lg px-3 py-2 pr-8
+                          text-gray-700
+                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                        "
+                      >
+                        {languages.map((language) => (
+                          <option key={language.code} value={language.code}>
+                            {language.name}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <HiChevronDown className="h-5 w-5 text-gray-600" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="mt-3" data-testid="parentDivFour">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("GENDER")}
-                  </label>
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {genderOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mt-3" data-testid="parentDivFive">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PREFERRED_LANGUAGE")}
-                  </label>
-                  <select
-                    id="language"
-                    value={formData.language}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+              </fieldset>
             </div>
           )}
           <div className="mt-3 grid grid-cols-2 gap-4">
@@ -699,7 +667,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 <input
                   type="text"
                   id="category"
-                  value={resolveCategoryLabel(formData.category)}
+                  value={
+                    filteredCategories.find(
+                      (cat) => cat.id === formData.category,
+                    )?.name || formData.category
+                  }
                   onChange={handleSearchInput}
                   className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
                   onFocus={() => setShowDropdown(true)}
@@ -759,22 +731,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             !category.subcategories ||
                             category.subcategories.length === 0
                           ) {
-                            handleCategoryClick(category.key || category.id);
+                            handleCategoryClick(category.name);
                           }
                         }}
                         onMouseEnter={() => setHoveredCategory(category)}
                       >
-                        <span
-                          title={t(
-                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.DESC`,
-                            { defaultValue: "" },
-                          )}
-                        >
-                          {t(
-                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.LABEL`,
-                            { defaultValue: category.name },
-                          )}
-                        </span>
+                        <span>{category.name}</span>
                         {/* Show chevron if subcategories exist */}
                         {category.subcategories &&
                           category.subcategories.length > 0 && (
@@ -819,20 +781,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                   handleSubcategoryClick(subcategory);
                                 }}
                               >
-                                <span
-                                  title={t(
-                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.DESC`,
-                                    { defaultValue: "" },
-                                  )}
-                                >
-                                  {t(
-                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.LABEL`,
-                                    {
-                                      defaultValue:
-                                        subcategory.label || subcategory,
-                                    },
-                                  )}
-                                </span>
+                                {subcategory}
                               </div>
                             ),
                           )}
