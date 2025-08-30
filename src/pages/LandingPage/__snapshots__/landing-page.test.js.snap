@@ -160,13 +160,13 @@ exports[`LandingPage renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0"
+          class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[200px] lg:mb-[100px] px-4 md:px-0"
         >
           <div
             class="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full"
           >
             <h3
-              class="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]"
+              class="font-bold text-2xl md:text-4xl w-full md:w-3/4 mb-4 md:mb-[10px]"
             >
               mockTranslate(Creating a World Where Help is Always Within Reach)
             </h3>
@@ -176,7 +176,7 @@ exports[`LandingPage renders correctly 1`] = `
               mockTranslate(Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.)
             </p>
             <button
-              class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+              class="mt-6 md:mt-[80px] lg:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             >
               mockTranslate(Our Mission)
                →
@@ -484,13 +484,13 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0"
+        class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[200px] lg:mb-[100px] px-4 md:px-0"
       >
         <div
           class="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full"
         >
           <h3
-            class="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]"
+            class="font-bold text-2xl md:text-4xl w-full md:w-3/4 mb-4 md:mb-[10px]"
           >
             mockTranslate(Creating a World Where Help is Always Within Reach)
           </h3>
@@ -500,7 +500,7 @@ exports[`LandingPage renders correctly 1`] = `
             mockTranslate(Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.)
           </p>
           <button
-            class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+            class="mt-6 md:mt-[80px] lg:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
           >
             mockTranslate(Our Mission)
              →
