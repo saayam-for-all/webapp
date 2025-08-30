@@ -5,8 +5,9 @@ import { IoMdInformationCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
+import Modal from "../../common/components/Modal/Modal";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
   useAddRequestMutation,
@@ -38,7 +39,9 @@ import {
   Radio,
   FormControlLabel,
 } from "@mui/material";
-import languagesData from "../../common/i18n/languagesData";
+
+// ✅ Preferred Language options from i18n JSON (requested)
+import languageOptions from "../../i18n/languages.json";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -50,26 +53,24 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
-const LANGUAGE_OPTIONS = (languagesData || []).map((lang) => ({
-  // Preserve label as-is; normalize value for consistency with existing forms
-  value:
-    lang?.code ||
-    (lang?.name === "Mandarin Chinese" ? "Chinese" : lang?.name || ""),
-  label: lang?.name || "",
-}));
-
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
-  const { t, i18n } = useTranslation(["common", "categories"]);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories } = useSelector((state) => state.request);
+  const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
   const [location, setLocation] = useState("");
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
 
+  const [languages, setLanguages] = useState([]);
+
   const [showModal, setShowModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("General");
   const [filteredCategories, setFilteredCategories] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [requestType, setRequestType] = useState("");
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
@@ -77,13 +78,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "info",
+    severity: "info", // 'success', 'error', 'warning' also valid
   });
 
-  const { data, isLoading } = useGetAllRequestQuery();
+  const { data, error, isLoading } = useGetAllRequestQuery();
   const [addRequest] = useAddRequestMutation();
   const { id } = useParams();
 
+  const inputref = useRef(null);
   const dropdownRef = useRef(null);
 
   const [formData, setFormData] = useState({
@@ -96,7 +98,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     gender: "Select",
     lead_volunteer: "Ethan Marshall",
     preferred_language: "",
-    language: "",
     category: "General",
     request_type: "remote",
     location: "",
@@ -104,6 +105,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     description: "",
     priority: "MEDIUM",
   });
+
+  // useEffect(() => {
+  //   if (
+  //     formData.category === "General" &&
+  //     formData.subject.trim() !== "" &&
+  //     formData.description.trim() !== "" &&
+  //     !categoryConfirmed
+  //   ) {
+  //     fetchPredictedCategories();
+  //     setShowModal(true);
+  //   }
+  // }, [formData.subject, formData.description, formData.category]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -114,9 +127,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     navigate("/dashboard");
   };
 
+  // Fetch predicted categories when category is "General" and debounced values change
   const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return;
-    if (!formData.subject || !formData.description) return;
+    if (formData.category !== "General") return; // Only call the API if category is "General"
+    if (!formData.subject || !formData.description) return; // Skip if no relevant data
 
     try {
       const requestBody = {
@@ -125,6 +139,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       };
 
       const response = await predictCategories(requestBody);
+      console.log("API Response:", response);
       const formattedCategories = (response || []).map((category) => ({
         id: category.toLowerCase(),
         name: category,
@@ -168,7 +183,31 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             " from Subject/Description and submit again!",
           severity: "error",
         });
-      } else {
+
+        // toast.error(
+        //   "Profanity detected. Please remove these word(s) : " +
+        //     res.profanity +
+        //     "  from Subject/Description and submit request again!",
+        //   {
+        //     position: "top-center", // You can customize the position
+        //     autoClose: 2000, // Toast auto-closes after 2 seconds
+        //     hideProgressBar: true, // Optional: Hide progress bar
+        //   },
+        // );
+      }
+      // Proceed with submitting the request if no profanity is found
+
+      // const response = await axios.post(
+      //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
+      //   submissionData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+      else {
         if (
           formData.category === "General" &&
           formData.subject.trim() !== "" &&
@@ -180,7 +219,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           return; // Don’t submit yet
         }
 
-        await createRequest(submissionData);
+        const response = await createRequest(submissionData);
 
         setTimeout(() => {
           navigate("/dashboard", {
@@ -196,114 +235,65 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       alert("Failed to submit request!");
     }
   };
-
   useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        // ✅ Use i18n languages.json (requested) instead of remote fetch
+        setLanguages(languageOptions);
+      } catch (error) {
+        console.error("Error fetching languages:", error);
+      }
+    };
     dispatch(loadCategories());
+    fetchLanguages();
   }, [dispatch]);
 
   useEffect(() => {
     if (id && data) {
       const requestData = data.body?.find((item) => item.id === id);
-      if (requestData) {
-        setFormData({
-          category: requestData.category,
-          description: requestData.description,
-          subject: requestData.subject,
-          ...requestData,
-        });
-      }
-    }
-  }, [data, id]);
-
-  const resolveCategoryLabel = (selectedKeyOrText) => {
-    if (!selectedKeyOrText) return "";
-    // If matches a category key
-    const cat = categories?.find((c) => (c.key || c.id) === selectedKeyOrText);
-    if (cat) {
-      return t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-        defaultValue: cat.name,
+      setFormData({
+        category: requestData.category,
+        description: requestData.description,
+        subject: requestData.subject,
+        ...requestData,
       });
     }
-    // If matches a subcategory key
-    for (const c of categories || []) {
-      const subs = c.subcategories || [];
-      const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
-      if (match) {
-        return t(
-          `categories:REQUEST_CATEGORIES.${c.key || c.id}.SUBCATEGORIES.${match.key || match}.LABEL`,
-          { defaultValue: match.label || match },
-        );
-      }
-    }
-
-    return selectedKeyOrText;
-  };
+  }, [data]);
 
   useEffect(() => {
     if (categories && categories.length > 0) {
-      const general = categories.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = categories.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
-      const resolvedLabel = (cat) =>
-        t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-          defaultValue: cat.name,
-        });
-      const sorted = others.sort((a, b) =>
-        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
-      );
+      // Sort categories alphabetically by name, but keep 'General' last
+      const general = categories.find((cat) => cat.name === "General");
+      const others = categories.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     }
-  }, [categories, i18n.language, t]);
+  }, [categories]);
 
   const handleSearchInput = (e) => {
     const searchTerm = e.target.value;
+    setSearchInput(searchTerm);
     setFormData({
       ...formData,
       category: searchTerm,
     });
 
-    const resolvedLabel = (cat) =>
-      t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-        defaultValue: cat.name,
-      });
-
     if (searchTerm.trim() === "") {
-      const general = categories.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = categories.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
-      const sorted = others.sort((a, b) =>
-        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
-      );
+      // Sort categories alphabetically by name, keep 'General' last
+      const general = categories.find((cat) => cat.name === "General");
+      const others = categories.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     } else {
       const filtered = categories.filter((category) =>
-        resolvedLabel(category)
-          .toLowerCase()
-          .startsWith(searchTerm.toLowerCase()),
+        category.name.toLowerCase().startsWith(searchTerm.toLowerCase()),
       );
-      const general = filtered.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = filtered.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
-      const sorted = others.sort((a, b) =>
-        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
-      );
+      // Sort filtered categories alphabetically, keep 'General' last if present
+      const general = filtered.find((cat) => cat.name === "General");
+      const others = filtered.filter((cat) => cat.name !== "General");
+      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     }
@@ -326,21 +316,23 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
   }, []);
 
-  const handleCategoryClick = (categoryKeyOrId) => {
+  const handleCategoryClick = (categoryName) => {
+    // setSelectedCategory(categoryName);
+    //setSearchInput(categoryName);
     setFormData({
       ...formData,
-      category: categoryKeyOrId,
+      category: categoryName,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
   };
 
-  const handleSubcategoryClick = (subcategory) => {
-    const subKey =
-      typeof subcategory === "string" ? subcategory : subcategory.key;
+  const handleSubcategoryClick = (subcategoryName) => {
+    // setSelectedCategory(subcategoryName);
+    //setSearchInput(subcategoryName);
     setFormData({
       ...formData,
-      category: subKey,
+      category: subcategoryName,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
@@ -385,10 +377,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="w-full max-w-2xl mx-auto px-4 mt-4">
           <button
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/")}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
           >
-            <span className="text-2xl mr-2">&lt;</span> Back to Dashboard
+            <span className="text-2xl mr-2">&lt;</span> Back to Home
           </button>
         </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
@@ -436,6 +428,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </select>
             </div>
 
+            {/* Lead Volunteer */}
             {/* Lead Volunteer */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
@@ -495,50 +488,48 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               )}
             </div>
           </div>
-
-          {/* Requester details box (only when For Self = No) */}
+          Temporarily commented out as MVP only allows for self requests
           {!selfFlag && (
-            <fieldset
-              className="mt-4 border rounded-lg p-4 md:p-5 bg-gray-50"
-              data-testid="parentDivTwo"
-            >
-              <legend className="text-sm font-medium px-1 text-gray-700">
-                Requester details (not for self)
-              </legend>
+            <div className="mt-3" data-testid="parentDivTwo">
+              {/* ✅ Indented fieldset for requester details (requested) */}
+              <fieldset className="border border-gray-300 rounded-lg p-4 bg-gray-50 ml-4">
+                <legend className="text-sm font-semibold text-gray-700 px-2">
+                  {t("REQUESTER_DETAILS")}
+                </legend>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="requester_first_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("FIRST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_first_name"
-                    value={formData.requester_first_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3 bg-white"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="requester_first_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("FIRST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_first_name"
+                      value={formData.requester_first_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="requester_last_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("LAST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_last_name"
+                      value={formData.requester_last_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label
-                    htmlFor="requester_last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("LAST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_last_name"
-                    value={formData.requester_last_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3 bg-white"
-                  />
-                </div>
-
-                <div className="md:col-span-2">
+                <div className="mt-3" data-testid="parentDivThree">
                   <label
                     htmlFor="email"
                     className="block text-gray-700 mb-1 font-medium"
@@ -550,110 +541,109 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     id="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3 bg-white"
+                    className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PHONE")}
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3 bg-white"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("AGE")}
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3 bg-white"
-                  />
-                </div>
-
-                {/* Gender (styled like Request Priority) */}
-                <div className="mt-1" data-testid="parentDivFour">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("GENDER")}
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="gender"
-                      value={formData.gender}
-                      onChange={handleChange}
-                      className="
-                        block w-full appearance-none
-                        bg-white border border-gray-300
-                        rounded-lg px-3 py-2 pr-8
-                        text-gray-700
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                      "
+                <div className="mt-3 grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-gray-700 mb-1 font-medium"
                     >
-                      {genderOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <HiChevronDown className="h-5 w-5 text-gray-600" />
+                      {t("PHONE")}
+                    </label>
+                    <input
+                      type="text"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="age"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("AGE")}
+                    </label>
+                    <input
+                      type="number"
+                      id="age"
+                      value={formData.age}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFour">
+                    <label
+                      htmlFor="gender"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("GENDER")}
+                    </label>
+                    {/* ✅ Styled like Request Priority */}
+                    <div className="relative">
+                      <select
+                        id="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                        className="
+                          block w-full appearance-none
+                          bg-white border border-gray-300
+                          rounded-lg px-3 py-2 pr-8
+                          text-gray-700
+                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                        "
+                      >
+                        {genderOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <HiChevronDown className="h-5 w-5 text-gray-600" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFive">
+                    <label
+                      htmlFor="preferred_language"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PREFERRED_LANGUAGE")}
+                    </label>
+                    {/* ✅ Styled like Request Priority + source from i18n/languages.json */}
+                    <div className="relative">
+                      <select
+                        id="preferred_language"
+                        value={formData.preferred_language}
+                        onChange={handleChange}
+                        className="
+                          block w-full appearance-none
+                          bg-white border border-gray-300
+                          rounded-lg px-3 py-2 pr-8
+                          text-gray-700
+                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                        "
+                      >
+                        {languages.map((language) => (
+                          <option key={language.value} value={language.value}>
+                            {language.label}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <HiChevronDown className="h-5 w-5 text-gray-600" />
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                {/* Preferred Language (styled like Request Priority) */}
-                <div className="mt-1" data-testid="parentDivFive">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PREFERRED_LANGUAGE")}
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="language"
-                      value={formData.language}
-                      onChange={handleChange}
-                      className="
-                        block w-full appearance-none
-                        bg-white border border-gray-300
-                        rounded-lg px-3 py-2 pr-8
-                        text-gray-700
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                      "
-                    >
-                      {LANGUAGE_OPTIONS.map((language) => (
-                        <option key={language.value} value={language.value}>
-                          {language.label}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <HiChevronDown className="h-5 w-5 text-gray-600" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
+              </fieldset>
+            </div>
           )}
-
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
@@ -678,7 +668,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 <input
                   type="text"
                   id="category"
-                  value={resolveCategoryLabel(formData.category)}
+                  value={
+                    filteredCategories.find(
+                      (cat) => cat.id === formData.category,
+                    )?.name || formData.category
+                  }
                   onChange={handleSearchInput}
                   className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
                   onFocus={() => setShowDropdown(true)}
@@ -738,22 +732,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             !category.subcategories ||
                             category.subcategories.length === 0
                           ) {
-                            handleCategoryClick(category.key || category.id);
+                            handleCategoryClick(category.name);
                           }
                         }}
                         onMouseEnter={() => setHoveredCategory(category)}
                       >
-                        <span
-                          title={t(
-                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.DESC`,
-                            { defaultValue: "" },
-                          )}
-                        >
-                          {t(
-                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.LABEL`,
-                            { defaultValue: category.name },
-                          )}
-                        </span>
+                        <span>{category.name}</span>
                         {/* Show chevron if subcategories exist */}
                         {category.subcategories &&
                           category.subcategories.length > 0 && (
@@ -798,20 +782,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                   handleSubcategoryClick(subcategory);
                                 }}
                               >
-                                <span
-                                  title={t(
-                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.DESC`,
-                                    { defaultValue: "" },
-                                  )}
-                                >
-                                  {t(
-                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.LABEL`,
-                                    {
-                                      defaultValue:
-                                        subcategory.label || subcategory,
-                                    },
-                                  )}
-                                </span>
+                                {subcategory}
                               </div>
                             ),
                           )}
