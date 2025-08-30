@@ -41,7 +41,7 @@ import {
 } from "@mui/material";
 
 // ✅ Preferred Language options from i18n JSON (requested)
-import languageOptions from "../../i18n/languages.json";
+import languagesData from "../../common/i18n/languagesData";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -238,8 +238,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
-        // ✅ Use i18n languages.json (requested) instead of remote fetch
-        setLanguages(languageOptions);
+        setLanguages(languagesData);
       } catch (error) {
         console.error("Error fetching languages:", error);
       }
@@ -630,8 +629,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                         "
                       >
                         {languages.map((language) => (
-                          <option key={language.value} value={language.value}>
-                            {language.label}
+                          <option key={language.code} value={language.code}>
+                            {language.name}
                           </option>
                         ))}
                       </select>
