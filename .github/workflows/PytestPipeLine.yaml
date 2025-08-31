@@ -82,5 +82,19 @@ jobs:
           PYTHONUNBUFFERED: 1
         run: |
           pytest
+
+      - name: Run pytest in firefox
+        working-directory: ./e2e-tests
+        env:
+          PYTHONUNBUFFERED: 1
+        run: |
+
           pytest --browser=firefox
+
+      - name: Run pytest in edge
+        working-directory: ./e2e-tests
+        env:
+          PYTHONUNBUFFERED: 1
+        run: |
+
           pytest --browser=edge
