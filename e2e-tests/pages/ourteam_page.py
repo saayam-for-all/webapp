@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 class OurTeamPage:
     def __init__(self, driver):
         self.driver = driver
-        self.url = "https://test-saayam.netlify.app/our-team"
+        self.url = "http://localhost:4173/our-team"
 
     def go_to(self):
         self.driver.get(self.url)

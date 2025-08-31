@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class CollaboratorsPage:
     def __init__(self, driver):
         self.driver = driver
-        self.url = "https://test-saayam.netlify.app/collaborators"
+        self.url = "http://localhost:4173/collaborators"
 
     def go_to(self):
         self.driver.get(self.url)

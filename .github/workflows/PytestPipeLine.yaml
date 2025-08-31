@@ -2,7 +2,7 @@ name: Run webapp and Selenium tests
 
 on:
   push:
-    branches: ["test","dockerTest"]
+    branches: ["test", "dockerTest"]
   pull_request:
     branches: ["test"]
   workflow_dispatch:
@@ -33,13 +33,35 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install system dependencies (Chrome)
+      - name: Install system dependencies (Chrome, Firefox, Edge)
         run: |
           sudo apt-get update
+          # Chrome
           sudo apt-get install -y google-chrome-stable
+          # Firefox
+          sudo apt-get install -y firefox
+          # Edge (descarga y configura Microsoft Edge)
+          sudo apt-get install -y wget apt-transport-https software-properties-common
+          wget https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+          sudo apt-get update
+          sudo apt-get install -y microsoft-edge-stable
 
+      # ChromeDriver
       - name: Install ChromeDriver
         uses: nanasess/setup-chromedriver@v2
+
+      # GeckoDriver (para Firefox)
+      - name: Install GeckoDriver
+        uses: browser-actions/setup-geckodriver@v1
+
+      # EdgeDriver (para Edge)
+      - name: Install EdgeDriver
+        run: |
+          EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
+          wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
+          unzip edgedriver_linux64.zip
+          sudo mv msedgedriver /usr/local/bin/
 
       - name: Install Python dependencies
         working-directory: ./e2e-tests
@@ -54,3 +76,5 @@ jobs:
           PYTHONUNBUFFERED: 1
         run: |
           pytest
+          pytest --browser=firefox
+          pytest --browser=edge

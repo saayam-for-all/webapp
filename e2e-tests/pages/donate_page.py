@@ -4,7 +4,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 class DonatePage:
     def __init__(self, driver):
         self.driver = driver
-        self.url = "https://test-saayam.netlify.app/donate"
+        self.url = "http://localhost:4173/donate"
 
     def go_to(self):
         self.driver.get(self.url)

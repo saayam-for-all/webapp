@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class LoginPage:
     def __init__(self, driver):
         self.driver = driver
-        self.url = "https://test-saayam.netlify.app/login"
+        self.url = "http://localhost:4173/login"
 
     def go_to(self):
         self.driver.get(self.url)
