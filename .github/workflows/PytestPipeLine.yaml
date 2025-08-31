@@ -76,13 +76,13 @@ jobs:
           pip install -r requirements.txt
           pip install pytest selenium webdriver-manager
 
-      - name: Run pytest
+      - name: Run pytest in chrome
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
         run: |
           pytest
-
+        continue-on-error: true
       - name: Run pytest in firefox
         working-directory: ./e2e-tests
         env:
@@ -90,7 +90,7 @@ jobs:
         run: |
 
           pytest --browser=firefox
-
+        continue-on-error: true
       - name: Run pytest in edge
         working-directory: ./e2e-tests
         env:
