@@ -55,14 +55,12 @@ jobs:
         uses: nanasess/setup-chromedriver@v2
 
       # GeckoDriver (para Firefox)
-      - name: Install GeckoDriver
+      - name: Install GeckoDriver (static version)
         run: |
-          FIREFOX_VERSION=$(firefox --version | awk '{print $3}')
-          echo "Installed Firefox version: $FIREFOX_VERSION"
-          # Descargar geckodriver recomendado para esa versión de Firefox
-          wget -q https://github.com/mozilla/geckodriver/releases/latest/download/geckodriver-v0.35.0-linux64.tar.gz
+          wget -q https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz
           tar -xvzf geckodriver-v0.35.0-linux64.tar.gz
           sudo mv geckodriver /usr/local/bin/
+          geckodriver --version
 
       # EdgeDriver (para Edge)
       - name: Install EdgeDriver
