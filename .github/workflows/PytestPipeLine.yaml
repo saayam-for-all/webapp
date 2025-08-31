@@ -38,14 +38,17 @@ jobs:
           sudo apt-get update
           # Chrome
           sudo apt-get install -y google-chrome-stable
-          # Firefox
-          sudo apt-get install -y firefox
           # Edge (descarga y configura Microsoft Edge)
           sudo apt-get install -y wget apt-transport-https software-properties-common
           wget https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
           sudo apt-get update
           sudo apt-get install -y microsoft-edge-stable
+      - name: Install Firefox
+        run: |
+          sudo add-apt-repository -y ppa:mozillateam/ppa
+          sudo apt-get update
+          sudo apt-get install -y firefox
 
       # ChromeDriver
       - name: Install ChromeDriver
@@ -53,7 +56,13 @@ jobs:
 
       # GeckoDriver (para Firefox)
       - name: Install GeckoDriver
-        uses: browser-actions/setup-geckodriver@v1
+        run: |
+          FIREFOX_VERSION=$(firefox --version | awk '{print $3}')
+          echo "Installed Firefox version: $FIREFOX_VERSION"
+          # Descargar geckodriver recomendado para esa versión de Firefox
+          wget -q https://github.com/mozilla/geckodriver/releases/latest/download/geckodriver-v0.35.0-linux64.tar.gz
+          tar -xvzf geckodriver-v0.35.0-linux64.tar.gz
+          sudo mv geckodriver /usr/local/bin/
 
       # EdgeDriver (para Edge)
       - name: Install EdgeDriver
