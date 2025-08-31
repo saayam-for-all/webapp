@@ -448,6 +448,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && <span className="text-red-500 mr-1">*</span>}
             {t("FIRST_NAME")}
           </label>
           {isEditing ? (
@@ -467,6 +468,7 @@ function YourProfile({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && <span className="text-red-500 mr-1">*</span>}
             {t("LAST_NAME")}
           </label>
           {isEditing ? (
@@ -488,6 +490,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       {/* Email */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          {isEditing && <span className="text-red-500 mr-1">*</span>}
           {t("EMAIL")}
         </label>
         {isEditing ? (
@@ -522,6 +525,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       {/* Phone Number */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          {isEditing && <span className="text-red-500 mr-1">*</span>}
           {t("PHONE_NUMBER")}
         </label>
         <div className="flex items-center gap-2">
@@ -574,6 +578,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       {/* Country */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          {isEditing && <span className="text-red-500 mr-1">*</span>}
           {t("COUNTRY")}
         </label>
         {isEditing ? (
