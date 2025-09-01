@@ -50,6 +50,20 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
+// Supported languages shown in the Preferred Language dropdown
+const SUPPORTED_LANGUAGES = [
+  { value: "English", label: "English" },
+  { value: "Spanish", label: "Spanish" },
+  { value: "Arabic", label: "Arabic" },
+  { value: "Hindi", label: "Hindi" },
+  { value: "Gujarati", label: "Gujarati" },
+  { value: "Bengali", label: "Bengali" },
+  { value: "Urdu", label: "Urdu" },
+  { value: "Punjabi", label: "Punjabi" },
+  { value: "Chinese (Mandarin)", label: "Chinese (Mandarin)" },
+  { value: "French", label: "French" },
+];
+
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
@@ -61,7 +75,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
 
-  const [languages, setLanguages] = useState([]);
+  const [languages, setLanguages] = useState(SUPPORTED_LANGUAGES);
 
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("General");
@@ -254,6 +268,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
     dispatch(loadCategories());
     fetchLanguages();
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(loadCategories());
+    setLanguages(SUPPORTED_LANGUAGES);
   }, [dispatch]);
 
   useEffect(() => {
@@ -559,7 +577,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           {
             //Temporarily commented out as MVP only allows for self requests
             !selfFlag && (
-              <div className="mt-3" data-testid="parentDivTwo">
+              <div
+                className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
+                data-testid="parentDivTwo"
+              >
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label
@@ -603,12 +624,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     type="email"
                     id="email"
                     value={formData.email}
-
                     onChange={handleChange}
                     className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
-
 
                 <div className="mt-3 grid grid-cols-2 gap-4">
                   <div>
@@ -652,7 +671,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       id="gender"
                       value={formData.gender}
                       onChange={handleChange}
-                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
                     >
                       {genderOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -669,10 +688,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       {t("PREFERRED_LANGUAGE")}
                     </label>
                     <select
-                      id="language"
-                      value={formData.language}
+                      id="preferred_language"
+                      value={formData.preferred_language}
                       onChange={handleChange}
-                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
+                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
                     >
                       {languages.map((language) => (
                         <option key={language.value} value={language.value}>
