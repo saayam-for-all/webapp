@@ -32,8 +32,8 @@ def driver(request):
         service = FirefoxService(GeckoDriverManager().install())
         driver = webdriver.Firefox(service=service, options=options)
 
-        options.set_preference("dom.webdriver.enabled", False)
-        options.set_preference("useAutomationExtension", False)
+        options.set_preference("dom.webdriver.enabled", True)
+        options.set_preference("useAutomationExtension", True)
         options.set_preference("media.navigator.streams.fake", True)
         options.set_preference("media.navigator.permission.disabled", True)
 
