@@ -16,8 +16,10 @@ import {
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const PromoteToVolunteer = () => {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
@@ -256,7 +258,8 @@ const PromoteToVolunteer = () => {
           onClick={() => navigate("/dashboard")}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> Back to Dashboard
+          <span className="text-2xl mr-2">&lt;</span>{" "}
+          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
         </button>
       </div>
       <div className="container horizontal mt-5 pt-12 pr-12 pl-12 pb-0">

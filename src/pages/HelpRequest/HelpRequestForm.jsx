@@ -460,7 +460,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             onClick={() => navigate("/dashboard")}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
           >
-            <span className="text-2xl mr-2">&lt;</span> Back to Dashboard
+            <span className="text-2xl mr-2">&lt;</span>{" "}
+            {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
           </button>
         </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
