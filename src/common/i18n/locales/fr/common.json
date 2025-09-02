@@ -408,5 +408,7 @@
   "CONFIRM_ACCOUNT_DELETION_TEXT": "Êtes-vous absolument sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée et toutes vos données seront définitivement supprimées.",
   "DELETE_ACCOUNT": "Supprimer le compte",
   "DELETING": "Suppression...",
-  "ACCOUNT_DELETION_ERROR": "Une erreur s'est produite lors de la suppression de votre compte. Veuillez réessayer."
+  "ACCOUNT_DELETION_ERROR": "Une erreur s'est produite lors de la suppression de votre compte. Veuillez réessayer.",
+  "BACK_TO_DASHBOARD": "Retour au tableau de bord",
+  "BACK": "Dos"
 }

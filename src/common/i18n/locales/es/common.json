@@ -372,5 +372,7 @@
   "CONFIRM_ACCOUNT_DELETION_TEXT": "¿Está absolutamente seguro de que desea eliminar su cuenta? Esta acción no se puede deshacer y todos sus datos serán eliminados permanentemente.",
   "DELETE_ACCOUNT": "Eliminar Cuenta",
   "DELETING": "Eliminando...",
-  "ACCOUNT_DELETION_ERROR": "Ocurrió un error al eliminar su cuenta. Por favor, inténtelo de nuevo."
+  "ACCOUNT_DELETION_ERROR": "Ocurrió un error al eliminar su cuenta. Por favor, inténtelo de nuevo.",
+  "BACK_TO_DASHBOARD": "Volver al panel de control",
+  "BACK": "Atrás"
 }
