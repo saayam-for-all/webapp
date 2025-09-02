@@ -25,9 +25,17 @@ jobs:
         run: |
           npm install
           npm run build
-          nohup npm run preview &  # Evita que el preview bloquee el hilo
-          sleep 10
-
+          nohup npm run preview &          # Levanta la app en background
+          APP_PORT=4173                    # Ajusta al puerto que uses
+          echo "Waiting for React app to be ready..."
+          for i in {1..30}; do             # Máximo 30 intentos
+            if curl -s http://localhost:$APP_PORT > /dev/null; then
+              echo "App is up!"
+              break
+            fi
+            echo "Waiting for app... ($i)"
+            sleep 2
+          done
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
