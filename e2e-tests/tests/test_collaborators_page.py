@@ -131,3 +131,4 @@ def test_click_join(driver):
     time.sleep(3)
 
     logger.info("[TC_007] ✅ Passed")
+    
