@@ -15,7 +15,7 @@ const PrivacyPolicy = () => {
             onClick={() => navigate(-1)}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
           >
-            <span className="text-2xl mr-2">&lt;</span> Back
+            <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
           </button>
         </div>
         <h1 className="privacy-policy-title">{t("PRIVACY_POLICY")}</h1>

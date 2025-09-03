@@ -409,7 +409,6 @@
   "DELETE_ACCOUNT": "Supprimer le compte",
   "DELETING": "Suppression...",
   "ACCOUNT_DELETION_ERROR": "Une erreur s'est produite lors de la suppression de votre compte. Veuillez réessayer.",
-
   "Lead Volunteer": "Bénévole Principal",
   "Request Priority": "Priorité de la Demande",
   "Low": "Faible",
@@ -417,5 +416,7 @@
   "High": "Élevé",
   "CANCEL": "Annuler",
   "Yes": "Oui",
-  "No": "Non"
+  "No": "Non",
+  "BACK_TO_DASHBOARD": "Retour au tableau de bord",
+  "BACK": "Dos"
 }

@@ -51,6 +51,20 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
+// Supported languages shown in the Preferred Language dropdown
+const SUPPORTED_LANGUAGES = [
+  { value: "English", label: "English" },
+  { value: "Spanish", label: "Spanish" },
+  { value: "Arabic", label: "Arabic" },
+  { value: "Hindi", label: "Hindi" },
+  { value: "Gujarati", label: "Gujarati" },
+  { value: "Bengali", label: "Bengali" },
+  { value: "Urdu", label: "Urdu" },
+  { value: "Punjabi", label: "Punjabi" },
+  { value: "Chinese (Mandarin)", label: "Chinese (Mandarin)" },
+  { value: "French", label: "French" },
+];
+
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
@@ -64,7 +78,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
 
-  const [languages, setLanguages] = useState([]);
+  const [languages, setLanguages] = useState(SUPPORTED_LANGUAGES);
 
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("General");
@@ -573,7 +587,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             onClick={() => navigate("/dashboard")}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
           >
-            <span className="text-2xl mr-2">&lt;</span> Back to Dashboard
+            <span className="text-2xl mr-2">&lt;</span>{" "}
+            {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
           </button>
         </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
@@ -609,16 +624,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              <select
-                id="self"
-                data-testid="dropdown"
-                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
-                onChange={(e) => setSelfFlag(e.target.value === "yes")}
-                defaultValue="yes"
-              >
-                <option value="yes">{t("YES")}</option>
-                <option value="no">{t("NO")}</option>
-              </select>
+
+              <div className="flex-1 relative">
+                <select
+                  id="self"
+                  data-testid="dropdown"
+                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
+                  onChange={(e) => setSelfFlag(e.target.value === "yes")}
+                >
+                  <option value="yes">{t("YES")}</option>
+                  <option value="no">{t("NO")}</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-600" />
+                </div>
+              </div>
             </div>
 
             {/* Lead Volunteer */}
@@ -681,131 +701,138 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               )}
             </div>
           </div>
-          Temporarily commented out as MVP only allows for self requests
-          {!selfFlag && (
-            <div className="mt-3" data-testid="parentDivTwo">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="requester_first_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("FIRST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_first_name"
-                    value={formData.requester_first_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="requester_last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("LAST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_last_name"
-                    value={formData.requester_last_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-              </div>
-              <div className="mt-3" data-testid="parentDivThree">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 mb-1 font-medium"
-                >
-                  {t("EMAIL")}
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-              </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-4">
-                <div>
+          {
+            //Temporarily commented out as MVP only allows for self requests
+            !selfFlag && (
+              <div
+                className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
+                data-testid="parentDivTwo"
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="requester_first_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("FIRST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_first_name"
+                      value={formData.requester_first_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="requester_last_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("LAST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_last_name"
+                      value={formData.requester_last_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                </div>
+                <div className="mt-3" data-testid="parentDivThree">
                   <label
-                    htmlFor="phone"
+                    htmlFor="email"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    {t("PHONE")}
+                    {t("EMAIL")}
                   </label>
                   <input
-                    type="text"
-                    id="phone"
-                    value={formData.phone}
+                    type="email"
+                    id="email"
+                    value={formData.email}
                     onChange={handleChange}
                     className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
-                <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("AGE")}
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div className="mt-3" data-testid="parentDivFour">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("GENDER")}
-                  </label>
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {genderOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mt-3" data-testid="parentDivFive">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PREFERRED_LANGUAGE")}
-                  </label>
-                  <select
-                    id="language"
-                    value={formData.language}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                  >
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </select>
+
+                <div className="mt-3 grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PHONE")}
+                    </label>
+                    <input
+                      type="text"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="age"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("AGE")}
+                    </label>
+                    <input
+                      type="number"
+                      id="age"
+                      value={formData.age}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFour">
+                    <label
+                      htmlFor="gender"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("GENDER")}
+                    </label>
+                    <select
+                      id="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                    >
+                      {genderOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFive">
+                    <label
+                      htmlFor="language"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PREFERRED_LANGUAGE")}
+                    </label>
+                    <select
+                      id="preferred_language"
+                      value={formData.preferred_language}
+                      onChange={handleChange}
+                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                    >
+                      {languages.map((language) => (
+                        <option key={language.value} value={language.value}>
+                          {language.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )
+          }
+
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
