@@ -1,7 +1,5 @@
 // requestActions.js
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../../services/api";
-import endpoints from "../../../services/endpoints.json";
+import { createAction } from "@reduxjs/toolkit";
 
 // Static categories aligned with i18n keys
 const categories = [
@@ -73,24 +71,12 @@ const categories = [
   },
 ];
 
-// Action to load static categories into the store (fallback)
-export const loadCategories = createAction("request/loadCategories", () => {
-  return {
-    payload: categories,
-  };
-});
-
-// Async thunk to fetch categories from API
-export const fetchCategories = createAsyncThunk(
-  "request/fetchCategories",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await api.get(endpoints.GET_CATEGORIES);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      // Return static categories as fallback
-      return categories;
-    }
+// Action to load categories into the store (can accept custom data or use static)
+export const loadCategories = createAction(
+  "request/loadCategories",
+  (customCategories = null) => {
+    return {
+      payload: customCategories || categories,
+    };
   },
 );

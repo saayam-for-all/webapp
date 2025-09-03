@@ -8,10 +8,7 @@ import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 import Modal from "../../common/components/Modal/Modal";
-import {
-  loadCategories,
-  fetchCategories,
-} from "../../redux/features/help_request/requestActions";
+import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
   useAddRequestMutation,
   useGetAllRequestQuery,
@@ -20,6 +17,7 @@ import {
   checkProfanity,
   createRequest,
   predictCategories,
+  getCategories,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
@@ -255,7 +253,26 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const fetchLanguages = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
+
+        // Ensure data is an array before processing
+        if (!Array.isArray(data)) {
+          console.warn("Languages API returned non-array data, using fallback");
+          setLanguages([
+            { value: "English", label: "English" },
+            { value: "Spanish", label: "Spanish" },
+            { value: "French", label: "French" },
+            { value: "German", label: "German" },
+            { value: "Hindi", label: "Hindi" },
+          ]);
+          return;
+        }
+
         const languageSet = new Set();
         data.forEach((country) => {
           if (country.languages) {
@@ -268,20 +285,121 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           [...languageSet].map((lang) => ({ value: lang, label: lang })),
         );
       } catch (error) {
-        console.error("Error fetching languages:", error);
+        console.warn(
+          "Error fetching languages, using fallback:",
+          error.message,
+        );
+        // Fallback to common languages if API fails
+        setLanguages([
+          { value: "English", label: "English" },
+          { value: "Spanish", label: "Spanish" },
+          { value: "French", label: "French" },
+          { value: "German", label: "German" },
+          { value: "Hindi", label: "Hindi" },
+          { value: "Chinese", label: "Chinese" },
+          { value: "Arabic", label: "Arabic" },
+          { value: "Portuguese", label: "Portuguese" },
+          { value: "Russian", label: "Russian" },
+          { value: "Japanese", label: "Japanese" },
+        ]);
       }
     };
 
-    // Fetch categories from API if not already fetched, otherwise load static categories
-    if (!categoriesFetched) {
-      dispatch(fetchCategories());
-    } else if (categories.length === 0) {
-      dispatch(loadCategories());
-    }
+    // Fetch categories from API if not already fetched, following same pattern as other APIs
+    const fetchCategoriesData = async () => {
+      if (!categoriesFetched) {
+        try {
+          const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
+
+          // Extract categories array from API response
+          let apiCategories;
+          if (
+            categoriesData?.categories &&
+            Array.isArray(categoriesData.categories)
+          ) {
+            apiCategories = categoriesData.categories;
+          } else if (Array.isArray(categoriesData)) {
+            apiCategories = categoriesData;
+          } else {
+            throw new Error("Invalid API response format");
+          }
+
+          // Map API keys to our i18n keys based on Rashmi's documentation
+          const apiToI18nKeyMap = {
+            GENERAL_CATEGORY: "GENERAL",
+            FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_ESSENTIALS",
+            CLOTHING_SUPPORT: "CLOTHING_AND_SUPPORT",
+            HOUSING_SUPPORT: "HOUSING_ASSISTANCE",
+            EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
+            HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLBEING",
+            ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
+          };
+
+          const subcategoryApiToI18nKeyMap = {
+            // Food & Essentials subcategories
+            FOOD_ASSISTANCE: "FOOD_ASSISTANCE",
+            GROCERY_SHOPPING_AND_DELIVERY: "GROCERY_SHOPPING_DELIVERY",
+            COOKING_HELP: "COOKING_HELP",
+            // Clothing subcategories
+            DONATE_CLOTHES: "DONATE_CLOTHES",
+            BORROW_CLOTHES: "LEND_BORROW_CLOTHES",
+            EMERGENCY_ASSISTANCE: "DONATE_CLOTHES",
+            SEASONAL_DRIVE_NOTIFICATION: "DONATE_CLOTHES",
+            TAILORING: "LEND_BORROW_CLOTHES",
+            // Housing subcategories
+            FIND_A_ROOMMATE: "FINDING_A_ROOMMATE",
+            RENTING_SUPPORT: "RENTING_SUPPORT",
+            HOUSEHOLD_ITEM_EXCHANGE: "BUY_SELL_HOUSEHOLD_ITEMS",
+            MOVING_ASSISTANCE: "MOVING_PACKING_HELP",
+            CLEANING_HELP: "CLEANING_HELP",
+            HOME_REPAIR_SUPPORT: "HOME_BUYING_SELLING_ASSISTANCE",
+            UTILITIES_SETUP: "HOME_BUYING_SELLING_ASSISTANCE",
+            // Education subcategories
+            COLLEGE_APPLICATION_HELP: "COLLEGE_APPLICATIONS_HELP",
+            SOP_ESSAY_REVIEW: "SOP_ESSAY_REVIEW",
+            TUTORING: "TUTORING",
+            // Healthcare subcategories
+            MEDICAL_NAVIGATION: "MEDICAL_CONSULTATION",
+            MEDICINE_DELIVERY: "MEDICINE_DELIVERY_ASSISTANCE",
+            MENTAL_WELLBEING_SUPPORT: "MEDICAL_CONSULTATION",
+            MEDICATION_REMINDERS: "MEDICINE_DELIVERY_ASSISTANCE",
+            HEALTH_EDUCATION_GUIDANCE: "MEDICAL_CONSULTATION",
+            // Elderly subcategories
+            SENIOR_LIVING_RELOCATION: "ELDERLY_ASSISTANCE",
+            DIGITAL_SUPPORT_FOR_SENIORS: "TECH_HELP_FOR_SENIORS",
+            MEDICAL_HELP: "ELDERLY_ASSISTANCE",
+            ERRANDS_TRANSPORTATION: "RIDE_ASSISTANCE",
+            SOCIAL_CONNECTION: "ELDERLY_ASSISTANCE",
+            MEAL_SUPPORT: "SHOPPING_ASSISTANCE",
+          };
+
+          // Transform API categories to our format
+          const mappedCategories = apiCategories.map((cat) => ({
+            key: apiToI18nKeyMap[cat.cat_name] || cat.cat_name,
+            id: cat.cat_id,
+            name: apiToI18nKeyMap[cat.cat_name] || cat.cat_name, // Use mapped key for display
+            apiName: cat.cat_name, // Store original API key for backend
+            subcategories: (cat.children || []).map((child) => ({
+              key: subcategoryApiToI18nKeyMap[child.cat_name] || child.cat_name,
+              apiName: child.cat_name, // Store original API key for backend
+            })),
+          }));
+
+          dispatch(loadCategories(mappedCategories));
+        } catch (error) {
+          console.warn(
+            "Categories API failed, using static fallback:",
+            error.message,
+          );
+          dispatch(loadCategories()); // Load static categories as fallback
+        }
+      }
+    };
+
+    fetchCategoriesData();
 
     fetchLanguages();
-
-  }, [dispatch, categoriesFetched, categories.length]);
+  }, [dispatch, categoriesFetched]);
 
   useEffect(() => {
     if (id && data) {
@@ -297,21 +415,39 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
+
+    // Ensure categories is an array before using array methods
+    const categoriesArray = Array.isArray(categories) ? categories : [];
+
     // If matches a category key
-    const cat = categories?.find((c) => (c.key || c.id) === selectedKeyOrText);
+    const cat = categoriesArray.find(
+      (c) => (c.key || c.id || c.name) === selectedKeyOrText,
+    );
     if (cat) {
-      return t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-        defaultValue: cat.name,
+      const categoryKey =
+        cat.i18nKey || cat.key || cat.id || cat.name || "UNKNOWN";
+      return t(`categories:REQUEST_CATEGORIES.${categoryKey}.LABEL`, {
+        defaultValue:
+          cat.name || cat.label || cat.key || cat.id || selectedKeyOrText,
       });
     }
     // If matches a subcategory key
-    for (const c of categories || []) {
+    for (const c of categoriesArray) {
       const subs = c.subcategories || [];
       const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
       if (match) {
+        const categoryKey = c.i18nKey || c.key || c.id || c.name || "UNKNOWN";
+        const subKey = match.i18nKey || match.key || match || "UNKNOWN";
         return t(
-          `categories:REQUEST_CATEGORIES.${c.key || c.id}.SUBCATEGORIES.${match.key || match}.LABEL`,
-          { defaultValue: match.label || match },
+          `categories:REQUEST_CATEGORIES.${categoryKey}.SUBCATEGORIES.${subKey}.LABEL`,
+          {
+            defaultValue:
+              match.name ||
+              match.label ||
+              match.key ||
+              match.id ||
+              "Subcategory",
+          },
         );
       }
     }
@@ -321,14 +457,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   useEffect(() => {
     if (categories && categories.length > 0) {
-      const general = categories.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = categories.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
+      const general = categories.find((cat) => cat.key === "GENERAL");
+      const others = categories.filter((cat) => cat.key !== "GENERAL");
       const resolvedLabel = (cat) =>
         t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
           defaultValue: cat.name,
@@ -355,14 +485,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
 
     if (searchTerm.trim() === "") {
-      const general = categories.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = categories.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
+      const general = categories.find((cat) => cat.key === "GENERAL");
+      const others = categories.filter((cat) => cat.key !== "GENERAL");
       const sorted = others.sort((a, b) =>
         resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
       );
@@ -374,14 +498,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           .toLowerCase()
           .startsWith(searchTerm.toLowerCase()),
       );
-      const general = filtered.find(
-        (cat) => cat.key === "GENERAL" || cat.name === "General",
-      );
-      const others = filtered.filter(
-        (cat) =>
-          (cat.key || cat.name) !==
-          (general ? general.key || general.name : ""),
-      );
+      const general = filtered.find((cat) => cat.key === "GENERAL");
+      const others = filtered.filter((cat) => cat.key !== "GENERAL");
       const sorted = others.sort((a, b) =>
         resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
       );

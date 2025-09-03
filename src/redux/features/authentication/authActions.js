@@ -22,7 +22,6 @@ import {
   resetPasswordSuccess,
   updateUserProfileSuccess,
 } from "./authSlice";
-import { fetchCategories } from "../help_request/requestActions";
 
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
@@ -73,9 +72,6 @@ export const checkAuthStatus = () => async (dispatch) => {
         idToken,
       }),
     );
-
-    // Fetch categories after successful login
-    dispatch(fetchCategories());
 
     changeUiLanguage();
   } catch (error) {
