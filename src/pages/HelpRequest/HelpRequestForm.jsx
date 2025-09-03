@@ -8,7 +8,10 @@ import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 import Modal from "../../common/components/Modal/Modal";
-import { loadCategories } from "../../redux/features/help_request/requestActions";
+import {
+  loadCategories,
+  fetchCategories,
+} from "../../redux/features/help_request/requestActions";
 import {
   useAddRequestMutation,
   useGetAllRequestQuery,
@@ -54,7 +57,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { categories } = useSelector((state) => state.request);
+  const { categories, categoriesFetched } = useSelector(
+    (state) => state.request,
+  );
   const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
   const [location, setLocation] = useState("");
@@ -252,9 +257,16 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         console.error("Error fetching languages:", error);
       }
     };
-    dispatch(loadCategories());
+
+    // Fetch categories from API if not already fetched, otherwise load static categories
+    if (!categoriesFetched) {
+      dispatch(fetchCategories());
+    } else if (categories.length === 0) {
+      dispatch(loadCategories());
+    }
+
     fetchLanguages();
-  }, [dispatch]);
+  }, [dispatch, categoriesFetched, categories.length]);
 
   useEffect(() => {
     if (id && data) {
