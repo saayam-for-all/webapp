@@ -287,7 +287,5 @@
   "Request Priority": "Request Priority",
   "Low": "Low",
   "Medium": "Medium",
-  "High": "High",
-  "Yes": "Yes",
-  "No": "No"
+  "High": "High"
 }
