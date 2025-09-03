@@ -1,6 +1,8 @@
 {
   "YES": "Yes",
   "NO": "No",
+  "Yes": "Yes",
+  "No": "No",
   "NOTE": "Note",
   "HOME": "Home",
   "FOR_SELF": "For Self",
@@ -18,6 +20,7 @@
   "LOGIN": "Log In",
   "LOGOUT": "Log Out",
   "SIGNUP": "Sign Up",
+
   "OUR_TEAM": "Our Team",
   "OUR_MISSION": "Our Mission",
   "OUR_VISION_NAVBAR": "Our Vision",
@@ -87,6 +90,7 @@
   "FACEBOOK": "Facebook",
   "GOOGLE": "Google",
   "NONE_ACCOUNT": "Don't have an account?",
+
   "REQUEST_CATEGORY": "Request Category",
   "REQUEST_TYPE": "Request Type",
   "CREATE_HELP_REQUEST": "Create Help Request",
@@ -163,6 +167,7 @@
   "YOUR_SKILLS": "Your Skills",
   "SELECT_SKILLS_DESCRIPTION": "Select the skills you can offer as a volunteer. These skills will help match you with relevant help requests.",
   "USER_ALREADY_EXISTS": "User already exists. Please sign in or use a different email.",
+
   "MAKE_DONATION": "Make a Donation",
   "DONATION_SUBTITLE": "Your contribution helps us continue our mission of providing assistance to those in need.",
   "DONATION_ACHIEVEMENT_1": "Support our global network of volunteers and organizations",
@@ -201,6 +206,7 @@
   "TOS_AGREEMENT": "By checking this box, you are agreeing to the",
   "ALREADY_HAVE_ACCOUNT": "Already have an account?",
   "SIGN_IN": "Sign In",
+
   "TERMS_INTRO": "Welcome to Saayam For All (\"Saayam\", \"we\", \"us\", or \"our\"). By accessing or using our websites (including saayam.org, saayamforall.org, and saayamforall.com), mobile applications, or services (collectively, the \"Platform\"), you agree to be bound by the following Terms and Conditions. These Terms are designed to inform you of your rights and responsibilities as a user, volunteer, or organization interacting with our community-driven, humanitarian platform.",
   "TERMS_OVERVIEW_TITLE": "Overview",
   "TERMS_OVERVIEW_CONTENT": "Saayam For All is a volunteer-based organization that helps connect people in need with compassionate local volunteers. We operate through a cloud-native application that supports requests for essentials such as food, housing, education, healthcare, clothing, and general guidance. This platform is driven by values of service, inclusion, and humanity, and is free of religious, political, or commercial bias. By using Saayam For All, you accept and agree to abide by these Terms in full.",
@@ -276,6 +282,14 @@
   "PRIVACY_SECTION_9_CONTENT": "We may update this policy. Continued use implies acceptance.",
   "PRIVACY_SECTION_10_TITLE": "10. Contact Us",
   "PRIVACY_CONTACT_CONTENT": "Saayam for All, 3046 Rosato Ct., San Jose, California 95135",
+
+  "Lead Volunteer": "Lead Volunteer",
+  "Request Priority": "Request Priority",
+  "Low": "Low",
+  "Medium": "Medium",
+  "High": "High",
+  "Yes": "Yes",
+  "No": "No"
   "SIGN_OFF": "Sign Off",
   "I_WANT_TO_DELETE_MY_ACCOUNT": "I want to delete my account",
   "ACCOUNT_DELETION_WARNING_TITLE": "Account Deletion",

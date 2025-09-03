@@ -373,6 +373,14 @@
   "DELETE_ACCOUNT": "Eliminar Cuenta",
   "DELETING": "Eliminando...",
   "ACCOUNT_DELETION_ERROR": "Ocurrió un error al eliminar su cuenta. Por favor, inténtelo de nuevo.",
+
+  "Lead Volunteer": "Voluntario Principal",
+  "Request Priority": "Prioridad de Solicitud",
+  "Low": "Baja",
+  "Medium": "Media",
+  "High": "Alta",
+  "Yes": "Sí",
+  "No": "No"
   "BACK_TO_DASHBOARD": "Volver al panel de control",
   "BACK": "Atrás"
 }
