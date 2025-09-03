@@ -285,5 +285,7 @@
   "CONFIRM_ACCOUNT_DELETION_TEXT": "Are you absolutely sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.",
   "DELETE_ACCOUNT": "Delete Account",
   "DELETING": "Deleting...",
-  "ACCOUNT_DELETION_ERROR": "An error occurred while deleting your account. Please try again."
+  "ACCOUNT_DELETION_ERROR": "An error occurred while deleting your account. Please try again.",
+  "BACK_TO_DASHBOARD": "Back to Dashboard",
+  "BACK": "Back"
 }
