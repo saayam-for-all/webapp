@@ -536,5 +536,8 @@
   "INVALID_CREDENTIALS": "చెల్లని ఇమెయిల్ చిరునామా లేదా పాస్‌వర్డ్",
   "Are you sure, you want to log out? There may be unsaved data on the page.": "మీరు లాగౌట్ అవ్వాలని నిర్ణయించుకున్నారా? పేజీలో సేవ్ చేయని డేటా ఉండవచ్చు.",
   "Cancel": "రద్దు చేయండి",
-  "Logout": "లాగౌట్"
+  "Logout": "లాగౌట్",
+  "back": "మళ్లీ వెళ్ళు",
+  "back_to_dashboard": "డ్యాష్‌బోర్డ్‌కి తిరిగి వెళ్ళు"
+
 }
