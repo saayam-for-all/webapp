@@ -20,22 +20,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install and start React app
-        working-directory: .
-        run: |
-          npm install
-          npm run build
-          nohup npm run preview &          # Levanta la app en background
-          APP_PORT=4173                    # Ajusta al puerto que uses
-          echo "Waiting for React app to be ready..."
-          for i in {1..30}; do             # Máximo 30 intentos
-            if curl -s http://localhost:$APP_PORT > /dev/null; then
-              echo "App is up!"
-              break
-            fi
-            echo "Waiting for app... ($i)"
-            sleep 2
-          done
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -83,6 +67,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest selenium webdriver-manager
+
+      - name: Install and start React app
+        working-directory: .
+        run: |
+          npm install
+          npm run build
+          nohup npm run preview &          # Levanta la app en background
+          APP_PORT=4173                    # Ajusta al puerto que uses
+          echo "Waiting for React app to be ready..."
+          for i in {1..30}; do             # Máximo 30 intentos
+            if curl -s http://localhost:$APP_PORT > /dev/null; then
+              echo "App is up!"
+              break
+            fi
+            echo "Waiting for app... ($i)"
+            sleep 2
+          done
 
       - name: Run pytest in chrome
         working-directory: ./e2e-tests
