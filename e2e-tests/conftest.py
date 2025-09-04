@@ -30,11 +30,11 @@ def driver(request):
     elif browser == "firefox":
         options = webdriver.FirefoxOptions()
         options.binary_location = "/snap/bin/firefox"  # Snap Firefox
-        options.add_argument("--start-maximized")
+        #options.add_argument("--start-maximized")
         options.add_argument("--headless")  # Si quieres headless
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        service = FirefoxService(GeckoDriverManager().install())
+        service = FirefoxService(executable_path="/usr/bin/geckodriver")
         driver = webdriver.Firefox(service=service, options=options)
 
     elif browser == "edge":
