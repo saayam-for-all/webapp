@@ -36,25 +36,17 @@ jobs:
         with:
           edge-version: stable
 
-      - name: Install Firefox
+      - name: Install Firefox (Snap version)
         run: |
-          sudo apt-get remove -y firefox
-          sudo apt-get install -y firefox-esr
-
-      - name: Install Firefox dependencies
-        run: sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2 xvfb
+          sudo apt-get update
+          sudo apt-get install -y firefox
+          sudo apt-get install -y xvfb libgtk-3-0 libdbus-glib-1-2
 
       # ChromeDriver
       - name: Install ChromeDriver
         uses: nanasess/setup-chromedriver@v2
 
       # GeckoDriver (para Firefox)
-      - name: Install GeckoDriver (static version)
-        run: |
-          wget -q https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz
-          tar -xvzf geckodriver-v0.36.0-linux64.tar.gz
-          sudo mv geckodriver /usr/local/bin/
-          geckodriver --version
 
       # EdgeDriver (opcional si lo activas después)
       # - name: Install EdgeDriver

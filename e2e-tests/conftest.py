@@ -18,6 +18,8 @@ def driver(request):
 
     if browser == "chrome":
         options = webdriver.ChromeOptions()
+        options.binary_location = "/snap/bin/firefox"  # Firefox Snap   
+        service = FirefoxService()  # Sin path, usa el binario en PATH
         options.add_argument("--start-maximized")
         options.add_argument("--headless")
         options.add_argument("--disable-gpu")
