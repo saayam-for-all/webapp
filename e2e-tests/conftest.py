@@ -9,7 +9,8 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--browser", action="store", default="chrome", help="Browser to use: chrome, firefox, edge"
+        "--browser", action="store", default="chrome",
+        help="Browser to use: chrome, firefox, edge"
     )
 
 @pytest.fixture(scope="session")
@@ -18,11 +19,9 @@ def driver(request):
 
     if browser == "chrome":
         options = webdriver.ChromeOptions()
-        options.binary_location = "/snap/bin/firefox"  # Firefox Snap   
-        service = FirefoxService()  # Sin path, usa el binario en PATH
         options.add_argument("--start-maximized")
-        #options.add_argument("--headless")
-        #options.add_argument("--disable-gpu")
+        options.add_argument("--headless")
+        options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         service = ChromeService(ChromeDriverManager().install())
@@ -30,22 +29,13 @@ def driver(request):
 
     elif browser == "firefox":
         options = webdriver.FirefoxOptions()
-        options.add_argument("--headless")
-        options.add_argument("--disable-gpu")
+        options.binary_location = "/snap/bin/firefox"  # Snap Firefox
+        options.add_argument("--start-maximized")
+        options.add_argument("--headless")  # Si quieres headless
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.set_preference("dom.webdriver.enabled", True)
-        options.set_preference("useAutomationExtension", True)
-        options.set_preference("media.navigator.streams.fake", True)
-        options.set_preference("media.navigator.permission.disabled", True)
-        # ⚡ Forzar puerto fijo para evitar fallos con puertos aleatorios
-        service = FirefoxService(
-            GeckoDriverManager().install(),
-            port=4444
-        )
-
+        service = FirefoxService(GeckoDriverManager().install())
         driver = webdriver.Firefox(service=service, options=options)
-
 
     elif browser == "edge":
         options = webdriver.EdgeOptions()
