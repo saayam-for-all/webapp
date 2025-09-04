@@ -29,9 +29,19 @@ def driver(request):
     elif browser == "firefox":
         options = webdriver.FirefoxOptions()
         options.add_argument("--headless")
-        service = FirefoxService(GeckoDriverManager().install())
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+
+        # ⚡ Forzar puerto fijo para evitar fallos con puertos aleatorios
+        service = FirefoxService(
+            GeckoDriverManager().install(),
+            port=4444
+        )
+
         driver = webdriver.Firefox(service=service, options=options)
 
+        # Preferencias útiles en CI
         options.set_preference("dom.webdriver.enabled", True)
         options.set_preference("useAutomationExtension", True)
         options.set_preference("media.navigator.streams.fake", True)

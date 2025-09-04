@@ -30,18 +30,20 @@ jobs:
           sudo apt-get update
           # Chrome
           sudo apt-get install -y google-chrome-stable
+
       - name: Setup Microsoft Edge
         uses: browser-actions/setup-edge@v1
         with:
-          edge-version: stable
+        edge-version: stable
 
       - name: Install Firefox
         run: |
           sudo add-apt-repository -y ppa:mozillateam/ppa
           sudo apt-get update
           sudo apt-get install -y firefox
+
       - name: Install Firefox dependencies
-        run: sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2
+        run: sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2 xvfb
 
       # ChromeDriver
       - name: Install ChromeDriver
@@ -55,14 +57,14 @@ jobs:
           sudo mv geckodriver /usr/local/bin/
           geckodriver --version
 
-      # EdgeDriver (para Edge)
-      #      - name: Install EdgeDriver
-      #        run: |
-      #          EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
-      #          wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
-      #          unzip edgedriver_linux64.zip
-      #          sudo mv msedgedriver /usr/local/bin/
-      #
+      # EdgeDriver (opcional si lo activas después)
+      # - name: Install EdgeDriver
+      #   run: |
+      #     EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
+      #     wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
+      #     unzip edgedriver_linux64.zip
+      #     sudo mv msedgedriver /usr/local/bin/
+
       - name: Install Python dependencies
         working-directory: ./e2e-tests
         run: |
