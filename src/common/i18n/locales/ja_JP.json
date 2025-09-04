@@ -7,5 +7,7 @@
   "MISSION": "ミッション",
   "VISION": "ビジョン",
   "CONTACT": "接触",
-  "DASHBOARD": "ダッシュボード"
+  "DASHBOARD": "ダッシュボード",
+  "back": "戻る",
+  "back_to_dashboard": "ダッシュボードに戻る"
 }
