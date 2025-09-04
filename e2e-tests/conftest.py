@@ -32,7 +32,10 @@ def driver(request):
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-
+        options.set_preference("dom.webdriver.enabled", True)
+        options.set_preference("useAutomationExtension", True)
+        options.set_preference("media.navigator.streams.fake", True)
+        options.set_preference("media.navigator.permission.disabled", True)
         # ⚡ Forzar puerto fijo para evitar fallos con puertos aleatorios
         service = FirefoxService(
             GeckoDriverManager().install(),
@@ -40,12 +43,6 @@ def driver(request):
         )
 
         driver = webdriver.Firefox(service=service, options=options)
-
-        # Preferencias útiles en CI
-        options.set_preference("dom.webdriver.enabled", True)
-        options.set_preference("useAutomationExtension", True)
-        options.set_preference("media.navigator.streams.fake", True)
-        options.set_preference("media.navigator.permission.disabled", True)
 
 
     elif browser == "edge":

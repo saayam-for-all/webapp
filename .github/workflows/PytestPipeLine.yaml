@@ -38,9 +38,8 @@ jobs:
 
       - name: Install Firefox
         run: |
-          sudo add-apt-repository -y ppa:mozillateam/ppa
-          sudo apt-get update
-          sudo apt-get install -y firefox
+          sudo apt-get remove -y firefox
+          sudo apt-get install -y firefox-esr
 
       - name: Install Firefox dependencies
         run: sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2 xvfb
@@ -52,8 +51,8 @@ jobs:
       # GeckoDriver (para Firefox)
       - name: Install GeckoDriver (static version)
         run: |
-          wget -q https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz
-          tar -xvzf geckodriver-v0.35.0-linux64.tar.gz
+          wget -q https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz
+          tar -xvzf geckodriver-v0.36.0-linux64.tar.gz
           sudo mv geckodriver /usr/local/bin/
           geckodriver --version
 
