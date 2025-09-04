@@ -21,8 +21,8 @@ def driver(request):
         options.binary_location = "/snap/bin/firefox"  # Firefox Snap   
         service = FirefoxService()  # Sin path, usa el binario en PATH
         options.add_argument("--start-maximized")
-        options.add_argument("--headless")
-        options.add_argument("--disable-gpu")
+        #options.add_argument("--headless")
+        #options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         service = ChromeService(ChromeDriverManager().install())
