@@ -34,7 +34,7 @@ jobs:
       - name: Setup Microsoft Edge
         uses: browser-actions/setup-edge@v1
         with:
-        edge-version: stable
+          edge-version: stable
 
       - name: Install Firefox
         run: |
@@ -77,10 +77,10 @@ jobs:
         run: |
           npm install
           npm run build
-          nohup npm run preview &          # Levanta la app en background
-          APP_PORT=4173                    # Ajusta al puerto que uses
+          nohup npm run preview &
+          APP_PORT=4173
           echo "Waiting for React app to be ready..."
-          for i in {1..30}; do             # Máximo 30 intentos
+          for i in {1..30}; do
             if curl -s http://localhost:$APP_PORT > /dev/null; then
               echo "App is up!"
               break
@@ -93,21 +93,18 @@ jobs:
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: |
-          pytest
+        run: pytest
         continue-on-error: true
+
       - name: Run pytest in firefox
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: |
-
-          pytest --browser=firefox
+        run: pytest --browser=firefox
         continue-on-error: true
+
       - name: Run pytest in edge
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: |
-
-          pytest --browser=edge
+        run: pytest --browser=edge
