@@ -30,3 +30,12 @@ export const getUserId = async (email) => {
     throw new Error(message);
   }
 };
+
+export const getVolunteersData = async () => {
+  const { data } = await api.get(endpoints.GET_VOLUNTEERS_DATA);
+  return Array.isArray(data?.body)
+    ? data.body
+    : Array.isArray(data)
+      ? data
+      : [];
+};

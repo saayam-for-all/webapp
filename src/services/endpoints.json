@@ -3,6 +3,7 @@
   "GET_OTHERS_REQUESTS": "requests/v0.0.1/get-requests",
   "GET_MANAGED_REQUESTS": "requests/v0.0.1/get-requests",
   "CHECK_PROFANITY": "/requests/v0.0.1/checkProfanity",
+  "GET_VOLUNTEERS_DATA": "volunteers/v0.0.1/getVolunteersData",
   "GET_VOLUNTEER_ORGS_LIST": "volunteer-orgs/v0.0.1/organizations-list",
   "GET_VOLUNTEER_SKILLS": "volunteers/v0.0.1/skills",
   "GET_REQUEST_COMMENTS": "requests/v0.0.1/getComments",
