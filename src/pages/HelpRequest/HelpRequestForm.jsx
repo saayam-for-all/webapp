@@ -324,53 +324,53 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             throw new Error("Invalid API response format");
           }
 
-          // Map API keys to our i18n keys based on Rashmi's documentation
+          // Map API keys to exact matching i18n keys (1:1 mapping)
           const apiToI18nKeyMap = {
-            GENERAL_CATEGORY: "GENERAL",
-            FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_ESSENTIALS",
-            CLOTHING_SUPPORT: "CLOTHING_AND_SUPPORT",
-            HOUSING_SUPPORT: "HOUSING_ASSISTANCE",
+            GENERAL_CATEGORY: "GENERAL_CATEGORY",
+            FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_AND_ESSENTIALS_SUPPORT",
+            CLOTHING_SUPPORT: "CLOTHING_SUPPORT",
+            HOUSING_SUPPORT: "HOUSING_SUPPORT",
             EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
-            HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLBEING",
-            ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
+            HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLNESS_SUPPORT",
+            ELDERLY_SUPPORT: "ELDERLY_SUPPORT",
           };
 
           const subcategoryApiToI18nKeyMap = {
-            // Food & Essentials subcategories
+            // Food & Essentials subcategories - direct 1:1 mapping
             FOOD_ASSISTANCE: "FOOD_ASSISTANCE",
-            GROCERY_SHOPPING_AND_DELIVERY: "GROCERY_SHOPPING_DELIVERY",
+            GROCERY_SHOPPING_AND_DELIVERY: "GROCERY_SHOPPING_AND_DELIVERY",
             COOKING_HELP: "COOKING_HELP",
-            // Clothing subcategories
+            // Clothing subcategories - direct 1:1 mapping
             DONATE_CLOTHES: "DONATE_CLOTHES",
-            BORROW_CLOTHES: "LEND_BORROW_CLOTHES",
-            EMERGENCY_ASSISTANCE: "DONATE_CLOTHES",
-            SEASONAL_DRIVE_NOTIFICATION: "DONATE_CLOTHES",
-            TAILORING: "LEND_BORROW_CLOTHES",
-            // Housing subcategories
-            FIND_A_ROOMMATE: "FINDING_A_ROOMMATE",
+            BORROW_CLOTHES: "BORROW_CLOTHES",
+            EMERGENCY_ASSISTANCE: "EMERGENCY_ASSISTANCE",
+            SEASONAL_DRIVE_NOTIFICATION: "SEASONAL_DRIVE_NOTIFICATION",
+            TAILORING: "TAILORING",
+            // Housing subcategories - direct 1:1 mapping
+            FIND_A_ROOMMATE: "FIND_A_ROOMMATE",
             RENTING_SUPPORT: "RENTING_SUPPORT",
-            HOUSEHOLD_ITEM_EXCHANGE: "BUY_SELL_HOUSEHOLD_ITEMS",
-            MOVING_ASSISTANCE: "MOVING_PACKING_HELP",
+            HOUSEHOLD_ITEM_EXCHANGE: "HOUSEHOLD_ITEM_EXCHANGE",
+            MOVING_ASSISTANCE: "MOVING_ASSISTANCE",
             CLEANING_HELP: "CLEANING_HELP",
-            HOME_REPAIR_SUPPORT: "HOME_BUYING_SELLING_ASSISTANCE",
-            UTILITIES_SETUP: "HOME_BUYING_SELLING_ASSISTANCE",
-            // Education subcategories
-            COLLEGE_APPLICATION_HELP: "COLLEGE_APPLICATIONS_HELP",
+            HOME_REPAIR_SUPPORT: "HOME_REPAIR_SUPPORT",
+            UTILITIES_SETUP: "UTILITIES_SETUP",
+            // Education subcategories - direct 1:1 mapping
+            COLLEGE_APPLICATION_HELP: "COLLEGE_APPLICATION_HELP",
             SOP_ESSAY_REVIEW: "SOP_ESSAY_REVIEW",
             TUTORING: "TUTORING",
-            // Healthcare subcategories
-            MEDICAL_NAVIGATION: "MEDICAL_CONSULTATION",
-            MEDICINE_DELIVERY: "MEDICINE_DELIVERY_ASSISTANCE",
-            MENTAL_WELLBEING_SUPPORT: "MEDICAL_CONSULTATION",
-            MEDICATION_REMINDERS: "MEDICINE_DELIVERY_ASSISTANCE",
-            HEALTH_EDUCATION_GUIDANCE: "MEDICAL_CONSULTATION",
-            // Elderly subcategories
-            SENIOR_LIVING_RELOCATION: "ELDERLY_ASSISTANCE",
-            DIGITAL_SUPPORT_FOR_SENIORS: "TECH_HELP_FOR_SENIORS",
-            MEDICAL_HELP: "ELDERLY_ASSISTANCE",
-            ERRANDS_TRANSPORTATION: "RIDE_ASSISTANCE",
-            SOCIAL_CONNECTION: "ELDERLY_ASSISTANCE",
-            MEAL_SUPPORT: "SHOPPING_ASSISTANCE",
+            // Healthcare subcategories - direct 1:1 mapping
+            MEDICAL_NAVIGATION: "MEDICAL_NAVIGATION",
+            MEDICINE_DELIVERY: "MEDICINE_DELIVERY",
+            MENTAL_WELLBEING_SUPPORT: "MENTAL_WELLBEING_SUPPORT",
+            MEDICATION_REMINDERS: "MEDICATION_REMINDERS",
+            HEALTH_EDUCATION_GUIDANCE: "HEALTH_EDUCATION_GUIDANCE",
+            // Elderly subcategories - direct 1:1 mapping
+            SENIOR_LIVING_RELOCATION: "SENIOR_LIVING_RELOCATION",
+            DIGITAL_SUPPORT_FOR_SENIORS: "DIGITAL_SUPPORT_FOR_SENIORS",
+            MEDICAL_HELP: "MEDICAL_HELP",
+            ERRANDS_TRANSPORTATION: "ERRANDS_TRANSPORTATION",
+            SOCIAL_CONNECTION: "SOCIAL_CONNECTION",
+            MEAL_SUPPORT: "MEAL_SUPPORT",
           };
 
           // Transform API categories to our format
