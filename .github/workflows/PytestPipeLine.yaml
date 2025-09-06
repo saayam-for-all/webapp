@@ -44,13 +44,12 @@ jobs:
 
       - name: Install Firefox dependencies
         run: |
-          sudo apt-get update
           sudo apt-get install -y \
           xvfb \
           libdbus-glib-1-2 \
           libxt6 \
           libgtk-3-0 \
-          libasound2
+          libasound2t64
 
       # ChromeDriver
       - name: Install ChromeDriver
