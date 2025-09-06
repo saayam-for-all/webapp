@@ -1047,8 +1047,39 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
             </div>
-
-            <div className="flex-1">
+            <div className="mt-3 flex gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <label
+                    htmlFor="calamity"
+                    className="font-medium text-gray-700"
+                  >
+                    Is Calamity?
+                  </label>
+                  <div className="relative group cursor-pointer">
+                    {/* Circle Question Mark Icon */}
+                    <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                      ?
+                    </div>
+                    <div
+                      className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
+                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none"
+                    >
+                      Indicate if it is a calamity by checking the box.
+                    </div>
+                  </div>
+                </div>
+                <div className="relative">
+                  <input
+                    id="calamity"
+                    type="checkbox"
+                    name="calamity"
+                    className="w-5 h-5 inset-y-10 right-0 flex items-center pr-2"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
                 <label
                   htmlFor="requestPriority"
