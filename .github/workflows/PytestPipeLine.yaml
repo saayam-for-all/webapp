@@ -100,7 +100,7 @@ jobs:
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: pytest tests/test_landing_page.py::test_landing_page_heading --browser=firefox
+        run: pytest --browser=firefox
         continue-on-error: true
 
       - name: Run pytest in edge
