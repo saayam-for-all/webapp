@@ -31,11 +31,6 @@ jobs:
           # Chrome
           sudo apt-get install -y google-chrome-stable
 
-      - name: Setup Microsoft Edge
-        uses: browser-actions/setup-edge@v1
-        with:
-          edge-version: stable
-
       - name: Install Firefox (from Mozilla PPA)
         run: |
           sudo add-apt-repository -y ppa:mozillateam/ppa
@@ -57,9 +52,19 @@ jobs:
 
       # GeckoDriver (para Firefox)
 
+      - name: Install Microsoft Edge
+        run: |
+          sudo apt update
+          sudo apt install -y wget unzip software-properties-common apt-transport-https
+          wget https://packages.microsoft.com/keys/microsoft.asc -O microsoft.asc
+          sudo gpg --dearmor microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
+          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list'
+          sudo apt update
+          sudo apt install -y microsoft-edge-stable
+
       - name: Install EdgeDriver
         run: |
-          EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
+          EDGE_VERSION=$(curl -s https://msedgedriver.azureedge.net/LATEST_RELEASE)
           wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
           unzip edgedriver_linux64.zip
           sudo mv msedgedriver /usr/local/bin/
