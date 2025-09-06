@@ -19,7 +19,6 @@ def driver(request):
 
     if browser == "chrome":
         options = webdriver.ChromeOptions()
-        options.add_argument("--start-maximized")
         options.add_argument("--headless")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
@@ -29,12 +28,8 @@ def driver(request):
 
     elif browser == "firefox":
         options = webdriver.FirefoxOptions()
-        options.binary_location = "/snap/bin/firefox"  # Snap Firefox
-        #options.add_argument("--start-maximized")
-        #options.add_argument("--headless")  # Si quieres headless
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        service = FirefoxService(GeckoDriverManager().install())  
+        options.add_argument("--headless")  # obligatorio en CI
+        service = FirefoxService(GeckoDriverManager().install())
         driver = webdriver.Firefox(service=service, options=options)
 
     elif browser == "edge":
