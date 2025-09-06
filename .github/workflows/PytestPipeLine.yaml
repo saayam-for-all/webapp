@@ -62,12 +62,12 @@ jobs:
           sudo apt update
           sudo apt install -y microsoft-edge-stable
 
-      - name: Install EdgeDriver
+      - name: Install Edge and EdgeDriver
         run: |
-          EDGE_VERSION=$(curl -s https://msedgedriver.azureedge.net/LATEST_RELEASE)
-          wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
-          unzip edgedriver_linux64.zip
-          sudo mv msedgedriver /usr/local/bin/
+          sudo apt update
+          sudo apt install -y microsoft-edge-stable
+          EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
+          sudo apt install -y msedge-driver
 
       - name: Install Python dependencies
         working-directory: ./e2e-tests
