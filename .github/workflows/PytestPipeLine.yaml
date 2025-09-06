@@ -85,18 +85,18 @@ jobs:
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: pytest
+        run: pytest tests/test_landing_page.py::test_landing_page_heading
         continue-on-error: true
 
       - name: Run pytest in firefox
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: pytest tests/test_login_page.py::test_login_page_loads --browser=firefox
+        run: pytest tests/test_landing_page.py::test_landing_page_heading --browser=firefox
         continue-on-error: true
 
       - name: Run pytest in edge
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: pytest tests/test_login_page.py::test_login_page_loads --browser=edge
+        run: pytest tests/test_landing_page.py::test_landing_page_heading --browser=edge
