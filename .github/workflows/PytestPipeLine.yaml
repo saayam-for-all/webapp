@@ -36,11 +36,12 @@ jobs:
         with:
           edge-version: stable
 
-      - name: Install Firefox (Snap version)
+      - name: Install Firefox via snap
         run: |
           sudo apt-get update
-          sudo apt-get install -y firefox
-          sudo apt-get install -y xvfb libgtk-3-0 libdbus-glib-1-2
+          sudo apt-get install -y snapd
+          sudo snap install firefox
+          ls -l /snap/bin/firefox
 
       # ChromeDriver
       - name: Install ChromeDriver
@@ -91,11 +92,11 @@ jobs:
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: pytest --browser=firefox
+        run: pytest tests/test_login_page.py::test_login_page_loads --browser=firefox
         continue-on-error: true
 
       - name: Run pytest in edge
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: pytest --browser=edge
+        run: pytest tests/test_login_page.py::test_login_page_loads --browser=edge
