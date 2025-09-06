@@ -29,7 +29,7 @@ def driver(request):
     elif browser == "firefox":
         options = webdriver.FirefoxOptions()
         options.add_argument("--headless")  # obligatorio en CI
-        service = FirefoxService(GeckoDriverManager().install(), log_path="-")
+        options.binary_location = "/usr/bin/firefox"
         service = FirefoxService(GeckoDriverManager().install(), log_path="-")
         driver = webdriver.Firefox(service=service, options=options)
 
