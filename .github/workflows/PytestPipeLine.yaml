@@ -36,12 +36,14 @@ jobs:
         with:
           edge-version: stable
 
-      - name: Install Firefox via snap
+      - name: Install Firefox (from Mozilla PPA)
         run: |
+          sudo add-apt-repository -y ppa:mozillateam/ppa
           sudo apt-get update
-          sudo apt-get install -y snapd
-          sudo snap install firefox
-          ls -l /snap/bin/firefox
+          sudo apt-get install -y firefox
+
+      - name: Install Firefox dependencies
+        run: sudo apt-get install -y xvfb libdbus-glib-1-2 libxt6
 
       # ChromeDriver
       - name: Install ChromeDriver
