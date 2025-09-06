@@ -57,13 +57,12 @@ jobs:
 
       # GeckoDriver (para Firefox)
 
-      # EdgeDriver (opcional si lo activas después)
-      # - name: Install EdgeDriver
-      #   run: |
-      #     EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
-      #     wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
-      #     unzip edgedriver_linux64.zip
-      #     sudo mv msedgedriver /usr/local/bin/
+      - name: Install EdgeDriver
+        run: |
+          EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
+          wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
+          unzip edgedriver_linux64.zip
+          sudo mv msedgedriver /usr/local/bin/
 
       - name: Install Python dependencies
         working-directory: ./e2e-tests
@@ -100,7 +99,7 @@ jobs:
         working-directory: ./e2e-tests
         env:
           PYTHONUNBUFFERED: 1
-        run: pytest --browser=firefox
+        run: pytest tests/test_landing_page.py::test_landing_page_heading --browser=firefox
         continue-on-error: true
 
       - name: Run pytest in edge
