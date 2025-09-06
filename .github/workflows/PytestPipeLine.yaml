@@ -54,13 +54,12 @@ jobs:
 
       - name: Install Edge and EdgeDriver
         run: |
-          sudo apt update
-          sudo apt install -y unzip curl microsoft-edge-stable
-          # Obtener la última versión del driver
-          EDGE_VERSION=$(curl -s https://msedgedriver.azureedge.net/LATEST_RELEASE)
-          curl -LO "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
-          unzip edgedriver_linux64.zip
-          sudo mv msedgedriver /usr/local/bin/
+          sudo apt-get update
+          sudo apt-get install -y unzip curl microsoft-edge-stable
+          EDGE_VERSION=$(wget -qO- https://msedgedriver.azureedge.net/LATEST_RELEASE)
+          wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
+          unzip -o edgedriver_linux64.zip
+          sudo mv -f msedgedriver /usr/local/bin/
           msedgedriver --version
 
       - name: Install Python dependencies
