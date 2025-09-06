@@ -23,6 +23,7 @@ import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
+import languagesData from "../../common/i18n/languagesData";
 import {
   Dialog,
   DialogActions,
@@ -51,20 +52,6 @@ const genderOptions = [
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
 
-// Supported languages shown in the Preferred Language dropdown
-const SUPPORTED_LANGUAGES = [
-  { value: "English", label: "English" },
-  { value: "Spanish", label: "Spanish" },
-  { value: "Arabic", label: "Arabic" },
-  { value: "Hindi", label: "Hindi" },
-  { value: "Gujarati", label: "Gujarati" },
-  { value: "Bengali", label: "Bengali" },
-  { value: "Urdu", label: "Urdu" },
-  { value: "Punjabi", label: "Punjabi" },
-  { value: "Chinese (Mandarin)", label: "Chinese (Mandarin)" },
-  { value: "French", label: "French" },
-];
-
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
@@ -78,8 +65,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
 
-  const [languages, setLanguages] = useState(SUPPORTED_LANGUAGES);
-
+  const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("General");
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -250,7 +236,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   };
   useEffect(() => {
-    const fetchLanguages = async () => {
+    // Build languages options directly from languagesData.js
+    const languageOptions = languagesData.map((lang) => ({
+      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
+      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
+      label: lang.name,
+    }));
+    setLanguages(languageOptions);
+    /*   const fetchLanguages = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
 
@@ -303,7 +296,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           { value: "Japanese", label: "Japanese" },
         ]);
       }
-    };
+    };*/
 
     // Fetch categories from API if not already fetched, following same pattern as other APIs
     const fetchCategoriesData = async () => {
@@ -398,7 +391,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
     fetchCategoriesData();
 
-    fetchLanguages();
+    //fetchLanguages();
   }, [dispatch, categoriesFetched]);
 
   useEffect(() => {
