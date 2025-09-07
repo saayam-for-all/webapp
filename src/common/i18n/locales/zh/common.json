@@ -355,5 +355,6 @@
   "Remove Time Slot": "删除时间段",
   "Add Time Slot": "添加时间段",
   "VACATION_MODE_ACTIVE": "假期模式已激活",
-  "NO AVAILABILITY SLOTS": "未配置可用时间段"
+  "NO AVAILABILITY SLOTS": "未配置可用时间段",
+  "Availability": "可用性"
 }

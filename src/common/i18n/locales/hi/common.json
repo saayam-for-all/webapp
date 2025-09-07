@@ -447,5 +447,6 @@
   "Remove Time Slot": "समय स्लॉट हटाएं",
   "Add Time Slot": "समय स्लॉट जोड़ें",
   "VACATION_MODE_ACTIVE": "छुट्टी मोड सक्रिय",
-  "NO AVAILABILITY SLOTS": "कोई उपलब्धता स्लॉट कॉन्फ़िगर नहीं किया गया"
+  "NO AVAILABILITY SLOTS": "कोई उपलब्धता स्लॉट कॉन्फ़िगर नहीं किया गया",
+  "Availability": "उपलब्धता"
 }

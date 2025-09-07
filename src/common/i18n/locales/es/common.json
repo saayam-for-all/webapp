@@ -409,5 +409,6 @@
   "Remove Time Slot": "Eliminar horario",
   "Add Time Slot": "Agregar horario",
   "VACATION_MODE_ACTIVE": "Modo vacaciones activo",
-  "NO AVAILABILITY SLOTS": "No hay horarios de disponibilidad configurados"
+  "NO AVAILABILITY SLOTS": "No hay horarios de disponibilidad configurados",
+  "Availability": "Disponibilidad"
 }

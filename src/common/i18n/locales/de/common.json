@@ -395,5 +395,6 @@
   "Remove Time Slot": "Zeitslot entfernen",
   "Add Time Slot": "Zeitslot hinzufügen",
   "VACATION_MODE_ACTIVE": "Urlaubsmodus aktiv",
-  "NO AVAILABILITY SLOTS": "Keine Verfügbarkeitsslots konfiguriert"
+  "NO AVAILABILITY SLOTS": "Keine Verfügbarkeitsslots konfiguriert",
+  "Availability": "Verfügbarkeit"
 }

@@ -425,5 +425,6 @@
   "Remove Time Slot": "সময় স্লট সরান",
   "Add Time Slot": "সময় স্লট যোগ করুন",
   "VACATION_MODE_ACTIVE": "ছুটি মোড সক্রিয়",
-  "NO AVAILABILITY SLOTS": "কোন উপলব্ধতা স্লট কনফিগার করা নেই"
+  "NO AVAILABILITY SLOTS": "কোন উপলব্ধতা স্লট কনফিগার করা নেই",
+  "Availability": "উপলব্ধতা"
 }

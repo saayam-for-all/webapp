@@ -446,5 +446,6 @@
   "Remove Time Slot": "Supprimer le créneau horaire",
   "Add Time Slot": "Ajouter un créneau horaire",
   "VACATION_MODE_ACTIVE": "Mode vacances actif",
-  "NO AVAILABILITY SLOTS": "Aucun créneau de disponibilité configuré"
+  "NO AVAILABILITY SLOTS": "Aucun créneau de disponibilité configuré",
+  "Availability": "Disponibilité"
 }
