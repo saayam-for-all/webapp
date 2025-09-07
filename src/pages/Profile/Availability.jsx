@@ -384,9 +384,9 @@ function Availability({ setHasUnsavedChanges }) {
               <button
                 onClick={handleUseCurrentTimezone}
                 className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm whitespace-nowrap"
-                aria-label={t("Use my current timezone")}
+                aria-label={t("USE_CURRENT_TIMEZONE")}
               >
-                {t("Use My Current")}
+                {t("USE_CURRENT_TIMEZONE")}
               </button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
