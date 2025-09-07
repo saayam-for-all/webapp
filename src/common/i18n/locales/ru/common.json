@@ -402,5 +402,6 @@
   "Remove Time Slot": "Удалить временной слот",
   "Add Time Slot": "Добавить временной слот",
   "VACATION_MODE_ACTIVE": "Режим отпуска активен",
-  "NO AVAILABILITY SLOTS": "Нет настроенных слотов доступности"
+  "NO AVAILABILITY SLOTS": "Нет настроенных слотов доступности",
+  "Availability": "Доступность"
 }

@@ -652,5 +652,6 @@
   "Remove Time Slot": "సమయ స్లాట్‌ను తొలగించు",
   "Add Time Slot": "సమయ స్లాట్‌ను జోడించు",
   "VACATION_MODE_ACTIVE": "విహార మోడ్ క్రియాశీలం",
-  "NO AVAILABILITY SLOTS": "అందుబాటు స్లాట్‌లు కాన్ఫిగర్ చేయబడలేదు"
+  "NO AVAILABILITY SLOTS": "అందుబాటు స్లాట్‌లు కాన్ఫిగర్ చేయబడలేదు",
+  "Availability": "అందుబాటు"
 }
