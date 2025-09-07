@@ -52,12 +52,22 @@ jobs:
 
       # GeckoDriver (para Firefox)
 
-      - name: Install Edge and EdgeDriver
+      - name: Install Microsoft Edge and EdgeDriver
         run: |
+          # Añadir repo oficial de Microsoft
           sudo apt-get update
-          sudo apt-get install -y unzip curl microsoft-edge-stable
-          EDGE_VERSION=$(wget -qO- https://msedgedriver.azureedge.net/LATEST_RELEASE)
-          wget "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
+          sudo apt-get install -y software-properties-common apt-transport-https wget curl gnupg unzip
+          wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+
+          # Instalar Edge estable
+          sudo apt-get update
+          sudo apt-get install -y microsoft-edge-stable
+
+          # Descargar e instalar EdgeDriver que coincida con la versión instalada
+          EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
+          DRIVER_VERSION=$(curl -s "https://msedgedriver.azureedge.net/LATEST_RELEASE_${EDGE_VERSION%%.*}")
+          wget -q "https://msedgedriver.azureedge.net/${DRIVER_VERSION}/edgedriver_linux64.zip"
           unzip -o edgedriver_linux64.zip
           sudo mv -f msedgedriver /usr/local/bin/
           msedgedriver --version
