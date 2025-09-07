@@ -12,6 +12,11 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
 
+    // Debug: Log file information
+    console.log("File name:", selectedFile.name);
+    console.log("File type:", selectedFile.type);
+    console.log("File size:", selectedFile.size);
+
     // Validate file size (2MB)
     if (selectedFile.size > 2 * 1024 * 1024) {
       setError("File size should not exceed 2MB");
@@ -22,9 +27,33 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
     }
 
     // Validate file type
-    const allowedTypes = ["image/jpg", "image/jpeg", "application/pdf"];
-    if (!allowedTypes.includes(selectedFile.type)) {
-      setError("Only JPEG, JPG, and PDF files are allowed");
+    const allowedTypes = [
+      "image/jpg",
+      "image/jpeg",
+      "image/png",
+      "application/pdf",
+    ];
+    const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf"];
+    console.log("Allowed types:", allowedTypes);
+    console.log(
+      "File type in allowed types:",
+      allowedTypes.includes(selectedFile.type),
+    );
+
+    // Check MIME type first, then fallback to file extension
+    const isValidMimeType = allowedTypes.includes(selectedFile.type);
+    const fileExtension = selectedFile.name
+      .toLowerCase()
+      .substring(selectedFile.name.lastIndexOf("."));
+    const isValidExtension = allowedExtensions.includes(fileExtension);
+
+    console.log("File extension:", fileExtension);
+    console.log("Is valid extension:", isValidExtension);
+
+    if (!isValidMimeType && !isValidExtension) {
+      setError(
+        `Only JPEG, JPG, PNG, and PDF files are allowed. File type detected: ${selectedFile.type}, extension: ${fileExtension}`,
+      );
       setFile(null);
       setPreview("");
       setHasUnsavedChanges(false);
@@ -164,13 +193,13 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
           </label>
           <input
             type="file"
-            accept=".jpeg,.jpg,.pdf"
+            accept=".jpeg,.jpg,.png,.pdf"
             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
             onChange={handleFileChange}
             ref={fileInputRef}
           />
           <p className="mt-1 text-sm text-gray-500">
-            Only JPEG, JPG, or PDF files. Max size: 2MB.
+            Only JPEG, JPG, PNG, or PDF files. Max size: 2MB.
           </p>
         </div>
       )}

@@ -144,7 +144,7 @@ const ContactUs = () => {
             component="form"
             onSubmit={handleSubmit}
             ref={formRef}
-            action="https://formsubmit.co/hr@saayamforall.org"
+            action="https://formsubmit.co/04d6a35df8d8b8b31a1b174ae825c99e"
             method="POST"
             className="w-full max-w-2xl bg-white p-6 rounded-3xl shadow-md"
           >

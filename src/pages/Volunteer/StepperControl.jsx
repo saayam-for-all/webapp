@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const StepperControl = ({
   handleClick,
@@ -6,6 +7,8 @@ const StepperControl = ({
   steps,
   isAcknowledged,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="container flex justify-around mt-16 mb-8">
       <div className="px-4 w-24">
@@ -18,7 +21,7 @@ const StepperControl = ({
           onClick={() => handleClick("prev")}
           disabled={currentStep === 1}
         >
-          Back
+          {t("BACK") || Back}
         </button>
       </div>
       <div className="px-4 w-24">
