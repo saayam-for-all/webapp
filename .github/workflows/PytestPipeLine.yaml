@@ -62,19 +62,17 @@ jobs:
           wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
           echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
 
-          # Instalar Edge estable (se actualizará si hay nueva versión)
+          # Instalar Edge estable
           sudo apt-get update
           sudo apt-get install -y microsoft-edge-stable
 
           # Obtener versión instalada de Edge
           EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
-          EDGE_MAJOR_VERSION=${EDGE_VERSION%%.*}
           echo "✅ Microsoft Edge actualizado: $EDGE_VERSION"
 
-          # Descargar EdgeDriver que coincide con la versión instalada
-          DRIVER_VERSION=$(curl -s "https://msedgedriver.azureedge.net/LATEST_RELEASE_${EDGE_MAJOR_VERSION}")
-          echo "⬇️  Descargando EdgeDriver versión $DRIVER_VERSION"
-          curl -LO "https://msedgedriver.azureedge.net/${DRIVER_VERSION}/edgedriver_linux64.zip"
+          # Usar esa misma versión para el driver
+          echo "⬇️  Descargando EdgeDriver para versión $EDGE_VERSION"
+          curl -LO "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip"
 
           # Instalar EdgeDriver
           unzip -o edgedriver_linux64.zip
