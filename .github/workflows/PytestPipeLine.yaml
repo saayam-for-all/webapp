@@ -53,10 +53,16 @@ jobs:
       # GeckoDriver (para Firefox)
 
       - name: Install EdgeDriver (matching installed Edge)
+      - name: Install EdgeDriver (matching installed Edge)
         run: |
-          EDGE_VERSION=139
-          DRIVER_VERSION=$(curl -s "https://msedgedriver.azureedge.net/LATEST_RELEASE_${EDGE_VERSION}")
-          echo "Installing EdgeDriver version $DRIVER_VERSION for Edge $EDGE_VERSION"
+          # Obtener versión de Edge instalada
+          EDGE_FULL_VERSION=$(microsoft-edge --version | awk '{print $3}')
+          EDGE_MAJOR_VERSION=${EDGE_FULL_VERSION%%.*}
+          echo "Detected Microsoft Edge version: $EDGE_FULL_VERSION (major: $EDGE_MAJOR_VERSION)"
+
+          # Descargar driver compatible
+          DRIVER_VERSION=$(curl -s "https://msedgedriver.azureedge.net/LATEST_RELEASE_${EDGE_MAJOR_VERSION}")
+          echo "Installing EdgeDriver version $DRIVER_VERSION"
           curl -LO "https://msedgedriver.azureedge.net/${DRIVER_VERSION}/edgedriver_linux64.zip"
           unzip -o edgedriver_linux64.zip
           sudo mv -f msedgedriver /usr/local/bin/
