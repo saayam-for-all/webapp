@@ -53,7 +53,6 @@ jobs:
       # GeckoDriver (para Firefox)
 
       - name: Install EdgeDriver (matching installed Edge)
-      - name: Install EdgeDriver (matching installed Edge)
         run: |
           # Obtener versión de Edge instalada
           EDGE_FULL_VERSION=$(microsoft-edge --version | awk '{print $3}')
