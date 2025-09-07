@@ -52,24 +52,15 @@ jobs:
 
       # GeckoDriver (para Firefox)
 
-      - name: Show installed browsers
+      - name: Install EdgeDriver (matching installed Edge)
         run: |
-          echo "=== Checking Chrome ==="
-          google-chrome --version || echo "Chrome not installed"
-
-          echo "=== Checking Chromium ==="
-          chromium-browser --version || echo "Chromium not installed"
-
-          echo "=== Checking Firefox ==="
-          firefox --version || echo "Firefox not installed"
-
-          echo "=== Checking Edge ==="
-          microsoft-edge --version || echo "Edge not installed"
-
-          echo "=== Checking drivers ==="
-          chromedriver --version || echo "ChromeDriver not installed"
-          geckodriver --version || echo "GeckoDriver not installed"
-          msedgedriver --version || echo "EdgeDriver not installed"
+          EDGE_VERSION=139
+          DRIVER_VERSION=$(curl -s "https://msedgedriver.azureedge.net/LATEST_RELEASE_${EDGE_VERSION}")
+          echo "Installing EdgeDriver version $DRIVER_VERSION for Edge $EDGE_VERSION"
+          curl -LO "https://msedgedriver.azureedge.net/${DRIVER_VERSION}/edgedriver_linux64.zip"
+          unzip -o edgedriver_linux64.zip
+          sudo mv -f msedgedriver /usr/local/bin/
+          msedgedriver --version
 
       - name: Install Python dependencies
         working-directory: ./e2e-tests
