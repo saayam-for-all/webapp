@@ -52,31 +52,24 @@ jobs:
 
       # GeckoDriver (para Firefox)
 
-      - name: Install Microsoft Edge and EdgeDriver
+      - name: Show installed browsers
         run: |
-          # Instalar dependencias necesarias
-          sudo apt-get update
-          sudo apt-get install -y wget curl unzip
+          echo "=== Checking Chrome ==="
+          google-chrome --version || echo "Chrome not installed"
 
-          # Instalar Edge solo si no está instalado
-          if ! command -v microsoft-edge &> /dev/null; then
-            wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
-            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
-            sudo apt-get update
-            sudo apt-get install -y microsoft-edge-stable
-          fi
+          echo "=== Checking Chromium ==="
+          chromium-browser --version || echo "Chromium not installed"
 
-          # Detectar versión instalada de Edge
-          EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
-          echo "Installed Edge version: $EDGE_VERSION"
+          echo "=== Checking Firefox ==="
+          firefox --version || echo "Firefox not installed"
 
-          # Descargar EdgeDriver compatible con la versión mayor
-          DRIVER_VERSION=$(curl -s "https://msedgedriver.azureedge.net/LATEST_RELEASE_${EDGE_VERSION%%.*}")
-          echo "Downloading EdgeDriver version: $DRIVER_VERSION"
-          curl -LO "https://msedgedriver.azureedge.net/${DRIVER_VERSION}/edgedriver_linux64.zip"
-          unzip -o edgedriver_linux64.zip
-          sudo mv -f msedgedriver /usr/local/bin/
-          msedgedriver --version
+          echo "=== Checking Edge ==="
+          microsoft-edge --version || echo "Edge not installed"
+
+          echo "=== Checking drivers ==="
+          chromedriver --version || echo "ChromeDriver not installed"
+          geckodriver --version || echo "GeckoDriver not installed"
+          msedgedriver --version || echo "EdgeDriver not installed"
 
       - name: Install Python dependencies
         working-directory: ./e2e-tests
