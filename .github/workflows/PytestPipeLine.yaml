@@ -54,20 +54,26 @@ jobs:
 
       - name: Install Microsoft Edge and EdgeDriver
         run: |
-          # Añadir repo oficial de Microsoft
+          # Instalar dependencias necesarias
           sudo apt-get update
-          sudo apt-get install -y software-properties-common apt-transport-https wget curl gnupg unzip
-          wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-          sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+          sudo apt-get install -y wget curl unzip
 
-          # Instalar Edge estable
-          sudo apt-get update
-          sudo apt-get install -y microsoft-edge-stable
+          # Instalar Edge solo si no está instalado
+          if ! command -v microsoft-edge &> /dev/null; then
+            wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
+            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+            sudo apt-get update
+            sudo apt-get install -y microsoft-edge-stable
+          fi
 
-          # Descargar e instalar EdgeDriver que coincida con la versión instalada
+          # Detectar versión instalada de Edge
           EDGE_VERSION=$(microsoft-edge --version | awk '{print $3}')
+          echo "Installed Edge version: $EDGE_VERSION"
+
+          # Descargar EdgeDriver compatible con la versión mayor
           DRIVER_VERSION=$(curl -s "https://msedgedriver.azureedge.net/LATEST_RELEASE_${EDGE_VERSION%%.*}")
-          wget -q "https://msedgedriver.azureedge.net/${DRIVER_VERSION}/edgedriver_linux64.zip"
+          echo "Downloading EdgeDriver version: $DRIVER_VERSION"
+          curl -LO "https://msedgedriver.azureedge.net/${DRIVER_VERSION}/edgedriver_linux64.zip"
           unzip -o edgedriver_linux64.zip
           sudo mv -f msedgedriver /usr/local/bin/
           msedgedriver --version
