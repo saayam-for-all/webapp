@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../../redux/features/authentication/authActions";
 import { z } from "zod";
 
@@ -35,6 +35,14 @@ const ForgotPasswordPage = () => {
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
+        <div className="w-full mb-4">
+          <button
+            onClick={() => navigate("/login")}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&larr;</span> Back to Login
+          </button>
+        </div>
         <h1 className="my-4 text-3xl font-bold text-center">Password Reset</h1>
         <div className="my-2 flex flex-col">
           <label htmlFor="email">Email</label>
