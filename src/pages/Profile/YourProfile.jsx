@@ -14,6 +14,15 @@ import LoadingIndicator from "../../common/components/Loading/Loading";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 
+// Additional validation helpers
+const DISPOSABLE_EMAIL_DOMAINS = [
+  "mailinator.com",
+  "tempmail.com",
+  "10minutemail.com",
+  "guerrillamail.com",
+  "yopmail.com",
+];
+
 function YourProfile({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -37,6 +46,9 @@ function YourProfile({ setHasUnsavedChanges }) {
   const [nameErrors, setNameErrors] = useState({ firstName: "", lastName: "" });
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [emailConfirm, setEmailConfirm] = useState("");
+  const [emailConfirmError, setEmailConfirmError] = useState("");
+  const [countryError, setCountryError] = useState("");
 
   const [profileInfo, setProfileInfo] = useState({
     firstName: "",
@@ -146,6 +158,8 @@ function YourProfile({ setHasUnsavedChanges }) {
 
     if (requireNonEmpty && trimmed.length === 0) {
       error = `${label} is required`;
+    } else if (trimmed.length < 2) {
+      error = `${label} must be at least 2 characters long`;
     } else if (trimmed.length > 50) {
       error = "Maximum 50 characters allowed";
     } else if (trimmed.length > 0) {
@@ -154,6 +168,8 @@ function YourProfile({ setHasUnsavedChanges }) {
         error = "Multiple consecutive spaces are not allowed";
       else if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(trimmed))
         error = "Only letters and spaces are allowed";
+    } else if (/\p{Emoji}/u.test(trimmed)) {
+      error = "Emojis are not allowed";
     }
 
     setNameErrors((prev) => ({ ...prev, [field]: error }));
@@ -162,12 +178,66 @@ function YourProfile({ setHasUnsavedChanges }) {
 
   const validateEmail = (value, showError = false) => {
     let error = "";
-    if (value) {
+    if (!value) {
+      error = "Email is required";
+    } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
       if (!emailRegex.test(value)) error = "Please enter a valid email address";
+      const domain = value.split("@")[1]?.toLowerCase();
+      if (DISPOSABLE_EMAIL_DOMAINS.includes(domain)) {
+        error = "Disposable email domains are not allowed";
+      }
     }
+
     if (showError) setEmailError(error);
     return error === "";
+  };
+
+  const validateEmailConfirmation = () => {
+    let error = "";
+    if (emailConfirm.trim() !== profileInfo.email.trim()) {
+      error = "Emails do not match";
+    }
+    setEmailConfirmError(error);
+    return error === "";
+  };
+
+  const validatePhoneByRegion = () => {
+    try {
+      const parsed = parsePhoneNumber(
+        `${PHONECODESEN[countryCode]?.secondary || ""}${phone}`,
+      );
+      if (parsed?.countryCallingCode === "91" && phone.length !== 10) {
+        setPhoneError("Indian numbers must be exactly 10 digits");
+        return false;
+      }
+    } catch {
+      // ignore parsing errors here;
+    }
+    return true;
+  };
+
+  // ✅ Country Required Validator
+  const validateCountry = () => {
+    if (!profileInfo.country) {
+      setCountryError("Country selection is required");
+      return false;
+    }
+    setCountryError("");
+    return true;
+  };
+
+  // ✅ Trim all inputs before save
+  const trimInputs = () => {
+    setProfileInfo((prev) => ({
+      ...prev,
+      firstName: prev.firstName.trim(),
+      lastName: prev.lastName.trim(),
+      email: prev.email.trim(),
+      phone: prev.phone.trim(),
+      country: prev.country.trim(),
+    }));
+    setEmailConfirm((prev) => prev.trim());
   };
 
   // Generic field changes (phone handled by PhoneNumberInputWithCountry)
@@ -238,18 +308,19 @@ function YourProfile({ setHasUnsavedChanges }) {
 
   const handleSave = async () => {
     try {
+      trimInputs();
       setLoading(true);
       setSaveError("");
       setSaveAttempted(true);
 
       const firstOk = validateName("firstName", profileInfo.firstName, true);
       const lastOk = validateName("lastName", profileInfo.lastName, true);
-      if (!firstOk || !lastOk)
-        throw new Error("Please fix the highlighted name fields");
+      const emailOk = validateEmail(profileInfo.email, true);
+      const emailConfirmOk = validateEmailConfirmation();
+      const countryOk = validateCountry();
 
-      if (!profileInfo.email.trim()) throw new Error("Email is required");
-      if (!validateEmail(profileInfo.email, true))
-        throw new Error("Please enter a valid email address");
+      if (!firstOk || !lastOk || !emailOk || !emailConfirmOk || !countryOk)
+        throw new Error("Please fix the highlighted name fields");
 
       // ✅ ContactUs-style validation + strict region check
       const dial = PHONECODESEN[countryCode]?.secondary || "";
@@ -285,6 +356,11 @@ function YourProfile({ setHasUnsavedChanges }) {
         }
       } catch {
         setPhoneError("Please enter a valid phone number");
+        setLoading(false);
+        return;
+      }
+
+      if (!validatePhoneByRegion()) {
         setLoading(false);
         return;
       }
@@ -503,6 +579,19 @@ function YourProfile({ setHasUnsavedChanges }) {
             {emailError && (
               <p className="text-sm text-red-600 mt-1">{emailError}</p>
             )}
+            <input
+              type="email"
+              placeholder={t("CONFIRM_EMAIL", "Confirm Email")}
+              value={emailConfirm}
+              onChange={(e) => setEmailConfirm(e.target.value)}
+              onPaste={(e) => e.preventDefault()}
+              className={`mt-2 block w-full bg-white text-gray-700 border ${
+                emailConfirmError ? "border-red-500" : "border-gray-200"
+              } rounded py-3 px-4 focus:outline-none`}
+            />
+            {emailConfirmError && (
+              <p className="text-sm text-red-600 mt-1">{emailConfirmError}</p>
+            )}
             {showEmailVerificationMessage &&
               profileInfo.email !== originalEmail &&
               !emailError && (
@@ -591,6 +680,9 @@ function YourProfile({ setHasUnsavedChanges }) {
           </select>
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.country}</p>
+        )}
+        {countryError && (
+          <p className="text-sm text-red-600 mt-1">{countryError}</p>
         )}
       </div>
 
