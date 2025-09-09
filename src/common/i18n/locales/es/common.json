@@ -410,5 +410,14 @@
   "Add Time Slot": "Agregar horario",
   "VACATION_MODE_ACTIVE": "Modo vacaciones activo",
   "NO AVAILABILITY SLOTS": "No hay horarios de disponibilidad configurados",
-  "Availability": "Disponibilidad"
+  "Availability": "Disponibilidad",
+
+  "PREFERENCES": "Preferencias",
+  "DEFAULT DASHBOARD VIEW": "Vista de panel predeterminada",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "Recibir notificaciones de emergencia",
+  "PREFERENCES UPDATED SUCCESS": "¡Preferencias actualizadas exitosamente!",
+  "EMAIL COMMUNICATION PREFERENCE": "Preferencia de comunicación por correo electrónico",
+  "PHONE COMMUNICATION PREFERENCE": "Preferencia de comunicación telefónica",
+  "PRIMARY EMAIL": "Correo electrónico principal",
+  "PRIMARY PHONE": "Teléfono principal"
 }

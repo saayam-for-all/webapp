@@ -447,5 +447,14 @@
   "Add Time Slot": "Ajouter un créneau horaire",
   "VACATION_MODE_ACTIVE": "Mode vacances actif",
   "NO AVAILABILITY SLOTS": "Aucun créneau de disponibilité configuré",
-  "Availability": "Disponibilité"
+  "Availability": "Disponibilité",
+
+  "PREFERENCES": "Préférences",
+  "DEFAULT DASHBOARD VIEW": "Vue du tableau de bord par défaut",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "Recevoir des notifications d'urgence",
+  "PREFERENCES UPDATED SUCCESS": "Préférences mises à jour avec succès !",
+  "EMAIL COMMUNICATION PREFERENCE": "Préférence de communication par courrier électronique",
+  "PHONE COMMUNICATION PREFERENCE": "Préférence de communication téléphonique",
+  "PRIMARY EMAIL": "E-mail principal",
+  "PRIMARY PHONE": "Téléphone principal"
 }
