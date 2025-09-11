@@ -308,12 +308,26 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           // No complex mappings needed - API keys now match i18n keys exactly
           console.log("Categories API response:", categoriesData);
 
-          // Validate the response format
+          // Extract categories array from API response
+          let categoriesArray;
           if (Array.isArray(categoriesData)) {
-            dispatch(loadCategories(categoriesData));
+            categoriesArray = categoriesData;
+          } else if (
+            categoriesData &&
+            Array.isArray(categoriesData.categories)
+          ) {
+            categoriesArray = categoriesData.categories;
+          } else if (categoriesData && typeof categoriesData === "object") {
+            // Log the structure to understand the API format
+            console.log("API response structure:", Object.keys(categoriesData));
+            throw new Error(
+              "Invalid API response format - expected array or object with categories array",
+            );
           } else {
             throw new Error("Invalid API response format - expected array");
           }
+
+          dispatch(loadCategories(categoriesArray));
         } catch (error) {
           console.warn(
             "Categories API failed, using static fallback:",
@@ -809,8 +823,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 <div
                   className={`absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex${
                     hoveredCategory &&
-                    hoveredCategory.subcategories &&
-                    hoveredCategory.subcategories.length > 0
+                    hoveredCategory.subCategories &&
+                    hoveredCategory.subCategories.length > 0
                       ? ""
                       : " flex-col"
                   }`}
@@ -828,8 +842,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <div
                     className={
                       hoveredCategory &&
-                      hoveredCategory.subcategories &&
-                      hoveredCategory.subcategories.length > 0
+                      hoveredCategory.subCategories &&
+                      hoveredCategory.subCategories.length > 0
                         ? "w-1/2 overflow-y-auto"
                         : "w-full overflow-y-auto"
                     }
@@ -837,9 +851,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   >
                     {filteredCategories.map((category) => (
                       <div
-                        key={category.id}
+                        key={category.catId}
                         className={`p-2 cursor-pointer hover:bg-gray-100 bg-white flex items-center justify-between ${
-                          hoveredCategory?.id === category.id
+                          hoveredCategory?.catId === category.catId
                             ? "font-semibold bg-gray-50"
                             : ""
                         }`}
@@ -891,7 +905,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                           {hoveredCategory.subCategories.map(
                             (subcategory, index) => (
                               <div
-                                key={index}
+                                key={subcategory.catId}
                                 className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
                                   index !==
                                   hoveredCategory.subCategories.length - 1
