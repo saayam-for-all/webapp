@@ -396,5 +396,19 @@
   "Add Time Slot": "Zeitslot hinzufügen",
   "VACATION_MODE_ACTIVE": "Urlaubsmodus aktiv",
   "NO AVAILABILITY SLOTS": "Keine Verfügbarkeitsslots konfiguriert",
-  "Availability": "Verfügbarkeit"
+  "Availability": "Verfügbarkeit",
+  "Lead Volunteer": "Haupt-Freiwilliger",
+  "Request Priority": "Anfrage-Priorität",
+  "Low": "Niedrig",
+  "Medium": "Mittel",
+  "High": "Hoch",
+  "Is Calamity?": "Ist es eine Katastrophe?",
+  "FOR_SELF_HELP_TEXT": "Wählen Sie 'Ja', wenn Sie diese Anfrage in eigenem Namen einreichen, andernfalls 'Nein', wenn Sie für jemand anderen anfordern.",
+  "LEAD_VOLUNTEER_HELP_TEXT": "Wählen Sie 'Ja', wenn Sie der Haupt-Freiwillige sind, der diese Anfrage koordiniert.",
+  "CATEGORY_HELP_TEXT": "Wählen Sie die Kategorie, die Ihren Bedarf am besten beschreibt (z.B. Medizin, Essen, Jobs). Wenn Sie 'Allgemein' wählen, beschreiben Sie Ihren Bedarf vollständig im Beschreibungsfeld.",
+  "REQUEST_TYPE_HELP_TEXT": "Geben Sie an, wie Sie Hilfe erhalten möchten: 'Remote' für virtuelle Unterstützung oder 'Persönlich' für Hilfe vor Ort.",
+  "CALAMITY_HELP_TEXT": "Geben Sie an, ob es sich um eine Katastrophe handelt, indem Sie das Kästchen ankreuzen.",
+  "PRIORITY_HELP_TEXT": "Wie dringend ist diese Anfrage?<br />• Niedrig – Nicht zeitkritisch<br />• Mittel – Innerhalb weniger Tage<br />• Hoch – Sofortige Unterstützung",
+  "SUBJECT_HELP_TEXT": "Geben Sie eine kurze Beschreibung der Anfrage",
+  "DESCRIPTION_HELP_TEXT": "Geben Sie eine detaillierte Beschreibung der Anfrage"
 }
