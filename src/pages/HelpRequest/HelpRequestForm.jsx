@@ -334,7 +334,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               cat.catName !== "cat_name" &&
               cat.catId !== "cat_id" &&
               cat.catId !== "﻿cat_id" && // Handle BOM characters
-              !cat.catName.toLowerCase().includes("cat_name"),
+              !cat.catName.toLowerCase().includes("cat_name") &&
+              !cat.catId.toLowerCase().includes("cat_id"),
           );
 
           console.log(
@@ -382,7 +383,29 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       (c) => c.catName === selectedKeyOrText || c.catId === selectedKeyOrText,
     );
     if (cat) {
-      return t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
+      // Try new API key first, fall back to old key mapping for backward compatibility
+      const newKey = cat.catName;
+      const oldKeyMap = {
+        FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_ESSENTIALS",
+        CLOTHING_SUPPORT: "CLOTHING_AND_SUPPORT",
+        HOUSING_SUPPORT: "HOUSING_ASSISTANCE",
+        EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
+        HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLBEING",
+        ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
+        GENERAL_CATEGORY: "GENERAL",
+      };
+
+      // Try new key first
+      const newKeyResult = t(`categories:REQUEST_CATEGORIES.${newKey}.LABEL`, {
+        defaultValue: null,
+      });
+      if (newKeyResult && newKeyResult !== newKey) {
+        return newKeyResult;
+      }
+
+      // Fall back to old key if new key translation doesn't exist
+      const oldKey = oldKeyMap[newKey] || newKey;
+      return t(`categories:REQUEST_CATEGORIES.${oldKey}.LABEL`, {
         defaultValue: cat.catName,
       });
     }
@@ -394,8 +417,32 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         (s) => s.catName === selectedKeyOrText || s.catId === selectedKeyOrText,
       );
       if (match) {
+        // Apply same fallback logic for subcategories
+        const newCatKey = c.catName;
+        const newSubKey = match.catName;
+        const oldKeyMap = {
+          FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_ESSENTIALS",
+          CLOTHING_SUPPORT: "CLOTHING_AND_SUPPORT",
+          HOUSING_SUPPORT: "HOUSING_ASSISTANCE",
+          EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
+          HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLBEING",
+          ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
+          GENERAL_CATEGORY: "GENERAL",
+        };
+
+        // Try new key first
+        const newResult = t(
+          `categories:REQUEST_CATEGORIES.${newCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
+          { defaultValue: null },
+        );
+        if (newResult && newResult !== newSubKey) {
+          return newResult;
+        }
+
+        // Fall back to old key structure
+        const oldCatKey = oldKeyMap[newCatKey] || newCatKey;
         return t(
-          `categories:REQUEST_CATEGORIES.${c.catName}.SUBCATEGORIES.${match.catName}.LABEL`,
+          `categories:REQUEST_CATEGORIES.${oldCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
           {
             defaultValue: match.catName,
           },
