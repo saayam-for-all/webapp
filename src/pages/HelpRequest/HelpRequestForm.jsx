@@ -327,7 +327,23 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             throw new Error("Invalid API response format - expected array");
           }
 
-          dispatch(loadCategories(categoriesArray));
+          // Filter out invalid/header entries (like cat_name, cat_id placeholders)
+          const validCategories = categoriesArray.filter(
+            (cat) =>
+              cat.catName &&
+              cat.catName !== "cat_name" &&
+              cat.catId !== "cat_id" &&
+              cat.catId !== "﻿cat_id" && // Handle BOM characters
+              !cat.catName.toLowerCase().includes("cat_name"),
+          );
+
+          console.log(
+            "Filtered categories:",
+            validCategories.length,
+            "out of",
+            categoriesArray.length,
+          );
+          dispatch(loadCategories(validCategories));
         } catch (error) {
           console.warn(
             "Categories API failed, using static fallback:",
