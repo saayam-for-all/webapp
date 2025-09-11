@@ -1039,7 +1039,37 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
               </div>
+              {formData.request_type === "In Person" && (
+                <div
+                  className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
+                  data-testid="parentDivTwo"
+                >
+                  <label
+                    htmlFor="location"
+                    className="block mb-1 font-medium text-gray-700"
+                  >
+                    Location
+                  </label>
+                  {isLoaded && (
+                    <StandaloneSearchBox
+                      onLoad={(ref) => (inputRef.current = ref)}
+                      onPlacesChanged={handleOnPlacesChanged}
+                    >
+                      <input
+                        type="text"
+                        id="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        name="location"
+                        className="border p-2 w-full rounded-lg"
+                        placeholder="Search for location..."
+                      />
+                    </StandaloneSearchBox>
+                  )}
+                </div>
+              )}
             </div>
+
             <div className="mt-3 flex gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
@@ -1118,33 +1148,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
             </div>
-
-            {formData.request_type === "In Person" && (
-              <div>
-                <label
-                  htmlFor="location"
-                  className="block mb-1 font-medium text-gray-700"
-                >
-                  Location
-                </label>
-                {isLoaded && (
-                  <StandaloneSearchBox
-                    onLoad={(ref) => (inputRef.current = ref)}
-                    onPlacesChanged={handleOnPlacesChanged}
-                  >
-                    <input
-                      type="text"
-                      id="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      name="location"
-                      className="border p-2 w-full rounded-lg"
-                      placeholder="Search for location..."
-                    />
-                  </StandaloneSearchBox>
-                )}
-              </div>
-            )}
           </div>
           <div className="mt-3" data-testid="parentDivSix">
             {formData.category === "Jobs" && <JobsCategory />}
