@@ -1,0 +1,260 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer renders correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <footer
+        class="footer"
+      >
+        <div
+          class="footer-inner"
+        >
+          <div
+            class="footer-top-wrapper"
+          >
+            <div
+              class="footer-top"
+            >
+              <div
+                class="footer-logo"
+              >
+                <img
+                  alt="Saayam logo"
+                  src=""
+                />
+              </div>
+              <nav
+                aria-label="Footer navigation"
+                class="footer-nav"
+              >
+                <a
+                  href="/"
+                >
+                  mockTranslate(HOME)
+                </a>
+                <a
+                  href="/our-mission"
+                >
+                  mockTranslate(OUR_MISSION)
+                </a>
+                <a
+                  href="/our-team"
+                >
+                  mockTranslate(OUR_TEAM)
+                </a>
+                <a
+                  href="/how-we-operate"
+                >
+                  mockTranslate(HOW_WE_OPERATE)
+                </a>
+                <a
+                  href="/contact"
+                >
+                  mockTranslate(CONTACT)
+                </a>
+              </nav>
+              <div
+                class="footer-contact"
+              >
+                <a
+                  href="/donate"
+                >
+                  <button
+                    type="button"
+                  >
+                    mockTranslate(DONATE)
+                  </button>
+                </a>
+              </div>
+            </div>
+            <hr
+              class="footer-divider"
+            />
+          </div>
+          <div
+            class="footer-bottom-grid"
+          >
+            <div
+              class="footer-copy"
+            >
+              mockTranslate(COPYRIGHT)
+            </div>
+            <div
+              class="footer-links"
+            >
+              <a
+                href="/sitemap"
+              >
+                mockTranslate(SITE_MAP)
+              </a>
+              <a
+                href="/terms-and-conditions"
+              >
+                mockTranslate(TERMS_AND_CONDITIONS)
+              </a>
+              <a
+                href="/privacy-policy"
+              >
+                mockTranslate(PRIVACY_POLICY)
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>,
+  "container": <div>
+    <footer
+      class="footer"
+    >
+      <div
+        class="footer-inner"
+      >
+        <div
+          class="footer-top-wrapper"
+        >
+          <div
+            class="footer-top"
+          >
+            <div
+              class="footer-logo"
+            >
+              <img
+                alt="Saayam logo"
+                src=""
+              />
+            </div>
+            <nav
+              aria-label="Footer navigation"
+              class="footer-nav"
+            >
+              <a
+                href="/"
+              >
+                mockTranslate(HOME)
+              </a>
+              <a
+                href="/our-mission"
+              >
+                mockTranslate(OUR_MISSION)
+              </a>
+              <a
+                href="/our-team"
+              >
+                mockTranslate(OUR_TEAM)
+              </a>
+              <a
+                href="/how-we-operate"
+              >
+                mockTranslate(HOW_WE_OPERATE)
+              </a>
+              <a
+                href="/contact"
+              >
+                mockTranslate(CONTACT)
+              </a>
+            </nav>
+            <div
+              class="footer-contact"
+            >
+              <a
+                href="/donate"
+              >
+                <button
+                  type="button"
+                >
+                  mockTranslate(DONATE)
+                </button>
+              </a>
+            </div>
+          </div>
+          <hr
+            class="footer-divider"
+          />
+        </div>
+        <div
+          class="footer-bottom-grid"
+        >
+          <div
+            class="footer-copy"
+          >
+            mockTranslate(COPYRIGHT)
+          </div>
+          <div
+            class="footer-links"
+          >
+            <a
+              href="/sitemap"
+            >
+              mockTranslate(SITE_MAP)
+            </a>
+            <a
+              href="/terms-and-conditions"
+            >
+              mockTranslate(TERMS_AND_CONDITIONS)
+            </a>
+            <a
+              href="/privacy-policy"
+            >
+              mockTranslate(PRIVACY_POLICY)
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

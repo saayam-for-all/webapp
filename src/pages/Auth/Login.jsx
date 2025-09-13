@@ -5,14 +5,10 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { INACTIVITY_TIMEOUT } from "../../common/components/InactivityTimer/InactivityTimer.jsx";
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 import "./Login.css";
-
-const loginSchema = z.object({
-  email: z.string().min(1, "Please enter your email"),
-  password: z.string().min(1, "Please enter your password"),
-});
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -28,16 +24,23 @@ const LoginPage = () => {
 
   const { user } = useSelector((state) => state.auth);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const loginSchema = z.object({
+    email: z.string().min(1, { message: t("EMAIL_REQUIRED") }),
+    password: z.string().min(1, { message: t("PASSWORD_REQUIRED") }),
+  });
+
   useEffect(() => {
     if (user) {
       navigate("/dashboard");
     }
   }, [user]);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const handleSignIn = async () => {
+    setErrors({ root: "Login is currently disabled." });
+    return;
     try {
       const result = loginSchema.safeParse({
         email: emailValue,
@@ -58,11 +61,13 @@ const LoginPage = () => {
       });
       if (isSignedIn) {
         await dispatch(checkAuthStatus());
+        const newExpiry = Date.now() + INACTIVITY_TIMEOUT;
+        localStorage.setItem("expireTime", newExpiry.toString());
         navigate("/dashboard");
       }
     } catch (error) {
       console.log("error", error);
-      setErrors({ root: "Invalid email or password" });
+      setErrors({ root: t("INVALID_CREDENTIALS") });
     }
   };
 
@@ -76,7 +81,7 @@ const LoginPage = () => {
             id="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
-            placeholder="Your Email"
+            placeholder={t("Email")}
             type="text"
             className="px-4 py-2 border border-gray-300 rounded-xl"
             required={true}
@@ -96,7 +101,7 @@ const LoginPage = () => {
           >
             <input
               id="password"
-              placeholder="Password"
+              placeholder={t("Password")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
               onChange={(e) => setPasswordValue(e.target.value)}
