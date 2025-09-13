@@ -133,6 +133,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
 
+  const complete = Boolean(
+    personalInfo.streetAddress &&
+      personalInfo.country &&
+      personalInfo.state &&
+      personalInfo.zipCode,
+  );
+  localStorage.setItem("addressFlag", complete ? "true" : "false");
+
   useEffect(() => {
     const updateDateFormat = async () => {
       const selectedCountry = countries.find(

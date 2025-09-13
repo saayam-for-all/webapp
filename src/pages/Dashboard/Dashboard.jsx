@@ -223,6 +223,14 @@ const Dashboard = ({ userRole }) => {
     setIsStatusDropdownOpen(!isStatusDropdownOpen);
   };
 
+  const [hasAddress, setHasAddress] = useState(
+    localStorage.getItem("addressFlag") === "true",
+  );
+
+  useEffect(() => {
+    setHasAddress(localStorage.getItem("addressFlag") === "true");
+  }, [location]);
+
   useEffect(() => {
     if (Object.keys(categoryFilter).length === 0) {
       setCategoryFilter(allCategories);
@@ -241,21 +249,40 @@ const Dashboard = ({ userRole }) => {
 
   return (
     <div className="p-5">
+      {!hasAddress && (
+        <p className="text-red-600 pb-2">
+          Please add your address in Profile to continue
+        </p>
+      )}
       <div className="flex gap-10 mb-5">
         <Link
           to="/request"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center"
+          onClick={(e) => {
+            if (!hasAddress) e.preventDefault();
+          }}
+          className={`bg-blue-500 ${hasAddress ? "hover:bg-blue-700" : "opacity-50 cursor-not-allowed"} text-white py-2 px-4 rounded-md flex items-center justify-center`}
           style={{ color: "white", textDecoration: "none" }}
         >
-          <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
+          <span
+            lassName={`${hasAddress ? "hover:underline" : "hover:no-underline"}`}
+          >
+            {t("CREATE_HELP_REQUEST")}
+          </span>
         </Link>
         {!groups?.includes("Volunteers") && (
           <Link
             to="/promote-to-volunteer"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center"
+            onClick={(e) => {
+              if (!hasAddress) e.preventDefault();
+            }}
+            className={`bg-blue-500 ${hasAddress ? "hover:bg-blue-700" : "opacity-50 cursor-not-allowed"} text-white py-2 px-4 rounded-md flex items-center justify-center`}
             style={{ color: "white", textDecoration: "none" }}
           >
-            <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
+            <span
+              className={`${hasAddress ? "hover:underline" : "hover:no-underline"}`}
+            >
+              {t("BECOME_VOLUNTEER")}
+            </span>
           </Link>
         )}
         <div className="flex ml-auto gap-2 items-center">
