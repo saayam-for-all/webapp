@@ -329,5 +329,14 @@
   "Add Time Slot": "Add Time Slot",
   "VACATION_MODE_ACTIVE": "Vacation Mode Active",
   "NO AVAILABILITY SLOTS": "No availability slots configured",
-  "Availability": "Availability"
+  "Availability": "Availability",
+  "Is Calamity?": "Is Calamity?",
+  "FOR_SELF_HELP_TEXT": "Choose 'Yes' if you're submitting this request on your own behalf else 'No' if you're requesting for someone else.",
+  "LEAD_VOLUNTEER_HELP_TEXT": "Select \"Yes\" if you're the main volunteer coordinating this request.",
+  "CATEGORY_HELP_TEXT": "Choose the category that best describes your need (e.g., Medical, Food, Jobs). If you select 'General,' please describe your need fully in the Description field.",
+  "REQUEST_TYPE_HELP_TEXT": "Indicate how you'd like help delivered: \"Remote\" for virtual support or \"In Person\" for onsite assistance.",
+  "CALAMITY_HELP_TEXT": "Indicate if it is a calamity by checking the box.",
+  "PRIORITY_HELP_TEXT": "How urgent is this request?<br />• Low – Not time sensitive<br />• Medium – Within few days<br />• High – Immediate support",
+  "SUBJECT_HELP_TEXT": "Please give a brief description of the request",
+  "DESCRIPTION_HELP_TEXT": "Please give a detailed description of the request"
 }

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { forgotPassword } from "../../redux/features/authentication/authActions";
 import { z } from "zod";
+import { useTranslation } from "react-i18next";
 
 const forgotPasswordSchema = z.object({
   email: z
@@ -12,6 +13,7 @@ const forgotPasswordSchema = z.object({
 });
 
 const ForgotPasswordPage = () => {
+  const { t } = useTranslation();
   const [emailValue, setEmailValue] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -54,6 +56,12 @@ const ForgotPasswordPage = () => {
           />
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
+        <button
+          className="my-2 text-left underline"
+          onClick={() => navigate(-1)}
+        >
+          {t("common:BACK")}
+        </button>
         <button
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSubmit}

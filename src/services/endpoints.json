@@ -15,5 +15,5 @@
   "GET_NOTIFICATIONS": "requests/v0.0.1/getNotifications",
   "GENERATE_ANSWER": "genai/v0.0.1/generate_answer",
   "GET_USER_ID": "volunteers/v0.0.1/findUserByEmailID",
-  "GET_CATEGORIES": "/requests/v0.0.1/mockCategories"
+  "GET_CATEGORIES": "/requests/v0.0.1/mockCategoriesAPI"
 }
