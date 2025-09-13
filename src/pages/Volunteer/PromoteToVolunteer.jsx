@@ -5,6 +5,7 @@ import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
 import Complete from "./steps/Complete";
 import Skills from "./steps/Skills";
+import { useNavigate } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
@@ -18,6 +19,7 @@ import { useSelector } from "react-redux";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
   const [govtIdFile, setGovtIdFile] = useState({});
   const token = useSelector((state) => state.auth.idToken);
@@ -240,6 +242,14 @@ const PromoteToVolunteer = () => {
 
   return (
     <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+      <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+        <button
+          onClick={() => navigate("/")}
+          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+        >
+          <span className="text-2xl mr-2">&lt;</span> Back to Home
+        </button>
+      </div>
       <div className="container horizontal mt-5 p-12">
         <Stepper steps={steps} currentStep={currentStep} />
         <div className="mt-12 p-12">{displayStep(currentStep)}</div>

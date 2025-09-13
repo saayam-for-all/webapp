@@ -1,7 +1,13 @@
-import { confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
-import { useState } from "react";
+import {
+  confirmSignUp,
+  resendSignUpCode,
+  confirmUserAttribute,
+} from "aws-amplify/auth";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { maskEmail } from "../../utils/utils";
+import { updateUserProfile } from "../../redux/features/authentication/authActions";
 
 function OTPVerification() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -9,7 +15,15 @@ function OTPVerification() {
   const [message, setMessage] = useState("");
   const [resendMessage, setResendMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { state } = useLocation();
+
+  const isEmailUpdate = state?.isEmailUpdate;
+  const pendingProfileData = state?.pendingProfileData;
+
+  useEffect(() => {
+    document.getElementById("otp-input-0")?.focus();
+  }, []);
 
   const handleChange = (element, index) => {
     const value = element.value.slice(-1);
@@ -36,16 +50,45 @@ function OTPVerification() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     try {
-      const { isSignUpComplete } = await confirmSignUp({
-        username: state?.email,
-        confirmationCode: otp.join(""),
-      });
-      if (isSignUpComplete) {
-        setMessage("OTP Verified Successfully!");
-        setTimeout(() => navigate("/login"), 2000);
+      if (isEmailUpdate) {
+        // Handle email update verification
+        await confirmUserAttribute({
+          userAttributeKey: "email",
+          confirmationCode: otp.join(""),
+        });
+
+        if (pendingProfileData) {
+          const result = await dispatch(updateUserProfile(pendingProfileData))
+            .then((response) => response)
+            .catch((error) => {
+              throw error;
+            });
+
+          if (result?.success) {
+            setMessage("Email verified and profile updated successfully!");
+            setTimeout(() => navigate("/profile"), 2000);
+          } else {
+            throw new Error(result?.error || "Failed to update profile");
+          }
+        } else {
+          setMessage("Email verified successfully!");
+          setTimeout(() => navigate("/profile"), 2000);
+        }
+      } else {
+        const { isSignUpComplete } = await confirmSignUp({
+          username: state?.email,
+          confirmationCode: otp.join(""),
+        });
+
+        if (isSignUpComplete) {
+          setMessage("OTP Verified Successfully!");
+          setTimeout(() => navigate("/login"), 2000);
+        }
       }
     } catch (error) {
+      console.error("Verification error:", error);
       setMessage("Invalid OTP. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -54,9 +97,15 @@ function OTPVerification() {
 
   const handleResendCode = async () => {
     try {
-      await resendSignUpCode({ username: state?.email });
-      setResendMessage("A new OTP has been sent to your email.");
-      setTimeout(() => setResendMessage(""), 5000); // Clear the message after 5 seconds
+      if (isEmailUpdate) {
+        setResendMessage(
+          "Please try updating your email again from the profile page.",
+        );
+      } else {
+        await resendSignUpCode({ username: state?.email });
+        setResendMessage("A new OTP has been sent to your email.");
+      }
+      setTimeout(() => setResendMessage(""), 5000);
     } catch (error) {
       setResendMessage("Failed to resend OTP. Please try again later.");
     }
@@ -66,10 +115,15 @@ function OTPVerification() {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-800">
-          Verify Your Email
+          {isEmailUpdate ? "Verify Your New Email" : "Verify Your Email"}
         </h2>
         <p className="text-sm text-center text-gray-600">
-          Enter OTP code send to <strong>{maskEmail(state?.email)}</strong>
+          Enter OTP code sent to <strong>{maskEmail(state?.email)}</strong>
+          {isEmailUpdate && (
+            <span className="block mt-2 text-orange-600">
+              Your profile will be updated after verification
+            </span>
+          )}
         </p>
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <div className="flex justify-center space-x-2">
@@ -83,6 +137,7 @@ function OTPVerification() {
                 onChange={(e) => handleChange(e.target, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 maxLength={1}
+                autoFocus={index === 0}
                 className="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             ))}
@@ -101,7 +156,9 @@ function OTPVerification() {
           {message && (
             <p
               className={`mt-4 text-center font-medium ${
-                message.includes("Success") ? "text-green-600" : "text-red-600"
+                message.includes("Success") || message.includes("successfully")
+                  ? "text-green-600"
+                  : "text-red-600"
               }`}
             >
               {message}
@@ -120,6 +177,16 @@ function OTPVerification() {
             <p className="mt-2 text-green-600 text-sm">{resendMessage}</p>
           )}
         </div>
+        {isEmailUpdate && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => navigate("/profile")}
+              className="text-gray-500 underline hover:text-gray-700"
+            >
+              Cancel and return to profile
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

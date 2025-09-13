@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`YourProfile matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="flex flex-col border p-6 rounded-lg w-full"
+  >
+    <div
+      class="grid grid-cols-2 gap-4 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          FIRST_NAME
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          John
+        </p>
+      </div>
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          LAST_NAME
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          Doe
+        </p>
+      </div>
+    </div>
+    <div
+      class="mb-6"
+    >
+      <label
+        class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+      >
+        EMAIL
+      </label>
+      <p
+        class="text-lg text-gray-900"
+      >
+        john@example.com
+      </p>
+    </div>
+    <div
+      class="mb-6"
+    >
+      <label
+        class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+      >
+        PHONE_NUMBER
+      </label>
+      <div
+        class="flex items-center gap-2"
+      >
+        <p
+          class="text-lg text-gray-900"
+        >
+          +1United States 234567890
+        </p>
+        <button
+          class="text-gray-500 cursor-pointer hover:text-gray-700 ml-2"
+          data-testid="phone-call-icon"
+        >
+          📞
+        </button>
+        <button
+          class="text-gray-500 cursor-pointer hover:text-gray-700"
+          data-testid="video-call-icon"
+        >
+          📹
+        </button>
+      </div>
+    </div>
+    <div
+      class="mb-6"
+    >
+      <label
+        class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+      >
+        COUNTRY
+      </label>
+      <p
+        class="text-lg text-gray-900"
+      >
+        United States
+      </p>
+    </div>
+    <div
+      class="flex justify-center mt-6"
+    >
+      <button
+        class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+      >
+        EDIT
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

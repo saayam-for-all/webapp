@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import { getPhoneCodeslist } from "../../utils/utils";
 
 const COUNTRY_CODE_API =
   "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json";
@@ -9,6 +11,8 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const organizationNameRef = useRef(null);
+
+  const [errors, setErrors] = useState({});
 
   const [organizationInfo, setOrganizationInfo] = useState({
     organizationName: "",
@@ -23,8 +27,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     zipCode: "",
     organizationType: t("NON_PROFIT"),
   });
-
-  const [countryOptions, setCountryOptions] = useState([]);
+  const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
   useEffect(() => {
     fetch(COUNTRY_CODE_API)
@@ -55,6 +58,26 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    let errorMsg = "";
+    if (name == "email") {
+      if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$/.test(value)) {
+        errorMsg = "Please enter a valid Email Address.";
+      }
+    }
+    if (name == "phoneNumber") {
+      if (!/^\d{10}$/.test(value)) {
+        errorMsg = "Please enter a valid Phone Number.";
+      }
+    }
+    if (name == "url") {
+      if (!/^https?:\/\/.+\.[a-zA-Z]{2,}$/.test(value)) {
+        errorMsg = "Please enter a valid URL.";
+      }
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMsg }));
+
     setOrganizationInfo((prevInfo) => ({
       ...prevInfo,
       [name]: value,
@@ -72,6 +95,17 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   };
 
   const handleSaveClick = () => {
+    let hasError = false;
+    Object.values(errors).forEach((error) => {
+      if (error !== "") {
+        hasError = true;
+      }
+    });
+    if (hasError) {
+      alert("Please fix the Errors before saving.");
+      return;
+    }
+
     setIsEditing(false);
     localStorage.setItem("organizationInfo", JSON.stringify(organizationInfo));
     setHasUnsavedChanges(false);
@@ -79,6 +113,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
   const handleCancelClick = () => {
     setIsEditing(false);
+    setHasUnsavedChanges(false);
   };
 
   return (
@@ -95,7 +130,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="organizationName"
               value={organizationInfo.organizationName}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -156,16 +191,19 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
             <div className="flex">
               <Select
                 name="phoneCountryCode"
-                value={countryOptions.find(
-                  (option) =>
-                    option.value === organizationInfo.phoneCountryCode,
+                value={phoneCodeOptions.find(
+                  (option) => option.code === organizationInfo.phoneCountryCode,
                 )}
-                options={countryOptions}
+                getOptionLabel={(option) =>
+                  `${option.country} (${option.dialCode})`
+                }
+                getOptionValue={(option) => option.code}
+                options={phoneCodeOptions}
                 onChange={(selectedOption) =>
                   handleInputChange({
                     target: {
                       name: "phoneCountryCode",
-                      value: selectedOption.value,
+                      value: selectedOption.code,
                     },
                   })
                 }
@@ -176,7 +214,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                 name="phoneNumber"
                 value={organizationInfo.phoneNumber}
                 onChange={handleInputChange}
-                className="appearance-none block w-2/3 bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-2/3 bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
           ) : (
@@ -184,6 +222,9 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               {organizationInfo.phoneCountryCode}{" "}
               {organizationInfo.phoneNumber || ""}
             </p>
+          )}
+          {errors.phoneNumber && (
+            <p className="text-red-500 text-xs">{errors.phoneNumber}</p>
           )}
         </div>
         <div>
@@ -196,12 +237,15 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="email"
               value={organizationInfo.email}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.email || ""}
             </p>
+          )}
+          {errors.email && (
+            <p className="text-red-500 text-xs">{errors.email}</p>
           )}
         </div>
       </div>
@@ -217,13 +261,14 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="url"
               value={organizationInfo.url}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.url || ""}
             </p>
           )}
+          {errors.url && <p className="text-red-500 text-xs">{errors.url}</p>}
         </div>
       </div>
 
@@ -238,7 +283,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="streetAddress"
               value={organizationInfo.streetAddress}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -256,7 +301,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="streetAddress2"
               value={organizationInfo.streetAddress2}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -277,7 +322,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="city"
               value={organizationInfo.city}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -295,7 +340,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="state"
               value={organizationInfo.state}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -313,7 +358,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               name="zipCode"
               value={organizationInfo.zipCode}
               onChange={handleInputChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
@@ -337,7 +382,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={handleSaveClick}
             >
-              {t("SAVE_CHANGES")}
+              {t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
