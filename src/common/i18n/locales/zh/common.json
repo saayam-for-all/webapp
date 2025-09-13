@@ -356,5 +356,21 @@
   "Add Time Slot": "添加时间段",
   "VACATION_MODE_ACTIVE": "假期模式已激活",
   "NO AVAILABILITY SLOTS": "未配置可用时间段",
-  "Availability": "可用性"
+  "Availability": "可用性",
+
+  "PREFERENCES": "偏好",
+  "DEFAULT DASHBOARD VIEW": "默认仪表板视图",
+  "SELECT DASHBOARD": "选择仪表板",
+  "FIRST LANGUAGE PREFERENCE": "第一语言偏好",
+  "SECOND LANGUAGE PREFERENCE": "第二语言偏好",
+  "THIRD LANGUAGE PREFERENCE": "第三语言偏好",
+  "SELECT LANGUAGE": "选择语言",
+  "PRIMARY EMAIL PREFERENCE": "主要电子邮件偏好",
+  "PRIMARY EMAIL": "主要电子邮件",
+  "PRIMARY PHONE PREFERENCE": "主要电话偏好",
+  "PRIMARY PHONE": "主要电话",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "接收紧急通知",
+  "PREFERENCES UPDATED SUCCESS": "偏好设置已更新成功!",
+  "EMAIL COMMUNICATION PREFERENCE": "电子邮件通讯偏好",
+  "PHONE COMMUNICATION PREFERENCE": "P电话通讯偏好"
 }

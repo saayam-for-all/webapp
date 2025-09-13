@@ -498,7 +498,7 @@ function Preferences({ setHasUnsavedChanges }) {
                 className="mr-2"
               />
               <label htmlFor="primary-email" className="text-sm">
-                <span className="font-medium">Primary Email:</span>{" "}
+                <span className="font-medium">{t("PRIMARY EMAIL")}:</span>{" "}
                 {preferencesInfo.primaryEmailPreference}
               </label>
             </div>
@@ -556,7 +556,7 @@ function Preferences({ setHasUnsavedChanges }) {
                 className="mr-2"
               />
               <label htmlFor="primary-phone" className="text-sm">
-                <span className="font-medium">Primary Phone:</span>{" "}
+                <span className="font-medium">{t("PRIMARY PHONE")}:</span>{" "}
                 {preferencesInfo.primaryPhonePreference}
               </label>
             </div>

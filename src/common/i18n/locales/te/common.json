@@ -653,5 +653,14 @@
   "Add Time Slot": "సమయ స్లాట్‌ను జోడించు",
   "VACATION_MODE_ACTIVE": "విహార మోడ్ క్రియాశీలం",
   "NO AVAILABILITY SLOTS": "అందుబాటు స్లాట్‌లు కాన్ఫిగర్ చేయబడలేదు",
-  "Availability": "అందుబాటు"
+  "Availability": "అందుబాటు",
+
+  "PREFERENCES": "ప్రాధాన్యతలు",
+  "DEFAULT DASHBOARD VIEW": "డిఫాల్ట్ డ్యాష్‌బోర్డ్ వీక్షణ",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "అత్యవసర నోటిఫికేషన్‌లను స్వీకరించండి",
+  "PREFERENCES UPDATED SUCCESS": "ప్రాధాన్యతలు విజయవంతంగా నవీకరించబడ్డాయి!",
+  "EMAIL COMMUNICATION PREFERENCE": "ఇమెయిల్ కమ్యూనికేషన్ ప్రాధాన్యత",
+  "PHONE COMMUNICATION PREFERENCE": "ఫోన్ కమ్యూనికేషన్ ప్రాధాన్యత",
+  "PRIMARY EMAIL": "ప్రాథమిక ఇమెయిల్",
+  "PRIMARY PHONE": "ప్రాథమిక ఫోన్"
 }
