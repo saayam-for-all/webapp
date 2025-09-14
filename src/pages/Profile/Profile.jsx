@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import YourProfile from "./YourProfile";
 import PersonalInformation from "./PersonalInformation";
@@ -17,10 +17,11 @@ import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.j
 function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
   const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
   const [tempProfilePhoto, setTempProfilePhoto] =
     useState(DEFAULT_PROFILE_ICON);
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState(location.state?.tab || "profile");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
