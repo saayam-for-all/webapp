@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTranslation } from "react-i18next";
@@ -82,7 +83,8 @@ const countryNameToCode = Object.entries(countryCodes).reduce(
 
 function PersonalInformation({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
+  const location = useLocation();
+  const [isEditing, setIsEditing] = useState(Boolean(location.state?.edit));
   const streetAddressRef = useRef(null);
   const dateOfBirthRef = useRef(null);
   const { user } = useSelector((state) => state.auth);

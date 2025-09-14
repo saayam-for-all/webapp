@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 // import { requestsData } from "./data";
@@ -223,6 +224,8 @@ const Dashboard = ({ userRole }) => {
     setIsStatusDropdownOpen(!isStatusDropdownOpen);
   };
 
+  const navigate = useNavigate();
+
   const [hasAddress, setHasAddress] = useState(
     localStorage.getItem("addressFlag") === "true",
   );
@@ -249,40 +252,53 @@ const Dashboard = ({ userRole }) => {
 
   return (
     <div className="p-5">
-      {!hasAddress && (
-        <p className="text-red-600 pb-2">
-          Please add your address in Profile to continue
-        </p>
-      )}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+        pauseOnHover
+      />
       <div className="flex gap-10 mb-5">
         <Link
           to="/request"
           onClick={(e) => {
-            if (!hasAddress) e.preventDefault();
+            if (!hasAddress) {
+              e.preventDefault();
+              toast.warning("Please add your address to continue.");
+              setTimeout(
+                () =>
+                  navigate("/profile", {
+                    state: { tab: "personal", edit: "true" },
+                  }),
+                3000,
+              );
+            }
           }}
-          className={`bg-blue-500 ${hasAddress ? "hover:bg-blue-700" : "opacity-50 cursor-not-allowed"} text-white py-2 px-4 rounded-md flex items-center justify-center`}
+          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
           style={{ color: "white", textDecoration: "none" }}
         >
-          <span
-            lassName={`${hasAddress ? "hover:underline" : "hover:no-underline"}`}
-          >
-            {t("CREATE_HELP_REQUEST")}
-          </span>
+          <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
         </Link>
         {!groups?.includes("Volunteers") && (
           <Link
             to="/promote-to-volunteer"
             onClick={(e) => {
-              if (!hasAddress) e.preventDefault();
+              if (!hasAddress) {
+                e.preventDefault();
+                toast.warning("Please add your address to continue.");
+                setTimeout(
+                  () =>
+                    navigate("/profile", {
+                      state: { tab: "personal", edit: "true" },
+                    }),
+                  3000,
+                );
+              }
             }}
-            className={`bg-blue-500 ${hasAddress ? "hover:bg-blue-700" : "opacity-50 cursor-not-allowed"} text-white py-2 px-4 rounded-md flex items-center justify-center`}
+            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <span
-              className={`${hasAddress ? "hover:underline" : "hover:no-underline"}`}
-            >
-              {t("BECOME_VOLUNTEER")}
-            </span>
+            <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
           </Link>
         )}
         <div className="flex ml-auto gap-2 items-center">
