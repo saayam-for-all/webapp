@@ -46,7 +46,6 @@ export default function Home() {
   };
 
   const currentLanguage = getYouTubeLanguageCode(i18n.language);
-
   // uncomment this for debugging
   // console.log("Current i18n language:", i18n.language);
   // console.log("Mapped YouTube language:", currentLanguage);
@@ -59,10 +58,10 @@ export default function Home() {
     <div className="w-full overflow-hidden">
       <div className="w-full">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]">
+          <div className="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px] text-center px-4">
             {t("Real help. Real people. Right when you need it.")}
           </div>
-          <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]">
+          <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4">
             {t("Need help? Here to help?")}
           </h1>
           <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
