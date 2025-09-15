@@ -407,10 +407,26 @@
 
   "PREFERENCES": "ПРЕДПОЧТЕНИЯ",
   "DEFAULT DASHBOARD VIEW": "Вид панели инструментов по умолчанию",
+  "SELECT DASHBOARD": "Выберите панель",
+  "SUPER_ADMIN_DASHBOARD": "Панель супер-админа",
+  "ADMIN_DASHBOARD": "Панель администратора",
+  "STEWARD_DASHBOARD": "Панель управляющего",
+  "VOLUNTEER_DASHBOARD": "Панель волонтёра",
+  "BENEFICIARY_DASHBOARD": "Панель получателя помощи",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Получать экстренные уведомления",
   "PREFERENCES UPDATED SUCCESS": "Настройки успешно обновлены!",
   "EMAIL COMMUNICATION PREFERENCE": "Настройки электронной почты для связи",
   "PHONE COMMUNICATION PREFERENCE": "Предпочтения телефонной связи",
   "PRIMARY EMAIL": "Основной адрес электронной почты",
-  "PRIMARY PHONE": "Основной телефон"
+  "PRIMARY PHONE": "Основной телефон",
+  "English": "Английский",
+  "Hindi": "Хинди",
+  "Telugu": "Телугу",
+  "Bengali": "Бенгальский",
+  "Spanish": "Испанский",
+  "French": "Французский",
+  "German": "Немецкий",
+  "Portuguese": "Португальский",
+  "Russian": "Русский",
+  "Mandarin Chinese": "Китайский (мандарин)"
 }

@@ -401,5 +401,22 @@
   "EMAIL COMMUNICATION PREFERENCE": "Preferência de comunicação por e-mail",
   "PHONE COMMUNICATION PREFERENCE": "Preferência de comunicação por telefone",
   "PRIMARY EMAIL": "E-mail principal",
-  "PRIMARY PHONE": "Telefone principal"
+  "PRIMARY PHONE": "Telefone principal",
+  "SELECT DASHBOARD": "Selecionar painel",
+  "SUPER_ADMIN_DASHBOARD": "Painel do Superadministrador",
+  "ADMIN_DASHBOARD": "Painel do Administrador",
+  "STEWARD_DASHBOARD": "Painel do Coordenador",
+  "VOLUNTEER_DASHBOARD": "Painel do Voluntário",
+  "BENEFICIARY_DASHBOARD": "Painel do Beneficiário",
+  "SELECT LANGUAGE": "Selecionar idioma",
+  "English": "Inglês",
+  "Hindi": "Hindi",
+  "Telugu": "Telugu",
+  "Bengali": "Bengali",
+  "Spanish": "Espanhol",
+  "French": "Francês",
+  "German": "Alemão",
+  "Portuguese": "Português",
+  "Russian": "Russo",
+  "Mandarin Chinese": "Chinês (Mandarim)"
 }

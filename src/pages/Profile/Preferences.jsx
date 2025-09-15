@@ -8,16 +8,17 @@ import { changeUiLanguage } from "../../common/i18n/utils";
 import languagesData from "../../common/i18n/languagesData";
 
 // Dashboard options based on user roles
-const dashboardOptions = [
-  { value: "super-admin", label: "Super Admin Dashboard" },
-  { value: "admin", label: "Admin Dashboard" },
-  { value: "steward", label: "Steward Dashboard" },
-  { value: "volunteer", label: "Volunteer Dashboard" },
-  { value: "beneficiary", label: "Beneficiary Dashboard" },
-];
+//const { t } = useTranslation();
 
 function Preferences({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
+  const dashboardOptions = [
+    { value: "super-admin", label: t("SUPER_ADMIN_DASHBOARD") },
+    { value: "admin", label: t("ADMIN_DASHBOARD") },
+    { value: "steward", label: t("STEWARD_DASHBOARD") },
+    { value: "volunteer", label: t("VOLUNTEER_DASHBOARD") },
+    { value: "beneficiary", label: t("BENEFICIARY_DASHBOARD") },
+  ];
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,7 @@ function Preferences({ setHasUnsavedChanges }) {
     const languageOptions = languagesData.map((lang) => ({
       // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
       value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
-      label: lang.name,
+      label: t(lang.name),
     }));
     setLanguages(languageOptions);
 
@@ -397,9 +398,11 @@ function Preferences({ setHasUnsavedChanges }) {
           </label>
           {isEditing ? (
             <Select
-              value={languages.find(
-                (option) =>
-                  option.value === preferencesInfo.languagePreference1,
+              value={t(
+                languages.find(
+                  (option) =>
+                    option.value === preferencesInfo.languagePreference1,
+                ),
               )}
               options={languages}
               onChange={(selectedOption) =>
@@ -412,7 +415,7 @@ function Preferences({ setHasUnsavedChanges }) {
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {preferencesInfo.languagePreference1 || ""}
+              {t(preferencesInfo.languagePreference1) || ""}
             </p>
           )}
         </div>
@@ -441,7 +444,7 @@ function Preferences({ setHasUnsavedChanges }) {
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {preferencesInfo.languagePreference2 || ""}
+              {t(preferencesInfo.languagePreference2) || ""}
             </p>
           )}
         </div>
@@ -471,7 +474,7 @@ function Preferences({ setHasUnsavedChanges }) {
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {preferencesInfo.languagePreference3 || ""}
+              {t(preferencesInfo.languagePreference3) || ""}
             </p>
           )}
         </div>
