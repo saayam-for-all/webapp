@@ -424,7 +424,7 @@ const Navbar = () => {
                 // className="text-black flex items-center hover:text-gray-600 text-base"
                 className="text-black hover:text-gray-600 flex items-center text-base"
               >
-                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+                <NotificationsIcon className="mr-2" /> {t("NOTIFICATIONS")}
               </button>
             </div>
           )}
