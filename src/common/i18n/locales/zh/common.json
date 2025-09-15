@@ -372,5 +372,20 @@
   "RECEIVE EMERGENCY NOTIFICATIONS": "接收紧急通知",
   "PREFERENCES UPDATED SUCCESS": "偏好设置已更新成功!",
   "EMAIL COMMUNICATION PREFERENCE": "电子邮件通讯偏好",
-  "PHONE COMMUNICATION PREFERENCE": "P电话通讯偏好"
+  "PHONE COMMUNICATION PREFERENCE": "P电话通讯偏好",
+  "SUPER_ADMIN_DASHBOARD": "超级管理员仪表板",
+  "ADMIN_DASHBOARD": "管理员仪表板",
+  "STEWARD_DASHBOARD": "管理员仪表板",
+  "VOLUNTEER_DASHBOARD": "志愿者仪表板",
+  "BENEFICIARY_DASHBOARD": "受益人仪表板",
+  "English": "英语",
+  "Hindi": "印地语",
+  "Telugu": "泰卢固语",
+  "Bengali": "孟加拉语",
+  "Spanish": "西班牙语",
+  "French": "法语",
+  "German": "德语",
+  "Portuguese": "葡萄牙语",
+  "Russian": "俄语",
+  "Mandarin Chinese": "中文（普通话）"
 }

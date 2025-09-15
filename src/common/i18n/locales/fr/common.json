@@ -456,5 +456,22 @@
   "EMAIL COMMUNICATION PREFERENCE": "Préférence de communication par courrier électronique",
   "PHONE COMMUNICATION PREFERENCE": "Préférence de communication téléphonique",
   "PRIMARY EMAIL": "E-mail principal",
-  "PRIMARY PHONE": "Téléphone principal"
+  "PRIMARY PHONE": "Téléphone principal",
+  "SELECT DASHBOARD": "Sélectionner le tableau de bord",
+  "SUPER_ADMIN_DASHBOARD": "Tableau de bord Super Admin",
+  "ADMIN_DASHBOARD": "Tableau de bord Admin",
+  "STEWARD_DASHBOARD": "Tableau de bord Steward",
+  "VOLUNTEER_DASHBOARD": "Tableau de bord Bénévole",
+  "BENEFICIARY_DASHBOARD": "Tableau de bord Bénéficiaire",
+  "SELECT LANGUAGE": "Sélectionner la langue",
+  "English": "Anglais",
+  "Hindi": "Hindi",
+  "Telugu": "Télougou",
+  "Bengali": "Bengali",
+  "Spanish": "Espagnol",
+  "French": "Français",
+  "German": "Allemand",
+  "Portuguese": "Portugais",
+  "Russian": "Russe",
+  "Mandarin Chinese": "Chinois (Mandarin)"
 }
