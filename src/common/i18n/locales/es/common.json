@@ -410,5 +410,19 @@
   "Add Time Slot": "Agregar horario",
   "VACATION_MODE_ACTIVE": "Modo vacaciones activo",
   "NO AVAILABILITY SLOTS": "No hay horarios de disponibilidad configurados",
-  "Availability": "Disponibilidad"
+  "Availability": "Disponibilidad",
+  "PREFERENCES": "Preferencias",
+  "DEFAULT DASHBOARD VIEW": "Vista predeterminada del panel",
+  "SELECT DASHBOARD": "Seleccionar panel",
+  "FIRST LANGUAGE PREFERENCE": "Preferencia de primer idioma",
+  "SECOND LANGUAGE PREFERENCE": "Preferencia de segundo idioma",
+  "THIRD LANGUAGE PREFERENCE": "Preferencia de tercer idioma",
+  "SELECT LANGUAGE": "Seleccionar idioma",
+  "PRIMARY EMAIL PREFERENCE": "Preferencia de correo principal",
+  "PRIMARY PHONE PREFERENCE": "Preferencia de teléfono principal",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "Recibir notificaciones de emergencia",
+  "PREFERENCES UPDATED SUCCESS": "¡Preferencias actualizadas con éxito!",
+  "SAVING": "Guardando...",
+  "EMAIL COMMUNICATION PREFERENCE": "Preferencia de comunicación por correo",
+  "PHONE COMMUNICATION PREFERENCE": "Preferencia de comunicación por teléfono"
 }

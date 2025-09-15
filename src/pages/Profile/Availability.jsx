@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
 import { FiClock } from "react-icons/fi";
 import LoadingIndicator from "../../common/components/Loading/Loading";
+import getLocalizedLocationName from "../../common/i18n/timezoneLocationNames";
 
 const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
   try {
@@ -37,16 +38,19 @@ const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
     const userFriendlyName =
       userFriendlyNameParts[userFriendlyNameParts.length - 1];
 
+    const localizedLocation = getLocalizedLocationName(timezoneValue, locale);
+
     return {
       value: timezoneValue,
-      label: `${timezoneValue} ${utcOffset ? `(${utcOffset})` : ""} ${userFriendlyName ? `(${userFriendlyName})` : ""}`,
+      // Hybrid: localized location + browser-translated timezone name
+      label: `${localizedLocation} ${utcOffset ? `(${utcOffset})` : ""} ${userFriendlyName ? `(${userFriendlyName})` : ""}`,
       displayOffset: utcOffset,
       userFriendlyName: userFriendlyName,
     };
   } catch (error) {
     return {
       value: timezoneValue,
-      label: timezoneValue,
+      label: getLocalizedLocationName(timezoneValue, locale) || timezoneValue,
       displayOffset: "",
       userFriendlyName: "",
     };

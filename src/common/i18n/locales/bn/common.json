@@ -426,5 +426,19 @@
   "Add Time Slot": "সময় স্লট যোগ করুন",
   "VACATION_MODE_ACTIVE": "ছুটি মোড সক্রিয়",
   "NO AVAILABILITY SLOTS": "কোন উপলব্ধতা স্লট কনফিগার করা নেই",
-  "Availability": "উপলব্ধতা"
+  "Availability": "উপলব্ধতা",
+  "PREFERENCES": "পছন্দসমূহ",
+  "DEFAULT DASHBOARD VIEW": "ডিফল্ট ড্যাশবোর্ড ভিউ",
+  "SELECT DASHBOARD": "ড্যাশবোর্ড নির্বাচন করুন",
+  "FIRST LANGUAGE PREFERENCE": "প্রথম ভাষার পছন্দ",
+  "SECOND LANGUAGE PREFERENCE": "দ্বিতীয় ভাষার পছন্দ",
+  "THIRD LANGUAGE PREFERENCE": "তৃতীয় ভাষার পছন্দ",
+  "SELECT LANGUAGE": "ভাষা নির্বাচন করুন",
+  "PRIMARY EMAIL PREFERENCE": "প্রাথমিক ইমেল পছন্দ",
+  "PRIMARY PHONE PREFERENCE": "প্রাথমিক ফোন পছন্দ",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "জরুরি নোটিফিকেশন গ্রহণ করুন",
+  "PREFERENCES UPDATED SUCCESS": "পছন্দসমূহ সফলভাবে আপডেট হয়েছে!",
+  "SAVING": "সংরক্ষণ চলছে...",
+  "EMAIL COMMUNICATION PREFERENCE": "ইমেল যোগাযোগের পছন্দ",
+  "PHONE COMMUNICATION PREFERENCE": "ফোন যোগাযোগের পছন্দ"
 }

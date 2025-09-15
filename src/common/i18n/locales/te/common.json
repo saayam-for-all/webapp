@@ -653,5 +653,19 @@
   "Add Time Slot": "సమయ స్లాట్‌ను జోడించు",
   "VACATION_MODE_ACTIVE": "విహార మోడ్ క్రియాశీలం",
   "NO AVAILABILITY SLOTS": "అందుబాటు స్లాట్‌లు కాన్ఫిగర్ చేయబడలేదు",
-  "Availability": "అందుబాటు"
+  "Availability": "అందుబాటు",
+  "PREFERENCES": "ప్రాధాన్యతలు",
+  "DEFAULT DASHBOARD VIEW": "డిఫాల్ట్ డాష్‌బోర్డ్ వ్యూ",
+  "SELECT DASHBOARD": "డాష్‌బోర్డ్ ఎంచుకోండి",
+  "FIRST LANGUAGE PREFERENCE": "మొదటి భాష ప్రాధాన్యత",
+  "SECOND LANGUAGE PREFERENCE": "రెండవ భాష ప్రాధాన్యత",
+  "THIRD LANGUAGE PREFERENCE": "మూడవ భాష ప్రాధాన్యత",
+  "SELECT LANGUAGE": "భాష ఎంచుకోండి",
+  "PRIMARY EMAIL PREFERENCE": "ప్రాధమిక ఇమెయిల్ ప్రాధాన్యత",
+  "PRIMARY PHONE PREFERENCE": "ప్రాధమిక ఫోన్ ప్రాధాన్యత",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "అత్యవసర నోటిఫికేషన్‌లు పొందండి",
+  "PREFERENCES UPDATED SUCCESS": "ప్రాధాన్యతలు విజయవంతంగా నవీకరించబడ్డాయి!",
+  "SAVING": "సేవ్ అవుతోంది...",
+  "EMAIL COMMUNICATION PREFERENCE": "ఇమెయిల్ కమ్యూనికేషన్ ప్రాధాన్యత",
+  "PHONE COMMUNICATION PREFERENCE": "ఫోన్ కమ్యూనికేషన్ ప్రాధాన్యత"
 }
