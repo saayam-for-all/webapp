@@ -265,9 +265,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       }
     }
     if (name === "dateOfBirth") {
-      if (!value) {
-        error = "Date of Birth is required.";
-      } else if (new Date(value) > new Date()) {
+      if (new Date(value) > new Date()) {
         error = "Date of Birth cannot be in the future.";
       }
     }
@@ -369,7 +367,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            <span className="text-red-500 mr-1">*</span>
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
@@ -424,7 +432,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-3 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            <span className="text-red-500 mr-1">*</span>
             {t("COUNTRY")}
           </label>
           {isEditing ? (
@@ -465,7 +472,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            <span className="text-red-500 mr-1">*</span>
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("STATE")}
           </label>
           {isEditing ? (
@@ -491,7 +508,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            <span className="text-red-500 mr-1">*</span>
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("ZIP_CODE")}
           </label>
           {isEditing ? (
