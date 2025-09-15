@@ -57,10 +57,10 @@ const ForgotPasswordPage = () => {
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
         <button
-          className="my-2 text-left underline"
           onClick={() => navigate(-1)}
+          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          {t("common:BACK")}
+          <span className="text-2xl mr-2">&lt;</span> {t("common:BACK")}
         </button>
         <button
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
