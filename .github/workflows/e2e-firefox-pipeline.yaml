@@ -1,0 +1,204 @@
+name: e2e-firefox-pipeline
+
+on:
+  push:
+    branches: ["dockerTest"]
+  workflow_dispatch:
+
+jobs:
+  firefox-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install Firefox (from Mozilla PPA)
+        run: |
+          sudo add-apt-repository -y ppa:mozillateam/ppa
+          sudo apt-get update
+          sudo apt-get install -y firefox-esr
+
+      - name: Install Firefox dependencies
+        run: |
+          sudo apt-get install -y \
+          xvfb \
+          libdbus-glib-1-2 \
+          libxt6 \
+          libgtk-3-0 \
+          libasound2t64
+
+      - name: Install Python dependencies
+        working-directory: ./e2e-tests
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest selenium webdriver-manager pytest-html pytest-xvfb
+
+      - name: Install and start React app
+        working-directory: .
+        run: |
+          npm install
+          npm run build
+          nohup npm run preview &
+          APP_PORT=4173
+          echo "Waiting for React app to be ready..."
+          for i in {1..30}; do
+            if curl -s http://localhost:$APP_PORT > /dev/null; then
+              echo "App is up!"
+              break
+            fi
+            echo "Waiting for app... ($i)"
+            sleep 2
+          done
+
+      - name: Run ALL pytest tests in Firefox with detailed reporting
+        working-directory: ./e2e-tests
+        env:
+          PYTHONUNBUFFERED: 1
+        run: |
+          set -o pipefail
+          pytest tests/ \
+            --browser=firefox \
+            --html=firefox-test-report.html \
+            --self-contained-html \
+            --junitxml=firefox-junit.xml \
+            -o junit_family=xunit2 \
+            --log-cli-level=INFO \
+            --durations=25 \
+            --capture=no \
+            -v \
+            --tb=long \
+            --maxfail=0 | tee firefox-pytest-output.txt || echo "TESTS_FAILED=true" >> $GITHUB_ENV
+
+      - name: Generate Failures-only HTML report
+        working-directory: ./e2e-tests
+        if: always()
+        run: |
+          python - <<'EOF'
+          import xml.etree.ElementTree as ET
+          import os
+
+          # Check if junit XML exists
+          if not os.path.exists("firefox-junit.xml"):
+              with open("firefox-failures-report.html", "w") as f:
+                  f.write("<html><head><title>Firefox Failures Only</title></head><body>")
+                  f.write("<h1>Failed Tests</h1>")
+                  f.write("<p>No JUnit XML found - tests may have failed to run</p>")
+                  f.write("</body></html>")
+              exit(0)
+
+          tree = ET.parse("firefox-junit.xml")
+          root = tree.getroot()
+
+          failures = []
+          errors = []
+
+          for testcase in root.iter("testcase"):
+              # Check for failures
+              for failure in testcase.findall("failure"):
+                  failures.append({
+                      "classname": testcase.get("classname"),
+                      "name": testcase.get("name"),
+                      "type": "FAILURE",
+                      "message": failure.get("message", ""),
+                      "details": failure.text or ""
+                  })
+              
+              # Check for errors
+              for error in testcase.findall("error"):
+                  errors.append({
+                      "classname": testcase.get("classname"),
+                      "name": testcase.get("name"),
+                      "type": "ERROR", 
+                      "message": error.get("message", ""),
+                      "details": error.text or ""
+                  })
+
+          all_issues = failures + errors
+
+          with open("firefox-failures-report.html", "w") as f:
+              f.write("""
+              <html>
+              <head>
+                  <title>Firefox Failures Only</title>
+                  <style>
+                      body { font-family: Arial, sans-serif; margin: 20px; }
+                      .failure { border: 2px solid #d32f2f; margin: 20px 0; padding: 15px; background-color: #ffebee; }
+                      .error { border: 2px solid #f57c00; margin: 20px 0; padding: 15px; background-color: #fff3e0; }
+                      .success { color: #388e3c; font-size: 18px; }
+                      pre { background-color: #f5f5f5; padding: 10px; overflow-x: auto; }
+                      h3 { margin-top: 0; }
+                  </style>
+              </head>
+              <body>
+              """)
+              f.write("<h1>Firefox Test Failures Report</h1>")
+              
+              if not all_issues:
+                  f.write("<p class='success'>🎉 No failures found! All tests passed.</p>")
+              else:
+                  f.write(f"<p><strong>Total issues found: {len(all_issues)}</strong></p>")
+                  f.write(f"<p>Failures: {len(failures)} | Errors: {len(errors)}</p>")
+                  
+                  for issue in all_issues:
+                      css_class = "failure" if issue["type"] == "FAILURE" else "error"
+                      f.write(f"<div class='{css_class}'>")
+                      f.write(f"<h3>[{issue['type']}] {issue['classname']}::{issue['name']}</h3>")
+                      f.write(f"<p><strong>Message:</strong> {issue['message']}</p>")
+                      f.write(f"<pre>{issue['details']}</pre>")
+                      f.write("</div>")
+              
+              f.write("</body></html>")
+          EOF
+
+      - name: Upload Firefox full test report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: firefox-full-report
+          path: ./e2e-tests/firefox-test-report.html
+
+      - name: Upload Firefox failures-only report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: firefox-failures-report
+          path: ./e2e-tests/firefox-failures-report.html
+
+      - name: Upload JUnit XML results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: firefox-junit-xml
+          path: ./e2e-tests/firefox-junit.xml
+
+      - name: Upload pytest console output
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: firefox-console-output
+          path: ./e2e-tests/firefox-pytest-output.txt
+
+      - name: Upload test screenshots (if any)
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: firefox-screenshots
+          path: ./e2e-tests/screenshots/
+
+      - name: Fail workflow if tests failed
+        if: env.TESTS_FAILED == 'true'
+        run: |
+          echo "❌ Firefox tests failed! Check the uploaded reports for details."
+          exit 1
