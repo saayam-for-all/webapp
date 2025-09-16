@@ -19,6 +19,12 @@ function Preferences({ setHasUnsavedChanges }) {
     { value: "volunteer", label: t("VOLUNTEER_DASHBOARD") },
     { value: "beneficiary", label: t("BENEFICIARY_DASHBOARD") },
   ];
+  // Build languages options directly from languagesData.js
+  const languages = languagesData.map((lang) => ({
+    // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
+    value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
+    label: t(lang.name),
+  }));
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,17 +46,7 @@ function Preferences({ setHasUnsavedChanges }) {
     receiveEmergencyNotifications: false,
   });
 
-  const [languages, setLanguages] = useState([]);
-
   useEffect(() => {
-    // Build languages options directly from languagesData.js
-    const languageOptions = languagesData.map((lang) => ({
-      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
-      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
-      label: t(lang.name),
-    }));
-    setLanguages(languageOptions);
-
     // Get personal information from localStorage (only for email/phone, NOT language preferences)
     const savedPersonalInfo =
       JSON.parse(localStorage.getItem("personalInfo")) || {};
