@@ -43,7 +43,8 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest selenium webdriver-manager pytest-html pytest-xvfb
+          pip install pytest selenium webdriver-manager
+          pip install pytest-html pytest-xvfb
 
       - name: Install and start React app
         working-directory: .
@@ -163,35 +164,35 @@ jobs:
           EOF
 
       - name: Upload Firefox full test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: firefox-full-report
           path: ./e2e-tests/firefox-test-report.html
 
       - name: Upload Firefox failures-only report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: firefox-failures-report
           path: ./e2e-tests/firefox-failures-report.html
 
       - name: Upload JUnit XML results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: firefox-junit-xml
           path: ./e2e-tests/firefox-junit.xml
 
       - name: Upload pytest console output
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: firefox-console-output
           path: ./e2e-tests/firefox-pytest-output.txt
 
       - name: Upload test screenshots (if any)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: firefox-screenshots
