@@ -11,22 +11,27 @@ import enAvailability from "./locales/en/availability.json";
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
 import deCategories from "./locales/de/categories.json";
+import deAvailability from "./locales/de/availability.json";
 
 import esCommon from "./locales/es/common.json";
 import esAuth from "./locales/es/auth.json";
 import esCategories from "./locales/es/categories.json";
+import esAvailability from "./locales/es/availability.json";
 
 import frCommon from "./locales/fr/common.json";
 import frAuth from "./locales/fr/auth.json";
 import frCategories from "./locales/fr/categories.json";
+import frAvailability from "./locales/fr/availability.json";
 
 import ruCommon from "./locales/ru/common.json";
 import ruAuth from "./locales/ru/auth.json";
 import ruCategories from "./locales/ru/categories.json";
+import ruAvailability from "./locales/ru/availability.json";
 
 import hiCommon from "./locales/hi/common.json";
 import hiAuth from "./locales/hi/auth.json";
 import hiCategories from "./locales/hi/categories.json";
+import hiAvailability from "./locales/hi/availability.json";
 
 import teCommon from "./locales/te/common.json";
 import teAuth from "./locales/te/auth.json";
@@ -36,14 +41,17 @@ import teAvailability from "./locales/te/availability.json";
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
 import zhCategories from "./locales/zh/categories.json";
+import zhAvailability from "./locales/zh/availability.json";
 
 import ptCommon from "./locales/pt/common.json";
 import ptAuth from "./locales/pt/auth.json";
 import ptCategories from "./locales/pt/categories.json";
+import ptAvailability from "./locales/pt/availability.json";
 
 import bnCommon from "./locales/bn/common.json";
 import bnAuth from "./locales/bn/auth.json";
 import bnCategories from "./locales/bn/categories.json";
+import bnAvailability from "./locales/bn/availability.json";
 
 import arCommon from "./locales/ar/common.json";
 import arAuth from "./locales/ar/auth.json";
@@ -153,26 +161,31 @@ i18n
         common: deCommon,
         auth: deAuth,
         categories: deCategories,
+        availability: deAvailability,
       },
       es: {
         common: esCommon,
         auth: esAuth,
         categories: esCategories,
+        availability: esAvailability,
       },
       fr: {
         common: frCommon,
         auth: frAuth,
         categories: frCategories,
+        availability: frAvailability,
       },
       ru: {
         common: ruCommon,
         auth: ruAuth,
         categories: ruCategories,
+        availability: ruAvailability,
       },
       hi: {
         common: hiCommon,
         auth: hiAuth,
         categories: hiCategories,
+        availability: hiAvailability,
       },
       te: {
         common: teCommon,
@@ -184,16 +197,19 @@ i18n
         common: zhCommon,
         auth: zhAuth,
         categories: zhCategories,
+        availability: zhAvailability,
       },
       pt: {
         common: ptCommon,
         auth: ptAuth,
         categories: ptCategories,
+        availability: ptAvailability,
       },
       bn: {
         common: bnCommon,
         auth: bnAuth,
         categories: bnCategories,
+        availability: bnAvailability,
       },
       ar: {
         common: arCommon,
