@@ -249,6 +249,7 @@ const Dashboard = ({ userRole }) => {
       setIsCategoryDropdownOpen(false);
   };
   // const requests = requestData
+  const [showAddressMsg, setShowAddressMsg] = useState(false);
 
   return (
     <div className="p-5">
@@ -264,14 +265,7 @@ const Dashboard = ({ userRole }) => {
           onClick={(e) => {
             if (!hasAddress) {
               e.preventDefault();
-              toast.warning("Please add your address to continue.");
-              setTimeout(
-                () =>
-                  navigate("/profile", {
-                    state: { tab: "personal", edit: "true" },
-                  }),
-                3000,
-              );
+              setShowAddressMsg(true);
             }
           }}
           className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
@@ -285,14 +279,7 @@ const Dashboard = ({ userRole }) => {
             onClick={(e) => {
               if (!hasAddress) {
                 e.preventDefault();
-                toast.warning("Please add your address to continue.");
-                setTimeout(
-                  () =>
-                    navigate("/profile", {
-                      state: { tab: "personal", edit: "true" },
-                    }),
-                  3000,
-                );
+                setShowAddressMsg(true);
               }
             }}
             className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
@@ -313,6 +300,18 @@ const Dashboard = ({ userRole }) => {
           )}
         </div>
       </div>
+      {showAddressMsg && !hasAddress && (
+        <p className="text-red-600 mb-2">
+          Please add your address in Profile to continue.&nbsp;
+          <Link
+            to="/profile"
+            state={{ tab: "personal", edit: "true" }}
+            className="underline"
+          >
+            Edit profile
+          </Link>
+        </p>
+      )}
       {successMessage && (
         <div className="relative bg-green-100 text-green-700 p-3 mb-5 rounded-md text-center font-semibold">
           {successMessage}
