@@ -6,6 +6,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import enCommon from "./locales/en/common.json";
 import enAuth from "./locales/en/auth.json";
 import enCategories from "./locales/en/categories.json";
+import enAvailability from "./locales/en/availability.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
@@ -30,6 +31,7 @@ import hiCategories from "./locales/hi/categories.json";
 import teCommon from "./locales/te/common.json";
 import teAuth from "./locales/te/auth.json";
 import teCategories from "./locales/te/categories.json";
+import teAvailability from "./locales/te/availability.json";
 
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
@@ -139,12 +141,13 @@ i18n
     // Set default namespace to load
     defaultNS: "common",
     // Define all namespaces that will be used
-    ns: ["common", "auth", "categories"],
+    ns: ["common", "auth", "categories", "availability"],
     resources: {
       en: {
         common: enCommon,
         auth: enAuth,
         categories: enCategories,
+        availability: enAvailability,
       },
       de: {
         common: deCommon,
@@ -175,6 +178,7 @@ i18n
         common: teCommon,
         auth: teAuth,
         categories: teCategories,
+        availability: teAvailability,
       },
       zh: {
         common: zhCommon,
