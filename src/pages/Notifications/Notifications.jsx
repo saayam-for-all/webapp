@@ -86,7 +86,7 @@ export default function NotificationUI() {
               ? t("ALL")
               : type === "volunteer"
                 ? t("VOLUNTEER_MATCH")
-                : t("HELP_REQUEST")}
+                : t("HELP_REQUEST_BUTTON")}
           </button>
         ))}
         <div className="ml-auto">
