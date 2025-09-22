@@ -4,11 +4,11 @@ import { FaPlus, FaTrashAlt } from "react-icons/fa";
 import { FiClock } from "react-icons/fi";
 import LoadingIndicator from "../../common/components/Loading/Loading";
 
-const getTimezoneDetails = (timezoneValue) => {
+const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
   try {
     const now = new Date();
 
-    const offsetFormatter = new Intl.DateTimeFormat("en-US", {
+    const offsetFormatter = new Intl.DateTimeFormat(locale, {
       year: "numeric",
       month: "numeric",
       day: "numeric",
@@ -21,9 +21,13 @@ const getTimezoneDetails = (timezoneValue) => {
     });
 
     const formattedOffsetDate = offsetFormatter.format(now);
-    const offsetMatch = formattedOffsetDate.match(/GMT([+-]\d{2}:\d{2})/);
-    const utcOffset = offsetMatch ? `UTC${offsetMatch[1]}` : "";
-    const userFriendlyNameFormatter = new Intl.DateTimeFormat("en-US", {
+    const offsetMatch = formattedOffsetDate.match(
+      /GMT([+-]\d{2}:\d{2})|UTC([+-]\d{2}:\d{2})/,
+    );
+    const utcOffset = offsetMatch
+      ? `UTC${offsetMatch[1] || offsetMatch[2]}`
+      : "";
+    const userFriendlyNameFormatter = new Intl.DateTimeFormat(locale, {
       timeZone: timezoneValue,
       timeZoneName: "long",
     });
@@ -55,7 +59,7 @@ const convertTo12HourFormat = (time24h) => {
     const [hours, minutes] = time24h.split(":").map(Number);
     const date = new Date();
     date.setHours(hours, minutes, 0, 0);
-    return date.toLocaleTimeString("en-US", {
+    return date.toLocaleTimeString(currentLocale, {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
@@ -67,7 +71,8 @@ const convertTo12HourFormat = (time24h) => {
 };
 
 function Availability({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { t: tAvailability } = useTranslation("availability");
   const [isEditing, setIsEditing] = useState(false);
   const [availabilitySlots, setAvailabilitySlots] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -77,18 +82,20 @@ function Availability({ setHasUnsavedChanges }) {
   const [vacationEndDate, setVacationEndDate] = useState("");
   const [timezone, setTimezone] = useState("UTC");
 
+  const currentLocale = i18n.language || "en-US";
+
   const titleRef = useRef(null);
   const frequencyOptions = [
-    { value: "Everyday", label: t("EVERYDAY") },
-    { value: "Weekdays", label: t("WEEKDAYS") },
-    { value: "Weekends", label: t("WEEKENDS") },
-    { value: "Monday", label: t("MONDAY") },
-    { value: "Tuesday", label: t("TUESDAY") },
-    { value: "Wednesday", label: t("WEDNESDAY") },
-    { value: "Thursday", label: t("THURSDAY") },
-    { value: "Friday", label: t("FRIDAY") },
-    { value: "Saturday", label: t("SATURDAY") },
-    { value: "Sunday", label: t("SUNDAY") },
+    { value: "Everyday", label: tAvailability("EVERYDAY") },
+    { value: "Weekdays", label: tAvailability("WEEKDAYS") },
+    { value: "Weekends", label: tAvailability("WEEKENDS") },
+    { value: "Monday", label: tAvailability("MONDAY") },
+    { value: "Tuesday", label: tAvailability("TUESDAY") },
+    { value: "Wednesday", label: tAvailability("WEDNESDAY") },
+    { value: "Thursday", label: tAvailability("THURSDAY") },
+    { value: "Friday", label: tAvailability("FRIDAY") },
+    { value: "Saturday", label: tAvailability("SATURDAY") },
+    { value: "Sunday", label: tAvailability("SUNDAY") },
   ];
 
   const allAvailableTimezones = useMemo(() => {
@@ -171,11 +178,11 @@ function Availability({ setHasUnsavedChanges }) {
       "UTC",
     ];
 
-    return commonTimezones.map(getTimezoneDetails);
-  }, []);
+    return commonTimezones.map((tz) => getTimezoneDetails(tz, currentLocale));
+  }, [currentLocale]);
   const getCurrentTimezoneInfo = () => {
     const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return getTimezoneDetails(detectedTimezone);
+    return getTimezoneDetails(detectedTimezone, currentLocale);
   };
 
   const [currentTimezoneInfo, setCurrentTimezoneInfo] = useState(
@@ -202,13 +209,20 @@ function Availability({ setHasUnsavedChanges }) {
 
       if (isValidDetected) {
         setTimezone(detectedTimezone);
-        setCurrentTimezoneInfo(getTimezoneDetails(detectedTimezone));
+        setCurrentTimezoneInfo(
+          getTimezoneDetails(detectedTimezone, currentLocale),
+        );
       } else {
         setTimezone("UTC");
-        setCurrentTimezoneInfo(getTimezoneDetails("UTC"));
+        setCurrentTimezoneInfo(getTimezoneDetails("UTC", currentLocale));
       }
     }
-  }, [allAvailableTimezones]);
+  }, [allAvailableTimezones, currentLocale]);
+
+  useEffect(() => {
+    const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    setCurrentTimezoneInfo(getTimezoneDetails(detectedTimezone, currentLocale));
+  }, [currentLocale]);
 
   useEffect(() => {
     if (isEditing && titleRef.current) {
@@ -250,12 +264,15 @@ function Availability({ setHasUnsavedChanges }) {
   const validateTimeSlots = () => {
     for (const slot of availabilitySlots) {
       if (!slot.frequency || !slot.startTime || !slot.endTime) {
-        return { isValid: false, message: t("AVAILABILITY_VALIDATION_ERROR") };
+        return {
+          isValid: false,
+          message: tAvailability("AVAILABILITY_VALIDATION_ERROR"),
+        };
       }
       if (slot.startTime === slot.endTime) {
         return {
           isValid: false,
-          message: t("START_END_TIMES_MUST_BE_DIFFERENT"),
+          message: tAvailability("START_END_TIMES_MUST_BE_DIFFERENT"),
         };
       }
     }
@@ -265,7 +282,10 @@ function Availability({ setHasUnsavedChanges }) {
   const validateVacationDates = () => {
     if (vacationMode && vacationStartDate && vacationEndDate) {
       if (new Date(vacationStartDate) >= new Date(vacationEndDate)) {
-        return { isValid: false, message: t("VACATION_START_BEFORE_END") };
+        return {
+          isValid: false,
+          message: tAvailability("VACATION_START_BEFORE_END"),
+        };
       }
     }
     return { isValid: true };
@@ -311,13 +331,13 @@ function Availability({ setHasUnsavedChanges }) {
         setHasUnsavedChanges(false);
         setLoading(false);
         alert(
-          t("AVAILABILITY_UPDATED_SUCCESS") ||
+          tAvailability("AVAILABILITY_UPDATED_SUCCESS") ||
             "Availability successfully changed",
         );
       }, 500);
     } catch (error) {
       console.error("Error saving availability:", error);
-      alert(t("SAVE_ERROR"));
+      alert(tAvailability("SAVE_ERROR"));
       setLoading(false);
     }
   };
@@ -352,7 +372,7 @@ function Availability({ setHasUnsavedChanges }) {
 
   const selectedTimezoneDisplay =
     allAvailableTimezones.find((tz) => tz.value === timezone)?.label ||
-    timezone;
+    getTimezoneDetails(timezone, currentLocale).label;
 
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
@@ -364,7 +384,7 @@ function Availability({ setHasUnsavedChanges }) {
               htmlFor="timezone-select"
               className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
             >
-              {t("TIMEZONE")}
+              {tAvailability("TIMEZONE")}
             </label>
             <div className="flex items-center gap-2">
               <select
@@ -384,13 +404,13 @@ function Availability({ setHasUnsavedChanges }) {
               <button
                 onClick={handleUseCurrentTimezone}
                 className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm whitespace-nowrap"
-                aria-label={t("Use my current timezone")}
+                aria-label={tAvailability("USE_CURRENT_TIMEZONE")}
               >
-                {t("Use My Current")}
+                {tAvailability("USE_CURRENT_TIMEZONE")}
               </button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              {t("CURRENT_DETECTED_TIMEZONE")}:{" "}
+              {tAvailability("CURRENT_DETECTED_TIMEZONE")}:{" "}
               <span className="font-semibold">
                 {currentTimezoneInfo.userFriendlyName ||
                   currentTimezoneInfo.value}{" "}
@@ -411,11 +431,11 @@ function Availability({ setHasUnsavedChanges }) {
                 className="mr-2 h-4 w-4"
               />
               <span className="tracking-wide text-gray-700 text-xs font-bold">
-                {t("VACATION_MODE")}
+                {tAvailability("VACATION_MODE")}
               </span>
             </label>
             <p className="text-xs text-gray-500 mt-1 ml-6">
-              {t("VACATION_MODE_DESCRIPTION")}
+              {tAvailability("VACATION_MODE_DESCRIPTION")}
             </p>
           </div>
 
@@ -427,7 +447,7 @@ function Availability({ setHasUnsavedChanges }) {
                   htmlFor="vacation-start-date"
                   className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
                 >
-                  {t("VACATION_START_DATE")}
+                  {tAvailability("VACATION_START_DATE")}
                 </label>
                 <input
                   id="vacation-start-date"
@@ -442,7 +462,7 @@ function Availability({ setHasUnsavedChanges }) {
                   htmlFor="vacation-end-date"
                   className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
                 >
-                  {t("VACATION_END_DATE")}
+                  {tAvailability("VACATION_END_DATE")}
                 </label>
                 <input
                   id="vacation-end-date"
@@ -458,7 +478,7 @@ function Availability({ setHasUnsavedChanges }) {
           {/* Availability Slots */}
           <div className="mb-6">
             <h4 className="text-lg font-medium mb-2">
-              {t("Your available time slots")}
+              {tAvailability("Your available time slots")}
             </h4>
 
             {availabilitySlots.map((slot) => (
@@ -507,7 +527,7 @@ function Availability({ setHasUnsavedChanges }) {
                 <button
                   onClick={() => handleRemoveSlot(slot.id)}
                   className="text-red-500 hover:text-red-700 p-2"
-                  aria-label={t("Remove Time Slot")}
+                  aria-label={tAvailability("Remove Time Slot")}
                 >
                   <FaTrashAlt />
                 </button>
@@ -519,7 +539,7 @@ function Availability({ setHasUnsavedChanges }) {
               className="flex items-center gap-2 text-blue-500 hover:text-blue-700 mt-2 bg-blue-100 py-2 px-4 rounded-md"
             >
               <FaPlus />
-              <span>{t("Add Time Slot")}</span>
+              <span>{tAvailability("Add Time Slot")}</span>
             </button>
           </div>
 
@@ -549,7 +569,7 @@ function Availability({ setHasUnsavedChanges }) {
           {/* Timezone Display */}
           <div className="mb-4">
             <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-              {t("TIMEZONE")}
+              {tAvailability("TIMEZONE")}
             </label>
             <p className="text-lg text-gray-900">{selectedTimezoneDisplay}</p>
           </div>
@@ -558,7 +578,7 @@ function Availability({ setHasUnsavedChanges }) {
           {vacationMode && (
             <div className="bg-yellow-50 border border-yellow-200 rounded p-4 mb-4">
               <p className="text-yellow-800 font-bold">
-                {t("VACATION_MODE_ACTIVE")}
+                {tAvailability("VACATION_MODE_ACTIVE")}
               </p>
               {vacationStartDate && vacationEndDate && (
                 <p className="text-yellow-700 text-sm">
@@ -573,7 +593,7 @@ function Availability({ setHasUnsavedChanges }) {
           {availabilitySlots.length > 0 ? (
             <div className="mb-6">
               <h4 className="text-lg font-medium mb-2">
-                {t("Your available time slots")}
+                {tAvailability("Your available time slots")}
               </h4>
               <div className="space-y-2">
                 {availabilitySlots.map((slot) => (
@@ -595,7 +615,9 @@ function Availability({ setHasUnsavedChanges }) {
             </div>
           ) : (
             <div className="text-center p-6 bg-gray-50 rounded-lg mb-6">
-              <p className="text-gray-500">{t("NO AVAILABILITY SLOTS")}</p>
+              <p className="text-gray-500">
+                {tAvailability("NO AVAILABILITY SLOTS")}
+              </p>
             </div>
           )}
 

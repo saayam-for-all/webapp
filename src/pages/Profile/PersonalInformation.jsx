@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTranslation } from "react-i18next";
@@ -82,7 +83,8 @@ const countryNameToCode = Object.entries(countryCodes).reduce(
 
 function PersonalInformation({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
+  const location = useLocation();
+  const [isEditing, setIsEditing] = useState(Boolean(location.state?.edit));
   const streetAddressRef = useRef(null);
   const dateOfBirthRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
@@ -132,6 +134,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const [locale, setLocale] = useState("en-US");
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
+
+  const complete = Boolean(
+    personalInfo.streetAddress &&
+      personalInfo.country &&
+      personalInfo.state &&
+      personalInfo.zipCode,
+  );
+  localStorage.setItem("addressFlag", complete ? "true" : "false");
 
   useEffect(() => {
     const updateDateFormat = async () => {
@@ -255,9 +265,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       }
     }
     if (name === "dateOfBirth") {
-      if (!value) {
-        error = "Date of Birth is required.";
-      } else if (new Date(value) > new Date()) {
+      if (new Date(value) > new Date()) {
         error = "Date of Birth cannot be in the future.";
       }
     }
@@ -359,7 +367,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            <span className="text-red-500 mr-1">*</span>
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
@@ -414,7 +432,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-3 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            <span className="text-red-500 mr-1">*</span>
             {t("COUNTRY")}
           </label>
           {isEditing ? (
@@ -455,7 +472,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            <span className="text-red-500 mr-1">*</span>
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("STATE")}
           </label>
           {isEditing ? (
@@ -481,7 +508,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            <span className="text-red-500 mr-1">*</span>
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("ZIP_CODE")}
           </label>
           {isEditing ? (

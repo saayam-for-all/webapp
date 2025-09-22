@@ -1,6 +1,10 @@
 {
   "REQUEST_CATEGORIES": {
-    "FOOD_ESSENTIALS": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "Общий",
+      "DESC": "Используйте, когда не уверены; подробно опишите вашу потребность."
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
       "LABEL": "Продукты и предметы первой необходимости",
       "DESC": "Доступ к продовольственной помощи, покупкам и помощи на кухне.",
       "SUBCATEGORIES": {

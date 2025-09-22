@@ -185,7 +185,7 @@ function Sidebar({
         >
           <div className="flex items-center">
             <FaCog className="mr-2 text-gray-500" />
-            {t("Preferences")}
+            {t("PREFERENCES")}
           </div>
           {activeTab !== "preferences" && (
             <FiChevronRight className="text-gray-600" />
