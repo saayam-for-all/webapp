@@ -23,6 +23,8 @@ import {
   updateUserProfileSuccess,
 } from "./authSlice";
 
+import { clearToken, setToken } from "../../../services/authService";
+
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
   try {
@@ -36,6 +38,9 @@ export const checkAuthStatus = () => async (dispatch) => {
     } = await fetchUserAttributes();
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
+
+    const idToken = userSession.tokens?.idToken?.toString();
+    setToken(idToken);
 
     let userDbId = null;
     try {
@@ -65,11 +70,10 @@ export const checkAuthStatus = () => async (dispatch) => {
         }),
       );
     }
-    const idToken = userSession.tokens?.idToken?.toString();
+
     dispatch(
       loginSuccess({
         user,
-        idToken,
       }),
     );
 
@@ -119,10 +123,11 @@ export const updateUserProfile = (userData) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     returnDefaultLanguage();
-    signOut();
+    await signOut();
+    clearToken();
     dispatch(logoutSuccess());
   } catch (error) {
-    dispatch(authFailure(error.message));
+    dispatch(loginFailure(error.message));
   }
 };
 
