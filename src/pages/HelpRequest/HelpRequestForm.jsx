@@ -478,16 +478,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              <select
-                id="self"
-                data-testid="dropdown"
-                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
-                onChange={(e) => setSelfFlag(e.target.value === "yes")}
-                defaultValue="yes"
-              >
-                <option value="yes">{t("YES")}</option>
-                <option value="no">{t("NO")}</option>
-              </select>
+              <div className="relative">
+                <select
+                  id="self"
+                  data-testid="dropdown"
+                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700 pr-8"
+                  onChange={(e) => setSelfFlag(e.target.value === "yes")}
+                  defaultValue="yes"
+                >
+                  <option value="yes">{t("YES")}</option>
+                  <option value="no">{t("NO")}</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-600" />
+                </div>
+              </div>
             </div>
 
             {/* Lead Volunteer */}
