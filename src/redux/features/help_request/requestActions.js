@@ -1,119 +1,82 @@
 // requestActions.js
 import { createAction } from "@reduxjs/toolkit";
 
-// Static categories
+// Static categories aligned with i18n keys
 const categories = [
-  // Commented out categories are for future releases
-  // { id: "banking", name: "Banking" },
-  // { id: "books", name: "Books" },
   {
-    id: "Food & Essentials",
+    key: "FOOD_ESSENTIALS",
+    id: "FOOD_ESSENTIALS",
     name: "Food & Essentials",
     subcategories: [
-      "Food Assistance",
-      "Grocery Shopping & Delivery",
-      "Cooking Help",
+      { key: "FOOD_ASSISTANCE" },
+      { key: "GROCERY_SHOPPING_DELIVERY" },
+      { key: "COOKING_HELP" },
     ],
   },
   {
-    id: "Clothing Support",
-    name: "Clothing Support",
-    subcategories: ["Lend/Borrow Clothes", "Donate Clothes"],
+    key: "CLOTHING_AND_SUPPORT",
+    id: "CLOTHING_AND_SUPPORT",
+    name: "Clothing and Support",
+    subcategories: [{ key: "LEND_BORROW_CLOTHES" }, { key: "DONATE_CLOTHES" }],
   },
-  // { id: "college_admissions", name: "College Admissions" },
   {
-    id: "Housing Assistance",
+    key: "HOUSING_ASSISTANCE",
+    id: "HOUSING_ASSISTANCE",
     name: "Housing Assistance",
     subcategories: [
-      "Finding a Roommate",
-      "Renting Support",
-      "Buy/Sell Household Items",
-      "Moving & Packing Help",
-      "Cleaning Help",
-      "Home Buying/Selling Assistance",
+      { key: "FINDING_A_ROOMMATE" },
+      { key: "RENTING_SUPPORT" },
+      { key: "BUY_SELL_HOUSEHOLD_ITEMS" },
+      { key: "MOVING_PACKING_HELP" },
+      { key: "CLEANING_HELP" },
+      { key: "HOME_BUYING_SELLING_ASSISTANCE" },
     ],
   },
   {
-    id: "Education & Career Support",
+    key: "EDUCATION_CAREER_SUPPORT",
+    id: "EDUCATION_CAREER_SUPPORT",
     name: "Education & Career Support",
     subcategories: [
-      "College Applications Help",
-      "SOP & Essay Review",
-      "Tutoring",
+      { key: "COLLEGE_APPLICATIONS_HELP" },
+      { key: "SOP_ESSAY_REVIEW" },
+      { key: "TUTORING" },
     ],
   },
   {
-    id: "Healthcare & Well-being",
+    key: "HEALTHCARE_WELLBEING",
+    id: "HEALTHCARE_WELLBEING",
     name: "Healthcare & Well-being",
-    subcategories: ["Medical Consultation", "Medicine Delivery Assistance"],
+    subcategories: [
+      { key: "MEDICAL_CONSULTATION" },
+      { key: "MEDICINE_DELIVERY_ASSISTANCE" },
+    ],
   },
   {
-    id: "Elderly & Community Support",
+    key: "ELDERLY_COMMUNITY_SUPPORT",
+    id: "ELDERLY_COMMUNITY_SUPPORT",
     name: "Elderly & Community Support",
     subcategories: [
-      "Elderly Assistance",
-      "Tech help for Seniors",
-      "Help with Government Services",
-      "Ride Assistance",
-      "Shopping Assistance",
+      { key: "ELDERLY_ASSISTANCE" },
+      { key: "TECH_HELP_FOR_SENIORS" },
+      { key: "HELP_WITH_GOVERNMENT_SERVICES" },
+      { key: "RIDE_ASSISTANCE" },
+      { key: "SHOPPING_ASSISTANCE" },
     ],
   },
-  // { id: "cooking", name: "Cooking" },
-  // {
-  //   id: "education",
-  //   name: "Education",
-  //   subcategories: ["Elementary", "Middle School", "High School", "University"],
-  // },
-  // { id: "employment", name: "Employment" },
-  // { id: "finance", name: "Finance" },
-  // { id: "food", name: "Food" },
-  // { id: "gardening", name: "Gardening" },
-  { id: "general", name: "General" },
-  // { id: "homelessness", name: "Homelessness" },
-  // { id: "housing", name: "Housing" },
-  // { id: "jobs", name: "Jobs" },
-  // { id: "investing", name: "Investing" },
-  // { id: "matrimonial", name: "Matrimonial" },
-  // {
-  //   id: "medical",
-  //   name: "Medical",
-  //   subcategories: ["Brain", "Depression", "Eye", "Hand", "Head", "Leg"],
-  // },
-  // { id: "rental", name: "Rental" },
-  // { id: "school", name: "School" },
-  // { id: "shopping", name: "Shopping" },
-  // {
-  //   id: "sports",
-  //   name: "Sports",
-  //   subcategories: [
-  //     "Baseball",
-  //     "Basketball",
-  //     "Cricket",
-  //     "Handball",
-  //     "Jogging",
-  //     "Hockey",
-  //     "Running",
-  //     "Tennis",
-  //   ],
-  // },
-  // {
-  //   id: "Counseling",
-  //   name: "Counseling Support",
-  //   subcategories: [
-  //     "College Applications (Master’s)",
-  //     "Review of Statements of Purpose (SoPs)",
-  //     "College Recommendations",
-  //     "Suggestions for College Choices",
-  //   ],
-  // },
-  // { id: "stocks", name: "Stocks" },
-  // { id: "travel", name: "Travel" },
-  // { id: "tourism", name: "Tourism" },
+  {
+    key: "GENERAL",
+    id: "GENERAL",
+    name: "General",
+    subcategories: [],
+  },
 ];
 
-// Action to load categories into the store
-export const loadCategories = createAction("request/loadCategories", () => {
-  return {
-    payload: categories,
-  };
-});
+// Action to load categories into the store (can accept custom data or use static)
+export const loadCategories = createAction(
+  "request/loadCategories",
+  (customCategories = null) => {
+    return {
+      payload: customCategories || categories,
+    };
+  },
+);

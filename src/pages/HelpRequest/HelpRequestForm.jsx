@@ -17,11 +17,13 @@ import {
   checkProfanity,
   createRequest,
   predictCategories,
+  getCategories,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
+import languagesData from "../../common/i18n/languagesData";
 import {
   Dialog,
   DialogActions,
@@ -51,10 +53,12 @@ const genderOptions = [
 ];
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { categories } = useSelector((state) => state.request);
+  const { categories, categoriesFetched } = useSelector(
+    (state) => state.request,
+  );
   const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
   const [location, setLocation] = useState("");
@@ -62,7 +66,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     usePlacesSearchBox(setLocation);
 
   const [languages, setLanguages] = useState([]);
-
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("General");
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -233,10 +236,36 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   };
   useEffect(() => {
-    const fetchLanguages = async () => {
+    // Build languages options directly from languagesData.js
+    const languageOptions = languagesData.map((lang) => ({
+      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
+      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
+      label: lang.name,
+    }));
+    setLanguages(languageOptions);
+    /*   const fetchLanguages = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
+
+        // Ensure data is an array before processing
+        if (!Array.isArray(data)) {
+          console.warn("Languages API returned non-array data, using fallback");
+          setLanguages([
+            { value: "English", label: "English" },
+            { value: "Spanish", label: "Spanish" },
+            { value: "French", label: "French" },
+            { value: "German", label: "German" },
+            { value: "Hindi", label: "Hindi" },
+          ]);
+          return;
+        }
+
         const languageSet = new Set();
         data.forEach((country) => {
           if (country.languages) {
@@ -249,12 +278,121 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           [...languageSet].map((lang) => ({ value: lang, label: lang })),
         );
       } catch (error) {
-        console.error("Error fetching languages:", error);
+        console.warn(
+          "Error fetching languages, using fallback:",
+          error.message,
+        );
+        // Fallback to common languages if API fails
+        setLanguages([
+          { value: "English", label: "English" },
+          { value: "Spanish", label: "Spanish" },
+          { value: "French", label: "French" },
+          { value: "German", label: "German" },
+          { value: "Hindi", label: "Hindi" },
+          { value: "Chinese", label: "Chinese" },
+          { value: "Arabic", label: "Arabic" },
+          { value: "Portuguese", label: "Portuguese" },
+          { value: "Russian", label: "Russian" },
+          { value: "Japanese", label: "Japanese" },
+        ]);
+      }
+    };*/
+
+    // Fetch categories from API if not already fetched, following same pattern as other APIs
+    const fetchCategoriesData = async () => {
+      if (!categoriesFetched) {
+        try {
+          const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
+
+          // Extract categories array from API response
+          let apiCategories;
+          if (
+            categoriesData?.categories &&
+            Array.isArray(categoriesData.categories)
+          ) {
+            apiCategories = categoriesData.categories;
+          } else if (Array.isArray(categoriesData)) {
+            apiCategories = categoriesData;
+          } else {
+            throw new Error("Invalid API response format");
+          }
+
+          // Map API keys to exact matching i18n keys (1:1 mapping)
+          const apiToI18nKeyMap = {
+            GENERAL_CATEGORY: "GENERAL_CATEGORY",
+            FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_AND_ESSENTIALS_SUPPORT",
+            CLOTHING_SUPPORT: "CLOTHING_SUPPORT",
+            HOUSING_SUPPORT: "HOUSING_SUPPORT",
+            EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
+            HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLNESS_SUPPORT",
+            ELDERLY_SUPPORT: "ELDERLY_SUPPORT",
+          };
+
+          const subcategoryApiToI18nKeyMap = {
+            // Food & Essentials subcategories - direct 1:1 mapping
+            FOOD_ASSISTANCE: "FOOD_ASSISTANCE",
+            GROCERY_SHOPPING_AND_DELIVERY: "GROCERY_SHOPPING_AND_DELIVERY",
+            COOKING_HELP: "COOKING_HELP",
+            // Clothing subcategories - direct 1:1 mapping
+            DONATE_CLOTHES: "DONATE_CLOTHES",
+            BORROW_CLOTHES: "BORROW_CLOTHES",
+            EMERGENCY_ASSISTANCE: "EMERGENCY_ASSISTANCE",
+            SEASONAL_DRIVE_NOTIFICATION: "SEASONAL_DRIVE_NOTIFICATION",
+            TAILORING: "TAILORING",
+            // Housing subcategories - direct 1:1 mapping
+            FIND_A_ROOMMATE: "FIND_A_ROOMMATE",
+            RENTING_SUPPORT: "RENTING_SUPPORT",
+            HOUSEHOLD_ITEM_EXCHANGE: "HOUSEHOLD_ITEM_EXCHANGE",
+            MOVING_ASSISTANCE: "MOVING_ASSISTANCE",
+            CLEANING_HELP: "CLEANING_HELP",
+            HOME_REPAIR_SUPPORT: "HOME_REPAIR_SUPPORT",
+            UTILITIES_SETUP: "UTILITIES_SETUP",
+            // Education subcategories - direct 1:1 mapping
+            COLLEGE_APPLICATION_HELP: "COLLEGE_APPLICATION_HELP",
+            SOP_ESSAY_REVIEW: "SOP_ESSAY_REVIEW",
+            TUTORING: "TUTORING",
+            // Healthcare subcategories - direct 1:1 mapping
+            MEDICAL_NAVIGATION: "MEDICAL_NAVIGATION",
+            MEDICINE_DELIVERY: "MEDICINE_DELIVERY",
+            MENTAL_WELLBEING_SUPPORT: "MENTAL_WELLBEING_SUPPORT",
+            MEDICATION_REMINDERS: "MEDICATION_REMINDERS",
+            HEALTH_EDUCATION_GUIDANCE: "HEALTH_EDUCATION_GUIDANCE",
+            // Elderly subcategories - direct 1:1 mapping
+            SENIOR_LIVING_RELOCATION: "SENIOR_LIVING_RELOCATION",
+            DIGITAL_SUPPORT_FOR_SENIORS: "DIGITAL_SUPPORT_FOR_SENIORS",
+            MEDICAL_HELP: "MEDICAL_HELP",
+            ERRANDS_TRANSPORTATION: "ERRANDS_TRANSPORTATION",
+            SOCIAL_CONNECTION: "SOCIAL_CONNECTION",
+            MEAL_SUPPORT: "MEAL_SUPPORT",
+          };
+
+          // Transform API categories to our format
+          const mappedCategories = apiCategories.map((cat) => ({
+            key: apiToI18nKeyMap[cat.cat_name] || cat.cat_name,
+            id: cat.cat_id,
+            name: apiToI18nKeyMap[cat.cat_name] || cat.cat_name, // Use mapped key for display
+            apiName: cat.cat_name, // Store original API key for backend
+            subcategories: (cat.children || []).map((child) => ({
+              key: subcategoryApiToI18nKeyMap[child.cat_name] || child.cat_name,
+              apiName: child.cat_name, // Store original API key for backend
+            })),
+          }));
+
+          dispatch(loadCategories(mappedCategories));
+        } catch (error) {
+          console.warn(
+            "Categories API failed, using static fallback:",
+            error.message,
+          );
+          dispatch(loadCategories()); // Load static categories as fallback
+        }
       }
     };
-    dispatch(loadCategories());
-    fetchLanguages();
-  }, [dispatch]);
+
+    fetchCategoriesData();
+
+    //fetchLanguages();
+  }, [dispatch, categoriesFetched]);
 
   useEffect(() => {
     if (id && data) {
@@ -268,16 +406,63 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, [data]);
 
+  const resolveCategoryLabel = (selectedKeyOrText) => {
+    if (!selectedKeyOrText) return "";
+
+    // Ensure categories is an array before using array methods
+    const categoriesArray = Array.isArray(categories) ? categories : [];
+
+    // If matches a category key
+    const cat = categoriesArray.find(
+      (c) => (c.key || c.id || c.name) === selectedKeyOrText,
+    );
+    if (cat) {
+      const categoryKey =
+        cat.i18nKey || cat.key || cat.id || cat.name || "UNKNOWN";
+      return t(`categories:REQUEST_CATEGORIES.${categoryKey}.LABEL`, {
+        defaultValue:
+          cat.name || cat.label || cat.key || cat.id || selectedKeyOrText,
+      });
+    }
+    // If matches a subcategory key
+    for (const c of categoriesArray) {
+      const subs = c.subcategories || [];
+      const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
+      if (match) {
+        const categoryKey = c.i18nKey || c.key || c.id || c.name || "UNKNOWN";
+        const subKey = match.i18nKey || match.key || match || "UNKNOWN";
+        return t(
+          `categories:REQUEST_CATEGORIES.${categoryKey}.SUBCATEGORIES.${subKey}.LABEL`,
+          {
+            defaultValue:
+              match.name ||
+              match.label ||
+              match.key ||
+              match.id ||
+              "Subcategory",
+          },
+        );
+      }
+    }
+    // Fallback to free text typed by user
+    return selectedKeyOrText;
+  };
+
   useEffect(() => {
     if (categories && categories.length > 0) {
-      // Sort categories alphabetically by name, but keep 'General' last
-      const general = categories.find((cat) => cat.name === "General");
-      const others = categories.filter((cat) => cat.name !== "General");
-      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      const general = categories.find((cat) => cat.key === "GENERAL");
+      const others = categories.filter((cat) => cat.key !== "GENERAL");
+      const resolvedLabel = (cat) =>
+        t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
+          defaultValue: cat.name,
+        });
+      const sorted = others.sort((a, b) =>
+        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
+      );
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     }
-  }, [categories]);
+  }, [categories, i18n.language, t]);
 
   const handleSearchInput = (e) => {
     const searchTerm = e.target.value;
@@ -287,21 +472,30 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       category: searchTerm,
     });
 
+    const resolvedLabel = (cat) =>
+      t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
+        defaultValue: cat.name,
+      });
+
     if (searchTerm.trim() === "") {
-      // Sort categories alphabetically by name, keep 'General' last
-      const general = categories.find((cat) => cat.name === "General");
-      const others = categories.filter((cat) => cat.name !== "General");
-      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      const general = categories.find((cat) => cat.key === "GENERAL");
+      const others = categories.filter((cat) => cat.key !== "GENERAL");
+      const sorted = others.sort((a, b) =>
+        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
+      );
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     } else {
       const filtered = categories.filter((category) =>
-        category.name.toLowerCase().startsWith(searchTerm.toLowerCase()),
+        resolvedLabel(category)
+          .toLowerCase()
+          .startsWith(searchTerm.toLowerCase()),
       );
-      // Sort filtered categories alphabetically, keep 'General' last if present
-      const general = filtered.find((cat) => cat.name === "General");
-      const others = filtered.filter((cat) => cat.name !== "General");
-      const sorted = others.sort((a, b) => a.name.localeCompare(b.name));
+      const general = filtered.find((cat) => cat.key === "GENERAL");
+      const others = filtered.filter((cat) => cat.key !== "GENERAL");
+      const sorted = others.sort((a, b) =>
+        resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
+      );
       if (general) sorted.push(general);
       setFilteredCategories(sorted);
     }
@@ -324,23 +518,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
   }, []);
 
-  const handleCategoryClick = (categoryName) => {
-    // setSelectedCategory(categoryName);
-    //setSearchInput(categoryName);
+  const handleCategoryClick = (categoryKeyOrId) => {
     setFormData({
       ...formData,
-      category: categoryName,
+      category: categoryKeyOrId,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
   };
 
-  const handleSubcategoryClick = (subcategoryName) => {
-    // setSelectedCategory(subcategoryName);
-    //setSearchInput(subcategoryName);
+  const handleSubcategoryClick = (subcategory) => {
+    const subKey =
+      typeof subcategory === "string" ? subcategory : subcategory.key;
     setFormData({
       ...formData,
-      category: subcategoryName,
+      category: subKey,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
@@ -385,17 +577,17 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
         <div className="w-full max-w-2xl mx-auto px-4 mt-4">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
           >
-            <span className="text-2xl mr-2">&lt;</span> Back to Home
+            <span className="text-2xl mr-2">&lt;</span>{" "}
+            {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
           </button>
         </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
           </h1>
-
           <div
             className="flex items-start gap-2 p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
             role="alert"
@@ -406,7 +598,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               {t("LIFE_THREATENING_REQUESTS")}
             </div>
           </div>
-
           <div className="mt-3 flex gap-4" data-testid="parentDivOne">
             {/* For Self Dropdown */}
             <div className="flex-1">
@@ -426,15 +617,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-              <select
-                id="self"
-                data-testid="dropdown"
-                className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
-                onChange={(e) => setSelfFlag(e.target.value === "yes")}
-                disabled
-              >
-                <option value="yes">{t("YES")}</option>
-              </select>
+
+              <div className="flex-1 relative">
+                <select
+                  id="self"
+                  data-testid="dropdown"
+                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
+                  onChange={(e) => setSelfFlag(e.target.value === "yes")}
+                >
+                  <option value="yes">{t("YES")}</option>
+                  <option value="no">{t("NO")}</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <HiChevronDown className="h-5 w-5 text-gray-600" />
+                </div>
+              </div>
             </div>
 
             {/* Lead Volunteer */}
@@ -497,133 +694,138 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               )}
             </div>
           </div>
-          {/*
-         Temporarily commented out as MVP only allows for self requests
-         {!selfFlag && (
-           <div className="mt-3" data-testid="parentDivTwo">
-             <div className="grid grid-cols-2 gap-4">
-               <div>
-                 <label
-                   htmlFor="requester_first_name"
-                   className="block text-gray-700 mb-1 font-medium"
-                 >
-                   {t("FIRST_NAME")}
-                 </label>
-                 <input
-                   type="text"
-                   id="requester_first_name"
-                   value={formData.requester_first_name}
-                   onChange={handleChange}
-                   className="w-full rounded-lg border py-2 px-3"
-                 />
-               </div>
-               <div>
-                 <label
-                   htmlFor="requester_last_name"
-                   className="block text-gray-700 mb-1 font-medium"
-                 >
-                   {t("LAST_NAME")}
-                 </label>
-                 <input
-                   type="text"
-                   id="requester_last_name"
-                   value={formData.requester_last_name}
-                   onChange={handleChange}
-                   className="w-full rounded-lg border py-2 px-3"
-                 />
-               </div>
-             </div>
-             <div className="mt-3" data-testid="parentDivThree">
-               <label
-                 htmlFor="email"
-                 className="block text-gray-700 mb-1 font-medium"
-               >
-                 {t("EMAIL")}
-               </label>
-               <input
-                 type="email"
-                 id="email"
-                 value={formData.email}
-                 onChange={handleChange}
-                 className="w-full rounded-lg border py-2 px-3"
-               />
-             </div>
 
+          {
+            //Temporarily commented out as MVP only allows for self requests
+            !selfFlag && (
+              <div
+                className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
+                data-testid="parentDivTwo"
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="requester_first_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("FIRST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_first_name"
+                      value={formData.requester_first_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="requester_last_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("LAST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_last_name"
+                      value={formData.requester_last_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                </div>
+                <div className="mt-3" data-testid="parentDivThree">
+                  <label
+                    htmlFor="email"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    {t("EMAIL")}
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
+                </div>
 
-             <div className="mt-3 grid grid-cols-2 gap-4">
-               <div>
-                 <label
-                   htmlFor="phone"
-                   className="block text-gray-700 mb-1 font-medium"
-                 >
-                   {t("PHONE")}
-                 </label>
-                 <input
-                   type="text"
-                   id="phone"
-                   value={formData.phone}
-                   onChange={handleChange}
-                   className="w-full rounded-lg border py-2 px-3"
-                 />
-               </div>
-               <div>
-                 <label
-                   htmlFor="age"
-                   className="block text-gray-700 mb-1 font-medium"
-                 >
-                   {t("AGE")}
-                 </label>
-                 <input
-                   type="number"
-                   id="age"
-                   value={formData.age}
-                   onChange={handleChange}
-                   className="w-full rounded-lg border py-2 px-3"
-                 />
-               </div>
-               <div className="mt-3" data-testid="parentDivFour">
-                 <label
-                   htmlFor="gender"
-                   className="block text-gray-700 mb-1 font-medium"
-                 >
-                   {t("GENDER")}
-                 </label>
-                 <select
-                   id="gender"
-                   value={formData.gender}
-                   onChange={handleChange}
-                   className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                 >
-                   {genderOptions.map((option) => (
-                     <option key={option.value} value={option.value}>
-                       {option.label}
-                     </option>
-                   ))}
-                 </select>
-               </div>
-               <div className="mt-3" data-testid="parentDivFive">
-                 <label
-                   htmlFor="language"
-                   className="block text-gray-700 mb-1 font-medium"
-                 >
-                   {t("PREFERRED_LANGUAGE")}
-                 </label>
-                 <select
-                   id="language"
-                   value={formData.language}
-                   onChange={handleChange}
-                   className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full"
-                 >
-                   {languages.map((language) => (
-                     <option key={language.value} value={language.value}>
-                       {language.label}
-                     </option>
-                   ))}
-                 </select>
-               </div>
-             </div>
-           </div>
-         )} */}
+                <div className="mt-3 grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PHONE")}
+                    </label>
+                    <input
+                      type="text"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="age"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("AGE")}
+                    </label>
+                    <input
+                      type="number"
+                      id="age"
+                      value={formData.age}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFour">
+                    <label
+                      htmlFor="gender"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("GENDER")}
+                    </label>
+                    <select
+                      id="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                    >
+                      {genderOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFive">
+                    <label
+                      htmlFor="language"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PREFERRED_LANGUAGE")}
+                    </label>
+                    <select
+                      id="preferred_language"
+                      value={formData.preferred_language}
+                      onChange={handleChange}
+                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                    >
+                      {languages.map((language) => (
+                        <option key={language.value} value={language.value}>
+                          {language.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )
+          }
+
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
@@ -648,11 +850,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 <input
                   type="text"
                   id="category"
-                  value={
-                    filteredCategories.find(
-                      (cat) => cat.id === formData.category,
-                    )?.name || formData.category
-                  }
+                  value={resolveCategoryLabel(formData.category)}
                   onChange={handleSearchInput}
                   className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
                   onFocus={() => setShowDropdown(true)}
@@ -712,12 +910,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             !category.subcategories ||
                             category.subcategories.length === 0
                           ) {
-                            handleCategoryClick(category.name);
+                            handleCategoryClick(category.key || category.id);
                           }
                         }}
                         onMouseEnter={() => setHoveredCategory(category)}
                       >
-                        <span>{category.name}</span>
+                        <span
+                          title={t(
+                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.DESC`,
+                            { defaultValue: "" },
+                          )}
+                        >
+                          {t(
+                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.LABEL`,
+                            { defaultValue: category.name },
+                          )}
+                        </span>
                         {/* Show chevron if subcategories exist */}
                         {category.subcategories &&
                           category.subcategories.length > 0 && (
@@ -762,7 +970,20 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                   handleSubcategoryClick(subcategory);
                                 }}
                               >
-                                {subcategory}
+                                <span
+                                  title={t(
+                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.DESC`,
+                                    { defaultValue: "" },
+                                  )}
+                                >
+                                  {t(
+                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.LABEL`,
+                                    {
+                                      defaultValue:
+                                        subcategory.label || subcategory,
+                                    },
+                                  )}
+                                </span>
                               </div>
                             ),
                           )}
@@ -819,8 +1040,39 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
             </div>
-
-            <div className="flex-1">
+            <div className="mt-3 flex gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <label
+                    htmlFor="calamity"
+                    className="font-medium text-gray-700"
+                  >
+                    Is Calamity?
+                  </label>
+                  <div className="relative group cursor-pointer">
+                    {/* Circle Question Mark Icon */}
+                    <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                      ?
+                    </div>
+                    <div
+                      className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
+                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none"
+                    >
+                      Indicate if it is a calamity by checking the box.
+                    </div>
+                  </div>
+                </div>
+                <div className="relative">
+                  <input
+                    id="calamity"
+                    type="checkbox"
+                    name="calamity"
+                    className="w-5 h-5 inset-y-10 right-0 flex items-center pr-2"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
                 <label
                   htmlFor="requestPriority"
@@ -894,7 +1146,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             )}
           </div>
-
           <div className="mt-3" data-testid="parentDivSix">
             {formData.category === "Jobs" && <JobsCategory />}
             {formData.category === "Housing" && <HousingCategory />}
@@ -918,7 +1169,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               placeholder="Please give a brief description of the request"
             />
           </div>
-
           <div className="mt-3" data-testid="parentDivSeven">
             <label
               htmlFor="description"
@@ -940,7 +1190,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               placeholder="Please give a detailed description of the request"
             ></textarea>
           </div>
-
           <div className="mt-8 flex justify-end gap-2">
             <button
               type="submit"
