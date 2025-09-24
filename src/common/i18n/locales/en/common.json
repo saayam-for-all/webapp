@@ -28,6 +28,8 @@
   "NEW_MATCH_REQUEST": "New Match Request",
   "ACCEPT": "Accept",
   "DENY": "Deny",
+  "ACCEPTED_REQUEST_MESSAGE": "✅ You accepted this request.",
+  "DENIED_REQUEST_MESSAGE": "❌ You denied this request.",
   "OUR_MISSION": "Our Mission",
   "OUR_VISION_NAVBAR": "Our Vision",
   "VOLUNTEER_SERVICES": "Volunteer Services",

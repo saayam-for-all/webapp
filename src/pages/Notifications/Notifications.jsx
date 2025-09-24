@@ -40,7 +40,7 @@ export default function NotificationUI() {
         payload: {
           id: note.id,
           data: {
-            message: " ✅ You accepted this request.",
+            message: t("ACCEPTED_REQUEST_MESSAGE"),
             status: "accepted",
           },
         },
@@ -57,7 +57,7 @@ export default function NotificationUI() {
         type: "UPDATE_NOTIFICATION",
         payload: {
           id: note.id,
-          data: { message: " ❌ You denied this request.", status: "denied" },
+          data: { message: t("DENIED_REQUEST_MESSAGE"), status: "denied" },
         },
       });
     } catch (error) {
