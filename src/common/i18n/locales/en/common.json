@@ -353,5 +353,19 @@
   "CALAMITY_HELP_TEXT": "Indicate if it is a calamity by checking the box.",
   "PRIORITY_HELP_TEXT": "How urgent is this request?<br />• Low – Not time sensitive<br />• Medium – Within few days<br />• High – Immediate support",
   "SUBJECT_HELP_TEXT": "Please give a brief description of the request",
-  "DESCRIPTION_HELP_TEXT": "Please give a detailed description of the request"
+  "DESCRIPTION_HELP_TEXT": "Please give a detailed description of the request",
+
+  "ALL": "All",
+  "VOLUNTEER_MATCH": "Volunteer Match",
+  "HELP_REQUEST_FILTER": "Help Request",
+  "NEW_MATCH_REQUEST": "New Match Request",
+  "ACCEPT": "Accept",
+  "DENY": "Deny",
+  "EDUCATIONAL_HELP": "Educational Help",
+  "LOGISTIC_HELP": "Logistic Help",
+  "NEED_HELP_WITH_LOGISTICS": "Need help with Logistics",
+  "LOGISTICS": "Logistics",
+  "HOSPITAL": "Hospital",
+  "YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS": "You have new Volunteer match request in Logistics",
+  "EDUCATION": "Education"
 }

@@ -479,5 +479,19 @@
   "RECEIVE EMERGENCY NOTIFICATIONS": "आपातकालीन सूचनाएं प्राप्त करें",
   "PREFERENCES UPDATED SUCCESS": "प्राथमिकताएं सफलतापूर्वक अपडेट की गईं!",
   "EMAIL COMMUNICATION PREFERENCE": "ईमेल संचार प्राथमिकता",
-  "PHONE COMMUNICATION PREFERENCE": "फ़ोन संचार प्राथमिकता"
+  "PHONE COMMUNICATION PREFERENCE": "फ़ोन संचार प्राथमिकता",
+
+  "ALL": "सभी",
+  "VOLUNTEER_MATCH": "स्वयंसेवक मैच",
+  "HELP_REQUEST_FILTER": "सहायता अनुरोध",
+  "NEW_MATCH_REQUEST": "नया मैच अनुरोध",
+  "ACCEPT": "स्वीकार करें",
+  "DENY": "अस्वीकार करें",
+  "EDUCATIONAL_HELP": "शैक्षिक सहायता",
+  "LOGISTIC_HELP": "लॉजिस्टिक सहायता",
+  "NEED_HELP_WITH_LOGISTICS": "लॉजिस्टिक्स में सहायता चाहिए",
+  "LOGISTICS": "लॉजिस्टिक्स",
+  "HOSPITAL": "अस्पताल",
+  "YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS": "आपके पास लॉजिस्टिक्स में नया स्वयंसेवक मैच अनुरोध है",
+  "EDUCATION": "शिक्षा"
 }
