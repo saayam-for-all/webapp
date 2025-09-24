@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 import { GET_NOTIFICATIONS } from "../../services/requestServices";
 import { useNotifications } from "../../context/NotificationContext";
 import { NotificationProvider } from "../../context/NotificationContext";
+import { useTranslation } from "react-i18next";
 
 export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
+  const { t, i18n } = useTranslation(["common"]);
   const { user } = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.idToken);
   const { dispatch, state } = useNotifications();
@@ -81,13 +83,22 @@ export default function NotificationUI() {
             onClick={() => setFilter(type)}
           >
             {type === "all"
-              ? "All"
+              ? t("ALL")
               : type === "volunteer"
-                ? "Volunteer Match"
-                : "Help Request"}
+                ? t("VOLUNTEER_MATCH")
+                : t("HELP_REQUEST_FILTER")}
           </button>
         ))}
-        <div className="ml-auto">
+        <div className="ml-auto flex gap-2 items-center">
+          {/* Language Switcher - English and Hindi */}
+          <select
+            onChange={(e) => i18n.changeLanguage(e.target.value)}
+            className="px-2 py-1 border rounded text-sm"
+            value={i18n.language}
+          >
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+          </select>
           <button className="p-2" onClick={handleSettingsClick}>
             <BiCog className="text-2xl text-gray-600 hover:text-blue-600 transition-colors duration-200" />
           </button>
@@ -104,9 +115,28 @@ export default function NotificationUI() {
               <div className="text-2xl sm:text-3xl">{typeIcons[note.type]}</div>
               <div className="flex-1">
                 <h3 className="font-bold text-gray-800 text-base">
-                  {note.title}
+                  {note.title === "Educational Help"
+                    ? t("EDUCATIONAL_HELP")
+                    : note.title === "Logistic Help"
+                      ? t("LOGISTIC_HELP")
+                      : note.title === "New Match Request"
+                        ? t("NEW_MATCH_REQUEST")
+                        : note.title}
                 </h3>
-                <p className="text-gray-600 text-sm mt-1">{note.message}</p>
+                <p className="text-gray-600 text-sm mt-1">
+                  {note.message ===
+                  "You have new Volunteer match request in Logistics"
+                    ? t("YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS")
+                    : note.message === "Education"
+                      ? t("EDUCATION")
+                      : note.message === "Need help with Logistics"
+                        ? t("NEED_HELP_WITH_LOGISTICS")
+                        : note.message === "Logistics"
+                          ? t("LOGISTICS")
+                          : note.message === "Hospital"
+                            ? t("HOSPITAL")
+                            : note.message}
+                </p>
 
                 {note.title === "New Match Request" &&
                   !note.message.includes("✅") &&
@@ -116,13 +146,13 @@ export default function NotificationUI() {
                         className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
                         onClick={() => handleAccept(note)}
                       >
-                        Accept
+                        {t("ACCEPT")}
                       </button>
                       <button
                         className="flex-1 sm:flex-none border border-red-500 hover:bg-red-700 hover:text-white text-red-500 px-4 py-1 rounded"
                         onClick={() => handleDeny(note)}
                       >
-                        Deny
+                        {t("DENY")}
                       </button>
                     </div>
                   )}

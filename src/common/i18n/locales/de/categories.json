@@ -1,0 +1,148 @@
+{
+  "REQUEST_CATEGORIES": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "Allgemein",
+      "DESC": "Verwenden Sie diese Option, wenn Sie unsicher sind; beschreiben Sie Ihr Anliegen ausführlich."
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
+      "LABEL": "Lebensmittel & Grundbedarf",
+      "DESC": "Zugang zu Lebensmittelhilfe, Einkaufsdiensten und Kochhilfe.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Lebensmittelhilfe",
+          "DESC": "Finden Sie Tafeln, Lebensmittelbanken oder Essensprogramme."
+        },
+        "GROCERY_SHOPPING_AND_DELIVERY": {
+          "LABEL": "Einkaufen & Lieferung",
+          "DESC": "Bitten Sie um Hilfe beim Einkaufen und Liefern von Lebensmitteln."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Kochhilfe",
+          "DESC": "Erhalten Sie Anleitung bei der Essenszubereitung und beim Kochen."
+        }
+      }
+    },
+    "CLOTHING_SUPPORT": {
+      "LABEL": "Kleidung und Unterstützung",
+      "DESC": "Kleidung spenden, ausleihen, reparieren oder um Kleidungshilfe bitten.",
+      "SUBCATEGORIES": {
+        "BORROW_CLOTHES": {
+          "LABEL": "Kleidung verleihen/ausleihen",
+          "DESC": "Teilen oder leihen Sie gut erhaltene Kleidung."
+        },
+        "DONATE_CLOTHES": {
+          "LABEL": "Kleidung spenden",
+          "DESC": "Geben Sie Kleidung an Bedürftige weiter."
+        }
+      }
+    },
+    "HOUSING_SUPPORT": {
+      "LABEL": "Wohnungshilfe",
+      "DESC": "Mitbewohner, Mietberatung, Umzug und Einrichtungshilfe.",
+      "SUBCATEGORIES": {
+        "FIND_A_ROOMMATE": {
+          "LABEL": "Mitbewohner finden",
+          "DESC": "Erhalten Sie Hilfe bei der Suche nach einem Mitbewohner."
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "Mietunterstützung",
+          "DESC": "Hilfe beim Mieten und bei den Grundlagen von Mietverträgen."
+        },
+        "HOUSEHOLD_ITEM_EXCHANGE": {
+          "LABEL": "Haushaltsgegenstände kaufen/verkaufen",
+          "DESC": "Hilfe beim Kauf oder Verkauf von Haushaltsgegenständen."
+        },
+        "MOVING_ASSISTANCE": {
+          "LABEL": "Umzugs- & Packhilfe",
+          "DESC": "Unterstützung beim Umzug und Packen."
+        },
+        "CLEANING_HELP": {
+          "LABEL": "Reinigungshilfe",
+          "DESC": "Hilfe bei grundlegenden Reinigungsaufgaben."
+        },
+        "HOME_REPAIR_SUPPORT": {
+          "LABEL": "Hauskauf/-verkauf Unterstützung",
+          "DESC": "Beratung beim Hauskauf- oder -verkaufsprozess."
+        },
+        "UTILITIES_SETUP": {
+          "LABEL": "Versorgungsanschlüsse einrichten",
+          "DESC": "Hilfe beim Einrichten von Internet, Strom, Wasser und anderen Diensten."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Bildungs- & Karriereunterstützung",
+      "DESC": "College-Bewerbungen, SOP-Überprüfungen, Nachhilfe und Lernunterstützung.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATION_HELP": {
+          "LABEL": "College-Bewerbungshilfe",
+          "DESC": "Hilfe bei Bewerbungen und Formularen."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOP & Aufsatz-Überprüfung",
+          "DESC": "Feedback zu Statements und Aufsätzen."
+        },
+        "TUTORING": {
+          "LABEL": "Nachhilfe",
+          "DESC": "Fachnachhilfe und Lernunterstützung."
+        }
+      }
+    },
+    "HEALTHCARE_WELLNESS_SUPPORT": {
+      "LABEL": "Gesundheit & Wohlbefinden",
+      "DESC": "Nicht-klinische Gesundheitsnavigation und Wellness-Unterstützung.",
+      "SUBCATEGORIES": {
+        "MEDICAL_NAVIGATION": {
+          "LABEL": "Medizinische Beratung",
+          "DESC": "Grundlegende Navigation und nicht-klinische Beratung."
+        },
+        "MEDICINE_DELIVERY": {
+          "LABEL": "Medikamentenlieferung",
+          "DESC": "Abholung und Lieferung von rezeptfreien Medikamenten."
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "Psychisches Wohlbefinden",
+          "DESC": "Allgemeine psychische Gesundheitsressourcen oder Überweisungen."
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "Medikamentenerinnerungen",
+          "DESC": "Nicht-klinische Erinnerungen für rezeptfreie Medikamente oder Nahrungsergänzungsmittel."
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "Gesundheitserziehung",
+          "DESC": "Wellness-Bewusstsein für Hygiene, Schlaf, Ernährung usw."
+        }
+      }
+    },
+    "ELDERLY_SUPPORT": {
+      "LABEL": "Senioren- & Gemeinschaftsunterstützung",
+      "DESC": "Nicht-medizinische Hilfe für Senioren und Gemeinschaftsunterstützung.",
+      "SUBCATEGORIES": {
+        "SENIOR_LIVING_RELOCATION": {
+          "LABEL": "Seniorenhilfe",
+          "DESC": "Hilfe bei alltäglichen Aufgaben und Gesellschaft."
+        },
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "Technikhilfe für Senioren",
+          "DESC": "Unterstützung bei Geräten und Apps."
+        },
+        "MEDICAL_HELP": {
+          "LABEL": "Medizinische Hilfe",
+          "DESC": "Medikamentenerinnerungen oder Einrichtung von Gesundheitsgeräten (nicht-klinisch)."
+        },
+        "ERRANDS_TRANSPORTATION": {
+          "LABEL": "Fahrhilfe",
+          "DESC": "Hilfe bei der Organisation von Fahrten zu Terminen."
+        },
+        "SOCIAL_CONNECTION": {
+          "LABEL": "Soziale Verbindung",
+          "DESC": "Gesellschaft und soziale Aktivitäten (Anrufe, Spaziergänge, Spiele)."
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "Essenunterstützung",
+          "DESC": "Hilfe beim Kochen oder Zubereiten von Mahlzeiten basierend auf Ernährungsbedürfnissen."
+        }
+      }
+    }
+  }
+}

@@ -4,11 +4,11 @@ import { FaPlus, FaTrashAlt } from "react-icons/fa";
 import { FiClock } from "react-icons/fi";
 import LoadingIndicator from "../../common/components/Loading/Loading";
 
-const getTimezoneDetails = (timezoneValue) => {
+const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
   try {
     const now = new Date();
 
-    const offsetFormatter = new Intl.DateTimeFormat("en-US", {
+    const offsetFormatter = new Intl.DateTimeFormat(locale, {
       year: "numeric",
       month: "numeric",
       day: "numeric",
@@ -21,9 +21,13 @@ const getTimezoneDetails = (timezoneValue) => {
     });
 
     const formattedOffsetDate = offsetFormatter.format(now);
-    const offsetMatch = formattedOffsetDate.match(/GMT([+-]\d{2}:\d{2})/);
-    const utcOffset = offsetMatch ? `UTC${offsetMatch[1]}` : "";
-    const userFriendlyNameFormatter = new Intl.DateTimeFormat("en-US", {
+    const offsetMatch = formattedOffsetDate.match(
+      /GMT([+-]\d{2}:\d{2})|UTC([+-]\d{2}:\d{2})/,
+    );
+    const utcOffset = offsetMatch
+      ? `UTC${offsetMatch[1] || offsetMatch[2]}`
+      : "";
+    const userFriendlyNameFormatter = new Intl.DateTimeFormat(locale, {
       timeZone: timezoneValue,
       timeZoneName: "long",
     });
@@ -55,7 +59,7 @@ const convertTo12HourFormat = (time24h) => {
     const [hours, minutes] = time24h.split(":").map(Number);
     const date = new Date();
     date.setHours(hours, minutes, 0, 0);
-    return date.toLocaleTimeString("en-US", {
+    return date.toLocaleTimeString(currentLocale, {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
@@ -67,7 +71,7 @@ const convertTo12HourFormat = (time24h) => {
 };
 
 function Availability({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [availabilitySlots, setAvailabilitySlots] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -76,6 +80,8 @@ function Availability({ setHasUnsavedChanges }) {
   const [vacationStartDate, setVacationStartDate] = useState("");
   const [vacationEndDate, setVacationEndDate] = useState("");
   const [timezone, setTimezone] = useState("UTC");
+
+  const currentLocale = i18n.language || "en-US";
 
   const titleRef = useRef(null);
   const frequencyOptions = [
@@ -171,11 +177,11 @@ function Availability({ setHasUnsavedChanges }) {
       "UTC",
     ];
 
-    return commonTimezones.map(getTimezoneDetails);
-  }, []);
+    return commonTimezones.map((tz) => getTimezoneDetails(tz, currentLocale));
+  }, [currentLocale]);
   const getCurrentTimezoneInfo = () => {
     const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return getTimezoneDetails(detectedTimezone);
+    return getTimezoneDetails(detectedTimezone, currentLocale);
   };
 
   const [currentTimezoneInfo, setCurrentTimezoneInfo] = useState(
@@ -202,13 +208,20 @@ function Availability({ setHasUnsavedChanges }) {
 
       if (isValidDetected) {
         setTimezone(detectedTimezone);
-        setCurrentTimezoneInfo(getTimezoneDetails(detectedTimezone));
+        setCurrentTimezoneInfo(
+          getTimezoneDetails(detectedTimezone, currentLocale),
+        );
       } else {
         setTimezone("UTC");
-        setCurrentTimezoneInfo(getTimezoneDetails("UTC"));
+        setCurrentTimezoneInfo(getTimezoneDetails("UTC", currentLocale));
       }
     }
-  }, [allAvailableTimezones]);
+  }, [allAvailableTimezones, currentLocale]);
+
+  useEffect(() => {
+    const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    setCurrentTimezoneInfo(getTimezoneDetails(detectedTimezone, currentLocale));
+  }, [currentLocale]);
 
   useEffect(() => {
     if (isEditing && titleRef.current) {
@@ -352,7 +365,7 @@ function Availability({ setHasUnsavedChanges }) {
 
   const selectedTimezoneDisplay =
     allAvailableTimezones.find((tz) => tz.value === timezone)?.label ||
-    timezone;
+    getTimezoneDetails(timezone, currentLocale).label;
 
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
@@ -384,9 +397,9 @@ function Availability({ setHasUnsavedChanges }) {
               <button
                 onClick={handleUseCurrentTimezone}
                 className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm whitespace-nowrap"
-                aria-label={t("Use my current timezone")}
+                aria-label={t("USE_CURRENT_TIMEZONE")}
               >
-                {t("Use My Current")}
+                {t("USE_CURRENT_TIMEZONE")}
               </button>
             </div>
             <p className="text-xs text-gray-500 mt-1">

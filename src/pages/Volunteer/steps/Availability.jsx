@@ -1,7 +1,14 @@
-import React from "react";
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { TimePicker } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
+
+const getDefaultSlot = () => ({
+  id: Date.now() + Math.random(),
+  day: "Everyday",
+  startTime: null,
+  endTime: null,
+});
 
 const TimeInputComponent = ({
   index,
@@ -11,6 +18,7 @@ const TimeInputComponent = ({
   onDayChange,
   onTimeChange,
   onRemove,
+  errors,
 }) => {
   const days = [
     "Everyday",
@@ -23,25 +31,12 @@ const TimeInputComponent = ({
     "Sunday",
   ];
 
-  const handleDayChange = (e) => {
-    const newDay = e.target.value;
-    onDayChange(index, newDay);
-  };
-
-  const handleStartTimeChange = (newStartTime) => {
-    onTimeChange(index, "startTime", newStartTime);
-  };
-
-  const handleEndTimeChange = (newEndTime) => {
-    onTimeChange(index, "endTime", newEndTime);
-  };
-
   return (
     <div className="flex items-center space-x-4 mb-1">
       <select
         className="w-40 border border-gray-300 rounded-md p-2"
         value={day}
-        onChange={handleDayChange}
+        onChange={(e) => onDayChange(index, e.target.value)}
       >
         {days.map((d) => (
           <option key={d} value={d}>
@@ -49,31 +44,40 @@ const TimeInputComponent = ({
           </option>
         ))}
       </select>
-      <TimePicker
-        className="rounded-md w-40"
-        // value={startTime}
-        onChange={handleStartTimeChange}
-        onOk={handleStartTimeChange}
-        disableClock={true}
-        format="hh:mm a"
-        hourPlaceholder="hh"
-        minutePlaceholder="mm"
-        clearIcon={null}
-      />
-      <TimePicker
-        className="rounded-md  w-40"
-        value={endTime}
-        onChange={handleEndTimeChange}
-        onOk={handleEndTimeChange}
-        disableClock={false}
-        format="hh:mm a"
-        hourPlaceholder="hh"
-        minutePlaceholder="mm"
-        clearIcon={null}
-      />
+      <div>
+        <TimePicker
+          className={`rounded-md w-40 ${errors?.startTime ? "border border-red-500" : ""}`}
+          value={startTime}
+          onChange={(v) => onTimeChange(index, "startTime", v)}
+          format="hh:mm a"
+          hourplaceholder="hh"
+          minuteplaceholder="mm"
+          clearicon={null}
+        />
+        {errors?.startTime && (
+          <div className="text-xs text-red-500">Required</div>
+        )}
+      </div>
+      <div>
+        <TimePicker
+          className={`rounded-md w-40 ${errors?.endTime ? "border border-red-500" : ""}`}
+          value={endTime}
+          onChange={(v) => onTimeChange(index, "endTime", v)}
+          format="hh:mm a"
+          hourplaceholder="hh"
+          minuteplaceholder="mm"
+          clearicon={null}
+        />
+        {errors?.endTime && (
+          <div className="text-xs text-red-500">Required</div>
+        )}
+      </div>
       <button
-        className="border border-red-500 rounded-full hover:bg-red-100"
+        className="ml-1 border border-red-500 rounded-full hover:bg-red-100"
         onClick={() => onRemove(index)}
+        type="button"
+        aria-label="Remove row"
+        title="Remove row"
       >
         <svg
           className="w-3 h-3"
@@ -100,74 +104,78 @@ const TimeInputComponent = ({
   );
 };
 
-const TimeInputList = ({ components, setComponents }) => {
-  // Initializing state with 5 TimeInputComponents
-  // const [components, setComponents] = useState(
-  //   Array.from({ length: 1 }, (_, i) => ({
-  //     id: i,
-  //     day: "Everyday",
-  //     startTime: "00:00",
-  //     endTime: "00:00",
-  //   })),
-  // );
+TimeInputComponent.propTypes = {
+  index: PropTypes.number.isRequired,
+  day: PropTypes.string.isRequired,
+  startTime: PropTypes.instanceOf(Date),
+  endTime: PropTypes.instanceOf(Date),
+  onDayChange: PropTypes.func.isRequired,
+  onTimeChange: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    startTime: PropTypes.bool,
+    endTime: PropTypes.bool,
+  }),
+};
 
-  const handleDayChange = (index, day) => {
-    console.log(`Day change at index ${index}: ${day}`);
-    const newComponents = components.map((component, i) =>
-      i === index ? { ...component, day } : component,
+const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
+  const handleDayChange = (index, newDay) => {
+    setSlots((s) =>
+      s.map((slot, i) => (i === index ? { ...slot, day: newDay } : slot)),
     );
-    setComponents(newComponents);
   };
 
-  const handleTimeChange = (index, type, value) => {
-    console.log(`Time change at index ${index} for ${type}: ${value}`);
-    const newComponents = components.map((component, i) =>
-      i === index ? { ...component, [type]: value } : component,
+  const handleTimeChange = (index, which, val) => {
+    setSlots((s) =>
+      s.map((slot, i) => (i === index ? { ...slot, [which]: val } : slot)),
     );
-    setComponents(newComponents);
-  };
-
-  const handleRemoveComponent = (index) => {
-    console.log(`Removing component at index ${index}`);
-    // Ensure at least one component remains
-    if (components.length > 1) {
-      const newComponents = components.filter((_, i) => i !== index);
-      setComponents(newComponents);
+    if (errors[index]?.[which]) {
+      setErrors((errs) =>
+        errs.map((err, i) => (i === index ? { ...err, [which]: false } : err)),
+      );
     }
   };
 
-  const handleAddComponent = () => {
-    const newId =
-      components.length > 0 ? components[components.length - 1].id + 1 : 0;
-    setComponents([
-      ...components,
-      {
-        id: newId,
-        day: "Everyday",
-        startTime: "00:00",
-        endTime: "00:00",
-      },
-    ]);
-    console.log(`components: ${JSON.stringify(components)}`);
+  const validate = () => {
+    const newErrors = slots.map((slot) => ({
+      startTime: slot.startTime == null,
+      endTime: slot.endTime == null,
+    }));
+    setErrors(newErrors);
+    return newErrors.every((e) => !e.startTime && !e.endTime);
+  };
+
+  const handleRemove = (index) => {
+    if (slots.length > 1) {
+      setSlots((prev) => prev.filter((_, i) => i !== index));
+      setErrors((prevErrs) => prevErrs.filter((_, i) => i !== index));
+    }
+  };
+
+  const handleAdd = () => {
+    if (validate()) {
+      setSlots((prev) => [...prev, getDefaultSlot()]);
+      setErrors((prev) => [...prev, { startTime: false, endTime: false }]);
+    }
   };
 
   return (
     <div>
-      {components.map((component, index) => (
+      {slots.map((slot, idx) => (
         <TimeInputComponent
-          key={component.id}
-          index={index}
-          day={component.day}
-          startTime={component.startTime}
-          endTime={component.endTime}
+          key={slot.id}
+          index={idx}
+          {...slot}
           onDayChange={handleDayChange}
           onTimeChange={handleTimeChange}
-          onRemove={handleRemoveComponent}
+          onRemove={handleRemove}
+          errors={errors[idx]}
         />
       ))}
       <button
         className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 border border-gray-300 rounded-md mt-2"
-        onClick={handleAddComponent}
+        onClick={handleAdd}
+        type="button"
       >
         <svg
           className="w-6 h-6 inline-block pr-1"
@@ -193,13 +201,31 @@ const TimeInputList = ({ components, setComponents }) => {
   );
 };
 
-const Availability = ({
-  availabilitySlots,
-  tobeNotified,
-  setAvailabilitySlots,
-  setNotification,
-}) => {
-  const handleCheckboxChange = () => {
+TimeInputList.propTypes = {
+  slots: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      day: PropTypes.string,
+      startTime: PropTypes.instanceOf(Date),
+      endTime: PropTypes.instanceOf(Date),
+    }),
+  ).isRequired,
+  setSlots: PropTypes.func.isRequired,
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      startTime: PropTypes.bool,
+      endTime: PropTypes.bool,
+    }),
+  ).isRequired,
+  setErrors: PropTypes.func.isRequired,
+};
+
+// ======= Availability (Main Component) =======
+const Availability = ({ tobeNotified, setNotification }) => {
+  const [slots, setSlots] = useState([getDefaultSlot()]);
+  const [errors, setErrors] = useState([{ startTime: false, endTime: false }]);
+
+  const handleCheckbox = () => {
     setNotification((tobeNotified) => !tobeNotified);
   };
 
@@ -209,8 +235,10 @@ const Availability = ({
         Please Provide Your Available Time Slots for Volunteering
       </p>
       <TimeInputList
-        components={availabilitySlots}
-        setComponents={setAvailabilitySlots}
+        slots={slots}
+        setSlots={setSlots}
+        errors={errors}
+        setErrors={setErrors}
       />
       <div className="flex items-center mt-6 mb-2">
         <input
@@ -218,7 +246,7 @@ const Availability = ({
           id="calamitybox"
           className="h-4 w-4 mr-2"
           checked={tobeNotified}
-          onChange={handleCheckboxChange}
+          onChange={handleCheckbox}
         />
         <label htmlFor="tobeNotified" className="font-medium">
           Would you like to receive notifications in case of emergencies or
@@ -227,6 +255,12 @@ const Availability = ({
       </div>
     </div>
   );
+};
+
+Availability.propTypes = {
+  tobeNotified: PropTypes.bool,
+  setNotification: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default Availability;

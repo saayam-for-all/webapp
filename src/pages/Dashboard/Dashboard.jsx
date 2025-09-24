@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
 // import { requestsData } from "./data";
@@ -223,6 +224,16 @@ const Dashboard = ({ userRole }) => {
     setIsStatusDropdownOpen(!isStatusDropdownOpen);
   };
 
+  const navigate = useNavigate();
+
+  const [hasAddress, setHasAddress] = useState(
+    localStorage.getItem("addressFlag") === "true",
+  );
+
+  useEffect(() => {
+    setHasAddress(localStorage.getItem("addressFlag") === "true");
+  }, [location]);
+
   useEffect(() => {
     if (Object.keys(categoryFilter).length === 0) {
       setCategoryFilter(allCategories);
@@ -241,10 +252,29 @@ const Dashboard = ({ userRole }) => {
 
   return (
     <div className="p-5">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+        pauseOnHover
+      />
       <div className="flex gap-10 mb-5">
         <Link
           to="/request"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center"
+          onClick={(e) => {
+            if (!hasAddress) {
+              e.preventDefault();
+              toast.warning("Please add your address to continue.");
+              setTimeout(
+                () =>
+                  navigate("/profile", {
+                    state: { tab: "personal", edit: "true" },
+                  }),
+                3000,
+              );
+            }
+          }}
+          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
           style={{ color: "white", textDecoration: "none" }}
         >
           <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
@@ -252,7 +282,20 @@ const Dashboard = ({ userRole }) => {
         {!groups?.includes("Volunteers") && (
           <Link
             to="/promote-to-volunteer"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center"
+            onClick={(e) => {
+              if (!hasAddress) {
+                e.preventDefault();
+                toast.warning("Please add your address to continue.");
+                setTimeout(
+                  () =>
+                    navigate("/profile", {
+                      state: { tab: "personal", edit: "true" },
+                    }),
+                  3000,
+                );
+              }
+            }}
+            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
             style={{ color: "white", textDecoration: "none" }}
           >
             <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
@@ -283,7 +326,7 @@ const Dashboard = ({ userRole }) => {
       )}
       <div className="border">
         <div className="flex mb-5">
-          {["myRequests", "managedRequests"]
+          {["myRequests", "othersRequests", "managedRequests"]
             .filter(
               (tab) =>
                 !(tab === "managedRequests" && !groups?.includes("Volunteers")),
