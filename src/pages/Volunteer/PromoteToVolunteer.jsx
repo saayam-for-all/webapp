@@ -23,7 +23,7 @@ const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
-  const [govtIdFile, setGovtIdFile] = useState({});
+  const [govtIdFile, setGovtIdFile] = useState(null);
   const token = useSelector((state) => state.auth.idToken);
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState({});
@@ -36,6 +36,7 @@ const PromoteToVolunteer = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [textboxCheck, setTextboxCheck] = useState(true);
   const [textboxValue, setTextboxValue] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -87,6 +88,7 @@ const PromoteToVolunteer = () => {
           <VolunteerCourse
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
+            setIsUploaded={setIsUploaded}
           />
         );
       case 3:
@@ -190,7 +192,8 @@ const PromoteToVolunteer = () => {
           });
           break;
         case 2:
-          isValidStep = govtIdFile && govtIdFile.name !== "";
+          // isValidStep = govtIdFile && govtIdFile.name !== "";
+          isValidStep = govtIdFile;
           updateVolunteerData({
             step: currentStep,
             userId: userId,
@@ -277,6 +280,7 @@ const PromoteToVolunteer = () => {
           currentStep={currentStep}
           steps={steps}
           isAcknowledged={isAcknowledged}
+          isUploaded={isUploaded}
         />
       )}
     </div>
