@@ -493,12 +493,12 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               <Select
                 value={
                   states.find(
-                    (option) => option.label === personalInfo.state,
+                    (option) => option.value === personalInfo.state,
                   ) || null
                 }
                 options={states}
                 onChange={(selectedOption) => {
-                  handleInputChange("state", selectedOption?.label || "");
+                  handleInputChange("state", selectedOption?.value || "");
                 }}
               />
               {errors.state && (
