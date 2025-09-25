@@ -183,7 +183,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       setPersonalInfo((prev) => ({
         ...prev,
         country: countryCode || "",
-        state: user.state || "",
+        //state: user.state || "",
+        // Commented out: backend does not return user.state.
+        // Keeping this line was resetting the saved state (from localStorage) to "".
+        // If backend adds state later, re-enable with: state: prev.state || user.state || ""
       }));
     }
   }, [getCountryCodeFromZoneInfo, user]);
