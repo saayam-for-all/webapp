@@ -382,6 +382,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               </>
             )}
             {t("ADDRESS", { optional: "" })}
+            <span className="text-red-500 ml-0.5" aria-hidden="true">
+              *
+            </span>
+            <span className="sr-only"> ({t("required") || "required"})</span>
           </label>
           {isEditing ? (
             <>
@@ -436,6 +440,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("COUNTRY")}
+            <span className="text-red-500 ml-0.5" aria-hidden="true">
+              *
+            </span>
+            <span className="sr-only"> ({t("required") || "required"})</span>
           </label>
           {isEditing ? (
             <>
@@ -487,6 +495,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               </>
             )}
             {t("STATE")}
+            <span className="text-red-500 ml-0.5" aria-hidden="true">
+              *
+            </span>
+            <span className="sr-only"> ({t("required") || "required"})</span>
           </label>
           {isEditing ? (
             <>
@@ -523,6 +535,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               </>
             )}
             {t("ZIP_CODE")}
+            <span className="text-red-500 ml-0.5" aria-hidden="true">
+              *
+            </span>
+            <span className="sr-only"> ({t("required") || "required"})</span>
           </label>
           {isEditing ? (
             <>
