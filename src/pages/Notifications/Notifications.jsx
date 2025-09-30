@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BiCog, BiDonateHeart } from "react-icons/bi";
 import { FaHandshakeAngle } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { GET_NOTIFICATIONS } from "../../services/requestServices";
 import { useNotifications } from "../../context/NotificationContext";
 import { NotificationProvider } from "../../context/NotificationContext";
@@ -12,6 +13,7 @@ export default function NotificationUI() {
   const token = useSelector((state) => state.auth.idToken);
   const { dispatch, state } = useNotifications();
   const notifications = state.notifications;
+  const { t } = useTranslation();
 
   const typeIcons = {
     Volunteer: <BiDonateHeart className="mr-1 text-5xl md:text-6xl" />,
@@ -38,7 +40,7 @@ export default function NotificationUI() {
         payload: {
           id: note.id,
           data: {
-            message: " ✅ You accepted this request.",
+            message: t("NOTIFICATIONS_ACCEPTED_MESSAGE"),
             status: "accepted",
           },
         },
@@ -55,7 +57,10 @@ export default function NotificationUI() {
         type: "UPDATE_NOTIFICATION",
         payload: {
           id: note.id,
-          data: { message: " ❌ You denied this request.", status: "denied" },
+          data: {
+            message: t("NOTIFICATIONS_DENIED_MESSAGE"),
+            status: "denied",
+          },
         },
       });
     } catch (error) {
@@ -81,10 +86,10 @@ export default function NotificationUI() {
             onClick={() => setFilter(type)}
           >
             {type === "all"
-              ? "All"
+              ? t("NOTIFICATIONS_ALL")
               : type === "volunteer"
-                ? "Volunteer Match"
-                : "Help Request"}
+                ? t("NOTIFICATIONS_VOLUNTEER_MATCH")
+                : t("NOTIFICATIONS_HELP_REQUEST")}
           </button>
         ))}
         <div className="ml-auto">
@@ -108,7 +113,7 @@ export default function NotificationUI() {
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">{note.message}</p>
 
-                {note.title === "New Match Request" &&
+                {note.title === t("NOTIFICATIONS_NEW_MATCH_REQUEST") &&
                   !note.message.includes("✅") &&
                   !note.message.includes("❌") && (
                     <div className="mt-3 flex flex-wrap gap-4 sm:flex-nowrap">
@@ -116,13 +121,13 @@ export default function NotificationUI() {
                         className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
                         onClick={() => handleAccept(note)}
                       >
-                        Accept
+                        {t("NOTIFICATIONS_ACCEPT")}
                       </button>
                       <button
                         className="flex-1 sm:flex-none border border-red-500 hover:bg-red-700 hover:text-white text-red-500 px-4 py-1 rounded"
                         onClick={() => handleDeny(note)}
                       >
-                        Deny
+                        {t("NOTIFICATIONS_DENY")}
                       </button>
                     </div>
                   )}

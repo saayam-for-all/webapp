@@ -7,5 +7,13 @@
   "MISSION": "लक्ष्य",
   "VISION": "दृष्टि",
   "CONTACT": "संपर्क करनाइ",
-  "DASHBOARD": "डैशबोर्ड"
+  "DASHBOARD": "डैशबोर्ड",
+  "NOTIFICATIONS_ALL": "सब",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "स्वयंसेवक मैच",
+  "NOTIFICATIONS_HELP_REQUEST": "सहायताक अनुरोध",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "नव मैच अनुरोध",
+  "NOTIFICATIONS_ACCEPT": "स्वीकार करू",
+  "NOTIFICATIONS_DENY": "मना करू",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ अहाँ इ अनुरोध स्वीकार कैलहुँ।",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ अहाँ इ अनुरोध मना कैलहुँ।"
 }

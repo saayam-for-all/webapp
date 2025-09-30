@@ -7,5 +7,13 @@
   "MISSION": "مشن",
   "VISION": "ويزن",
   "CONTACT": "رابطو",
-  "DASHBOARD": "ڊيش بورڊ"
+  "DASHBOARD": "ڊيش بورڊ",
+  "NOTIFICATIONS_ALL": "سڀئي",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "رضاڪار ميچ",
+  "NOTIFICATIONS_HELP_REQUEST": "مدد جي درخواست",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "نئين ميچ جي درخواست",
+  "NOTIFICATIONS_ACCEPT": "قبول ڪريو",
+  "NOTIFICATIONS_DENY": "انڪار ڪريو",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ توهان هن درخواست کي قبول ڪيو آهي.",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ توهان هن درخواست کي انڪار ڪيو آهي."
 }

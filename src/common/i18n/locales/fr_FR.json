@@ -366,5 +366,12 @@
   "TERMS_CONTACT_CONTENT": "Pour toute question, contactez-nous à 📧 info@SaayamForAll.org ou 📍 Saayam For All, 3046 Rosato Ct., San Jose, California 95135.",
   "TERMS_THANK_YOU": "Merci de faire partie de notre mission pour aider l'humanité à travers la technologie, la compassion et le service communautaire.",
   "preferably WhatsApp": "de préférence WhatsApp",
-  "": ""
+  "NOTIFICATIONS_ALL": "Tous",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "Correspondance Bénévole",
+  "NOTIFICATIONS_HELP_REQUEST": "Demande d'Aide",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "Nouvelle Demande de Correspondance",
+  "NOTIFICATIONS_ACCEPT": "Accepter",
+  "NOTIFICATIONS_DENY": "Refuser",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ Vous avez accepté cette demande.",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ Vous avez refusé cette demande."
 }

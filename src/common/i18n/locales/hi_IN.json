@@ -325,5 +325,12 @@
   "TOS_AGREEMENT": "इस बॉक्स को चेक करके, आप सहमति दे रहे हैं",
   "ALREADY_HAVE_ACCOUNT": "क्या आपके पास पहले से खाता है?",
   "SIGN_IN": "साइन इन करें",
-  "": ""
+  "NOTIFICATIONS_ALL": "सभी",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "स्वयंसेवक मैच",
+  "NOTIFICATIONS_HELP_REQUEST": "सहायता अनुरोध",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "नया मैच अनुरोध",
+  "NOTIFICATIONS_ACCEPT": "स्वीकार करें",
+  "NOTIFICATIONS_DENY": "अस्वीकार करें",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ आपने इस अनुरोध को स्वीकार किया।",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ आपने इस अनुरोध को अस्वीकार किया।"
 }

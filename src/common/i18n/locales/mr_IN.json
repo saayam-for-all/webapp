@@ -7,5 +7,13 @@
   "MISSION": "मिशन",
   "VISION": "दृष्टी",
   "CONTACT": "संपर्क करा",
-  "DASHBOARD": "डॅशबोर्ड"
+  "DASHBOARD": "डॅशबोर्ड",
+  "NOTIFICATIONS_ALL": "सर्व",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "स्वयंसेवक जुळणी",
+  "NOTIFICATIONS_HELP_REQUEST": "मदतीची विनंती",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "नवीन जुळणी विनंती",
+  "NOTIFICATIONS_ACCEPT": "स्वीकार करा",
+  "NOTIFICATIONS_DENY": "नकार द्या",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ तुम्ही ही विनंती स्वीकारली आहे.",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ तुम्ही ही विनंती नाकारली आहे."
 }

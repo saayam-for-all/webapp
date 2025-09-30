@@ -7,5 +7,13 @@
   "MISSION": "मिशन",
   "VISION": "लक्ष्य",
   "CONTACT": "राबता",
-  "DASHBOARD": "डैशबोर्ड"
+  "DASHBOARD": "डैशबोर्ड",
+  "NOTIFICATIONS_ALL": "सारे",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "स्वयंसेवक मैच",
+  "NOTIFICATIONS_HELP_REQUEST": "मदद दी गुहार",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "नमीं मैच दी गुहार",
+  "NOTIFICATIONS_ACCEPT": "मंजूर करो",
+  "NOTIFICATIONS_DENY": "नकारो",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ तुसें इह गुहार मंजूर कीती ऐ।",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ तुसें इह गुहार नकारी ऐ।"
 }

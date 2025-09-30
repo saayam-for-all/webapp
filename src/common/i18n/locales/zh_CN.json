@@ -325,5 +325,13 @@
   "Your donation helps us create lasting change in communities across the globe.": "您的捐款帮助我们在全球社区中创造持久的变革。",
   "FAQ_TAX_ANSWER": "是的，萨亚姆惠众是一个注册的 501(c)(3)非营利组织。所有捐款在法律允许的范围内均可抵税。",
   "FAQ_USE_ANSWER": "您的捐款将用于支持我们的各项计划，包括志愿者协调、援助计划以及维护我们平台的运营成本。",
-  "FAQ_CANCEL_ANSWER": "是的，您可以联系我们的支持团队进行取消。"
+  "FAQ_CANCEL_ANSWER": "是的，您可以联系我们的支持团队进行取消。",
+  "NOTIFICATIONS_ALL": "全部",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "志愿者匹配",
+  "NOTIFICATIONS_HELP_REQUEST": "帮助请求",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "新匹配请求",
+  "NOTIFICATIONS_ACCEPT": "接受",
+  "NOTIFICATIONS_DENY": "拒绝",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ 您已接受此请求。",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ 您已拒绝此请求。"
 }

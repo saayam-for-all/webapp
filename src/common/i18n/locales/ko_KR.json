@@ -7,5 +7,13 @@
   "MISSION": "사명",
   "VISION": "비전",
   "CONTACT": "연락하다",
-  "DASHBOARD": "대시보드"
+  "DASHBOARD": "대시보드",
+  "NOTIFICATIONS_ALL": "모두",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "자원봉사자 매칭",
+  "NOTIFICATIONS_HELP_REQUEST": "도움 요청",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "새 매칭 요청",
+  "NOTIFICATIONS_ACCEPT": "수락",
+  "NOTIFICATIONS_DENY": "거부",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ 이 요청을 수락했습니다.",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ 이 요청을 거부했습니다."
 }

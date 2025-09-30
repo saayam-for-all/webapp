@@ -365,5 +365,13 @@
   "TERMS_ENTIRE_AGREEMENT_CONTENT": "Diese Bedingungen und unsere Datenschutzrichtlinie stellen die gesamte Vereinbarung zwischen Ihnen und Saayam dar.",
   "TERMS_CONTACT_TITLE": "18. Kontakt",
   "TERMS_CONTACT_CONTENT": "Bei Fragen kontaktieren Sie uns unter 📧 info@SaayamForAll.org oder 📍 Saayam For All, 3046 Rosato Ct., San Jose, California 95135.",
-  "TERMS_THANK_YOU": "Vielen Dank, dass Sie Teil unserer Mission sind, der Menschheit durch Technologie, Mitgefühl und gemeinnützige Arbeit zu helfen."
+  "TERMS_THANK_YOU": "Vielen Dank, dass Sie Teil unserer Mission sind, der Menschheit durch Technologie, Mitgefühl und gemeinnützige Arbeit zu helfen.",
+  "NOTIFICATIONS_ALL": "Alle",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "Freiwilligen-Match",
+  "NOTIFICATIONS_HELP_REQUEST": "Hilfeanfrage",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "Neue Match-Anfrage",
+  "NOTIFICATIONS_ACCEPT": "Akzeptieren",
+  "NOTIFICATIONS_DENY": "Ablehnen",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ Sie haben diese Anfrage akzeptiert.",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ Sie haben diese Anfrage abgelehnt."
 }

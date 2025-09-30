@@ -7,5 +7,13 @@
   "MISSION": "مشن",
   "VISION": "اولین مقصد",
   "CONTACT": "رابطہ کریں۔",
-  "DASHBOARD": "ڈیش بورڈ"
+  "DASHBOARD": "ڈیش بورڈ",
+  "NOTIFICATIONS_ALL": "تمام",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "رضاکار میچ",
+  "NOTIFICATIONS_HELP_REQUEST": "مدد کی درخواست",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "نئی میچ درخواست",
+  "NOTIFICATIONS_ACCEPT": "قبول کریں",
+  "NOTIFICATIONS_DENY": "مسترد کریں",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ آپ نے یہ درخواست قبول کر لی ہے۔",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ آپ نے یہ درخواست مسترد کر دی ہے۔"
 }

@@ -321,5 +321,13 @@
   "FAQ_USE_ANSWER": "আপনার দান আমাদের বিভিন্ন কর্মসূচি সমর্থন করার জন্য ব্যবহৃত হবে, যার মধ্যে রয়েছে স্বেচ্ছাসেবক সমন্বয়, সহায়তা কর্মসূচি এবং আমাদের প্ল্যাটফর্ম রক্ষণাবেক্ষণের জন্য পরিচালনা খরচ।",
   "Can I cancel recurring donations?": "আমি কি পুনরাবৃত্ত দান বাতিল করতে পারি?",
   "FAQ_CANCEL_ANSWER": "হ্যাঁ, আপনি আমাদের সাহায্য দলের সাথে যোগাযোগ করে বাতিল করতে পারেন।",
-  "COPYRIGHT": "কপিরাইট © ২০২৫ সায়াম ফর অল। সর্বস্বত্ব সংরক্ষিত।"
+  "COPYRIGHT": "কপিরাইট © ২০২৫ সায়াম ফর অল। সর্বস্বত্ব সংরক্ষিত।",
+  "NOTIFICATIONS_ALL": "সব",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "স্বেচ্ছাসেবক ম্যাচ",
+  "NOTIFICATIONS_HELP_REQUEST": "সাহায্যের অনুরোধ",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "নতুন ম্যাচ অনুরোধ",
+  "NOTIFICATIONS_ACCEPT": "গ্রহণ করুন",
+  "NOTIFICATIONS_DENY": "প্রত্যাখ্যান করুন",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ আপনি এই অনুরোধ গ্রহণ করেছেন।",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ আপনি এই অনুরোধ প্রত্যাখ্যান করেছেন।"
 }

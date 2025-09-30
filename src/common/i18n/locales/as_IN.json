@@ -7,5 +7,13 @@
   "MISSION": "উদ্দেশ্য",
   "VISION": "দৃষ্টি",
   "CONTACT": "যোগাযোগ কৰক",
-  "DASHBOARD": "ড্যাশবোর্ড"
+  "DASHBOARD": "ড্যাশবোর্ড",
+  "NOTIFICATIONS_ALL": "সকলো",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "স্বেচ্ছাসেৱক মিল",
+  "NOTIFICATIONS_HELP_REQUEST": "সহায়তাৰ অনুৰোধ",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "নতুন মিল অনুৰোধ",
+  "NOTIFICATIONS_ACCEPT": "গ্ৰহণ কৰক",
+  "NOTIFICATIONS_DENY": "নাকচ কৰক",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ আপুনি এই অনুৰোধ গ্ৰহণ কৰিলে।",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ আপুনি এই অনুৰোধ নাকচ কৰিলে।"
 }

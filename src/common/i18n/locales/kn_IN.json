@@ -7,5 +7,13 @@
   "MISSION": "ಮಿಷನ್",
   "VISION": "ದೃಷ್ಟಿ",
   "CONTACT": "ಸಂಪರ್ಕಿಸಿ",
-  "DASHBOARD": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್"
+  "DASHBOARD": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+  "NOTIFICATIONS_ALL": "ಎಲ್ಲಾ",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "ಸ್ವಯಂಸೇವಕ ಹೊಂದಾಣಿಕೆ",
+  "NOTIFICATIONS_HELP_REQUEST": "ಸಹಾಯ ವಿನಂತಿ",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "ಹೊಸ ಹೊಂದಾಣಿಕೆ ವಿನಂತಿ",
+  "NOTIFICATIONS_ACCEPT": "ಸ್ವೀಕರಿಸಿ",
+  "NOTIFICATIONS_DENY": "ನಿರಾಕರಿಸಿ",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ ನೀವು ಈ ವಿನಂತಿಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದೀರಿ.",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ ನೀವು ಈ ವಿನಂತಿಯನ್ನು ನಿರಾಕರಿಸಿದ್ದೀರಿ."
 }

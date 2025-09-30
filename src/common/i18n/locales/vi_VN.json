@@ -7,5 +7,13 @@
   "MISSION": "Nhiệm vụ",
   "VISION": "Tầm nhìn",
   "CONTACT": "Liên hệ",
-  "DASHBOARD": "Bảng điều khiển"
+  "DASHBOARD": "Bảng điều khiển",
+  "NOTIFICATIONS_ALL": "Tất cả",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "Ghép đôi tình nguyện viên",
+  "NOTIFICATIONS_HELP_REQUEST": "Yêu cầu trợ giúp",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "Yêu cầu ghép đôi mới",
+  "NOTIFICATIONS_ACCEPT": "Chấp nhận",
+  "NOTIFICATIONS_DENY": "Từ chối",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ Bạn đã chấp nhận yêu cầu này.",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ Bạn đã từ chối yêu cầu này."
 }

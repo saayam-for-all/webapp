@@ -7,5 +7,13 @@
   "MISSION": "ദൗത്യം",
   "VISION": "ദർശനം",
   "CONTACT": "ബന്ധപ്പെടുക",
-  "DASHBOARD": "ഡാഷ്ബോർഡ്"
+  "DASHBOARD": "ഡാഷ്ബോർഡ്",
+  "NOTIFICATIONS_ALL": "എല്ലാം",
+  "NOTIFICATIONS_VOLUNTEER_MATCH": "സന്നദ്ധസേവക പൊരുത്തം",
+  "NOTIFICATIONS_HELP_REQUEST": "സഹായ അഭ്യർത്ഥന",
+  "NOTIFICATIONS_NEW_MATCH_REQUEST": "പുതിയ പൊരുത്ത അഭ്യർത്ഥന",
+  "NOTIFICATIONS_ACCEPT": "സ്വീകരിക്കുക",
+  "NOTIFICATIONS_DENY": "നിരസിക്കുക",
+  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ നിങ്ങൾ ഈ അഭ്യർത്ഥന സ്വീകരിച്ചു.",
+  "NOTIFICATIONS_DENIED_MESSAGE": "❌ നിങ്ങൾ ഈ അഭ്യർത്ഥന നിരസിച്ചു."
 }
