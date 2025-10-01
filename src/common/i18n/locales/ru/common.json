@@ -428,5 +428,19 @@
   "German": "Немецкий",
   "Portuguese": "Португальский",
   "Russian": "Русский",
-  "Mandarin Chinese": "Китайский (мандарин)"
+  "Mandarin Chinese": "Китайский (мандарин)",
+
+  "ALL": "Все",
+  "VOLUNTEER_MATCH": "Соответствие Волонтёра",
+  "HELP_REQUEST_FILTER": "Запрос Помощи",
+  "NEW_MATCH_REQUEST": "Новый Запрос на Соответствие",
+  "ACCEPT": "Принять",
+  "DENY": "Отклонить",
+  "EDUCATIONAL_HELP": "Образовательная Помощь",
+  "LOGISTIC_HELP": "Логистическая Помощь",
+  "NEED_HELP_WITH_LOGISTICS": "Нужна помощь с логистикой",
+  "LOGISTICS": "Логистика",
+  "HOSPITAL": "Больница",
+  "YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS": "У вас новый запрос на соответствие волонтёра в Логистике",
+  "EDUCATION": "Образование"
 }

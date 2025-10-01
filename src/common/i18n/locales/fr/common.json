@@ -414,7 +414,6 @@
   "Low": "Faible",
   "Medium": "Moyen",
   "High": "Élevé",
-  "CANCEL": "Annuler",
   "Yes": "Oui",
   "No": "Non",
   "BACK_TO_DASHBOARD": "Retour au tableau de bord",
@@ -473,5 +472,19 @@
   "German": "Allemand",
   "Portuguese": "Portugais",
   "Russian": "Russe",
-  "Mandarin Chinese": "Chinois (Mandarin)"
+  "Mandarin Chinese": "Chinois (Mandarin)",
+
+  "ALL": "Tous",
+  "VOLUNTEER_MATCH": "Correspondance Bénévole",
+  "HELP_REQUEST_FILTER": "Demande d'Aide",
+  "NEW_MATCH_REQUEST": "Nouvelle Demande de Correspondance",
+  "ACCEPT": "Accepter",
+  "DENY": "Refuser",
+  "EDUCATIONAL_HELP": "Aide Éducative",
+  "LOGISTIC_HELP": "Aide Logistique",
+  "NEED_HELP_WITH_LOGISTICS": "Besoin d'aide avec la logistique",
+  "LOGISTICS": "Logistique",
+  "HOSPITAL": "Hôpital",
+  "YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS": "Vous avez une nouvelle demande de correspondance de bénévoles en Logistique",
+  "EDUCATION": "Éducation"
 }

@@ -452,5 +452,19 @@
   "German": "জার্মান",
   "Portuguese": "পর্তুগিজ",
   "Russian": "রাশিয়ান",
-  "Mandarin Chinese": "ম্যান্ডারিন চাইনিজ"
+  "Mandarin Chinese": "ম্যান্ডারিন চাইনিজ",
+
+  "ALL": "সব",
+  "VOLUNTEER_MATCH": "স্বেচ্ছাসেবক মিল",
+  "HELP_REQUEST_FILTER": "সহায়তা অনুরোধ",
+  "NEW_MATCH_REQUEST": "নতুন মিল অনুরোধ",
+  "ACCEPT": "গ্রহণ করুন",
+  "DENY": "প্রত্যাখ্যান করুন",
+  "EDUCATIONAL_HELP": "শিক্ষাগত সহায়তা",
+  "LOGISTIC_HELP": "লজিস্টিক সহায়তা",
+  "NEED_HELP_WITH_LOGISTICS": "লজিস্টিক্সে সাহায্য প্রয়োজন",
+  "LOGISTICS": "লজিস্টিক্স",
+  "HOSPITAL": "হাসপাতাল",
+  "YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS": "আপনার লজিস্টিক্সে নতুন স্বেচ্ছাসেবক মিল অনুরোধ আছে",
+  "EDUCATION": "শিক্ষা"
 }

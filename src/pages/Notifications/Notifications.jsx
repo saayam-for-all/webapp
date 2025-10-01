@@ -90,14 +90,22 @@ export default function NotificationUI() {
           </button>
         ))}
         <div className="ml-auto flex gap-2 items-center">
-          {/* Language Switcher - English and Hindi */}
+          {/* Language Switcher - All 10 Languages */}
           <select
             onChange={(e) => i18n.changeLanguage(e.target.value)}
             className="px-2 py-1 border rounded text-sm"
             value={i18n.language}
           >
             <option value="en">English</option>
-            <option value="hi">हिंदी</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="es">Español (Spanish)</option>
+            <option value="fr">Français (French)</option>
+            <option value="pt">Português (Portuguese)</option>
+            <option value="de">Deutsch (German)</option>
+            <option value="ru">Русский (Russian)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="zh">中文 (Chinese)</option>
           </select>
           <button className="p-2" onClick={handleSettingsClick}>
             <BiCog className="text-2xl text-gray-600 hover:text-blue-600 transition-colors duration-200" />

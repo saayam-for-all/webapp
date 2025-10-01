@@ -435,5 +435,19 @@
   "CALAMITY_HELP_TEXT": "Geben Sie an, ob es sich um eine Katastrophe handelt, indem Sie das Kästchen ankreuzen.",
   "PRIORITY_HELP_TEXT": "Wie dringend ist diese Anfrage?<br />• Niedrig – Nicht zeitkritisch<br />• Mittel – Innerhalb weniger Tage<br />• Hoch – Sofortige Unterstützung",
   "SUBJECT_HELP_TEXT": "Geben Sie eine kurze Beschreibung der Anfrage",
-  "DESCRIPTION_HELP_TEXT": "Geben Sie eine detaillierte Beschreibung der Anfrage"
+  "DESCRIPTION_HELP_TEXT": "Geben Sie eine detaillierte Beschreibung der Anfrage",
+
+  "ALL": "Alle",
+  "VOLUNTEER_MATCH": "Freiwilligen-Übereinstimmung",
+  "HELP_REQUEST_FILTER": "Hilfeanfrage",
+  "NEW_MATCH_REQUEST": "Neue Übereinstimmungsanfrage",
+  "ACCEPT": "Akzeptieren",
+  "DENY": "Ablehnen",
+  "EDUCATIONAL_HELP": "Bildungshilfe",
+  "LOGISTIC_HELP": "Logistische Hilfe",
+  "NEED_HELP_WITH_LOGISTICS": "Benötigt Hilfe bei der Logistik",
+  "LOGISTICS": "Logistik",
+  "HOSPITAL": "Krankenhaus",
+  "YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS": "Sie haben eine neue Freiwilligen-Übereinstimmungsanfrage in der Logistik",
+  "EDUCATION": "Bildung"
 }

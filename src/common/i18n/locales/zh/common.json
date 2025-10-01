@@ -387,5 +387,19 @@
   "German": "德语",
   "Portuguese": "葡萄牙语",
   "Russian": "俄语",
-  "Mandarin Chinese": "中文（普通话）"
+  "Mandarin Chinese": "中文（普通话）",
+
+  "ALL": "全部",
+  "VOLUNTEER_MATCH": "志愿者匹配",
+  "HELP_REQUEST_FILTER": "帮助请求",
+  "NEW_MATCH_REQUEST": "新匹配请求",
+  "ACCEPT": "接受",
+  "DENY": "拒绝",
+  "EDUCATIONAL_HELP": "教育帮助",
+  "LOGISTIC_HELP": "物流帮助",
+  "NEED_HELP_WITH_LOGISTICS": "需要物流方面的帮助",
+  "LOGISTICS": "物流",
+  "HOSPITAL": "医院",
+  "YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS": "您在物流方面有新的志愿者匹配请求",
+  "EDUCATION": "教育"
 }

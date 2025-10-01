@@ -436,5 +436,19 @@
   "German": "Alemán",
   "Portuguese": "Portugués",
   "Russian": "Ruso",
-  "Mandarin Chinese": "Chino (Mandarín)"
+  "Mandarin Chinese": "Chino (Mandarín)",
+
+  "ALL": "Todos",
+  "VOLUNTEER_MATCH": "Coincidencia de Voluntarios",
+  "HELP_REQUEST_FILTER": "Solicitud de Ayuda",
+  "NEW_MATCH_REQUEST": "Nueva Solicitud de Coincidencia",
+  "ACCEPT": "Aceptar",
+  "DENY": "Rechazar",
+  "EDUCATIONAL_HELP": "Ayuda Educativa",
+  "LOGISTIC_HELP": "Ayuda Logística",
+  "NEED_HELP_WITH_LOGISTICS": "Necesita ayuda con la logística",
+  "LOGISTICS": "Logística",
+  "HOSPITAL": "Hospital",
+  "YOU_HAVE_NEW_VOLUNTEER_MATCH_REQUEST_IN_LOGISTICS": "Tiene una nueva solicitud de coincidencia de voluntarios en Logística",
+  "EDUCATION": "Educación"
 }
