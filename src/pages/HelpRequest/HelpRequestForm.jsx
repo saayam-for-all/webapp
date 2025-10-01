@@ -545,10 +545,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setHoveredCategory(null);
   };
 
-  const handleSubcategoryClick = (subcategoryName) => {
+  const handleSubcategoryClick = (subcategoryId) => {
     setFormData({
       ...formData,
-      category: subcategoryName,
+      category: subcategoryId,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
@@ -990,7 +990,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                 }}
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleSubcategoryClick(subcategory.catName);
+                                  handleSubcategoryClick(subcategory.catId);
                                 }}
                               >
                                 <span
