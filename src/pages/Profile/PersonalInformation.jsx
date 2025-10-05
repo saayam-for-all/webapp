@@ -163,19 +163,32 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   useEffect(() => {
     const savedPersonalInfo = JSON.parse(localStorage.getItem("personalInfo"));
     if (savedPersonalInfo) {
+      // First populate the states list for the saved country
+      const countryIsoCode = getCountryIsoCode(savedPersonalInfo.country);
+      if (countryIsoCode) {
+        const statesList = State.getStatesOfCountry(countryIsoCode).map(
+          (state) => ({
+            value: state.isoCode,
+            label: state.name,
+          }),
+        );
+        setStates(statesList);
+      }
+
+      // Then set the personal info (this ensures states array is ready when component renders)
       setPersonalInfo({
         ...savedPersonalInfo,
         dateOfBirth: savedPersonalInfo.dateOfBirth
           ? new Date(savedPersonalInfo.dateOfBirth)
           : null,
       });
-      // If savedInfo, need to set the State field.
-      getLatestStatesList(getCountryIsoCode(savedPersonalInfo.country));
     }
   }, []);
 
   useEffect(() => {
-    if (user?.zoneinfo) {
+    // Only set user data if there's no saved personal info
+    const savedPersonalInfo = JSON.parse(localStorage.getItem("personalInfo"));
+    if (user?.zoneinfo && !savedPersonalInfo) {
       const countryCode = getCountryCodeFromZoneInfo(user.zoneinfo);
       // Initial states list based on country
       getLatestStatesList(countryCode);
