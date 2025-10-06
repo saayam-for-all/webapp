@@ -72,6 +72,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(null);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -163,6 +164,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const submissionData = {
       ...formData,
       location,
+      subcategory_id: selectedSubcategoryId || null,
     };
 
     try {
@@ -321,6 +323,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       ...formData,
       category: searchTerm,
     });
+    setSelectedSubcategoryId(null);
 
     const resolvedLabel = (cat) =>
       t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
@@ -385,17 +388,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       ...formData,
       category: categoryKeyOrId,
     });
+    setSelectedSubcategoryId(null);
     setShowDropdown(false);
     setHoveredCategory(null);
   };
 
   const handleSubcategoryClick = (subcategory) => {
     const subKey =
-      typeof subcategory === "string" ? subcategory : subcategory.key;
+      typeof subcategory === "string"
+        ? subcategory
+        : subcategory.key || subcategory.id;
     setFormData({
       ...formData,
-      category: subKey,
+      category: hoveredCategory.key || hoveredCategory.id,
     });
+    setSelectedSubcategoryId(subKey);
     setShowDropdown(false);
     setHoveredCategory(null);
   };
