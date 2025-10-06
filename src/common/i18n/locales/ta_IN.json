@@ -7,13 +7,5 @@
   "MISSION": "பணி",
   "VISION": "பார்வை",
   "CONTACT": "தொடர்பு கொள்ளவும்",
-  "DASHBOARD": "டாஷ்போர்ட்",
-  "NOTIFICATIONS_ALL": "அனைத்தும்",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "தொண்டர் பொருத்தம்",
-  "NOTIFICATIONS_HELP_REQUEST": "உதவி கோரிக்கை",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "புதிய பொருத்தம் கோரிக்கை",
-  "NOTIFICATIONS_ACCEPT": "ஏற்கவும்",
-  "NOTIFICATIONS_DENY": "மறுக்கவும்",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ நீங்கள் இந்த கோரிக்கையை ஏற்றுக்கொண்டீர்கள்.",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ நீங்கள் இந்த கோரிக்கையை மறுத்தீர்கள்."
+  "DASHBOARD": "டாஷ்போர்ட்"
 }

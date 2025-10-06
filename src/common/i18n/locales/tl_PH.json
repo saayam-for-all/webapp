@@ -7,13 +7,5 @@
   "MISSION": "Misyon",
   "VISION": "Pangitain",
   "CONTACT": "Makipag-ugnayan",
-  "DASHBOARD": "Dashboard",
-  "NOTIFICATIONS_ALL": "Lahat",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "Volunteer Match",
-  "NOTIFICATIONS_HELP_REQUEST": "Hiling para sa Tulong",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "Bagong Match Request",
-  "NOTIFICATIONS_ACCEPT": "Tanggapin",
-  "NOTIFICATIONS_DENY": "Tanggihan",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ Tinanggap mo ang request na ito.",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ Tinanggi mo ang request na ito."
+  "DASHBOARD": "Dashboard"
 }

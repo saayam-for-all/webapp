@@ -7,13 +7,5 @@
   "MISSION": "مهمة",
   "VISION": "رؤية",
   "CONTACT": "اتصال",
-  "DASHBOARD": "لوحة القيادة",
-  "NOTIFICATIONS_ALL": "الكل",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "مطابقة المتطوع",
-  "NOTIFICATIONS_HELP_REQUEST": "طلب المساعدة",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "طلب مطابقة جديد",
-  "NOTIFICATIONS_ACCEPT": "قبول",
-  "NOTIFICATIONS_DENY": "رفض",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ لقد قبلت هذا الطلب.",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ لقد رفضت هذا الطلب."
+  "DASHBOARD": "لوحة القيادة"
 }

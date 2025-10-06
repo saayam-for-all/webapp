@@ -7,13 +7,5 @@
   "MISSION": "ਮਿਸ਼ਨ",
   "VISION": "ਦ੍ਰਿਸ਼ਟੀ",
   "CONTACT": "ਸੰਪਰਕ ਕਰੋ",
-  "DASHBOARD": "ਡੈਸ਼ਬੋਰਡ",
-  "NOTIFICATIONS_ALL": "ਸਭ",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "ਸਵਯੰਸੇਵਕ ਮੈਚ",
-  "NOTIFICATIONS_HELP_REQUEST": "ਮਦਦ ਦੀ ਬੇਨਤੀ",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "ਨਵੀਂ ਮੈਚ ਬੇਨਤੀ",
-  "NOTIFICATIONS_ACCEPT": "ਸਵੀਕਾਰ ਕਰੋ",
-  "NOTIFICATIONS_DENY": "ਇਨਕਾਰ ਕਰੋ",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ ਤੁਸੀਂ ਇਹ ਬੇਨਤੀ ਸਵੀਕਾਰ ਕੀਤੀ ਹੈ।",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ ਤੁਸੀਂ ਇਹ ਬੇਨਤੀ ਇਨਕਾਰ ਕੀਤੀ ਹੈ।"
+  "DASHBOARD": "ਡੈਸ਼ਬੋਰਡ"
 }

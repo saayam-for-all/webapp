@@ -7,13 +7,5 @@
   "MISSION": "ภารกิจ",
   "VISION": "วิสัยทัศน์",
   "CONTACT": "ติดต่อ",
-  "DASHBOARD": "แดชบอร์ด",
-  "NOTIFICATIONS_ALL": "ทั้งหมด",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "การจับคู่อาสาสมัคร",
-  "NOTIFICATIONS_HELP_REQUEST": "คำขอความช่วยเหลือ",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "คำขอการจับคู่ใหม่",
-  "NOTIFICATIONS_ACCEPT": "ยอมรับ",
-  "NOTIFICATIONS_DENY": "ปฏิเสธ",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ คุณได้ยอมรับคำขอนี้แล้ว",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ คุณได้ปฏิเสธคำขอนี้แล้ว"
+  "DASHBOARD": "แดชบอร์ด"
 }

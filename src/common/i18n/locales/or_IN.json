@@ -7,13 +7,5 @@
   "MISSION": "ମିଶନ୍ |",
   "VISION": "ଦର୍ଶନ",
   "CONTACT": "ଯୋଗାଯୋଗ କରନ୍ତୁ |",
-  "DASHBOARD": "ଡ୍ୟାଶବୋର୍ଡ",
-  "NOTIFICATIONS_ALL": "ସବୁ",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "ସ୍ୱୟଂସେବକ ମ୍ୟାଚ୍",
-  "NOTIFICATIONS_HELP_REQUEST": "ସାହାଯ୍ୟ ଅନୁରୋଧ",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "ନୂତନ ମ୍ୟାଚ୍ ଅନୁରୋଧ",
-  "NOTIFICATIONS_ACCEPT": "ଗ୍ରହଣ କରନ୍ତୁ",
-  "NOTIFICATIONS_DENY": "ପ୍ରତ୍ୟାଖ୍ୟାନ କରନ୍ତୁ",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ ଆପଣ ଏହି ଅନୁରୋଧ ଗ୍ରହଣ କରିଛନ୍ତି।",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ ଆପଣ ଏହି ଅନୁରୋଧ ପ୍ରତ୍ୟାଖ୍ୟାନ କରିଛନ୍ତି।"
+  "DASHBOARD": "ଡ୍ୟାଶବୋର୍ଡ"
 }

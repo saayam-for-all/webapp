@@ -7,13 +7,5 @@
   "MISSION": "મિશન",
   "VISION": "દ્રષ્ટિ",
   "CONTACT": "સંપર્ક કરો",
-  "DASHBOARD": "ડેશબોર્ડ",
-  "NOTIFICATIONS_ALL": "બધા",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "સ્વયંસેવક મેચ",
-  "NOTIFICATIONS_HELP_REQUEST": "મદદની વિનંતી",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "નવી મેચ વિનંતી",
-  "NOTIFICATIONS_ACCEPT": "સ્વીકારો",
-  "NOTIFICATIONS_DENY": "ના પાડો",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ તમે આ વિનંતી સ્વીકારી લીધી છે.",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ તમે આ વિનંતીને ના પાડી છે."
+  "DASHBOARD": "ડેશબોર્ડ"
 }

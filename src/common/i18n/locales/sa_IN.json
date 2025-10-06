@@ -7,13 +7,5 @@
   "MISSION": "नियोग",
   "VISION": "दृष्टि",
   "CONTACT": "संपर्कः",
-  "DASHBOARD": "डैशबोर्ड",
-  "NOTIFICATIONS_ALL": "सर्वे",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "स्वयंसेवक मिलनम्",
-  "NOTIFICATIONS_HELP_REQUEST": "सहायता निवेदनम्",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "नवीन मिलन निवेदनम्",
-  "NOTIFICATIONS_ACCEPT": "स्वीकुर्वन्तु",
-  "NOTIFICATIONS_DENY": "नकारयन्तु",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ भवान् एतत् निवेदनं स्वीकृतवान्।",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ भवान् एतत् निवेदनं नकारितवान्।"
+  "DASHBOARD": "डैशबोर्ड"
 }

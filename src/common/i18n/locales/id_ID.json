@@ -7,13 +7,5 @@
   "MISSION": "Misi",
   "VISION": "Penglihatan",
   "CONTACT": "Kontak",
-  "DASHBOARD": "Dasbor",
-  "NOTIFICATIONS_ALL": "Semua",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "Pasangan Relawan",
-  "NOTIFICATIONS_HELP_REQUEST": "Permintaan Bantuan",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "Permintaan Pasangan Baru",
-  "NOTIFICATIONS_ACCEPT": "Terima",
-  "NOTIFICATIONS_DENY": "Tolak",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ Anda telah menerima permintaan ini.",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ Anda telah menolak permintaan ini."
+  "DASHBOARD": "Dasbor"
 }

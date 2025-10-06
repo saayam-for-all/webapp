@@ -7,13 +7,5 @@
   "MISSION": "ミッション",
   "VISION": "ビジョン",
   "CONTACT": "接触",
-  "DASHBOARD": "ダッシュボード",
-  "NOTIFICATIONS_ALL": "すべて",
-  "NOTIFICATIONS_VOLUNTEER_MATCH": "ボランティアマッチ",
-  "NOTIFICATIONS_HELP_REQUEST": "ヘルプリクエスト",
-  "NOTIFICATIONS_NEW_MATCH_REQUEST": "新しいマッチリクエスト",
-  "NOTIFICATIONS_ACCEPT": "承認",
-  "NOTIFICATIONS_DENY": "拒否",
-  "NOTIFICATIONS_ACCEPTED_MESSAGE": "✅ このリクエストを承認しました。",
-  "NOTIFICATIONS_DENIED_MESSAGE": "❌ このリクエストを拒否しました。"
+  "DASHBOARD": "ダッシュボード"
 }
