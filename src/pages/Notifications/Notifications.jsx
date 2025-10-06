@@ -6,6 +6,7 @@ import { GET_NOTIFICATIONS } from "../../services/requestServices";
 import { useNotifications } from "../../context/NotificationContext";
 import { NotificationProvider } from "../../context/NotificationContext";
 import { useTranslation } from "react-i18next";
+import Pagination from "../../common/components/Pagination/Pagination";
 
 export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
@@ -14,6 +15,8 @@ export default function NotificationUI() {
   const token = useSelector((state) => state.auth.idToken);
   const { dispatch, state } = useNotifications();
   const notifications = state.notifications;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const typeIcons = {
     Volunteer: <BiDonateHeart className="mr-1 text-5xl md:text-6xl" />,
@@ -30,6 +33,18 @@ export default function NotificationUI() {
     if (filter === "volunteer") return note.type === "Volunteer";
     return true;
   });
+
+  const totalRows = filteredNotifications.length;
+  const totalPages = Math.max(1, Math.ceil(totalRows / rowsPerPage));
+  const startIdx = (currentPage - 1) * rowsPerPage;
+  const pageItems = filteredNotifications.slice(
+    startIdx,
+    startIdx + rowsPerPage,
+  );
+
+  useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [totalPages, currentPage]);
 
   const handleAccept = async (note) => {
     // Also need to call a function whihch will update the data in the database cuch that this userid has acceoted the task.
@@ -80,7 +95,10 @@ export default function NotificationUI() {
                 ? "bg-blue-600 text-white"
                 : "bg-blue-100 text-blue-600 hover:text-blue-600"
             }`}
-            onClick={() => setFilter(type)}
+            onClick={() => {
+              setFilter(type);
+              setCurrentPage(1);
+            }}
           >
             {type === "all"
               ? t("ALL")
@@ -97,7 +115,7 @@ export default function NotificationUI() {
       </div>
 
       <div className="divide-y divide-gray-300 bg-white rounded-lg shadow">
-        {filteredNotifications.map((note) => (
+        {pageItems.map((note) => (
           <div
             key={note.id}
             className="p-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
@@ -135,6 +153,19 @@ export default function NotificationUI() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="mt-4">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          rowsPerPage={rowsPerPage}
+          totalRows={totalRows}
+          onRowsPerPageChange={(n) => {
+            setRowsPerPage(n);
+            setCurrentPage(1);
+          }}
+        />
       </div>
     </div>
   );
