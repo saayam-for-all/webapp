@@ -319,6 +319,12 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 selected={personalInfo.dateOfBirth || null}
                 onChange={(date) => handleInputChange("dateOfBirth", date)}
                 dateFormat={dateFormat}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="scroll"
+                scrollableYearDropdown
+                yearDropdownItemNumber={100}
+                maxDate={new Date()}
                 placeholderText={placeholder}
                 className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                   errors.dateOfBirth ? "border-red-500" : "border-gray-200"

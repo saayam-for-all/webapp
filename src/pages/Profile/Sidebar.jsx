@@ -22,7 +22,7 @@ function Sidebar({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-col justify-between h-full p-4 bg-white w-60 border-r">
+    <div className="flex flex-col justify-between h-1/2 p-4 bg-white w-100 border-r">
       <div className="text-center mb-8">
         <div className="relative mb-4">
           {profilePhoto ? (
