@@ -1,3 +1,4 @@
+import Alert from "../../common/components/Alert";
 import Alert from "../../components/Alert";
 import { signIn } from "aws-amplify/auth";
 import { useEffect, useState } from "react";

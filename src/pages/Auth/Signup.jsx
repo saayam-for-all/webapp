@@ -1,5 +1,4 @@
-import { useTranslation } from "react-i18next";
-import Alert from "../../components/Alert";
+import Alert from "../../common/components/Alert";
 import { signUp } from "aws-amplify/auth";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -47,7 +46,6 @@ const signUpSchema = z.object({
 
 const SignUp = () => {
   const { t } = useTranslation();
-  const hasError = !!(errors && Object.keys(errors).length);
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -169,11 +167,6 @@ const SignUp = () => {
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
-        {hasError && (
-          <div className="mb-3">
-            <Alert kind="error">{t("common:AUTH_INVALID_EMAIL")}</Alert>
-          </div>
-        )}
 
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
