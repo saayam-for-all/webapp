@@ -403,5 +403,19 @@
   "Add Time Slot": "Добавить временной слот",
   "VACATION_MODE_ACTIVE": "Режим отпуска активен",
   "NO AVAILABILITY SLOTS": "Нет настроенных слотов доступности",
-  "Availability": "Доступность"
+  "Availability": "Доступность",
+  "PREFERENCES": "Настройки",
+  "DEFAULT DASHBOARD VIEW": "Вид панели по умолчанию",
+  "SELECT DASHBOARD": "Выбрать панель",
+  "FIRST LANGUAGE PREFERENCE": "Предпочтение первого языка",
+  "SECOND LANGUAGE PREFERENCE": "Предпочтение второго языка",
+  "THIRD LANGUAGE PREFERENCE": "Предпочтение третьего языка",
+  "SELECT LANGUAGE": "Выбрать язык",
+  "PRIMARY EMAIL PREFERENCE": "Предпочтение основного email",
+  "PRIMARY PHONE PREFERENCE": "Предпочтение основного телефона",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "Получать экстренные уведомления",
+  "PREFERENCES UPDATED SUCCESS": "Настройки успешно обновлены!",
+  "SAVING": "Сохранение...",
+  "EMAIL COMMUNICATION PREFERENCE": "Предпочтение email-коммуникации",
+  "PHONE COMMUNICATION PREFERENCE": "Предпочтение телефонной коммуникации"
 }

@@ -447,5 +447,19 @@
   "Add Time Slot": "Ajouter un créneau horaire",
   "VACATION_MODE_ACTIVE": "Mode vacances actif",
   "NO AVAILABILITY SLOTS": "Aucun créneau de disponibilité configuré",
-  "Availability": "Disponibilité"
+  "Availability": "Disponibilité",
+  "PREFERENCES": "Préférences",
+  "DEFAULT DASHBOARD VIEW": "Vue par défaut du tableau de bord",
+  "SELECT DASHBOARD": "Sélectionner le tableau de bord",
+  "FIRST LANGUAGE PREFERENCE": "Préférence de première langue",
+  "SECOND LANGUAGE PREFERENCE": "Préférence de deuxième langue",
+  "THIRD LANGUAGE PREFERENCE": "Préférence de troisième langue",
+  "SELECT LANGUAGE": "Sélectionner la langue",
+  "PRIMARY EMAIL PREFERENCE": "Préférence d'email principal",
+  "PRIMARY PHONE PREFERENCE": "Préférence de téléphone principal",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "Recevoir les notifications d'urgence",
+  "PREFERENCES UPDATED SUCCESS": "Préférences mises à jour avec succès !",
+  "SAVING": "Sauvegarde...",
+  "EMAIL COMMUNICATION PREFERENCE": "Préférence de communication par email",
+  "PHONE COMMUNICATION PREFERENCE": "Préférence de communication par téléphone"
 }

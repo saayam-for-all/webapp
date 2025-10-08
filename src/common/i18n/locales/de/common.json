@@ -396,5 +396,19 @@
   "Add Time Slot": "Zeitslot hinzufügen",
   "VACATION_MODE_ACTIVE": "Urlaubsmodus aktiv",
   "NO AVAILABILITY SLOTS": "Keine Verfügbarkeitsslots konfiguriert",
-  "Availability": "Verfügbarkeit"
+  "Availability": "Verfügbarkeit",
+  "PREFERENCES": "Einstellungen",
+  "DEFAULT DASHBOARD VIEW": "Standard-Dashboard-Ansicht",
+  "SELECT DASHBOARD": "Dashboard auswählen",
+  "FIRST LANGUAGE PREFERENCE": "Erste Sprachpräferenz",
+  "SECOND LANGUAGE PREFERENCE": "Zweite Sprachpräferenz",
+  "THIRD LANGUAGE PREFERENCE": "Dritte Sprachpräferenz",
+  "SELECT LANGUAGE": "Sprache auswählen",
+  "PRIMARY EMAIL PREFERENCE": "Primäre E-Mail-Präferenz",
+  "PRIMARY PHONE PREFERENCE": "Primäre Telefonpräferenz",
+  "RECEIVE EMERGENCY NOTIFICATIONS": "Notfallbenachrichtigungen erhalten",
+  "PREFERENCES UPDATED SUCCESS": "Einstellungen erfolgreich aktualisiert!",
+  "SAVING": "Speichern...",
+  "EMAIL COMMUNICATION PREFERENCE": "E-Mail-Kommunikationspräferenz",
+  "PHONE COMMUNICATION PREFERENCE": "Telefon-Kommunikationspräferenz"
 }
