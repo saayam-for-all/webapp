@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { FaBars, FaTimes } from "react-icons/fa";
 import YourProfile from "./YourProfile";
 import PersonalInformation from "./PersonalInformation";
 import IdentityDocument from "./IdentityDocument";
@@ -17,12 +18,14 @@ import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.j
 function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
   const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
   const [tempProfilePhoto, setTempProfilePhoto] =
     useState(DEFAULT_PROFILE_ICON);
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState(location.state?.tab || "profile");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
@@ -65,6 +68,21 @@ function Profile() {
 
   const handleDeleteClick = () => {
     setTempProfilePhoto(DEFAULT_PROFILE_ICON);
+  };
+
+  const getTabDisplayName = (tab) => {
+    const tabNames = {
+      profile: t("YOUR_PROFILE") || "Your Profile",
+      personal: t("PERSONAL_INFORMATION") || "Personal Information",
+      uploadDocument: t("IDENTITY_DOCUMENT") || "Identity Document",
+      password: t("CHANGE_PASSWORD") || "Change Password",
+      organization: t("ORGANIZATION_DETAILS") || "Organization Details",
+      skills: t("SKILLS") || "Skills",
+      availability: t("Availability") || "Availability",
+      preferences: t("PREFERENCES") || "Preferences",
+      signoff: t("SIGN_OFF") || "Sign Off",
+    };
+    return tabNames[tab] || "Profile Menu";
   };
 
   const handleTabChange = (tab) => {
@@ -127,9 +145,9 @@ function Profile() {
   };
 
   return (
-    <div className="flex flex-col items-center p-4 min-h-screen bg-gray-100">
+    <div className="flex flex-col p-2 md:p-4 min-h-screen bg-gray-100">
       {/* Back Button */}
-      <div className="w-full max-w-6xl mb-4">
+      <div className="w-full mb-4">
         <button
           onClick={() => {
             if (hasUnsavedChanges) {
@@ -144,23 +162,84 @@ function Profile() {
               navigate("/dashboard");
             }
           }}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center transition-colors duration-200"
+          className="text-blue-600 hover:text-blue-800 font-semibold text-base md:text-lg flex items-center transition-colors duration-200"
         >
-          <span className="text-2xl mr-2">&larr;</span>{" "}
+          <span className="text-xl md:text-2xl mr-2">&larr;</span>{" "}
           {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
         </button>
       </div>
 
-      {/* Main Profile Layout */}
-      <div className="flex w-full max-w-6xl bg-white rounded-lg shadow-lg">
-        <Sidebar
-          profilePhoto={profilePhoto}
-          handleTabChange={handleTabChange}
-          activeTab={activeTab}
-          openModal={openModal}
-        />
-        <div className="w-3/4 p-6">{renderTabContent()}</div>
+      {/* Dropdown Menu Button - Only visible on mobile */}
+      <div className="w-full mb-4 md:hidden">
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors duration-200"
+          aria-label="Open profile menu"
+        >
+          <FaBars className="text-lg" />
+          <span className="font-medium">{getTabDisplayName(activeTab)}</span>
+        </button>
       </div>
+
+      {/* Main Profile Layout */}
+      <div className="flex flex-col md:flex-row w-full bg-white rounded-lg shadow-lg overflow-hidden">
+        {/* Desktop Sidebar */}
+        <div className="hidden md:block">
+          <Sidebar
+            profilePhoto={profilePhoto}
+            handleTabChange={handleTabChange}
+            activeTab={activeTab}
+            openModal={openModal}
+          />
+        </div>
+
+        {/* Content Area */}
+        <div className="w-full md:w-3/4 p-3 md:p-6">{renderTabContent()}</div>
+      </div>
+
+      {/* Mobile Sliding Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+
+          {/* Sliding Sidebar */}
+          <div className="absolute left-0 top-0 h-full w-80 max-w-[85%] bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+            {/* Header with Close Button */}
+            <div className="flex items-center justify-between p-4 border-b bg-gray-50">
+              <h2 className="font-semibold text-gray-800">
+                {t("YOUR_PROFILE") || "Profile Menu"}
+              </h2>
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-full transition-colors duration-200"
+                aria-label="Close profile menu"
+              >
+                <FaTimes className="text-lg" />
+              </button>
+            </div>
+
+            {/* Sidebar Content */}
+            <div className="h-full overflow-y-auto">
+              <Sidebar
+                profilePhoto={profilePhoto}
+                handleTabChange={(tab) => {
+                  handleTabChange(tab);
+                  setIsSidebarOpen(false);
+                }}
+                activeTab={activeTab}
+                openModal={() => {
+                  setIsSidebarOpen(false);
+                  openModal();
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal for Profile Photo */}
       {isModalOpen && (

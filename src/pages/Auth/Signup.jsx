@@ -5,6 +5,8 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import Select from "react-select";
+import countryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import "./Login.css";
@@ -45,12 +47,15 @@ const signUpSchema = z.object({
 
 const SignUp = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const options = countryList().getData();
+
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [country, setCountry] = useState("United States");
+  const [country, setCountry] = useState(null);
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [acceptedTOS, setAcceptedTOS] = useState(false);
@@ -75,9 +80,6 @@ const SignUp = () => {
   const hasMinLength = passwordValue.length >= 8;
   const allRequirementsMet =
     hasNumber && hasUppercase && hasLowercase && hasSpecialChar && hasMinLength;
-
-  const navigate = useNavigate();
-
   //name, email and phone number validation functions
   const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -107,6 +109,8 @@ const SignUp = () => {
       if (!passwordValue) newErrors.password = "Password is required";
       if (!confirmPasswordValue)
         newErrors.confirmPassword = "Confirm password is required";
+      if (!country) newErrors.country = "Please select your country";
+
       // Zod schema errors (only if field is not empty)
       if (!result.success) {
         const formattedErrors = result.error.format();
@@ -147,7 +151,7 @@ const SignUp = () => {
             family_name: lastName,
             email: emailValue,
             phone_number: fullPhoneNumber,
-            "custom:Country": country,
+            "custom:Country": country.label,
           },
         },
       });
@@ -177,8 +181,10 @@ const SignUp = () => {
               onChange={(e) => setFirstName(e.target.value)}
               placeholder={t("FIRST_NAME")}
               type="text"
-              className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
-              required={true}
+              className={`w-full px-4 py-2 border rounded-xl ${
+                errors.firstName ? "border-red-500" : "border-gray-300"
+              }`}
+              required
             />
             {errors.firstName && (
               <p className="text-sm text-red-500">{errors.firstName}</p>
@@ -194,8 +200,10 @@ const SignUp = () => {
               onChange={(e) => setLastName(e.target.value)}
               placeholder={t("LAST_NAME")}
               type="text"
-              className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
-              required={true}
+              className={`w-full px-4 py-2 border rounded-xl ${
+                errors.lastName ? "border-red-500" : "border-gray-300"
+              }`}
+              required
             />
             {errors.lastName && (
               <p className="text-sm text-red-500">{errors.lastName}</p>
@@ -212,8 +220,10 @@ const SignUp = () => {
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder={t("EMAIL")}
             type="text"
-            className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
-            required={true}
+            className={`px-4 py-2 border rounded-xl ${
+              errors.email ? "border-red-500" : "border-gray-300"
+            }`}
+            required
           />
           {errors.email && (
             <p className="text-sm text-red-500">{errors.email}</p>
@@ -238,23 +248,41 @@ const SignUp = () => {
         {/* Country */}
         <div className="my-2 flex flex-col">
           <label htmlFor="country">{t("COUNTRY")}</label>
-          <select
+          <Select
             id="country"
+            options={options}
             value={country}
-            disabled={true}
-            onChange={(e) => setCountry(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-xl"
-          >
-            {/**
-            <option value="">Select your country</option>
-            {countries.map((option) => (
-              <option key={option.value} value={option.label}>
-                {option.label}
-              </option>
-            ))}
-             */}
-            <option value="United States">{t("UNITED_STATES")}</option>
-          </select>
+            onChange={(val) => setCountry(val)}
+            placeholder="Select your country"
+            className="react-select-container"
+            classNamePrefix="react-select"
+            styles={{
+              control: (base, state) => ({
+                ...base,
+                borderRadius: "0.75rem", // matches rounded-xl
+                borderColor: state.isFocused ? "#000000" : "#d1d5db", // Tailwind gray-300
+                boxShadow: "none",
+                "&:hover": { borderColor: "#000000" },
+                minHeight: "42px", // aligns with other inputs
+              }),
+              valueContainer: (base) => ({
+                ...base,
+                padding: "0 12px",
+              }),
+              placeholder: (base) => ({
+                ...base,
+                color: "#9ca3af", // Tailwind gray-400
+              }),
+              menu: (base) => ({
+                ...base,
+                borderRadius: "0.75rem",
+                zIndex: 10,
+              }),
+            }}
+          />
+          {errors.country && (
+            <p className="text-sm text-red-500">{errors.country}</p>
+          )}
         </div>
 
         {/* Password */}
@@ -290,13 +318,13 @@ const SignUp = () => {
             </button>
           </div>
 
-          {/* Password validation */}
+          {/* Password Validation */}
           {((showPasswordValidation && !allRequirementsMet) ||
             errors.password) && (
             <div
-              className={`flex flex-col items-start absolute left-full top-0
-               ml-2 w-[clamp(200px,25vw,300px)] border border-gray-300 bg-white p-2
-               rounded shadow z-[1000] whitespace-normal break-words`}
+              className={`flex flex-col items-start absolute left-full top-0 
+                ml-2 w-[clamp(200px,25vw,300px)] border border-gray-300 bg-white p-2 
+                rounded shadow z-[1000] whitespace-normal break-words`}
             >
               <p
                 className={`${hasMinLength ? "text-sm text-green-500" : "text-sm text-red-500"}`}
@@ -369,6 +397,7 @@ const SignUp = () => {
           Sign Up
         </button>
         */}
+        {/* Terms of Service */}
         <div className="mb-2 flex items-center space-x-2">
           <input
             type="checkbox"
@@ -390,8 +419,8 @@ const SignUp = () => {
         </div>
         <button
           className={`my-4 py-2 rounded-xl text-white 
-    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
-  `}
+          ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
+          `}
           onClick={handleSignUp}
           disabled={!acceptedTOS}
         >

@@ -6,6 +6,7 @@ const StepperControl = ({
   currentStep,
   steps,
   isAcknowledged,
+  isUploaded,
 }) => {
   const { t } = useTranslation();
 
@@ -28,12 +29,16 @@ const StepperControl = ({
         <button
           onClick={() => handleClick("next")}
           className={`uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 ${
-            (currentStep === 1 && !isAcknowledged) || currentStep > steps.length
+            (currentStep === 1 && !isAcknowledged) ||
+            (currentStep === 2 && !isUploaded) ||
+            currentStep > steps.length
               ? "bg-green-300 text-gray border-green-300 opacity-50 cursor-not-allowed"
               : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
           }`}
           disabled={
-            (currentStep === 1 && !isAcknowledged) || currentStep > steps.length
+            (currentStep === 1 && !isAcknowledged) ||
+            (currentStep === 2 && !isUploaded) ||
+            currentStep > steps.length
           }
         >
           {currentStep === steps.length ? "Confirm" : "Next"}

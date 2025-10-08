@@ -22,7 +22,7 @@ function Sidebar({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-col justify-between h-full p-4 bg-white w-60 border-r">
+    <div className="flex flex-col justify-between h-1/2 p-4 bg-white w-100 border-r">
       <div className="text-center mb-8">
         <div className="relative mb-4">
           {profilePhoto ? (
@@ -185,7 +185,7 @@ function Sidebar({
         >
           <div className="flex items-center">
             <FaCog className="mr-2 text-gray-500" />
-            {t("Preferences")}
+            {t("PREFERENCES")}
           </div>
           {activeTab !== "preferences" && (
             <FiChevronRight className="text-gray-600" />

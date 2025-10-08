@@ -1,6 +1,10 @@
 {
   "REQUEST_CATEGORIES": {
-    "FOOD_ESSENTIALS": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "सामान्य",
+      "DESC": "जब आप अनिश्चित हों तो इसका उपयोग करें; अपनी आवश्यकता का विस्तार से वर्णन करें।"
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
       "LABEL": "खाद्य एवं आवश्यकताएँ",
       "DESC": "खाद्य सहायता, किराना सेवाएँ और खाना बनाने में मदद प्राप्त करें।",
       "SUBCATEGORIES": {

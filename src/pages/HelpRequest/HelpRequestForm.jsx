@@ -304,81 +304,47 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         try {
           const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
 
+          // Store the API response directly in Redux as-is
+          // No complex mappings needed - API keys now match i18n keys exactly
+          console.log("Categories API response:", categoriesData);
+
           // Extract categories array from API response
-          let apiCategories;
-          if (
-            categoriesData?.categories &&
+          let categoriesArray;
+          if (Array.isArray(categoriesData)) {
+            categoriesArray = categoriesData;
+          } else if (
+            categoriesData &&
             Array.isArray(categoriesData.categories)
           ) {
-            apiCategories = categoriesData.categories;
-          } else if (Array.isArray(categoriesData)) {
-            apiCategories = categoriesData;
+            categoriesArray = categoriesData.categories;
+          } else if (categoriesData && typeof categoriesData === "object") {
+            // Log the structure to understand the API format
+            console.log("API response structure:", Object.keys(categoriesData));
+            throw new Error(
+              "Invalid API response format - expected array or object with categories array",
+            );
           } else {
-            throw new Error("Invalid API response format");
+            throw new Error("Invalid API response format - expected array");
           }
 
-          // Map API keys to exact matching i18n keys (1:1 mapping)
-          const apiToI18nKeyMap = {
-            GENERAL_CATEGORY: "GENERAL_CATEGORY",
-            FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_AND_ESSENTIALS_SUPPORT",
-            CLOTHING_SUPPORT: "CLOTHING_SUPPORT",
-            HOUSING_SUPPORT: "HOUSING_SUPPORT",
-            EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
-            HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLNESS_SUPPORT",
-            ELDERLY_SUPPORT: "ELDERLY_SUPPORT",
-          };
+          // Filter out invalid/header entries (like cat_name, cat_id placeholders)
+          const validCategories = categoriesArray.filter(
+            (cat) =>
+              cat.catName &&
+              cat.catName !== "cat_name" &&
+              cat.catId !== "cat_id" &&
+              cat.catId !== "﻿cat_id" && // Handle BOM characters
+              !cat.catName.toLowerCase().includes("cat_name") &&
+              !cat.catId.toLowerCase().includes("cat_id"),
+          );
 
-          const subcategoryApiToI18nKeyMap = {
-            // Food & Essentials subcategories - direct 1:1 mapping
-            FOOD_ASSISTANCE: "FOOD_ASSISTANCE",
-            GROCERY_SHOPPING_AND_DELIVERY: "GROCERY_SHOPPING_AND_DELIVERY",
-            COOKING_HELP: "COOKING_HELP",
-            // Clothing subcategories - direct 1:1 mapping
-            DONATE_CLOTHES: "DONATE_CLOTHES",
-            BORROW_CLOTHES: "BORROW_CLOTHES",
-            EMERGENCY_ASSISTANCE: "EMERGENCY_ASSISTANCE",
-            SEASONAL_DRIVE_NOTIFICATION: "SEASONAL_DRIVE_NOTIFICATION",
-            TAILORING: "TAILORING",
-            // Housing subcategories - direct 1:1 mapping
-            FIND_A_ROOMMATE: "FIND_A_ROOMMATE",
-            RENTING_SUPPORT: "RENTING_SUPPORT",
-            HOUSEHOLD_ITEM_EXCHANGE: "HOUSEHOLD_ITEM_EXCHANGE",
-            MOVING_ASSISTANCE: "MOVING_ASSISTANCE",
-            CLEANING_HELP: "CLEANING_HELP",
-            HOME_REPAIR_SUPPORT: "HOME_REPAIR_SUPPORT",
-            UTILITIES_SETUP: "UTILITIES_SETUP",
-            // Education subcategories - direct 1:1 mapping
-            COLLEGE_APPLICATION_HELP: "COLLEGE_APPLICATION_HELP",
-            SOP_ESSAY_REVIEW: "SOP_ESSAY_REVIEW",
-            TUTORING: "TUTORING",
-            // Healthcare subcategories - direct 1:1 mapping
-            MEDICAL_NAVIGATION: "MEDICAL_NAVIGATION",
-            MEDICINE_DELIVERY: "MEDICINE_DELIVERY",
-            MENTAL_WELLBEING_SUPPORT: "MENTAL_WELLBEING_SUPPORT",
-            MEDICATION_REMINDERS: "MEDICATION_REMINDERS",
-            HEALTH_EDUCATION_GUIDANCE: "HEALTH_EDUCATION_GUIDANCE",
-            // Elderly subcategories - direct 1:1 mapping
-            SENIOR_LIVING_RELOCATION: "SENIOR_LIVING_RELOCATION",
-            DIGITAL_SUPPORT_FOR_SENIORS: "DIGITAL_SUPPORT_FOR_SENIORS",
-            MEDICAL_HELP: "MEDICAL_HELP",
-            ERRANDS_TRANSPORTATION: "ERRANDS_TRANSPORTATION",
-            SOCIAL_CONNECTION: "SOCIAL_CONNECTION",
-            MEAL_SUPPORT: "MEAL_SUPPORT",
-          };
-
-          // Transform API categories to our format
-          const mappedCategories = apiCategories.map((cat) => ({
-            key: apiToI18nKeyMap[cat.cat_name] || cat.cat_name,
-            id: cat.cat_id,
-            name: apiToI18nKeyMap[cat.cat_name] || cat.cat_name, // Use mapped key for display
-            apiName: cat.cat_name, // Store original API key for backend
-            subcategories: (cat.children || []).map((child) => ({
-              key: subcategoryApiToI18nKeyMap[child.cat_name] || child.cat_name,
-              apiName: child.cat_name, // Store original API key for backend
-            })),
-          }));
-
-          dispatch(loadCategories(mappedCategories));
+          console.log(
+            "Filtered categories:",
+            validCategories.length,
+            "out of",
+            categoriesArray.length,
+          );
+          dispatch(loadCategories(validCategories));
         } catch (error) {
           console.warn(
             "Categories API failed, using static fallback:",
@@ -412,49 +378,93 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     // Ensure categories is an array before using array methods
     const categoriesArray = Array.isArray(categories) ? categories : [];
 
-    // If matches a category key
+    // Check if matches a category catName
     const cat = categoriesArray.find(
-      (c) => (c.key || c.id || c.name) === selectedKeyOrText,
+      (c) => c.catName === selectedKeyOrText || c.catId === selectedKeyOrText,
     );
     if (cat) {
-      const categoryKey =
-        cat.i18nKey || cat.key || cat.id || cat.name || "UNKNOWN";
-      return t(`categories:REQUEST_CATEGORIES.${categoryKey}.LABEL`, {
-        defaultValue:
-          cat.name || cat.label || cat.key || cat.id || selectedKeyOrText,
+      // Try new API key first, fall back to old key mapping for backward compatibility
+      const newKey = cat.catName;
+      const oldKeyMap = {
+        FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_ESSENTIALS",
+        CLOTHING_SUPPORT: "CLOTHING_AND_SUPPORT",
+        HOUSING_SUPPORT: "HOUSING_ASSISTANCE",
+        EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
+        HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLBEING",
+        ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
+        GENERAL_CATEGORY: "GENERAL",
+      };
+
+      // Try new key first
+      const newKeyResult = t(`categories:REQUEST_CATEGORIES.${newKey}.LABEL`, {
+        defaultValue: null,
+      });
+      if (newKeyResult && newKeyResult !== newKey) {
+        return newKeyResult;
+      }
+
+      // Fall back to old key if new key translation doesn't exist
+      const oldKey = oldKeyMap[newKey] || newKey;
+      return t(`categories:REQUEST_CATEGORIES.${oldKey}.LABEL`, {
+        defaultValue: cat.catName,
       });
     }
-    // If matches a subcategory key
+
+    // Check if matches a subcategory catName
     for (const c of categoriesArray) {
-      const subs = c.subcategories || [];
-      const match = subs.find((s) => (s.key || s) === selectedKeyOrText);
+      const subs = c.subCategories || [];
+      const match = subs.find(
+        (s) => s.catName === selectedKeyOrText || s.catId === selectedKeyOrText,
+      );
       if (match) {
-        const categoryKey = c.i18nKey || c.key || c.id || c.name || "UNKNOWN";
-        const subKey = match.i18nKey || match.key || match || "UNKNOWN";
+        // Apply same fallback logic for subcategories
+        const newCatKey = c.catName;
+        const newSubKey = match.catName;
+        const oldKeyMap = {
+          FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_ESSENTIALS",
+          CLOTHING_SUPPORT: "CLOTHING_AND_SUPPORT",
+          HOUSING_SUPPORT: "HOUSING_ASSISTANCE",
+          EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
+          HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_WELLBEING",
+          ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
+          GENERAL_CATEGORY: "GENERAL",
+        };
+
+        // Try new key first
+        const newResult = t(
+          `categories:REQUEST_CATEGORIES.${newCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
+          { defaultValue: null },
+        );
+        if (newResult && newResult !== newSubKey) {
+          return newResult;
+        }
+
+        // Fall back to old key structure
+        const oldCatKey = oldKeyMap[newCatKey] || newCatKey;
         return t(
-          `categories:REQUEST_CATEGORIES.${categoryKey}.SUBCATEGORIES.${subKey}.LABEL`,
+          `categories:REQUEST_CATEGORIES.${oldCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
           {
-            defaultValue:
-              match.name ||
-              match.label ||
-              match.key ||
-              match.id ||
-              "Subcategory",
+            defaultValue: match.catName,
           },
         );
       }
     }
+
     // Fallback to free text typed by user
     return selectedKeyOrText;
   };
 
   useEffect(() => {
     if (categories && categories.length > 0) {
-      const general = categories.find((cat) => cat.key === "GENERAL");
-      const others = categories.filter((cat) => cat.key !== "GENERAL");
+      const general = categories.find(
+        (cat) => cat.catName === "GENERAL_CATEGORY",
+      );
+      const others = categories.filter(
+        (cat) => cat.catName !== "GENERAL_CATEGORY",
+      );
       const resolvedLabel = (cat) =>
-        t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-          defaultValue: cat.name,
+        t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
+          defaultValue: cat.catName,
         });
       const sorted = others.sort((a, b) =>
         resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
@@ -473,13 +483,17 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     });
 
     const resolvedLabel = (cat) =>
-      t(`categories:REQUEST_CATEGORIES.${cat.key || cat.id}.LABEL`, {
-        defaultValue: cat.name,
+      t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
+        defaultValue: cat.catName,
       });
 
     if (searchTerm.trim() === "") {
-      const general = categories.find((cat) => cat.key === "GENERAL");
-      const others = categories.filter((cat) => cat.key !== "GENERAL");
+      const general = categories.find(
+        (cat) => cat.catName === "GENERAL_CATEGORY",
+      );
+      const others = categories.filter(
+        (cat) => cat.catName !== "GENERAL_CATEGORY",
+      );
       const sorted = others.sort((a, b) =>
         resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
       );
@@ -491,8 +505,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           .toLowerCase()
           .startsWith(searchTerm.toLowerCase()),
       );
-      const general = filtered.find((cat) => cat.key === "GENERAL");
-      const others = filtered.filter((cat) => cat.key !== "GENERAL");
+      const general = filtered.find(
+        (cat) => cat.catName === "GENERAL_CATEGORY",
+      );
+      const others = filtered.filter(
+        (cat) => cat.catName !== "GENERAL_CATEGORY",
+      );
       const sorted = others.sort((a, b) =>
         resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
       );
@@ -527,12 +545,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setHoveredCategory(null);
   };
 
-  const handleSubcategoryClick = (subcategory) => {
-    const subKey =
-      typeof subcategory === "string" ? subcategory : subcategory.key;
+  const handleSubcategoryClick = (subcategoryId) => {
     setFormData({
       ...formData,
-      category: subKey,
+      category: subcategoryId,
     });
     setShowDropdown(false);
     setHoveredCategory(null);
@@ -699,9 +715,16 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             //Temporarily commented out as MVP only allows for self requests
             !selfFlag && (
               <div
-                className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
+                className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
                 data-testid="parentDivTwo"
               >
+                <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">
+                  <IoMdInformationCircle className="text-gray-500 mr-1 mt-0.5" />
+                  <div className="text-sm text-gray-600">
+                    Please fill the details of the person you are submitting the
+                    request for.
+                  </div>
+                </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label
@@ -852,7 +875,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   id="category"
                   value={resolveCategoryLabel(formData.category)}
                   onChange={handleSearchInput}
-                  className="border border-gray-300 text-gray-700 rounded-lg p-2.5 w-full appearance-none"
+                  className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
                   onFocus={() => setShowDropdown(true)}
                   onBlur={(e) => {
                     if (!dropdownRef.current?.contains(e.relatedTarget)) {
@@ -870,8 +893,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 <div
                   className={`absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex${
                     hoveredCategory &&
-                    hoveredCategory.subcategories &&
-                    hoveredCategory.subcategories.length > 0
+                    hoveredCategory.subCategories &&
+                    hoveredCategory.subCategories.length > 0
                       ? ""
                       : " flex-col"
                   }`}
@@ -889,8 +912,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <div
                     className={
                       hoveredCategory &&
-                      hoveredCategory.subcategories &&
-                      hoveredCategory.subcategories.length > 0
+                      hoveredCategory.subCategories &&
+                      hoveredCategory.subCategories.length > 0
                         ? "w-1/2 overflow-y-auto"
                         : "w-full overflow-y-auto"
                     }
@@ -898,37 +921,37 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   >
                     {filteredCategories.map((category) => (
                       <div
-                        key={category.id}
+                        key={category.catId}
                         className={`p-2 cursor-pointer hover:bg-gray-100 bg-white flex items-center justify-between ${
-                          hoveredCategory?.id === category.id
+                          hoveredCategory?.catId === category.catId
                             ? "font-semibold bg-gray-50"
                             : ""
                         }`}
                         style={{ background: "#fff" }}
                         onClick={(e) => {
                           if (
-                            !category.subcategories ||
-                            category.subcategories.length === 0
+                            !category.subCategories ||
+                            category.subCategories.length === 0
                           ) {
-                            handleCategoryClick(category.key || category.id);
+                            handleCategoryClick(category.catName);
                           }
                         }}
                         onMouseEnter={() => setHoveredCategory(category)}
                       >
                         <span
                           title={t(
-                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.DESC`,
-                            { defaultValue: "" },
+                            `categories:REQUEST_CATEGORIES.${category.catName}.DESC`,
+                            { defaultValue: category.catDesc },
                           )}
                         >
                           {t(
-                            `categories:REQUEST_CATEGORIES.${category.key || category.id}.LABEL`,
-                            { defaultValue: category.name },
+                            `categories:REQUEST_CATEGORIES.${category.catName}.LABEL`,
+                            { defaultValue: category.catName },
                           )}
                         </span>
                         {/* Show chevron if subcategories exist */}
-                        {category.subcategories &&
-                          category.subcategories.length > 0 && (
+                        {category.subCategories &&
+                          category.subCategories.length > 0 && (
                             <span className="ml-2 text-gray-400">&gt;</span>
                           )}
                       </div>
@@ -936,8 +959,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                   {/* Only show subcategories column if there are subcategories */}
                   {hoveredCategory &&
-                    hoveredCategory.subcategories &&
-                    hoveredCategory.subcategories.length > 0 && (
+                    hoveredCategory.subCategories &&
+                    hoveredCategory.subCategories.length > 0 && (
                       <>
                         {/* Vertical divider */}
                         <div
@@ -949,13 +972,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                           className="w-1/2 overflow-y-auto"
                           style={{ maxHeight: "240px" }}
                         >
-                          {hoveredCategory.subcategories.map(
+                          {hoveredCategory.subCategories.map(
                             (subcategory, index) => (
                               <div
-                                key={index}
+                                key={subcategory.catId}
                                 className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
                                   index !==
-                                  hoveredCategory.subcategories.length - 1
+                                  hoveredCategory.subCategories.length - 1
                                     ? " border-b-0 border-t border-gray-200"
                                     : ""
                                 }`}
@@ -967,20 +990,19 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                 }}
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleSubcategoryClick(subcategory);
+                                  handleSubcategoryClick(subcategory.catId);
                                 }}
                               >
                                 <span
                                   title={t(
-                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.DESC`,
-                                    { defaultValue: "" },
+                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
+                                    { defaultValue: subcategory.catDesc },
                                   )}
                                 >
                                   {t(
-                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.key || hoveredCategory.id}.SUBCATEGORIES.${subcategory.key || subcategory}.LABEL`,
+                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
                                     {
-                                      defaultValue:
-                                        subcategory.label || subcategory,
+                                      defaultValue: subcategory.catName,
                                     },
                                   )}
                                 </span>
@@ -1039,7 +1061,37 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
               </div>
+              {formData.request_type === "In Person" && (
+                <div
+                  className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
+                  data-testid="parentDivTwo"
+                >
+                  <label
+                    htmlFor="location"
+                    className="block mb-1 font-medium text-gray-700"
+                  >
+                    Location
+                  </label>
+                  {isLoaded && (
+                    <StandaloneSearchBox
+                      onLoad={(ref) => (inputRef.current = ref)}
+                      onPlacesChanged={handleOnPlacesChanged}
+                    >
+                      <input
+                        type="text"
+                        id="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        name="location"
+                        className="border p-2 w-full rounded-lg"
+                        placeholder="Search for location..."
+                      />
+                    </StandaloneSearchBox>
+                  )}
+                </div>
+              )}
             </div>
+
             <div className="mt-3 flex gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
@@ -1118,33 +1170,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
             </div>
-
-            {formData.request_type === "In Person" && (
-              <div>
-                <label
-                  htmlFor="location"
-                  className="block mb-1 font-medium text-gray-700"
-                >
-                  Location
-                </label>
-                {isLoaded && (
-                  <StandaloneSearchBox
-                    onLoad={(ref) => (inputRef.current = ref)}
-                    onPlacesChanged={handleOnPlacesChanged}
-                  >
-                    <input
-                      type="text"
-                      id="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      name="location"
-                      className="border p-2 w-full rounded-lg"
-                      placeholder="Search for location..."
-                    />
-                  </StandaloneSearchBox>
-                )}
-              </div>
-            )}
           </div>
           <div className="mt-3" data-testid="parentDivSix">
             {formData.category === "Jobs" && <JobsCategory />}
