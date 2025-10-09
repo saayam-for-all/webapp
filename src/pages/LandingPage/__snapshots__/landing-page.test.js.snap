@@ -295,7 +295,7 @@ exports[`LandingPage renders correctly 1`] = `
                 <h3
                   class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
-                  mockTranslate(Voluntary Organizations)
+                  mockTranslate(Organizations)
                 </h3>
                 <h6
                   class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
@@ -619,7 +619,7 @@ exports[`LandingPage renders correctly 1`] = `
               <h3
                 class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
-                mockTranslate(Voluntary Organizations)
+                mockTranslate(Organizations)
               </h3>
               <h6
                 class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
