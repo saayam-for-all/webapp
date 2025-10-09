@@ -34,18 +34,17 @@ const ForgotPasswordPage = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate(-1); // go back to previous page
+  };
+
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
-        <div className="w-full mb-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-          >
-            <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
-          </button>
-        </div>
+        {/* Removed Back Arrow Section */}
+
         <h1 className="my-4 text-3xl font-bold text-center">Password Reset</h1>
+
         <div className="my-2 flex flex-col">
           <label htmlFor="email">Email</label>
           <input
@@ -64,12 +63,21 @@ const ForgotPasswordPage = () => {
           />
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
-        <button
-          className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
+
+        <div className="my-4 flex gap-4">
+          <button
+            className="flex-1 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
+            onClick={handleSubmit}
+          >
+            Reset
+          </button>
+          <button
+            className="flex-1 py-2 bg-gray-300 text-black rounded-xl hover:bg-gray-400"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
