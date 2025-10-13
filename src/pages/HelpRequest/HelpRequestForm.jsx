@@ -163,17 +163,32 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const submissionData = {
-      ...formData,
-      location,
-    };
+    // If Senior Living Relocation Help is selected, merge its fields into submission
+    let submissionData = { ...formData, location };
+    if (
+      formData.category === "elderly" &&
+      elderlySubcategory === "senior_living"
+    ) {
+      submissionData = {
+        ...submissionData,
+        preferredLocation: seniorLivingFields.preferredLocation,
+        minBudget: seniorLivingFields.minBudget,
+        maxBudget: seniorLivingFields.maxBudget,
+        facilityTypes: seniorLivingFields.facilityTypes,
+        moveTimeline: seniorLivingFields.moveTimeline,
+        amenities: seniorLivingFields.amenities,
+        requestType: seniorLivingFields.requestType,
+        priority: seniorLivingFields.priority,
+        subject: seniorLivingFields.subject,
+        description: seniorLivingFields.description,
+      };
+    }
 
     try {
       const res = await checkProfanity({
-        subject: formData.subject,
-        description: formData.description,
+        subject: submissionData.subject,
+        description: submissionData.description,
       });
-
       if (res.contains_profanity) {
         setSnackbar({
           open: true,
@@ -183,53 +198,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             " from Subject/Description and submit again!",
           severity: "error",
         });
-
-        // toast.error(
-        //   "Profanity detected. Please remove these word(s) : " +
-        //     res.profanity +
-        //     "  from Subject/Description and submit request again!",
-        //   {
-        //     position: "top-center", // You can customize the position
-        //     autoClose: 2000, // Toast auto-closes after 2 seconds
-        //     hideProgressBar: true, // Optional: Hide progress bar
-        //   },
-        // );
+        return;
       }
-      // Proceed with submitting the request if no profanity is found
-
-      // const response = await axios.post(
-      //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-      //   submissionData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      else {
-        if (
-          formData.category === "General" &&
-          formData.subject.trim() !== "" &&
-          formData.description.trim() !== "" &&
-          !categoryConfirmed
-        ) {
-          await fetchPredictedCategories();
-          setShowModal(true);
-          return; // Don’t submit yet
-        }
-
-        const response = await createRequest(submissionData);
-
-        setTimeout(() => {
-          navigate("/dashboard", {
-            state: {
-              successMessage:
-                "New Request #REQ-00-000-000-00011 submitted successfully!",
-            },
-          });
-        }, 2000);
-      }
+      // Submit request to backend
+      await createRequest(submissionData);
+      setTimeout(() => {
+        navigate("/dashboard", {
+          state: {
+            successMessage:
+              "New Request #REQ-00-000-000-00011 submitted successfully!",
+          },
+        });
+      }, 2000);
     } catch (error) {
       console.error("Failed to process request:", error);
       alert("Failed to submit request!");
@@ -550,8 +530,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       ...formData,
       category: subcategoryId,
     });
+    setElderlySubcategory(subKey); // <-- Ensure dynamic form renders
     setShowDropdown(false);
     setHoveredCategory(null);
+
+    // Debug: Log category value to verify what is stored
+    console.log("Selected category:", formData.category);
+    console.log("Selected category value:", formData.category);
   };
 
   const [selfFlag, setSelfFlag] = useState(true);
@@ -570,6 +555,31 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         severity: "info",
       });
     }
+  };
+
+  // Senior Living Relocation Help fields
+  const [seniorLivingFields, setSeniorLivingFields] = useState({
+    preferredLocation: "",
+    minBudget: "",
+    maxBudget: "",
+    facilityTypes: [],
+    moveTimeline: "",
+    amenities: [],
+    requestType: "",
+    priority: "MEDIUM",
+    subject: "",
+    description: "",
+  });
+
+  // Ensure elderlySubcategory state is defined
+  const [elderlySubcategory, setElderlySubcategory] = useState("");
+
+  // Add state for subcategory selection
+  const [subcategory, setSubcategory] = useState("");
+
+  // Update subcategory when user selects from dropdown
+  const handleSubcategoryChange = (e) => {
+    setSubcategory(e.target.value);
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -1171,9 +1181,723 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </div>
           </div>
+
+          {/* Render dynamic forms for all subcategories inside the main pane, after category selection */}
+          {formData.category === "SENIOR_LIVING_RELOCATION" && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">
+                Senior Living Relocation Help
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Preferred Location */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Preferred Location (City or Zip Code)
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    value={seniorLivingFields.preferredLocation}
+                    onChange={(e) =>
+                      setSeniorLivingFields((f) => ({
+                        ...f,
+                        preferredLocation: e.target.value,
+                      }))
+                    }
+                    placeholder="Enter city or zip code"
+                  />
+                </div>
+                {/* Interactive Map (placeholder) */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Select on Map (optional)
+                  </label>
+                  <div className="border rounded p-2 bg-gray-50 text-gray-500">
+                    [Map integration coming soon]
+                  </div>
+                </div>
+                {/* Budget Range */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Monthly Budget Range
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      className="w-1/2 border p-2 rounded"
+                      value={seniorLivingFields.minBudget}
+                      onChange={(e) =>
+                        setSeniorLivingFields((f) => ({
+                          ...f,
+                          minBudget: e.target.value,
+                        }))
+                      }
+                      placeholder="Min $"
+                      min={0}
+                    />
+                    <input
+                      type="number"
+                      className="w-1/2 border p-2 rounded"
+                      value={seniorLivingFields.maxBudget}
+                      onChange={(e) =>
+                        setSeniorLivingFields((f) => ({
+                          ...f,
+                          maxBudget: e.target.value,
+                        }))
+                      }
+                      placeholder="Max $"
+                      min={0}
+                    />
+                  </div>
+                </div>
+                {/* Facility Types */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Type of Facility
+                  </label>
+                  <select
+                    multiple
+                    className="w-full border p-2 rounded"
+                    value={seniorLivingFields.facilityTypes}
+                    onChange={(e) => {
+                      const options = Array.from(
+                        e.target.selectedOptions,
+                        (opt) => opt.value,
+                      );
+                      setSeniorLivingFields((f) => ({
+                        ...f,
+                        facilityTypes: options,
+                      }));
+                    }}
+                  >
+                    <option value="Independent Living">
+                      Independent Living
+                    </option>
+                    <option value="Assisted Living">Assisted Living</option>
+                    <option value="Skilled Nursing">Skilled Nursing</option>
+                    <option value="Memory Care">Memory Care</option>
+                    <option value="CCRC">
+                      Continuing Care Retirement Community (CCRC)
+                    </option>
+                  </select>
+                </div>
+                {/* Move Timeline */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Move Timeline
+                  </label>
+                  <select
+                    className="w-full border p-2 rounded"
+                    value={seniorLivingFields.moveTimeline}
+                    onChange={(e) =>
+                      setSeniorLivingFields((f) => ({
+                        ...f,
+                        moveTimeline: e.target.value,
+                      }))
+                    }
+                  >
+                    <option value="">-- Choose --</option>
+                    <option value="Immediately">Immediately</option>
+                    <option value="Within 1 Month">Within 1 Month</option>
+                    <option value="1–3 Months">1–3 Months</option>
+                    <option value="Flexible">Flexible</option>
+                  </select>
+                </div>
+                {/* Amenities */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Desired Amenities
+                  </label>
+                  <select
+                    multiple
+                    className="w-full border p-2 rounded"
+                    value={seniorLivingFields.amenities}
+                    onChange={(e) => {
+                      const options = Array.from(
+                        e.target.selectedOptions,
+                        (opt) => opt.value,
+                      );
+                      setSeniorLivingFields((f) => ({
+                        ...f,
+                        amenities: options,
+                      }));
+                    }}
+                  >
+                    <option value="On-site Medical Staff">
+                      On-site Medical Staff
+                    </option>
+                    <option value="Private Rooms">Private Rooms</option>
+                    <option value="Fitness/Recreation">
+                      Fitness/Recreation
+                    </option>
+                    <option value="Meal Plans">Meal Plans</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Pet-Friendly">Pet-Friendly</option>
+                    <option value="Social Activities">Social Activities</option>
+                  </select>
+                </div>
+                {/* Request Type, Priority, Subject, Description */}
+                <div>
+                  <label className="block font-medium mb-1">Request Type</label>
+                  <select
+                    className="w-full border p-2 rounded"
+                    value={seniorLivingFields.requestType}
+                    onChange={(e) =>
+                      setSeniorLivingFields((f) => ({
+                        ...f,
+                        requestType: e.target.value,
+                      }))
+                    }
+                  >
+                    <option value="">-- Choose --</option>
+                    <option value="General">General</option>
+                    <option value="Urgent">Urgent</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Priority</label>
+                  <select
+                    className="w-full border p-2 rounded"
+                    value={seniorLivingFields.priority}
+                    onChange={(e) =>
+                      setSeniorLivingFields((f) => ({
+                        ...f,
+                        priority: e.target.value,
+                      }))
+                    }
+                  >
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Subject</label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    value={seniorLivingFields.subject}
+                    onChange={(e) =>
+                      setSeniorLivingFields((f) => ({
+                        ...f,
+                        subject: e.target.value,
+                      }))
+                    }
+                    maxLength={70}
+                    placeholder="Brief subject of request"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Description</label>
+                  <textarea
+                    className="w-full border p-2 rounded"
+                    value={seniorLivingFields.description}
+                    onChange={(e) =>
+                      setSeniorLivingFields((f) => ({
+                        ...f,
+                        description: e.target.value,
+                      }))
+                    }
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Detailed description of request"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Render dynamic form for Digital Support for Seniors */}
+          {formData.category === "DIGITAL_SUPPORT_FOR_SENIORS" && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">
+                Digital Support for Seniors
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Help using mobile or computer apps */}
+                <div>
+                  <label className="block font-medium mb-1">Type of Help</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="app_help">
+                      Help using mobile or computer apps
+                    </option>
+                  </select>
+                </div>
+                {/* App Name(s) */}
+                <div>
+                  <label className="block font-medium mb-1">App Name(s)</label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="Enter app names (e.g. WhatsApp, Zoom)"
+                  />
+                </div>
+                {/* Device Type */}
+                <div>
+                  <label className="block font-medium mb-1">Device Type</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="Phone">Phone</option>
+                    <option value="Tablet">Tablet</option>
+                    <option value="Computer">Computer</option>
+                  </select>
+                </div>
+                {/* Operating System */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Operating System
+                  </label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="Android">Android</option>
+                    <option value="iOS">iOS</option>
+                    <option value="Windows">Windows</option>
+                    <option value="MacOS">MacOS</option>
+                  </select>
+                </div>
+                {/* Issue Description */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Issue Description
+                  </label>
+                  <textarea
+                    className="w-full border p-2 rounded"
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Describe the issue"
+                  />
+                </div>
+                {/* Request Type, Priority, Subject, Description */}
+                <div>
+                  <label className="block font-medium mb-1">Request Type</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="General">General</option>
+                    <option value="Urgent">Urgent</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Priority</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Subject</label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    maxLength={70}
+                    placeholder="Brief subject of request"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Description</label>
+                  <textarea
+                    className="w-full border p-2 rounded"
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Detailed description of request"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Render dynamic form for Medical Help subcategory under Elderly Help */}
+          {formData.category === "MEDICAL_HELP" && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Medical Help</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Sub-option: Help Managing Medication Schedules */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Type of Medical Help
+                  </label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="medication_schedule">
+                      Help Managing Medication Schedules
+                    </option>
+                    <option value="device_setup">
+                      Help Setting Up Health Monitoring Devices
+                    </option>
+                  </select>
+                </div>
+                {/* Medication Schedules Fields */}
+                {/* These would be conditionally rendered based on sub-option selection */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Number of Medications
+                  </label>
+                  <input
+                    type="number"
+                    className="w-full border p-2 rounded"
+                    min={0}
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">
+                    Timing Per Day
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="e.g. Morning, Evening"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">
+                    Doctor's Prescription Available?
+                  </label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">
+                    Reminder Type
+                  </label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="phone_call">Phone Call</option>
+                    <option value="app_setup">App Setup Help</option>
+                    <option value="physical_visit">Physical Visit</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">
+                    Preferred Language
+                  </label>
+                  <input type="text" className="w-full border p-2 rounded" />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">
+                    Preferred Time Slots
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="e.g. 9am-11am"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Priority</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Description</label>
+                  <textarea
+                    className="w-full border p-2 rounded"
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Detailed description of request"
+                  />
+                </div>
+                {/* Device Setup Fields (shown if sub-option is device_setup) */}
+                <div>
+                  <label className="block font-medium mb-1">Device Type</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="blood_pressure_monitor">
+                      Blood Pressure Monitor
+                    </option>
+                    <option value="glucose_meter">Glucose Meter</option>
+                    <option value="pulse_oximeter">Pulse Oximeter</option>
+                    <option value="smartwatch">Smartwatch / Wearable</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Setup Mode</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="video_call">Video Call</option>
+                    <option value="home_visit">Home Visit</option>
+                    <option value="remote_guide">
+                      Remote Step-by-Step Guide
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">
+                    Device Brand (optional)
+                  </label>
+                  <input type="text" className="w-full border p-2 rounded" />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Language</label>
+                  <input type="text" className="w-full border p-2 rounded" />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Time Slot</label>
+                  <input type="text" className="w-full border p-2 rounded" />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Priority</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Description</label>
+                  <textarea
+                    className="w-full border p-2 rounded"
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Detailed description of request"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          {formData.category === "ERRANDS_TRANSPORTATION" && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">
+                Errands, Events & Transportation
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Errand Type */}
+                <div>
+                  <label className="block font-medium mb-1">Errand Type</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="grocery">Grocery shopping</option>
+                    <option value="pharmacy">Pharmacy pickup</option>
+                    <option value="bill">Bill payment</option>
+                    <option value="general_store">General store</option>
+                  </select>
+                </div>
+                {/* List of Items / Location */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    List of Items / Location
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="Enter items or location for pick-up/drop-off"
+                  />
+                </div>
+                {/* Frequency */}
+                <div>
+                  <label className="block font-medium mb-1">Frequency</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="one_time">One-time</option>
+                    <option value="weekly">Weekly/Monthly</option>
+                    <option value="emergency">Emergency</option>
+                  </select>
+                </div>
+                {/* Preferred Time Slot & Urgency */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Preferred Time Slot & Urgency
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="Enter preferred time slot and urgency"
+                  />
+                </div>
+                {/* Description & Priority */}
+                <div>
+                  <label className="block font-medium mb-1">Description</label>
+                  <textarea
+                    className="w-full border p-2 rounded"
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Detailed description of request"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Priority</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+          {formData.category === "SOCIAL_CONNECTION" && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Social Connection</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Activity */}
+                <div>
+                  <label className="block font-medium mb-1">Activity</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="phone_chat">Phone call / chat</option>
+                    <option value="walk">Walk in the park</option>
+                    <option value="games">Board/card games</option>
+                    <option value="reading">Reading together</option>
+                  </select>
+                </div>
+                {/* Frequency */}
+                <div>
+                  <label className="block font-medium mb-1">Frequency</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="one_time">One-time</option>
+                    <option value="weekly">Weekly/Monthly</option>
+                    <option value="specific_dates">Specific dates</option>
+                  </select>
+                </div>
+                {/* Preferred Times, Language, Location */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Preferred Times
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="Enter preferred times"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">
+                    Preferred Language
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="Enter preferred language"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">
+                    Location (if applicable)
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="Enter location"
+                  />
+                </div>
+                {/* Description & Priority */}
+                <div>
+                  <label className="block font-medium mb-1">Description</label>
+                  <textarea
+                    className="w-full border p-2 rounded"
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Detailed description of request"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Priority</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+          {formData.category === "MEAL_SUPPORT" && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Meal Support</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Type of Help Needed */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Type of Help Needed
+                  </label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="meal_prep">Meal prep assistance</option>
+                    <option value="cooking_together">Cooking together</option>
+                    <option value="supervision">
+                      Supervision while cooking
+                    </option>
+                  </select>
+                </div>
+                {/* Location */}
+                <div>
+                  <label className="block font-medium mb-1">Location</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="volunteer_home">Volunteer's home</option>
+                    <option value="elder_home">Elder's home</option>
+                    <option value="community_kitchen">Community kitchen</option>
+                  </select>
+                </div>
+                {/* Dietary Preferences */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Dietary Preferences
+                  </label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="">-- Choose --</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="diabetic">Diabetic-friendly</option>
+                    <option value="low_sodium">Low-sodium</option>
+                    <option value="no_preference">No preference</option>
+                  </select>
+                </div>
+                {/* Schedule: Frequency & Time of Day */}
+                <div>
+                  <label className="block font-medium mb-1">Schedule</label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="Frequency (e.g., once/week, daily), Time of day"
+                  />
+                </div>
+                {/* Subject, Description, Priority, Language */}
+                <div>
+                  <label className="block font-medium mb-1">Subject</label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    maxLength={70}
+                    placeholder="Brief subject of request"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Description</label>
+                  <textarea
+                    className="w-full border p-2 rounded"
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Detailed description of request"
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Priority</label>
+                  <select className="w-full border p-2 rounded">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Language</label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded"
+                    placeholder="Preferred language"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="mt-3" data-testid="parentDivSix">
-            {formData.category === "Jobs" && <JobsCategory />}
-            {formData.category === "Housing" && <HousingCategory />}
             <label
               htmlFor="subject"
               className="block text-gray-700 font-medium mb-2"
@@ -1194,27 +1918,29 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               placeholder="Please give a brief description of the request"
             />
           </div>
-          <div className="mt-3" data-testid="parentDivSeven">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              {t("DESCRIPTION")}
-              <span className="text-red-500 m-1">*</span>(
-              {t("MAX_CHARACTERS", { count: 500 })})
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-lg"
-              rows="5"
-              maxLength={500}
-              required
-              placeholder="Please give a detailed description of the request"
-            ></textarea>
-          </div>
+          {formData.category !== "Senior Living Relocation" && (
+            <div className="mt-3" data-testid="parentDivSeven">
+              <label
+                htmlFor="description"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                {t("DESCRIPTION")}
+                <span className="text-red-500 m-1">*</span>(
+                {t("MAX_CHARACTERS", { count: 500 })})
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                className="border p-2 w-full rounded-lg"
+                rows="5"
+                maxLength={500}
+                required
+                placeholder="Please give a detailed description of the request"
+              ></textarea>
+            </div>
+          )}
           <div className="mt-8 flex justify-end gap-2">
             <button
               type="submit"
