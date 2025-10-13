@@ -1,0 +1,128 @@
+{
+  "REQUEST_CATEGORIES": {
+    "FOOD_ESSENTIALS": {
+      "LABEL": "食料品と必需品",
+      "DESC": "食料支援、食料品の買い物、料理の手伝いを受けられます。",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "食料支援",
+          "DESC": "フードバンク、パントリー、食事プログラムを見つけましょう。"
+        },
+        "GROCERY_SHOPPING_DELIVERY": {
+          "LABEL": "食料品の買い物と配達",
+          "DESC": "食料品の買い物と配達の手伝いを依頼しましょう。"
+        },
+        "COOKING_HELP": {
+          "LABEL": "料理の手伝い",
+          "DESC": "食事の準備と料理のガイダンスを受けましょう。"
+        }
+      }
+    },
+    "CLOTHING_AND_SUPPORT": {
+      "LABEL": "衣類とサポート",
+      "DESC": "寄付、貸し借り、修理、または衣類の支援を依頼しましょう。",
+      "SUBCATEGORIES": {
+        "LEND_BORROW_CLOTHES": {
+          "LABEL": "衣類の貸し借り",
+          "DESC": "軽く使用された衣類を共有または借りましょう。"
+        },
+        "DONATE_CLOTHES": {
+          "LABEL": "衣類の寄付",
+          "DESC": "必要な人に衣類を提供しましょう。"
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "住宅支援",
+      "DESC": "ルームメイト、賃貸のガイダンス、引っ越しと家のセットアップ支援。",
+      "SUBCATEGORIES": {
+        "FINDING_A_ROOMMATE": {
+          "LABEL": "ルームメイト探し",
+          "DESC": "ルームメイトを見つける手伝いを受けましょう。"
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "賃貸支援",
+          "DESC": "賃貸とリースの基本について支援。"
+        },
+        "BUY_SELL_HOUSEHOLD_ITEMS": {
+          "LABEL": "家庭用品の売買",
+          "DESC": "家庭用品の売買の手伝い。"
+        },
+        "MOVING_PACKING_HELP": {
+          "LABEL": "引っ越しと梱包の手伝い",
+          "DESC": "引っ越しと梱包のサポート。"
+        },
+        "CLEANING_HELP": {
+          "LABEL": "掃除の手伝い",
+          "DESC": "基本的な掃除作業の支援。"
+        },
+        "HOME_BUYING_SELLING_ASSISTANCE": {
+          "LABEL": "住宅購入・売却支援",
+          "DESC": "住宅購入または売却プロセスのガイダンス。"
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "教育とキャリア支援",
+      "DESC": "大学の申請、SOPのレビュー、チュータリング、学習支援。",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATIONS_HELP": {
+          "LABEL": "大学申請の手伝い",
+          "DESC": "申請とフォームの手伝い。"
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOPとエッセイのレビュー",
+          "DESC": "志望理由書とエッセイへのフィードバック。"
+        },
+        "TUTORING": {
+          "LABEL": "チュータリング",
+          "DESC": "科目のチュータリングと学習支援。"
+        }
+      }
+    },
+    "HEALTHCARE_WELLBEING": {
+      "LABEL": "ヘルスケアとウェルビーイング",
+      "DESC": "非臨床的な健康ナビゲーションとウェルネス支援。",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "医療相談",
+          "DESC": "基本的なナビゲーションと非臨床的なガイダンス。"
+        },
+        "MEDICINE_DELIVERY_ASSISTANCE": {
+          "LABEL": "薬の配達支援",
+          "DESC": "OTC薬の受け取りと配達。"
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_SUPPORT": {
+      "LABEL": "高齢者とコミュニティ支援",
+      "DESC": "高齢者のための非医療支援とコミュニティサポート。",
+      "SUBCATEGORIES": {
+        "ELDERLY_ASSISTANCE": {
+          "LABEL": "高齢者支援",
+          "DESC": "日常的な作業の手伝いとお付き合い。"
+        },
+        "TECH_HELP_FOR_SENIORS": {
+          "LABEL": "高齢者のための技術支援",
+          "DESC": "デバイスとアプリの支援。"
+        },
+        "HELP_WITH_GOVERNMENT_SERVICES": {
+          "LABEL": "政府サービスへの支援",
+          "DESC": "公共サービスとフォームへのガイダンス。"
+        },
+        "RIDE_ASSISTANCE": {
+          "LABEL": "乗車支援",
+          "DESC": "予約のための乗車手配の支援。"
+        },
+        "SHOPPING_ASSISTANCE": {
+          "LABEL": "買い物支援",
+          "DESC": "買い物のニーズへのサポート。"
+        }
+      }
+    },
+    "GENERAL": {
+      "LABEL": "一般",
+      "DESC": "わからない場合は使用してください；あなたのニーズを詳しく説明してください。"
+    }
+  }
+}
