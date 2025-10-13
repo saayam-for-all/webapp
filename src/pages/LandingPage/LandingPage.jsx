@@ -225,12 +225,9 @@ export default function Home() {
               <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]">
                 <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
                   {t(
-                    [
-                      "Beneficiaries",
-                      "Volunteers",
-                      "Voluntary Organizations",
-                      "Donors",
-                    ][i],
+                    ["Beneficiaries", "Volunteers", "Organizations", "Donors"][
+                      i
+                    ],
                   )}
                 </h3>
                 <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
@@ -239,7 +236,7 @@ export default function Home() {
                       "Receive help for their requests",
                       "Provide guidance and solutions to beneficiaries",
                       "Offer necessary support to beneficiaries",
-                      "Provide financial assistance to voluntary organization",
+                      "Provide financial assistance to profit/non-profit organization",
                     ][i],
                   )}
                 </h6>
