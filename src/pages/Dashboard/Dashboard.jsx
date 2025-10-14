@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
-import Table from "../../common/components/DataTable/Table";
+import ScrollableTable from "../../common/components/DataTable/ScrollableTable";
+import useScrollableData from "../../hooks/useScrollableData";
 // import { requestsData } from "./data";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
@@ -12,11 +13,6 @@ import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CS
 
 // import { useGetAllRequestQuery } from "../../services/requestApi";
 
-import {
-  getManagedRequests,
-  getMyRequests,
-  getOthersRequests,
-} from "../../services/requestServices";
 import "./Dashboard.css";
 
 const Dashboard = ({ userRole }) => {
@@ -29,7 +25,6 @@ const Dashboard = ({ userRole }) => {
     }
   }, [location.state?.successMessage]);
   const [activeTab, setActiveTab] = useState("myRequests");
-  const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
     key: "creationDate",
     direction: "ascending",
@@ -40,39 +35,35 @@ const Dashboard = ({ userRole }) => {
     Closed: false,
   });
   const [categoryFilter, setCategoryFilter] = useState({});
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
-  const [data, setData] = useState({});
   const groups = useSelector((state) => state.auth.user?.groups);
-  const isLoading = false;
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  // Use the new scrollable data hook
+  const {
+    data: scrollableData,
+    isLoading,
+    hasMore,
+    totalRows,
+    error,
+    loadMore,
+    refetch,
+  } = useScrollableData(
+    groups,
+    activeTab,
+    searchTerm,
+    statusFilter,
+    categoryFilter,
+  );
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
 
-  // const { data, isLoading } = useGetAllRequestQuery();
-
-  const getAllRequests = async (activeTab) => {
-    try {
-      let requestApi = getMyRequests;
-      if (activeTab === "othersRequests") requestApi = getOthersRequests;
-      else if (activeTab === "managedRequests") requestApi = getManagedRequests;
-      const response = await requestApi();
-      setData(response);
-    } catch (error) {
-      console.error("Error fetching skills:", error);
-    }
-  };
-
   useEffect(() => {
     toggleDropdown();
   }, []);
-
-  useEffect(() => {
-    getAllRequests(activeTab);
-  }, [activeTab]);
 
   const allCategories = {
     All: true,
@@ -94,7 +85,6 @@ const Dashboard = ({ userRole }) => {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setCurrentPage(1);
     setStatusFilter({
       Open: true,
       Closed: false,
@@ -114,8 +104,30 @@ const Dashboard = ({ userRole }) => {
     "calamity",
   ];
 
-  const sortedRequests = (requests) => {
-    let sortableRequests = [...requests];
+  const filteredData = useMemo(() => {
+    return scrollableData.filter((request) => {
+      // Status filter
+      const statusMatch =
+        Object.keys(statusFilter).length === 0 || statusFilter[request.status];
+
+      // Category filter
+      const categoryMatch =
+        Object.keys(categoryFilter).length === 0 ||
+        categoryFilter[request.category];
+
+      // Search filter
+      const searchMatch =
+        !searchTerm ||
+        Object.keys(request).some((key) =>
+          String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+
+      return statusMatch && categoryMatch && searchMatch;
+    });
+  }, [scrollableData, statusFilter, categoryFilter, searchTerm]);
+
+  const sortedData = useMemo(() => {
+    let sortableRequests = [...filteredData];
     if (sortConfig !== null) {
       sortableRequests.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -128,39 +140,10 @@ const Dashboard = ({ userRole }) => {
       });
     }
     return sortableRequests;
-  };
-
-  const sortedData = useMemo(() => {
-    return sortedRequests(data?.body || []);
-  }, [data, sortConfig]);
-
-  const filteredRequests = (requests) => {
-    // setCrrrentSorting(requests);
-    // console.log(requests);
-    return requests.filter(
-      (request) =>
-        (Object.keys(statusFilter).length === 0 ||
-          statusFilter[request.status]) &&
-        (Object.keys(categoryFilter).length === 0 ||
-          categoryFilter[request.category]) &&
-        Object.keys(request).some((key) =>
-          String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
-        ),
-    );
-  };
-
-  const filteredData = useMemo(() => {
-    return filteredRequests(sortedData);
-  }, [sortedData, statusFilter, categoryFilter, searchTerm]);
-
-  const totalPages = (filteredData) => {
-    if (!filteredData || filteredData.length == 0) return 1;
-    return Math.ceil(filteredData.length / rowsPerPage);
-  };
+  }, [filteredData, sortConfig]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1);
   };
 
   const requestSort = (key) => {
@@ -210,11 +193,6 @@ const Dashboard = ({ userRole }) => {
     });
   };
 
-  const handleRowsPerPageChange = (rows) => {
-    setRowsPerPage(rows);
-    setCurrentPage(1);
-  };
-
   const toggleCategoryDropdown = () => {
     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
   };
@@ -229,14 +207,6 @@ const Dashboard = ({ userRole }) => {
     }
   }, []);
 
-  const handleStatusBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsStatusDropdownOpen(false);
-  };
-  const handleFilterBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsCategoryDropdownOpen(false);
-  };
   // const requests = requestData
 
   return (
@@ -283,12 +253,27 @@ const Dashboard = ({ userRole }) => {
       )}
       <div className="border">
         <div className="flex mb-5">
-          {["myRequests", "managedRequests"]
-            .filter(
-              (tab) =>
-                !(tab === "managedRequests" && !groups?.includes("Volunteers")),
-            )
-            .map((tab) => (
+          {(() => {
+            const isAdmin =
+              groups?.includes("SystemAdmins") ||
+              groups?.includes("Admins") ||
+              groups?.includes("Stewards");
+            const isVolunteer = groups?.includes("Volunteers");
+
+            let availableTabs = [];
+
+            if (isAdmin) {
+              // Admins see all requests (using myRequests tab but with all data)
+              availableTabs = ["myRequests"];
+            } else if (isVolunteer) {
+              // Volunteers see their own requests and managed requests
+              availableTabs = ["myRequests", "managedRequests"];
+            } else {
+              // Beneficiaries see their own requests and others' requests
+              availableTabs = ["myRequests", "othersRequests"];
+            }
+
+            return availableTabs.map((tab) => (
               <button
                 key={tab}
                 className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
@@ -298,13 +283,26 @@ const Dashboard = ({ userRole }) => {
                 } ${tab !== "managedRequests" ? "mr-1" : ""}`}
                 onClick={() => handleTabChange(tab)}
               >
-                {tab === "myRequests"
-                  ? t("MY_REQUESTS")
-                  : tab === "othersRequests"
-                    ? t("OTHERS_REQUESTS")
-                    : t("MANAGED_REQUESTS")}
+                {(() => {
+                  const isAdmin =
+                    groups?.includes("SystemAdmins") ||
+                    groups?.includes("Admins") ||
+                    groups?.includes("Stewards");
+
+                  if (isAdmin && tab === "myRequests") {
+                    return "All Requests"; // Admins see all requests
+                  } else if (tab === "myRequests") {
+                    return t("MY_REQUESTS");
+                  } else if (tab === "othersRequests") {
+                    return t("OTHERS_REQUESTS");
+                  } else if (tab === "managedRequests") {
+                    return t("MANAGED_REQUESTS");
+                  }
+                  return tab;
+                })()}
               </button>
-            ))}
+            ));
+          })()}
         </div>
 
         <div className="mb-4 flex gap-2 px-10">
@@ -321,11 +319,10 @@ const Dashboard = ({ userRole }) => {
               className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
             />
           </div>
-          <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
+          <div className="relative">
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
               onClick={toggleStatusDropdown}
-              tabIndex={0}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
                 {t("Status")}
@@ -333,13 +330,14 @@ const Dashboard = ({ userRole }) => {
               <IoIosArrowDown className="m-2" />
             </div>
             {isStatusDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-50 min-w-32">
                 {Object.keys(statusFilter).map((status) => (
                   <label key={status} className="block">
                     <input
                       type="checkbox"
                       checked={statusFilter[status]}
                       onChange={() => handleStatusChange(status)}
+                      className="mr-2"
                     />
                     {status}
                   </label>
@@ -347,11 +345,10 @@ const Dashboard = ({ userRole }) => {
               </div>
             )}
           </div>
-          <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
+          <div className="relative">
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
               onClick={toggleCategoryDropdown}
-              tabIndex={0}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
                 {t("FILTER_BY")}
@@ -359,7 +356,7 @@ const Dashboard = ({ userRole }) => {
               <IoIosArrowDown className="m-2" />
             </div>
             {isCategoryDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-50 min-w-40 max-h-60 overflow-y-auto">
                 <label className="block">
                   <input
                     type="checkbox"
@@ -368,6 +365,7 @@ const Dashboard = ({ userRole }) => {
                       Object.keys(allCategories).length
                     }
                     onChange={() => handleCategoryChange("All")}
+                    className="mr-2"
                   />
                   All Categories
                 </label>
@@ -379,6 +377,7 @@ const Dashboard = ({ userRole }) => {
                         type="checkbox"
                         checked={categoryFilter[category] || false}
                         onChange={() => handleCategoryChange(category)}
+                        className="mr-2"
                       />
                       {category}
                     </label>
@@ -389,22 +388,29 @@ const Dashboard = ({ userRole }) => {
         </div>
 
         {activeTab && (
-          <div className="requests-section overflow-hidden table-height-fix">
-            {!isLoading && (
-              <Table
-                headers={headers}
-                rows={filteredData}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalPages={totalPages(filteredData)}
-                totalRows={filteredData.length}
-                itemsPerPage={rowsPerPage}
-                sortConfig={sortConfig}
-                requestSort={requestSort}
-                onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) => `/request/${request[header]}`}
-                getLinkState={(request) => request}
-              />
+          <div className="requests-section table-height-fix">
+            <ScrollableTable
+              headers={headers}
+              rows={sortedData}
+              sortConfig={sortConfig}
+              requestSort={requestSort}
+              onLoadMore={loadMore}
+              hasMore={hasMore}
+              isLoading={isLoading}
+              totalRows={filteredData.length}
+              getLinkPath={(request, header) => `/request/${request[header]}`}
+              getLinkState={(request) => request}
+            />
+            {error && (
+              <div className="text-center py-4 text-red-600">
+                Error loading data: {error}
+                <button
+                  onClick={refetch}
+                  className="ml-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Retry
+                </button>
+              </div>
             )}
           </div>
         )}
