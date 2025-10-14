@@ -1,7 +1,16 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import "@testing-library/jest-dom";
 import ScrollableTable from "./ScrollableTable";
+
+// Mock react-router-dom
+jest.mock("react-router-dom", () => ({
+  Link: ({ to, children, ...props }) => (
+    <a href={to} {...props}>
+      {children}
+    </a>
+  ),
+}));
 
 // Mock data for testing
 const mockHeaders = ["id", "name", "status"];
@@ -22,22 +31,17 @@ const defaultProps = {
   totalRows: 2,
 };
 
-// Helper function to render with router
-const renderWithRouter = (component) => {
-  return render(<MemoryRouter>{component}</MemoryRouter>);
-};
-
 describe("ScrollableTable", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it("renders table with headers and data", () => {
-    renderWithRouter(<ScrollableTable {...defaultProps} />);
+    render(<ScrollableTable {...defaultProps} />);
 
     // Check headers
     expect(screen.getByText("Id")).toBeInTheDocument();
-    expect(screen.getByText("Name")).toBeInTheDocument();
+    expect(screen.getByText(/Name/)).toBeInTheDocument();
     expect(screen.getByText("Status")).toBeInTheDocument();
 
     // Check data rows
@@ -46,32 +50,32 @@ describe("ScrollableTable", () => {
   });
 
   it("renders empty state when no rows", () => {
-    renderWithRouter(
-      <ScrollableTable {...defaultProps} rows={[]} isLoading={false} />,
-    );
+    render(<ScrollableTable {...defaultProps} rows={[]} isLoading={false} />);
 
     expect(screen.getByText("No requests found")).toBeInTheDocument();
   });
 
   it("renders loading state", () => {
-    renderWithRouter(<ScrollableTable {...defaultProps} isLoading={true} />);
+    render(<ScrollableTable {...defaultProps} isLoading={true} />);
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();
   });
 
   it("calls requestSort when header is clicked", () => {
-    renderWithRouter(<ScrollableTable {...defaultProps} />);
+    render(<ScrollableTable {...defaultProps} />);
 
-    const nameHeader = screen.getByText("Name");
+    const nameHeader = screen.getByRole("button", { name: /name/i });
     nameHeader.click();
 
     expect(defaultProps.requestSort).toHaveBeenCalledWith("name");
   });
 
   it("shows sort indicators correctly", () => {
-    renderWithRouter(<ScrollableTable {...defaultProps} />);
+    render(<ScrollableTable {...defaultProps} />);
 
     // Check for ascending indicator on name column
-    expect(screen.getByText("↑")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /name/i })).toHaveTextContent(
+      "↑",
+    );
   });
 });

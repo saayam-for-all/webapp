@@ -25,13 +25,17 @@ describe("requestServices", () => {
     it("calls API with default parameters", async () => {
       await requestServices.getMyRequests();
 
-      expect(api.get).toHaveBeenCalledWith("/api/requests/my?page=1&limit=50");
+      expect(api.get).toHaveBeenCalledWith(
+        "requests/v0.0.1/get-requests?page=1&limit=50",
+      );
     });
 
     it("calls API with custom parameters", async () => {
       await requestServices.getMyRequests(2, 25);
 
-      expect(api.get).toHaveBeenCalledWith("/api/requests/my?page=2&limit=25");
+      expect(api.get).toHaveBeenCalledWith(
+        "requests/v0.0.1/get-requests?page=2&limit=25",
+      );
     });
 
     it("returns response data", async () => {
@@ -55,7 +59,7 @@ describe("requestServices", () => {
       await requestServices.getOthersRequests();
 
       expect(api.get).toHaveBeenCalledWith(
-        "/api/requests/others?page=1&limit=50",
+        "requests/v0.0.1/get-requests?page=1&limit=50",
       );
     });
 
@@ -63,7 +67,7 @@ describe("requestServices", () => {
       await requestServices.getOthersRequests(3, 100);
 
       expect(api.get).toHaveBeenCalledWith(
-        "/api/requests/others?page=3&limit=100",
+        "requests/v0.0.1/get-requests?page=3&limit=100",
       );
     });
 
@@ -88,7 +92,7 @@ describe("requestServices", () => {
       await requestServices.getManagedRequests();
 
       expect(api.get).toHaveBeenCalledWith(
-        "/api/requests/managed?page=1&limit=50",
+        "requests/v0.0.1/get-requests?page=1&limit=50",
       );
     });
 
@@ -96,7 +100,7 @@ describe("requestServices", () => {
       await requestServices.getManagedRequests(4, 75);
 
       expect(api.get).toHaveBeenCalledWith(
-        "/api/requests/managed?page=4&limit=75",
+        "requests/v0.0.1/get-requests?page=4&limit=75",
       );
     });
 
@@ -121,7 +125,7 @@ describe("requestServices", () => {
       await requestServices.getAllRequests();
 
       expect(api.get).toHaveBeenCalledWith(
-        "/api/requests/my?page=1&limit=50&all=true",
+        "requests/v0.0.1/get-requests?page=1&limit=50&all=true",
       );
     });
 
@@ -129,7 +133,7 @@ describe("requestServices", () => {
       await requestServices.getAllRequests(5, 200);
 
       expect(api.get).toHaveBeenCalledWith(
-        "/api/requests/my?page=5&limit=200&all=true",
+        "requests/v0.0.1/get-requests?page=5&limit=200&all=true",
       );
     });
 
@@ -158,7 +162,7 @@ describe("requestServices", () => {
       it("calls API and returns response", async () => {
         await requestServices.getComments();
 
-        expect(api.get).toHaveBeenCalledWith("/api/requests/comments");
+        expect(api.get).toHaveBeenCalledWith("requests/v0.0.1/getComments");
       });
     });
 
@@ -168,7 +172,7 @@ describe("requestServices", () => {
         await requestServices.checkProfanity(content);
 
         expect(api.post).toHaveBeenCalledWith(
-          "/api/requests/check-profanity",
+          "/requests/v0.0.1/checkProfanity",
           content,
         );
       });
@@ -182,7 +186,10 @@ describe("requestServices", () => {
         };
         await requestServices.createRequest(request);
 
-        expect(api.post).toHaveBeenCalledWith("/api/requests/create", request);
+        expect(api.post).toHaveBeenCalledWith(
+          "/requests/v0.0.1/help-request",
+          request,
+        );
       });
     });
 
@@ -190,7 +197,9 @@ describe("requestServices", () => {
       it("calls API and returns response", async () => {
         await requestServices.getEmergencyContactInfo();
 
-        expect(api.get).toHaveBeenCalledWith("/api/emergency-contact");
+        expect(api.get).toHaveBeenCalledWith(
+          "/requests/v0.0.1/emergencyContactInfo",
+        );
       });
     });
 
@@ -200,7 +209,7 @@ describe("requestServices", () => {
         await requestServices.predictCategories(request);
 
         expect(api.post).toHaveBeenCalledWith(
-          "/api/requests/predict-categories",
+          "genai/v0.0.1/predict_categories",
           request,
         );
       });
@@ -210,7 +219,9 @@ describe("requestServices", () => {
       it("calls API and returns response", async () => {
         await requestServices.GET_NOTIFICATIONS();
 
-        expect(api.get).toHaveBeenCalledWith("/api/notifications");
+        expect(api.get).toHaveBeenCalledWith(
+          "requests/v0.0.1/getNotifications",
+        );
       });
     });
 
@@ -220,7 +231,7 @@ describe("requestServices", () => {
         await requestServices.moreInformation(request);
 
         expect(api.post).toHaveBeenCalledWith(
-          "/api/requests/generate-answer",
+          "genai/v0.0.1/generate_answer",
           request,
         );
       });
@@ -231,20 +242,24 @@ describe("requestServices", () => {
     it("handles zero page parameter", async () => {
       await requestServices.getMyRequests(0, 50);
 
-      expect(api.get).toHaveBeenCalledWith("/api/requests/my?page=0&limit=50");
+      expect(api.get).toHaveBeenCalledWith(
+        "requests/v0.0.1/get-requests?page=0&limit=50",
+      );
     });
 
     it("handles zero limit parameter", async () => {
       await requestServices.getMyRequests(1, 0);
 
-      expect(api.get).toHaveBeenCalledWith("/api/requests/my?page=1&limit=0");
+      expect(api.get).toHaveBeenCalledWith(
+        "requests/v0.0.1/get-requests?page=1&limit=0",
+      );
     });
 
     it("handles negative parameters", async () => {
       await requestServices.getMyRequests(-1, -50);
 
       expect(api.get).toHaveBeenCalledWith(
-        "/api/requests/my?page=-1&limit=-50",
+        "requests/v0.0.1/get-requests?page=-1&limit=-50",
       );
     });
 
@@ -252,7 +267,7 @@ describe("requestServices", () => {
       await requestServices.getMyRequests(999999, 999999);
 
       expect(api.get).toHaveBeenCalledWith(
-        "/api/requests/my?page=999999&limit=999999",
+        "requests/v0.0.1/get-requests?page=999999&limit=999999",
       );
     });
   });
