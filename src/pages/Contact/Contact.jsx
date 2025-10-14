@@ -21,7 +21,7 @@ const Contact = () => {
         method="POST"
       >
         <label
-          for="firstName"
+          htmlFor="firstName"
           className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
         >
           <input
@@ -39,7 +39,7 @@ const Contact = () => {
           </span>
         </label>
         <label
-          for="lastName"
+          htmlFor="lastName"
           className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
         >
           <input
@@ -57,7 +57,7 @@ const Contact = () => {
           </span>
         </label>
         <label
-          for="email"
+          htmlFor="email"
           className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
         >
           <input
@@ -75,7 +75,7 @@ const Contact = () => {
           </span>
         </label>
         <label
-          for="phone"
+          htmlFor="phone"
           className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
         >
           <input
@@ -93,7 +93,7 @@ const Contact = () => {
           </span>
         </label>
         <label
-          for="message"
+          htmlFor="message"
           className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
         >
           <textarea
