@@ -131,7 +131,7 @@ const Dashboard = ({ userRole }) => {
     return sortedRequests(data?.body || []);
   }, [data, sortConfig]);
 
-  // 🧠 Dynamic filter options based on backend data
+  // Dynamic filter options based on backend data
   const statusOptions = useMemo(() => {
     const values = [
       ...new Set((data?.body || []).map((r) => r.status).filter(Boolean)),
@@ -149,7 +149,7 @@ const Dashboard = ({ userRole }) => {
     return combined.sort();
   }, [data]);
 
-  // ✅ Updated fallback aligned with backend values
+  // Updated fallback aligned with backend values
   const typeOptions = useMemo(() => {
     const values = [
       ...new Set((data?.body || []).map((r) => r.type).filter(Boolean)),
@@ -543,7 +543,7 @@ const Dashboard = ({ userRole }) => {
             )}
           </div>
 
-          {/* ✨ NEW FILTERS START HERE */}
+          {/* NEW FILTERS START HERE */}
           <div className="relative" onBlur={handleTypeBlur} tabIndex={-1}>
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
