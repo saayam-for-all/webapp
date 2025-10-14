@@ -10,6 +10,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
+import { getAuthStatus, getDefaultGroups } from "../../utils/authUtils";
 
 // import { useGetAllRequestQuery } from "../../services/requestApi";
 
@@ -37,7 +38,11 @@ const Dashboard = ({ userRole }) => {
   const [categoryFilter, setCategoryFilter] = useState({});
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
-  const groups = useSelector((state) => state.auth.user?.groups);
+  const rawGroups = useSelector((state) => state.auth.user?.groups);
+  const authStatus = getAuthStatus(rawGroups);
+  const groups = authStatus.isAuthenticated
+    ? authStatus.groups
+    : getDefaultGroups();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   // Use the new scrollable data hook
@@ -248,6 +253,18 @@ const Dashboard = ({ userRole }) => {
             className="absolute top-2 right-4 text-green-700 font-bold text-lg"
           >
             ×
+          </button>
+        </div>
+      )}
+
+      {!authStatus.isAuthenticated && (
+        <div className="relative bg-yellow-100 text-yellow-700 p-3 mb-5 rounded-md text-center font-semibold">
+          ⚠️ Authentication not fully configured. Some features may be limited.
+          <button
+            onClick={() => window.location.reload()}
+            className="ml-2 px-2 py-1 bg-yellow-200 text-yellow-800 rounded hover:bg-yellow-300"
+          >
+            Refresh
           </button>
         </div>
       )}

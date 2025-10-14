@@ -22,11 +22,17 @@ const useScrollableData = (
 
   // Determine which API to use based on user role and active tab
   const getApiFunction = useCallback(() => {
+    // Handle case when userGroups is undefined or null
+    if (!userGroups || !Array.isArray(userGroups)) {
+      console.warn("User groups not available, defaulting to getMyRequests");
+      return getMyRequests;
+    }
+
     const isAdmin =
-      userGroups?.includes("SystemAdmins") ||
-      userGroups?.includes("Admins") ||
-      userGroups?.includes("Stewards");
-    const isVolunteer = userGroups?.includes("Volunteers");
+      userGroups.includes("SystemAdmins") ||
+      userGroups.includes("Admins") ||
+      userGroups.includes("Stewards");
+    const isVolunteer = userGroups.includes("Volunteers");
 
     if (isAdmin) {
       return getAllRequests; // Admin/Steward sees all requests
@@ -69,7 +75,23 @@ const useScrollableData = (
         }
       } catch (err) {
         console.error("Error fetching data:", err);
-        setError(err.message);
+
+        // Handle specific authentication errors
+        if (
+          err.message?.includes("AuthUserPoolException") ||
+          err.message?.includes("UserPool not configured")
+        ) {
+          setError(
+            "Authentication not configured. Please check your login status.",
+          );
+        } else if (
+          err.message?.includes("401") ||
+          err.message?.includes("Unauthorized")
+        ) {
+          setError("Authentication required. Please log in again.");
+        } else {
+          setError(err.message || "Failed to fetch data");
+        }
       } finally {
         setIsLoading(false);
       }
