@@ -3,15 +3,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import Table from "../../common/components/DataTable/Table";
-// import { requestsData } from "./data";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdArrowForwardIos } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
-
-// import { useGetAllRequestQuery } from "../../services/requestApi";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   getManagedRequests,
@@ -29,6 +26,7 @@ const Dashboard = ({ userRole }) => {
       setSuccessMessage(location.state.successMessage);
     }
   }, [location.state?.successMessage]);
+
   const [activeTab, setActiveTab] = useState("myRequests");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
@@ -52,8 +50,6 @@ const Dashboard = ({ userRole }) => {
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
-
-  // const { data, isLoading } = useGetAllRequestQuery();
 
   const getAllRequests = async (activeTab) => {
     try {
@@ -135,24 +131,127 @@ const Dashboard = ({ userRole }) => {
     return sortedRequests(data?.body || []);
   }, [data, sortConfig]);
 
-  const filteredRequests = (requests) => {
-    // setCrrrentSorting(requests);
-    // console.log(requests);
-    return requests.filter(
-      (request) =>
-        (Object.keys(statusFilter).length === 0 ||
-          statusFilter[request.status]) &&
-        (Object.keys(categoryFilter).length === 0 ||
-          categoryFilter[request.category]) &&
-        Object.keys(request).some((key) =>
-          String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
-        ),
+  // 🧠 Dynamic filter options based on backend data
+  const statusOptions = useMemo(() => {
+    const values = [
+      ...new Set((data?.body || []).map((r) => r.status).filter(Boolean)),
+    ];
+    return values.length ? values : ["Open", "Closed"];
+  }, [data]);
+
+  const categoryOptions = useMemo(() => {
+    const backendValues = new Set(
+      (data?.body || []).map((r) => r.category).filter(Boolean),
     );
+    const defaultValues = Object.keys(allCategories).filter((c) => c !== "All");
+    // merge & remove duplicates
+    const combined = Array.from(new Set([...defaultValues, ...backendValues]));
+    return combined.sort();
+  }, [data]);
+
+  // ✅ Updated fallback aligned with backend values
+  const typeOptions = useMemo(() => {
+    const values = [
+      ...new Set((data?.body || []).map((r) => r.type).filter(Boolean)),
+    ];
+    return values.length ? values : ["Personal", "Community", "Emergency"];
+  }, [data]);
+
+  const priorityOptions = useMemo(() => {
+    const values = [
+      ...new Set((data?.body || []).map((r) => r.priority).filter(Boolean)),
+    ];
+    return values.length ? values : ["LOW", "MEDIUM", "HIGH"];
+  }, [data]);
+
+  const calamityOptions = useMemo(() => {
+    const values = [
+      ...new Set((data?.body || []).map((r) => r.calamity).filter(Boolean)),
+    ];
+    // Normalize to Yes / None for boolean or string variations
+    const normalized = values.map((v) =>
+      v === true || v === "Yes" || v === "yes"
+        ? "Yes"
+        : v === false || v === "None" || v === "no"
+          ? "None"
+          : v,
+    );
+    return normalized.length ? normalized : ["Yes", "None"];
+  }, [data]);
+
+  const filteredRequests = (requests) => {
+    return requests.filter((request) => {
+      const statusActive =
+        Object.keys(statusFilter).length === 0 ||
+        Object.values(statusFilter).every((v) => !v) ||
+        statusFilter[request.status];
+
+      const categoryActive =
+        Object.keys(categoryFilter).length === 0 ||
+        Object.values(categoryFilter).every((v) => !v) ||
+        categoryFilter[request.category];
+
+      const typeActive =
+        Object.keys(typeFilter).length === 0 ||
+        Object.values(typeFilter).every((v) => !v) ||
+        typeFilter[request.type];
+
+      const priorityActive =
+        Object.keys(priorityFilter).length === 0 ||
+        Object.values(priorityFilter).every((v) => !v) ||
+        priorityFilter[request.priority];
+
+      const calamityValue =
+        request.calamity === true ||
+        request.calamity === "Yes" ||
+        request.calamity === "yes"
+          ? "Yes"
+          : "None";
+
+      const calamityActive =
+        Object.keys(calamityFilter).length === 0 ||
+        Object.values(calamityFilter).every((v) => !v) ||
+        calamityFilter[calamityValue];
+
+      const matchesSearch = Object.keys(request).some((key) =>
+        String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+
+      return (
+        statusActive &&
+        categoryActive &&
+        typeActive &&
+        priorityActive &&
+        calamityActive &&
+        matchesSearch
+      );
+    });
   };
+
+  const [typeFilter, setTypeFilter] = useState({});
+  const [priorityFilter, setPriorityFilter] = useState({});
+  const [calamityFilter, setCalamityFilter] = useState({});
+  const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
+  const [isPriorityDropdownOpen, setIsPriorityDropdownOpen] = useState(false);
+  const [isCalamityDropdownOpen, setIsCalamityDropdownOpen] = useState(false);
+
+  const toggleTypeDropdown = () => setIsTypeDropdownOpen(!isTypeDropdownOpen);
+  const togglePriorityDropdown = () =>
+    setIsPriorityDropdownOpen(!isPriorityDropdownOpen);
+  const toggleCalamityDropdown = () =>
+    setIsCalamityDropdownOpen(!isCalamityDropdownOpen);
 
   const filteredData = useMemo(() => {
     return filteredRequests(sortedData);
-  }, [sortedData, statusFilter, categoryFilter, searchTerm]);
+  }, [
+    sortedData,
+    statusFilter,
+    categoryFilter,
+    searchTerm,
+    typeFilter,
+    priorityFilter,
+    calamityFilter,
+  ]);
 
   const totalPages = (filteredData) => {
     if (!filteredData || filteredData.length == 0) return 1;
@@ -248,7 +347,20 @@ const Dashboard = ({ userRole }) => {
     if (!e.currentTarget.contains(e.relatedTarget))
       setIsCategoryDropdownOpen(false);
   };
-  // const requests = requestData
+
+  const handleTypeBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsTypeDropdownOpen(false);
+  };
+  const handlePriorityBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsPriorityDropdownOpen(false);
+  };
+  const handleCalamityBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsCalamityDropdownOpen(false);
+  };
+
   const [showAddressMsg, setShowAddressMsg] = useState(false);
 
   return (
@@ -300,6 +412,7 @@ const Dashboard = ({ userRole }) => {
           )}
         </div>
       </div>
+
       {showAddressMsg && !hasAddress && (
         <p className="text-red-600 mb-2">
           Please add your address in Profile to continue.&nbsp;
@@ -312,6 +425,7 @@ const Dashboard = ({ userRole }) => {
           </Link>
         </p>
       )}
+
       {successMessage && (
         <div className="relative bg-green-100 text-green-700 p-3 mb-5 rounded-md text-center font-semibold">
           {successMessage}
@@ -323,6 +437,7 @@ const Dashboard = ({ userRole }) => {
           </button>
         </div>
       )}
+
       <div className="border">
         <div className="flex mb-5">
           {["myRequests", "othersRequests", "managedRequests"]
@@ -349,7 +464,8 @@ const Dashboard = ({ userRole }) => {
             ))}
         </div>
 
-        <div className="mb-4 flex gap-2 px-10">
+        {/* Existing Filters */}
+        <div className="mb-4 flex flex-wrap gap-2 px-10">
           <div className="relative mr-auto w-1/2">
             <IoSearchOutline
               className="text-gray-500 absolute inset-y-0 start-0 flex items-center m-3 my-2"
@@ -376,7 +492,7 @@ const Dashboard = ({ userRole }) => {
             </div>
             {isStatusDropdownOpen && (
               <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-                {Object.keys(statusFilter).map((status) => (
+                {statusOptions.map((status) => (
                   <label key={status} className="block">
                     <input
                       type="checkbox"
@@ -413,21 +529,114 @@ const Dashboard = ({ userRole }) => {
                   />
                   All Categories
                 </label>
-                {Object.keys(allCategories)
-                  .filter((cat) => cat !== "All")
-                  .map((category) => (
-                    <label key={category} className="block">
-                      <input
-                        type="checkbox"
-                        checked={categoryFilter[category] || false}
-                        onChange={() => handleCategoryChange(category)}
-                      />
-                      {category}
-                    </label>
-                  ))}
+                {categoryOptions.map((category) => (
+                  <label key={category} className="block">
+                    <input
+                      type="checkbox"
+                      checked={categoryFilter[category] || false}
+                      onChange={() => handleCategoryChange(category)}
+                    />
+                    {category}
+                  </label>
+                ))}
               </div>
             )}
           </div>
+
+          {/* ✨ NEW FILTERS START HERE */}
+          <div className="relative" onBlur={handleTypeBlur} tabIndex={-1}>
+            <div
+              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+              onClick={toggleTypeDropdown}
+            >
+              <button className="py-2 px-4 p-2 font-light text-gray-600">
+                Type
+              </button>
+              <IoIosArrowDown className="m-2" />
+            </div>
+            {isTypeDropdownOpen && (
+              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+                {typeOptions.map((type) => (
+                  <label key={type} className="block">
+                    <input
+                      type="checkbox"
+                      checked={typeFilter[type] || false}
+                      onChange={() =>
+                        setTypeFilter((prev) => ({
+                          ...prev,
+                          [type]: !prev[type],
+                        }))
+                      }
+                    />
+                    {type}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="relative" onBlur={handlePriorityBlur} tabIndex={-1}>
+            <div
+              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+              onClick={togglePriorityDropdown}
+            >
+              <button className="py-2 px-4 p-2 font-light text-gray-600">
+                Priority
+              </button>
+              <IoIosArrowDown className="m-2" />
+            </div>
+            {isPriorityDropdownOpen && (
+              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+                {priorityOptions.map((priority) => (
+                  <label key={priority} className="block">
+                    <input
+                      type="checkbox"
+                      checked={priorityFilter[priority] || false}
+                      onChange={() =>
+                        setPriorityFilter((prev) => ({
+                          ...prev,
+                          [priority]: !prev[priority],
+                        }))
+                      }
+                    />
+                    {priority}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="relative" onBlur={handleCalamityBlur} tabIndex={-1}>
+            <div
+              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+              onClick={toggleCalamityDropdown}
+            >
+              <button className="py-2 px-4 p-2 font-light text-gray-600">
+                Calamity
+              </button>
+              <IoIosArrowDown className="m-2" />
+            </div>
+            {isCalamityDropdownOpen && (
+              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+                {calamityOptions.map((cal) => (
+                  <label key={cal} className="block">
+                    <input
+                      type="checkbox"
+                      checked={calamityFilter[cal] || false}
+                      onChange={() =>
+                        setCalamityFilter((prev) => ({
+                          ...prev,
+                          [cal]: !prev[cal],
+                        }))
+                      }
+                    />
+                    {cal}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+          {/* ✨ NEW FILTERS END */}
         </div>
 
         {activeTab && (
