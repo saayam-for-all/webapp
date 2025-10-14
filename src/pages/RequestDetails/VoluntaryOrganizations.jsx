@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Table from "../../common/components/DataTable/Table";
 import { getVolunteerOrgsList } from "../../services/volunteerServices";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const VoluntaryOrganizations = () => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ const VoluntaryOrganizations = () => {
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
   const headers = ["id", "name", "location", "causes", "size", "rating"];
   const [organizations, setOrganizations] = useState([]);
@@ -167,6 +169,14 @@ const VoluntaryOrganizations = () => {
 
   return (
     <div className="p-5">
+      <div className="w-full mb-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+        >
+          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
+        </button>
+      </div>
       <h1 className="text-2xl font-bold mb-5">Voluntary Organizations</h1>
 
       <div className="mb-4 flex gap-2">

@@ -44,6 +44,22 @@ const authSlice = createSlice({
       state.success = false;
       state.error = action.payload;
     },
+
+    // New reducer to update user profile in Redux state
+    updateUserProfileSuccess: (state, action) => {
+      if (state.user) {
+        state.user = {
+          ...state.user,
+          ...action.payload,
+          // Ensure we don't overwrite critical fields with undefined
+          given_name: action.payload.given_name ?? state.user.given_name,
+          family_name: action.payload.family_name ?? state.user.family_name,
+          email: action.payload.email ?? state.user.email,
+          phone_number: action.payload.phone_number ?? state.user.phone_number,
+          zoneinfo: action.payload.zoneinfo ?? state.user.zoneinfo,
+        };
+      }
+    },
   },
 });
 
@@ -55,6 +71,7 @@ export const {
   resetPasswordRequest,
   resetPasswordSuccess,
   resetPasswordFailure,
+  updateUserProfileSuccess,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -5,7 +5,9 @@ import {
   getCurrentUser,
   resetPassword,
   signOut,
+  updateUserAttributes,
 } from "aws-amplify/auth";
+import { getUserId } from "../../../services/volunteerServices";
 import {
   changeUiLanguage,
   returnDefaultLanguage,
@@ -18,6 +20,7 @@ import {
   resetPasswordFailure,
   resetPasswordRequest,
   resetPasswordSuccess,
+  updateUserProfileSuccess,
 } from "./authSlice";
 
 export const checkAuthStatus = () => async (dispatch) => {
@@ -33,6 +36,18 @@ export const checkAuthStatus = () => async (dispatch) => {
     } = await fetchUserAttributes();
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
+
+    let userDbId = null;
+    try {
+      const result = await getUserId(email);
+      userDbId = result?.data?.id || null;
+    } catch (dbError) {
+      console.warn(
+        "Database lookup failed, continuing without databaseId:",
+        dbError.message,
+      );
+    }
+
     const user = {
       userId,
       email,
@@ -41,6 +56,7 @@ export const checkAuthStatus = () => async (dispatch) => {
       phone_number,
       zoneinfo,
       groups,
+      userDbId,
     };
     if (user.userId) {
       dispatch(
@@ -61,6 +77,42 @@ export const checkAuthStatus = () => async (dispatch) => {
   } catch (error) {
     returnDefaultLanguage();
     dispatch(loginFailure(error.message));
+  }
+};
+
+export const updateUserProfile = (userData) => async (dispatch) => {
+  try {
+    if (!userData.firstName || !userData.lastName || !userData.email) {
+      throw new Error("Required fields are missing");
+    }
+
+    const updatedAttributes = {
+      given_name: userData.firstName,
+      family_name: userData.lastName,
+      email: userData.email,
+      ...(userData.phone && { phone_number: userData.phone }),
+      ...(userData.country && { "custom:Country": userData.country }),
+    };
+
+    await updateUserAttributes({ userAttributes: updatedAttributes });
+
+    const updatedUser = {
+      given_name: userData.firstName,
+      family_name: userData.lastName,
+      email: userData.email,
+      ...(userData.phone && { phone_number: userData.phone }),
+      ...(userData.country && { zoneinfo: userData.country }),
+    };
+
+    dispatch(updateUserProfileSuccess(updatedUser));
+
+    return Promise.resolve({
+      success: true,
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    return Promise.reject(error);
   }
 };
 
