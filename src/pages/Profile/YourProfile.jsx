@@ -255,38 +255,36 @@ function YourProfile({ setHasUnsavedChanges }) {
       const dial = PHONECODESEN[countryCode]?.secondary || "";
       const fullPhoneNumber = dial ? `${dial}${phone}` : phone;
 
-      if (!phone) {
-        setPhoneError("Phone is required");
-        setLoading(false);
-        return; // stop here, no banner
-      }
-      if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
-        setPhoneError("Please enter a valid phone number");
-        setLoading(false);
-        return; // stop here, no banner
-      }
+      // Only validate phone if it's provided (optional for Personal Information)
+      if (phone) {
+        if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
+          setPhoneError("Please enter a valid phone number");
+          setLoading(false);
+          return; // stop here, no banner
+        }
 
-      // Strict: parsed region must match selected countryCode (e.g., CA vs US, GB vs GG)
-      try {
-        const parsed = parsePhoneNumber(fullPhoneNumber);
-        if (!parsed?.isValid()) {
+        // Strict: parsed region must match selected countryCode (e.g., CA vs US, GB vs GG)
+        try {
+          const parsed = parsePhoneNumber(fullPhoneNumber);
+          if (!parsed?.isValid()) {
+            setPhoneError("Please enter a valid phone number");
+            setLoading(false);
+            return;
+          }
+          if (parsed.country && parsed.country !== countryCode) {
+            const wanted = PHONECODESEN[countryCode]?.primary || countryCode;
+            const got = PHONECODESEN[parsed.country]?.primary || parsed.country;
+            setPhoneError(
+              `The number doesn't belong to ${wanted}. Detected ${got}.`,
+            );
+            setLoading(false);
+            return; // stop here, no banner
+          }
+        } catch {
           setPhoneError("Please enter a valid phone number");
           setLoading(false);
           return;
         }
-        if (parsed.country && parsed.country !== countryCode) {
-          const wanted = PHONECODESEN[countryCode]?.primary || countryCode;
-          const got = PHONECODESEN[parsed.country]?.primary || parsed.country;
-          setPhoneError(
-            `The number doesn't belong to ${wanted}. Detected ${got}.`,
-          );
-          setLoading(false);
-          return; // stop here, no banner
-        }
-      } catch {
-        setPhoneError("Please enter a valid phone number");
-        setLoading(false);
-        return;
       }
 
       // Ensure we have a fresh session
@@ -525,7 +523,6 @@ function YourProfile({ setHasUnsavedChanges }) {
       {/* Phone Number */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {isEditing && <span className="text-red-500 mr-1">*</span>}
           {t("PHONE_NUMBER")}
         </label>
         <div className="flex items-center gap-2">
@@ -547,7 +544,7 @@ function YourProfile({ setHasUnsavedChanges }) {
               }}
               error={phoneError}
               setError={setPhoneError}
-              required={true}
+              required={false}
               t={t}
               hideLabel={true}
             />

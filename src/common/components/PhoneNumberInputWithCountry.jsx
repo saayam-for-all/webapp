@@ -87,7 +87,7 @@ const PhoneNumberInputWithCountry = ({
       setPhone(value);
 
       if (value.length === 0) {
-        setError("Phone number is required");
+        setError(required ? "Phone number is required" : undefined);
       } else {
         const fullNumber = `${PHONECODESEN[countryCode]["secondary"]}${value}`;
         const parsed = parsePhoneNumberFromString(fullNumber);
@@ -113,7 +113,7 @@ const PhoneNumberInputWithCountry = ({
     const expectedLength = getExpectedLength(countryCode);
 
     if (!value) {
-      setError("Phone number is required");
+      setError(required ? "Phone number is required" : undefined);
       return;
     }
 
