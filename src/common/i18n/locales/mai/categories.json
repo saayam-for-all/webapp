@@ -1,6 +1,10 @@
 {
   "REQUEST_CATEGORIES": {
-    "FOOD_ESSENTIALS": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "सामान्य",
+      "DESC": "निश्चित न होय ते प्रयोग करब; अपन जरूरत के विस्तृत रूप से वर्णन करब।"
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
       "LABEL": "खाना आरू जरूरी चीज",
       "DESC": "खाना सहायता, किराना सेवा आरू रसोई सहायता पाब।",
       "SUBCATEGORIES": {
@@ -8,7 +12,7 @@
           "LABEL": "खाना सहायता",
           "DESC": "खाना बैंक, पैंट्री या खाना प्रोग्राम ढूंढब।"
         },
-        "GROCERY_SHOPPING_DELIVERY": {
+        "GROCERY_SHOPPING_AND_DELIVERY": {
           "LABEL": "किराना खरीदी आरू डिलीवरी",
           "DESC": "किराना खरीदी आरू डिलीवरी में सहायता मांगब।"
         },
@@ -18,47 +22,63 @@
         }
       }
     },
-    "CLOTHING_AND_SUPPORT": {
+    "CLOTHING_SUPPORT": {
       "LABEL": "कपड़ा आरू सहायता",
       "DESC": "दान करब, उधार लब, मरम्मत करब या कपड़ा सहायता मांगब।",
       "SUBCATEGORIES": {
-        "LEND_BORROW_CLOTHES": {
-          "LABEL": "कपड़ा उधार देना/लेना",
-          "DESC": "हल्का प्रयोग कएल गेल कपड़ा साझा करब या उधार लब।"
-        },
         "DONATE_CLOTHES": {
           "LABEL": "कपड़ा दान करब",
           "DESC": "जरूरतमंद लोकन के कपड़ा दब।"
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "कपड़ा उधार लेना",
+          "DESC": "हल्का प्रयोग कएल गेल कपड़ा उधार लब।"
+        },
+        "EMERGENCY_ASSISTANCE": {
+          "LABEL": "आपातकालीन सहायता",
+          "DESC": "संकट के दौरान आपातकालीन कपड़ा के जरूरत।"
+        },
+        "SEASONAL_DRIVE_NOTIFICATION": {
+          "LABEL": "मौसमी अभियान सूचना",
+          "DESC": "मौसमी कपड़ा अभियान आरू दान।"
+        },
+        "TAILORING": {
+          "LABEL": "दर्जी",
+          "DESC": "कपड़ा मरम्मत आरू परिवर्तन सेवा।"
         }
       }
     },
-    "HOUSING_ASSISTANCE": {
+    "HOUSING_SUPPORT": {
       "LABEL": "आवास सहायता",
       "DESC": "रूममेट, किराया मार्गदर्शन, स्थानांतरण आरू घर सेटअप सहायता।",
       "SUBCATEGORIES": {
-        "FINDING_A_ROOMMATE": {
+        "FIND_A_ROOMMATE": {
           "LABEL": "रूममेट ढूंढब",
           "DESC": "रूममेट ढूंढब में सहायता पाब।"
         },
         "RENTING_SUPPORT": {
           "LABEL": "किराया सहायता",
-          "DESC": "किराया आरू लीज मूल बात में सहायता।"
+          "DESC": "किराया आरू लीज़ मूल बात में सहायता।"
         },
-        "BUY_SELL_HOUSEHOLD_ITEMS": {
-          "LABEL": "घरेलू सामान खरीदना/बेचना",
+        "HOUSEHOLD_ITEM_EXCHANGE": {
+          "LABEL": "घरेलू सामान के आदान-प्रदान",
           "DESC": "घरेलू सामान खरीदब या बेचब में सहायता।"
         },
-        "MOVING_PACKING_HELP": {
-          "LABEL": "स्थानांतरण आरू पैकिंग सहायता",
+        "MOVING_ASSISTANCE": {
+          "LABEL": "स्थानांतरण सहायता",
           "DESC": "स्थानांतरण आरू पैकिंग में सहायता।"
         },
         "CLEANING_HELP": {
           "LABEL": "सफाई सहायता",
           "DESC": "मूल सफाई काम में सहायता।"
         },
-        "HOME_BUYING_SELLING_ASSISTANCE": {
-          "LABEL": "घर खरीदना/बेचना सहायता",
-          "DESC": "घर खरीदब या बेचब के प्रक्रिया में मार्गदर्शन।"
+        "HOME_REPAIR_SUPPORT": {
+          "LABEL": "घर मरम्मत सहायता",
+          "DESC": "छोट घर मरम्मत के लेल सहायता।"
+        },
+        "UTILITIES_SETUP": {
+          "LABEL": "उपयोगिता सेटअप",
+          "DESC": "उपयोगिता आरू सेवा सेटअप करब में सहायता।"
         }
       }
     },
@@ -66,7 +86,7 @@
       "LABEL": "शिक्षा आरू करियर सहायता",
       "DESC": "कॉलेज आवेदन, SOP समीक्षा, ट्यूटरिंग आरू अध्ययन सहायता।",
       "SUBCATEGORIES": {
-        "COLLEGE_APPLICATIONS_HELP": {
+        "COLLEGE_APPLICATION_HELP": {
           "LABEL": "कॉलेज आवेदन सहायता",
           "DESC": "आवेदन आरू फॉर्म में सहायता।"
         },
@@ -80,49 +100,61 @@
         }
       }
     },
-    "HEALTHCARE_WELLBEING": {
+    "HEALTHCARE_WELLNESS_SUPPORT": {
       "LABEL": "स्वास्थ्य सेवा आरू कल्याण",
       "DESC": "गैर-क्लिनिकल स्वास्थ्य नेविगेशन आरू कल्याण सहायता।",
       "SUBCATEGORIES": {
-        "MEDICAL_CONSULTATION": {
-          "LABEL": "चिकित्सा परामर्श",
+        "MEDICAL_NAVIGATION": {
+          "LABEL": "चिकित्सा नेविगेशन",
           "DESC": "मूल नेविगेशन आरू गैर-क्लिनिकल मार्गदर्शन।"
         },
-        "MEDICINE_DELIVERY_ASSISTANCE": {
-          "LABEL": "दवा डिलीवरी सहायता",
+        "MEDICINE_DELIVERY": {
+          "LABEL": "दवा डिलीवरी",
           "DESC": "OTC दवा के पिकअप आरू डिलीवरी।"
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "मानसिक कल्याण सहायता",
+          "DESC": "सामान्य मानसिक स्वास्थ्य संसाधन के लेल पहुंच।"
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "दवा अनुस्मारक",
+          "DESC": "गैर-क्लिनिकल दवा अनुस्मारक।"
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "स्वास्थ्य शिक्षा मार्गदर्शन",
+          "DESC": "कल्याण जागरूकता आरू स्वास्थ्य शिक्षा।"
         }
       }
     },
-    "ELDERLY_COMMUNITY_SUPPORT": {
-      "LABEL": "वृद्ध आरू समुदाय सहायता",
+    "ELDERLY_SUPPORT": {
+      "LABEL": "वृद्ध सहायता",
       "DESC": "वृद्ध लोकन के लेल गैर-चिकित्सा सहायता आरू समुदाय समर्थन।",
       "SUBCATEGORIES": {
-        "ELDERLY_ASSISTANCE": {
-          "LABEL": "वृद्ध सहायता",
-          "DESC": "दैनिक काम में सहायता आरू साथ।"
+        "SENIOR_LIVING_RELOCATION": {
+          "LABEL": "वृद्ध निवास स्थानांतरण",
+          "DESC": "वृद्ध निवास आरू स्थानांतरण में सहायता।"
         },
-        "TECH_HELP_FOR_SENIORS": {
-          "LABEL": "वृद्ध लोकन के लेल प्रौद्योगिकी सहायता",
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "वृद्ध लोकन के लेल डिजिटल सहायता",
           "DESC": "उपकरण आरू ऐप में सहायता।"
         },
-        "HELP_WITH_GOVERNMENT_SERVICES": {
-          "LABEL": "सरकारी सेवा में सहायता",
-          "DESC": "सार्वजनिक सेवा आरू फॉर्म के लेल मार्गदर्शन।"
+        "MEDICAL_HELP": {
+          "LABEL": "चिकित्सा सहायता",
+          "DESC": "वृद्ध लोकन के लेल गैर-क्लिनिकल चिकित्सा सहायता।"
         },
-        "RIDE_ASSISTANCE": {
-          "LABEL": "सवारी सहायता",
-          "DESC": "मुलाकात के लेल सवारी व्यवस्था करब में सहायता।"
+        "ERRANDS_TRANSPORTATION": {
+          "LABEL": "काम आरू परिवहन",
+          "DESC": "काम आरू परिवहन में सहायता।"
         },
-        "SHOPPING_ASSISTANCE": {
-          "LABEL": "खरीदारी सहायता",
-          "DESC": "खरीदारी जरूरत में समर्थन।"
+        "SOCIAL_CONNECTION": {
+          "LABEL": "सामाजिक संबंध",
+          "DESC": "साथ आरू सामाजिक गतिविधि।"
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "भोजन सहायता",
+          "DESC": "भोजन तैयारी आरू रसोई में सहायता।"
         }
       }
-    },
-    "GENERAL": {
-      "LABEL": "सामान्य",
-      "DESC": "निश्चित न होय ते प्रयोग करब; अपन जरूरत के विस्तृत रूप से वर्णन करब।"
     }
   }
 }
