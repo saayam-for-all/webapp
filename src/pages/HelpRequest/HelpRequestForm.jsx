@@ -96,7 +96,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     phone: "",
     age: "",
     gender: "Select",
-    lead_volunteer: "Ethan Marshall",
+    lead_volunteer: "No",
     preferred_language: "",
     category: "General",
     request_type: "remote",
@@ -633,13 +633,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-
-              <div className="flex-1 relative">
+              <div className="relative">
                 <select
                   id="self"
                   data-testid="dropdown"
-                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
+                  className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700 pr-8"
                   onChange={(e) => setSelfFlag(e.target.value === "yes")}
+                  defaultValue="yes"
                 >
                   <option value="yes">{t("YES")}</option>
                   <option value="no">{t("NO")}</option>
