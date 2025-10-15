@@ -1,6 +1,10 @@
 {
   "REQUEST_CATEGORIES": {
-    "FOOD_ESSENTIALS": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "عام",
+      "DESC": "استخدم عندما لا تكون متأكداً؛ صف احتياجك بالتفصيل."
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
       "LABEL": "الطعام والضروريات",
       "DESC": "احصل على دعم غذائي وخدمات البقالة والمساعدة في الطبخ.",
       "SUBCATEGORIES": {
@@ -8,7 +12,7 @@
           "LABEL": "المساعدة الغذائية",
           "DESC": "ابحث عن بنوك الطعام أو المخازن أو برامج الوجبات."
         },
-        "GROCERY_SHOPPING_DELIVERY": {
+        "GROCERY_SHOPPING_AND_DELIVERY": {
           "LABEL": "تسوق البقالة والتوصيل",
           "DESC": "اطلب المساعدة في التسوق وتوصيل البقالة."
         },
@@ -18,25 +22,37 @@
         }
       }
     },
-    "CLOTHING_AND_SUPPORT": {
-      "LABEL": "الملابس والدعم",
+    "CLOTHING_SUPPORT": {
+      "LABEL": "دعم الملابس",
       "DESC": "تبرع أو استعر أو أصلح أو اطلب مساعدة في الملابس.",
       "SUBCATEGORIES": {
-        "LEND_BORROW_CLOTHES": {
-          "LABEL": "إعارة/استعارة الملابس",
-          "DESC": "شارك أو استعر ملابس مستعملة بحالة جيدة."
-        },
         "DONATE_CLOTHES": {
           "LABEL": "تبرع بالملابس",
           "DESC": "أعطِ الملابس لمن يحتاجها."
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "استعارة الملابس",
+          "DESC": "استعر ملابس مستعملة بحالة جيدة."
+        },
+        "EMERGENCY_ASSISTANCE": {
+          "LABEL": "المساعدة الطارئة",
+          "DESC": "احتياجات الملابس الطارئة أثناء الأزمات."
+        },
+        "SEASONAL_DRIVE_NOTIFICATION": {
+          "LABEL": "إشعار الحملة الموسمية",
+          "DESC": "حملات الملابس الموسمية والتبرعات."
+        },
+        "TAILORING": {
+          "LABEL": "الخياطة",
+          "DESC": "خدمات إصلاح وتعديل الملابس."
         }
       }
     },
-    "HOUSING_ASSISTANCE": {
-      "LABEL": "المساعدة في السكن",
+    "HOUSING_SUPPORT": {
+      "LABEL": "دعم السكن",
       "DESC": "زملاء الغرفة، إرشادات الإيجار، المساعدة في الانتقال وإعداد المنزل.",
       "SUBCATEGORIES": {
-        "FINDING_A_ROOMMATE": {
+        "FIND_A_ROOMMATE": {
           "LABEL": "العثور على زميل غرفة",
           "DESC": "احصل على مساعدة في العثور على زميل غرفة."
         },
@@ -44,21 +60,25 @@
           "LABEL": "دعم الإيجار",
           "DESC": "المساعدة في الإيجار وأساسيات الإيجار."
         },
-        "BUY_SELL_HOUSEHOLD_ITEMS": {
-          "LABEL": "شراء/بيع الأغراض المنزلية",
+        "HOUSEHOLD_ITEM_EXCHANGE": {
+          "LABEL": "تبادل الأغراض المنزلية",
           "DESC": "المساعدة في شراء أو بيع الأغراض المنزلية."
         },
-        "MOVING_PACKING_HELP": {
-          "LABEL": "المساعدة في الانتقال والتعبئة",
+        "MOVING_ASSISTANCE": {
+          "LABEL": "المساعدة في الانتقال",
           "DESC": "الدعم في الانتقال والتعبئة."
         },
         "CLEANING_HELP": {
           "LABEL": "المساعدة في التنظيف",
           "DESC": "المساعدة في مهام التنظيف الأساسية."
         },
-        "HOME_BUYING_SELLING_ASSISTANCE": {
-          "LABEL": "المساعدة في شراء/بيع المنزل",
-          "DESC": "إرشادات حول عملية شراء أو بيع المنزل."
+        "HOME_REPAIR_SUPPORT": {
+          "LABEL": "دعم إصلاح المنزل",
+          "DESC": "الدعم لإصلاحات المنزل البسيطة."
+        },
+        "UTILITIES_SETUP": {
+          "LABEL": "إعداد المرافق",
+          "DESC": "المساعدة في إعداد المرافق والخدمات."
         }
       }
     },
@@ -66,7 +86,7 @@
       "LABEL": "الدعم التعليمي والمهني",
       "DESC": "طلبات الكلية، مراجعات SOP، الدروس الخصوصية والدعم الدراسي.",
       "SUBCATEGORIES": {
-        "COLLEGE_APPLICATIONS_HELP": {
+        "COLLEGE_APPLICATION_HELP": {
           "LABEL": "مساعدة طلبات الكلية",
           "DESC": "المساعدة في الطلبات والنماذج."
         },
@@ -80,49 +100,61 @@
         }
       }
     },
-    "HEALTHCARE_WELLBEING": {
-      "LABEL": "الرعاية الصحية والرفاهية",
-      "DESC": "التوجيه الصحي غير السريري ودعم الرفاهية.",
+    "HEALTHCARE_WELLNESS_SUPPORT": {
+      "LABEL": "دعم الصحة والعافية",
+      "DESC": "التوجيه الصحي غير السريري ودعم العافية.",
       "SUBCATEGORIES": {
-        "MEDICAL_CONSULTATION": {
-          "LABEL": "الاستشارة الطبية",
+        "MEDICAL_NAVIGATION": {
+          "LABEL": "التوجيه الطبي",
           "DESC": "التوجيه الأساسي والمساعدة غير السريرية."
         },
-        "MEDICINE_DELIVERY_ASSISTANCE": {
-          "LABEL": "المساعدة في توصيل الأدوية",
+        "MEDICINE_DELIVERY": {
+          "LABEL": "توصيل الأدوية",
           "DESC": "استلام وتوصيل الأدوية التي لا تحتاج وصفة طبية."
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "دعم العافية العقلية",
+          "DESC": "الوصول إلى موارد الصحة العقلية العامة."
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "تذكيرات الأدوية",
+          "DESC": "تذكيرات الأدوية غير السريرية."
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "إرشادات التثقيف الصحي",
+          "DESC": "الوعي بالعافية والتعليم الصحي."
         }
       }
     },
-    "ELDERLY_COMMUNITY_SUPPORT": {
-      "LABEL": "دعم المسنين والمجتمع",
+    "ELDERLY_SUPPORT": {
+      "LABEL": "دعم المسنين",
       "DESC": "المساعدة غير الطبية للمسنين ودعم المجتمع.",
       "SUBCATEGORIES": {
-        "ELDERLY_ASSISTANCE": {
-          "LABEL": "مساعدة المسنين",
-          "DESC": "المساعدة في المهام اليومية والرفقة."
+        "SENIOR_LIVING_RELOCATION": {
+          "LABEL": "إعادة توطين سكن المسنين",
+          "DESC": "المساعدة في سكن المسنين والانتقال."
         },
-        "TECH_HELP_FOR_SENIORS": {
-          "LABEL": "المساعدة التقنية للمسنين",
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "الدعم الرقمي للمسنين",
           "DESC": "المساعدة في الأجهزة والتطبيقات."
         },
-        "HELP_WITH_GOVERNMENT_SERVICES": {
-          "LABEL": "المساعدة في الخدمات الحكومية",
-          "DESC": "إرشادات للخدمات العامة والنماذج."
+        "MEDICAL_HELP": {
+          "LABEL": "المساعدة الطبية",
+          "DESC": "المساعدة الطبية غير السريرية للمسنين."
         },
-        "RIDE_ASSISTANCE": {
-          "LABEL": "المساعدة في التنقل",
-          "DESC": "المساعدة في ترتيب الرحلات للمواعيد."
+        "ERRANDS_TRANSPORTATION": {
+          "LABEL": "المهام والنقل",
+          "DESC": "المساعدة في المهام والنقل."
         },
-        "SHOPPING_ASSISTANCE": {
-          "LABEL": "المساعدة في التسوق",
-          "DESC": "الدعم في احتياجات التسوق."
+        "SOCIAL_CONNECTION": {
+          "LABEL": "الارتباط الاجتماعي",
+          "DESC": "الرفقة والأنشطة الاجتماعية."
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "دعم الوجبات",
+          "DESC": "المساعدة في تحضير الوجبات والطبخ."
         }
       }
-    },
-    "GENERAL": {
-      "LABEL": "عام",
-      "DESC": "استخدم عندما لا تكون متأكداً؛ صف احتياجك بالتفصيل."
     }
   }
 }

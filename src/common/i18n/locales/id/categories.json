@@ -1,6 +1,10 @@
 {
   "REQUEST_CATEGORIES": {
-    "FOOD_ESSENTIALS": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "Umum",
+      "DESC": "Gunakan ketika tidak yakin; jelaskan kebutuhan Anda secara detail."
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
       "LABEL": "Makanan & Kebutuhan Pokok",
       "DESC": "Akses bantuan makanan, layanan belanja, dan bantuan memasak.",
       "SUBCATEGORIES": {
@@ -8,7 +12,7 @@
           "LABEL": "Bantuan Makanan",
           "DESC": "Temukan bank makanan, dapur umum, atau program makanan."
         },
-        "GROCERY_SHOPPING_DELIVERY": {
+        "GROCERY_SHOPPING_AND_DELIVERY": {
           "LABEL": "Belanja & Pengiriman Bahan Makanan",
           "DESC": "Minta bantuan berbelanja dan mengirimkan bahan makanan."
         },
@@ -18,25 +22,37 @@
         }
       }
     },
-    "CLOTHING_AND_SUPPORT": {
+    "CLOTHING_SUPPORT": {
       "LABEL": "Pakaian dan Dukungan",
       "DESC": "Sumbang, pinjam, perbaiki, atau minta bantuan pakaian.",
       "SUBCATEGORIES": {
-        "LEND_BORROW_CLOTHES": {
-          "LABEL": "Meminjamkan/Meminjam Pakaian",
-          "DESC": "Bagikan atau pinjam pakaian yang masih layak pakai."
-        },
         "DONATE_CLOTHES": {
           "LABEL": "Sumbang Pakaian",
           "DESC": "Berikan pakaian kepada yang membutuhkan."
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "Meminjam Pakaian",
+          "DESC": "Pinjam pakaian yang masih layak pakai."
+        },
+        "EMERGENCY_ASSISTANCE": {
+          "LABEL": "Bantuan Darurat",
+          "DESC": "Kebutuhan pakaian darurat selama krisis."
+        },
+        "SEASONAL_DRIVE_NOTIFICATION": {
+          "LABEL": "Notifikasi Program Musiman",
+          "DESC": "Program pakaian musiman dan sumbangan."
+        },
+        "TAILORING": {
+          "LABEL": "Penjahit",
+          "DESC": "Layanan perbaikan dan perubahan pakaian."
         }
       }
     },
-    "HOUSING_ASSISTANCE": {
+    "HOUSING_SUPPORT": {
       "LABEL": "Bantuan Perumahan",
       "DESC": "Teman sekamar, panduan sewa, bantuan pindah dan setup rumah.",
       "SUBCATEGORIES": {
-        "FINDING_A_ROOMMATE": {
+        "FIND_A_ROOMMATE": {
           "LABEL": "Mencari Teman Sekamar",
           "DESC": "Dapatkan bantuan mencari teman sekamar."
         },
@@ -44,21 +60,25 @@
           "LABEL": "Dukungan Sewa",
           "DESC": "Bantuan dengan sewa dan dasar-dasar sewa."
         },
-        "BUY_SELL_HOUSEHOLD_ITEMS": {
-          "LABEL": "Beli/Jual Barang Rumah Tangga",
+        "HOUSEHOLD_ITEM_EXCHANGE": {
+          "LABEL": "Pertukaran Barang Rumah Tangga",
           "DESC": "Bantuan dengan membeli atau menjual barang rumah tangga."
         },
-        "MOVING_PACKING_HELP": {
-          "LABEL": "Bantuan Pindah & Packing",
+        "MOVING_ASSISTANCE": {
+          "LABEL": "Bantuan Pindah",
           "DESC": "Dukungan dengan pindah dan packing."
         },
         "CLEANING_HELP": {
           "LABEL": "Bantuan Membersihkan",
           "DESC": "Bantuan dengan tugas pembersihan dasar."
         },
-        "HOME_BUYING_SELLING_ASSISTANCE": {
-          "LABEL": "Bantuan Beli/Jual Rumah",
-          "DESC": "Panduan tentang proses membeli atau menjual rumah."
+        "HOME_REPAIR_SUPPORT": {
+          "LABEL": "Dukungan Perbaikan Rumah",
+          "DESC": "Dukungan untuk perbaikan rumah kecil."
+        },
+        "UTILITIES_SETUP": {
+          "LABEL": "Pengaturan Utilitas",
+          "DESC": "Bantuan pengaturan utilitas dan layanan."
         }
       }
     },
@@ -66,7 +86,7 @@
       "LABEL": "Dukungan Pendidikan & Karir",
       "DESC": "Aplikasi kuliah, review SOP, bimbingan belajar, dan dukungan studi.",
       "SUBCATEGORIES": {
-        "COLLEGE_APPLICATIONS_HELP": {
+        "COLLEGE_APPLICATION_HELP": {
           "LABEL": "Bantuan Aplikasi Kuliah",
           "DESC": "Bantuan dengan aplikasi dan formulir."
         },
@@ -80,49 +100,61 @@
         }
       }
     },
-    "HEALTHCARE_WELLBEING": {
+    "HEALTHCARE_WELLNESS_SUPPORT": {
       "LABEL": "Kesehatan & Kesejahteraan",
       "DESC": "Navigasi kesehatan non-klinis dan dukungan kesejahteraan.",
       "SUBCATEGORIES": {
-        "MEDICAL_CONSULTATION": {
-          "LABEL": "Konsultasi Medis",
+        "MEDICAL_NAVIGATION": {
+          "LABEL": "Navigasi Medis",
           "DESC": "Navigasi dasar dan panduan non-klinis."
         },
-        "MEDICINE_DELIVERY_ASSISTANCE": {
-          "LABEL": "Bantuan Pengiriman Obat",
+        "MEDICINE_DELIVERY": {
+          "LABEL": "Pengiriman Obat",
           "DESC": "Pengambilan dan pengiriman obat OTC."
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "Dukungan Kesejahteraan Mental",
+          "DESC": "Akses ke sumber daya kesehatan mental umum."
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "Pengingat Obat",
+          "DESC": "Pengingat obat non-klinis."
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "Panduan Edukasi Kesehatan",
+          "DESC": "Kesadaran kesejahteraan dan edukasi kesehatan."
         }
       }
     },
-    "ELDERLY_COMMUNITY_SUPPORT": {
-      "LABEL": "Dukungan Lansia & Komunitas",
+    "ELDERLY_SUPPORT": {
+      "LABEL": "Dukungan Lansia",
       "DESC": "Bantuan non-medis untuk lansia dan dukungan komunitas.",
       "SUBCATEGORIES": {
-        "ELDERLY_ASSISTANCE": {
-          "LABEL": "Bantuan Lansia",
-          "DESC": "Bantuan tugas harian dan persahabatan."
+        "SENIOR_LIVING_RELOCATION": {
+          "LABEL": "Relokasi Hunian Lansia",
+          "DESC": "Bantuan dengan hunian lansia dan relokasi."
         },
-        "TECH_HELP_FOR_SENIORS": {
-          "LABEL": "Bantuan Teknologi untuk Lansia",
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "Dukungan Digital untuk Lansia",
           "DESC": "Bantuan dengan perangkat dan aplikasi."
         },
-        "HELP_WITH_GOVERNMENT_SERVICES": {
-          "LABEL": "Bantuan dengan Layanan Pemerintah",
-          "DESC": "Panduan untuk layanan publik dan formulir."
+        "MEDICAL_HELP": {
+          "LABEL": "Bantuan Medis",
+          "DESC": "Bantuan medis non-klinis untuk lansia."
         },
-        "RIDE_ASSISTANCE": {
-          "LABEL": "Bantuan Transportasi",
-          "DESC": "Bantuan mengatur transportasi untuk janji temu."
+        "ERRANDS_TRANSPORTATION": {
+          "LABEL": "Tugas dan Transportasi",
+          "DESC": "Bantuan dengan tugas dan transportasi."
         },
-        "SHOPPING_ASSISTANCE": {
-          "LABEL": "Bantuan Belanja",
-          "DESC": "Dukungan dengan kebutuhan belanja."
+        "SOCIAL_CONNECTION": {
+          "LABEL": "Koneksi Sosial",
+          "DESC": "Persahabatan dan kegiatan sosial."
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "Dukungan Makanan",
+          "DESC": "Bantuan dengan persiapan makanan dan memasak."
         }
       }
-    },
-    "GENERAL": {
-      "LABEL": "Umum",
-      "DESC": "Gunakan ketika tidak yakin; jelaskan kebutuhan Anda secara detail."
     }
   }
 }

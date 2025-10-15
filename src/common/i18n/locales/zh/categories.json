@@ -1,6 +1,10 @@
 {
   "REQUEST_CATEGORIES": {
-    "FOOD_ESSENTIALS": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "一般",
+      "DESC": "不确定时使用；详细描述您的需求。"
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
       "LABEL": "食品和必需品",
       "DESC": "获得食品支持、杂货服务和烹饪帮助。",
       "SUBCATEGORIES": {
@@ -8,7 +12,7 @@
           "LABEL": "食品援助",
           "DESC": "寻找食品银行、食品储藏室或膳食计划。"
         },
-        "GROCERY_SHOPPING_DELIVERY": {
+        "GROCERY_SHOPPING_AND_DELIVERY": {
           "LABEL": "杂货购物和配送",
           "DESC": "请求帮助购买和配送杂货。"
         },
@@ -18,25 +22,37 @@
         }
       }
     },
-    "CLOTHING_AND_SUPPORT": {
-      "LABEL": "服装和支持",
+    "CLOTHING_SUPPORT": {
+      "LABEL": "服装支持",
       "DESC": "捐赠、借用、修理或请求服装援助。",
       "SUBCATEGORIES": {
-        "LEND_BORROW_CLOTHES": {
-          "LABEL": "借出/借用服装",
-          "DESC": "分享或借用轻微使用过的服装。"
-        },
         "DONATE_CLOTHES": {
           "LABEL": "捐赠服装",
           "DESC": "向有需要的人提供服装。"
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "借用服装",
+          "DESC": "借用轻微使用过的服装。"
+        },
+        "EMERGENCY_ASSISTANCE": {
+          "LABEL": "紧急援助",
+          "DESC": "危机期间的紧急服装需求。"
+        },
+        "SEASONAL_DRIVE_NOTIFICATION": {
+          "LABEL": "季节性活动通知",
+          "DESC": "季节性服装活动和捐赠。"
+        },
+        "TAILORING": {
+          "LABEL": "裁缝",
+          "DESC": "服装修理和修改服务。"
         }
       }
     },
-    "HOUSING_ASSISTANCE": {
-      "LABEL": "住房援助",
+    "HOUSING_SUPPORT": {
+      "LABEL": "住房支持",
       "DESC": "室友、租房指导、搬家安置和家庭设置支持。",
       "SUBCATEGORIES": {
-        "FINDING_A_ROOMMATE": {
+        "FIND_A_ROOMMATE": {
           "LABEL": "寻找室友",
           "DESC": "获得寻找室友的帮助。"
         },
@@ -44,21 +60,25 @@
           "LABEL": "租房支持",
           "DESC": "租房和租赁基础知识的援助。"
         },
-        "BUY_SELL_HOUSEHOLD_ITEMS": {
-          "LABEL": "购买/出售家居用品",
+        "HOUSEHOLD_ITEM_EXCHANGE": {
+          "LABEL": "家居用品交换",
           "DESC": "购买或出售家居用品的帮助。"
         },
-        "MOVING_PACKING_HELP": {
-          "LABEL": "搬家打包帮助",
+        "MOVING_ASSISTANCE": {
+          "LABEL": "搬家援助",
           "DESC": "搬家打包的支持。"
         },
         "CLEANING_HELP": {
           "LABEL": "清洁帮助",
           "DESC": "基本清洁任务的援助。"
         },
-        "HOME_BUYING_SELLING_ASSISTANCE": {
-          "LABEL": "购房/售房援助",
-          "DESC": "购房或售房过程的指导。"
+        "HOME_REPAIR_SUPPORT": {
+          "LABEL": "家庭维修支持",
+          "DESC": "小型家庭维修的支持。"
+        },
+        "UTILITIES_SETUP": {
+          "LABEL": "公用事业设置",
+          "DESC": "设置公用事业和服务的帮助。"
         }
       }
     },
@@ -66,7 +86,7 @@
       "LABEL": "教育和职业支持",
       "DESC": "大学申请、SOP审查、辅导和学习支持。",
       "SUBCATEGORIES": {
-        "COLLEGE_APPLICATIONS_HELP": {
+        "COLLEGE_APPLICATION_HELP": {
           "LABEL": "大学申请帮助",
           "DESC": "申请和表格的帮助。"
         },
@@ -80,49 +100,61 @@
         }
       }
     },
-    "HEALTHCARE_WELLBEING": {
+    "HEALTHCARE_WELLNESS_SUPPORT": {
       "LABEL": "医疗保健和福祉",
       "DESC": "非临床健康导航和福祉支持。",
       "SUBCATEGORIES": {
-        "MEDICAL_CONSULTATION": {
-          "LABEL": "医疗咨询",
+        "MEDICAL_NAVIGATION": {
+          "LABEL": "医疗导航",
           "DESC": "基本导航和非临床指导。"
         },
-        "MEDICINE_DELIVERY_ASSISTANCE": {
-          "LABEL": "药物配送援助",
+        "MEDICINE_DELIVERY": {
+          "LABEL": "药物配送",
           "DESC": "非处方药的取货和配送。"
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "心理健康支持",
+          "DESC": "获得一般心理健康资源。"
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "药物提醒",
+          "DESC": "非临床药物提醒。"
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "健康教育指导",
+          "DESC": "福祉意识和健康教育。"
         }
       }
     },
-    "ELDERLY_COMMUNITY_SUPPORT": {
-      "LABEL": "老年人和社区支持",
+    "ELDERLY_SUPPORT": {
+      "LABEL": "老年人支持",
       "DESC": "老年人的非医疗援助和社区支持。",
       "SUBCATEGORIES": {
-        "ELDERLY_ASSISTANCE": {
-          "LABEL": "老年人援助",
-          "DESC": "日常任务帮助和陪伴。"
+        "SENIOR_LIVING_RELOCATION": {
+          "LABEL": "老年人居住搬迁",
+          "DESC": "老年人住房和搬迁的帮助。"
         },
-        "TECH_HELP_FOR_SENIORS": {
-          "LABEL": "老年人技术帮助",
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "老年人数字支持",
           "DESC": "设备和应用程序的援助。"
         },
-        "HELP_WITH_GOVERNMENT_SERVICES": {
-          "LABEL": "政府服务帮助",
-          "DESC": "公共服务和表格的指导。"
+        "MEDICAL_HELP": {
+          "LABEL": "医疗帮助",
+          "DESC": "老年人的非临床医疗援助。"
         },
-        "RIDE_ASSISTANCE": {
-          "LABEL": "乘车援助",
-          "DESC": "安排预约用车的帮助。"
+        "ERRANDS_TRANSPORTATION": {
+          "LABEL": "差事和交通",
+          "DESC": "差事和交通的帮助。"
         },
-        "SHOPPING_ASSISTANCE": {
-          "LABEL": "购物援助",
-          "DESC": "购物需求的支持。"
+        "SOCIAL_CONNECTION": {
+          "LABEL": "社交联系",
+          "DESC": "陪伴和社交活动。"
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "膳食支持",
+          "DESC": "膳食准备和烹饪的帮助。"
         }
       }
-    },
-    "GENERAL": {
-      "LABEL": "一般",
-      "DESC": "不确定时使用；详细描述您的需求。"
     }
   }
 }

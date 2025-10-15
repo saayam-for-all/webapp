@@ -26,13 +26,25 @@
       "LABEL": "Kleidung und Unterstützung",
       "DESC": "Kleidung spenden, ausleihen, reparieren oder um Kleidungshilfe bitten.",
       "SUBCATEGORIES": {
-        "BORROW_CLOTHES": {
-          "LABEL": "Kleidung verleihen/ausleihen",
-          "DESC": "Teilen oder leihen Sie gut erhaltene Kleidung."
-        },
         "DONATE_CLOTHES": {
           "LABEL": "Kleidung spenden",
           "DESC": "Geben Sie Kleidung an Bedürftige weiter."
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "Kleidung ausleihen",
+          "DESC": "Leihen Sie gut erhaltene Kleidung aus."
+        },
+        "EMERGENCY_ASSISTANCE": {
+          "LABEL": "Notfallhilfe",
+          "DESC": "Notfall-Kleidungsbedarf in Krisenzeiten."
+        },
+        "SEASONAL_DRIVE_NOTIFICATION": {
+          "LABEL": "Saisonale Sammelaktion Benachrichtigung",
+          "DESC": "Saisonale Kleidungssammlungen und Spenden."
+        },
+        "TAILORING": {
+          "LABEL": "Schneiderei",
+          "DESC": "Kleidungsreparatur- und Änderungsservice."
         }
       }
     },
