@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 import { GET_NOTIFICATIONS } from "../../services/requestServices";
 import { useNotifications } from "../../context/NotificationContext";
 import { NotificationProvider } from "../../context/NotificationContext";
+import { useTranslation } from "react-i18next";
 
 export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
+  const { t } = useTranslation(["common"]);
   const { user } = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.idToken);
   const { dispatch, state } = useNotifications();
@@ -81,10 +83,10 @@ export default function NotificationUI() {
             onClick={() => setFilter(type)}
           >
             {type === "all"
-              ? "All"
+              ? t("ALL")
               : type === "volunteer"
-                ? "Volunteer Match"
-                : "Help Request"}
+                ? t("VOLUNTEER_MATCH")
+                : t("HELP_REQUEST_BUTTON")}
           </button>
         ))}
         <div className="ml-auto">
@@ -108,7 +110,7 @@ export default function NotificationUI() {
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">{note.message}</p>
 
-                {note.title === "New Match Request" &&
+                {note.title === t("NEW_MATCH_REQUEST") &&
                   !note.message.includes("✅") &&
                   !note.message.includes("❌") && (
                     <div className="mt-3 flex flex-wrap gap-4 sm:flex-nowrap">
@@ -116,13 +118,13 @@ export default function NotificationUI() {
                         className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
                         onClick={() => handleAccept(note)}
                       >
-                        Accept
+                        {t("ACCEPT")}
                       </button>
                       <button
                         className="flex-1 sm:flex-none border border-red-500 hover:bg-red-700 hover:text-white text-red-500 px-4 py-1 rounded"
                         onClick={() => handleDeny(note)}
                       >
-                        Deny
+                        {t("DENY")}
                       </button>
                     </div>
                   )}
