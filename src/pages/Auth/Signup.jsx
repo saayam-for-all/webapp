@@ -408,7 +408,7 @@ const SignUp = () => {
             className="mx-2 text-left underline"
             onClick={() => navigate("/login")}
           >
-            {t("SIGN_IN")}
+            {t("LOG_IN")}
           </button>
         </div>
       </div>
