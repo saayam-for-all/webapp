@@ -36,14 +36,17 @@ const Dashboard = ({ userRole }) => {
     direction: "ascending",
   });
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState({
-    Open: true,
-    Closed: false,
-  });
+  const [statusFilter, setStatusFilter] = useState({});
   const [categoryFilter, setCategoryFilter] = useState({});
+  const [typeFilter, setTypeFilter] = useState({});
+  const [priorityFilter, setPriorityFilter] = useState({});
+  const [calamityFilter, setCalamityFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
+  const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
+  const [isPriorityDropdownOpen, setIsPriorityDropdownOpen] = useState(false);
+  const [isCalamityDropdownOpen, setIsCalamityDropdownOpen] = useState(false);
   const [data, setData] = useState({});
   const groups = useSelector((state) => state.auth.user?.groups);
   const isLoading = false;
@@ -96,11 +99,12 @@ const Dashboard = ({ userRole }) => {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setCurrentPage(1);
-    setStatusFilter({
-      Open: true,
-      Closed: false,
-    });
+    setStatusFilter({});
     setCategoryFilter(allCategories);
+    setTypeFilter({});
+    setPriorityFilter({});
+    setCalamityFilter({});
+    setSearchTerm("");
   };
 
   const headers = [
@@ -144,6 +148,11 @@ const Dashboard = ({ userRole }) => {
           statusFilter[request.status]) &&
         (Object.keys(categoryFilter).length === 0 ||
           categoryFilter[request.category]) &&
+        (Object.keys(typeFilter).length === 0 || typeFilter[request.type]) &&
+        (Object.keys(priorityFilter).length === 0 ||
+          priorityFilter[request.priority]) &&
+        (Object.keys(calamityFilter).length === 0 ||
+          calamityFilter[request.calamity]) &&
         Object.keys(request).some((key) =>
           String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
         ),
@@ -152,7 +161,15 @@ const Dashboard = ({ userRole }) => {
 
   const filteredData = useMemo(() => {
     return filteredRequests(sortedData);
-  }, [sortedData, statusFilter, categoryFilter, searchTerm]);
+  }, [
+    sortedData,
+    statusFilter,
+    categoryFilter,
+    typeFilter,
+    priorityFilter,
+    calamityFilter,
+    searchTerm,
+  ]);
 
   const totalPages = (filteredData) => {
     if (!filteredData || filteredData.length == 0) return 1;
@@ -173,42 +190,68 @@ const Dashboard = ({ userRole }) => {
   };
 
   const handleStatusChange = (status) => {
-    setStatusFilter((prev) => ({
-      ...prev,
-      [status]: !prev[status],
-    }));
+    setStatusFilter((prev) => {
+      const newFilter = { ...prev };
+      if (newFilter[status]) {
+        delete newFilter[status];
+      } else {
+        newFilter[status] = true;
+      }
+      return newFilter;
+    });
+    setCurrentPage(1);
   };
 
   const handleCategoryChange = (category) => {
     setCategoryFilter((prev) => {
       const newFilter = { ...prev };
-      if (category === "All") {
-        if (
-          Object.keys(newFilter).length === Object.keys(allCategories).length
-        ) {
-          return {};
-        } else {
-          return allCategories;
-        }
+      if (newFilter[category]) {
+        delete newFilter[category];
       } else {
-        if (newFilter[category]) {
-          delete newFilter[category];
-        } else {
-          newFilter[category] = true;
-        }
-
-        if (
-          Object.keys(newFilter).length ===
-          Object.keys(allCategories).length - 1
-        ) {
-          newFilter["All"] = true;
-        } else {
-          delete newFilter["All"];
-        }
-
-        return newFilter;
+        newFilter[category] = true;
       }
+      return newFilter;
     });
+    setCurrentPage(1);
+  };
+
+  const handleTypeChange = (type) => {
+    setTypeFilter((prev) => {
+      const newFilter = { ...prev };
+      if (newFilter[type]) {
+        delete newFilter[type];
+      } else {
+        newFilter[type] = true;
+      }
+      return newFilter;
+    });
+    setCurrentPage(1);
+  };
+
+  const handlePriorityChange = (priority) => {
+    setPriorityFilter((prev) => {
+      const newFilter = { ...prev };
+      if (newFilter[priority]) {
+        delete newFilter[priority];
+      } else {
+        newFilter[priority] = true;
+      }
+      return newFilter;
+    });
+    setCurrentPage(1);
+  };
+
+  const handleCalamityChange = (calamity) => {
+    setCalamityFilter((prev) => {
+      const newFilter = { ...prev };
+      if (newFilter[calamity]) {
+        delete newFilter[calamity];
+      } else {
+        newFilter[calamity] = true;
+      }
+      return newFilter;
+    });
+    setCurrentPage(1);
   };
 
   const handleRowsPerPageChange = (rows) => {
@@ -216,12 +259,24 @@ const Dashboard = ({ userRole }) => {
     setCurrentPage(1);
   };
 
+  const toggleStatusDropdown = () => {
+    setIsStatusDropdownOpen(!isStatusDropdownOpen);
+  };
+
   const toggleCategoryDropdown = () => {
     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
   };
 
-  const toggleStatusDropdown = () => {
-    setIsStatusDropdownOpen(!isStatusDropdownOpen);
+  const toggleTypeDropdown = () => {
+    setIsTypeDropdownOpen(!isTypeDropdownOpen);
+  };
+
+  const togglePriorityDropdown = () => {
+    setIsPriorityDropdownOpen(!isPriorityDropdownOpen);
+  };
+
+  const toggleCalamityDropdown = () => {
+    setIsCalamityDropdownOpen(!isCalamityDropdownOpen);
   };
 
   const navigate = useNavigate();
@@ -234,12 +289,6 @@ const Dashboard = ({ userRole }) => {
     setHasAddress(localStorage.getItem("addressFlag") === "true");
   }, [location]);
 
-  useEffect(() => {
-    if (Object.keys(categoryFilter).length === 0) {
-      setCategoryFilter(allCategories);
-    }
-  }, []);
-
   const handleStatusBlur = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget))
       setIsStatusDropdownOpen(false);
@@ -247,6 +296,18 @@ const Dashboard = ({ userRole }) => {
   const handleFilterBlur = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget))
       setIsCategoryDropdownOpen(false);
+  };
+  const handleTypeBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsTypeDropdownOpen(false);
+  };
+  const handlePriorityBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsPriorityDropdownOpen(false);
+  };
+  const handleCalamityBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsCalamityDropdownOpen(false);
   };
   // const requests = requestData
   const [showAddressMsg, setShowAddressMsg] = useState(false);
@@ -349,84 +410,199 @@ const Dashboard = ({ userRole }) => {
             ))}
         </div>
 
-        <div className="mb-4 flex gap-2 px-10">
-          <div className="relative mr-auto w-1/2">
-            <IoSearchOutline
-              className="text-gray-500 absolute inset-y-0 start-0 flex items-center m-3 my-2"
-              size={22}
-            />
+        <div className="mb-6 flex flex-wrap gap-3 px-4 sm:px-6 lg:px-10 items-end">
+          <div className="relative flex-1 min-w-0 max-w-md">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <IoSearchOutline className="text-gray-400" size={18} />
+            </div>
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Search by subject, type, or description..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
+              className="pl-10 pr-4 py-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
             />
           </div>
-          <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
-            <div
-              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
-              onClick={toggleStatusDropdown}
-              tabIndex={0}
-            >
-              <button className="py-2 px-4 p-2 font-light text-gray-600">
-                {t("Status")}
-              </button>
-              <IoIosArrowDown className="m-2" />
-            </div>
-            {isStatusDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-                {Object.keys(statusFilter).map((status) => (
-                  <label key={status} className="block">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
+            <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
+              <div
+                className="bg-blue-50 hover:bg-blue-100 flex items-center rounded-lg border border-blue-200 hover:border-blue-300 cursor-pointer transition-all duration-200 px-3 py-2 min-w-0"
+                onClick={toggleStatusDropdown}
+                tabIndex={0}
+              >
+                <button className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  {t("Status")}
+                  <IoIosArrowDown className="text-gray-500" size={16} />
+                </button>
+              </div>
+              {isStatusDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-2">
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
                     <input
                       type="checkbox"
-                      checked={statusFilter[status]}
-                      onChange={() => handleStatusChange(status)}
+                      checked={statusFilter["Open"] || false}
+                      onChange={() => handleStatusChange("Open")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                     />
-                    {status}
+                    <span className="text-sm text-gray-700">Open</span>
                   </label>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
-            <div
-              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
-              onClick={toggleCategoryDropdown}
-              tabIndex={0}
-            >
-              <button className="py-2 px-4 p-2 font-light text-gray-600">
-                {t("FILTER_BY")}
-              </button>
-              <IoIosArrowDown className="m-2" />
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={statusFilter["Closed"] || false}
+                      onChange={() => handleStatusChange("Closed")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">Closed</span>
+                  </label>
+                </div>
+              )}
             </div>
-            {isCategoryDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-                <label className="block">
-                  <input
-                    type="checkbox"
-                    checked={
-                      Object.keys(categoryFilter).length ===
-                      Object.keys(allCategories).length
-                    }
-                    onChange={() => handleCategoryChange("All")}
-                  />
-                  All Categories
-                </label>
-                {Object.keys(allCategories)
-                  .filter((cat) => cat !== "All")
-                  .map((category) => (
-                    <label key={category} className="block">
-                      <input
-                        type="checkbox"
-                        checked={categoryFilter[category] || false}
-                        onChange={() => handleCategoryChange(category)}
-                      />
-                      {category}
-                    </label>
-                  ))}
+            <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
+              <div
+                className="bg-blue-50 hover:bg-blue-100 flex items-center rounded-lg border border-blue-200 hover:border-blue-300 cursor-pointer transition-all duration-200 px-3 py-2 min-w-0"
+                onClick={toggleCategoryDropdown}
+                tabIndex={0}
+              >
+                <button className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  {t("Category")}
+                  <IoIosArrowDown className="text-gray-500" size={16} />
+                </button>
               </div>
-            )}
+              {isCategoryDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-2 max-h-64 overflow-y-auto">
+                  {Object.keys(allCategories)
+                    .filter((cat) => cat !== "All")
+                    .map((category) => (
+                      <label
+                        key={category}
+                        className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={categoryFilter[category] || false}
+                          onChange={() => handleCategoryChange(category)}
+                          className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                        />
+                        <span className="text-sm text-gray-700">
+                          {category}
+                        </span>
+                      </label>
+                    ))}
+                </div>
+              )}
+            </div>
+            <div className="relative" onBlur={handleTypeBlur} tabIndex={-1}>
+              <div
+                className="bg-blue-50 hover:bg-blue-100 flex items-center rounded-lg border border-blue-200 hover:border-blue-300 cursor-pointer transition-all duration-200 px-3 py-2 min-w-0"
+                onClick={toggleTypeDropdown}
+                tabIndex={0}
+              >
+                <button className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  {t("Type")}
+                  <IoIosArrowDown className="text-gray-500" size={16} />
+                </button>
+              </div>
+              {isTypeDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-2">
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={typeFilter["Personal"] || false}
+                      onChange={() => handleTypeChange("Personal")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">Personal</span>
+                  </label>
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={typeFilter["For Others"] || false}
+                      onChange={() => handleTypeChange("For Others")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">For Others</span>
+                  </label>
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={typeFilter["Managed"] || false}
+                      onChange={() => handleTypeChange("Managed")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">Managed</span>
+                  </label>
+                </div>
+              )}
+            </div>
+            <div className="relative" onBlur={handlePriorityBlur} tabIndex={-1}>
+              <div
+                className="bg-blue-50 hover:bg-blue-100 flex items-center rounded-lg border border-blue-200 hover:border-blue-300 cursor-pointer transition-all duration-200 px-3 py-2 min-w-0"
+                onClick={togglePriorityDropdown}
+                tabIndex={0}
+              >
+                <button className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  {t("Priority")}
+                  <IoIosArrowDown className="text-gray-500" size={16} />
+                </button>
+              </div>
+              {isPriorityDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-2">
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={priorityFilter["High"] || false}
+                      onChange={() => handlePriorityChange("High")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">High</span>
+                  </label>
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={priorityFilter["Medium"] || false}
+                      onChange={() => handlePriorityChange("Medium")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">Medium</span>
+                  </label>
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={priorityFilter["Low"] || false}
+                      onChange={() => handlePriorityChange("Low")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">Low</span>
+                  </label>
+                </div>
+              )}
+            </div>
+            <div className="relative" onBlur={handleCalamityBlur} tabIndex={-1}>
+              <div
+                className="bg-blue-50 hover:bg-blue-100 flex items-center rounded-lg border border-blue-200 hover:border-blue-300 cursor-pointer transition-all duration-200 px-3 py-2 min-w-0"
+                onClick={toggleCalamityDropdown}
+                tabIndex={0}
+              >
+                <button className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  {t("Calamity")}
+                  <IoIosArrowDown className="text-gray-500" size={16} />
+                </button>
+              </div>
+              {isCalamityDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-2">
+                  <label className="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={calamityFilter["None"] || false}
+                      onChange={() => handleCalamityChange("None")}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-sm text-gray-700">None</span>
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
