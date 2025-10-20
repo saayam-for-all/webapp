@@ -46,9 +46,7 @@ const ForgotPasswordPage = () => {
         <h1 className="my-4 text-3xl font-bold text-center">Password Reset</h1>
 
         <div className="my-2 flex flex-col">
-          <label htmlFor="email">
-            Email <span className="text-red-500">*</span>
-          </label>
+          <label htmlFor="email">Email</label>
           <input
             id="email"
             value={emailValue}
