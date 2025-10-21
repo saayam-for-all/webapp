@@ -1,19 +1,20 @@
 import { useTranslation } from "react-i18next";
 
 import NaveenIMG from "../../assets/images/Naveen_Sharma.jpeg";
-import RaoImg from "../../assets/images/Rao.jpeg";
+import RaoImg from "../../assets/images/Rao.webp";
 import "./Directors.css";
 // import RajeshwaryImg from "../../assets/images/Rajeshwary.jpeg";
 import RameshImg from "../../assets/images/Ramesh_Maturu.jpeg";
 // import RaoPanugantiImg from "../../assets/images/Rao-Panuganti.jpeg";
-import AshwaniImg from "../../assets/images/Ashwani_Dhawan.png";
+import AshwaniImg from "../../assets/images/Ashwani_Dhawan.webp";
 import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
 import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
 import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
 
 import { useNavigate } from "react-router-dom";
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
-import SateeshImg from "../../assets/images/Sateesh_Mucharla.jpeg";
+import SateeshImg from "../../assets/images/Sateesh_Mucharla.webp";
+import VinitaImg from "../../assets/images/Vinita_Paunikar.jpg";
 import ExecutiveTeam from "./Executives/executiveTeam";
 
 const DirectorsData = [
@@ -83,6 +84,12 @@ const DirectorsData = [
     role: "Director",
     linkedin: "https://www.linkedin.com/in/mantrapaloalto/",
     image: AshwaniImg,
+  },
+  {
+    name: "Vinita Paunikar",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/vinita-paunikar/",
+    image: VinitaImg,
   },
 ];
 

@@ -1,0 +1,12 @@
+[33mcommit fd068844d7cfbcb6ad570a21396a9b9740f11e9f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/forgot-password-back-button[m[33m, [m[1;31morigin/feature/forgot-password-back-button[m[33m)[m
+Author: Katam karan sai goud <karan.katam16@gmail.com>
+Date:   Mon Sep 15 14:29:32 2025 -0400
+
+    i18n(Preferences): add missing keys for bn/es/hi/te; Availability: hybrid timezone label with localized location names; i18n: add timezoneLocationNames mapping
+
+src/common/i18n/locales/bn/common.json
+src/common/i18n/locales/es/common.json
+src/common/i18n/locales/hi/common.json
+src/common/i18n/locales/te/common.json
+src/common/i18n/timezoneLocationNames.js
+src/pages/Profile/Availability.jsx
