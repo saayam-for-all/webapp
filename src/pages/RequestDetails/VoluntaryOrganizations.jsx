@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Table from "../../common/components/DataTable/Table";
+import Table from "../../common/components/DataTable/HybridTable";
 import { getVolunteerOrgsList } from "../../services/volunteerServices";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -237,6 +237,8 @@ const VoluntaryOrganizations = () => {
         requestSort={requestSort}
         onRowsPerPageChange={handleRowsPerPageChange}
         getLinkPath={(request, header) => `/organization/${request[header]}`}
+        defaultView="scrollable"
+        maxHeight="400px"
       />
     </div>
   );

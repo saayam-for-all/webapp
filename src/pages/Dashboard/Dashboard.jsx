@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
-import Table from "../../common/components/DataTable/Table";
+import Table from "../../common/components/DataTable/HybridTable";
 // import { requestsData } from "./data";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
@@ -446,6 +446,8 @@ const Dashboard = ({ userRole }) => {
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) => `/request/${request[header]}`}
                 getLinkState={(request) => request}
+                defaultView="scrollable"
+                maxHeight="500px"
               />
             )}
           </div>
