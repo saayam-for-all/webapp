@@ -296,6 +296,36 @@ exports[`Directors renders correctly 1`] = `
                 mockTranslate(Director)
               </div>
             </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="mockTranslate(Vinita Paunikar)"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/vinita-paunikar/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Vinita Paunikar)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Director)
+              </div>
+            </div>
           </div>
         </div>
         <section>
@@ -824,6 +854,36 @@ exports[`Directors renders correctly 1`] = `
                 target="_blank"
               >
                 mockTranslate(Ashwani Dhawan)
+              </a>
+            </div>
+            <div
+              class="text-sm text-gray-500 mt-1 text-left pl-1"
+            >
+              mockTranslate(Director)
+            </div>
+          </div>
+          <div
+            class="w-[180px] text-center"
+          >
+            <div
+              class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+            >
+              <img
+                alt="mockTranslate(Vinita Paunikar)"
+                class="w-full h-full object-cover"
+                src=""
+              />
+            </div>
+            <div
+              class="font-semibold text-base mt-3 text-left pl-1"
+            >
+              <a
+                class="text-black hover:underline"
+                href="https://www.linkedin.com/in/vinita-paunikar/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Vinita Paunikar)
               </a>
             </div>
             <div

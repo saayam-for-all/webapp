@@ -10,6 +10,7 @@ import AshwaniImg from "../../assets/images/Ashwani_Dhawan.webp";
 import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
 import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
 import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
+import VinitaImg from "../../assets/images/Vinita_Paunikar.jpeg";
 
 import { useNavigate } from "react-router-dom";
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
@@ -83,6 +84,12 @@ const DirectorsData = [
     role: "Director",
     linkedin: "https://www.linkedin.com/in/mantrapaloalto/",
     image: AshwaniImg,
+  },
+  {
+    name: "Vinita Paunikar",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/vinita-paunikar/",
+    image: VinitaImg,
   },
 ];
 
