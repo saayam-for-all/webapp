@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Table from "../../common/components/DataTable/Table";
+import Table from "../../common/components/DataTable/HybridTable";
 import { getVolunteerOrgsList } from "../../services/volunteerServices";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -174,7 +174,7 @@ const VoluntaryOrganizations = () => {
           onClick={() => navigate(-1)}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> Back
+          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
         </button>
       </div>
       <h1 className="text-2xl font-bold mb-5">Voluntary Organizations</h1>
@@ -237,6 +237,8 @@ const VoluntaryOrganizations = () => {
         requestSort={requestSort}
         onRowsPerPageChange={handleRowsPerPageChange}
         getLinkPath={(request, header) => `/organization/${request[header]}`}
+        defaultView="scrollable"
+        maxHeight="400px"
       />
     </div>
   );

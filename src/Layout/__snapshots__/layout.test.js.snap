@@ -16,10 +16,10 @@ exports[`Layout renders correctly 1`] = `
           <mock-navbar />
         </header>
         <div
-          class="flex flex-1"
+          class="flex flex-col md:flex-row flex-1"
         >
           <main
-            class="flex-[6] overflow-auto"
+            class="order-1 md:order-2 flex-[6] overflow-auto"
           >
             <mock-suspense />
           </main>
@@ -49,10 +49,10 @@ exports[`Layout renders correctly 1`] = `
         <mock-navbar />
       </header>
       <div
-        class="flex flex-1"
+        class="flex flex-col md:flex-row flex-1"
       >
         <main
-          class="flex-[6] overflow-auto"
+          class="order-1 md:order-2 flex-[6] overflow-auto"
         >
           <mock-suspense />
         </main>

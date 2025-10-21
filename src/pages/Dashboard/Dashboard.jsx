@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
-import Table from "../../common/components/DataTable/Table";
+import Table from "../../common/components/DataTable/HybridTable";
 // import { requestsData } from "./data";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
@@ -223,6 +224,16 @@ const Dashboard = ({ userRole }) => {
     setIsStatusDropdownOpen(!isStatusDropdownOpen);
   };
 
+  const navigate = useNavigate();
+
+  const [hasAddress, setHasAddress] = useState(
+    localStorage.getItem("addressFlag") === "true",
+  );
+
+  useEffect(() => {
+    setHasAddress(localStorage.getItem("addressFlag") === "true");
+  }, [location]);
+
   useEffect(() => {
     if (Object.keys(categoryFilter).length === 0) {
       setCategoryFilter(allCategories);
@@ -238,13 +249,26 @@ const Dashboard = ({ userRole }) => {
       setIsCategoryDropdownOpen(false);
   };
   // const requests = requestData
+  const [showAddressMsg, setShowAddressMsg] = useState(false);
 
   return (
     <div className="p-5">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+        pauseOnHover
+      />
       <div className="flex gap-10 mb-5">
         <Link
           to="/request"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center"
+          onClick={(e) => {
+            if (!hasAddress) {
+              e.preventDefault();
+              setShowAddressMsg(true);
+            }
+          }}
+          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
           style={{ color: "white", textDecoration: "none" }}
         >
           <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
@@ -252,7 +276,13 @@ const Dashboard = ({ userRole }) => {
         {!groups?.includes("Volunteers") && (
           <Link
             to="/promote-to-volunteer"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center"
+            onClick={(e) => {
+              if (!hasAddress) {
+                e.preventDefault();
+                setShowAddressMsg(true);
+              }
+            }}
+            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
             style={{ color: "white", textDecoration: "none" }}
           >
             <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
@@ -270,6 +300,18 @@ const Dashboard = ({ userRole }) => {
           )}
         </div>
       </div>
+      {showAddressMsg && !hasAddress && (
+        <p className="text-red-600 mb-2">
+          Please add your address in Profile to continue.&nbsp;
+          <Link
+            to="/profile"
+            state={{ tab: "personal", edit: "true" }}
+            className="underline"
+          >
+            Edit profile
+          </Link>
+        </p>
+      )}
       {successMessage && (
         <div className="relative bg-green-100 text-green-700 p-3 mb-5 rounded-md text-center font-semibold">
           {successMessage}
@@ -283,7 +325,7 @@ const Dashboard = ({ userRole }) => {
       )}
       <div className="border">
         <div className="flex mb-5">
-          {["myRequests", "managedRequests"]
+          {["myRequests", "othersRequests", "managedRequests"]
             .filter(
               (tab) =>
                 !(tab === "managedRequests" && !groups?.includes("Volunteers")),
@@ -404,6 +446,8 @@ const Dashboard = ({ userRole }) => {
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) => `/request/${request[header]}`}
                 getLinkState={(request) => request}
+                defaultView="scrollable"
+                maxHeight="500px"
               />
             )}
           </div>
