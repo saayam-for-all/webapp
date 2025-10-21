@@ -1,5 +1,54 @@
 {
   "title": "Privacy Policy",
   "intro": "We respect your privacy and protect your data.",
-  "last_updated": "Last updated on {{date}}"
+  "last_updated": "Last updated on {{date}}",
+
+  "PRIVACY_POLICY": "Privacy Policy",
+  "DATA_PRIVACY": "Data Protection and Privacy",
+  "DATA_PRIVACY_CONTENT": "The Volunteer agrees to comply with all applicable data protection laws and regulations, including but not limited to the General Data Protection Regulation (GDPR) or any other local data protection laws. The Volunteer agrees to: <1/> - Handle all personal data in accordance with the Organization's data protection policies. <1/> - Protect the integrity and confidentiality of any personal data accessed during volunteer activities. <1/> - Immediately report any data breaches or incidents of unauthorized access to the Organization.",
+
+  "TERMS_PRIVACY_TITLE": "7. Privacy and Data",
+  "TERMS_PRIVACY_CONTENT": "We collect only necessary data to operate the Platform. We do not sell your information. Your data may be shared only to fulfill requests or improve services. Please refer to our Privacy Policy for details.",
+
+  "PRIVACY_INTRO": "(\"Saayam,\" \"we,\" \"us,\" or \"our\"), your privacy is a top priority...",
+  "PRIVACY_SECTION_1_TITLE": "1. Information We Collect",
+  "PRIVACY_INFO_PERSONAL": "Personal Identifiers:",
+  "PRIVACY_INFO_PERSONAL_CONTENT": "Name, email address, phone number, etc.",
+  "PRIVACY_INFO_PROFILE": "Profile Information:",
+  "PRIVACY_INFO_PROFILE_CONTENT": "Role, skills, availability.",
+  "PRIVACY_INFO_LOCATION": "Location Data:",
+  "PRIVACY_INFO_LOCATION_CONTENT": "Collected via IP or device.",
+  "PRIVACY_INFO_USAGE": "Usage Data:",
+  "PRIVACY_INFO_USAGE_CONTENT": "Pages visited, device/browser info.",
+  "PRIVACY_INFO_REQUEST_RESPONSE": "Request and Response Records:",
+  "PRIVACY_INFO_REQUEST_RESPONSE_CONTENT": "Service logs.",
+
+  "PRIVACY_SECTION_2_TITLE": "2. How We Use Your Information",
+  "PRIVACY_SECTION_2_CONTENT": "We use your data to match requests with volunteers, enhance your experience, and ensure system performance. We never sell your data.",
+
+  "PRIVACY_SECTION_3_TITLE": "3. Information Sharing",
+  "PRIVACY_SECTION_3_CONTENT": "Only shared with verified partners or legal authorities when necessary, under confidentiality agreements.",
+
+  "PRIVACY_SECTION_4_TITLE": "4. Data Retention",
+  "PRIVACY_SECTION_4_CONTENT": "Data is retained as needed and securely deleted or anonymized when no longer required. Contact us to request deletion.",
+
+  "PRIVACY_SECTION_5_TITLE": "5. Security Measures",
+  "PRIVACY_SECTION_5_CONTENT": "We use encryption, secure servers, and access controls. Breach notifications will follow applicable laws.",
+
+  "PRIVACY_SECTION_6_TITLE": "6. Your Rights",
+  "PRIVACY_6_ACCESS": "Access/update your data",
+  "PRIVACY_6_DELETE": "Request deletion",
+  "PRIVACY_6_WITHDRAW": "Withdraw consent",
+
+  "PRIVACY_SECTION_7_TITLE": "7. Cookies",
+  "PRIVACY_SECTION_7_CONTENT": "We use cookies for analytics and essential functionality. You may disable them in your browser settings.",
+
+  "PRIVACY_SECTION_8_TITLE": "8. Third-Party Links",
+  "PRIVACY_SECTION_8_CONTENT": "We are not responsible for external links' privacy practices. Please review their policies.",
+
+  "PRIVACY_SECTION_9_TITLE": "9. Changes to This Policy",
+  "PRIVACY_SECTION_9_CONTENT": "We may update this policy. Continued use implies acceptance.",
+
+  "PRIVACY_SECTION_10_TITLE": "10. Contact Us",
+  "PRIVACY_CONTACT_CONTENT": "Saayam for All, 3046 Rosato Ct., San Jose, California 95135"
 }

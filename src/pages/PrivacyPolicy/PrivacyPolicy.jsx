@@ -1,10 +1,16 @@
+import i18n from "i18next";
+import enPrivacy from "../../common/i18n/locales/en/privacy.json";
 import React from "react";
 import "./PrivacyPolicy.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+// Ensure 'privacy' namespace is registered (temporary fix if global i18n doesn't load it)
+if (!i18n.hasResourceBundle("en", "privacy")) {
+  i18n.addResourceBundle("en", "privacy", enPrivacy, true, true);
+}
 
 const PrivacyPolicy = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("privacy");
   const navigate = useNavigate();
 
   return (
