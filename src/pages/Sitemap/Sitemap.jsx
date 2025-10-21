@@ -1,10 +1,21 @@
 import React from "react";
 import "./Sitemap.css";
+import { useNavigate } from "react-router-dom";
 
 const Sitemap = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="sitemap-container">
       <div className="sitemap-inner">
+        <div className="w-full mb-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> Back
+          </button>
+        </div>
         <h1 className="sitemap-title">Sitemap</h1>
         <div className="sitemap-content-wrapper">
           {/* Row 1: Home */}
