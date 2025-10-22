@@ -5,7 +5,7 @@ import BenevityLogo from "../../assets/donate_buttons/Benevity_logo.svg";
 import CharityNavLogo from "../../assets/donate_buttons/CharityNav_Logo_Stack.png";
 import PayPalLogo from "../../assets/donate_buttons/PayPal.svg";
 import StripeLogo from "../../assets/donate_buttons/Stripe_Logo.png";
-import donateImgBg from "../../assets/donate_img_bg.png";
+import donateImg from "../../assets/donate_img_bg.webp";
 import "./Donate.css";
 
 const Donate = () => {
@@ -166,7 +166,7 @@ const Donate = () => {
         <img
           className="donate-bg-image"
           alt="Donate background"
-          src={donateImgBg}
+          src={donateImg}
         />
         <div className="donate-card-overlay">
           <h1 className="donate-title">{t("Make a donation")}</h1>

@@ -1,119 +1,148 @@
 // requestActions.js
 import { createAction } from "@reduxjs/toolkit";
 
-// Static categories
+// Static categories as fallback - matches API structure for consistency
 const categories = [
-  // Commented out categories are for future releases
-  // { id: "banking", name: "Banking" },
-  // { id: "books", name: "Books" },
   {
-    id: "Food & Essentials",
-    name: "Food & Essentials",
-    subcategories: [
-      "Food Assistance",
-      "Grocery Shopping & Delivery",
-      "Cooking Help",
+    catId: "0.0.0.0.0",
+    catName: "GENERAL_CATEGORY",
+    catDesc: "GENERAL_CATEGORY_DESC",
+    subCategories: [],
+  },
+  {
+    catId: "1",
+    catName: "FOOD_AND_ESSENTIALS_SUPPORT",
+    catDesc: "FOOD_AND_ESSENTIALS_SUPPORT_DESC",
+    subCategories: [
+      {
+        catId: "1.1",
+        catName: "FOOD_ASSISTANCE",
+        catDesc: "FOOD_ASSISTANCE_DESC",
+        subCategories: [],
+      },
+      {
+        catId: "1.2",
+        catName: "GROCERY_SHOPPING_AND_DELIVERY",
+        catDesc: "GROCERY_SHOPPING_AND_DELIVERY_DESC",
+        subCategories: [],
+      },
+      {
+        catId: "1.3",
+        catName: "COOKING_HELP",
+        catDesc: "COOKING_HELP_DESC",
+        subCategories: [],
+      },
     ],
   },
   {
-    id: "Clothing Support",
-    name: "Clothing Support",
-    subcategories: ["Lend/Borrow Clothes", "Donate Clothes"],
-  },
-  // { id: "college_admissions", name: "College Admissions" },
-  {
-    id: "Housing Assistance",
-    name: "Housing Assistance",
-    subcategories: [
-      "Finding a Roommate",
-      "Renting Support",
-      "Buy/Sell Household Items",
-      "Moving & Packing Help",
-      "Cleaning Help",
-      "Home Buying/Selling Assistance",
+    catId: "2",
+    catName: "CLOTHING_SUPPORT",
+    catDesc: "CLOTHING_SUPPORT_DESC",
+    subCategories: [
+      {
+        catId: "2.1",
+        catName: "DONATE_CLOTHES",
+        catDesc: "DONATE_CLOTHES_DESC",
+        subCategories: [],
+      },
+      {
+        catId: "2.2",
+        catName: "BORROW_CLOTHES",
+        catDesc: "BORROW_CLOTHES_DESC",
+        subCategories: [],
+      },
     ],
   },
   {
-    id: "Education & Career Support",
-    name: "Education & Career Support",
-    subcategories: [
-      "College Applications Help",
-      "SOP & Essay Review",
-      "Tutoring",
+    catId: "3",
+    catName: "HOUSING_SUPPORT",
+    catDesc: "HOUSING_SUPPORT_DESC",
+    subCategories: [
+      {
+        catId: "3.1",
+        catName: "FIND_A_ROOMMATE",
+        catDesc: "FIND_A_ROOMMATE_DESC",
+        subCategories: [],
+      },
+      {
+        catId: "3.2",
+        catName: "RENTING_SUPPORT",
+        catDesc: "RENTING_SUPPORT_DESC",
+        subCategories: [],
+      },
     ],
   },
   {
-    id: "Healthcare & Well-being",
-    name: "Healthcare & Well-being",
-    subcategories: ["Medical Consultation", "Medicine Delivery Assistance"],
-  },
-  {
-    id: "Elderly & Community Support",
-    name: "Elderly & Community Support",
-    subcategories: [
-      "Elderly Assistance",
-      "Tech help for Seniors",
-      "Help with Government Services",
-      "Ride Assistance",
-      "Shopping Assistance",
+    catId: "4",
+    catName: "EDUCATION_CAREER_SUPPORT",
+    catDesc: "EDUCATION_CAREER_SUPPORT_DESC",
+    subCategories: [
+      {
+        catId: "4.1",
+        catName: "COLLEGE_APPLICATION_HELP",
+        catDesc: "COLLEGE_APPLICATION_HELP_DESC",
+        subCategories: [],
+      },
+      {
+        catId: "4.2",
+        catName: "SOP_ESSAY_REVIEW",
+        catDesc: "SOP_ESSAY_REVIEW_DESC",
+        subCategories: [],
+      },
+      {
+        catId: "4.3",
+        catName: "TUTORING",
+        catDesc: "TUTORING_DESC",
+        subCategories: [],
+      },
     ],
   },
-  // { id: "cooking", name: "Cooking" },
-  // {
-  //   id: "education",
-  //   name: "Education",
-  //   subcategories: ["Elementary", "Middle School", "High School", "University"],
-  // },
-  // { id: "employment", name: "Employment" },
-  // { id: "finance", name: "Finance" },
-  // { id: "food", name: "Food" },
-  // { id: "gardening", name: "Gardening" },
-  { id: "general", name: "General" },
-  // { id: "homelessness", name: "Homelessness" },
-  // { id: "housing", name: "Housing" },
-  // { id: "jobs", name: "Jobs" },
-  // { id: "investing", name: "Investing" },
-  // { id: "matrimonial", name: "Matrimonial" },
-  // {
-  //   id: "medical",
-  //   name: "Medical",
-  //   subcategories: ["Brain", "Depression", "Eye", "Hand", "Head", "Leg"],
-  // },
-  // { id: "rental", name: "Rental" },
-  // { id: "school", name: "School" },
-  // { id: "shopping", name: "Shopping" },
-  // {
-  //   id: "sports",
-  //   name: "Sports",
-  //   subcategories: [
-  //     "Baseball",
-  //     "Basketball",
-  //     "Cricket",
-  //     "Handball",
-  //     "Jogging",
-  //     "Hockey",
-  //     "Running",
-  //     "Tennis",
-  //   ],
-  // },
-  // {
-  //   id: "Counseling",
-  //   name: "Counseling Support",
-  //   subcategories: [
-  //     "College Applications (Master’s)",
-  //     "Review of Statements of Purpose (SoPs)",
-  //     "College Recommendations",
-  //     "Suggestions for College Choices",
-  //   ],
-  // },
-  // { id: "stocks", name: "Stocks" },
-  // { id: "travel", name: "Travel" },
-  // { id: "tourism", name: "Tourism" },
+  {
+    catId: "5",
+    catName: "HEALTHCARE_WELLNESS_SUPPORT",
+    catDesc: "HEALTHCARE_WELLNESS_SUPPORT_DESC",
+    subCategories: [
+      {
+        catId: "5.1",
+        catName: "MEDICAL_NAVIGATION",
+        catDesc: "MEDICAL_NAVIGATION_DESC",
+        subCategories: [],
+      },
+      {
+        catId: "5.2",
+        catName: "MEDICINE_DELIVERY",
+        catDesc: "MEDICINE_DELIVERY_DESC",
+        subCategories: [],
+      },
+    ],
+  },
+  {
+    catId: "6",
+    catName: "ELDERLY_SUPPORT",
+    catDesc: "ELDERLY_SUPPORT_DESC",
+    subCategories: [
+      {
+        catId: "6.1",
+        catName: "SENIOR_LIVING_RELOCATION",
+        catDesc: "SENIOR_LIVING_RELOCATION_DESC",
+        subCategories: [],
+      },
+      {
+        catId: "6.2",
+        catName: "DIGITAL_SUPPORT_FOR_SENIORS",
+        catDesc: "DIGITAL_SUPPORT_FOR_SENIORS_DESC",
+        subCategories: [],
+      },
+    ],
+  },
 ];
 
-// Action to load categories into the store
-export const loadCategories = createAction("request/loadCategories", () => {
-  return {
-    payload: categories,
-  };
-});
+// Action to load categories into the store (can accept custom data or use static)
+export const loadCategories = createAction(
+  "request/loadCategories",
+  (customCategories = null) => {
+    return {
+      payload: customCategories || categories,
+    };
+  },
+);
