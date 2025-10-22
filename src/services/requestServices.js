@@ -47,3 +47,8 @@ export const moreInformation = async (request) => {
   const response = await api.post(endpoints.GENERATE_ANSWER, request);
   return response.data;
 };
+
+export const getCategories = async () => {
+  const response = await api.get(endpoints.GET_CATEGORIES);
+  return response.data;
+};

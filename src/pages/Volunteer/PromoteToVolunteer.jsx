@@ -16,12 +16,14 @@ import {
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const PromoteToVolunteer = () => {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
-  const [govtIdFile, setGovtIdFile] = useState({});
+  const [govtIdFile, setGovtIdFile] = useState(null);
   const token = useSelector((state) => state.auth.idToken);
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState({});
@@ -32,6 +34,10 @@ const PromoteToVolunteer = () => {
   const volunteerDataRef = useRef({});
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [textboxCheck, setTextboxCheck] = useState(true);
+  const [textboxValue, setTextboxValue] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -82,6 +88,7 @@ const PromoteToVolunteer = () => {
           <VolunteerCourse
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
+            setIsUploaded={setIsUploaded}
           />
         );
       case 3:
@@ -90,6 +97,9 @@ const PromoteToVolunteer = () => {
             checkedCategories={checkedCategories}
             setCheckedCategories={setCheckedCategories}
             categoriesData={categoriesData}
+            setTextboxCheck={setTextboxCheck}
+            textboxValue={textboxValue}
+            setTextboxValue={setTextboxValue}
           />
         );
       case 4:
@@ -182,7 +192,8 @@ const PromoteToVolunteer = () => {
           });
           break;
         case 2:
-          isValidStep = govtIdFile && govtIdFile.name !== "";
+          // isValidStep = govtIdFile && govtIdFile.name !== "";
+          isValidStep = govtIdFile;
           updateVolunteerData({
             step: currentStep,
             userId: userId,
@@ -191,7 +202,9 @@ const PromoteToVolunteer = () => {
           break;
         case 3:
           const selectedSkills = extractSkillsWithHierarchy(checkedCategories);
-          isValidStep = selectedSkills !== "";
+          isValidStep =
+            selectedSkills !== "" &&
+            (textboxCheck || (!textboxCheck && textboxValue.trim().length > 0));
           updateVolunteerData({
             step: currentStep,
             userId: userId,
@@ -221,6 +234,7 @@ const PromoteToVolunteer = () => {
           //   setErrorMessage("Save Failed.");
           //   return;
           // }
+          setErrorMessage("");
           newStep++;
         } catch (error) {
           console.error("Error in handleClick:", error);
@@ -244,15 +258,18 @@ const PromoteToVolunteer = () => {
     <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
       <div className="w-full max-w-2xl mx-auto px-4 mt-4">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> Back to Home
+          <span className="text-2xl mr-2">&lt;</span>{" "}
+          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
         </button>
       </div>
-      <div className="container horizontal mt-5 p-12">
+      <div className="container horizontal mt-5 pt-12 pr-12 pl-12 pb-0">
         <Stepper steps={steps} currentStep={currentStep} />
-        <div className="mt-12 p-12">{displayStep(currentStep)}</div>
+        <div className="mt-12 pt-12 pr-12 pl-12 pb-0">
+          {displayStep(currentStep)}
+        </div>
       </div>
       {errorMessage && (
         <div className="text-red-500 text-center my-4">{errorMessage}</div>
@@ -263,6 +280,7 @@ const PromoteToVolunteer = () => {
           currentStep={currentStep}
           steps={steps}
           isAcknowledged={isAcknowledged}
+          isUploaded={isUploaded}
         />
       )}
     </div>

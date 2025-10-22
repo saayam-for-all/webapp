@@ -1,0 +1,160 @@
+{
+  "REQUEST_CATEGORIES": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "General",
+      "DESC": "Usa cuando no estés seguro; describe tu necesidad en detalle."
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
+      "LABEL": "Comida y artículos esenciales",
+      "DESC": "Acceso a apoyo alimentario, servicios de compras y ayuda para cocinar.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Asistencia alimentaria",
+          "DESC": "Encontrar bancos de alimentos, despensas o programas de comidas."
+        },
+        "GROCERY_SHOPPING_AND_DELIVERY": {
+          "LABEL": "Compras y entrega de comestibles",
+          "DESC": "Solicitar ayuda con las compras y entrega de comestibles."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Ayuda para cocinar",
+          "DESC": "Obtener orientación con la preparación de comidas y cocinar."
+        }
+      }
+    },
+    "CLOTHING_SUPPORT": {
+      "LABEL": "Apoyo de ropa",
+      "DESC": "Donar, prestar, reparar o solicitar ropa.",
+      "SUBCATEGORIES": {
+        "DONATE_CLOTHES": {
+          "LABEL": "Donar ropa",
+          "DESC": "Donar ropa a quienes la necesitan."
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "Pedir prestada ropa",
+          "DESC": "Pedir prestada ropa en buen estado."
+        },
+        "EMERGENCY_ASSISTANCE": {
+          "LABEL": "Asistencia de emergencia",
+          "DESC": "Necesidades de ropa de emergencia durante crisis."
+        },
+        "SEASONAL_DRIVE_NOTIFICATION": {
+          "LABEL": "Notificación de campaña estacional",
+          "DESC": "Campañas estacionales de ropa y donaciones."
+        },
+        "TAILORING": {
+          "LABEL": "Sastrería",
+          "DESC": "Servicios de reparación y modificación de ropa."
+        }
+      }
+    },
+    "HOUSING_SUPPORT": {
+      "LABEL": "Apoyo de vivienda",
+      "DESC": "Compañeros de piso, alquiler, mudanza y montaje del hogar.",
+      "SUBCATEGORIES": {
+        "FIND_A_ROOMMATE": {
+          "LABEL": "Encontrar compañero de piso",
+          "DESC": "Obtener ayuda para encontrar un compañero de piso."
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "Apoyo de alquiler",
+          "DESC": "Asistencia con alquileres y conceptos básicos de arrendamiento."
+        },
+        "HOUSEHOLD_ITEM_EXCHANGE": {
+          "LABEL": "Intercambio de artículos del hogar",
+          "DESC": "Ayuda para comprar o vender artículos del hogar."
+        },
+        "MOVING_ASSISTANCE": {
+          "LABEL": "Asistencia de mudanza",
+          "DESC": "Apoyo con mudanzas y embalaje."
+        },
+        "CLEANING_HELP": {
+          "LABEL": "Ayuda de limpieza",
+          "DESC": "Asistencia con tareas básicas de limpieza."
+        },
+        "HOME_REPAIR_SUPPORT": {
+          "LABEL": "Apoyo de reparación del hogar",
+          "DESC": "Apoyo para reparaciones menores del hogar."
+        },
+        "UTILITIES_SETUP": {
+          "LABEL": "Configuración de servicios públicos",
+          "DESC": "Ayuda para configurar servicios públicos y utilities."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Apoyo educativo y profesional",
+      "DESC": "Aplicaciones universitarias, revisiones de SOP, tutoría y apoyo de estudio.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATION_HELP": {
+          "LABEL": "Ayuda con aplicaciones universitarias",
+          "DESC": "Ayuda con aplicaciones y formularios."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "Revisión de SOP y ensayos",
+          "DESC": "Comentarios sobre declaraciones y ensayos."
+        },
+        "TUTORING": {
+          "LABEL": "Tutoría",
+          "DESC": "Tutoría de materias y apoyo de estudio."
+        }
+      }
+    },
+    "HEALTHCARE_WELLNESS_SUPPORT": {
+      "LABEL": "Apoyo de salud y bienestar",
+      "DESC": "Navegación de salud no clínica y apoyo de bienestar.",
+      "SUBCATEGORIES": {
+        "MEDICAL_NAVIGATION": {
+          "LABEL": "Navegación médica",
+          "DESC": "Navegación básica y orientación no clínica."
+        },
+        "MEDICINE_DELIVERY": {
+          "LABEL": "Entrega de medicamentos",
+          "DESC": "Recogida y entrega de medicamentos de venta libre."
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "Apoyo de bienestar mental",
+          "DESC": "Acceso a recursos generales de salud mental."
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "Recordatorios de medicamentos",
+          "DESC": "Recordatorios de medicamentos no clínicos."
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "Orientación de educación sanitaria",
+          "DESC": "Conciencia de bienestar y educación sanitaria."
+        }
+      }
+    },
+    "ELDERLY_SUPPORT": {
+      "LABEL": "Apoyo para personas mayores",
+      "DESC": "Asistencia no médica para personas mayores y apoyo comunitario.",
+      "SUBCATEGORIES": {
+        "SENIOR_LIVING_RELOCATION": {
+          "LABEL": "Reubicación de vivienda para personas mayores",
+          "DESC": "Ayuda con vivienda para personas mayores y mudanza."
+        },
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "Apoyo digital para personas mayores",
+          "DESC": "Asistencia con dispositivos y aplicaciones."
+        },
+        "MEDICAL_HELP": {
+          "LABEL": "Ayuda médica",
+          "DESC": "Asistencia médica no clínica para personas mayores."
+        },
+        "ERRANDS_TRANSPORTATION": {
+          "LABEL": "Mandados y transporte",
+          "DESC": "Ayuda con mandados y transporte."
+        },
+        "SOCIAL_CONNECTION": {
+          "LABEL": "Conexión social",
+          "DESC": "Compañía y actividades sociales."
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "Apoyo de comidas",
+          "DESC": "Ayuda con la preparación de comidas y cocinar."
+        }
+      }
+    }
+  }
+}

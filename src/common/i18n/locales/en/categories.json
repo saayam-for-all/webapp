@@ -1,0 +1,160 @@
+{
+  "REQUEST_CATEGORIES": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "General",
+      "DESC": "Use when you're unsure; describe your need in detail."
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
+      "LABEL": "Food & Essentials",
+      "DESC": "Access food support, grocery services, and cooking help.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Food Assistance",
+          "DESC": "Find food banks, pantries, or meal programs."
+        },
+        "GROCERY_SHOPPING_AND_DELIVERY": {
+          "LABEL": "Grocery Shopping & Delivery",
+          "DESC": "Request help shopping for and delivering groceries."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Cooking Help",
+          "DESC": "Get guidance with meal prep and cooking."
+        }
+      }
+    },
+    "CLOTHING_SUPPORT": {
+      "LABEL": "Clothing Support",
+      "DESC": "Donate, borrow, repair, or request clothing assistance.",
+      "SUBCATEGORIES": {
+        "DONATE_CLOTHES": {
+          "LABEL": "Donate Clothes",
+          "DESC": "Give clothing to those in need."
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "Borrow Clothes",
+          "DESC": "Borrow gently used clothing."
+        },
+        "EMERGENCY_ASSISTANCE": {
+          "LABEL": "Emergency Assistance",
+          "DESC": "Emergency clothing needs during crises."
+        },
+        "SEASONAL_DRIVE_NOTIFICATION": {
+          "LABEL": "Seasonal Drive Notification",
+          "DESC": "Seasonal clothing drives and donations."
+        },
+        "TAILORING": {
+          "LABEL": "Tailoring",
+          "DESC": "Clothing repair and alteration services."
+        }
+      }
+    },
+    "HOUSING_SUPPORT": {
+      "LABEL": "Housing Support",
+      "DESC": "Roommates, renting guidance, moving and home setup support.",
+      "SUBCATEGORIES": {
+        "FIND_A_ROOMMATE": {
+          "LABEL": "Find a Roommate",
+          "DESC": "Get help finding a roommate."
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "Renting Support",
+          "DESC": "Assistance with renting and lease basics."
+        },
+        "HOUSEHOLD_ITEM_EXCHANGE": {
+          "LABEL": "Household Item Exchange",
+          "DESC": "Help with buying or selling household items."
+        },
+        "MOVING_ASSISTANCE": {
+          "LABEL": "Moving Assistance",
+          "DESC": "Support with moving and packing."
+        },
+        "CLEANING_HELP": {
+          "LABEL": "Cleaning Help",
+          "DESC": "Assistance with basic cleaning tasks."
+        },
+        "HOME_REPAIR_SUPPORT": {
+          "LABEL": "Home Repair Support",
+          "DESC": "Support for minor home repairs."
+        },
+        "UTILITIES_SETUP": {
+          "LABEL": "Utilities Setup",
+          "DESC": "Help setting up utilities and services."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Education & Career Support",
+      "DESC": "College apps, SOP reviews, tutoring, and study support.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATION_HELP": {
+          "LABEL": "College Application Help",
+          "DESC": "Help with applications and forms."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOP & Essay Review",
+          "DESC": "Feedback on statements and essays."
+        },
+        "TUTORING": {
+          "LABEL": "Tutoring",
+          "DESC": "Subject tutoring and study support."
+        }
+      }
+    },
+    "HEALTHCARE_WELLNESS_SUPPORT": {
+      "LABEL": "Healthcare & Well-being",
+      "DESC": "Non-clinical health navigation and wellness support.",
+      "SUBCATEGORIES": {
+        "MEDICAL_NAVIGATION": {
+          "LABEL": "Medical Navigation",
+          "DESC": "Basic navigation and non-clinical guidance."
+        },
+        "MEDICINE_DELIVERY": {
+          "LABEL": "Medicine Delivery",
+          "DESC": "Pickup and delivery of OTC medicines."
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "Mental Wellbeing Support",
+          "DESC": "Access general mental health resources."
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "Medication Reminders",
+          "DESC": "Non-clinical medication reminders."
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "Health Education Guidance",
+          "DESC": "Wellness awareness and health education."
+        }
+      }
+    },
+    "ELDERLY_SUPPORT": {
+      "LABEL": "Elderly Support",
+      "DESC": "Non-medical assistance for seniors and community support.",
+      "SUBCATEGORIES": {
+        "SENIOR_LIVING_RELOCATION": {
+          "LABEL": "Senior Living Relocation",
+          "DESC": "Help with senior housing and moving."
+        },
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "Digital Support for Seniors",
+          "DESC": "Assistance with devices and apps."
+        },
+        "MEDICAL_HELP": {
+          "LABEL": "Medical Help",
+          "DESC": "Non-clinical medical assistance for seniors."
+        },
+        "ERRANDS_TRANSPORTATION": {
+          "LABEL": "Errands & Transportation",
+          "DESC": "Help with errands and transportation."
+        },
+        "SOCIAL_CONNECTION": {
+          "LABEL": "Social Connection",
+          "DESC": "Companionship and social activities."
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "Meal Support",
+          "DESC": "Help with meal preparation and cooking."
+        }
+      }
+    }
+  }
+}

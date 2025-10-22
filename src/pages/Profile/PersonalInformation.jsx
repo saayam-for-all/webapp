@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import CountryList from "react-select-country-list";
-import PHONECODESEN from "../../utils/phone-codes-en";
-import { getPhoneCodeslist } from "../../utils/utils";
 import { State, Country } from "country-state-city";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import countryCodes from "../../utils/country-codes-en.json";
 
 const genderOptions = [
   { value: "Female", label: "Female" },
@@ -71,18 +73,33 @@ export const getLocaleAndFormat = async (countryName) => {
   }
 };
 
+const countryNameToCode = Object.entries(countryCodes).reduce(
+  (acc, [code, name]) => {
+    acc[name] = code;
+    return acc;
+  },
+  {},
+);
+
 function PersonalInformation({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
+  const location = useLocation();
+  const [isEditing, setIsEditing] = useState(Boolean(location.state?.edit));
   const streetAddressRef = useRef(null);
   const dateOfBirthRef = useRef(null);
+  const { user } = useSelector((state) => state.auth);
+
+  const getCountryCodeFromZoneInfo = useCallback((zoneinfo) => {
+    if (!zoneinfo) return "";
+    return countryNameToCode[zoneinfo] || "";
+  }, []);
 
   const [personalInfo, setPersonalInfo] = useState({
     dateOfBirth: null,
     gender: "",
     streetAddress: "",
     streetAddress2: "",
-    country: "",
+    country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "",
     state: "",
     zipCode: "",
     secondaryEmail: "",
@@ -91,8 +108,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   });
 
   const countries = CountryList().getData();
-  const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
-
   const [states, setStates] = useState([]);
 
   const getLatestStatesList = (countryCodeSelected) => {
@@ -120,11 +135,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
 
+  const complete = Boolean(
+    personalInfo.streetAddress &&
+      personalInfo.country &&
+      personalInfo.state &&
+      personalInfo.zipCode,
+  );
+  localStorage.setItem("addressFlag", complete ? "true" : "false");
+
   useEffect(() => {
     const updateDateFormat = async () => {
-      const { locale, dateFormat, placeholder } = await getLocaleAndFormat(
-        personalInfo.country || "United States", // Default to "United States" if no country
+      const selectedCountry = countries.find(
+        (option) => option.value === personalInfo.country,
       );
+      const countryName = selectedCountry?.label || "United States";
+      const { locale, dateFormat, placeholder } =
+        await getLocaleAndFormat(countryName);
       console.log("Setting placeholder:", placeholder);
       setLocale(locale);
       setDateFormat(dateFormat);
@@ -132,7 +158,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     };
 
     updateDateFormat();
-  }, [personalInfo.country]);
+  }, [personalInfo.country, countries]);
 
   useEffect(() => {
     const savedPersonalInfo = JSON.parse(localStorage.getItem("personalInfo"));
@@ -147,6 +173,23 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       getLatestStatesList(getCountryIsoCode(savedPersonalInfo.country));
     }
   }, []);
+
+  useEffect(() => {
+    if (user?.zoneinfo) {
+      const countryCode = getCountryCodeFromZoneInfo(user.zoneinfo);
+      // Initial states list based on country
+      getLatestStatesList(countryCode);
+
+      setPersonalInfo((prev) => ({
+        ...prev,
+        country: countryCode || "",
+        //state: user.state || "",
+        // Commented out: backend does not return user.state.
+        // Keeping this line was resetting the saved state (from localStorage) to "".
+        // If backend adds state later, re-enable with: state: prev.state || user.state || ""
+      }));
+    }
+  }, [getCountryCodeFromZoneInfo, user]);
 
   const handleInputChange = (name, value) => {
     setPersonalInfo((prevInfo) => ({
@@ -225,9 +268,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       }
     }
     if (name === "dateOfBirth") {
-      if (!value) {
-        error = "Date of Birth is required.";
-      } else if (new Date(value) > new Date()) {
+      if (new Date(value) > new Date()) {
         error = "Date of Birth cannot be in the future.";
       }
     }
@@ -265,8 +306,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 ?
               </div>
               <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                We require your date of birth to confirm you're at least 21. If
-                left blank, we'll assume you meet this age requirement{" "}
+                We require your date of birth to confirm you&#39;re at least 21.
+                If left blank, we&#39;ll assume you meet this age requirement{" "}
               </div>
             </div>
           </div>
@@ -278,6 +319,12 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 selected={personalInfo.dateOfBirth || null}
                 onChange={(date) => handleInputChange("dateOfBirth", date)}
                 dateFormat={dateFormat}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="scroll"
+                scrollableYearDropdown
+                yearDropdownItemNumber={100}
+                maxDate={new Date()}
                 placeholderText={placeholder}
                 className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                   errors.dateOfBirth ? "border-red-500" : "border-gray-200"
@@ -329,6 +376,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
@@ -389,18 +447,19 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             <>
               <Select
                 value={countries.find(
-                  (option) => option.label === personalInfo.country,
+                  (option) => option.value === personalInfo.country,
                 )}
                 options={countries}
-                onChange={(selectedOption) => {
-                  handleInputChange("country", selectedOption?.label || "");
-                  // This will reset the selected State to "" otherwise it will create inconsistency if someone updates state and changes Country.
-                  setPersonalInfo((prevInfo) => ({
-                    ...prevInfo,
-                    state: "",
-                  }));
-                  getLatestStatesList(selectedOption?.value || "");
-                }}
+                // onChange={(selectedOption) => {
+                //   handleInputChange("country", selectedOption?.label || "");
+                //   // This will reset the selected State to "" otherwise it will create inconsistency if someone updates state and changes Country.
+                //   setPersonalInfo((prevInfo) => ({
+                //     ...prevInfo,
+                //     state: "",
+                //   }));
+                //   getLatestStatesList(selectedOption?.value || "");
+                // }}
+                isDisabled={true}
                 className={`w-full ${
                   errors.country ? "border border-red-500" : ""
                 }`}
@@ -413,12 +472,26 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             </>
           ) : (
             <p className="text-lg text-gray-900">
-              {personalInfo.country || ""}
+              {countries.find((option) => option.value === personalInfo.country)
+                ?.label ||
+                user?.zoneinfo ||
+                ""}
             </p>
           )}
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("STATE")}
           </label>
           {isEditing ? (
@@ -444,6 +517,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("ZIP_CODE")}
           </label>
           {isEditing ? (
@@ -565,7 +649,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                     gender: "",
                     streetAddress: "",
                     streetAddress2: "",
-                    country: "",
+                    country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "US",
                     state: "",
                     zipCode: "",
                     secondaryEmail: "",
@@ -588,3 +672,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 }
 
 export default PersonalInformation;
+
+PersonalInformation.propTypes = {
+  setHasUnsavedChanges: PropTypes.func.isRequired,
+};

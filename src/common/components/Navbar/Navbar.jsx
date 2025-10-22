@@ -161,10 +161,7 @@ const Navbar = () => {
 
     fetchNotifications(); // Comment it after call ing the funciton below
 
-    const interval = setInterval(
-      "call fetchNotifications() here",
-      2 * 60 * 1000,
-    ); // fetch every 2 min
+    const interval = setInterval(fetchNotifications, 2 * 60 * 1000); // fetch every 2 min
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);

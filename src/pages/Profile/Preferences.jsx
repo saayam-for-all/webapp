@@ -8,16 +8,23 @@ import { changeUiLanguage } from "../../common/i18n/utils";
 import languagesData from "../../common/i18n/languagesData";
 
 // Dashboard options based on user roles
-const dashboardOptions = [
-  { value: "super-admin", label: "Super Admin Dashboard" },
-  { value: "admin", label: "Admin Dashboard" },
-  { value: "steward", label: "Steward Dashboard" },
-  { value: "volunteer", label: "Volunteer Dashboard" },
-  { value: "beneficiary", label: "Beneficiary Dashboard" },
-];
+//const { t } = useTranslation();
 
 function Preferences({ setHasUnsavedChanges }) {
   const { t } = useTranslation();
+  const dashboardOptions = [
+    { value: "super-admin", label: t("SUPER_ADMIN_DASHBOARD") },
+    { value: "admin", label: t("ADMIN_DASHBOARD") },
+    { value: "steward", label: t("STEWARD_DASHBOARD") },
+    { value: "volunteer", label: t("VOLUNTEER_DASHBOARD") },
+    { value: "beneficiary", label: t("BENEFICIARY_DASHBOARD") },
+  ];
+  // Build languages options directly from languagesData.js
+  const languages = languagesData.map((lang) => ({
+    // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
+    value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
+    label: t(lang.name),
+  }));
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -39,17 +46,7 @@ function Preferences({ setHasUnsavedChanges }) {
     receiveEmergencyNotifications: false,
   });
 
-  const [languages, setLanguages] = useState([]);
-
   useEffect(() => {
-    // Build languages options directly from languagesData.js
-    const languageOptions = languagesData.map((lang) => ({
-      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
-      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
-      label: lang.name,
-    }));
-    setLanguages(languageOptions);
-
     // Get personal information from localStorage (only for email/phone, NOT language preferences)
     const savedPersonalInfo =
       JSON.parse(localStorage.getItem("personalInfo")) || {};
@@ -397,9 +394,11 @@ function Preferences({ setHasUnsavedChanges }) {
           </label>
           {isEditing ? (
             <Select
-              value={languages.find(
-                (option) =>
-                  option.value === preferencesInfo.languagePreference1,
+              value={t(
+                languages.find(
+                  (option) =>
+                    option.value === preferencesInfo.languagePreference1,
+                ),
               )}
               options={languages}
               onChange={(selectedOption) =>
@@ -412,7 +411,7 @@ function Preferences({ setHasUnsavedChanges }) {
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {preferencesInfo.languagePreference1 || ""}
+              {t(preferencesInfo.languagePreference1) || ""}
             </p>
           )}
         </div>
@@ -441,7 +440,7 @@ function Preferences({ setHasUnsavedChanges }) {
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {preferencesInfo.languagePreference2 || ""}
+              {t(preferencesInfo.languagePreference2) || ""}
             </p>
           )}
         </div>
@@ -471,7 +470,7 @@ function Preferences({ setHasUnsavedChanges }) {
             />
           ) : (
             <p className="text-lg text-gray-900">
-              {preferencesInfo.languagePreference3 || ""}
+              {t(preferencesInfo.languagePreference3) || ""}
             </p>
           )}
         </div>
@@ -498,7 +497,7 @@ function Preferences({ setHasUnsavedChanges }) {
                 className="mr-2"
               />
               <label htmlFor="primary-email" className="text-sm">
-                <span className="font-medium">Primary Email:</span>{" "}
+                <span className="font-medium">{t("PRIMARY EMAIL")}:</span>{" "}
                 {preferencesInfo.primaryEmailPreference}
               </label>
             </div>
@@ -556,7 +555,7 @@ function Preferences({ setHasUnsavedChanges }) {
                 className="mr-2"
               />
               <label htmlFor="primary-phone" className="text-sm">
-                <span className="font-medium">Primary Phone:</span>{" "}
+                <span className="font-medium">{t("PRIMARY PHONE")}:</span>{" "}
                 {preferencesInfo.primaryPhonePreference}
               </label>
             </div>

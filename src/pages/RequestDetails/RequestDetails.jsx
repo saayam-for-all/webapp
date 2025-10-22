@@ -71,10 +71,11 @@ const RequestDetails = () => {
     <div>
       <div className="w-full px-4 mt-4 mb-4">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/dashboard")}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> Back To Home
+          <span className="text-2xl mr-2">&lt;</span>{" "}
+          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
         </button>
       </div>
 
