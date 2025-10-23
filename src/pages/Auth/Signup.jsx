@@ -90,6 +90,8 @@ const SignUp = () => {
     );
 
   const handleSignUp = async () => {
+    setErrors({ root: "Signup is currently disabled." });
+    return;
     try {
       setErrors({});
       setPhoneEmptyError("");
@@ -406,7 +408,7 @@ const SignUp = () => {
             className="mx-2 text-left underline"
             onClick={() => navigate("/login")}
           >
-            {t("SIGN_IN")}
+            {t("LOG_IN")}
           </button>
         </div>
       </div>
