@@ -18,6 +18,7 @@ import {
   createRequest,
   predictCategories,
   getCategories,
+  getEnums,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
@@ -75,6 +76,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
+  const [enums, setEnums] = useState(null);
+
+  useEffect(() => {
+    const fetchEnumsData = async () => {
+      try {
+        const data = await getEnums();
+        // console.log("Enums API response:", data);
+        setEnums(data);
+      } catch (error) {
+        console.error("Failed to fetch enums:", error);
+      }
+    };
+
+    fetchEnumsData();
+  }, []);
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -636,13 +653,19 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
               <div className="flex-1 relative">
                 <select
-                  id="self"
-                  data-testid="dropdown"
+                  id="request_for"
+                  value={formData.request_for || ""}
                   className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
-                  onChange={(e) => setSelfFlag(e.target.value === "yes")}
+                  onChange={(e) =>
+                    setFormData({ ...formData, request_for: e.target.value })
+                  }
                 >
-                  <option value="yes">{t("YES")}</option>
-                  <option value="no">{t("NO")}</option>
+                  {enums?.requestFor &&
+                    Object.values(enums.requestFor).map((val) => (
+                      <option key={val} value={val}>
+                        {val}
+                      </option>
+                    ))}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
@@ -1054,8 +1077,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                   "
                 >
-                  <option value="Remote">{t("REMOTE")}</option>
-                  <option value="In Person">{t("IN_PERSON")}</option>
+                  {enums?.requestType &&
+                    Object.values(enums.requestType).map((val) => (
+                      <option key={val} value={val}>
+                        {val}
+                      </option>
+                    ))}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
@@ -1148,7 +1175,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               <div className="relative">
                 <select
                   id="requestPriority"
-                  value={formData.priority || "MEDIUM"}
+                  value={formData.priority || enums?.requestPriority?.[1]}
                   onChange={(e) =>
                     setFormData({ ...formData, priority: e.target.value })
                   }
@@ -1160,9 +1187,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                   "
                 >
-                  <option value="LOW">{t("Low")}</option>
-                  <option value="MEDIUM">{t("Medium")}</option>
-                  <option value="HIGH">{t("High")}</option>
+                  {enums?.requestPriority &&
+                    Object.values(enums.requestPriority).map((val) => (
+                      <option key={val} value={val}>
+                        {val}
+                      </option>
+                    ))}
                 </select>
 
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
