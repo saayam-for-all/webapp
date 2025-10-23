@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { Country, State } from "country-state-city";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useCallback, useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import CountryList from "react-select-country-list";
-import { State, Country } from "country-state-city";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import countryCodes from "../../utils/country-codes-en.json";
 
@@ -268,7 +268,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       }
     }
     if (name === "dateOfBirth") {
-      if (new Date(value) > new Date()) {
+      // If no DOB provided, treat as allowed (per tooltip behavior)
+      if (!value) {
+        return "";
+      }
+
+      const dob = new Date(value);
+      if (isNaN(dob.getTime())) {
+        error = "Invalid Date of Birth.";
+      } else if (dob > new Date()) {
         error = "Date of Birth cannot be in the future.";
       } else if (value) {
         // Calculate age and check if user is at least 21
