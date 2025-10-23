@@ -270,6 +270,23 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     if (name === "dateOfBirth") {
       if (new Date(value) > new Date()) {
         error = "Date of Birth cannot be in the future.";
+      } else if (value) {
+        // Calculate age and check if user is at least 21
+        const today = new Date();
+        const birthDate = new Date(value);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+
+        if (age < 21) {
+          error = "You must be at least 21 years old.";
+        }
       }
     }
     if (name === "country") {
