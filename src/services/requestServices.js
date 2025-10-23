@@ -52,3 +52,8 @@ export const getCategories = async () => {
   const response = await api.get(endpoints.GET_CATEGORIES);
   return response.data;
 };
+
+export const getEnums = async () => {
+  const response = await api.get(endpoints.GET_ENUMS);
+  return response.data;
+};
