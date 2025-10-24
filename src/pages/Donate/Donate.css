@@ -663,3 +663,74 @@ body {
     width: 90%;
   }
 }
+/* ---------- Donation Buttons: uniform size & Razorpay centered ---------- */
+.donation-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* two buttons per row */
+  gap: 1rem 1.2rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Every donation button has the same shape and height */
+.donation-option-btn {
+  background: #fff;
+  border: 2.5px solid #e0e0e0;
+  border-radius: 16px;
+  height: 55px;              /* fixed uniform height */
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  transition:
+    border 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  outline: none;
+}
+
+.donation-option-btn:hover,
+.donation-option-btn:focus {
+  border: 2.5px solid #b3d4fc;
+  box-shadow: 0 4px 16px rgba(0, 112, 186, 0.08);
+  background: #f6faff;
+}
+
+.donation-option-btn.selected {
+  border: 2.5px solid #0070ba;
+  background: #eaf4fb;
+  box-shadow: 0 4px 16px rgba(0, 112, 186, 0.13);
+}
+
+/* Razorpay centered alone on last line, same width as others */
+.donation-option-btn:last-child {
+  grid-column: 1 / 3;
+  justify-self: center;
+  width: 60%;               /* same proportional width */
+  height: 55px;             /* match others exactly */
+}
+
+/* Responsive behavior for small screens */
+@media (max-width: 600px) {
+  .donation-option-btn:last-child {
+    width: 80%;
+  }
+  .donation-option-btn {
+    height: 50px;
+  }
+}
+/* Razorpay logo sizing inside button */
+.donation-option-btn img[alt="Razorpay"] {
+  height: 25px;        /* same as others */
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
