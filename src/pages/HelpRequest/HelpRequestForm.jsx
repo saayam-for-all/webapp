@@ -83,6 +83,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       try {
         const data = await getEnums();
         // console.log("Enums API response:", data);
+
         setEnums(data);
       } catch (error) {
         console.error("Failed to fetch enums:", error);
@@ -1065,7 +1066,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               <div className="relative">
                 <select
                   id="requestType"
-                  value={formData.request_type}
+                  value={enums?.requestType?.[1] || formData.request_type}
                   onChange={(e) =>
                     setFormData({ ...formData, request_type: e.target.value })
                   }
