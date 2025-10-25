@@ -10,7 +10,7 @@ exports[`Table renders correctly 1`] = `
         data-testid="container"
       >
         <div
-          class="overflow-auto h-4/5"
+          class="overflow-y-auto h-full"
         >
           <table
             class="min-w-full divide-y divide-gray-200"
@@ -89,16 +89,6 @@ exports[`Table renders correctly 1`] = `
             </tbody>
           </table>
         </div>
-        <div
-          class="h-1/5"
-        >
-          <mock-pagination
-            currentpage="1"
-            rowsperpage="2"
-            totalpages="2"
-            totalrows="2"
-          />
-        </div>
       </div>
     </div>
   </body>,
@@ -108,7 +98,7 @@ exports[`Table renders correctly 1`] = `
       data-testid="container"
     >
       <div
-        class="overflow-auto h-4/5"
+        class="overflow-y-auto h-full"
       >
         <table
           class="min-w-full divide-y divide-gray-200"
@@ -186,16 +176,6 @@ exports[`Table renders correctly 1`] = `
             </tr>
           </tbody>
         </table>
-      </div>
-      <div
-        class="h-1/5"
-      >
-        <mock-pagination
-          currentpage="1"
-          rowsperpage="2"
-          totalpages="2"
-          totalrows="2"
-        />
       </div>
     </div>
   </div>,

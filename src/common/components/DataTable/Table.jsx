@@ -1,35 +1,16 @@
-import React, { useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Pagination from "../Pagination/Pagination";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Table = ({
-  headers,
-  rows,
-  currentPage,
-  setCurrentPage,
-  totalPages,
-  totalRows,
-  itemsPerPage,
-  sortConfig,
-  requestSort,
-  onRowsPerPageChange,
-  getLinkPath,
+  headers = [],
+  rows = [],
+  sortConfig = null,
+  requestSort = () => {},
+  getLinkPath = () => "#",
   getLinkState = undefined,
 }) => {
-  const navigate = useNavigate();
-  const paginatedRequests = useMemo(() => {
-    return rows.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage,
-    );
-  }, [rows, currentPage, itemsPerPage]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [totalRows, itemsPerPage]);
-
   const getSortIndicator = (key) => {
-    if (sortConfig.key === key) {
+    if (sortConfig?.key === key) {
       return sortConfig.direction === "ascending" ? "↑" : "↓";
     }
     return "";
@@ -37,7 +18,7 @@ const Table = ({
 
   return (
     <div className="relative h-full" data-testid="container">
-      <div className="overflow-auto h-4/5">
+      <div className="overflow-y-auto h-full">
         <table
           className="min-w-full divide-y divide-gray-200"
           data-testid="table"
@@ -66,7 +47,7 @@ const Table = ({
             className="bg-white divide-y divide-gray-200 "
             data-testid="table-body"
           >
-            {paginatedRequests.map((request, rowIndex) => (
+            {rows.map((request, rowIndex) => (
               <tr key={rowIndex}>
                 {headers.map((header, colIndex) => (
                   <td
@@ -91,18 +72,6 @@ const Table = ({
             ))}
           </tbody>
         </table>
-      </div>
-      <div className="h-1/5">
-        {rows.length > 0 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            rowsPerPage={itemsPerPage}
-            totalRows={totalRows}
-            onRowsPerPageChange={onRowsPerPageChange}
-          />
-        )}
       </div>
     </div>
   );

@@ -6,14 +6,12 @@ import { useNavigate } from "react-router-dom";
 
 const VoluntaryOrganizations = () => {
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
     key: "rating",
     direction: "descending",
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState({});
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -75,11 +73,6 @@ const VoluntaryOrganizations = () => {
     return filteredOrganizations(sortedData);
   }, [sortedData, categoryFilter, searchTerm]);
 
-  const totalPages = (filteredData) => {
-    if (!filteredData || filteredData.length == 0) return 1;
-    return Math.ceil(filteredData.length / rowsPerPage);
-  };
-
   const requestSort = (key) => {
     let direction = "ascending";
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
@@ -88,14 +81,8 @@ const VoluntaryOrganizations = () => {
     setSortConfig({ key, direction });
   };
 
-  const handleRowsPerPageChange = (rows) => {
-    setRowsPerPage(rows);
-    setCurrentPage(1);
-  };
-
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1);
   };
 
   const toggleCategoryDropdown = () => {
@@ -228,14 +215,8 @@ const VoluntaryOrganizations = () => {
       <Table
         headers={headers}
         rows={filteredData}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages(filteredData)}
-        totalRows={filteredData.length}
-        itemsPerPage={rowsPerPage}
         sortConfig={sortConfig}
         requestSort={requestSort}
-        onRowsPerPageChange={handleRowsPerPageChange}
         getLinkPath={(request, header) => `/organization/${request[header]}`}
       />
     </div>

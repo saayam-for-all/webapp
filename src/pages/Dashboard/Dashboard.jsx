@@ -6,7 +6,6 @@ import Table from "../../common/components/DataTable/Table";
 // import { requestsData } from "./data";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
-import { MdArrowForwardIos } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
@@ -30,7 +29,6 @@ const Dashboard = ({ userRole }) => {
     }
   }, [location.state?.successMessage]);
   const [activeTab, setActiveTab] = useState("myRequests");
-  const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
     key: "creationDate",
     direction: "ascending",
@@ -41,7 +39,6 @@ const Dashboard = ({ userRole }) => {
     Closed: false,
   });
   const [categoryFilter, setCategoryFilter] = useState({});
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [data, setData] = useState({});
@@ -95,7 +92,6 @@ const Dashboard = ({ userRole }) => {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setCurrentPage(1);
     setStatusFilter({
       Open: true,
       Closed: false,
@@ -154,14 +150,8 @@ const Dashboard = ({ userRole }) => {
     return filteredRequests(sortedData);
   }, [sortedData, statusFilter, categoryFilter, searchTerm]);
 
-  const totalPages = (filteredData) => {
-    if (!filteredData || filteredData.length == 0) return 1;
-    return Math.ceil(filteredData.length / rowsPerPage);
-  };
-
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1);
   };
 
   const requestSort = (key) => {
@@ -209,11 +199,6 @@ const Dashboard = ({ userRole }) => {
         return newFilter;
       }
     });
-  };
-
-  const handleRowsPerPageChange = (rows) => {
-    setRowsPerPage(rows);
-    setCurrentPage(1);
   };
 
   const toggleCategoryDropdown = () => {
@@ -436,14 +421,8 @@ const Dashboard = ({ userRole }) => {
               <Table
                 headers={headers}
                 rows={filteredData}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalPages={totalPages(filteredData)}
-                totalRows={filteredData.length}
-                itemsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
                 requestSort={requestSort}
-                onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) => `/request/${request[header]}`}
                 getLinkState={(request) => request}
               />
