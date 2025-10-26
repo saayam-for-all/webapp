@@ -117,7 +117,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     lead_volunteer: "Ethan Marshall",
     preferred_language: "",
     category: "General",
-    request_type: "remote",
+    request_type: "Remote",
     location: "",
     subject: "",
     description: "",
@@ -657,9 +657,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   id="request_for"
                   value={formData.request_for || ""}
                   className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
-                  onChange={(e) =>
-                    setFormData({ ...formData, request_for: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const selected = e.target.value;
+                    setFormData({ ...formData, request_for: selected });
+                    setSelfFlag(selected === enums?.requestFor?.[0]); // "SELF" means true, "OTHER" means false
+                  }}
                 >
                   {enums?.requestFor &&
                     Object.values(enums.requestFor).map((val) => (
@@ -1066,7 +1068,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               <div className="relative">
                 <select
                   id="requestType"
-                  value={enums?.requestType?.[1] || formData.request_type}
+                  value={
+                    formData.request_type || enums?.requestType?.[1] || "REMOTE"
+                  }
                   onChange={(e) =>
                     setFormData({ ...formData, request_type: e.target.value })
                   }
