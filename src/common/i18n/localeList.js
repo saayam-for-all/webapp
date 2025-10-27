@@ -1,14 +1,14 @@
 const localeList = {
-  Bengali: "bn-BD",
-  German: "de-DE",
-  English: "en-US",
-  Spanish: "es-ES",
-  French: "fr-FR",
-  Hindi: "hi-IN",
-  Portuguese: "pt-PT",
-  Russian: "ru-RU",
-  Telugu: "te-IN",
-  Chinese: "zh-CN",
+  Bengali: "bn",
+  German: "de",
+  English: "en",
+  Spanish: "es",
+  French: "fr",
+  Hindi: "hi",
+  Portuguese: "pt",
+  Russian: "ru",
+  Telugu: "te",
+  Chinese: "zh",
 };
 
 export default localeList;

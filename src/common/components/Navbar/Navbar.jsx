@@ -27,6 +27,7 @@ import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
+import { changeUiLanguage } from "../../i18n/utils";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,8 +45,9 @@ const Navbar = () => {
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [newNotificationCount, setNewNotificationCount] = useState(0);
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
@@ -267,6 +269,37 @@ const Navbar = () => {
     setProfileOpenMenu(false);
   };
 
+  const handleLanguageMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setLanguageMenuOpen(true);
+  };
+
+  const handleLanguageMenuClose = () => {
+    setAnchorEl(null);
+    setLanguageMenuOpen(false);
+  };
+
+  const handleLanguageChange = (languageCode) => {
+    i18n.changeLanguage(languageCode);
+    setLanguageMenuOpen(false);
+  };
+
+  const getCurrentLanguageName = () => {
+    const languageMap = {
+      en: "English",
+      hi: "Hindi",
+      te: "Telugu",
+      bn: "Bengali",
+      es: "Spanish",
+      fr: "French",
+      de: "German",
+      pt: "Portuguese",
+      ru: "Russian",
+      zh: "Chinese",
+    };
+    return languageMap[i18n.language] || "English";
+  };
+
   const toggleDrawer = (open) => {
     setDrawerOpen(open);
   };
@@ -428,6 +461,64 @@ const Navbar = () => {
               </button>
             </div>
           )}
+          {/* Language Switcher */}
+          <div className="relative">
+            <button
+              onClick={handleLanguageMenuClick}
+              className="text-black flex items-center hover:text-gray-600 text-base"
+            >
+              🌐 {getCurrentLanguageName()}
+              <ArrowDropDownIcon />
+            </button>
+            {languageMenuOpen && (
+              <Menu
+                anchorEl={anchorEl}
+                open={languageMenuOpen}
+                onClose={handleLanguageMenuClose}
+                PaperProps={{
+                  style: {
+                    position: "absolute",
+                    right: 0,
+                    top: "40px",
+                    zIndex: 1300,
+                    maxWidth: "fit-content",
+                  },
+                }}
+              >
+                <MenuItem onClick={() => handleLanguageChange("en")}>
+                  🇺🇸 English
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("hi")}>
+                  🇮🇳 Hindi
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("te")}>
+                  🇮🇳 Telugu
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("bn")}>
+                  🇧🇩 Bengali
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("es")}>
+                  🇪🇸 Spanish
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("fr")}>
+                  🇫🇷 French
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("de")}>
+                  🇩🇪 German
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("pt")}>
+                  🇵🇹 Portuguese
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("ru")}>
+                  🇷🇺 Russian
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("zh")}>
+                  🇨🇳 Chinese
+                </MenuItem>
+              </Menu>
+            )}
+          </div>
+
           <div className="relative">
             <button
               onClick={(e) => handleLinkClick(e, "/donate")}
@@ -698,6 +789,64 @@ const Navbar = () => {
               </button>
             </div>
           )}
+
+          {/* Mobile Language Switcher */}
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={handleLanguageMenuClick}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              🌐 {getCurrentLanguageName()}
+              <ArrowDropDownIcon />
+            </button>
+            {languageMenuOpen && (
+              <Menu
+                anchorEl={anchorEl}
+                open={languageMenuOpen}
+                onClose={handleLanguageMenuClose}
+                PaperProps={{
+                  style: {
+                    position: "absolute",
+                    right: 0,
+                    top: "40px",
+                    zIndex: 1300,
+                    maxWidth: "fit-content",
+                  },
+                }}
+              >
+                <MenuItem onClick={() => handleLanguageChange("en")}>
+                  🇺🇸 English
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("hi")}>
+                  🇮🇳 Hindi
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("te")}>
+                  🇮🇳 Telugu
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("bn")}>
+                  🇧🇩 Bengali
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("es")}>
+                  🇪🇸 Spanish
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("fr")}>
+                  🇫🇷 French
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("de")}>
+                  🇩🇪 German
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("pt")}>
+                  🇵🇹 Portuguese
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("ru")}>
+                  🇷🇺 Russian
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageChange("zh")}>
+                  🇨🇳 Chinese
+                </MenuItem>
+              </Menu>
+            )}
+          </div>
         </div>
       </Drawer>
     </nav>
