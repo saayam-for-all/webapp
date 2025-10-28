@@ -581,7 +581,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Secondary Email
+            {t("SECONDARY PHONE")}
           </label>
           {isEditing ? (
             <>
@@ -608,7 +608,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Secondary Phone
+            {t("SECONDARY PHONE")}
           </label>
           {isEditing ? (
             <PhoneNumberInputWithCountry
@@ -622,7 +622,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               setError={(err) =>
                 setErrors((prev) => ({ ...prev, secondaryPhone: err }))
               }
-              label={t("Secondary Phone")}
+              label={t("SECONDARY PHONE")}
               required={false}
               t={t}
             />
