@@ -581,7 +581,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("SECONDARY PHONE")}
+            Secondary Email
           </label>
           {isEditing ? (
             <>
