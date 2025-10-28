@@ -577,7 +577,7 @@ function Preferences({ setHasUnsavedChanges }) {
                 className="mr-2"
               />
               <label htmlFor="secondary-phone" className="text-sm">
-                <span className="font-medium">Secondary Phone:</span>{" "}
+                <span className="font-medium">{t("SECONDARY PHONE")}:</span>{" "}
                 {preferencesInfo.secondaryPhonePreference}
               </label>
             </div>
