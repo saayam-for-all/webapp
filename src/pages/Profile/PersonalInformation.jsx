@@ -99,6 +99,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     gender: "",
     streetAddress: "",
     streetAddress2: "",
+    city: "",
     country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "",
     state: "",
     zipCode: "",
@@ -137,6 +138,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
   const complete = Boolean(
     personalInfo.streetAddress &&
+      personalInfo.city &&
       personalInfo.country &&
       personalInfo.state &&
       personalInfo.zipCode,
@@ -227,11 +229,11 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       "dateOfBirth",
       "streetAddress",
       "streetAddress2",
+      "city",
       "country",
       "state",
       "zipCode",
     ];
-
     fieldsToValidate.forEach((field) => {
       const error = validateField(field, personalInfo[field]);
       if (error) {
@@ -303,6 +305,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     if (name === "state") {
       if (!value) {
         error = "State is required.";
+      }
+    }
+
+    if (name === "city") {
+      if (!value.trim()) {
+        error = "City is required.";
+      } else if (!/^[a-zA-Z\s-]+$/.test(value)) {
+        error = "City name can only contain letters, spaces, and hyphens.";
       }
     }
 
@@ -455,6 +465,46 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             <p className="text-lg text-gray-900">
               {personalInfo.streetAddress2 || ""}
             </p>
+          )}
+        </div>
+      </div>
+
+      {/* City */}
+      <div className="grid grid-cols-1 gap-8 mb-6">
+        <div>
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
+            {t("CITY")}
+          </label>
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                name="city"
+                value={personalInfo.city}
+                onChange={(e) => handleInputChange("city", e.target.value)}
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.city ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.city && (
+                <p className="text-red-500 text-xs italic mt-1">
+                  {errors.city}
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-lg text-gray-900">{personalInfo.city || ""}</p>
           )}
         </div>
       </div>
