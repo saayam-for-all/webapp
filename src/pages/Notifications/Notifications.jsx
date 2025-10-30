@@ -40,7 +40,7 @@ export default function NotificationUI() {
         payload: {
           id: note.id,
           data: {
-            message: t("NOTIFICATIONS_ACCEPTED_MESSAGE"),
+            message: t("ACCEPTED_MESSAGE"),
             status: "accepted",
           },
         },
@@ -58,7 +58,7 @@ export default function NotificationUI() {
         payload: {
           id: note.id,
           data: {
-            message: t("NOTIFICATIONS_DENIED_MESSAGE"),
+            message: t("DENIED_MESSAGE"),
             status: "denied",
           },
         },
@@ -86,10 +86,10 @@ export default function NotificationUI() {
             onClick={() => setFilter(type)}
           >
             {type === "all"
-              ? t("NOTIFICATIONS_ALL")
+              ? t("ALL")
               : type === "volunteer"
-                ? t("NOTIFICATIONS_VOLUNTEER_MATCH")
-                : t("NOTIFICATIONS_HELP_REQUEST")}
+                ? t("VOLUNTEER_MATCH")
+                : t("HELP_REQUEST_BUTTON")}
           </button>
         ))}
         <div className="ml-auto">
@@ -113,7 +113,7 @@ export default function NotificationUI() {
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">{note.message}</p>
 
-                {note.title === t("NOTIFICATIONS_NEW_MATCH_REQUEST") &&
+                {note.title === t("NEW_MATCH_REQUEST") &&
                   !note.message.includes("✅") &&
                   !note.message.includes("❌") && (
                     <div className="mt-3 flex flex-wrap gap-4 sm:flex-nowrap">
@@ -121,13 +121,13 @@ export default function NotificationUI() {
                         className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
                         onClick={() => handleAccept(note)}
                       >
-                        {t("NOTIFICATIONS_ACCEPT")}
+                        {t("ACCEPT")}
                       </button>
                       <button
                         className="flex-1 sm:flex-none border border-red-500 hover:bg-red-700 hover:text-white text-red-500 px-4 py-1 rounded"
                         onClick={() => handleDeny(note)}
                       >
-                        {t("NOTIFICATIONS_DENY")}
+                        {t("DENY")}
                       </button>
                     </div>
                   )}
