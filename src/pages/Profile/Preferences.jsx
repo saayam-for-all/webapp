@@ -394,11 +394,9 @@ function Preferences({ setHasUnsavedChanges }) {
           </label>
           {isEditing ? (
             <Select
-              value={t(
-                languages.find(
-                  (option) =>
-                    option.value === preferencesInfo.languagePreference1,
-                ),
+              value={languages.find(
+                (option) =>
+                  option.value === preferencesInfo.languagePreference1,
               )}
               options={languages}
               onChange={(selectedOption) =>
