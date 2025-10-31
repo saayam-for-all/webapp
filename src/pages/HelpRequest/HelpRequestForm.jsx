@@ -18,7 +18,6 @@ import {
   createRequest,
   predictCategories,
   getCategories,
-  getEnums,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
@@ -78,19 +77,28 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
   const [enums, setEnums] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchEnumsData = async () => {
+  //     try {
+  //       const data = await getEnums();
+  //       // console.log("Enums API response:", data);
+
+  //       setEnums(data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch enums:", error);
+  //     }
+  //   };
+
+  //   fetchEnumsData();
+  // }, []);
+
   useEffect(() => {
-    const fetchEnumsData = async () => {
-      try {
-        const data = await getEnums();
-        // console.log("Enums API response:", data);
-
-        setEnums(data);
-      } catch (error) {
-        console.error("Failed to fetch enums:", error);
-      }
-    };
-
-    fetchEnumsData();
+    const storedEnums = localStorage.getItem("enums");
+    if (storedEnums) {
+      setEnums(JSON.parse(storedEnums));
+    } else {
+      console.warn("Enums not found in localStorage, please re-login.");
+    }
   }, []);
 
   const [snackbar, setSnackbar] = useState({
@@ -117,7 +125,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     lead_volunteer: "Ethan Marshall",
     preferred_language: "",
     category: "General",
-    request_type: "Remote",
+    request_type: "REMOTE",
     location: "",
     subject: "",
     description: "",
@@ -666,7 +674,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {enums?.requestFor &&
                     Object.values(enums.requestFor).map((val) => (
                       <option key={val} value={val}>
-                        {val}
+                        {t(`enums:requestFor.${val}`, val)}
                       </option>
                     ))}
                 </select>
@@ -1068,9 +1076,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               <div className="relative">
                 <select
                   id="requestType"
-                  value={
-                    formData.request_type || enums?.requestType?.[1] || "REMOTE"
-                  }
+                  value={formData.request_type || "REMOTE"}
                   onChange={(e) =>
                     setFormData({ ...formData, request_type: e.target.value })
                   }
@@ -1085,7 +1091,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {enums?.requestType &&
                     Object.values(enums.requestType).map((val) => (
                       <option key={val} value={val}>
-                        {val}
+                        {t(`enums:requestType.${val}`, val)}
                       </option>
                     ))}
                 </select>
@@ -1093,7 +1099,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
               </div>
-              {formData.request_type === "In Person" && (
+              {formData.request_type === "INPERSON" && (
                 <div
                   className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
                   data-testid="parentDivTwo"
@@ -1195,7 +1201,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {enums?.requestPriority &&
                     Object.values(enums.requestPriority).map((val) => (
                       <option key={val} value={val}>
-                        {val}
+                        {t(`enums:requestPriority.${val}`, val)}
                       </option>
                     ))}
                 </select>
