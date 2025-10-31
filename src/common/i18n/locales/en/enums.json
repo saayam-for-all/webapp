@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "Self",
+    "OTHER": "Other"
+  },
+  "requestPriority": {
+    "LOW": "Low",
+    "MEDIUM": "Medium",
+    "HIGH": "High",
+    "CRITICAL": "Critical"
+  },
+  "requestStatus": {
+    "CREATED": "Created",
+    "MATCHING VOLUNTEER": "Matching Volunteer",
+    "MANAGED": "Managed",
+    "RESOLVED": "Resolved",
+    "CANCELLED": "Cancelled",
+    "DELETED": "Deleted"
+  },
+  "requestType": {
+    "INPERSON": "In Person",
+    "REMOTE": "Remote"
+  }
+}

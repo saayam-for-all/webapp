@@ -7,6 +7,7 @@ import enCommon from "./locales/en/common.json";
 import enAuth from "./locales/en/auth.json";
 import enCategories from "./locales/en/categories.json";
 import enAvailability from "./locales/en/availability.json";
+import enEnums from "./locales/en/enums.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
@@ -156,6 +157,7 @@ i18n
         auth: enAuth,
         categories: enCategories,
         availability: enAvailability,
+        enums: enEnums,
       },
       de: {
         common: deCommon,

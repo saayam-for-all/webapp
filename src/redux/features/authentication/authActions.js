@@ -7,6 +7,9 @@ import {
   signOut,
   updateUserAttributes,
 } from "aws-amplify/auth";
+
+import { getEnums } from "../../../services/requestServices";
+
 import { getUserId } from "../../../services/volunteerServices";
 import {
   changeUiLanguage,
@@ -41,6 +44,14 @@ export const checkAuthStatus = () => async (dispatch) => {
 
     const idToken = userSession.tokens?.idToken?.toString();
     setToken(idToken);
+
+    try {
+      const enumsData = await getEnums();
+      localStorage.setItem("enums", JSON.stringify(enumsData));
+      // console.log("Enums fetched and stored in localStorage:", enumsData);
+    } catch (enumError) {
+      console.warn(" Failed to fetch enums after login:", enumError.message);
+    }
 
     let userDbId = null;
     try {
