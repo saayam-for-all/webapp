@@ -203,7 +203,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   />
                 </svg>
                  
-                mockTranslate(Notifications)
+                mockTranslate(NOTIFICATIONS)
               </button>
             </div>
             <div
@@ -470,7 +470,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 />
               </svg>
                
-              mockTranslate(Notifications)
+              mockTranslate(NOTIFICATIONS)
             </button>
           </div>
           <div

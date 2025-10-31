@@ -29,6 +29,8 @@
   "NEW_MATCH_REQUEST": "Nouvelle demande de correspondance",
   "ACCEPT": "Accepter",
   "DENY": "Refuser",
+  "ACCEPT_SUCCESS_MESSAGE": "Vous avez accepté cette demande.",
+  "DENY_SUCCESS_MESSAGE": "Vous avez refusé cette demande.",
   "VOLUNTEER_SERVICES": "Services de bénévolat",
   "OUR_COLLABORATORS": "Nos collaborateurs",
   "WHAT_WE_OFFER": "Ce que nous offrons",
