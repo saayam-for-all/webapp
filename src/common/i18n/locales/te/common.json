@@ -28,6 +28,8 @@
   "NEW_MATCH_REQUEST": "క్రొత్త సరిపోలింపు అభ్యర్థన",
   "ACCEPT": "అంగీకరించు",
   "DENY": "తిరస్కరించు",
+  "ACCEPT_SUCCESS_MESSAGE": "మీరు ఈ అభ్యర్థనను అంగీకరించారు.",
+  "DENY_SUCCESS_MESSAGE": "మీరు ఈ అభ్యర్థనను తిరస్కరించారు.",
   "VOLUNTEER_SERVICES": "స్వచ్ఛంద సేవలు",
   "OUR_COLLABORATORS": "మా సహకారులు",
   "WHAT_WE_OFFER": "మేము ఏమి అందిస్తున్నాము",
