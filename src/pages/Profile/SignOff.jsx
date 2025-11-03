@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { FaExclamationTriangle, FaTrash } from "react-icons/fa";
 
 function SignOff({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const [isDeleteChecked, setIsDeleteChecked] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);

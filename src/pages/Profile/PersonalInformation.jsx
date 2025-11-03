@@ -82,7 +82,7 @@ const countryNameToCode = Object.entries(countryCodes).reduce(
 );
 
 function PersonalInformation({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(Boolean(location.state?.edit));
   const streetAddressRef = useRef(null);

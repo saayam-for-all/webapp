@@ -11,7 +11,7 @@ import languagesData from "../../common/i18n/languagesData";
 //const { t } = useTranslation();
 
 function Preferences({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const dashboardOptions = [
     { value: "super-admin", label: t("SUPER_ADMIN_DASHBOARD") },
     { value: "admin", label: t("ADMIN_DASHBOARD") },
@@ -517,7 +517,7 @@ function Preferences({ setHasUnsavedChanges }) {
                 className="mr-2"
               />
               <label htmlFor="secondary-email" className="text-sm">
-                <span className="font-medium">Secondary Email:</span>{" "}
+                <span className="font-medium">{t("SECONDARY_EMAIL")}:</span>{" "}
                 {preferencesInfo.secondaryEmailPreference}
               </label>
             </div>

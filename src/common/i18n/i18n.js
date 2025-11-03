@@ -9,60 +9,70 @@ import enCategories from "./locales/en/categories.json";
 import enAvailability from "./locales/en/availability.json";
 import enEnums from "./locales/en/enums.json";
 import enIdentity from "./locales/en/identity.json";
+import enProfile from "./locales/en/profile.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
 import deCategories from "./locales/de/categories.json";
 import deAvailability from "./locales/de/availability.json";
 import deIdentity from "./locales/de/identity.json";
+import deProfile from "./locales/de/profile.json";
 
 import esCommon from "./locales/es/common.json";
 import esAuth from "./locales/es/auth.json";
 import esCategories from "./locales/es/categories.json";
 import esAvailability from "./locales/es/availability.json";
 import esIdentity from "./locales/es/identity.json";
+import esProfile from "./locales/es/profile.json";
 
 import frCommon from "./locales/fr/common.json";
 import frAuth from "./locales/fr/auth.json";
 import frCategories from "./locales/fr/categories.json";
 import frAvailability from "./locales/fr/availability.json";
 import frIdentity from "./locales/fr/identity.json";
+import frProfile from "./locales/fr/profile.json";
 
 import ruCommon from "./locales/ru/common.json";
 import ruAuth from "./locales/ru/auth.json";
 import ruCategories from "./locales/ru/categories.json";
 import ruAvailability from "./locales/ru/availability.json";
 import ruIdentity from "./locales/ru/identity.json";
+import ruProfile from "./locales/ru/profile.json";
 
 import hiCommon from "./locales/hi/common.json";
 import hiAuth from "./locales/hi/auth.json";
 import hiCategories from "./locales/hi/categories.json";
 import hiAvailability from "./locales/hi/availability.json";
 import hiIdentity from "./locales/hi/identity.json";
+import hiProfile from "./locales/hi/profile.json";
 
 import teCommon from "./locales/te/common.json";
 import teAuth from "./locales/te/auth.json";
 import teCategories from "./locales/te/categories.json";
 import teAvailability from "./locales/te/availability.json";
 import teIdentity from "./locales/te/identity.json";
+import teProfile from "./locales/te/profile.json";
 
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
 import zhCategories from "./locales/zh/categories.json";
 import zhAvailability from "./locales/zh/availability.json";
 import zhIdentity from "./locales/zh/identity.json";
+import zhProfile from "./locales/zh/profile.json";
 
 import ptCommon from "./locales/pt/common.json";
 import ptAuth from "./locales/pt/auth.json";
 import ptCategories from "./locales/pt/categories.json";
 import ptAvailability from "./locales/pt/availability.json";
 import ptIdentity from "./locales/pt/identity.json";
+import ptProfile from "./locales/pt/profile.json";
 
 import bnCommon from "./locales/bn/common.json";
 import bnAuth from "./locales/bn/auth.json";
 import bnCategories from "./locales/bn/categories.json";
 import bnAvailability from "./locales/bn/availability.json";
 import bnIdentity from "./locales/bn/identity.json";
+import bnProfile from "./locales/bn/profile.json";
 
 import arCommon from "./locales/ar/common.json";
 import arAuth from "./locales/ar/auth.json";
@@ -160,7 +170,7 @@ i18n
     // Set default namespace to load
     defaultNS: "common",
     // Define all namespaces that will be used
-    ns: ["common", "auth", "categories", "availability", "identity"],
+    ns: ["common", "auth", "categories", "availability", "identity", "profile"],
     resources: {
       en: {
         common: enCommon,
@@ -169,6 +179,7 @@ i18n
         availability: enAvailability,
         enums: enEnums,
         identity: enIdentity,
+        profile: enProfile,
       },
       de: {
         common: deCommon,
@@ -176,6 +187,7 @@ i18n
         categories: deCategories,
         availability: deAvailability,
         identity: deIdentity,
+        profile: deProfile,
       },
       es: {
         common: esCommon,
@@ -183,6 +195,7 @@ i18n
         categories: esCategories,
         availability: esAvailability,
         identity: esIdentity,
+        profile: esProfile,
       },
       fr: {
         common: frCommon,
@@ -190,6 +203,7 @@ i18n
         categories: frCategories,
         availability: frAvailability,
         identity: frIdentity,
+        profile: frProfile,
       },
       ru: {
         common: ruCommon,
@@ -197,6 +211,7 @@ i18n
         categories: ruCategories,
         availability: ruAvailability,
         identity: ruIdentity,
+        profile: ruProfile,
       },
       hi: {
         common: hiCommon,
@@ -204,6 +219,7 @@ i18n
         categories: hiCategories,
         availability: hiAvailability,
         identity: hiIdentity,
+        profile: hiProfile,
       },
       te: {
         common: teCommon,
@@ -211,6 +227,7 @@ i18n
         categories: teCategories,
         availability: teAvailability,
         identity: teIdentity,
+        profile: teProfile,
       },
       zh: {
         common: zhCommon,
@@ -218,6 +235,7 @@ i18n
         categories: zhCategories,
         availability: zhAvailability,
         identity: zhIdentity,
+        profile: zhProfile,
       },
       pt: {
         common: ptCommon,
@@ -225,6 +243,7 @@ i18n
         categories: ptCategories,
         availability: ptAvailability,
         identity: ptIdentity,
+        profile: ptProfile,
       },
       bn: {
         common: bnCommon,
@@ -232,6 +251,7 @@ i18n
         categories: bnCategories,
         availability: bnAvailability,
         identity: bnIdentity,
+        profile: bnProfile,
       },
       ar: {
         common: arCommon,

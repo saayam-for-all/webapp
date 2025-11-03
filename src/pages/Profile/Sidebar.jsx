@@ -20,7 +20,7 @@ function Sidebar({
   activeTab,
   openModal,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   return (
     <div className="flex flex-col justify-between h-1/2 p-4 bg-white w-100 border-r">
       <div className="text-center mb-8">
@@ -167,7 +167,7 @@ function Sidebar({
         >
           <div className="flex items-center">
             <FaClock className="mr-2 text-gray-500" />
-            {t("Availability")}
+            {t("AVAILABILITY")}
           </div>
           {activeTab !== "availability" && (
             <FiChevronRight className="text-gray-600" />
