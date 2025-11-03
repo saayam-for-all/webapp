@@ -21,9 +21,9 @@
   "VACATION_MODE_DESCRIPTION": "启用假期模式以暂时禁用志愿者请求的可用性",
   "VACATION_START_DATE": "假期开始日期",
   "VACATION_END_DATE": "假期结束日期",
-  "Your available time slots": "您的可用时间段",
-  "Remove Time Slot": "删除时间段",
-  "Add Time Slot": "添加时间段",
+  "YOUR_AVAILABLE_TIME_SLOTS": "您的可用时间段",
+  "REMOVE_TIME_SLOT": "删除时间段",
+  "ADD_TIME_SLOT": "添加时间段",
   "VACATION_MODE_ACTIVE": "假期模式已激活",
-  "NO AVAILABILITY SLOTS": "未配置可用时间段"
+  "NO_AVAILABILITY_SLOTS": "未配置可用时间段"
 }

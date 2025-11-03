@@ -21,9 +21,9 @@
   "VACATION_MODE_DESCRIPTION": "Activer le mode vacances pour désactiver temporairement la disponibilité pour les demandes de bénévoles",
   "VACATION_START_DATE": "Date de début des vacances",
   "VACATION_END_DATE": "Date de fin des vacances",
-  "Your available time slots": "Vos créneaux horaires disponibles",
-  "Remove Time Slot": "Supprimer le créneau horaire",
-  "Add Time Slot": "Ajouter un créneau horaire",
+  "YOUR_AVAILABLE_TIME_SLOTS": "Vos créneaux horaires disponibles",
+  "REMOVE_TIME_SLOT": "Supprimer le créneau horaire",
+  "ADD_TIME_SLOT": "Ajouter un créneau horaire",
   "VACATION_MODE_ACTIVE": "Mode vacances actif",
-  "NO AVAILABILITY SLOTS": "Aucun créneau de disponibilité configuré"
+  "NO_AVAILABILITY_SLOTS": "Aucun créneau de disponibilité configuré"
 }

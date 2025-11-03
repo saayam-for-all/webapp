@@ -478,7 +478,7 @@ function Availability({ setHasUnsavedChanges }) {
           {/* Availability Slots */}
           <div className="mb-6">
             <h4 className="text-lg font-medium mb-2">
-              {tAvailability("Your available time slots")}
+              {tAvailability("YOUR_AVAILABLE_TIME_SLOTS")}
             </h4>
 
             {availabilitySlots.map((slot) => (
@@ -527,7 +527,7 @@ function Availability({ setHasUnsavedChanges }) {
                 <button
                   onClick={() => handleRemoveSlot(slot.id)}
                   className="text-red-500 hover:text-red-700 p-2"
-                  aria-label={tAvailability("Remove Time Slot")}
+                  aria-label={tAvailability("REMOVE_TIME_SLOT")}
                 >
                   <FaTrashAlt />
                 </button>
@@ -539,7 +539,7 @@ function Availability({ setHasUnsavedChanges }) {
               className="flex items-center gap-2 text-blue-500 hover:text-blue-700 mt-2 bg-blue-100 py-2 px-4 rounded-md"
             >
               <FaPlus />
-              <span>{tAvailability("Add Time Slot")}</span>
+              <span>{tAvailability("ADD_TIME_SLOT")}</span>
             </button>
           </div>
 
@@ -593,7 +593,7 @@ function Availability({ setHasUnsavedChanges }) {
           {availabilitySlots.length > 0 ? (
             <div className="mb-6">
               <h4 className="text-lg font-medium mb-2">
-                {tAvailability("Your available time slots")}
+                {tAvailability("YOUR_AVAILABLE_TIME_SLOTS")}
               </h4>
               <div className="space-y-2">
                 {availabilitySlots.map((slot) => (
@@ -616,7 +616,7 @@ function Availability({ setHasUnsavedChanges }) {
           ) : (
             <div className="text-center p-6 bg-gray-50 rounded-lg mb-6">
               <p className="text-gray-500">
-                {tAvailability("NO AVAILABILITY SLOTS")}
+                {tAvailability("NO_AVAILABILITY_SLOTS")}
               </p>
             </div>
           )}
