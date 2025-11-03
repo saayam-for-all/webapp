@@ -14,6 +14,7 @@ import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
 import { useNavigate } from "react-router-dom";
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.webp";
+import VinitaImg from "../../assets/images/Vinita_Paunikar.jpeg";
 import ExecutiveTeam from "./Executives/executiveTeam";
 
 const DirectorsData = [
@@ -77,6 +78,12 @@ const DirectorsData = [
     role: "Director",
     linkedin: "https://www.linkedin.com/in/mucharla",
     image: SateeshImg,
+  },
+  {
+    name: "Vinita Paunikar",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/vinita-paunikar/",
+    image: VinitaImg,
   },
   {
     name: "Ashwani Dhawan",
