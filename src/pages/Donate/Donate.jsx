@@ -5,16 +5,23 @@ import BenevityLogo from "../../assets/donate_buttons/Benevity_logo.svg";
 import CharityNavLogo from "../../assets/donate_buttons/CharityNav_Logo_Stack.png";
 import PayPalLogo from "../../assets/donate_buttons/PayPal.svg";
 import StripeLogo from "../../assets/donate_buttons/Stripe_Logo.png";
+import RazorpayLogo from "../../assets/donate_buttons/RazorpayLogo.png";
 import donateImg from "../../assets/donate_img_bg.webp";
 import "./Donate.css";
 
 const Donate = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const [openFaq, setOpenFaq] = useState(null);
   const [showStripeDonation, setShowStripeDonation] = useState(false);
   const [donationType, setDonationType] = useState("one-time");
   const [selectedOption, setSelectedOption] = useState(null);
+
+  // Razorpay demo state
+  const [showRazorpay, setShowRazorpay] = useState(false);
+  const [rzAmount, setRzAmount] = useState("");
+  const [rzMsg, setRzMsg] = useState("");
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -22,13 +29,11 @@ const Donate = () => {
 
   useEffect(() => {
     if (showStripeDonation) {
-      // Load Stripe script
       const script = document.createElement("script");
       script.src = "https://js.stripe.com/v3/buy-button.js";
       script.async = true;
       document.body.appendChild(script);
 
-      // Initialize Stripe buttons after script loads
       script.onload = () => {
         const publishableKey =
           "pk_live_51RLYdDFTNrTBTK6lenmwJGxbrv1uxOqKWi4GnpWIocFGTpIJNVr7p4OwP0n2vcJwp8c89vw7fOHGFISOAMYtOwUZ002no86gkT";
@@ -93,7 +98,7 @@ const Donate = () => {
       label: "Stripe",
       img: StripeLogo,
       alt: "Stripe",
-      href: null, // Stripe handled in code
+      href: null,
     },
     {
       key: "charity",
@@ -109,8 +114,67 @@ const Donate = () => {
       alt: "Benevity",
       href: "https://Benevity.org",
     },
+    {
+      key: "razorpay",
+      label: "Razorpay",
+      img: RazorpayLogo,
+      alt: "Razorpay",
+      href: null,
+    },
   ];
 
+  // ---------- Razorpay Modal -------------
+  if (showRazorpay) {
+    return (
+      <div className="donate-container">
+        <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg mx-auto">
+          <img
+            src={RazorpayLogo}
+            alt="Razorpay Logo"
+            className="razorpay-logo"
+          />
+          <button
+            onClick={() => setShowRazorpay(false)}
+            className="back-button"
+          >
+            ← Back to Donate
+          </button>
+          <h2 className="text-center mb-4">Donate with Razorpay (Demo)</h2>
+
+          <label className="block mb-2">Amount in USD</label>
+          <input
+            value={rzAmount}
+            onChange={(e) => setRzAmount(e.target.value)}
+            placeholder="25"
+            className="w-full border rounded px-3 py-2 mb-4"
+            type="number"
+            min="1"
+          />
+
+          {rzMsg && <div className="text-sm mb-3">{rzMsg}</div>}
+
+          <button
+            className="primary-button w-full"
+            onClick={() => {
+              if (!rzAmount) setRzMsg("Please enter an amount");
+              else {
+                setRzMsg(`Simulated success for $${rzAmount}`);
+                setTimeout(() => setShowRazorpay(false), 1000);
+              }
+            }}
+          >
+            Continue
+          </button>
+
+          <p className="text-xs text-gray-500 mt-3">
+            Demo mode only — no real transaction.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ---------- Stripe Donation Section -------------
   if (showStripeDonation) {
     return (
       <div className="donate-container">
@@ -157,6 +221,7 @@ const Donate = () => {
     );
   }
 
+  // ---------- Main Donate Section -------------
   return (
     <div data-testid="donate-container" className="donate-container">
       <div
@@ -175,19 +240,18 @@ const Donate = () => {
               "Your donation helps us create lasting change in communities across the globe.",
             )}
           </p>
+
           <div className="donation-options-grid">
             {donationOptions.map((opt) => (
               <button
                 key={opt.key}
                 className={`donation-option-btn${selectedOption === opt.key ? " selected" : ""}`}
                 onClick={() => {
-                  if (opt.key === "stripe") {
-                    handleStripeClick();
-                  } else if (opt.key === "benevity") {
-                    navigate("/benevity");
-                  } else if (opt.href) {
+                  if (opt.key === "stripe") handleStripeClick();
+                  else if (opt.key === "benevity") navigate("/benevity");
+                  else if (opt.key === "razorpay") setShowRazorpay(true);
+                  else if (opt.href)
                     window.open(opt.href, "_blank", "noopener,noreferrer");
-                  }
                 }}
                 type="button"
               >
@@ -206,6 +270,7 @@ const Donate = () => {
           </div>
         </div>
       </div>
+
       <div data-testid="faq-section" className="faq-section">
         <h2 className="faq-title">{t("FAQ's")}</h2>
         <div className="faq-list">

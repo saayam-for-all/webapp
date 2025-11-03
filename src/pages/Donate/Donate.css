@@ -663,3 +663,9 @@ body {
     width: 90%;
   }
 }
+.razorpay-logo {
+  display: block;
+  margin: 0 auto 1rem auto;
+  width: 130px;
+  height: auto;
+}
