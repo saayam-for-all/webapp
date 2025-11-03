@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const IdentityDocument = ({ setHasUnsavedChanges }) => {
+  const { t } = useTranslation("identity");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
@@ -19,7 +21,7 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
 
     // Validate file size (2MB)
     if (selectedFile.size > 2 * 1024 * 1024) {
-      setError("File size should not exceed 2MB");
+      setError(t("FILE_SIZE_ERROR"));
       setFile(null);
       setPreview("");
       setHasUnsavedChanges(false);
@@ -52,7 +54,10 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
 
     if (!isValidMimeType && !isValidExtension) {
       setError(
-        `Only JPEG, JPG, PNG, and PDF files are allowed. File type detected: ${selectedFile.type}, extension: ${fileExtension}`,
+        t("FILE_TYPE_ERROR", {
+          fileType: selectedFile.type,
+          extension: fileExtension,
+        }),
       );
       setFile(null);
       setPreview("");
@@ -147,14 +152,14 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
       });
 
       if (response.ok) {
-        console.log("File uploaded successfully");
+        console.log(t("UPLOAD_SUCCESS"));
         setHasUnsavedChanges(false);
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "File upload failed");
+        setError(errorData.message || t("UPLOAD_FAILED"));
       }
     } catch (err) {
-      setError("An error occurred during file upload");
+      setError(t("UPLOAD_ERROR"));
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -163,7 +168,9 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Upload Government ID</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        {t("UPLOAD_GOVERNMENT_ID")}
+      </h2>
 
       {/* Source Selection Dropdown */}
       <div className="mb-4">
@@ -171,7 +178,7 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
           htmlFor="source"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Select Source
+          {t("SELECT_SOURCE")}
         </label>
         <select
           id="source"
@@ -179,9 +186,9 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
           value={source}
           onChange={handleSourceChange}
         >
-          <option value="device">Device</option>
-          <option value="drive">Google Drive</option>
-          <option value="dropbox">Dropbox</option>
+          <option value="device">{t("DEVICE")}</option>
+          <option value="drive">{t("GOOGLE_DRIVE")}</option>
+          <option value="dropbox">{t("DROPBOX")}</option>
         </select>
       </div>
 
@@ -189,7 +196,7 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
       {source === "device" && (
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Upload File
+            {t("UPLOAD_FILE")}
           </label>
           <input
             type="file"
@@ -199,7 +206,7 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
             ref={fileInputRef}
           />
           <p className="mt-1 text-sm text-gray-500">
-            Only JPEG, JPG, PNG, or PDF files. Max size: 2MB.
+            {t("FILE_TYPE_REQUIREMENT")}
           </p>
         </div>
       )}
@@ -208,12 +215,12 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
       {file && (
         <div className="mb-4">
           <p className="text-sm font-medium text-gray-700">
-            File: {file.name || file.id}
+            {t("FILE")}: {file.name || file.id}
           </p>
           {preview && (
             <img
               src={preview}
-              alt="Preview"
+              alt={t("FILE_PREVIEW")}
               className="mt-2 max-h-40 rounded"
             />
           )}
@@ -230,14 +237,14 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
           disabled={!file || isLoading}
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Uploading..." : "Upload"}
+          {isLoading ? t("UPLOADING") : t("UPLOAD")}
         </button>
         {file && (
           <button
             onClick={handleRemoveFile}
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
           >
-            Remove
+            {t("REMOVE")}
           </button>
         )}
       </div>

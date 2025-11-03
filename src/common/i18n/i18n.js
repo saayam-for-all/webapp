@@ -8,51 +8,61 @@ import enAuth from "./locales/en/auth.json";
 import enCategories from "./locales/en/categories.json";
 import enAvailability from "./locales/en/availability.json";
 import enEnums from "./locales/en/enums.json";
+import enIdentity from "./locales/en/identity.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
 import deCategories from "./locales/de/categories.json";
 import deAvailability from "./locales/de/availability.json";
+import deIdentity from "./locales/de/identity.json";
 
 import esCommon from "./locales/es/common.json";
 import esAuth from "./locales/es/auth.json";
 import esCategories from "./locales/es/categories.json";
 import esAvailability from "./locales/es/availability.json";
+import esIdentity from "./locales/es/identity.json";
 
 import frCommon from "./locales/fr/common.json";
 import frAuth from "./locales/fr/auth.json";
 import frCategories from "./locales/fr/categories.json";
 import frAvailability from "./locales/fr/availability.json";
+import frIdentity from "./locales/fr/identity.json";
 
 import ruCommon from "./locales/ru/common.json";
 import ruAuth from "./locales/ru/auth.json";
 import ruCategories from "./locales/ru/categories.json";
 import ruAvailability from "./locales/ru/availability.json";
+import ruIdentity from "./locales/ru/identity.json";
 
 import hiCommon from "./locales/hi/common.json";
 import hiAuth from "./locales/hi/auth.json";
 import hiCategories from "./locales/hi/categories.json";
 import hiAvailability from "./locales/hi/availability.json";
+import hiIdentity from "./locales/hi/identity.json";
 
 import teCommon from "./locales/te/common.json";
 import teAuth from "./locales/te/auth.json";
 import teCategories from "./locales/te/categories.json";
 import teAvailability from "./locales/te/availability.json";
+import teIdentity from "./locales/te/identity.json";
 
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
 import zhCategories from "./locales/zh/categories.json";
 import zhAvailability from "./locales/zh/availability.json";
+import zhIdentity from "./locales/zh/identity.json";
 
 import ptCommon from "./locales/pt/common.json";
 import ptAuth from "./locales/pt/auth.json";
 import ptCategories from "./locales/pt/categories.json";
 import ptAvailability from "./locales/pt/availability.json";
+import ptIdentity from "./locales/pt/identity.json";
 
 import bnCommon from "./locales/bn/common.json";
 import bnAuth from "./locales/bn/auth.json";
 import bnCategories from "./locales/bn/categories.json";
 import bnAvailability from "./locales/bn/availability.json";
+import bnIdentity from "./locales/bn/identity.json";
 
 import arCommon from "./locales/ar/common.json";
 import arAuth from "./locales/ar/auth.json";
@@ -150,7 +160,7 @@ i18n
     // Set default namespace to load
     defaultNS: "common",
     // Define all namespaces that will be used
-    ns: ["common", "auth", "categories", "availability"],
+    ns: ["common", "auth", "categories", "availability", "identity"],
     resources: {
       en: {
         common: enCommon,
@@ -158,60 +168,70 @@ i18n
         categories: enCategories,
         availability: enAvailability,
         enums: enEnums,
+        identity: enIdentity,
       },
       de: {
         common: deCommon,
         auth: deAuth,
         categories: deCategories,
         availability: deAvailability,
+        identity: deIdentity,
       },
       es: {
         common: esCommon,
         auth: esAuth,
         categories: esCategories,
         availability: esAvailability,
+        identity: esIdentity,
       },
       fr: {
         common: frCommon,
         auth: frAuth,
         categories: frCategories,
         availability: frAvailability,
+        identity: frIdentity,
       },
       ru: {
         common: ruCommon,
         auth: ruAuth,
         categories: ruCategories,
         availability: ruAvailability,
+        identity: ruIdentity,
       },
       hi: {
         common: hiCommon,
         auth: hiAuth,
         categories: hiCategories,
         availability: hiAvailability,
+        identity: hiIdentity,
       },
       te: {
         common: teCommon,
         auth: teAuth,
         categories: teCategories,
         availability: teAvailability,
+        identity: teIdentity,
       },
       zh: {
         common: zhCommon,
         auth: zhAuth,
         categories: zhCategories,
         availability: zhAvailability,
+        identity: zhIdentity,
       },
       pt: {
         common: ptCommon,
         auth: ptAuth,
         categories: ptCategories,
         availability: ptAvailability,
+        identity: ptIdentity,
       },
       bn: {
         common: bnCommon,
         auth: bnAuth,
         categories: bnCategories,
         availability: bnAvailability,
+        identity: bnIdentity,
       },
       ar: {
         common: arCommon,
