@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "प्राथमिकताएँ",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "समय क्षेत्र",
+    "language": "भाषा",
+    "notifications": "सूचनाएँ",
+    "save": "सहेजें",
+    "cancel": "रद्द करें"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "प्राथमिकताएँ सफलतापूर्वक सहेजी गईं।"
   }
 }

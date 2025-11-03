@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "प्राधान्ये",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "वेळ क्षेत्र",
+    "language": "भाषा",
+    "notifications": "सूचना",
+    "save": "जतन करा",
+    "cancel": "रद्द करा"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "प्राधान्ये यशस्वीरित्या जतन केली."
   }
 }

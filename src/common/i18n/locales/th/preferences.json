@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "การตั้งค่า",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "เขตเวลา",
+    "language": "ภาษา",
+    "notifications": "การแจ้งเตือน",
+    "save": "บันทึก",
+    "cancel": "ยกเลิก"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "บันทึกการตั้งค่าสำเร็จแล้ว."
   }
 }

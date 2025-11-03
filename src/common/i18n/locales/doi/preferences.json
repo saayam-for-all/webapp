@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "पसंद",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "समां क्षेत्र",
+    "language": "भाषा",
+    "notifications": "सूचनाएं",
+    "save": "सहेजें",
+    "cancel": "रद्द करें"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "पसंद सफलतापूर्वक सहेजी गई।"
   }
 }

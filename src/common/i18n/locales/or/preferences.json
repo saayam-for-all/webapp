@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "ପସନ୍ଦ",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "ସମୟ ଅଞ୍ଚଳ",
+    "language": "ଭାଷା",
+    "notifications": "ବିଜ୍ଞପ୍ତିଗୁଡ଼ିକ",
+    "save": "ସେଭ୍ କରନ୍ତୁ",
+    "cancel": "ବାତିଲ୍ କରନ୍ତୁ"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "ପସନ୍ଦଗୁଡ଼ିକ ସଫଳତାର ସହ ରକ୍ଷିତ ହେଲା।"
   }
 }

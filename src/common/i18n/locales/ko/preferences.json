@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "환경 설정",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "시간대",
+    "language": "언어",
+    "notifications": "알림",
+    "save": "저장",
+    "cancel": "취소"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "환경 설정이 성공적으로 저장되었습니다."
   }
 }
