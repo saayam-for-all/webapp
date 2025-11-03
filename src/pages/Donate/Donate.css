@@ -669,3 +669,36 @@ body {
   width: 130px;
   height: auto;
 }
+/* Ensure 2x2 grid like before */
+.donation-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two per row */
+  gap: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Uniform size for all buttons */
+.donation-option-btn {
+  height: 55px; /* same height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+/* Center the last button (Razorpay) on its own row */
+.donation-option-btn:last-child {
+  grid-column: 1 / -1; /* span both columns */
+  justify-self: center; /* center it */
+  width: 60%; /* same visual width */
+  max-width: 140px; /* keep shape similar to others */
+  height: 55px; /* match height */
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  .donation-option-btn:last-child {
+    width: 80%;
+    max-width: 160px;
+  }
+}
