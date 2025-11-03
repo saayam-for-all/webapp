@@ -21,9 +21,9 @@
   "VACATION_MODE_DESCRIPTION": "Ativar modo férias para desabilitar temporariamente a disponibilidade para solicitações de voluntários",
   "VACATION_START_DATE": "Data de início das férias",
   "VACATION_END_DATE": "Data de fim das férias",
-  "Your available time slots": "Seus horários disponíveis",
-  "Remove Time Slot": "Remover horário",
-  "Add Time Slot": "Adicionar horário",
+  "YOUR_AVAILABLE_TIME_SLOTS": "Seus horários disponíveis",
+  "REMOVE_TIME_SLOT": "Remover horário",
+  "ADD_TIME_SLOT": "Adicionar horário",
   "VACATION_MODE_ACTIVE": "Modo férias ativo",
-  "NO AVAILABILITY SLOTS": "Nenhum horário de disponibilidade configurado"
+  "NO_AVAILABILITY_SLOTS": "Nenhum horário de disponibilidade configurado"
 }

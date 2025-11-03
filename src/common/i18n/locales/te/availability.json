@@ -21,9 +21,9 @@
   "VACATION_MODE_DESCRIPTION": "స్వచ్ఛంద అభ్యర్థనల కోసం అందుబాటును తాత్కాలికంగా నిలిపివేయడానికి విహార మోడ్‌ను ప్రారంభించండి",
   "VACATION_START_DATE": "విహార ప్రారంభ తేదీ",
   "VACATION_END_DATE": "విహార ముగింపు తేదీ",
-  "Your available time slots": "మీ అందుబాటులో ఉన్న సమయ స్లాట్‌లు",
-  "Remove Time Slot": "సమయ స్లాట్‌ను తొలగించు",
-  "Add Time Slot": "సమయ స్లాట్‌ను జోడించు",
+  "YOUR_AVAILABLE_TIME_SLOTS": "మీ అందుబాటులో ఉన్న సమయ స్లాట్‌లు",
+  "REMOVE_TIME_SLOT": "సమయ స్లాట్‌ను తొలగించు",
+  "ADD_TIME_SLOT": "సమయ స్లాట్‌ను జోడించు",
   "VACATION_MODE_ACTIVE": "విహార మోడ్ క్రియాశీలం",
-  "NO AVAILABILITY SLOTS": "అందుబాటు స్లాట్‌లు కాన్ఫిగర్ చేయబడలేదు"
+  "NO_AVAILABILITY_SLOTS": "అందుబాటు స్లాట్‌లు కాన్ఫిగర్ చేయబడలేదు"
 }

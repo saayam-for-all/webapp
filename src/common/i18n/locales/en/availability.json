@@ -21,9 +21,9 @@
   "VACATION_MODE_DESCRIPTION": "Enable vacation mode to temporarily disable availability for volunteer requests",
   "VACATION_START_DATE": "Vacation Start Date",
   "VACATION_END_DATE": "Vacation End Date",
-  "Your available time slots": "Your available time slots",
-  "Remove Time Slot": "Remove Time Slot",
-  "Add Time Slot": "Add Time Slot",
+  "YOUR_AVAILABLE_TIME_SLOTS": "Your available time slots",
+  "REMOVE_TIME_SLOT": "Remove Time Slot",
+  "ADD_TIME_SLOT": "Add Time Slot",
   "VACATION_MODE_ACTIVE": "Vacation Mode Active",
-  "NO AVAILABILITY SLOTS": "No availability slots configured"
+  "NO_AVAILABILITY_SLOTS": "No availability slots configured"
 }

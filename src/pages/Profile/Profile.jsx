@@ -17,7 +17,7 @@ import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.j
 
 function Profile() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const location = useLocation();
   const [profilePhoto, setProfilePhoto] = useState(DEFAULT_PROFILE_ICON);
   const [tempProfilePhoto, setTempProfilePhoto] =
@@ -78,7 +78,7 @@ function Profile() {
       password: t("CHANGE_PASSWORD") || "Change Password",
       organization: t("ORGANIZATION_DETAILS") || "Organization Details",
       skills: t("SKILLS") || "Skills",
-      availability: t("Availability") || "Availability",
+      availability: t("AVAILABILITY") || "Availability",
       preferences: t("PREFERENCES") || "Preferences",
       signoff: t("SIGN_OFF") || "Sign Off",
     };

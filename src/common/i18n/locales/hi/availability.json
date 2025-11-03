@@ -21,9 +21,9 @@
   "VACATION_MODE_DESCRIPTION": "स्वयंसेवक अनुरोधों के लिए उपलब्धता को अस्थायी रूप से अक्षम करने के लिए छुट्टी मोड सक्षम करें",
   "VACATION_START_DATE": "छुट्टी शुरुआत तारीख",
   "VACATION_END_DATE": "छुट्टी समाप्ति तारीख",
-  "Your available time slots": "आपके उपलब्ध समय स्लॉट",
-  "Remove Time Slot": "समय स्लॉट हटाएं",
-  "Add Time Slot": "समय स्लॉट जोड़ें",
+  "YOUR_AVAILABLE_TIME_SLOTS": "आपके उपलब्ध समय स्लॉट",
+  "REMOVE_TIME_SLOT": "समय स्लॉट हटाएं",
+  "ADD_TIME_SLOT": "समय स्लॉट जोड़ें",
   "VACATION_MODE_ACTIVE": "छुट्टी मोड सक्रिय",
-  "NO AVAILABILITY SLOTS": "कोई उपलब्धता स्लॉट कॉन्फ़िगर नहीं किया गया"
+  "NO_AVAILABILITY_SLOTS": "कोई उपलब्धता स्लॉट कॉन्फ़िगर नहीं किया गया"
 }

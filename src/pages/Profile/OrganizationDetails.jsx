@@ -9,7 +9,7 @@ const COUNTRY_CODE_API =
   "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json";
 
 function OrganizationDetails({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const [isEditing, setIsEditing] = useState(false);
   const organizationNameRef = useRef(null);
 
@@ -289,7 +289,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Email
+            {t("EMAIL")}
           </label>
           {isEditing ? (
             <input
@@ -313,7 +313,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            URL
+            {t("URL")}
           </label>
           {isEditing ? (
             <input

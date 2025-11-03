@@ -487,7 +487,7 @@ const Navbar = () => {
               >
                 <MenuItem onClick={(e) => handleLinkClick(e, "/profile")}>
                   <AccountCircleIcon className="mr-2" />
-                  {t("Profile")}
+                  {t("PROFILE")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleLogoutClick()}>
                   <LogoutIcon className="mr-2" />

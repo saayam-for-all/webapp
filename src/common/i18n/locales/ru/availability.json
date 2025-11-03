@@ -21,9 +21,9 @@
   "VACATION_MODE_DESCRIPTION": "Включить режим отпуска для временного отключения доступности для запросов волонтеров",
   "VACATION_START_DATE": "Дата начала отпуска",
   "VACATION_END_DATE": "Дата окончания отпуска",
-  "Your available time slots": "Ваши доступные временные слоты",
-  "Remove Time Slot": "Удалить временной слот",
-  "Add Time Slot": "Добавить временной слот",
+  "YOUR_AVAILABLE_TIME_SLOTS": "Ваши доступные временные слоты",
+  "REMOVE_TIME_SLOT": "Удалить временной слот",
+  "ADD_TIME_SLOT": "Добавить временной слот",
   "VACATION_MODE_ACTIVE": "Режим отпуска активен",
-  "NO AVAILABILITY SLOTS": "Нет настроенных слотов доступности"
+  "NO_AVAILABILITY_SLOTS": "Нет настроенных слотов доступности"
 }

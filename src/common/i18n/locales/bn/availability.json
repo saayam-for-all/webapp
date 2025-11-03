@@ -21,9 +21,9 @@
   "VACATION_MODE_DESCRIPTION": "স্বেচ্ছাসেবক অনুরোধের জন্য উপলব্ধতা সাময়িকভাবে নিষ্ক্রিয় করতে ছুটি মোড সক্রিয় করুন",
   "VACATION_START_DATE": "ছুটি শুরুর তারিখ",
   "VACATION_END_DATE": "ছুটি শেষের তারিখ",
-  "Your available time slots": "আপনার উপলব্ধ সময় স্লট",
-  "Remove Time Slot": "সময় স্লট সরান",
-  "Add Time Slot": "সময় স্লট যোগ করুন",
+  "YOUR_AVAILABLE_TIME_SLOTS": "আপনার উপলব্ধ সময় স্লট",
+  "REMOVE_TIME_SLOT": "সময় স্লট সরান",
+  "ADD_TIME_SLOT": "সময় স্লট যোগ করুন",
   "VACATION_MODE_ACTIVE": "ছুটি মোড সক্রিয়",
-  "NO AVAILABILITY SLOTS": "কোন উপলব্ধতা স্লট কনফিগার করা নেই"
+  "NO_AVAILABILITY_SLOTS": "কোন উপলব্ধতা স্লট কনফিগার করা নেই"
 }

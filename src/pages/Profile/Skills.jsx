@@ -5,7 +5,7 @@ import { useImmer } from "use-immer";
 import { getVolunteerSkills } from "../../services/volunteerServices";
 
 const Skills = ({ setHasUnsavedChanges }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const [isEditing, setIsEditing] = useState(false);
   const mockCategories = {
     Books: { checked: true },

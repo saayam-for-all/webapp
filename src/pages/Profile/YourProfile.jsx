@@ -15,7 +15,7 @@ import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInpu
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 
 function YourProfile({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
