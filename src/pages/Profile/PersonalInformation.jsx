@@ -469,8 +469,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
       </div>
 
-      {/* City */}
-      <div className="grid grid-cols-1 gap-8 mb-6">
+      {/* City, Country, State, and Zip Code */}
+      <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {isEditing && (
@@ -507,10 +507,43 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             <p className="text-lg text-gray-900">{personalInfo.city || ""}</p>
           )}
         </div>
-      </div>
 
-      {/* Country, State, and Zip Code */}
-      <div className="grid grid-cols-3 gap-8 mb-6">
+        <div>
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
+            {t("STATE")}
+          </label>
+          {isEditing ? (
+            <>
+              <Select
+                value={
+                  states.find(
+                    (option) => option.label === personalInfo.state,
+                  ) || null
+                }
+                options={states}
+                onChange={(selectedOption) => {
+                  handleInputChange("state", selectedOption?.label || "");
+                }}
+              />
+              {errors.state && (
+                <p className="text-red-500 text-xs mt-1">{errors.state}</p>
+              )}
+            </>
+          ) : (
+            <p className="text-lg text-gray-900">{personalInfo.state || ""}</p>
+          )}
+        </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("COUNTRY")}
@@ -549,42 +582,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 user?.zoneinfo ||
                 ""}
             </p>
-          )}
-        </div>
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {isEditing && (
-              <>
-                <span className="text-red-500 mr-1" aria-hidden="true">
-                  *
-                </span>
-                <span className="sr-only">
-                  {" "}
-                  ({t("required") || "required"})
-                </span>
-              </>
-            )}
-            {t("STATE")}
-          </label>
-          {isEditing ? (
-            <>
-              <Select
-                value={
-                  states.find(
-                    (option) => option.label === personalInfo.state,
-                  ) || null
-                }
-                options={states}
-                onChange={(selectedOption) => {
-                  handleInputChange("state", selectedOption?.label || "");
-                }}
-              />
-              {errors.state && (
-                <p className="text-red-500 text-xs mt-1">{errors.state}</p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">{personalInfo.state || ""}</p>
           )}
         </div>
         <div>
