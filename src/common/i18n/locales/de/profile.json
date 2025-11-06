@@ -21,6 +21,7 @@
   "PROFILE_UPDATE_SUCCESS": "Profil erfolgreich aktualisiert!",
   "PROFILE_UPDATE_FAILED": "Profilaktualisierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
   "BIRTHDAY": "Geburtsdatum",
+  "BIRTHDAY_TOOLTIP": "Wir benötigen Ihr Geburtsdatum, um zu bestätigen, dass Sie mindestens 21 Jahre alt sind. Wenn das Feld leer bleibt, gehen wir davon aus, dass Sie diese Altersanforderung erfüllen.",
   "GENDER": "Geschlecht",
   "ADDRESS": "Straße{{optional}}",
   "CITY": "Stadt",

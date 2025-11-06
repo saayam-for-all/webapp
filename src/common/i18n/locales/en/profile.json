@@ -23,6 +23,7 @@
   "PROFILE_UPDATE_FAILED": "Profile update failed. Please try again.",
 
   "BIRTHDAY": "Date of Birth",
+  "BIRTHDAY_TOOLTIP": "We require your date of birth to confirm you're at least 21. If left blank, we'll assume you meet this age requirement.",
   "GENDER": "Gender",
   "ADDRESS": "Street Address{{optional}}",
   "CITY": "City",

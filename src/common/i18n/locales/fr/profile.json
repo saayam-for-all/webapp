@@ -21,6 +21,7 @@
   "PROFILE_UPDATE_SUCCESS": "Profil mis à jour avec succès !",
   "PROFILE_UPDATE_FAILED": "Échec de la mise à jour du profil. Veuillez réessayer.",
   "BIRTHDAY": "Date de naissance",
+  "BIRTHDAY_TOOLTIP": "Nous avons besoin de votre date de naissance pour confirmer que vous avez au moins 21 ans. Si le champ est vide, nous supposerons que vous remplissez cette condition d'âge.",
   "GENDER": "Genre",
   "ADDRESS": "Adresse{{optional}}",
   "CITY": "Ville",
