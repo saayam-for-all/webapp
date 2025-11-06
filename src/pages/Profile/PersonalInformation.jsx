@@ -338,8 +338,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 ?
               </div>
               <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                We require your date of birth to confirm you&#39;re at least 21.
-                If left blank, we&#39;ll assume you meet this age requirement{" "}
+                {t("BIRTHDAY_TOOLTIP")}
               </div>
             </div>
           </div>

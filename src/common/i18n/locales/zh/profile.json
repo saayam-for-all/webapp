@@ -21,6 +21,7 @@
   "PROFILE_UPDATE_SUCCESS": "个人资料更新成功",
   "PROFILE_UPDATE_FAILED": "个人资料更新失败。请重试。",
   "BIRTHDAY": "生日",
+  "BIRTHDAY_TOOLTIP": "我们需要您的出生日期以确认您至少已满21岁。如果留空，我们将假定您符合此年龄要求。",
   "GENDER": "性别",
   "ADDRESS": "街道地址{{optional}}",
   "CITY": "城市",
