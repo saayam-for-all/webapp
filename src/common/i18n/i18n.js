@@ -20,6 +20,7 @@ import deProfile from "./locales/de/profile.json";
 
 import esCommon from "./locales/es/common.json";
 import esAuth from "./locales/es/auth.json";
+import esEnums from "./locales/es/enums.json";
 import esCategories from "./locales/es/categories.json";
 import esAvailability from "./locales/es/availability.json";
 import esIdentity from "./locales/es/identity.json";
@@ -41,6 +42,7 @@ import ruProfile from "./locales/ru/profile.json";
 
 import hiCommon from "./locales/hi/common.json";
 import hiAuth from "./locales/hi/auth.json";
+import hiEnums from "./locales/hi/enums.json";
 import hiCategories from "./locales/hi/categories.json";
 import hiAvailability from "./locales/hi/availability.json";
 import hiIdentity from "./locales/hi/identity.json";
@@ -55,6 +57,7 @@ import teProfile from "./locales/te/profile.json";
 
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
+import zhEnums from "./locales/zh/enums.json";
 import zhCategories from "./locales/zh/categories.json";
 import zhAvailability from "./locales/zh/availability.json";
 import zhIdentity from "./locales/zh/identity.json";
@@ -192,6 +195,7 @@ i18n
       es: {
         common: esCommon,
         auth: esAuth,
+        enums: esEnums,
         categories: esCategories,
         availability: esAvailability,
         identity: esIdentity,
@@ -216,6 +220,7 @@ i18n
       hi: {
         common: hiCommon,
         auth: hiAuth,
+        enums: hiEnums,
         categories: hiCategories,
         availability: hiAvailability,
         identity: hiIdentity,
@@ -232,6 +237,7 @@ i18n
       zh: {
         common: zhCommon,
         auth: zhAuth,
+        enums: zhEnums,
         categories: zhCategories,
         availability: zhAvailability,
         identity: zhIdentity,
