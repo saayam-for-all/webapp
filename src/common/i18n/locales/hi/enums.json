@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "स्वयं",
+    "OTHER": "अन्य"
+  },
+  "requestPriority": {
+    "LOW": "कम",
+    "MEDIUM": "मध्यम",
+    "HIGH": "उच्च",
+    "CRITICAL": "गंभीर"
+  },
+  "requestStatus": {
+    "CREATED": "बनाया गया",
+    "MATCHING VOLUNTEEER": "मिलान करने वाला वालंटियर",
+    "MANAGED": "प्रबंधित",
+    "RESOLVED": "हल किया गया",
+    "CANCELLED": "रद्द किया गया",
+    "DELETED": "हटाया गया"
+  },
+  "requestType": {
+    "INPERSON": "व्यक्तिगत रूप से",
+    "REMOTE": "दूरस्थ"
+  }
+}

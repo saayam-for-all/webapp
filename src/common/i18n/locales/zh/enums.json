@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "本人",
+    "OTHER": "其他"
+  },
+  "requestPriority": {
+    "LOW": "低",
+    "MEDIUM": "中",
+    "HIGH": "高",
+    "CRITICAL": "紧急"
+  },
+  "requestStatus": {
+    "CREATED": "已创建",
+    "MATCHING VOLUNTEER": "匹配志愿者",
+    "MANAGED": "已管理",
+    "RESOLVED": "已解决",
+    "CANCELLED": "已取消",
+    "DELETED": "已删除"
+  },
+  "requestType": {
+    "INPERSON": "现场",
+    "REMOTE": "远程"
+  }
+}
