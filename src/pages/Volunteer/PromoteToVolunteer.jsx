@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react"; //added for testing
+import { useEffect, useState, useMemo, useRef } from "react"; //added for testing
 import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
@@ -28,7 +28,7 @@ const PromoteToVolunteer = () => {
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState({});
   const [availabilitySlots, setAvailabilitySlots] = useImmer([
-    { id: 1, dayOfWeek: "Everyday", startTime: "00:00", endTime: "00:00" },
+    { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
@@ -118,6 +118,15 @@ const PromoteToVolunteer = () => {
     }
   };
 
+  const isAvailabilityValid = useMemo(() => {
+    if (!availabilitySlots || availabilitySlots.length === 0) return false;
+    return availabilitySlots.some((slot) => {
+      if (!(slot.startTime instanceof Date && slot.endTime instanceof Date))
+        return false;
+      return slot.endTime > slot.startTime;
+    });
+  }, [availabilitySlots]);
+
   const saveVolunteerData = async () => {
     try {
       // console.log("Sending API Request with volunteerData:", volunteerDataRef.current);
@@ -174,7 +183,6 @@ const PromoteToVolunteer = () => {
 
   const updateVolunteerData = (updates) => {
     volunteerDataRef.current = { ...volunteerDataRef.current, ...updates };
-    // console.log("Updated volunteerDataRef:", volunteerDataRef.current);
   };
 
   const handleClick = async (direction) => {
@@ -200,7 +208,7 @@ const PromoteToVolunteer = () => {
             govtIdFilename: govtIdFile ? govtIdFile.name : "",
           });
           break;
-        case 3:
+        case 3: {
           const selectedSkills = extractSkillsWithHierarchy(checkedCategories);
           isValidStep =
             selectedSkills !== "" &&
@@ -211,16 +219,25 @@ const PromoteToVolunteer = () => {
             skills: selectedSkills,
           });
           break;
-        case 4:
-          isValidStep = availabilitySlots.length > 0;
-          updateVolunteerData({
-            step: currentStep,
-            userId: userId,
-            notification: tobeNotified,
-            isCompleted: true,
-            availability: availabilitySlots,
-          });
+        }
+        case 4: {
+          const hasValidSlot = isAvailabilityValid;
+          isValidStep = hasValidSlot;
+          if (isValidStep) {
+            updateVolunteerData({
+              step: currentStep,
+              userId: userId,
+              notification: tobeNotified,
+              isCompleted: true,
+              availability: availabilitySlots.map((slot) => ({
+                dayOfWeek: slot.dayOfWeek,
+                startTime: slot.startTime?.toISOString(),
+                endTime: slot.endTime?.toISOString(),
+              })),
+            });
+          }
           break;
+        }
         default:
           isValidStep = false;
       }
@@ -281,6 +298,7 @@ const PromoteToVolunteer = () => {
           steps={steps}
           isAcknowledged={isAcknowledged}
           isUploaded={isUploaded}
+          isAvailabilityValid={isAvailabilityValid}
         />
       )}
     </div>

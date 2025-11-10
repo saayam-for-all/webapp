@@ -5,14 +5,14 @@ import "rsuite/dist/rsuite.min.css";
 
 const getDefaultSlot = () => ({
   id: Date.now() + Math.random(),
-  day: "Everyday",
+  dayOfWeek: "Everyday",
   startTime: null,
   endTime: null,
 });
 
 const TimeInputComponent = ({
   index,
-  day,
+  dayOfWeek,
   startTime,
   endTime,
   onDayChange,
@@ -35,7 +35,7 @@ const TimeInputComponent = ({
     <div className="flex items-center space-x-4 mb-1">
       <select
         className="w-40 border border-gray-300 rounded-md p-2"
-        value={day}
+        value={dayOfWeek}
         onChange={(e) => onDayChange(index, e.target.value)}
       >
         {days.map((d) => (
@@ -67,9 +67,29 @@ const TimeInputComponent = ({
           hourplaceholder="hh"
           minuteplaceholder="mm"
           clearicon={null}
+          shouldDisableHour={(hour) => {
+            if (!startTime) return false;
+            // Disable hours less than or equal to startTime hour
+            return hour <= startTime.getHours();
+          }}
+          shouldDisableMinute={(minute, selectedHour) => {
+            if (!startTime) return false;
+            const startHour = startTime.getHours();
+            const startMinute = startTime.getMinutes();
+            // If selected hour is the same as startTime hour, disable minutes <= startMinute
+            if (selectedHour === startHour) {
+              return minute <= startMinute;
+            }
+            return false;
+          }}
         />
         {errors?.endTime && (
           <div className="text-xs text-red-500">Required</div>
+        )}
+        {endTime && startTime && endTime <= startTime && (
+          <div className="text-xs text-red-500">
+            End time must be after start time
+          </div>
         )}
       </div>
       <button
@@ -106,7 +126,7 @@ const TimeInputComponent = ({
 
 TimeInputComponent.propTypes = {
   index: PropTypes.number.isRequired,
-  day: PropTypes.string.isRequired,
+  dayOfWeek: PropTypes.string.isRequired,
   startTime: PropTypes.instanceOf(Date),
   endTime: PropTypes.instanceOf(Date),
   onDayChange: PropTypes.func.isRequired,
@@ -121,7 +141,7 @@ TimeInputComponent.propTypes = {
 const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
   const handleDayChange = (index, newDay) => {
     setSlots((s) =>
-      s.map((slot, i) => (i === index ? { ...slot, day: newDay } : slot)),
+      s.map((slot, i) => (i === index ? { ...slot, dayOfWeek: newDay } : slot)),
     );
   };
 
@@ -138,8 +158,8 @@ const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
 
   const validate = () => {
     const newErrors = slots.map((slot) => ({
-      startTime: slot.startTime == null,
-      endTime: slot.endTime == null,
+      startTime: !slot.startTime,
+      endTime: !slot.endTime,
     }));
     setErrors(newErrors);
     return newErrors.every((e) => !e.startTime && !e.endTime);
@@ -205,7 +225,7 @@ TimeInputList.propTypes = {
   slots: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      day: PropTypes.string,
+      dayOfWeek: PropTypes.string,
       startTime: PropTypes.instanceOf(Date),
       endTime: PropTypes.instanceOf(Date),
     }),
@@ -221,8 +241,12 @@ TimeInputList.propTypes = {
 };
 
 // ======= Availability (Main Component) =======
-const Availability = ({ tobeNotified, setNotification }) => {
-  const [slots, setSlots] = useState([getDefaultSlot()]);
+const Availability = ({
+  availabilitySlots,
+  setAvailabilitySlots,
+  tobeNotified,
+  setNotification,
+}) => {
   const [errors, setErrors] = useState([{ startTime: false, endTime: false }]);
 
   const handleCheckbox = () => {
@@ -235,8 +259,8 @@ const Availability = ({ tobeNotified, setNotification }) => {
         Please Provide Your Available Time Slots for Volunteering
       </p>
       <TimeInputList
-        slots={slots}
-        setSlots={setSlots}
+        slots={availabilitySlots}
+        setSlots={setAvailabilitySlots}
         errors={errors}
         setErrors={setErrors}
       />
@@ -258,9 +282,17 @@ const Availability = ({ tobeNotified, setNotification }) => {
 };
 
 Availability.propTypes = {
+  availabilitySlots: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      dayOfWeek: PropTypes.string,
+      startTime: PropTypes.instanceOf(Date),
+      endTime: PropTypes.instanceOf(Date),
+    }),
+  ).isRequired,
+  setAvailabilitySlots: PropTypes.func.isRequired,
   tobeNotified: PropTypes.bool,
   setNotification: PropTypes.func,
-  onSubmit: PropTypes.func,
 };
 
 export default Availability;
