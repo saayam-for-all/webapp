@@ -280,17 +280,20 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         error = "Invalid Date of Birth.";
       } else if (dob > new Date()) {
         error = "Date of Birth cannot be in the future.";
-      } else {
-        // calculate age
+      } else if (value) {
+        // Calculate age and check if user is at least 21
         const today = new Date();
-        let age = today.getFullYear() - dob.getFullYear();
-        const monthDiff = today.getMonth() - dob.getMonth();
+        const birthDate = new Date(value);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
         if (
           monthDiff < 0 ||
-          (monthDiff === 0 && today.getDate() < dob.getDate())
+          (monthDiff === 0 && today.getDate() < birthDate.getDate())
         ) {
           age--;
         }
+
         if (age < 21) {
           error = "You must be at least 21 years old.";
         }
