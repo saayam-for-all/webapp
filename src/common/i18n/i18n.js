@@ -80,6 +80,10 @@ import bnProfile from "./locales/bn/profile.json";
 import arCommon from "./locales/ar/common.json";
 import arAuth from "./locales/ar/auth.json";
 import arCategories from "./locales/ar/categories.json";
+import arAvailability from "./locales/ar/availability.json";
+import arIdentity from "./locales/ar/identity.json";
+import arProfile from "./locales/ar/profile.json";
+import arPreferences from "./locales/ar/preferences.json";
 
 import asCommon from "./locales/as/common.json";
 import asAuth from "./locales/as/auth.json";
@@ -160,6 +164,10 @@ import tlCategories from "./locales/tl/categories.json";
 import urCommon from "./locales/ur/common.json";
 import urAuth from "./locales/ur/auth.json";
 import urCategories from "./locales/ur/categories.json";
+import urAvailability from "./locales/ur/availability.json";
+import urIdentity from "./locales/ur/identity.json";
+import urProfile from "./locales/ur/profile.json";
+import urPreferences from "./locales/ur/preferences.json";
 
 import viCommon from "./locales/vi/common.json";
 import viAuth from "./locales/vi/auth.json";
@@ -263,6 +271,10 @@ i18n
         common: arCommon,
         auth: arAuth,
         categories: arCategories,
+        availability: arAvailability,
+        identity: arIdentity,
+        profile: arProfile,
+        preferences: arPreferences,
       },
       as: {
         common: asCommon,
@@ -363,6 +375,10 @@ i18n
         common: urCommon,
         auth: urAuth,
         categories: urCategories,
+        availability: urAvailability,
+        identity: urIdentity,
+        profile: urProfile,
+        preferences: urPreferences,
       },
       vi: {
         common: viCommon,

@@ -1,0 +1,20 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "رفع بطاقة الهوية الحكومية",
+  "SELECT_SOURCE": "اختر المصدر",
+  "DEVICE": "الجهاز",
+  "GOOGLE_DRIVE": "جوجل درايف",
+  "DROPBOX": "دروب بوكس",
+  "UPLOAD_FILE": "رفع الملف",
+  "FILE": "الملف",
+  "FILE_PREVIEW": "معاينة",
+  "UPLOAD": "رفع",
+  "UPLOADING": "جاري الرفع...",
+  "REMOVE": "إزالة",
+  "FILE_SIZE_ERROR": "يجب ألا يتجاوز حجم الملف 2 ميجابايت",
+  "FILE_TYPE_ERROR": "يُسمح فقط بملفات JPEG و JPG و PNG و PDF. نوع الملف المكتشف: {{fileType}}، الامتداد: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "ملفات JPEG أو JPG أو PNG أو PDF فقط. الحجم الأقصى: 2 ميجابايت.",
+  "UPLOAD_SUCCESS": "تم رفع الملف بنجاح",
+  "UPLOAD_FAILED": "فشل رفع الملف",
+  "UPLOAD_ERROR": "حدث خطأ أثناء رفع الملف"
+}
+
