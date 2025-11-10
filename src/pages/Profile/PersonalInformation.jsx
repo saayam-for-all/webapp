@@ -627,7 +627,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Secondary Email
+            {t("SECONDARY_EMAIL")}
           </label>
           {isEditing ? (
             <>
@@ -653,9 +653,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           )}
         </div>
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("SECONDARY PHONE")}
-          </label>
           {isEditing ? (
             <PhoneNumberInputWithCountry
               phone={personalInfo.secondaryPhone}
@@ -673,10 +670,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               t={t}
             />
           ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.secondaryPhoneCountryCode}{" "}
-              {personalInfo.secondaryPhone || ""}
-            </p>
+            <>
+              <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+                {t("SECONDARY PHONE")}
+              </label>
+              <p className="text-lg text-gray-900">
+                {personalInfo.secondaryPhoneCountryCode}{" "}
+                {personalInfo.secondaryPhone || ""}
+              </p>
+            </>
           )}
         </div>
       </div>
