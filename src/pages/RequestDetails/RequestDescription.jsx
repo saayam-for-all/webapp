@@ -25,12 +25,12 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
   const attributes = [
     {
       context: formattedDate,
-      type: "Creation Date",
+      type: "CREATION_DATE_LABEL",
       icon: <VscCalendar size={22} />,
     },
     {
       context: requestData.category,
-      type: "Category",
+      type: "CATEGORY_LABEL",
       icon: <TbTriangleSquareCircle size={22} />,
     },
   ];
@@ -48,7 +48,8 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
                   className="flex items-center gap-2 group relative"
                 >
                   {header.icon}
-                  {t(header.context)}
+                  {header.context}
+
                   <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>

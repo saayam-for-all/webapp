@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "விருப்பத்தேர்வுகள்",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "நேர மண்டலம்",
+    "language": "மொழி",
+    "notifications": "அறிவிப்புகள்",
+    "save": "சேமிக்கவும்",
+    "cancel": "ரத்து செய்"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "விருப்பத்தேர்வுகள் வெற்றிகரமாக சேமிக்கப்பட்டன."
   }
 }

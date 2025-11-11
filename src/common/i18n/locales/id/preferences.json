@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "Preferensi",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "Zona waktu",
+    "language": "Bahasa",
+    "notifications": "Notifikasi",
+    "save": "Simpan",
+    "cancel": "Batal"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "Preferensi berhasil disimpan."
   }
 }

@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "পছন্দসমূহ",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "সময় অঞ্চল",
+    "language": "ভাষা",
+    "notifications": "বিজ্ঞপ্তি",
+    "save": "সংরক্ষণ করুন",
+    "cancel": "বাতিল করুন"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "পছন্দসমূহ সফলভাবে সংরক্ষিত হয়েছে।"
   }
 }

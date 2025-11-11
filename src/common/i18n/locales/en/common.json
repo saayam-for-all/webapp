@@ -116,6 +116,8 @@
   "MORE_INFORMATION": "More Information",
   "STATUS": "Status",
   "FILTER_BY": "Filter by",
+  "CREATION_DATE_LABEL": "Creation Date",
+  "CATEGORY_LABEL": "Category",
   "ACKNOWLEDGE_TERMS": "Review & Acknowledge Terms",
   "TERMS_DOCUMENT": "Please read the following document carefully and acknowledge that you have understood its contents.",
   "VOLUNTEER_AGREEMENT": "Volunteer Agreement for Saayam for All",
@@ -336,5 +338,20 @@
   "CALAMITY_HELP_TEXT": "Indicate if it is a calamity by checking the box.",
   "PRIORITY_HELP_TEXT": "How urgent is this request?<br />• Low – Not time sensitive<br />• Medium – Within few days<br />• High – Immediate support",
   "SUBJECT_HELP_TEXT": "Please give a brief description of the request",
-  "DESCRIPTION_HELP_TEXT": "Please give a detailed description of the request"
+  "DESCRIPTION_HELP_TEXT": "Please give a detailed description of the request",
+  "moreInfo": {
+    "title": "More Information",
+    "subtitle": "Helpful guides and FAQs for volunteers and visitors.",
+    "sections": {
+      "gettingStarted": {
+        "title": "Getting Started",
+        "body1": "Learn how Saayam works and how to begin.",
+        "link": "Visit our quick start guide"
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "body1": "Answers to common questions about volunteering and donations."
+      }
+    }
+  }
 }

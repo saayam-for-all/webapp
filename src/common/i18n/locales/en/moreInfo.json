@@ -1,0 +1,15 @@
+{
+  "title": "More Information",
+  "subtitle": "Helpful guides and FAQs for our volunteers and visitors.",
+  "sections": {
+    "gettingStarted": {
+      "title": "Getting Started",
+      "body1": "Learn how to become part of Saayam For All — from registration to volunteering.",
+      "link": "https://saayamforall.org/getting-started"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "body1": "Find answers to the most common questions about volunteering, donations, and our mission."
+    }
+  }
+}

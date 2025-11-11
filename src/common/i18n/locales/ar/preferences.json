@@ -1,13 +1,13 @@
 {
-  "title": "Preferences",
+  "title": "التفضيلات",
   "labels": {
-    "timezone": "Time Zone",
-    "language": "Language",
-    "notifications": "Notifications",
-    "save": "Save",
-    "cancel": "Cancel"
+    "timezone": "المنطقة الزمنية",
+    "language": "اللغة",
+    "notifications": "الإشعارات",
+    "save": "حفظ",
+    "cancel": "إلغاء"
   },
   "messages": {
-    "saved": "Preferences saved successfully."
+    "saved": "تم حفظ التفضيلات بنجاح."
   }
 }
