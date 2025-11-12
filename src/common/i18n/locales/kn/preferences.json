@@ -1,13 +1,13 @@
 {
-  "title": "ಆಯ್ಕೆಗಳು",
+  "title": "Preferences",
   "labels": {
-    "timezone": "ಸಮಯ ವಲಯ",
-    "language": "ಭಾಷೆ",
-    "notifications": "ಅಧಿಸೂಚನೆಗಳು",
-    "save": "ಉಳಿಸಿ",
-    "cancel": "ರದ್ದುಮಾಡಿ"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "ಆಯ್ಕೆಗಳು ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ."
+    "saved": "Preferences saved successfully."
   }
 }

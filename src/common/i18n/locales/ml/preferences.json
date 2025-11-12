@@ -1,13 +1,13 @@
 {
-  "title": "ആവശ്യങ്ങൾ",
+  "title": "Preferences",
   "labels": {
-    "timezone": "സമയ മേഖല",
-    "language": "ഭാഷ",
-    "notifications": "അറിയിപ്പുകൾ",
-    "save": "സംരക്ഷിക്കുക",
-    "cancel": "റദ്ദാക്കുക"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "ആവശ്യങ്ങൾ വിജയകരമായി സംരക്ഷിച്ചു."
+    "saved": "Preferences saved successfully."
   }
 }

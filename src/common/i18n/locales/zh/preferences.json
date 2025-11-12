@@ -1,13 +1,13 @@
 {
-  "title": "偏好设置",
+  "title": "Preferences",
   "labels": {
-    "timezone": "时区",
-    "language": "语言",
-    "notifications": "通知",
-    "save": "保存",
-    "cancel": "取消"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "偏好设置已成功保存。"
+    "saved": "Preferences saved successfully."
   }
 }

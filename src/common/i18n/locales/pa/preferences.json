@@ -1,13 +1,13 @@
 {
-  "title": "ਪਸੰਦਾਂ",
+  "title": "Preferences",
   "labels": {
-    "timezone": "ਸਮਾਂ ਖੇਤਰ",
-    "language": "ਭਾਸ਼ਾ",
-    "notifications": "ਸੂਚਨਾਵਾਂ",
-    "save": "ਸੰਭਾਲੋ",
-    "cancel": "ਰੱਦ ਕਰੋ"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "ਪਸੰਦਾਂ ਸਫਲਤਾਪੂਰਵਕ ਸੰਭਾਲੀਆਂ ਗਈਆਂ ਹਨ।"
+    "saved": "Preferences saved successfully."
   }
 }
