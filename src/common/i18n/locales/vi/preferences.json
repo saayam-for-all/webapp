@@ -1,13 +1,13 @@
 {
-  "title": "Tùy chọn",
+  "title": "Preferences",
   "labels": {
-    "timezone": "Múi giờ",
-    "language": "Ngôn ngữ",
-    "notifications": "Thông báo",
-    "save": "Lưu",
-    "cancel": "Hủy"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "Tùy chọn đã được lưu thành công."
+    "saved": "Preferences saved successfully."
   }
 }

@@ -1,13 +1,13 @@
 {
-  "title": "ترجيحات",
+  "title": "Preferences",
   "labels": {
-    "timezone": "ٽائيم زون",
-    "language": "ٻولي",
-    "notifications": "اطلاعناما",
-    "save": "محفوظ ڪريو",
-    "cancel": "منسوخ ڪريو"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "ترجيحات ڪاميابي سان محفوظ ٿي ويون."
+    "saved": "Preferences saved successfully."
   }
 }

@@ -1,13 +1,13 @@
 {
-  "title": "設定",
+  "title": "Preferences",
   "labels": {
-    "timezone": "タイムゾーン",
-    "language": "言語",
-    "notifications": "通知",
-    "save": "保存",
-    "cancel": "キャンセル"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "設定が正常に保存されました。"
+    "saved": "Preferences saved successfully."
   }
 }

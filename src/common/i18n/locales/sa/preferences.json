@@ -1,13 +1,13 @@
 {
-  "title": "प्राथमिकाः",
+  "title": "Preferences",
   "labels": {
-    "timezone": "काल क्षेत्रम्",
-    "language": "भाषा",
-    "notifications": "सूचनाः",
-    "save": "रक्षतु",
-    "cancel": "निरस्यतु"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "प्राथमिकाः सफलतया रक्षिताः।"
+    "saved": "Preferences saved successfully."
   }
 }

@@ -1,13 +1,13 @@
 {
-  "title": "అభిరుచులు",
+  "title": "Preferences",
   "labels": {
-    "timezone": "సమయ మండలం",
-    "language": "భాష",
-    "notifications": "నోటిఫికేషన్లు",
-    "save": "సేవ్ చేయి",
-    "cancel": "రద్దు చేయి"
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "messages": {
-    "saved": "అభిరుచులు విజయవంతంగా సేవ్ చేయబడ్డాయి."
+    "saved": "Preferences saved successfully."
   }
 }

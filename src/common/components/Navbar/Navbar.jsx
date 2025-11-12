@@ -415,15 +415,6 @@ const Navbar = () => {
             >
               <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
             </button>
-            <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/more-info")}
-                className="text-black hover:text-gray-600 flex items-center text-base"
-              >
-                <ArticleIcon className="mr-2" />
-                More Information
-              </button>
-            </div>
           </div>
 
           {user?.userId && (
@@ -695,15 +686,6 @@ const Navbar = () => {
             >
               <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
             </button>
-            <div className="block text-black py-2 flex items-center">
-              <button
-                onClick={(e) => handleDrawerClick(e, "/more-info")}
-                className="text-black flex items-center hover:text-blue-600"
-              >
-                <ArticleIcon className="mr-2" />
-                More Information
-              </button>
-            </div>
           </div>
 
           {user?.userId && (
