@@ -10,7 +10,7 @@ import AshwaniImg from "../../assets/images/Ashwani_Dhawan.webp";
 import PrabhakarImg from "../../assets/images/Prabhakar_Yellai.jpeg";
 import SharadhaImg from "../../assets/images/Sharadha_Subramanian.jpeg";
 import SrividhyaImg from "../../assets/images/Srividhya_Gopalan.jpeg";
-
+import VinitaImg from "../../assets/images/Vinita_Paunikar.jpeg";
 import { useNavigate } from "react-router-dom";
 import MadhukarImg from "../../assets/images/Madhukar_Govindaraju.jpeg";
 import SateeshImg from "../../assets/images/Sateesh_Mucharla.webp";
@@ -66,6 +66,7 @@ const DirectorsData = [
   //   linkedin: "https://www.linkedin.com/in/rajeshwary-jaldu/",
   //   image: RajeshwaryImg,
   // },
+
   {
     name: "Madhukar Govindaraju",
     role: "Director",
@@ -84,22 +85,16 @@ const DirectorsData = [
     linkedin: "https://www.linkedin.com/in/mantrapaloalto/",
     image: AshwaniImg,
   },
-];
 
-// const advisorsData = [
-//   {
-//     name: "Madhukar Govindaraju",
-//     role: "Advisor",
-//     linkedin: "https://www.linkedin.com/in/madhukar/",
-//     imgUrl: MadhukarImg,
-//   },
-//   {
-//     name: "Sateesh Mucharla",
-//     role: "Advisor",
-//     linkedin: "https://www.linkedin.com/in/mucharla",
-//     imgUrl: SateeshImg,
-//   },
-// ];
+  // ⭐⭐⭐ DUPLICATE AS REQUESTED — DO NOT REMOVE ⭐⭐⭐
+  {
+    name: "Vinita Paunikar",
+    role: "Director",
+    linkedin: "https://www.linkedin.com/in/vinita-paunikar/",
+    image: VinitaImg,
+  },
+  // ⭐⭐⭐ END DUPLICATE ⭐⭐⭐
+];
 
 const Directors = () => {
   const { t } = useTranslation();
@@ -149,38 +144,6 @@ const Directors = () => {
       <section>
         <ExecutiveTeam />
       </section>
-      {/* <section className="py-20">
-        <h1 className="text-center text-3xl font-bold text-black">
-          {t("ADVISORS")}
-        </h1>
-        <p className="text-center text-lg text-gray-600 my-4">
-          {t("ADVISORS_DESCRIPTION")}
-        </p>
-        <div className="flex items-center justify-center flex-wrap gap-10 my-20">
-          {advisorsData.map((advisor, index) => (
-            <div key={index} className="">
-              <img
-                src={advisor.imgUrl}
-                alt={advisor.name}
-                width={250}
-                className="object-cover aspect-[2.5/3] rounded-xl"
-              />
-              <div className="text-left self-start">
-                <h2 className="flex gap-2 mt-5">
-                  <a
-                    href={advisor.linkedin}
-                    className="text-black font-bold text-xl"
-                    target="_blank"
-                  >
-                    {advisor.name}
-                  </a>
-                </h2>
-                <h3 className="flex gap-2">{advisor.role}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section> */}
     </div>
   );
 };
