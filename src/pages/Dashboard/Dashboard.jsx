@@ -55,6 +55,18 @@ const Dashboard = ({ userRole }) => {
     setIsDropdownVisible(!isDropdownVisible);
   };
 
+  const TYPE_IN_PERSON = "In-person";
+  const TYPE_REMOTE = "Remote";
+
+  const normalizeType = (val) => {
+    if (!val) return null;
+    const s = String(val).trim().toLowerCase();
+    const remoteKeywords = ["remote", "virtual", "work from home", "wfh"];
+    if (remoteKeywords.some((kw) => s === kw || s.includes(kw)))
+      return TYPE_REMOTE;
+    return TYPE_IN_PERSON;
+  };
+
   // Simple dummy data per dashboard for initial UI; we'll replace with real data later
   const dashboardTables = useMemo(
     () => ({
@@ -155,17 +167,20 @@ const Dashboard = ({ userRole }) => {
     setCategoryFilter(allCategories);
   };
 
-  const headers = [
-    "id",
-    "type",
-    "subject",
-    "creationDate",
-    "closedDate",
-    "status",
-    "category",
-    "priority",
-    "calamity",
-  ];
+  const headersWithStatus = useMemo(() => {
+    const baseHeaders = [
+      "id",
+      "type",
+      "subject",
+      "creationDate",
+      "closedDate",
+      "category",
+      "priority",
+      "calamity",
+    ];
+    const isAllSelected = Object.values(statusFilter).every(Boolean);
+    return isAllSelected ? ["status", ...baseHeaders] : baseHeaders;
+  }, [statusFilter]);
 
   const sortedRequests = (requests) => {
     let sortableRequests = [...requests];
@@ -192,7 +207,9 @@ const Dashboard = ({ userRole }) => {
     const values = [
       ...new Set((data?.body || []).map((r) => r.status).filter(Boolean)),
     ];
-    return values.length ? values : ["Open", "Closed"];
+    const fallback = ["Open", "Closed"];
+    const options = values.length ? values : fallback;
+    return ["All", ...options];
   }, [data]);
 
   const categoryOptions = useMemo(() => {
@@ -207,10 +224,14 @@ const Dashboard = ({ userRole }) => {
 
   // Updated fallback aligned with backend values
   const typeOptions = useMemo(() => {
-    const values = [
-      ...new Set((data?.body || []).map((r) => r.type).filter(Boolean)),
-    ];
-    return values.length ? values : ["Personal", "Community", "Emergency"];
+    const rawValues = (data?.body || []).map((r) => r.type).filter(Boolean);
+
+    const normalizedSet = new Set(
+      rawValues.map((v) => normalizeType(v)).filter(Boolean),
+    );
+    normalizedSet.add(TYPE_IN_PERSON);
+    normalizedSet.add(TYPE_REMOTE);
+    return [TYPE_IN_PERSON, TYPE_REMOTE].filter((l) => normalizedSet.has(l));
   }, [data]);
 
   const priorityOptions = useMemo(() => {
@@ -247,10 +268,12 @@ const Dashboard = ({ userRole }) => {
         Object.values(categoryFilter).every((v) => !v) ||
         categoryFilter[request.category];
 
+      const typeNormalized = normalizeType(request.type);
+
       const typeActive =
         Object.keys(typeFilter).length === 0 ||
         Object.values(typeFilter).every((v) => !v) ||
-        typeFilter[request.type];
+        (typeNormalized && typeFilter[typeNormalized]);
 
       const priorityActive =
         Object.keys(priorityFilter).length === 0 ||
@@ -284,7 +307,11 @@ const Dashboard = ({ userRole }) => {
     });
   };
 
-  const [typeFilter, setTypeFilter] = useState({});
+  const [typeFilter, setTypeFilter] = useState({
+    [TYPE_IN_PERSON]: true,
+    [TYPE_REMOTE]: true,
+  });
+
   const [priorityFilter, setPriorityFilter] = useState({});
   const [calamityFilter, setCalamityFilter] = useState({});
   const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
@@ -328,10 +355,19 @@ const Dashboard = ({ userRole }) => {
   };
 
   const handleStatusChange = (status) => {
-    setStatusFilter((prev) => ({
-      ...prev,
-      [status]: !prev[status],
-    }));
+    if (status === "All") {
+      const allSelected = !Object.values(statusFilter).every(Boolean);
+      const updatedFilter = {};
+      statusOptions.forEach((s) => {
+        if (s !== "All") updatedFilter[s] = allSelected;
+      });
+      setStatusFilter(updatedFilter);
+    } else {
+      setStatusFilter((prev) => ({
+        ...prev,
+        [status]: !prev[status],
+      }));
+    }
   };
 
   const handleCategoryChange = (category) => {
@@ -551,7 +587,11 @@ const Dashboard = ({ userRole }) => {
                   <label key={status} className="block">
                     <input
                       type="checkbox"
-                      checked={statusFilter[status]}
+                      checked={
+                        status === "All"
+                          ? Object.values(statusFilter).every(Boolean)
+                          : statusFilter[status] || false
+                      }
                       onChange={() => handleStatusChange(status)}
                     />
                     {status}
@@ -603,6 +643,7 @@ const Dashboard = ({ userRole }) => {
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
               onClick={toggleTypeDropdown}
+              tabIndex={0}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
                 Type
@@ -700,7 +741,7 @@ const Dashboard = ({ userRole }) => {
             <SuperAdminDashboard
               activeTab={activeTab}
               handleTabChange={handleTabChange}
-              headers={headers}
+              headers={headersWithStatus}
               filteredData={filteredData}
               isLoading={isLoading}
               currentPage={currentPage}
@@ -719,7 +760,7 @@ const Dashboard = ({ userRole }) => {
             <AdminDashboard
               activeTab={activeTab}
               handleTabChange={handleTabChange}
-              headers={headers}
+              headers={headersWithStatus}
               filteredData={filteredData}
               isLoading={isLoading}
               currentPage={currentPage}
@@ -736,7 +777,7 @@ const Dashboard = ({ userRole }) => {
 
           {selectedDashboard === "steward" && (
             <StewardDashboard
-              headers={headers}
+              headers={headersWithStatus}
               filteredData={filteredData}
               isLoading={isLoading}
               currentPage={currentPage}
@@ -755,7 +796,7 @@ const Dashboard = ({ userRole }) => {
             <VolunteerDashboard
               activeTab={activeTab}
               handleTabChange={handleTabChange}
-              headers={headers}
+              headers={headersWithStatus}
               filteredData={filteredData}
               isLoading={isLoading}
               currentPage={currentPage}
@@ -774,7 +815,7 @@ const Dashboard = ({ userRole }) => {
             <BeneficiaryDashboard
               activeTab={activeTab}
               handleTabChange={handleTabChange}
-              headers={headers}
+              headers={headersWithStatus}
               filteredData={filteredData}
               isLoading={isLoading}
               currentPage={currentPage}
