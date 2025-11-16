@@ -1,12 +1,12 @@
+import React, { useEffect, useRef, useState } from "react";
 import { StandaloneSearchBox } from "@react-google-maps/api";
-import { useEffect, useRef, useState } from "react"; //added for testing
 import { useTranslation } from "react-i18next";
 import { IoMdInformationCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
+import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../common/components/Modal/Modal";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
@@ -24,6 +24,7 @@ import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
+import axios from "axios";
 import {
   Dialog,
   DialogActions,
@@ -40,6 +41,9 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
+  LinearProgress,
+  IconButton,
+  Box,
 } from "@mui/material";
 
 const genderOptions = [
@@ -51,6 +55,10 @@ const genderOptions = [
   { value: "Intersex", label: "Intersex" },
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
+
+const MAX_FILES = 5;
+const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
+const ALLOWED_MIME_TYPES = ["image/png", "image/jpeg", "application/pdf"];
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
@@ -104,7 +112,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "info", // 'success', 'error', 'warning' also valid
+    severity: "info",
   });
 
   const { data, error, isLoading } = useGetAllRequestQuery();
@@ -113,6 +121,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const inputref = useRef(null);
   const dropdownRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -132,31 +141,44 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     priority: "MEDIUM",
   });
 
-  // useEffect(() => {
-  //   if (
-  //     formData.category === "General" &&
-  //     formData.subject.trim() !== "" &&
-  //     formData.description.trim() !== "" &&
-  //     !categoryConfirmed
-  //   ) {
-  //     fetchPredictedCategories();
-  //     setShowModal(true);
-  //   }
-  // }, [formData.subject, formData.description, formData.category]);
+  // FILE UPLOAD STATE
+  // attachedFiles: array of File objects selected by user (not yet uploaded)
+  const [attachedFiles, setAttachedFiles] = useState([]);
+  // uploadProgress: { fileId: progressNumber (0-100) }
+  const [uploadProgress, setUploadProgress] = useState({});
+  // uploadedFilesInfo: [{ name, size, fileUrl }]
+  const [uploadedFilesInfo, setUploadedFilesInfo] = useState([]);
+  const [showFilesDialog, setShowFilesDialog] = useState(false);
+  const [isUploadingFiles, setIsUploadingFiles] = useState(false);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
-  };
+  // Restore request for edit
+  useEffect(() => {
+    if (id && data) {
+      const requestData = data.body?.find((item) => item.id === id);
+      setFormData({
+        category: requestData.category,
+        description: requestData.description,
+        subject: requestData.subject,
+        ...requestData,
+      });
 
-  const closeForm = () => {
-    navigate("/dashboard");
-  };
+      // If editing and attachments present in requestData, show them as uploadedFilesInfo
+      if (requestData.attachments && Array.isArray(requestData.attachments)) {
+        setUploadedFilesInfo(
+          requestData.attachments.map((url, idx) => ({
+            name: `Attachment-${idx + 1}`,
+            size: 0,
+            fileUrl: url,
+          })),
+        );
+      }
+    }
+  }, [data, id]);
 
-  // Fetch predicted categories when category is "General" and debounced values change
+  // Predict categories function (unchanged)
   const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return; // Only call the API if category is "General"
-    if (!formData.subject || !formData.description) return; // Skip if no relevant data
+    if (formData.category !== "General") return;
+    if (!formData.subject || !formData.description) return;
 
     try {
       const requestBody = {
@@ -165,7 +187,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       };
 
       const response = await predictCategories(requestBody);
-      console.log("API Response:", response);
       const formattedCategories = (response || []).map((category) => ({
         id: category.toLowerCase(),
         name: category,
@@ -186,155 +207,30 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const submissionData = {
-      ...formData,
-      location,
-    };
-
-    try {
-      const res = await checkProfanity({
-        subject: formData.subject,
-        description: formData.description,
-      });
-
-      if (res.contains_profanity) {
-        setSnackbar({
-          open: true,
-          message:
-            "Profanity detected. Please remove these word(s): " +
-            res.profanity +
-            " from Subject/Description and submit again!",
-          severity: "error",
-        });
-
-        // toast.error(
-        //   "Profanity detected. Please remove these word(s) : " +
-        //     res.profanity +
-        //     "  from Subject/Description and submit request again!",
-        //   {
-        //     position: "top-center", // You can customize the position
-        //     autoClose: 2000, // Toast auto-closes after 2 seconds
-        //     hideProgressBar: true, // Optional: Hide progress bar
-        //   },
-        // );
-      }
-      // Proceed with submitting the request if no profanity is found
-
-      // const response = await axios.post(
-      //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-      //   submissionData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      else {
-        if (
-          formData.category === "General" &&
-          formData.subject.trim() !== "" &&
-          formData.description.trim() !== "" &&
-          !categoryConfirmed
-        ) {
-          await fetchPredictedCategories();
-          setShowModal(true);
-          return; // Don’t submit yet
-        }
-
-        const response = await createRequest(submissionData);
-
-        setTimeout(() => {
-          navigate("/dashboard", {
-            state: {
-              successMessage:
-                "New Request #REQ-00-000-000-00011 submitted successfully!",
-            },
-          });
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Failed to process request:", error);
-      alert("Failed to submit request!");
-    }
+  // Existing handleChange
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
+
+  const closeForm = () => {
+    navigate("/dashboard");
+  };
+
+  // Categories fetch & languages logic (kept same as original, slight tweaks)
   useEffect(() => {
     // Build languages options directly from languagesData.js
     const languageOptions = languagesData.map((lang) => ({
-      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
       value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
       label: lang.name,
     }));
     setLanguages(languageOptions);
-    /*   const fetchLanguages = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        // Ensure data is an array before processing
-        if (!Array.isArray(data)) {
-          console.warn("Languages API returned non-array data, using fallback");
-          setLanguages([
-            { value: "English", label: "English" },
-            { value: "Spanish", label: "Spanish" },
-            { value: "French", label: "French" },
-            { value: "German", label: "German" },
-            { value: "Hindi", label: "Hindi" },
-          ]);
-          return;
-        }
-
-        const languageSet = new Set();
-        data.forEach((country) => {
-          if (country.languages) {
-            Object.values(country.languages).forEach((language) =>
-              languageSet.add(language),
-            );
-          }
-        });
-        setLanguages(
-          [...languageSet].map((lang) => ({ value: lang, label: lang })),
-        );
-      } catch (error) {
-        console.warn(
-          "Error fetching languages, using fallback:",
-          error.message,
-        );
-        // Fallback to common languages if API fails
-        setLanguages([
-          { value: "English", label: "English" },
-          { value: "Spanish", label: "Spanish" },
-          { value: "French", label: "French" },
-          { value: "German", label: "German" },
-          { value: "Hindi", label: "Hindi" },
-          { value: "Chinese", label: "Chinese" },
-          { value: "Arabic", label: "Arabic" },
-          { value: "Portuguese", label: "Portuguese" },
-          { value: "Russian", label: "Russian" },
-          { value: "Japanese", label: "Japanese" },
-        ]);
-      }
-    };*/
-
-    // Fetch categories from API if not already fetched, following same pattern as other APIs
     const fetchCategoriesData = async () => {
       if (!categoriesFetched) {
         try {
-          const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
+          const categoriesData = await getCategories();
 
-          // Store the API response directly in Redux as-is
-          // No complex mappings needed - API keys now match i18n keys exactly
-          console.log("Categories API response:", categoriesData);
-
-          // Extract categories array from API response
           let categoriesArray;
           if (Array.isArray(categoriesData)) {
             categoriesArray = categoriesData;
@@ -344,7 +240,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           ) {
             categoriesArray = categoriesData.categories;
           } else if (categoriesData && typeof categoriesData === "object") {
-            // Log the structure to understand the API format
             console.log("API response structure:", Object.keys(categoriesData));
             throw new Error(
               "Invalid API response format - expected array or object with categories array",
@@ -353,63 +248,41 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             throw new Error("Invalid API response format - expected array");
           }
 
-          // Filter out invalid/header entries (like cat_name, cat_id placeholders)
           const validCategories = categoriesArray.filter(
             (cat) =>
               cat.catName &&
               cat.catName !== "cat_name" &&
               cat.catId !== "cat_id" &&
-              cat.catId !== "﻿cat_id" && // Handle BOM characters
+              cat.catId !== "﻿cat_id" &&
               !cat.catName.toLowerCase().includes("cat_name") &&
               !cat.catId.toLowerCase().includes("cat_id"),
           );
 
-          console.log(
-            "Filtered categories:",
-            validCategories.length,
-            "out of",
-            categoriesArray.length,
-          );
           dispatch(loadCategories(validCategories));
         } catch (error) {
           console.warn(
             "Categories API failed, using static fallback:",
             error.message,
           );
-          dispatch(loadCategories()); // Load static categories as fallback
+          dispatch(loadCategories());
         }
       }
     };
 
     fetchCategoriesData();
-
-    //fetchLanguages();
   }, [dispatch, categoriesFetched]);
 
-  useEffect(() => {
-    if (id && data) {
-      const requestData = data.body?.find((item) => item.id === id);
-      setFormData({
-        category: requestData.category,
-        description: requestData.description,
-        subject: requestData.subject,
-        ...requestData,
-      });
-    }
-  }, [data]);
-
+  // Resolve category label function (kept same, extended to subcategories)
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
 
-    // Ensure categories is an array before using array methods
     const categoriesArray = Array.isArray(categories) ? categories : [];
 
-    // Check if matches a category catName
+    // Check top-level categories
     const cat = categoriesArray.find(
       (c) => c.catName === selectedKeyOrText || c.catId === selectedKeyOrText,
     );
     if (cat) {
-      // Try new API key first, fall back to old key mapping for backward compatibility
       const newKey = cat.catName;
       const oldKeyMap = {
         FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_ESSENTIALS",
@@ -421,7 +294,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         GENERAL_CATEGORY: "GENERAL",
       };
 
-      // Try new key first
       const newKeyResult = t(`categories:REQUEST_CATEGORIES.${newKey}.LABEL`, {
         defaultValue: null,
       });
@@ -429,21 +301,19 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         return newKeyResult;
       }
 
-      // Fall back to old key if new key translation doesn't exist
       const oldKey = oldKeyMap[newKey] || newKey;
       return t(`categories:REQUEST_CATEGORIES.${oldKey}.LABEL`, {
         defaultValue: cat.catName,
       });
     }
 
-    // Check if matches a subcategory catName
+    // Check subcategories
     for (const c of categoriesArray) {
       const subs = c.subCategories || [];
       const match = subs.find(
         (s) => s.catName === selectedKeyOrText || s.catId === selectedKeyOrText,
       );
       if (match) {
-        // Apply same fallback logic for subcategories
         const newCatKey = c.catName;
         const newSubKey = match.catName;
         const oldKeyMap = {
@@ -456,7 +326,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           GENERAL_CATEGORY: "GENERAL",
         };
 
-        // Try new key first
         const newResult = t(
           `categories:REQUEST_CATEGORIES.${newCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
           { defaultValue: null },
@@ -465,7 +334,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           return newResult;
         }
 
-        // Fall back to old key structure
         const oldCatKey = oldKeyMap[newCatKey] || newCatKey;
         return t(
           `categories:REQUEST_CATEGORIES.${oldCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
@@ -476,10 +344,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       }
     }
 
-    // Fallback to free text typed by user
     return selectedKeyOrText;
   };
 
+  // Sort & filtered categories effect
   useEffect(() => {
     if (categories && categories.length > 0) {
       const general = categories.find(
@@ -586,7 +454,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const oldCategory = "General";
     const newCategory = formData.category;
 
-    setCategoryConfirmed(true); // unlock submission
+    setCategoryConfirmed(true);
     setShowModal(false);
 
     if (oldCategory !== newCategory) {
@@ -598,9 +466,250 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   };
 
+  // ---------- FILE UPLOAD HANDLERS ----------
+
+  // Validate a single file
+  const validateFile = (file) => {
+    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+      return { ok: false, message: `${file.name} is not an allowed format.` };
+    }
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      return { ok: false, message: `${file.name} exceeds the 2MB size limit.` };
+    }
+    return { ok: true };
+  };
+
+  // When user picks files from the hidden input (selection only, not uploaded yet)
+  const handleFileSelection = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    // enforce total count
+    if (attachedFiles.length + files.length > MAX_FILES) {
+      setSnackbar({
+        open: true,
+        message: `You can only attach up to ${MAX_FILES} files.`,
+        severity: "warning",
+      });
+      return;
+    }
+
+    const validated = [];
+    for (const file of files) {
+      const v = validateFile(file);
+      if (!v.ok) {
+        setSnackbar({
+          open: true,
+          message: v.message,
+          severity: "error",
+        });
+        // skip invalid file
+        continue;
+      }
+      validated.push(file);
+    }
+
+    if (validated.length === 0) return;
+    setAttachedFiles((prev) => [...prev, ...validated]);
+    // reset input so same file can be reselected if removed later
+    e.target.value = "";
+  };
+
+  const removeAttachedFile = (index) => {
+    setAttachedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const removeUploadedFile = (index) => {
+    setUploadedFilesInfo((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Upload single file to backend and return the file URL
+  const uploadSingleFile = async (file, index) => {
+    // Create form data
+    const form = new FormData();
+    form.append("file", file);
+
+    // Need to add the actual backend upload endpoint
+    const uploadUrl = "https://your-backend-api.com/upload";
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await axios.post(uploadUrl, form, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent) => {
+            if (!progressEvent.total) return;
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total,
+            );
+            setUploadProgress((prev) => ({
+              ...prev,
+              [file.name || index]: percentCompleted,
+            }));
+          },
+        });
+
+        // assume response contains { fileUrl: "..." } or { url: "..." } - adapt if different
+        const fileUrl =
+          res?.data?.fileUrl ||
+          res?.data?.url ||
+          res?.data?.fileUrl?.[0] ||
+          null;
+
+        if (!fileUrl) {
+          // Backend didn't return expected URL
+          console.warn("Upload response:", res.data);
+          reject(new Error("Upload failed - no file URL returned"));
+          return;
+        }
+
+        // mark progress as 100%
+        setUploadProgress((prev) => ({ ...prev, [file.name || index]: 100 }));
+
+        resolve(fileUrl);
+      } catch (err) {
+        console.error("Upload error for file:", file.name, err);
+        setUploadProgress((prev) => ({ ...prev, [file.name || index]: 0 }));
+        reject(err);
+      }
+    });
+  };
+
+  // Upload all attached files (called during submit)
+  const uploadAllAttachedFiles = async () => {
+    if (!attachedFiles || attachedFiles.length === 0) return [];
+
+    setIsUploadingFiles(true);
+    setUploadProgress({});
+    const uploadedUrls = [];
+    const uploadedInfo = [];
+
+    for (let i = 0; i < attachedFiles.length; i++) {
+      const file = attachedFiles[i];
+      try {
+        const url = await uploadSingleFile(file, i);
+        uploadedUrls.push(url);
+        uploadedInfo.push({
+          name: file.name,
+          size: file.size,
+          fileUrl: url,
+        });
+      } catch (err) {
+        // If one file fails, show error but continue uploading others (you can change to abort instead)
+        setSnackbar({
+          open: true,
+          message: `Failed to upload ${file.name}. Please try again.`,
+          severity: "error",
+        });
+      }
+    }
+
+    setIsUploadingFiles(false);
+    // append to uploadedFilesInfo (persist uploaded results)
+    setUploadedFilesInfo((prev) => [...prev, ...uploadedInfo]);
+    // clear attachedFiles since they are uploaded now (but only if you want to clear them)
+    // We will clear them so UI shows uploadedFilesInfo instead
+    setAttachedFiles([]);
+    return uploadedUrls;
+  };
+
+  // ---------- SUBMIT HANDLER (modified to upload files before creating request) ----------
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const submissionData = {
+      ...formData,
+      location,
+    };
+
+    try {
+      const res = await checkProfanity({
+        subject: formData.subject,
+        description: formData.description,
+      });
+
+      if (res.contains_profanity) {
+        setSnackbar({
+          open: true,
+          message:
+            "Profanity detected. Please remove these word(s): " +
+            res.profanity +
+            " from Subject/Description and submit again!",
+          severity: "error",
+        });
+        return;
+      }
+
+      if (
+        formData.category === "General" &&
+        formData.subject.trim() !== "" &&
+        formData.description.trim() !== "" &&
+        !categoryConfirmed
+      ) {
+        await fetchPredictedCategories();
+        setShowModal(true);
+        return; // Don’t submit yet
+      }
+
+      // If there are attached files (selected but not yet uploaded), upload them first
+      // IMPORTANT: This uploads each file individually so we can show per-file progress bars
+      let uploadedFileUrls = [];
+
+      // If user selected new files (attachedFiles) -> upload them
+      if (attachedFiles.length > 0) {
+        const urls = await uploadAllAttachedFiles();
+        uploadedFileUrls = uploadedFileUrls.concat(urls);
+      }
+
+      // Also include previously uploaded files (uploadedFilesInfo)
+      if (uploadedFilesInfo.length > 0) {
+        const prevUrls = uploadedFilesInfo
+          .map((f) => f.fileUrl)
+          .filter(Boolean);
+        uploadedFileUrls = [...uploadedFileUrls, ...prevUrls];
+      }
+
+      // include attachments in submission payload (if any)
+      if (uploadedFileUrls.length > 0) {
+        submissionData.attachments = uploadedFileUrls;
+      }
+
+      // Call createRequest with attachments included
+      const response = await createRequest(submissionData);
+
+      // success flow (mimic original)
+      setSnackbar({
+        open: true,
+        message: "Help Request submitted successfully!",
+        severity: "success",
+      });
+
+      setTimeout(() => {
+        navigate("/dashboard", {
+          state: {
+            successMessage:
+              "New Request #REQ-00-000-000-00011 submitted successfully!",
+          },
+        });
+      }, 1200);
+    } catch (error) {
+      console.error("Failed to process request:", error);
+      setSnackbar({
+        open: true,
+        message: "Failed to submit request!",
+        severity: "error",
+      });
+    }
+  };
+
+  // ---------- RENDER ----------
   if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className="">
+      <ToastContainer />
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}
@@ -621,11 +730,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           <button
             onClick={() => navigate("/dashboard")}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+            type="button"
           >
             <span className="text-2xl mr-2">&lt;</span>{" "}
             {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
           </button>
         </div>
+
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
@@ -640,6 +751,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               {t("LIFE_THREATENING_REQUESTS")}
             </div>
           </div>
+
           <div className="mt-3 flex gap-4" data-testid="parentDivOne">
             {/* For Self Dropdown */}
             <div className="flex-1">
@@ -648,11 +760,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("FOR_SELF")}
                 </label>
                 <div className="relative group cursor-pointer">
-                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
-                  {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     Choose ‘Yes’ if you’re submitting this request on your own
                     behalf else ‘No’ if you’re requesting for someone else.
@@ -668,7 +778,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   onChange={(e) => {
                     const selected = e.target.value;
                     setFormData({ ...formData, request_for: selected });
-                    setSelfFlag(selected === enums?.requestFor?.[0]); // "SELF" means true, "OTHER" means false
+                    setSelfFlag(selected === enums?.requestFor?.[0]);
                   }}
                 >
                   {enums?.requestFor &&
@@ -685,7 +795,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
 
             {/* Lead Volunteer */}
-            {/* Lead Volunteer */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <label
@@ -699,7 +808,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     ?
                   </div>
                   <div
-                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 
+                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
                                   opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
                   >
                     Select “Yes” if you’re the main volunteer coordinating this
@@ -708,7 +817,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
 
-              {/* when editing, admins can type new name; otherwise show a dropdown */}
               {isEdit ? (
                 <input
                   type="text"
@@ -731,7 +839,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     name="lead_volunteer"
                     value={formData.lead_volunteer}
                     onChange={handleChange}
-                    className="block w-full appearance-none bg-white border border-gray-300 rounded-lg 
+                    className="block w-full appearance-none bg-white border border-gray-300 rounded-lg
                               py-2 px-3 pr-8 text-gray-700 focus:outline-none"
                   >
                     <option value="No">{t("No")}</option>
@@ -745,144 +853,143 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           </div>
 
-          {
-            //Temporarily commented out as MVP only allows for self requests
-            !selfFlag && (
-              <div
-                className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
-                data-testid="parentDivTwo"
-              >
-                <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">
-                  <IoMdInformationCircle className="text-gray-500 mr-1 mt-0.5" />
-                  <div className="text-sm text-gray-600">
-                    Please fill the details of the person you are submitting the
-                    request for.
-                  </div>
+          {/* Requester details if not self */}
+          {!selfFlag && (
+            <div
+              className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
+              data-testid="parentDivTwo"
+            >
+              <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">
+                <IoMdInformationCircle className="text-gray-500 mr-1 mt-0.5" />
+                <div className="text-sm text-gray-600">
+                  Please fill the details of the person you are submitting the
+                  request for.
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="requester_first_name"
-                      className="block text-gray-700 mb-1 font-medium"
-                    >
-                      {t("FIRST_NAME")}
-                    </label>
-                    <input
-                      type="text"
-                      id="requester_first_name"
-                      value={formData.requester_first_name}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border py-2 px-3"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="requester_last_name"
-                      className="block text-gray-700 mb-1 font-medium"
-                    >
-                      {t("LAST_NAME")}
-                    </label>
-                    <input
-                      type="text"
-                      id="requester_last_name"
-                      value={formData.requester_last_name}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border py-2 px-3"
-                    />
-                  </div>
-                </div>
-                <div className="mt-3" data-testid="parentDivThree">
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
                   <label
-                    htmlFor="email"
+                    htmlFor="requester_first_name"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    {t("EMAIL")}
+                    {t("FIRST_NAME")}
                   </label>
                   <input
-                    type="email"
-                    id="email"
-                    value={formData.email}
+                    type="text"
+                    id="requester_first_name"
+                    value={formData.requester_first_name}
                     onChange={handleChange}
                     className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
-
-                <div className="mt-3 grid grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-gray-700 mb-1 font-medium"
-                    >
-                      {t("PHONE")}
-                    </label>
-                    <input
-                      type="text"
-                      id="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border py-2 px-3"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="age"
-                      className="block text-gray-700 mb-1 font-medium"
-                    >
-                      {t("AGE")}
-                    </label>
-                    <input
-                      type="number"
-                      id="age"
-                      value={formData.age}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border py-2 px-3"
-                    />
-                  </div>
-                  <div className="mt-3" data-testid="parentDivFour">
-                    <label
-                      htmlFor="gender"
-                      className="block text-gray-700 mb-1 font-medium"
-                    >
-                      {t("GENDER")}
-                    </label>
-                    <select
-                      id="gender"
-                      value={formData.gender}
-                      onChange={handleChange}
-                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
-                    >
-                      {genderOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="mt-3" data-testid="parentDivFive">
-                    <label
-                      htmlFor="language"
-                      className="block text-gray-700 mb-1 font-medium"
-                    >
-                      {t("PREFERRED_LANGUAGE")}
-                    </label>
-                    <select
-                      id="preferred_language"
-                      value={formData.preferred_language}
-                      onChange={handleChange}
-                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
-                    >
-                      {languages.map((language) => (
-                        <option key={language.value} value={language.value}>
-                          {language.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div>
+                  <label
+                    htmlFor="requester_last_name"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    {t("LAST_NAME")}
+                  </label>
+                  <input
+                    type="text"
+                    id="requester_last_name"
+                    value={formData.requester_last_name}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
                 </div>
               </div>
-            )
-          }
+              <div className="mt-3" data-testid="parentDivThree">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 mb-1 font-medium"
+                >
+                  {t("EMAIL")}
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border py-2 px-3"
+                />
+              </div>
 
+              <div className="mt-3 grid grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    {t("PHONE")}
+                  </label>
+                  <input
+                    type="text"
+                    id="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="age"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    {t("AGE")}
+                  </label>
+                  <input
+                    type="number"
+                    id="age"
+                    value={formData.age}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border py-2 px-3"
+                  />
+                </div>
+                <div className="mt-3" data-testid="parentDivFour">
+                  <label
+                    htmlFor="gender"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    {t("GENDER")}
+                  </label>
+                  <select
+                    id="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                  >
+                    {genderOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mt-3" data-testid="parentDivFive">
+                  <label
+                    htmlFor="language"
+                    className="block text-gray-700 mb-1 font-medium"
+                  >
+                    {t("PREFERRED_LANGUAGE")}
+                  </label>
+                  <select
+                    id="preferred_language"
+                    value={formData.preferred_language}
+                    onChange={handleChange}
+                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                  >
+                    {languages.map((language) => (
+                      <option key={language.value} value={language.value}>
+                        {language.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Category + Request Type + Priority (kept same) */}
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
@@ -890,11 +997,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("REQUEST_CATEGORY")}
                 </label>
                 <div className="relative group cursor-pointer">
-                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
-                  {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     Choose the category that best describes your need (e.g.,
                     Medical, Food, Jobs).
@@ -917,8 +1022,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     }
                   }}
                 />
-
-                {/* the dropdown arrow, pointer-events-none so it doesn’t block input clicks */}
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
@@ -942,7 +1045,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   ref={dropdownRef}
                   tabIndex={0}
                 >
-                  {/* Main categories column */}
                   <div
                     className={
                       hoveredCategory &&
@@ -983,7 +1085,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             { defaultValue: category.catName },
                           )}
                         </span>
-                        {/* Show chevron if subcategories exist */}
                         {category.subCategories &&
                           category.subCategories.length > 0 && (
                             <span className="ml-2 text-gray-400">&gt;</span>
@@ -991,17 +1092,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       </div>
                     ))}
                   </div>
-                  {/* Only show subcategories column if there are subcategories */}
                   {hoveredCategory &&
                     hoveredCategory.subCategories &&
                     hoveredCategory.subCategories.length > 0 && (
                       <>
-                        {/* Vertical divider */}
                         <div
                           className="w-px bg-gray-300 mx-1"
                           style={{ minHeight: "100%" }}
                         />
-                        {/* Subcategories column */}
                         <div
                           className="w-1/2 overflow-y-auto"
                           style={{ maxHeight: "240px" }}
@@ -1059,7 +1157,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("REQUEST_TYPE")}
                 </label>
                 <div className="relative group cursor-pointer">
-                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
@@ -1099,6 +1196,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
               </div>
+
               {formData.request_type === "INPERSON" && (
                 <div
                   className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
@@ -1140,7 +1238,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     Is Calamity?
                   </label>
                   <div className="relative group cursor-pointer">
-                    {/* Circle Question Mark Icon */}
                     <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                       ?
                     </div>
@@ -1162,6 +1259,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
             </div>
+
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
                 <label
@@ -1171,11 +1269,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("Request Priority")}
                 </label>
                 <div className="relative group cursor-pointer">
-                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
-                  {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     How urgent is this request? <br />
                     • Low – Not time sensitive <br />
@@ -1212,6 +1308,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </div>
           </div>
+
+          {/* Subject */}
           <div className="mt-3" data-testid="parentDivSix">
             {formData.category === "Jobs" && <JobsCategory />}
             {formData.category === "Housing" && <HousingCategory />}
@@ -1235,15 +1333,49 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               placeholder="Please give a brief description of the request"
             />
           </div>
+
+          {/* Description + Attach files icon */}
           <div className="mt-3" data-testid="parentDivSeven">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              {t("DESCRIPTION")}
-              <span className="text-red-500 m-1">*</span>(
-              {t("MAX_CHARACTERS", { count: 500 })})
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="description"
+                className="block text-gray-700 font-medium mb-2 flex items-center gap-2"
+              >
+                {t("DESCRIPTION")}
+                <span className="text-red-500 m-1">*</span>(
+                {t("MAX_CHARACTERS", { count: 500 })}){/* Attach icon */}
+                <div className="relative group inline-block">
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById("fileInput").click()}
+                    className="flex items-center justify-center w-7 h-7 rounded-md bg-gray-200 hover:bg-gray-300 text-black text-xl font-bold cursor-pointer"
+                  >
+                    📎
+                  </button>
+                  {/* Tooltip (Right side) */}
+                  <div className="absolute left-7 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    Attach Files:
+                    <br />
+                    You can attach up to 5 files
+                    <br />
+                    Allowed: PNG, JPG, JPEG, PDF
+                    <br />
+                    Max size 2MB each
+                  </div>
+                </div>
+                {/* Attached count button */}
+                {(attachedFiles.length > 0 || uploadedFilesInfo.length > 0) && (
+                  <button
+                    type="button"
+                    className="ml-2 text-sm px-2 py-1 rounded bg-gray-100 border"
+                    onClick={() => setShowFilesDialog(true)}
+                  >
+                    {attachedFiles.length + uploadedFilesInfo.length} Attached
+                  </button>
+                )}
+              </label>
+            </div>
+
             <textarea
               id="description"
               name="description"
@@ -1255,7 +1387,111 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               required
               placeholder="Please give a detailed description of the request"
             ></textarea>
+
+            {/* Hidden file input */}
+            <input
+              ref={fileInputRef}
+              id="fileInput"
+              type="file"
+              accept=".png,.jpg,.jpeg,.pdf"
+              multiple
+              hidden
+              onChange={handleFileSelection}
+            />
+
+            {/*/!* Show list of newly selected (not uploaded yet) files inline *!/*/}
+            {/*{attachedFiles.length > 0 && (*/}
+            {/*    <div className="mt-2 border rounded p-2 bg-gray-50">*/}
+            {/*      <div className="flex items-center justify-between">*/}
+            {/*        <strong>Files to upload:</strong>*/}
+            {/*        <span className="text-sm text-gray-600">*/}
+            {/*        {attachedFiles.length}/{MAX_FILES}*/}
+            {/*      </span>*/}
+            {/*      </div>*/}
+            {/*      <ul className="mt-2">*/}
+            {/*        {attachedFiles.map((file, idx) => (*/}
+            {/*            <li*/}
+            {/*                key={file.name + idx}*/}
+            {/*                className="flex items-center justify-between text-sm py-1"*/}
+            {/*            >*/}
+            {/*              <div>*/}
+            {/*                {file.name} ({(file.size / 1024).toFixed(1)} KB)*/}
+            {/*              </div>*/}
+            {/*              <div className="flex items-center gap-2">*/}
+            {/*                <button*/}
+            {/*                    type="button"*/}
+            {/*                    className="text-sm text-red-600"*/}
+            {/*                    onClick={() => removeAttachedFile(idx)}*/}
+            {/*                >*/}
+            {/*                  Remove*/}
+            {/*                </button>*/}
+            {/*              </div>*/}
+            {/*            </li>*/}
+            {/*        ))}*/}
+            {/*      </ul>*/}
+            {/*    </div>*/}
+            {/*)}*/}
+
+            {/*/!* Show uploaded files (from previous uploads) *!/*/}
+            {/*{uploadedFilesInfo.length > 0 && (*/}
+            {/*    <div className="mt-2 border rounded p-2 bg-gray-50">*/}
+            {/*      <div className="flex items-center justify-between">*/}
+            {/*        <strong>Uploaded files:</strong>*/}
+            {/*      </div>*/}
+            {/*      <ul className="mt-2">*/}
+            {/*        {uploadedFilesInfo.map((f, idx) => (*/}
+            {/*            <li*/}
+            {/*                key={f.fileUrl || f.name + idx}*/}
+            {/*                className="flex items-center justify-between text-sm py-1"*/}
+            {/*            >*/}
+            {/*              <div>*/}
+            {/*                <a*/}
+            {/*                    href={f.fileUrl}*/}
+            {/*                    target="_blank"*/}
+            {/*                    rel="noreferrer"*/}
+            {/*                    className="underline"*/}
+            {/*                >*/}
+            {/*                  {f.name}*/}
+            {/*                </a>{" "}*/}
+            {/*                {f.size ? `(${(f.size / 1024).toFixed(1)} KB)` : ""}*/}
+            {/*              </div>*/}
+            {/*              <div className="flex items-center gap-2">*/}
+            {/*                <button*/}
+            {/*                    type="button"*/}
+            {/*                    className="text-sm text-red-600"*/}
+            {/*                    onClick={() => removeUploadedFile(idx)}*/}
+            {/*                >*/}
+            {/*                  Remove*/}
+            {/*                </button>*/}
+            {/*              </div>*/}
+            {/*            </li>*/}
+            {/*        ))}*/}
+            {/*      </ul>*/}
+            {/*    </div>*/}
+            {/*)}*/}
+
+            {/* Per-file upload progress indicators (when uploading) */}
+            {isUploadingFiles && Object.keys(uploadProgress).length > 0 && (
+              <div className="mt-3">
+                <Typography variant="subtitle2">Uploading files...</Typography>
+                <div className="space-y-2 mt-2">
+                  {Object.keys(uploadProgress).map((key) => (
+                    <Box key={key} sx={{ width: "100%" }}>
+                      <Typography variant="body2" sx={{ fontSize: 12 }}>
+                        {key}
+                      </Typography>
+                      <LinearProgress
+                        variant="determinate"
+                        value={uploadProgress[key] || 0}
+                      />
+                    </Box>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* Submit buttons */}
           <div className="mt-8 flex justify-end gap-2">
             <button
               type="submit"
@@ -1273,7 +1509,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </div>
         </div>
       </form>
-      {/* Modal Component */}
+
+      {/* Category prediction modal*/}
       <Dialog open={showModal} onClose={() => setShowModal(false)}>
         <DialogTitle>Select a Category</DialogTitle>
         <DialogContent>
@@ -1315,6 +1552,95 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             Cancel
           </Button>
         </DialogActions>
+      </Dialog>
+
+      {/* Files dialog - shows both attached (not yet uploaded) & uploaded files */}
+      <Dialog
+        open={showFilesDialog}
+        onClose={() => setShowFilesDialog(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Attached Files</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" gutterBottom>
+            You can attach up to {MAX_FILES} files (PNG, JPG, JPEG, PDF). Max
+            size 2MB each.
+          </Typography>
+
+          <div className="mt-2">
+            {attachedFiles.length === 0 && uploadedFilesInfo.length === 0 && (
+              <Typography variant="body2">No files attached.</Typography>
+            )}
+
+            {attachedFiles.length > 0 && (
+              <div className="mt-2 border rounded p-2 bg-gray-50">
+                <div className="flex items-center justify-between">
+                  <strong>Files to be uploaded:</strong>
+                  <span className="text-sm text-gray-600">
+                    {attachedFiles.length}/{MAX_FILES}
+                  </span>
+                </div>
+
+                <ul className="mt-2">
+                  {attachedFiles.map((f, i) => (
+                    <li
+                      key={f.name + i}
+                      className="flex items-center justify-between text-sm py-1"
+                    >
+                      <div>
+                        {f.name} — {(f.size / 1024).toFixed(1)} KB
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                          onClick={() => removeAttachedFile(i)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/*{uploadedFilesInfo.length > 0 && (*/}
+            {/*    <>*/}
+            {/*      <Typography variant="subtitle2" className="mt-2">*/}
+            {/*        Uploaded files:*/}
+            {/*      </Typography>*/}
+            {/*      <ul>*/}
+            {/*        {uploadedFilesInfo.map((f, i) => (*/}
+            {/*            <li key={f.fileUrl || f.name + i} className="py-1 flex items-center justify-between">*/}
+            {/*              <div>*/}
+            {/*                <a href={f.fileUrl} target="_blank" rel="noreferrer">*/}
+            {/*                  {f.name}*/}
+            {/*                </a>{" "}*/}
+            {/*                {f.size ? `— ${(f.size / 1024).toFixed(1)} KB` : ""}*/}
+            {/*              </div>*/}
+            {/*              <div>*/}
+            {/*                <Button size="small" onClick={() => removeUploadedFile(i)}>*/}
+            {/*                  Remove*/}
+            {/*                </Button>*/}
+            {/*              </div>*/}
+            {/*            </li>*/}
+            {/*        ))}*/}
+            {/*      </ul>*/}
+            {/*    </>*/}
+            {/*)}*/}
+          </div>
+        </DialogContent>
+        <div className="flex items-center justify-center mt-4">
+          <button
+            type="button"
+            className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+            onClick={() => setShowFilesDialog(false)}
+          >
+            Close
+          </button>
+        </div>
       </Dialog>
     </div>
   );
