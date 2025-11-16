@@ -112,7 +112,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "info",
+    severity: "info", // 'success', 'error', 'warning' also valid
   });
 
   const { data, error, isLoading } = useGetAllRequestQuery();
@@ -175,10 +175,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, [data, id]);
 
-  // Predict categories function (unchanged)
+  // Fetch predicted categories when category is "General" and debounced values change
   const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return;
-    if (!formData.subject || !formData.description) return;
+    if (formData.category !== "General") return; // Only call the API if category is "General"
+    if (!formData.subject || !formData.description) return; // Skip if no relevant data
 
     try {
       const requestBody = {
@@ -207,7 +207,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   };
 
-  // Existing handleChange
+  // handleChange
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
@@ -221,10 +221,65 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   useEffect(() => {
     // Build languages options directly from languagesData.js
     const languageOptions = languagesData.map((lang) => ({
+      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
       value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
       label: lang.name,
     }));
     setLanguages(languageOptions);
+
+    /*   const fetchLanguages = async () => {
+      try {
+        const response = await fetch("https://restcountries.com/v3.1/all");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        // Ensure data is an array before processing
+        if (!Array.isArray(data)) {
+          console.warn("Languages API returned non-array data, using fallback");
+          setLanguages([
+            { value: "English", label: "English" },
+            { value: "Spanish", label: "Spanish" },
+            { value: "French", label: "French" },
+            { value: "German", label: "German" },
+            { value: "Hindi", label: "Hindi" },
+          ]);
+          return;
+        }
+
+        const languageSet = new Set();
+        data.forEach((country) => {
+          if (country.languages) {
+            Object.values(country.languages).forEach((language) =>
+              languageSet.add(language),
+            );
+          }
+        });
+        setLanguages(
+          [...languageSet].map((lang) => ({ value: lang, label: lang })),
+        );
+      } catch (error) {
+        console.warn(
+          "Error fetching languages, using fallback:",
+          error.message,
+        );
+        // Fallback to common languages if API fails
+        setLanguages([
+          { value: "English", label: "English" },
+          { value: "Spanish", label: "Spanish" },
+          { value: "French", label: "French" },
+          { value: "German", label: "German" },
+          { value: "Hindi", label: "Hindi" },
+          { value: "Chinese", label: "Chinese" },
+          { value: "Arabic", label: "Arabic" },
+          { value: "Portuguese", label: "Portuguese" },
+          { value: "Russian", label: "Russian" },
+          { value: "Japanese", label: "Japanese" },
+        ]);
+      }
+    };*/
+
+    // Fetch categories from API if not already fetched, following same pattern as other APIs
 
     const fetchCategoriesData = async () => {
       if (!categoriesFetched) {
@@ -272,17 +327,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     fetchCategoriesData();
   }, [dispatch, categoriesFetched]);
 
-  // Resolve category label function (kept same, extended to subcategories)
+  // Resolve category label function
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
 
     const categoriesArray = Array.isArray(categories) ? categories : [];
 
-    // Check top-level categories
+    // Check if matches a category catName
     const cat = categoriesArray.find(
       (c) => c.catName === selectedKeyOrText || c.catId === selectedKeyOrText,
     );
     if (cat) {
+      // Try new API key first, fall back to old key mapping for backward compatibility
       const newKey = cat.catName;
       const oldKeyMap = {
         FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_ESSENTIALS",
@@ -293,27 +349,28 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
         GENERAL_CATEGORY: "GENERAL",
       };
-
+      // Try new key first
       const newKeyResult = t(`categories:REQUEST_CATEGORIES.${newKey}.LABEL`, {
         defaultValue: null,
       });
       if (newKeyResult && newKeyResult !== newKey) {
         return newKeyResult;
       }
-
+      // Fall back to old key if new key translation doesn't exist
       const oldKey = oldKeyMap[newKey] || newKey;
       return t(`categories:REQUEST_CATEGORIES.${oldKey}.LABEL`, {
         defaultValue: cat.catName,
       });
     }
 
-    // Check subcategories
+    // Check if matches a subcategory catName
     for (const c of categoriesArray) {
       const subs = c.subCategories || [];
       const match = subs.find(
         (s) => s.catName === selectedKeyOrText || s.catId === selectedKeyOrText,
       );
       if (match) {
+        // Apply same fallback logic for subcategories
         const newCatKey = c.catName;
         const newSubKey = match.catName;
         const oldKeyMap = {
@@ -325,7 +382,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
           GENERAL_CATEGORY: "GENERAL",
         };
-
+        // Try new key first
         const newResult = t(
           `categories:REQUEST_CATEGORIES.${newCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
           { defaultValue: null },
@@ -333,7 +390,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         if (newResult && newResult !== newSubKey) {
           return newResult;
         }
-
+        // Fall back to old key structure
         const oldCatKey = oldKeyMap[newCatKey] || newCatKey;
         return t(
           `categories:REQUEST_CATEGORIES.${oldCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
@@ -343,7 +400,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       }
     }
-
+    // Fallback to free text typed by user
     return selectedKeyOrText;
   };
 
@@ -454,7 +511,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const oldCategory = "General";
     const newCategory = formData.category;
 
-    setCategoryConfirmed(true);
+    setCategoryConfirmed(true); // unlock submission
     setShowModal(false);
 
     if (oldCategory !== newCategory) {
@@ -760,9 +817,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("FOR_SELF")}
                 </label>
                 <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
+                  {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     Choose ‘Yes’ if you’re submitting this request on your own
                     behalf else ‘No’ if you’re requesting for someone else.
@@ -778,7 +837,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   onChange={(e) => {
                     const selected = e.target.value;
                     setFormData({ ...formData, request_for: selected });
-                    setSelfFlag(selected === enums?.requestFor?.[0]);
+                    setSelfFlag(selected === enums?.requestFor?.[0]); // "SELF" means true, "OTHER" means false
                   }}
                 >
                   {enums?.requestFor &&
@@ -816,7 +875,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
-
+              {/* when editing, admins can type new name; otherwise show a dropdown */}
               {isEdit ? (
                 <input
                   type="text"
@@ -997,9 +1056,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("REQUEST_CATEGORY")}
                 </label>
                 <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
+                  {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     Choose the category that best describes your need (e.g.,
                     Medical, Food, Jobs).
@@ -1022,6 +1083,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     }
                   }}
                 />
+                {/* the dropdown arrow, pointer-events-none so it doesn’t block input clicks */}
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
@@ -1045,6 +1107,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   ref={dropdownRef}
                   tabIndex={0}
                 >
+                  {/* Main categories column */}
                   <div
                     className={
                       hoveredCategory &&
@@ -1085,6 +1148,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             { defaultValue: category.catName },
                           )}
                         </span>
+                        {/* Show chevron if subcategories exist */}
                         {category.subCategories &&
                           category.subCategories.length > 0 && (
                             <span className="ml-2 text-gray-400">&gt;</span>
@@ -1092,14 +1156,17 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       </div>
                     ))}
                   </div>
+                  {/* Only show subcategories column if there are subcategories */}
                   {hoveredCategory &&
                     hoveredCategory.subCategories &&
                     hoveredCategory.subCategories.length > 0 && (
                       <>
+                        {/* Vertical divider */}
                         <div
                           className="w-px bg-gray-300 mx-1"
                           style={{ minHeight: "100%" }}
                         />
+                        {/* Subcategories column */}
                         <div
                           className="w-1/2 overflow-y-auto"
                           style={{ maxHeight: "240px" }}
@@ -1157,6 +1224,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("REQUEST_TYPE")}
                 </label>
                 <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
@@ -1196,7 +1264,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
                 </div>
               </div>
-
               {formData.request_type === "INPERSON" && (
                 <div
                   className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
@@ -1238,6 +1305,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     Is Calamity?
                   </label>
                   <div className="relative group cursor-pointer">
+                    {/* Circle Question Mark Icon */}
                     <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                       ?
                     </div>
@@ -1259,7 +1327,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 </div>
               </div>
             </div>
-
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
                 <label
@@ -1269,9 +1336,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {t("Request Priority")}
                 </label>
                 <div className="relative group cursor-pointer">
+                  {/* Circle Question Mark Icon */}
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                     ?
                   </div>
+                  {/* Tooltip */}
                   <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
                     How urgent is this request? <br />
                     • Low – Not time sensitive <br />
