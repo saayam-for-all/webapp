@@ -29,7 +29,7 @@ const VolunteerDashboard = (props) => {
     <div>
       <div className="flex mb-5">
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold bg-white border-gray-300`}
+          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold bg-white border-gray-300 mr-1`}
         >
           Managed Requests
         </button>

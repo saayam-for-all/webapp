@@ -22,7 +22,7 @@ const AdminDashboard = (props) => {
     <div>
       <div className="flex mb-5">
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold mr-1 ${
             activeTab === "myRequests"
               ? "bg-white border-gray-300"
               : "bg-gray-300 border-transparent hover:bg-gray-200"
@@ -32,7 +32,7 @@ const AdminDashboard = (props) => {
           All Requests
         </button>
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold mr-1 ${
             activeTab === "analytics"
               ? "bg-white border-gray-300"
               : "bg-gray-300 border-transparent hover:bg-gray-200"

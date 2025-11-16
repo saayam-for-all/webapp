@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./views/AdminDashboard";
@@ -379,8 +379,6 @@ const Dashboard = ({ userRole }) => {
     setIsStatusDropdownOpen(!isStatusDropdownOpen);
   };
 
-  const navigate = useNavigate();
-
   const [hasAddress, setHasAddress] = useState(
     localStorage.getItem("addressFlag") === "true",
   );
@@ -424,6 +422,15 @@ const Dashboard = ({ userRole }) => {
     ? dashboardTables[selectedDashboard]
     : null;
 
+  let dashboardTitle = "Beneficiary Dashboard";
+  if (selectedDashboard === "superAdmin")
+    dashboardTitle = "Super Admin Dashboard";
+  else if (selectedDashboard === "admin") dashboardTitle = "Admin Dashboard";
+  else if (selectedDashboard === "steward")
+    dashboardTitle = "Steward Dashboard";
+  else if (selectedDashboard === "volunteer")
+    dashboardTitle = "Volunteer Dashboard";
+
   return (
     <div className="p-5">
       <ToastContainer
@@ -447,23 +454,6 @@ const Dashboard = ({ userRole }) => {
           >
             <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
           </Link>
-        </div>
-
-        <div className="flex-1 text-center">
-          <h2 className="text-xl font-semibold">
-            {selectedDashboard === "superAdmin"
-              ? "Super Admin Dashboard"
-              : selectedDashboard === "admin"
-                ? "Admin Dashboard"
-                : selectedDashboard === "steward"
-                  ? "Steward Dashboard"
-                  : selectedDashboard === "volunteer"
-                    ? "Volunteer Dashboard"
-                    : "Beneficiary Dashboard"}
-          </h2>
-        </div>
-
-        <div className="flex items-center gap-2">
           {!groups?.includes("Volunteers") && (
             <Link
               to="/promote-to-volunteer"
@@ -479,7 +469,9 @@ const Dashboard = ({ userRole }) => {
               <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
             </Link>
           )}
+        </div>
 
+        <div className="flex items-center gap-2">
           <div className="flex ml-auto gap-2 items-center">
             {isDropdownVisible && (
               <select
@@ -496,6 +488,10 @@ const Dashboard = ({ userRole }) => {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="flex-1 text-center">
+        <h2 className="text-xl font-semibold">{dashboardTitle}</h2>
       </div>
 
       {showAddressMsg && !hasAddress && (
@@ -524,9 +520,8 @@ const Dashboard = ({ userRole }) => {
       )}
 
       <div className="border">
-        {/* Existing Filters */}
-        <div className="mb-4 flex flex-wrap gap-2 px-10">
-          <div className="relative mr-auto w-1/2">
+        <div className="mb-4 flex flex-wrap gap-2 px-10 pt-4">
+          <div className="relative w-1/3">
             <IoSearchOutline
               className="text-gray-500 absolute inset-y-0 start-0 flex items-center m-3 my-2"
               size={22}
