@@ -284,7 +284,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const fetchCategoriesData = async () => {
       if (!categoriesFetched) {
         try {
-          const categoriesData = await getCategories();
+          const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
+
+          // Store the API response directly in Redux as-is
+          // No complex mappings needed - API keys now match i18n keys exactly
+          console.log("Categories API response:", categoriesData);
 
           let categoriesArray;
           if (Array.isArray(categoriesData)) {
@@ -295,6 +299,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           ) {
             categoriesArray = categoriesData.categories;
           } else if (categoriesData && typeof categoriesData === "object") {
+            // Log the structure to understand the API format
             console.log("API response structure:", Object.keys(categoriesData));
             throw new Error(
               "Invalid API response format - expected array or object with categories array",
@@ -303,12 +308,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             throw new Error("Invalid API response format - expected array");
           }
 
+          // Filter out invalid/header entries (like cat_name, cat_id placeholders)
           const validCategories = categoriesArray.filter(
             (cat) =>
               cat.catName &&
               cat.catName !== "cat_name" &&
               cat.catId !== "cat_id" &&
-              cat.catId !== "﻿cat_id" &&
+              cat.catId !== "﻿cat_id" && // Handle BOM characters
               !cat.catName.toLowerCase().includes("cat_name") &&
               !cat.catId.toLowerCase().includes("cat_id"),
           );
@@ -319,18 +325,19 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             "Categories API failed, using static fallback:",
             error.message,
           );
-          dispatch(loadCategories());
+          dispatch(loadCategories()); // Load static categories as fallback
         }
       }
     };
 
     fetchCategoriesData();
+    //fetchLanguages();
   }, [dispatch, categoriesFetched]);
 
   // Resolve category label function
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
-
+    // Ensure categories is an array before using array methods
     const categoriesArray = Array.isArray(categories) ? categories : [];
 
     // Check if matches a category catName
@@ -1578,8 +1585,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </div>
         </div>
       </form>
-
-      {/* Category prediction modal*/}
+      {/* Modal Component */}
       <Dialog open={showModal} onClose={() => setShowModal(false)}>
         <DialogTitle>Select a Category</DialogTitle>
         <DialogContent>
