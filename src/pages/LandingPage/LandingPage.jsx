@@ -225,7 +225,7 @@ export default function Home() {
               <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]">
                 <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
                   {t(
-                    ["Beneficiaries", "Volunteers", "Organizations", "Donors"][
+                    ["Beneficiaries", "Volunteers", "ORGANIZATIONS", "Donors"][
                       i
                     ],
                   )}
