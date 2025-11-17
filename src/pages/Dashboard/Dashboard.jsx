@@ -475,7 +475,7 @@ const Dashboard = ({ userRole }) => {
         hideProgressBar
         pauseOnHover
       />
-      <div className="flex items-center justify-between gap-4 mb-5">
+      <div className="flex items-center justify-between gap-4 mb-2">
         <div className="flex items-center gap-2">
           <Link
             to="/request"
@@ -490,21 +490,22 @@ const Dashboard = ({ userRole }) => {
           >
             <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
           </Link>
-          {!groups?.includes("Volunteers") && (
-            <Link
-              to="/promote-to-volunteer"
-              onClick={(e) => {
-                if (!hasAddress) {
-                  e.preventDefault();
-                  setShowAddressMsg(true);
-                }
-              }}
-              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
-            </Link>
-          )}
+          {!groups?.includes("Volunteers") &&
+            selectedDashboard !== "volunteer" && (
+              <Link
+                to="/promote-to-volunteer"
+                onClick={(e) => {
+                  if (!hasAddress) {
+                    e.preventDefault();
+                    setShowAddressMsg(true);
+                  }
+                }}
+                className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
+              </Link>
+            )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -526,8 +527,8 @@ const Dashboard = ({ userRole }) => {
         </div>
       </div>
 
-      <div className="flex-1 text-center">
-        <h2 className="text-xl font-semibold">{dashboardTitle}</h2>
+      <div className="flex-1 text-left">
+        <h2 className="text-base font-semibold">{dashboardTitle}</h2>
       </div>
 
       {showAddressMsg && !hasAddress && (
@@ -570,6 +571,8 @@ const Dashboard = ({ userRole }) => {
               className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
             />
           </div>
+        </div>
+        <div className="mb-4 flex flex-wrap gap-2 px-10">
           <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
             <div
               className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
@@ -732,7 +735,6 @@ const Dashboard = ({ userRole }) => {
               </div>
             )}
           </div>
-          {/* ✨ NEW FILTERS END */}
         </div>
 
         {/* Render the selected dashboard view component */}
