@@ -10,7 +10,7 @@ import {
 
 import { getEnums, getCategories } from "../../../services/requestServices";
 
-import { getUserId, getVolunteerSkills } from "../../../services/volunteerServices";
+import { getUserId } from "../../../services/volunteerServices";
 import { loadCategories } from "../help_request/requestActions";
 import {
   changeUiLanguage,
@@ -91,18 +91,6 @@ export const checkAuthStatus = () => async (dispatch) => {
       dispatch(loadCategories(validCategories));
     } catch (categoryError) {
       console.warn("Failed to fetch categories after login:", categoryError.message);
-    }
-
-    try {
-      const volunteerSkillsData = await getVolunteerSkills();
-      // Store volunteer skills in localStorage for volunteer wizard
-      if (volunteerSkillsData?.body) {
-        localStorage.setItem("volunteerSkills", JSON.stringify(volunteerSkillsData.body));
-      } else if (volunteerSkillsData) {
-        localStorage.setItem("volunteerSkills", JSON.stringify(volunteerSkillsData));
-      }
-    } catch (volunteerSkillsError) {
-      console.warn("Failed to fetch volunteer skills after login:", volunteerSkillsError.message);
     }
 
     let userDbId = null;

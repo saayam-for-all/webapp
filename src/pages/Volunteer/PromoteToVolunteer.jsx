@@ -10,7 +10,6 @@ import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
   createVolunteer,
-  getVolunteerSkills,
   updateVolunteer,
 } from "../../services/volunteerServices";
 import { getCurrentUser } from "aws-amplify/auth";
@@ -52,29 +51,32 @@ const PromoteToVolunteer = () => {
     if (!userId) fetchUserId();
   }, [userId]);
 
-  const fetchSkills = async () => {
-    // Check localStorage first (similar to enums and categories)
-    const storedVolunteerSkills = localStorage.getItem("volunteerSkills");
-    if (storedVolunteerSkills) {
-      try {
-        const skillsData = JSON.parse(storedVolunteerSkills);
-        setCategoriesData(skillsData);
-        return; // Exit early if we got skills from localStorage
-      } catch (parseError) {
-        console.warn("Failed to parse volunteer skills from localStorage:", parseError);
-        // Continue to API fetch if localStorage parse fails
-      }
-    }
+  // Transform categories from mockCategories API format to Skills component format
+  const transformCategories = (categories) => {
+    return categories.map((cat) => {
+      const transformed = {
+        category: cat.catName, // Transform catName to category
+        subCategories: cat.subCategories
+          ? transformCategories(cat.subCategories)
+          : [],
+      };
+      return transformed;
+    });
+  };
 
-    // If not in localStorage, fetch from API
-    try {
-      const response = await getVolunteerSkills();
-      const skillsData = response.body || response;
-      setCategoriesData(skillsData);
-      // Store in localStorage for future use
-      localStorage.setItem("volunteerSkills", JSON.stringify(skillsData));
-    } catch (error) {
-      console.error("Error fetching skills:", error);
+  const fetchSkills = () => {
+    // Use categories from localStorage (same as mockCategories API)
+    const storedCategories = localStorage.getItem("categories");
+    if (storedCategories) {
+      try {
+        const categoriesArray = JSON.parse(storedCategories);
+        // Transform categories to match the expected structure for Skills component
+        // Skills component expects { categories: [...] } where each category has a 'category' property
+        const transformedCategories = transformCategories(categoriesArray);
+        setCategoriesData({ categories: transformedCategories });
+      } catch (parseError) {
+        console.warn("Failed to parse categories from localStorage:", parseError);
+      }
     }
   };
 
