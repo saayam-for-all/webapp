@@ -587,6 +587,28 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setUploadedFilesInfo((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // Format long file names (keep first 45 chars + extension)
+  const formatFileName = (fileName) => {
+    const maxLen = 43;
+    const dotIndex = fileName.lastIndexOf(".");
+    const ext = dotIndex !== -1 ? fileName.slice(dotIndex) : "";
+    const base = dotIndex !== -1 ? fileName.slice(0, dotIndex) : fileName;
+
+    if (base.length > maxLen) {
+      return base.slice(0, maxLen) + "..." + ext;
+    }
+
+    return fileName;
+  };
+
+  // Format file size into KB/MB
+  const formatFileSize = (bytes) => {
+    if (bytes >= 1024 * 1024) {
+      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+    return (bytes / 1024).toFixed(2) + " KB";
+  };
+
   // Upload single file to backend and return the file URL
   const uploadSingleFile = async (file, index) => {
     // Create form data
@@ -1664,7 +1686,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       className="flex items-center justify-between text-sm py-1"
                     >
                       <div>
-                        {f.name} — {(f.size / 1024).toFixed(1)} KB
+                        <span title={f.name}>{formatFileName(f.name)}</span>
+                        {" — "}
+                        {formatFileSize(f.size)}
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -1693,7 +1717,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             {/*                <a href={f.fileUrl} target="_blank" rel="noreferrer">*/}
             {/*                  {f.name}*/}
             {/*                </a>{" "}*/}
-            {/*                {f.size ? `— ${(f.size / 1024).toFixed(1)} KB` : ""}*/}
+            {/*                {f.size ? ` — ${formatFileSize(f.size)}` : ""}*/}
             {/*              </div>*/}
             {/*              <div>*/}
             {/*                <Button size="small" onClick={() => removeUploadedFile(i)}>*/}
