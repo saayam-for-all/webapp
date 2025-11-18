@@ -16,6 +16,7 @@ const AdminDashboard = (props) => {
     onRowsPerPageChange,
     getLinkPath,
     getLinkState,
+    searchFilters,
   } = props;
 
   return (
@@ -24,7 +25,7 @@ const AdminDashboard = (props) => {
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold mr-1 ${
             activeTab === "myRequests"
-              ? "bg-white border-gray-300"
+              ? "bg-white text-blue-500 border-blue-500"
               : "bg-gray-300 border-transparent hover:bg-gray-200"
           }`}
           onClick={() => handleTabChange("myRequests")}
@@ -32,9 +33,9 @@ const AdminDashboard = (props) => {
           All Requests
         </button>
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold mr-1 ${
+          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
             activeTab === "analytics"
-              ? "bg-white border-gray-300"
+              ? "bg-white text-blue-500 border-blue-500"
               : "bg-gray-300 border-transparent hover:bg-gray-200"
           }`}
           onClick={() => handleTabChange("analytics")}
@@ -42,6 +43,8 @@ const AdminDashboard = (props) => {
           Analytics
         </button>
       </div>
+
+      {searchFilters}
 
       <div className="requests-section overflow-hidden table-height-fix">
         {activeTab === "analytics" ? (
