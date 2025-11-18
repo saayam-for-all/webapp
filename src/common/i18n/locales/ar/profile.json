@@ -72,6 +72,8 @@
   "PHONE COMMUNICATION PREFERENCE": "تفضيل التواصل عبر الهاتف",
   "PRIMARY PHONE": "الهاتف الأساسي",
   "SECONDARY PHONE": "الهاتف الثانوي",
+  "TIMEZONE": "المنطقة الزمنية",
+  "USE_CURRENT_TIMEZONE": "استخدام المنطقة الزمنية الحالية",
   "RECEIVE EMERGENCY NOTIFICATIONS": "تلقي إشعارات الطوارئ",
   "PREFERENCES UPDATED SUCCESS": "تم تحديث التفضيلات بنجاح!",
 

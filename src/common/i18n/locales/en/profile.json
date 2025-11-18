@@ -72,6 +72,8 @@
   "PHONE COMMUNICATION PREFERENCE": "Phone Communication Preference",
   "PRIMARY PHONE": "Primary Phone",
   "SECONDARY PHONE": "Secondary Phone",
+  "TIMEZONE": "Timezone",
+  "USE_CURRENT_TIMEZONE": "Use current timezone",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Receive Emergency Notifications",
   "PREFERENCES UPDATED SUCCESS": "Preferences updated successfully!",
 

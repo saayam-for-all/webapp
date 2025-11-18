@@ -67,6 +67,8 @@
   "PHONE COMMUNICATION PREFERENCE": "ఫోన్ కమ్యూనికేషన్ ప్రాధాన్యత",
   "PRIMARY PHONE": "ప్రాథమిక ఫోన్",
   "SECONDARY PHONE": "ద్వితీయ ఫోన్",
+  "TIMEZONE": "సమయ మండలం",
+  "USE_CURRENT_TIMEZONE": "ప్రస్తుత సమయ మండలాన్ని ఉపయోగించు",
   "RECEIVE EMERGENCY NOTIFICATIONS": "అత్యవసర నోటిఫికేషన్‌లను స్వీకరించండి",
   "PREFERENCES UPDATED SUCCESS": "ప్రాధాన్యతలు విజయవంతంగా నవీకరించబడ్డాయి!",
   "ACCOUNT_DELETION_WARNING_TITLE": "ఖాతా తొలగింపు",

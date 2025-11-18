@@ -67,6 +67,8 @@
   "PHONE COMMUNICATION PREFERENCE": "Préférence de communication par téléphone",
   "PRIMARY PHONE": "Téléphone principal",
   "SECONDARY PHONE": "Téléphone secondaire",
+  "TIMEZONE": "Fuseau horaire",
+  "USE_CURRENT_TIMEZONE": "Utiliser le fuseau horaire actuel",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Recevoir les notifications d'urgence",
   "PREFERENCES UPDATED SUCCESS": "Préférences mises à jour avec succès !",
   "ACCOUNT_DELETION_WARNING_TITLE": "Suppression de compte",
