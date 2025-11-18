@@ -21,6 +21,8 @@ import {
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
+// Popup modal for subcategory - Import ElderlySupport component
+import ElderlySupport from "./Categories/ElderlySupport";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
@@ -76,6 +78,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [suggestedCategories, setSuggestedCategories] = useState([]);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
   const [enums, setEnums] = useState(null);
+  // Popup modal for subcategory - State for Elderly Support popup modal
+  const [showElderlySupportModal, setShowElderlySupportModal] = useState(false);
+  const [selectedElderlySubcategory, setSelectedElderlySubcategory] =
+    useState(null);
+  const [elderlySupportData, setElderlySupportData] = useState({});
+  // Popup modal for subcategory - Track which subcategory is currently saved
+  const [savedSubcategoryId, setSavedSubcategoryId] = useState(null);
 
   // useEffect(() => {
   //   const fetchEnumsData = async () => {
@@ -571,13 +580,114 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setHoveredCategory(null);
   };
 
-  const handleSubcategoryClick = (subcategoryId) => {
+  // Popup modal for subcategory - Handle subcategory click, check if Elderly Support
+  const handleSubcategoryClick = (
+    subcategoryId,
+    subcategoryName,
+    parentCategoryName,
+  ) => {
+    // Popup modal for subcategory - Check if this is an Elderly Support subcategory
+    if (
+      parentCategoryName === "ELDERLY_SUPPORT" ||
+      hoveredCategory?.catName === "ELDERLY_SUPPORT"
+    ) {
+      // Popup modal for subcategory - Check if another subcategory is already saved
+      if (savedSubcategoryId && savedSubcategoryId !== subcategoryId) {
+        // Popup modal for subcategory - Show warning snackbar
+        setSnackbar({
+          open: true,
+          message:
+            "Only one subcategory can be saved per request. Please delete the existing subcategory data first to select another one.",
+          severity: "warning",
+        });
+        return;
+      }
+
+      setSelectedElderlySubcategory({
+        id: subcategoryId,
+        name: subcategoryName,
+      });
+      setShowElderlySupportModal(true);
+      // Popup modal for subcategory - Don't close dropdown yet, wait for save
+    } else {
+      // Popup modal for subcategory - For other categories, proceed normally
+      setFormData({
+        ...formData,
+        category: subcategoryId,
+      });
+      setShowDropdown(false);
+      setHoveredCategory(null);
+    }
+  };
+
+  // Popup modal for subcategory - Handle save from ElderlySupport modal
+  const handleElderlySupportSave = (data, subcategory) => {
+    // Popup modal for subcategory - Check if another subcategory is already saved
+    if (savedSubcategoryId && savedSubcategoryId !== subcategory.id) {
+      // Popup modal for subcategory - Show warning snackbar
+      setSnackbar({
+        open: true,
+        message:
+          "Only one subcategory can be saved per request. Please delete the existing subcategory data first to select another one.",
+        severity: "warning",
+      });
+      return;
+    }
+
+    // Popup modal for subcategory - Store the data with the subcategory ID as key
+    setElderlySupportData((prev) => ({
+      ...prev,
+      [subcategory.id]: data,
+    }));
+
+    // Popup modal for subcategory - Track saved subcategory
+    setSavedSubcategoryId(subcategory.id);
+
+    // Popup modal for subcategory - Set the category in formData
     setFormData({
       ...formData,
-      category: subcategoryId,
+      category: subcategory.id,
     });
+
+    // Popup modal for subcategory - Close dropdown and modal
     setShowDropdown(false);
     setHoveredCategory(null);
+
+    // Popup modal for subcategory - You can also log or send this data to your backend here
+    console.log("Elderly Support Data Saved:", {
+      subcategory: subcategory.name,
+      data: data,
+    });
+  };
+
+  // Popup modal for subcategory - Handle delete from ElderlySupport modal
+  const handleElderlySupportDelete = (subcategoryId) => {
+    // Popup modal for subcategory - Remove the data
+    setElderlySupportData((prev) => {
+      const newData = { ...prev };
+      delete newData[subcategoryId];
+      return newData;
+    });
+
+    // Popup modal for subcategory - Clear saved subcategory if it matches
+    if (savedSubcategoryId === subcategoryId) {
+      setSavedSubcategoryId(null);
+      // Popup modal for subcategory - Reset category in formData
+      setFormData({
+        ...formData,
+        category: "",
+      });
+    }
+
+    // Popup modal for subcategory - Close modal
+    setShowElderlySupportModal(false);
+    setSelectedElderlySubcategory(null);
+  };
+
+  // Popup modal for subcategory - Handle close from ElderlySupport modal
+  const handleElderlySupportClose = () => {
+    setShowElderlySupportModal(false);
+    setSelectedElderlySubcategory(null);
   };
 
   const [selfFlag, setSelfFlag] = useState(true);
@@ -1024,7 +1134,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                 }}
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleSubcategoryClick(subcategory.catId);
+                                  // Popup modal for subcategory - Pass subcategory details to handler
+                                  handleSubcategoryClick(
+                                    subcategory.catId,
+                                    subcategory.catName,
+                                    hoveredCategory.catName,
+                                  );
                                 }}
                               >
                                 <span
@@ -1316,6 +1431,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* Popup modal for subcategory - Elderly Support Modal Component */}
+      <ElderlySupport
+        isOpen={showElderlySupportModal}
+        onClose={handleElderlySupportClose}
+        onSave={handleElderlySupportSave}
+        onDelete={handleElderlySupportDelete}
+        selectedSubcategory={selectedElderlySubcategory}
+        existingSubcategoryId={savedSubcategoryId}
+        initialData={
+          selectedElderlySubcategory
+            ? elderlySupportData[selectedElderlySubcategory.id] || null
+            : null
+        }
+        languages={languages}
+        genderOptions={genderOptions}
+      />
     </div>
   );
 };
