@@ -10,6 +10,7 @@ const getDefaultSlot = () => ({
   endTime: null,
 });
 
+// ======= INDIVIDUAL TIME INPUT ROW =======
 const TimeInputComponent = ({
   index,
   dayOfWeek,
@@ -32,9 +33,10 @@ const TimeInputComponent = ({
   ];
 
   return (
-    <div className="flex items-center space-x-4 mb-1">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full mb-4">
+      {/* ----- Day Dropdown ----- */}
       <select
-        className="w-40 border border-gray-300 rounded-md p-2"
+        className="w-full sm:w-40 border border-gray-300 rounded-md p-2 mb-2 sm:mb-0"
         value={dayOfWeek}
         onChange={(e) => onDayChange(index, e.target.value)}
       >
@@ -44,9 +46,13 @@ const TimeInputComponent = ({
           </option>
         ))}
       </select>
-      <div>
+
+      {/* ----- Start Time Picker ----- */}
+      <div className="w-full sm:w-40 mb-2 sm:mb-0">
         <TimePicker
-          className={`rounded-md w-40 ${errors?.startTime ? "border border-red-500" : ""}`}
+          className={`rounded-md w-full ${
+            errors?.startTime ? "border border-red-500" : ""
+          }`}
           value={startTime}
           onChange={(v) => onTimeChange(index, "startTime", v)}
           format="hh:mm a"
@@ -58,9 +64,13 @@ const TimeInputComponent = ({
           <div className="text-xs text-red-500">Required</div>
         )}
       </div>
-      <div>
+
+      {/* ----- End Time Picker ----- */}
+      <div className="w-full sm:w-40 mb-2 sm:mb-0">
         <TimePicker
-          className={`rounded-md w-40 ${errors?.endTime ? "border border-red-500" : ""}`}
+          className={`rounded-md w-full ${
+            errors?.endTime ? "border border-red-500" : ""
+          }`}
           value={endTime}
           onChange={(v) => onTimeChange(index, "endTime", v)}
           format="hh:mm a"
@@ -69,14 +79,13 @@ const TimeInputComponent = ({
           clearicon={null}
           shouldDisableHour={(hour) => {
             if (!startTime) return false;
-            // Disable hours less than or equal to startTime hour
             return hour <= startTime.getHours();
           }}
           shouldDisableMinute={(minute, selectedHour) => {
             if (!startTime) return false;
             const startHour = startTime.getHours();
             const startMinute = startTime.getMinutes();
-            // If selected hour is the same as startTime hour, disable minutes <= startMinute
+
             if (selectedHour === startHour) {
               return minute <= startMinute;
             }
@@ -92,8 +101,11 @@ const TimeInputComponent = ({
           </div>
         )}
       </div>
+
+      {/* ----- Remove Button ----- */}
       <button
-        className="ml-1 border border-red-500 rounded-full hover:bg-red-100"
+        className="mt-2 sm:mt-0 sm:ml-1 w-8 h-8 flex items-center justify-center 
+             border border-red-500 rounded-full hover:bg-red-100 p-1 shrink-0"
         onClick={() => onRemove(index)}
         type="button"
         aria-label="Remove row"
@@ -102,10 +114,6 @@ const TimeInputComponent = ({
         <svg
           className="w-3 h-3"
           xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          width="100"
-          height="100"
           viewBox="0 0 48 48"
         >
           <path
@@ -138,6 +146,7 @@ TimeInputComponent.propTypes = {
   }),
 };
 
+// ======= LIST COMPONENT =======
 const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
   const handleDayChange = (index, newDay) => {
     setSlots((s) =>
@@ -180,7 +189,7 @@ const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       {slots.map((slot, idx) => (
         <TimeInputComponent
           key={slot.id}
@@ -192,6 +201,8 @@ const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
           errors={errors[idx]}
         />
       ))}
+
+      {/* ADD BUTTON */}
       <button
         className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 border border-gray-300 rounded-md mt-2"
         onClick={handleAdd}
@@ -200,10 +211,6 @@ const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
         <svg
           className="w-6 h-6 inline-block pr-1"
           xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          width="100"
-          height="100"
           viewBox="0 0 512 512"
         >
           <path
@@ -221,26 +228,7 @@ const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
   );
 };
 
-TimeInputList.propTypes = {
-  slots: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      dayOfWeek: PropTypes.string,
-      startTime: PropTypes.instanceOf(Date),
-      endTime: PropTypes.instanceOf(Date),
-    }),
-  ).isRequired,
-  setSlots: PropTypes.func.isRequired,
-  errors: PropTypes.arrayOf(
-    PropTypes.shape({
-      startTime: PropTypes.bool,
-      endTime: PropTypes.bool,
-    }),
-  ).isRequired,
-  setErrors: PropTypes.func.isRequired,
-};
-
-// ======= Availability (Main Component) =======
+// ======= MAIN COMPONENT =======
 const Availability = ({
   availabilitySlots,
   setAvailabilitySlots,
@@ -254,16 +242,18 @@ const Availability = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <p className="font-bold text-xl mb-4">
+    <div className="flex flex-col items-center justify-center w-full">
+      <p className="font-bold text-xl mb-4 text-center">
         Please Provide Your Available Time Slots for Volunteering
       </p>
+
       <TimeInputList
         slots={availabilitySlots}
         setSlots={setAvailabilitySlots}
         errors={errors}
         setErrors={setErrors}
       />
+
       <div className="flex items-center mt-6 mb-2">
         <input
           type="checkbox"
@@ -272,27 +262,13 @@ const Availability = ({
           checked={tobeNotified}
           onChange={handleCheckbox}
         />
-        <label htmlFor="tobeNotified" className="font-medium">
+        <label htmlFor="calamitybox" className="font-medium">
           Would you like to receive notifications in case of emergencies or
           critical situations?
         </label>
       </div>
     </div>
   );
-};
-
-Availability.propTypes = {
-  availabilitySlots: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      dayOfWeek: PropTypes.string,
-      startTime: PropTypes.instanceOf(Date),
-      endTime: PropTypes.instanceOf(Date),
-    }),
-  ).isRequired,
-  setAvailabilitySlots: PropTypes.func.isRequired,
-  tobeNotified: PropTypes.bool,
-  setNotification: PropTypes.func,
 };
 
 export default Availability;

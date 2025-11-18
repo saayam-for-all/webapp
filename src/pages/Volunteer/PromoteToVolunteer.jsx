@@ -146,39 +146,6 @@ const PromoteToVolunteer = () => {
     });
   }, [availabilitySlots]);
 
-  const saveVolunteerData = async () => {
-    try {
-      // console.log("Sending API Request with volunteerData:", volunteerDataRef.current);
-
-      /* .........Uncomment this for local testing without aws api ...........*/
-
-      // const response = await axios({
-      //   method: volunteerDataRef.current.step === 1 ? "post" : "put",
-      //   url: volunteerDataRef.current.step === 1
-      //     ? "http://localhost:8080/0.0.1/volunteers/createvolunteer"
-      //     : "http://localhost:8080/0.0.1/volunteers/updatevolunteer",
-      //   data: volunteerDataRef.current, // Get latest data from ref
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-      if (volunteerDataRef.current.step === 1) {
-        const response = await createVolunteer(volunteerDataRef.current);
-        return response;
-      } else {
-        const response = await updateVolunteer(volunteerDataRef.current);
-        return response;
-      }
-    } catch (error) {
-      console.error(
-        "API Error:",
-        error.response ? error.response.data : error.message,
-      );
-      return null;
-    }
-  };
-
   const extractSkillsWithHierarchy = (categories) => {
     let skills = [];
 
@@ -262,20 +229,8 @@ const PromoteToVolunteer = () => {
       }
 
       if (isValidStep) {
-        try {
-          // await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure all updates are made
-          // const result = await saveVolunteerData();
-          // if (!result || !result.data || result.data.statusCode !== 200) {
-          //   console.error("Save failed. Step not increased.");
-          //   setErrorMessage("Save Failed.");
-          //   return;
-          // }
-          setErrorMessage("");
-          newStep++;
-        } catch (error) {
-          console.error("Error in handleClick:", error);
-          return;
-        }
+        setErrorMessage("");
+        newStep++;
       } else {
         setErrorMessage(
           "Please complete all required fields before proceeding.",
@@ -291,21 +246,21 @@ const PromoteToVolunteer = () => {
   };
 
   return (
-    <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+    <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
       <div className="w-full max-w-2xl mx-auto px-4 mt-4">
         <button
           onClick={() => navigate("/dashboard")}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span>{" "}
+          <span className="text-2xl mr-2">&lt;</span>
           {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
         </button>
       </div>
-      <div className="container horizontal mt-5 pt-12 pr-12 pl-12 pb-0">
+      {/* FIXED STEPPER WRAPPER */}
+      <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
         <Stepper steps={steps} currentStep={currentStep} />
-        <div className="mt-12 pt-12 pr-12 pl-12 pb-0">
-          {displayStep(currentStep)}
-        </div>
+        {/* FIXED CONTENT WRAPPER */}
+        <div className="w-full mt-8 px-4">{displayStep(currentStep)}</div>
       </div>
       {errorMessage && (
         <div className="text-red-500 text-center my-4">{errorMessage}</div>
@@ -318,6 +273,11 @@ const PromoteToVolunteer = () => {
           isAcknowledged={isAcknowledged}
           isUploaded={isUploaded}
           isAvailabilityValid={isAvailabilityValid}
+          disableNext={
+            (currentStep === 1 && !isAcknowledged) ||
+            (currentStep === 2 && !isUploaded) ||
+            (currentStep === 4 && !isAvailabilityValid)
+          }
         />
       )}
     </div>
