@@ -24,7 +24,7 @@ import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
-import axios from "axios";
+import { uploadRequestFile } from "../../services/requestServices";
 import {
   Dialog,
   DialogActions,
@@ -611,42 +611,17 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   // Upload single file to backend and return the file URL
   const uploadSingleFile = async (file, index) => {
-    // Create form data
-    const form = new FormData();
-    form.append("file", file);
-
-    // Need to add the actual backend upload endpoint
-    const uploadUrl = "https://your-backend-api.com/upload";
-
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(uploadUrl, form, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: (progressEvent) => {
-            if (!progressEvent.total) return;
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total,
-            );
-            setUploadProgress((prev) => ({
-              ...prev,
-              [file.name || index]: percentCompleted,
-            }));
-          },
-        });
+        // Upload using axios interceptor (requestServices.js)
+        const res = await uploadRequestFile(file);
 
         // assume response contains { fileUrl: "..." } or { url: "..." } - adapt if different
-        const fileUrl =
-          res?.data?.fileUrl ||
-          res?.data?.url ||
-          res?.data?.fileUrl?.[0] ||
-          null;
+        const fileUrl = res?.fileUrl || res?.url || res?.fileUrl?.[0] || null;
 
         if (!fileUrl) {
           // Backend didn't return expected URL
-          console.warn("Upload response:", res.data);
+          console.warn("Upload response:", res);
           reject(new Error("Upload failed - no file URL returned"));
           return;
         }
