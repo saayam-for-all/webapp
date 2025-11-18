@@ -53,9 +53,26 @@ const PromoteToVolunteer = () => {
   }, [userId]);
 
   const fetchSkills = async () => {
+    // Check localStorage first (similar to enums and categories)
+    const storedVolunteerSkills = localStorage.getItem("volunteerSkills");
+    if (storedVolunteerSkills) {
+      try {
+        const skillsData = JSON.parse(storedVolunteerSkills);
+        setCategoriesData(skillsData);
+        return; // Exit early if we got skills from localStorage
+      } catch (parseError) {
+        console.warn("Failed to parse volunteer skills from localStorage:", parseError);
+        // Continue to API fetch if localStorage parse fails
+      }
+    }
+
+    // If not in localStorage, fetch from API
     try {
       const response = await getVolunteerSkills();
-      setCategoriesData(response.body);
+      const skillsData = response.body || response;
+      setCategoriesData(skillsData);
+      // Store in localStorage for future use
+      localStorage.setItem("volunteerSkills", JSON.stringify(skillsData));
     } catch (error) {
       console.error("Error fetching skills:", error);
     }

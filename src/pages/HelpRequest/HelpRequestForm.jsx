@@ -333,9 +333,23 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       }
     };*/
 
-    // Fetch categories from API if not already fetched, following same pattern as other APIs
+    // Fetch categories from localStorage first, then API if not already fetched
     const fetchCategoriesData = async () => {
       if (!categoriesFetched) {
+        // Check localStorage first (similar to enums)
+        const storedCategories = localStorage.getItem("categories");
+        if (storedCategories) {
+          try {
+            const validCategories = JSON.parse(storedCategories);
+            dispatch(loadCategories(validCategories));
+            return; // Exit early if we got categories from localStorage
+          } catch (parseError) {
+            console.warn("Failed to parse categories from localStorage:", parseError);
+            // Continue to API fetch if localStorage parse fails
+          }
+        }
+
+        // If not in localStorage, fetch from API
         try {
           const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
 
@@ -379,6 +393,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             "out of",
             categoriesArray.length,
           );
+          // Store in localStorage for future use
+          localStorage.setItem("categories", JSON.stringify(validCategories));
           dispatch(loadCategories(validCategories));
         } catch (error) {
           console.warn(
