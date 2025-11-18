@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
 import { StandaloneSearchBox } from "@react-google-maps/api";
+import { useEffect, useRef, useState } from "react"; //added for testing
 import { useTranslation } from "react-i18next";
 import { IoMdInformationCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 import Modal from "../../common/components/Modal/Modal";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
@@ -21,6 +21,8 @@ import {
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
+// Popup modal for subcategory - Import ElderlySupport component
+import ElderlySupport from "./Categories/ElderlySupport";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
@@ -84,6 +86,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [suggestedCategories, setSuggestedCategories] = useState([]);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
   const [enums, setEnums] = useState(null);
+  // Popup modal for subcategory - State for Elderly Support popup modal
+  const [showElderlySupportModal, setShowElderlySupportModal] = useState(false);
+  const [selectedElderlySubcategory, setSelectedElderlySubcategory] =
+    useState(null);
+  const [elderlySupportData, setElderlySupportData] = useState({});
+  // Popup modal for subcategory - Track which subcategory is currently saved
+  const [savedSubcategoryId, setSavedSubcategoryId] = useState(null);
 
   // useEffect(() => {
   //   const fetchEnumsData = async () => {
@@ -187,6 +196,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       };
 
       const response = await predictCategories(requestBody);
+      console.log("API Response:", response);
       const formattedCategories = (response || []).map((category) => ({
         id: category.toLowerCase(),
         name: category,
@@ -226,14 +236,16 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       label: lang.name,
     }));
     setLanguages(languageOptions);
-
     /*   const fetchLanguages = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
+
         // Ensure data is an array before processing
         if (!Array.isArray(data)) {
           console.warn("Languages API returned non-array data, using fallback");
@@ -280,7 +292,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };*/
 
     // Fetch categories from API if not already fetched, following same pattern as other APIs
-
     const fetchCategoriesData = async () => {
       if (!categoriesFetched) {
         try {
@@ -290,6 +301,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           // No complex mappings needed - API keys now match i18n keys exactly
           console.log("Categories API response:", categoriesData);
 
+          // Extract categories array from API response
           let categoriesArray;
           if (Array.isArray(categoriesData)) {
             categoriesArray = categoriesData;
@@ -319,6 +331,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               !cat.catId.toLowerCase().includes("cat_id"),
           );
 
+          console.log(
+            "Filtered categories:",
+            validCategories.length,
+            "out of",
+            categoriesArray.length,
+          );
           dispatch(loadCategories(validCategories));
         } catch (error) {
           console.warn(
@@ -331,12 +349,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
 
     fetchCategoriesData();
+
     //fetchLanguages();
   }, [dispatch, categoriesFetched]);
 
   // Resolve category label function
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
+
     // Ensure categories is an array before using array methods
     const categoriesArray = Array.isArray(categories) ? categories : [];
 
@@ -356,6 +376,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
         GENERAL_CATEGORY: "GENERAL",
       };
+
       // Try new key first
       const newKeyResult = t(`categories:REQUEST_CATEGORIES.${newKey}.LABEL`, {
         defaultValue: null,
@@ -363,6 +384,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       if (newKeyResult && newKeyResult !== newKey) {
         return newKeyResult;
       }
+
       // Fall back to old key if new key translation doesn't exist
       const oldKey = oldKeyMap[newKey] || newKey;
       return t(`categories:REQUEST_CATEGORIES.${oldKey}.LABEL`, {
@@ -389,6 +411,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_SUPPORT",
           GENERAL_CATEGORY: "GENERAL",
         };
+
         // Try new key first
         const newResult = t(
           `categories:REQUEST_CATEGORIES.${newCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
@@ -397,6 +420,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         if (newResult && newResult !== newSubKey) {
           return newResult;
         }
+
         // Fall back to old key structure
         const oldCatKey = oldKeyMap[newCatKey] || newCatKey;
         return t(
@@ -407,6 +431,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       }
     }
+
     // Fallback to free text typed by user
     return selectedKeyOrText;
   };
@@ -503,13 +528,114 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setHoveredCategory(null);
   };
 
-  const handleSubcategoryClick = (subcategoryId) => {
+  // Popup modal for subcategory - Handle subcategory click, check if Elderly Support
+  const handleSubcategoryClick = (
+    subcategoryId,
+    subcategoryName,
+    parentCategoryName,
+  ) => {
+    // Popup modal for subcategory - Check if this is an Elderly Support subcategory
+    if (
+      parentCategoryName === "ELDERLY_SUPPORT" ||
+      hoveredCategory?.catName === "ELDERLY_SUPPORT"
+    ) {
+      // Popup modal for subcategory - Check if another subcategory is already saved
+      if (savedSubcategoryId && savedSubcategoryId !== subcategoryId) {
+        // Popup modal for subcategory - Show warning snackbar
+        setSnackbar({
+          open: true,
+          message:
+            "Only one subcategory can be saved per request. Please delete the existing subcategory data first to select another one.",
+          severity: "warning",
+        });
+        return;
+      }
+
+      setSelectedElderlySubcategory({
+        id: subcategoryId,
+        name: subcategoryName,
+      });
+      setShowElderlySupportModal(true);
+      // Popup modal for subcategory - Don't close dropdown yet, wait for save
+    } else {
+      // Popup modal for subcategory - For other categories, proceed normally
+      setFormData({
+        ...formData,
+        category: subcategoryId,
+      });
+      setShowDropdown(false);
+      setHoveredCategory(null);
+    }
+  };
+
+  // Popup modal for subcategory - Handle save from ElderlySupport modal
+  const handleElderlySupportSave = (data, subcategory) => {
+    // Popup modal for subcategory - Check if another subcategory is already saved
+    if (savedSubcategoryId && savedSubcategoryId !== subcategory.id) {
+      // Popup modal for subcategory - Show warning snackbar
+      setSnackbar({
+        open: true,
+        message:
+          "Only one subcategory can be saved per request. Please delete the existing subcategory data first to select another one.",
+        severity: "warning",
+      });
+      return;
+    }
+
+    // Popup modal for subcategory - Store the data with the subcategory ID as key
+    setElderlySupportData((prev) => ({
+      ...prev,
+      [subcategory.id]: data,
+    }));
+
+    // Popup modal for subcategory - Track saved subcategory
+    setSavedSubcategoryId(subcategory.id);
+
+    // Popup modal for subcategory - Set the category in formData
     setFormData({
       ...formData,
-      category: subcategoryId,
+      category: subcategory.id,
     });
+
+    // Popup modal for subcategory - Close dropdown and modal
     setShowDropdown(false);
     setHoveredCategory(null);
+
+    // Popup modal for subcategory - You can also log or send this data to your backend here
+    console.log("Elderly Support Data Saved:", {
+      subcategory: subcategory.name,
+      data: data,
+    });
+  };
+
+  // Popup modal for subcategory - Handle delete from ElderlySupport modal
+  const handleElderlySupportDelete = (subcategoryId) => {
+    // Popup modal for subcategory - Remove the data
+    setElderlySupportData((prev) => {
+      const newData = { ...prev };
+      delete newData[subcategoryId];
+      return newData;
+    });
+
+    // Popup modal for subcategory - Clear saved subcategory if it matches
+    if (savedSubcategoryId === subcategoryId) {
+      setSavedSubcategoryId(null);
+      // Popup modal for subcategory - Reset category in formData
+      setFormData({
+        ...formData,
+        category: "",
+      });
+    }
+
+    // Popup modal for subcategory - Close modal
+    setShowElderlySupportModal(false);
+    setSelectedElderlySubcategory(null);
+  };
+
+  // Popup modal for subcategory - Handle close from ElderlySupport modal
+  const handleElderlySupportClose = () => {
+    setShowElderlySupportModal(false);
+    setSelectedElderlySubcategory(null);
   };
 
   const [selfFlag, setSelfFlag] = useState(true);
@@ -767,10 +893,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   // ---------- RENDER ----------
   if (isLoading) return <div>Loading...</div>;
-
   return (
     <div className="">
-      <ToastContainer />
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}
@@ -791,13 +915,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           <button
             onClick={() => navigate("/dashboard")}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-            type="button"
           >
             <span className="text-2xl mr-2">&lt;</span>{" "}
             {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
           </button>
         </div>
-
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 ">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
@@ -812,7 +934,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               {t("LIFE_THREATENING_REQUESTS")}
             </div>
           </div>
-
           <div className="mt-3 flex gap-4" data-testid="parentDivOne">
             {/* For Self Dropdown */}
             <div className="flex-1">
@@ -871,7 +992,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     ?
                   </div>
                   <div
-                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
+                    className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 
                                   opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
                   >
                     Select “Yes” if you’re the main volunteer coordinating this
@@ -879,6 +1000,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   </div>
                 </div>
               </div>
+
               {/* when editing, admins can type new name; otherwise show a dropdown */}
               {isEdit ? (
                 <input
@@ -902,7 +1024,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     name="lead_volunteer"
                     value={formData.lead_volunteer}
                     onChange={handleChange}
-                    className="block w-full appearance-none bg-white border border-gray-300 rounded-lg
+                    className="block w-full appearance-none bg-white border border-gray-300 rounded-lg 
                               py-2 px-3 pr-8 text-gray-700 focus:outline-none"
                   >
                     <option value="No">{t("No")}</option>
@@ -916,141 +1038,143 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           </div>
 
-          {/* Requester details if not self */}
-          {!selfFlag && (
-            <div
-              className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
-              data-testid="parentDivTwo"
-            >
-              <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">
-                <IoMdInformationCircle className="text-gray-500 mr-1 mt-0.5" />
-                <div className="text-sm text-gray-600">
-                  Please fill the details of the person you are submitting the
-                  request for.
+          {
+            //Temporarily commented out as MVP only allows for self requests
+            !selfFlag && (
+              <div
+                className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
+                data-testid="parentDivTwo"
+              >
+                <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">
+                  <IoMdInformationCircle className="text-gray-500 mr-1 mt-0.5" />
+                  <div className="text-sm text-gray-600">
+                    Please fill the details of the person you are submitting the
+                    request for.
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="requester_first_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("FIRST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_first_name"
+                      value={formData.requester_first_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="requester_last_name"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("LAST_NAME")}
+                    </label>
+                    <input
+                      type="text"
+                      id="requester_last_name"
+                      value={formData.requester_last_name}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                </div>
+                <div className="mt-3" data-testid="parentDivThree">
                   <label
-                    htmlFor="requester_first_name"
+                    htmlFor="email"
                     className="block text-gray-700 mb-1 font-medium"
                   >
-                    {t("FIRST_NAME")}
+                    {t("EMAIL")}
                   </label>
                   <input
-                    type="text"
-                    id="requester_first_name"
-                    value={formData.requester_first_name}
+                    type="email"
+                    id="email"
+                    value={formData.email}
                     onChange={handleChange}
                     className="w-full rounded-lg border py-2 px-3"
                   />
                 </div>
-                <div>
-                  <label
-                    htmlFor="requester_last_name"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("LAST_NAME")}
-                  </label>
-                  <input
-                    type="text"
-                    id="requester_last_name"
-                    value={formData.requester_last_name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-              </div>
-              <div className="mt-3" data-testid="parentDivThree">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 mb-1 font-medium"
-                >
-                  {t("EMAIL")}
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border py-2 px-3"
-                />
-              </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PHONE")}
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("AGE")}
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border py-2 px-3"
-                  />
-                </div>
-                <div className="mt-3" data-testid="parentDivFour">
-                  <label
-                    htmlFor="gender"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("GENDER")}
-                  </label>
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
-                  >
-                    {genderOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mt-3" data-testid="parentDivFive">
-                  <label
-                    htmlFor="language"
-                    className="block text-gray-700 mb-1 font-medium"
-                  >
-                    {t("PREFERRED_LANGUAGE")}
-                  </label>
-                  <select
-                    id="preferred_language"
-                    value={formData.preferred_language}
-                    onChange={handleChange}
-                    className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
-                  >
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </select>
+                <div className="mt-3 grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PHONE")}
+                    </label>
+                    <input
+                      type="text"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="age"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("AGE")}
+                    </label>
+                    <input
+                      type="number"
+                      id="age"
+                      value={formData.age}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border py-2 px-3"
+                    />
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFour">
+                    <label
+                      htmlFor="gender"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("GENDER")}
+                    </label>
+                    <select
+                      id="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                    >
+                      {genderOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="mt-3" data-testid="parentDivFive">
+                    <label
+                      htmlFor="language"
+                      className="block text-gray-700 mb-1 font-medium"
+                    >
+                      {t("PREFERRED_LANGUAGE")}
+                    </label>
+                    <select
+                      id="preferred_language"
+                      value={formData.preferred_language}
+                      onChange={handleChange}
+                      className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                    >
+                      {languages.map((language) => (
+                        <option key={language.value} value={language.value}>
+                          {language.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )
+          }
 
           {/* Category + Request Type + Priority (kept same) */}
           <div className="mt-3 grid grid-cols-2 gap-4">
@@ -1087,6 +1211,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     }
                   }}
                 />
+
                 {/* the dropdown arrow, pointer-events-none so it doesn’t block input clicks */}
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <HiChevronDown className="h-5 w-5 text-gray-600" />
@@ -1193,7 +1318,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                 }}
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleSubcategoryClick(subcategory.catId);
+                                  // Popup modal for subcategory - Pass subcategory details to handler
+                                  handleSubcategoryClick(
+                                    subcategory.catId,
+                                    subcategory.catName,
+                                    hoveredCategory.catName,
+                                  );
                                 }}
                               >
                                 <span
@@ -1381,8 +1511,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </div>
           </div>
-
-          {/* Subject */}
           <div className="mt-3" data-testid="parentDivSix">
             {formData.category === "Jobs" && <JobsCategory />}
             {formData.category === "Housing" && <HousingCategory />}
@@ -1625,6 +1753,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* Popup modal for subcategory - Elderly Support Modal Component */}
+      <ElderlySupport
+        isOpen={showElderlySupportModal}
+        onClose={handleElderlySupportClose}
+        onSave={handleElderlySupportSave}
+        onDelete={handleElderlySupportDelete}
+        selectedSubcategory={selectedElderlySubcategory}
+        existingSubcategoryId={savedSubcategoryId}
+        initialData={
+          selectedElderlySubcategory
+            ? elderlySupportData[selectedElderlySubcategory.id] || null
+            : null
+        }
+        languages={languages}
+        genderOptions={genderOptions}
+      />
 
       {/* Files dialog - shows both attached (not yet uploaded) & uploaded files */}
       <Dialog
