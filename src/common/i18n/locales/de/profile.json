@@ -67,6 +67,8 @@
   "PHONE COMMUNICATION PREFERENCE": "Telefon-Kommunikationspräferenz",
   "PRIMARY PHONE": "Primäres Telefon",
   "SECONDARY PHONE": "Zweittelefon",
+  "TIMEZONE": "Zeitzone",
+  "USE_CURRENT_TIMEZONE": "Aktuelle Zeitzone verwenden",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Notfallbenachrichtigungen erhalten",
   "PREFERENCES UPDATED SUCCESS": "Einstellungen erfolgreich aktualisiert!",
   "ACCOUNT_DELETION_WARNING_TITLE": "Kontolöschung",

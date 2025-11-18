@@ -72,6 +72,8 @@
   "PHONE COMMUNICATION PREFERENCE": "फ़ोन संचार प्राथमिकता",
   "PRIMARY PHONE": "प्राथमिक फ़ोन",
   "SECONDARY PHONE": "द्वितीयक फ़ोन",
+  "TIMEZONE": "समय क्षेत्र",
+  "USE_CURRENT_TIMEZONE": "वर्तमान समय क्षेत्र का उपयोग करें",
   "RECEIVE EMERGENCY NOTIFICATIONS": "आपातकालीन सूचनाएं प्राप्त करें",
   "PREFERENCES UPDATED SUCCESS": "प्राथमिकताएं सफलतापूर्वक अपडेट की गईं!",
 
