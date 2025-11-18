@@ -14,17 +14,20 @@ const StewardDashboard = (props) => {
     onRowsPerPageChange,
     getLinkPath,
     getLinkState,
+    searchFilters,
   } = props;
 
   return (
     <div>
       <div className="flex mb-5">
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold bg-white border-gray-300 mr-1`}
+          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold bg-white text-blue-500 border-blue-500`}
         >
           All Requests
         </button>
       </div>
+
+      {searchFilters}
 
       <div className="requests-section overflow-hidden table-height-fix">
         {!isLoading && (

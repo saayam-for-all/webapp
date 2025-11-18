@@ -126,13 +126,14 @@ const Dashboard = ({ userRole }) => {
     toggleDropdown();
   }, []);
 
-  // initialize selected dashboard based on user groups (default beneficiary unless volunteer)
   useEffect(() => {
-    if (!selectedDashboard && groups) {
+    const storedDashboard = localStorage.getItem("lastDashboardSelected");
+    if (storedDashboard) {
+      setSelectedDashboard(storedDashboard);
+    } else if (!selectedDashboard && groups) {
       if (groups.includes("Volunteers")) setSelectedDashboard("volunteer");
       else setSelectedDashboard("beneficiary");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groups]);
 
   useEffect(() => {
@@ -467,6 +468,204 @@ const Dashboard = ({ userRole }) => {
   else if (selectedDashboard === "volunteer")
     dashboardTitle = "Volunteer Dashboard";
 
+  const dashboardDefaultTab = {
+    superAdmin: "myRequests",
+    admin: "myRequests",
+    steward: "myRequests",
+    volunteer: "managedRequests",
+    beneficiary: "myRequests",
+  };
+
+  useEffect(() => {
+    if (selectedDashboard && dashboardDefaultTab[selectedDashboard]) {
+      setActiveTab(dashboardDefaultTab[selectedDashboard]);
+    }
+  }, [selectedDashboard]);
+
+  const dashboardSearchFilters = (
+    <>
+      <div className="mb-4 flex flex-wrap gap-2 px-10">
+        <div className="relative w-1/3">
+          <IoSearchOutline
+            className="text-gray-500 absolute inset-y-0 start-0 flex items-center m-3 my-2"
+            size={22}
+          />
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
+          />
+        </div>
+      </div>
+      <div className="mb-4 flex flex-wrap gap-2 px-10">
+        <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
+          <div
+            className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+            onClick={toggleStatusDropdown}
+            tabIndex={0}
+          >
+            <button className="py-2 px-4 p-2 font-light text-gray-600">
+              {t("Status")}
+            </button>
+            <IoIosArrowDown className="m-2" />
+          </div>
+          {isStatusDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              {statusOptions.map((status) => (
+                <label key={status} className="block">
+                  <input
+                    type="checkbox"
+                    checked={
+                      status === "All"
+                        ? Object.values(statusFilter).every(Boolean)
+                        : statusFilter[status] || false
+                    }
+                    onChange={() => handleStatusChange(status)}
+                  />
+                  {status}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
+          <div
+            className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+            onClick={toggleCategoryDropdown}
+            tabIndex={0}
+          >
+            <button className="py-2 px-4 p-2 font-light text-gray-600">
+              {t("FILTER_BY")}
+            </button>
+            <IoIosArrowDown className="m-2" />
+          </div>
+          {isCategoryDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <label className="block">
+                <input
+                  type="checkbox"
+                  checked={
+                    Object.keys(categoryFilter).length ===
+                    Object.keys(allCategories).length
+                  }
+                  onChange={() => handleCategoryChange("All")}
+                />
+                All Categories
+              </label>
+              {categoryOptions.map((category) => (
+                <label key={category} className="block">
+                  <input
+                    type="checkbox"
+                    checked={categoryFilter[category] || false}
+                    onChange={() => handleCategoryChange(category)}
+                  />
+                  {category}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* NEW FILTERS START HERE */}
+        <div className="relative" onBlur={handleTypeBlur} tabIndex={-1}>
+          <div
+            className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+            onClick={toggleTypeDropdown}
+            tabIndex={0}
+          >
+            <button className="py-2 px-4 p-2 font-light text-gray-600">
+              Type
+            </button>
+            <IoIosArrowDown className="m-2" />
+          </div>
+          {isTypeDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              {typeOptions.map((type) => (
+                <label key={type} className="block">
+                  <input
+                    type="checkbox"
+                    checked={typeFilter[type] || false}
+                    onChange={() =>
+                      setTypeFilter((prev) => ({
+                        ...prev,
+                        [type]: !prev[type],
+                      }))
+                    }
+                  />
+                  {type}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="relative" onBlur={handlePriorityBlur} tabIndex={-1}>
+          <div
+            className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+            onClick={togglePriorityDropdown}
+          >
+            <button className="py-2 px-4 p-2 font-light text-gray-600">
+              Priority
+            </button>
+            <IoIosArrowDown className="m-2" />
+          </div>
+          {isPriorityDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              {priorityOptions.map((priority) => (
+                <label key={priority} className="block">
+                  <input
+                    type="checkbox"
+                    checked={priorityFilter[priority] || false}
+                    onChange={() =>
+                      setPriorityFilter((prev) => ({
+                        ...prev,
+                        [priority]: !prev[priority],
+                      }))
+                    }
+                  />
+                  {priority}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="relative" onBlur={handleCalamityBlur} tabIndex={-1}>
+          <div
+            className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+            onClick={toggleCalamityDropdown}
+          >
+            <button className="py-2 px-4 p-2 font-light text-gray-600">
+              Calamity
+            </button>
+            <IoIosArrowDown className="m-2" />
+          </div>
+          {isCalamityDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              {calamityOptions.map((cal) => (
+                <label key={cal} className="block">
+                  <input
+                    type="checkbox"
+                    checked={calamityFilter[cal] || false}
+                    onChange={() =>
+                      setCalamityFilter((prev) => ({
+                        ...prev,
+                        [cal]: !prev[cal],
+                      }))
+                    }
+                  />
+                  {cal}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <div className="p-5">
       <ToastContainer
@@ -513,7 +712,10 @@ const Dashboard = ({ userRole }) => {
             {isDropdownVisible && (
               <select
                 value={selectedDashboard}
-                onChange={(e) => setSelectedDashboard(e.target.value)}
+                onChange={(e) => {
+                  setSelectedDashboard(e.target.value);
+                  localStorage.setItem("lastDashboardSelected", e.target.value);
+                }}
                 className="text-blue-500 font-semibold underline italic py-2"
               >
                 <option value="superAdmin">Super Admin Dashboard</option>
@@ -527,8 +729,8 @@ const Dashboard = ({ userRole }) => {
         </div>
       </div>
 
-      <div className="flex-1 text-left">
-        <h2 className="text-base font-semibold">{dashboardTitle}</h2>
+      <div className="flex-1 text-center">
+        <h2 className="text-xl font-semibold">{dashboardTitle}</h2>
       </div>
 
       {showAddressMsg && !hasAddress && (
@@ -557,186 +759,6 @@ const Dashboard = ({ userRole }) => {
       )}
 
       <div className="border">
-        <div className="mb-4 flex flex-wrap gap-2 px-10 pt-4">
-          <div className="relative w-1/3">
-            <IoSearchOutline
-              className="text-gray-500 absolute inset-y-0 start-0 flex items-center m-3 my-2"
-              size={22}
-            />
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
-            />
-          </div>
-        </div>
-        <div className="mb-4 flex flex-wrap gap-2 px-10">
-          <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
-            <div
-              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
-              onClick={toggleStatusDropdown}
-              tabIndex={0}
-            >
-              <button className="py-2 px-4 p-2 font-light text-gray-600">
-                {t("Status")}
-              </button>
-              <IoIosArrowDown className="m-2" />
-            </div>
-            {isStatusDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-                {statusOptions.map((status) => (
-                  <label key={status} className="block">
-                    <input
-                      type="checkbox"
-                      checked={
-                        status === "All"
-                          ? Object.values(statusFilter).every(Boolean)
-                          : statusFilter[status] || false
-                      }
-                      onChange={() => handleStatusChange(status)}
-                    />
-                    {status}
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
-            <div
-              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
-              onClick={toggleCategoryDropdown}
-              tabIndex={0}
-            >
-              <button className="py-2 px-4 p-2 font-light text-gray-600">
-                {t("FILTER_BY")}
-              </button>
-              <IoIosArrowDown className="m-2" />
-            </div>
-            {isCategoryDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-                <label className="block">
-                  <input
-                    type="checkbox"
-                    checked={
-                      Object.keys(categoryFilter).length ===
-                      Object.keys(allCategories).length
-                    }
-                    onChange={() => handleCategoryChange("All")}
-                  />
-                  All Categories
-                </label>
-                {categoryOptions.map((category) => (
-                  <label key={category} className="block">
-                    <input
-                      type="checkbox"
-                      checked={categoryFilter[category] || false}
-                      onChange={() => handleCategoryChange(category)}
-                    />
-                    {category}
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* NEW FILTERS START HERE */}
-          <div className="relative" onBlur={handleTypeBlur} tabIndex={-1}>
-            <div
-              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
-              onClick={toggleTypeDropdown}
-              tabIndex={0}
-            >
-              <button className="py-2 px-4 p-2 font-light text-gray-600">
-                Type
-              </button>
-              <IoIosArrowDown className="m-2" />
-            </div>
-            {isTypeDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-                {typeOptions.map((type) => (
-                  <label key={type} className="block">
-                    <input
-                      type="checkbox"
-                      checked={typeFilter[type] || false}
-                      onChange={() =>
-                        setTypeFilter((prev) => ({
-                          ...prev,
-                          [type]: !prev[type],
-                        }))
-                      }
-                    />
-                    {type}
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="relative" onBlur={handlePriorityBlur} tabIndex={-1}>
-            <div
-              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
-              onClick={togglePriorityDropdown}
-            >
-              <button className="py-2 px-4 p-2 font-light text-gray-600">
-                Priority
-              </button>
-              <IoIosArrowDown className="m-2" />
-            </div>
-            {isPriorityDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-                {priorityOptions.map((priority) => (
-                  <label key={priority} className="block">
-                    <input
-                      type="checkbox"
-                      checked={priorityFilter[priority] || false}
-                      onChange={() =>
-                        setPriorityFilter((prev) => ({
-                          ...prev,
-                          [priority]: !prev[priority],
-                        }))
-                      }
-                    />
-                    {priority}
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="relative" onBlur={handleCalamityBlur} tabIndex={-1}>
-            <div
-              className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
-              onClick={toggleCalamityDropdown}
-            >
-              <button className="py-2 px-4 p-2 font-light text-gray-600">
-                Calamity
-              </button>
-              <IoIosArrowDown className="m-2" />
-            </div>
-            {isCalamityDropdownOpen && (
-              <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-                {calamityOptions.map((cal) => (
-                  <label key={cal} className="block">
-                    <input
-                      type="checkbox"
-                      checked={calamityFilter[cal] || false}
-                      onChange={() =>
-                        setCalamityFilter((prev) => ({
-                          ...prev,
-                          [cal]: !prev[cal],
-                        }))
-                      }
-                    />
-                    {cal}
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
         {/* Render the selected dashboard view component */}
         <div className="requests-section overflow-hidden table-height-fix">
           {selectedDashboard === "superAdmin" && (
@@ -755,6 +777,7 @@ const Dashboard = ({ userRole }) => {
               onRowsPerPageChange={handleRowsPerPageChange}
               getLinkPath={(request, header) => `/request/${request[header]}`}
               getLinkState={(request) => request}
+              searchFilters={dashboardSearchFilters}
             />
           )}
 
@@ -774,6 +797,7 @@ const Dashboard = ({ userRole }) => {
               onRowsPerPageChange={handleRowsPerPageChange}
               getLinkPath={(request, header) => `/request/${request[header]}`}
               getLinkState={(request) => request}
+              searchFilters={dashboardSearchFilters}
             />
           )}
 
@@ -791,6 +815,7 @@ const Dashboard = ({ userRole }) => {
               onRowsPerPageChange={handleRowsPerPageChange}
               getLinkPath={(request, header) => `/request/${request[header]}`}
               getLinkState={(request) => request}
+              searchFilters={dashboardSearchFilters}
             />
           )}
 
@@ -810,6 +835,7 @@ const Dashboard = ({ userRole }) => {
               onRowsPerPageChange={handleRowsPerPageChange}
               getLinkPath={(request, header) => `/request/${request[header]}`}
               getLinkState={(request) => request}
+              searchFilters={dashboardSearchFilters}
             />
           )}
 
@@ -829,6 +855,7 @@ const Dashboard = ({ userRole }) => {
               onRowsPerPageChange={handleRowsPerPageChange}
               getLinkPath={(request, header) => `/request/${request[header]}`}
               getLinkState={(request) => request}
+              searchFilters={dashboardSearchFilters}
             />
           )}
         </div>
