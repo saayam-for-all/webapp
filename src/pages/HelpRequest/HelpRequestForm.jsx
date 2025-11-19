@@ -26,6 +26,7 @@ import ElderlySupport from "./Categories/ElderlySupport";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
+import { uploadRequestFile } from "../../services/requestServices";
 import {
   Dialog,
   DialogActions,
@@ -42,6 +43,9 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
+  LinearProgress,
+  IconButton,
+  Box,
 } from "@mui/material";
 
 const genderOptions = [
@@ -53,6 +57,10 @@ const genderOptions = [
   { value: "Intersex", label: "Intersex" },
   { value: "Gender-nonconforming", label: "Gender-nonconforming" },
 ];
+
+const MAX_FILES = 5;
+const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
+const ALLOWED_MIME_TYPES = ["image/png", "image/jpeg", "application/pdf"];
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
@@ -122,6 +130,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const inputref = useRef(null);
   const dropdownRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -141,26 +150,39 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     priority: "MEDIUM",
   });
 
-  // useEffect(() => {
-  //   if (
-  //     formData.category === "General" &&
-  //     formData.subject.trim() !== "" &&
-  //     formData.description.trim() !== "" &&
-  //     !categoryConfirmed
-  //   ) {
-  //     fetchPredictedCategories();
-  //     setShowModal(true);
-  //   }
-  // }, [formData.subject, formData.description, formData.category]);
+  // FILE UPLOAD STATE
+  // attachedFiles: array of File objects selected by user (not yet uploaded)
+  const [attachedFiles, setAttachedFiles] = useState([]);
+  // uploadProgress: { fileId: progressNumber (0-100) }
+  const [uploadProgress, setUploadProgress] = useState({});
+  // uploadedFilesInfo: [{ name, size, fileUrl }]
+  const [uploadedFilesInfo, setUploadedFilesInfo] = useState([]);
+  const [showFilesDialog, setShowFilesDialog] = useState(false);
+  const [isUploadingFiles, setIsUploadingFiles] = useState(false);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
-  };
+  // Restore request for edit
+  useEffect(() => {
+    if (id && data) {
+      const requestData = data.body?.find((item) => item.id === id);
+      setFormData({
+        category: requestData.category,
+        description: requestData.description,
+        subject: requestData.subject,
+        ...requestData,
+      });
 
-  const closeForm = () => {
-    navigate("/dashboard");
-  };
+      // If editing and attachments present in requestData, show them as uploadedFilesInfo
+      if (requestData.attachments && Array.isArray(requestData.attachments)) {
+        setUploadedFilesInfo(
+          requestData.attachments.map((url, idx) => ({
+            name: `Attachment-${idx + 1}`,
+            size: 0,
+            fileUrl: url,
+          })),
+        );
+      }
+    }
+  }, [data, id]);
 
   // Fetch predicted categories when category is "General" and debounced values change
   const fetchPredictedCategories = async () => {
@@ -195,81 +217,17 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const submissionData = {
-      ...formData,
-      location,
-    };
-
-    try {
-      const res = await checkProfanity({
-        subject: formData.subject,
-        description: formData.description,
-      });
-
-      if (res.contains_profanity) {
-        setSnackbar({
-          open: true,
-          message:
-            "Profanity detected. Please remove these word(s): " +
-            res.profanity +
-            " from Subject/Description and submit again!",
-          severity: "error",
-        });
-
-        // toast.error(
-        //   "Profanity detected. Please remove these word(s) : " +
-        //     res.profanity +
-        //     "  from Subject/Description and submit request again!",
-        //   {
-        //     position: "top-center", // You can customize the position
-        //     autoClose: 2000, // Toast auto-closes after 2 seconds
-        //     hideProgressBar: true, // Optional: Hide progress bar
-        //   },
-        // );
-      }
-      // Proceed with submitting the request if no profanity is found
-
-      // const response = await axios.post(
-      //   "https://a9g3p46u59.execute-api.us-east-1.amazonaws.com/saayam/dev/requests/v0.0.1/help-request",
-      //   submissionData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      else {
-        if (
-          formData.category === "General" &&
-          formData.subject.trim() !== "" &&
-          formData.description.trim() !== "" &&
-          !categoryConfirmed
-        ) {
-          await fetchPredictedCategories();
-          setShowModal(true);
-          return; // Don’t submit yet
-        }
-
-        const response = await createRequest(submissionData);
-
-        setTimeout(() => {
-          navigate("/dashboard", {
-            state: {
-              successMessage:
-                "New Request #REQ-00-000-000-00011 submitted successfully!",
-            },
-          });
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Failed to process request:", error);
-      alert("Failed to submit request!");
-    }
+  // handleChange
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
+
+  const closeForm = () => {
+    navigate("/dashboard");
+  };
+
+  // Categories fetch & languages logic (kept same as original, slight tweaks)
   useEffect(() => {
     // Build languages options directly from languagesData.js
     const languageOptions = languagesData.map((lang) => ({
@@ -411,18 +369,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     //fetchLanguages();
   }, [dispatch, categoriesFetched]);
 
-  useEffect(() => {
-    if (id && data) {
-      const requestData = data.body?.find((item) => item.id === id);
-      setFormData({
-        category: requestData.category,
-        description: requestData.description,
-        subject: requestData.subject,
-        ...requestData,
-      });
-    }
-  }, [data]);
-
+  // Resolve category label function
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
 
@@ -505,6 +452,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     return selectedKeyOrText;
   };
 
+  // Sort & filtered categories effect
   useEffect(() => {
     if (categories && categories.length > 0) {
       const general = categories.find(
@@ -724,6 +672,242 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   };
 
+  // ---------- FILE UPLOAD HANDLERS ----------
+
+  // Validate a single file
+  const validateFile = (file) => {
+    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+      return { ok: false, message: `${file.name} is not an allowed format.` };
+    }
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      return { ok: false, message: `${file.name} exceeds the 2MB size limit.` };
+    }
+    return { ok: true };
+  };
+
+  // When user picks files from the hidden input (selection only, not uploaded yet)
+  const handleFileSelection = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    // enforce total count
+    if (attachedFiles.length + files.length > MAX_FILES) {
+      setSnackbar({
+        open: true,
+        message: `You can only attach up to ${MAX_FILES} files.`,
+        severity: "warning",
+      });
+      return;
+    }
+
+    const validated = [];
+    for (const file of files) {
+      const v = validateFile(file);
+      if (!v.ok) {
+        setSnackbar({
+          open: true,
+          message: v.message,
+          severity: "error",
+        });
+        // skip invalid file
+        continue;
+      }
+      validated.push(file);
+    }
+
+    if (validated.length === 0) return;
+    setAttachedFiles((prev) => [...prev, ...validated]);
+    // reset input so same file can be reselected if removed later
+    e.target.value = "";
+  };
+
+  const removeAttachedFile = (index) => {
+    setAttachedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const removeUploadedFile = (index) => {
+    setUploadedFilesInfo((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Format long file names (keep first 45 chars + extension)
+  const formatFileName = (fileName) => {
+    const maxLen = 43;
+    const dotIndex = fileName.lastIndexOf(".");
+    const ext = dotIndex !== -1 ? fileName.slice(dotIndex) : "";
+    const base = dotIndex !== -1 ? fileName.slice(0, dotIndex) : fileName;
+
+    if (base.length > maxLen) {
+      return base.slice(0, maxLen) + "..." + ext;
+    }
+
+    return fileName;
+  };
+
+  // Format file size into KB/MB
+  const formatFileSize = (bytes) => {
+    if (bytes >= 1024 * 1024) {
+      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+    return (bytes / 1024).toFixed(2) + " KB";
+  };
+
+  // Upload single file to backend and return the file URL
+  const uploadSingleFile = async (file, index) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        // Upload using axios interceptor (requestServices.js)
+        const res = await uploadRequestFile(file);
+
+        // assume response contains { fileUrl: "..." } or { url: "..." } - adapt if different
+        const fileUrl = res?.fileUrl || res?.url || res?.fileUrl?.[0] || null;
+
+        if (!fileUrl) {
+          // Backend didn't return expected URL
+          console.warn("Upload response:", res);
+          reject(new Error("Upload failed - no file URL returned"));
+          return;
+        }
+
+        // mark progress as 100%
+        setUploadProgress((prev) => ({ ...prev, [file.name || index]: 100 }));
+
+        resolve(fileUrl);
+      } catch (err) {
+        console.error("Upload error for file:", file.name, err);
+        setUploadProgress((prev) => ({ ...prev, [file.name || index]: 0 }));
+        reject(err);
+      }
+    });
+  };
+
+  // Upload all attached files (called during submit)
+  const uploadAllAttachedFiles = async () => {
+    if (!attachedFiles || attachedFiles.length === 0) return [];
+
+    setIsUploadingFiles(true);
+    setUploadProgress({});
+    const uploadedUrls = [];
+    const uploadedInfo = [];
+
+    for (let i = 0; i < attachedFiles.length; i++) {
+      const file = attachedFiles[i];
+      try {
+        const url = await uploadSingleFile(file, i);
+        uploadedUrls.push(url);
+        uploadedInfo.push({
+          name: file.name,
+          size: file.size,
+          fileUrl: url,
+        });
+      } catch (err) {
+        // If one file fails, show error but continue uploading others (you can change to abort instead)
+        setSnackbar({
+          open: true,
+          message: `Failed to upload ${file.name}. Please try again.`,
+          severity: "error",
+        });
+      }
+    }
+
+    setIsUploadingFiles(false);
+    // append to uploadedFilesInfo (persist uploaded results)
+    setUploadedFilesInfo((prev) => [...prev, ...uploadedInfo]);
+    // clear attachedFiles since they are uploaded now (but only if you want to clear them)
+    // We will clear them so UI shows uploadedFilesInfo instead
+    setAttachedFiles([]);
+    return uploadedUrls;
+  };
+
+  // ---------- SUBMIT HANDLER (modified to upload files before creating request) ----------
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const submissionData = {
+      ...formData,
+      location,
+    };
+
+    try {
+      const res = await checkProfanity({
+        subject: formData.subject,
+        description: formData.description,
+      });
+
+      if (res.contains_profanity) {
+        setSnackbar({
+          open: true,
+          message:
+            "Profanity detected. Please remove these word(s): " +
+            res.profanity +
+            " from Subject/Description and submit again!",
+          severity: "error",
+        });
+        return;
+      }
+
+      if (
+        formData.category === "General" &&
+        formData.subject.trim() !== "" &&
+        formData.description.trim() !== "" &&
+        !categoryConfirmed
+      ) {
+        await fetchPredictedCategories();
+        setShowModal(true);
+        return; // Don’t submit yet
+      }
+
+      // If there are attached files (selected but not yet uploaded), upload them first
+      // IMPORTANT: This uploads each file individually so we can show per-file progress bars
+      let uploadedFileUrls = [];
+
+      // If user selected new files (attachedFiles) -> upload them
+      if (attachedFiles.length > 0) {
+        const urls = await uploadAllAttachedFiles();
+        uploadedFileUrls = uploadedFileUrls.concat(urls);
+      }
+
+      // Also include previously uploaded files (uploadedFilesInfo)
+      if (uploadedFilesInfo.length > 0) {
+        const prevUrls = uploadedFilesInfo
+          .map((f) => f.fileUrl)
+          .filter(Boolean);
+        uploadedFileUrls = [...uploadedFileUrls, ...prevUrls];
+      }
+
+      // include attachments in submission payload (if any)
+      if (uploadedFileUrls.length > 0) {
+        submissionData.attachments = uploadedFileUrls;
+      }
+
+      // Call createRequest with attachments included
+      const response = await createRequest(submissionData);
+
+      // success flow (mimic original)
+      setSnackbar({
+        open: true,
+        message: "Help Request submitted successfully!",
+        severity: "success",
+      });
+
+      setTimeout(() => {
+        navigate("/dashboard", {
+          state: {
+            successMessage:
+              "New Request #REQ-00-000-000-00011 submitted successfully!",
+          },
+        });
+      }, 1200);
+    } catch (error) {
+      console.error("Failed to process request:", error);
+      setSnackbar({
+        open: true,
+        message: "Failed to submit request!",
+        severity: "error",
+      });
+    }
+  };
+
+  // ---------- RENDER ----------
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className="">
@@ -810,7 +994,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </div>
 
-            {/* Lead Volunteer */}
             {/* Lead Volunteer */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
@@ -1009,6 +1192,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             )
           }
 
+          {/* Category + Request Type + Priority (kept same) */}
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div className="flex-1 relative">
               <div className="flex items-center gap-2 mb-1">
@@ -1366,15 +1550,49 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               placeholder="Please give a brief description of the request"
             />
           </div>
+
+          {/* Description + Attach files icon */}
           <div className="mt-3" data-testid="parentDivSeven">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              {t("DESCRIPTION")}
-              <span className="text-red-500 m-1">*</span>(
-              {t("MAX_CHARACTERS", { count: 500 })})
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="description"
+                className="block text-gray-700 font-medium mb-2 flex items-center gap-2"
+              >
+                {t("DESCRIPTION")}
+                <span className="text-red-500 m-1">*</span>(
+                {t("MAX_CHARACTERS", { count: 500 })}){/* Attach icon */}
+                <div className="relative group inline-block">
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById("fileInput").click()}
+                    className="flex items-center justify-center w-7 h-7 rounded-md bg-gray-200 hover:bg-gray-300 text-black text-xl font-bold cursor-pointer"
+                  >
+                    📎
+                  </button>
+                  {/* Tooltip (Right side) */}
+                  <div className="absolute left-7 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                    Attach Files:
+                    <br />
+                    You can attach up to 5 files
+                    <br />
+                    Allowed: PNG, JPG, JPEG, PDF
+                    <br />
+                    Max size 2MB each
+                  </div>
+                </div>
+                {/* Attached count button */}
+                {(attachedFiles.length > 0 || uploadedFilesInfo.length > 0) && (
+                  <button
+                    type="button"
+                    className="ml-2 text-sm px-2 py-1 rounded bg-gray-100 border"
+                    onClick={() => setShowFilesDialog(true)}
+                  >
+                    {attachedFiles.length + uploadedFilesInfo.length} Attached
+                  </button>
+                )}
+              </label>
+            </div>
+
             <textarea
               id="description"
               name="description"
@@ -1386,7 +1604,111 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               required
               placeholder="Please give a detailed description of the request"
             ></textarea>
+
+            {/* Hidden file input */}
+            <input
+              ref={fileInputRef}
+              id="fileInput"
+              type="file"
+              accept=".png,.jpg,.jpeg,.pdf"
+              multiple
+              hidden
+              onChange={handleFileSelection}
+            />
+
+            {/*/!* Show list of newly selected (not uploaded yet) files inline *!/*/}
+            {/*{attachedFiles.length > 0 && (*/}
+            {/*    <div className="mt-2 border rounded p-2 bg-gray-50">*/}
+            {/*      <div className="flex items-center justify-between">*/}
+            {/*        <strong>Files to upload:</strong>*/}
+            {/*        <span className="text-sm text-gray-600">*/}
+            {/*        {attachedFiles.length}/{MAX_FILES}*/}
+            {/*      </span>*/}
+            {/*      </div>*/}
+            {/*      <ul className="mt-2">*/}
+            {/*        {attachedFiles.map((file, idx) => (*/}
+            {/*            <li*/}
+            {/*                key={file.name + idx}*/}
+            {/*                className="flex items-center justify-between text-sm py-1"*/}
+            {/*            >*/}
+            {/*              <div>*/}
+            {/*                {file.name} ({(file.size / 1024).toFixed(1)} KB)*/}
+            {/*              </div>*/}
+            {/*              <div className="flex items-center gap-2">*/}
+            {/*                <button*/}
+            {/*                    type="button"*/}
+            {/*                    className="text-sm text-red-600"*/}
+            {/*                    onClick={() => removeAttachedFile(idx)}*/}
+            {/*                >*/}
+            {/*                  Remove*/}
+            {/*                </button>*/}
+            {/*              </div>*/}
+            {/*            </li>*/}
+            {/*        ))}*/}
+            {/*      </ul>*/}
+            {/*    </div>*/}
+            {/*)}*/}
+
+            {/*/!* Show uploaded files (from previous uploads) *!/*/}
+            {/*{uploadedFilesInfo.length > 0 && (*/}
+            {/*    <div className="mt-2 border rounded p-2 bg-gray-50">*/}
+            {/*      <div className="flex items-center justify-between">*/}
+            {/*        <strong>Uploaded files:</strong>*/}
+            {/*      </div>*/}
+            {/*      <ul className="mt-2">*/}
+            {/*        {uploadedFilesInfo.map((f, idx) => (*/}
+            {/*            <li*/}
+            {/*                key={f.fileUrl || f.name + idx}*/}
+            {/*                className="flex items-center justify-between text-sm py-1"*/}
+            {/*            >*/}
+            {/*              <div>*/}
+            {/*                <a*/}
+            {/*                    href={f.fileUrl}*/}
+            {/*                    target="_blank"*/}
+            {/*                    rel="noreferrer"*/}
+            {/*                    className="underline"*/}
+            {/*                >*/}
+            {/*                  {f.name}*/}
+            {/*                </a>{" "}*/}
+            {/*                {f.size ? `(${(f.size / 1024).toFixed(1)} KB)` : ""}*/}
+            {/*              </div>*/}
+            {/*              <div className="flex items-center gap-2">*/}
+            {/*                <button*/}
+            {/*                    type="button"*/}
+            {/*                    className="text-sm text-red-600"*/}
+            {/*                    onClick={() => removeUploadedFile(idx)}*/}
+            {/*                >*/}
+            {/*                  Remove*/}
+            {/*                </button>*/}
+            {/*              </div>*/}
+            {/*            </li>*/}
+            {/*        ))}*/}
+            {/*      </ul>*/}
+            {/*    </div>*/}
+            {/*)}*/}
+
+            {/* Per-file upload progress indicators (when uploading) */}
+            {isUploadingFiles && Object.keys(uploadProgress).length > 0 && (
+              <div className="mt-3">
+                <Typography variant="subtitle2">Uploading files...</Typography>
+                <div className="space-y-2 mt-2">
+                  {Object.keys(uploadProgress).map((key) => (
+                    <Box key={key} sx={{ width: "100%" }}>
+                      <Typography variant="body2" sx={{ fontSize: 12 }}>
+                        {key}
+                      </Typography>
+                      <LinearProgress
+                        variant="determinate"
+                        value={uploadProgress[key] || 0}
+                      />
+                    </Box>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* Submit buttons */}
           <div className="mt-8 flex justify-end gap-2">
             <button
               type="submit"
@@ -1463,6 +1785,97 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         languages={languages}
         genderOptions={genderOptions}
       />
+
+      {/* Files dialog - shows both attached (not yet uploaded) & uploaded files */}
+      <Dialog
+        open={showFilesDialog}
+        onClose={() => setShowFilesDialog(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Attached Files</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" gutterBottom>
+            You can attach up to {MAX_FILES} files (PNG, JPG, JPEG, PDF). Max
+            size 2MB each.
+          </Typography>
+
+          <div className="mt-2">
+            {attachedFiles.length === 0 && uploadedFilesInfo.length === 0 && (
+              <Typography variant="body2">No files attached.</Typography>
+            )}
+
+            {attachedFiles.length > 0 && (
+              <div className="mt-2 border rounded p-2 bg-gray-50">
+                <div className="flex items-center justify-between">
+                  <strong>Files to be uploaded:</strong>
+                  <span className="text-sm text-gray-600">
+                    {attachedFiles.length}/{MAX_FILES}
+                  </span>
+                </div>
+
+                <ul className="mt-2">
+                  {attachedFiles.map((f, i) => (
+                    <li
+                      key={f.name + i}
+                      className="flex items-center justify-between text-sm py-1"
+                    >
+                      <div>
+                        <span title={f.name}>{formatFileName(f.name)}</span>
+                        {" — "}
+                        {formatFileSize(f.size)}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                          onClick={() => removeAttachedFile(i)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/*{uploadedFilesInfo.length > 0 && (*/}
+            {/*    <>*/}
+            {/*      <Typography variant="subtitle2" className="mt-2">*/}
+            {/*        Uploaded files:*/}
+            {/*      </Typography>*/}
+            {/*      <ul>*/}
+            {/*        {uploadedFilesInfo.map((f, i) => (*/}
+            {/*            <li key={f.fileUrl || f.name + i} className="py-1 flex items-center justify-between">*/}
+            {/*              <div>*/}
+            {/*                <a href={f.fileUrl} target="_blank" rel="noreferrer">*/}
+            {/*                  {f.name}*/}
+            {/*                </a>{" "}*/}
+            {/*                {f.size ? ` — ${formatFileSize(f.size)}` : ""}*/}
+            {/*              </div>*/}
+            {/*              <div>*/}
+            {/*                <Button size="small" onClick={() => removeUploadedFile(i)}>*/}
+            {/*                  Remove*/}
+            {/*                </Button>*/}
+            {/*              </div>*/}
+            {/*            </li>*/}
+            {/*        ))}*/}
+            {/*      </ul>*/}
+            {/*    </>*/}
+            {/*)}*/}
+          </div>
+        </DialogContent>
+        <div className="flex items-center justify-center mt-4">
+          <button
+            type="button"
+            className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+            onClick={() => setShowFilesDialog(false)}
+          >
+            Close
+          </button>
+        </div>
+      </Dialog>
     </div>
   );
 };
