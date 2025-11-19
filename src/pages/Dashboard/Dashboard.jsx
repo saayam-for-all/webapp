@@ -160,6 +160,7 @@ const Dashboard = ({ userRole }) => {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+    if (tab === "analytics") setAnalyticsSubtab("Infrastructure");
     setCurrentPage(1);
     setStatusFilter({
       Open: true,
@@ -469,8 +470,8 @@ const Dashboard = ({ userRole }) => {
     dashboardTitle = "Volunteer Dashboard";
 
   const dashboardDefaultTab = {
-    superAdmin: "myRequests",
-    admin: "myRequests",
+    superAdmin: "analytics",
+    admin: "analytics",
     steward: "myRequests",
     volunteer: "managedRequests",
     beneficiary: "myRequests",
@@ -666,6 +667,10 @@ const Dashboard = ({ userRole }) => {
     </>
   );
 
+  // Analytics Sub Tabs
+
+  const [analyticsSubtab, setAnalyticsSubtab] = useState("Infrastructure");
+
   return (
     <div className="p-5">
       <ToastContainer
@@ -777,7 +782,11 @@ const Dashboard = ({ userRole }) => {
               onRowsPerPageChange={handleRowsPerPageChange}
               getLinkPath={(request, header) => `/request/${request[header]}`}
               getLinkState={(request) => request}
-              searchFilters={dashboardSearchFilters}
+              searchFilters={
+                activeTab === "analytics" ? null : dashboardSearchFilters
+              }
+              analyticsSubtab={analyticsSubtab}
+              setAnalyticsSubtab={setAnalyticsSubtab}
             />
           )}
 
@@ -797,7 +806,11 @@ const Dashboard = ({ userRole }) => {
               onRowsPerPageChange={handleRowsPerPageChange}
               getLinkPath={(request, header) => `/request/${request[header]}`}
               getLinkState={(request) => request}
-              searchFilters={dashboardSearchFilters}
+              searchFilters={
+                activeTab === "analytics" ? null : dashboardSearchFilters
+              }
+              analyticsSubtab={analyticsSubtab}
+              setAnalyticsSubtab={setAnalyticsSubtab}
             />
           )}
 
