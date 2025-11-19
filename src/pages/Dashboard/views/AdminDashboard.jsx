@@ -35,7 +35,7 @@ const AdminDashboard = (props) => {
           Analytics
         </button>
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold mr-1 ${
+          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
             activeTab === "myRequests"
               ? "bg-white text-blue-500 border-blue-500"
               : "bg-gray-300 border-transparent hover:bg-gray-200"

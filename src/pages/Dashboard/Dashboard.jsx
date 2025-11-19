@@ -735,7 +735,7 @@ const Dashboard = ({ userRole }) => {
       </div>
 
       <div className="flex-1 text-center">
-        <h2 className="text-xl font-semibold">{dashboardTitle}</h2>
+        <h2 className="text-xl font-semibold mt-3 mb-3">{dashboardTitle}</h2>
       </div>
 
       {showAddressMsg && !hasAddress && (
