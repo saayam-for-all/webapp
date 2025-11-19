@@ -17,21 +17,13 @@ const SuperAdminDashboard = (props) => {
     getLinkPath,
     getLinkState,
     searchFilters,
+    analyticsSubtab,
+    setAnalyticsSubtab,
   } = props;
 
   return (
     <div>
       <div className="flex mb-5">
-        <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold mr-1 ${
-            activeTab === "myRequests"
-              ? "bg-white text-blue-500 border-blue-500"
-              : "bg-gray-300 border-transparent hover:bg-gray-200"
-          }`}
-          onClick={() => handleTabChange("myRequests")}
-        >
-          All Requests
-        </button>
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
             activeTab === "analytics"
@@ -42,14 +34,70 @@ const SuperAdminDashboard = (props) => {
         >
           Analytics
         </button>
+        <button
+          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold mr-1 ${
+            activeTab === "myRequests"
+              ? "bg-white text-blue-500 border-blue-500"
+              : "bg-gray-300 border-transparent hover:bg-gray-200"
+          }`}
+          onClick={() => handleTabChange("myRequests")}
+        >
+          All Requests
+        </button>
       </div>
 
       {searchFilters}
 
       <div className="requests-section overflow-hidden table-height-fix">
+        {activeTab === "analytics" && (
+          <div className="flex mb-4">
+            <button
+              className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
+        ${
+          analyticsSubtab === "Infrastructure"
+            ? "bg-white text-blue-500 border-blue-500"
+            : "bg-gray-100 border-transparent hover:bg-gray-200"
+        } mr-1`}
+              onClick={() => setAnalyticsSubtab("Infrastructure")}
+            >
+              Infrastructure
+            </button>
+            <button
+              className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
+        ${
+          analyticsSubtab === "Application Analytics"
+            ? "bg-white text-blue-500 border-blue-500"
+            : "bg-gray-100 border-transparent hover:bg-gray-200"
+        } mr-1`}
+              onClick={() => setAnalyticsSubtab("Application Analytics")}
+            >
+              Application Analytics
+            </button>
+            <button
+              className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
+        ${
+          analyticsSubtab === "Google Analytics"
+            ? "bg-white text-blue-500 border-blue-500"
+            : "bg-gray-100 border-transparent hover:bg-gray-200"
+        }`}
+              onClick={() => setAnalyticsSubtab("Google Analytics")}
+            >
+              Google Analytics
+            </button>
+          </div>
+        )}
+
         {activeTab === "analytics" ? (
           <div className="p-6 text-center text-gray-600">
-            Analytics placeholder (chart will go here)
+            {analyticsSubtab === "Infrastructure" && (
+              <>Infrastructure (Summary of Errors) - To Be Implemented</>
+            )}
+            {analyticsSubtab === "Application Analytics" && (
+              <>Application Analytics - To Be Implemented</>
+            )}
+            {analyticsSubtab === "Google Analytics" && (
+              <>Google Analytics - To Be Implemented</>
+            )}
           </div>
         ) : (
           !isLoading && (
