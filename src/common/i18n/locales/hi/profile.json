@@ -33,6 +33,15 @@
   "SECONDARY_PHONE": "द्वितीयक फ़ोन",
   "required": "आवश्यक",
 
+  "GENDER_OPTIONS": {
+    "FEMALE": "महिला",
+    "MALE": "पुरुष",
+    "NON_BINARY": "नॉन-बाइनरी",
+    "TRANSGENDER": "ट्रांसजेंडर",
+    "INTERSEX": "इंटरसेक्स",
+    "GENDER_NONCONFORMING": "लैंगिक-गैरअनुरूप"
+  },
+
   "CURRENT_PASSWORD": "वर्तमान पासवर्ड",
   "NEW_PASSWORD": "नया पासवर्ड",
   "CONFIRM_PASSWORD": "पासवर्ड की पुष्टि करें",

@@ -33,6 +33,15 @@
   "SECONDARY_PHONE": "الهاتف الثانوي",
   "required": "مطلوب",
 
+  "GENDER_OPTIONS": {
+    "FEMALE": "أنثى",
+    "MALE": "ذكر",
+    "NON_BINARY": "غير ثنائي",
+    "TRANSGENDER": "متحول جنسياً",
+    "INTERSEX": "ثنائي الجنس",
+    "GENDER_NONCONFORMING": "غير مطابق للنوع الاجتماعي"
+  },
+
   "CURRENT_PASSWORD": "كلمة المرور الحالية",
   "NEW_PASSWORD": "كلمة المرور الجديدة",
   "CONFIRM_PASSWORD": "تأكيد كلمة المرور",

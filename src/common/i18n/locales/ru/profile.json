@@ -30,6 +30,15 @@
   "SECONDARY_EMAIL": "Дополнительная эл. почта",
   "SECONDARY_PHONE": "Дополнительный телефон",
   "required": "обязательно",
+
+  "GENDER_OPTIONS": {
+    "FEMALE": "Женский",
+    "MALE": "Мужской",
+    "NON_BINARY": "Небинарный",
+    "TRANSGENDER": "Трансгендер",
+    "INTERSEX": "Интерсекс",
+    "GENDER_NONCONFORMING": "Гендерно-неконформный"
+  },
   "CURRENT_PASSWORD": "Текущий пароль",
   "NEW_PASSWORD": "Новый пароль",
   "CONFIRM_PASSWORD": "Подтвердите пароль",
