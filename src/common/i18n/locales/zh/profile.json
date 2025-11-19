@@ -30,6 +30,15 @@
   "SECONDARY_EMAIL": "次要电子邮件",
   "SECONDARY_PHONE": "次要电话",
   "required": "必填",
+
+  "GENDER_OPTIONS": {
+    "FEMALE": "女性",
+    "MALE": "男性",
+    "NON_BINARY": "非二元",
+    "TRANSGENDER": "跨性别",
+    "INTERSEX": "双性",
+    "GENDER_NONCONFORMING": "性别不符合"
+  },
   "CURRENT_PASSWORD": "当前密码",
   "NEW_PASSWORD": "新密码",
   "CONFIRM_PASSWORD": "确认密码",

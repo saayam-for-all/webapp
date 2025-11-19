@@ -30,6 +30,15 @@
   "SECONDARY_EMAIL": "Zweit-E-Mail",
   "SECONDARY_PHONE": "Zweittelefon",
   "required": "erforderlich",
+
+  "GENDER_OPTIONS": {
+    "FEMALE": "Weiblich",
+    "MALE": "Männlich",
+    "NON_BINARY": "Nichtbinär",
+    "TRANSGENDER": "Transgender",
+    "INTERSEX": "Intersex",
+    "GENDER_NONCONFORMING": "Geschlechtsnichtkonform"
+  },
   "CURRENT_PASSWORD": "Aktuelles Passwort",
   "NEW_PASSWORD": "Neues Passwort",
   "CONFIRM_PASSWORD": "Passwort bestätigen",

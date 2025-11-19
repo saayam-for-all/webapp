@@ -30,6 +30,15 @@
   "SECONDARY_EMAIL": "ద్వితీయ ఇమెయిల్",
   "SECONDARY_PHONE": "ద్వితీయ ఫోన్",
   "required": "అవసరం",
+
+  "GENDER_OPTIONS": {
+    "FEMALE": "మహిళ",
+    "MALE": "పురుషుడు",
+    "NON_BINARY": "నాన్-బైనరీ",
+    "TRANSGENDER": "ట్రాన్స్‌జెండర్",
+    "INTERSEX": "ఇంటర్‌సెక్స్",
+    "GENDER_NONCONFORMING": "లింగానికి అనుగుణం కాని"
+  },
   "CURRENT_PASSWORD": "ప్రస్తుత పాస్‌వర్డ్",
   "NEW_PASSWORD": "కొత్త పాస్‌వర్డ్",
   "CONFIRM_PASSWORD": "పాస్వర్డ్ నిర్ధారించండి",

@@ -33,6 +33,15 @@
   "SECONDARY_PHONE": "ثانوی فون",
   "required": "ضروری",
 
+  "GENDER_OPTIONS": {
+    "FEMALE": "خاتون",
+    "MALE": "مرد",
+    "NON_BINARY": "نان بائنری",
+    "TRANSGENDER": "خواجہ سرا",
+    "INTERSEX": "انٹر سیکس",
+    "GENDER_NONCONFORMING": "صنف کے مطابق نہیں"
+  },
+
   "CURRENT_PASSWORD": "موجودہ پاس ورڈ",
   "NEW_PASSWORD": "نیا پاس ورڈ",
   "CONFIRM_PASSWORD": "پاس ورڈ کی تصدیق کریں",
