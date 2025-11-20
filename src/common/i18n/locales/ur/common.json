@@ -29,6 +29,8 @@
   "NEW_MATCH_REQUEST": "نئی میچ کی درخواست",
   "ACCEPT": "قبول کریں",
   "DENY": "انکار کریں",
+  "ACCEPT_SUCCESS_MESSAGE": "آپ نے اس درخواست کو قبول کر لیا۔",
+  "DENY_SUCCESS_MESSAGE": "آپ نے اس درخواست کو مسترد کر دیا۔",
   "OUR_MISSION": "ہمارا مشن",
   "OUR_VISION_NAVBAR": "ہماری ویژن",
   "VOLUNTEER_SERVICES": "رضاکارانہ خدمات",

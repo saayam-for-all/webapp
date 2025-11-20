@@ -28,6 +28,8 @@
   "NEW_MATCH_REQUEST": "طلب مطابقة جديد",
   "ACCEPT": "قبول",
   "DENY": "رفض",
+  "ACCEPT_SUCCESS_MESSAGE": "لقد قبلت هذا الطلب.",
+  "DENY_SUCCESS_MESSAGE": "لقد رفضت هذا الطلب.",
   "OUR_MISSION": "مهمتنا",
   "OUR_VISION_NAVBAR": "رؤيتنا",
   "VOLUNTEER_SERVICES": "خدمات التطوع",
