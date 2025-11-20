@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "Soi-même",
+    "OTHER": "Autre"
+  },
+  "requestPriority": {
+    "LOW": "Faible",
+    "MEDIUM": "Moyenne",
+    "HIGH": "Élevée",
+    "CRITICAL": "Critique"
+  },
+  "requestStatus": {
+    "CREATED": "Créé",
+    "MATCHING VOLUNTEER": "Recherche de bénévole",
+    "MANAGED": "Géré",
+    "RESOLVED": "Résolu",
+    "CANCELLED": "Annulé",
+    "DELETED": "Supprimé"
+  },
+  "requestType": {
+    "INPERSON": "En personne",
+    "REMOTE": "À distance"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "Selbst",
+    "OTHER": "Andere"
+  },
+  "requestPriority": {
+    "LOW": "Niedrig",
+    "MEDIUM": "Mittel",
+    "HIGH": "Hoch",
+    "CRITICAL": "Kritisch"
+  },
+  "requestStatus": {
+    "CREATED": "Erstellt",
+    "MATCHING VOLUNTEER": "Freiwilliger wird gesucht",
+    "MANAGED": "Verwaltet",
+    "RESOLVED": "Gelöst",
+    "CANCELLED": "Abgebrochen",
+    "DELETED": "Gelöscht"
+  },
+  "requestType": {
+    "INPERSON": "Persönlich",
+    "REMOTE": "Remote"
+  }
+}

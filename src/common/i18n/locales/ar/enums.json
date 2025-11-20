@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "نفسي",
+    "OTHER": "آخر"
+  },
+  "requestPriority": {
+    "LOW": "منخفض",
+    "MEDIUM": "متوسط",
+    "HIGH": "عالي",
+    "CRITICAL": "حرج"
+  },
+  "requestStatus": {
+    "CREATED": "تم الإنشاء",
+    "MATCHING VOLUNTEER": "البحث عن متطوع",
+    "MANAGED": "تتم الإدارة",
+    "RESOLVED": "تم الحل",
+    "CANCELLED": "تم الإلغاء",
+    "DELETED": "تم الحذف"
+  },
+  "requestType": {
+    "INPERSON": "شخصياً",
+    "REMOTE": "عن بعد"
+  }
+}

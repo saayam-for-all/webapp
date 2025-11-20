@@ -1,7 +1,7 @@
 {
   "requestFor": {
-    "SELF": "本人",
-    "OTHER": "其他"
+    "SELF": "自己",
+    "OTHER": "其他人"
   },
   "requestPriority": {
     "LOW": "低",
@@ -11,14 +11,14 @@
   },
   "requestStatus": {
     "CREATED": "已创建",
-    "MATCHING VOLUNTEER": "匹配志愿者",
+    "MATCHING VOLUNTEER": "匹配志愿者中",
     "MANAGED": "已管理",
     "RESOLVED": "已解决",
     "CANCELLED": "已取消",
     "DELETED": "已删除"
   },
   "requestType": {
-    "INPERSON": "现场",
+    "INPERSON": "亲自",
     "REMOTE": "远程"
   }
 }

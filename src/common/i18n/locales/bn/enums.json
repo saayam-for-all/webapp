@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "নিজের জন্য",
+    "OTHER": "অন্যের জন্য"
+  },
+  "requestPriority": {
+    "LOW": "নিম্ন",
+    "MEDIUM": "মাঝারি",
+    "HIGH": "উচ্চ",
+    "CRITICAL": "গুরুত্বপূর্ণ"
+  },
+  "requestStatus": {
+    "CREATED": "তৈরি হয়েছে",
+    "MATCHING VOLUNTEER": "স্বেচ্ছাসেবক খোঁজা হচ্ছে",
+    "MANAGED": "পরিচালিত",
+    "RESOLVED": "সমাধান হয়েছে",
+    "CANCELLED": "বাতিল করা হয়েছে",
+    "DELETED": "মুছে ফেলা হয়েছে"
+  },
+  "requestType": {
+    "INPERSON": "সরাসরি",
+    "REMOTE": "দূরবর্তী"
+  }
+}

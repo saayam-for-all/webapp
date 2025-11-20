@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "స్వయంగా",
+    "OTHER": "ఇతరులు"
+  },
+  "requestPriority": {
+    "LOW": "తక్కువ",
+    "MEDIUM": "మధ్యస్థ",
+    "HIGH": "అధిక",
+    "CRITICAL": "క్లిష్టమైన"
+  },
+  "requestStatus": {
+    "CREATED": "సృష్టించబడింది",
+    "MATCHING VOLUNTEER": "స్వచ్ఛంద సేవకుడిని వెతుకుతోంది",
+    "MANAGED": "నిర్వహించబడింది",
+    "RESOLVED": "పరిష్కరించబడింది",
+    "CANCELLED": "రద్దు చేయబడింది",
+    "DELETED": "తొలగించబడింది"
+  },
+  "requestType": {
+    "INPERSON": "వ్యక్తిగతంగా",
+    "REMOTE": "రిమోట్"
+  }
+}
