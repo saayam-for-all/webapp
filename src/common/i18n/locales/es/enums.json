@@ -1,6 +1,6 @@
 {
   "requestFor": {
-    "SELF": "Propio",
+    "SELF": "Uno mismo",
     "OTHER": "Otro"
   },
   "requestPriority": {
@@ -10,15 +10,15 @@
     "CRITICAL": "Crítica"
   },
   "requestStatus": {
-    "CREATED": "Creada",
-    "MATCHING VOLUNTEER": "Voluntario asignado",
-    "MANAGED": "Gestionada",
-    "RESOLVED": "Resuelta",
-    "CANCELLED": "Cancelada",
-    "DELETED": "Eliminada"
+    "CREATED": "Creado",
+    "MATCHING VOLUNTEER": "Buscando voluntario",
+    "MANAGED": "Gestionado",
+    "RESOLVED": "Resuelto",
+    "CANCELLED": "Cancelado",
+    "DELETED": "Eliminado"
   },
   "requestType": {
-    "INPERSON": "Presencial",
+    "INPERSON": "En persona",
     "REMOTE": "Remoto"
   }
 }

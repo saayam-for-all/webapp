@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "Próprio",
+    "OTHER": "Outro"
+  },
+  "requestPriority": {
+    "LOW": "Baixa",
+    "MEDIUM": "Média",
+    "HIGH": "Alta",
+    "CRITICAL": "Crítica"
+  },
+  "requestStatus": {
+    "CREATED": "Criado",
+    "MATCHING VOLUNTEER": "Procurando voluntário",
+    "MANAGED": "Gerenciado",
+    "RESOLVED": "Resolvido",
+    "CANCELLED": "Cancelado",
+    "DELETED": "Excluído"
+  },
+  "requestType": {
+    "INPERSON": "Presencial",
+    "REMOTE": "Remoto"
+  }
+}

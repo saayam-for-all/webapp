@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "خود",
+    "OTHER": "دوسرے"
+  },
+  "requestPriority": {
+    "LOW": "کم",
+    "MEDIUM": "درمیانہ",
+    "HIGH": "زیادہ",
+    "CRITICAL": "نازک"
+  },
+  "requestStatus": {
+    "CREATED": "تخلیق کیا گیا",
+    "MATCHING VOLUNTEER": "رضاکار تلاش کر رہے ہیں",
+    "MANAGED": "منظم کیا گیا",
+    "RESOLVED": "حل کیا گیا",
+    "CANCELLED": "منسوخ کیا گیا",
+    "DELETED": "حذف کیا گیا"
+  },
+  "requestType": {
+    "INPERSON": "ذاتی طور پر",
+    "REMOTE": "دور سے"
+  }
+}

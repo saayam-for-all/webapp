@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "Себя",
+    "OTHER": "Другой"
+  },
+  "requestPriority": {
+    "LOW": "Низкий",
+    "MEDIUM": "Средний",
+    "HIGH": "Высокий",
+    "CRITICAL": "Критический"
+  },
+  "requestStatus": {
+    "CREATED": "Создано",
+    "MATCHING VOLUNTEER": "Поиск волонтёра",
+    "MANAGED": "Управляется",
+    "RESOLVED": "Решено",
+    "CANCELLED": "Отменено",
+    "DELETED": "Удалено"
+  },
+  "requestType": {
+    "INPERSON": "Лично",
+    "REMOTE": "Удалённо"
+  }
+}

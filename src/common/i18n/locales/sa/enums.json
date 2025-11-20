@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "स्वयम्",
+    "OTHER": "अन्य"
+  },
+  "requestPriority": {
+    "LOW": "न्यून",
+    "MEDIUM": "मध्यम",
+    "HIGH": "उच्च",
+    "CRITICAL": "गुरुतर"
+  },
+  "requestStatus": {
+    "CREATED": "निर्मितम्",
+    "MATCHING VOLUNTEER": "स्वयंसेवकं अन्वेषणम्",
+    "MANAGED": "प्रबन्धितम्",
+    "RESOLVED": "समाधितम्",
+    "CANCELLED": "निरस्तम्",
+    "DELETED": "विलोपितम्"
+  },
+  "requestType": {
+    "INPERSON": "प्रत्यक्षम्",
+    "REMOTE": "दूरस्थम्"
+  }
+}
