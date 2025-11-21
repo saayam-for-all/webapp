@@ -8,5 +8,15 @@
   "VISION": "ਦ੍ਰਿਸ਼ਟੀ",
   "ORGANIZATIONS": "ਸੰਗਠਨਾਂ",
   "CONTACT": "ਸੰਪਰਕ ਕਰੋ",
-  "DASHBOARD": "ਡੈਸ਼ਬੋਰਡ"
+  "DASHBOARD": "ਡੈਸ਼ਬੋਰਡ",
+  "ALL": "ਸਾਰੇ",
+  "VOLUNTEER_MATCH": "ਸਵੈ-ਸੇਵਕ ਮੇਲ",
+  "HELP_REQUEST_BUTTON": "ਮਦਦ ਦੀ ਬੇਨਤੀ",
+  "NEW_MATCH_REQUEST": "ਨਵੀਂ ਮੇਲ ਬੇਨਤੀ",
+  "ACCEPT": "ਸਵੀਕਾਰ ਕਰੋ",
+  "DENY": "ਇਨਕਾਰ ਕਰੋ",
+  "ACCEPT_SUCCESS_MESSAGE": "ਤੁਸੀਂ ਇਸ ਬੇਨਤੀ ਨੂੰ ਸਵੀਕਾਰ ਕੀਤਾ।",
+  "DENY_SUCCESS_MESSAGE": "ਤੁਸੀਂ ਇਸ ਬੇਨਤੀ ਨੂੰ ਇਨਕਾਰ ਕੀਤਾ।",
+  "LOGISTIC_HELP": "ਲੋਜਿਸਟਿਕ ਮਦਦ",
+  "EDUCATIONAL_HELP": "ਵਿਦਿਅਕ ਮਦਦ"
 }

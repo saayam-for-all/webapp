@@ -338,9 +338,7 @@
   "FAQ_CANCEL_ANSWER": "是的，您可以联系我们的支持团队进行取消。",
   "BACK_TO_DASHBOARD": "返回仪表板",
   "BACK": "后退",
-
   "Availability": "可用性",
-
   "PREFERENCES": "偏好",
   "DEFAULT DASHBOARD VIEW": "默认仪表板视图",
   "SELECT DASHBOARD": "选择仪表板",
@@ -372,5 +370,7 @@
   "German": "德语",
   "Portuguese": "葡萄牙语",
   "Russian": "俄语",
-  "Mandarin Chinese": "中文（普通话）"
+  "Mandarin Chinese": "中文（普通话）",
+  "LOGISTIC_HELP": "物流帮助",
+  "EDUCATIONAL_HELP": "教育帮助"
 }

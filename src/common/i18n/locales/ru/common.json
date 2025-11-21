@@ -384,9 +384,7 @@
   "ACCOUNT_DELETION_ERROR": "Произошла ошибка при удалении вашего аккаунта. Пожалуйста, попробуйте еще раз.",
   "BACK_TO_DASHBOARD": "Вернуться к панели инструментов",
   "BACK": "Назад",
-
   "Availability": "Доступность",
-
   "PREFERENCES": "ПРЕДПОЧТЕНИЯ",
   "DEFAULT DASHBOARD VIEW": "Вид панели инструментов по умолчанию",
   "SELECT DASHBOARD": "Выберите панель",
@@ -412,5 +410,7 @@
   "German": "Немецкий",
   "Portuguese": "Португальский",
   "Russian": "Русский",
-  "Mandarin Chinese": "Китайский (мандарин)"
+  "Mandarin Chinese": "Китайский (мандарин)",
+  "LOGISTIC_HELP": "Логистическая помощь",
+  "EDUCATIONAL_HELP": "Образовательная помощь"
 }

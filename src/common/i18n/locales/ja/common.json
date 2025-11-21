@@ -7,5 +7,15 @@
   "MISSION": "ミッション",
   "VISION": "ビジョン",
   "CONTACT": "接触",
-  "DASHBOARD": "ダッシュボード"
+  "DASHBOARD": "ダッシュボード",
+  "ALL": "すべて",
+  "VOLUNTEER_MATCH": "ボランティアマッチ",
+  "HELP_REQUEST_BUTTON": "ヘルプリクエスト",
+  "NEW_MATCH_REQUEST": "新しいマッチリクエスト",
+  "ACCEPT": "承認",
+  "DENY": "拒否",
+  "ACCEPT_SUCCESS_MESSAGE": "このリクエストを承認しました。",
+  "DENY_SUCCESS_MESSAGE": "このリクエストを拒否しました。",
+  "LOGISTIC_HELP": "物流支援",
+  "EDUCATIONAL_HELP": "教育支援"
 }
