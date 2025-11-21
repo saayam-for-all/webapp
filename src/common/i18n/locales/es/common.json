@@ -391,9 +391,7 @@
   "No": "No",
   "BACK_TO_DASHBOARD": "Volver al panel de control",
   "BACK": "Atrás",
-
   "Availability": "Disponibilidad",
-
   "PREFERENCES": "Preferencias",
   "DEFAULT DASHBOARD VIEW": "Vista de panel predeterminada",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Recibir notificaciones de emergencia",
@@ -420,5 +418,7 @@
   "German": "Alemán",
   "Portuguese": "Portugués",
   "Russian": "Ruso",
-  "Mandarin Chinese": "Chino (Mandarín)"
+  "Mandarin Chinese": "Chino (Mandarín)",
+  "LOGISTIC_HELP": "Ayuda Logística",
+  "EDUCATIONAL_HELP": "Ayuda Educativa"
 }

@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "सरकारी पहचानपत्रं अपलोड कुर्वन्तु",
+  "SELECT_SOURCE": "स्रोतं चिनोतु",
+  "DEVICE": "यन्त्रम्",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "सञ्चिकां अपलोड कुर्वन्तु",
+  "FILE": "सञ्चिका",
+  "FILE_PREVIEW": "पूर्वावलोकनम्",
+  "UPLOAD": "अपलोड",
+  "UPLOADING": "अपलोड भवति...",
+  "REMOVE": "निराकरोतु",
+  "FILE_SIZE_ERROR": "सञ्चिकायाः आकारः 2MB तः अधिकं न भवेत्",
+  "FILE_TYPE_ERROR": "केवलं JPEG, JPG, PNG, PDF सञ्चिकाः अनुमताः। प्राप्तं सञ्चिका प्रकारः: {{fileType}}, विस्तारः: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "केवलं JPEG, JPG, PNG, वा PDF सञ्चिकाः। अधिकतमं आकारः: 2MB।",
+  "UPLOAD_SUCCESS": "सञ्चिका सफलतया अपलोड अभवत्",
+  "UPLOAD_FAILED": "सञ्चिका अपलोड असफलं अभवत्",
+  "UPLOAD_ERROR": "सञ्चिकां अपलोड कुर्वति त्रुटिः अभवत्"
+}

@@ -8,5 +8,15 @@
   "VISION": "ويزن",
   "ORGANIZATIONS": "آرگنائيزيشنون",
   "CONTACT": "رابطو",
-  "DASHBOARD": "ڊيش بورڊ"
+  "DASHBOARD": "ڊيش بورڊ",
+  "ALL": "سڀ",
+  "VOLUNTEER_MATCH": "رضاڪار ميچ",
+  "HELP_REQUEST_BUTTON": "مدد جي درخواست",
+  "NEW_MATCH_REQUEST": "نئين ميچ جي درخواست",
+  "ACCEPT": "قبول ڪريو",
+  "DENY": "رد ڪريو",
+  "ACCEPT_SUCCESS_MESSAGE": "توهان هن درخواست کي قبول ڪيو.",
+  "DENY_SUCCESS_MESSAGE": "توهان هن درخواست کي رد ڪيو.",
+  "LOGISTIC_HELP": "لاجسٽڪ مدد",
+  "EDUCATIONAL_HELP": "تعليمي مدد"
 }

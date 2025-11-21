@@ -7,5 +7,15 @@
   "MISSION": "사명",
   "VISION": "비전",
   "CONTACT": "연락하다",
-  "DASHBOARD": "대시보드"
+  "DASHBOARD": "대시보드",
+  "ALL": "모두",
+  "VOLUNTEER_MATCH": "자원봉사자 매칭",
+  "HELP_REQUEST_BUTTON": "도움 요청",
+  "NEW_MATCH_REQUEST": "새 매칭 요청",
+  "ACCEPT": "수락",
+  "DENY": "거부",
+  "ACCEPT_SUCCESS_MESSAGE": "이 요청을 수락했습니다.",
+  "DENY_SUCCESS_MESSAGE": "이 요청을 거부했습니다.",
+  "LOGISTIC_HELP": "물류 도움",
+  "EDUCATIONAL_HELP": "교육 도움"
 }
