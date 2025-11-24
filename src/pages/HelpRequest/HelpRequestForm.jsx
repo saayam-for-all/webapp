@@ -975,7 +975,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </button>
         </div>
         <div className="bg-white p-8 rounded-lg shadow-md border">
-          <h1 className="text-2xl font-bold text-gray-800 ">
+          <h1 className="text-2xl font-bold text-gray-800 text-center">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
           </h1>
           <div

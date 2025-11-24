@@ -423,14 +423,11 @@
   "Low": "Faible",
   "Medium": "Moyen",
   "High": "Élevé",
-  "CANCEL": "Annuler",
   "Yes": "Oui",
   "No": "Non",
   "BACK_TO_DASHBOARD": "Retour au tableau de bord",
   "BACK": "Dos",
-
   "Availability": "Disponibilité",
-
   "PREFERENCES": "Préférences",
   "DEFAULT DASHBOARD VIEW": "Vue du tableau de bord par défaut",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Recevoir des notifications d'urgence",
@@ -457,5 +454,7 @@
   "German": "Allemand",
   "Portuguese": "Portugais",
   "Russian": "Russe",
-  "Mandarin Chinese": "Chinois (Mandarin)"
+  "Mandarin Chinese": "Chinois (Mandarin)",
+  "LOGISTIC_HELP": "Aide Logistique",
+  "EDUCATIONAL_HELP": "Aide Éducative"
 }

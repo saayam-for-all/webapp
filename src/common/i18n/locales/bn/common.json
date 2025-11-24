@@ -407,9 +407,7 @@
   "PRIVACY_CONTACT_CONTENT": "সায়ম ফর অল, ৩০৪৬ রোসাটো কোর্ট, সান জোসে, ক্যালিফোর্নিয়া ৯৫১৩৫",
   "BACK_TO_DASHBOARD": "ড্যাশবোর্ডে ফিরে যান",
   "BACK": "পিছনে",
-
   "Availability": "উপলব্ধতা",
-
   "PREFERENCES": "পছন্দসমূহ",
   "DEFAULT DASHBOARD VIEW": "অবিকল্পিত ডেচব'ৰ্ড দৰ্শন",
   "SELECT DASHBOARD": "ড্যাশবোর্ড নির্বাচন করুন",
@@ -436,5 +434,7 @@
   "German": "জার্মান",
   "Portuguese": "পর্তুগিজ",
   "Russian": "রাশিয়ান",
-  "Mandarin Chinese": "ম্যান্ডারিন চাইনিজ"
+  "Mandarin Chinese": "ম্যান্ডারিন চাইনিজ",
+  "LOGISTIC_HELP": "লজিস্টিক সাহায্য",
+  "EDUCATIONAL_HELP": "শিক্ষাগত সাহায্য"
 }

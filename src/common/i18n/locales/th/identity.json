@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "อัปโหลดบัตรประชาชน",
+  "SELECT_SOURCE": "เลือกแหล่งที่มา",
+  "DEVICE": "อุปกรณ์",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "อัปโหลดไฟล์",
+  "FILE": "ไฟล์",
+  "FILE_PREVIEW": "ดูตัวอย่าง",
+  "UPLOAD": "อัปโหลด",
+  "UPLOADING": "กำลังอัปโหลด...",
+  "REMOVE": "ลบ",
+  "FILE_SIZE_ERROR": "ขนาดไฟล์ต้องไม่เกิน 2MB",
+  "FILE_TYPE_ERROR": "อนุญาตเฉพาะไฟล์ JPEG, JPG, PNG และ PDF เท่านั้น ประเภทไฟล์ที่ตรวจพบ: {{fileType}}, นามสกุล: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "เฉพาะไฟล์ JPEG, JPG, PNG หรือ PDF ขนาดสูงสุด: 2MB",
+  "UPLOAD_SUCCESS": "อัปโหลดไฟล์สำเร็จ",
+  "UPLOAD_FAILED": "อัปโหลดไฟล์ล้มเหลว",
+  "UPLOAD_ERROR": "เกิดข้อผิดพลาดระหว่างการอัปโหลดไฟล์"
+}

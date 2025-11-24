@@ -377,7 +377,6 @@
   "TERMS_THANK_YOU": "Vielen Dank, dass Sie Teil unserer Mission sind, der Menschheit durch Technologie, Mitgefühl und gemeinnützige Arbeit zu helfen.",
   "BACK_TO_DASHBOARD": "Zurück zum Dashboard",
   "BACK": "Zurück",
-
   "Availability": "Verfügbarkeit",
   "PREFERENCES": "Präferenzen",
   "DEFAULT DASHBOARD VIEW": "Standard-Dashboard-Ansicht",
@@ -419,5 +418,7 @@
   "CALAMITY_HELP_TEXT": "Geben Sie an, ob es sich um eine Katastrophe handelt, indem Sie das Kästchen ankreuzen.",
   "PRIORITY_HELP_TEXT": "Wie dringend ist diese Anfrage?<br />• Niedrig – Nicht zeitkritisch<br />• Mittel – Innerhalb weniger Tage<br />• Hoch – Sofortige Unterstützung",
   "SUBJECT_HELP_TEXT": "Geben Sie eine kurze Beschreibung der Anfrage",
-  "DESCRIPTION_HELP_TEXT": "Geben Sie eine detaillierte Beschreibung der Anfrage"
+  "DESCRIPTION_HELP_TEXT": "Geben Sie eine detaillierte Beschreibung der Anfrage",
+  "LOGISTIC_HELP": "Logistische Hilfe",
+  "EDUCATIONAL_HELP": "Bildungshilfe"
 }

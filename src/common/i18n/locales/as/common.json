@@ -7,5 +7,15 @@
   "MISSION": "উদ্দেশ্য",
   "VISION": "দৃষ্টি",
   "CONTACT": "যোগাযোগ কৰক",
-  "DASHBOARD": "ড্যাশবোর্ড"
+  "DASHBOARD": "ড্যাশবোর্ড",
+  "ALL": "সকলো",
+  "VOLUNTEER_MATCH": "স্বেচ্ছাসেৱক মিলান",
+  "HELP_REQUEST_BUTTON": "সহায়ৰ অনুৰোধ",
+  "NEW_MATCH_REQUEST": "নতুন মিলান অনুৰোধ",
+  "ACCEPT": "গ্ৰহণ কৰক",
+  "DENY": "অস্বীকাৰ কৰক",
+  "ACCEPT_SUCCESS_MESSAGE": "আপুনি এই অনুৰোধটো গ্ৰহণ কৰিলে।",
+  "DENY_SUCCESS_MESSAGE": "আপুনি এই অনুৰোধটো অস্বীকাৰ কৰিলে।",
+  "LOGISTIC_HELP": "লজিষ্টিক সহায়",
+  "EDUCATIONAL_HELP": "শৈক্ষিক সহায়"
 }

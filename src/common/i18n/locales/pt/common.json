@@ -373,9 +373,7 @@
   "TERMS_THANK_YOU": "Obrigado por fazer parte da nossa missão de ajudar a humanidade por meio da tecnologia, compaixão e serviço comunitário.",
   "BACK_TO_DASHBOARD": "Voltar ao painel",
   "BACK": "Costas",
-
   "Availability": "Disponibilidade",
-
   "PREFERENCES": "Preferências",
   "DEFAULT DASHBOARD VIEW": "Visualização do painel padrão",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Receba notificações de emergência",
@@ -402,5 +400,7 @@
   "German": "Alemão",
   "Portuguese": "Português",
   "Russian": "Russo",
-  "Mandarin Chinese": "Chinês (Mandarim)"
+  "Mandarin Chinese": "Chinês (Mandarim)",
+  "LOGISTIC_HELP": "Ajuda Logística",
+  "EDUCATIONAL_HELP": "Ajuda Educacional"
 }

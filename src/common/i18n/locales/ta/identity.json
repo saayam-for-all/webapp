@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "அரசு அடையாள அட்டையை பதிவேற்றவும்",
+  "SELECT_SOURCE": "மூலத்தைத் தேர்ந்தெடுக்கவும்",
+  "DEVICE": "சாதனம்",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "கோப்பை பதிவேற்றவும்",
+  "FILE": "கோப்பு",
+  "FILE_PREVIEW": "முன்னோட்டம்",
+  "UPLOAD": "பதிவேற்று",
+  "UPLOADING": "பதிவேற்றப்படுகிறது...",
+  "REMOVE": "அகற்று",
+  "FILE_SIZE_ERROR": "கோப்பு அளவு 2MB-ஐ விட அதிகமாக இருக்கக்கூடாது",
+  "FILE_TYPE_ERROR": "JPEG, JPG, PNG, மற்றும் PDF கோப்புகள் மட்டுமே அனுமதிக்கப்படும். கண்டறியப்பட்ட கோப்பு வகை: {{fileType}}, நீட்டிப்பு: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "JPEG, JPG, PNG, அல்லது PDF கோப்புகள் மட்டுமே. அதிகபட்ச அளவு: 2MB.",
+  "UPLOAD_SUCCESS": "கோப்பு வெற்றிகரமாக பதிவேற்றப்பட்டது",
+  "UPLOAD_FAILED": "கோப்பு பதிவேற்றம் தோல்வியடைந்தது",
+  "UPLOAD_ERROR": "கோப்பு பதிவேற்றத்தின் போது பிழை ஏற்பட்டது"
+}

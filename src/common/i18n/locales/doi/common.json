@@ -8,5 +8,15 @@
   "VISION": "लक्ष्य",
   "ORGANIZATIONS": "संगठन",
   "CONTACT": "राबता",
-  "DASHBOARD": "डैशबोर्ड"
+  "DASHBOARD": "डैशबोर्ड",
+  "ALL": "सब्भै",
+  "VOLUNTEER_MATCH": "स्वयंसेवक मिलान",
+  "HELP_REQUEST_BUTTON": "मदद दी मंग",
+  "NEW_MATCH_REQUEST": "नमां मिलान दी मंग",
+  "ACCEPT": "स्वीकार करो",
+  "DENY": "इनकार करो",
+  "ACCEPT_SUCCESS_MESSAGE": "तुसें एह् मंग गी स्वीकार कीता।",
+  "DENY_SUCCESS_MESSAGE": "तुसें एह् मंग गी इनकार कीता।",
+  "LOGISTIC_HELP": "रसद सहायता",
+  "EDUCATIONAL_HELP": "शैक्षिक सहायता"
 }
