@@ -302,7 +302,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             dispatch(loadCategories(validCategories));
             return; // Exit early if we got categories from localStorage
           } catch (parseError) {
-            console.warn("Failed to parse categories from localStorage:", parseError);
+            console.warn(
+              "Failed to parse categories from localStorage:",
+              parseError,
+            );
             // Continue to API fetch if localStorage parse fails
           }
         }
@@ -1560,37 +1563,78 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               >
                 {t("DESCRIPTION")}
                 <span className="text-red-500 m-1">*</span>(
-                {t("MAX_CHARACTERS", { count: 500 })}){/* Attach icon */}
-                <div className="relative group inline-block">
-                  <button
-                    type="button"
-                    onClick={() => document.getElementById("fileInput").click()}
-                    className="flex items-center justify-center w-7 h-7 rounded-md bg-gray-200 hover:bg-gray-300 text-black text-xl font-bold cursor-pointer"
+                {t("MAX_CHARACTERS", { count: 500 })})
+              </label>
+
+              {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
+              <div className="relative group">
+                {/* Unified Outline Box */}
+                <div
+                  className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
+                  onClick={() => {
+                    if (
+                      attachedFiles.length + uploadedFilesInfo.length >=
+                      MAX_FILES
+                    )
+                      return;
+                    document.getElementById("fileInput").click();
+                  }}
+                >
+                  {/* Paperclip Icon */}
+                  <div
+                    className={`
+                          flex items-center justify-center px-1 py-1 rounded-md
+                          ${
+                            attachedFiles.length + uploadedFilesInfo.length >=
+                            MAX_FILES
+                              ? "bg-gray-200 opacity-60 cursor-not-allowed"
+                              : "bg-gray-100 hover:bg-gray-200"
+                          }
+                      `}
                   >
                     📎
-                  </button>
-                  {/* Tooltip (Right side) */}
-                  <div className="absolute left-7 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
-                    Attach Files:
-                    <br />
-                    You can attach up to 5 files
-                    <br />
-                    Allowed: PNG, JPG, JPEG, PDF
-                    <br />
-                    Max size 2MB each
                   </div>
+
+                  {/* File count text (no inner borders now) */}
+                  {(attachedFiles.length > 0 ||
+                    uploadedFilesInfo.length > 0) && (
+                    <span
+                      className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowFilesDialog(true);
+                      }}
+                    >
+                      {attachedFiles.length + uploadedFilesInfo.length}{" "}
+                      {attachedFiles.length + uploadedFilesInfo.length === 1
+                        ? "file attached"
+                        : "files attached"}
+                    </span>
+                  )}
                 </div>
-                {/* Attached count button */}
-                {(attachedFiles.length > 0 || uploadedFilesInfo.length > 0) && (
-                  <button
-                    type="button"
-                    className="ml-2 text-sm px-2 py-1 rounded bg-gray-100 border"
-                    onClick={() => setShowFilesDialog(true)}
-                  >
-                    {attachedFiles.length + uploadedFilesInfo.length} Attached
-                  </button>
-                )}
-              </label>
+
+                {/* Tooltip */}
+                <div className="absolute right-0 top-12 w-56 bg-gray-700 text-white text-xs rounded py-2 px-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 shadow-lg">
+                  {attachedFiles.length + uploadedFilesInfo.length >=
+                  MAX_FILES ? (
+                    <>
+                      <strong>You already attached 5 files.</strong>
+                      <br />
+                      Please remove a file to attach more.
+                    </>
+                  ) : (
+                    <>
+                      <strong>Attach Files</strong>
+                      <br />
+                      Up to <b>5 files</b> allowed.
+                      <br />
+                      Accepted: PNG, JPG, JPEG, PDF
+                      <br />
+                      Max size: <b>2MB each</b>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
 
             <textarea
