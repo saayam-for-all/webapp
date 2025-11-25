@@ -94,6 +94,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [elderlySupportData, setElderlySupportData] = useState({});
   // Popup modal for subcategory - Track which subcategory is currently saved
   const [savedSubcategoryId, setSavedSubcategoryId] = useState(null);
+  // stores multiple file errors
+  const [fileErrorMessages, setFileErrorMessages] = useState([]);
 
   // useEffect(() => {
   //   const fetchEnumsData = async () => {
@@ -681,10 +683,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   // Validate a single file
   const validateFile = (file) => {
     if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-      return { ok: false, message: `${file.name} is not an allowed format.` };
+      return {
+        ok: false,
+        code: 2034,
+        message: `${file.name} is not an allowed format. Please select PNG, JPG, JPEG, or PDF.`,
+      };
     }
     if (file.size > MAX_FILE_SIZE_BYTES) {
-      return { ok: false, message: `${file.name} exceeds the 2MB size limit.` };
+      return {
+        ok: false,
+        code: 2035,
+        message: `${file.name} exceeds the 2MB size limit. Please select a smaller file.`,
+      };
     }
     return { ok: true };
   };
@@ -694,29 +704,53 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
+    // reset previous file errors
+    setFileErrorMessages([]);
+
     // enforce total count
     if (attachedFiles.length + files.length > MAX_FILES) {
-      setSnackbar({
-        open: true,
-        message: `You can only attach up to ${MAX_FILES} files.`,
-        severity: "warning",
-      });
+      setFileErrorMessages([
+        t(
+          "SAAYAM-2036: You can only attach up to {{max}} files (including already attached files). Please try again.",
+          { max: MAX_FILES },
+        ),
+      ]);
       return;
     }
 
     const validated = [];
+    const errors = [];
+
     for (const file of files) {
-      const v = validateFile(file);
-      if (!v.ok) {
-        setSnackbar({
-          open: true,
-          message: v.message,
-          severity: "error",
-        });
-        // skip invalid file
+      //prevent duplicate attachments
+      const isDuplicate = attachedFiles.some(
+        (f) =>
+          f.name === file.name &&
+          f.size === file.size &&
+          f.lastModified === file.lastModified,
+      );
+      //duplicate check
+      if (isDuplicate) {
+        errors.push(
+          t(
+            "SAAYAM-2037: The file '{{fileName}}' is already attached. Please choose a different file.",
+            { fileName: file.name },
+          ),
+        );
         continue;
       }
+
+      const v = validateFile(file);
+      if (!v.ok) {
+        errors.push(t(`SAAYAM-${v.code}: ${v.message}`));
+        continue; // skip invalid file
+      }
       validated.push(file);
+    }
+
+    // show all errors
+    if (errors.length > 0) {
+      setFileErrorMessages(errors);
     }
 
     if (validated.length === 0) return;
@@ -1186,7 +1220,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   />
                 </div>
 
-                {/* Description + Attach files icon */}
+                {/* Description + Attach npmfiles icon */}
                 <div className="mt-3" data-testid="parentDivSeven">
                   <div className="flex items-center justify-between">
                     <label
@@ -1195,41 +1229,86 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     >
                       {t("DESCRIPTION")}
                       <span className="text-red-500 m-1">*</span>(
-                      {t("MAX_CHARACTERS", { count: 500 })}){/* Attach icon */}
-                      <div className="relative group inline-block">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            document.getElementById("fileInput").click()
+                      {t("MAX_CHARACTERS", { count: 500 })})
+                    </label>
+
+                    {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
+                    <div className="relative group">
+                      {/* Unified Outline Box */}
+                      <div
+                        className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
+                        onClick={() => {
+                          if (
+                            attachedFiles.length + uploadedFilesInfo.length >=
+                            MAX_FILES
+                          )
+                            return;
+                          document.getElementById("fileInput").click();
+                        }}
+                      >
+                        {/* Paperclip Icon */}
+                        <div
+                          className={`
+                          flex items-center justify-center px-1 py-1 rounded-md
+                          ${
+                            attachedFiles.length + uploadedFilesInfo.length >=
+                            MAX_FILES
+                              ? "bg-gray-200 opacity-60 cursor-not-allowed"
+                              : "bg-gray-100 hover:bg-gray-200"
                           }
-                          className="flex items-center justify-center w-7 h-7 rounded-md bg-gray-200 hover:bg-gray-300 text-black text-xl font-bold cursor-pointer"
+                      `}
                         >
                           📎
-                        </button>
-                        {/* Tooltip (Right side) */}
-                        <div className="absolute left-7 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
-                          Attach Files:
-                          <br />
-                          You can attach up to 5 files
-                          <br />
-                          Allowed: PNG, JPG, JPEG, PDF
-                          <br />
-                          Max size 2MB each
                         </div>
+
+                        {/* File count text (no inner borders now) */}
+                        {(attachedFiles.length > 0 ||
+                          uploadedFilesInfo.length > 0) && (
+                          <span
+                            className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowFilesDialog(true);
+                            }}
+                          >
+                            {attachedFiles.length + uploadedFilesInfo.length}{" "}
+                            {attachedFiles.length + uploadedFilesInfo.length ===
+                            1
+                              ? "file attached"
+                              : "files attached"}
+                          </span>
+                        )}
                       </div>
-                      {/* Attached count button */}
-                      {(attachedFiles.length > 0 ||
-                        uploadedFilesInfo.length > 0) && (
-                        <button
-                          type="button"
-                          className="ml-2 text-sm px-2 py-1 rounded bg-gray-100 border"
-                          onClick={() => setShowFilesDialog(true)}
-                        >
-                          {attachedFiles.length + uploadedFilesInfo.length}{" "}
-                          Attached
-                        </button>
+                      {/* Tooltip for errors */}
+                      {fileErrorMessages.length > 0 && (
+                        <div className="absolute right-0 top-12 w-64 max-w-[16rem] text-red-500 text-xs rounded py-2 px-3 shadow-lg z-50 break-words whitespace-normal overflow-hidden">
+                          {fileErrorMessages.map((msg, idx) => (
+                            <div key={idx}>{msg}</div>
+                          ))}
+                        </div>
                       )}
-                    </label>
+                      {/* Tooltip */}
+                      <div className="absolute -top-20 left-1 w-52 bg-gray-700 text-white text-xs rounded py-2 px-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 shadow-lg">
+                        {attachedFiles.length + uploadedFilesInfo.length >=
+                        MAX_FILES ? (
+                          <>
+                            <strong>You already attached 5 files.</strong>
+                            <br />
+                            Please remove a file to attach more.
+                          </>
+                        ) : (
+                          <>
+                            <strong>Attach Files</strong>
+                            <br />
+                            Up to <b>5 files</b> allowed.
+                            <br />
+                            Accepted: PNG, JPG, JPEG, PDF
+                            <br />
+                            Max size: <b>2MB each</b>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   <textarea
