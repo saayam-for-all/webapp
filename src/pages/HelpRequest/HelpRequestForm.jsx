@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 import Modal from "../../common/components/Modal/Modal";
+import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
   useAddRequestMutation,
@@ -46,8 +47,6 @@ import {
   LinearProgress,
   IconButton,
   Box,
-  Tabs,
-  Tab,
 } from "@mui/material";
 
 const genderOptions = [
@@ -63,21 +62,6 @@ const genderOptions = [
 const MAX_FILES = 5;
 const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_MIME_TYPES = ["image/png", "image/jpeg", "application/pdf"];
-
-// TabPanel component for tab content
-function TabPanel({ children, value, index, ...other }) {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`help-request-tabpanel-${index}`}
-      aria-labelledby={`help-request-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
-    </div>
-  );
-}
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
@@ -678,13 +662,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const [selfFlag, setSelfFlag] = useState(true);
 
-  // Tab state for 2-tab structure
-  const [currentTab, setCurrentTab] = useState(0);
-
-  const handleTabChange = (event, newValue) => {
-    setCurrentTab(newValue);
-  };
-
   const handleConfirmCategorySelection = () => {
     const oldCategory = "General";
     const newCategory = formData.category;
@@ -768,7 +745,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         errors.push(t(`SAAYAM-${v.code}: ${v.message}`));
         continue; // skip invalid file
       }
-
       validated.push(file);
     }
 
@@ -883,6 +859,26 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   // ---------- SUBMIT HANDLER (modified to upload files before creating request) ----------
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate required fields from Description tab (mandatory tab)
+    if (!formData.subject || formData.subject.trim() === "") {
+      setSnackbar({
+        open: true,
+        message: "Subject is required. Please fill out the Description tab.",
+        severity: "error",
+      });
+      return;
+    }
+
+    if (!formData.description || formData.description.trim() === "") {
+      setSnackbar({
+        open: true,
+        message:
+          "Description is required. Please fill out the Description tab.",
+        severity: "error",
+      });
+      return;
+    }
 
     const submissionData = {
       ...formData,
@@ -1013,249 +1009,246 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             </div>
           </div>
 
-          {/* Tabs for Details and Specifics */}
-          <Box sx={{ borderBottom: 1, borderColor: "divider", mt: 2 }}>
-            <Tabs
-              value={currentTab}
-              onChange={handleTabChange}
-              aria-label="help request form tabs"
+          {/* Tab Structure */}
+          <Tabs>
+            <Tab
+              label={
+                <span>
+                  Description<span className="text-red-500 ml-1">*</span>
+                </span>
+              }
             >
-              <Tab label={t("DETAILS") || "Details"} id="help-request-tab-0" />
-              <Tab
-                label={t("SPECIFICS") || "Specifics"}
-                id="help-request-tab-1"
-              />
-            </Tabs>
-          </Box>
-
-          {/* Tab 1: Details - Category, Subject, Description */}
-          <TabPanel value={currentTab} index={0}>
-            {/* Category Field */}
-            <div className="flex-1 relative">
-              <div className="flex items-center gap-2 mb-1">
-                <label htmlFor="category" className="font-medium text-gray-700">
-                  {t("REQUEST_CATEGORY")}
-                </label>
-                <div className="relative group cursor-pointer">
-                  {/* Circle Question Mark Icon */}
-                  <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
-                    ?
-                  </div>
-                  {/* Tooltip */}
-                  <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
-                    Choose the category that best describes your need (e.g.,
-                    Medical, Food, Jobs).
-                    <br /> If you select 'General,' please describe your need
-                    fully in the Description field.
-                  </div>
-                </div>
-              </div>
-              <div className="relative">
-                <input
-                  type="text"
-                  id="category"
-                  value={resolveCategoryLabel(formData.category)}
-                  onChange={handleSearchInput}
-                  className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
-                  onFocus={() => setShowDropdown(true)}
-                  onBlur={(e) => {
-                    if (!dropdownRef.current?.contains(e.relatedTarget)) {
-                      setShowDropdown(false);
-                    }
-                  }}
-                />
-
-                {/* the dropdown arrow, pointer-events-none so it doesn't block input clicks */}
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <HiChevronDown className="h-5 w-5 text-gray-600" />
-                </div>
-              </div>
-              {showDropdown && (
-                <div
-                  className={`absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex${
-                    hoveredCategory &&
-                    hoveredCategory.subCategories &&
-                    hoveredCategory.subCategories.length > 0
-                      ? ""
-                      : " flex-col"
-                  }`}
-                  style={{
-                    maxHeight: "240px",
-                    minHeight: "120px",
-                    overflow: "hidden",
-                    zIndex: 30,
-                    background: "#fff",
-                  }}
-                  ref={dropdownRef}
-                  tabIndex={0}
-                >
-                  {/* Main categories column */}
-                  <div
-                    className={
-                      hoveredCategory &&
-                      hoveredCategory.subCategories &&
-                      hoveredCategory.subCategories.length > 0
-                        ? "w-1/2 overflow-y-auto"
-                        : "w-full overflow-y-auto"
-                    }
-                    style={{ maxHeight: "240px" }}
-                  >
-                    {filteredCategories.map((category) => (
-                      <div
-                        key={category.catId}
-                        className={`p-2 cursor-pointer hover:bg-gray-100 bg-white flex items-center justify-between ${
-                          hoveredCategory?.catId === category.catId
-                            ? "font-semibold bg-gray-50"
-                            : ""
-                        }`}
-                        style={{ background: "#fff" }}
-                        onClick={(e) => {
-                          if (
-                            !category.subCategories ||
-                            category.subCategories.length === 0
-                          ) {
-                            handleCategoryClick(category.catName);
-                          }
-                        }}
-                        onMouseEnter={() => setHoveredCategory(category)}
-                      >
-                        <span
-                          title={t(
-                            `categories:REQUEST_CATEGORIES.${category.catName}.DESC`,
-                            { defaultValue: category.catDesc },
-                          )}
-                        >
-                          {t(
-                            `categories:REQUEST_CATEGORIES.${category.catName}.LABEL`,
-                            { defaultValue: category.catName },
-                          )}
-                        </span>
-                        {/* Show chevron if subcategories exist */}
-                        {category.subCategories &&
-                          category.subCategories.length > 0 && (
-                            <span className="ml-2 text-gray-400">&gt;</span>
-                          )}
+              {/* DESCRIPTION TAB CONTENT */}
+              <div className="mt-3" data-testid="parentDivSix">
+                <div className="flex-1 relative">
+                  <div className="flex items-center gap-2 mb-1">
+                    <label
+                      htmlFor="category"
+                      className="font-medium text-gray-700"
+                    >
+                      {t("Category")}
+                    </label>
+                    <div className="relative group cursor-pointer">
+                      {/* Circle Question Mark Icon */}
+                      <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                        ?
                       </div>
-                    ))}
+                      {/* Tooltip */}
+                      <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                        Choose the category that best describes your need (e.g.,
+                        Medical, Food, Jobs).
+                        <br /> If you select 'General,' please describe your
+                        need fully in the Description field.
+                      </div>
+                    </div>
                   </div>
-                  {/* Only show subcategories column if there are subcategories */}
-                  {hoveredCategory &&
-                    hoveredCategory.subCategories &&
-                    hoveredCategory.subCategories.length > 0 && (
-                      <>
-                        {/* Vertical divider */}
-                        <div
-                          className="w-px bg-gray-300 mx-1"
-                          style={{ minHeight: "100%" }}
-                        />
-                        {/* Subcategories column */}
-                        <div
-                          className="w-1/2 overflow-y-auto"
-                          style={{ maxHeight: "240px" }}
-                        >
-                          {hoveredCategory.subCategories.map(
-                            (subcategory, index) => (
-                              <div
-                                key={subcategory.catId}
-                                className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
-                                  index !==
-                                  hoveredCategory.subCategories.length - 1
-                                    ? " border-b-0 border-t border-gray-200"
-                                    : ""
-                                }`}
-                                style={{
-                                  background: "#fff",
-                                  borderTop:
-                                    index !== 0 ? "1px solid #e5e7eb" : "none",
-                                  borderBottom: "none",
-                                }}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  // Popup modal for subcategory - Pass subcategory details to handler
-                                  handleSubcategoryClick(
-                                    subcategory.catId,
-                                    subcategory.catName,
-                                    hoveredCategory.catName,
-                                  );
-                                }}
-                              >
-                                <span
-                                  title={t(
-                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
-                                    { defaultValue: subcategory.catDesc },
-                                  )}
-                                >
-                                  {t(
-                                    `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
-                                    {
-                                      defaultValue: subcategory.catName,
-                                    },
-                                  )}
-                                </span>
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      </>
-                    )}
-                </div>
-              )}
-            </div>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="category"
+                      value={resolveCategoryLabel(formData.category)}
+                      onChange={handleSearchInput}
+                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                      onFocus={() => setShowDropdown(true)}
+                      onBlur={(e) => {
+                        if (!dropdownRef.current?.contains(e.relatedTarget)) {
+                          setShowDropdown(false);
+                        }
+                      }}
+                    />
 
-            {/* Subject Field */}
-            <div className="mt-3" data-testid="parentDivSix">
-              {formData.category === "Jobs" && <JobsCategory />}
-              {formData.category === "Housing" && <HousingCategory />}
-              <label
-                htmlFor="subject"
-                className="block text-gray-700 font-medium mb-2"
-              >
-                {t("SUBJECT")}
-                <span className="text-red-500 m-1">*</span>(
-                {t("MAX_CHARACTERS", { count: 70 })})
-              </label>
-              <input
-                type="text"
-                id="subject"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                className="border p-2 w-full rounded-lg"
-                maxLength={70}
-                required
-                placeholder="Please give a brief description of the request"
-              />
-            </div>
-
-            {/* Description + Attach files icon */}
-            <div className="mt-3" data-testid="parentDivSeven">
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="description"
-                  className="block text-gray-700 font-medium mb-2 flex items-center gap-2"
-                >
-                  {t("DESCRIPTION")}
-                  <span className="text-red-500 m-1">*</span>(
-                  {t("MAX_CHARACTERS", { count: 500 })})
-                </label>
-
-                {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
-                <div className="relative group">
-                  {/* Unified Outline Box */}
-                  <div
-                    className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
-                    onClick={() => {
-                      if (
-                        attachedFiles.length + uploadedFilesInfo.length >=
-                        MAX_FILES
-                      )
-                        return;
-                      document.getElementById("fileInput").click();
-                    }}
-                  >
-                    {/* Paperclip Icon */}
+                    {/* the dropdown arrow, pointer-events-none so it doesn't block input clicks */}
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <HiChevronDown className="h-5 w-5 text-gray-600" />
+                    </div>
+                  </div>
+                  {showDropdown && (
                     <div
-                      className={`
+                      className={`absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex${
+                        hoveredCategory &&
+                        hoveredCategory.subCategories &&
+                        hoveredCategory.subCategories.length > 0
+                          ? ""
+                          : " flex-col"
+                      }`}
+                      style={{
+                        maxHeight: "240px",
+                        minHeight: "120px",
+                        overflow: "hidden",
+                        zIndex: 30,
+                        background: "#fff",
+                      }}
+                      ref={dropdownRef}
+                      tabIndex={0}
+                    >
+                      {/* Main categories column */}
+                      <div
+                        className={
+                          hoveredCategory &&
+                          hoveredCategory.subCategories &&
+                          hoveredCategory.subCategories.length > 0
+                            ? "w-1/2 overflow-y-auto"
+                            : "w-full overflow-y-auto"
+                        }
+                        style={{ maxHeight: "240px" }}
+                      >
+                        {filteredCategories.map((category) => (
+                          <div
+                            key={category.catId}
+                            className={`p-2 cursor-pointer hover:bg-gray-100 bg-white flex items-center justify-between ${
+                              hoveredCategory?.catId === category.catId
+                                ? "font-semibold bg-gray-50"
+                                : ""
+                            }`}
+                            style={{ background: "#fff" }}
+                            onClick={(e) => {
+                              if (
+                                !category.subCategories ||
+                                category.subCategories.length === 0
+                              ) {
+                                handleCategoryClick(category.catName);
+                              }
+                            }}
+                            onMouseEnter={() => setHoveredCategory(category)}
+                          >
+                            <span
+                              title={t(
+                                `categories:REQUEST_CATEGORIES.${category.catName}.DESC`,
+                                { defaultValue: category.catDesc },
+                              )}
+                            >
+                              {t(
+                                `categories:REQUEST_CATEGORIES.${category.catName}.LABEL`,
+                                { defaultValue: category.catName },
+                              )}
+                            </span>
+                            {/* Show chevron if subcategories exist */}
+                            {category.subCategories &&
+                              category.subCategories.length > 0 && (
+                                <span className="ml-2 text-gray-400">&gt;</span>
+                              )}
+                          </div>
+                        ))}
+                      </div>
+                      {/* Only show subcategories column if there are subcategories */}
+                      {hoveredCategory &&
+                        hoveredCategory.subCategories &&
+                        hoveredCategory.subCategories.length > 0 && (
+                          <>
+                            {/* Vertical divider */}
+                            <div
+                              className="w-px bg-gray-300 mx-1"
+                              style={{ minHeight: "100%" }}
+                            />
+                            {/* Subcategories column */}
+                            <div
+                              className="w-1/2 overflow-y-auto"
+                              style={{ maxHeight: "240px" }}
+                            >
+                              {hoveredCategory.subCategories.map(
+                                (subcategory, index) => (
+                                  <div
+                                    key={subcategory.catId}
+                                    className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
+                                      index !==
+                                      hoveredCategory.subCategories.length - 1
+                                        ? " border-b-0 border-t border-gray-200"
+                                        : ""
+                                    }`}
+                                    style={{
+                                      background: "#fff",
+                                      borderTop:
+                                        index !== 0
+                                          ? "1px solid #e5e7eb"
+                                          : "none",
+                                      borderBottom: "none",
+                                    }}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      // Popup modal for subcategory - Pass subcategory details to handler
+                                      handleSubcategoryClick(
+                                        subcategory.catId,
+                                        subcategory.catName,
+                                        hoveredCategory.catName,
+                                      );
+                                    }}
+                                  >
+                                    <span
+                                      title={t(
+                                        `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
+                                        { defaultValue: subcategory.catDesc },
+                                      )}
+                                    >
+                                      {t(
+                                        `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
+                                        {
+                                          defaultValue: subcategory.catName,
+                                        },
+                                      )}
+                                    </span>
+                                  </div>
+                                ),
+                              )}
+                            </div>
+                          </>
+                        )}
+                    </div>
+                  )}
+                </div>
+
+                {formData.category === "Jobs" && <JobsCategory />}
+                {formData.category === "Housing" && <HousingCategory />}
+
+                <div className="mt-3">
+                  <label
+                    htmlFor="subject"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
+                    {t("SUBJECT")}
+                    <span className="text-red-500 m-1">*</span>(
+                    {t("MAX_CHARACTERS", { count: 70 })})
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="border p-2 w-full rounded-lg"
+                    maxLength={70}
+                    placeholder="Please give a brief description of the request"
+                  />
+                </div>
+
+                {/* Description + Attach npmfiles icon */}
+                <div className="mt-3" data-testid="parentDivSeven">
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="description"
+                      className="block text-gray-700 font-medium mb-2 flex items-center gap-2"
+                    >
+                      {t("DESCRIPTION")}
+                      <span className="text-red-500 m-1">*</span>(
+                      {t("MAX_CHARACTERS", { count: 500 })})
+                    </label>
+
+                    {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
+                    <div className="relative group">
+                      {/* Unified Outline Box */}
+                      <div
+                        className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
+                        onClick={() => {
+                          if (
+                            attachedFiles.length + uploadedFilesInfo.length >=
+                            MAX_FILES
+                          )
+                            return;
+                          document.getElementById("fileInput").click();
+                        }}
+                      >
+                        {/* Paperclip Icon */}
+                        <div
+                          className={`
                           flex items-center justify-center px-1 py-1 rounded-md
                           ${
                             attachedFiles.length + uploadedFilesInfo.length >=
@@ -1264,440 +1257,362 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                               : "bg-gray-100 hover:bg-gray-200"
                           }
                       `}
-                    >
-                      📎
-                    </div>
+                        >
+                          📎
+                        </div>
 
-                    {/* File count text (no inner borders now) */}
-                    {(attachedFiles.length > 0 ||
-                      uploadedFilesInfo.length > 0) && (
-                      <span
-                        className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowFilesDialog(true);
-                        }}
-                      >
-                        {attachedFiles.length + uploadedFilesInfo.length}{" "}
-                        {attachedFiles.length + uploadedFilesInfo.length === 1
-                          ? "file attached"
-                          : "files attached"}
-                      </span>
-                    )}
-                  </div>
-                  {/* Tooltip for errors */}
-                  {fileErrorMessages.length > 0 && (
-                    <div className="absolute right-0 top-12 w-64 max-w-[16rem] text-red-500 text-xs rounded py-2 px-3 shadow-lg z-50 break-words whitespace-normal overflow-hidden">
-                      {fileErrorMessages.map((msg, idx) => (
-                        <div key={idx}>{msg}</div>
-                      ))}
-                    </div>
-                  )}
-                  {/* Tooltip */}
-                  <div className="absolute -top-20 left-1 w-52 bg-gray-700 text-white text-xs rounded py-2 px-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 shadow-lg">
-                    {attachedFiles.length + uploadedFilesInfo.length >=
-                    MAX_FILES ? (
-                      <>
-                        <strong>You already attached 5 files.</strong>
-                        <br />
-                        Please remove a file to attach more.
-                      </>
-                    ) : (
-                      <>
-                        <strong>Attach Files</strong>
-                        <br />
-                        Up to <b>5 files</b> allowed.
-                        <br />
-                        Accepted: PNG, JPG, JPEG, PDF
-                        <br />
-                        Max size: <b>2MB each</b>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="border p-2 w-full rounded-lg"
-                rows="5"
-                maxLength={500}
-                required
-                placeholder="Please give a detailed description of the request"
-              ></textarea>
-
-              {/* Hidden file input */}
-              <input
-                ref={fileInputRef}
-                id="fileInput"
-                type="file"
-                accept=".png,.jpg,.jpeg,.pdf"
-                multiple
-                hidden
-                onChange={handleFileSelection}
-              />
-
-              {/* Per-file upload progress indicators (when uploading) */}
-              {isUploadingFiles && Object.keys(uploadProgress).length > 0 && (
-                <div className="mt-3">
-                  <Typography variant="subtitle2">
-                    Uploading files...
-                  </Typography>
-                  <div className="space-y-2 mt-2">
-                    {Object.keys(uploadProgress).map((key) => (
-                      <Box key={key} sx={{ width: "100%" }}>
-                        <Typography variant="body2" sx={{ fontSize: 12 }}>
-                          {key}
-                        </Typography>
-                        <LinearProgress
-                          variant="determinate"
-                          value={uploadProgress[key] || 0}
-                        />
-                      </Box>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </TabPanel>
-
-          {/* Tab 2: Specifics - All other fields */}
-          <TabPanel value={currentTab} index={1}>
-            <div className="mt-3 flex gap-4" data-testid="parentDivOne">
-              {/* For Self Dropdown */}
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <label htmlFor="self" className="text-gray-700 font-medium">
-                    {t("FOR_SELF")}
-                  </label>
-                  <div className="relative group cursor-pointer">
-                    {/* Circle Question Mark Icon */}
-                    <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
-                      ?
-                    </div>
-                    {/* Tooltip */}
-                    <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
-                      Choose ‘Yes’ if you’re submitting this request on your own
-                      behalf else ‘No’ if you’re requesting for someone else.
+                        {/* File count text (no inner borders now) */}
+                        {(attachedFiles.length > 0 ||
+                          uploadedFilesInfo.length > 0) && (
+                          <span
+                            className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowFilesDialog(true);
+                            }}
+                          >
+                            {attachedFiles.length + uploadedFilesInfo.length}{" "}
+                            {attachedFiles.length + uploadedFilesInfo.length ===
+                            1
+                              ? "file attached"
+                              : "files attached"}
+                          </span>
+                        )}
+                      </div>
+                      {/* Tooltip for errors */}
+                      {fileErrorMessages.length > 0 && (
+                        <div className="absolute right-0 top-12 w-64 max-w-[16rem] text-red-500 text-xs rounded py-2 px-3 shadow-lg z-50 break-words whitespace-normal overflow-hidden">
+                          {fileErrorMessages.map((msg, idx) => (
+                            <div key={idx}>{msg}</div>
+                          ))}
+                        </div>
+                      )}
+                      {/* Tooltip */}
+                      <div className="absolute -top-20 left-1 w-52 bg-gray-700 text-white text-xs rounded py-2 px-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 shadow-lg">
+                        {attachedFiles.length + uploadedFilesInfo.length >=
+                        MAX_FILES ? (
+                          <>
+                            <strong>You already attached 5 files.</strong>
+                            <br />
+                            Please remove a file to attach more.
+                          </>
+                        ) : (
+                          <>
+                            <strong>Attach Files</strong>
+                            <br />
+                            Up to <b>5 files</b> allowed.
+                            <br />
+                            Accepted: PNG, JPG, JPEG, PDF
+                            <br />
+                            Max size: <b>2MB each</b>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex-1 relative">
-                  <select
-                    id="request_for"
-                    value={formData.request_for || ""}
-                    className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
-                    onChange={(e) => {
-                      const selected = e.target.value;
-                      setFormData({ ...formData, request_for: selected });
-                      setSelfFlag(selected === enums?.requestFor?.[0]); // "SELF" means true, "OTHER" means false
-                    }}
-                  >
-                    {enums?.requestFor &&
-                      Object.values(enums.requestFor).map((val) => (
-                        <option key={val} value={val}>
-                          {t(`enums:requestFor.${val}`, val)}
-                        </option>
-                      ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <HiChevronDown className="h-5 w-5 text-gray-600" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Lead Volunteer */}
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <label
-                    htmlFor="lead_volunteer"
-                    className="text-gray-700 font-medium"
-                  >
-                    {t("Lead Volunteer")}
-                  </label>
-                  <div className="relative group cursor-pointer">
-                    <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
-                      ?
-                    </div>
-                    <div
-                      className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
-                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
-                    >
-                      Select “Yes” if you’re the main volunteer coordinating
-                      this request.
-                    </div>
-                  </div>
-                </div>
-
-                {/* when editing, admins can type new name; otherwise show a dropdown */}
-                {isEdit ? (
-                  <input
-                    type="text"
-                    id="lead_volunteer"
-                    name="lead_volunteer"
-                    disabled={
-                      !(
-                        groups?.includes("Admins") ||
-                        groups?.includes("SuperAdmins")
-                      )
-                    }
-                    value={formData.lead_volunteer}
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={formData.description}
                     onChange={handleChange}
-                    className="border p-2 w-full rounded-lg disabled:text-gray-600"
+                    className="border p-2 w-full rounded-lg"
+                    rows="5"
+                    maxLength={500}
+                    placeholder="Please give a detailed description of the request"
+                  ></textarea>
+
+                  {/* Hidden file input */}
+                  <input
+                    ref={fileInputRef}
+                    id="fileInput"
+                    type="file"
+                    accept=".png,.jpg,.jpeg,.pdf"
+                    multiple
+                    hidden
+                    onChange={handleFileSelection}
                   />
-                ) : (
-                  <div className="relative">
+
+                  {/* Per-file upload progress indicators (when uploading) */}
+                  {isUploadingFiles &&
+                    Object.keys(uploadProgress).length > 0 && (
+                      <div className="mt-3">
+                        <Typography variant="subtitle2">
+                          Uploading files...
+                        </Typography>
+                        <div className="space-y-2 mt-2">
+                          {Object.keys(uploadProgress).map((key) => (
+                            <Box key={key} sx={{ width: "100%" }}>
+                              <Typography variant="body2" sx={{ fontSize: 12 }}>
+                                {key}
+                              </Typography>
+                              <LinearProgress
+                                variant="determinate"
+                                value={uploadProgress[key] || 0}
+                              />
+                            </Box>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                </div>
+              </div>
+            </Tab>
+
+            <Tab label="Details">
+              {/* DETAILS TAB CONTENT */}
+              <div className="mt-3 flex gap-4" data-testid="parentDivOne">
+                {/* For Self Dropdown */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <label htmlFor="self" className="text-gray-700 font-medium">
+                      {t("FOR_SELF")}
+                    </label>
+                    <div className="relative group cursor-pointer">
+                      {/* Circle Question Mark Icon */}
+                      <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                        ?
+                      </div>
+                      {/* Tooltip */}
+                      <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                        Choose 'Yes' if you're submitting this request on your
+                        own behalf else 'No' if you're requesting for someone
+                        else.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex-1 relative">
                     <select
-                      id="lead_volunteer"
-                      name="lead_volunteer"
-                      value={formData.lead_volunteer}
-                      onChange={handleChange}
-                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg
-                              py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                      id="request_for"
+                      value={formData.request_for || ""}
+                      className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
+                      onChange={(e) => {
+                        const selected = e.target.value;
+                        setFormData({ ...formData, request_for: selected });
+                        setSelfFlag(selected === enums?.requestFor?.[0]); // "SELF" means true, "OTHER" means false
+                      }}
                     >
-                      <option value="No">{t("No")}</option>
-                      <option value="Yes">{t("Yes")}</option>
+                      {enums?.requestFor &&
+                        Object.values(enums.requestFor).map((val) => (
+                          <option key={val} value={val}>
+                            {t(`enums:requestFor.${val}`, val)}
+                          </option>
+                        ))}
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <HiChevronDown className="h-5 w-5 text-gray-600" />
                     </div>
                   </div>
-                )}
-              </div>
-            </div>
-
-            {
-              //Temporarily commented out as MVP only allows for self requests
-              !selfFlag && (
-                <div
-                  className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
-                  data-testid="parentDivTwo"
-                >
-                  <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">
-                    <IoMdInformationCircle className="text-gray-500 mr-1 mt-0.5" />
-                    <div className="text-sm text-gray-600">
-                      Please fill the details of the person you are submitting
-                      the request for.
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        htmlFor="requester_first_name"
-                        className="block text-gray-700 mb-1 font-medium"
-                      >
-                        {t("FIRST_NAME")}
-                      </label>
-                      <input
-                        type="text"
-                        id="requester_first_name"
-                        value={formData.requester_first_name}
-                        onChange={handleChange}
-                        className="w-full rounded-lg border py-2 px-3"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="requester_last_name"
-                        className="block text-gray-700 mb-1 font-medium"
-                      >
-                        {t("LAST_NAME")}
-                      </label>
-                      <input
-                        type="text"
-                        id="requester_last_name"
-                        value={formData.requester_last_name}
-                        onChange={handleChange}
-                        className="w-full rounded-lg border py-2 px-3"
-                      />
-                    </div>
-                  </div>
-                  <div className="mt-3" data-testid="parentDivThree">
-                    <label
-                      htmlFor="email"
-                      className="block text-gray-700 mb-1 font-medium"
-                    >
-                      {t("EMAIL")}
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border py-2 px-3"
-                    />
-                  </div>
-
-                  <div className="mt-3 grid grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        htmlFor="phone"
-                        className="block text-gray-700 mb-1 font-medium"
-                      >
-                        {t("PHONE")}
-                      </label>
-                      <input
-                        type="text"
-                        id="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full rounded-lg border py-2 px-3"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="age"
-                        className="block text-gray-700 mb-1 font-medium"
-                      >
-                        {t("AGE")}
-                      </label>
-                      <input
-                        type="number"
-                        id="age"
-                        value={formData.age}
-                        onChange={handleChange}
-                        className="w-full rounded-lg border py-2 px-3"
-                      />
-                    </div>
-                    <div className="mt-3" data-testid="parentDivFour">
-                      <label
-                        htmlFor="gender"
-                        className="block text-gray-700 mb-1 font-medium"
-                      >
-                        {t("GENDER")}
-                      </label>
-                      <select
-                        id="gender"
-                        value={formData.gender}
-                        onChange={handleChange}
-                        className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
-                      >
-                        {genderOptions.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="mt-3" data-testid="parentDivFive">
-                      <label
-                        htmlFor="language"
-                        className="block text-gray-700 mb-1 font-medium"
-                      >
-                        {t("PREFERRED_LANGUAGE")}
-                      </label>
-                      <select
-                        id="preferred_language"
-                        value={formData.preferred_language}
-                        onChange={handleChange}
-                        className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
-                      >
-                        {languages.map((language) => (
-                          <option key={language.value} value={language.value}>
-                            {language.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-
-            {/* Request Type + Priority + Is Calamity */}
-            <div className="mt-3 grid grid-cols-2 gap-4">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <label
-                    htmlFor="requestType"
-                    className="font-medium text-gray-700"
-                  >
-                    {t("REQUEST_TYPE")}
-                  </label>
-                  <div className="relative group cursor-pointer">
-                    {/* Circle Question Mark Icon */}
-                    <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
-                      ?
-                    </div>
-                    <div
-                      className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
-                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none"
-                    >
-                      Indicate how you’d like help delivered: “Remote” for
-                      virtual support or “In Person” for onsite assistance.
-                    </div>
-                  </div>
                 </div>
 
-                <div className="relative">
-                  <select
-                    id="requestType"
-                    value={formData.request_type || "REMOTE"}
-                    onChange={(e) =>
-                      setFormData({ ...formData, request_type: e.target.value })
-                    }
-                    className="
-                    block w-full appearance-none
-                    bg-white border border-gray-300
-                    rounded-lg py-2 px-3 pr-8
-                    text-gray-700
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                  "
-                  >
-                    {enums?.requestType &&
-                      Object.values(enums.requestType).map((val) => (
-                        <option key={val} value={val}>
-                          {t(`enums:requestType.${val}`, val)}
-                        </option>
-                      ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <HiChevronDown className="h-5 w-5 text-gray-600" />
-                  </div>
-                </div>
-                {formData.request_type === "INPERSON" && (
-                  <div
-                    className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
-                    data-testid="parentDivTwo"
-                  >
-                    <label
-                      htmlFor="location"
-                      className="block mb-1 font-medium text-gray-700"
-                    >
-                      Location
-                    </label>
-                    {isLoaded && (
-                      <StandaloneSearchBox
-                        onLoad={(ref) => (inputRef.current = ref)}
-                        onPlacesChanged={handleOnPlacesChanged}
-                      >
-                        <input
-                          type="text"
-                          id="location"
-                          value={formData.location}
-                          onChange={handleChange}
-                          name="location"
-                          className="border p-2 w-full rounded-lg"
-                          placeholder="Search for location..."
-                        />
-                      </StandaloneSearchBox>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-3 flex gap-4">
+                {/* Lead Volunteer */}
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <label
-                      htmlFor="calamity"
+                      htmlFor="lead_volunteer"
+                      className="text-gray-700 font-medium"
+                    >
+                      {t("Lead Volunteer")}
+                    </label>
+                    <div className="relative group cursor-pointer">
+                      <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                        ?
+                      </div>
+                      <div
+                        className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
+                                      opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                      >
+                        Select "Yes" if you're the main volunteer coordinating
+                        this request.
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* when editing, admins can type new name; otherwise show a dropdown */}
+                  {isEdit ? (
+                    <input
+                      type="text"
+                      id="lead_volunteer"
+                      name="lead_volunteer"
+                      disabled={
+                        !(
+                          groups?.includes("Admins") ||
+                          groups?.includes("SuperAdmins")
+                        )
+                      }
+                      value={formData.lead_volunteer}
+                      onChange={handleChange}
+                      className="border p-2 w-full rounded-lg disabled:text-gray-600"
+                    />
+                  ) : (
+                    <div className="relative">
+                      <select
+                        id="lead_volunteer"
+                        name="lead_volunteer"
+                        value={formData.lead_volunteer}
+                        onChange={handleChange}
+                        className="block w-full appearance-none bg-white border border-gray-300 rounded-lg
+                                  py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                      >
+                        <option value="No">{t("No")}</option>
+                        <option value="Yes">{t("Yes")}</option>
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <HiChevronDown className="h-5 w-5 text-gray-600" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {
+                //Temporarily commented out as MVP only allows for self requests
+                !selfFlag && (
+                  <div
+                    className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
+                    data-testid="parentDivTwo"
+                  >
+                    <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">
+                      <IoMdInformationCircle className="text-gray-500 mr-1 mt-0.5" />
+                      <div className="text-sm text-gray-600">
+                        Please fill the details of the person you are submitting
+                        the request for.
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="requester_first_name"
+                          className="block text-gray-700 mb-1 font-medium"
+                        >
+                          {t("FIRST_NAME")}
+                        </label>
+                        <input
+                          type="text"
+                          id="requester_first_name"
+                          value={formData.requester_first_name}
+                          onChange={handleChange}
+                          className="w-full rounded-lg border py-2 px-3"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="requester_last_name"
+                          className="block text-gray-700 mb-1 font-medium"
+                        >
+                          {t("LAST_NAME")}
+                        </label>
+                        <input
+                          type="text"
+                          id="requester_last_name"
+                          value={formData.requester_last_name}
+                          onChange={handleChange}
+                          className="w-full rounded-lg border py-2 px-3"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-3" data-testid="parentDivThree">
+                      <label
+                        htmlFor="email"
+                        className="block text-gray-700 mb-1 font-medium"
+                      >
+                        {t("EMAIL")}
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full rounded-lg border py-2 px-3"
+                      />
+                    </div>
+
+                    <div className="mt-3 grid grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="phone"
+                          className="block text-gray-700 mb-1 font-medium"
+                        >
+                          {t("PHONE")}
+                        </label>
+                        <input
+                          type="text"
+                          id="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className="w-full rounded-lg border py-2 px-3"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="age"
+                          className="block text-gray-700 mb-1 font-medium"
+                        >
+                          {t("AGE")}
+                        </label>
+                        <input
+                          type="number"
+                          id="age"
+                          value={formData.age}
+                          onChange={handleChange}
+                          className="w-full rounded-lg border py-2 px-3"
+                        />
+                      </div>
+                      <div className="mt-3" data-testid="parentDivFour">
+                        <label
+                          htmlFor="gender"
+                          className="block text-gray-700 mb-1 font-medium"
+                        >
+                          {t("GENDER")}
+                        </label>
+                        <select
+                          id="gender"
+                          value={formData.gender}
+                          onChange={handleChange}
+                          className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                        >
+                          {genderOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="mt-3" data-testid="parentDivFive">
+                        <label
+                          htmlFor="language"
+                          className="block text-gray-700 mb-1 font-medium"
+                        >
+                          {t("PREFERRED_LANGUAGE")}
+                        </label>
+                        <select
+                          id="preferred_language"
+                          value={formData.preferred_language}
+                          onChange={handleChange}
+                          className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
+                        >
+                          {languages.map((language) => (
+                            <option key={language.value} value={language.value}>
+                              {language.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+
+              {/* Type, Priority, Is Calamity */}
+              <div className="mt-3 grid grid-cols-2 gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <label
+                      htmlFor="requestType"
                       className="font-medium text-gray-700"
                     >
-                      Is Calamity?
+                      {t("Type")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
@@ -1708,74 +1623,159 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                         className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
                                   opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none"
                       >
-                        Indicate if it is a calamity by checking the box.
+                        Indicate how you’d like help delivered: “Remote” for
+                        virtual support or “In Person” for onsite assistance.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative">
+                    <select
+                      id="requestType"
+                      value={formData.request_type || "REMOTE"}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          request_type: e.target.value,
+                        })
+                      }
+                      className="
+                    block w-full appearance-none
+                    bg-white border border-gray-300
+                    rounded-lg py-2 px-3 pr-8
+                    text-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                  "
+                    >
+                      {enums?.requestType &&
+                        Object.values(enums.requestType).map((val) => (
+                          <option key={val} value={val}>
+                            {t(`enums:requestType.${val}`, val)}
+                          </option>
+                        ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <HiChevronDown className="h-5 w-5 text-gray-600" />
+                    </div>
+                  </div>
+                  {formData.request_type === "INPERSON" && (
+                    <div
+                      className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
+                      data-testid="parentDivTwo"
+                    >
+                      <label
+                        htmlFor="location"
+                        className="block mb-1 font-medium text-gray-700"
+                      >
+                        Location
+                      </label>
+                      {isLoaded && (
+                        <StandaloneSearchBox
+                          onLoad={(ref) => (inputRef.current = ref)}
+                          onPlacesChanged={handleOnPlacesChanged}
+                        >
+                          <input
+                            type="text"
+                            id="location"
+                            value={formData.location}
+                            onChange={handleChange}
+                            name="location"
+                            className="border p-2 w-full rounded-lg"
+                            placeholder="Search for location..."
+                          />
+                        </StandaloneSearchBox>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-3 flex gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <label
+                        htmlFor="calamity"
+                        className="font-medium text-gray-700"
+                      >
+                        Is Calamity?
+                      </label>
+                      <div className="relative group cursor-pointer">
+                        {/* Circle Question Mark Icon */}
+                        <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                          ?
+                        </div>
+                        <div
+                          className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2
+                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 pointer-events-none"
+                        >
+                          Indicate if it is a calamity by checking the box.
+                        </div>
+                      </div>
+                    </div>
+                    <div className="relative">
+                      <input
+                        id="calamity"
+                        type="checkbox"
+                        name="calamity"
+                        className="w-5 h-5 inset-y-10 right-0 flex items-center pr-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-1 relative">
+                  <div className="flex items-center gap-2 mb-1">
+                    <label
+                      htmlFor="requestPriority"
+                      className="font-medium text-gray-700"
+                    >
+                      {t("Priority")}
+                    </label>
+                    <div className="relative group cursor-pointer">
+                      {/* Circle Question Mark Icon */}
+                      <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                        ?
+                      </div>
+                      {/* Tooltip */}
+                      <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                        How urgent is this request? <br />
+                        • Low – Not time sensitive <br />
+                        • Medium – Within few days <br />• High – Immediate
+                        support
                       </div>
                     </div>
                   </div>
                   <div className="relative">
-                    <input
-                      id="calamity"
-                      type="checkbox"
-                      name="calamity"
-                      className="w-5 h-5 inset-y-10 right-0 flex items-center pr-2"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 relative">
-                <div className="flex items-center gap-2 mb-1">
-                  <label
-                    htmlFor="requestPriority"
-                    className="font-medium text-gray-700"
-                  >
-                    {t("Request Priority")}
-                  </label>
-                  <div className="relative group cursor-pointer">
-                    {/* Circle Question Mark Icon */}
-                    <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
-                      ?
-                    </div>
-                    {/* Tooltip */}
-                    <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
-                      How urgent is this request? <br />
-                      • Low – Not time sensitive <br />
-                      • Medium – Within few days <br />• High – Immediate
-                      support
-                    </div>
-                  </div>
-                </div>
-                <div className="relative">
-                  <select
-                    id="requestPriority"
-                    value={formData.priority || enums?.requestPriority?.[1]}
-                    onChange={(e) =>
-                      setFormData({ ...formData, priority: e.target.value })
-                    }
-                    className="
+                    <select
+                      id="requestPriority"
+                      value={formData.priority || enums?.requestPriority?.[1]}
+                      onChange={(e) =>
+                        setFormData({ ...formData, priority: e.target.value })
+                      }
+                      className="
                     block w-full appearance-none
                     bg-white border border-gray-300
                     rounded-lg px-3 py-2 pr-8
                     text-gray-700
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                   "
-                  >
-                    {enums?.requestPriority &&
-                      Object.values(enums.requestPriority).map((val) => (
-                        <option key={val} value={val}>
-                          {t(`enums:requestPriority.${val}`, val)}
-                        </option>
-                      ))}
-                  </select>
+                    >
+                      {enums?.requestPriority &&
+                        Object.values(enums.requestPriority).map((val) => (
+                          <option key={val} value={val}>
+                            {t(`enums:requestPriority.${val}`, val)}
+                          </option>
+                        ))}
+                    </select>
 
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <HiChevronDown className="h-5 w-5 text-gray-600" />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <HiChevronDown className="h-5 w-5 text-gray-600" />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </TabPanel>
+            </Tab>
+          </Tabs>
 
-          {/* Submit buttons - Outside tabs */}
+          {/* Submit and Cancel buttons - OUTSIDE tabs */}
           <div className="mt-8 flex justify-end gap-2">
             <button
               type="submit"
