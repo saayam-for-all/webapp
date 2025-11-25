@@ -230,7 +230,6 @@ const ElderlySupport = ({
     };
     onSave(dataToSave, selectedSubcategory);
     setHasBeenSaved(true);
-    onClose();
   };
 
   // Popup modal for subcategory - Handle delete
@@ -246,6 +245,14 @@ const ElderlySupport = ({
   if (!isOpen || !selectedSubcategory) return null;
 
   const subcategoryName = selectedSubcategory.name || "";
+  const toTitleCase = (s) =>
+    s
+      .replaceAll("_", " ")
+      .toLowerCase()
+      .split(" ")
+      .filter(Boolean)
+      .map((w) => w[0].toUpperCase() + w.slice(1))
+      .join(" ");
   const isSaveDisabled = !hasBeenSaved && !hasFormData();
 
   // Popup modal for subcategory - Render form based on subcategory
@@ -257,7 +264,7 @@ const ElderlySupport = ({
     ) {
       return (
         <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
-          <h3 className="text-lg font-semibold mb-3">Move-Out Address</h3>
+          <h3 className="text-base font-semibold mb-3">Move-Out Address</h3>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-gray-700 mb-1 font-medium">
@@ -309,7 +316,7 @@ const ElderlySupport = ({
             </div>
           </div>
 
-          <h3 className="text-lg font-semibold mb-2 mt-3">
+          <h3 className="text-base font-semibold mb-2 mt-3">
             Destination Address (optional)
           </h3>
           <div className="grid grid-cols-2 gap-3">
@@ -363,7 +370,7 @@ const ElderlySupport = ({
             </div>
           </div>
 
-          <h3 className="text-lg font-semibold mb-2 mt-3">
+          <h3 className="text-base font-semibold mb-2 mt-3">
             Preferred Move-Out Date & Time Slot
           </h3>
           <div className="grid grid-cols-2 gap-3">
@@ -417,7 +424,9 @@ const ElderlySupport = ({
             </div>
           </div>
 
-          <h3 className="text-lg font-semibold mb-2 mt-3">Items to Be Moved</h3>
+          <h3 className="text-base font-semibold mb-2 mt-3">
+            Items to Be Moved
+          </h3>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-gray-700 mb-1 font-medium">
@@ -638,7 +647,7 @@ const ElderlySupport = ({
           {/* Popup modal for subcategory - Medication Management & Schedule Fields */}
           {medicalHelpType === "medication" && (
             <div className="mt-4 w-full border border-gray-200 rounded-lg p-4 bg-gray-50">
-              <h3 className="text-lg font-semibold mb-3">
+              <h3 className="text-base font-semibold mb-3">
                 Medication Management & Schedule
               </h3>
               <div className="grid grid-cols-2 gap-4">
@@ -731,7 +740,7 @@ const ElderlySupport = ({
           {/* Popup modal for subcategory - Medical Devices Setup Fields */}
           {medicalHelpType === "device" && (
             <div className="mt-4 w-full border border-gray-200 rounded-lg p-4 bg-gray-50">
-              <h3 className="text-lg font-semibold mb-3">
+              <h3 className="text-base font-semibold mb-3">
                 Medical Devices Setup
               </h3>
               <div className="mt-3">
@@ -873,7 +882,7 @@ const ElderlySupport = ({
           {/* Popup modal for subcategory - Help Running Errands Fields */}
           {errandsTransportationType === "errands" && (
             <div className="mt-4 w-full border border-gray-200 rounded-lg p-4 bg-gray-50">
-              <h3 className="text-lg font-semibold mb-3">
+              <h3 className="text-base font-semibold mb-3">
                 Help Running Errands
               </h3>
               <div className="mt-3">
@@ -973,7 +982,7 @@ const ElderlySupport = ({
           {/* Popup modal for subcategory - Transportation for Appointments / Events Fields */}
           {errandsTransportationType === "transportation" && (
             <div className="mt-4 w-full border border-gray-200 rounded-lg p-4 bg-gray-50">
-              <h3 className="text-lg font-semibold mb-3">
+              <h3 className="text-base font-semibold mb-3">
                 Transportation for Appointments / Events
               </h3>
               <div className="mt-3">
@@ -1095,7 +1104,7 @@ const ElderlySupport = ({
           {/* Popup modal for subcategory - Scheduling Appointments / Tasks Fields */}
           {errandsTransportationType === "scheduling" && (
             <div className="mt-4 w-full border border-gray-200 rounded-lg p-4 bg-gray-50">
-              <h3 className="text-lg font-semibold mb-3">
+              <h3 className="text-base font-semibold mb-3">
                 Scheduling Appointments / Tasks
               </h3>
               <div className="mt-3">
@@ -1415,67 +1424,26 @@ const ElderlySupport = ({
   };
 
   return (
-    <>
-      {/* Popup modal for subcategory - Background overlay */}
-      <div
-        className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50"
-        onClick={onClose}
-      >
-        {/* Popup modal for subcategory - Modal container */}
-        <div
-          className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-3xl relative mx-4 max-h-[90vh] overflow-hidden flex flex-col"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Popup modal for subcategory - Close button (X) in top-right corner */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold leading-none z-10 w-8 h-8 flex items-center justify-center"
-            aria-label="Close"
-          >
-            ×
-          </button>
-
-          {/* Popup modal for subcategory - Information message about saving (yellow tooltip) */}
-          <div className="flex items-start gap-2 mb-3 mt-2 pr-12">
-            <IoMdInformationCircle className="text-yellow-600 text-base mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-yellow-800 leading-relaxed">
-              Click Save to store your data. Changes aren't saved automatically.
-              To update later, edit the fields and click Save again.
-            </p>
-          </div>
-
-          {/* Popup modal for subcategory - Form Fields */}
-          <div className="flex-1 overflow-y-auto">{renderFormFields()}</div>
-
-          {/* Popup modal for subcategory - Save and Delete Buttons */}
-          <div className="flex justify-between items-center mt-4 pt-3 border-t">
-            {/* Popup modal for subcategory - Delete Button (only show if data exists) */}
-            {hasBeenSaved && onDelete && (
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 rounded-lg font-medium transition-colors bg-red-600 text-white hover:bg-red-700"
-              >
-                Delete
-              </button>
-            )}
-            {!hasBeenSaved && <div></div>}
-
-            {/* Popup modal for subcategory - Save Button */}
-            <button
-              onClick={handleSave}
-              disabled={isSaveDisabled}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                isSaveDisabled
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
-              }`}
-            >
-              Save
-            </button>
+    <div className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+        <div>
+          <h2 className="text-base font-semibold text-gray-800">
+            {toTitleCase(subcategoryName)}
+          </h2>
+          <div className="flex items-start gap-2 mt-2 text-sm text-gray-600">
+            <IoMdInformationCircle className="text-gray-500 mt-0.5" />
+            <p>Please fill in the details</p>
           </div>
         </div>
+        {/* removed Close button per design change */}
       </div>
-    </>
+
+      <div className="flex-1 overflow-y-auto max-h-[60vh] pr-1">
+        {renderFormFields()}
+      </div>
+
+      {/* Removed Save/Delete controls from the inline panel (handled by parent form) */}
+    </div>
   );
 };
 
