@@ -1,4 +1,5 @@
 import Table from "../../../common/components/DataTable/Table";
+import PropTypes from "prop-types";
 
 const AdminDashboard = (props) => {
   const {
@@ -122,4 +123,23 @@ const AdminDashboard = (props) => {
   );
 };
 
+AdminDashboard.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  handleTabChange: PropTypes.func.isRequired,
+  headers: PropTypes.array.isRequired,
+  filteredData: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  totalPages: PropTypes.func.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  sortConfig: PropTypes.object,
+  requestSort: PropTypes.func.isRequired,
+  onRowsPerPageChange: PropTypes.func.isRequired,
+  getLinkPath: PropTypes.func.isRequired,
+  getLinkState: PropTypes.func.isRequired,
+  searchFilters: PropTypes.node,
+  analyticsSubtab: PropTypes.string.isRequired,
+  setAnalyticsSubtab: PropTypes.func.isRequired,
+};
 export default AdminDashboard;
