@@ -7,7 +7,6 @@ import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
-import Modal from "../../common/components/Modal/Modal";
 import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import {
@@ -87,8 +86,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [suggestedCategories, setSuggestedCategories] = useState([]);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
   const [enums, setEnums] = useState(null);
-  // Popup modal for subcategory - State for Elderly Support popup modal
-  const [showElderlySupportModal, setShowElderlySupportModal] = useState(false);
+  // Popup modal for subcategory - State for Elderly Support inline form
+  const [showElderlySupportForm, setShowElderlySupportForm] = useState(false);
   const [selectedElderlySubcategory, setSelectedElderlySubcategory] =
     useState(null);
   const [elderlySupportData, setElderlySupportData] = useState({});
@@ -573,12 +572,20 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         return;
       }
 
+      // set the category input immediately so the category field shows the selected subcategory
+      setFormData({
+        ...formData,
+        category: subcategoryId,
+      });
+
       setSelectedElderlySubcategory({
         id: subcategoryId,
         name: subcategoryName,
       });
-      setShowElderlySupportModal(true);
-      // Popup modal for subcategory - Don't close dropdown yet, wait for save
+      setShowElderlySupportForm(true);
+      setShowDropdown(false);
+      setHoveredCategory(null);
+      return;
     } else {
       // Popup modal for subcategory - For other categories, proceed normally
       setFormData({
@@ -649,14 +656,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
     }
 
-    // Popup modal for subcategory - Close modal
-    setShowElderlySupportModal(false);
+    // Popup modal for subcategory - Hide inline panel
+    setShowElderlySupportForm(false);
     setSelectedElderlySubcategory(null);
   };
 
   // Popup modal for subcategory - Handle close from ElderlySupport modal
   const handleElderlySupportClose = () => {
-    setShowElderlySupportModal(false);
+    setShowElderlySupportForm(false);
     setSelectedElderlySubcategory(null);
   };
 
@@ -1195,6 +1202,25 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     </div>
                   )}
                 </div>
+
+                {showElderlySupportForm && selectedElderlySubcategory && (
+                  <ElderlySupport
+                    isOpen={showElderlySupportForm}
+                    onClose={handleElderlySupportClose}
+                    onSave={handleElderlySupportSave}
+                    onDelete={handleElderlySupportDelete}
+                    selectedSubcategory={selectedElderlySubcategory}
+                    existingSubcategoryId={savedSubcategoryId}
+                    initialData={
+                      selectedElderlySubcategory
+                        ? elderlySupportData[selectedElderlySubcategory.id] ||
+                          null
+                        : null
+                    }
+                    languages={languages}
+                    genderOptions={genderOptions}
+                  />
+                )}
 
                 {formData.category === "Jobs" && <JobsCategory />}
                 {formData.category === "Housing" && <HousingCategory />}
@@ -1836,22 +1862,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* Popup modal for subcategory - Elderly Support Modal Component */}
-      <ElderlySupport
-        isOpen={showElderlySupportModal}
-        onClose={handleElderlySupportClose}
-        onSave={handleElderlySupportSave}
-        onDelete={handleElderlySupportDelete}
-        selectedSubcategory={selectedElderlySubcategory}
-        existingSubcategoryId={savedSubcategoryId}
-        initialData={
-          selectedElderlySubcategory
-            ? elderlySupportData[selectedElderlySubcategory.id] || null
-            : null
-        }
-        languages={languages}
-        genderOptions={genderOptions}
-      />
 
       {/* Files dialog - shows both attached (not yet uploaded) & uploaded files */}
       <Dialog
