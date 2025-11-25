@@ -1,4 +1,5 @@
 import Table from "../../../common/components/DataTable/Table";
+import PropTypes from "prop-types";
 
 const SuperAdminDashboard = (props) => {
   const {
@@ -120,6 +121,26 @@ const SuperAdminDashboard = (props) => {
       </div>
     </div>
   );
+};
+
+SuperAdminDashboard.propTypes = {
+  activeTab: PropTypes.string,
+  handleTabChange: PropTypes.func,
+  headers: PropTypes.array,
+  filteredData: PropTypes.array,
+  isLoading: PropTypes.bool,
+  currentPage: PropTypes.number,
+  setCurrentPage: PropTypes.func,
+  totalPages: PropTypes.func,
+  rowsPerPage: PropTypes.number,
+  sortConfig: PropTypes.object,
+  requestSort: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func,
+  getLinkPath: PropTypes.func,
+  getLinkState: PropTypes.object,
+  searchFilters: PropTypes.node,
+  analyticsSubtab: PropTypes.string,
+  setAnalyticsSubtab: PropTypes.func,
 };
 
 export default SuperAdminDashboard;

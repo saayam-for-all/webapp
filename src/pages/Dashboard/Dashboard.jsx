@@ -486,7 +486,7 @@ const Dashboard = ({ userRole }) => {
   const dashboardSearchFilters = (
     <>
       <div className="mb-4 flex flex-wrap gap-2 px-10">
-        <div className="relative w-1/3">
+        <div className="relative w-full">
           <IoSearchOutline
             className="text-gray-500 absolute inset-y-0 start-0 flex items-center m-3 my-2"
             size={22}
@@ -501,36 +501,6 @@ const Dashboard = ({ userRole }) => {
         </div>
       </div>
       <div className="mb-4 flex flex-wrap gap-2 px-10">
-        <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
-          <div
-            className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
-            onClick={toggleStatusDropdown}
-            tabIndex={0}
-          >
-            <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Status")}
-            </button>
-            <IoIosArrowDown className="m-2" />
-          </div>
-          {isStatusDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-              {statusOptions.map((status) => (
-                <label key={status} className="block">
-                  <input
-                    type="checkbox"
-                    checked={
-                      status === "All"
-                        ? Object.values(statusFilter).every(Boolean)
-                        : statusFilter[status] || false
-                    }
-                    onChange={() => handleStatusChange(status)}
-                  />
-                  {status}
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
         <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
           <div
             className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
@@ -563,6 +533,36 @@ const Dashboard = ({ userRole }) => {
                     onChange={() => handleCategoryChange(category)}
                   />
                   {category}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="relative" onBlur={handleStatusBlur} tabIndex={-1}>
+          <div
+            className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+            onClick={toggleStatusDropdown}
+            tabIndex={0}
+          >
+            <button className="py-2 px-4 p-2 font-light text-gray-600">
+              {t("Status")}
+            </button>
+            <IoIosArrowDown className="m-2" />
+          </div>
+          {isStatusDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              {statusOptions.map((status) => (
+                <label key={status} className="block">
+                  <input
+                    type="checkbox"
+                    checked={
+                      status === "All"
+                        ? Object.values(statusFilter).every(Boolean)
+                        : statusFilter[status] || false
+                    }
+                    onChange={() => handleStatusChange(status)}
+                  />
+                  {status}
                 </label>
               ))}
             </div>

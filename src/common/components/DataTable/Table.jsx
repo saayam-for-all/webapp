@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import Pagination from "../Pagination/Pagination";
-
 const Table = ({
   headers,
   rows,
@@ -16,7 +16,6 @@ const Table = ({
   getLinkPath,
   getLinkState = undefined,
 }) => {
-  const navigate = useNavigate();
   const paginatedRequests = useMemo(() => {
     return rows.slice(
       (currentPage - 1) * itemsPerPage,
@@ -33,6 +32,34 @@ const Table = ({
       return sortConfig.direction === "ascending" ? "↑" : "↓";
     }
     return "";
+  };
+
+  const formatDateTime = (value, header) => {
+    if (header === "creationDate" || header === "closedDate") {
+      if (!value) return "";
+
+      try {
+        const date = new Date(value);
+        if (isNaN(date.getTime())) return value;
+
+        // Format: MM/DD/YYYY | HH:MM AM/PM TZ
+        const datePart = date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        });
+        const timePart = date.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+          timeZoneName: "short",
+        });
+        return `${datePart} | ${timePart}`;
+      } catch (error) {
+        return value;
+      }
+    }
+    return value;
   };
 
   return (
@@ -83,7 +110,7 @@ const Table = ({
                         {request[header]}
                       </Link>
                     ) : (
-                      request[header]
+                      formatDateTime(request[header], header)
                     )}
                   </td>
                 ))}
@@ -107,5 +134,21 @@ const Table = ({
     </div>
   );
 };
-
+Table.propTypes = {
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  rows: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  totalRows: PropTypes.number.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+  sortConfig: PropTypes.shape({
+    key: PropTypes.string,
+    direction: PropTypes.oneOf(["ascending", "descending"]),
+  }).isRequired,
+  requestSort: PropTypes.func.isRequired,
+  onRowsPerPageChange: PropTypes.func.isRequired,
+  getLinkPath: PropTypes.func.isRequired,
+  getLinkState: PropTypes.func,
+};
 export default Table;
