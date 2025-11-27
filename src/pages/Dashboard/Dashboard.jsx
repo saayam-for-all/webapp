@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./views/AdminDashboard";
@@ -11,6 +11,15 @@ import BeneficiaryDashboard from "./views/BeneficiaryDashboard";
 import StewardDashboard from "./views/StewardDashboard";
 import SuperAdminDashboard from "./views/SuperAdminDashboard";
 import VolunteerDashboard from "./views/VolunteerDashboard";
+
+import {
+  getAccessibleDashboards,
+  getDefaultDashboard,
+  canAccessDashboard,
+  validateDashboardAccess,
+  getDashboardDisplayName,
+  DASHBOARDS,
+} from "../../utils/rbac";
 
 import {
   getManagedRequests,
@@ -22,7 +31,11 @@ import "./Dashboard.css";
 const Dashboard = ({ userRole }) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [successMessage, setSuccessMessage] = useState("");
+  const [accessDeniedMessage, setAccessDeniedMessage] = useState("");
+
   useEffect(() => {
     if (location.state?.successMessage) {
       setSuccessMessage(location.state.successMessage);
@@ -48,7 +61,7 @@ const Dashboard = ({ userRole }) => {
   const groups = useSelector((state) => state.auth.user?.groups);
   const isLoading = false;
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  // which dashboard to show; empty string means show requests view (existing behavior)
+  const [accessibleDashboards, setAccessibleDashboards] = useState([]);
   const [selectedDashboard, setSelectedDashboard] = useState("");
 
   const toggleDropdown = () => {
@@ -67,10 +80,9 @@ const Dashboard = ({ userRole }) => {
     return TYPE_IN_PERSON;
   };
 
-  // Simple dummy data per dashboard for initial UI; we'll replace with real data later
   const dashboardTables = useMemo(
     () => ({
-      superAdmin: {
+      [DASHBOARDS.SUPER_ADMIN]: {
         headers: ["id", "metric", "value"],
         rows: [
           { id: "S1", metric: "Total Users", value: "1,200" },
@@ -78,28 +90,28 @@ const Dashboard = ({ userRole }) => {
           { id: "S3", metric: "Volunteers", value: 210 },
         ],
       },
-      admin: {
+      [DASHBOARDS.ADMIN]: {
         headers: ["id", "team", "activeTasks"],
         rows: [
           { id: "A1", team: "Support", activeTasks: 12 },
           { id: "A2", team: "Operations", activeTasks: 8 },
         ],
       },
-      steward: {
+      [DASHBOARDS.STEWARD]: {
         headers: ["id", "area", "assigned"],
         rows: [
           { id: "ST1", area: "North Zone", assigned: 5 },
           { id: "ST2", area: "East Zone", assigned: 3 },
         ],
       },
-      volunteer: {
+      [DASHBOARDS.VOLUNTEER]: {
         headers: ["id", "name", "hoursLogged"],
         rows: [
           { id: "V1", name: "Priya", hoursLogged: 24 },
           { id: "V2", name: "Arjun", hoursLogged: 18 },
         ],
       },
-      beneficiary: {
+      [DASHBOARDS.BENEFICIARY]: {
         headers: ["id", "name", "supportReceived"],
         rows: [
           { id: "B1", name: "Family A", supportReceived: "Food Pack" },
@@ -118,7 +130,7 @@ const Dashboard = ({ userRole }) => {
       const response = await requestApi();
       setData(response);
     } catch (error) {
-      console.error("Error fetching skills:", error);
+      console.error("Error fetching requests:", error);
     }
   };
 
@@ -127,14 +139,32 @@ const Dashboard = ({ userRole }) => {
   }, []);
 
   useEffect(() => {
-    const storedDashboard = localStorage.getItem("lastDashboardSelected");
-    if (storedDashboard) {
-      setSelectedDashboard(storedDashboard);
-    } else if (!selectedDashboard && groups) {
-      if (groups.includes("Volunteers")) setSelectedDashboard("volunteer");
-      else setSelectedDashboard("beneficiary");
+    if (!groups || groups.length === 0) {
+      setAccessibleDashboards([DASHBOARDS.BENEFICIARY]);
+      setSelectedDashboard(DASHBOARDS.BENEFICIARY);
+      return;
     }
-  }, [groups]);
+
+    const accessible = getAccessibleDashboards(groups);
+    setAccessibleDashboards(accessible);
+
+    const urlDashboard = searchParams.get("view");
+    if (urlDashboard && accessible.includes(urlDashboard)) {
+      setSelectedDashboard(urlDashboard);
+      localStorage.setItem("lastDashboardSelected", urlDashboard);
+      return;
+    }
+
+    const storedDashboard = localStorage.getItem("lastDashboardSelected");
+    if (storedDashboard && accessible.includes(storedDashboard)) {
+      setSelectedDashboard(storedDashboard);
+      return;
+    }
+
+    const defaultDash = getDefaultDashboard(groups);
+    setSelectedDashboard(defaultDash);
+    localStorage.setItem("lastDashboardSelected", defaultDash);
+  }, [groups, searchParams]);
 
   useEffect(() => {
     getAllRequests(activeTab);
@@ -167,6 +197,21 @@ const Dashboard = ({ userRole }) => {
       Closed: false,
     });
     setCategoryFilter(allCategories);
+  };
+
+  const handleDashboardChange = (newDashboard) => {
+    const validation = validateDashboardAccess(groups, newDashboard);
+
+    if (!validation.allowed) {
+      setAccessDeniedMessage(validation.reason);
+      setTimeout(() => setAccessDeniedMessage(""), 5000);
+      return;
+    }
+
+    setSelectedDashboard(newDashboard);
+    localStorage.setItem("lastDashboardSelected", newDashboard);
+    setSearchParams({ view: newDashboard });
+    setAccessDeniedMessage("");
   };
 
   const headersWithStatus = useMemo(() => {
@@ -204,7 +249,6 @@ const Dashboard = ({ userRole }) => {
     return sortedRequests(data?.body || []);
   }, [data, sortConfig]);
 
-  // Dynamic filter options based on backend data
   const statusOptions = useMemo(() => {
     const values = [
       ...new Set((data?.body || []).map((r) => r.status).filter(Boolean)),
@@ -219,15 +263,12 @@ const Dashboard = ({ userRole }) => {
       (data?.body || []).map((r) => r.category).filter(Boolean),
     );
     const defaultValues = Object.keys(allCategories).filter((c) => c !== "All");
-    // merge & remove duplicates
     const combined = Array.from(new Set([...defaultValues, ...backendValues]));
     return combined.sort();
   }, [data]);
 
-  // Updated fallback aligned with backend values
   const typeOptions = useMemo(() => {
     const rawValues = (data?.body || []).map((r) => r.type).filter(Boolean);
-
     const normalizedSet = new Set(
       rawValues.map((v) => normalizeType(v)).filter(Boolean),
     );
@@ -247,7 +288,6 @@ const Dashboard = ({ userRole }) => {
     const values = [
       ...new Set((data?.body || []).map((r) => r.calamity).filter(Boolean)),
     ];
-    // Normalize to Yes / None for boolean or string variations
     const normalized = values.map((v) =>
       v === true || v === "Yes" || v === "yes"
         ? "Yes"
@@ -455,26 +495,16 @@ const Dashboard = ({ userRole }) => {
 
   const [showAddressMsg, setShowAddressMsg] = useState(false);
 
-  // If a dashboard is selected, use its dummy data; otherwise null -> show requests view
-  const selectedDashboardData = selectedDashboard
-    ? dashboardTables[selectedDashboard]
-    : null;
-
-  let dashboardTitle = "Beneficiary Dashboard";
-  if (selectedDashboard === "superAdmin")
-    dashboardTitle = "Super Admin Dashboard";
-  else if (selectedDashboard === "admin") dashboardTitle = "Admin Dashboard";
-  else if (selectedDashboard === "steward")
-    dashboardTitle = "Steward Dashboard";
-  else if (selectedDashboard === "volunteer")
-    dashboardTitle = "Volunteer Dashboard";
+  const dashboardTitle = selectedDashboard
+    ? getDashboardDisplayName(selectedDashboard)
+    : "Dashboard";
 
   const dashboardDefaultTab = {
-    superAdmin: "analytics",
-    admin: "analytics",
-    steward: "myRequests",
-    volunteer: "managedRequests",
-    beneficiary: "myRequests",
+    [DASHBOARDS.SUPER_ADMIN]: "analytics",
+    [DASHBOARDS.ADMIN]: "analytics",
+    [DASHBOARDS.STEWARD]: "myRequests",
+    [DASHBOARDS.VOLUNTEER]: "managedRequests",
+    [DASHBOARDS.BENEFICIARY]: "myRequests",
   };
 
   useEffect(() => {
@@ -569,7 +599,6 @@ const Dashboard = ({ userRole }) => {
           )}
         </div>
 
-        {/* NEW FILTERS START HERE */}
         <div className="relative" onBlur={handleTypeBlur} tabIndex={-1}>
           <div
             className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
@@ -695,7 +724,7 @@ const Dashboard = ({ userRole }) => {
             <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
           </Link>
           {!groups?.includes("Volunteers") &&
-            selectedDashboard !== "volunteer" && (
+            selectedDashboard !== DASHBOARDS.VOLUNTEER && (
               <Link
                 to="/promote-to-volunteer"
                 onClick={(e) => {
@@ -714,20 +743,17 @@ const Dashboard = ({ userRole }) => {
 
         <div className="flex items-center gap-2">
           <div className="flex ml-auto gap-2 items-center">
-            {isDropdownVisible && (
+            {isDropdownVisible && accessibleDashboards.length > 0 && (
               <select
                 value={selectedDashboard}
-                onChange={(e) => {
-                  setSelectedDashboard(e.target.value);
-                  localStorage.setItem("lastDashboardSelected", e.target.value);
-                }}
+                onChange={(e) => handleDashboardChange(e.target.value)}
                 className="text-blue-500 font-semibold underline italic py-2"
               >
-                <option value="superAdmin">Super Admin Dashboard</option>
-                <option value="admin">Admin Dashboard</option>
-                <option value="steward">Steward Dashboard</option>
-                <option value="volunteer">Volunteer Dashboard</option>
-                <option value="beneficiary">Beneficiary Dashboard</option>
+                {accessibleDashboards.map((dash) => (
+                  <option key={dash} value={dash}>
+                    {getDashboardDisplayName(dash)}
+                  </option>
+                ))}
               </select>
             )}
           </div>
@@ -763,115 +789,134 @@ const Dashboard = ({ userRole }) => {
         </div>
       )}
 
-      <div className="border">
-        {/* Render the selected dashboard view component */}
-        <div className="requests-section overflow-hidden table-height-fix">
-          {selectedDashboard === "superAdmin" && (
-            <SuperAdminDashboard
-              activeTab={activeTab}
-              handleTabChange={handleTabChange}
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={
-                activeTab === "analytics" ? null : dashboardSearchFilters
-              }
-              analyticsSubtab={analyticsSubtab}
-              setAnalyticsSubtab={setAnalyticsSubtab}
-            />
-          )}
-
-          {selectedDashboard === "admin" && (
-            <AdminDashboard
-              activeTab={activeTab}
-              handleTabChange={handleTabChange}
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={
-                activeTab === "analytics" ? null : dashboardSearchFilters
-              }
-              analyticsSubtab={analyticsSubtab}
-              setAnalyticsSubtab={setAnalyticsSubtab}
-            />
-          )}
-
-          {selectedDashboard === "steward" && (
-            <StewardDashboard
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={dashboardSearchFilters}
-            />
-          )}
-
-          {selectedDashboard === "volunteer" && (
-            <VolunteerDashboard
-              activeTab={activeTab}
-              handleTabChange={handleTabChange}
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={dashboardSearchFilters}
-            />
-          )}
-
-          {selectedDashboard === "beneficiary" && (
-            <BeneficiaryDashboard
-              activeTab={activeTab}
-              handleTabChange={handleTabChange}
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={dashboardSearchFilters}
-            />
-          )}
+      {accessDeniedMessage && (
+        <div className="relative bg-red-100 text-red-700 p-3 mb-5 rounded-md text-center font-semibold">
+          {accessDeniedMessage}
+          <button
+            onClick={() => setAccessDeniedMessage("")}
+            className="absolute top-2 right-4 text-red-700 font-bold text-lg"
+          >
+            ×
+          </button>
         </div>
+      )}
+
+      <div className="border">
+        {selectedDashboard && canAccessDashboard(groups, selectedDashboard) ? (
+          <div className="requests-section overflow-hidden table-height-fix">
+            {selectedDashboard === DASHBOARDS.SUPER_ADMIN && (
+              <SuperAdminDashboard
+                activeTab={activeTab}
+                handleTabChange={handleTabChange}
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkState={(request) => request}
+                searchFilters={
+                  activeTab === "analytics" ? null : dashboardSearchFilters
+                }
+                analyticsSubtab={analyticsSubtab}
+                setAnalyticsSubtab={setAnalyticsSubtab}
+              />
+            )}
+
+            {selectedDashboard === DASHBOARDS.ADMIN && (
+              <AdminDashboard
+                activeTab={activeTab}
+                handleTabChange={handleTabChange}
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkState={(request) => request}
+                searchFilters={
+                  activeTab === "analytics" ? null : dashboardSearchFilters
+                }
+                analyticsSubtab={analyticsSubtab}
+                setAnalyticsSubtab={setAnalyticsSubtab}
+              />
+            )}
+
+            {selectedDashboard === DASHBOARDS.STEWARD && (
+              <StewardDashboard
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkState={(request) => request}
+                searchFilters={dashboardSearchFilters}
+              />
+            )}
+
+            {selectedDashboard === DASHBOARDS.VOLUNTEER && (
+              <VolunteerDashboard
+                activeTab={activeTab}
+                handleTabChange={handleTabChange}
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkState={(request) => request}
+                searchFilters={dashboardSearchFilters}
+              />
+            )}
+
+            {selectedDashboard === DASHBOARDS.BENEFICIARY && (
+              <BeneficiaryDashboard
+                activeTab={activeTab}
+                handleTabChange={handleTabChange}
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkState={(request) => request}
+                searchFilters={dashboardSearchFilters}
+              />
+            )}
+          </div>
+        ) : (
+          <div className="p-10 text-center text-gray-600">
+            <p className="text-lg font-semibold mb-2">Access Denied</p>
+            <p>You don&apos;t have permission to view this dashboard.</p>
+            <p className="mt-4 text-sm">Please contact your admin.</p>
+          </div>
+        )}
       </div>
     </div>
   );
