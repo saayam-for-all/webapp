@@ -30,7 +30,7 @@ const DASHBOARD_ACCESS_MATRIX = {
 
 export const canAccessDashboard = (userGroups, dashboard) => {
   if (!userGroups || !Array.isArray(userGroups) || userGroups.length === 0) {
-    return dashboard === DASHBOARDS.BENEFICIARY; // Default access
+    return dashboard === DASHBOARDS.BENEFICIARY;
   }
 
   const allowedRoles = DASHBOARD_ACCESS_MATRIX[dashboard] || [];

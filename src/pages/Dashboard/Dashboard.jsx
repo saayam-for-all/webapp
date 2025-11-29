@@ -220,7 +220,7 @@ const Dashboard = ({ userRole }) => {
       "type",
       "subject",
       "creationDate",
-      "closedDate",
+      "updatedDate",
       "category",
       "priority",
       "calamity",
@@ -760,10 +760,6 @@ const Dashboard = ({ userRole }) => {
         </div>
       </div>
 
-      <div className="flex-1 text-center">
-        <h2 className="text-xl font-semibold mt-3 mb-3">{dashboardTitle}</h2>
-      </div>
-
       {showAddressMsg && !hasAddress && (
         <p className="text-red-600 mb-2">
           Please add your address in Profile to continue.&nbsp;
@@ -800,6 +796,10 @@ const Dashboard = ({ userRole }) => {
           </button>
         </div>
       )}
+
+      <div className="flex-1 text-center">
+        <h2 className="text-xl font-semibold mt-3 mb-3">{dashboardTitle}</h2>
+      </div>
 
       <div className="border">
         {selectedDashboard && canAccessDashboard(groups, selectedDashboard) ? (
