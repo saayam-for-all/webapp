@@ -22,7 +22,7 @@ exports[`Table renders correctly 1`] = `
             >
               <tr>
                 <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider whitespace-nowrap"
                   data-testid="map-header-one"
                 >
                   <button
@@ -32,7 +32,7 @@ exports[`Table renders correctly 1`] = `
                   </button>
                 </th>
                 <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider whitespace-nowrap"
                   data-testid="map-header-one"
                 >
                   <button
@@ -120,7 +120,7 @@ exports[`Table renders correctly 1`] = `
           >
             <tr>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider whitespace-nowrap"
                 data-testid="map-header-one"
               >
                 <button
@@ -130,7 +130,7 @@ exports[`Table renders correctly 1`] = `
                 </button>
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider whitespace-nowrap"
                 data-testid="map-header-one"
               >
                 <button
