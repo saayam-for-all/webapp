@@ -42,7 +42,7 @@ const Table = ({
         const date = new Date(value);
         if (Number.isNaN(date.getTime())) return value;
 
-        // Format: MM/DD/YYYY | HH:MM AM/PM TZ
+        // Format: MM/DD/YYYY HH:MM:SS AM/PM
         const datePart = date.toLocaleDateString("en-US", {
           year: "numeric",
           month: "2-digit",
@@ -51,10 +51,10 @@ const Table = ({
         const timePart = date.toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
+          second: "2-digit",
           hour12: true,
-          timeZoneName: "short",
         });
-        return `${datePart} | ${timePart}`;
+        return `${datePart} ${timePart}`;
       } catch (error) {
         console.error("Error formatting date:", error);
         return value;
