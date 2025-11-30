@@ -225,9 +225,23 @@ const Dashboard = ({ userRole }) => {
       "priority",
       "calamity",
     ];
+    const headersWithUserId =
+      activeTab === "othersRequests"
+        ? [
+            "id",
+            "userId",
+            "type",
+            "subject",
+            "creationDate",
+            "updatedDate",
+            "category",
+            "priority",
+            "calamity",
+          ]
+        : baseHeaders;
     const isAllSelected = Object.values(statusFilter).every(Boolean);
-    return isAllSelected ? ["status", ...baseHeaders] : baseHeaders;
-  }, [statusFilter]);
+    return isAllSelected ? ["status", ...headersWithUserId] : headersWithUserId;
+  }, [statusFilter, activeTab]);
 
   const sortedRequests = (requests) => {
     let sortableRequests = [...requests];
@@ -334,6 +348,14 @@ const Dashboard = ({ userRole }) => {
         Object.values(calamityFilter).every((v) => !v) ||
         calamityFilter[calamityValue];
 
+      const volunteerTypeActive =
+        selectedDashboard !== DASHBOARDS.VOLUNTEER ||
+        activeTab !== "managedRequests" ||
+        Object.keys(volunteerTypeFilter).length === 0 ||
+        Object.values(volunteerTypeFilter).every((v) => !v) ||
+        Object.values(volunteerTypeFilter).every(Boolean) ||
+        volunteerTypeFilter[request.volunteerType];
+
       const matchesSearch = Object.keys(request).some((key) =>
         String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
       );
@@ -344,6 +366,7 @@ const Dashboard = ({ userRole }) => {
         typeActive &&
         priorityActive &&
         calamityActive &&
+        volunteerTypeActive &&
         matchesSearch
       );
     });
@@ -359,6 +382,21 @@ const Dashboard = ({ userRole }) => {
   const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
   const [isPriorityDropdownOpen, setIsPriorityDropdownOpen] = useState(false);
   const [isCalamityDropdownOpen, setIsCalamityDropdownOpen] = useState(false);
+
+  const [volunteerTypeFilter, setVolunteerTypeFilter] = useState({
+    "Lead Volunteer": true,
+    "Helping Volunteer": true,
+  });
+  const [isVolunteerTypeDropdownOpen, setIsVolunteerTypeDropdownOpen] =
+    useState(false);
+
+  const toggleVolunteerTypeDropdown = () =>
+    setIsVolunteerTypeDropdownOpen(!isVolunteerTypeDropdownOpen);
+
+  const handleVolunteerTypeBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsVolunteerTypeDropdownOpen(false);
+  };
 
   const toggleTypeDropdown = () => setIsTypeDropdownOpen(!isTypeDropdownOpen);
   const togglePriorityDropdown = () =>
@@ -376,6 +414,9 @@ const Dashboard = ({ userRole }) => {
     typeFilter,
     priorityFilter,
     calamityFilter,
+    volunteerTypeFilter,
+    selectedDashboard,
+    activeTab,
   ]);
 
   const totalPages = (filteredData) => {
@@ -692,6 +733,57 @@ const Dashboard = ({ userRole }) => {
             </div>
           )}
         </div>
+
+        {selectedDashboard === DASHBOARDS.VOLUNTEER &&
+          activeTab === "managedRequests" && (
+            <div
+              className="relative"
+              onBlur={handleVolunteerTypeBlur}
+              tabIndex={-1}
+            >
+              <div
+                className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+                onClick={toggleVolunteerTypeDropdown}
+              >
+                <button className="py-2 px-4 p-2 font-light text-gray-600">
+                  Volunteer Type
+                </button>
+                <IoIosArrowDown className="m-2" />
+              </div>
+              {isVolunteerTypeDropdownOpen && (
+                <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+                  <label className="block">
+                    <input
+                      type="checkbox"
+                      checked={volunteerTypeFilter["Lead Volunteer"] || false}
+                      onChange={() =>
+                        setVolunteerTypeFilter((prev) => ({
+                          ...prev,
+                          "Lead Volunteer": !prev["Lead Volunteer"],
+                        }))
+                      }
+                    />
+                    Lead Volunteer
+                  </label>
+                  <label className="block">
+                    <input
+                      type="checkbox"
+                      checked={
+                        volunteerTypeFilter["Helping Volunteer"] || false
+                      }
+                      onChange={() =>
+                        setVolunteerTypeFilter((prev) => ({
+                          ...prev,
+                          "Helping Volunteer": !prev["Helping Volunteer"],
+                        }))
+                      }
+                    />
+                    Helping Volunteer
+                  </label>
+                </div>
+              )}
+            </div>
+          )}
       </div>
     </>
   );

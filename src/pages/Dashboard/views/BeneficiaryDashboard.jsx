@@ -1,4 +1,6 @@
 import Table from "../../../common/components/DataTable/Table";
+import { useTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 const BeneficiaryDashboard = (props) => {
   const {
@@ -19,6 +21,8 @@ const BeneficiaryDashboard = (props) => {
     searchFilters,
   } = props;
 
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className="flex mb-5">
@@ -30,7 +34,7 @@ const BeneficiaryDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("myRequests")}
         >
-          {"My Requests"}
+          {t("MY_REQUESTS")}
         </button>
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
@@ -40,7 +44,7 @@ const BeneficiaryDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("othersRequests")}
         >
-          {"Others Requests"}
+          {t("OTHERS_REQUESTS")}
         </button>
       </div>
 
@@ -66,6 +70,24 @@ const BeneficiaryDashboard = (props) => {
       </div>
     </div>
   );
+};
+
+BeneficiaryDashboard.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  handleTabChange: PropTypes.func.isRequired,
+  headers: PropTypes.array.isRequired,
+  filteredData: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  totalPages: PropTypes.func.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  sortConfig: PropTypes.object,
+  requestSort: PropTypes.func.isRequired,
+  onRowsPerPageChange: PropTypes.func.isRequired,
+  getLinkPath: PropTypes.func.isRequired,
+  getLinkState: PropTypes.func.isRequired,
+  searchFilters: PropTypes.node,
 };
 
 export default BeneficiaryDashboard;
