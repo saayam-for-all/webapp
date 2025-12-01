@@ -4,7 +4,7 @@ import { updateUserAttributes, fetchAuthSession } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PHONECODESEN from "../../utils/phone-codes-en";
-import CountryList from "react-select-country-list";
+// import CountryList from "react-select-country-list";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
 import CallModal from "./CallModal.jsx";
 import { updateUserProfile } from "../../redux/features/authentication/authActions";
@@ -31,7 +31,15 @@ function YourProfile({ setHasUnsavedChanges }) {
     useState(false);
 
   const firstNameRef = useRef(null);
-  const countries = CountryList().getData();
+
+  // --- Country dropdown data ---
+  // Multi-country list (kept for future use when we support more countries)
+  // const countries = CountryList().getData();
+  //
+  // For MVP 1.0 we only support United States as profile country.
+  // The dropdown in Edit mode should only offer this single option.
+  const countries = [{ value: "US", label: "United States" }];
+
   const user = useSelector((state) => state.auth.user);
 
   const [nameErrors, setNameErrors] = useState({ firstName: "", lastName: "" });
@@ -44,7 +52,7 @@ function YourProfile({ setHasUnsavedChanges }) {
     email: "",
     phone: "", // national digits (no +)
     phoneCountryCode: "US", // ISO, e.g. 'US', 'CA', 'GB', 'GG'
-    country: "",
+    country: "United States",
   });
 
   const [originalEmail, setOriginalEmail] = useState("");
@@ -128,7 +136,8 @@ function YourProfile({ setHasUnsavedChanges }) {
       email: userEmail,
       phone: digits,
       phoneCountryCode: finalIso,
-      country: user.zoneinfo || "",
+      // For MVP 1.0 we always show United States as profile country.
+      country: "United States",
     });
 
     // keep the ContactUs-style phone component in sync
@@ -203,6 +212,8 @@ function YourProfile({ setHasUnsavedChanges }) {
       if (saveError && saveError.includes("email")) setSaveError("");
       if (showEmailVerificationMessage) setShowEmailVerificationMessage(false);
     } else if (name === "country") {
+      // In MVP 1.0 this will always be "United States",
+      // but we keep the handler so future multi-country support is easy.
       const nextIso = getIsoFromCountryLabel(value);
       setProfileInfo((prev) => ({
         ...prev,
@@ -422,7 +433,8 @@ function YourProfile({ setHasUnsavedChanges }) {
           stripDialOnce(user.phone_number || "", finalIso),
         ),
         phoneCountryCode: finalIso,
-        country: user.zoneinfo || "",
+        // Reset back to United States for MVP 1.0
+        country: "United States",
       });
 
       // keep shared phone component in sync
@@ -583,8 +595,10 @@ function YourProfile({ setHasUnsavedChanges }) {
             value={profileInfo.country}
             onChange={(e) => handleInputChange("country", e.target.value)}
             className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+            disabled={true} // Only United States is allowed in MVP 1.0
           >
-            <option value="">{t("SELECT_COUNTRY")}</option>
+            {/* Placeholder kept for future multi-country support */}
+            {/* <option value="">{t("SELECT_COUNTRY")}</option> */}
             {countries.map((option) => (
               <option key={option.value} value={option.label}>
                 {option.label}
@@ -618,6 +632,8 @@ function YourProfile({ setHasUnsavedChanges }) {
                     prev.phoneCountryCode,
                   ),
                 ),
+                // When entering edit mode, always keep country as United States in MVP 1.0
+                country: "United States",
               }));
               setPhoneError("");
               setPhone(
