@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Select from "react-select";
-// import CountryList from "react-select-country-list"; // kept for future multi-country support
+import CountryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import countryCodes from "../../utils/country-codes-en.json";
 
@@ -100,7 +100,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     streetAddress: "",
     streetAddress2: "",
     city: "",
-    country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "US",
+    country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "",
     state: "",
     zipCode: "",
     secondaryEmail: "",
@@ -108,22 +108,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     secondaryPhoneCountryCode: "US",
   });
 
-  // --- Multi-country list (kept for future use) ---
-  // const countries = CountryList().getData();
-  //
-  // Example of what the full list looks like:
-  // [
-  //   { value: "US", label: "United States" },
-  //   { value: "IN", label: "India" },
-  //   { value: "CA", label: "Canada" },
-  //   { value: "AU", label: "Australia" },
-  //   ...
-  // ]
-  //
-  // --- MVP 1.0 requirement ---
-  // Only show United States in the Country dropdown
-  const countries = [{ value: "US", label: "United States" }];
-
+  const countries = CountryList().getData();
   const [states, setStates] = useState([]);
 
   const getLatestStatesList = (countryCodeSelected) => {
@@ -146,7 +131,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     );
     return country ? country.isoCode : null;
   };
-
   const [errors, setErrors] = useState({});
   const [locale, setLocale] = useState("en-US");
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
@@ -200,8 +184,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
       setPersonalInfo((prev) => ({
         ...prev,
-        country: countryCode || "US",
-        // state: user.state || "",
+        country: countryCode || "",
+        //state: user.state || "",
         // Commented out: backend does not return user.state.
         // Keeping this line was resetting the saved state (from localStorage) to "".
         // If backend adds state later, re-enable with: state: prev.state || user.state || ""
@@ -218,6 +202,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     setErrors({ ...errors, [name]: error });
     setHasUnsavedChanges(true);
   };
+
+  /*const handleEditClick = () => {
+    setIsEditing(true);
+    setTimeout(() => {
+      if (streetAddressRef.current) {
+        streetAddressRef.current.focus();
+      }
+    }, 0);
+  };*/
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -260,7 +253,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
     setHasUnsavedChanges(false);
   };
-
   const validateField = (name, value) => {
     let error = "";
 
@@ -277,7 +269,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         error = "Street Address 2 must be at least 5 characters long.";
       }
     }
-
     if (name === "dateOfBirth") {
       // If no DOB provided, treat as allowed (per tooltip behavior)
       if (!value) {
@@ -305,7 +296,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         }
       }
     }
-
     if (name === "country") {
       if (!value) {
         error = "Country is required.";
@@ -331,10 +321,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         error = "ZIP Code is required.";
       }
     }
-
     return error;
   };
-
   return (
     <div className="flex flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
       {/* Date of Birth and Gender */}
