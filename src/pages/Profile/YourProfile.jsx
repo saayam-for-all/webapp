@@ -585,6 +585,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       </div>
 
       {/* Country */}
+      {/* Country */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
           {isEditing && <span className="text-red-500 mr-1">*</span>}
@@ -592,21 +593,16 @@ function YourProfile({ setHasUnsavedChanges }) {
         </label>
         {isEditing ? (
           <select
-            value={profileInfo.country}
+            value={profileInfo.country || "United States"}
             onChange={(e) => handleInputChange("country", e.target.value)}
             className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-            disabled={true} // Only United States is allowed in MVP 1.0
           >
-            {/* Placeholder kept for future multi-country support */}
-            {/* <option value="">{t("SELECT_COUNTRY")}</option> */}
-            {countries.map((option) => (
-              <option key={option.value} value={option.label}>
-                {option.label}
-              </option>
-            ))}
+            <option value="United States">United States</option>
           </select>
         ) : (
-          <p className="text-lg text-gray-900">{profileInfo.country}</p>
+          <p className="text-lg text-gray-900">
+            {profileInfo.country || "United States"}
+          </p>
         )}
       </div>
 
