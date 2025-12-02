@@ -480,7 +480,7 @@ const ElderlySupport = ({
 
           <div className="mt-2">
             <label className="block text-gray-700 mb-2 font-medium">
-              Type of Assistance Needed (multi-select)
+              Type of Assistance Needed
             </label>
             <div className="flex flex-wrap gap-3">
               {["Packing", "Transport", "Unpacking", "Loading / Unloading"].map(
@@ -709,7 +709,7 @@ const ElderlySupport = ({
               </div>
               <div className="mt-4">
                 <label className="block text-gray-700 mb-2 font-medium">
-                  Reminder Times (multi-select hourly slots: 6 AM – 9 PM)
+                  Select multiple times between (6 AM – 9 PM)
                 </label>
                 <div className="grid grid-cols-4 gap-2 max-h-40 overflow-y-auto">
                   {Array.from({ length: 16 }, (_, i) => {
@@ -745,7 +745,7 @@ const ElderlySupport = ({
               </h3>
               <div className="mt-3">
                 <label className="block text-gray-700 mb-2 font-medium">
-                  Device Type (multi-select)
+                  Device Type
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {[
@@ -887,7 +887,7 @@ const ElderlySupport = ({
               </h3>
               <div className="mt-3">
                 <label className="block text-gray-700 mb-2 font-medium">
-                  Errand Type (multi-select)
+                  Errand Type
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {[
@@ -1073,7 +1073,7 @@ const ElderlySupport = ({
               </div>
               <div className="mt-4">
                 <label className="block text-gray-700 mb-2 font-medium">
-                  Accessibility Needs (multi-select)
+                  Accessibility Needs
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {[
@@ -1109,7 +1109,7 @@ const ElderlySupport = ({
               </h3>
               <div className="mt-3">
                 <label className="block text-gray-700 mb-2 font-medium">
-                  Appointment Type (multi-select)
+                  Appointment Type
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {["Doctor", "Social Service", "Bank", "Utility"].map(
@@ -1136,7 +1136,7 @@ const ElderlySupport = ({
               </div>
               <div className="mt-4">
                 <label className="block text-gray-700 mb-2 font-medium">
-                  Mode (multi-select)
+                  Mode
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {["Booking Online", "Calling", "In-Person Help"].map(
@@ -1202,7 +1202,7 @@ const ElderlySupport = ({
         <div className="space-y-3">
           <div className="mt-2">
             <label className="block text-gray-700 mb-2 font-medium">
-              Activity (multi-select)
+              Activity
             </label>
             <div className="flex flex-wrap gap-3">
               {[
@@ -1308,7 +1308,7 @@ const ElderlySupport = ({
         <div className="space-y-3">
           <div className="mt-2">
             <label className="block text-gray-700 mb-2 font-medium">
-              Type of Help (multi-select)
+              Type of Help
             </label>
             <div className="flex flex-wrap gap-3">
               {[
@@ -1346,7 +1346,7 @@ const ElderlySupport = ({
           </div>
           <div className="mt-2">
             <label className="block text-gray-700 mb-2 font-medium">
-              Dietary Preferences (multi-select)
+              Dietary Preferences
             </label>
             <div className="flex flex-wrap gap-3">
               {[

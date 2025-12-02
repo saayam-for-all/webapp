@@ -152,6 +152,34 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     priority: "MEDIUM",
   });
 
+  // If user changes category to a non-elderly option, ensure any open ElderlySupport panel is closed
+  useEffect(() => {
+    // Resolve whether current formData.category corresponds to an Elderly subcategory
+    const isElderlySubcategory = (() => {
+      if (!formData.category || !categories) return false;
+      // check if category matches a subcategory id or name under ELDERLY_SUPPORT
+      for (const cat of categories) {
+        if (!cat.subCategories || cat.subCategories.length === 0) continue;
+        if (cat.catName === "ELDERLY_SUPPORT") {
+          const match = cat.subCategories.find(
+            (s) =>
+              s.catId === formData.category || s.catName === formData.category,
+          );
+          if (match) return true;
+        }
+      }
+      return false;
+    })();
+
+    if (!isElderlySubcategory) {
+      // close any inline elderly support form if it's open and the selected category is not elderly
+      if (showElderlySupportForm || selectedElderlySubcategory) {
+        setShowElderlySupportForm(false);
+        setSelectedElderlySubcategory(null);
+      }
+    }
+  }, [formData.category, categories]);
+
   // FILE UPLOAD STATE
   // attachedFiles: array of File objects selected by user (not yet uploaded)
   const [attachedFiles, setAttachedFiles] = useState([]);
