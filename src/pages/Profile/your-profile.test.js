@@ -211,22 +211,24 @@ describe("YourProfile", () => {
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
 
+    // Enter edit mode
     fireEvent.click(screen.getByText("EDIT"));
-    // ensure the phone input mock mounted & set the phone before saving
-    await screen.findByTestId("phone-input-mock");
-    await new Promise((r) => setTimeout(r, 0)); // flush state microtask
 
-    const emailInput = screen.getByDisplayValue(/.+@.+\..+/);
+    // Change the email
+    const emailInput = screen.getByDisplayValue("john@example.com");
     fireEvent.change(emailInput, { target: { value: "new@example.com" } });
 
+    // Save
     fireEvent.click(screen.getByText("SAVE"));
 
+    // Verify Amplify was called to send verification email
     await waitFor(() => {
       expect(updateUserAttributes).toHaveBeenCalledWith({
         userAttributes: { email: "new@example.com" },
       });
     });
 
+    // Verify navigation to /verify-otp with the correct state
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith(
         "/verify-otp",
