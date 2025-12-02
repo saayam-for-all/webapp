@@ -4,13 +4,10 @@ import { updateUserAttributes, fetchAuthSession } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PHONECODESEN from "../../utils/phone-codes-en";
-// import CountryList from "react-select-country-list";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
 import CallModal from "./CallModal.jsx";
 import { updateUserProfile } from "../../redux/features/authentication/authActions";
 import LoadingIndicator from "../../common/components/Loading/Loading";
-
-// ✅ same component + validator used by ContactUs
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 
@@ -31,15 +28,6 @@ function YourProfile({ setHasUnsavedChanges }) {
     useState(false);
 
   const firstNameRef = useRef(null);
-
-  // --- Country dropdown data ---
-  // Multi-country list (kept for future use when we support more countries)
-  // const countries = CountryList().getData();
-  //
-  // For MVP 1.0 we only support United States as profile country.
-  // The dropdown in Edit mode should only offer this single option.
-  const countries = [{ value: "US", label: "United States" }];
-
   const user = useSelector((state) => state.auth.user);
 
   const [nameErrors, setNameErrors] = useState({ firstName: "", lastName: "" });
@@ -52,16 +40,16 @@ function YourProfile({ setHasUnsavedChanges }) {
     email: "",
     phone: "", // national digits (no +)
     phoneCountryCode: "US", // ISO, e.g. 'US', 'CA', 'GB', 'GG'
-    country: "United States",
+    country: "", // zoneinfo / display country
   });
 
   const [originalEmail, setOriginalEmail] = useState("");
 
-  // Local state used by PhoneNumberInputWithCountry (same pattern as ContactUs)
-  const [phone, setPhone] = useState(""); // digits only (widget composes E.164 with selected country)
+  // Local state used by PhoneNumberInputWithCountry
+  const [phone, setPhone] = useState(""); // digits only
   const [countryCode, setCountryCode] = useState("US"); // ISO
 
-  // ---------------- helpers ----------------
+  // -------- helpers --------
   const getIsoFromCountryLabel = (label) => {
     const match = Object.entries(PHONECODESEN).find(
       ([, data]) => data.primary === label,
@@ -69,7 +57,6 @@ function YourProfile({ setHasUnsavedChanges }) {
     return match ? match[0] : null;
   };
 
-  // Prefer zoneinfo ISO when dial code collides (fallback if parsing fails)
   const detectIsoByDial = (e164, preferredIso) => {
     if (!e164 || e164[0] !== "+") return null;
     const all = Object.entries(PHONECODESEN)
@@ -99,9 +86,8 @@ function YourProfile({ setHasUnsavedChanges }) {
 
   const digitsOnlyMax10 = (value) =>
     (value || "").replace(/\D/g, "").slice(0, 10);
-  // -----------------------------------------
 
-  // Load user into form (derive ISO via parsing first; fallbacks if needed)
+  // -------- load user into form --------
   useEffect(() => {
     if (!user) return;
 
@@ -122,7 +108,6 @@ function YourProfile({ setHasUnsavedChanges }) {
       ? detectIsoByDial(user.phone_number, zoneIso)
       : null;
 
-    // Strict precedence: parsed → zoneinfo (if matches dial) → byDial → 'US'
     const finalIso = parsedIso || byDial || zoneIso || "US";
     const digits = digitsOnlyMax10(
       stripDialOnce(user.phone_number || "", finalIso),
@@ -136,18 +121,16 @@ function YourProfile({ setHasUnsavedChanges }) {
       email: userEmail,
       phone: digits,
       phoneCountryCode: finalIso,
-      // For MVP 1.0 we always show United States as profile country.
-      country: "United States",
+      // Read-only uses existing zoneinfo if present, otherwise United States
+      country: user.zoneinfo || "United States",
     });
 
-    // keep the ContactUs-style phone component in sync
     setPhone(digits);
     setCountryCode(finalIso);
-
     setPhoneError("");
   }, [user]);
 
-  // Name + email validators (unchanged)
+  // -------- validators --------
   const validateName = (field, value, requireNonEmpty = false) => {
     const label = field === "firstName" ? "First name" : "Last name";
     const trimmed = (value || "").trim();
@@ -179,7 +162,7 @@ function YourProfile({ setHasUnsavedChanges }) {
     return error === "";
   };
 
-  // Generic field changes (phone handled by PhoneNumberInputWithCountry)
+  // -------- input handlers --------
   const handleInputChange = (name, value) => {
     if (name === "firstName" || name === "lastName") {
       let sanitized = (value || "")
@@ -212,22 +195,17 @@ function YourProfile({ setHasUnsavedChanges }) {
       if (saveError && saveError.includes("email")) setSaveError("");
       if (showEmailVerificationMessage) setShowEmailVerificationMessage(false);
     } else if (name === "country") {
-      // In MVP 1.0 this will always be "United States",
-      // but we keep the handler so future multi-country support is easy.
-      const nextIso = getIsoFromCountryLabel(value);
+      // For MVP 1.0 this will always be "United States" when editing
       setProfileInfo((prev) => ({
         ...prev,
         country: value,
-        // do NOT override phoneCountryCode from "country"; they're independent
       }));
       setHasUnsavedChanges(true);
       return;
     } else if (name === "phoneCountryCode") {
-      // not used by UI anymore; keep safe
       setProfileInfo((prev) => ({ ...prev, phoneCountryCode: value }));
       setCountryCode(value);
     } else if (name === "phone") {
-      // not used by UI anymore; keep safe
       const digits = digitsOnlyMax10(value);
       setProfileInfo((prev) => ({ ...prev, phone: digits }));
       setPhone(digits);
@@ -247,6 +225,7 @@ function YourProfile({ setHasUnsavedChanges }) {
     }
   };
 
+  // -------- save handler --------
   const handleSave = async () => {
     try {
       setLoading(true);
@@ -262,19 +241,16 @@ function YourProfile({ setHasUnsavedChanges }) {
       if (!validateEmail(profileInfo.email, true))
         throw new Error("Please enter a valid email address");
 
-      // ✅ ContactUs-style validation + strict region check
       const dial = PHONECODESEN[countryCode]?.secondary || "";
       const fullPhoneNumber = dial ? `${dial}${phone}` : phone;
 
-      // Only validate phone if it's provided (optional for Personal Information)
       if (phone) {
         if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
           setPhoneError("Please enter a valid phone number");
           setLoading(false);
-          return; // stop here, no banner
+          return;
         }
 
-        // Strict: parsed region must match selected countryCode (e.g., CA vs US, GB vs GG)
         try {
           const parsed = parsePhoneNumber(fullPhoneNumber);
           if (!parsed?.isValid()) {
@@ -289,7 +265,7 @@ function YourProfile({ setHasUnsavedChanges }) {
               `The number doesn't belong to ${wanted}. Detected ${got}.`,
             );
             setLoading(false);
-            return; // stop here, no banner
+            return;
           }
         } catch {
           setPhoneError("Please enter a valid phone number");
@@ -298,7 +274,6 @@ function YourProfile({ setHasUnsavedChanges }) {
         }
       }
 
-      // Ensure we have a fresh session
       let session;
       try {
         session = await fetchAuthSession();
@@ -317,17 +292,18 @@ function YourProfile({ setHasUnsavedChanges }) {
         return;
       }
 
-      // Use the same composed value ContactUs sends (E.164)
       const formattedPhone = fullPhoneNumber;
 
-      // Keep local profile in sync so read-only shows latest immediately
+      // For MVP 1.0: persist United States as profile country
+      const profileCountry = "United States";
+
       setProfileInfo((p) => ({
         ...p,
         phone: phone,
         phoneCountryCode: countryCode,
+        country: profileCountry,
       }));
 
-      // Email change -> OTP flow (unchanged)
       const emailChanged = profileInfo.email !== originalEmail;
       if (emailChanged) {
         setShowEmailVerificationMessage(true);
@@ -336,7 +312,7 @@ function YourProfile({ setHasUnsavedChanges }) {
           lastName: profileInfo.lastName,
           email: profileInfo.email,
           phone: formattedPhone,
-          country: profileInfo.country,
+          country: profileCountry,
         });
 
         await sendEmailVerification(profileInfo.email);
@@ -350,22 +326,20 @@ function YourProfile({ setHasUnsavedChanges }) {
               lastName: profileInfo.lastName,
               email: profileInfo.email,
               phone: formattedPhone,
-              country: profileInfo.country,
+              country: profileCountry,
             },
           },
         });
         return;
       }
 
-      // Update profile (unchanged)
       const result = await dispatch(
         updateUserProfile({
           firstName: profileInfo.firstName,
           lastName: profileInfo.lastName,
           email: profileInfo.email,
-          phone: formattedPhone, // E.164
-          country: profileInfo.country, // profile country (independent of phone)
-          // If your backend can store it, add: phoneCountryIso: countryCode
+          phone: formattedPhone,
+          country: profileCountry,
         }),
       )
         .then((response) => response)
@@ -433,11 +407,9 @@ function YourProfile({ setHasUnsavedChanges }) {
           stripDialOnce(user.phone_number || "", finalIso),
         ),
         phoneCountryCode: finalIso,
-        // Reset back to United States for MVP 1.0
-        country: "United States",
+        country: user.zoneinfo || "United States",
       });
 
-      // keep shared phone component in sync
       setPhone(
         digitsOnlyMax10(stripDialOnce(user.phone_number || "", finalIso)),
       );
@@ -562,7 +534,6 @@ function YourProfile({ setHasUnsavedChanges }) {
             />
           ) : (
             <>
-              {/* show only +dial and digits to avoid “UK vs Guernsey” wording confusion */}
               <p className="text-lg text-gray-900">
                 {`${PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || ""}${
                   PHONECODESEN[profileInfo.phoneCountryCode]?.primary
@@ -581,10 +552,8 @@ function YourProfile({ setHasUnsavedChanges }) {
             </>
           )}
         </div>
-        {/* Phone error is rendered by the PhoneNumberInputWithCountry when editing */}
       </div>
 
-      {/* Country */}
       {/* Country */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -593,7 +562,8 @@ function YourProfile({ setHasUnsavedChanges }) {
         </label>
         {isEditing ? (
           <select
-            value={profileInfo.country || "United States"}
+            // For MVP 1.0, editing always uses United States as the only choice
+            value="United States"
             onChange={(e) => handleInputChange("country", e.target.value)}
             className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
           >
@@ -606,7 +576,6 @@ function YourProfile({ setHasUnsavedChanges }) {
         )}
       </div>
 
-      {/* Error Message (kept for non-phone errors) */}
       {saveError && (
         <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
           {saveError}
@@ -619,7 +588,6 @@ function YourProfile({ setHasUnsavedChanges }) {
           <button
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={() => {
-              // ensure the edit component starts with clean digits & ISO
               setProfileInfo((prev) => ({
                 ...prev,
                 phone: digitsOnlyMax10(
@@ -628,8 +596,6 @@ function YourProfile({ setHasUnsavedChanges }) {
                     prev.phoneCountryCode,
                   ),
                 ),
-                // When entering edit mode, always keep country as United States in MVP 1.0
-                country: "United States",
               }));
               setPhoneError("");
               setPhone(
@@ -662,7 +628,7 @@ function YourProfile({ setHasUnsavedChanges }) {
                   {t("SAVING")}
                 </>
               ) : (
-                t("SAVE")
+                <>{t("SAVE")}</>
               )}
             </button>
             <button
@@ -680,7 +646,6 @@ function YourProfile({ setHasUnsavedChanges }) {
         )}
       </div>
 
-      {/* Call Modal */}
       <CallModal
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
