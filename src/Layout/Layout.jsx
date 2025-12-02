@@ -44,9 +44,13 @@ const Layout = () => {
             </aside>
           )}
         </div>
+       
+
 
         {/* footer */}
         <footer className="">
+          <button className="m-4 w-full py-2 bg-gray-800 text-white rounded-lg">Click Me</button>
+
           <Footer />
         </footer>
         <ScrollToTop />
