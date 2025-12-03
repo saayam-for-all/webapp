@@ -214,9 +214,15 @@ const Dashboard = ({ userRole }) => {
     setAccessDeniedMessage("");
   };
 
+  const dataKeyMap = {
+    requestId: "id",
+    beneficiaryId: "userId",
+  };
+  const resolveKey = (header) => dataKeyMap[header] || header;
+
   const headersWithStatus = useMemo(() => {
     const baseHeaders = [
-      "id",
+      "requestId",
       "type",
       "subject",
       "creationDate",
@@ -228,8 +234,8 @@ const Dashboard = ({ userRole }) => {
     const headersWithUserId =
       activeTab === "othersRequests"
         ? [
-            "id",
-            "userId",
+            "requestId",
+            "beneficiaryId",
             "type",
             "subject",
             "creationDate",
@@ -430,11 +436,12 @@ const Dashboard = ({ userRole }) => {
   };
 
   const requestSort = (key) => {
+    const resolved = resolveKey(key);
     let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+    if (sortConfig.key === resolved && sortConfig.direction === "ascending") {
       direction = "descending";
     }
-    setSortConfig({ key, direction });
+    setSortConfig({ key: resolved, direction });
   };
 
   const handleStatusChange = (status) => {
@@ -910,7 +917,9 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
                 getLinkState={(request) => request}
                 searchFilters={
                   activeTab === "analytics" ? null : dashboardSearchFilters
@@ -934,7 +943,9 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
                 getLinkState={(request) => request}
                 searchFilters={
                   activeTab === "analytics" ? null : dashboardSearchFilters
@@ -956,7 +967,9 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
               />
@@ -976,7 +989,9 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
               />
@@ -996,7 +1011,9 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) => `/request/${request[header]}`}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
               />

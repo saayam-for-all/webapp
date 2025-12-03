@@ -63,6 +63,9 @@ const Table = ({
     return value;
   };
 
+  const dataKeyMap = { requestId: "id", beneficiaryId: "userId" };
+  const resolveKey = (header) => dataKeyMap[header] || header;
+
   return (
     <div className="relative h-full" data-testid="container">
       <div className="overflow-auto h-4/5">
@@ -75,16 +78,19 @@ const Table = ({
               {headers.map((key) => (
                 <th
                   key={key}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider whitespace-nowrap"
+                  className="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                   data-testid="map-header-one"
                 >
-                  <button type="button" onClick={() => requestSort(key)}>
+                  <button
+                    type="button"
+                    onClick={() => requestSort(resolveKey(key))}
+                  >
                     {key.charAt(0).toUpperCase() +
                       key
                         .slice(1)
                         .replace(/([A-Z])/g, " $1")
                         .trim()}
-                    {getSortIndicator(key)}
+                    {getSortIndicator(resolveKey(key))}
                   </button>
                 </th>
               ))}
@@ -99,16 +105,16 @@ const Table = ({
                 {headers.map((header, colIndex) => (
                   <td
                     key={colIndex}
-                    className="px-6 py-4 whitespace-nowrap"
+                    className="px-6 py-2"
                     data-testid="map-data-one"
                   >
-                    {header === "id" ? (
+                    {header === "requestId" ? (
                       <Link
                         to={getLinkPath(request, header)}
                         className="text-indigo-600 hover:text-indigo-900"
                         state={getLinkState ? getLinkState(request) : {}}
                       >
-                        {request[header]}
+                        {request[resolveKey(header)]}
                       </Link>
                     ) : (
                       formatDateTime(request[header], header)
