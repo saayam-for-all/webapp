@@ -44,7 +44,17 @@ const BeneficiaryDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("othersRequests")}
         >
-          {t("OTHERS_REQUESTS")}
+          <span className="inline-flex items-center justify-center gap-2">
+            {t("OTHERS_REQUESTS")}
+            <div className="relative group cursor-pointer">
+              <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                ?
+              </div>
+              <div className="absolute left-5 top-0 w-[10rem] bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                Requests filed for other people
+              </div>
+            </div>
+          </span>
         </button>
       </div>
 
