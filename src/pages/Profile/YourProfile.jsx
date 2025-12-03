@@ -584,12 +584,7 @@ function YourProfile({ setHasUnsavedChanges }) {
             onChange={(e) => handleInputChange("country", e.target.value)}
             className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
           >
-            <option value="">{t("SELECT_COUNTRY")}</option>
-            {countries.map((option) => (
-              <option key={option.value} value={option.label}>
-                {option.label}
-              </option>
-            ))}
+            <option value="United States">United States</option>
           </select>
         ) : (
           <p className="text-lg text-gray-900">{profileInfo.country}</p>
