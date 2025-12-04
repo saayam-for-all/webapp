@@ -53,7 +53,7 @@ const LoginPage = () => {
         return;
       }
 
-      const { isSignedIn } = await signIn({
+      const { isSignedIn, nextStep } = await signIn({
         username: emailValue,
         password: passwordValue,
       });
@@ -62,6 +62,18 @@ const LoginPage = () => {
         const newExpiry = Date.now() + INACTIVITY_TIMEOUT;
         localStorage.setItem("expireTime", newExpiry.toString());
         navigate("/dashboard");
+      } else {
+        if (nextStep?.signInStep) {
+          if (nextStep.signInStep === "CONFIRM_SIGN_UP") {
+            navigate("/verify-otp", {
+              state: { email: emailValue, fromSignIn: true },
+            });
+          } else {
+            throw new Error("Unsupported sign-in step: " + nextStep.signInStep);
+          }
+        } else {
+          throw new Error("Unknown error, please contact admin");
+        }
       }
     } catch (error) {
       console.log("error", error);
