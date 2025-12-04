@@ -8,7 +8,11 @@ import {
   updateUserAttributes,
 } from "aws-amplify/auth";
 
-import { getEnums, getCategories } from "../../../services/requestServices";
+import {
+  getEnums,
+  getCategories,
+  getEnvironment,
+} from "../../../services/requestServices";
 
 import { getUserId } from "../../../services/volunteerServices";
 import { loadCategories } from "../help_request/requestActions";
@@ -60,13 +64,13 @@ export const checkAuthStatus = () => async (dispatch) => {
       let categoriesArray;
       if (Array.isArray(categoriesData)) {
         categoriesArray = categoriesData;
-      } else if (
-        categoriesData &&
-        Array.isArray(categoriesData.categories)
-      ) {
+      } else if (categoriesData && Array.isArray(categoriesData.categories)) {
         categoriesArray = categoriesData.categories;
       } else if (categoriesData && typeof categoriesData === "object") {
-        console.log("Categories API response structure:", Object.keys(categoriesData));
+        console.log(
+          "Categories API response structure:",
+          Object.keys(categoriesData),
+        );
         throw new Error(
           "Invalid API response format - expected array or object with categories array",
         );
@@ -90,7 +94,29 @@ export const checkAuthStatus = () => async (dispatch) => {
       // Also load into Redux state
       dispatch(loadCategories(validCategories));
     } catch (categoryError) {
-      console.warn("Failed to fetch categories after login:", categoryError.message);
+      console.warn(
+        "Failed to fetch categories after login:",
+        categoryError.message,
+      );
+    }
+
+    //getEnvironment Fetching
+
+    try {
+      const environmentData = await getEnvironment();
+      const envValue =
+        environmentData?.body ||
+        environmentData?.environment ||
+        environmentData;
+      localStorage.setItem("environment", JSON.stringify(envValue));
+      console.log("Environment fetched and stored:", envValue);
+    } catch (envError) {
+      console.warn(
+        "Failed to fetch environment after login:",
+        envError.message,
+      );
+      // Setting default to production if fetch fails
+      localStorage.setItem("environment", JSON.stringify("production"));
     }
 
     let userDbId = null;
