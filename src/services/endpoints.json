@@ -15,7 +15,8 @@
   "GET_NOTIFICATIONS": "requests/v0.0.1/getNotifications",
   "GENERATE_ANSWER": "genai/v0.0.1/generate_answer",
   "GET_USER_ID": "volunteers/v0.0.1/findUserByEmailID",
-  "GET_CATEGORIES": "/requests/v0.0.1/mockCategoriesAPI",
+  "GET_CATEGORIES": "/requests/v0.0.1/mockCategories",
+  "GET_METADATA": "/requests/v0.0.1/mockMetadata",
   "GET_ENUMS": "/requests/v0.0.1/mockEnums",
   "UPLOAD_REQUEST_FILE": "/requests/v0.0.1/file-upload",
   "GET_ENVIRONMENT": "/requests/v0.0.1/getEnvironment"

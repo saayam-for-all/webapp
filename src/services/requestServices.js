@@ -58,6 +58,11 @@ export const getEnums = async () => {
   return response.data;
 };
 
+export const getMetadata = async () => {
+  const response = await api.get(endpoints.GET_METADATA);
+  return response.data;
+};
+
 export const getEnvironment = async () => {
   const response = await api.get(endpoints.GET_ENVIRONMENT);
   return response.data;
