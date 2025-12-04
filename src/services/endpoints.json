@@ -17,5 +17,6 @@
   "GET_USER_ID": "volunteers/v0.0.1/findUserByEmailID",
   "GET_CATEGORIES": "/requests/v0.0.1/mockCategoriesAPI",
   "GET_ENUMS": "/requests/v0.0.1/mockEnums",
-  "UPLOAD_REQUEST_FILE": "/requests/v0.0.1/file-upload"
+  "UPLOAD_REQUEST_FILE": "/requests/v0.0.1/file-upload",
+  "GET_ENVIRONMENT": "/requests/v0.0.1/getEnvironment"
 }

@@ -58,6 +58,11 @@ export const getEnums = async () => {
   return response.data;
 };
 
+export const getEnvironment = async () => {
+  const response = await api.get(endpoints.GET_ENVIRONMENT);
+  return response.data;
+};
+
 export const uploadRequestFile = async (file) => {
   const formData = new FormData();
   formData.append("file", file);

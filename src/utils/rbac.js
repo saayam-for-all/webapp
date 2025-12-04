@@ -1,3 +1,18 @@
+export const isDevEnvironment = () => {
+  try {
+    const env = localStorage.getItem("environment");
+    if (!env) return false;
+    const envValue = JSON.parse(env);
+    const envString =
+      typeof envValue === "string"
+        ? envValue
+        : envValue?.environment || envValue?.body;
+    return envString?.toLowerCase() === "dev";
+  } catch (error) {
+    console.error("Error checking environment:", error);
+    return false;
+  }
+};
 export const ROLES = {
   BENEFICIARY: "Beneficiaries",
   VOLUNTEER: "Volunteers",
@@ -29,16 +44,21 @@ const DASHBOARD_ACCESS_MATRIX = {
 };
 
 export const canAccessDashboard = (userGroups, dashboard) => {
+  if (isDevEnvironment()) {
+    return true;
+  }
   if (!userGroups || !Array.isArray(userGroups) || userGroups.length === 0) {
     return dashboard === DASHBOARDS.BENEFICIARY;
   }
 
   const allowedRoles = DASHBOARD_ACCESS_MATRIX[dashboard] || [];
-
   return userGroups.some((group) => allowedRoles.includes(group));
 };
 
 export const getAccessibleDashboards = (userGroups) => {
+  if (isDevEnvironment()) {
+    return Object.values(DASHBOARDS);
+  }
   if (!userGroups || !Array.isArray(userGroups) || userGroups.length === 0) {
     return [DASHBOARDS.BENEFICIARY];
   }
@@ -86,6 +106,10 @@ export const getDashboardDisplayName = (dashboard) => {
 };
 
 export const validateDashboardAccess = (userGroups, targetDashboard) => {
+  if (isDevEnvironment()) {
+    return { allowed: true };
+  }
+
   if (!targetDashboard) {
     return { allowed: false, reason: "No dashboard specified" };
   }
