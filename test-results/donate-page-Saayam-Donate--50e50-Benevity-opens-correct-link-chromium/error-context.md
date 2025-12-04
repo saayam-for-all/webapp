@@ -1,0 +1,152 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - navigation [ref=e5]:
+      - generic [ref=e6]:
+        - img "Company Logo" [ref=e8] [cursor=pointer]
+        - generic [ref=e9]:
+          - button "Home" [ref=e11] [cursor=pointer]:
+            - img [ref=e12]
+            - text: Home
+          - button "About Us" [ref=e15] [cursor=pointer]:
+            - img [ref=e16]
+            - text: About Us
+            - img [ref=e18]
+          - button "Volunteer Services" [ref=e21] [cursor=pointer]:
+            - img [ref=e22]
+            - text: Volunteer Services
+            - img [ref=e28]
+          - button "Contact Us" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+            - text: Contact Us
+          - button "Donate" [ref=e35] [cursor=pointer]:
+            - img [ref=e36]
+            - text: Donate
+        - link "Log In" [ref=e38] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e39]
+          - text: Log In
+  - main [ref=e43]:
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - heading "Double Your Impact through Benevity" [level=1] [ref=e46]
+        - paragraph [ref=e47]:
+          - text: Many companies offer donation or volunteer matching through Benevity.
+          - text: If your employer is one of them, you can help Saayam for All even more.
+        - generic [ref=e48]:
+          - generic [ref=e49]: "Charity Name: Saayam for All"
+          - generic [ref=e50]: "Charity Identifier: 840-932798273"
+          - generic [ref=e51]: "IRS Federal EIN: 9308382873"
+          - link "Search on Benevity" [ref=e52] [cursor=pointer]:
+            - /url: https://benevity.com
+      - generic [ref=e53]:
+        - heading "How to Donate" [level=2] [ref=e54]
+        - paragraph [ref=e55]: Follow these steps to donate or volunteer through Benevity.
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - generic [ref=e58]: "1"
+            - img [ref=e60]
+            - generic [ref=e62]: Go to Your Company's Portal
+            - generic [ref=e63]: Log in to your company's giving or volunteer portal where all your corporate social responsibility programs are listed.
+          - generic [ref=e64]:
+            - generic [ref=e65]: "2"
+            - img [ref=e67]
+            - generic [ref=e69]: Search for "Saayam for All"
+            - generic [ref=e70]: Type "Saayam for All" into the portal's search bar to locate our cause and explore how you can support us.
+          - generic [ref=e71]:
+            - generic [ref=e72]: "3"
+            - img "Hand holding heart icon" [ref=e74]
+            - generic [ref=e75]: Log Your Hours or Donate
+            - generic [ref=e76]: Track your volunteer hours or make a financial donation – your company may even match your efforts!
+      - generic [ref=e77]:
+        - heading "Corporate Matching and Giving Programs" [level=2] [ref=e78]
+        - paragraph [ref=e79]: You can find the links for which you can donate.
+        - table [ref=e81]:
+          - rowgroup [ref=e82]:
+            - row "Company Name Link to Portal" [ref=e83]:
+              - columnheader "Company Name" [ref=e84]
+              - columnheader "Link to Portal" [ref=e85]
+          - rowgroup [ref=e86]:
+            - row "Microsoft https://microsoft.benevity.org/" [ref=e87]:
+              - cell "Microsoft" [ref=e88]
+              - cell "https://microsoft.benevity.org/" [ref=e89]:
+                - link "https://microsoft.benevity.org/" [ref=e90] [cursor=pointer]:
+                  - /url: https://microsoft.benevity.org/
+            - row "Amazon https://amazon.benevity.org/" [ref=e91]:
+              - cell "Amazon" [ref=e92]
+              - cell "https://amazon.benevity.org/" [ref=e93]:
+                - link "https://amazon.benevity.org/" [ref=e94] [cursor=pointer]:
+                  - /url: https://amazon.benevity.org/
+            - row "Apple https://apple.benevity.org/" [ref=e95]:
+              - cell "Apple" [ref=e96]
+              - cell "https://apple.benevity.org/" [ref=e97]:
+                - link "https://apple.benevity.org/" [ref=e98] [cursor=pointer]:
+                  - /url: https://apple.benevity.org/
+            - row "Google https://google.benevity.org/" [ref=e99]:
+              - cell "Google" [ref=e100]
+              - cell "https://google.benevity.org/" [ref=e101]:
+                - link "https://google.benevity.org/" [ref=e102] [cursor=pointer]:
+                  - /url: https://google.benevity.org/
+            - row "Salesforce https://salesforce.benevity.org/" [ref=e103]:
+              - cell "Salesforce" [ref=e104]
+              - cell "https://salesforce.benevity.org/" [ref=e105]:
+                - link "https://salesforce.benevity.org/" [ref=e106] [cursor=pointer]:
+                  - /url: https://salesforce.benevity.org/
+            - row "Oracle https://oracle.benevity.org/" [ref=e107]:
+              - cell "Oracle" [ref=e108]
+              - cell "https://oracle.benevity.org/" [ref=e109]:
+                - link "https://oracle.benevity.org/" [ref=e110] [cursor=pointer]:
+                  - /url: https://oracle.benevity.org/
+            - row "Nvidia https://nvidia.benevity.org/" [ref=e111]:
+              - cell "Nvidia" [ref=e112]
+              - cell "https://nvidia.benevity.org/" [ref=e113]:
+                - link "https://nvidia.benevity.org/" [ref=e114] [cursor=pointer]:
+                  - /url: https://nvidia.benevity.org/
+            - row "Visa https://visa.benevity.org/" [ref=e115]:
+              - cell "Visa" [ref=e116]
+              - cell "https://visa.benevity.org/" [ref=e117]:
+                - link "https://visa.benevity.org/" [ref=e118] [cursor=pointer]:
+                  - /url: https://visa.benevity.org/
+            - row "Intel https://intel.benevity.org/" [ref=e119]:
+              - cell "Intel" [ref=e120]
+              - cell "https://intel.benevity.org/" [ref=e121]:
+                - link "https://intel.benevity.org/" [ref=e122] [cursor=pointer]:
+                  - /url: https://intel.benevity.org/
+            - row "Cisco https://cisco.benevity.org/" [ref=e123]:
+              - cell "Cisco" [ref=e124]
+              - cell "https://cisco.benevity.org/" [ref=e125]:
+                - link "https://cisco.benevity.org/" [ref=e126] [cursor=pointer]:
+                  - /url: https://cisco.benevity.org/
+  - contentinfo [ref=e127]:
+    - contentinfo [ref=e128]:
+      - generic [ref=e129]:
+        - generic [ref=e130]:
+          - generic [ref=e131]:
+            - img "Saayam logo" [ref=e133]
+            - navigation "Footer navigation" [ref=e134]:
+              - link "Home" [ref=e135] [cursor=pointer]:
+                - /url: /
+              - link "Our Mission" [ref=e136] [cursor=pointer]:
+                - /url: /our-mission
+              - link "Our Team" [ref=e137] [cursor=pointer]:
+                - /url: /our-team
+              - link "How We Operate" [ref=e138] [cursor=pointer]:
+                - /url: /how-we-operate
+              - link "Contact Us" [ref=e139] [cursor=pointer]:
+                - /url: /contact
+            - link "Donate" [ref=e141] [cursor=pointer]:
+              - /url: /donate
+              - button "Donate" [ref=e142]
+          - separator [ref=e143]
+        - generic [ref=e144]:
+          - generic [ref=e145]: Copyright © 2025 Saayam For All. All rights reserved.
+          - generic [ref=e146]:
+            - link "Site Map" [ref=e147] [cursor=pointer]:
+              - /url: /sitemap
+            - link "Terms and Conditions" [ref=e148] [cursor=pointer]:
+              - /url: /terms-and-conditions
+            - link "Privacy Policy" [ref=e149] [cursor=pointer]:
+              - /url: /privacy-policy
+```

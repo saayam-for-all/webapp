@@ -1,0 +1,78 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - navigation [ref=e5]:
+      - generic [ref=e6]:
+        - img "Company Logo" [ref=e8] [cursor=pointer]
+        - generic [ref=e9]:
+          - button "Home" [ref=e11] [cursor=pointer]:
+            - img [ref=e12]
+            - text: Home
+          - button "About Us" [ref=e15] [cursor=pointer]:
+            - img [ref=e16]
+            - text: About Us
+            - img [ref=e18]
+          - button "Volunteer Services" [ref=e21] [cursor=pointer]:
+            - img [ref=e22]
+            - text: Volunteer Services
+            - img [ref=e28]
+          - button "Contact Us" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+            - text: Contact Us
+          - button "Donate" [ref=e35] [cursor=pointer]:
+            - img [ref=e36]
+            - text: Donate
+        - link "Log In" [ref=e38] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e39]
+          - text: Log In
+  - main [ref=e43]:
+    - generic [ref=e45]:
+      - button "← Back to Donate" [ref=e46] [cursor=pointer]
+      - generic [ref=e47]:
+        - button "One-Time" [ref=e48] [cursor=pointer]
+        - button "Monthly" [ref=e49] [cursor=pointer]
+      - iframe [ref=e53]:
+        - generic [ref=f5e4]:
+          - generic [ref=f5e5]:
+            - img "Stand with Saayam For All" [ref=f5e8]
+            - generic "Stand with Saayam For All" [ref=f5e11]
+          - textbox [ref=f5e20]:
+            - /placeholder: $0.00
+            - text: $0.00
+          - button "Donate" [ref=f5e21] [cursor=pointer]:
+            - generic [ref=f5e22]: Donate
+          - generic [ref=f5e25]: "Supported payment methods:"
+  - contentinfo [ref=e54]:
+    - contentinfo [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - img "Saayam logo" [ref=e60]
+            - navigation "Footer navigation" [ref=e61]:
+              - link "Home" [ref=e62] [cursor=pointer]:
+                - /url: /
+              - link "Our Mission" [ref=e63] [cursor=pointer]:
+                - /url: /our-mission
+              - link "Our Team" [ref=e64] [cursor=pointer]:
+                - /url: /our-team
+              - link "How We Operate" [ref=e65] [cursor=pointer]:
+                - /url: /how-we-operate
+              - link "Contact Us" [ref=e66] [cursor=pointer]:
+                - /url: /contact
+            - link "Donate" [ref=e68] [cursor=pointer]:
+              - /url: /donate
+              - button "Donate" [ref=e69]
+          - separator [ref=e70]
+        - generic [ref=e71]:
+          - generic [ref=e72]: Copyright © 2025 Saayam For All. All rights reserved.
+          - generic [ref=e73]:
+            - link "Site Map" [ref=e74] [cursor=pointer]:
+              - /url: /sitemap
+            - link "Terms and Conditions" [ref=e75] [cursor=pointer]:
+              - /url: /terms-and-conditions
+            - link "Privacy Policy" [ref=e76] [cursor=pointer]:
+              - /url: /privacy-policy
+```
