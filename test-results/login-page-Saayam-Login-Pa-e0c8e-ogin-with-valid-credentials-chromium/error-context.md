@@ -33,48 +33,47 @@
       - heading "Log In" [level=1] [ref=e46]
       - generic [ref=e47]:
         - generic [ref=e48]: Email
-        - textbox "Email" [ref=e49]: fakeEmail
+        - textbox "Email" [ref=e49]
       - generic [ref=e50]:
         - generic [ref=e51]: Password
         - generic [ref=e52]:
-          - textbox "Password" [ref=e53]: fakePassword
+          - textbox "Password" [ref=e53]
           - button [ref=e54] [cursor=pointer]:
             - img [ref=e55]
       - button "Forgot Password?" [ref=e58] [cursor=pointer]
-      - button "Log In" [active] [ref=e59] [cursor=pointer]:
+      - button "Log In" [ref=e59] [cursor=pointer]:
         - generic [ref=e61]: Log In
-      - paragraph [ref=e62]: Invalid email or password
-      - generic [ref=e63]:
-        - paragraph [ref=e64]: Don't have an account?
-        - button "Sign Up" [ref=e65] [cursor=pointer]
-  - contentinfo [ref=e66]:
-    - contentinfo [ref=e67]:
-      - generic [ref=e68]:
-        - generic [ref=e69]:
-          - generic [ref=e70]:
-            - img "Saayam logo" [ref=e72]
-            - navigation "Footer navigation" [ref=e73]:
-              - link "Home" [ref=e74] [cursor=pointer]:
+      - generic [ref=e62]:
+        - paragraph [ref=e63]: Don't have an account?
+        - button "Sign Up" [ref=e64] [cursor=pointer]
+  - contentinfo [ref=e65]:
+    - contentinfo [ref=e66]:
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - generic [ref=e69]:
+            - img "Saayam logo" [ref=e71]
+            - navigation "Footer navigation" [ref=e72]:
+              - link "Home" [ref=e73] [cursor=pointer]:
                 - /url: /
-              - link "Our Mission" [ref=e75] [cursor=pointer]:
+              - link "Our Mission" [ref=e74] [cursor=pointer]:
                 - /url: /our-mission
-              - link "Our Team" [ref=e76] [cursor=pointer]:
+              - link "Our Team" [ref=e75] [cursor=pointer]:
                 - /url: /our-team
-              - link "How We Operate" [ref=e77] [cursor=pointer]:
+              - link "How We Operate" [ref=e76] [cursor=pointer]:
                 - /url: /how-we-operate
-              - link "Contact Us" [ref=e78] [cursor=pointer]:
+              - link "Contact Us" [ref=e77] [cursor=pointer]:
                 - /url: /contact
-            - link "Donate" [ref=e80] [cursor=pointer]:
+            - link "Donate" [ref=e79] [cursor=pointer]:
               - /url: /donate
-              - button "Donate" [ref=e81]
-          - separator [ref=e82]
-        - generic [ref=e83]:
-          - generic [ref=e84]: Copyright © 2025 Saayam For All. All rights reserved.
-          - generic [ref=e85]:
-            - link "Site Map" [ref=e86] [cursor=pointer]:
+              - button "Donate" [ref=e80]
+          - separator [ref=e81]
+        - generic [ref=e82]:
+          - generic [ref=e83]: Copyright © 2025 Saayam For All. All rights reserved.
+          - generic [ref=e84]:
+            - link "Site Map" [ref=e85] [cursor=pointer]:
               - /url: /sitemap
-            - link "Terms and Conditions" [ref=e87] [cursor=pointer]:
+            - link "Terms and Conditions" [ref=e86] [cursor=pointer]:
               - /url: /terms-and-conditions
-            - link "Privacy Policy" [ref=e88] [cursor=pointer]:
+            - link "Privacy Policy" [ref=e87] [cursor=pointer]:
               - /url: /privacy-policy
 ```
