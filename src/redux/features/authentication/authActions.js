@@ -12,6 +12,7 @@ import {
   getEnums,
   getCategories,
   getEnvironment,
+  getMetadata,
 } from "../../../services/requestServices";
 
 import { getUserId } from "../../../services/volunteerServices";
@@ -97,6 +98,17 @@ export const checkAuthStatus = () => async (dispatch) => {
       console.warn(
         "Failed to fetch categories after login:",
         categoryError.message,
+      );
+    }
+
+    try {
+      const metadataData = await getMetadata();
+      const metadataPayload = metadataData?.body ?? metadataData;
+      localStorage.setItem("metadata", JSON.stringify(metadataPayload));
+    } catch (metadataError) {
+      console.warn(
+        "Failed to fetch metadata after login:",
+        metadataError.message,
       );
     }
 
