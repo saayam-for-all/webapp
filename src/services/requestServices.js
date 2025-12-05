@@ -69,18 +69,19 @@ export const getEnvironment = async () => {
 };
 
 export const uploadRequestFile = async (file) => {
-  const formData = new FormData();
-  formData.append("file", file);
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
 
-  const response = await api.post(
-    endpoints.UPLOAD_REQUEST_FILE, // <-- add this key to endpoints.json
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
+    const response = await api.post(
+      endpoints.UPLOAD_REQUEST_FILE, // <-- add this key to endpoints.json
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       },
-    },
-  );
-
-  return response.data;
+    );
+    return response.data;
+  } catch {}
 };
