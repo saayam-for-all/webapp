@@ -83,5 +83,11 @@ export const uploadRequestFile = async (file) => {
       },
     );
     return response.data;
-  } catch {}
+  } catch (error) {
+    console.error("File upload error:", error);
+
+    throw new Error(
+      error?.response?.data?.message || "An error occurred during file upload",
+    );
+  }
 };
