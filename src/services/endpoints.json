@@ -18,6 +18,6 @@
   "GET_CATEGORIES": "/requests/v0.0.1/mockCategories",
   "GET_METADATA": "/requests/v0.0.1/mockMetadata",
   "GET_ENUMS": "/requests/v0.0.1/mockEnums",
-  "UPLOAD_REQUEST_FILE": "/requests/v0.0.1/file-upload",
+  "UPLOAD_REQUEST_FILE": "dev/requests/v0.0.1/upload-file",
   "GET_ENVIRONMENT": "/requests/v0.0.1/getEnvironment"
 }
