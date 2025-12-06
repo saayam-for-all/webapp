@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "Avaliado pelo voluntário"
   },
   "requestType": {
-    "INPERSON": "Presencial",
+    "IN_PERSON": "Presencial",
     "REMOTE": "Remoto"
   }
 }

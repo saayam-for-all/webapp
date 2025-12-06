@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "Vom Freiwilligen bewertet"
   },
   "requestType": {
-    "INPERSON": "Persönlich",
+    "IN_PERSON": "Persönlich",
     "REMOTE": "Remote"
   }
 }

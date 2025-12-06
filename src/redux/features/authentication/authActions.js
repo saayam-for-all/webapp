@@ -54,7 +54,7 @@ export const checkAuthStatus = () => async (dispatch) => {
     try {
       const enumsData = await getEnums();
       localStorage.setItem("enums", JSON.stringify(enumsData));
-      // console.log("Enums fetched and stored in localStorage:", enumsData);
+      console.log("Enums fetched and stored in localStorage:", enumsData);
     } catch (enumError) {
       console.warn(" Failed to fetch enums after login:", enumError.message);
     }

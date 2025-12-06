@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "Évalué par le bénévole"
   },
   "requestType": {
-    "INPERSON": "En personne",
+    "IN_PERSON": "En personne",
     "REMOTE": "À distance"
   }
 }

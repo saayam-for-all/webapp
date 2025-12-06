@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "స్వచ్ఛంద సేవకుడు రేటింగ్ ఇచ్చారు"
   },
   "requestType": {
-    "INPERSON": "వ్యక్తిగతంగా",
+    "IN_PERSON": "వ్యక్తిగతంగా",
     "REMOTE": "రిమోట్"
   }
 }

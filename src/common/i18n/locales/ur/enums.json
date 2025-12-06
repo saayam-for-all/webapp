@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "رضاکار نے درجہ بندی کی"
   },
   "requestType": {
-    "INPERSON": "ذاتی طور پر",
+    "IN_PERSON": "ذاتی طور پر",
     "REMOTE": "دور سے"
   }
 }

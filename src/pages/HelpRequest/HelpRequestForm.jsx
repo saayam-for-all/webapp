@@ -1712,7 +1712,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       <HiChevronDown className="h-5 w-5 text-gray-600" />
                     </div>
                   </div>
-                  {formData.request_type === "INPERSON" && (
+                  {formData.request_type === "IN_PERSON" && (
                     <div
                       className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
                       data-testid="parentDivTwo"
