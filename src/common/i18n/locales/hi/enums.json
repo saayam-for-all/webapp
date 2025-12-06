@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया"
   },
   "requestType": {
-    "INPERSON": "व्यक्तिगत रूप से",
+    "IN_PERSON": "व्यक्तिगत रूप से",
     "REMOTE": "दूरस्थ"
   }
 }

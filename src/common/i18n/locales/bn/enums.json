@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "স্বেচ্ছাসেবক দ্বারা মূল্যায়িত"
   },
   "requestType": {
-    "INPERSON": "সরাসরি",
+    "IN_PERSON": "সরাসরি",
     "REMOTE": "দূরবর্তী"
   }
 }

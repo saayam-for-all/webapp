@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "Rated by Volunteer"
   },
   "requestType": {
-    "INPERSON": "In Person",
+    "IN_PERSON": "In Person",
     "REMOTE": "Remote"
   }
 }

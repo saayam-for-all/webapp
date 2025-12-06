@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "由志愿者评分"
   },
   "requestType": {
-    "INPERSON": "亲自",
+    "IN_PERSON": "亲自",
     "REMOTE": "远程"
   }
 }

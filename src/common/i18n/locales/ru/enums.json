@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "Оценено волонтёром"
   },
   "requestType": {
-    "INPERSON": "Лично",
+    "IN_PERSON": "Лично",
     "REMOTE": "Удалённо"
   }
 }
