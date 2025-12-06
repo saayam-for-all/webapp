@@ -11,11 +11,13 @@
   },
   "requestStatus": {
     "CREATED": "Erstellt",
-    "MATCHING VOLUNTEER": "Freiwilliger wird gesucht",
+    "MATCHING_VOLUNTEER": "Freiwilliger wird gesucht",
     "MANAGED": "Verwaltet",
     "RESOLVED": "Gelöst",
     "CANCELLED": "Abgebrochen",
-    "DELETED": "Gelöscht"
+    "DELETED": "Gelöscht",
+    "RATED_BY_REQUESTER": "Vom Antragsteller bewertet",
+    "RATED_BY_VOLUNTEER": "Vom Freiwilligen bewertet"
   },
   "requestType": {
     "INPERSON": "Persönlich",

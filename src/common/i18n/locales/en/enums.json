@@ -11,11 +11,13 @@
   },
   "requestStatus": {
     "CREATED": "Created",
-    "MATCHING VOLUNTEER": "Matching Volunteer",
+    "MATCHING_VOLUNTEER": "Matching Volunteer",
     "MANAGED": "Managed",
     "RESOLVED": "Resolved",
     "CANCELLED": "Cancelled",
-    "DELETED": "Deleted"
+    "DELETED": "Deleted",
+    "RATED_BY_REQUESTER": "Rated by Requester",
+    "RATED_BY_VOLUNTEER": "Rated by Volunteer"
   },
   "requestType": {
     "INPERSON": "In Person",

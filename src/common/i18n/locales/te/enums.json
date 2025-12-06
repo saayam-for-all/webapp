@@ -11,11 +11,13 @@
   },
   "requestStatus": {
     "CREATED": "సృష్టించబడింది",
-    "MATCHING VOLUNTEER": "స్వచ్ఛంద సేవకుడిని వెతుకుతోంది",
+    "MATCHING_VOLUNTEER": "స్వచ్ఛంద సేవకుడిని వెతుకుతోంది",
     "MANAGED": "నిర్వహించబడింది",
     "RESOLVED": "పరిష్కరించబడింది",
     "CANCELLED": "రద్దు చేయబడింది",
-    "DELETED": "తొలగించబడింది"
+    "DELETED": "తొలగించబడింది",
+    "RATED_BY_REQUESTER": "అభ్యర్థి రేటింగ్ ఇచ్చారు",
+    "RATED_BY_VOLUNTEER": "స్వచ్ఛంద సేవకుడు రేటింగ్ ఇచ్చారు"
   },
   "requestType": {
     "INPERSON": "వ్యక్తిగతంగా",

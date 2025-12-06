@@ -11,11 +11,13 @@
   },
   "requestStatus": {
     "CREATED": "已创建",
-    "MATCHING VOLUNTEER": "匹配志愿者中",
+    "MATCHING_VOLUNTEER": "匹配志愿者中",
     "MANAGED": "已管理",
     "RESOLVED": "已解决",
     "CANCELLED": "已取消",
-    "DELETED": "已删除"
+    "DELETED": "已删除",
+    "RATED_BY_REQUESTER": "由求助者评分",
+    "RATED_BY_VOLUNTEER": "由志愿者评分"
   },
   "requestType": {
     "INPERSON": "亲自",
