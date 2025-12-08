@@ -15,14 +15,13 @@
   "GET_NOTIFICATIONS": "requests/v0.0.1/getNotifications",
   "GENERATE_ANSWER": "genai/v0.0.1/generate_answer",
   "GET_USER_ID": "volunteers/v0.0.1/findUserByEmailID",
-  "GET_CATEGORIES": "/requests/v0.0.1/mockCategoriesAPI",
-  "UPLOAD_AUDIO_TO_S3": "/audio/v0.0.1/upload-to-s3",
-  "TRANSCRIBE_AUDIO": "/audio/v0.0.1/transcribe",
-  "GET_SUPPORTED_LANGUAGES": "/audio/v0.0.1/supported-languages",
-  "DETECT_LANGUAGE": "/audio/v0.0.1/detect-language"
   "GET_CATEGORIES": "/requests/v0.0.1/mockCategories",
   "GET_METADATA": "/requests/v0.0.1/mockMetadata",
   "GET_ENUMS": "/requests/v0.0.1/mockEnums",
   "UPLOAD_REQUEST_FILE": "/requests/v0.0.1/file-upload",
-  "GET_ENVIRONMENT": "/requests/v0.0.1/getEnvironment"
+  "GET_ENVIRONMENT": "/requests/v0.0.1/getEnvironment",
+  "UPLOAD_AUDIO_TO_S3": "/audio/v0.0.1/upload-to-s3",
+  "TRANSCRIBE_AUDIO": "/audio/v0.0.1/transcribe",
+  "GET_SUPPORTED_LANGUAGES": "/audio/v0.0.1/supported-languages",
+  "DETECT_LANGUAGE": "/audio/v0.0.1/detect-language"
 }
