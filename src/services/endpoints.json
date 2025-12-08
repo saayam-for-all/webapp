@@ -19,7 +19,7 @@
   "UPLOAD_AUDIO_TO_S3": "/audio/v0.0.1/upload-to-s3",
   "TRANSCRIBE_AUDIO": "/audio/v0.0.1/transcribe",
   "GET_SUPPORTED_LANGUAGES": "/audio/v0.0.1/supported-languages",
-  "DETECT_LANGUAGE": "/audio/v0.0.1/detect-language"
+  "DETECT_LANGUAGE": "/audio/v0.0.1/detect-language",
   "GET_CATEGORIES": "/requests/v0.0.1/mockCategories",
   "GET_METADATA": "/requests/v0.0.1/mockMetadata",
   "GET_ENUMS": "/requests/v0.0.1/mockEnums",
