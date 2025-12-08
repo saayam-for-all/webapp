@@ -27,6 +27,7 @@ import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
 import { uploadRequestFile } from "../../services/requestServices";
+import VoiceRecordingComponent from "../../common/components/VoiceRecordingComponent";
 import {
   Dialog,
   DialogActions,
@@ -61,6 +62,27 @@ const genderOptions = [
 const MAX_FILES = 5;
 const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_MIME_TYPES = ["image/png", "image/jpeg", "application/pdf"];
+
+// Map language names to Google Cloud Speech-to-Text language codes
+const mapLanguageToCode = (languageName) => {
+  const languageMap = {
+    English: "en-US",
+    Spanish: "es-ES",
+    French: "fr-FR",
+    German: "de-DE",
+    Hindi: "hi-IN",
+    "Mandarin Chinese": "zh-CN",
+    Chinese: "zh-CN",
+    Arabic: "ar-SA",
+    Portuguese: "pt-BR",
+    Russian: "ru-RU",
+    Japanese: "ja-JP",
+    Bengali: "bn-IN",
+    Telugu: "te-IN",
+    Urdu: "ur-PK",
+  };
+  return languageMap[languageName] || "en-US"; // Default to English
+};
 
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
@@ -189,6 +211,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [uploadedFilesInfo, setUploadedFilesInfo] = useState([]);
   const [showFilesDialog, setShowFilesDialog] = useState(false);
   const [isUploadingFiles, setIsUploadingFiles] = useState(false);
+  // Audio recording state
+  const [audioUploadResult, setAudioUploadResult] = useState(null);
 
   // Restore request for edit
   useEffect(() => {
@@ -1279,30 +1303,51 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   <div className="flex items-center justify-between">
                     <label
                       htmlFor="description"
-                      className="block text-gray-700 font-medium mb-2 flex items-center gap-2"
+                      className="text-gray-700 font-medium mb-2 flex items-center gap-2"
                     >
                       {t("DESCRIPTION")}
                       <span className="text-red-500 m-1">*</span>(
                       {t("MAX_CHARACTERS", { count: 500 })})
                     </label>
 
-                    {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
-                    <div className="relative group">
-                      {/* Unified Outline Box */}
-                      <div
-                        className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
-                        onClick={() => {
-                          if (
-                            attachedFiles.length + uploadedFilesInfo.length >=
-                            MAX_FILES
-                          )
-                            return;
-                          document.getElementById("fileInput").click();
+                    {/* Right side: Voice Recording Component and File Attachment */}
+                    <div className="flex items-center gap-3">
+                      {/* Voice Recording Component */}
+                      <VoiceRecordingComponent
+                        onTranscriptionUpdate={(text) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            description: text,
+                          }));
                         }}
-                      >
-                        {/* Paperclip Icon */}
+                        onAudioUploaded={(uploadResult) => {
+                          setAudioUploadResult(uploadResult);
+                          console.log("Audio uploaded:", uploadResult);
+                        }}
+                        languageCode={mapLanguageToCode(
+                          formData.preferred_language || "English",
+                        )}
+                        maxFileSizeMB={10}
+                        descriptionLimit={500}
+                      />
+
+                      {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
+                      <div className="relative group">
+                        {/* Unified Outline Box */}
                         <div
-                          className={`
+                          className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
+                          onClick={() => {
+                            if (
+                              attachedFiles.length + uploadedFilesInfo.length >=
+                              MAX_FILES
+                            )
+                              return;
+                            document.getElementById("fileInput").click();
+                          }}
+                        >
+                          {/* Paperclip Icon */}
+                          <div
+                            className={`
                           flex items-center justify-center px-1 py-1 rounded-md
                           ${
                             attachedFiles.length + uploadedFilesInfo.length >=
@@ -1311,56 +1356,58 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                               : "bg-gray-100 hover:bg-gray-200"
                           }
                       `}
-                        >
-                          📎
-                        </div>
-
-                        {/* File count text (no inner borders now) */}
-                        {(attachedFiles.length > 0 ||
-                          uploadedFilesInfo.length > 0) && (
-                          <span
-                            className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setShowFilesDialog(true);
-                            }}
                           >
-                            {attachedFiles.length + uploadedFilesInfo.length}{" "}
-                            {attachedFiles.length + uploadedFilesInfo.length ===
-                            1
-                              ? "file attached"
-                              : "files attached"}
-                          </span>
-                        )}
-                      </div>
-                      {/* Tooltip for errors */}
-                      {fileErrorMessages.length > 0 && (
-                        <div className="absolute right-0 top-12 w-64 max-w-[16rem] text-red-500 text-xs rounded py-2 px-3 shadow-lg z-50 break-words whitespace-normal overflow-hidden">
-                          {fileErrorMessages.map((msg, idx) => (
-                            <div key={idx}>{msg}</div>
-                          ))}
+                            📎
+                          </div>
+
+                          {/* File count text (no inner borders now) */}
+                          {(attachedFiles.length > 0 ||
+                            uploadedFilesInfo.length > 0) && (
+                            <span
+                              className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowFilesDialog(true);
+                              }}
+                            >
+                              {attachedFiles.length + uploadedFilesInfo.length}{" "}
+                              {attachedFiles.length +
+                                uploadedFilesInfo.length ===
+                              1
+                                ? "file attached"
+                                : "files attached"}
+                            </span>
+                          )}
                         </div>
-                      )}
-                      {/* Tooltip */}
-                      <div className="absolute -top-20 left-1 w-52 bg-gray-700 text-white text-xs rounded py-2 px-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 shadow-lg">
-                        {attachedFiles.length + uploadedFilesInfo.length >=
-                        MAX_FILES ? (
-                          <>
-                            <strong>You already attached 5 files.</strong>
-                            <br />
-                            Please remove a file to attach more.
-                          </>
-                        ) : (
-                          <>
-                            <strong>Attach Files</strong>
-                            <br />
-                            Up to <b>5 files</b> allowed.
-                            <br />
-                            Accepted: PNG, JPG, JPEG, PDF
-                            <br />
-                            Max size: <b>2MB each</b>
-                          </>
+                        {/* Tooltip for errors */}
+                        {fileErrorMessages.length > 0 && (
+                          <div className="absolute right-0 top-12 w-64 max-w-[16rem] text-red-500 text-xs rounded py-2 px-3 shadow-lg z-50 break-words whitespace-normal overflow-hidden">
+                            {fileErrorMessages.map((msg, idx) => (
+                              <div key={idx}>{msg}</div>
+                            ))}
+                          </div>
                         )}
+                        {/* Tooltip */}
+                        <div className="absolute -top-20 left-1 w-52 bg-gray-700 text-white text-xs rounded py-2 px-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 shadow-lg">
+                          {attachedFiles.length + uploadedFilesInfo.length >=
+                          MAX_FILES ? (
+                            <>
+                              <strong>You already attached 5 files.</strong>
+                              <br />
+                              Please remove a file to attach more.
+                            </>
+                          ) : (
+                            <>
+                              <strong>Attach Files</strong>
+                              <br />
+                              Up to <b>5 files</b> allowed.
+                              <br />
+                              Accepted: PNG, JPG, JPEG, PDF
+                              <br />
+                              Max size: <b>2MB each</b>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
