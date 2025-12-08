@@ -28,6 +28,7 @@ import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
 import { uploadRequestFile } from "../../services/requestServices";
 import VoiceRecordingComponent from "../../common/components/VoiceRecordingComponent";
+import { getSupportedLanguages } from "../../services/audioServices";
 import {
   Dialog,
   DialogActions,
@@ -142,6 +143,27 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, []);
 
+  // Fetch supported transcription languages from Google Cloud Speech-to-Text API
+  useEffect(() => {
+    const fetchTranscriptionLanguages = async () => {
+      try {
+        const languages = await getSupportedLanguages();
+        if (languages && Array.isArray(languages) && languages.length > 0) {
+          setSupportedTranscriptionLanguages(languages);
+          // Set default language to English (US) if available, otherwise first language
+          const defaultLang = languages.find((lang) => lang.code === "en-US");
+          setTranscriptionLanguage(
+            defaultLang ? defaultLang.code : languages[0].code,
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching supported languages:", error);
+        // Keep default fallback languages already set in state
+      }
+    };
+    fetchTranscriptionLanguages();
+  }, []);
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -213,6 +235,20 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [isUploadingFiles, setIsUploadingFiles] = useState(false);
   // Audio recording state
   const [audioUploadResult, setAudioUploadResult] = useState(null);
+  const [transcriptionLanguage, setTranscriptionLanguage] = useState("en-US");
+  const [supportedTranscriptionLanguages, setSupportedTranscriptionLanguages] =
+    useState([
+      { code: "en-US", name: "English (US)" },
+      { code: "es-ES", name: "Spanish (Spain)" },
+      { code: "fr-FR", name: "French (France)" },
+      { code: "de-DE", name: "German (Germany)" },
+      { code: "hi-IN", name: "Hindi (India)" },
+      { code: "zh-CN", name: "Chinese (Simplified)" },
+      { code: "ar-SA", name: "Arabic (Saudi Arabia)" },
+      { code: "pt-BR", name: "Portuguese (Brazil)" },
+      { code: "ru-RU", name: "Russian (Russia)" },
+      { code: "ja-JP", name: "Japanese (Japan)" },
+    ]);
 
   // Restore request for edit
   useEffect(() => {
@@ -1298,6 +1334,52 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   />
                 </div>
 
+                {/* Transcription Language Selector */}
+                <div className="mt-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <label
+                      htmlFor="transcriptionLanguage"
+                      className="text-gray-700 font-medium"
+                    >
+                      Voice Recording Language
+                    </label>
+                    <div className="relative group cursor-pointer">
+                      {/* Circle Question Mark Icon */}
+                      <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                        ?
+                      </div>
+                      {/* Tooltip */}
+                      <div className="absolute left-5 top-0 w-64 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                        Select the language you will use for voice recording.
+                        The audio will be transcribed in this language. Maximum
+                        audio file size: 10MB. Transcription will be limited to
+                        500 characters.
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <select
+                      id="transcriptionLanguage"
+                      value={transcriptionLanguage}
+                      onChange={(e) => setTranscriptionLanguage(e.target.value)}
+                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                    >
+                      {supportedTranscriptionLanguages.length > 0 ? (
+                        supportedTranscriptionLanguages.map((lang) => (
+                          <option key={lang.code} value={lang.code}>
+                            {lang.name}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="en-US">English (US)</option>
+                      )}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <HiChevronDown className="h-5 w-5 text-gray-600" />
+                    </div>
+                  </div>
+                </div>
+
                 {/* Description + Attach npmfiles icon */}
                 <div className="mt-3" data-testid="parentDivSeven">
                   <div className="flex items-center justify-between">
@@ -1324,9 +1406,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                           setAudioUploadResult(uploadResult);
                           console.log("Audio uploaded:", uploadResult);
                         }}
-                        languageCode={mapLanguageToCode(
-                          formData.preferred_language || "English",
-                        )}
+                        languageCode={transcriptionLanguage}
                         maxFileSizeMB={10}
                         descriptionLimit={500}
                       />
