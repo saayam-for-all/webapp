@@ -6,6 +6,17 @@
   "HOW_WE_OPERATE": "Cách chúng tôi vận hành",
   "MISSION": "Nhiệm vụ",
   "VISION": "Tầm nhìn",
+  "ORGANIZATIONS": "Tổ chức",
   "CONTACT": "Liên hệ",
-  "DASHBOARD": "Bảng điều khiển"
+  "DASHBOARD": "Bảng điều khiển",
+  "ALL": "Tất cả",
+  "VOLUNTEER_MATCH": "Ghép đôi tình nguyện viên",
+  "HELP_REQUEST_BUTTON": "Yêu cầu trợ giúp",
+  "NEW_MATCH_REQUEST": "Yêu cầu ghép đôi mới",
+  "ACCEPT": "Chấp nhận",
+  "DENY": "Từ chối",
+  "ACCEPT_SUCCESS_MESSAGE": "Bạn đã chấp nhận yêu cầu này.",
+  "DENY_SUCCESS_MESSAGE": "Bạn đã từ chối yêu cầu này.",
+  "LOGISTIC_HELP": "Hỗ trợ Logistics",
+  "EDUCATIONAL_HELP": "Hỗ trợ Giáo dục"
 }

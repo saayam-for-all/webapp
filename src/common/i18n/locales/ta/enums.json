@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "தானே",
+    "OTHER": "மற்றவர்"
+  },
+  "requestPriority": {
+    "LOW": "குறைவான",
+    "MEDIUM": "நடுத்தர",
+    "HIGH": "அதிக",
+    "CRITICAL": "முக்கியமான"
+  },
+  "requestStatus": {
+    "CREATED": "உருவாக்கப்பட்டது",
+    "MATCHING VOLUNTEER": "தன்னார்வலரைத் தேடுகிறது",
+    "MANAGED": "நிர்வகிக்கப்படுகிறது",
+    "RESOLVED": "தீர்க்கப்பட்டது",
+    "CANCELLED": "ரத்து செய்யப்பட்டது",
+    "DELETED": "நீக்கப்பட்டது"
+  },
+  "requestType": {
+    "INPERSON": "நேரடியாக",
+    "REMOTE": "தொலைநிலை"
+  }
+}

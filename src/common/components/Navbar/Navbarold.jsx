@@ -98,30 +98,35 @@ const Navbar = () => {
         const rawNotifications = [
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "You have new Volunteer match request in Logistics",
             date: "Mar 15, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "Hospital",
             date: "Jun 15, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "LOGISTIC_HELP",
             title: "Logistic Help",
             message: "Logistics",
             date: "Nov 15, 2023, 10:30 AM",
           },
           {
             type: "helpRequest",
+            titleKey: "EDUCATIONAL_HELP",
             title: "Educational Help",
             message: "Need help with Logistics",
             date: "Dec 16, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "Education",
             date: "Jan 15, 2023, 10:30 AM",

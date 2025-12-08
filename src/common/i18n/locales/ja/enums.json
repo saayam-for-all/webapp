@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "自分",
+    "OTHER": "他の人"
+  },
+  "requestPriority": {
+    "LOW": "低",
+    "MEDIUM": "中",
+    "HIGH": "高",
+    "CRITICAL": "緊急"
+  },
+  "requestStatus": {
+    "CREATED": "作成済み",
+    "MATCHING VOLUNTEER": "ボランティア検索中",
+    "MANAGED": "管理中",
+    "RESOLVED": "解決済み",
+    "CANCELLED": "キャンセル済み",
+    "DELETED": "削除済み"
+  },
+  "requestType": {
+    "INPERSON": "対面",
+    "REMOTE": "リモート"
+  }
+}

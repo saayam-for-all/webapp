@@ -30,6 +30,15 @@
   "SECONDARY_EMAIL": "Дополнительная эл. почта",
   "SECONDARY_PHONE": "Дополнительный телефон",
   "required": "обязательно",
+
+  "GENDER_OPTIONS": {
+    "FEMALE": "Женский",
+    "MALE": "Мужской",
+    "NON_BINARY": "Небинарный",
+    "TRANSGENDER": "Трансгендер",
+    "INTERSEX": "Интерсекс",
+    "GENDER_NONCONFORMING": "Гендерно-неконформный"
+  },
   "CURRENT_PASSWORD": "Текущий пароль",
   "NEW_PASSWORD": "Новый пароль",
   "CONFIRM_PASSWORD": "Подтвердите пароль",
@@ -67,6 +76,8 @@
   "PHONE COMMUNICATION PREFERENCE": "Предпочтения по общению по телефону",
   "PRIMARY PHONE": "Основной телефон",
   "SECONDARY PHONE": "Дополнительный телефон",
+  "TIMEZONE": "Часовой пояс",
+  "USE_CURRENT_TIMEZONE": "Использовать текущий часовой пояс",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Получать экстренные уведомления",
   "PREFERENCES UPDATED SUCCESS": "Предпочтения успешно обновлены!",
   "ACCOUNT_DELETION_WARNING_TITLE": "Удаление учетной записи",

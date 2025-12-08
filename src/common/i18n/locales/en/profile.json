@@ -33,6 +33,15 @@
   "SECONDARY_PHONE": "Secondary Phone",
   "required": "required",
 
+  "GENDER_OPTIONS": {
+    "FEMALE": "Female",
+    "MALE": "Male",
+    "NON_BINARY": "Non-binary",
+    "TRANSGENDER": "Transgender",
+    "INTERSEX": "Intersex",
+    "GENDER_NONCONFORMING": "Gender-nonconforming"
+  },
+
   "CURRENT_PASSWORD": "Current Password",
   "NEW_PASSWORD": "New Password",
   "CONFIRM_PASSWORD": "Confirm Password",
@@ -72,6 +81,8 @@
   "PHONE COMMUNICATION PREFERENCE": "Phone Communication Preference",
   "PRIMARY PHONE": "Primary Phone",
   "SECONDARY PHONE": "Secondary Phone",
+  "TIMEZONE": "Timezone",
+  "USE_CURRENT_TIMEZONE": "Use current timezone",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Receive Emergency Notifications",
   "PREFERENCES UPDATED SUCCESS": "Preferences updated successfully!",
 

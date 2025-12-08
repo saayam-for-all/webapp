@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserAttributes } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
@@ -7,11 +7,61 @@ import { updateUserProfileSuccess } from "../../redux/features/authentication/au
 import { changeUiLanguage } from "../../common/i18n/utils";
 import languagesData from "../../common/i18n/languagesData";
 
+// Timezone utility function (same as Availability page)
+const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
+  try {
+    const now = new Date();
+
+    const offsetFormatter = new Intl.DateTimeFormat(locale, {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZone: timezoneValue,
+      timeZoneName: "longOffset",
+      hourCycle: "h23",
+    });
+
+    const formattedOffsetDate = offsetFormatter.format(now);
+    const offsetMatch = formattedOffsetDate.match(
+      /GMT([+-]\d{2}:\d{2})|UTC([+-]\d{2}:\d{2})/,
+    );
+    const utcOffset = offsetMatch
+      ? `UTC${offsetMatch[1] || offsetMatch[2]}`
+      : "";
+    const userFriendlyNameFormatter = new Intl.DateTimeFormat(locale, {
+      timeZone: timezoneValue,
+      timeZoneName: "long",
+    });
+    const userFriendlyNameParts = userFriendlyNameFormatter
+      .format(now)
+      .split(", ");
+    const userFriendlyName =
+      userFriendlyNameParts[userFriendlyNameParts.length - 1];
+
+    return {
+      value: timezoneValue,
+      label: `${timezoneValue} ${utcOffset ? `(${utcOffset})` : ""} ${userFriendlyName ? `(${userFriendlyName})` : ""}`,
+      displayOffset: utcOffset,
+      userFriendlyName: userFriendlyName,
+    };
+  } catch (error) {
+    return {
+      value: timezoneValue,
+      label: timezoneValue,
+      displayOffset: "",
+      userFriendlyName: "",
+    };
+  }
+};
+
 // Dashboard options based on user roles
 //const { t } = useTranslation();
 
 function Preferences({ setHasUnsavedChanges }) {
-  const { t } = useTranslation("profile");
+  const { t, i18n } = useTranslation("profile");
   const dashboardOptions = [
     { value: "super-admin", label: t("SUPER_ADMIN_DASHBOARD") },
     { value: "admin", label: t("ADMIN_DASHBOARD") },
@@ -31,6 +81,7 @@ function Preferences({ setHasUnsavedChanges }) {
   const dashboardRef = useRef(null);
 
   const user = useSelector((state) => state.auth.user);
+  const currentLocale = i18n.language || "en-US";
 
   const [preferencesInfo, setPreferencesInfo] = useState({
     defaultDashboard: "beneficiary",
@@ -43,8 +94,98 @@ function Preferences({ setHasUnsavedChanges }) {
     primaryPhonePreference: "",
     secondaryPhonePreference: "",
     selectedPhonePreference: "primary",
+    timezone: "UTC",
     receiveEmergencyNotifications: false,
   });
+
+  // Timezone options (same as Availability page)
+  const allAvailableTimezones = useMemo(() => {
+    const commonTimezones = [
+      "Africa/Algiers",
+      "Africa/Cairo",
+      "Africa/Casablanca",
+      "Africa/Johannesburg",
+      "Africa/Lagos",
+      "America/Anchorage",
+      "America/Argentina/Buenos_Aires",
+      "America/Bogota",
+      "America/Caracas",
+      "America/Chicago",
+      "America/Denver",
+      "America/Halifax",
+      "America/Los_Angeles",
+      "America/Mexico_City",
+      "America/New_York",
+      "America/Noronha",
+      "America/Phoenix",
+      "America/Sao_Paulo",
+      "America/St_Johns",
+      "Asia/Baghdad",
+      "Asia/Bangkok",
+      "Asia/Beirut",
+      "Asia/Colombo",
+      "Asia/Dhaka",
+      "Asia/Dubai",
+      "Asia/Hong_Kong",
+      "Asia/Jakarta",
+      "Asia/Jerusalem",
+      "Asia/Kabul",
+      "Asia/Karachi",
+      "Asia/Kathmandu",
+      "Asia/Kolkata",
+      "Asia/Kuala_Lumpur",
+      "Asia/Manila",
+      "Asia/Riyadh",
+      "Asia/Seoul",
+      "Asia/Shanghai",
+      "Asia/Singapore",
+      "Asia/Tehran",
+      "Asia/Tokyo",
+      "Asia/Vladivostok",
+      "Atlantic/Azores",
+      "Atlantic/Cape_Verde",
+      "Australia/Adelaide",
+      "Australia/Brisbane",
+      "Australia/Darwin",
+      "Australia/Eucla",
+      "Australia/Lord_Howe",
+      "Australia/Perth",
+      "Australia/Sydney",
+      "Europe/Amsterdam",
+      "Europe/Athens",
+      "Europe/Berlin",
+      "Europe/Brussels",
+      "Europe/Helsinki",
+      "Europe/Istanbul",
+      "Europe/Lisbon",
+      "Europe/London",
+      "Europe/Madrid",
+      "Europe/Moscow",
+      "Europe/Paris",
+      "Europe/Rome",
+      "Europe/Warsaw",
+      "Pacific/Auckland",
+      "Pacific/Chatham",
+      "Pacific/Easter",
+      "Pacific/Fiji",
+      "Pacific/Honolulu",
+      "Pacific/Kiritimati",
+      "Pacific/Majuro",
+      "Pacific/Midway",
+      "Pacific/Noumea",
+      "Pacific/Pago_Pago",
+      "Pacific/Port_Moresby",
+      "Pacific/Tongatapu",
+      "UTC",
+    ];
+
+    return commonTimezones.map((tz) => getTimezoneDetails(tz, currentLocale));
+  }, [currentLocale]);
+
+  const getCurrentTimezoneInfo = () => {
+    const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return getTimezoneDetails(detectedTimezone, currentLocale);
+  };
 
   useEffect(() => {
     // Get personal information from localStorage (only for email/phone, NOT language preferences)
@@ -139,14 +280,39 @@ function Preferences({ setHasUnsavedChanges }) {
           user["custom:selected_phone_preference"] ||
           "primary",
 
+        timezone:
+          savedPreferences.timezone ||
+          user.timezone ||
+          user["custom:timezone"] ||
+          "UTC",
+
         receiveEmergencyNotifications:
           savedPreferences.receiveEmergencyNotifications ??
           (user.emergency_notifications === "true" ||
             user["custom:emergency_notifications"] === "true" ||
             false),
       });
+
+      // If no timezone is saved, detect and set user's timezone
+      if (
+        !savedPreferences.timezone &&
+        !user.timezone &&
+        !user["custom:timezone"]
+      ) {
+        const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const isValidDetected =
+          allAvailableTimezones.some((tz) => tz.value === detectedTimezone) ||
+          detectedTimezone.includes("/");
+
+        if (isValidDetected) {
+          setPreferencesInfo((prev) => ({
+            ...prev,
+            timezone: detectedTimezone,
+          }));
+        }
+      }
     }
-  }, [user]);
+  }, [user, allAvailableTimezones]);
 
   // Listen for changes in personal information (ONLY for email/phone, NOT language preferences)
   useEffect(() => {
@@ -243,6 +409,7 @@ function Preferences({ setHasUnsavedChanges }) {
           preferencesInfo.selectedEmailPreference;
         updatedAttributes["custom:selected_phone_preference"] =
           preferencesInfo.selectedPhonePreference;
+        updatedAttributes["custom:timezone"] = preferencesInfo.timezone;
         updatedAttributes["custom:emergency_notifications"] =
           preferencesInfo.receiveEmergencyNotifications.toString();
 
@@ -348,6 +515,10 @@ function Preferences({ setHasUnsavedChanges }) {
           user.selected_phone_preference ||
           user["custom:selected_phone_preference"] ||
           "primary",
+        timezone:
+          user.timezone ||
+          user["custom:timezone"] ||
+          "UTC",
         receiveEmergencyNotifications:
           user.emergency_notifications === "true" ||
           user["custom:emergency_notifications"] === "true" ||
@@ -355,6 +526,15 @@ function Preferences({ setHasUnsavedChanges }) {
       });
     }
   };
+
+  const handleUseCurrentTimezone = () => {
+    const detected = getCurrentTimezoneInfo();
+    handleInputChange("timezone", detected.value);
+  };
+
+  const selectedTimezoneDisplay =
+    allAvailableTimezones.find((tz) => tz.value === preferencesInfo.timezone)
+      ?.label || getTimezoneDetails(preferencesInfo.timezone, currentLocale).label;
 
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
@@ -588,6 +768,38 @@ function Preferences({ setHasUnsavedChanges }) {
               </p>
             )}
         </div>
+      </div>
+
+      {/* Timezone Selection */}
+      <div className="mb-6">
+        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          {t("TIMEZONE")}
+        </label>
+        {isEditing ? (
+          <div className="flex items-center gap-2">
+            <select
+              id="timezone-select"
+              value={preferencesInfo.timezone}
+              onChange={(e) => handleInputChange("timezone", e.target.value)}
+              className="appearance-none block w-full max-w-lg bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            >
+              {allAvailableTimezones.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={handleUseCurrentTimezone}
+              className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm whitespace-nowrap"
+              aria-label={t("USE_CURRENT_TIMEZONE")}
+            >
+              {t("USE_CURRENT_TIMEZONE")}
+            </button>
+          </div>
+        ) : (
+          <p className="text-lg text-gray-900">{selectedTimezoneDisplay}</p>
+        )}
       </div>
 
       {/* Emergency Notifications */}

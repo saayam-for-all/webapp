@@ -30,6 +30,15 @@
   "SECONDARY_EMAIL": "মাধ্যমিক ইমেল",
   "SECONDARY_PHONE": "মাধ্যমিক ফোন",
   "required": "প্রয়োজনীয়",
+
+  "GENDER_OPTIONS": {
+    "FEMALE": "মহিলা",
+    "MALE": "পুরুষ",
+    "NON_BINARY": "নন-বাইনারি",
+    "TRANSGENDER": "ট্রান্সজেন্ডার",
+    "INTERSEX": "ইন্টারসেক্স",
+    "GENDER_NONCONFORMING": "লিঙ্গ-অসঙ্গত"
+  },
   "CURRENT_PASSWORD": "বর্তমান পাসওয়ার্ড",
   "NEW_PASSWORD": "নতুন পাসওয়ার্ড",
   "CONFIRM_PASSWORD": "পাসওয়ার্ড নিশ্চিত করুন",
@@ -67,6 +76,8 @@
   "PHONE COMMUNICATION PREFERENCE": "ফোন যোগাযোগ পছন্দ",
   "PRIMARY PHONE": "প্রাথমিক ফোন",
   "SECONDARY PHONE": "মাধ্যমিক ফোন",
+  "TIMEZONE": "সময় অঞ্চল",
+  "USE_CURRENT_TIMEZONE": "বর্তমান সময় অঞ্চল ব্যবহার করুন",
   "RECEIVE EMERGENCY NOTIFICATIONS": "জরুরী বিজ্ঞপ্তি গ্রহণ করুন",
   "PREFERENCES UPDATED SUCCESS": "পছন্দ সফলভাবে আপডেট করা হয়েছে!",
   "ACCOUNT_DELETION_WARNING_TITLE": "অ্যাকাউন্ট মুছে ফেলা",

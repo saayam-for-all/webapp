@@ -177,7 +177,7 @@ const VoluntaryOrganizations = () => {
           <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
         </button>
       </div>
-      <h1 className="text-2xl font-bold mb-5">Voluntary Organizations</h1>
+      <h1 className="text-2xl font-bold mb-5">Organizations</h1>
 
       <div className="mb-4 flex gap-2">
         <input

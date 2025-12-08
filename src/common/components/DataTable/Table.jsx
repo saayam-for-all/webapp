@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import Pagination from "../Pagination/Pagination";
-
 const Table = ({
   headers,
   rows,
@@ -16,7 +16,6 @@ const Table = ({
   getLinkPath,
   getLinkState = undefined,
 }) => {
-  const navigate = useNavigate();
   const paginatedRequests = useMemo(() => {
     return rows.slice(
       (currentPage - 1) * itemsPerPage,
@@ -35,6 +34,38 @@ const Table = ({
     return "";
   };
 
+  const formatDateTime = (value, header) => {
+    if (header === "creationDate" || header === "updatedDate") {
+      if (!value) return "";
+
+      try {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value;
+
+        // Format: MM/DD/YYYY HH:MM:SS AM/PM
+        const datePart = date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        });
+        const timePart = date.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+        });
+        return `${datePart} ${timePart}`;
+      } catch (error) {
+        console.error("Error formatting date:", error);
+        return value;
+      }
+    }
+    return value;
+  };
+
+  const dataKeyMap = { requestId: "id", beneficiaryId: "userId" };
+  const resolveKey = (header) => dataKeyMap[header] || header;
+
   return (
     <div className="relative h-full" data-testid="container">
       <div className="overflow-auto h-4/5">
@@ -47,16 +78,19 @@ const Table = ({
               {headers.map((key) => (
                 <th
                   key={key}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                   data-testid="map-header-one"
                 >
-                  <button type="button" onClick={() => requestSort(key)}>
+                  <button
+                    type="button"
+                    onClick={() => requestSort(resolveKey(key))}
+                  >
                     {key.charAt(0).toUpperCase() +
                       key
                         .slice(1)
                         .replace(/([A-Z])/g, " $1")
                         .trim()}
-                    {getSortIndicator(key)}
+                    {getSortIndicator(resolveKey(key))}
                   </button>
                 </th>
               ))}
@@ -71,19 +105,19 @@ const Table = ({
                 {headers.map((header, colIndex) => (
                   <td
                     key={colIndex}
-                    className="px-6 py-4 whitespace-nowrap"
+                    className="px-6 py-2"
                     data-testid="map-data-one"
                   >
-                    {header === "id" ? (
+                    {header === "requestId" ? (
                       <Link
                         to={getLinkPath(request, header)}
                         className="text-indigo-600 hover:text-indigo-900"
                         state={getLinkState ? getLinkState(request) : {}}
                       >
-                        {request[header]}
+                        {request[resolveKey(header)]}
                       </Link>
                     ) : (
-                      request[header]
+                      formatDateTime(request[header], header)
                     )}
                   </td>
                 ))}
@@ -107,5 +141,21 @@ const Table = ({
     </div>
   );
 };
-
+Table.propTypes = {
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  rows: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  totalRows: PropTypes.number.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+  sortConfig: PropTypes.shape({
+    key: PropTypes.string,
+    direction: PropTypes.oneOf(["ascending", "descending"]),
+  }).isRequired,
+  requestSort: PropTypes.func.isRequired,
+  onRowsPerPageChange: PropTypes.func.isRequired,
+  getLinkPath: PropTypes.func.isRequired,
+  getLinkState: PropTypes.func,
+};
 export default Table;

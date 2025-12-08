@@ -30,6 +30,15 @@
   "SECONDARY_EMAIL": "Correo Electrónico Secundario",
   "SECONDARY_PHONE": "Teléfono Secundario",
   "required": "requerido",
+
+  "GENDER_OPTIONS": {
+    "FEMALE": "Femenino",
+    "MALE": "Masculino",
+    "NON_BINARY": "No binario",
+    "TRANSGENDER": "Transgénero",
+    "INTERSEX": "Intersexual",
+    "GENDER_NONCONFORMING": "No conforme con el género"
+  },
   "CURRENT_PASSWORD": "Contraseña Actual",
   "NEW_PASSWORD": "Nueva Contraseña",
   "CONFIRM_PASSWORD": "Confirmar Contraseña",
@@ -67,6 +76,8 @@
   "PHONE COMMUNICATION PREFERENCE": "Preferencia de Comunicación por Teléfono",
   "PRIMARY PHONE": "Teléfono Principal",
   "SECONDARY PHONE": "Teléfono Secundario",
+  "TIMEZONE": "Zona horaria",
+  "USE_CURRENT_TIMEZONE": "Usar zona horaria actual",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Recibir Notificaciones de Emergencia",
   "PREFERENCES UPDATED SUCCESS": "¡Preferencias actualizadas con éxito!",
   "ACCOUNT_DELETION_WARNING_TITLE": "Eliminación de Cuenta",

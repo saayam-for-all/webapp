@@ -6,6 +6,17 @@
   "HOW_WE_OPERATE": "અમે કેવી રીતે કાર્ય કરીએ છીએ",
   "MISSION": "મિશન",
   "VISION": "દ્રષ્ટિ",
+  "ORGANIZATIONS": "સંસ્થાઓ",
   "CONTACT": "સંપર્ક કરો",
-  "DASHBOARD": "ડેશબોર્ડ"
+  "DASHBOARD": "ડેશબોર્ડ",
+  "ALL": "બધા",
+  "VOLUNTEER_MATCH": "સ્વયંસેવક મેળ",
+  "HELP_REQUEST_BUTTON": "મદદની વિનંતી",
+  "NEW_MATCH_REQUEST": "નવી મેળ વિનંતી",
+  "ACCEPT": "સ્વીકારો",
+  "DENY": "નકારો",
+  "ACCEPT_SUCCESS_MESSAGE": "તમે આ વિનંતી સ્વીકારી છે.",
+  "DENY_SUCCESS_MESSAGE": "તમે આ વિનંતી નકારી છે.",
+  "LOGISTIC_HELP": "લોજિસ્ટિક મદદ",
+  "EDUCATIONAL_HELP": "શૈક્ષણિક મદદ"
 }

@@ -7,5 +7,15 @@
   "MISSION": "Misi",
   "VISION": "Penglihatan",
   "CONTACT": "Kontak",
-  "DASHBOARD": "Dasbor"
+  "DASHBOARD": "Dasbor",
+  "ALL": "Semua",
+  "VOLUNTEER_MATCH": "Pencocokan Relawan",
+  "HELP_REQUEST_BUTTON": "Permintaan Bantuan",
+  "NEW_MATCH_REQUEST": "Permintaan Pencocokan Baru",
+  "ACCEPT": "Terima",
+  "DENY": "Tolak",
+  "ACCEPT_SUCCESS_MESSAGE": "Anda telah menerima permintaan ini.",
+  "DENY_SUCCESS_MESSAGE": "Anda telah menolak permintaan ini.",
+  "LOGISTIC_HELP": "Bantuan Logistik",
+  "EDUCATIONAL_HELP": "Bantuan Pendidikan"
 }

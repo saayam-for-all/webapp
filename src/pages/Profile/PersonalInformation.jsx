@@ -1,6 +1,6 @@
 import { Country, State } from "country-state-city";
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTranslation } from "react-i18next";
@@ -12,12 +12,15 @@ import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInpu
 import countryCodes from "../../utils/country-codes-en.json";
 
 const genderOptions = [
-  { value: "Female", label: "Female" },
-  { value: "Male", label: "Male" },
-  { value: "Non-binary", label: "Non-binary" },
-  { value: "Transgender", label: "Transgender" },
-  { value: "Intersex", label: "Intersex" },
-  { value: "Gender-nonconforming", label: "Gender-nonconforming" },
+  { value: "Female", labelKey: "GENDER_OPTIONS.FEMALE" },
+  { value: "Male", labelKey: "GENDER_OPTIONS.MALE" },
+  { value: "Non-binary", labelKey: "GENDER_OPTIONS.NON_BINARY" },
+  { value: "Transgender", labelKey: "GENDER_OPTIONS.TRANSGENDER" },
+  { value: "Intersex", labelKey: "GENDER_OPTIONS.INTERSEX" },
+  {
+    value: "Gender-nonconforming",
+    labelKey: "GENDER_OPTIONS.GENDER_NONCONFORMING",
+  },
 ];
 
 export const getLocaleAndFormat = async (countryName) => {
@@ -82,7 +85,7 @@ const countryNameToCode = Object.entries(countryCodes).reduce(
 );
 
 function PersonalInformation({ setHasUnsavedChanges }) {
-  const { t } = useTranslation("profile");
+  const { t, i18n } = useTranslation("profile");
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(Boolean(location.state?.edit));
   const streetAddressRef = useRef(null);
@@ -93,6 +96,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     if (!zoneinfo) return "";
     return countryNameToCode[zoneinfo] || "";
   }, []);
+
+  const localizedGenderOptions = useMemo(
+    () =>
+      genderOptions.map((option) => ({
+        value: option.value,
+        label: t(option.labelKey),
+      })),
+    [t, i18n.language],
+  );
+
+  const getGenderLabel = useCallback(
+    (value) =>
+      localizedGenderOptions.find((option) => option.value === value)?.label ||
+      "",
+    [localizedGenderOptions],
+  );
 
   const [personalInfo, setPersonalInfo] = useState({
     dateOfBirth: null,
@@ -384,10 +403,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           {isEditing ? (
             <>
               <Select
-                value={genderOptions.find(
+                value={localizedGenderOptions.find(
                   (option) => option.value === personalInfo.gender,
                 )}
-                options={genderOptions}
+                options={localizedGenderOptions}
                 onChange={(selectedOption) =>
                   handleInputChange("gender", selectedOption?.value || "")
                 }
@@ -398,7 +417,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               )}
             </>
           ) : (
-            <p className="text-lg text-gray-900">{personalInfo.gender || ""}</p>
+            <p className="text-lg text-gray-900">
+              {getGenderLabel(personalInfo.gender)}
+            </p>
           )}
         </div>
       </div>
@@ -627,7 +648,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Secondary Email
+            {t("SECONDARY_EMAIL")}
           </label>
           {isEditing ? (
             <>
@@ -653,9 +674,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           )}
         </div>
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("SECONDARY PHONE")}
-          </label>
           {isEditing ? (
             <PhoneNumberInputWithCountry
               phone={personalInfo.secondaryPhone}
@@ -673,10 +691,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               t={t}
             />
           ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.secondaryPhoneCountryCode}{" "}
-              {personalInfo.secondaryPhone || ""}
-            </p>
+            <>
+              <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+                {t("SECONDARY PHONE")}
+              </label>
+              <p className="text-lg text-gray-900">
+                {personalInfo.secondaryPhoneCountryCode}{" "}
+                {personalInfo.secondaryPhone || ""}
+              </p>
+            </>
           )}
         </div>
       </div>

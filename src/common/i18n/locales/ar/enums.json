@@ -1,0 +1,26 @@
+{
+  "requestFor": {
+    "SELF": "نفسي",
+    "OTHER": "آخر"
+  },
+  "requestPriority": {
+    "LOW": "منخفض",
+    "MEDIUM": "متوسط",
+    "HIGH": "عالي",
+    "CRITICAL": "حرج"
+  },
+  "requestStatus": {
+    "CREATED": "تم الإنشاء",
+    "MATCHING_VOLUNTEER": "البحث عن متطوع",
+    "MANAGED": "تتم الإدارة",
+    "RESOLVED": "تم الحل",
+    "CANCELLED": "تم الإلغاء",
+    "DELETED": "تم الحذف",
+    "RATED_BY_REQUESTER": "تم التقييم من قبل مقدم الطلب",
+    "RATED_BY_VOLUNTEER": "تم التقييم من قبل المتطوع"
+  },
+  "requestType": {
+    "INPERSON": "شخصياً",
+    "REMOTE": "عن بعد"
+  }
+}

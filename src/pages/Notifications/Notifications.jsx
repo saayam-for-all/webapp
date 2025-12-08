@@ -127,11 +127,11 @@ export default function NotificationUI() {
               <div className="text-2xl sm:text-3xl">{typeIcons[note.type]}</div>
               <div className="flex-1">
                 <h3 className="font-bold text-gray-800 text-base">
-                  {note.title}
+                  {note.titleKey ? t(note.titleKey) : note.title}
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">{note.message}</p>
 
-                {note.title === t("NEW_MATCH_REQUEST") &&
+                {note.titleKey === "NEW_MATCH_REQUEST" &&
                   !note.message.includes("✅") &&
                   !note.message.includes("❌") && (
                     <div className="mt-3 flex flex-wrap gap-4 sm:flex-nowrap">

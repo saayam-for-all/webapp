@@ -6,6 +6,17 @@
   "HOW_WE_OPERATE": "वयं कथं संचालनं कुर्मः",
   "MISSION": "नियोग",
   "VISION": "दृष्टि",
+  "ORGANIZATIONS": "संस्थाः",
   "CONTACT": "संपर्कः",
-  "DASHBOARD": "डैशबोर्ड"
+  "DASHBOARD": "डैशबोर्ड",
+  "ALL": "सर्वे",
+  "VOLUNTEER_MATCH": "स्वयंसेवक मेलनम्",
+  "HELP_REQUEST_BUTTON": "साहाय्यार्थं निवेदनम्",
+  "NEW_MATCH_REQUEST": "नवीनं मेलनं निवेदनम्",
+  "ACCEPT": "स्वीकरोतु",
+  "DENY": "निराकरोतु",
+  "ACCEPT_SUCCESS_MESSAGE": "भवान् एतत् निवेदनं स्वीकृतवान्।",
+  "DENY_SUCCESS_MESSAGE": "भवान् एतत् निवेदनं निराकृतवान्।",
+  "LOGISTIC_HELP": "रसद सहायता",
+  "EDUCATIONAL_HELP": "शैक्षिक सहायता"
 }
