@@ -1,6 +1,6 @@
 import React from "react";
 import "./Sitemap.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Sitemap = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Sitemap = () => {
                 <h2 className="sitemap-heading">Home</h2>
                 <ul>
                   <li>
-                    <Link to="/">Saayam for all Home</Link>
+                    <a href="/">Saayam for all Home</a>
                   </li>
                 </ul>
               </div>
@@ -39,10 +39,10 @@ const Sitemap = () => {
                 <h2 className="sitemap-heading">About Us</h2>
                 <ul>
                   <li>
-                    <Link to="/our-mission">Our Mission</Link>
+                    <a href="/our-mission">Our Mission</a>
                   </li>
                   <li>
-                    <Link to="/our-team">Our Team</Link>
+                    <a href="/our-team">Our Team</a>
                   </li>
                 </ul>
               </div>
@@ -52,10 +52,10 @@ const Sitemap = () => {
                 <h2 className="sitemap-heading">Volunteer Services</h2>
                 <ul>
                   <li>
-                    <Link to="/how-we-operate">How We Operate</Link>
+                    <a href="/how-we-operate">How We Operate</a>
                   </li>
                   <li>
-                    <Link to="/collaborators">Our Collaborators</Link>
+                    <a href="/collaborators">Our Collaborators</a>
                   </li>
                 </ul>
               </div>
@@ -69,7 +69,7 @@ const Sitemap = () => {
                 <h2 className="sitemap-heading">Donate</h2>
                 <ul>
                   <li>
-                    <Link to="/donate">Make a Donation</Link>
+                    <a href="/donate">Make a Donation</a>
                   </li>
                 </ul>
               </div>
@@ -79,7 +79,7 @@ const Sitemap = () => {
                 <h2 className="sitemap-heading">Contact Us</h2>
                 <ul>
                   <li>
-                    <Link to="/contact">Get in Touch</Link>
+                    <a href="/contact">Get in Touch</a>
                   </li>
                 </ul>
               </div>

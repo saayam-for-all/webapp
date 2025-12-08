@@ -6,8 +6,8 @@ import axios from "axios";
 const api = axios.create({
   baseURL:
     typeof process == "undefined"
-      ? import.meta.env.VITE_BASE_API_URL || ""
-      : process.env.VITE_BASE_API_URL || "",
+      ? import.meta.env.VITE_BASE_API_URL
+      : process.env.VITE_BASE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },

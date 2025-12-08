@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import logo from "../../../assets/logo.svg";
 import "./Footer.css";
 
@@ -17,17 +16,17 @@ export default function Footer() {
             </div>
 
             <nav className="footer-nav" aria-label="Footer navigation">
-              <Link to="/">{t("HOME")}</Link>
-              <Link to="/our-mission">{t("OUR_MISSION")}</Link>
-              <Link to="/our-team">{t("OUR_TEAM")}</Link>
-              <Link to="/how-we-operate">{t("HOW_WE_OPERATE")}</Link>
-              <Link to="/contact">{t("CONTACT")}</Link>
+              <a href="/">{t("HOME")}</a>
+              <a href="/our-mission">{t("OUR_MISSION")}</a>
+              <a href="/our-team">{t("OUR_TEAM")}</a>
+              <a href="/how-we-operate">{t("HOW_WE_OPERATE")}</a>
+              <a href="/contact">{t("CONTACT")}</a>
             </nav>
 
             <div className="footer-contact">
-              <Link to="/donate">
+              <a href="/donate">
                 <button type="button">{t("DONATE")}</button>
-              </Link>
+              </a>
             </div>
           </div>
           {/* Divider exactly under that row */}
@@ -39,10 +38,10 @@ export default function Footer() {
         <div className="footer-bottom-grid">
           <div className="footer-copy">{t("COPYRIGHT")}</div>
           <div className="footer-links">
-            <Link to="/sitemap">{t("SITE_MAP")}</Link>
+            <a href="/sitemap">{t("SITE_MAP")}</a>
 
-            <Link to="/terms-and-conditions">{t("TERMS_AND_CONDITIONS")}</Link>
-            <Link to="/privacy-policy">{t("PRIVACY_POLICY")}</Link>
+            <a href="/terms-and-conditions">{t("TERMS_AND_CONDITIONS")}</a>
+            <a href="/privacy-policy">{t("PRIVACY_POLICY")}</a>
           </div>
         </div>
         {/* /.footer-bottom-grid */}
