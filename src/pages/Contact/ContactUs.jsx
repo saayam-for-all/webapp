@@ -3,6 +3,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Box, Button, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import PHONECODESEN from "../../utils/phone-codes-en";
@@ -306,12 +307,12 @@ const ContactUs = () => {
 
             <p className="text-sm text-gray-500 mt-4 text-center">
               {t("*By clicking Submit, you are agreeing to our")}{" "}
-              <a
-                href="/terms-and-conditions"
+              <Link
+                to="/terms-and-conditions"
                 className="text-blue-600 hover:underline"
               >
                 {t("terms and conditions")}
-              </a>
+              </Link>
               .
             </p>
           </Box>

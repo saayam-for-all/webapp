@@ -24,6 +24,12 @@ import JobsCategory from "./Categories/JobCategory";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
+import VoiceRecordingComponent from "../../common/components/VoiceRecordingComponent";
+import {
+  getSupportedLanguages,
+  detectLanguage,
+  cleanupLocalAudio,
+} from "../../services/audioServices";
 import {
   Dialog,
   DialogActions,
@@ -76,6 +82,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [suggestedCategories, setSuggestedCategories] = useState([]);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
   const [enums, setEnums] = useState(null);
+  const [recordingLanguage, setRecordingLanguage] = useState("en-US");
+  const [supportedLanguages, setSupportedLanguages] = useState([]);
+  const [audioUrl, setAudioUrl] = useState(null);
+  const [audioKey, setAudioKey] = useState(null); // Store audio key for cleanup
 
   // useEffect(() => {
   //   const fetchEnumsData = async () => {
@@ -130,6 +140,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     subject: "",
     description: "",
     priority: "MEDIUM",
+    audio_url: "",
   });
 
   // useEffect(() => {
@@ -146,10 +157,37 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    // Enforce 500 character limit for description
+    if (id === "description" && value.length > 500) {
+      setSnackbar({
+        open: true,
+        message: "Description cannot exceed 500 characters",
+        severity: "warning",
+      });
+      return;
+    }
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleTranscriptionUpdate = (transcribedText) => {
+    // Truncate to 500 characters
+    const truncatedText = transcribedText.substring(0, 500);
+    setFormData((prev) => ({ ...prev, description: truncatedText }));
+  };
+
+  const handleAudioUploaded = (uploadResult) => {
+    if (uploadResult && uploadResult.url) {
+      setAudioUrl(uploadResult.url);
+      setAudioKey(uploadResult.key); // Store key for cleanup
+      setFormData((prev) => ({ ...prev, audio_url: uploadResult.url }));
+    }
+  };
+
   const closeForm = () => {
+    // Clean up local audio storage when closing form
+    if (audioKey) {
+      cleanupLocalAudio(audioKey);
+    }
     navigate("/dashboard");
   };
 
@@ -246,6 +284,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         }
 
         const response = await createRequest(submissionData);
+
+        // Clean up local audio storage after successful submission
+        // TODO: Remove this cleanup when S3 upload is implemented
+        if (audioKey) {
+          cleanupLocalAudio(audioKey);
+          setAudioKey(null);
+        }
 
         setTimeout(() => {
           navigate("/dashboard", {
@@ -384,7 +429,54 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     fetchCategoriesData();
 
     //fetchLanguages();
+
+    // Fetch supported languages for speech-to-text
+    const fetchSupportedLanguages = async () => {
+      try {
+        const languages = await getSupportedLanguages();
+        setSupportedLanguages(languages);
+        // Set default language based on user's preferred language or browser language
+        if (languages.length > 0) {
+          const browserLang = navigator.language || "en-US";
+          const defaultLang =
+            languages.find((lang) => lang.code === browserLang) ||
+            languages.find((lang) => lang.code === "en-US") ||
+            languages[0];
+          setRecordingLanguage(defaultLang.code);
+        }
+      } catch (error) {
+        console.error("Error fetching supported languages:", error);
+        // Set default languages
+        setSupportedLanguages([
+          { code: "en-US", name: "English (US)" },
+          { code: "es-ES", name: "Spanish (Spain)" },
+          { code: "fr-FR", name: "French (France)" },
+          { code: "de-DE", name: "German (Germany)" },
+          { code: "hi-IN", name: "Hindi (India)" },
+        ]);
+        setRecordingLanguage("en-US");
+      }
+    };
+
+    fetchSupportedLanguages();
   }, [dispatch, categoriesFetched]);
+
+  // Cleanup local audio on page unload and component unmount
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      cleanupLocalAudio(); // Clean up all local audio
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      // Clean up audio when component unmounts
+      if (audioKey) {
+        cleanupLocalAudio(audioKey);
+      }
+    };
+  }, [audioKey]);
 
   useEffect(() => {
     if (id && data) {
@@ -1236,25 +1328,74 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             />
           </div>
           <div className="mt-3" data-testid="parentDivSeven">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              {t("DESCRIPTION")}
-              <span className="text-red-500 m-1">*</span>(
-              {t("MAX_CHARACTERS", { count: 500 })})
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-lg"
-              rows="5"
-              maxLength={500}
-              required
-              placeholder="Please give a detailed description of the request"
-            ></textarea>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 gap-2">
+              <label
+                htmlFor="description"
+                className="block text-gray-700 font-medium"
+              >
+                {t("DESCRIPTION")}
+                <span className="text-red-500 m-1">*</span>(
+                {t("MAX_CHARACTERS", { count: 500 })})
+              </label>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                <div className="flex items-center gap-2">
+                  <label
+                    htmlFor="recording-language"
+                    className="text-sm text-gray-600 whitespace-nowrap"
+                  >
+                    Recording Language:
+                  </label>
+                  <select
+                    id="recording-language"
+                    value={recordingLanguage}
+                    onChange={(e) => setRecordingLanguage(e.target.value)}
+                    className="border border-gray-300 text-gray-700 rounded-lg p-1.5 text-sm bg-white"
+                    disabled={false}
+                  >
+                    {supportedLanguages.map((lang) => (
+                      <option key={lang.code} value={lang.code}>
+                        {lang.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex-shrink-0">
+                  <VoiceRecordingComponent
+                    onTranscriptionUpdate={handleTranscriptionUpdate}
+                    onAudioUploaded={handleAudioUploaded}
+                    languageCode={recordingLanguage}
+                    maxFileSizeMB={10}
+                    descriptionLimit={500}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                className="border p-2 w-full rounded-lg"
+                rows="5"
+                maxLength={500}
+                required
+                placeholder="Please give a detailed description of the request. You can also record your voice using the microphone button above."
+              ></textarea>
+              <div className="absolute bottom-2 right-2 text-xs text-gray-500">
+                {formData.description.length}/500
+              </div>
+            </div>
+            {audioUrl && (
+              <div className="mt-2 flex items-center gap-2">
+                <span className="text-sm text-green-600">
+                  ✓ Audio recording ready
+                </span>
+                <span className="text-xs text-gray-500">
+                  (Use the Play button above to listen before submitting)
+                </span>
+              </div>
+            )}
           </div>
           <div className="mt-8 flex justify-end gap-2">
             <button

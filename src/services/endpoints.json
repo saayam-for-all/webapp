@@ -16,5 +16,9 @@
   "GENERATE_ANSWER": "genai/v0.0.1/generate_answer",
   "GET_USER_ID": "volunteers/v0.0.1/findUserByEmailID",
   "GET_CATEGORIES": "/requests/v0.0.1/mockCategoriesAPI",
-  "GET_ENUMS": "/requests/v0.0.1/mockEnums"
+  "GET_ENUMS": "/requests/v0.0.1/mockEnums",
+  "UPLOAD_AUDIO_TO_S3": "/audio/v0.0.1/upload-to-s3",
+  "TRANSCRIBE_AUDIO": "/audio/v0.0.1/transcribe",
+  "GET_SUPPORTED_LANGUAGES": "/audio/v0.0.1/supported-languages",
+  "DETECT_LANGUAGE": "/audio/v0.0.1/detect-language"
 }

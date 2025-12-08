@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { z } from "zod";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import PHONECODESEN from "../../utils/phone-codes-en";
@@ -378,13 +378,12 @@ const SignUp = () => {
           />
           <label className="my-2 text-gray-700">
             {t("TOS_AGREEMENT")}{" "}
-            <a
-              href="/terms-and-conditions"
-              rel="noopener noreferrer"
+            <Link
+              to="/terms-and-conditions"
               className="text-blue-500 underline"
             >
               {t("TERMS_AND_CONDITIONS")}
-            </a>
+            </Link>
             .
           </label>
         </div>

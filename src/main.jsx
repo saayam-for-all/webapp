@@ -11,7 +11,11 @@ import awsConfig from "./utils/config/aws-exports.js";
 import "@fontsource-variable/inter";
 import "./index.css";
 
-Amplify.configure(awsConfig);
+try {
+  Amplify.configure(awsConfig);
+} catch (error) {
+  console.error("Error configuring Amplify:", error);
+}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
