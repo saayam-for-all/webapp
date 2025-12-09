@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
@@ -27,24 +27,6 @@ import {
   getOthersRequests,
 } from "../../services/requestServices";
 import "./Dashboard.css";
-
-const allCategories = {
-  All: true,
-  Logistics: true,
-  Maintenance: true,
-  Education: true,
-  Electronics: true,
-  Health: true,
-  Essentials: true,
-  Childcare: true,
-  Pets: true,
-  Shopping: true,
-  Charity: true,
-  Events: true,
-  Marketing: true,
-  Administration: true,
-  Research: true,
-};
 
 const Dashboard = ({ userRole }) => {
   const { t } = useTranslation();
@@ -81,7 +63,6 @@ const Dashboard = ({ userRole }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [accessibleDashboards, setAccessibleDashboards] = useState([]);
   const [selectedDashboard, setSelectedDashboard] = useState("");
-  const [filtersLoaded, setFiltersLoaded] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -189,10 +170,33 @@ const Dashboard = ({ userRole }) => {
     getAllRequests(activeTab);
   }, [activeTab]);
 
+  const allCategories = {
+    All: true,
+    Logistics: true,
+    Maintenance: true,
+    Education: true,
+    Electronics: true,
+    Health: true,
+    Essentials: true,
+    Childcare: true,
+    Pets: true,
+    Shopping: true,
+    Charity: true,
+    Events: true,
+    Marketing: true,
+    Administration: true,
+    Research: true,
+  };
+
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     if (tab === "analytics") setAnalyticsSubtab("Infrastructure");
     setCurrentPage(1);
+    setStatusFilter({
+      Open: true,
+      Closed: false,
+    });
+    setCategoryFilter(allCategories);
   };
 
   const handleDashboardChange = (newDashboard) => {
@@ -400,129 +404,6 @@ const Dashboard = ({ userRole }) => {
       setIsVolunteerTypeDropdownOpen(false);
   };
 
-  //Bubble Filters
-  const getActiveFilters = () => {
-    const filters = [];
-    for (const [key, value] of Object.entries(categoryFilter)) {
-      if (value && key !== "All")
-        filters.push({ type: "Category", value: key });
-    }
-    for (const [key, value] of Object.entries(statusFilter)) {
-      if (value) filters.push({ type: "Status", value: key });
-    }
-    for (const [key, value] of Object.entries(typeFilter)) {
-      if (value) filters.push({ type: "Type", value: key });
-    }
-    for (const [key, value] of Object.entries(priorityFilter)) {
-      if (value) filters.push({ type: "Priority", value: key });
-    }
-    for (const [key, value] of Object.entries(calamityFilter)) {
-      if (value) filters.push({ type: "Calamity", value: key });
-    }
-    return filters;
-  };
-
-  const handleRemoveFilter = (filterType, filterValue) => {
-    switch (filterType) {
-      case "Category":
-        handleCategoryChange(filterValue);
-        break;
-      case "Status":
-        handleStatusChange(filterValue);
-        break;
-      case "Type":
-        setTypeFilter((prev) => ({ ...prev, [filterValue]: false }));
-        break;
-      case "Priority":
-        setPriorityFilter((prev) => ({ ...prev, [filterValue]: false }));
-        break;
-      case "Calamity":
-        setCalamityFilter((prev) => ({ ...prev, [filterValue]: false }));
-        break;
-    }
-  };
-
-  const handleClearAllFilters = () => {
-    setCategoryFilter({});
-    setStatusFilter({ Open: true, Closed: false });
-    setTypeFilter({ [TYPE_IN_PERSON]: true, [TYPE_REMOTE]: true });
-    setPriorityFilter({});
-    setCalamityFilter({});
-    setSearchTerm("");
-    sessionStorage.removeItem("dashboardFilters");
-    setFiltersLoaded(true);
-  };
-
-  //Saving filter dropdown states using sessionStorage
-  const saveFiltersToSession = useCallback(() => {
-    const filterState = {
-      statusFilter,
-      categoryFilter,
-      typeFilter,
-      priorityFilter,
-      calamityFilter,
-      volunteerTypeFilter,
-      searchTerm,
-    };
-    sessionStorage.setItem("dashboardFilters", JSON.stringify(filterState));
-  }, [
-    statusFilter,
-    categoryFilter,
-    typeFilter,
-    priorityFilter,
-    calamityFilter,
-    volunteerTypeFilter,
-    searchTerm,
-  ]);
-
-  useEffect(() => {
-    if (filtersLoaded) {
-      saveFiltersToSession();
-    }
-  }, [saveFiltersToSession, filtersLoaded]);
-
-  useEffect(() => {
-    const loadFiltersFromSession = () => {
-      const saved = sessionStorage.getItem("dashboardFilters");
-      if (saved) {
-        try {
-          const filterState = JSON.parse(saved);
-          setStatusFilter(
-            filterState.statusFilter || { Open: true, Closed: false },
-          );
-          setCategoryFilter(filterState.categoryFilter || {});
-          setTypeFilter(
-            filterState.typeFilter || {
-              [TYPE_IN_PERSON]: true,
-              [TYPE_REMOTE]: true,
-            },
-          );
-          setPriorityFilter(filterState.priorityFilter || {});
-          setCalamityFilter(filterState.calamityFilter || {});
-          setVolunteerTypeFilter(
-            filterState.volunteerTypeFilter || {
-              "Lead Volunteer": true,
-              "Helping Volunteer": true,
-            },
-          );
-          setSearchTerm(filterState.searchTerm || "");
-        } catch (e) {
-          console.error("Error loading filters from session:", e);
-          setCategoryFilter(allCategories);
-        }
-      } else {
-        setCategoryFilter(allCategories);
-      }
-      setFiltersLoaded(true);
-    };
-    loadFiltersFromSession();
-  }, []);
-
-  useEffect(() => {
-    if (!filtersLoaded && Object.keys(categoryFilter).length === 0) {
-      setCategoryFilter(allCategories);
-    }
-  }, [filtersLoaded, categoryFilter]);
   const toggleTypeDropdown = () => setIsTypeDropdownOpen(!isTypeDropdownOpen);
   const togglePriorityDropdown = () =>
     setIsPriorityDropdownOpen(!isPriorityDropdownOpen);
@@ -1045,9 +926,6 @@ const Dashboard = ({ userRole }) => {
                 }
                 analyticsSubtab={analyticsSubtab}
                 setAnalyticsSubtab={setAnalyticsSubtab}
-                activeFilters={getActiveFilters()}
-                onRemoveFilter={handleRemoveFilter}
-                onClearAllFilters={handleClearAllFilters}
               />
             )}
 
