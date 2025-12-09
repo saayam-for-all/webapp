@@ -211,7 +211,6 @@ export const updateUserProfile = (userData) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    sessionStorage.removeItem("dashboardFilters");
     returnDefaultLanguage();
     await signOut();
     clearToken();
