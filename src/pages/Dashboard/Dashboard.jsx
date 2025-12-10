@@ -26,6 +26,15 @@ import {
   getMyRequests,
   getOthersRequests,
 } from "../../services/requestServices";
+import {
+  getStatusOptions,
+  getPriorityOptions,
+  getTypeOptions,
+  getCategoryOptions,
+  normalizeTypeValue,
+  normalizeStatusValue,
+  normalizePriorityValue,
+} from "../../utils/filterHelpers";
 import "./Dashboard.css";
 
 const Dashboard = ({ userRole }) => {
@@ -50,8 +59,9 @@ const Dashboard = ({ userRole }) => {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState({
-    Open: true,
-    Closed: false,
+    CREATED: true,
+    MATCHING_VOLUNTEER: true,
+    MANAGED: true,
   });
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -193,8 +203,9 @@ const Dashboard = ({ userRole }) => {
     if (tab === "analytics") setAnalyticsSubtab("Infrastructure");
     setCurrentPage(1);
     setStatusFilter({
-      Open: true,
-      Closed: false,
+      CREATED: true,
+      MATCHING_VOLUNTEER: true,
+      MANAGED: true,
     });
     setCategoryFilter(allCategories);
   };
@@ -270,39 +281,66 @@ const Dashboard = ({ userRole }) => {
   }, [data, sortConfig]);
 
   const statusOptions = useMemo(() => {
-    const values = [
+    // Get status options from Enums API (with translations)
+    const enumStatuses = getStatusOptions(t);
+
+    // Also get statuses from current data for backward compatibility
+    const dataStatuses = [
       ...new Set((data?.body || []).map((r) => r.status).filter(Boolean)),
     ];
-    const fallback = ["Open", "Closed"];
-    const options = values.length ? values : fallback;
-    return ["All", ...options];
-  }, [data]);
+
+    // Combine enum statuses with any additional statuses from data
+    const statusMap = new Map();
+    enumStatuses.forEach((status) => {
+      statusMap.set(status.key, status);
+    });
+
+    // Add any data statuses not in enums
+    dataStatuses.forEach((status) => {
+      const normalized = normalizeStatusValue(status);
+      if (!statusMap.has(normalized)) {
+        statusMap.set(normalized, {
+          key: normalized,
+          value: status,
+          label: status,
+        });
+      }
+    });
+
+    return Array.from(statusMap.values());
+  }, [data, t]);
 
   const categoryOptions = useMemo(() => {
+    // Get categories from Categories API (with translations)
+    const apiCategories = getCategoryOptions(t);
+
+    if (apiCategories.length > 0) {
+      // Use categories from API
+      return apiCategories.map((cat) => ({
+        id: cat.id,
+        name: cat.name,
+        label: cat.label,
+      }));
+    }
+
+    // Fallback to hardcoded categories if API data not available
     const backendValues = new Set(
       (data?.body || []).map((r) => r.category).filter(Boolean),
     );
     const defaultValues = Object.keys(allCategories).filter((c) => c !== "All");
     const combined = Array.from(new Set([...defaultValues, ...backendValues]));
-    return combined.sort();
-  }, [data]);
+    return combined.sort().map((cat) => ({ id: cat, name: cat, label: cat }));
+  }, [data, t]);
 
   const typeOptions = useMemo(() => {
-    const rawValues = (data?.body || []).map((r) => r.type).filter(Boolean);
-    const normalizedSet = new Set(
-      rawValues.map((v) => normalizeType(v)).filter(Boolean),
-    );
-    normalizedSet.add(TYPE_IN_PERSON);
-    normalizedSet.add(TYPE_REMOTE);
-    return [TYPE_IN_PERSON, TYPE_REMOTE].filter((l) => normalizedSet.has(l));
-  }, [data]);
+    // Get type options from Enums API (with translations)
+    return getTypeOptions(t);
+  }, [t]);
 
   const priorityOptions = useMemo(() => {
-    const values = [
-      ...new Set((data?.body || []).map((r) => r.priority).filter(Boolean)),
-    ];
-    return values.length ? values : ["LOW", "MEDIUM", "HIGH"];
-  }, [data]);
+    // Get priority options from Enums API (with translations)
+    return getPriorityOptions(t);
+  }, [t]);
 
   const calamityOptions = useMemo(() => {
     const values = [
@@ -320,27 +358,31 @@ const Dashboard = ({ userRole }) => {
 
   const filteredRequests = (requests) => {
     return requests.filter((request) => {
+      // Normalize values for comparison with enum keys
+      const statusNormalized = normalizeStatusValue(request.status);
       const statusActive =
         Object.keys(statusFilter).length === 0 ||
         Object.values(statusFilter).every((v) => !v) ||
-        statusFilter[request.status];
+        statusFilter[statusNormalized] ||
+        statusFilter[request.status]; // Fallback for non-normalized
 
       const categoryActive =
         Object.keys(categoryFilter).length === 0 ||
         Object.values(categoryFilter).every((v) => !v) ||
         categoryFilter[request.category];
 
-      const typeNormalized = normalizeType(request.type);
-
+      const typeNormalized = normalizeTypeValue(request.type);
       const typeActive =
         Object.keys(typeFilter).length === 0 ||
         Object.values(typeFilter).every((v) => !v) ||
         (typeNormalized && typeFilter[typeNormalized]);
 
+      const priorityNormalized = normalizePriorityValue(request.priority);
       const priorityActive =
         Object.keys(priorityFilter).length === 0 ||
         Object.values(priorityFilter).every((v) => !v) ||
-        priorityFilter[request.priority];
+        priorityFilter[priorityNormalized] ||
+        priorityFilter[request.priority]; // Fallback for non-normalized
 
       const calamityValue =
         request.calamity === true ||
@@ -379,8 +421,8 @@ const Dashboard = ({ userRole }) => {
   };
 
   const [typeFilter, setTypeFilter] = useState({
-    [TYPE_IN_PERSON]: true,
-    [TYPE_REMOTE]: true,
+    IN_PERSON: true,
+    REMOTE: true,
   });
 
   const [priorityFilter, setPriorityFilter] = useState({});
@@ -444,18 +486,18 @@ const Dashboard = ({ userRole }) => {
     setSortConfig({ key: resolved, direction });
   };
 
-  const handleStatusChange = (status) => {
-    if (status === "All") {
+  const handleStatusChange = (statusKey) => {
+    if (statusKey === "All") {
       const allSelected = !Object.values(statusFilter).every(Boolean);
       const updatedFilter = {};
       statusOptions.forEach((s) => {
-        if (s !== "All") updatedFilter[s] = allSelected;
+        updatedFilter[s.key] = allSelected;
       });
       setStatusFilter(updatedFilter);
     } else {
       setStatusFilter((prev) => ({
         ...prev,
-        [status]: !prev[status],
+        [statusKey]: !prev[statusKey],
       }));
     }
   };
@@ -591,26 +633,27 @@ const Dashboard = ({ userRole }) => {
             <IoIosArrowDown className="m-2" />
           </div>
           {isCategoryDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 max-h-96 overflow-y-auto">
               <label className="block">
                 <input
                   type="checkbox"
                   checked={
+                    categoryOptions.length > 0 &&
                     Object.keys(categoryFilter).length ===
-                    Object.keys(allCategories).length
+                      categoryOptions.length
                   }
                   onChange={() => handleCategoryChange("All")}
                 />
-                All Categories
+                {t("All Categories")}
               </label>
               {categoryOptions.map((category) => (
-                <label key={category} className="block">
+                <label key={category.id || category.name} className="block">
                   <input
                     type="checkbox"
-                    checked={categoryFilter[category] || false}
-                    onChange={() => handleCategoryChange(category)}
+                    checked={categoryFilter[category.name] || false}
+                    onChange={() => handleCategoryChange(category.name)}
                   />
-                  {category}
+                  {category.label}
                 </label>
               ))}
             </div>
@@ -629,18 +672,22 @@ const Dashboard = ({ userRole }) => {
           </div>
           {isStatusDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <label className="block">
+                <input
+                  type="checkbox"
+                  checked={Object.values(statusFilter).every(Boolean)}
+                  onChange={() => handleStatusChange("All")}
+                />
+                {t("All")}
+              </label>
               {statusOptions.map((status) => (
-                <label key={status} className="block">
+                <label key={status.key} className="block">
                   <input
                     type="checkbox"
-                    checked={
-                      status === "All"
-                        ? Object.values(statusFilter).every(Boolean)
-                        : statusFilter[status] || false
-                    }
-                    onChange={() => handleStatusChange(status)}
+                    checked={statusFilter[status.key] || false}
+                    onChange={() => handleStatusChange(status.key)}
                   />
-                  {status}
+                  {status.label}
                 </label>
               ))}
             </div>
@@ -654,25 +701,25 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              Type
+              {t("Type")}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isTypeDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
               {typeOptions.map((type) => (
-                <label key={type} className="block">
+                <label key={type.key} className="block">
                   <input
                     type="checkbox"
-                    checked={typeFilter[type] || false}
+                    checked={typeFilter[type.key] || false}
                     onChange={() =>
                       setTypeFilter((prev) => ({
                         ...prev,
-                        [type]: !prev[type],
+                        [type.key]: !prev[type.key],
                       }))
                     }
                   />
-                  {type}
+                  {type.label}
                 </label>
               ))}
             </div>
@@ -685,25 +732,25 @@ const Dashboard = ({ userRole }) => {
             onClick={togglePriorityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              Priority
+              {t("Priority")}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isPriorityDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
               {priorityOptions.map((priority) => (
-                <label key={priority} className="block">
+                <label key={priority.key} className="block">
                   <input
                     type="checkbox"
-                    checked={priorityFilter[priority] || false}
+                    checked={priorityFilter[priority.key] || false}
                     onChange={() =>
                       setPriorityFilter((prev) => ({
                         ...prev,
-                        [priority]: !prev[priority],
+                        [priority.key]: !prev[priority.key],
                       }))
                     }
                   />
-                  {priority}
+                  {priority.label}
                 </label>
               ))}
             </div>
@@ -716,7 +763,7 @@ const Dashboard = ({ userRole }) => {
             onClick={toggleCalamityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              Calamity
+              {t("Calamity")}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
@@ -753,7 +800,7 @@ const Dashboard = ({ userRole }) => {
                 onClick={toggleVolunteerTypeDropdown}
               >
                 <button className="py-2 px-4 p-2 font-light text-gray-600">
-                  Volunteer Type
+                  {t("Volunteer Type")}
                 </button>
                 <IoIosArrowDown className="m-2" />
               </div>
