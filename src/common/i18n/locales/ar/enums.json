@@ -20,7 +20,7 @@
     "RATED_BY_VOLUNTEER": "تم التقييم من قبل المتطوع"
   },
   "requestType": {
-    "INPERSON": "شخصياً",
+    "IN_PERSON": "شخصياً",
     "REMOTE": "عن بعد"
   }
 }
