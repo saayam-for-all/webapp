@@ -17,9 +17,18 @@ const VoluntaryOrganizations = () => {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
+  // 🔗 helper: build the URL for the organization details page
+  const getOrganizationLinkPath = (organization, header) => {
+    // only make the ID column clickable
+    if (header === "id" && organization?.id) {
+      // if your route is different, just change this string
+      return `/organization/${organization.id}`;
+    }
+    return null;
+  };
+
   const headers = ["id", "name", "location", "causes", "size", "rating"];
   const [organizations, setOrganizations] = useState([]);
-  // const organizations = voluntaryOrganizationsData;
 
   const getVoluntaryOrganizations = async () => {
     try {
@@ -57,7 +66,7 @@ const VoluntaryOrganizations = () => {
     return sortedOrganizations(organizations || []);
   }, [organizations, sortConfig]);
 
-  //add the filter by category and filter with search input functionality here
+  // filter by category + search text
   const filteredOrganizations = (organizations) => {
     return organizations.filter(
       (organization) =>
@@ -76,7 +85,7 @@ const VoluntaryOrganizations = () => {
   }, [sortedData, categoryFilter, searchTerm]);
 
   const totalPages = (filteredData) => {
-    if (!filteredData || filteredData.length == 0) return 1;
+    if (!filteredData || filteredData.length === 0) return 1;
     return Math.ceil(filteredData.length / rowsPerPage);
   };
 
@@ -174,7 +183,7 @@ const VoluntaryOrganizations = () => {
           onClick={() => navigate(-1)}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
+          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || "Back"}
         </button>
       </div>
       <h1 className="text-2xl font-bold mb-5">Organizations</h1>
@@ -236,7 +245,8 @@ const VoluntaryOrganizations = () => {
         sortConfig={sortConfig}
         requestSort={requestSort}
         onRowsPerPageChange={handleRowsPerPageChange}
-        getLinkPath={(request, header) => `/organization/${request[header]}`}
+        getLinkPath={getOrganizationLinkPath}
+        getLinkState={(organization) => organization}
       />
     </div>
   );
