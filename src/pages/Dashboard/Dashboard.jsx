@@ -18,6 +18,20 @@ import {
   getOthersRequests,
 } from "../../services/requestServices";
 import "./Dashboard.css";
+const getRequestLinkPath = (request, header) => {
+  // Make only the Request ID clickable for now
+  if (header === "id") {
+    return `/request/${request.id}`;
+  }
+
+  // Later, when you know the correct organization field:
+  // if (header === "organizationId") {
+  //   return `/voluntary-organizations/${request.organizationId}`;
+  // }
+
+  // All other columns: no hyperlink
+  return null;
+};
 
 const Dashboard = ({ userRole }) => {
   const { t } = useTranslation();
@@ -753,7 +767,7 @@ const Dashboard = ({ userRole }) => {
               sortConfig={sortConfig}
               requestSort={requestSort}
               onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
+              getLinkPath={getRequestLinkPath}
               getLinkState={(request) => request}
             />
           )}
@@ -772,7 +786,7 @@ const Dashboard = ({ userRole }) => {
               sortConfig={sortConfig}
               requestSort={requestSort}
               onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
+              getLinkPath={getRequestLinkPath}
               getLinkState={(request) => request}
             />
           )}
@@ -789,7 +803,7 @@ const Dashboard = ({ userRole }) => {
               sortConfig={sortConfig}
               requestSort={requestSort}
               onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
+              getLinkPath={getRequestLinkPath}
               getLinkState={(request) => request}
             />
           )}
@@ -808,7 +822,7 @@ const Dashboard = ({ userRole }) => {
               sortConfig={sortConfig}
               requestSort={requestSort}
               onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
+              getLinkPath={getRequestLinkPath}
               getLinkState={(request) => request}
             />
           )}
@@ -827,7 +841,7 @@ const Dashboard = ({ userRole }) => {
               sortConfig={sortConfig}
               requestSort={requestSort}
               onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
+              getLinkPath={getRequestLinkPath}
               getLinkState={(request) => request}
             />
           )}

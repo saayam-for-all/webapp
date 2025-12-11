@@ -74,17 +74,29 @@ const Table = ({
                     className="px-6 py-4 whitespace-nowrap"
                     data-testid="map-data-one"
                   >
-                    {header === "id" ? (
-                      <Link
-                        to={getLinkPath(request, header)}
-                        className="text-indigo-600 hover:text-indigo-900"
-                        state={getLinkState ? getLinkState(request) : {}}
-                      >
-                        {request[header]}
-                      </Link>
-                    ) : (
-                      request[header]
-                    )}
+                    {(() => {
+                      const value = request[header];
+                      const path =
+                        typeof getLinkPath === "function"
+                          ? getLinkPath(request, header)
+                          : null;
+
+                      // If parent gives us a path, render a Link
+                      if (path) {
+                        return (
+                          <Link
+                            to={path}
+                            className="text-indigo-600 hover:text-indigo-900"
+                            state={getLinkState ? getLinkState(request) : {}}
+                          >
+                            {value}
+                          </Link>
+                        );
+                      }
+
+                      // Otherwise plain text
+                      return value;
+                    })()}
                   </td>
                 ))}
               </tr>
