@@ -5,6 +5,16 @@ import { requestsData } from "../pages/Dashboard/data";
 export const getMyRequests = async () => {
   try {
     const response = await api.get(endpoints.GET_MY_REQUESTS);
+    // If API returns empty data, fallback to mock data
+    if (
+      !response.data ||
+      !response.data.body ||
+      !Array.isArray(response.data.body) ||
+      response.data.body.length === 0
+    ) {
+      console.warn("API returned empty data, using mock data fallback");
+      return { body: requestsData.myRequests.data };
+    }
     return response.data;
   } catch (error) {
     console.warn(
@@ -17,6 +27,16 @@ export const getMyRequests = async () => {
 export const getOthersRequests = async () => {
   try {
     const response = await api.get(endpoints.GET_OTHERS_REQUESTS);
+    // If API returns empty data, fallback to mock data
+    if (
+      !response.data ||
+      !response.data.body ||
+      !Array.isArray(response.data.body) ||
+      response.data.body.length === 0
+    ) {
+      console.warn("API returned empty data, using mock data fallback");
+      return { body: requestsData.othersRequests.data };
+    }
     return response.data;
   } catch (error) {
     console.warn(
@@ -29,6 +49,16 @@ export const getOthersRequests = async () => {
 export const getManagedRequests = async () => {
   try {
     const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
+    // If API returns empty data, fallback to mock data
+    if (
+      !response.data ||
+      !response.data.body ||
+      !Array.isArray(response.data.body) ||
+      response.data.body.length === 0
+    ) {
+      console.warn("API returned empty data, using mock data fallback");
+      return { body: requestsData.managedRequests.data };
+    }
     return response.data;
   } catch (error) {
     console.warn(
