@@ -31,6 +31,7 @@ import {
   getPriorityOptions,
   getTypeOptions,
   getCategoryOptions,
+  flattenCategories,
   normalizeTypeValue,
   normalizeStatusValue,
   normalizePriorityValue,
@@ -54,8 +55,8 @@ const Dashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
-    key: "creationDate",
-    direction: "ascending",
+    key: "updatedDate",
+    direction: "descending",
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState({
@@ -234,10 +235,10 @@ const Dashboard = ({ userRole }) => {
   const headersWithStatus = useMemo(() => {
     const baseHeaders = [
       "requestId",
-      "type",
       "subject",
-      "creationDate",
       "updatedDate",
+      "creationDate",
+      "type",
       "category",
       "priority",
       "calamity",
@@ -247,10 +248,10 @@ const Dashboard = ({ userRole }) => {
         ? [
             "requestId",
             "beneficiaryId",
-            "type",
             "subject",
-            "creationDate",
             "updatedDate",
+            "creationDate",
+            "type",
             "category",
             "priority",
             "calamity",
@@ -315,12 +316,8 @@ const Dashboard = ({ userRole }) => {
     const apiCategories = getCategoryOptions(t);
 
     if (apiCategories.length > 0) {
-      // Use categories from API
-      return apiCategories.map((cat) => ({
-        id: cat.id,
-        name: cat.name,
-        label: cat.label,
-      }));
+      // Flatten categories to include subcategories
+      return flattenCategories(apiCategories, t);
     }
 
     // Fallback to hardcoded categories if API data not available
@@ -329,7 +326,9 @@ const Dashboard = ({ userRole }) => {
     );
     const defaultValues = Object.keys(allCategories).filter((c) => c !== "All");
     const combined = Array.from(new Set([...defaultValues, ...backendValues]));
-    return combined.sort().map((cat) => ({ id: cat, name: cat, label: cat }));
+    return combined
+      .sort()
+      .map((cat) => ({ id: cat, name: cat, label: cat, depth: 0 }));
   }, [data, t]);
 
   const typeOptions = useMemo(() => {
@@ -629,11 +628,18 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("FILTER_BY")}
+              {Object.keys(categoryFilter).length > 0 &&
+                Object.keys(categoryFilter).length !==
+                  categoryOptions.length && (
+                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                    {Object.keys(categoryFilter).length}
+                  </span>
+                )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isCategoryDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 max-h-96 overflow-y-auto">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 max-h-96 overflow-y-auto min-w-64">
               <label className="block">
                 <input
                   type="checkbox"
@@ -647,12 +653,17 @@ const Dashboard = ({ userRole }) => {
                 {t("All Categories")}
               </label>
               {categoryOptions.map((category) => (
-                <label key={category.id || category.name} className="block">
+                <label
+                  key={category.id || category.name}
+                  className="block"
+                  style={{ paddingLeft: `${(category.depth || 0) * 20}px` }}
+                >
                   <input
                     type="checkbox"
                     checked={categoryFilter[category.name] || false}
                     onChange={() => handleCategoryChange(category.name)}
                   />
+                  {category.depth > 0 && <span className="mr-1">↳</span>}
                   {category.label}
                 </label>
               ))}
@@ -667,11 +678,17 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Status")}
+              {Object.values(statusFilter).filter(Boolean).length > 0 &&
+                !Object.values(statusFilter).every(Boolean) && (
+                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                    {Object.values(statusFilter).filter(Boolean).length}
+                  </span>
+                )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isStatusDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               <label className="block">
                 <input
                   type="checkbox"
@@ -702,11 +719,18 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Type")}
+              {Object.values(typeFilter).filter(Boolean).length > 0 &&
+                Object.values(typeFilter).filter(Boolean).length !==
+                  typeOptions.length && (
+                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                    {Object.values(typeFilter).filter(Boolean).length}
+                  </span>
+                )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isTypeDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {typeOptions.map((type) => (
                 <label key={type.key} className="block">
                   <input
@@ -733,11 +757,18 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Priority")}
+              {Object.values(priorityFilter).filter(Boolean).length > 0 &&
+                Object.values(priorityFilter).filter(Boolean).length !==
+                  priorityOptions.length && (
+                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                    {Object.values(priorityFilter).filter(Boolean).length}
+                  </span>
+                )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isPriorityDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {priorityOptions.map((priority) => (
                 <label key={priority.key} className="block">
                   <input
@@ -764,11 +795,18 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Calamity")}
+              {Object.values(calamityFilter).filter(Boolean).length > 0 &&
+                Object.values(calamityFilter).filter(Boolean).length !==
+                  calamityOptions.length && (
+                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                    {Object.values(calamityFilter).filter(Boolean).length}
+                  </span>
+                )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isCalamityDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {calamityOptions.map((cal) => (
                 <label key={cal} className="block">
                   <input
@@ -801,11 +839,21 @@ const Dashboard = ({ userRole }) => {
               >
                 <button className="py-2 px-4 p-2 font-light text-gray-600">
                   {t("Volunteer Type")}
+                  {Object.values(volunteerTypeFilter).filter(Boolean).length >
+                    0 &&
+                    !Object.values(volunteerTypeFilter).every(Boolean) && (
+                      <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                        {
+                          Object.values(volunteerTypeFilter).filter(Boolean)
+                            .length
+                        }
+                      </span>
+                    )}
                 </button>
                 <IoIosArrowDown className="m-2" />
               </div>
               {isVolunteerTypeDropdownOpen && (
-                <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+                <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
                   <label className="block">
                     <input
                       type="checkbox"

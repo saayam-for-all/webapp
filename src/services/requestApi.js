@@ -15,7 +15,7 @@ export const requestApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllRequest: builder.query({
-      query: () => "dev/requests/v0.0.1/get-requests",
+      query: () => "dev/requests/v0.0.1/mockRequests",
       providesTags: ["Request"],
     }),
     addRequest: builder.mutation({
