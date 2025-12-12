@@ -1,0 +1,26 @@
+{
+  "requestFor": {
+    "SELF": "స్వయంగా",
+    "OTHER": "ఇతరులు"
+  },
+  "requestPriority": {
+    "LOW": "తక్కువ",
+    "MEDIUM": "మధ్యస్థ",
+    "HIGH": "అధిక",
+    "CRITICAL": "క్లిష్టమైన"
+  },
+  "requestStatus": {
+    "CREATED": "సృష్టించబడింది",
+    "MATCHING_VOLUNTEER": "స్వచ్ఛంద సేవకుడిని వెతుకుతోంది",
+    "MANAGED": "నిర్వహించబడింది",
+    "RESOLVED": "పరిష్కరించబడింది",
+    "CANCELLED": "రద్దు చేయబడింది",
+    "DELETED": "తొలగించబడింది",
+    "RATED_BY_REQUESTER": "అభ్యర్థి రేటింగ్ ఇచ్చారు",
+    "RATED_BY_VOLUNTEER": "స్వచ్ఛంద సేవకుడు రేటింగ్ ఇచ్చారు"
+  },
+  "requestType": {
+    "IN_PERSON": "వ్యక్తిగతంగా",
+    "REMOTE": "రిమోట్"
+  }
+}

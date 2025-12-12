@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import bannerImageOne from "../../assets/landingPageImages/bannerImageOne.jpg";
 import bannerImageThree from "../../assets/landingPageImages/bannerImageThree.jpg";
@@ -17,33 +16,58 @@ import collabSix from "../../assets/landingPageImages/collab_six.jpg";
 import collabThree from "../../assets/landingPageImages/collab_three.jpg";
 import collabTwo from "../../assets/landingPageImages/collab_two.jpg";
 import topOne from "../../assets/landingPageImages/topOne.jpg";
-import topTwo from "../../assets/landingPageImages/topTwo.jpg";
+import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
 
 export default function Home() {
-  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const videoId = "zupN0-zXrLQ";
+  const { t, i18n } = useTranslation();
 
-  useEffect(() => {
-    if (user !== null) {
-      navigate("/dashboard");
-    }
-  }, [user]);
+  // Get the current language and map it to YouTube language codes
+  const getYouTubeLanguageCode = (language) => {
+    // Extract base language code (remove region code if present)
+    const baseLanguage = language ? language.split("-")[0] : "en";
+
+    const languageMap = {
+      en: "en",
+      es: "es",
+      fr: "fr",
+      de: "de",
+      pt: "pt",
+      ru: "ru",
+      zh: "zh",
+      hi: "hi",
+      bn: "bn",
+      te: "te",
+    };
+    return languageMap[baseLanguage] || "en"; // Default to English if language not supported
+  };
+
+  const currentLanguage = getYouTubeLanguageCode(i18n.language);
+  // uncomment this for debugging
+  // console.log("Current i18n language:", i18n.language);
+  // console.log("Mapped YouTube language:", currentLanguage);
+  // console.log(
+  //   "YouTube URL:",
+  //   `https://www.youtube.com/embed/${videoId}?controls=1&rel=0&hl=${currentLanguage}&cc_lang_pref=${currentLanguage}`,
+  // );
 
   return (
     <div className="w-full overflow-hidden">
       <div className="w-full">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-sm md:text-lg text-gray-400 mb-[50px] mt-[20px]">
-            Real help. Real people. Right when you need it.
+          <div className="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px] text-center px-4">
+            {t("Real help. Real people. Right when you need it.")}
           </div>
-          <h1 className="font-bold text-4xl md:text-6xl tracking-wide mb-[50px]">
-            Need help? Here to help?
+          <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4">
+            {t("Need help? Here to help?")}
           </h1>
-          <div className="w-1/4 text-sm md:text-lg text-gray-400 m-auto mb-[40px] text-center">
-            At Saayam for All, your support can make a real difference today.
+          <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
+            {t(
+              "At Saayam for All, your support can make a real difference today.",
+            )}
           </div>
         </div>
       </div>
@@ -52,48 +76,53 @@ export default function Home() {
           <img
             src={bannerImageOne}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+            alt={t("SARVE_JANA_SUKHINO_BHAVANTU_ALT")}
           />
-          <h3 className="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
-            "Sarve jana sukhino bhavantu"
+          <h3 className="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center">
+            {t("Sarve jana sukhino bhavantu")}
           </h3>
-          <div className="text-sm md:text-lg text-gray-400 text-center">
-            May all live happily.
+          <div className="text-xs md:text-sm md:text-lg text-gray-600 text-center">
+            {t("May all live happily.")}
           </div>
         </div>
         <div className="w-[33%] h-full flex flex-col justify-center items-center">
           <img
             src={bannerImageTwo}
             className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+            alt={t("JNANAM_VARDHATI_SANCHAYAT_ALT")}
           />
-          <h3 className="font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
-            "j&ntilde;&#257;nam vardhati sanchay&#257;t"
+          <h3 className="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
+            {t("jñānam vardhati sanchayāt")}
           </h3>
-          <div className="text-sm md:text-lg text-gray-400 text-center">
-            Sharing knowledge expands one's own understanding and the knowledge
-            of others.
+          <div className="text-xs md:text-sm  md:text-lg text-gray-600 text-center">
+            {t(
+              "Sharing knowledge expands one's own understanding and the knowledge of others.",
+            )}
           </div>
         </div>
         <div className="w-[22%] h-full flex flex-col justify-center items-center">
           <img
             src={bannerImageThree}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+            alt={t("MANAVA_SEVAYE_MADHAVA_SEVA_ALT")}
           />
-          <h3 className="w-3/4 font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
-            "Manava sevaye Madhava seva"
+          <h3 className="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
+            {t("Manava sevaye Madhava seva")}
           </h3>
-          <div className="text-sm md:text-lg text-gray-400 text-center w-2/3">
-            Service to mankind is Service to God.
+          <div className="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3">
+            {t("Service to mankind is Service to God.")}
           </div>
         </div>
       </div>
 
       <Carousel />
-      <div className="relative w-full flex flex-col overflow-hidden items-center mb-[50px]">
-        <h3 className="font-bold text-3xl md:text-4xl mb-[40px]">
-          Our Collaborators
-        </h3>
+      <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
+        {/* <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
+          {t("Our Collaborators")}
+        </h3> */}
 
-        <div className="w-full flex flex-row overflow-hidden">
+        {/* Hid collaborators until we get permission from them all*/}
+        <div className="w-full flex flex-row overflow-hidden hidden">
           <div className="scroll imgBox">
             <div>
               <img src={collabOne} className="w-[150px] ml-[75px]"></img>
@@ -117,33 +146,33 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0">
+      <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[200px] lg:mb-[100px] px-4 md:px-0">
         <div className="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full">
-          <h3 className="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]">
-            Creating a World Where Help is Always Within Reach
+          <h3 className="font-bold text-2xl md:text-4xl w-full md:w-3/4 mb-4 md:mb-[10px]">
+            {t("Creating a World Where Help is Always Within Reach")}
           </h3>
           <p className="text-base md:text-lg text-gray-500 md:h-1/3">
-            Through our global network of volunteers and donors, we empower
-            communities to support one another, fostering a culture of
-            compassion and solidarity that transcends geographical boundaries.
+            {t(
+              "Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.",
+            )}
           </p>
           <button
-            className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+            className="mt-6 md:mt-[80px] lg:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/our-mission")}
           >
-            Our Mission &rarr;
+            {t("Our Mission")} →
           </button>
         </div>
         <div className="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center">
           <img
-            className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
+            className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
             src={topOne}
-            alt="A sunny day with two people looking at each other comfortingly"
+            alt={t("LANDING_IMAGE_ALT_1")}
           />
           <img
             className="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
             src={topTwo}
-            alt="A joyful family stands in a lush field on a sunny day"
+            alt={t("LANDING_IMAGE_ALT_2")}
           />
         </div>
       </div>
@@ -151,25 +180,26 @@ export default function Home() {
       <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0">
         <div className="order-1 md:order-2 flex flex-col justify-start items-start w-full md:w-1/2 p-4 md:p-10 h-auto md:h-full">
           <h3 className="font-bold text-2xl md:text-4xl w-full md:w-2/3 pb-4 md:pb-5">
-            How We Operate
+            {t("How We Operate")}
           </h3>
           <p className="text-base md:text-lg text-gray-500">
-            Watch our 5 minute video to understand how Saayam for All works and
-            how we make a difference.
+            {t(
+              "Watch our 5 minute video to understand how Saayam for All works and how we make a difference.",
+            )}
           </p>
           <button
             className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/how-we-operate")}
           >
-            Learn More &rarr;
+            {t("Learn More")} →
           </button>
         </div>
 
         {/* Video Section - Second on mobile, first on desktop */}
         <div className="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5">
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0`}
-            title="YouTube Video"
+            src={`https://www.youtube.com/embed/${videoId}?controls=1&rel=0&hl=${currentLanguage}&cc_lang_pref=${currentLanguage}`}
+            title={t("YOUTUBE_VIDEO_TITLE")}
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             className="landing-iframe "
           ></iframe>
@@ -177,45 +207,38 @@ export default function Home() {
       </div>
 
       <div className="bg-gray-100 flex flex-col w-full items-center justify-center">
-        <h1 className="w-[60%] font-bold text-3xl md:text-4xl tracking-wide mb-[50px] mt-[50px] text-center">
-          One Platform. Many Ways to Contribute.
+        <h1 className="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center">
+          {t("One Platform. Many Ways to Contribute.")}
         </h1>
-        <div className="w-[60%] text-sm md:text-lg text-black mb-[40px] text-center">
-          Learn about different roles in our ecosystem and how each one
-          contributes to creating an impact.
+        <div className="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center">
+          {t(
+            "Learn about different roles in our ecosystem and how each one contributes to creating an impact.",
+          )}
         </div>
-        <div className="w-[80%] flex flex-riw items-center justify-center gap-5 mb-[75px]">
+        <div className="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]">
           {[bottomOne, bottomTwo, bottomThree, bottomFour].map((src, i) => (
             <div
-              style={{
-                backgroundImage: `url(${src})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                width: "25%",
-                height: "400px",
-                borderRadius: "10px",
-              }}
+              key={`bottom-image-${i}`}
+              className="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style={{ backgroundImage: `url(${src})` }}
             >
-              <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[30%]">
-                <h3 className="w-full text-white font-bold text-2xl md:text-2xl tracking-wide m-[10px] text-center">
-                  {
-                    [
-                      "Beneficiaries",
-                      "Volunteers",
-                      "Voluntary Organizations",
-                      "Donors",
-                    ][i]
-                  }
+              <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]">
+                <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
+                  {t(
+                    ["Beneficiaries", "Volunteers", "ORGANIZATIONS", "Donors"][
+                      i
+                    ],
+                  )}
                 </h3>
-                <h6 className="w-full text-white text-xl md:text-xl tracking-wide m-[10px] text-center">
-                  {
+                <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
+                  {t(
                     [
-                      "Recieve help for their requests",
+                      "Receive help for their requests",
                       "Provide guidance and solutions to beneficiaries",
                       "Offer necessary support to beneficiaries",
                       "Provide financial assistance to voluntary organization",
-                    ][i]
-                  }
+                    ][i],
+                  )}
                 </h6>
               </div>
             </div>

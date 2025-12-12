@@ -1,16 +1,25 @@
-import React from "react";
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { TimePicker } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 
+const getDefaultSlot = () => ({
+  id: Date.now() + Math.random(),
+  dayOfWeek: "Everyday",
+  startTime: null,
+  endTime: null,
+});
+
+// ======= INDIVIDUAL TIME INPUT ROW =======
 const TimeInputComponent = ({
   index,
-  day,
+  dayOfWeek,
   startTime,
   endTime,
   onDayChange,
   onTimeChange,
   onRemove,
+  errors,
 }) => {
   const days = [
     "Everyday",
@@ -23,25 +32,13 @@ const TimeInputComponent = ({
     "Sunday",
   ];
 
-  const handleDayChange = (e) => {
-    const newDay = e.target.value;
-    onDayChange(index, newDay);
-  };
-
-  const handleStartTimeChange = (newStartTime) => {
-    onTimeChange(index, "startTime", newStartTime);
-  };
-
-  const handleEndTimeChange = (newEndTime) => {
-    onTimeChange(index, "endTime", newEndTime);
-  };
-
   return (
-    <div className="flex items-center space-x-4 mb-1">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full max-w-2xl mx-auto mb-4">
+      {/* ----- Day Dropdown ----- */}
       <select
-        className="w-40 border border-gray-300 rounded-md p-2"
-        value={day}
-        onChange={handleDayChange}
+        className="w-full sm:w-40 border border-gray-300 rounded-md p-2 mb-2 sm:mb-0"
+        value={dayOfWeek}
+        onChange={(e) => onDayChange(index, e.target.value)}
       >
         {days.map((d) => (
           <option key={d} value={d}>
@@ -49,39 +46,74 @@ const TimeInputComponent = ({
           </option>
         ))}
       </select>
-      <TimePicker
-        className="rounded-md w-40"
-        // value={startTime}
-        onChange={handleStartTimeChange}
-        onOk={handleStartTimeChange}
-        disableClock={true}
-        format="hh:mm a"
-        hourPlaceholder="hh"
-        minutePlaceholder="mm"
-        clearIcon={null}
-      />
-      <TimePicker
-        className="rounded-md  w-40"
-        value={endTime}
-        onChange={handleEndTimeChange}
-        onOk={handleEndTimeChange}
-        disableClock={false}
-        format="hh:mm a"
-        hourPlaceholder="hh"
-        minutePlaceholder="mm"
-        clearIcon={null}
-      />
+
+      {/* ----- Start Time Picker ----- */}
+      <div className="w-full sm:w-40 mb-2 sm:mb-0">
+        <TimePicker
+          className={`rounded-md w-full ${
+            errors?.startTime ? "border border-red-500" : ""
+          }`}
+          value={startTime}
+          onChange={(v) => onTimeChange(index, "startTime", v)}
+          format="hh:mm a"
+          hourplaceholder="hh"
+          minuteplaceholder="mm"
+          clearicon={null}
+        />
+        {errors?.startTime && (
+          <div className="text-xs text-red-500">Required</div>
+        )}
+      </div>
+
+      {/* ----- End Time Picker ----- */}
+      <div className="w-full sm:w-40 mb-2 sm:mb-0">
+        <TimePicker
+          className={`rounded-md w-full ${
+            errors?.endTime ? "border border-red-500" : ""
+          }`}
+          value={endTime}
+          onChange={(v) => onTimeChange(index, "endTime", v)}
+          format="hh:mm a"
+          hourplaceholder="hh"
+          minuteplaceholder="mm"
+          clearicon={null}
+          shouldDisableHour={(hour) => {
+            if (!startTime) return false;
+            return hour <= startTime.getHours();
+          }}
+          shouldDisableMinute={(minute, selectedHour) => {
+            if (!startTime) return false;
+            const startHour = startTime.getHours();
+            const startMinute = startTime.getMinutes();
+
+            if (selectedHour === startHour) {
+              return minute <= startMinute;
+            }
+            return false;
+          }}
+        />
+        {errors?.endTime && (
+          <div className="text-xs text-red-500">Required</div>
+        )}
+        {endTime && startTime && endTime <= startTime && (
+          <div className="text-xs text-red-500">
+            End time must be after start time
+          </div>
+        )}
+      </div>
+
+      {/* ----- Remove Button ----- */}
       <button
-        className="border border-red-500 rounded-full hover:bg-red-100"
+        className="mt-2 sm:mt-0 sm:ml-1 w-8 h-8 flex items-center justify-center 
+             border border-red-500 rounded-full hover:bg-red-100 p-1 shrink-0"
         onClick={() => onRemove(index)}
+        type="button"
+        aria-label="Remove row"
+        title="Remove row"
       >
         <svg
           className="w-3 h-3"
           xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          width="100"
-          height="100"
           viewBox="0 0 48 48"
         >
           <path
@@ -100,82 +132,85 @@ const TimeInputComponent = ({
   );
 };
 
-const TimeInputList = ({ components, setComponents }) => {
-  // Initializing state with 5 TimeInputComponents
-  // const [components, setComponents] = useState(
-  //   Array.from({ length: 1 }, (_, i) => ({
-  //     id: i,
-  //     day: "Everyday",
-  //     startTime: "00:00",
-  //     endTime: "00:00",
-  //   })),
-  // );
+TimeInputComponent.propTypes = {
+  index: PropTypes.number.isRequired,
+  dayOfWeek: PropTypes.string.isRequired,
+  startTime: PropTypes.instanceOf(Date),
+  endTime: PropTypes.instanceOf(Date),
+  onDayChange: PropTypes.func.isRequired,
+  onTimeChange: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    startTime: PropTypes.bool,
+    endTime: PropTypes.bool,
+  }),
+};
 
-  const handleDayChange = (index, day) => {
-    console.log(`Day change at index ${index}: ${day}`);
-    const newComponents = components.map((component, i) =>
-      i === index ? { ...component, day } : component,
+// ======= LIST COMPONENT =======
+const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
+  const handleDayChange = (index, newDay) => {
+    setSlots((s) =>
+      s.map((slot, i) => (i === index ? { ...slot, dayOfWeek: newDay } : slot)),
     );
-    setComponents(newComponents);
   };
 
-  const handleTimeChange = (index, type, value) => {
-    console.log(`Time change at index ${index} for ${type}: ${value}`);
-    const newComponents = components.map((component, i) =>
-      i === index ? { ...component, [type]: value } : component,
+  const handleTimeChange = (index, which, val) => {
+    setSlots((s) =>
+      s.map((slot, i) => (i === index ? { ...slot, [which]: val } : slot)),
     );
-    setComponents(newComponents);
-  };
-
-  const handleRemoveComponent = (index) => {
-    console.log(`Removing component at index ${index}`);
-    // Ensure at least one component remains
-    if (components.length > 1) {
-      const newComponents = components.filter((_, i) => i !== index);
-      setComponents(newComponents);
+    if (errors[index]?.[which]) {
+      setErrors((errs) =>
+        errs.map((err, i) => (i === index ? { ...err, [which]: false } : err)),
+      );
     }
   };
 
-  const handleAddComponent = () => {
-    const newId =
-      components.length > 0 ? components[components.length - 1].id + 1 : 0;
-    setComponents([
-      ...components,
-      {
-        id: newId,
-        day: "Everyday",
-        startTime: "00:00",
-        endTime: "00:00",
-      },
-    ]);
-    console.log(`components: ${JSON.stringify(components)}`);
+  const validate = () => {
+    const newErrors = slots.map((slot) => ({
+      startTime: !slot.startTime,
+      endTime: !slot.endTime,
+    }));
+    setErrors(newErrors);
+    return newErrors.every((e) => !e.startTime && !e.endTime);
+  };
+
+  const handleRemove = (index) => {
+    if (slots.length > 1) {
+      setSlots((prev) => prev.filter((_, i) => i !== index));
+      setErrors((prevErrs) => prevErrs.filter((_, i) => i !== index));
+    }
+  };
+
+  const handleAdd = () => {
+    if (validate()) {
+      setSlots((prev) => [...prev, getDefaultSlot()]);
+      setErrors((prev) => [...prev, { startTime: false, endTime: false }]);
+    }
   };
 
   return (
-    <div>
-      {components.map((component, index) => (
+    <div className="w-full">
+      {slots.map((slot, idx) => (
         <TimeInputComponent
-          key={component.id}
-          index={index}
-          day={component.day}
-          startTime={component.startTime}
-          endTime={component.endTime}
+          key={slot.id}
+          index={idx}
+          {...slot}
           onDayChange={handleDayChange}
           onTimeChange={handleTimeChange}
-          onRemove={handleRemoveComponent}
+          onRemove={handleRemove}
+          errors={errors[idx]}
         />
       ))}
+
+      {/* ADD BUTTON */}
       <button
         className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 border border-gray-300 rounded-md mt-2"
-        onClick={handleAddComponent}
+        onClick={handleAdd}
+        type="button"
       >
         <svg
           className="w-6 h-6 inline-block pr-1"
           xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          width="100"
-          height="100"
           viewBox="0 0 512 512"
         >
           <path
@@ -193,34 +228,41 @@ const TimeInputList = ({ components, setComponents }) => {
   );
 };
 
+// ======= MAIN COMPONENT =======
 const Availability = ({
   availabilitySlots,
-  tobeNotified,
   setAvailabilitySlots,
+  tobeNotified,
   setNotification,
 }) => {
-  const handleCheckboxChange = () => {
+  const [errors, setErrors] = useState([{ startTime: false, endTime: false }]);
+
+  const handleCheckbox = () => {
     setNotification((tobeNotified) => !tobeNotified);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <p className="font-bold text-xl mb-4">
+    <div className="flex flex-col items-center justify-center w-full">
+      <p className="font-bold text-xl mb-4 text-center">
         Please Provide Your Available Time Slots for Volunteering
       </p>
+
       <TimeInputList
-        components={availabilitySlots}
-        setComponents={setAvailabilitySlots}
+        slots={availabilitySlots}
+        setSlots={setAvailabilitySlots}
+        errors={errors}
+        setErrors={setErrors}
       />
+
       <div className="flex items-center mt-6 mb-2">
         <input
           type="checkbox"
           id="calamitybox"
           className="h-4 w-4 mr-2"
           checked={tobeNotified}
-          onChange={handleCheckboxChange}
+          onChange={handleCheckbox}
         />
-        <label htmlFor="tobeNotified" className="font-medium">
+        <label htmlFor="calamitybox" className="font-medium">
           Would you like to receive notifications in case of emergencies or
           critical situations?
         </label>

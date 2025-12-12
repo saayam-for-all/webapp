@@ -7,6 +7,16 @@ import {
   signOut,
   updateUserAttributes,
 } from "aws-amplify/auth";
+
+import {
+  getEnums,
+  getCategories,
+  getEnvironment,
+  getMetadata,
+} from "../../../services/requestServices";
+
+import { getUserId } from "../../../services/volunteerServices";
+import { loadCategories } from "../help_request/requestActions";
 import {
   changeUiLanguage,
   returnDefaultLanguage,
@@ -22,6 +32,8 @@ import {
   updateUserProfileSuccess,
 } from "./authSlice";
 
+import { clearToken, setToken } from "../../../services/authService";
+
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
   try {
@@ -35,6 +47,101 @@ export const checkAuthStatus = () => async (dispatch) => {
     } = await fetchUserAttributes();
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
+
+    const idToken = userSession.tokens?.idToken?.toString();
+    setToken(idToken);
+
+    try {
+      const enumsData = await getEnums();
+      localStorage.setItem("enums", JSON.stringify(enumsData));
+      console.log("Enums fetched and stored in localStorage:", enumsData);
+    } catch (enumError) {
+      console.warn(" Failed to fetch enums after login:", enumError.message);
+    }
+
+    try {
+      const categoriesData = await getCategories();
+      // Extract categories array from API response
+      let categoriesArray;
+      if (Array.isArray(categoriesData)) {
+        categoriesArray = categoriesData;
+      } else if (categoriesData && Array.isArray(categoriesData.categories)) {
+        categoriesArray = categoriesData.categories;
+      } else if (categoriesData && typeof categoriesData === "object") {
+        console.log(
+          "Categories API response structure:",
+          Object.keys(categoriesData),
+        );
+        throw new Error(
+          "Invalid API response format - expected array or object with categories array",
+        );
+      } else {
+        throw new Error("Invalid API response format - expected array");
+      }
+
+      // Filter out invalid/header entries (like cat_name, cat_id placeholders)
+      const validCategories = categoriesArray.filter(
+        (cat) =>
+          cat.catName &&
+          cat.catName !== "cat_name" &&
+          cat.catId !== "cat_id" &&
+          cat.catId !== "﻿cat_id" && // Handle BOM characters
+          !cat.catName.toLowerCase().includes("cat_name") &&
+          !cat.catId.toLowerCase().includes("cat_id"),
+      );
+
+      // Store in localStorage
+      localStorage.setItem("categories", JSON.stringify(validCategories));
+      // Also load into Redux state
+      dispatch(loadCategories(validCategories));
+    } catch (categoryError) {
+      console.warn(
+        "Failed to fetch categories after login:",
+        categoryError.message,
+      );
+    }
+
+    try {
+      const metadataData = await getMetadata();
+      const metadataPayload = metadataData?.body ?? metadataData;
+      localStorage.setItem("metadata", JSON.stringify(metadataPayload));
+    } catch (metadataError) {
+      console.warn(
+        "Failed to fetch metadata after login:",
+        metadataError.message,
+      );
+    }
+
+    //getEnvironment Fetching
+
+    try {
+      const environmentData = await getEnvironment();
+      const envValue =
+        environmentData?.body ||
+        environmentData?.environment ||
+        environmentData;
+      localStorage.setItem("environment", JSON.stringify(envValue));
+      console.log("Environment fetched and stored:", envValue);
+    } catch (envError) {
+      console.warn(
+        "Failed to fetch environment after login:",
+        envError.message,
+      );
+      // Setting default to production if fetch fails
+      localStorage.setItem("environment", JSON.stringify("production"));
+    }
+
+    let userDbId = null;
+    try {
+      const result = await getUserId(email);
+      userDbId = result?.data?.id || null;
+    } catch (dbError) {
+      console.warn(
+        "Database lookup failed, continuing without databaseId:",
+        dbError.message,
+      );
+    }
+
     const user = {
       userId,
       email,
@@ -43,6 +150,7 @@ export const checkAuthStatus = () => async (dispatch) => {
       phone_number,
       zoneinfo,
       groups,
+      userDbId,
     };
     if (user.userId) {
       dispatch(
@@ -51,11 +159,10 @@ export const checkAuthStatus = () => async (dispatch) => {
         }),
       );
     }
-    const idToken = userSession.tokens?.idToken?.toString();
+
     dispatch(
       loginSuccess({
         user,
-        idToken,
       }),
     );
 
@@ -105,10 +212,11 @@ export const updateUserProfile = (userData) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     returnDefaultLanguage();
-    signOut();
+    await signOut();
+    clearToken();
     dispatch(logoutSuccess());
   } catch (error) {
-    dispatch(authFailure(error.message));
+    dispatch(loginFailure(error.message));
   }
 };
 

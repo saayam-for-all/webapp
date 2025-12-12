@@ -1,18 +1,17 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 // import RequestDetailsSidebar from "./RequestDetailsSidebar";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { FaPhoneAlt, FaVideo } from "react-icons/fa";
+import { IoPersonCircle } from "react-icons/io5";
+import { RiUserStarLine } from "react-icons/ri";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RequestButton from "../../common/components/RequestButton/RequestButton";
 import { getComments, getMyRequests } from "../../services/requestServices";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import CommentsSection from "./CommentsSection";
 import HelpingVolunteers from "./HelpingVolunteers";
 import RequestDescription from "./RequestDescription";
-import { FaPhoneAlt, FaVideo } from "react-icons/fa";
-import { IoPersonCircle } from "react-icons/io5";
-import { RiUserStarLine } from "react-icons/ri";
 
 const RequestDetails = () => {
   const { t } = useTranslation();
@@ -58,11 +57,13 @@ const RequestDetails = () => {
       context: "Peter parker",
       type: "Beneficiary",
       icon: <IoPersonCircle size={26} />,
+      isClickable: true,
     },
     {
       context: "Ethan Marshall",
       type: "Volunteer",
       icon: <RiUserStarLine size={22} />,
+      isClickable: false,
     },
   ];
 
@@ -70,10 +71,11 @@ const RequestDetails = () => {
     <div>
       <div className="w-full px-4 mt-4 mb-4">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/dashboard")}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> Back To Home
+          <span className="text-2xl mr-2">&lt;</span>{" "}
+          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
         </button>
       </div>
 
@@ -118,12 +120,29 @@ const RequestDetails = () => {
                   className="flex items-center gap-2 group relative"
                 >
                   {header.icon}
-                  {header.context}
+                  {header.isClickable ? (
+                    <button
+                      onClick={() =>
+                        navigate("/profile", {
+                          state: {
+                            activeTab: "profile",
+                            beneficiaryId: header.beneficiaryId,
+                          },
+                        })
+                      }
+                      className="text-blue-600 hover:text-blue-800 hover:underline font-medium cursor-pointer transition-colors duration-200"
+                    >
+                      {header.context}
+                    </button>
+                  ) : (
+                    <span>{header.context}</span>
+                  )}
                   <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>
+                  {/*
                   <FaPhoneAlt className="cursor-pointer" size={15} />
-                  <FaVideo className="cursor-pointer" size={17} />
+                  <FaVideo className="cursor-pointer" size={17} /> */}
                 </li>
               ))}
             </div>
@@ -131,7 +150,7 @@ const RequestDetails = () => {
             <div className="flex flex-row justify-between">
               <RequestButton
                 link="/voluntary-organizations"
-                text={t("VOLUNTEER_ORGANIZATIONS")}
+                text={t("ORGANIZATIONS")}
                 customStyle="bg-blue-400 hover:bg-blue-600 text-white w-[30%] px-6 py-3 rounded-lg flex items-center justify-start space-x-3 lg:text-md"
                 icon="i-volunteer"
               />

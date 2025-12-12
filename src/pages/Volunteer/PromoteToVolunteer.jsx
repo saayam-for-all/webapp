@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react"; //added for testing
+import { useEffect, useState, useMemo, useRef } from "react"; //added for testing
 import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
@@ -10,28 +10,33 @@ import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
   createVolunteer,
-  getVolunteerSkills,
   updateVolunteer,
 } from "../../services/volunteerServices";
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const PromoteToVolunteer = () => {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
-  const [govtIdFile, setGovtIdFile] = useState({});
+  const [govtIdFile, setGovtIdFile] = useState(null);
   const token = useSelector((state) => state.auth.idToken);
   const [checkedCategories, setCheckedCategories] = useImmer({});
   const [categoriesData, setCategoriesData] = useState({});
   const [availabilitySlots, setAvailabilitySlots] = useImmer([
-    { id: 1, dayOfWeek: "Everyday", startTime: "00:00", endTime: "00:00" },
+    { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [textboxCheck, setTextboxCheck] = useState(true);
+  const [textboxValue, setTextboxValue] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -46,12 +51,35 @@ const PromoteToVolunteer = () => {
     if (!userId) fetchUserId();
   }, [userId]);
 
-  const fetchSkills = async () => {
-    try {
-      const response = await getVolunteerSkills();
-      setCategoriesData(response.body);
-    } catch (error) {
-      console.error("Error fetching skills:", error);
+  // Transform categories from mockCategories API format to Skills component format
+  const transformCategories = (categories) => {
+    return categories.map((cat) => {
+      const transformed = {
+        category: cat.catName, // Transform catName to category
+        subCategories: cat.subCategories
+          ? transformCategories(cat.subCategories)
+          : [],
+      };
+      return transformed;
+    });
+  };
+
+  const fetchSkills = () => {
+    // Use categories from localStorage (same as mockCategories API)
+    const storedCategories = localStorage.getItem("categories");
+    if (storedCategories) {
+      try {
+        const categoriesArray = JSON.parse(storedCategories);
+        // Transform categories to match the expected structure for Skills component
+        // Skills component expects { categories: [...] } where each category has a 'category' property
+        const transformedCategories = transformCategories(categoriesArray);
+        setCategoriesData({ categories: transformedCategories });
+      } catch (parseError) {
+        console.warn(
+          "Failed to parse categories from localStorage:",
+          parseError,
+        );
+      }
     }
   };
 
@@ -82,6 +110,7 @@ const PromoteToVolunteer = () => {
           <VolunteerCourse
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
+            setIsUploaded={setIsUploaded}
           />
         );
       case 3:
@@ -90,6 +119,9 @@ const PromoteToVolunteer = () => {
             checkedCategories={checkedCategories}
             setCheckedCategories={setCheckedCategories}
             categoriesData={categoriesData}
+            setTextboxCheck={setTextboxCheck}
+            textboxValue={textboxValue}
+            setTextboxValue={setTextboxValue}
           />
         );
       case 4:
@@ -108,38 +140,14 @@ const PromoteToVolunteer = () => {
     }
   };
 
-  const saveVolunteerData = async () => {
-    try {
-      // console.log("Sending API Request with volunteerData:", volunteerDataRef.current);
-
-      /* .........Uncomment this for local testing without aws api ...........*/
-
-      // const response = await axios({
-      //   method: volunteerDataRef.current.step === 1 ? "post" : "put",
-      //   url: volunteerDataRef.current.step === 1
-      //     ? "http://localhost:8080/0.0.1/volunteers/createvolunteer"
-      //     : "http://localhost:8080/0.0.1/volunteers/updatevolunteer",
-      //   data: volunteerDataRef.current, // Get latest data from ref
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-      if (volunteerDataRef.current.step === 1) {
-        const response = await createVolunteer(volunteerDataRef.current);
-        return response;
-      } else {
-        const response = await updateVolunteer(volunteerDataRef.current);
-        return response;
-      }
-    } catch (error) {
-      console.error(
-        "API Error:",
-        error.response ? error.response.data : error.message,
-      );
-      return null;
-    }
-  };
+  const isAvailabilityValid = useMemo(() => {
+    if (!availabilitySlots || availabilitySlots.length === 0) return false;
+    return availabilitySlots.some((slot) => {
+      if (!(slot.startTime instanceof Date && slot.endTime instanceof Date))
+        return false;
+      return slot.endTime > slot.startTime;
+    });
+  }, [availabilitySlots]);
 
   const extractSkillsWithHierarchy = (categories) => {
     let skills = [];
@@ -164,7 +172,6 @@ const PromoteToVolunteer = () => {
 
   const updateVolunteerData = (updates) => {
     volunteerDataRef.current = { ...volunteerDataRef.current, ...updates };
-    // console.log("Updated volunteerDataRef:", volunteerDataRef.current);
   };
 
   const handleClick = async (direction) => {
@@ -182,50 +189,51 @@ const PromoteToVolunteer = () => {
           });
           break;
         case 2:
-          isValidStep = govtIdFile && govtIdFile.name !== "";
+          // isValidStep = govtIdFile && govtIdFile.name !== "";
+          isValidStep = govtIdFile;
           updateVolunteerData({
             step: currentStep,
             userId: userId,
             govtIdFilename: govtIdFile ? govtIdFile.name : "",
           });
           break;
-        case 3:
+        case 3: {
           const selectedSkills = extractSkillsWithHierarchy(checkedCategories);
-          isValidStep = selectedSkills !== "";
+          isValidStep =
+            selectedSkills !== "" &&
+            (textboxCheck || (!textboxCheck && textboxValue.trim().length > 0));
           updateVolunteerData({
             step: currentStep,
             userId: userId,
             skills: selectedSkills,
           });
           break;
-        case 4:
-          isValidStep = availabilitySlots.length > 0;
-          updateVolunteerData({
-            step: currentStep,
-            userId: userId,
-            notification: tobeNotified,
-            isCompleted: true,
-            availability: availabilitySlots,
-          });
+        }
+        case 4: {
+          const hasValidSlot = isAvailabilityValid;
+          isValidStep = hasValidSlot;
+          if (isValidStep) {
+            updateVolunteerData({
+              step: currentStep,
+              userId: userId,
+              notification: tobeNotified,
+              isCompleted: true,
+              availability: availabilitySlots.map((slot) => ({
+                dayOfWeek: slot.dayOfWeek,
+                startTime: slot.startTime?.toISOString(),
+                endTime: slot.endTime?.toISOString(),
+              })),
+            });
+          }
           break;
+        }
         default:
           isValidStep = false;
       }
 
       if (isValidStep) {
-        try {
-          // await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure all updates are made
-          // const result = await saveVolunteerData();
-          // if (!result || !result.data || result.data.statusCode !== 200) {
-          //   console.error("Save failed. Step not increased.");
-          //   setErrorMessage("Save Failed.");
-          //   return;
-          // }
-          newStep++;
-        } catch (error) {
-          console.error("Error in handleClick:", error);
-          return;
-        }
+        setErrorMessage("");
+        newStep++;
       } else {
         setErrorMessage(
           "Please complete all required fields before proceeding.",
@@ -241,18 +249,21 @@ const PromoteToVolunteer = () => {
   };
 
   return (
-    <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
-      <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+    <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+      <div className="w-full px-4 mt-4 flex justify-start">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> Back to Home
+          <span className="text-2xl mr-2">&lt;</span>
+          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
         </button>
       </div>
-      <div className="container horizontal mt-5 p-12">
+      {/* FIXED STEPPER WRAPPER */}
+      <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
         <Stepper steps={steps} currentStep={currentStep} />
-        <div className="mt-12 p-12">{displayStep(currentStep)}</div>
+        {/* FIXED CONTENT WRAPPER */}
+        <div className="w-full mt-8 px-4">{displayStep(currentStep)}</div>
       </div>
       {errorMessage && (
         <div className="text-red-500 text-center my-4">{errorMessage}</div>
@@ -263,6 +274,13 @@ const PromoteToVolunteer = () => {
           currentStep={currentStep}
           steps={steps}
           isAcknowledged={isAcknowledged}
+          isUploaded={isUploaded}
+          isAvailabilityValid={isAvailabilityValid}
+          disableNext={
+            (currentStep === 1 && !isAcknowledged) ||
+            (currentStep === 2 && !isUploaded) ||
+            (currentStep === 4 && !isAvailabilityValid)
+          }
         />
       )}
     </div>

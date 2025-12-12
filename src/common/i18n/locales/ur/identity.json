@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "حکومتی شناختی کارڈ اپ لوڈ کریں",
+  "SELECT_SOURCE": "ماخذ منتخب کریں",
+  "DEVICE": "آلہ",
+  "GOOGLE_DRIVE": "گوگل ڈرائیو",
+  "DROPBOX": "ڈراپ باکس",
+  "UPLOAD_FILE": "فائل اپ لوڈ کریں",
+  "FILE": "فائل",
+  "FILE_PREVIEW": "پیش منظر",
+  "UPLOAD": "اپ لوڈ",
+  "UPLOADING": "اپ لوڈ ہو رہا ہے...",
+  "REMOVE": "ہٹائیں",
+  "FILE_SIZE_ERROR": "فائل کا سائز 2 میگا بائٹ سے زیادہ نہیں ہونا چاہیے",
+  "FILE_TYPE_ERROR": "صرف JPEG، JPG، PNG، اور PDF فائلیں اجازت یافتہ ہیں۔ فائل کی قسم کا پتہ چلا: {{fileType}}، توسیع: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "صرف JPEG، JPG، PNG، یا PDF فائلیں۔ زیادہ سے زیادہ سائز: 2 میگا بائٹ۔",
+  "UPLOAD_SUCCESS": "فائل کامیابی سے اپ لوڈ ہو گئی",
+  "UPLOAD_FAILED": "فائل اپ لوڈ ناکام ہو گئی",
+  "UPLOAD_ERROR": "فائل اپ لوڈ کے دوران ایک خرابی پیش آئی"
+}

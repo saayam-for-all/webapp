@@ -37,14 +37,7 @@ exports[`Footer renders correctly 1`] = `
                 <a
                   href="/our-mission"
                 >
-                  mockTranslate(ABOUT)
-                </a>
-                <a
-                  href="#"
-                >
-                  mockTranslate(MISSION)
-                   & 
-                  mockTranslate(VISION)
+                  mockTranslate(OUR_MISSION)
                 </a>
                 <a
                   href="/our-team"
@@ -54,24 +47,24 @@ exports[`Footer renders correctly 1`] = `
                 <a
                   href="/how-we-operate"
                 >
-                  mockTranslate(How We Operate)
+                  mockTranslate(HOW_WE_OPERATE)
                 </a>
                 <a
-                  href="/donate"
+                  href="/contact"
                 >
-                  mockTranslate(DONATE)
+                  mockTranslate(CONTACT)
                 </a>
               </nav>
               <div
                 class="footer-contact"
               >
                 <a
-                  href="/contact"
+                  href="/donate"
                 >
                   <button
                     type="button"
                   >
-                    mockTranslate(CONTACT)
+                    mockTranslate(DONATE)
                   </button>
                 </a>
               </div>
@@ -86,7 +79,7 @@ exports[`Footer renders correctly 1`] = `
             <div
               class="footer-copy"
             >
-              Copyright © 2025 Saayam For All. All rights reserved.
+              mockTranslate(COPYRIGHT)
             </div>
             <div
               class="footer-links"
@@ -97,12 +90,12 @@ exports[`Footer renders correctly 1`] = `
                 mockTranslate(SITE_MAP)
               </a>
               <a
-                href="#"
+                href="/terms-and-conditions"
               >
                 mockTranslate(TERMS_AND_CONDITIONS)
               </a>
               <a
-                href="#"
+                href="/privacy-policy"
               >
                 mockTranslate(PRIVACY_POLICY)
               </a>
@@ -145,14 +138,7 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/our-mission"
               >
-                mockTranslate(ABOUT)
-              </a>
-              <a
-                href="#"
-              >
-                mockTranslate(MISSION)
-                 & 
-                mockTranslate(VISION)
+                mockTranslate(OUR_MISSION)
               </a>
               <a
                 href="/our-team"
@@ -162,24 +148,24 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/how-we-operate"
               >
-                mockTranslate(How We Operate)
+                mockTranslate(HOW_WE_OPERATE)
               </a>
               <a
-                href="/donate"
+                href="/contact"
               >
-                mockTranslate(DONATE)
+                mockTranslate(CONTACT)
               </a>
             </nav>
             <div
               class="footer-contact"
             >
               <a
-                href="/contact"
+                href="/donate"
               >
                 <button
                   type="button"
                 >
-                  mockTranslate(CONTACT)
+                  mockTranslate(DONATE)
                 </button>
               </a>
             </div>
@@ -194,7 +180,7 @@ exports[`Footer renders correctly 1`] = `
           <div
             class="footer-copy"
           >
-            Copyright © 2025 Saayam For All. All rights reserved.
+            mockTranslate(COPYRIGHT)
           </div>
           <div
             class="footer-links"
@@ -205,12 +191,12 @@ exports[`Footer renders correctly 1`] = `
               mockTranslate(SITE_MAP)
             </a>
             <a
-              href="#"
+              href="/terms-and-conditions"
             >
               mockTranslate(TERMS_AND_CONDITIONS)
             </a>
             <a
-              href="#"
+              href="/privacy-policy"
             >
               mockTranslate(PRIVACY_POLICY)
             </a>

@@ -2,76 +2,426 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-//import arTranslation from './locales/ar_SA.json';
-//import asTranslation from './locales/as_IN.json';
-import bnTranslation from "./locales/bn_BD.json";
-//import doiTranslation from './locales/doi_IN.json';
-import deTranslation from "./locales/de_DE.json";
-import enTranslation from "./locales/en_US.json";
-import esTranslation from "./locales/es_ES.json";
-//import filTranslation from './locales/fil_PH.json';
-import frTranslation from "./locales/fr_FR.json";
-//import guTranslation from './locales/gu_IN.json';
-import hiTranslation from "./locales/hi_IN.json";
-//import idTranslation from './locales/id_ID.json';
-//import jaTranslation from './locales/ja_JP.json';
-//import knTranslation from './locales/kn_IN.json';
-//import koTranslation from './locales/ko_KR.json';
-//import maiTranslation from './locales/mai_IN.json';
-//import mlTranslation from './locales/ml_IN.json';
-//import mrTranslation from './locales/mr_IN.json';
-//import neTranslation from './locales/ne_NP.json';
-//import orTranslation from './locales/or_IN.json';
-//import paTranslation from './locales/pa_IN.json';
-import ptTranslation from "./locales/pt_PT.json";
-import ruTranslation from "./locales/ru_RU.json";
-//import saTranslation from './locales/sa_IN.json';
-//import sdTranslation from './locales/sd_IN.json';
-//import taTranslation from './locales/ta_IN.json';
-import teTranslation from "./locales/te_IN.json";
-//import thTranslation from './locales/th_TH.json';
-//import tlTranslation from './locales/tl_PH.json';
-//import urTranslation from './locales/ur_PK.json';
-//import viTranslation from './locales/vi_VN.json';
-import zhTranslation from "./locales/zh_CN.json";
+// Import all namespaced translations
+import enCommon from "./locales/en/common.json";
+import enAuth from "./locales/en/auth.json";
+import enCategories from "./locales/en/categories.json";
+import enAvailability from "./locales/en/availability.json";
+import enEnums from "./locales/en/enums.json";
+import enIdentity from "./locales/en/identity.json";
+import enProfile from "./locales/en/profile.json";
+
+import deCommon from "./locales/de/common.json";
+import deAuth from "./locales/de/auth.json";
+import deEnums from "./locales/de/enums.json";
+import deCategories from "./locales/de/categories.json";
+import deAvailability from "./locales/de/availability.json";
+import deIdentity from "./locales/de/identity.json";
+import deProfile from "./locales/de/profile.json";
+
+import esCommon from "./locales/es/common.json";
+import esAuth from "./locales/es/auth.json";
+import esEnums from "./locales/es/enums.json";
+import esCategories from "./locales/es/categories.json";
+import esAvailability from "./locales/es/availability.json";
+import esIdentity from "./locales/es/identity.json";
+import esProfile from "./locales/es/profile.json";
+
+import frCommon from "./locales/fr/common.json";
+import frAuth from "./locales/fr/auth.json";
+import frEnums from "./locales/fr/enums.json";
+import frCategories from "./locales/fr/categories.json";
+import frAvailability from "./locales/fr/availability.json";
+import frIdentity from "./locales/fr/identity.json";
+import frProfile from "./locales/fr/profile.json";
+
+import ruCommon from "./locales/ru/common.json";
+import ruAuth from "./locales/ru/auth.json";
+import ruEnums from "./locales/ru/enums.json";
+import ruCategories from "./locales/ru/categories.json";
+import ruAvailability from "./locales/ru/availability.json";
+import ruIdentity from "./locales/ru/identity.json";
+import ruProfile from "./locales/ru/profile.json";
+
+import hiCommon from "./locales/hi/common.json";
+import hiAuth from "./locales/hi/auth.json";
+import hiEnums from "./locales/hi/enums.json";
+import hiCategories from "./locales/hi/categories.json";
+import hiAvailability from "./locales/hi/availability.json";
+import hiIdentity from "./locales/hi/identity.json";
+import hiProfile from "./locales/hi/profile.json";
+
+import teCommon from "./locales/te/common.json";
+import teAuth from "./locales/te/auth.json";
+import teEnums from "./locales/te/enums.json";
+import teCategories from "./locales/te/categories.json";
+import teAvailability from "./locales/te/availability.json";
+import teIdentity from "./locales/te/identity.json";
+import teProfile from "./locales/te/profile.json";
+
+import zhCommon from "./locales/zh/common.json";
+import zhAuth from "./locales/zh/auth.json";
+import zhEnums from "./locales/zh/enums.json";
+import zhCategories from "./locales/zh/categories.json";
+import zhAvailability from "./locales/zh/availability.json";
+import zhIdentity from "./locales/zh/identity.json";
+import zhProfile from "./locales/zh/profile.json";
+
+import ptCommon from "./locales/pt/common.json";
+import ptAuth from "./locales/pt/auth.json";
+import ptEnums from "./locales/pt/enums.json";
+import ptCategories from "./locales/pt/categories.json";
+import ptAvailability from "./locales/pt/availability.json";
+import ptIdentity from "./locales/pt/identity.json";
+import ptProfile from "./locales/pt/profile.json";
+
+import bnCommon from "./locales/bn/common.json";
+import bnAuth from "./locales/bn/auth.json";
+import bnCategories from "./locales/bn/categories.json";
+import bnEnums from "./locales/bn/enums.json";
+import bnAvailability from "./locales/bn/availability.json";
+import bnIdentity from "./locales/bn/identity.json";
+import bnProfile from "./locales/bn/profile.json";
+
+import arCommon from "./locales/ar/common.json";
+import arAuth from "./locales/ar/auth.json";
+import arCategories from "./locales/ar/categories.json";
+import arEnums from "./locales/ar/enums.json";
+import arAvailability from "./locales/ar/availability.json";
+import arIdentity from "./locales/ar/identity.json";
+import arProfile from "./locales/ar/profile.json";
+import arPreferences from "./locales/ar/preferences.json";
+
+import asCommon from "./locales/as/common.json";
+import asAuth from "./locales/as/auth.json";
+import asCategories from "./locales/as/categories.json";
+
+import doiCommon from "./locales/doi/common.json";
+import doiAuth from "./locales/doi/auth.json";
+import doiCategories from "./locales/doi/categories.json";
+
+import filCommon from "./locales/fil/common.json";
+import filAuth from "./locales/fil/auth.json";
+import filCategories from "./locales/fil/categories.json";
+
+import guCommon from "./locales/gu/common.json";
+import guAuth from "./locales/gu/auth.json";
+import guCategories from "./locales/gu/categories.json";
+
+import idCommon from "./locales/id/common.json";
+import idAuth from "./locales/id/auth.json";
+import idCategories from "./locales/id/categories.json";
+
+import jaCommon from "./locales/ja/common.json";
+import jaAuth from "./locales/ja/auth.json";
+import jaCategories from "./locales/ja/categories.json";
+
+import knCommon from "./locales/kn/common.json";
+import knAuth from "./locales/kn/auth.json";
+import knCategories from "./locales/kn/categories.json";
+
+import koCommon from "./locales/ko/common.json";
+import koAuth from "./locales/ko/auth.json";
+import koCategories from "./locales/ko/categories.json";
+
+import maiCommon from "./locales/mai/common.json";
+import maiAuth from "./locales/mai/auth.json";
+import maiCategories from "./locales/mai/categories.json";
+
+import mlCommon from "./locales/ml/common.json";
+import mlAuth from "./locales/ml/auth.json";
+import mlCategories from "./locales/ml/categories.json";
+
+import mrCommon from "./locales/mr/common.json";
+import mrAuth from "./locales/mr/auth.json";
+import mrCategories from "./locales/mr/categories.json";
+
+import neCommon from "./locales/ne/common.json";
+import neAuth from "./locales/ne/auth.json";
+import neCategories from "./locales/ne/categories.json";
+
+import orCommon from "./locales/or/common.json";
+import orAuth from "./locales/or/auth.json";
+import orCategories from "./locales/or/categories.json";
+
+import paCommon from "./locales/pa/common.json";
+import paAuth from "./locales/pa/auth.json";
+import paCategories from "./locales/pa/categories.json";
+
+import saCommon from "./locales/sa/common.json";
+import saAuth from "./locales/sa/auth.json";
+import saCategories from "./locales/sa/categories.json";
+
+import sdCommon from "./locales/sd/common.json";
+import sdAuth from "./locales/sd/auth.json";
+import sdCategories from "./locales/sd/categories.json";
+
+import taCommon from "./locales/ta/common.json";
+import taAuth from "./locales/ta/auth.json";
+import taCategories from "./locales/ta/categories.json";
+
+import thCommon from "./locales/th/common.json";
+import thAuth from "./locales/th/auth.json";
+import thCategories from "./locales/th/categories.json";
+
+import tlCommon from "./locales/tl/common.json";
+import tlAuth from "./locales/tl/auth.json";
+import tlCategories from "./locales/tl/categories.json";
+
+import urCommon from "./locales/ur/common.json";
+import urAuth from "./locales/ur/auth.json";
+import urCategories from "./locales/ur/categories.json";
+import urEnums from "./locales/ur/enums.json";
+import urAvailability from "./locales/ur/availability.json";
+import urIdentity from "./locales/ur/identity.json";
+import urProfile from "./locales/ur/profile.json";
+import urPreferences from "./locales/ur/preferences.json";
+
+import viCommon from "./locales/vi/common.json";
+import viAuth from "./locales/vi/auth.json";
+import viCategories from "./locales/vi/categories.json";
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
+    // Set default namespace to load
+    defaultNS: "common",
+    // Define all namespaces that will be used
+    ns: [
+      "common",
+      "auth",
+      "categories",
+      "availability",
+      "identity",
+      "profile",
+      "enums",
+    ],
     resources: {
-      bn: {
-        translation: bnTranslation,
+      en: {
+        common: enCommon,
+        auth: enAuth,
+        categories: enCategories,
+        availability: enAvailability,
+        enums: enEnums,
+        identity: enIdentity,
+        profile: enProfile,
       },
       de: {
-        translation: deTranslation,
-      },
-      en: {
-        translation: enTranslation,
+        common: deCommon,
+        auth: deAuth,
+        enums: deEnums,
+        categories: deCategories,
+        availability: deAvailability,
+        identity: deIdentity,
+        profile: deProfile,
       },
       es: {
-        translation: esTranslation,
+        common: esCommon,
+        auth: esAuth,
+        enums: esEnums,
+        categories: esCategories,
+        availability: esAvailability,
+        identity: esIdentity,
+        profile: esProfile,
       },
       fr: {
-        translation: frTranslation,
-      },
-      hi: {
-        translation: hiTranslation,
-      },
-      pt: {
-        translation: ptTranslation,
+        common: frCommon,
+        auth: frAuth,
+        enums: frEnums,
+        categories: frCategories,
+        availability: frAvailability,
+        identity: frIdentity,
+        profile: frProfile,
       },
       ru: {
-        translation: ruTranslation,
+        common: ruCommon,
+        auth: ruAuth,
+        enums: ruEnums,
+        categories: ruCategories,
+        availability: ruAvailability,
+        identity: ruIdentity,
+        profile: ruProfile,
+      },
+      hi: {
+        common: hiCommon,
+        auth: hiAuth,
+        enums: hiEnums,
+        categories: hiCategories,
+        availability: hiAvailability,
+        identity: hiIdentity,
+        profile: hiProfile,
       },
       te: {
-        translation: teTranslation,
+        common: teCommon,
+        auth: teAuth,
+        enums: teEnums,
+        categories: teCategories,
+        availability: teAvailability,
+        identity: teIdentity,
+        profile: teProfile,
       },
       zh: {
-        translation: zhTranslation,
+        common: zhCommon,
+        auth: zhAuth,
+        enums: zhEnums,
+        categories: zhCategories,
+        availability: zhAvailability,
+        identity: zhIdentity,
+        profile: zhProfile,
+      },
+      pt: {
+        common: ptCommon,
+        auth: ptAuth,
+        enums: ptEnums,
+        categories: ptCategories,
+        availability: ptAvailability,
+        identity: ptIdentity,
+        profile: ptProfile,
+      },
+      bn: {
+        common: bnCommon,
+        auth: bnAuth,
+        enums: bnEnums,
+        categories: bnCategories,
+        availability: bnAvailability,
+        identity: bnIdentity,
+        profile: bnProfile,
+      },
+      ar: {
+        common: arCommon,
+        auth: arAuth,
+        enums: arEnums,
+        categories: arCategories,
+        availability: arAvailability,
+        identity: arIdentity,
+        profile: arProfile,
+        preferences: arPreferences,
+      },
+      as: {
+        common: asCommon,
+        auth: asAuth,
+        categories: asCategories,
+      },
+      doi: {
+        common: doiCommon,
+        auth: doiAuth,
+        categories: doiCategories,
+      },
+      fil: {
+        common: filCommon,
+        auth: filAuth,
+        categories: filCategories,
+      },
+      gu: {
+        common: guCommon,
+        auth: guAuth,
+        categories: guCategories,
+      },
+      id: {
+        common: idCommon,
+        auth: idAuth,
+        categories: idCategories,
+      },
+      ja: {
+        common: jaCommon,
+        auth: jaAuth,
+        categories: jaCategories,
+      },
+      kn: {
+        common: knCommon,
+        auth: knAuth,
+        categories: knCategories,
+      },
+      ko: {
+        common: koCommon,
+        auth: koAuth,
+        categories: koCategories,
+      },
+      mai: {
+        common: maiCommon,
+        auth: maiAuth,
+        categories: maiCategories,
+      },
+      ml: {
+        common: mlCommon,
+        auth: mlAuth,
+        categories: mlCategories,
+      },
+      mr: {
+        common: mrCommon,
+        auth: mrAuth,
+        categories: mrCategories,
+      },
+      ne: {
+        common: neCommon,
+        auth: neAuth,
+        categories: neCategories,
+      },
+      or: {
+        common: orCommon,
+        auth: orAuth,
+        categories: orCategories,
+      },
+      pa: {
+        common: paCommon,
+        auth: paAuth,
+        categories: paCategories,
+      },
+      sa: {
+        common: saCommon,
+        auth: saAuth,
+        categories: saCategories,
+      },
+      sd: {
+        common: sdCommon,
+        auth: sdAuth,
+        categories: sdCategories,
+      },
+      ta: {
+        common: taCommon,
+        auth: taAuth,
+        categories: taCategories,
+      },
+      th: {
+        common: thCommon,
+        auth: thAuth,
+        categories: thCategories,
+      },
+      tl: {
+        common: tlCommon,
+        auth: tlAuth,
+        categories: tlCategories,
+      },
+      ur: {
+        common: urCommon,
+        auth: urAuth,
+        enums: urEnums,
+        categories: urCategories,
+        availability: urAvailability,
+        identity: urIdentity,
+        profile: urProfile,
+        preferences: urPreferences,
+      },
+      vi: {
+        common: viCommon,
+        auth: viAuth,
+        categories: viCategories,
       },
     },
+    detection: {
+      order: [
+        "localStorage",
+        "navigator",
+        "htmlTag",
+        "cookie",
+        "path",
+        "subdomain",
+      ],
+      caches: ["localStorage", "cookie"],
+    },
+    debug: true,
   });
 
 export default i18n;

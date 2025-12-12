@@ -21,6 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
 import ArticleIcon from "@mui/icons-material/Article";
+import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
@@ -97,30 +98,35 @@ const Navbar = () => {
         const rawNotifications = [
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "You have new Volunteer match request in Logistics",
             date: "Mar 15, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "Hospital",
             date: "Jun 15, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "LOGISTIC_HELP",
             title: "Logistic Help",
             message: "Logistics",
             date: "Nov 15, 2023, 10:30 AM",
           },
           {
             type: "helpRequest",
+            titleKey: "EDUCATIONAL_HELP",
             title: "Educational Help",
             message: "Need help with Logistics",
             date: "Dec 16, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "Education",
             date: "Jan 15, 2023, 10:30 AM",
@@ -160,10 +166,7 @@ const Navbar = () => {
 
     fetchNotifications(); // Comment it after call ing the funciton below
 
-    const interval = setInterval(
-      "call fetchNotifications() here",
-      2 * 60 * 1000,
-    ); // fetch every 2 min
+    const interval = setInterval(fetchNotifications, 2 * 60 * 1000); // fetch every 2 min
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);
@@ -296,15 +299,42 @@ const Navbar = () => {
 
         {/* Desktop Menu (visible only on larger screens) */}
         <div className="hidden md:flex items-center justify-center space-x-8 flex-1">
-          <div className="relative">
-            <button
-              onClick={(e) => handleLinkClick(e, "/")}
-              // className="text-black flex items-center hover:text-gray-600 text-base"
-              className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
-            >
-              <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-            </button>
-          </div>
+          {/* Showing Home button for guest users */}
+          {!user?.userId && (
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/")}
+                className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
+              >
+                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+              </button>
+            </div>
+          )}
+
+          {/* Showing Home button for logged in users*/}
+          {user?.userId && (
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/")}
+                className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
+              >
+                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+              </button>
+            </div>
+          )}
+
+          {/* Dashboard Button for logged in users - Land to Request Page */}
+          {user?.userId && (
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/dashboard")}
+                // className="text-black flex items-center hover:text-gray-600 text-base"
+                className="text-black hover:text-gray-600 flex items-center text-base"
+              >
+                <DashboardCustomizeIcon className="mr-2" /> {t("DASHBOARD")}
+              </button>
+            </div>
+          )}
 
           {/* About Us Dropdown */}
           <div className="relative">
@@ -336,11 +366,11 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
-                <MenuItem
+                {/* <MenuItem
                   onClick={(e) => handleLinkClick(e, "/news-our-stories")}
                 >
                   <ArticleIcon className="mr-2" /> {t("In The News")}
-                </MenuItem>
+                </MenuItem> */}
               </Menu>
             )}
           </div>
@@ -399,7 +429,7 @@ const Navbar = () => {
                 // className="text-black flex items-center hover:text-gray-600 text-base"
                 className="text-black hover:text-gray-600 flex items-center text-base"
               >
-                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+                <NotificationsIcon className="mr-2" /> {t("NOTIFICATIONS")}
               </button>
             </div>
           )}
@@ -462,7 +492,7 @@ const Navbar = () => {
               >
                 <MenuItem onClick={(e) => handleLinkClick(e, "/profile")}>
                   <AccountCircleIcon className="mr-2" />
-                  {t("Profile")}
+                  {t("PROFILE")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleLogoutClick()}>
                   <LogoutIcon className="mr-2" />
@@ -541,14 +571,42 @@ const Navbar = () => {
         }}
       >
         <div className="p-6 w-64">
-          <div className="block text-black py-2 flex items-center">
-            <button
-              onClick={(e) => handleDrawerClick(e, "/")}
-              className="text-black flex items-center hover:text-blue-600"
-            >
-              <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-            </button>
-          </div>
+          {/* Showing Home button for guest users */}
+          {!user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleLinkClick(e, "/")}
+                className="text-black flex items-center hover:text-blue-600"
+              >
+                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+              </button>
+            </div>
+          )}
+
+          {/* Showing Home button for logged in users*/}
+          {user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleLinkClick(e, "/")}
+                className="text-black flex items-center hover:text-blue-600"
+              >
+                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+              </button>
+            </div>
+          )}
+
+          {/* Dashboard Button for logged in users - Land to Request Page */}
+          {user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleLinkClick(e, "/dashboard")}
+                // className="text-black flex items-center hover:text-gray-600 text-base"
+                className="text-black flex items-center hover:text-blue-600"
+              >
+                <DashboardCustomizeIcon className="mr-2" /> {t("DASHBOARD")}
+              </button>
+            </div>
+          )}
 
           <div className="block text-black py-2 flex items-center">
             <button
@@ -579,11 +637,11 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
-                <MenuItem
+                {/* <MenuItem
                   onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
                 >
                   <ArticleIcon className="mr-2" /> {t("In the news")}
-                </MenuItem>
+                </MenuItem> */}
               </Menu>
             )}
           </div>
@@ -635,22 +693,13 @@ const Navbar = () => {
             </button>
           </div>
 
-          <div className="block text-black py-2 flex items-center">
-            <button
-              onClick={(e) => handleDrawerClick(e, "/donate")}
-              className="text-black flex items-center hover:text-blue-600"
-            >
-              <FavoriteBorderIcon className="mr-2" /> {t("Donate")}
-            </button>
-          </div>
-
           {user?.userId && (
             <div className="block text-black py-2 flex items-center">
               <button
                 onClick={(e) => handleDrawerClick(e, "/notifications")}
                 className="text-black flex items-center hover:text-blue-600"
               >
-                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+                <NotificationsIcon className="mr-2" /> {t("NOTIFICATIONS")}
               </button>
             </div>
           )}

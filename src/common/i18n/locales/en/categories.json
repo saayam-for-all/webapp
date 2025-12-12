@@ -1,0 +1,196 @@
+{
+  "REQUEST_CATEGORIES": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "General",
+      "DESC": "Use when you're unsure; describe your need in detail."
+    },
+    "FOOD_AND_ESSENTIALS": {
+      "LABEL": "Food & Essentials",
+      "DESC": "Access food support, grocery help, and meal prep assistance.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Food Assistance",
+          "DESC": "Find food banks, pantries, or meal programs."
+        },
+        "GROCERY_SHOPPING_AND_DELIVERY": {
+          "LABEL": "Grocery Shopping & Delivery",
+          "DESC": "Request help shopping for and delivering groceries."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Cooking Help",
+          "DESC": "Get guidance with meal prep and cooking."
+        }
+      }
+    },
+    "CLOTHING_ASSISTANCE": {
+      "LABEL": "Clothing Assistance",
+      "DESC": "Donate, borrow, tailor, or request clothing help.",
+      "SUBCATEGORIES": {
+        "DONATE_CLOTHES": {
+          "LABEL": "Donate Clothes",
+          "DESC": "Give clothing to those in need."
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "Borrow Clothes",
+          "DESC": "Borrow gently used clothing."
+        },
+        "EMERGENCY_CLOTHING_ASSISTANCE": {
+          "LABEL": "Emergency Clothing Assistance",
+          "DESC": "Rapid clothing support for urgent situations."
+        },
+        "TAILORING": {
+          "LABEL": "Tailoring",
+          "DESC": "Clothing repair and alteration services."
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "Housing Assistance",
+      "DESC": "Renting, moving, and household setup support.",
+      "SUBCATEGORIES": {
+        "LEASE_SUPPORT": {
+          "LABEL": "Lease Support",
+          "DESC": "Help understanding lease terms and requirements."
+        },
+        "TENANT_RENT_SUPPORT": {
+          "LABEL": "Tenant Rent Support",
+          "DESC": "Guidance when you're struggling with rent."
+        },
+        "REPAIR_MAINTENANCE_SUPPORT": {
+          "LABEL": "Repair & Maintenance Support",
+          "DESC": "Assistance scheduling basic repairs or maintenance."
+        },
+        "UTILITIES_SETUP_SUPPORT": {
+          "LABEL": "Utilities Setup Support",
+          "DESC": "Help setting up internet, electricity, or other utilities."
+        },
+        "LOOKING_FOR_RENTAL": {
+          "LABEL": "Looking for Rental",
+          "DESC": "Support finding apartments or rooms."
+        },
+        "FIND_ROOMATE": {
+          "LABEL": "Find a Roommate",
+          "DESC": "Match with roommates or shared housing."
+        },
+        "MOVE_IN_HELP": {
+          "LABEL": "Move-in Help",
+          "DESC": "Hands-on help packing, lifting, or unpacking."
+        },
+        "BOOKING_PACKERS_MOVERS_SUPPORT": {
+          "LABEL": "Packers & Movers Support",
+          "DESC": "Assistance booking reliable moving services."
+        },
+        "BUY_THINGS": {
+          "LABEL": "Buy Household Items",
+          "DESC": "Help sourcing furniture and household essentials."
+        },
+        "SELL_THINGS": {
+          "LABEL": "Sell Household Items",
+          "DESC": "Get support listing or donating items you no longer need."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Education & Career Support",
+      "DESC": "College apps, SOP reviews, tutoring, and study support.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATION_HELP": {
+          "LABEL": "College Application Help",
+          "DESC": "Help with applications and forms."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOP & Essay Review",
+          "DESC": "Feedback on statements and essays."
+        },
+        "TUTORING": {
+          "LABEL": "Tutoring",
+          "DESC": "Subject tutoring and study support."
+        },
+        "SCHOLARSHIP_KNOWLEDGE": {
+          "LABEL": "Scholarship Knowledge",
+          "DESC": "Share information on scholarships and grants."
+        },
+        "STUDY_GROUP_FORMATION": {
+          "LABEL": "Study Group Formation",
+          "DESC": "Find or organize collaborative study groups."
+        },
+        "CAREER_GUIDANCE": {
+          "LABEL": "Career Guidance",
+          "DESC": "Career path planning, resume, and interview support."
+        },
+        "EDUCATION_RESOURCE_SHARING": {
+          "LABEL": "Education Resource Sharing",
+          "DESC": "Share notes, recordings, or practice material."
+        }
+      }
+    },
+    "HEALTHCARE_AND_WELLNESS": {
+      "LABEL": "Healthcare & Wellness",
+      "DESC": "Non-clinical medical guidance, reminders, and wellbeing support.",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "Medical Consultation",
+          "DESC": "Help coordinating tele-consults or basic medical info."
+        },
+        "MEDICINE_DELIVERY": {
+          "LABEL": "Medicine Delivery",
+          "DESC": "Pickup and delivery of OTC medicines."
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "Mental Wellbeing Support",
+          "DESC": "Access general mental health resources."
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "Medication Reminders",
+          "DESC": "Non-clinical medication reminders."
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "Health Education Guidance",
+          "DESC": "Wellness awareness and health education."
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_ASSISTANCE": {
+      "LABEL": "Elderly Community Assistance",
+      "DESC": "Non-medical support for seniors, caregivers, and communities.",
+      "SUBCATEGORIES": {
+        "SENIOR_RELOCATION_SUPPORT": {
+          "LABEL": "Senior Relocation Support",
+          "DESC": "Plan moves between homes or care facilities."
+        },
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "Digital Support for Seniors",
+          "DESC": "Assistance with devices and apps."
+        },
+        "MEDICATION_MANAGEMENT": {
+          "LABEL": "Medication Management",
+          "DESC": "Ensure schedules, reminders, and storage are on track."
+        },
+        "MEDICAL_DEVICES_SETUP": {
+          "LABEL": "Medical Devices Setup",
+          "DESC": "Set up or troubleshoot medical and assistive devices."
+        },
+        "ERRANDS_EVENTS_TRANSPORTATION": {
+          "LABEL": "Errands, Events & Transportation",
+          "DESC": "Escort seniors to errands or special events."
+        },
+        "TRANSPORTATION_APPOINTMENTS_EVENTS": {
+          "LABEL": "Transportation for Appointments",
+          "DESC": "Arrange rides to appointments and gatherings."
+        },
+        "SCHEDULING_APPOINTMENTS_OR_TASKS": {
+          "LABEL": "Scheduling Appointments or Tasks",
+          "DESC": "Keep track of appointments, refills, and chores."
+        },
+        "SOCIAL_CONNECTION": {
+          "LABEL": "Social Connection",
+          "DESC": "Companionship and social activities."
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "Meal Support",
+          "DESC": "Help with meal preparation and cooking."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "ABOUT": "เกี่ยวกับเรา",
+  "DONATE": "บริจาค",
+  "LOGIN": "เข้าสู่ระบบ",
+  "DIRECTORS": "คณะกรรมการบริษัท",
+  "HOW_WE_OPERATE": "เราดำเนินการอย่างไร",
+  "MISSION": "ภารกิจ",
+  "VISION": "วิสัยทัศน์",
+  "ORGANIZATIONS": "องค์กร",
+  "CONTACT": "ติดต่อ",
+  "DASHBOARD": "แดชบอร์ด",
+  "ALL": "ทั้งหมด",
+  "VOLUNTEER_MATCH": "จับคู่อาสาสมัคร",
+  "HELP_REQUEST_BUTTON": "คำขอความช่วยเหลือ",
+  "NEW_MATCH_REQUEST": "คำขอจับคู่ใหม่",
+  "ACCEPT": "ยอมรับ",
+  "DENY": "ปฏิเสธ",
+  "ACCEPT_SUCCESS_MESSAGE": "คุณได้ยอมรับคำขอนี้แล้ว",
+  "DENY_SUCCESS_MESSAGE": "คุณได้ปฏิเสธคำขอนี้แล้ว",
+  "LOGISTIC_HELP": "ความช่วยเหลือด้านโลจิสติกส์",
+  "EDUCATIONAL_HELP": "ความช่วยเหลือด้านการศึกษา"
+}

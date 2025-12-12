@@ -1,22 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { Country, State } from "country-state-city";
+import PropTypes from "prop-types";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import CountryList from "react-select-country-list";
-import { changeUiLanguage } from "../../common/i18n/utils";
-import PHONECODESEN from "../../utils/phone-codes-en";
-import { getPhoneCodeslist } from "../../utils/utils";
-import { State, Country } from "country-state-city";
-import languagesData from "../../common/i18n/languagesData";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import countryCodes from "../../utils/country-codes-en.json";
 
 const genderOptions = [
-  { value: "Female", label: "Female" },
-  { value: "Male", label: "Male" },
-  { value: "Non-binary", label: "Non-binary" },
-  { value: "Transgender", label: "Transgender" },
-  { value: "Intersex", label: "Intersex" },
-  { value: "Gender-nonconforming", label: "Gender-nonconforming" },
+  { value: "Female", labelKey: "GENDER_OPTIONS.FEMALE" },
+  { value: "Male", labelKey: "GENDER_OPTIONS.MALE" },
+  { value: "Non-binary", labelKey: "GENDER_OPTIONS.NON_BINARY" },
+  { value: "Transgender", labelKey: "GENDER_OPTIONS.TRANSGENDER" },
+  { value: "Intersex", labelKey: "GENDER_OPTIONS.INTERSEX" },
+  {
+    value: "Gender-nonconforming",
+    labelKey: "GENDER_OPTIONS.GENDER_NONCONFORMING",
+  },
 ];
 
 export const getLocaleAndFormat = async (countryName) => {
@@ -72,30 +76,58 @@ export const getLocaleAndFormat = async (countryName) => {
   }
 };
 
+const countryNameToCode = Object.entries(countryCodes).reduce(
+  (acc, [code, name]) => {
+    acc[name] = code;
+    return acc;
+  },
+  {},
+);
+
 function PersonalInformation({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
+  const { t, i18n } = useTranslation("profile");
+  const location = useLocation();
+  const [isEditing, setIsEditing] = useState(Boolean(location.state?.edit));
   const streetAddressRef = useRef(null);
+  const dateOfBirthRef = useRef(null);
+  const { user } = useSelector((state) => state.auth);
+
+  const getCountryCodeFromZoneInfo = useCallback((zoneinfo) => {
+    if (!zoneinfo) return "";
+    return countryNameToCode[zoneinfo] || "";
+  }, []);
+
+  const localizedGenderOptions = useMemo(
+    () =>
+      genderOptions.map((option) => ({
+        value: option.value,
+        label: t(option.labelKey),
+      })),
+    [t, i18n.language],
+  );
+
+  const getGenderLabel = useCallback(
+    (value) =>
+      localizedGenderOptions.find((option) => option.value === value)?.label ||
+      "",
+    [localizedGenderOptions],
+  );
 
   const [personalInfo, setPersonalInfo] = useState({
     dateOfBirth: null,
     gender: "",
     streetAddress: "",
     streetAddress2: "",
-    country: "",
+    city: "",
+    country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "",
     state: "",
     zipCode: "",
-    languagePreference1: "",
-    languagePreference2: "",
-    languagePreference3: "",
     secondaryEmail: "",
     secondaryPhone: "",
     secondaryPhoneCountryCode: "US",
   });
 
   const countries = CountryList().getData();
-  const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
-
   const [states, setStates] = useState([]);
 
   const getLatestStatesList = (countryCodeSelected) => {
@@ -119,16 +151,27 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     return country ? country.isoCode : null;
   };
   const [errors, setErrors] = useState({});
-  const [languages, setLanguages] = useState([]);
   const [locale, setLocale] = useState("en-US");
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
 
+  const complete = Boolean(
+    personalInfo.streetAddress &&
+      personalInfo.city &&
+      personalInfo.country &&
+      personalInfo.state &&
+      personalInfo.zipCode,
+  );
+  localStorage.setItem("addressFlag", complete ? "true" : "false");
+
   useEffect(() => {
     const updateDateFormat = async () => {
-      const { locale, dateFormat, placeholder } = await getLocaleAndFormat(
-        personalInfo.country || "United States", // Default to "United States" if no country
+      const selectedCountry = countries.find(
+        (option) => option.value === personalInfo.country,
       );
+      const countryName = selectedCountry?.label || "United States";
+      const { locale, dateFormat, placeholder } =
+        await getLocaleAndFormat(countryName);
       console.log("Setting placeholder:", placeholder);
       setLocale(locale);
       setDateFormat(dateFormat);
@@ -136,7 +179,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     };
 
     updateDateFormat();
-  }, [personalInfo.country]);
+  }, [personalInfo.country, countries]);
 
   useEffect(() => {
     const savedPersonalInfo = JSON.parse(localStorage.getItem("personalInfo"));
@@ -150,15 +193,24 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       // If savedInfo, need to set the State field.
       getLatestStatesList(getCountryIsoCode(savedPersonalInfo.country));
     }
-
-    // Build languages options directly from languagesData.js (limits to the 10 available languages)
-    const languageOptions = languagesData.map((lang) => ({
-      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
-      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
-      label: lang.name,
-    }));
-    setLanguages(languageOptions);
   }, []);
+
+  useEffect(() => {
+    if (user?.zoneinfo) {
+      const countryCode = getCountryCodeFromZoneInfo(user.zoneinfo);
+      // Initial states list based on country
+      getLatestStatesList(countryCode);
+
+      setPersonalInfo((prev) => ({
+        ...prev,
+        country: countryCode || "",
+        //state: user.state || "",
+        // Commented out: backend does not return user.state.
+        // Keeping this line was resetting the saved state (from localStorage) to "".
+        // If backend adds state later, re-enable with: state: prev.state || user.state || ""
+      }));
+    }
+  }, [getCountryCodeFromZoneInfo, user]);
 
   const handleInputChange = (name, value) => {
     setPersonalInfo((prevInfo) => ({
@@ -170,11 +222,22 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     setHasUnsavedChanges(true);
   };
 
-  const handleEditClick = () => {
+  /*const handleEditClick = () => {
     setIsEditing(true);
     setTimeout(() => {
       if (streetAddressRef.current) {
         streetAddressRef.current.focus();
+      }
+    }, 0);
+  };*/
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setTimeout(() => {
+      if (dateOfBirthRef.current) {
+        dateOfBirthRef.current.setFocus
+          ? dateOfBirthRef.current.setFocus() // react-datepicker specific method
+          : dateOfBirthRef.current.focus();
       }
     }, 0);
   };
@@ -185,12 +248,11 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       "dateOfBirth",
       "streetAddress",
       "streetAddress2",
+      "city",
       "country",
       "state",
       "zipCode",
-      "languagePreference1",
     ];
-
     fieldsToValidate.forEach((field) => {
       const error = validateField(field, personalInfo[field]);
       if (error) {
@@ -205,9 +267,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
     setIsEditing(false);
     localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
+
+    window.dispatchEvent(new Event("personal-info-updated"));
+
     setHasUnsavedChanges(false);
-    // Call changeUiLanguage to update the UI based on the first language preference.
-    changeUiLanguage(personalInfo);
   };
   const validateField = (name, value) => {
     let error = "";
@@ -226,10 +289,30 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       }
     }
     if (name === "dateOfBirth") {
+      // If no DOB provided, treat as allowed (per tooltip behavior)
       if (!value) {
-        error = "Date of Birth is required.";
-      } else if (new Date(value) > new Date()) {
+        return "";
+      }
+
+      const dob = new Date(value);
+      if (isNaN(dob.getTime())) {
+        error = "Invalid Date of Birth.";
+      } else if (dob > new Date()) {
         error = "Date of Birth cannot be in the future.";
+      } else {
+        // calculate age
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < dob.getDate())
+        ) {
+          age--;
+        }
+        if (age < 21) {
+          error = "You must be at least 21 years old.";
+        }
       }
     }
     if (name === "country") {
@@ -244,14 +327,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       }
     }
 
+    if (name === "city") {
+      if (!value.trim()) {
+        error = "City is required.";
+      } else if (!/^[a-zA-Z\s-]+$/.test(value)) {
+        error = "City name can only contain letters, spaces, and hyphens.";
+      }
+    }
+
     if (name === "zipCode") {
       if (!value || !/^[0-9-]+$/.test(value)) {
         error = "ZIP Code is required.";
-      }
-    }
-    if (name === "languagePreference1") {
-      if (!value || value.trim() === "") {
-        error = "First language preference is required.";
       }
     }
     return error;
@@ -271,8 +357,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 ?
               </div>
               <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                We require your date of birth to confirm you're at least 21. If
-                left blank, we'll assume you meet this age requirement{" "}
+                {t("BIRTHDAY_TOOLTIP")}
               </div>
             </div>
           </div>
@@ -280,9 +365,16 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           {isEditing ? (
             <>
               <DatePicker
+                ref={dateOfBirthRef}
                 selected={personalInfo.dateOfBirth || null}
                 onChange={(date) => handleInputChange("dateOfBirth", date)}
                 dateFormat={dateFormat}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="scroll"
+                scrollableYearDropdown
+                yearDropdownItemNumber={100}
+                maxDate={new Date()}
                 placeholderText={placeholder}
                 className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                   errors.dateOfBirth ? "border-red-500" : "border-gray-200"
@@ -311,10 +403,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           {isEditing ? (
             <>
               <Select
-                value={genderOptions.find(
+                value={localizedGenderOptions.find(
                   (option) => option.value === personalInfo.gender,
                 )}
-                options={genderOptions}
+                options={localizedGenderOptions}
                 onChange={(selectedOption) =>
                   handleInputChange("gender", selectedOption?.value || "")
                 }
@@ -325,7 +417,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
               )}
             </>
           ) : (
-            <p className="text-lg text-gray-900">{personalInfo.gender || ""}</p>
+            <p className="text-lg text-gray-900">
+              {getGenderLabel(personalInfo.gender)}
+            </p>
           )}
         </div>
       </div>
@@ -334,6 +428,17 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("ADDRESS", { optional: "" })}
           </label>
           {isEditing ? (
@@ -384,46 +489,58 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
       </div>
 
-      {/* Country, State, and Zip Code */}
-      <div className="grid grid-cols-3 gap-8 mb-6">
+      {/* City, Country, State, and Zip Code */}
+      <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("COUNTRY")}
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
+            {t("CITY")}
           </label>
           {isEditing ? (
             <>
-              <Select
-                value={countries.find(
-                  (option) => option.label === personalInfo.country,
-                )}
-                options={countries}
-                onChange={(selectedOption) => {
-                  handleInputChange("country", selectedOption?.label || "");
-                  // This will reset the selected State to "" otherwise it will create inconsistency if someone updates state and changes Country.
-                  setPersonalInfo((prevInfo) => ({
-                    ...prevInfo,
-                    state: "",
-                  }));
-                  getLatestStatesList(selectedOption?.value || "");
-                }}
-                className={`w-full ${
-                  errors.country ? "border border-red-500" : ""
-                }`}
+              <input
+                type="text"
+                name="city"
+                value={personalInfo.city}
+                onChange={(e) => handleInputChange("city", e.target.value)}
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.city ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
               />
-              {errors.country && (
+              {errors.city && (
                 <p className="text-red-500 text-xs italic mt-1">
-                  {errors.country}
+                  {errors.city}
                 </p>
               )}
             </>
           ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.country || ""}
-            </p>
+            <p className="text-lg text-gray-900">{personalInfo.city || ""}</p>
           )}
         </div>
+
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("STATE")}
           </label>
           {isEditing ? (
@@ -449,6 +566,57 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {t("COUNTRY")}
+          </label>
+          {isEditing ? (
+            <>
+              <Select
+                value={countries.find(
+                  (option) => option.value === personalInfo.country,
+                )}
+                options={countries}
+                // onChange={(selectedOption) => {
+                //   handleInputChange("country", selectedOption?.label || "");
+                //   // This will reset the selected State to "" otherwise it will create inconsistency if someone updates state and changes Country.
+                //   setPersonalInfo((prevInfo) => ({
+                //     ...prevInfo,
+                //     state: "",
+                //   }));
+                //   getLatestStatesList(selectedOption?.value || "");
+                // }}
+                isDisabled={true}
+                className={`w-full ${
+                  errors.country ? "border border-red-500" : ""
+                }`}
+              />
+              {errors.country && (
+                <p className="text-red-500 text-xs italic mt-1">
+                  {errors.country}
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-lg text-gray-900">
+              {countries.find((option) => option.value === personalInfo.country)
+                ?.label ||
+                user?.zoneinfo ||
+                ""}
+            </p>
+          )}
+        </div>
+        <div>
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {isEditing && (
+              <>
+                <span className="text-red-500 mr-1" aria-hidden="true">
+                  *
+                </span>
+                <span className="sr-only">
+                  {" "}
+                  ({t("required") || "required"})
+                </span>
+              </>
+            )}
             {t("ZIP_CODE")}
           </label>
           {isEditing ? (
@@ -476,103 +644,11 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
       </div>
 
-      {/* Language Preferences */}
-      <div className="grid grid-cols-3 gap-8 mb-6">
-        {/* Preference 1 - full list */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("FIRST_LANGUAGE_PREFERENCE")}
-          </label>
-          {isEditing ? (
-            <>
-              <Select
-                value={languages.find(
-                  (option) => option.value === personalInfo.languagePreference1,
-                )}
-                options={languages}
-                onChange={(selectedOption) =>
-                  handleInputChange(
-                    "languagePreference1",
-                    selectedOption?.value || "",
-                  )
-                }
-                className="w-full"
-              />
-              {errors.languagePreference1 && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.languagePreference1}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.languagePreference1 || ""}
-            </p>
-          )}
-        </div>
-        {/* Preference 2 - filter out languagePreference1 */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("SECOND_LANGUAGE_PREFERENCE")}
-          </label>
-          {isEditing ? (
-            <Select
-              value={languages.find(
-                (option) => option.value === personalInfo.languagePreference2,
-              )}
-              options={languages.filter(
-                (option) => option.value !== personalInfo.languagePreference1,
-              )}
-              onChange={(selectedOption) =>
-                handleInputChange(
-                  "languagePreference2",
-                  selectedOption?.value || "",
-                )
-              }
-              className="w-full"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.languagePreference2 || ""}
-            </p>
-          )}
-        </div>
-        {/* Preference 3 - filter out languagePreference1 and languagePreference2 */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("THIRD_LANGUAGE_PREFERENCE")}
-          </label>
-          {isEditing ? (
-            <Select
-              value={languages.find(
-                (option) => option.value === personalInfo.languagePreference3,
-              )}
-              options={languages.filter(
-                (option) =>
-                  option.value !== personalInfo.languagePreference1 &&
-                  option.value !== personalInfo.languagePreference2,
-              )}
-              onChange={(selectedOption) =>
-                handleInputChange(
-                  "languagePreference3",
-                  selectedOption?.value || "",
-                )
-              }
-              className="w-full"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.languagePreference3 || ""}
-            </p>
-          )}
-        </div>
-      </div>
-
       {/* Secondary Email and Secondary Phone */}
       <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Secondary Email
+            {t("SECONDARY_EMAIL")}
           </label>
           {isEditing ? (
             <>
@@ -598,53 +674,32 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           )}
         </div>
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Secondary Phone
-          </label>
           {isEditing ? (
-            <div className="flex">
-              <>
-                <Select
-                  value={phoneCodeOptions.find(
-                    (option) =>
-                      option.code === personalInfo.secondaryPhoneCountryCode,
-                  )}
-                  getOptionLabel={(e) => `${e.country} (${e.dialCode})`}
-                  getOptionValue={(e) => e.code}
-                  options={phoneCodeOptions}
-                  onChange={(selectedOption) =>
-                    handleInputChange(
-                      "secondaryPhoneCountryCode",
-                      selectedOption?.code || "",
-                    )
-                  }
-                  className="w-full max-w-[100px] mr-2"
-                />
-                {errors.secondaryPhoneCountryCode && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.secondaryPhoneCountryCode}
-                  </p>
-                )}
-              </>
-              <input
-                type="text"
-                name="secondaryPhone"
-                value={personalInfo.secondaryPhone}
-                onChange={(e) => {
-                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
-                  handleInputChange("secondaryPhone", numericValue);
-                }}
-                className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              />
-            </div>
+            <PhoneNumberInputWithCountry
+              phone={personalInfo.secondaryPhone}
+              setPhone={(value) => handleInputChange("secondaryPhone", value)}
+              countryCode={personalInfo.secondaryPhoneCountryCode}
+              setCountryCode={(value) =>
+                handleInputChange("secondaryPhoneCountryCode", value)
+              }
+              error={errors.secondaryPhone}
+              setError={(err) =>
+                setErrors((prev) => ({ ...prev, secondaryPhone: err }))
+              }
+              label={t("SECONDARY PHONE")}
+              required={false}
+              t={t}
+            />
           ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.secondaryPhoneCountryCode}{" "}
-              {personalInfo.secondaryPhone || ""}
-            </p>
-          )}
-          {errors.secondaryPhone && (
-            <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone}</p>
+            <>
+              <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+                {t("SECONDARY PHONE")}
+              </label>
+              <p className="text-lg text-gray-900">
+                {personalInfo.secondaryPhoneCountryCode}{" "}
+                {personalInfo.secondaryPhone || ""}
+              </p>
+            </>
           )}
         </div>
       </div>
@@ -685,12 +740,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                     gender: "",
                     streetAddress: "",
                     streetAddress2: "",
-                    country: "",
+                    country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "US",
                     state: "",
                     zipCode: "",
-                    languagePreference1: "",
-                    languagePreference2: "",
-                    languagePreference3: "",
                     secondaryEmail: "",
                     secondaryPhone: "",
                     secondaryPhoneCountryCode: "US",
@@ -698,6 +750,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 }
                 setIsEditing(false);
                 setErrors({});
+                setHasUnsavedChanges(false);
               }}
             >
               {t("CANCEL")}
@@ -710,3 +763,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 }
 
 export default PersonalInformation;
+
+PersonalInformation.propTypes = {
+  setHasUnsavedChanges: PropTypes.func.isRequired,
+};

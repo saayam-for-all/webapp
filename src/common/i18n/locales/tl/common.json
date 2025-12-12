@@ -1,0 +1,22 @@
+{
+  "ABOUT": "Tungkol sa atin",
+  "DONATE": "Mag-donate",
+  "LOGIN": "Mag log in",
+  "DIRECTORS": "Lupon ng mga Direktor",
+  "HOW_WE_OPERATE": "Paano Kami Nagpapatakbo",
+  "MISSION": "Misyon",
+  "VISION": "Pangitain",
+  "ORGANIZATIONS": "Mga Organisasyon",
+  "CONTACT": "Makipag-ugnayan",
+  "DASHBOARD": "Dashboard",
+  "ALL": "Lahat",
+  "VOLUNTEER_MATCH": "Tugma ng Boluntaryo",
+  "HELP_REQUEST_BUTTON": "Kahilingan ng Tulong",
+  "NEW_MATCH_REQUEST": "Bagong Kahilingan ng Tugma",
+  "ACCEPT": "Tanggapin",
+  "DENY": "Tanggihan",
+  "ACCEPT_SUCCESS_MESSAGE": "Tinanggap mo ang kahilingang ito.",
+  "DENY_SUCCESS_MESSAGE": "Tinanggihan mo ang kahilingang ito.",
+  "LOGISTIC_HELP": "Tulong sa Logistiko",
+  "EDUCATIONAL_HELP": "Tulong sa Edukasyon"
+}

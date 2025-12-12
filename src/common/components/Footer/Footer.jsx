@@ -1,7 +1,6 @@
-import React from "react";
-import "./Footer.css";
-import logo from "../../../assets/logo.svg";
 import { useTranslation } from "react-i18next";
+import logo from "../../../assets/logo.svg";
+import "./Footer.css";
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -18,18 +17,15 @@ export default function Footer() {
 
             <nav className="footer-nav" aria-label="Footer navigation">
               <a href="/">{t("HOME")}</a>
-              <a href="/our-mission">{t("ABOUT")}</a>
-              <a href="#">
-                {t("MISSION")} &amp; {t("VISION")}
-              </a>
+              <a href="/our-mission">{t("OUR_MISSION")}</a>
               <a href="/our-team">{t("OUR_TEAM")}</a>
-              <a href="/how-we-operate">{t("How We Operate")}</a>
-              <a href="/donate">{t("DONATE")}</a>
+              <a href="/how-we-operate">{t("HOW_WE_OPERATE")}</a>
+              <a href="/contact">{t("CONTACT")}</a>
             </nav>
 
             <div className="footer-contact">
-              <a href="/contact">
-                <button type="button">{t("CONTACT")}</button>
+              <a href="/donate">
+                <button type="button">{t("DONATE")}</button>
               </a>
             </div>
           </div>
@@ -40,13 +36,12 @@ export default function Footer() {
 
         {/* 2) Bottom grid: copyright + links */}
         <div className="footer-bottom-grid">
-          <div className="footer-copy">
-            Copyright © 2025 Saayam For All. All rights reserved.
-          </div>
+          <div className="footer-copy">{t("COPYRIGHT")}</div>
           <div className="footer-links">
             <a href="/sitemap">{t("SITE_MAP")}</a>
-            <a href="#">{t("TERMS_AND_CONDITIONS")}</a>
-            <a href="#">{t("PRIVACY_POLICY")}</a>
+
+            <a href="/terms-and-conditions">{t("TERMS_AND_CONDITIONS")}</a>
+            <a href="/privacy-policy">{t("PRIVACY_POLICY")}</a>
           </div>
         </div>
         {/* /.footer-bottom-grid */}

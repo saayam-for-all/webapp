@@ -1,11 +1,13 @@
 /* Donate Page CSS - Traditional (no Tailwind) */
 
 .donate-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 32px 8px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 .donate-grid {
@@ -15,6 +17,11 @@
 }
 
 @media (max-width: 900px) {
+  .donate-container {
+    min-height: 100vh;
+    height: auto;
+    padding: 4px;
+  }
   .donate-grid {
     grid-template-columns: 1fr;
   }
@@ -23,8 +30,7 @@
 .donate-image-container {
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
-  height: 560px;
+  height: 650px;
   min-height: 0;
   display: flex;
 }
@@ -41,14 +47,6 @@
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
-}
-
-.donate-title {
-  /* font-family: 'Montserrat', 'Futura', Arial, sans-serif; */
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  color: #222;
 }
 
 .donate-subtitle {
@@ -167,6 +165,7 @@
 }
 
 .qr-title {
+  /* font-family: 'Montserrat', 'Futura', Arial, sans-serif; */
   font-size: 1.4rem;
   font-weight: bold;
   color: #1a1a1a;
@@ -194,12 +193,12 @@
 }
 
 .faq-section {
-  margin-top: 3.5rem;
+  margin-top: 0.5rem;
 }
 
 .faq-title {
   /* font-family: 'Montserrat', 'Futura', Arial, sans-serif; */
-  font-size: 1.2rem;
+  font-size: 1.25rem; /*font size for faq title */
   font-weight: 700;
   text-align: center;
   margin-bottom: 1.5rem;
@@ -207,21 +206,22 @@
 }
 
 .faq-list {
-  max-width: 28rem;
   margin: 0 auto;
+  width: 60%;
 }
 
 .faq-item {
   border-bottom: 1px solid #e5e7eb;
+  margin-top: 20px;
 }
 
 .faq-question {
   width: 100%;
-  padding: 0.8rem 0;
+  padding: 0.9rem 0;
   text-align: left;
-  font-size: 0.95rem;
+  font-size: 1rem; /* font size for faq question */
   font-weight: 500;
-  color: #222;
+  color: rgb(120, 119, 119);
   background: none;
   border: none;
   outline: none;
@@ -301,4 +301,365 @@
 
 .back-button:hover {
   color: #1d4ed8;
+}
+
+/* Overlay background section for donate */
+.donate-image-overlay-bg {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 500px;
+  max-height: 700px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 auto 2rem auto;
+  padding: 0;
+  border-radius: 10px;
+}
+
+.donate-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  filter: brightness(0.92);
+  border-radius: 10px;
+}
+
+.donate-card-overlay {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 0.3rem 1.5rem 1.2rem 1.5rem;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.donate-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #181818;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+
+.donate-subtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 30px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.donation-buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.7rem;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+}
+
+.donation-buttons-row a,
+.donation-buttons-row button {
+  flex: 1 1 45%;
+  min-width: 100px;
+  max-width: 120px;
+  font-size: 0.85rem;
+  padding: 5px 0 5px 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.donate-main-btn {
+  width: 90%;
+  background: #0070ba;
+  color: #fff;
+  padding: 10px 0;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
+}
+.donate-main-btn:hover {
+  background: #005ea6;
+}
+
+.donate-btn-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.donate-btn-icon.paypal {
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg");
+}
+.donate-btn-icon.stripe {
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/4/4e/Stripe_Logo%2C_revised_2016.svg");
+}
+.donate-btn-icon.charity {
+  background-image: url("https://www.charitynavigator.org/images/logos/cn-logo.svg");
+}
+.donate-btn-icon.benevity {
+  background-image: url("https://www.benevity.com/hubfs/Benevity_2021/Images/benevity-logo.svg");
+}
+
+@media (max-width: 900px) {
+  .donate-image-overlay-bg {
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
+    width: 100%;
+    margin: 0 auto 1.5rem auto;
+    padding: 0;
+    border-radius: 10px;
+  }
+  .donate-bg-image {
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+  }
+  .donate-card-overlay {
+    position: static;
+    transform: none;
+    margin: 0 auto;
+    right: auto;
+    left: auto;
+    max-width: 90%;
+    width: auto;
+    border-radius: 14px;
+    padding: 0.8rem 1rem;
+  }
+  .donate-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  .donate-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  .donation-options-grid {
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .donation-option-btn {
+    padding: 0.6rem 1rem;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.donation-option-btn {
+  background: #fff;
+  border: 2.5px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  transition:
+    border 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  width: 100%;
+  justify-content: flex-start;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  outline: none;
+}
+.donation-option-btn:hover,
+.donation-option-btn:focus {
+  border: 2.5px solid #b3d4fc;
+  box-shadow: 0 4px 16px rgba(0, 112, 186, 0.08);
+  background: #f6faff;
+}
+.donation-option-btn.selected {
+  border: 2.5px solid #0070ba;
+  background: #eaf4fb;
+  box-shadow: 0 4px 16px rgba(0, 112, 186, 0.13);
+}
+.donate-btn-icon {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin-right: 12px;
+  margin-left: 0;
+  vertical-align: middle;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.donation-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+}
+/* ---------- BASE MOBILE STYLES FOR WIDTH <= 768px (Tablets & Large Phones) ---------- */
+@media (max-width: 768px) {
+  .donate-image-overlay-bg {
+    height: 400px; /* Reduced height for smaller screens */
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+  }
+
+  .donate-bg-image {
+    object-position: center left; /* Ensure important part of image (e.g., jar) is visible */
+  }
+
+  .donate-card-overlay {
+    position: absolute;
+    left: 50%;
+    top: 54%;
+    transform: translateY(-50%);
+    max-width: 90%;
+    width: 310px; /* Larger card for tablet-sized screens */
+    z-index: 2;
+    padding: 0.8rem 1rem;
+    background: white;
+    border-radius: 16px;
+  }
+}
+
+/* ---------- FOR SCREENS <= 724px (Smaller Phones) ---------- */
+@media (max-width: 724px) {
+  .donate-image-overlay-bg {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+  }
+
+  .donate-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    filter: brightness(0.9);
+  }
+
+  .donate-card-overlay {
+    position: absolute;
+    top: 50%;
+    left: 70%; /* Slight right alignment */
+    transform: translate(-50%, -50%);
+    width: 230px;
+    height: 230px; /* Square card */
+    background: white;
+    border-radius: 14px;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.4rem;
+  }
+
+  .donate-title {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+    line-height: 1.1;
+  }
+
+  .donate-subtitle {
+    font-size: 0.7rem;
+    margin-bottom: 0.4rem;
+    max-width: 90%;
+    line-height: 1.2;
+  }
+
+  .donate-main-btn {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    width: 90%;
+    border-radius: 10px;
+  }
+}
+
+/* ---------- FOR SCREENS <= 400px (e.g. iPhone SE, Pixel 4a) ---------- */
+@media (max-width: 400px) {
+  .donate-card-overlay {
+    width: 170px;
+    height: 170px; /* Smaller square card */
+    left: 72%; /* Further right to accommodate narrower view */
+    padding: 0.25rem;
+    border-radius: 12px;
+  }
+
+  .donate-title {
+    font-size: 0.72rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .donate-subtitle {
+    font-size: 0.62rem;
+    margin-bottom: 0.3rem;
+    line-height: 1.1;
+  }
+
+  .donation-options-grid {
+    gap: 0.5rem 0.8rem;
+  }
+
+  .donation-option-btn {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.6rem;
+    gap: 0.4rem;
+    max-width: 100px;
+  }
+
+  .donate-btn-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+  }
+
+  .donate-main-btn {
+    font-size: 0.65rem;
+    padding: 5px 6px;
+    width: 90%;
+  }
 }

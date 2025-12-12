@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "Bản thân",
+    "OTHER": "Người khác"
+  },
+  "requestPriority": {
+    "LOW": "Thấp",
+    "MEDIUM": "Trung bình",
+    "HIGH": "Cao",
+    "CRITICAL": "Khẩn cấp"
+  },
+  "requestStatus": {
+    "CREATED": "Đã tạo",
+    "MATCHING VOLUNTEER": "Đang tìm tình nguyện viên",
+    "MANAGED": "Đã quản lý",
+    "RESOLVED": "Đã giải quyết",
+    "CANCELLED": "Đã hủy",
+    "DELETED": "Đã xóa"
+  },
+  "requestType": {
+    "INPERSON": "Trực tiếp",
+    "REMOTE": "Từ xa"
+  }
+}

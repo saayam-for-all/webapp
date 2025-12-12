@@ -68,6 +68,27 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               class="relative"
             >
               <button
+                class="text-black hover:text-gray-600 flex items-center text-base"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 css-1umw9bq-MuiSvgIcon-root"
+                  data-testid="DashboardCustomizeIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm15 0h-2v3h-3v2h3v3h2v-3h3v-2h-3z"
+                  />
+                </svg>
+                 
+                mockTranslate(DASHBOARD)
+              </button>
+            </div>
+            <div
+              class="relative"
+            >
+              <button
                 class="text-black flex items-center hover:text-gray-600 text-base"
               >
                 <svg
@@ -182,7 +203,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   />
                 </svg>
                  
-                mockTranslate(Notifications)
+                mockTranslate(NOTIFICATIONS)
               </button>
             </div>
             <div
@@ -314,6 +335,27 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             class="relative"
           >
             <button
+              class="text-black hover:text-gray-600 flex items-center text-base"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 css-1umw9bq-MuiSvgIcon-root"
+                data-testid="DashboardCustomizeIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm15 0h-2v3h-3v2h3v3h2v-3h3v-2h-3z"
+                />
+              </svg>
+               
+              mockTranslate(DASHBOARD)
+            </button>
+          </div>
+          <div
+            class="relative"
+          >
+            <button
               class="text-black flex items-center hover:text-gray-600 text-base"
             >
               <svg
@@ -428,7 +470,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 />
               </svg>
                
-              mockTranslate(Notifications)
+              mockTranslate(NOTIFICATIONS)
             </button>
           </div>
           <div
