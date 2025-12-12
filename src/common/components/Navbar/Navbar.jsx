@@ -17,11 +17,13 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
 import ArticleIcon from "@mui/icons-material/Article";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import { Tooltip } from "@mui/material";
 
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
@@ -445,6 +447,19 @@ const Navbar = () => {
         </div>
 
         {/* Donate button aligned to the rightmost */}
+        {user?.userId && (
+          <div className="hidden md:flex relative items-center mr-4">
+            <Tooltip title={t("EMERGENCY_CONTACTS")} arrow>
+              <button
+                onClick={(e) => handleLinkClick(e, "/emergency-contact")}
+                className="text-black hover:text-red-600 flex items-center text-base p-1"
+                aria-label={t("EMERGENCY_CONTACTS")}
+              >
+                <PhoneInTalkOutlinedIcon fontSize="medium" />
+              </button>
+            </Tooltip>
+          </div>
+        )}
 
         {/* Login Part */}
         {user?.userId ? (
@@ -683,6 +698,19 @@ const Navbar = () => {
               </Menu>
             )}
           </div>
+
+          {/* Emergency Contact button for sidebar - visible only when logged in */}
+          {user?.userId && (
+            <div className="block text-black py-2 flex items-center">
+              <button
+                onClick={(e) => handleDrawerClick(e, "/emergency-contact")}
+                className="text-black flex items-center hover:text-red-600"
+              >
+                <PhoneInTalkOutlinedIcon className="mr-2" />
+                {t("EMERGENCY_CONTACT")}
+              </button>
+            </div>
+          )}
 
           <div className="block text-black py-2 flex items-center">
             <button
