@@ -157,7 +157,6 @@ const RequestDetails = () => {
               <RequestButton
                 link="/emergency-contact"
                 text={t("EMERGENCY_CONTACT")}
-                text={t("EMERGENCY_CONTACT")}
                 customStyle="bg-red-400 hover:bg-red-600 text-white w-[30%] px-6 py-3 rounded-lg flex items-center justify-start space-x-3 text-md"
                 icon="i-emergency"
               />
