@@ -30,8 +30,7 @@ import {
   getStatusOptions,
   getPriorityOptions,
   getTypeOptions,
-  getCategoryOptions,
-  flattenCategories,
+  getCategoriesFromStorage,
   normalizeTypeValue,
   normalizeStatusValue,
   normalizePriorityValue,
@@ -208,7 +207,10 @@ const Dashboard = ({ userRole }) => {
       MATCHING_VOLUNTEER: true,
       MANAGED: true,
     });
-    setCategoryFilter(allCategories);
+    // Set all categories selected when changing tabs
+    if (categoryOptions.length > 0) {
+      setCategoryFilter(setAllCategories(categoryOptions, true));
+    }
   };
 
   const handleDashboardChange = (newDashboard) => {
@@ -312,23 +314,38 @@ const Dashboard = ({ userRole }) => {
   }, [data, t]);
 
   const categoryOptions = useMemo(() => {
-    // Get categories from Categories API (with translations)
-    const apiCategories = getCategoryOptions(t);
+    // Get categories from Categories API with hierarchical structure
+    const categories = getCategoriesFromStorage();
 
-    if (apiCategories.length > 0) {
-      // Flatten categories to include subcategories
-      return flattenCategories(apiCategories, t);
+    if (categories && Array.isArray(categories)) {
+      // Transform API categories to component format (similar to Skills.jsx)
+      const transformCategories = (cats) => {
+        return cats.map((cat) => ({
+          category: cat.catName,
+          label: t(
+            `categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`,
+            cat.catName,
+          ),
+          subCategories:
+            cat.subCategories && cat.subCategories.length > 0
+              ? transformCategories(cat.subCategories)
+              : undefined,
+        }));
+      };
+
+      return transformCategories(categories);
     }
 
-    // Fallback to hardcoded categories if API data not available
+    // Fallback to hardcoded flat categories if API data not available
     const backendValues = new Set(
       (data?.body || []).map((r) => r.category).filter(Boolean),
     );
     const defaultValues = Object.keys(allCategories).filter((c) => c !== "All");
     const combined = Array.from(new Set([...defaultValues, ...backendValues]));
-    return combined
-      .sort()
-      .map((cat) => ({ id: cat, name: cat, label: cat, depth: 0 }));
+    return combined.sort().map((cat) => ({
+      category: cat,
+      label: cat,
+    }));
   }, [data, t]);
 
   const typeOptions = useMemo(() => {
@@ -355,6 +372,40 @@ const Dashboard = ({ userRole }) => {
     return normalized.length ? normalized : ["Yes", "None"];
   }, [data]);
 
+  // Helper function to get all selected category names (including children of selected parents)
+  const getSelectedCategoryNames = () => {
+    const selectedNames = [];
+
+    const collectNames = (cats, parentPath = "", parentSelected = false) => {
+      cats.forEach((cat) => {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+        const isSelected = getCategoryCheckedStatus(
+          currentPath,
+          categoryFilter,
+        );
+
+        // If this category is selected OR its parent is selected, include it
+        if (isSelected || parentSelected) {
+          selectedNames.push(categoryName);
+
+          // If parent is selected, include all children
+          if (cat.subCategories) {
+            collectNames(cat.subCategories, currentPath, true);
+          }
+        } else if (cat.subCategories) {
+          // Parent not selected, but check children
+          collectNames(cat.subCategories, currentPath, false);
+        }
+      });
+    };
+
+    collectNames(categoryOptions);
+    return selectedNames;
+  };
+
   const filteredRequests = (requests) => {
     return requests.filter((request) => {
       // Normalize values for comparison with enum keys
@@ -365,10 +416,21 @@ const Dashboard = ({ userRole }) => {
         statusFilter[statusNormalized] ||
         statusFilter[request.status]; // Fallback for non-normalized
 
-      const categoryActive =
-        Object.keys(categoryFilter).length === 0 ||
-        Object.values(categoryFilter).every((v) => !v) ||
-        categoryFilter[request.category];
+      // Check if request category matches any selected category
+      const categoryMatches = () => {
+        if (Object.keys(categoryFilter).length === 0) return true;
+
+        const requestCategory = request.category;
+        if (!requestCategory) return false;
+
+        // Get all selected category names (including children of selected parents)
+        const selectedCategoryNames = getSelectedCategoryNames();
+
+        // Check if request category is in the selected list
+        return selectedCategoryNames.includes(requestCategory);
+      };
+
+      const categoryActive = categoryMatches();
 
       const typeNormalized = normalizeTypeValue(request.type);
       const typeActive =
@@ -501,36 +563,132 @@ const Dashboard = ({ userRole }) => {
     }
   };
 
-  const handleCategoryChange = (category) => {
-    setCategoryFilter((prev) => {
-      const newFilter = { ...prev };
-      if (category === "All") {
-        if (
-          Object.keys(newFilter).length === Object.keys(allCategories).length
-        ) {
-          return {};
+  // Helper function to get checked status for hierarchical categories
+  const getCategoryCheckedStatus = (
+    categoryPath,
+    filterState = categoryFilter,
+  ) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = filterState || {};
+
+    for (let key of keys) {
+      if (!currentLevel[key]) return false;
+      currentLevel = currentLevel[key];
+    }
+
+    return currentLevel.checked === true;
+  };
+
+  // Helper function to set checkbox state for hierarchical categories
+  const setCategoryCheckboxState = (draft, categoryPath, checked) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = draft;
+
+    keys.forEach((key, index) => {
+      if (index === keys.length - 1) {
+        if (checked) {
+          currentLevel[key] = { checked: true };
         } else {
-          return allCategories;
+          delete currentLevel[key];
         }
       } else {
-        if (newFilter[category]) {
-          delete newFilter[category];
-        } else {
-          newFilter[category] = true;
+        if (!currentLevel[key]) {
+          currentLevel[key] = {};
+        }
+        currentLevel = currentLevel[key];
+      }
+    });
+  };
+
+  // Helper function to check if all categories are selected
+  const areAllCategoriesSelected = (categories, filterState) => {
+    const checkAllSelected = (cats, parentPath = "") => {
+      for (const cat of cats) {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+
+        if (!getCategoryCheckedStatus(currentPath, filterState)) {
+          return false;
         }
 
-        if (
-          Object.keys(newFilter).length ===
-          Object.keys(allCategories).length - 1
-        ) {
-          newFilter["All"] = true;
+        if (cat.subCategories) {
+          if (!checkAllSelected(cat.subCategories, currentPath)) {
+            return false;
+          }
+        }
+      }
+      return true;
+    };
+
+    return checkAllSelected(categories);
+  };
+
+  // Helper function to select/deselect all categories
+  const setAllCategories = (categories, checked) => {
+    const newFilter = {};
+
+    const setAll = (cats, parentPath = "") => {
+      cats.forEach((cat) => {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+
+        if (checked) {
+          setCategoryCheckboxState(newFilter, currentPath, true);
+        }
+
+        if (cat.subCategories) {
+          setAll(cat.subCategories, currentPath);
+        }
+      });
+    };
+
+    setAll(categories);
+    return checked ? newFilter : {};
+  };
+
+  // Helper function to remove all child categories when parent is unchecked
+  const removeChildCategories = (filter, categoryPath) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = filter;
+
+    // Navigate to the parent level
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!currentLevel[keys[i]]) return;
+      currentLevel = currentLevel[keys[i]];
+    }
+
+    // Remove the category and all its children
+    const lastKey = keys[keys.length - 1];
+    delete currentLevel[lastKey];
+  };
+
+  const handleCategoryChange = (categoryPath) => {
+    if (categoryPath === "All") {
+      const allSelected = areAllCategoriesSelected(
+        categoryOptions,
+        categoryFilter,
+      );
+      setCategoryFilter(setAllCategories(categoryOptions, !allSelected));
+    } else {
+      setCategoryFilter((prev) => {
+        const newFilter = JSON.parse(JSON.stringify(prev)); // Deep clone
+        const checkedStatus = getCategoryCheckedStatus(categoryPath, prev);
+
+        if (checkedStatus) {
+          // Unchecking - remove this category and all its children
+          removeChildCategories(newFilter, categoryPath);
         } else {
-          delete newFilter["All"];
+          // Checking - just set this category to checked
+          setCategoryCheckboxState(newFilter, categoryPath, true);
         }
 
         return newFilter;
-      }
-    });
+      });
+    }
   };
 
   const handleRowsPerPageChange = (rows) => {
@@ -540,6 +698,71 @@ const Dashboard = ({ userRole }) => {
 
   const toggleCategoryDropdown = () => {
     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+  };
+
+  // Count selected categories (for badge display)
+  const getSelectedCategoryCount = () => {
+    let count = 0;
+    const countSelected = (obj) => {
+      for (const key in obj) {
+        if (obj[key].checked === true) {
+          count++;
+        } else if (typeof obj[key] === "object") {
+          countSelected(obj[key]);
+        }
+      }
+    };
+    countSelected(categoryFilter);
+    return count;
+  };
+
+  // Recursive function to render cascading categories
+  const renderCategories = (categories, parentPath = "") => {
+    const sortedCategories = [...categories].sort((a, b) => {
+      const aName = typeof a === "object" ? a.category : a;
+      const bName = typeof b === "object" ? b.category : b;
+      return aName.localeCompare(bName);
+    });
+
+    return sortedCategories.map((cat, index) => {
+      const isObject = typeof cat === "object";
+      const categoryName = isObject ? cat.category : cat;
+      const categoryLabel = isObject ? cat.label : cat;
+      const hasSubCategories = isObject && cat.subCategories;
+
+      // Create a unique path for each category
+      const currentPath = parentPath
+        ? `${parentPath}.${categoryName}`
+        : categoryName;
+
+      return (
+        <div key={index} className={parentPath ? "ml-4" : ""}>
+          <label className="block">
+            <input
+              type="checkbox"
+              checked={getCategoryCheckedStatus(currentPath)}
+              onChange={() => handleCategoryChange(currentPath)}
+            />
+            <span
+              className={
+                getCategoryCheckedStatus(currentPath)
+                  ? "font-semibold ml-1"
+                  : "ml-1"
+              }
+            >
+              {categoryLabel}
+            </span>
+          </label>
+
+          {/* Recursively render subcategories if they exist and parent is checked */}
+          {hasSubCategories && getCategoryCheckedStatus(currentPath) && (
+            <div className="ml-3">
+              {renderCategories(cat.subCategories, currentPath)}
+            </div>
+          )}
+        </div>
+      );
+    });
   };
 
   const toggleStatusDropdown = () => {
@@ -555,10 +778,16 @@ const Dashboard = ({ userRole }) => {
   }, [location]);
 
   useEffect(() => {
-    if (Object.keys(categoryFilter).length === 0) {
-      setCategoryFilter(allCategories);
+    if (
+      Object.keys(categoryFilter).length === 0 &&
+      categoryOptions.length > 0
+    ) {
+      // Initialize with all categories selected
+      const allCategoriesFilter = setAllCategories(categoryOptions, true);
+      setCategoryFilter(allCategoriesFilter);
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryOptions]);
 
   const handleStatusBlur = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget))
@@ -626,15 +855,13 @@ const Dashboard = ({ userRole }) => {
             onClick={toggleCategoryDropdown}
             tabIndex={0}
           >
-            <button className="py-2 px-4 p-2 font-light text-gray-600">
+            <button className="py-2 px-4 p-2 font-light text-gray-600 flex items-center gap-2">
               {t("FILTER_BY")}
-              {Object.keys(categoryFilter).length > 0 &&
-                Object.keys(categoryFilter).length !==
-                  categoryOptions.length && (
-                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
-                    {Object.keys(categoryFilter).length}
-                  </span>
-                )}
+              {getSelectedCategoryCount() > 0 && (
+                <span className="bg-blue-500 text-white px-2 py-0.5 rounded-full text-sm font-semibold">
+                  {getSelectedCategoryCount()}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
@@ -645,28 +872,18 @@ const Dashboard = ({ userRole }) => {
                   type="checkbox"
                   checked={
                     categoryOptions.length > 0 &&
-                    Object.keys(categoryFilter).length ===
-                      categoryOptions.length
+                    areAllCategoriesSelected(categoryOptions, categoryFilter)
                   }
                   onChange={() => handleCategoryChange("All")}
                 />
-                {t("All Categories")}
+                <span className="ml-1 font-semibold">
+                  {t("All Categories")}
+                </span>
               </label>
-              {categoryOptions.map((category) => (
-                <label
-                  key={category.id || category.name}
-                  className="block"
-                  style={{ paddingLeft: `${(category.depth || 0) * 20}px` }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={categoryFilter[category.name] || false}
-                    onChange={() => handleCategoryChange(category.name)}
-                  />
-                  {category.depth > 0 && <span className="mr-1">↳</span>}
-                  {category.label}
-                </label>
-              ))}
+              <div className="mt-2">
+                {categoryOptions.length > 0 &&
+                  renderCategories(categoryOptions)}
+              </div>
             </div>
           )}
         </div>
