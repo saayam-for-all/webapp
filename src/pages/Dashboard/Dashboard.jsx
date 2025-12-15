@@ -372,6 +372,19 @@ const Dashboard = ({ userRole }) => {
     return normalized.length ? normalized : ["Yes", "None"];
   }, [data]);
 
+  // Helper function to get checked status for hierarchical categories
+  const getCategoryCheckedStatus = (categoryPath, filterState) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = filterState || categoryFilter || {};
+
+    for (let key of keys) {
+      if (!currentLevel[key]) return false;
+      currentLevel = currentLevel[key];
+    }
+
+    return currentLevel.checked === true;
+  };
+
   // Helper function to get all selected category names (including children of selected parents)
   const getSelectedCategoryNames = () => {
     const selectedNames = [];
@@ -402,7 +415,10 @@ const Dashboard = ({ userRole }) => {
       });
     };
 
-    collectNames(categoryOptions);
+    // Guard check to ensure categoryOptions exists before using it
+    if (categoryOptions && categoryOptions.length > 0) {
+      collectNames(categoryOptions);
+    }
     return selectedNames;
   };
 
@@ -526,6 +542,7 @@ const Dashboard = ({ userRole }) => {
     volunteerTypeFilter,
     selectedDashboard,
     activeTab,
+    categoryOptions,
   ]);
 
   const totalPages = (filteredData) => {
@@ -561,22 +578,6 @@ const Dashboard = ({ userRole }) => {
         [statusKey]: !prev[statusKey],
       }));
     }
-  };
-
-  // Helper function to get checked status for hierarchical categories
-  const getCategoryCheckedStatus = (
-    categoryPath,
-    filterState = categoryFilter,
-  ) => {
-    const keys = categoryPath.split(".");
-    let currentLevel = filterState || {};
-
-    for (let key of keys) {
-      if (!currentLevel[key]) return false;
-      currentLevel = currentLevel[key];
-    }
-
-    return currentLevel.checked === true;
   };
 
   // Helper function to set checkbox state for hierarchical categories
@@ -740,12 +741,12 @@ const Dashboard = ({ userRole }) => {
           <label className="block">
             <input
               type="checkbox"
-              checked={getCategoryCheckedStatus(currentPath)}
+              checked={getCategoryCheckedStatus(currentPath, categoryFilter)}
               onChange={() => handleCategoryChange(currentPath)}
             />
             <span
               className={
-                getCategoryCheckedStatus(currentPath)
+                getCategoryCheckedStatus(currentPath, categoryFilter)
                   ? "font-semibold ml-1"
                   : "ml-1"
               }
@@ -755,11 +756,12 @@ const Dashboard = ({ userRole }) => {
           </label>
 
           {/* Recursively render subcategories if they exist and parent is checked */}
-          {hasSubCategories && getCategoryCheckedStatus(currentPath) && (
-            <div className="ml-3">
-              {renderCategories(cat.subCategories, currentPath)}
-            </div>
-          )}
+          {hasSubCategories &&
+            getCategoryCheckedStatus(currentPath, categoryFilter) && (
+              <div className="ml-3">
+                {renderCategories(cat.subCategories, currentPath)}
+              </div>
+            )}
         </div>
       );
     });
