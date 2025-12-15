@@ -227,18 +227,18 @@ const VoluntaryOrganizations = () => {
 
       <Table
         headers={headers}
-        rows={filteredData}
+        rows={rows}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        totalPages={totalPages(filteredData)}
-        totalRows={filteredData.length}
-        itemsPerPage={rowsPerPage}
+        totalPages={totalPages}
+        totalRows={totalRows}
+        itemsPerPage={itemsPerPage}
         sortConfig={sortConfig}
         requestSort={requestSort}
-        onRowsPerPageChange={handleRowsPerPageChange}
-        getLinkPath={(request, header) => {
+        onRowsPerPageChange={onRowsPerPageChange}
+        getLinkPath={(row, header) => {
           if (header === "id") {
-            return `/organization/${request.id}`;
+            return `/organizations/${row.id}`;
           }
           return null;
         }}
