@@ -446,20 +446,20 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Donate button aligned to the rightmost */}
-        {user?.userId && (
-          <div className="hidden md:flex relative items-center mr-4">
-            <Tooltip title={t("EMERGENCY_CONTACTS")} arrow>
-              <button
-                onClick={(e) => handleLinkClick(e, "/emergency-contact")}
-                className="text-black hover:text-red-600 flex items-center text-base p-1"
-                aria-label={t("EMERGENCY_CONTACTS")}
-              >
-                <PhoneInTalkOutlinedIcon fontSize="medium" />
-              </button>
-            </Tooltip>
-          </div>
-        )}
+        {/*/!* Donate button aligned to the rightmost *!/*/}
+        {/*{user?.userId && (*/}
+        {/*  <div className="hidden md:flex relative items-center mr-4">*/}
+        {/*    <Tooltip title={t("EMERGENCY_CONTACTS")} arrow>*/}
+        {/*      <button*/}
+        {/*        onClick={(e) => handleLinkClick(e, "/emergency-contact")}*/}
+        {/*        className="text-black hover:text-red-600 flex items-center text-base p-1"*/}
+        {/*        aria-label={t("EMERGENCY_CONTACTS")}*/}
+        {/*      >*/}
+        {/*        <PhoneInTalkOutlinedIcon fontSize="medium" />*/}
+        {/*      </button>*/}
+        {/*    </Tooltip>*/}
+        {/*  </div>*/}
+        {/*)}*/}
 
         {/* Login Part */}
         {user?.userId ? (
@@ -699,18 +699,18 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Emergency Contact button for sidebar - visible only when logged in */}
-          {user?.userId && (
-            <div className="block text-black py-2 flex items-center">
-              <button
-                onClick={(e) => handleDrawerClick(e, "/emergency-contact")}
-                className="text-black flex items-center hover:text-red-600"
-              >
-                <PhoneInTalkOutlinedIcon className="mr-2" />
-                {t("EMERGENCY_CONTACT")}
-              </button>
-            </div>
-          )}
+          {/*/!* Emergency Contact button for sidebar - visible only when logged in *!/*/}
+          {/*{user?.userId && (*/}
+          {/*  <div className="block text-black py-2 flex items-center">*/}
+          {/*    <button*/}
+          {/*      onClick={(e) => handleDrawerClick(e, "/emergency-contact")}*/}
+          {/*      className="text-black flex items-center hover:text-red-600"*/}
+          {/*    >*/}
+          {/*      <PhoneInTalkOutlinedIcon className="mr-2" />*/}
+          {/*      {t("EMERGENCY_CONTACT")}*/}
+          {/*    </button>*/}
+          {/*  </div>*/}
+          {/*)}*/}
 
           <div className="block text-black py-2 flex items-center">
             <button
