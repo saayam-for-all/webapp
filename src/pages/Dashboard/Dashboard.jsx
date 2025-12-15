@@ -207,10 +207,9 @@ const Dashboard = ({ userRole }) => {
       MATCHING_VOLUNTEER: true,
       MANAGED: true,
     });
-    // Set all categories selected when changing tabs
-    if (categoryOptions.length > 0) {
-      setCategoryFilter(setAllCategories(categoryOptions, true));
-    }
+    // DON'T reset category filter when changing tabs
+    // This was causing issues where API categories didn't match data categories
+    // Keep the existing filter state or leave it empty to show all data
   };
 
   const handleDashboardChange = (newDashboard) => {
@@ -317,26 +316,63 @@ const Dashboard = ({ userRole }) => {
     // Get categories from Categories API with hierarchical structure
     const categories = getCategoriesFromStorage();
 
-    if (categories && Array.isArray(categories)) {
-      // Transform API categories to component format (similar to Skills.jsx)
-      const transformCategories = (cats) => {
-        return cats.map((cat) => ({
-          category: cat.catName,
-          label: t(
-            `categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`,
-            cat.catName,
-          ),
-          subCategories:
-            cat.subCategories && cat.subCategories.length > 0
-              ? transformCategories(cat.subCategories)
-              : undefined,
-        }));
+    // Get all category names from actual data
+    const dataCategoryNames = new Set(
+      (data?.body || []).map((r) => r.category).filter(Boolean),
+    );
+
+    if (categories && Array.isArray(categories) && dataCategoryNames.size > 0) {
+      // Check if API categories match the data categories
+      const getAllCategoryNames = (cats) => {
+        const names = [];
+        cats.forEach((cat) => {
+          names.push(cat.catName);
+          if (cat.subCategories && cat.subCategories.length > 0) {
+            names.push(...getAllCategoryNames(cat.subCategories));
+          }
+        });
+        return names;
       };
 
-      return transformCategories(categories);
+      const apiCategoryNames = getAllCategoryNames(categories);
+      const matchCount = apiCategoryNames.filter((apiCat) =>
+        dataCategoryNames.has(apiCat),
+      ).length;
+
+      // Only use API categories if at least 50% match the data
+      // This ensures we use API categories for real data, but fall back for mock data
+      if (
+        matchCount >=
+        Math.min(dataCategoryNames.size, apiCategoryNames.length) * 0.5
+      ) {
+        const transformCategories = (cats) => {
+          return cats.map((cat) => ({
+            category: cat.catName,
+            label: t(
+              `categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`,
+              cat.catName,
+            ),
+            subCategories:
+              cat.subCategories && cat.subCategories.length > 0
+                ? transformCategories(cat.subCategories)
+                : undefined,
+          }));
+        };
+
+        return transformCategories(categories);
+      }
+
+      // API categories don't match data - use data categories instead
+      console.warn(
+        "API categories don't match data categories (matched " +
+          matchCount +
+          " out of " +
+          dataCategoryNames.size +
+          "), using data categories instead",
+      );
     }
 
-    // Fallback to hardcoded flat categories if API data not available
+    // Fallback: use categories from actual data
     const backendValues = new Set(
       (data?.body || []).map((r) => r.category).filter(Boolean),
     );
@@ -780,6 +816,13 @@ const Dashboard = ({ userRole }) => {
   }, [location]);
 
   useEffect(() => {
+    // DON'T auto-initialize category filter
+    // Keep it empty so all data shows by default
+    // This avoids issues when API categories don't match data categories
+    // Users can manually select categories if they want to filter
+    // The commented code below was causing issues where API categories
+    // didn't match mock data categories, resulting in no data showing
+    /*
     if (
       Object.keys(categoryFilter).length === 0 &&
       categoryOptions.length > 0
@@ -788,6 +831,7 @@ const Dashboard = ({ userRole }) => {
       const allCategoriesFilter = setAllCategories(categoryOptions, true);
       setCategoryFilter(allCategoriesFilter);
     }
+    */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryOptions]);
 
