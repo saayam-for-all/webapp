@@ -236,9 +236,9 @@ const VoluntaryOrganizations = () => {
         sortConfig={sortConfig}
         requestSort={requestSort}
         onRowsPerPageChange={onRowsPerPageChange}
-        getLinkPath={(row, header) => {
-          if (header === "id") {
-            return `/organizations/${row.id}`;
+        getLinkPath={(request, header) => {
+          if (String(header).toLowerCase() === "id") {
+            return `/organization/${request.id}`;
           }
           return null;
         }}
