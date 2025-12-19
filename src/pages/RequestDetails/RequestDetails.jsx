@@ -12,6 +12,7 @@ import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import CommentsSection from "./CommentsSection";
 import HelpingVolunteers from "./HelpingVolunteers";
 import RequestDescription from "./RequestDescription";
+import EmergencyContact from "../EmergencyContact/EmergencyContact";
 
 const RequestDetails = () => {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ const RequestDetails = () => {
   const [tab, setTab] = useState("Comments");
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
+  const [showEmergency, setShowEmergency] = useState(false);
 
   useEffect(() => {
     if (isEditing) {
@@ -155,7 +157,7 @@ const RequestDetails = () => {
                 icon="i-volunteer"
               />
               <RequestButton
-                link="/emergency-contact"
+                onClick={() => setShowEmergency(true)}
                 text={t("EMERGENCY_CONTACT")}
                 customStyle="bg-red-400 hover:bg-red-600 text-white w-[30%] px-6 py-3 rounded-lg flex items-center justify-start space-x-3 text-md"
                 icon="i-emergency"
@@ -179,7 +181,10 @@ const RequestDetails = () => {
                           ? "bg-white border-gray-300 border-b-2 border-l-2 border-r-2"
                           : "bg-gray-300 border-transparent hover:bg-gray-200"
                       } ${index < array.length - 1 ? "mr-4" : ""} `}
-                      onClick={() => setTab(newTab)}
+                      onClick={() => {
+                        setShowEmergency(false);
+                        setTab(newTab);
+                      }}
                     >
                       {t(newTab)}
                     </button>
@@ -187,7 +192,9 @@ const RequestDetails = () => {
                 )}
               </div>
               <div className="p-4">
-                {tab === "Comments" ? (
+                {showEmergency ? (
+                  <EmergencyContact embedded />
+                ) : tab === "Comments" ? (
                   <CommentsSection comments={comments} />
                 ) : tab === "Volunteers" ? (
                   <HelpingVolunteers />
