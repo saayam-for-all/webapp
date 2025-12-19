@@ -2,7 +2,16 @@ import api from "./api";
 import endpoints from "./endpoints.json";
 import { requestsData } from "../pages/Dashboard/data";
 
+// TEMPORARY: Force use of mock data until API is updated with new categories
+// TODO: Set to false once backend API has new category structure
+const USE_MOCK_DATA = true;
+
 export const getMyRequests = async () => {
+  if (USE_MOCK_DATA) {
+    console.log("Using mock data (forced for testing)");
+    return { body: requestsData.myRequests.data };
+  }
+
   try {
     const response = await api.get(endpoints.GET_MY_REQUESTS);
     // If API returns empty data, fallback to mock data
@@ -26,6 +35,11 @@ export const getMyRequests = async () => {
 };
 
 export const getOthersRequests = async () => {
+  if (USE_MOCK_DATA) {
+    console.log("Using mock data (forced for testing)");
+    return { body: requestsData.othersRequests.data };
+  }
+
   try {
     const response = await api.get(endpoints.GET_OTHERS_REQUESTS);
     // If API returns empty data, fallback to mock data
@@ -49,6 +63,11 @@ export const getOthersRequests = async () => {
 };
 
 export const getManagedRequests = async () => {
+  if (USE_MOCK_DATA) {
+    console.log("Using mock data (forced for testing)");
+    return { body: requestsData.managedRequests.data };
+  }
+
   try {
     const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
     // If API returns empty data, fallback to mock data
