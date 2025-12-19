@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import CountryList from "react-select-country-list";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
+
 import CallModal from "./CallModal.jsx";
 import { updateUserProfile } from "../../redux/features/authentication/authActions";
 import LoadingIndicator from "../../common/components/Loading/Loading";
@@ -224,6 +226,19 @@ function YourProfile({ setHasUnsavedChanges }) {
       setProfileInfo((prev) => ({ ...prev, [name]: value }));
     }
     setHasUnsavedChanges(true);
+  };
+  const handleWhatsAppCall = () => {
+    const iso = profileInfo.phoneCountryCode || "US";
+    const dial = PHONECODESEN[iso]?.secondary || "";
+    const digits = (profileInfo.phone || "").replace(/\D/g, "");
+
+    if (!dial || !digits) return;
+
+    // WhatsApp expects digits only
+    const waNumber = `${dial}${digits}`.replace(/^\+/, "");
+
+    // Opens WhatsApp app on mobile, WhatsApp Web on desktop
+    window.open(`https://wa.me/${waNumber}`, "_blank", "noopener,noreferrer");
   };
 
   const sendEmailVerification = async (newEmail) => {
@@ -552,20 +567,29 @@ function YourProfile({ setHasUnsavedChanges }) {
             <>
               {/* show only +dial and digits to avoid “UK vs Guernsey” wording confusion */}
               <p className="text-lg text-gray-900">
-                {`${PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || ""}${
-                  PHONECODESEN[profileInfo.phoneCountryCode]?.primary
-                    ? PHONECODESEN[profileInfo.phoneCountryCode]?.primary + " "
-                    : ""
-                }${profileInfo.phone}`}
+                <span className="mr-2">
+                  {PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || ""}
+                </span>
+                <span>{profileInfo.phone}</span>
               </p>
+
               <FiPhoneCall
-                className="text-gray-500 cursor-pointer hover:text-gray-700 ml-2"
-                onClick={() => handleCallInitiation("audio")}
+                size={22}
+                className="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
               />
+
               <FiVideo
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={() => handleCallInitiation("video")}
+                size={22}
+                className="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
               />
+              {profileInfo.phone && (
+                <FaWhatsapp
+                  size={22}
+                  className="text-green-600 cursor-pointer hover:opacity-80 ml-3"
+                  title="WhatsApp"
+                  onClick={handleWhatsAppCall}
+                />
+              )}
             </>
           )}
         </div>
