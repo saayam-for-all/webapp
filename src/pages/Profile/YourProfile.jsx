@@ -573,15 +573,24 @@ function YourProfile({ setHasUnsavedChanges }) {
                 <span>{profileInfo.phone}</span>
               </p>
 
-              <FiPhoneCall
-                size={22}
+              <button
+                type="button"
+                data-testid="phone-call-icon"
                 className="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
-              />
+                onClick={() => handleCallInitiation("audio")}
+              >
+                <FiPhoneCall size={22} />
+              </button>
 
-              <FiVideo
-                size={22}
+              <button
+                type="button"
+                data-testid="video-call-icon"
                 className="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
-              />
+                onClick={() => handleCallInitiation("video")}
+              >
+                <FiVideo size={22} />
+              </button>
+
               {profileInfo.phone && (
                 <FaWhatsapp
                   size={22}

@@ -73,14 +73,20 @@ exports[`YourProfile matches snapshot 1`] = `
         <button
           class="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
           data-testid="phone-call-icon"
+          type="button"
         >
-          📞
+          <span>
+            📞
+          </span>
         </button>
         <button
           class="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
           data-testid="video-call-icon"
+          type="button"
         >
-          📹
+          <span>
+            📹
+          </span>
         </button>
         <svg
           class="text-green-600 cursor-pointer hover:opacity-80 ml-3"
