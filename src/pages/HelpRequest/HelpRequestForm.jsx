@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
+import { mapHelpRequestPayload } from "../../utils/mapHelpRequestPayload";
 import {
   useAddRequestMutation,
   useGetAllRequestQuery,
@@ -94,6 +95,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   );
   const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
+  const userDbId = useSelector((state) => state.auth.user?.userDbId);
   const [location, setLocation] = useState("");
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
@@ -164,6 +166,20 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     fetchTranscriptionLanguages();
   }, []);
 
+  const invertEnum = (obj) =>
+    Object.entries(obj).reduce((acc, [key, value]) => {
+      acc[value] = Number(key);
+      return acc;
+    }, {});
+
+  const enumMaps = enums
+    ? {
+        requestFor: invertEnum(enums.requestFor),
+        requestPriority: invertEnum(enums.requestPriority),
+        requestType: invertEnum(enums.requestType),
+      }
+    : null;
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -187,6 +203,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     age: "",
     gender: "Select",
     lead_volunteer: "Ethan Marshall",
+    is_calamity: false,
     preferred_language: "",
     category: "General",
     request_type: "REMOTE",
@@ -1033,7 +1050,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       }
 
       // Call createRequest with attachments included
-      const response = await createRequest(submissionData);
+      //const response = await createRequest(submissionData);
+      const payload = mapHelpRequestPayload({
+        formData,
+        selectedCategoryId: formData.category,
+        requesterId: userDbId,
+        enumMaps,
+      });
+
+      const respone = await createRequest(payload);
 
       // success flow (mimic original)
       setSnackbar({
@@ -1896,6 +1921,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       <input
                         id="calamity"
                         type="checkbox"
+                        checked={formData.is_calamity}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            is_calamity: e.target.checked,
+                          })
+                        }
                         name="calamity"
                         className="w-5 h-5 inset-y-10 right-0 flex items-center pr-2"
                       />
