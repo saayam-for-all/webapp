@@ -36,10 +36,7 @@ const Dashboard = ({ userRole }) => {
     direction: "ascending",
   });
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState({
-    Open: true,
-    Closed: false,
-  });
+  const [statusFilter, setStatusFilter] = useState({});
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
@@ -309,10 +306,7 @@ const Dashboard = ({ userRole }) => {
     });
   };
 
-  const [typeFilter, setTypeFilter] = useState({
-    [TYPE_IN_PERSON]: true,
-    [TYPE_REMOTE]: true,
-  });
+  const [typeFilter, setTypeFilter] = useState({});
 
   const [priorityFilter, setPriorityFilter] = useState({});
   const [calamityFilter, setCalamityFilter] = useState({});
@@ -553,10 +547,8 @@ const Dashboard = ({ userRole }) => {
                     checked={
                       status === "All"
                         ? Object.keys(statusFilter).length === 0 ||
-                          Object.values(statusFilter).every((v) => !v) ||
                           Object.values(statusFilter).every(Boolean)
                         : Object.keys(statusFilter).length === 0 ||
-                          Object.values(statusFilter).every((v) => !v) ||
                           statusFilter[status] ||
                           false
                     }
@@ -625,7 +617,6 @@ const Dashboard = ({ userRole }) => {
                   type="checkbox"
                   checked={
                     Object.keys(typeFilter).length === 0 ||
-                    Object.values(typeFilter).every((v) => !v) ||
                     Object.values(typeFilter).every(Boolean)
                   }
                   onChange={() => handleTypeChange("All")}
@@ -638,7 +629,6 @@ const Dashboard = ({ userRole }) => {
                     type="checkbox"
                     checked={
                       Object.keys(typeFilter).length === 0 ||
-                      Object.values(typeFilter).every((v) => !v) ||
                       typeFilter[type] ||
                       false
                     }
@@ -668,7 +658,6 @@ const Dashboard = ({ userRole }) => {
                   type="checkbox"
                   checked={
                     Object.keys(priorityFilter).length === 0 ||
-                    Object.values(priorityFilter).every((v) => !v) ||
                     Object.values(priorityFilter).every(Boolean)
                   }
                   onChange={() => handlePriorityChange("All")}
@@ -681,7 +670,6 @@ const Dashboard = ({ userRole }) => {
                     type="checkbox"
                     checked={
                       Object.keys(priorityFilter).length === 0 ||
-                      Object.values(priorityFilter).every((v) => !v) ||
                       priorityFilter[priority] ||
                       false
                     }
