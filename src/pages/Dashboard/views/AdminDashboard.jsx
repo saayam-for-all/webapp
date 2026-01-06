@@ -1,4 +1,6 @@
 import Table from "../../../common/components/DataTable/Table";
+import PropTypes from "prop-types";
+import ApplicationAnalytics from "../components/Analytics/ApplicationAnalytics";
 
 const AdminDashboard = (props) => {
   const {
@@ -93,7 +95,7 @@ const AdminDashboard = (props) => {
               <>Infrastructure (Summary of Errors) - To Be Implemented</>
             )}
             {analyticsSubtab === "Application Analytics" && (
-              <>Application Analytics - To Be Implemented</>
+              <ApplicationAnalytics />
             )}
             {analyticsSubtab === "Google Analytics" && (
               <>Google Analytics - To Be Implemented</>

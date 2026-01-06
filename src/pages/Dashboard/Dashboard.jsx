@@ -372,6 +372,38 @@ const Dashboard = ({ userRole }) => {
     }
   };
 
+  const handleTypeChange = (type) => {
+    if (type === "All") {
+      const allSelected = !Object.values(typeFilter).every(Boolean);
+      const updatedFilter = {};
+      typeOptions.forEach((t) => {
+        if (t !== "All") updatedFilter[t] = allSelected;
+      });
+      setTypeFilter(updatedFilter);
+    } else {
+      setTypeFilter((prev) => ({
+        ...prev,
+        [type]: !prev[type],
+      }));
+    }
+  };
+
+  const handlePriorityChange = (priority) => {
+    if (priority === "All") {
+      const allSelected = !Object.values(priorityFilter).every(Boolean);
+      const updatedFilter = {};
+      priorityOptions.forEach((p) => {
+        if (p !== "All") updatedFilter[p] = allSelected;
+      });
+      setPriorityFilter(updatedFilter);
+    } else {
+      setPriorityFilter((prev) => ({
+        ...prev,
+        [priority]: !prev[priority],
+      }));
+    }
+  };
+
   const handleCategoryChange = (category) => {
     setCategoryFilter((prev) => {
       const newFilter = { ...prev };
@@ -520,8 +552,13 @@ const Dashboard = ({ userRole }) => {
                     type="checkbox"
                     checked={
                       status === "All"
-                        ? Object.values(statusFilter).every(Boolean)
-                        : statusFilter[status] || false
+                        ? Object.keys(statusFilter).length === 0 ||
+                          Object.values(statusFilter).every((v) => !v) ||
+                          Object.values(statusFilter).every(Boolean)
+                        : Object.keys(statusFilter).length === 0 ||
+                          Object.values(statusFilter).every((v) => !v) ||
+                          statusFilter[status] ||
+                          false
                     }
                     onChange={() => handleStatusChange(status)}
                   />
@@ -583,17 +620,29 @@ const Dashboard = ({ userRole }) => {
           </div>
           {isTypeDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <label className="block">
+                <input
+                  type="checkbox"
+                  checked={
+                    Object.keys(typeFilter).length === 0 ||
+                    Object.values(typeFilter).every((v) => !v) ||
+                    Object.values(typeFilter).every(Boolean)
+                  }
+                  onChange={() => handleTypeChange("All")}
+                />
+                All
+              </label>
               {typeOptions.map((type) => (
                 <label key={type} className="block">
                   <input
                     type="checkbox"
-                    checked={typeFilter[type] || false}
-                    onChange={() =>
-                      setTypeFilter((prev) => ({
-                        ...prev,
-                        [type]: !prev[type],
-                      }))
+                    checked={
+                      Object.keys(typeFilter).length === 0 ||
+                      Object.values(typeFilter).every((v) => !v) ||
+                      typeFilter[type] ||
+                      false
                     }
+                    onChange={() => handleTypeChange(type)}
                   />
                   {type}
                 </label>
@@ -614,17 +663,29 @@ const Dashboard = ({ userRole }) => {
           </div>
           {isPriorityDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <label className="block">
+                <input
+                  type="checkbox"
+                  checked={
+                    Object.keys(priorityFilter).length === 0 ||
+                    Object.values(priorityFilter).every((v) => !v) ||
+                    Object.values(priorityFilter).every(Boolean)
+                  }
+                  onChange={() => handlePriorityChange("All")}
+                />
+                All
+              </label>
               {priorityOptions.map((priority) => (
                 <label key={priority} className="block">
                   <input
                     type="checkbox"
-                    checked={priorityFilter[priority] || false}
-                    onChange={() =>
-                      setPriorityFilter((prev) => ({
-                        ...prev,
-                        [priority]: !prev[priority],
-                      }))
+                    checked={
+                      Object.keys(priorityFilter).length === 0 ||
+                      Object.values(priorityFilter).every((v) => !v) ||
+                      priorityFilter[priority] ||
+                      false
                     }
+                    onChange={() => handlePriorityChange(priority)}
                   />
                   {priority}
                 </label>
