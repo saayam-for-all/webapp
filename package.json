@@ -51,6 +51,7 @@
     "react-time-picker": "^7.0.0",
     "react-toastify": "^11.0.5",
     "react-tooltip": "^5.30.0",
+    "recharts": "^3.6.0",
     "rsuite": "^5.83.3",
     "swiper": "^11.2.10",
     "use-immer": "^0.10.0",
