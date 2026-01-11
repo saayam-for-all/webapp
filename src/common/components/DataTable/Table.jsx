@@ -127,17 +127,30 @@ const Table = ({
                       className="px-6 py-2"
                       data-testid="map-data-one"
                     >
-                      {header === "requestId" ? (
-                        <Link
-                          to={getLinkPath(request, header)}
-                          className="text-indigo-600 hover:text-indigo-900"
-                          state={getLinkState ? getLinkState(request) : {}}
-                        >
-                          {request[resolveKey(header)]}
-                        </Link>
-                      ) : (
-                        formatDateTime(request[header], header)
-                      )}
+                      {(() => {
+                        const path = getLinkPath
+                          ? getLinkPath(request, header)
+                          : null;
+                        const value =
+                          header === "requestId"
+                            ? request[resolveKey(header)]
+                            : formatDateTime(
+                                request[resolveKey(header)],
+                                header,
+                              );
+
+                        return path ? (
+                          <Link
+                            to={path}
+                            className="text-indigo-600 hover:text-indigo-900"
+                            state={getLinkState ? getLinkState(request) : {}}
+                          >
+                            {value}
+                          </Link>
+                        ) : (
+                          value
+                        );
+                      })()}
                     </td>
                   ))}
                 </tr>
