@@ -18,7 +18,11 @@ const Layout = () => {
         <NavigationGuard />
 
         {/* header includes Navbar which spans full width */}
-        <header className="sticky z-10" id="header">
+        <header
+          className="sticky z-10"
+          id="header"
+          google-side-rail-overlap="false"
+        >
           <Navbar />
         </header>
 

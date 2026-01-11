@@ -17,7 +17,7 @@ const Contact = () => {
       <form
         className="w-2/5 flex flex-col gap-5"
         // onSubmit={fromSubmitHandler}
-        action="https://formsubmit.co/info@saayamforall.com"
+        action="https://formsubmit.co/04d6a35df8d8b8b31a1b174ae825c99e"
         method="POST"
       >
         <label
