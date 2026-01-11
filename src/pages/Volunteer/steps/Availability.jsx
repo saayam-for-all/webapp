@@ -229,17 +229,8 @@ const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
 };
 
 // ======= MAIN COMPONENT =======
-const Availability = ({
-  availabilitySlots,
-  setAvailabilitySlots,
-  tobeNotified,
-  setNotification,
-}) => {
+const Availability = ({ availabilitySlots, setAvailabilitySlots }) => {
   const [errors, setErrors] = useState([{ startTime: false, endTime: false }]);
-
-  const handleCheckbox = () => {
-    setNotification((tobeNotified) => !tobeNotified);
-  };
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
@@ -253,20 +244,6 @@ const Availability = ({
         errors={errors}
         setErrors={setErrors}
       />
-
-      <div className="flex items-center mt-6 mb-2">
-        <input
-          type="checkbox"
-          id="calamitybox"
-          className="h-4 w-4 mr-2"
-          checked={tobeNotified}
-          onChange={handleCheckbox}
-        />
-        <label htmlFor="calamitybox" className="font-medium">
-          Would you like to receive notifications in case of emergencies or
-          critical situations?
-        </label>
-      </div>
     </div>
   );
 };
