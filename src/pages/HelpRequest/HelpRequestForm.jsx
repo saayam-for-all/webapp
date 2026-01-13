@@ -18,6 +18,7 @@ import {
   createRequest,
   predictCategories,
   getCategories,
+  uploadAudio,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
@@ -26,9 +27,16 @@ import ElderlySupport from "./Categories/ElderlySupport";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
-import { uploadRequestFile } from "../../services/requestServices";
+import {
+  uploadRequestFile,
+  speechDetectC2,
+} from "../../services/requestServices";
 import VoiceRecordingComponent from "../../common/components/VoiceRecordingComponent";
-import { getSupportedLanguages } from "../../services/audioServices";
+import {
+  getSupportedLanguages,
+  getTestText,
+  generateHelloAudio,
+} from "../../services/audioServices";
 import {
   Dialog,
   DialogActions,
@@ -236,6 +244,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   // Audio recording state
   const [audioUploadResult, setAudioUploadResult] = useState(null);
   const [transcriptionLanguage, setTranscriptionLanguage] = useState("en-US");
+  // Test API state
+  const [testApiLoading, setTestApiLoading] = useState(false);
+  const [testApiResult, setTestApiResult] = useState(null);
+  const [testApiError, setTestApiError] = useState(null);
   const [supportedTranscriptionLanguages, setSupportedTranscriptionLanguages] =
     useState([
       { code: "en-US", name: "English (US)" },
@@ -951,6 +963,65 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     return uploadedUrls;
   };
 
+  // ---------- TEST API FUNCTION ----------
+  const testAudioUploadAPI = async () => {
+    setTestApiLoading(true);
+    setTestApiResult(null);
+    setTestApiError(null);
+
+    try {
+      // Get test text from audioServices.js - you can edit getTestText() to change the text
+      const testText = getTestText();
+      console.log("=== Testing SpeechDetectC2 API ===");
+      console.log("Test text (from audioServices.js):", testText);
+      console.log(
+        "Generating audio from text and converting to base64 (WEBM OPUS format)...",
+      );
+
+      // Generate audio from the text and convert to base64 (WEBM OPUS format)
+      // This uses the text from getTestText() to create audio
+      const audioBase64 = await generateHelloAudio();
+
+      console.log(
+        "✅ Audio generated from text. Base64 length:",
+        audioBase64.length,
+        "characters",
+      );
+      console.log("Sending to speechDetectC2 API...");
+
+      // Send the generated audio to the new API (detects language and transcribes)
+      const response = await speechDetectC2(audioBase64);
+
+      console.log("API Response:", response);
+      setTestApiResult({
+        transcriptionText: response.transcriptionText || "",
+        requestId: response.requestId || null,
+        detectedLanguage: response.detectedLanguage || null,
+      });
+
+      setSnackbar({
+        open: true,
+        message: `API Test Successful! Request ID: ${response.requestId || "N/A"}`,
+        severity: "success",
+      });
+    } catch (error) {
+      console.error("API Test Error:", error);
+      setTestApiError({
+        message: error.message || "Unknown error",
+        status: error.response?.status,
+        data: error.response?.data,
+      });
+
+      setSnackbar({
+        open: true,
+        message: `API Test Failed: ${error.message || "Unknown error"}`,
+        severity: "error",
+      });
+    } finally {
+      setTestApiLoading(false);
+    }
+  };
+
   // ---------- SUBMIT HANDLER (modified to upload files before creating request) ----------
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -1080,7 +1151,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       </Snackbar>
 
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
-        <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+        <div className="w-full max-w-2xl mx-auto px-4 mt-4 flex items-center justify-between">
           <button
             onClick={() => navigate("/dashboard")}
             className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
@@ -1088,7 +1159,50 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             <span className="text-2xl mr-2">&lt;</span>{" "}
             {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
           </button>
+
+          {/* Test API Button - FOR TESTING ONLY */}
+          <button
+            type="button"
+            onClick={testAudioUploadAPI}
+            disabled={testApiLoading}
+            className="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm font-medium"
+          >
+            {testApiLoading ? "Testing..." : "Test Audio API"}
+          </button>
         </div>
+
+        {/* Test Results Display */}
+        {testApiResult && (
+          <div className="w-full max-w-2xl mx-auto px-4 mt-2 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <h3 className="font-semibold text-green-800 mb-2">
+              API Test Success:
+            </h3>
+            <pre className="text-xs bg-white p-2 rounded border overflow-auto">
+              {JSON.stringify(testApiResult, null, 2)}
+            </pre>
+          </div>
+        )}
+
+        {testApiError && (
+          <div className="w-full max-w-2xl mx-auto px-4 mt-2 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <h3 className="font-semibold text-red-800 mb-2">API Test Error:</h3>
+            <div className="text-sm text-red-700">
+              <p>
+                <strong>Message:</strong> {testApiError.message}
+              </p>
+              {testApiError.status && (
+                <p>
+                  <strong>Status:</strong> {testApiError.status}
+                </p>
+              )}
+              {testApiError.data && (
+                <pre className="text-xs bg-white p-2 rounded border overflow-auto mt-2">
+                  {JSON.stringify(testApiError.data, null, 2)}
+                </pre>
+              )}
+            </div>
+          </div>
+        )}
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 text-center">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}

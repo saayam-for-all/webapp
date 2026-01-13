@@ -28,6 +28,7 @@
     "@mui/material": "^7.3.4",
     "@react-google-maps/api": "^2.20.6",
     "@reduxjs/toolkit": "^2.9.1",
+    "audiobuffer-to-wav": "^1.0.0",
     "aws-amplify": "^6.15.7",
     "aws-sdk": "^2.1612.0",
     "cheerio": "^1.1.2",

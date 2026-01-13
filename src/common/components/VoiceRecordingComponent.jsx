@@ -10,8 +10,7 @@ import {
 import { Howl } from "howler";
 import {
   transcribeAudio,
-  uploadAudioToS3,
-  cleanupLocalAudio,
+  uploadAudioAndTranscribe,
 } from "../../services/audioServices";
 
 const VoiceRecordingComponent = ({
@@ -39,7 +38,7 @@ const VoiceRecordingComponent = ({
   const mimeTypeRef = useRef("audio/webm");
   const transcriptionIntervalRef = useRef(null);
   const accumulatedTextRef = useRef("");
-  const audioKeyRef = useRef(null); // Store audio key for cleanup
+  const audioUrlRef = useRef(null); // Store audio URL for cleanup
 
   // Cleanup Howler instance when audioUrl changes
   useEffect(() => {
@@ -66,10 +65,10 @@ const VoiceRecordingComponent = ({
         howlRef.current.unload();
         howlRef.current = null;
       }
-      // Clean up local audio storage when component unmounts
-      if (audioKeyRef.current) {
-        cleanupLocalAudio(audioKeyRef.current);
-        audioKeyRef.current = null;
+      // Clean up local audio URL when component unmounts
+      if (audioUrlRef.current) {
+        URL.revokeObjectURL(audioUrlRef.current);
+        audioUrlRef.current = null;
       }
     };
   }, []);
@@ -136,75 +135,78 @@ const VoiceRecordingComponent = ({
         setIsProcessing(true);
 
         try {
-          // Upload to S3 (currently stores locally for testing)
-          const uploadResult = await uploadAudioToS3(audioBlob);
-          // Store audio key for cleanup
-          audioKeyRef.current = uploadResult.key;
-          // Set audio URL for playback
+          // Create local URL for playback
+          const localAudioUrl = URL.createObjectURL(audioBlob);
+          setAudioUrl(localAudioUrl);
+          audioUrlRef.current = localAudioUrl;
+
+          // Upload audio and get transcription using new API
+          console.log("=== Starting Audio Upload ===");
+          console.log("Audio format:", audioBlob.type);
+          console.log("Audio size:", (audioBlob.size / 1024).toFixed(2), "KB");
+
+          const transcriptionResult = await uploadAudioAndTranscribe(audioBlob);
+
+          // Create upload result object with requestId
+          const uploadResult = {
+            url: localAudioUrl,
+            requestId: transcriptionResult.requestId,
+            fileName: `recording-${Date.now()}.webm`,
+            size: audioBlob.size,
+          };
+
           console.log(
-            "[TESTING] Audio saved locally, URL created for playback:",
-            uploadResult.url,
+            "✅ Audio uploaded and transcribed. Request ID:",
+            transcriptionResult.requestId,
           );
           console.log(
-            "[TESTING] Audio file size:",
-            (audioBlob.size / 1024).toFixed(2),
-            "KB",
+            "Transcription text:",
+            transcriptionResult.text || "(empty)",
           );
-          setAudioUrl(uploadResult.url);
+          console.log("=============================");
+
           if (onAudioUploaded) {
             onAudioUploaded(uploadResult);
           }
 
-          // Final transcription to ensure accuracy (in case live transcription missed something)
-          // This will also use the same language as recording
-          try {
-            const finalTranscription = await transcribeAudio(
-              audioBlob,
-              languageCode,
-              false, // Final batch transcription
+          // Use transcription from API response
+          if (transcriptionResult && transcriptionResult.text) {
+            const finalText = transcriptionResult.text.substring(
+              0,
+              descriptionLimit,
             );
-            if (finalTranscription && finalTranscription.text) {
-              // Use final transcription if it's more complete than live transcription
-              const finalText = finalTranscription.text.substring(
-                0,
-                descriptionLimit,
-              );
-              accumulatedTextRef.current = finalText;
-              setTranscriptionError(false);
-              if (onTranscriptionUpdate) {
-                onTranscriptionUpdate(finalText);
-              }
-            } else if (accumulatedTextRef.current) {
-              // Fallback to accumulated live transcription if final fails
-              const truncatedText = accumulatedTextRef.current.substring(
-                0,
-                descriptionLimit,
-              );
-              setTranscriptionError(false);
-              if (onTranscriptionUpdate) {
-                onTranscriptionUpdate(truncatedText);
-              }
-            } else {
-              // No transcription available
-              setTranscriptionError(true);
+            accumulatedTextRef.current = finalText;
+            setTranscriptionError(false);
+            if (onTranscriptionUpdate) {
+              onTranscriptionUpdate(finalText);
             }
-          } catch (transcriptionErr) {
-            console.error("Transcription failed:", transcriptionErr);
+          } else if (accumulatedTextRef.current) {
+            // Fallback to accumulated live transcription if API transcription is empty
+            const truncatedText = accumulatedTextRef.current.substring(
+              0,
+              descriptionLimit,
+            );
+            setTranscriptionError(false);
+            if (onTranscriptionUpdate) {
+              onTranscriptionUpdate(truncatedText);
+            }
+          } else {
+            // No transcription available
             setTranscriptionError(true);
-            // Still allow user to proceed - they can type manually
-            // Use accumulated live transcription if available
-            if (accumulatedTextRef.current) {
-              const truncatedText = accumulatedTextRef.current.substring(
-                0,
-                descriptionLimit,
-              );
-              if (onTranscriptionUpdate) {
-                onTranscriptionUpdate(truncatedText);
-              }
-            }
           }
         } catch (err) {
-          console.error("Error processing audio:", err);
+          console.error("❌ Error processing audio:", err);
+          console.error("Error details:", {
+            message: err.message,
+            status: err.response?.status,
+            statusText: err.response?.statusText,
+            data: err.response?.data,
+            headers: err.response?.headers,
+          });
+          console.error("Audio blob that failed:", {
+            type: audioBlob.type,
+            size: audioBlob.size,
+          });
           setError(err.message || "Failed to process audio");
           // Still try to use accumulated live transcription if available
           if (accumulatedTextRef.current) {

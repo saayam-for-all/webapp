@@ -22,6 +22,8 @@
   "GET_ENVIRONMENT": "/requests/v0.0.1/getEnvironment",
   "UPLOAD_AUDIO_TO_S3": "/audio/v0.0.1/upload-to-s3",
   "TRANSCRIBE_AUDIO": "/audio/v0.0.1/transcribe",
+  "UPLOAD_AUDIO": "/requests/v0.0.1/upload-audio",
   "GET_SUPPORTED_LANGUAGES": "/audio/v0.0.1/supported-languages",
-  "DETECT_LANGUAGE": "/audio/v0.0.1/detect-language"
+  "DETECT_LANGUAGE": "/audio/v0.0.1/detect-language",
+  "SPEECH_DETECT_C2": "/requests/v0.0.1/speechDetectC2"
 }

@@ -141,3 +141,72 @@ export const uploadRequestFile = async (file) => {
 
   return response.data;
 };
+
+/**
+ * Upload audio and get transcription
+ * @param {string} audioContent - Base64 encoded audio string
+ * @param {number} sampleRate - Sample rate in Hz (default: 16000)
+ * @param {string} encoding - Audio encoding format (default: "WEBM_OPUS")
+ * @returns {Promise<Object>} - Returns { transcriptionText: string, requestId: string }
+ */
+export const uploadAudio = async (
+  audioContent,
+  sampleRate = 16000,
+  encoding = "WEBM_OPUS",
+) => {
+  const requestBody = {
+    audioContent: audioContent,
+    sampleRate: sampleRate,
+    encoding: encoding,
+  };
+
+  console.log("Uploading audio - Request body format:", {
+    audioContent: audioContent.substring(0, 50) + "... (truncated)",
+    audioContentLength: audioContent.length,
+    sampleRate: sampleRate,
+    encoding: encoding,
+  });
+
+  const response = await api.post(endpoints.UPLOAD_AUDIO, requestBody);
+
+  console.log("Audio upload response:", response.data);
+  console.log("Response structure:", {
+    hasTranscriptionText: "transcriptionText" in response.data,
+    hasRequestId: "requestId" in response.data,
+    transcriptionText: response.data.transcriptionText,
+    requestId: response.data.requestId,
+  });
+
+  return response.data;
+};
+
+/**
+ * Speech detection and transcription API (C2)
+ * Detects language automatically and transcribes audio
+ * @param {string} audioContent - Base64 encoded audio string (WEBM OPUS format)
+ * @returns {Promise<Object>} - Returns { transcriptionText: string, requestId: string, detectedLanguage?: string }
+ */
+export const speechDetectC2 = async (audioContent) => {
+  const requestBody = {
+    audioContent: audioContent,
+  };
+
+  console.log("Calling speechDetectC2 API - Request body format:", {
+    audioContent: audioContent.substring(0, 50) + "... (truncated)",
+    audioContentLength: audioContent.length,
+  });
+
+  const response = await api.post(endpoints.SPEECH_DETECT_C2, requestBody);
+
+  console.log("SpeechDetectC2 API response:", response.data);
+  console.log("Response structure:", {
+    hasTranscriptionText: "transcriptionText" in response.data,
+    hasRequestId: "requestId" in response.data,
+    hasDetectedLanguage: "detectedLanguage" in response.data,
+    transcriptionText: response.data.transcriptionText,
+    requestId: response.data.requestId,
+    detectedLanguage: response.data.detectedLanguage,
+  });
+
+  return response.data;
+};
