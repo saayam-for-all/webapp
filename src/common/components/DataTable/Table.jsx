@@ -35,14 +35,14 @@ const Table = ({
   };
 
   const formatDateTime = (value, header) => {
-    if (header === "creationDate" || header === "closedDate") {
+    if (header === "creationDate" || header === "updatedDate") {
       if (!value) return "";
 
       try {
         const date = new Date(value);
-        if (isNaN(date.getTime())) return value;
+        if (Number.isNaN(date.getTime())) return value;
 
-        // Format: MM/DD/YYYY | HH:MM AM/PM TZ
+        // Format: MM/DD/YYYY HH:MM:SS AM/PM
         const datePart = date.toLocaleDateString("en-US", {
           year: "numeric",
           month: "2-digit",
@@ -51,16 +51,20 @@ const Table = ({
         const timePart = date.toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
+          second: "2-digit",
           hour12: true,
-          timeZoneName: "short",
         });
-        return `${datePart} | ${timePart}`;
+        return `${datePart} ${timePart}`;
       } catch (error) {
+        console.error("Error formatting date:", error);
         return value;
       }
     }
     return value;
   };
+
+  const dataKeyMap = { requestId: "id", beneficiaryId: "userId" };
+  const resolveKey = (header) => dataKeyMap[header] || header;
 
   return (
     <div className="relative h-full" data-testid="container">
@@ -74,16 +78,19 @@ const Table = ({
               {headers.map((key) => (
                 <th
                   key={key}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                   data-testid="map-header-one"
                 >
-                  <button type="button" onClick={() => requestSort(key)}>
+                  <button
+                    type="button"
+                    onClick={() => requestSort(resolveKey(key))}
+                  >
                     {key.charAt(0).toUpperCase() +
                       key
                         .slice(1)
                         .replace(/([A-Z])/g, " $1")
                         .trim()}
-                    {getSortIndicator(key)}
+                    {getSortIndicator(resolveKey(key))}
                   </button>
                 </th>
               ))}
@@ -93,29 +100,49 @@ const Table = ({
             className="bg-white divide-y divide-gray-200 "
             data-testid="table-body"
           >
-            {paginatedRequests.map((request, rowIndex) => (
-              <tr key={rowIndex}>
-                {headers.map((header, colIndex) => (
-                  <td
-                    key={colIndex}
-                    className="px-6 py-4 whitespace-nowrap"
-                    data-testid="map-data-one"
-                  >
-                    {header === "id" ? (
-                      <Link
-                        to={getLinkPath(request, header)}
-                        className="text-indigo-600 hover:text-indigo-900"
-                        state={getLinkState ? getLinkState(request) : {}}
-                      >
-                        {request[header]}
-                      </Link>
-                    ) : (
-                      formatDateTime(request[header], header)
-                    )}
-                  </td>
-                ))}
+            {paginatedRequests.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={headers.length}
+                  className="px-6 py-8 text-center text-gray-500"
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="text-lg font-semibold mb-2">
+                      No requests found
+                    </p>
+                    <p className="text-sm">
+                      {rows.length === 0
+                        ? "There are no requests to display."
+                        : "Try adjusting your filters to see more results."}
+                    </p>
+                  </div>
+                </td>
               </tr>
-            ))}
+            ) : (
+              paginatedRequests.map((request, rowIndex) => (
+                <tr key={rowIndex}>
+                  {headers.map((header, colIndex) => (
+                    <td
+                      key={colIndex}
+                      className="px-6 py-2"
+                      data-testid="map-data-one"
+                    >
+                      {header === "requestId" ? (
+                        <Link
+                          to={getLinkPath(request, header)}
+                          className="text-indigo-600 hover:text-indigo-900"
+                          state={getLinkState ? getLinkState(request) : {}}
+                        >
+                          {request[resolveKey(header)]}
+                        </Link>
+                      ) : (
+                        formatDateTime(request[header], header)
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

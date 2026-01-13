@@ -11,14 +11,16 @@
   },
   "requestStatus": {
     "CREATED": "बनाया गया",
-    "MATCHING VOLUNTEER": "स्वयंसेवक खोज रहे हैं",
+    "MATCHING_VOLUNTEER": "स्वयंसेवक खोज रहे हैं",
     "MANAGED": "प्रबंधित",
     "RESOLVED": "हल किया गया",
     "CANCELLED": "रद्द किया गया",
-    "DELETED": "हटाया गया"
+    "DELETED": "हटाया गया",
+    "RATED_BY_REQUESTER": "अनुरोधकर्ता द्वारा रेट किया गया",
+    "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया"
   },
   "requestType": {
-    "INPERSON": "व्यक्तिगत रूप से",
+    "IN_PERSON": "व्यक्तिगत रूप से",
     "REMOTE": "दूरस्थ"
   }
 }

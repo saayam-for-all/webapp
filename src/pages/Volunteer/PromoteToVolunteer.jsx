@@ -247,7 +247,7 @@ const PromoteToVolunteer = () => {
 
   return (
     <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
-      <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+      <div className="w-full px-4 mt-4 flex justify-start">
         <button
           onClick={() => navigate("/dashboard")}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"

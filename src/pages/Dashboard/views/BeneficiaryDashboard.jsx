@@ -1,4 +1,6 @@
 import Table from "../../../common/components/DataTable/Table";
+import { useTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 const BeneficiaryDashboard = (props) => {
   const {
@@ -19,6 +21,8 @@ const BeneficiaryDashboard = (props) => {
     searchFilters,
   } = props;
 
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className="flex mb-5">
@@ -30,7 +34,7 @@ const BeneficiaryDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("myRequests")}
         >
-          {"My Requests"}
+          {t("MY_REQUESTS")}
         </button>
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
@@ -40,7 +44,17 @@ const BeneficiaryDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("othersRequests")}
         >
-          {"Others Requests"}
+          <span className="inline-flex items-center justify-center gap-2">
+            {t("OTHERS_REQUESTS")}
+            <div className="relative group cursor-pointer">
+              <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                ?
+              </div>
+              <div className="absolute left-5 top-0 w-[10rem] bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                Requests filed for other people
+              </div>
+            </div>
+          </span>
         </button>
       </div>
 
@@ -66,6 +80,24 @@ const BeneficiaryDashboard = (props) => {
       </div>
     </div>
   );
+};
+
+BeneficiaryDashboard.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  handleTabChange: PropTypes.func.isRequired,
+  headers: PropTypes.array.isRequired,
+  filteredData: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  totalPages: PropTypes.func.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  sortConfig: PropTypes.object,
+  requestSort: PropTypes.func.isRequired,
+  onRowsPerPageChange: PropTypes.func.isRequired,
+  getLinkPath: PropTypes.func.isRequired,
+  getLinkState: PropTypes.func.isRequired,
+  searchFilters: PropTypes.node,
 };
 
 export default BeneficiaryDashboard;

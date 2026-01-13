@@ -33,7 +33,7 @@ const TimeInputComponent = ({
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full mb-4">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full max-w-2xl mx-auto mb-4">
       {/* ----- Day Dropdown ----- */}
       <select
         className="w-full sm:w-40 border border-gray-300 rounded-md p-2 mb-2 sm:mb-0"

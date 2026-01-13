@@ -11,14 +11,16 @@
   },
   "requestStatus": {
     "CREATED": "তৈরি হয়েছে",
-    "MATCHING VOLUNTEER": "স্বেচ্ছাসেবক খোঁজা হচ্ছে",
+    "MATCHING_VOLUNTEER": "স্বেচ্ছাসেবক খোঁজা হচ্ছে",
     "MANAGED": "পরিচালিত",
     "RESOLVED": "সমাধান হয়েছে",
     "CANCELLED": "বাতিল করা হয়েছে",
-    "DELETED": "মুছে ফেলা হয়েছে"
+    "DELETED": "মুছে ফেলা হয়েছে",
+    "RATED_BY_REQUESTER": "অনুরোধকারী দ্বারা মূল্যায়িত",
+    "RATED_BY_VOLUNTEER": "স্বেচ্ছাসেবক দ্বারা মূল্যায়িত"
   },
   "requestType": {
-    "INPERSON": "সরাসরি",
+    "IN_PERSON": "সরাসরি",
     "REMOTE": "দূরবর্তী"
   }
 }

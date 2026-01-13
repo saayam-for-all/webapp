@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./views/AdminDashboard";
@@ -13,16 +13,38 @@ import SuperAdminDashboard from "./views/SuperAdminDashboard";
 import VolunteerDashboard from "./views/VolunteerDashboard";
 
 import {
+  getAccessibleDashboards,
+  getDefaultDashboard,
+  canAccessDashboard,
+  validateDashboardAccess,
+  getDashboardDisplayName,
+  DASHBOARDS,
+} from "../../utils/rbac";
+
+import {
   getManagedRequests,
   getMyRequests,
   getOthersRequests,
 } from "../../services/requestServices";
+import {
+  getStatusOptions,
+  getPriorityOptions,
+  getTypeOptions,
+  getCategoriesFromStorage,
+  normalizeTypeValue,
+  normalizeStatusValue,
+  normalizePriorityValue,
+} from "../../utils/filterHelpers";
 import "./Dashboard.css";
 
 const Dashboard = ({ userRole }) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [successMessage, setSuccessMessage] = useState("");
+  const [accessDeniedMessage, setAccessDeniedMessage] = useState("");
+
   useEffect(() => {
     if (location.state?.successMessage) {
       setSuccessMessage(location.state.successMessage);
@@ -32,14 +54,11 @@ const Dashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState("myRequests");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
-    key: "creationDate",
-    direction: "ascending",
+    key: "updatedDate",
+    direction: "descending",
   });
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState({
-    Open: true,
-    Closed: false,
-  });
+  const [statusFilter, setStatusFilter] = useState({});
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
@@ -48,7 +67,7 @@ const Dashboard = ({ userRole }) => {
   const groups = useSelector((state) => state.auth.user?.groups);
   const isLoading = false;
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  // which dashboard to show; empty string means show requests view (existing behavior)
+  const [accessibleDashboards, setAccessibleDashboards] = useState([]);
   const [selectedDashboard, setSelectedDashboard] = useState("");
 
   const toggleDropdown = () => {
@@ -67,10 +86,9 @@ const Dashboard = ({ userRole }) => {
     return TYPE_IN_PERSON;
   };
 
-  // Simple dummy data per dashboard for initial UI; we'll replace with real data later
   const dashboardTables = useMemo(
     () => ({
-      superAdmin: {
+      [DASHBOARDS.SUPER_ADMIN]: {
         headers: ["id", "metric", "value"],
         rows: [
           { id: "S1", metric: "Total Users", value: "1,200" },
@@ -78,28 +96,28 @@ const Dashboard = ({ userRole }) => {
           { id: "S3", metric: "Volunteers", value: 210 },
         ],
       },
-      admin: {
+      [DASHBOARDS.ADMIN]: {
         headers: ["id", "team", "activeTasks"],
         rows: [
           { id: "A1", team: "Support", activeTasks: 12 },
           { id: "A2", team: "Operations", activeTasks: 8 },
         ],
       },
-      steward: {
+      [DASHBOARDS.STEWARD]: {
         headers: ["id", "area", "assigned"],
         rows: [
           { id: "ST1", area: "North Zone", assigned: 5 },
           { id: "ST2", area: "East Zone", assigned: 3 },
         ],
       },
-      volunteer: {
+      [DASHBOARDS.VOLUNTEER]: {
         headers: ["id", "name", "hoursLogged"],
         rows: [
           { id: "V1", name: "Priya", hoursLogged: 24 },
           { id: "V2", name: "Arjun", hoursLogged: 18 },
         ],
       },
-      beneficiary: {
+      [DASHBOARDS.BENEFICIARY]: {
         headers: ["id", "name", "supportReceived"],
         rows: [
           { id: "B1", name: "Family A", supportReceived: "Food Pack" },
@@ -118,7 +136,7 @@ const Dashboard = ({ userRole }) => {
       const response = await requestApi();
       setData(response);
     } catch (error) {
-      console.error("Error fetching skills:", error);
+      console.error("Error fetching requests:", error);
     }
   };
 
@@ -127,62 +145,96 @@ const Dashboard = ({ userRole }) => {
   }, []);
 
   useEffect(() => {
-    const storedDashboard = localStorage.getItem("lastDashboardSelected");
-    if (storedDashboard) {
-      setSelectedDashboard(storedDashboard);
-    } else if (!selectedDashboard && groups) {
-      if (groups.includes("Volunteers")) setSelectedDashboard("volunteer");
-      else setSelectedDashboard("beneficiary");
+    if (!groups || groups.length === 0) {
+      setAccessibleDashboards([DASHBOARDS.BENEFICIARY]);
+      setSelectedDashboard(DASHBOARDS.BENEFICIARY);
+      return;
     }
-  }, [groups]);
+
+    const accessible = getAccessibleDashboards(groups);
+    setAccessibleDashboards(accessible);
+
+    const urlDashboard = searchParams.get("view");
+    if (urlDashboard && accessible.includes(urlDashboard)) {
+      setSelectedDashboard(urlDashboard);
+      localStorage.setItem("lastDashboardSelected", urlDashboard);
+      return;
+    }
+
+    const storedDashboard = localStorage.getItem("lastDashboardSelected");
+    if (storedDashboard && accessible.includes(storedDashboard)) {
+      setSelectedDashboard(storedDashboard);
+      return;
+    }
+
+    const defaultDash = getDefaultDashboard(groups);
+    setSelectedDashboard(defaultDash);
+    localStorage.setItem("lastDashboardSelected", defaultDash);
+  }, [groups, searchParams]);
 
   useEffect(() => {
     getAllRequests(activeTab);
   }, [activeTab]);
 
-  const allCategories = {
-    All: true,
-    Logistics: true,
-    Maintenance: true,
-    Education: true,
-    Electronics: true,
-    Health: true,
-    Essentials: true,
-    Childcare: true,
-    Pets: true,
-    Shopping: true,
-    Charity: true,
-    Events: true,
-    Marketing: true,
-    Administration: true,
-    Research: true,
-  };
-
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     if (tab === "analytics") setAnalyticsSubtab("Infrastructure");
     setCurrentPage(1);
-    setStatusFilter({
-      Open: true,
-      Closed: false,
-    });
-    setCategoryFilter(allCategories);
+    setStatusFilter({});
+    // DON'T reset category filter when changing tabs
+    // This was causing issues where API categories didn't match data categories
+    // Keep the existing filter state or leave it empty to show all data
   };
+
+  const handleDashboardChange = (newDashboard) => {
+    const validation = validateDashboardAccess(groups, newDashboard);
+
+    if (!validation.allowed) {
+      setAccessDeniedMessage(validation.reason);
+      setTimeout(() => setAccessDeniedMessage(""), 5000);
+      return;
+    }
+
+    setSelectedDashboard(newDashboard);
+    localStorage.setItem("lastDashboardSelected", newDashboard);
+    setSearchParams({ view: newDashboard });
+    setAccessDeniedMessage("");
+  };
+
+  const dataKeyMap = {
+    requestId: "id",
+    beneficiaryId: "userId",
+  };
+  const resolveKey = (header) => dataKeyMap[header] || header;
 
   const headersWithStatus = useMemo(() => {
     const baseHeaders = [
-      "id",
-      "type",
+      "requestId",
       "subject",
+      "updatedDate",
       "creationDate",
-      "closedDate",
+      "type",
       "category",
       "priority",
       "calamity",
     ];
+    const headersWithUserId =
+      activeTab === "othersRequests"
+        ? [
+            "requestId",
+            "beneficiaryId",
+            "subject",
+            "updatedDate",
+            "creationDate",
+            "type",
+            "category",
+            "priority",
+            "calamity",
+          ]
+        : baseHeaders;
     const isAllSelected = Object.values(statusFilter).every(Boolean);
-    return isAllSelected ? ["status", ...baseHeaders] : baseHeaders;
-  }, [statusFilter]);
+    return isAllSelected ? ["status", ...headersWithUserId] : headersWithUserId;
+  }, [statusFilter, activeTab]);
 
   const sortedRequests = (requests) => {
     let sortableRequests = [...requests];
@@ -204,50 +256,123 @@ const Dashboard = ({ userRole }) => {
     return sortedRequests(data?.body || []);
   }, [data, sortConfig]);
 
-  // Dynamic filter options based on backend data
   const statusOptions = useMemo(() => {
-    const values = [
+    // Get status options from Enums API (with translations)
+    const enumStatuses = getStatusOptions(t);
+
+    // Deduplicate enum statuses by key to prevent duplicates
+    const statusMap = new Map();
+    enumStatuses.forEach((status) => {
+      if (!statusMap.has(status.key)) {
+        statusMap.set(status.key, status);
+      }
+    });
+
+    // Also get statuses from current data for backward compatibility
+    const dataStatuses = [
       ...new Set((data?.body || []).map((r) => r.status).filter(Boolean)),
     ];
-    const fallback = ["Open", "Closed"];
-    const options = values.length ? values : fallback;
-    return ["All", ...options];
-  }, [data]);
+
+    // Add any data statuses not in enums
+    dataStatuses.forEach((status) => {
+      const normalized = normalizeStatusValue(status);
+      if (!statusMap.has(normalized)) {
+        statusMap.set(normalized, {
+          key: normalized,
+          value: status,
+          label: status,
+        });
+      }
+    });
+
+    return Array.from(statusMap.values());
+  }, [data, t]);
 
   const categoryOptions = useMemo(() => {
+    // Get categories from Categories API with hierarchical structure
+    const categories = getCategoriesFromStorage();
+
+    // Get all category names from actual data
+    const dataCategoryNames = new Set(
+      (data?.body || []).map((r) => r.category).filter(Boolean),
+    );
+
+    if (categories && Array.isArray(categories) && dataCategoryNames.size > 0) {
+      // Check if API categories match the data categories
+      const getAllCategoryNames = (cats) => {
+        const names = [];
+        cats.forEach((cat) => {
+          names.push(cat.catName);
+          if (cat.subCategories && cat.subCategories.length > 0) {
+            names.push(...getAllCategoryNames(cat.subCategories));
+          }
+        });
+        return names;
+      };
+
+      const apiCategoryNames = getAllCategoryNames(categories);
+      const matchCount = apiCategoryNames.filter((apiCat) =>
+        dataCategoryNames.has(apiCat),
+      ).length;
+
+      // Only use API categories if at least 50% match the data
+      // This ensures we use API categories for real data, but fall back for mock data
+      if (
+        matchCount >=
+        Math.min(dataCategoryNames.size, apiCategoryNames.length) * 0.5
+      ) {
+        const transformCategories = (cats) => {
+          return cats.map((cat) => ({
+            category: cat.catName,
+            label: t(
+              `categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`,
+              cat.catName,
+            ),
+            subCategories:
+              cat.subCategories && cat.subCategories.length > 0
+                ? transformCategories(cat.subCategories)
+                : undefined,
+          }));
+        };
+
+        return transformCategories(categories);
+      }
+
+      // API categories don't match data - use data categories instead
+      console.warn(
+        "API categories don't match data categories (matched " +
+          matchCount +
+          " out of " +
+          dataCategoryNames.size +
+          "), using data categories instead",
+      );
+    }
+
+    // Fallback: use categories from actual data
     const backendValues = new Set(
       (data?.body || []).map((r) => r.category).filter(Boolean),
     );
-    const defaultValues = Object.keys(allCategories).filter((c) => c !== "All");
-    // merge & remove duplicates
-    const combined = Array.from(new Set([...defaultValues, ...backendValues]));
-    return combined.sort();
-  }, [data]);
+    const combined = Array.from(backendValues);
+    return combined.sort().map((cat) => ({
+      category: cat,
+      label: cat,
+    }));
+  }, [data, t]);
 
-  // Updated fallback aligned with backend values
   const typeOptions = useMemo(() => {
-    const rawValues = (data?.body || []).map((r) => r.type).filter(Boolean);
-
-    const normalizedSet = new Set(
-      rawValues.map((v) => normalizeType(v)).filter(Boolean),
-    );
-    normalizedSet.add(TYPE_IN_PERSON);
-    normalizedSet.add(TYPE_REMOTE);
-    return [TYPE_IN_PERSON, TYPE_REMOTE].filter((l) => normalizedSet.has(l));
-  }, [data]);
+    // Get type options from Enums API (with translations)
+    return getTypeOptions(t);
+  }, [t]);
 
   const priorityOptions = useMemo(() => {
-    const values = [
-      ...new Set((data?.body || []).map((r) => r.priority).filter(Boolean)),
-    ];
-    return values.length ? values : ["LOW", "MEDIUM", "HIGH"];
-  }, [data]);
+    // Get priority options from Enums API (with translations)
+    return getPriorityOptions(t);
+  }, [t]);
 
   const calamityOptions = useMemo(() => {
     const values = [
       ...new Set((data?.body || []).map((r) => r.calamity).filter(Boolean)),
     ];
-    // Normalize to Yes / None for boolean or string variations
     const normalized = values.map((v) =>
       v === true || v === "Yes" || v === "yes"
         ? "Yes"
@@ -258,29 +383,95 @@ const Dashboard = ({ userRole }) => {
     return normalized.length ? normalized : ["Yes", "None"];
   }, [data]);
 
+  // Helper function to get checked status for hierarchical categories
+  const getCategoryCheckedStatus = (categoryPath, filterState) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = filterState || categoryFilter || {};
+
+    for (let key of keys) {
+      if (!currentLevel[key]) return false;
+      currentLevel = currentLevel[key];
+    }
+
+    return currentLevel.checked === true;
+  };
+
+  // Helper function to get all selected category names (including children of selected parents)
+  const getSelectedCategoryNames = () => {
+    const selectedNames = [];
+
+    const collectNames = (cats, parentPath = "", parentSelected = false) => {
+      cats.forEach((cat) => {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+        const isSelected = getCategoryCheckedStatus(
+          currentPath,
+          categoryFilter,
+        );
+
+        // If this category is selected OR its parent is selected, include it
+        if (isSelected || parentSelected) {
+          selectedNames.push(categoryName);
+
+          // If parent is selected, include all children
+          if (cat.subCategories) {
+            collectNames(cat.subCategories, currentPath, true);
+          }
+        } else if (cat.subCategories) {
+          // Parent not selected, but check children
+          collectNames(cat.subCategories, currentPath, false);
+        }
+      });
+    };
+
+    // Guard check to ensure categoryOptions exists before using it
+    if (categoryOptions && categoryOptions.length > 0) {
+      collectNames(categoryOptions);
+    }
+    return selectedNames;
+  };
+
   const filteredRequests = (requests) => {
     return requests.filter((request) => {
+      // Normalize values for comparison with enum keys
+      const statusNormalized = normalizeStatusValue(request.status);
       const statusActive =
         Object.keys(statusFilter).length === 0 ||
         Object.values(statusFilter).every((v) => !v) ||
-        statusFilter[request.status];
+        statusFilter[statusNormalized] ||
+        statusFilter[request.status]; // Fallback for non-normalized
 
-      const categoryActive =
-        Object.keys(categoryFilter).length === 0 ||
-        Object.values(categoryFilter).every((v) => !v) ||
-        categoryFilter[request.category];
+      // Check if request category matches any selected category
+      const categoryMatches = () => {
+        if (Object.keys(categoryFilter).length === 0) return true;
 
-      const typeNormalized = normalizeType(request.type);
+        const requestCategory = request.category;
+        if (!requestCategory) return false;
 
+        // Get all selected category names (including children of selected parents)
+        const selectedCategoryNames = getSelectedCategoryNames();
+
+        // Check if request category is in the selected list
+        return selectedCategoryNames.includes(requestCategory);
+      };
+
+      const categoryActive = categoryMatches();
+
+      const typeNormalized = normalizeTypeValue(request.type);
       const typeActive =
         Object.keys(typeFilter).length === 0 ||
         Object.values(typeFilter).every((v) => !v) ||
-        (typeNormalized && typeFilter[typeNormalized]);
+        typeFilter[typeNormalized] ||
+        typeFilter[request.type]; // Fallback for non-normalized
 
+      const priorityNormalized = normalizePriorityValue(request.priority);
       const priorityActive =
         Object.keys(priorityFilter).length === 0 ||
         Object.values(priorityFilter).every((v) => !v) ||
-        priorityFilter[request.priority];
+        priorityFilter[priorityNormalized] ||
+        priorityFilter[request.priority]; // Fallback for non-normalized
 
       const calamityValue =
         request.calamity === true ||
@@ -292,7 +483,15 @@ const Dashboard = ({ userRole }) => {
       const calamityActive =
         Object.keys(calamityFilter).length === 0 ||
         Object.values(calamityFilter).every((v) => !v) ||
-        calamityFilter[calamityValue];
+        calamityFilter[calamityValue] ||
+        calamityFilter[request.calamity]; // Fallback for non-normalized
+
+      const volunteerTypeActive =
+        selectedDashboard !== DASHBOARDS.VOLUNTEER ||
+        activeTab !== "managedRequests" ||
+        Object.keys(volunteerTypeFilter).length === 0 ||
+        Object.values(volunteerTypeFilter).every((v) => !v) ||
+        volunteerTypeFilter[request.volunteerType];
 
       const matchesSearch = Object.keys(request).some((key) =>
         String(request[key]).toLowerCase().includes(searchTerm.toLowerCase()),
@@ -304,15 +503,13 @@ const Dashboard = ({ userRole }) => {
         typeActive &&
         priorityActive &&
         calamityActive &&
+        volunteerTypeActive &&
         matchesSearch
       );
     });
   };
 
-  const [typeFilter, setTypeFilter] = useState({
-    [TYPE_IN_PERSON]: true,
-    [TYPE_REMOTE]: true,
-  });
+  const [typeFilter, setTypeFilter] = useState({});
 
   const [priorityFilter, setPriorityFilter] = useState({});
   const [calamityFilter, setCalamityFilter] = useState({});
@@ -320,11 +517,62 @@ const Dashboard = ({ userRole }) => {
   const [isPriorityDropdownOpen, setIsPriorityDropdownOpen] = useState(false);
   const [isCalamityDropdownOpen, setIsCalamityDropdownOpen] = useState(false);
 
-  const toggleTypeDropdown = () => setIsTypeDropdownOpen(!isTypeDropdownOpen);
-  const togglePriorityDropdown = () =>
-    setIsPriorityDropdownOpen(!isPriorityDropdownOpen);
-  const toggleCalamityDropdown = () =>
-    setIsCalamityDropdownOpen(!isCalamityDropdownOpen);
+  const [volunteerTypeFilter, setVolunteerTypeFilter] = useState({});
+  const [isVolunteerTypeDropdownOpen, setIsVolunteerTypeDropdownOpen] =
+    useState(false);
+
+  // Generic dropdown toggle handler (eliminates code duplication)
+  const createToggleHandler = (setter, currentValue) => () =>
+    setter(!currentValue);
+
+  // Generic blur handler for closing dropdowns (eliminates code duplication)
+  const createBlurHandler = (setter) => (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) setter(false);
+  };
+
+  const toggleVolunteerTypeDropdown = createToggleHandler(
+    setIsVolunteerTypeDropdownOpen,
+    isVolunteerTypeDropdownOpen,
+  );
+  const toggleTypeDropdown = createToggleHandler(
+    setIsTypeDropdownOpen,
+    isTypeDropdownOpen,
+  );
+  const togglePriorityDropdown = createToggleHandler(
+    setIsPriorityDropdownOpen,
+    isPriorityDropdownOpen,
+  );
+  const toggleCalamityDropdown = createToggleHandler(
+    setIsCalamityDropdownOpen,
+    isCalamityDropdownOpen,
+  );
+  const toggleCategoryDropdown = createToggleHandler(
+    setIsCategoryDropdownOpen,
+    isCategoryDropdownOpen,
+  );
+  const toggleStatusDropdown = createToggleHandler(
+    setIsStatusDropdownOpen,
+    isStatusDropdownOpen,
+  );
+
+  const handleVolunteerTypeBlur = createBlurHandler(
+    setIsVolunteerTypeDropdownOpen,
+  );
+  const handleTypeBlur = createBlurHandler(setIsTypeDropdownOpen);
+  const handlePriorityBlur = createBlurHandler(setIsPriorityDropdownOpen);
+  const handleCalamityBlur = createBlurHandler(setIsCalamityDropdownOpen);
+  const handleFilterBlur = createBlurHandler(setIsCategoryDropdownOpen);
+  const handleStatusBlur = createBlurHandler(setIsStatusDropdownOpen);
+
+  // Helper function to get filter badge count (show count when items are selected)
+  const getFilterBadgeCount = (filterState, totalOptions) => {
+    const selectedCount = Object.values(filterState).filter(Boolean).length;
+    // Only show badge if at least one item is selected
+    if (selectedCount === 0) {
+      return null;
+    }
+    return selectedCount;
+  };
 
   const filteredData = useMemo(() => {
     return filteredRequests(sortedData);
@@ -336,6 +584,10 @@ const Dashboard = ({ userRole }) => {
     typeFilter,
     priorityFilter,
     calamityFilter,
+    volunteerTypeFilter,
+    selectedDashboard,
+    activeTab,
+    categoryOptions,
   ]);
 
   const totalPages = (filteredData) => {
@@ -349,59 +601,148 @@ const Dashboard = ({ userRole }) => {
   };
 
   const requestSort = (key) => {
+    const resolved = resolveKey(key);
     let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+    if (sortConfig.key === resolved && sortConfig.direction === "ascending") {
       direction = "descending";
     }
-    setSortConfig({ key, direction });
+    setSortConfig({ key: resolved, direction });
   };
 
-  const handleStatusChange = (status) => {
-    if (status === "All") {
-      const allSelected = !Object.values(statusFilter).every(Boolean);
+  const handleStatusChange = (statusKey) => {
+    if (statusKey === "All") {
+      // Check if all items are currently selected
+      const allCurrentlySelected =
+        statusOptions.length > 0 &&
+        statusOptions.every((s) => statusFilter[s.key]);
+
       const updatedFilter = {};
-      statusOptions.forEach((s) => {
-        if (s !== "All") updatedFilter[s] = allSelected;
-      });
+      if (!allCurrentlySelected) {
+        // If not all selected, select all
+        statusOptions.forEach((s) => {
+          updatedFilter[s.key] = true;
+        });
+      }
+      // If all selected, updatedFilter stays empty (deselect all)
       setStatusFilter(updatedFilter);
     } else {
       setStatusFilter((prev) => ({
         ...prev,
-        [status]: !prev[status],
+        [statusKey]: !prev[statusKey],
       }));
     }
   };
 
-  const handleCategoryChange = (category) => {
-    setCategoryFilter((prev) => {
-      const newFilter = { ...prev };
-      if (category === "All") {
-        if (
-          Object.keys(newFilter).length === Object.keys(allCategories).length
-        ) {
-          return {};
+  // Helper function to set checkbox state for hierarchical categories
+  const setCategoryCheckboxState = (draft, categoryPath, checked) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = draft;
+
+    keys.forEach((key, index) => {
+      if (index === keys.length - 1) {
+        if (checked) {
+          currentLevel[key] = { checked: true };
         } else {
-          return allCategories;
+          delete currentLevel[key];
         }
       } else {
-        if (newFilter[category]) {
-          delete newFilter[category];
-        } else {
-          newFilter[category] = true;
+        if (!currentLevel[key]) {
+          currentLevel[key] = {};
+        }
+        currentLevel = currentLevel[key];
+      }
+    });
+  };
+
+  // Helper function to check if all categories are selected
+  const areAllCategoriesSelected = (categories, filterState) => {
+    const checkAllSelected = (cats, parentPath = "") => {
+      for (const cat of cats) {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+
+        if (!getCategoryCheckedStatus(currentPath, filterState)) {
+          return false;
         }
 
-        if (
-          Object.keys(newFilter).length ===
-          Object.keys(allCategories).length - 1
-        ) {
-          newFilter["All"] = true;
+        if (cat.subCategories) {
+          if (!checkAllSelected(cat.subCategories, currentPath)) {
+            return false;
+          }
+        }
+      }
+      return true;
+    };
+
+    return checkAllSelected(categories);
+  };
+
+  // Helper function to select/deselect all categories
+  const setAllCategories = (categories, checked) => {
+    const newFilter = {};
+
+    const setAll = (cats, parentPath = "") => {
+      cats.forEach((cat) => {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+
+        if (checked) {
+          setCategoryCheckboxState(newFilter, currentPath, true);
+        }
+
+        if (cat.subCategories) {
+          setAll(cat.subCategories, currentPath);
+        }
+      });
+    };
+
+    setAll(categories);
+    return checked ? newFilter : {};
+  };
+
+  // Helper function to remove all child categories when parent is unchecked
+  const removeChildCategories = (filter, categoryPath) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = filter;
+
+    // Navigate to the parent level
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!currentLevel[keys[i]]) return;
+      currentLevel = currentLevel[keys[i]];
+    }
+
+    // Remove the category and all its children
+    const lastKey = keys[keys.length - 1];
+    delete currentLevel[lastKey];
+  };
+
+  const handleCategoryChange = (categoryPath) => {
+    if (categoryPath === "All") {
+      const allSelected = areAllCategoriesSelected(
+        categoryOptions,
+        categoryFilter,
+      );
+      setCategoryFilter(setAllCategories(categoryOptions, !allSelected));
+    } else {
+      setCategoryFilter((prev) => {
+        const newFilter = JSON.parse(JSON.stringify(prev)); // Deep clone
+        const checkedStatus = getCategoryCheckedStatus(categoryPath, prev);
+
+        if (checkedStatus) {
+          // Unchecking - remove this category and all its children
+          removeChildCategories(newFilter, categoryPath);
         } else {
-          delete newFilter["All"];
+          // Checking - just set this category to checked
+          setCategoryCheckboxState(newFilter, categoryPath, true);
         }
 
         return newFilter;
-      }
-    });
+      });
+    }
   };
 
   const handleRowsPerPageChange = (rows) => {
@@ -409,12 +750,71 @@ const Dashboard = ({ userRole }) => {
     setCurrentPage(1);
   };
 
-  const toggleCategoryDropdown = () => {
-    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+  // Count selected categories (for badge display)
+  const getSelectedCategoryCount = () => {
+    let count = 0;
+    const countSelected = (obj) => {
+      for (const key in obj) {
+        if (obj[key].checked === true) {
+          count++;
+        } else if (typeof obj[key] === "object") {
+          countSelected(obj[key]);
+        }
+      }
+    };
+    countSelected(categoryFilter);
+    return count;
   };
 
-  const toggleStatusDropdown = () => {
-    setIsStatusDropdownOpen(!isStatusDropdownOpen);
+  // Recursive function to render cascading categories
+  const renderCategories = (categories, parentPath = "") => {
+    const sortedCategories = [...categories].sort((a, b) => {
+      const aName = typeof a === "object" ? a.category : a;
+      const bName = typeof b === "object" ? b.category : b;
+      return aName.localeCompare(bName);
+    });
+
+    return sortedCategories.map((cat, index) => {
+      const isObject = typeof cat === "object";
+      const categoryName = isObject ? cat.category : cat;
+      const categoryLabel = isObject ? cat.label : cat;
+      const hasSubCategories = isObject && cat.subCategories;
+
+      // Create a unique path for each category
+      const currentPath = parentPath
+        ? `${parentPath}.${categoryName}`
+        : categoryName;
+
+      return (
+        <div key={index} className={parentPath ? "ml-4" : ""}>
+          <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
+            <input
+              type="checkbox"
+              checked={getCategoryCheckedStatus(currentPath, categoryFilter)}
+              onChange={() => handleCategoryChange(currentPath)}
+              className="cursor-pointer"
+            />
+            <span
+              className={
+                getCategoryCheckedStatus(currentPath, categoryFilter)
+                  ? "font-semibold"
+                  : ""
+              }
+            >
+              {categoryLabel}
+            </span>
+          </label>
+
+          {/* Recursively render subcategories if they exist and parent is checked */}
+          {hasSubCategories &&
+            getCategoryCheckedStatus(currentPath, categoryFilter) && (
+              <div className="ml-3">
+                {renderCategories(cat.subCategories, currentPath)}
+              </div>
+            )}
+        </div>
+      );
+    });
   };
 
   const [hasAddress, setHasAddress] = useState(
@@ -426,55 +826,37 @@ const Dashboard = ({ userRole }) => {
   }, [location]);
 
   useEffect(() => {
-    if (Object.keys(categoryFilter).length === 0) {
-      setCategoryFilter(allCategories);
+    // DON'T auto-initialize category filter
+    // Keep it empty so all data shows by default
+    // This avoids issues when API categories don't match data categories
+    // Users can manually select categories if they want to filter
+    // The commented code below was causing issues where API categories
+    // didn't match mock data categories, resulting in no data showing
+    /*
+    if (
+      Object.keys(categoryFilter).length === 0 &&
+      categoryOptions.length > 0
+    ) {
+      // Initialize with all categories selected
+      const allCategoriesFilter = setAllCategories(categoryOptions, true);
+      setCategoryFilter(allCategoriesFilter);
     }
-  }, []);
-
-  const handleStatusBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsStatusDropdownOpen(false);
-  };
-  const handleFilterBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsCategoryDropdownOpen(false);
-  };
-
-  const handleTypeBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsTypeDropdownOpen(false);
-  };
-  const handlePriorityBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsPriorityDropdownOpen(false);
-  };
-  const handleCalamityBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsCalamityDropdownOpen(false);
-  };
+    */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryOptions]);
 
   const [showAddressMsg, setShowAddressMsg] = useState(false);
 
-  // If a dashboard is selected, use its dummy data; otherwise null -> show requests view
-  const selectedDashboardData = selectedDashboard
-    ? dashboardTables[selectedDashboard]
-    : null;
-
-  let dashboardTitle = "Beneficiary Dashboard";
-  if (selectedDashboard === "superAdmin")
-    dashboardTitle = "Super Admin Dashboard";
-  else if (selectedDashboard === "admin") dashboardTitle = "Admin Dashboard";
-  else if (selectedDashboard === "steward")
-    dashboardTitle = "Steward Dashboard";
-  else if (selectedDashboard === "volunteer")
-    dashboardTitle = "Volunteer Dashboard";
+  const dashboardTitle = selectedDashboard
+    ? getDashboardDisplayName(selectedDashboard)
+    : "Dashboard";
 
   const dashboardDefaultTab = {
-    superAdmin: "analytics",
-    admin: "analytics",
-    steward: "myRequests",
-    volunteer: "managedRequests",
-    beneficiary: "myRequests",
+    [DASHBOARDS.SUPER_ADMIN]: "analytics",
+    [DASHBOARDS.ADMIN]: "analytics",
+    [DASHBOARDS.STEWARD]: "myRequests",
+    [DASHBOARDS.VOLUNTEER]: "managedRequests",
+    [DASHBOARDS.BENEFICIARY]: "myRequests",
   };
 
   useEffect(() => {
@@ -507,34 +889,34 @@ const Dashboard = ({ userRole }) => {
             onClick={toggleCategoryDropdown}
             tabIndex={0}
           >
-            <button className="py-2 px-4 p-2 font-light text-gray-600">
+            <button className="py-2 px-4 p-2 font-light text-gray-600 flex items-center gap-2">
               {t("FILTER_BY")}
+              {getSelectedCategoryCount() > 0 && (
+                <span className="bg-blue-500 text-white px-2 py-0.5 rounded-full text-sm font-semibold">
+                  {getSelectedCategoryCount()}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isCategoryDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
-              <label className="block">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 max-h-96 overflow-y-auto min-w-64">
+              <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                 <input
                   type="checkbox"
                   checked={
-                    Object.keys(categoryFilter).length ===
-                    Object.keys(allCategories).length
+                    categoryOptions.length > 0 &&
+                    areAllCategoriesSelected(categoryOptions, categoryFilter)
                   }
                   onChange={() => handleCategoryChange("All")}
+                  className="cursor-pointer"
                 />
-                All Categories
+                <span className="font-semibold">{t("All Categories")}</span>
               </label>
-              {categoryOptions.map((category) => (
-                <label key={category} className="block">
-                  <input
-                    type="checkbox"
-                    checked={categoryFilter[category] || false}
-                    onChange={() => handleCategoryChange(category)}
-                  />
-                  {category}
-                </label>
-              ))}
+              <div className="mt-2">
+                {categoryOptions.length > 0 &&
+                  renderCategories(categoryOptions)}
+              </div>
             </div>
           )}
         </div>
@@ -546,30 +928,46 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Status")}
+              {getFilterBadgeCount(statusFilter, statusOptions.length) && (
+                <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {getFilterBadgeCount(statusFilter, statusOptions.length)}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isStatusDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
+              <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={
+                    statusOptions.length > 0 &&
+                    statusOptions.every((s) => statusFilter[s.key])
+                  }
+                  onChange={() => handleStatusChange("All")}
+                  className="cursor-pointer"
+                />
+                <span>{t("All")}</span>
+              </label>
               {statusOptions.map((status) => (
-                <label key={status} className="block">
+                <label
+                  key={status.key}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
+                >
                   <input
                     type="checkbox"
-                    checked={
-                      status === "All"
-                        ? Object.values(statusFilter).every(Boolean)
-                        : statusFilter[status] || false
-                    }
-                    onChange={() => handleStatusChange(status)}
+                    checked={statusFilter[status.key] || false}
+                    onChange={() => handleStatusChange(status.key)}
+                    className="cursor-pointer"
                   />
-                  {status}
+                  <span>{status.label}</span>
                 </label>
               ))}
             </div>
           )}
         </div>
 
-        {/* NEW FILTERS START HERE */}
         <div className="relative" onBlur={handleTypeBlur} tabIndex={-1}>
           <div
             className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
@@ -577,25 +975,34 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              Type
+              {t("Type")}
+              {getFilterBadgeCount(typeFilter, typeOptions.length) && (
+                <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {getFilterBadgeCount(typeFilter, typeOptions.length)}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isTypeDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {typeOptions.map((type) => (
-                <label key={type} className="block">
+                <label
+                  key={type.key}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
+                >
                   <input
                     type="checkbox"
-                    checked={typeFilter[type] || false}
+                    checked={typeFilter[type.key] || false}
                     onChange={() =>
                       setTypeFilter((prev) => ({
                         ...prev,
-                        [type]: !prev[type],
+                        [type.key]: !prev[type.key],
                       }))
                     }
+                    className="cursor-pointer"
                   />
-                  {type}
+                  <span>{type.label}</span>
                 </label>
               ))}
             </div>
@@ -608,25 +1015,34 @@ const Dashboard = ({ userRole }) => {
             onClick={togglePriorityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              Priority
+              {t("Priority")}
+              {getFilterBadgeCount(priorityFilter, priorityOptions.length) && (
+                <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {getFilterBadgeCount(priorityFilter, priorityOptions.length)}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isPriorityDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {priorityOptions.map((priority) => (
-                <label key={priority} className="block">
+                <label
+                  key={priority.key}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
+                >
                   <input
                     type="checkbox"
-                    checked={priorityFilter[priority] || false}
+                    checked={priorityFilter[priority.key] || false}
                     onChange={() =>
                       setPriorityFilter((prev) => ({
                         ...prev,
-                        [priority]: !prev[priority],
+                        [priority.key]: !prev[priority.key],
                       }))
                     }
+                    className="cursor-pointer"
                   />
-                  {priority}
+                  <span>{priority.label}</span>
                 </label>
               ))}
             </div>
@@ -639,14 +1055,22 @@ const Dashboard = ({ userRole }) => {
             onClick={toggleCalamityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              Calamity
+              {t("Calamity")}
+              {getFilterBadgeCount(calamityFilter, calamityOptions.length) && (
+                <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {getFilterBadgeCount(calamityFilter, calamityOptions.length)}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isCalamityDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {calamityOptions.map((cal) => (
-                <label key={cal} className="block">
+                <label
+                  key={cal}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={calamityFilter[cal] || false}
@@ -656,13 +1080,72 @@ const Dashboard = ({ userRole }) => {
                         [cal]: !prev[cal],
                       }))
                     }
+                    className="cursor-pointer"
                   />
-                  {cal}
+                  <span>{cal}</span>
                 </label>
               ))}
             </div>
           )}
         </div>
+
+        {selectedDashboard === DASHBOARDS.VOLUNTEER &&
+          activeTab === "managedRequests" && (
+            <div
+              className="relative"
+              onBlur={handleVolunteerTypeBlur}
+              tabIndex={-1}
+            >
+              <div
+                className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
+                onClick={toggleVolunteerTypeDropdown}
+              >
+                <button className="py-2 px-4 p-2 font-light text-gray-600">
+                  {t("Volunteer Type")}
+                  {getFilterBadgeCount(volunteerTypeFilter, 2) && (
+                    <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                      {getFilterBadgeCount(volunteerTypeFilter, 2)}
+                    </span>
+                  )}
+                </button>
+                <IoIosArrowDown className="m-2" />
+              </div>
+              {isVolunteerTypeDropdownOpen && (
+                <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
+                  <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={volunteerTypeFilter["Lead Volunteer"] || false}
+                      onChange={() =>
+                        setVolunteerTypeFilter((prev) => ({
+                          ...prev,
+                          "Lead Volunteer": !prev["Lead Volunteer"],
+                        }))
+                      }
+                      className="cursor-pointer"
+                    />
+                    <span>Lead Volunteer</span>
+                  </label>
+                  <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={
+                        volunteerTypeFilter["Helping Volunteer"] || false
+                      }
+                      onChange={() =>
+                        setVolunteerTypeFilter((prev) => ({
+                          ...prev,
+                          "Helping Volunteer": !prev["Helping Volunteer"],
+                        }))
+                      }
+                      className="cursor-pointer"
+                    />
+                    <span>Helping Volunteer</span>
+                  </label>
+                </div>
+              )}
+            </div>
+          )}
       </div>
     </>
   );
@@ -695,7 +1178,7 @@ const Dashboard = ({ userRole }) => {
             <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
           </Link>
           {!groups?.includes("Volunteers") &&
-            selectedDashboard !== "volunteer" && (
+            selectedDashboard !== DASHBOARDS.VOLUNTEER && (
               <Link
                 to="/promote-to-volunteer"
                 onClick={(e) => {
@@ -714,28 +1197,21 @@ const Dashboard = ({ userRole }) => {
 
         <div className="flex items-center gap-2">
           <div className="flex ml-auto gap-2 items-center">
-            {isDropdownVisible && (
+            {isDropdownVisible && accessibleDashboards.length > 0 && (
               <select
                 value={selectedDashboard}
-                onChange={(e) => {
-                  setSelectedDashboard(e.target.value);
-                  localStorage.setItem("lastDashboardSelected", e.target.value);
-                }}
+                onChange={(e) => handleDashboardChange(e.target.value)}
                 className="text-blue-500 font-semibold underline italic py-2"
               >
-                <option value="superAdmin">Super Admin Dashboard</option>
-                <option value="admin">Admin Dashboard</option>
-                <option value="steward">Steward Dashboard</option>
-                <option value="volunteer">Volunteer Dashboard</option>
-                <option value="beneficiary">Beneficiary Dashboard</option>
+                {accessibleDashboards.map((dash) => (
+                  <option key={dash} value={dash}>
+                    {getDashboardDisplayName(dash)}
+                  </option>
+                ))}
               </select>
             )}
           </div>
         </div>
-      </div>
-
-      <div className="flex-1 text-center">
-        <h2 className="text-xl font-semibold mt-3 mb-3">{dashboardTitle}</h2>
       </div>
 
       {showAddressMsg && !hasAddress && (
@@ -763,115 +1239,148 @@ const Dashboard = ({ userRole }) => {
         </div>
       )}
 
-      <div className="border">
-        {/* Render the selected dashboard view component */}
-        <div className="requests-section overflow-hidden table-height-fix">
-          {selectedDashboard === "superAdmin" && (
-            <SuperAdminDashboard
-              activeTab={activeTab}
-              handleTabChange={handleTabChange}
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={
-                activeTab === "analytics" ? null : dashboardSearchFilters
-              }
-              analyticsSubtab={analyticsSubtab}
-              setAnalyticsSubtab={setAnalyticsSubtab}
-            />
-          )}
-
-          {selectedDashboard === "admin" && (
-            <AdminDashboard
-              activeTab={activeTab}
-              handleTabChange={handleTabChange}
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={
-                activeTab === "analytics" ? null : dashboardSearchFilters
-              }
-              analyticsSubtab={analyticsSubtab}
-              setAnalyticsSubtab={setAnalyticsSubtab}
-            />
-          )}
-
-          {selectedDashboard === "steward" && (
-            <StewardDashboard
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={dashboardSearchFilters}
-            />
-          )}
-
-          {selectedDashboard === "volunteer" && (
-            <VolunteerDashboard
-              activeTab={activeTab}
-              handleTabChange={handleTabChange}
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={dashboardSearchFilters}
-            />
-          )}
-
-          {selectedDashboard === "beneficiary" && (
-            <BeneficiaryDashboard
-              activeTab={activeTab}
-              handleTabChange={handleTabChange}
-              headers={headersWithStatus}
-              filteredData={filteredData}
-              isLoading={isLoading}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              rowsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              getLinkPath={(request, header) => `/request/${request[header]}`}
-              getLinkState={(request) => request}
-              searchFilters={dashboardSearchFilters}
-            />
-          )}
+      {accessDeniedMessage && (
+        <div className="relative bg-red-100 text-red-700 p-3 mb-5 rounded-md text-center font-semibold">
+          {accessDeniedMessage}
+          <button
+            onClick={() => setAccessDeniedMessage("")}
+            className="absolute top-2 right-4 text-red-700 font-bold text-lg"
+          >
+            ×
+          </button>
         </div>
+      )}
+
+      <div className="flex-1 text-center">
+        <h2 className="text-xl font-semibold mt-3 mb-3">{dashboardTitle}</h2>
+      </div>
+
+      <div className="border">
+        {selectedDashboard && canAccessDashboard(groups, selectedDashboard) ? (
+          <div className="requests-section overflow-hidden table-height-fix">
+            {selectedDashboard === DASHBOARDS.SUPER_ADMIN && (
+              <SuperAdminDashboard
+                activeTab={activeTab}
+                handleTabChange={handleTabChange}
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
+                getLinkState={(request) => request}
+                searchFilters={
+                  activeTab === "analytics" ? null : dashboardSearchFilters
+                }
+                analyticsSubtab={analyticsSubtab}
+                setAnalyticsSubtab={setAnalyticsSubtab}
+              />
+            )}
+
+            {selectedDashboard === DASHBOARDS.ADMIN && (
+              <AdminDashboard
+                activeTab={activeTab}
+                handleTabChange={handleTabChange}
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
+                getLinkState={(request) => request}
+                searchFilters={
+                  activeTab === "analytics" ? null : dashboardSearchFilters
+                }
+                analyticsSubtab={analyticsSubtab}
+                setAnalyticsSubtab={setAnalyticsSubtab}
+              />
+            )}
+
+            {selectedDashboard === DASHBOARDS.STEWARD && (
+              <StewardDashboard
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
+                getLinkState={(request) => request}
+                searchFilters={dashboardSearchFilters}
+              />
+            )}
+
+            {selectedDashboard === DASHBOARDS.VOLUNTEER && (
+              <VolunteerDashboard
+                activeTab={activeTab}
+                handleTabChange={handleTabChange}
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
+                getLinkState={(request) => request}
+                searchFilters={dashboardSearchFilters}
+              />
+            )}
+
+            {selectedDashboard === DASHBOARDS.BENEFICIARY && (
+              <BeneficiaryDashboard
+                activeTab={activeTab}
+                handleTabChange={handleTabChange}
+                headers={headersWithStatus}
+                filteredData={filteredData}
+                isLoading={isLoading}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                rowsPerPage={rowsPerPage}
+                sortConfig={sortConfig}
+                requestSort={requestSort}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                getLinkPath={(request, header) =>
+                  `/request/${request[resolveKey(header)]}`
+                }
+                getLinkState={(request) => request}
+                searchFilters={dashboardSearchFilters}
+              />
+            )}
+          </div>
+        ) : (
+          <div className="p-10 text-center text-gray-600">
+            <p className="text-lg font-semibold mb-2">Access Denied</p>
+            <p>You don&apos;t have permission to view this dashboard.</p>
+            <p className="mt-4 text-sm">Please contact your admin.</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 import Table from "../../../common/components/DataTable/Table";
 
 const VolunteerDashboard = (props) => {
@@ -58,6 +59,24 @@ const VolunteerDashboard = (props) => {
       </div>
     </div>
   );
+};
+
+VolunteerDashboard.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  handleTabChange: PropTypes.func.isRequired,
+  headers: PropTypes.array.isRequired,
+  filteredData: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  totalPages: PropTypes.func.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  sortConfig: PropTypes.object,
+  requestSort: PropTypes.func.isRequired,
+  onRowsPerPageChange: PropTypes.func.isRequired,
+  getLinkPath: PropTypes.func.isRequired,
+  getLinkState: PropTypes.func.isRequired,
+  searchFilters: PropTypes.node,
 };
 
 export default VolunteerDashboard;

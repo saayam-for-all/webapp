@@ -11,14 +11,16 @@
   },
   "requestStatus": {
     "CREATED": "Criado",
-    "MATCHING VOLUNTEER": "Procurando voluntário",
+    "MATCHING_VOLUNTEER": "Procurando voluntário",
     "MANAGED": "Gerenciado",
     "RESOLVED": "Resolvido",
     "CANCELLED": "Cancelado",
-    "DELETED": "Excluído"
+    "DELETED": "Excluído",
+    "RATED_BY_REQUESTER": "Avaliado pelo solicitante",
+    "RATED_BY_VOLUNTEER": "Avaliado pelo voluntário"
   },
   "requestType": {
-    "INPERSON": "Presencial",
+    "IN_PERSON": "Presencial",
     "REMOTE": "Remoto"
   }
 }

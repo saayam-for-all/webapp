@@ -11,14 +11,16 @@
   },
   "requestStatus": {
     "CREATED": "Создано",
-    "MATCHING VOLUNTEER": "Поиск волонтёра",
+    "MATCHING_VOLUNTEER": "Поиск волонтёра",
     "MANAGED": "Управляется",
     "RESOLVED": "Решено",
     "CANCELLED": "Отменено",
-    "DELETED": "Удалено"
+    "DELETED": "Удалено",
+    "RATED_BY_REQUESTER": "Оценено запросившим",
+    "RATED_BY_VOLUNTEER": "Оценено волонтёром"
   },
   "requestType": {
-    "INPERSON": "Лично",
+    "IN_PERSON": "Лично",
     "REMOTE": "Удалённо"
   }
 }

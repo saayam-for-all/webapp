@@ -11,14 +11,16 @@
   },
   "requestStatus": {
     "CREATED": "تخلیق کیا گیا",
-    "MATCHING VOLUNTEER": "رضاکار تلاش کر رہے ہیں",
+    "MATCHING_VOLUNTEER": "رضاکار تلاش کر رہے ہیں",
     "MANAGED": "منظم کیا گیا",
     "RESOLVED": "حل کیا گیا",
     "CANCELLED": "منسوخ کیا گیا",
-    "DELETED": "حذف کیا گیا"
+    "DELETED": "حذف کیا گیا",
+    "RATED_BY_REQUESTER": "درخواست گزار نے درجہ بندی کی",
+    "RATED_BY_VOLUNTEER": "رضاکار نے درجہ بندی کی"
   },
   "requestType": {
-    "INPERSON": "ذاتی طور پر",
+    "IN_PERSON": "ذاتی طور پر",
     "REMOTE": "دور سے"
   }
 }

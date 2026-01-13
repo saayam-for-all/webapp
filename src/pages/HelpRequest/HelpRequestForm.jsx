@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
+import { mapHelpRequestPayload } from "../../utils/mapHelpRequestPayload";
 import {
   useAddRequestMutation,
   useGetAllRequestQuery,
@@ -27,6 +28,8 @@ import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
 import { uploadRequestFile } from "../../services/requestServices";
+import VoiceRecordingComponent from "../../common/components/VoiceRecordingComponent";
+import { getSupportedLanguages } from "../../services/audioServices";
 import {
   Dialog,
   DialogActions,
@@ -62,6 +65,27 @@ const MAX_FILES = 5;
 const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_MIME_TYPES = ["image/png", "image/jpeg", "application/pdf"];
 
+// Map language names to Google Cloud Speech-to-Text language codes
+const mapLanguageToCode = (languageName) => {
+  const languageMap = {
+    English: "en-US",
+    Spanish: "es-ES",
+    French: "fr-FR",
+    German: "de-DE",
+    Hindi: "hi-IN",
+    "Mandarin Chinese": "zh-CN",
+    Chinese: "zh-CN",
+    Arabic: "ar-SA",
+    Portuguese: "pt-BR",
+    Russian: "ru-RU",
+    Japanese: "ja-JP",
+    Bengali: "bn-IN",
+    Telugu: "te-IN",
+    Urdu: "ur-PK",
+  };
+  return languageMap[languageName] || "en-US"; // Default to English
+};
+
 const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
@@ -71,6 +95,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   );
   const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
+  const userDbId = useSelector((state) => state.auth.user?.userDbId);
   const [location, setLocation] = useState("");
   const { inputRef, isLoaded, handleOnPlacesChanged } =
     usePlacesSearchBox(setLocation);
@@ -120,6 +145,41 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, []);
 
+  // Fetch supported transcription languages from Google Cloud Speech-to-Text API
+  useEffect(() => {
+    const fetchTranscriptionLanguages = async () => {
+      try {
+        const languages = await getSupportedLanguages();
+        if (languages && Array.isArray(languages) && languages.length > 0) {
+          setSupportedTranscriptionLanguages(languages);
+          // Set default language to English (US) if available, otherwise first language
+          const defaultLang = languages.find((lang) => lang.code === "en-US");
+          setTranscriptionLanguage(
+            defaultLang ? defaultLang.code : languages[0].code,
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching supported languages:", error);
+        // Keep default fallback languages already set in state
+      }
+    };
+    fetchTranscriptionLanguages();
+  }, []);
+
+  const invertEnum = (obj) =>
+    Object.entries(obj).reduce((acc, [key, value]) => {
+      acc[value] = Number(key);
+      return acc;
+    }, {});
+
+  const enumMaps = enums
+    ? {
+        requestFor: invertEnum(enums.requestFor),
+        requestPriority: invertEnum(enums.requestPriority),
+        requestType: invertEnum(enums.requestType),
+      }
+    : null;
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -143,6 +203,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     age: "",
     gender: "Select",
     lead_volunteer: "Ethan Marshall",
+    is_calamity: false,
     preferred_language: "",
     category: "General",
     request_type: "REMOTE",
@@ -151,6 +212,34 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     description: "",
     priority: "MEDIUM",
   });
+
+  // If user changes category to a non-elderly option, ensure any open ElderlySupport panel is closed
+  useEffect(() => {
+    // Resolve whether current formData.category corresponds to an Elderly subcategory
+    const isElderlySubcategory = (() => {
+      if (!formData.category || !categories) return false;
+      // check if category matches a subcategory id or name under ELDERLY_SUPPORT
+      for (const cat of categories) {
+        if (!cat.subCategories || cat.subCategories.length === 0) continue;
+        if (cat.catName === "ELDERLY_SUPPORT") {
+          const match = cat.subCategories.find(
+            (s) =>
+              s.catId === formData.category || s.catName === formData.category,
+          );
+          if (match) return true;
+        }
+      }
+      return false;
+    })();
+
+    if (!isElderlySubcategory) {
+      // close any inline elderly support form if it's open and the selected category is not elderly
+      if (showElderlySupportForm || selectedElderlySubcategory) {
+        setShowElderlySupportForm(false);
+        setSelectedElderlySubcategory(null);
+      }
+    }
+  }, [formData.category, categories]);
 
   // FILE UPLOAD STATE
   // attachedFiles: array of File objects selected by user (not yet uploaded)
@@ -161,6 +250,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [uploadedFilesInfo, setUploadedFilesInfo] = useState([]);
   const [showFilesDialog, setShowFilesDialog] = useState(false);
   const [isUploadingFiles, setIsUploadingFiles] = useState(false);
+  // Audio recording state
+  const [audioUploadResult, setAudioUploadResult] = useState(null);
+  const [transcriptionLanguage, setTranscriptionLanguage] = useState("en-US");
+  const [supportedTranscriptionLanguages, setSupportedTranscriptionLanguages] =
+    useState([
+      { code: "en-US", name: "English (US)" },
+      { code: "es-ES", name: "Spanish (Spain)" },
+      { code: "fr-FR", name: "French (France)" },
+      { code: "de-DE", name: "German (Germany)" },
+      { code: "hi-IN", name: "Hindi (India)" },
+      { code: "zh-CN", name: "Chinese (Simplified)" },
+      { code: "ar-SA", name: "Arabic (Saudi Arabia)" },
+      { code: "pt-BR", name: "Portuguese (Brazil)" },
+      { code: "ru-RU", name: "Russian (Russia)" },
+      { code: "ja-JP", name: "Japanese (Japan)" },
+    ]);
 
   // Restore request for edit
   useEffect(() => {
@@ -945,7 +1050,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       }
 
       // Call createRequest with attachments included
-      const response = await createRequest(submissionData);
+      //const response = await createRequest(submissionData);
+      const payload = mapHelpRequestPayload({
+        formData,
+        selectedCategoryId: formData.category,
+        requesterId: userDbId,
+        enumMaps,
+      });
+
+      const respone = await createRequest(payload);
 
       // success flow (mimic original)
       setSnackbar({
@@ -1246,35 +1359,100 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   />
                 </div>
 
+                {/* Transcription Language Selector */}
+                <div className="mt-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <label
+                      htmlFor="transcriptionLanguage"
+                      className="text-gray-700 font-medium"
+                    >
+                      Voice Recording Language
+                    </label>
+                    <div className="relative group cursor-pointer">
+                      {/* Circle Question Mark Icon */}
+                      <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                        ?
+                      </div>
+                      {/* Tooltip */}
+                      <div className="absolute left-5 top-0 w-64 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                        Select the language you will use for voice recording.
+                        The audio will be transcribed in this language. Maximum
+                        audio file size: 10MB. Transcription will be limited to
+                        500 characters.
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <select
+                      id="transcriptionLanguage"
+                      value={transcriptionLanguage}
+                      onChange={(e) => setTranscriptionLanguage(e.target.value)}
+                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                    >
+                      {supportedTranscriptionLanguages.length > 0 ? (
+                        supportedTranscriptionLanguages.map((lang) => (
+                          <option key={lang.code} value={lang.code}>
+                            {lang.name}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="en-US">English (US)</option>
+                      )}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <HiChevronDown className="h-5 w-5 text-gray-600" />
+                    </div>
+                  </div>
+                </div>
+
                 {/* Description + Attach npmfiles icon */}
                 <div className="mt-3" data-testid="parentDivSeven">
                   <div className="flex items-center justify-between">
                     <label
                       htmlFor="description"
-                      className="block text-gray-700 font-medium mb-2 flex items-center gap-2"
+                      className="text-gray-700 font-medium mb-2 flex items-center gap-2"
                     >
                       {t("DESCRIPTION")}
                       <span className="text-red-500 m-1">*</span>(
                       {t("MAX_CHARACTERS", { count: 500 })})
                     </label>
 
-                    {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
-                    <div className="relative group">
-                      {/* Unified Outline Box */}
-                      <div
-                        className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
-                        onClick={() => {
-                          if (
-                            attachedFiles.length + uploadedFilesInfo.length >=
-                            MAX_FILES
-                          )
-                            return;
-                          document.getElementById("fileInput").click();
+                    {/* Right side: Voice Recording Component and File Attachment */}
+                    <div className="flex items-center gap-3">
+                      {/* Voice Recording Component */}
+                      <VoiceRecordingComponent
+                        onTranscriptionUpdate={(text) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            description: text,
+                          }));
                         }}
-                      >
-                        {/* Paperclip Icon */}
+                        onAudioUploaded={(uploadResult) => {
+                          setAudioUploadResult(uploadResult);
+                          console.log("Audio uploaded:", uploadResult);
+                        }}
+                        languageCode={transcriptionLanguage}
+                        maxFileSizeMB={10}
+                        descriptionLimit={500}
+                      />
+
+                      {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
+                      <div className="relative group">
+                        {/* Unified Outline Box */}
                         <div
-                          className={`
+                          className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
+                          onClick={() => {
+                            if (
+                              attachedFiles.length + uploadedFilesInfo.length >=
+                              MAX_FILES
+                            )
+                              return;
+                            document.getElementById("fileInput").click();
+                          }}
+                        >
+                          {/* Paperclip Icon */}
+                          <div
+                            className={`
                           flex items-center justify-center px-1 py-1 rounded-md
                           ${
                             attachedFiles.length + uploadedFilesInfo.length >=
@@ -1283,56 +1461,58 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                               : "bg-gray-100 hover:bg-gray-200"
                           }
                       `}
-                        >
-                          📎
-                        </div>
-
-                        {/* File count text (no inner borders now) */}
-                        {(attachedFiles.length > 0 ||
-                          uploadedFilesInfo.length > 0) && (
-                          <span
-                            className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setShowFilesDialog(true);
-                            }}
                           >
-                            {attachedFiles.length + uploadedFilesInfo.length}{" "}
-                            {attachedFiles.length + uploadedFilesInfo.length ===
-                            1
-                              ? "file attached"
-                              : "files attached"}
-                          </span>
-                        )}
-                      </div>
-                      {/* Tooltip for errors */}
-                      {fileErrorMessages.length > 0 && (
-                        <div className="absolute right-0 top-12 w-64 max-w-[16rem] text-red-500 text-xs rounded py-2 px-3 shadow-lg z-50 break-words whitespace-normal overflow-hidden">
-                          {fileErrorMessages.map((msg, idx) => (
-                            <div key={idx}>{msg}</div>
-                          ))}
+                            📎
+                          </div>
+
+                          {/* File count text (no inner borders now) */}
+                          {(attachedFiles.length > 0 ||
+                            uploadedFilesInfo.length > 0) && (
+                            <span
+                              className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowFilesDialog(true);
+                              }}
+                            >
+                              {attachedFiles.length + uploadedFilesInfo.length}{" "}
+                              {attachedFiles.length +
+                                uploadedFilesInfo.length ===
+                              1
+                                ? "file attached"
+                                : "files attached"}
+                            </span>
+                          )}
                         </div>
-                      )}
-                      {/* Tooltip */}
-                      <div className="absolute -top-20 left-1 w-52 bg-gray-700 text-white text-xs rounded py-2 px-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 shadow-lg">
-                        {attachedFiles.length + uploadedFilesInfo.length >=
-                        MAX_FILES ? (
-                          <>
-                            <strong>You already attached 5 files.</strong>
-                            <br />
-                            Please remove a file to attach more.
-                          </>
-                        ) : (
-                          <>
-                            <strong>Attach Files</strong>
-                            <br />
-                            Up to <b>5 files</b> allowed.
-                            <br />
-                            Accepted: PNG, JPG, JPEG, PDF
-                            <br />
-                            Max size: <b>2MB each</b>
-                          </>
+                        {/* Tooltip for errors */}
+                        {fileErrorMessages.length > 0 && (
+                          <div className="absolute right-0 top-12 w-64 max-w-[16rem] text-red-500 text-xs rounded py-2 px-3 shadow-lg z-50 break-words whitespace-normal overflow-hidden">
+                            {fileErrorMessages.map((msg, idx) => (
+                              <div key={idx}>{msg}</div>
+                            ))}
+                          </div>
                         )}
+                        {/* Tooltip */}
+                        <div className="absolute -top-20 left-1 w-52 bg-gray-700 text-white text-xs rounded py-2 px-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 shadow-lg">
+                          {attachedFiles.length + uploadedFilesInfo.length >=
+                          MAX_FILES ? (
+                            <>
+                              <strong>You already attached 5 files.</strong>
+                              <br />
+                              Please remove a file to attach more.
+                            </>
+                          ) : (
+                            <>
+                              <strong>Attach Files</strong>
+                              <br />
+                              Up to <b>5 files</b> allowed.
+                              <br />
+                              Accepted: PNG, JPG, JPEG, PDF
+                              <br />
+                              Max size: <b>2MB each</b>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1684,7 +1864,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       <HiChevronDown className="h-5 w-5 text-gray-600" />
                     </div>
                   </div>
-                  {formData.request_type === "INPERSON" && (
+                  {formData.request_type === "IN_PERSON" && (
                     <div
                       className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
                       data-testid="parentDivTwo"
@@ -1741,6 +1921,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       <input
                         id="calamity"
                         type="checkbox"
+                        checked={formData.is_calamity}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            is_calamity: e.target.checked,
+                          })
+                        }
                         name="calamity"
                         className="w-5 h-5 inset-y-10 right-0 flex items-center pr-2"
                       />

@@ -5,14 +5,17 @@ export const getMyRequests = async () => {
   const response = await api.get(endpoints.GET_MY_REQUESTS);
   return response.data;
 };
+
 export const getOthersRequests = async () => {
   const response = await api.get(endpoints.GET_OTHERS_REQUESTS);
   return response.data;
 };
+
 export const getManagedRequests = async () => {
   const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
   return response.data;
 };
+
 export const getComments = async () => {
   const response = await api.get(endpoints.GET_REQUEST_COMMENTS);
   return response.data;
@@ -55,6 +58,16 @@ export const getCategories = async () => {
 
 export const getEnums = async () => {
   const response = await api.get(endpoints.GET_ENUMS);
+  return response.data;
+};
+
+export const getMetadata = async () => {
+  const response = await api.get(endpoints.GET_METADATA);
+  return response.data;
+};
+
+export const getEnvironment = async () => {
+  const response = await api.get(endpoints.GET_ENVIRONMENT);
   return response.data;
 };
 
