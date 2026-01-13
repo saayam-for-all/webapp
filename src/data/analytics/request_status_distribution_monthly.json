@@ -1,0 +1,197 @@
+[
+  {
+    "month": "2024-12",
+    "status": "CREATED",
+    "requestCount": 6
+  },
+  {
+    "month": "2024-12",
+    "status": "IN_PROGRESS",
+    "requestCount": 16
+  },
+  {
+    "month": "2024-12",
+    "status": "RESOLVED",
+    "requestCount": 6
+  },
+  {
+    "month": "2025-01",
+    "status": "CREATED",
+    "requestCount": 8
+  },
+  {
+    "month": "2025-01",
+    "status": "IN_PROGRESS",
+    "requestCount": 14
+  },
+  {
+    "month": "2025-01",
+    "status": "RESOLVED",
+    "requestCount": 11
+  },
+  {
+    "month": "2025-02",
+    "status": "CREATED",
+    "requestCount": 11
+  },
+  {
+    "month": "2025-02",
+    "status": "IN_PROGRESS",
+    "requestCount": 23
+  },
+  {
+    "month": "2025-02",
+    "status": "RESOLVED",
+    "requestCount": 9
+  },
+  {
+    "month": "2025-03",
+    "status": "CREATED",
+    "requestCount": 10
+  },
+  {
+    "month": "2025-03",
+    "status": "IN_PROGRESS",
+    "requestCount": 21
+  },
+  {
+    "month": "2025-03",
+    "status": "RESOLVED",
+    "requestCount": 11
+  },
+  {
+    "month": "2025-04",
+    "status": "CREATED",
+    "requestCount": 10
+  },
+  {
+    "month": "2025-04",
+    "status": "IN_PROGRESS",
+    "requestCount": 16
+  },
+  {
+    "month": "2025-04",
+    "status": "RESOLVED",
+    "requestCount": 8
+  },
+  {
+    "month": "2025-05",
+    "status": "CREATED",
+    "requestCount": 9
+  },
+  {
+    "month": "2025-05",
+    "status": "IN_PROGRESS",
+    "requestCount": 24
+  },
+  {
+    "month": "2025-05",
+    "status": "RESOLVED",
+    "requestCount": 12
+  },
+  {
+    "month": "2025-06",
+    "status": "CREATED",
+    "requestCount": 13
+  },
+  {
+    "month": "2025-06",
+    "status": "IN_PROGRESS",
+    "requestCount": 18
+  },
+  {
+    "month": "2025-06",
+    "status": "RESOLVED",
+    "requestCount": 11
+  },
+  {
+    "month": "2025-07",
+    "status": "CREATED",
+    "requestCount": 13
+  },
+  {
+    "month": "2025-07",
+    "status": "IN_PROGRESS",
+    "requestCount": 18
+  },
+  {
+    "month": "2025-07",
+    "status": "RESOLVED",
+    "requestCount": 12
+  },
+  {
+    "month": "2025-08",
+    "status": "CREATED",
+    "requestCount": 14
+  },
+  {
+    "month": "2025-08",
+    "status": "IN_PROGRESS",
+    "requestCount": 19
+  },
+  {
+    "month": "2025-08",
+    "status": "RESOLVED",
+    "requestCount": 8
+  },
+  {
+    "month": "2025-09",
+    "status": "CREATED",
+    "requestCount": 14
+  },
+  {
+    "month": "2025-09",
+    "status": "IN_PROGRESS",
+    "requestCount": 22
+  },
+  {
+    "month": "2025-09",
+    "status": "RESOLVED",
+    "requestCount": 5
+  },
+  {
+    "month": "2025-10",
+    "status": "CREATED",
+    "requestCount": 12
+  },
+  {
+    "month": "2025-10",
+    "status": "IN_PROGRESS",
+    "requestCount": 23
+  },
+  {
+    "month": "2025-10",
+    "status": "RESOLVED",
+    "requestCount": 7
+  },
+  {
+    "month": "2025-11",
+    "status": "CREATED",
+    "requestCount": 12
+  },
+  {
+    "month": "2025-11",
+    "status": "IN_PROGRESS",
+    "requestCount": 27
+  },
+  {
+    "month": "2025-11",
+    "status": "RESOLVED",
+    "requestCount": 6
+  },
+  {
+    "month": "2025-12",
+    "status": "CREATED",
+    "requestCount": 1
+  },
+  {
+    "month": "2025-12",
+    "status": "IN_PROGRESS",
+    "requestCount": 15
+  },
+  {
+    "month": "2025-12",
+    "status": "RESOLVED",
+    "requestCount": 5
+  }
+]
