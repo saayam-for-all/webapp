@@ -30,8 +30,7 @@ import {
   getStatusOptions,
   getPriorityOptions,
   getTypeOptions,
-  getCategoryOptions,
-  flattenCategories,
+  getCategoriesFromStorage,
   normalizeTypeValue,
   normalizeStatusValue,
   normalizePriorityValue,
@@ -59,11 +58,7 @@ const Dashboard = ({ userRole }) => {
     direction: "descending",
   });
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState({
-    CREATED: true,
-    MATCHING_VOLUNTEER: true,
-    MANAGED: true,
-  });
+  const [statusFilter, setStatusFilter] = useState({});
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
@@ -181,34 +176,14 @@ const Dashboard = ({ userRole }) => {
     getAllRequests(activeTab);
   }, [activeTab]);
 
-  const allCategories = {
-    All: true,
-    Logistics: true,
-    Maintenance: true,
-    Education: true,
-    Electronics: true,
-    Health: true,
-    Essentials: true,
-    Childcare: true,
-    Pets: true,
-    Shopping: true,
-    Charity: true,
-    Events: true,
-    Marketing: true,
-    Administration: true,
-    Research: true,
-  };
-
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     if (tab === "analytics") setAnalyticsSubtab("Infrastructure");
     setCurrentPage(1);
-    setStatusFilter({
-      CREATED: true,
-      MATCHING_VOLUNTEER: true,
-      MANAGED: true,
-    });
-    setCategoryFilter(allCategories);
+    setStatusFilter({});
+    // DON'T reset category filter when changing tabs
+    // This was causing issues where API categories didn't match data categories
+    // Keep the existing filter state or leave it empty to show all data
   };
 
   const handleDashboardChange = (newDashboard) => {
@@ -285,16 +260,18 @@ const Dashboard = ({ userRole }) => {
     // Get status options from Enums API (with translations)
     const enumStatuses = getStatusOptions(t);
 
+    // Deduplicate enum statuses by key to prevent duplicates
+    const statusMap = new Map();
+    enumStatuses.forEach((status) => {
+      if (!statusMap.has(status.key)) {
+        statusMap.set(status.key, status);
+      }
+    });
+
     // Also get statuses from current data for backward compatibility
     const dataStatuses = [
       ...new Set((data?.body || []).map((r) => r.status).filter(Boolean)),
     ];
-
-    // Combine enum statuses with any additional statuses from data
-    const statusMap = new Map();
-    enumStatuses.forEach((status) => {
-      statusMap.set(status.key, status);
-    });
 
     // Add any data statuses not in enums
     dataStatuses.forEach((status) => {
@@ -312,23 +289,74 @@ const Dashboard = ({ userRole }) => {
   }, [data, t]);
 
   const categoryOptions = useMemo(() => {
-    // Get categories from Categories API (with translations)
-    const apiCategories = getCategoryOptions(t);
+    // Get categories from Categories API with hierarchical structure
+    const categories = getCategoriesFromStorage();
 
-    if (apiCategories.length > 0) {
-      // Flatten categories to include subcategories
-      return flattenCategories(apiCategories, t);
+    // Get all category names from actual data
+    const dataCategoryNames = new Set(
+      (data?.body || []).map((r) => r.category).filter(Boolean),
+    );
+
+    if (categories && Array.isArray(categories) && dataCategoryNames.size > 0) {
+      // Check if API categories match the data categories
+      const getAllCategoryNames = (cats) => {
+        const names = [];
+        cats.forEach((cat) => {
+          names.push(cat.catName);
+          if (cat.subCategories && cat.subCategories.length > 0) {
+            names.push(...getAllCategoryNames(cat.subCategories));
+          }
+        });
+        return names;
+      };
+
+      const apiCategoryNames = getAllCategoryNames(categories);
+      const matchCount = apiCategoryNames.filter((apiCat) =>
+        dataCategoryNames.has(apiCat),
+      ).length;
+
+      // Only use API categories if at least 50% match the data
+      // This ensures we use API categories for real data, but fall back for mock data
+      if (
+        matchCount >=
+        Math.min(dataCategoryNames.size, apiCategoryNames.length) * 0.5
+      ) {
+        const transformCategories = (cats) => {
+          return cats.map((cat) => ({
+            category: cat.catName,
+            label: t(
+              `categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`,
+              cat.catName,
+            ),
+            subCategories:
+              cat.subCategories && cat.subCategories.length > 0
+                ? transformCategories(cat.subCategories)
+                : undefined,
+          }));
+        };
+
+        return transformCategories(categories);
+      }
+
+      // API categories don't match data - use data categories instead
+      console.warn(
+        "API categories don't match data categories (matched " +
+          matchCount +
+          " out of " +
+          dataCategoryNames.size +
+          "), using data categories instead",
+      );
     }
 
-    // Fallback to hardcoded categories if API data not available
+    // Fallback: use categories from actual data
     const backendValues = new Set(
       (data?.body || []).map((r) => r.category).filter(Boolean),
     );
-    const defaultValues = Object.keys(allCategories).filter((c) => c !== "All");
-    const combined = Array.from(new Set([...defaultValues, ...backendValues]));
-    return combined
-      .sort()
-      .map((cat) => ({ id: cat, name: cat, label: cat, depth: 0 }));
+    const combined = Array.from(backendValues);
+    return combined.sort().map((cat) => ({
+      category: cat,
+      label: cat,
+    }));
   }, [data, t]);
 
   const typeOptions = useMemo(() => {
@@ -355,6 +383,56 @@ const Dashboard = ({ userRole }) => {
     return normalized.length ? normalized : ["Yes", "None"];
   }, [data]);
 
+  // Helper function to get checked status for hierarchical categories
+  const getCategoryCheckedStatus = (categoryPath, filterState) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = filterState || categoryFilter || {};
+
+    for (let key of keys) {
+      if (!currentLevel[key]) return false;
+      currentLevel = currentLevel[key];
+    }
+
+    return currentLevel.checked === true;
+  };
+
+  // Helper function to get all selected category names (including children of selected parents)
+  const getSelectedCategoryNames = () => {
+    const selectedNames = [];
+
+    const collectNames = (cats, parentPath = "", parentSelected = false) => {
+      cats.forEach((cat) => {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+        const isSelected = getCategoryCheckedStatus(
+          currentPath,
+          categoryFilter,
+        );
+
+        // If this category is selected OR its parent is selected, include it
+        if (isSelected || parentSelected) {
+          selectedNames.push(categoryName);
+
+          // If parent is selected, include all children
+          if (cat.subCategories) {
+            collectNames(cat.subCategories, currentPath, true);
+          }
+        } else if (cat.subCategories) {
+          // Parent not selected, but check children
+          collectNames(cat.subCategories, currentPath, false);
+        }
+      });
+    };
+
+    // Guard check to ensure categoryOptions exists before using it
+    if (categoryOptions && categoryOptions.length > 0) {
+      collectNames(categoryOptions);
+    }
+    return selectedNames;
+  };
+
   const filteredRequests = (requests) => {
     return requests.filter((request) => {
       // Normalize values for comparison with enum keys
@@ -365,16 +443,28 @@ const Dashboard = ({ userRole }) => {
         statusFilter[statusNormalized] ||
         statusFilter[request.status]; // Fallback for non-normalized
 
-      const categoryActive =
-        Object.keys(categoryFilter).length === 0 ||
-        Object.values(categoryFilter).every((v) => !v) ||
-        categoryFilter[request.category];
+      // Check if request category matches any selected category
+      const categoryMatches = () => {
+        if (Object.keys(categoryFilter).length === 0) return true;
+
+        const requestCategory = request.category;
+        if (!requestCategory) return false;
+
+        // Get all selected category names (including children of selected parents)
+        const selectedCategoryNames = getSelectedCategoryNames();
+
+        // Check if request category is in the selected list
+        return selectedCategoryNames.includes(requestCategory);
+      };
+
+      const categoryActive = categoryMatches();
 
       const typeNormalized = normalizeTypeValue(request.type);
       const typeActive =
         Object.keys(typeFilter).length === 0 ||
         Object.values(typeFilter).every((v) => !v) ||
-        (typeNormalized && typeFilter[typeNormalized]);
+        typeFilter[typeNormalized] ||
+        typeFilter[request.type]; // Fallback for non-normalized
 
       const priorityNormalized = normalizePriorityValue(request.priority);
       const priorityActive =
@@ -393,14 +483,14 @@ const Dashboard = ({ userRole }) => {
       const calamityActive =
         Object.keys(calamityFilter).length === 0 ||
         Object.values(calamityFilter).every((v) => !v) ||
-        calamityFilter[calamityValue];
+        calamityFilter[calamityValue] ||
+        calamityFilter[request.calamity]; // Fallback for non-normalized
 
       const volunteerTypeActive =
         selectedDashboard !== DASHBOARDS.VOLUNTEER ||
         activeTab !== "managedRequests" ||
         Object.keys(volunteerTypeFilter).length === 0 ||
         Object.values(volunteerTypeFilter).every((v) => !v) ||
-        Object.values(volunteerTypeFilter).every(Boolean) ||
         volunteerTypeFilter[request.volunteerType];
 
       const matchesSearch = Object.keys(request).some((key) =>
@@ -419,10 +509,7 @@ const Dashboard = ({ userRole }) => {
     });
   };
 
-  const [typeFilter, setTypeFilter] = useState({
-    IN_PERSON: true,
-    REMOTE: true,
-  });
+  const [typeFilter, setTypeFilter] = useState({});
 
   const [priorityFilter, setPriorityFilter] = useState({});
   const [calamityFilter, setCalamityFilter] = useState({});
@@ -430,26 +517,62 @@ const Dashboard = ({ userRole }) => {
   const [isPriorityDropdownOpen, setIsPriorityDropdownOpen] = useState(false);
   const [isCalamityDropdownOpen, setIsCalamityDropdownOpen] = useState(false);
 
-  const [volunteerTypeFilter, setVolunteerTypeFilter] = useState({
-    "Lead Volunteer": true,
-    "Helping Volunteer": true,
-  });
+  const [volunteerTypeFilter, setVolunteerTypeFilter] = useState({});
   const [isVolunteerTypeDropdownOpen, setIsVolunteerTypeDropdownOpen] =
     useState(false);
 
-  const toggleVolunteerTypeDropdown = () =>
-    setIsVolunteerTypeDropdownOpen(!isVolunteerTypeDropdownOpen);
+  // Generic dropdown toggle handler (eliminates code duplication)
+  const createToggleHandler = (setter, currentValue) => () =>
+    setter(!currentValue);
 
-  const handleVolunteerTypeBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsVolunteerTypeDropdownOpen(false);
+  // Generic blur handler for closing dropdowns (eliminates code duplication)
+  const createBlurHandler = (setter) => (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) setter(false);
   };
 
-  const toggleTypeDropdown = () => setIsTypeDropdownOpen(!isTypeDropdownOpen);
-  const togglePriorityDropdown = () =>
-    setIsPriorityDropdownOpen(!isPriorityDropdownOpen);
-  const toggleCalamityDropdown = () =>
-    setIsCalamityDropdownOpen(!isCalamityDropdownOpen);
+  const toggleVolunteerTypeDropdown = createToggleHandler(
+    setIsVolunteerTypeDropdownOpen,
+    isVolunteerTypeDropdownOpen,
+  );
+  const toggleTypeDropdown = createToggleHandler(
+    setIsTypeDropdownOpen,
+    isTypeDropdownOpen,
+  );
+  const togglePriorityDropdown = createToggleHandler(
+    setIsPriorityDropdownOpen,
+    isPriorityDropdownOpen,
+  );
+  const toggleCalamityDropdown = createToggleHandler(
+    setIsCalamityDropdownOpen,
+    isCalamityDropdownOpen,
+  );
+  const toggleCategoryDropdown = createToggleHandler(
+    setIsCategoryDropdownOpen,
+    isCategoryDropdownOpen,
+  );
+  const toggleStatusDropdown = createToggleHandler(
+    setIsStatusDropdownOpen,
+    isStatusDropdownOpen,
+  );
+
+  const handleVolunteerTypeBlur = createBlurHandler(
+    setIsVolunteerTypeDropdownOpen,
+  );
+  const handleTypeBlur = createBlurHandler(setIsTypeDropdownOpen);
+  const handlePriorityBlur = createBlurHandler(setIsPriorityDropdownOpen);
+  const handleCalamityBlur = createBlurHandler(setIsCalamityDropdownOpen);
+  const handleFilterBlur = createBlurHandler(setIsCategoryDropdownOpen);
+  const handleStatusBlur = createBlurHandler(setIsStatusDropdownOpen);
+
+  // Helper function to get filter badge count (show count when items are selected)
+  const getFilterBadgeCount = (filterState, totalOptions) => {
+    const selectedCount = Object.values(filterState).filter(Boolean).length;
+    // Only show badge if at least one item is selected
+    if (selectedCount === 0) {
+      return null;
+    }
+    return selectedCount;
+  };
 
   const filteredData = useMemo(() => {
     return filteredRequests(sortedData);
@@ -464,6 +587,7 @@ const Dashboard = ({ userRole }) => {
     volunteerTypeFilter,
     selectedDashboard,
     activeTab,
+    categoryOptions,
   ]);
 
   const totalPages = (filteredData) => {
@@ -487,11 +611,19 @@ const Dashboard = ({ userRole }) => {
 
   const handleStatusChange = (statusKey) => {
     if (statusKey === "All") {
-      const allSelected = !Object.values(statusFilter).every(Boolean);
+      // Check if all items are currently selected
+      const allCurrentlySelected =
+        statusOptions.length > 0 &&
+        statusOptions.every((s) => statusFilter[s.key]);
+
       const updatedFilter = {};
-      statusOptions.forEach((s) => {
-        updatedFilter[s.key] = allSelected;
-      });
+      if (!allCurrentlySelected) {
+        // If not all selected, select all
+        statusOptions.forEach((s) => {
+          updatedFilter[s.key] = true;
+        });
+      }
+      // If all selected, updatedFilter stays empty (deselect all)
       setStatusFilter(updatedFilter);
     } else {
       setStatusFilter((prev) => ({
@@ -501,36 +633,116 @@ const Dashboard = ({ userRole }) => {
     }
   };
 
-  const handleCategoryChange = (category) => {
-    setCategoryFilter((prev) => {
-      const newFilter = { ...prev };
-      if (category === "All") {
-        if (
-          Object.keys(newFilter).length === Object.keys(allCategories).length
-        ) {
-          return {};
+  // Helper function to set checkbox state for hierarchical categories
+  const setCategoryCheckboxState = (draft, categoryPath, checked) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = draft;
+
+    keys.forEach((key, index) => {
+      if (index === keys.length - 1) {
+        if (checked) {
+          currentLevel[key] = { checked: true };
         } else {
-          return allCategories;
+          delete currentLevel[key];
         }
       } else {
-        if (newFilter[category]) {
-          delete newFilter[category];
-        } else {
-          newFilter[category] = true;
+        if (!currentLevel[key]) {
+          currentLevel[key] = {};
+        }
+        currentLevel = currentLevel[key];
+      }
+    });
+  };
+
+  // Helper function to check if all categories are selected
+  const areAllCategoriesSelected = (categories, filterState) => {
+    const checkAllSelected = (cats, parentPath = "") => {
+      for (const cat of cats) {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+
+        if (!getCategoryCheckedStatus(currentPath, filterState)) {
+          return false;
         }
 
-        if (
-          Object.keys(newFilter).length ===
-          Object.keys(allCategories).length - 1
-        ) {
-          newFilter["All"] = true;
+        if (cat.subCategories) {
+          if (!checkAllSelected(cat.subCategories, currentPath)) {
+            return false;
+          }
+        }
+      }
+      return true;
+    };
+
+    return checkAllSelected(categories);
+  };
+
+  // Helper function to select/deselect all categories
+  const setAllCategories = (categories, checked) => {
+    const newFilter = {};
+
+    const setAll = (cats, parentPath = "") => {
+      cats.forEach((cat) => {
+        const categoryName = typeof cat === "object" ? cat.category : cat;
+        const currentPath = parentPath
+          ? `${parentPath}.${categoryName}`
+          : categoryName;
+
+        if (checked) {
+          setCategoryCheckboxState(newFilter, currentPath, true);
+        }
+
+        if (cat.subCategories) {
+          setAll(cat.subCategories, currentPath);
+        }
+      });
+    };
+
+    setAll(categories);
+    return checked ? newFilter : {};
+  };
+
+  // Helper function to remove all child categories when parent is unchecked
+  const removeChildCategories = (filter, categoryPath) => {
+    const keys = categoryPath.split(".");
+    let currentLevel = filter;
+
+    // Navigate to the parent level
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!currentLevel[keys[i]]) return;
+      currentLevel = currentLevel[keys[i]];
+    }
+
+    // Remove the category and all its children
+    const lastKey = keys[keys.length - 1];
+    delete currentLevel[lastKey];
+  };
+
+  const handleCategoryChange = (categoryPath) => {
+    if (categoryPath === "All") {
+      const allSelected = areAllCategoriesSelected(
+        categoryOptions,
+        categoryFilter,
+      );
+      setCategoryFilter(setAllCategories(categoryOptions, !allSelected));
+    } else {
+      setCategoryFilter((prev) => {
+        const newFilter = JSON.parse(JSON.stringify(prev)); // Deep clone
+        const checkedStatus = getCategoryCheckedStatus(categoryPath, prev);
+
+        if (checkedStatus) {
+          // Unchecking - remove this category and all its children
+          removeChildCategories(newFilter, categoryPath);
         } else {
-          delete newFilter["All"];
+          // Checking - just set this category to checked
+          setCategoryCheckboxState(newFilter, categoryPath, true);
         }
 
         return newFilter;
-      }
-    });
+      });
+    }
   };
 
   const handleRowsPerPageChange = (rows) => {
@@ -538,12 +750,71 @@ const Dashboard = ({ userRole }) => {
     setCurrentPage(1);
   };
 
-  const toggleCategoryDropdown = () => {
-    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+  // Count selected categories (for badge display)
+  const getSelectedCategoryCount = () => {
+    let count = 0;
+    const countSelected = (obj) => {
+      for (const key in obj) {
+        if (obj[key].checked === true) {
+          count++;
+        } else if (typeof obj[key] === "object") {
+          countSelected(obj[key]);
+        }
+      }
+    };
+    countSelected(categoryFilter);
+    return count;
   };
 
-  const toggleStatusDropdown = () => {
-    setIsStatusDropdownOpen(!isStatusDropdownOpen);
+  // Recursive function to render cascading categories
+  const renderCategories = (categories, parentPath = "") => {
+    const sortedCategories = [...categories].sort((a, b) => {
+      const aName = typeof a === "object" ? a.category : a;
+      const bName = typeof b === "object" ? b.category : b;
+      return aName.localeCompare(bName);
+    });
+
+    return sortedCategories.map((cat, index) => {
+      const isObject = typeof cat === "object";
+      const categoryName = isObject ? cat.category : cat;
+      const categoryLabel = isObject ? cat.label : cat;
+      const hasSubCategories = isObject && cat.subCategories;
+
+      // Create a unique path for each category
+      const currentPath = parentPath
+        ? `${parentPath}.${categoryName}`
+        : categoryName;
+
+      return (
+        <div key={index} className={parentPath ? "ml-4" : ""}>
+          <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
+            <input
+              type="checkbox"
+              checked={getCategoryCheckedStatus(currentPath, categoryFilter)}
+              onChange={() => handleCategoryChange(currentPath)}
+              className="cursor-pointer"
+            />
+            <span
+              className={
+                getCategoryCheckedStatus(currentPath, categoryFilter)
+                  ? "font-semibold"
+                  : ""
+              }
+            >
+              {categoryLabel}
+            </span>
+          </label>
+
+          {/* Recursively render subcategories if they exist and parent is checked */}
+          {hasSubCategories &&
+            getCategoryCheckedStatus(currentPath, categoryFilter) && (
+              <div className="ml-3">
+                {renderCategories(cat.subCategories, currentPath)}
+              </div>
+            )}
+        </div>
+      );
+    });
   };
 
   const [hasAddress, setHasAddress] = useState(
@@ -555,32 +826,24 @@ const Dashboard = ({ userRole }) => {
   }, [location]);
 
   useEffect(() => {
-    if (Object.keys(categoryFilter).length === 0) {
-      setCategoryFilter(allCategories);
+    // DON'T auto-initialize category filter
+    // Keep it empty so all data shows by default
+    // This avoids issues when API categories don't match data categories
+    // Users can manually select categories if they want to filter
+    // The commented code below was causing issues where API categories
+    // didn't match mock data categories, resulting in no data showing
+    /*
+    if (
+      Object.keys(categoryFilter).length === 0 &&
+      categoryOptions.length > 0
+    ) {
+      // Initialize with all categories selected
+      const allCategoriesFilter = setAllCategories(categoryOptions, true);
+      setCategoryFilter(allCategoriesFilter);
     }
-  }, []);
-
-  const handleStatusBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsStatusDropdownOpen(false);
-  };
-  const handleFilterBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsCategoryDropdownOpen(false);
-  };
-
-  const handleTypeBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsTypeDropdownOpen(false);
-  };
-  const handlePriorityBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsPriorityDropdownOpen(false);
-  };
-  const handleCalamityBlur = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget))
-      setIsCalamityDropdownOpen(false);
-  };
+    */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryOptions]);
 
   const [showAddressMsg, setShowAddressMsg] = useState(false);
 
@@ -626,47 +889,34 @@ const Dashboard = ({ userRole }) => {
             onClick={toggleCategoryDropdown}
             tabIndex={0}
           >
-            <button className="py-2 px-4 p-2 font-light text-gray-600">
+            <button className="py-2 px-4 p-2 font-light text-gray-600 flex items-center gap-2">
               {t("FILTER_BY")}
-              {Object.keys(categoryFilter).length > 0 &&
-                Object.keys(categoryFilter).length !==
-                  categoryOptions.length && (
-                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
-                    {Object.keys(categoryFilter).length}
-                  </span>
-                )}
+              {getSelectedCategoryCount() > 0 && (
+                <span className="bg-blue-500 text-white px-2 py-0.5 rounded-full text-sm font-semibold">
+                  {getSelectedCategoryCount()}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isCategoryDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 max-h-96 overflow-y-auto min-w-64">
-              <label className="block">
+              <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                 <input
                   type="checkbox"
                   checked={
                     categoryOptions.length > 0 &&
-                    Object.keys(categoryFilter).length ===
-                      categoryOptions.length
+                    areAllCategoriesSelected(categoryOptions, categoryFilter)
                   }
                   onChange={() => handleCategoryChange("All")}
+                  className="cursor-pointer"
                 />
-                {t("All Categories")}
+                <span className="font-semibold">{t("All Categories")}</span>
               </label>
-              {categoryOptions.map((category) => (
-                <label
-                  key={category.id || category.name}
-                  className="block"
-                  style={{ paddingLeft: `${(category.depth || 0) * 20}px` }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={categoryFilter[category.name] || false}
-                    onChange={() => handleCategoryChange(category.name)}
-                  />
-                  {category.depth > 0 && <span className="mr-1">↳</span>}
-                  {category.label}
-                </label>
-              ))}
+              <div className="mt-2">
+                {categoryOptions.length > 0 &&
+                  renderCategories(categoryOptions)}
+              </div>
             </div>
           )}
         </div>
@@ -678,33 +928,40 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Status")}
-              {Object.values(statusFilter).filter(Boolean).length > 0 &&
-                !Object.values(statusFilter).every(Boolean) && (
-                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
-                    {Object.values(statusFilter).filter(Boolean).length}
-                  </span>
-                )}
+              {getFilterBadgeCount(statusFilter, statusOptions.length) && (
+                <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {getFilterBadgeCount(statusFilter, statusOptions.length)}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isStatusDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
-              <label className="block">
+              <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={Object.values(statusFilter).every(Boolean)}
+                  checked={
+                    statusOptions.length > 0 &&
+                    statusOptions.every((s) => statusFilter[s.key])
+                  }
                   onChange={() => handleStatusChange("All")}
+                  className="cursor-pointer"
                 />
-                {t("All")}
+                <span>{t("All")}</span>
               </label>
               {statusOptions.map((status) => (
-                <label key={status.key} className="block">
+                <label
+                  key={status.key}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={statusFilter[status.key] || false}
                     onChange={() => handleStatusChange(status.key)}
+                    className="cursor-pointer"
                   />
-                  {status.label}
+                  <span>{status.label}</span>
                 </label>
               ))}
             </div>
@@ -719,20 +976,21 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Type")}
-              {Object.values(typeFilter).filter(Boolean).length > 0 &&
-                Object.values(typeFilter).filter(Boolean).length !==
-                  typeOptions.length && (
-                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
-                    {Object.values(typeFilter).filter(Boolean).length}
-                  </span>
-                )}
+              {getFilterBadgeCount(typeFilter, typeOptions.length) && (
+                <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {getFilterBadgeCount(typeFilter, typeOptions.length)}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isTypeDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {typeOptions.map((type) => (
-                <label key={type.key} className="block">
+                <label
+                  key={type.key}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={typeFilter[type.key] || false}
@@ -742,8 +1000,9 @@ const Dashboard = ({ userRole }) => {
                         [type.key]: !prev[type.key],
                       }))
                     }
+                    className="cursor-pointer"
                   />
-                  {type.label}
+                  <span>{type.label}</span>
                 </label>
               ))}
             </div>
@@ -757,20 +1016,21 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Priority")}
-              {Object.values(priorityFilter).filter(Boolean).length > 0 &&
-                Object.values(priorityFilter).filter(Boolean).length !==
-                  priorityOptions.length && (
-                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
-                    {Object.values(priorityFilter).filter(Boolean).length}
-                  </span>
-                )}
+              {getFilterBadgeCount(priorityFilter, priorityOptions.length) && (
+                <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {getFilterBadgeCount(priorityFilter, priorityOptions.length)}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isPriorityDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {priorityOptions.map((priority) => (
-                <label key={priority.key} className="block">
+                <label
+                  key={priority.key}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={priorityFilter[priority.key] || false}
@@ -780,8 +1040,9 @@ const Dashboard = ({ userRole }) => {
                         [priority.key]: !prev[priority.key],
                       }))
                     }
+                    className="cursor-pointer"
                   />
-                  {priority.label}
+                  <span>{priority.label}</span>
                 </label>
               ))}
             </div>
@@ -795,20 +1056,21 @@ const Dashboard = ({ userRole }) => {
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
               {t("Calamity")}
-              {Object.values(calamityFilter).filter(Boolean).length > 0 &&
-                Object.values(calamityFilter).filter(Boolean).length !==
-                  calamityOptions.length && (
-                  <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
-                    {Object.values(calamityFilter).filter(Boolean).length}
-                  </span>
-                )}
+              {getFilterBadgeCount(calamityFilter, calamityOptions.length) && (
+                <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {getFilterBadgeCount(calamityFilter, calamityOptions.length)}
+                </span>
+              )}
             </button>
             <IoIosArrowDown className="m-2" />
           </div>
           {isCalamityDropdownOpen && (
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {calamityOptions.map((cal) => (
-                <label key={cal} className="block">
+                <label
+                  key={cal}
+                  className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={calamityFilter[cal] || false}
@@ -818,8 +1080,9 @@ const Dashboard = ({ userRole }) => {
                         [cal]: !prev[cal],
                       }))
                     }
+                    className="cursor-pointer"
                   />
-                  {cal}
+                  <span>{cal}</span>
                 </label>
               ))}
             </div>
@@ -839,22 +1102,17 @@ const Dashboard = ({ userRole }) => {
               >
                 <button className="py-2 px-4 p-2 font-light text-gray-600">
                   {t("Volunteer Type")}
-                  {Object.values(volunteerTypeFilter).filter(Boolean).length >
-                    0 &&
-                    !Object.values(volunteerTypeFilter).every(Boolean) && (
-                      <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
-                        {
-                          Object.values(volunteerTypeFilter).filter(Boolean)
-                            .length
-                        }
-                      </span>
-                    )}
+                  {getFilterBadgeCount(volunteerTypeFilter, 2) && (
+                    <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
+                      {getFilterBadgeCount(volunteerTypeFilter, 2)}
+                    </span>
+                  )}
                 </button>
                 <IoIosArrowDown className="m-2" />
               </div>
               {isVolunteerTypeDropdownOpen && (
                 <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
-                  <label className="block">
+                  <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                     <input
                       type="checkbox"
                       checked={volunteerTypeFilter["Lead Volunteer"] || false}
@@ -864,10 +1122,11 @@ const Dashboard = ({ userRole }) => {
                           "Lead Volunteer": !prev["Lead Volunteer"],
                         }))
                       }
+                      className="cursor-pointer"
                     />
-                    Lead Volunteer
+                    <span>Lead Volunteer</span>
                   </label>
-                  <label className="block">
+                  <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                     <input
                       type="checkbox"
                       checked={
@@ -879,8 +1138,9 @@ const Dashboard = ({ userRole }) => {
                           "Helping Volunteer": !prev["Helping Volunteer"],
                         }))
                       }
+                      className="cursor-pointer"
                     />
-                    Helping Volunteer
+                    <span>Helping Volunteer</span>
                   </label>
                 </div>
               )}

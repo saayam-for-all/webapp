@@ -15,6 +15,7 @@ export const getManagedRequests = async () => {
   const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
   return response.data;
 };
+
 export const getComments = async () => {
   const response = await api.get(endpoints.GET_REQUEST_COMMENTS);
   return response.data;
@@ -85,4 +86,146 @@ export const uploadRequestFile = async (file) => {
   );
 
   return response.data;
+};
+
+/**
+ * Upload audio and get transcription
+ * @param {string} audioContent - Base64 encoded audio string
+ * @param {number} sampleRate - Sample rate in Hz (default: 16000)
+ * @param {string} encoding - Audio encoding format (default: "WEBM_OPUS")
+ * @returns {Promise<Object>} - Returns { transcriptionText: string, requestId: string }
+ */
+export const uploadAudio = async (
+  audioContent,
+  sampleRate = 16000,
+  encoding = "WEBM_OPUS",
+) => {
+  const requestBody = {
+    audioContent: audioContent,
+    sampleRate: sampleRate,
+    encoding: encoding,
+  };
+
+  console.log("Uploading audio - Request body format:", {
+    audioContent: audioContent.substring(0, 50) + "... (truncated)",
+    audioContentLength: audioContent.length,
+    sampleRate: sampleRate,
+    encoding: encoding,
+  });
+
+  const response = await api.post(endpoints.UPLOAD_AUDIO, requestBody);
+
+  console.log("Audio upload response:", response.data);
+  console.log("Response structure:", {
+    hasTranscriptionText: "transcriptionText" in response.data,
+    hasRequestId: "requestId" in response.data,
+    transcriptionText: response.data.transcriptionText,
+    requestId: response.data.requestId,
+  });
+
+  return response.data;
+};
+
+/**
+ * Speech detection and transcription API (C2)
+ * Detects language automatically and transcribes audio
+ * @param {string} audioContent - Base64 encoded audio string (WEBM OPUS format)
+ * @returns {Promise<Object>} - Returns { transcriptionText: string, requestId: string, detectedLanguage?: string }
+ */
+export const speechDetectC2 = async (audioContent) => {
+  const requestBody = {
+    audioContent: audioContent,
+  };
+
+  console.log("Calling speechDetectC2 API - Request body format:", {
+    audioContent: audioContent.substring(0, 50) + "... (truncated)",
+    audioContentLength: audioContent.length,
+  });
+
+  const response = await api.post(endpoints.SPEECH_DETECT_C2, requestBody);
+
+  console.log("SpeechDetectC2 API response:", response.data);
+  console.log("Response structure:", {
+    hasTranscriptionText: "transcriptionText" in response.data,
+    hasRequestId: "requestId" in response.data,
+    hasDetectedLanguage: "detectedLanguage" in response.data,
+    transcriptionText: response.data.transcriptionText,
+    requestId: response.data.requestId,
+    detectedLanguage: response.data.detectedLanguage,
+  });
+
+  return response.data;
+};
+
+/**
+ * Speech detection and transcription API (V2)
+ * Detects language automatically and transcribes audio
+ * @param {string} audioContent - Base64 encoded audio string
+ * @returns {Promise<Object>} - Returns { transcriptionText: string, requestId: string, detectedLanguage?: string }
+ */
+export const speechDetectV2 = async (audioContent) => {
+  const requestBody = {
+    audioContent: audioContent,
+  };
+
+  console.log("Calling speechDetectV2 API - Request body format:", {
+    audioContent: audioContent.substring(0, 50) + "... (truncated)",
+    audioContentLength: audioContent.length,
+  });
+
+  const response = await api.post(endpoints.SPEECH_DETECT_V2, requestBody);
+
+  console.log("SpeechDetectV2 API response:", response.data);
+
+  // API returns an array of objects: [{ transcript: "...", confidence: ..., detected_language: "..." }]
+  // Or may return a single object with transcriptionText/transcript field
+  let transcript = "";
+  let detectedLanguage = null;
+  let requestId = null;
+
+  // Check if response is an array
+  if (Array.isArray(response.data) && response.data.length > 0) {
+    // Extract from first element of array
+    const firstResult = response.data[0];
+    transcript =
+      firstResult.transcript ||
+      firstResult.transcriptionText ||
+      firstResult.transcription_text ||
+      "";
+    detectedLanguage =
+      firstResult.detected_language || firstResult.detectedLanguage || null;
+    requestId = firstResult.requestId || firstResult.request_id || null;
+  } else if (response.data && typeof response.data === "object") {
+    // Handle single object response
+    transcript =
+      response.data.transcript ||
+      response.data.transcriptionText ||
+      response.data.transcription_text ||
+      "";
+    detectedLanguage =
+      response.data.detected_language || response.data.detectedLanguage || null;
+    requestId = response.data.requestId || response.data.request_id || null;
+  }
+
+  const normalizedResponse = {
+    transcriptionText: transcript,
+    requestId: requestId,
+    detectedLanguage: detectedLanguage,
+  };
+
+  console.log("Response structure:", {
+    isArray: Array.isArray(response.data),
+    arrayLength: Array.isArray(response.data) ? response.data.length : 0,
+    hasTranscriptionText: !!normalizedResponse.transcriptionText,
+    hasRequestId: !!normalizedResponse.requestId,
+    hasDetectedLanguage: !!normalizedResponse.detectedLanguage,
+    transcriptionText: normalizedResponse.transcriptionText,
+    requestId: normalizedResponse.requestId,
+    detectedLanguage: normalizedResponse.detectedLanguage,
+  });
+
+  console.log("Detected Language:", normalizedResponse.detectedLanguage);
+  console.log("Transcription Text:", normalizedResponse.transcriptionText);
+
+  return normalizedResponse;
 };

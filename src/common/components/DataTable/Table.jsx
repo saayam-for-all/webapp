@@ -100,29 +100,49 @@ const Table = ({
             className="bg-white divide-y divide-gray-200 "
             data-testid="table-body"
           >
-            {paginatedRequests.map((request, rowIndex) => (
-              <tr key={rowIndex}>
-                {headers.map((header, colIndex) => (
-                  <td
-                    key={colIndex}
-                    className="px-6 py-2"
-                    data-testid="map-data-one"
-                  >
-                    {header === "requestId" ? (
-                      <Link
-                        to={getLinkPath(request, header)}
-                        className="text-indigo-600 hover:text-indigo-900"
-                        state={getLinkState ? getLinkState(request) : {}}
-                      >
-                        {request[resolveKey(header)]}
-                      </Link>
-                    ) : (
-                      formatDateTime(request[header], header)
-                    )}
-                  </td>
-                ))}
+            {paginatedRequests.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={headers.length}
+                  className="px-6 py-8 text-center text-gray-500"
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="text-lg font-semibold mb-2">
+                      No requests found
+                    </p>
+                    <p className="text-sm">
+                      {rows.length === 0
+                        ? "There are no requests to display."
+                        : "Try adjusting your filters to see more results."}
+                    </p>
+                  </div>
+                </td>
               </tr>
-            ))}
+            ) : (
+              paginatedRequests.map((request, rowIndex) => (
+                <tr key={rowIndex}>
+                  {headers.map((header, colIndex) => (
+                    <td
+                      key={colIndex}
+                      className="px-6 py-2"
+                      data-testid="map-data-one"
+                    >
+                      {header === "requestId" ? (
+                        <Link
+                          to={getLinkPath(request, header)}
+                          className="text-indigo-600 hover:text-indigo-900"
+                          state={getLinkState ? getLinkState(request) : {}}
+                        >
+                          {request[resolveKey(header)]}
+                        </Link>
+                      ) : (
+                        formatDateTime(request[header], header)
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

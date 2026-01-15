@@ -55,25 +55,10 @@ jest.mock("react-select-country-list", () => {
 });
 
 // Icons -> buttons we can click
+// Icons (render simple elements, because the component wraps them in its own <button>)
 jest.mock("react-icons/fi", () => ({
-  FiPhoneCall: ({ onClick, className }) => (
-    <button
-      data-testid="phone-call-icon"
-      onClick={onClick}
-      className={className}
-    >
-      📞
-    </button>
-  ),
-  FiVideo: ({ onClick, className }) => (
-    <button
-      data-testid="video-call-icon"
-      onClick={onClick}
-      className={className}
-    >
-      📹
-    </button>
-  ),
+  FiPhoneCall: () => <span>📞</span>,
+  FiVideo: () => <span>📹</span>,
 }));
 
 // Phone codes used by component
