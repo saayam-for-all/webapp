@@ -30,16 +30,10 @@ import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
 import {
   uploadRequestFile,
-  speechDetectC2,
   speechDetectV2,
 } from "../../services/requestServices";
 import VoiceRecordingComponent from "../../common/components/VoiceRecordingComponent";
-import {
-  getTestText,
-  generateHelloAudio,
-  getTestBase64Audio,
-  blobToBase64,
-} from "../../services/audioServices";
+import { blobToBase64 } from "../../services/audioServices";
 import {
   Dialog,
   DialogActions,
@@ -243,10 +237,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   // Audio recording state
   const [audioUploadResult, setAudioUploadResult] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
-  // Test API state
-  const [testApiLoading, setTestApiLoading] = useState(false);
-  const [testApiResult, setTestApiResult] = useState(null);
-  const [testApiError, setTestApiError] = useState(null);
 
   // Restore request for edit
   useEffect(() => {
@@ -949,79 +939,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     return uploadedUrls;
   };
 
-  // ---------- TEST API FUNCTION ----------
-  const testAudioUploadAPI = async () => {
-    setTestApiLoading(true);
-    setTestApiResult(null);
-    setTestApiError(null);
-
-    try {
-      console.log("=== Testing SpeechDetectV2 API ===");
-      console.log("Loading base64 audio string from cb-base64-string.txt...");
-
-      // Get base64 audio string from file
-      const audioBase64 = await getTestBase64Audio();
-
-      console.log(
-        "✅ Base64 audio loaded. Base64 length:",
-        audioBase64.length,
-        "characters",
-      );
-      console.log("Sending to speechDetectV2 API with audioContent...");
-
-      // Send the base64 audio to the API (detects language and transcribes)
-      // The API expects { audioContent: "base64string" }
-      const response = await speechDetectV2(audioBase64);
-
-      console.log("API Response:", response);
-      setTestApiResult({
-        transcriptionText: response.transcriptionText || "",
-        requestId: response.requestId || null,
-        detectedLanguage: response.detectedLanguage || null,
-      });
-
-      setSnackbar({
-        open: true,
-        message: `API Test Successful! Request ID: ${response.requestId || "N/A"}`,
-        severity: "success",
-      });
-    } catch (error) {
-      console.error("API Test Error:", error);
-
-      // Check for CORS errors specifically
-      let errorMessage = error.message || "Unknown error";
-      if (
-        error.code === "ERR_NETWORK" ||
-        error.message?.includes("Network Error")
-      ) {
-        errorMessage =
-          "CORS Error: The API server is not allowing requests from this origin. Please contact the backend team to configure CORS headers for the v1/request/speechDetectV2 endpoint.";
-      } else if (error.response?.status === 403) {
-        errorMessage =
-          "Access Forbidden (403): The API server rejected the request. This may be a CORS configuration issue.";
-      } else if (error.response?.status) {
-        errorMessage = `API Error (${error.response.status}): ${error.response?.data?.message || error.message}`;
-      }
-
-      setTestApiError({
-        message: errorMessage,
-        status: error.response?.status,
-        data: error.response?.data,
-        isCorsError:
-          error.code === "ERR_NETWORK" ||
-          error.message?.includes("Network Error"),
-      });
-
-      setSnackbar({
-        open: true,
-        message: `API Test Failed: ${errorMessage}`,
-        severity: "error",
-      });
-    } finally {
-      setTestApiLoading(false);
-    }
-  };
-
   // ---------- SUBMIT HANDLER (modified to upload files before creating request) ----------
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -1246,86 +1163,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             <span className="text-2xl mr-2">&lt;</span>{" "}
             {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
           </button>
-
-          {/* Test API Button - FOR TESTING ONLY */}
-          <button
-            type="button"
-            onClick={testAudioUploadAPI}
-            disabled={testApiLoading}
-            className="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm font-medium"
-          >
-            {testApiLoading ? "Testing..." : "Test Audio API"}
-          </button>
         </div>
 
-        {/* Test Results Display */}
-        {testApiResult && (
-          <div className="w-full max-w-2xl mx-auto px-4 mt-2 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <h3 className="font-semibold text-green-800 mb-2">
-              API Test Success:
-            </h3>
-            <pre className="text-xs bg-white p-2 rounded border overflow-auto">
-              {JSON.stringify(testApiResult, null, 2)}
-            </pre>
-          </div>
-        )}
-
-        {testApiError && (
-          <div className="w-full max-w-2xl mx-auto px-4 mt-2 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <h3 className="font-semibold text-red-800 mb-2">API Test Error:</h3>
-            <div className="text-sm text-red-700">
-              <p>
-                <strong>Message:</strong> {testApiError.message}
-              </p>
-              {testApiError.status && (
-                <p>
-                  <strong>Status:</strong> {testApiError.status}
-                </p>
-              )}
-              {testApiError.isCorsError && (
-                <div className="mt-3 p-3 bg-yellow-50 border border-yellow-300 rounded">
-                  <p className="font-semibold text-yellow-800 mb-1">
-                    CORS Configuration Required:
-                  </p>
-                  <p className="text-xs text-yellow-700">
-                    The backend API needs to be configured to allow CORS
-                    requests. The server at{" "}
-                    <code className="bg-yellow-100 px-1 rounded">
-                      https://api.help-for-everyone.org
-                    </code>{" "}
-                    must:
-                  </p>
-                  <ul className="text-xs text-yellow-700 mt-2 ml-4 list-disc">
-                    <li>
-                      Allow the frontend origin in{" "}
-                      <code>Access-Control-Allow-Origin</code> header
-                    </li>
-                    <li>
-                      Respond to OPTIONS preflight requests with appropriate
-                      CORS headers
-                    </li>
-                    <li>
-                      Include{" "}
-                      <code>Access-Control-Allow-Methods: POST, OPTIONS</code>
-                    </li>
-                    <li>
-                      Include{" "}
-                      <code>
-                        Access-Control-Allow-Headers: Content-Type,
-                        Authorization
-                      </code>
-                    </li>
-                  </ul>
-                </div>
-              )}
-              {testApiError.data && (
-                <pre className="text-xs bg-white p-2 rounded border overflow-auto mt-2">
-                  {JSON.stringify(testApiError.data, null, 2)}
-                </pre>
-              )}
-            </div>
-          </div>
-        )}
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 text-center">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
