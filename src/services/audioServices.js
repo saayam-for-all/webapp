@@ -1,6 +1,6 @@
 import api from "./api";
 import endpoints from "./endpoints.json";
-import { uploadAudio, speechDetectC2, speechDetectV2 } from "./requestServices";
+import { uploadAudio, speechDetectV2 } from "./requestServices";
 import audioBufferToWav from "audiobuffer-to-wav";
 
 /**
