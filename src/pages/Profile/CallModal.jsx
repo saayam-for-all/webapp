@@ -115,7 +115,10 @@ const CallModal = ({ isOpen, onClose, callType }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div
+      data-testid="call-modal"
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+    >
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         {/* Modal Header */}
         <h2 className="text-xl font-bold mb-4">
