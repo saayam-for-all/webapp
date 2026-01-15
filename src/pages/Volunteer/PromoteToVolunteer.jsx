@@ -75,7 +75,10 @@ const PromoteToVolunteer = () => {
         const transformedCategories = transformCategories(categoriesArray);
         setCategoriesData({ categories: transformedCategories });
       } catch (parseError) {
-        console.warn("Failed to parse categories from localStorage:", parseError);
+        console.warn(
+          "Failed to parse categories from localStorage:",
+          parseError,
+        );
       }
     }
   };

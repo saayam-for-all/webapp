@@ -299,7 +299,8 @@ function Preferences({ setHasUnsavedChanges }) {
         !user.timezone &&
         !user["custom:timezone"]
       ) {
-        const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const detectedTimezone =
+          Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isValidDetected =
           allAvailableTimezones.some((tz) => tz.value === detectedTimezone) ||
           detectedTimezone.includes("/");
@@ -515,10 +516,7 @@ function Preferences({ setHasUnsavedChanges }) {
           user.selected_phone_preference ||
           user["custom:selected_phone_preference"] ||
           "primary",
-        timezone:
-          user.timezone ||
-          user["custom:timezone"] ||
-          "UTC",
+        timezone: user.timezone || user["custom:timezone"] || "UTC",
         receiveEmergencyNotifications:
           user.emergency_notifications === "true" ||
           user["custom:emergency_notifications"] === "true" ||
@@ -534,7 +532,8 @@ function Preferences({ setHasUnsavedChanges }) {
 
   const selectedTimezoneDisplay =
     allAvailableTimezones.find((tz) => tz.value === preferencesInfo.timezone)
-      ?.label || getTimezoneDetails(preferencesInfo.timezone, currentLocale).label;
+      ?.label ||
+    getTimezoneDetails(preferencesInfo.timezone, currentLocale).label;
 
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
