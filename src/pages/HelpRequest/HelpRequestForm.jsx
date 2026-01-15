@@ -31,12 +31,14 @@ import languagesData from "../../common/i18n/languagesData";
 import {
   uploadRequestFile,
   speechDetectC2,
+  speechDetectV2,
 } from "../../services/requestServices";
 import VoiceRecordingComponent from "../../common/components/VoiceRecordingComponent";
 import {
-  getSupportedLanguages,
   getTestText,
   generateHelloAudio,
+  getTestBase64Audio,
+  blobToBase64,
 } from "../../services/audioServices";
 import {
   Dialog,
@@ -153,27 +155,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, []);
 
-  // Fetch supported transcription languages from Google Cloud Speech-to-Text API
-  useEffect(() => {
-    const fetchTranscriptionLanguages = async () => {
-      try {
-        const languages = await getSupportedLanguages();
-        if (languages && Array.isArray(languages) && languages.length > 0) {
-          setSupportedTranscriptionLanguages(languages);
-          // Set default language to English (US) if available, otherwise first language
-          const defaultLang = languages.find((lang) => lang.code === "en-US");
-          setTranscriptionLanguage(
-            defaultLang ? defaultLang.code : languages[0].code,
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching supported languages:", error);
-        // Keep default fallback languages already set in state
-      }
-    };
-    fetchTranscriptionLanguages();
-  }, []);
-
   const invertEnum = (obj) =>
     Object.entries(obj).reduce((acc, [key, value]) => {
       acc[value] = Number(key);
@@ -219,6 +200,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     subject: "",
     description: "",
     priority: "MEDIUM",
+    detected_language: "", // Language detected from audio transcription (e.g., "hi", "en", "es")
   });
 
   // If user changes category to a non-elderly option, ensure any open ElderlySupport panel is closed
@@ -260,24 +242,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [isUploadingFiles, setIsUploadingFiles] = useState(false);
   // Audio recording state
   const [audioUploadResult, setAudioUploadResult] = useState(null);
-  const [transcriptionLanguage, setTranscriptionLanguage] = useState("en-US");
+  const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
   // Test API state
   const [testApiLoading, setTestApiLoading] = useState(false);
   const [testApiResult, setTestApiResult] = useState(null);
   const [testApiError, setTestApiError] = useState(null);
-  const [supportedTranscriptionLanguages, setSupportedTranscriptionLanguages] =
-    useState([
-      { code: "en-US", name: "English (US)" },
-      { code: "es-ES", name: "Spanish (Spain)" },
-      { code: "fr-FR", name: "French (France)" },
-      { code: "de-DE", name: "German (Germany)" },
-      { code: "hi-IN", name: "Hindi (India)" },
-      { code: "zh-CN", name: "Chinese (Simplified)" },
-      { code: "ar-SA", name: "Arabic (Saudi Arabia)" },
-      { code: "pt-BR", name: "Portuguese (Brazil)" },
-      { code: "ru-RU", name: "Russian (Russia)" },
-      { code: "ja-JP", name: "Japanese (Japan)" },
-    ]);
 
   // Restore request for edit
   useEffect(() => {
@@ -987,27 +956,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setTestApiError(null);
 
     try {
-      // Get test text from audioServices.js - you can edit getTestText() to change the text
-      const testText = getTestText();
-      console.log("=== Testing SpeechDetectC2 API ===");
-      console.log("Test text (from audioServices.js):", testText);
-      console.log(
-        "Generating audio from text and converting to base64 (WEBM OPUS format)...",
-      );
+      console.log("=== Testing SpeechDetectV2 API ===");
+      console.log("Loading base64 audio string from cb-base64-string.txt...");
 
-      // Generate audio from the text and convert to base64 (WEBM OPUS format)
-      // This uses the text from getTestText() to create audio
-      const audioBase64 = await generateHelloAudio();
+      // Get base64 audio string from file
+      const audioBase64 = await getTestBase64Audio();
 
       console.log(
-        "✅ Audio generated from text. Base64 length:",
+        "✅ Base64 audio loaded. Base64 length:",
         audioBase64.length,
         "characters",
       );
-      console.log("Sending to speechDetectC2 API...");
+      console.log("Sending to speechDetectV2 API with audioContent...");
 
-      // Send the generated audio to the new API (detects language and transcribes)
-      const response = await speechDetectC2(audioBase64);
+      // Send the base64 audio to the API (detects language and transcribes)
+      // The API expects { audioContent: "base64string" }
+      const response = await speechDetectV2(audioBase64);
 
       console.log("API Response:", response);
       setTestApiResult({
@@ -1023,15 +987,34 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
     } catch (error) {
       console.error("API Test Error:", error);
+
+      // Check for CORS errors specifically
+      let errorMessage = error.message || "Unknown error";
+      if (
+        error.code === "ERR_NETWORK" ||
+        error.message?.includes("Network Error")
+      ) {
+        errorMessage =
+          "CORS Error: The API server is not allowing requests from this origin. Please contact the backend team to configure CORS headers for the v1/request/speechDetectV2 endpoint.";
+      } else if (error.response?.status === 403) {
+        errorMessage =
+          "Access Forbidden (403): The API server rejected the request. This may be a CORS configuration issue.";
+      } else if (error.response?.status) {
+        errorMessage = `API Error (${error.response.status}): ${error.response?.data?.message || error.message}`;
+      }
+
       setTestApiError({
-        message: error.message || "Unknown error",
+        message: errorMessage,
         status: error.response?.status,
         data: error.response?.data,
+        isCorsError:
+          error.code === "ERR_NETWORK" ||
+          error.message?.includes("Network Error"),
       });
 
       setSnackbar({
         open: true,
-        message: `API Test Failed: ${error.message || "Unknown error"}`,
+        message: `API Test Failed: ${errorMessage}`,
         severity: "error",
       });
     } finally {
@@ -1120,10 +1103,89 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         submissionData.attachments = uploadedFileUrls;
       }
 
+      // If user recorded audio, send it to the API
+      if (audioBlob) {
+        try {
+          console.log("=== Sending recorded audio to API on submit ===");
+          console.log("Audio blob type:", audioBlob.type);
+          console.log(
+            "Audio blob size:",
+            (audioBlob.size / 1024).toFixed(2),
+            "KB",
+          );
+
+          // Convert audio blob to base64
+          const audioBase64 = await blobToBase64(audioBlob);
+          console.log("Base64 audio length:", audioBase64.length, "characters");
+
+          // Send to speechDetectV2 API
+          const audioResponse = await speechDetectV2(audioBase64);
+          console.log("Audio API Response:", audioResponse);
+          console.log("Detected Language:", audioResponse.detectedLanguage);
+          console.log("Transcription Text:", audioResponse.transcriptionText);
+
+          // Store the transcription result - always update with the transcribed text
+          // The API returns text in the detected language (e.g., Hindi, English, etc.)
+          if (audioResponse.transcriptionText) {
+            const transcriptionText = audioResponse.transcriptionText.substring(
+              0,
+              500,
+            );
+            console.log(
+              "Setting description with transcribed text:",
+              transcriptionText,
+            );
+            console.log("Detected Language:", audioResponse.detectedLanguage);
+
+            // Update formData with transcription text and detected language
+            setFormData((prev) => ({
+              ...prev,
+              description: transcriptionText,
+              detected_language:
+                audioResponse.detectedLanguage || prev.detected_language || "",
+            }));
+            submissionData.description = transcriptionText;
+            // Store detected language in submission data for translation purposes
+            if (audioResponse.detectedLanguage) {
+              submissionData.detected_language = audioResponse.detectedLanguage;
+            }
+          }
+
+          // Optionally store requestId or other metadata from audio API
+          if (audioResponse.requestId) {
+            console.log(
+              "Audio transcription request ID:",
+              audioResponse.requestId,
+            );
+          }
+
+          if (audioResponse.detectedLanguage) {
+            console.log(
+              "Language detected by API:",
+              audioResponse.detectedLanguage,
+            );
+            console.log(
+              "Detected language stored in formData for translation:",
+              audioResponse.detectedLanguage,
+            );
+          }
+        } catch (audioError) {
+          console.error("Error sending audio on submit:", audioError);
+          // Don't block form submission if audio upload fails
+          // Just log the error and continue
+          setSnackbar({
+            open: true,
+            message:
+              "Warning: Audio transcription failed, but form will still be submitted.",
+            severity: "warning",
+          });
+        }
+      }
+
       // Call createRequest with attachments included
       //const response = await createRequest(submissionData);
       const payload = mapHelpRequestPayload({
-        formData,
+        formData: submissionData,
         selectedCategoryId: formData.category,
         requesterId: userDbId,
         enumMaps,
@@ -1219,6 +1281,42 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 <p>
                   <strong>Status:</strong> {testApiError.status}
                 </p>
+              )}
+              {testApiError.isCorsError && (
+                <div className="mt-3 p-3 bg-yellow-50 border border-yellow-300 rounded">
+                  <p className="font-semibold text-yellow-800 mb-1">
+                    CORS Configuration Required:
+                  </p>
+                  <p className="text-xs text-yellow-700">
+                    The backend API needs to be configured to allow CORS
+                    requests. The server at{" "}
+                    <code className="bg-yellow-100 px-1 rounded">
+                      https://api.help-for-everyone.org
+                    </code>{" "}
+                    must:
+                  </p>
+                  <ul className="text-xs text-yellow-700 mt-2 ml-4 list-disc">
+                    <li>
+                      Allow the frontend origin in{" "}
+                      <code>Access-Control-Allow-Origin</code> header
+                    </li>
+                    <li>
+                      Respond to OPTIONS preflight requests with appropriate
+                      CORS headers
+                    </li>
+                    <li>
+                      Include{" "}
+                      <code>Access-Control-Allow-Methods: POST, OPTIONS</code>
+                    </li>
+                    <li>
+                      Include{" "}
+                      <code>
+                        Access-Control-Allow-Headers: Content-Type,
+                        Authorization
+                      </code>
+                    </li>
+                  </ul>
+                </div>
               )}
               {testApiError.data && (
                 <pre className="text-xs bg-white p-2 rounded border overflow-auto mt-2">
@@ -1473,52 +1571,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   />
                 </div>
 
-                {/* Transcription Language Selector */}
-                <div className="mt-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <label
-                      htmlFor="transcriptionLanguage"
-                      className="text-gray-700 font-medium"
-                    >
-                      Voice Recording Language
-                    </label>
-                    <div className="relative group cursor-pointer">
-                      {/* Circle Question Mark Icon */}
-                      <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
-                        ?
-                      </div>
-                      {/* Tooltip */}
-                      <div className="absolute left-5 top-0 w-64 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
-                        Select the language you will use for voice recording.
-                        The audio will be transcribed in this language. Maximum
-                        audio file size: 10MB. Transcription will be limited to
-                        500 characters.
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <select
-                      id="transcriptionLanguage"
-                      value={transcriptionLanguage}
-                      onChange={(e) => setTranscriptionLanguage(e.target.value)}
-                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
-                    >
-                      {supportedTranscriptionLanguages.length > 0 ? (
-                        supportedTranscriptionLanguages.map((lang) => (
-                          <option key={lang.code} value={lang.code}>
-                            {lang.name}
-                          </option>
-                        ))
-                      ) : (
-                        <option value="en-US">English (US)</option>
-                      )}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <HiChevronDown className="h-5 w-5 text-gray-600" />
-                    </div>
-                  </div>
-                </div>
-
                 {/* Description + Attach npmfiles icon */}
                 <div className="mt-3" data-testid="parentDivSeven">
                   <div className="flex items-center justify-between">
@@ -1542,10 +1594,32 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                           }));
                         }}
                         onAudioUploaded={(uploadResult) => {
+                          if (uploadResult === null) {
+                            // Audio was deleted
+                            setAudioUploadResult(null);
+                            setAudioBlob(null);
+                            console.log("Audio deleted by user");
+                            return;
+                          }
+
                           setAudioUploadResult(uploadResult);
+                          // Store audio blob for submission
+                          if (uploadResult.audioBlob) {
+                            setAudioBlob(uploadResult.audioBlob);
+                          }
+                          // Store detected language in formData for translation purposes
+                          if (uploadResult.detectedLanguage) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              detected_language: uploadResult.detectedLanguage,
+                            }));
+                            console.log(
+                              "Detected language stored:",
+                              uploadResult.detectedLanguage,
+                            );
+                          }
                           console.log("Audio uploaded:", uploadResult);
                         }}
-                        languageCode={transcriptionLanguage}
                         maxFileSizeMB={10}
                         descriptionLimit={500}
                       />

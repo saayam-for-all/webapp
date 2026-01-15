@@ -156,3 +156,76 @@ export const speechDetectC2 = async (audioContent) => {
 
   return response.data;
 };
+
+/**
+ * Speech detection and transcription API (V2)
+ * Detects language automatically and transcribes audio
+ * @param {string} audioContent - Base64 encoded audio string
+ * @returns {Promise<Object>} - Returns { transcriptionText: string, requestId: string, detectedLanguage?: string }
+ */
+export const speechDetectV2 = async (audioContent) => {
+  const requestBody = {
+    audioContent: audioContent,
+  };
+
+  console.log("Calling speechDetectV2 API - Request body format:", {
+    audioContent: audioContent.substring(0, 50) + "... (truncated)",
+    audioContentLength: audioContent.length,
+  });
+
+  const response = await api.post(endpoints.SPEECH_DETECT_V2, requestBody);
+
+  console.log("SpeechDetectV2 API response:", response.data);
+
+  // API returns an array of objects: [{ transcript: "...", confidence: ..., detected_language: "..." }]
+  // Or may return a single object with transcriptionText/transcript field
+  let transcript = "";
+  let detectedLanguage = null;
+  let requestId = null;
+
+  // Check if response is an array
+  if (Array.isArray(response.data) && response.data.length > 0) {
+    // Extract from first element of array
+    const firstResult = response.data[0];
+    transcript =
+      firstResult.transcript ||
+      firstResult.transcriptionText ||
+      firstResult.transcription_text ||
+      "";
+    detectedLanguage =
+      firstResult.detected_language || firstResult.detectedLanguage || null;
+    requestId = firstResult.requestId || firstResult.request_id || null;
+  } else if (response.data && typeof response.data === "object") {
+    // Handle single object response
+    transcript =
+      response.data.transcript ||
+      response.data.transcriptionText ||
+      response.data.transcription_text ||
+      "";
+    detectedLanguage =
+      response.data.detected_language || response.data.detectedLanguage || null;
+    requestId = response.data.requestId || response.data.request_id || null;
+  }
+
+  const normalizedResponse = {
+    transcriptionText: transcript,
+    requestId: requestId,
+    detectedLanguage: detectedLanguage,
+  };
+
+  console.log("Response structure:", {
+    isArray: Array.isArray(response.data),
+    arrayLength: Array.isArray(response.data) ? response.data.length : 0,
+    hasTranscriptionText: !!normalizedResponse.transcriptionText,
+    hasRequestId: !!normalizedResponse.requestId,
+    hasDetectedLanguage: !!normalizedResponse.detectedLanguage,
+    transcriptionText: normalizedResponse.transcriptionText,
+    requestId: normalizedResponse.requestId,
+    detectedLanguage: normalizedResponse.detectedLanguage,
+  });
+
+  console.log("Detected Language:", normalizedResponse.detectedLanguage);
+  console.log("Transcription Text:", normalizedResponse.transcriptionText);
+
+  return normalizedResponse;
+};

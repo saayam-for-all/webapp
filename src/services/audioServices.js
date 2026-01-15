@@ -1,6 +1,6 @@
 import api from "./api";
 import endpoints from "./endpoints.json";
-import { uploadAudio, speechDetectC2 } from "./requestServices";
+import { uploadAudio, speechDetectC2, speechDetectV2 } from "./requestServices";
 import audioBufferToWav from "audiobuffer-to-wav";
 
 /**
@@ -130,7 +130,7 @@ export const cleanupLocalAudio = (audioKey = null) => {
  * @param {Blob} audioBlob - The audio blob to convert
  * @returns {Promise<string>} - Base64 encoded audio string
  */
-const blobToBase64 = (audioBlob) => {
+export const blobToBase64 = (audioBlob) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -429,6 +429,30 @@ export const getTestText = () => {
 };
 
 /**
+ * Get test base64 audio string from file
+ * This reads the base64 string from cb-base64-string.txt for testing
+ * @returns {Promise<string>} - Base64 encoded audio string
+ */
+export const getTestBase64Audio = async () => {
+  try {
+    // Fetch the base64 string from the file
+    const response = await fetch("/cb-base64-string.txt");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch base64 string: ${response.status}`);
+    }
+    const base64String = await response.text();
+    // Trim any whitespace/newlines
+    return base64String.trim();
+  } catch (error) {
+    console.error("Error loading test base64 audio:", error);
+    // Fallback: return empty string or throw error
+    throw new Error(
+      "Failed to load test base64 audio. Make sure cb-base64-string.txt is in the public folder.",
+    );
+  }
+};
+
+/**
  * Generate test audio in LINEAR16 WAV format (16kHz) for testing
  *
  * Optimized for Google Cloud Speech-to-Text best practices:
@@ -573,9 +597,15 @@ export const uploadAudioAndTranscribe = async (audioBlob) => {
     );
     console.log("================================");
 
-    // Call the new speechDetectC2 API which detects language and transcribes
+    // Call the speechDetectV2 API which detects language and transcribes
     // No need to pass sampleRate or encoding - API handles WEBM OPUS format
-    const response = await speechDetectC2(base64Audio);
+    const response = await speechDetectV2(base64Audio);
+
+    console.log("=== Transcription Response ===");
+    console.log("Detected Language:", response.detectedLanguage);
+    console.log("Transcription Text:", response.transcriptionText);
+    console.log("Text Length:", response.transcriptionText?.length || 0);
+    console.log("==============================");
 
     // Return transcription text, requestId, and detected language if available
     return {
