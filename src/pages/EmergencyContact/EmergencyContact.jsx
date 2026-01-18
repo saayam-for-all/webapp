@@ -152,18 +152,22 @@ const EmergencyContact = ({ embedded = false }) => {
   ];
 
   return (
-    <div className="flex justify-center p-5 px-5">
-      <div className="max-w-[900px] w-full bg-white rounded-lg p-10 shadow-lg">
-        {/* Back Button */}
-        {/*<div className="w-full mb-4">*/}
-        {/*  <button*/}
-        {/*    onClick={() => navigate(-1)}*/}
-        {/*    className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"*/}
-        {/*  >*/}
-        {/*    <span className="text-2xl mr-2">&lt;</span> {t("BACK")}*/}
-        {/*  </button>*/}
-        {/*</div>*/}
+    <div className="flex flex-col items-center p-5 px-5">
+      {/* Show ONLY on standalone page */}
+      {!embedded && (
+        <div className="w-full max-w-[900px] px-4 mb-4 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => navigate("/dashboard")}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span>{" "}
+            {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
+          </button>
+        </div>
+      )}
 
+      <div className="max-w-[900px] w-full bg-white rounded-lg p-10 shadow-lg">
         {/* Page Header */}
         <h1 className="text-center text-3xl font-bold mb-4 text-black">
           {t("EMERGENCY_CONTACTS")}
