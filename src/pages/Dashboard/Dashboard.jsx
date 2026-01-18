@@ -11,6 +11,7 @@ import BeneficiaryDashboard from "./views/BeneficiaryDashboard";
 import StewardDashboard from "./views/StewardDashboard";
 import SuperAdminDashboard from "./views/SuperAdminDashboard";
 import VolunteerDashboard from "./views/VolunteerDashboard";
+import { MdOutlineContactPhone } from "react-icons/md";
 
 import {
   getAccessibleDashboards,
@@ -1193,6 +1194,16 @@ const Dashboard = ({ userRole }) => {
                 <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
               </Link>
             )}
+          {selectedDashboard === DASHBOARDS.BENEFICIARY && (
+            <Link
+              to="/emergency-contact"
+              className="bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-md flex items-center justify-center gap-2"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <MdOutlineContactPhone size={20} />
+              <span className="hover:underline">{t("EMERGENCY_CONTACT")}</span>
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
