@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
+import { FiPaperclip } from "react-icons/fi";
 import { mapHelpRequestPayload } from "../../utils/mapHelpRequestPayload";
 import {
   useAddRequestMutation,
@@ -1480,16 +1481,19 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                           {/* Paperclip Icon */}
                           <div
                             className={`
-                          flex items-center justify-center px-1 py-1 rounded-md
-                          ${
-                            attachedFiles.length + uploadedFilesInfo.length >=
-                            MAX_FILES
-                              ? "bg-gray-200 opacity-60 cursor-not-allowed"
-                              : "bg-gray-100 hover:bg-gray-200"
-                          }
-                      `}
+                              flex items-center justify-center
+                              w-9 h-9 rounded-full
+                              text-white
+                              ${
+                                attachedFiles.length +
+                                  uploadedFilesInfo.length >=
+                                MAX_FILES
+                                  ? "bg-blue-300 cursor-not-allowed opacity-60"
+                                  : "bg-blue-500 hover:bg-blue-600"
+                              }
+                          `}
                           >
-                            📎
+                            <FiPaperclip size={18} />
                           </div>
 
                           {/* File count text (no inner borders now) */}
