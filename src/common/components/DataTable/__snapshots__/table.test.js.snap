@@ -17,7 +17,6 @@ exports[`Table renders correctly 1`] = `
             data-testid="table"
           >
             <thead
-              class=""
               data-testid="table-header"
             >
               <tr>
@@ -45,7 +44,7 @@ exports[`Table renders correctly 1`] = `
               </tr>
             </thead>
             <tbody
-              class="bg-white divide-y divide-gray-200 "
+              class="bg-white divide-y divide-gray-200"
               data-testid="table-body"
             >
               <tr>
@@ -53,7 +52,12 @@ exports[`Table renders correctly 1`] = `
                   class="px-6 py-2"
                   data-testid="map-data-one"
                 >
-                  1
+                  <mock-link
+                    props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                    to="/mock-link-path"
+                  >
+                    1
+                  </mock-link>
                 </td>
                 <td
                   class="px-6 py-2"
@@ -67,7 +71,12 @@ exports[`Table renders correctly 1`] = `
                   class="px-6 py-2"
                   data-testid="map-data-one"
                 >
-                  2
+                  <mock-link
+                    props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                    to="/mock-link-path"
+                  >
+                    2
+                  </mock-link>
                 </td>
                 <td
                   class="px-6 py-2"
@@ -105,7 +114,6 @@ exports[`Table renders correctly 1`] = `
           data-testid="table"
         >
           <thead
-            class=""
             data-testid="table-header"
           >
             <tr>
@@ -133,7 +141,7 @@ exports[`Table renders correctly 1`] = `
             </tr>
           </thead>
           <tbody
-            class="bg-white divide-y divide-gray-200 "
+            class="bg-white divide-y divide-gray-200"
             data-testid="table-body"
           >
             <tr>
@@ -141,7 +149,12 @@ exports[`Table renders correctly 1`] = `
                 class="px-6 py-2"
                 data-testid="map-data-one"
               >
-                1
+                <mock-link
+                  props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                  to="/mock-link-path"
+                >
+                  1
+                </mock-link>
               </td>
               <td
                 class="px-6 py-2"
@@ -155,7 +168,12 @@ exports[`Table renders correctly 1`] = `
                 class="px-6 py-2"
                 data-testid="map-data-one"
               >
-                2
+                <mock-link
+                  props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                  to="/mock-link-path"
+                >
+                  2
+                </mock-link>
               </td>
               <td
                 class="px-6 py-2"
