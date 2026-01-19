@@ -92,7 +92,16 @@ const SuperAdminDashboard = (props) => {
         {activeTab === "analytics" ? (
           <div className="p-6 text-center text-gray-600">
             {analyticsSubtab === "Infrastructure" && (
-              <>Infrastructure (Summary of Errors) - To Be Implemented</>
+              <div className="py-8">
+                <a
+                  href="https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards/dashboard/Saayam-Dashboard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                >
+                  Click here for dashboard
+                </a>
+              </div>
             )}
             {analyticsSubtab === "Application Analytics" && (
               <ApplicationAnalytics />
