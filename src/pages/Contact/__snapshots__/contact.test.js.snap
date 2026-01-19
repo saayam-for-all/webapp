@@ -12,7 +12,7 @@ exports[`Contact renders correctly 1`] = `
           mockTranslate(ENTER_DETAILS)
         </h1>
         <form
-          action="https://formsubmit.co/info@saayamforall.com"
+          action="https://formsubmit.co/04d6a35df8d8b8b31a1b174ae825c99e"
           class="w-2/5 flex flex-col gap-5"
           method="POST"
         >
@@ -123,7 +123,7 @@ exports[`Contact renders correctly 1`] = `
         mockTranslate(ENTER_DETAILS)
       </h1>
       <form
-        action="https://formsubmit.co/info@saayamforall.com"
+        action="https://formsubmit.co/04d6a35df8d8b8b31a1b174ae825c99e"
         class="w-2/5 flex flex-col gap-5"
         method="POST"
       >

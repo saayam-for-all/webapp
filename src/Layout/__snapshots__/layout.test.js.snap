@@ -11,6 +11,7 @@ exports[`Layout renders correctly 1`] = `
         <mock-navigation-guard />
         <header
           class="sticky z-10"
+          google-side-rail-overlap="false"
           id="header"
         >
           <mock-navbar />
@@ -18,11 +19,21 @@ exports[`Layout renders correctly 1`] = `
         <div
           class="flex flex-1"
         >
+          <aside
+            class="left-ads-panel flex-1 "
+          >
+            <mock-left-ads />
+          </aside>
           <main
             class="flex-[6] overflow-auto"
           >
             <mock-suspense />
           </main>
+          <aside
+            class="right-ads-panel flex-1 "
+          >
+            <mock-right-ads />
+          </aside>
         </div>
         <footer
           class=""
@@ -44,6 +55,7 @@ exports[`Layout renders correctly 1`] = `
       <mock-navigation-guard />
       <header
         class="sticky z-10"
+        google-side-rail-overlap="false"
         id="header"
       >
         <mock-navbar />
@@ -51,11 +63,21 @@ exports[`Layout renders correctly 1`] = `
       <div
         class="flex flex-1"
       >
+        <aside
+          class="left-ads-panel flex-1 "
+        >
+          <mock-left-ads />
+        </aside>
         <main
           class="flex-[6] overflow-auto"
         >
           <mock-suspense />
         </main>
+        <aside
+          class="right-ads-panel flex-1 "
+        >
+          <mock-right-ads />
+        </aside>
       </div>
       <footer
         class=""
