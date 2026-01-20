@@ -176,15 +176,6 @@ const VolunteerAnalytics = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-1">
-          🙋 Volunteer Analytics
-        </h2>
-        <p className="text-sm text-gray-500">
-          Volunteer activity and geographic distribution
-        </p>
-      </div>
-
       {/* Chart 1: Volunteer Activity Trend (Multi-Line) */}
       <ChartContainer
         title="Volunteer Activity Trend"

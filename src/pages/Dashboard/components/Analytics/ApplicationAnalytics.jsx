@@ -28,15 +28,6 @@ const ApplicationAnalytics = () => {
 
   return (
     <div className="p-6 bg-gray-50">
-      <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Application Analytics Dashboard
-        </h1>
-        <p className="text-sm text-gray-500 mt-2">
-          Comprehensive insights into requests, beneficiaries, and volunteers
-        </p>
-      </div>
-
       <div className="flex mb-4">
         {tabs.map((tab, index) => (
           <button
