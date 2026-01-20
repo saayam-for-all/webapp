@@ -93,14 +93,18 @@ const AdminDashboard = (props) => {
           <div className="p-6 text-center text-gray-600">
             {analyticsSubtab === "Infrastructure" && (
               <div className="py-8">
-                <a
-                  href="https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards/dashboard/Saayam-Dashboard"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
-                >
-                  Click here for dashboard
-                </a>
+                <p className="text-gray-700">
+                  To view infrastructure related analytics from AWS CloudWatch,{" "}
+                  <a
+                    href="https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards/dashboard/Saayam-Dashboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                  >
+                    click here
+                  </a>
+                  .
+                </p>
               </div>
             )}
             {analyticsSubtab === "Application Analytics" && (
