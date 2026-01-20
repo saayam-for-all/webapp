@@ -7,5 +7,7 @@
   "MISSION": "مهمة",
   "VISION": "رؤية",
   "CONTACT": "اتصال",
-  "DASHBOARD": "لوحة القيادة"
+  "DASHBOARD": "لوحة القيادة",
+  "back": "رجوع",
+  "back_to_dashboard": "العودة إلى لوحة التحكم"
 }

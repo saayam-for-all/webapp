@@ -322,5 +322,7 @@
   "FAQ_USE_ANSWER": "Sua doação será utilizada para apoiar nossos diversos programas, incluindo coordenação de voluntários, programas de assistência e custos operacionais para manter nossa plataforma.",
   "Can I cancel recurring donations?": "Posso cancelar doações recorrentes?",
   "FAQ_CANCEL_ANSWER": "Sim, você pode cancelar entrando em contato com nossa equipe de suporte.",
-  "": ""
+  "": "",
+  "back": "Voltar",
+  "back_to_dashboard": "Voltar ao Painel"
 }

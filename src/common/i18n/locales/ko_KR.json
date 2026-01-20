@@ -7,5 +7,7 @@
   "MISSION": "사명",
   "VISION": "비전",
   "CONTACT": "연락하다",
-  "DASHBOARD": "대시보드"
+  "DASHBOARD": "대시보드",
+  "back": "뒤로",
+  "back_to_dashboard": "대시보드로 돌아가기"
 }
