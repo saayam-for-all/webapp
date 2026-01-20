@@ -16,6 +16,7 @@ import {
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { getAuthStatus } from "../../utils/authUtils";
 
 const PromoteToVolunteer = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -32,19 +33,58 @@ const PromoteToVolunteer = () => {
   const volunteerDataRef = useRef({});
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [authError, setAuthError] = useState("");
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  // Get user groups from Redux store
+  const rawGroups = useSelector((state) => state.auth.user?.groups);
+  const authStatus = getAuthStatus(rawGroups);
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
+        setIsCheckingAuth(true);
+
+        // Check if authentication is properly configured
+        if (!authStatus.isAuthenticated) {
+          setAuthError(
+            "Authentication not configured. Please log in to continue.",
+          );
+          setIsCheckingAuth(false);
+          return;
+        }
+
         const user = await getCurrentUser(); // Fetch user once
         setUserId(user.userId);
+        setAuthError(""); // Clear any previous auth errors
         // setUserId("SID-00-000-000-086"); // remove this line.. added to test with aws api
       } catch (error) {
         console.error("Error fetching user ID:", error);
+
+        // Handle specific authentication errors
+        if (
+          error.name === "AuthUserPoolException" ||
+          error.message?.includes("UserPool not configured")
+        ) {
+          setAuthError(
+            "Authentication not configured. Please check your login status.",
+          );
+        } else if (
+          error.name === "NotAuthorizedException" ||
+          error.message?.includes("401") ||
+          error.message?.includes("Unauthorized")
+        ) {
+          setAuthError("Authentication required. Please log in again.");
+        } else {
+          setAuthError("Failed to fetch user information. Please try again.");
+        }
+      } finally {
+        setIsCheckingAuth(false);
       }
     };
 
-    if (!userId) fetchUserId();
-  }, [userId]);
+    if (!userId && !authError) fetchUserId();
+  }, [userId, authStatus.isAuthenticated]);
 
   const fetchSkills = async () => {
     try {
@@ -239,6 +279,74 @@ const PromoteToVolunteer = () => {
       setCurrentStep(newStep);
     }
   };
+
+  // Show loading state while checking authentication
+  if (isCheckingAuth) {
+    return (
+      <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+        <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+          <button
+            onClick={() => navigate("/")}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> Back to Home
+          </button>
+        </div>
+        <div className="container horizontal mt-5 p-12">
+          <div className="text-center">
+            <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mr-3"></div>
+                <span className="text-lg font-medium">
+                  Checking authentication...
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show authentication error if present
+  if (authError) {
+    return (
+      <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+        <div className="w-full max-w-2xl mx-auto px-4 mt-4">
+          <button
+            onClick={() => navigate("/")}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> Back to Home
+          </button>
+        </div>
+        <div className="container horizontal mt-5 p-12">
+          <div className="text-center">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              <h3 className="font-bold text-lg mb-2">
+                Authentication Required
+              </h3>
+              <p className="mb-4">{authError}</p>
+              <div className="space-x-4">
+                <button
+                  onClick={() => window.location.reload()}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Refresh Page
+                </button>
+                <button
+                  onClick={() => navigate("/auth/login")}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Go to Login
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
