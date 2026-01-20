@@ -6,6 +6,8 @@ import Mohanakrishnan from "../../../assets/images/Mohanakrishnan.jpg";
 
 import Satya_Sai_Manoj from "../../../assets/images/Satya_Sai_Manoj.jpeg";
 
+import Tejaswi_Vadapalli from "../../../assets/images/Tejaswi_Vedapalli.jpeg";
+
 const ExecutiveTeamData = [
   {
     image: Rashmi_Bilaskar,
@@ -66,6 +68,13 @@ const ExecutiveTeamData = [
     name: "Satya Sai Manoj",
     role: "Strategy and Project Management Lead",
     linkedin: "https://www.linkedin.com/in/satya-sai-manoj-m-403179230/",
+  },
+
+  {
+    image: Tejaswi_Vadapalli,
+    name: "Tejaswi Vadapalli",
+    role: "Program and Operations Lead",
+    linkedin: "https://www.linkedin.com/in/sritejaswi/",
   },
 ];
 
