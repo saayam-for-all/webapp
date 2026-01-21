@@ -111,6 +111,7 @@ const PromoteToVolunteer = () => {
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
             setIsUploaded={setIsUploaded}
+            onSaveFile={handleSaveFile}
           />
         );
       case 3:
@@ -172,6 +173,16 @@ const PromoteToVolunteer = () => {
 
   const updateVolunteerData = (updates) => {
     volunteerDataRef.current = { ...volunteerDataRef.current, ...updates };
+  };
+
+  const handleSaveFile = () => {
+    if (govtIdFile) {
+      updateVolunteerData({
+        step: 2,
+        userId: userId,
+        govtIdFilename: govtIdFile.name,
+      });
+    }
   };
 
   const handleClick = async (direction) => {

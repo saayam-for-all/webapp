@@ -1,7 +1,12 @@
 import { useState, useRef } from "react";
 import React from "react"; //added for testing
 
-const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
+const VolunteerCourse = ({
+  selectedFile,
+  setSelectedFile,
+  setIsUploaded,
+  onSaveFile,
+}) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
@@ -217,14 +222,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       {/* Upload and Remove Buttons */}
-      <div className="flex justify-between items-center">
-        {/* <button
-          onClick={handleUpload}
-          disabled={!file || isLoading}
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
-        >
-          {isLoading ? "Uploading..." : "Upload"}
-        </button> */}
+      <div className="flex gap-3 items-center">
         {selectedFile && (
           <button
             onClick={handleRemoveFile}
@@ -233,6 +231,13 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
             Remove
           </button>
         )}
+        <button
+          onClick={onSaveFile}
+          disabled={!selectedFile}
+          className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+        >
+          Save
+        </button>
       </div>
     </div>
   );
