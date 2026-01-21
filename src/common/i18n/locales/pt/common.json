@@ -714,5 +714,11 @@
   "ENVIRONMENTAL_HAZARDS": "Riscos ambientais / Resposta a derrames",
   "SENIOR_HELPLINE": "Linha de Assistência ao Idoso",
   "HOMELESS_SERVICES": "Serviços para pessoas em situação de rua",
-  "FOOD_ASSISTANCE": "Linha de assistência alimentar"
+  "FOOD_ASSISTANCE": "Linha de assistência alimentar",
+
+  "REVIEW": "Revisão",
+  "IN_REVIEW": "Em Revisão",
+  "REVIEW_STATUS_MESSAGE": "Sua inscrição como voluntário foi enviada e está atualmente sendo revisada por um administrador.",
+  "REVIEW_APPROVAL_MESSAGE": "Após a aprovação, você se tornará um voluntário e poderá começar a ajudar outras pessoas.",
+  "CONFIRM": "Confirmar"
 }

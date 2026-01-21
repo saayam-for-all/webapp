@@ -707,5 +707,11 @@
   "ENVIRONMENTAL_HAZARDS": "Risques environnementaux / gestion des déversements",
   "SENIOR_HELPLINE": "Ligne d'aide aux seniors",
   "HOMELESS_SERVICES": "Services pour sans-abri",
-  "FOOD_ASSISTANCE": "Ligne d'aide alimentaire"
+  "FOOD_ASSISTANCE": "Ligne d'aide alimentaire",
+
+  "REVIEW": "Examen",
+  "IN_REVIEW": "En cours d'examen",
+  "REVIEW_STATUS_MESSAGE": "Votre candidature de bénévole a été soumise et est actuellement en cours d'examen par un administrateur.",
+  "REVIEW_APPROVAL_MESSAGE": "Une fois approuvé, vous deviendrez bénévole et pourrez commencer à aider les autres.",
+  "CONFIRM": "Confirmer"
 }

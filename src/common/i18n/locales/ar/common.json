@@ -707,5 +707,11 @@
   "ENVIRONMENTAL_HAZARDS": "পরিবেশগত ঝুঁকি / ত্রুটি",
   "SENIOR_HELPLINE": "প্রবীণ সহায়তা হটলাইন",
   "HOMELESS_SERVICES": "বৃহৎহীনদের সেবা",
-  "FOOD_ASSISTANCE": "খাদ্য সহায়তা হটলাইন"
+  "FOOD_ASSISTANCE": "খাদ্য সহায়তা হটলাইন",
+
+  "REVIEW": "مراجعة",
+  "IN_REVIEW": "قيد المراجعة",
+  "REVIEW_STATUS_MESSAGE": "تم تقديم طلب التطوع الخاص بك وهو قيد المراجعة حاليًا من قبل المسؤول.",
+  "REVIEW_APPROVAL_MESSAGE": "بمجرد الموافقة، ستصبح متطوعًا ويمكنك البدء في مساعدة الآخرين.",
+  "CONFIRM": "تأكيد"
 }

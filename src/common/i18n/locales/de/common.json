@@ -708,5 +708,11 @@
   "ENVIRONMENTAL_HAZARDS": "Umweltrisiken / Verschmutzungsreaktion",
   "SENIOR_HELPLINE": "Senioren‑Hotline",
   "HOMELESS_SERVICES": "Dienste für Obdachlose",
-  "FOOD_ASSISTANCE": "Lebensmittelhilfe‑Hotline"
+  "FOOD_ASSISTANCE": "Lebensmittelhilfe‑Hotline",
+
+  "REVIEW": "Überprüfung",
+  "IN_REVIEW": "In Überprüfung",
+  "REVIEW_STATUS_MESSAGE": "Ihre Freiwilligenanmeldung wurde eingereicht und wird derzeit von einem Administrator überprüft.",
+  "REVIEW_APPROVAL_MESSAGE": "Nach der Genehmigung werden Sie Freiwilliger und können anderen helfen.",
+  "CONFIRM": "Bestätigen"
 }
