@@ -26,7 +26,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText("Next");
+    const nextButton = screen.getByText(/mockTranslate\(NEXT\)/);
     fireEvent.click(nextButton);
 
     expect(screen.getByText("Identification")).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText("Next");
+    const nextButton = screen.getByText(/mockTranslate\(NEXT\)/);
     fireEvent.click(nextButton);
     fireEvent.click(nextButton);
 
@@ -49,7 +49,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText("Next");
+    const nextButton = screen.getByText(/mockTranslate\(NEXT\)/);
     fireEvent.click(nextButton);
     fireEvent.click(nextButton);
     fireEvent.click(nextButton);
