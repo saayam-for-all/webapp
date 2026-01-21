@@ -163,15 +163,6 @@ const KPIAnalytics = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-1">
-          ⏱️ KPI Analytics
-        </h2>
-        <p className="text-sm text-gray-500">
-          Performance metrics for request resolution
-        </p>
-      </div>
-
       {/* Chart 1: Request Status Distribution (Donut Chart with Center Metrics) */}
       <ChartContainer
         title="Request Status Distribution"

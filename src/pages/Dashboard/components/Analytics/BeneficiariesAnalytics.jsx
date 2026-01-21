@@ -110,15 +110,6 @@ const BeneficiariesAnalytics = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-1">
-          👥 Beneficiaries Analytics
-        </h2>
-        <p className="text-sm text-gray-500">
-          Growth and distribution of beneficiaries
-        </p>
-      </div>
-
       {/* Chart 1: Beneficiary Growth with Cumulative Overlay (Dual Y-Axis) */}
       <ChartContainer
         title="Beneficiary Growth Trend"

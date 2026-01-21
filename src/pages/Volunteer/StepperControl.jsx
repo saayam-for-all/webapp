@@ -21,7 +21,7 @@ const StepperControl = ({
     <div className="container flex justify-around mt-16 mb-8">
       <div className="px-4 w-24">
         <button
-          className={`bg-white text-slate-400 uppercase py-2 px-4 rounded-xl font-semibold border-2 border-slate-300 transition duration-200 ease-in-out ${
+          className={`bg-white text-slate-900 uppercase py-2 px-4 rounded-xl font-semibold border-2 border-slate-900 transition duration-200 ease-in-out ${
             currentStep === 1
               ? "opacity-50 cursor-not-allowed"
               : "cursor-pointer hover:bg-slate-700 hover:text-white"

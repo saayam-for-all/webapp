@@ -220,15 +220,6 @@ const RequestsAnalytics = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-1">
-          📊 Requests Analytics
-        </h2>
-        <p className="text-sm text-gray-500">
-          Overview of request volume and distribution
-        </p>
-      </div>
-
       {/* Chart 1: Request Volume Trend with Time Range Selector */}
       <ChartContainer title="Request Volume Trend" description="">
         {/* Time Range Selector */}
