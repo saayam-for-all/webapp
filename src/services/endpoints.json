@@ -26,5 +26,6 @@
   "GET_SUPPORTED_LANGUAGES": "/audio/v0.0.1/supported-languages",
   "DETECT_LANGUAGE": "/audio/v0.0.1/detect-language",
   "SPEECH_DETECT_C2": "/requests/v0.0.1/speechDetectC2",
-  "SPEECH_DETECT_V2": "v1/request/speechDetectV2"
+  "SPEECH_DETECT_V2": "v1/request/speechDetectV2",
+  "SIGN_OFF_USER": "v1/volunteer/signOffUser"
 }

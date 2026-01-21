@@ -229,3 +229,22 @@ export const speechDetectV2 = async (audioContent) => {
 
   return normalizedResponse;
 };
+
+/**
+ * Sign off (delete) user from the database
+ * @param {string} userId - The user's database ID (e.g., "SID-00-000-002-556")
+ * @param {string} reason - Optional reason for leaving
+ * @returns {Promise<Object>} - Returns { success: boolean, statusCode: number, message: string, data: { userId: string } }
+ */
+export const signOffUser = async (userId, reason = "") => {
+  const requestBody = {
+    userId: userId,
+    reason: reason,
+  };
+
+  const response = await api.delete(endpoints.SIGN_OFF_USER, {
+    data: requestBody,
+  });
+
+  return response.data;
+};
