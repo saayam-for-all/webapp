@@ -19,20 +19,14 @@ const Review = () => {
           </svg>
         </div>
         <div className="mt-3 text-xl font-semibold uppercase text-yellow-600">
-          {t("IN_REVIEW") || "In Review"}
+          {t("IN_REVIEW")}
         </div>
         <div className="mt-4 text-center text-gray-600 max-w-md px-4">
-          <p>
-            {t("REVIEW_STATUS_MESSAGE") ||
-              "Your volunteer application has been submitted and is currently under review by an administrator."}
-          </p>
-          <p className="mt-2">
-            {t("REVIEW_APPROVAL_MESSAGE") ||
-              "Once approved, you will become a volunteer and can start helping others."}
-          </p>
+          <p>{t("REVIEW_STATUS_MESSAGE")}</p>
+          <p className="mt-2">{t("REVIEW_APPROVAL_MESSAGE")}</p>
         </div>
         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12">
-          <Link to="/dashboard">{t("CLOSE") || "Close"}</Link>
+          <Link to="/dashboard">{t("CLOSE")}</Link>
         </button>
       </div>
     </div>
