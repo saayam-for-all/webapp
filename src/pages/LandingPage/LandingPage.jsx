@@ -19,6 +19,7 @@ import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.jpg";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
+import SquareAd from "#components/Ads/SquareAd";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -117,6 +118,9 @@ export default function Home() {
       </div>
 
       <Carousel />
+      <div className="w-full flex justify-center gap-4">
+        <SquareAd />
+      </div>
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
         {/* <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
           {t("Our Collaborators")}
