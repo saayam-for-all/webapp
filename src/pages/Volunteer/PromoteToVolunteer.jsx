@@ -3,7 +3,7 @@ import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
-import Complete from "./steps/Complete";
+import Review from "./steps/Review";
 import Skills from "./steps/Skills";
 import { useNavigate } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
@@ -94,6 +94,7 @@ const PromoteToVolunteer = () => {
     "Identification",
     "Skills",
     "Availability",
+    "Review",
   ];
 
   const displayStep = (step) => {
@@ -135,7 +136,7 @@ const PromoteToVolunteer = () => {
           />
         );
       case 5:
-        return <Complete />;
+        return <Review />;
       default:
         return null;
     }
@@ -279,7 +280,7 @@ const PromoteToVolunteer = () => {
       {errorMessage && (
         <div className="text-red-500 text-center my-4">{errorMessage}</div>
       )}
-      {currentStep !== steps.length + 1 && (
+      {currentStep !== steps.length && (
         <StepperControl
           handleClick={handleClick}
           currentStep={currentStep}

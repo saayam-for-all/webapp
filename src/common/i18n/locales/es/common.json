@@ -707,5 +707,11 @@
   "ENVIRONMENTAL_HAZARDS": "Peligros ambientales / Respuesta a derrames",
   "SENIOR_HELPLINE": "Línea de ayuda para personas mayores",
   "HOMELESS_SERVICES": "Servicios para personas sin hogar",
-  "FOOD_ASSISTANCE": "Línea de asistencia alimentaria"
+  "FOOD_ASSISTANCE": "Línea de asistencia alimentaria",
+
+  "REVIEW": "Revisión",
+  "IN_REVIEW": "En Revisión",
+  "REVIEW_STATUS_MESSAGE": "Su solicitud de voluntariado ha sido enviada y actualmente está siendo revisada por un administrador.",
+  "REVIEW_APPROVAL_MESSAGE": "Una vez aprobado, se convertirá en voluntario y podrá comenzar a ayudar a otros.",
+  "CONFIRM": "Confirmar"
 }

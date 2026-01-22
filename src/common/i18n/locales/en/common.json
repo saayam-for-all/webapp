@@ -713,5 +713,11 @@
   "ENVIRONMENTAL_HAZARDS": "Environmental Hazards / Spill Response",
   "SENIOR_HELPLINE": "Senior Helpline",
   "HOMELESS_SERVICES": "Homeless Shelter / Services",
-  "FOOD_ASSISTANCE": "Food Assistance Hotline"
+  "FOOD_ASSISTANCE": "Food Assistance Hotline",
+
+  "REVIEW": "Review",
+  "IN_REVIEW": "In Review",
+  "REVIEW_STATUS_MESSAGE": "Your volunteer application has been submitted and is currently under review by an administrator.",
+  "REVIEW_APPROVAL_MESSAGE": "Once approved, you will become a volunteer and can start helping others.",
+  "CONFIRM": "Confirm"
 }
