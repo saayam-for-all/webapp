@@ -1,6 +1,6 @@
 import api from "./api";
 import endpoints from "./endpoints.json";
-import { uploadAudio, speechDetectV2 } from "./requestServices";
+import { speechDetectV2 as speechDetectV2Request } from "./requestServices";
 import audioBufferToWav from "audiobuffer-to-wav";
 
 /**
@@ -38,14 +38,6 @@ export const uploadAudioToS3 = async (audioBlob) => {
     sessionStorage.setItem("temp_audios", JSON.stringify(storedAudios));
     sessionStorage.setItem(audioKey, JSON.stringify(audioData));
 
-    console.log(
-      "[TESTING] Audio stored locally:",
-      audioKey,
-      "Size:",
-      (audioBlob.size / 1024).toFixed(2),
-      "KB",
-    );
-
     // Return mock S3 response format for compatibility
     return {
       url: audioUrl,
@@ -69,7 +61,6 @@ export const uploadAudioToS3 = async (audioBlob) => {
     return response.data;
     */
   } catch (error) {
-    console.error("Error storing audio locally:", error);
     throw new Error(
       error.response?.data?.message || "Failed to store audio locally",
     );
@@ -97,8 +88,6 @@ export const cleanupLocalAudio = (audioKey = null) => {
         );
         const filtered = storedAudios.filter((key) => key !== audioKey);
         sessionStorage.setItem("temp_audios", JSON.stringify(filtered));
-
-        console.log("[TESTING] Cleaned up local audio:", audioKey);
       }
     } else {
       // Clean up all stored audios
@@ -111,18 +100,13 @@ export const cleanupLocalAudio = (audioKey = null) => {
           try {
             const data = JSON.parse(audioData);
             URL.revokeObjectURL(data.url);
-          } catch (e) {
-            console.warn("Error cleaning up audio:", key, e);
-          }
+          } catch (e) {}
         }
         sessionStorage.removeItem(key);
       });
       sessionStorage.removeItem("temp_audios");
-      console.log("[TESTING] Cleaned up all local audio files");
     }
-  } catch (error) {
-    console.error("Error cleaning up local audio:", error);
-  }
+  } catch (error) {}
 };
 
 /**
@@ -140,6 +124,45 @@ export const blobToBase64 = (audioBlob) => {
     reader.onerror = reject;
     reader.readAsDataURL(audioBlob);
   });
+};
+
+const normalizeSpeechDetectV2Response = (data) => {
+  if (Array.isArray(data) && data.length > 0) {
+    const firstResult = data[0];
+    return {
+      transcriptionText:
+        firstResult.transcript ||
+        firstResult.transcriptionText ||
+        firstResult.transcription_text ||
+        "",
+      detectedLanguage:
+        firstResult.detected_language || firstResult.detectedLanguage || null,
+      requestId: firstResult.requestId || firstResult.request_id || null,
+    };
+  }
+
+  if (data && typeof data === "object") {
+    return {
+      transcriptionText:
+        data.transcript ||
+        data.transcriptionText ||
+        data.transcription_text ||
+        "",
+      detectedLanguage: data.detected_language || data.detectedLanguage || null,
+      requestId: data.requestId || data.request_id || null,
+    };
+  }
+
+  return {
+    transcriptionText: "",
+    detectedLanguage: null,
+    requestId: null,
+  };
+};
+
+export const speechDetectV2 = async (audioContent) => {
+  const responseData = await speechDetectV2Request(audioContent);
+  return normalizeSpeechDetectV2Response(responseData);
 };
 
 /**
@@ -166,10 +189,6 @@ export const blobToBase64 = (audioBlob) => {
 const convertToLinear16Wav = async (audioBlob) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("Starting audio conversion...");
-      console.log("Audio blob size:", (audioBlob.size / 1024).toFixed(2), "KB");
-      console.log("Audio blob type:", audioBlob.type);
-
       // Check if audio is too large (more than 10MB)
       const maxSizeMB = 10;
       const sizeMB = audioBlob.size / (1024 * 1024);
@@ -185,23 +204,12 @@ const convertToLinear16Wav = async (audioBlob) => {
         sampleRate: 16000,
       });
 
-      console.log("Decoding audio data...");
       // Decode the audio blob
       const arrayBuffer = await audioBlob.arrayBuffer();
-      console.log(
-        "ArrayBuffer size:",
-        (arrayBuffer.byteLength / 1024).toFixed(2),
-        "KB",
-      );
-
       let audioBuffer;
       try {
         audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0)); // Use slice to create a copy
       } catch (decodeError) {
-        console.error("Error decoding audio data:", decodeError);
-        console.error("Error name:", decodeError.name);
-        console.error("Error message:", decodeError.message);
-
         // Provide more helpful error message
         if (
           decodeError.name === "EncodingError" ||
@@ -224,13 +232,6 @@ const convertToLinear16Wav = async (audioBlob) => {
         }
       }
 
-      console.log("Original audio decoded:", {
-        sampleRate: audioBuffer.sampleRate,
-        duration: audioBuffer.duration.toFixed(2) + "s",
-        channels: audioBuffer.numberOfChannels,
-        length: audioBuffer.length,
-      });
-
       // Check duration limit (e.g., 5 minutes max)
       const maxDurationSeconds = 300; // 5 minutes
       if (audioBuffer.duration > maxDurationSeconds) {
@@ -242,12 +243,7 @@ const convertToLinear16Wav = async (audioBlob) => {
       // If already 16kHz, use it directly; otherwise resample
       let processedBuffer = audioBuffer;
       if (audioBuffer.sampleRate !== 16000) {
-        console.log(
-          `Resampling from ${audioBuffer.sampleRate}Hz to 16000Hz...`,
-        );
         const targetLength = Math.floor(audioBuffer.duration * 16000);
-        console.log("Target length:", targetLength);
-
         // Resample to 16kHz
         const offlineContext = new OfflineAudioContext(
           1, // mono channel
@@ -276,7 +272,6 @@ const convertToLinear16Wav = async (audioBlob) => {
         source.start();
 
         processedBuffer = await offlineContext.startRendering();
-        console.log("Resampled audio to 16kHz");
       }
 
       // Convert to mono if stereo
@@ -302,42 +297,16 @@ const convertToLinear16Wav = async (audioBlob) => {
         monoBuffer.copyToChannel(monoData, 0);
       }
 
-      console.log(
-        "Converting to LINEAR16 PCM (16-bit) using audiobuffer-to-wav library...",
-      );
-
       // Use audiobuffer-to-wav library for faster conversion
       // This library handles the conversion from AudioBuffer to WAV format efficiently
       const wavBuffer = audioBufferToWav(monoBuffer, {
         float32: false, // Use 16-bit PCM (LINEAR16) instead of 32-bit float
       });
 
-      console.log("LINEAR16 PCM conversion complete:", {
-        samples: monoBuffer.length,
-        duration: (monoBuffer.length / 16000).toFixed(2) + "s",
-        bitDepth: "16-bit",
-        encoding: "LINEAR16 (PCM)",
-        sampleRate: "16 kHz",
-        channels: "Mono (1)",
-        format: "WAV with LINEAR16 encoding (lossless)",
-        optimized: "Yes - Google Cloud Speech-to-Text optimal format",
-      });
-      console.log(
-        "WAV file size:",
-        (wavBuffer.byteLength / 1024).toFixed(2),
-        "KB",
-      );
-
-      console.log("Converting to base64...");
       // Convert to base64
       const base64 = arrayBufferToBase64(wavBuffer);
-      console.log("Base64 length:", base64.length, "characters");
-      console.log("✅ Audio conversion complete!");
-
       resolve(base64);
     } catch (error) {
-      console.error("❌ Error converting audio to LINEAR16:", error);
-      console.error("Error stack:", error.stack);
       reject(
         new Error(
           `Audio conversion failed: ${error.message}. Please try recording a shorter audio clip.`,
@@ -444,7 +413,6 @@ export const getTestBase64Audio = async () => {
     // Trim any whitespace/newlines
     return base64String.trim();
   } catch (error) {
-    console.error("Error loading test base64 audio:", error);
     // Fallback: return empty string or throw error
     throw new Error(
       "Failed to load test base64 audio. Make sure cb-base64-string.txt is in the public folder.",
@@ -469,7 +437,6 @@ export const getTestBase64Audio = async () => {
 export const generateHelloAudio = async () => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("=== Generating Test Audio ===");
       const audioContext = new (window.AudioContext ||
         window.webkitAudioContext)({
         sampleRate: 16000, // 16 kHz - optimal for speech recognition
@@ -478,7 +445,6 @@ export const generateHelloAudio = async () => {
       // Use Web Speech API to generate test speech
       // Get test text from the exported function (you can edit getTestText() to change the text)
       const testText = getTestText();
-      console.log("Test text:", testText);
       const utterance = new SpeechSynthesisUtterance(testText);
       utterance.lang = "en-US";
       utterance.rate = 1.0;
@@ -501,15 +467,10 @@ export const generateHelloAudio = async () => {
       mediaRecorder.onstop = async () => {
         try {
           const audioBlob = new Blob(chunks, { type: "audio/webm" });
-          console.log(
-            "Speech generated, converting to base64 string (WEBM OPUS format)...",
-          );
           // Convert to base64 (WEBM OPUS format - no format conversion needed for new API)
           const base64 = await blobToBase64(audioBlob);
-          console.log("✅ Test audio converted to base64 string");
           resolve(base64);
         } catch (error) {
-          console.error("Error converting test audio:", error);
           reject(error);
         }
       };
@@ -551,17 +512,12 @@ export const generateHelloAudio = async () => {
         }
 
         // Use audiobuffer-to-wav library for faster conversion
-        console.log(
-          "Fallback: Creating LINEAR16 WAV from tone pattern using library...",
-        );
         const wavBuffer = audioBufferToWav(buffer, {
           float32: false, // Use 16-bit PCM (LINEAR16) instead of 32-bit float
         });
         const base64 = arrayBufferToBase64(wavBuffer);
-        console.log("✅ Fallback audio created in LINEAR16 WAV format");
         resolve(base64);
       } catch (fallbackError) {
-        console.error("Fallback method also failed:", fallbackError);
         reject(fallbackError);
       }
     }
@@ -575,37 +531,11 @@ export const generateHelloAudio = async () => {
  */
 export const uploadAudioAndTranscribe = async (audioBlob) => {
   try {
-    // Log audio blob details
-    console.log("=== Audio Recording Details ===");
-    console.log("Audio blob type:", audioBlob.type);
-    console.log("Audio blob size:", (audioBlob.size / 1024).toFixed(2), "KB");
-    console.log("Audio blob size (bytes):", audioBlob.size);
-
     // Convert WEBM/Opus audio blob to base64 string (no format conversion needed)
-    console.log("Converting audio blob to base64 string (WEBM OPUS format)...");
     const base64Audio = await blobToBase64(audioBlob);
-
-    console.log("✅ Base64 conversion complete");
-    console.log("Base64 string length:", base64Audio.length, "characters");
-    console.log(
-      "Base64 preview (first 100 chars):",
-      base64Audio.substring(0, 100),
-    );
-    console.log(
-      "Base64 preview (last 100 chars):",
-      base64Audio.substring(base64Audio.length - 100),
-    );
-    console.log("================================");
-
     // Call the speechDetectV2 API which detects language and transcribes
     // No need to pass sampleRate or encoding - API handles WEBM OPUS format
     const response = await speechDetectV2(base64Audio);
-
-    console.log("=== Transcription Response ===");
-    console.log("Detected Language:", response.detectedLanguage);
-    console.log("Transcription Text:", response.transcriptionText);
-    console.log("Text Length:", response.transcriptionText?.length || 0);
-    console.log("==============================");
 
     // Return transcription text, requestId, and detected language if available
     return {
@@ -614,10 +544,6 @@ export const uploadAudioAndTranscribe = async (audioBlob) => {
       detectedLanguage: response.detectedLanguage || null,
     };
   } catch (error) {
-    console.error("Error uploading and transcribing audio:", error);
-    console.error("Error response:", error.response?.data);
-    console.error("Error status:", error.response?.status);
-
     // Provide more specific error messages
     if (error.response?.status === 502) {
       throw new Error(
@@ -667,8 +593,6 @@ export const transcribeAudio = async (
 
     if (apiKey) {
       // Direct Google Cloud Speech-to-Text API call from frontend
-      console.log("Using direct Google Cloud Speech-to-Text API");
-
       // Convert blob to base64
       const base64Audio = await blobToBase64(audioBlob);
 
@@ -741,7 +665,6 @@ export const transcribeAudio = async (
       }
     } else {
       // Fallback to backend API if no API key
-      console.log("No API key found, using backend API");
       const formData = new FormData();
       formData.append("audio", audioBlob);
       formData.append("languageCode", languageCode);
@@ -756,17 +679,12 @@ export const transcribeAudio = async (
       return response.data;
     }
   } catch (error) {
-    console.error("Error transcribing audio:", error);
-
     // Provide helpful error message
     if (error.message?.includes("API key")) {
       throw new Error(
         "Google Cloud API key not configured. Add VITE_GOOGLE_CLOUD_API_KEY to .env file.",
       );
     } else if (error.response?.status === 404) {
-      console.warn(
-        "⚠️ Transcription API not found. Backend endpoint /audio/v0.0.1/transcribe needs to be implemented.",
-      );
       throw new Error(
         "Transcription API not available. Backend endpoint needs to be implemented.",
       );
@@ -794,7 +712,6 @@ export const getSupportedLanguages = async () => {
     const response = await api.get(endpoints.GET_SUPPORTED_LANGUAGES);
     return response.data;
   } catch (error) {
-    console.error("Error fetching supported languages:", error);
     // Return default languages if API fails
     return [
       { code: "en-US", name: "English (US)" },
@@ -829,7 +746,6 @@ export const detectLanguage = async (audioBlob) => {
 
     return response.data.languageCode;
   } catch (error) {
-    console.error("Error detecting language:", error);
     return "en-US"; // Default to English
   }
 };

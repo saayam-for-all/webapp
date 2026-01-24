@@ -13,7 +13,7 @@ import {
   uploadAudioAndTranscribe,
   blobToBase64,
 } from "../../services/audioServices";
-import { speechDetectV2 } from "../../services/requestServices";
+import { speechDetectV2 } from "../../services/audioServices";
 
 const VoiceRecordingComponent = ({
   onTranscriptionUpdate,
@@ -143,10 +143,6 @@ const VoiceRecordingComponent = ({
           audioUrlRef.current = localAudioUrl;
 
           // Upload audio and get transcription using new API
-          console.log("=== Starting Audio Upload ===");
-          console.log("Audio format:", audioBlob.type);
-          console.log("Audio size:", (audioBlob.size / 1024).toFixed(2), "KB");
-
           const transcriptionResult = await uploadAudioAndTranscribe(audioBlob);
 
           // Create upload result object with requestId and audio blob
@@ -158,16 +154,6 @@ const VoiceRecordingComponent = ({
             audioBlob: audioBlob, // Include blob for later submission
             detectedLanguage: transcriptionResult.detectedLanguage || null, // Include detected language
           };
-
-          console.log(
-            "✅ Audio uploaded and transcribed. Request ID:",
-            transcriptionResult.requestId,
-          );
-          console.log(
-            "Transcription text:",
-            transcriptionResult.text || "(empty)",
-          );
-          console.log("=============================");
 
           if (onAudioUploaded) {
             onAudioUploaded(uploadResult);
@@ -182,17 +168,6 @@ const VoiceRecordingComponent = ({
             );
             accumulatedTextRef.current = finalText;
             setTranscriptionError(false);
-
-            console.log(
-              "=== Updating Description with Transcription from speechDetectV2 ===",
-            );
-            console.log(
-              "Detected Language:",
-              transcriptionResult.detectedLanguage,
-            );
-            console.log("Transcription Text (from speechDetectV2):", finalText);
-            console.log("Text Length:", finalText.length);
-            console.log("=============================================");
 
             // Update description field with the transcript from speechDetectV2
             if (onTranscriptionUpdate) {
@@ -213,18 +188,6 @@ const VoiceRecordingComponent = ({
             setTranscriptionError(true);
           }
         } catch (err) {
-          console.error("❌ Error processing audio:", err);
-          console.error("Error details:", {
-            message: err.message,
-            status: err.response?.status,
-            statusText: err.response?.statusText,
-            data: err.response?.data,
-            headers: err.response?.headers,
-          });
-          console.error("Audio blob that failed:", {
-            type: audioBlob.type,
-            size: audioBlob.size,
-          });
           setError(err.message || "Failed to process audio");
           // Still try to use accumulated live transcription if available
           if (accumulatedTextRef.current) {
@@ -275,7 +238,6 @@ const VoiceRecordingComponent = ({
         }
       }, 3000); // Transcribe every 3 seconds during recording
     } catch (err) {
-      console.error("Error accessing microphone:", err);
       setError("Could not access microphone. Please check permissions.");
     }
   };
@@ -362,10 +324,6 @@ const VoiceRecordingComponent = ({
       // Call speechDetectV2 API which auto-detects language and transcribes
       const response = await speechDetectV2(base64Audio);
 
-      console.log("Live transcription API response:", response);
-      console.log("Response transcriptionText:", response?.transcriptionText);
-      console.log("Response detectedLanguage:", response?.detectedLanguage);
-
       if (response && response.transcriptionText) {
         // speechDetectV2 returns full cumulative transcription in detected language
         // e.g., Hindi: "क्या मेरी आवाज आ रही है" or English: "can you hear me hello hello hello"
@@ -380,27 +338,14 @@ const VoiceRecordingComponent = ({
           descriptionLimit,
         );
 
-        console.log(
-          "Live transcription (detected language:",
-          response.detectedLanguage,
-          "):",
-          updatedText,
-        );
-        console.log("Updating description field with:", updatedText);
-
         // Update description field with transcript from speechDetectV2
         if (onTranscriptionUpdate) {
           onTranscriptionUpdate(updatedText);
         }
       } else {
-        console.warn(
-          "Live transcription: No transcript found in response",
-          response,
-        );
       }
     } catch (err) {
       // Don't show errors for live transcription failures to avoid spam
-      console.log("Live transcription error (silent):", err);
     }
   };
 
@@ -429,26 +374,21 @@ const VoiceRecordingComponent = ({
             format: ["webm", "ogg", "mp3", "m4a", "wav"], // Support multiple formats
             volume: 1.0,
             onplay: () => {
-              console.log("Audio playback started");
               setIsPlaying(true);
             },
             onpause: () => {
-              console.log("Audio playback paused");
               setIsPlaying(false);
             },
             onend: () => {
-              console.log("Audio playback ended");
               setIsPlaying(false);
             },
             onloaderror: (id, error) => {
-              console.error("Howler load error:", error);
               setError(
                 "Failed to load audio. The audio format may not be supported.",
               );
               setIsPlaying(false);
             },
             onplayerror: (id, error) => {
-              console.error("Howler play error:", error);
               setError(
                 "Could not play audio. Please check browser audio permissions.",
               );
@@ -466,11 +406,9 @@ const VoiceRecordingComponent = ({
         }
 
         // Play the audio
-        const soundId = howlRef.current.play();
-        console.log("Playing audio with Howler, sound ID:", soundId);
+        howlRef.current.play();
       }
     } catch (error) {
-      console.error("Error playing audio:", error);
       setError("Could not play audio. Please check browser audio permissions.");
       setIsPlaying(false);
     }
@@ -508,8 +446,6 @@ const VoiceRecordingComponent = ({
     if (onTranscriptionUpdate) {
       onTranscriptionUpdate("");
     }
-
-    console.log("Recording deleted");
   };
 
   const Tooltip = ({ children, text }) => {

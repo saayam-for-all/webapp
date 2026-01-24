@@ -19,7 +19,6 @@ import {
   createRequest,
   predictCategories,
   getCategories,
-  uploadAudio,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
@@ -28,12 +27,9 @@ import ElderlySupport from "./Categories/ElderlySupport";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
-import {
-  uploadRequestFile,
-  speechDetectV2,
-} from "../../services/requestServices";
+import { uploadRequestFile } from "../../services/requestServices";
 import VoiceRecordingComponent from "../../common/components/VoiceRecordingComponent";
-import { blobToBase64 } from "../../services/audioServices";
+import { blobToBase64, speechDetectV2 } from "../../services/audioServices";
 import {
   Dialog,
   DialogActions,
