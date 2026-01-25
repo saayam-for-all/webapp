@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { IoMdInformationCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { getEnums } from "../../services/requestServices";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
@@ -138,12 +139,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   // }, []);
 
   useEffect(() => {
-    const storedEnums = localStorage.getItem("enums");
-    if (storedEnums) {
-      setEnums(JSON.parse(storedEnums));
-    } else {
-      console.warn("Enums not found in localStorage, please re-login.");
-    }
+    const fetchEnums = async () => {
+      try {
+        const enumsData = await getEnums();
+        setEnums(enumsData);
+      } catch (error) {
+        console.error("Failed to fetch enums:", error);
+      }
+    };
+    fetchEnums();
   }, []);
 
   const invertEnum = (obj) =>
