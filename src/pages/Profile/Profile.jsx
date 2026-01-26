@@ -15,6 +15,9 @@ import Preferences from "./Preferences";
 import SignOff from "./SignOff";
 import DEFAULT_PROFILE_ICON from "../../assets/Landingpage_images/ProfileImage.jpg";
 
+const MAX_PROFILE_PHOTO_SIZE = 5 * 1024 * 1024; // 5 MB
+const ACCEPTED_PHOTO_TYPES = ["image/jpeg", "image/png"];
+
 function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation("profile");
@@ -26,6 +29,7 @@ function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState(null);
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
@@ -43,31 +47,61 @@ function Profile() {
   }, [hasUnsavedChanges]);
 
   const handlePhotoChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const photo = e.target.result;
-        setTempProfilePhoto(photo);
-      };
-      reader.readAsDataURL(file);
+    const file = event.target.files?.[0];
+    const input = event.target;
+    if (!file) return;
+
+    if (file.size > MAX_PROFILE_PHOTO_SIZE) {
+      setUploadMessage({
+        type: "error",
+        text:
+          t("PROFILE_PHOTO_ERROR_SIZE") || "File size must be 5 MB or less.",
+      });
+      input.value = "";
+      return;
     }
+    if (!ACCEPTED_PHOTO_TYPES.includes(file.type)) {
+      setUploadMessage({
+        type: "error",
+        text:
+          t("PROFILE_PHOTO_ERROR_FORMAT") ||
+          "Only JPG and PNG formats are accepted.",
+      });
+      input.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setTempProfilePhoto(e.target.result);
+      setUploadMessage({
+        type: "success",
+        text:
+          t("PROFILE_PHOTO_UPLOAD_SUCCESS") ||
+          "Photo accepted. Click Save to confirm.",
+      });
+    };
+    reader.readAsDataURL(file);
+    input.value = "";
   };
 
   const handleSaveClick = () => {
     setProfilePhoto(tempProfilePhoto);
     localStorage.setItem("profilePhoto", tempProfilePhoto);
     window.dispatchEvent(new Event("profile-photo-updated"));
+    setUploadMessage(null);
     setIsModalOpen(false);
   };
 
   const handleCancelClick = () => {
     setTempProfilePhoto(profilePhoto);
+    setUploadMessage(null);
     setIsModalOpen(false);
   };
 
   const handleDeleteClick = () => {
     setTempProfilePhoto(DEFAULT_PROFILE_ICON);
+    setUploadMessage(null);
   };
 
   const getTabDisplayName = (tab) => {
@@ -107,10 +141,12 @@ function Profile() {
           "You have unsaved changes in your profile. Do you want to proceed without saving?",
       );
       if (proceed) {
+        setUploadMessage(null);
         setIsModalOpen(true);
         setHasUnsavedChanges(false);
       }
     } else {
+      setUploadMessage(null);
       setIsModalOpen(true);
     }
   };
@@ -245,6 +281,7 @@ function Profile() {
       {isModalOpen && (
         <Modal
           profilePhoto={tempProfilePhoto}
+          uploadMessage={uploadMessage}
           handlePhotoChange={handlePhotoChange}
           handleSaveClick={handleSaveClick}
           handleCancelClick={handleCancelClick}
