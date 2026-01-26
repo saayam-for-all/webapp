@@ -1049,7 +1049,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             <Tab
               label={
                 <span>
-                  Description<span className="text-red-500 ml-1">*</span>
+                  {t("DESCRIPTION")}
+                  <span className="text-red-500 ml-1">*</span>
                 </span>
               }
             >
@@ -1413,14 +1414,17 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </Tab>
 
-            <Tab label="Details">
+            <Tab label={t("DETAILS")}>
               {/* DETAILS TAB CONTENT */}
               <div className="mt-3 flex gap-4" data-testid="parentDivOne">
                 {/* For Self Dropdown */}
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <label htmlFor="self" className="text-gray-700 font-medium">
-                      {t("FOR_SELF")}
+                    <label
+                      htmlFor="category"
+                      className="text-gray-700 font-medium"
+                    >
+                      {t("Category")} {t("REQUEST_FOR")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
