@@ -440,9 +440,9 @@ const Dashboard = ({ userRole }) => {
       const statusNormalized = normalizeStatusValue(request.status);
       const statusActive =
         Object.keys(statusFilter).length === 0 ||
-        Object.values(statusFilter).every((v) => !v) ||
-        statusFilter[statusNormalized] ||
-        statusFilter[request.status]; // Fallback for non-normalized
+        Object.values(statusFilter).every((v) => v === false) ||
+        statusFilter[statusNormalized];
+      // Fallback for non-normalized
 
       // Check if request category matches any selected category
       const categoryMatches = () => {
@@ -463,16 +463,14 @@ const Dashboard = ({ userRole }) => {
       const typeNormalized = normalizeTypeValue(request.type);
       const typeActive =
         Object.keys(typeFilter).length === 0 ||
-        Object.values(typeFilter).every((v) => !v) ||
-        typeFilter[typeNormalized] ||
-        typeFilter[request.type]; // Fallback for non-normalized
+        Object.values(typeFilter).every((v) => v === false) ||
+        typeFilter[typeNormalized];
 
       const priorityNormalized = normalizePriorityValue(request.priority);
       const priorityActive =
         Object.keys(priorityFilter).length === 0 ||
-        Object.values(priorityFilter).every((v) => !v) ||
-        priorityFilter[priorityNormalized] ||
-        priorityFilter[request.priority]; // Fallback for non-normalized
+        Object.values(priorityFilter).every((v) => v === false) ||
+        priorityFilter[priorityNormalized];
 
       const calamityValue =
         request.calamity === true ||
@@ -483,7 +481,7 @@ const Dashboard = ({ userRole }) => {
 
       const calamityActive =
         Object.keys(calamityFilter).length === 0 ||
-        Object.values(calamityFilter).every((v) => !v) ||
+        Object.values(calamityFilter).every((v) => v === false) ||
         calamityFilter[calamityValue] ||
         calamityFilter[request.calamity]; // Fallback for non-normalized
 
@@ -491,7 +489,7 @@ const Dashboard = ({ userRole }) => {
         selectedDashboard !== DASHBOARDS.VOLUNTEER ||
         activeTab !== "managedRequests" ||
         Object.keys(volunteerTypeFilter).length === 0 ||
-        Object.values(volunteerTypeFilter).every((v) => !v) ||
+        Object.values(volunteerTypeFilter).every((v) => v === false) ||
         volunteerTypeFilter[request.volunteerType];
 
       const matchesSearch = Object.keys(request).some((key) =>
@@ -901,7 +899,7 @@ const Dashboard = ({ userRole }) => {
             <IoIosArrowDown className="m-2" />
           </div>
           {isCategoryDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 max-h-96 overflow-y-auto min-w-64">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-50 min-w-64 max-h-64 overflow-y-auto">
               <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                 <input
                   type="checkbox"
@@ -962,7 +960,7 @@ const Dashboard = ({ userRole }) => {
                     onChange={() => handleStatusChange(status.key)}
                     className="cursor-pointer"
                   />
-                  <span>{status.label}</span>
+                  <span>{String(status.label).toUpperCase()}</span>
                 </label>
               ))}
             </div>
@@ -994,13 +992,14 @@ const Dashboard = ({ userRole }) => {
                 >
                   <input
                     type="checkbox"
-                    checked={typeFilter[type.key] || false}
-                    onChange={() =>
+                    checked={typeFilter[type.value] || false}
+                    onChange={() => {
+                      const key = type.value;
                       setTypeFilter((prev) => ({
                         ...prev,
-                        [type.key]: !prev[type.key],
-                      }))
-                    }
+                        [key]: !prev[key],
+                      }));
+                    }}
                     className="cursor-pointer"
                   />
                   <span>{type.label}</span>
@@ -1034,13 +1033,14 @@ const Dashboard = ({ userRole }) => {
                 >
                   <input
                     type="checkbox"
-                    checked={priorityFilter[priority.key] || false}
-                    onChange={() =>
+                    checked={priorityFilter[priority.value] || false}
+                    onChange={() => {
+                      const key = priority.value;
                       setPriorityFilter((prev) => ({
                         ...prev,
-                        [priority.key]: !prev[priority.key],
-                      }))
-                    }
+                        [key]: !prev[key],
+                      }));
+                    }}
                     className="cursor-pointer"
                   />
                   <span>{priority.label}</span>
@@ -1083,7 +1083,7 @@ const Dashboard = ({ userRole }) => {
                     }
                     className="cursor-pointer"
                   />
-                  <span>{cal}</span>
+                  <span>{String(cal).toUpperCase()}</span>
                 </label>
               ))}
             </div>
