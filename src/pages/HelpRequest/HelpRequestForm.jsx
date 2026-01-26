@@ -1424,7 +1424,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="category"
                       className="text-gray-700 font-medium"
                     >
-                      {t("Category")} {t("REQUEST_FOR")}
+                      {t("Category")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
