@@ -1,9 +1,9 @@
 name: Playwright Tests
 on:
   push:
-    branches: [ e2e-playwright-suite]
+    branches: [ oscare2e ]
   pull_request:
-    branches: [ e2e-playwright-suite ]
+    branches: [ oscare2e ]
 jobs:
   playwright-tests:
     timeout-minutes: 60
