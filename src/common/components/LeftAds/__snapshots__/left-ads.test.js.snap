@@ -13,9 +13,25 @@ exports[`LeftAds renders correctly 1`] = `
         data-full-width-responsive="true"
         style="display: block;"
       />
+      <ins
+        class="adsbygoogle"
+        data-ad-client="ca-pub-3674612346757233"
+        data-ad-format="auto"
+        data-ad-slot="9177881705"
+        data-full-width-responsive="true"
+        style="display: block;"
+      />
     </div>
   </body>,
   "container": <div>
+    <ins
+      class="adsbygoogle"
+      data-ad-client="ca-pub-3674612346757233"
+      data-ad-format="auto"
+      data-ad-slot="9177881705"
+      data-full-width-responsive="true"
+      style="display: block;"
+    />
     <ins
       class="adsbygoogle"
       data-ad-client="ca-pub-3674612346757233"
