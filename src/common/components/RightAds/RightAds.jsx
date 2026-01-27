@@ -1,7 +1,8 @@
+import VerticalAd from "#components/Ads/VerticalAd";
 import React from "react";
 
 const RightAds = () => {
-  return <div>{/* <h1>Right Ads</h1> */}</div>;
+  return <VerticalAd />;
 };
 
 export default RightAds;

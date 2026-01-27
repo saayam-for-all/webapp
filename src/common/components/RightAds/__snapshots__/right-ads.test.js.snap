@@ -5,11 +5,25 @@ exports[`RightAdds renders correctly 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div />
+      <ins
+        class="adsbygoogle"
+        data-ad-client="ca-pub-3674612346757233"
+        data-ad-format="auto"
+        data-ad-slot="9177881705"
+        data-full-width-responsive="true"
+        style="display: block;"
+      />
     </div>
   </body>,
   "container": <div>
-    <div />
+    <ins
+      class="adsbygoogle"
+      data-ad-client="ca-pub-3674612346757233"
+      data-ad-format="auto"
+      data-ad-slot="9177881705"
+      data-full-width-responsive="true"
+      style="display: block;"
+    />
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
