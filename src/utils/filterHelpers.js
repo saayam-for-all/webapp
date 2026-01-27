@@ -92,11 +92,15 @@ export const getPriorityOptions = (t) => {
 
   if (enums && enums.requestPriority) {
     const priorityKeys = Object.keys(enums.requestPriority);
-    return priorityKeys.map((key) => ({
+    const options = priorityKeys.map((key) => ({
       key: key,
       value: enums.requestPriority[key],
       label: t(`enums:requestPriority.${key}`, enums.requestPriority[key]),
     }));
+    return [
+      { key: "All", value: "All", label: t("common.All", "All") },
+      ...options,
+    ];
   }
 
   // Fallback to default values
@@ -130,15 +134,21 @@ export const getTypeOptions = (t) => {
 
   if (enums && enums.requestType) {
     const typeKeys = Object.keys(enums.requestType);
-    return typeKeys.map((key) => ({
+    const options = typeKeys.map((key) => ({
       key: key,
       value: enums.requestType[key],
       label: t(`enums:requestType.${key}`, enums.requestType[key]),
     }));
+
+    return [
+      { key: "All", value: "All", label: t("common.All", "All") },
+      ...options,
+    ];
   }
 
-  // Fallback to default values
+  // Fallback
   return [
+    { key: "All", value: "All", label: t("common.All", "All") },
     {
       key: "IN_PERSON",
       value: "In Person",
