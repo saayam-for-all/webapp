@@ -94,22 +94,6 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
         <mock-carousel />
         <div
-          class="w-full flex justify-center gap-4"
-        >
-          <div
-            class="w-full max-w-[300px] min-w-[250px]"
-          >
-            <ins
-              class="adsbygoogle"
-              data-ad-client="ca-pub-3674612346757233"
-              data-ad-format="auto"
-              data-ad-slot="3303489520"
-              data-full-width-responsive="true"
-              style="display: block;"
-            />
-          </div>
-        </div>
-        <div
           class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
           <div
@@ -433,22 +417,6 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
       </div>
       <mock-carousel />
-      <div
-        class="w-full flex justify-center gap-4"
-      >
-        <div
-          class="w-full max-w-[300px] min-w-[250px]"
-        >
-          <ins
-            class="adsbygoogle"
-            data-ad-client="ca-pub-3674612346757233"
-            data-ad-format="auto"
-            data-ad-slot="3303489520"
-            data-full-width-responsive="true"
-            style="display: block;"
-          />
-        </div>
-      </div>
       <div
         class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >
