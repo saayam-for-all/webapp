@@ -135,6 +135,9 @@ export const checkAuthStatus = () => async (dispatch) => {
     try {
       const result = await getUserId(email);
       userDbId = result?.data?.id || null;
+      if (userDbId) {
+        localStorage.setItem("userDbId", userDbId);
+      }
     } catch (dbError) {
       console.warn(
         "Database lookup failed, continuing without databaseId:",
@@ -214,6 +217,7 @@ export const logout = () => async (dispatch) => {
     returnDefaultLanguage();
     await signOut();
     clearToken();
+    localStorage.removeItem("userDbId");
     dispatch(logoutSuccess());
   } catch (error) {
     dispatch(loginFailure(error.message));

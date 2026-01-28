@@ -37,10 +37,19 @@ function SignOff({ setHasUnsavedChanges }) {
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
     try {
-      // Step 1: Get userDbId - fetch it if not available in Redux
+      // Step 1: Get userDbId - try Redux first, then localStorage, then API
       let userId = userDbId;
       let userExistsInDb = true;
 
+      // Try localStorage if Redux doesn't have it
+      if (!userId) {
+        userId = localStorage.getItem("userDbId");
+        if (userId) {
+          console.log("Got user ID from localStorage:", userId);
+        }
+      }
+
+      // If still not found, try to fetch via API
       if (!userId) {
         if (!userEmail) {
           throw new Error(
