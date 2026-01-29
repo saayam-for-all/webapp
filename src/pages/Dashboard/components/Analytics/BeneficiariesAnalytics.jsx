@@ -1,7 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
-  AreaChart,
-  Area,
   BarChart,
   Bar,
   XAxis,
@@ -20,8 +18,9 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import ChartContainer from "./charts/ChartContainer";
-import beneficiariesGrowthData from "../../../../data/analytics/beneficiaries_growth_monthly.json";
-import beneficiariesByCountryData from "../../../../data/analytics/beneficiaries_by_country_monthly.json";
+import { getBeneficiariesTrendAnalysis } from "../../../../services/analyticsServices";
+import beneficiariesGrowthDataFallback from "../../../../data/analytics/beneficiaries_growth_monthly.json";
+import beneficiariesByCountryDataFallback from "../../../../data/analytics/beneficiaries_by_country_monthly.json";
 
 // World map GeoJSON URL
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -34,11 +33,33 @@ const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
  * 2. Beneficiaries by Country (Bar Chart with Top 10 Panel) - Geographic distribution
  */
 const BeneficiariesAnalytics = () => {
-  const [timeAdjustment, setTimeAdjustment] = useState("monthly"); // daily, weekly, monthly
   const [statusFilter, setStatusFilter] = useState("all"); // all, active, inactive
   const [showTop10Only, setShowTop10Only] = useState(true);
   const [geoViewType, setGeoViewType] = useState("bar"); // bar or map
   const [hoveredCountry, setHoveredCountry] = useState(null);
+  const [apiData, setApiData] = useState(null);
+  const [apiLoading, setApiLoading] = useState(true);
+  const [apiError, setApiError] = useState(null);
+
+  // Fetch data from API on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setApiLoading(true);
+        const response = await getBeneficiariesTrendAnalysis();
+        console.log("Beneficiaries API response:", response);
+        setApiData(response);
+        setApiError(null);
+      } catch (error) {
+        console.error("Failed to fetch beneficiaries analytics:", error);
+        setApiError(error);
+      } finally {
+        setApiLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   // Format month for display
   const formatMonth = (monthStr) => {
     const [year, month] = monthStr.split("-");
@@ -48,6 +69,75 @@ const BeneficiariesAnalytics = () => {
       year: "numeric",
     });
   };
+
+  // Extract growth data from API response, fallback to mock data
+  const beneficiariesGrowthData = useMemo(() => {
+    if (!apiData) return beneficiariesGrowthDataFallback;
+
+    // The API returns data for different time ranges.
+    // Try to extract the monthly beneficiaries trend data from the response.
+    // Adapt based on the actual API response structure.
+    const body = apiData.body || apiData;
+
+    // Check if the response has a beneficiaries trend array directly
+    if (Array.isArray(body)) {
+      // If it's already an array of { month, newBeneficiaries } or similar
+      return body;
+    }
+
+    // Check common response shapes
+    const trendData =
+      body.beneficiaries_trend ||
+      body.beneficiariesTrend ||
+      body.monthly ||
+      body["1_year"] ||
+      body["1year"] ||
+      body.beneficiaries;
+
+    if (Array.isArray(trendData) && trendData.length > 0) {
+      // Map API fields to what the component expects
+      return trendData.map((item) => ({
+        month: item.month || item.date || item.period,
+        newBeneficiaries:
+          item.newBeneficiaries ??
+          item.new_beneficiaries ??
+          item.count ??
+          item.value ??
+          0,
+      }));
+    }
+
+    return beneficiariesGrowthDataFallback;
+  }, [apiData]);
+
+  // Extract country data from API response, fallback to mock data
+  const beneficiariesByCountryData = useMemo(() => {
+    if (!apiData) return beneficiariesByCountryDataFallback;
+
+    const body = apiData.body || apiData;
+
+    const countryData =
+      body.country ||
+      body.countries ||
+      body.beneficiaries_by_country ||
+      body.beneficiariesByCountry ||
+      body.country_data;
+
+    if (Array.isArray(countryData) && countryData.length > 0) {
+      return countryData.map((item) => ({
+        month: item.month || item.date || item.period,
+        country: item.country || item.country_name || item.region,
+        beneficiaryCount:
+          item.beneficiaryCount ??
+          item.beneficiary_count ??
+          item.count ??
+          item.value ??
+          0,
+      }));
+    }
+
+    return beneficiariesByCountryDataFallback;
+  }, [apiData]);
 
   // Process growth data with cumulative totals for dual Y-axis
   const growthData = useMemo(() => {
@@ -61,7 +151,7 @@ const BeneficiariesAnalytics = () => {
         cumulativeTotal,
       };
     });
-  }, []);
+  }, [beneficiariesGrowthData]);
 
   // Process country data - aggregate totals by country with top 10 option
   const processCountryData = useMemo(() => {
@@ -79,7 +169,7 @@ const BeneficiariesAnalytics = () => {
       .sort((a, b) => b.count - a.count);
 
     return showTop10Only ? sortedData.slice(0, 10) : sortedData;
-  }, [showTop10Only]);
+  }, [showTop10Only, beneficiariesByCountryData]);
 
   const countryData = processCountryData;
 
@@ -108,14 +198,36 @@ const BeneficiariesAnalytics = () => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
 
+  if (apiLoading) {
+    return (
+      <div className="grid grid-cols-2 gap-4">
+        <ChartContainer title="Beneficiary Growth Trend" description="">
+          <div className="flex items-center justify-center h-64 text-gray-500">
+            Loading beneficiaries data...
+          </div>
+        </ChartContainer>
+        <ChartContainer title="Beneficiaries by Country" description="">
+          <div className="flex items-center justify-center h-64 text-gray-500">
+            Loading beneficiaries data...
+          </div>
+        </ChartContainer>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-2 gap-4">
+      {apiError && (
+        <div className="col-span-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
+          Could not load live data from API. Showing fallback data.
+        </div>
+      )}
       {/* Chart 1: Beneficiary Growth with Cumulative Overlay (Dual Y-Axis) */}
       <ChartContainer
         title="Beneficiary Growth Trend"
         description="Monthly new beneficiaries (bars) and cumulative total (line) with dual Y-axis"
       >
-        {/* Time adjustment and status filter */}
+        {/* Status filter */}
         <div className="mb-4 flex gap-4 items-center flex-wrap">
           <div>
             <label className="text-sm font-medium text-gray-700 mr-2">
@@ -130,10 +242,6 @@ const BeneficiariesAnalytics = () => {
               <option value="active">Active Only</option>
               <option value="inactive">Inactive Only</option>
             </select>
-          </div>
-          <div className="px-3 py-1 text-xs bg-yellow-50 border border-yellow-200 rounded">
-            Note: Daily/Weekly time adjustment & status filtering require
-            additional data fields
           </div>
         </div>
 
