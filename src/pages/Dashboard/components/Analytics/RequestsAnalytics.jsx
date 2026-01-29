@@ -219,7 +219,7 @@ const RequestsAnalytics = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-2 gap-4">
       {/* Chart 1: Request Volume Trend with Time Range Selector */}
       <ChartContainer title="Request Volume Trend" description="">
         {/* Time Range Selector */}

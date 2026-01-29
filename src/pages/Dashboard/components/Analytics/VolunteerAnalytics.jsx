@@ -175,7 +175,7 @@ const VolunteerAnalytics = () => {
   }, [selectedCountry]);
 
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-2 gap-4">
       {/* Chart 1: Volunteer Activity Trend (Multi-Line) */}
       <ChartContainer
         title="Volunteer Activity Trend"
