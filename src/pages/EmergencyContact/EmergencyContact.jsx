@@ -4,7 +4,6 @@ import { Box, List, ListItem, ListItemText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getEmergencyContactInfo } from "../../services/requestServices";
-import { fetchAuthSession } from "aws-amplify/auth";
 
 // Get browser GPS coords (prompts user for permission)
 const getBrowserCoords = () =>
@@ -31,7 +30,7 @@ const getBrowserCoords = () =>
   });
 
 const EmergencyContact = ({ embedded = false }) => {
-  console.log("✅ EmergencyContact component rendered");
+  //console.log("✅ EmergencyContact component rendered");
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -60,13 +59,13 @@ const EmergencyContact = ({ embedded = false }) => {
         // 1) GPS
         try {
           const { lat, lng } = await getBrowserCoords();
-          console.log("GPS coordinates:", { lat, lng });
+          // console.log("GPS coordinates:", { lat, lng });
 
           const raw = await getEmergencyContactInfo({ lat, lng });
-          console.log("Emergency API response (GPS raw):", raw);
+          // console.log("Emergency API response (GPS raw):", raw);
 
           const parsed = normalize(raw);
-          console.log("Emergency API response (GPS parsed):", parsed);
+          // console.log("Emergency API response (GPS parsed):", parsed);
 
           if (alive) setApiData(parsed);
         } catch (geoErr) {
@@ -74,10 +73,10 @@ const EmergencyContact = ({ embedded = false }) => {
 
           // 2) fallback
           const raw = await getEmergencyContactInfo();
-          console.log("Fallback API response (raw):", raw);
+          // console.log("Fallback API response (raw):", raw);
 
           const parsed = normalize(raw);
-          console.log("Fallback API response (parsed):", parsed);
+          // console.log("Fallback API response (parsed):", parsed);
 
           if (alive) setApiData(parsed);
         }
@@ -94,15 +93,6 @@ const EmergencyContact = ({ embedded = false }) => {
       alive = false;
     };
   }, []);
-  // this is only for debug
-  // useEffect(() => {
-  //   fetchAuthSession().then(session => {
-  //     console.log(
-  //       "ACCESS TOKEN:",
-  //       session.tokens.accessToken.toString()
-  //     );
-  //   });
-  // }, []);
 
   // Normalize service numbers from backend
   const dynamic = useMemo(() => {
@@ -111,74 +101,77 @@ const EmergencyContact = ({ embedded = false }) => {
       police: services.police || "911",
       fire: services.fire || "911",
       ambulance: services.ambulance || "911",
-      suicide: services.suicide_helpline || "108",
+      suicide: services.suicide_helpline || "988",
     };
   }, [apiData]);
 
   // Keep your i18n labels; only inject dynamic phone numbers
-  const emergencyContacts = [
-    {
-      category: t("CATEGORY_SAFETY"),
-      contacts: [
-        { name: t("POLICE"), phone: dynamic.police },
-        { name: t("FIRE"), phone: dynamic.fire },
-        // { name: t("SECURITY"), phone: "(123) 456-7890" },
-        // { name: t("DOMESTIC_VIOLENCE"), phone: "1-800-799-7233" },
-        // { name: t("CHILD_ABUSE"), phone: "1-800-422-4453" },
-      ],
-    },
-    {
-      category: t("CATEGORY_MEDICAL"),
-      contacts: [
-        { name: t("MEDICAL_EMERGENCY"), phone: dynamic.ambulance },
-        // { name: t("POISON_CONTROL"), phone: "1-800-222-1222" },
-        { name: t("AMBULANCE"), phone: dynamic.ambulance },
-        { name: t("MENTAL_HEALTH"), phone: dynamic.suicide },
-        { name: t("SUICIDE_PREVENTION"), phone: dynamic.suicide },
-      ],
-    },
-    // {
-    //   category: t("CATEGORY_UTILITIES"),
-    //   contacts: [
-    //     { name: t("GAS_LEAK"), phone: "1-800-555-0199" },
-    //     { name: t("ELECTRICITY_OUTAGE"), phone: "1-800-555-0123" },
-    //     { name: t("WATER_DEPARTMENT"), phone: "1-800-555-0177" },
-    //   ],
-    // },
-    // {
-    //   category: t("CATEGORY_NATURAL"),
-    //   contacts: [
-    //     { name: t("FLOOD_HELP"), phone: "1-800-555-0198" },
-    //     { name: t("EARTHQUAKE_INFO"), phone: "1-800-555-0187" },
-    //     { name: t("HURRICANE_INFO"), phone: "1-800-555-0140" },
-    //     { name: t("EMERGENCY_MGMT"), phone: "1-800-555-0101" },
-    //   ],
-    // },
-    // {
-    //   category: t("CATEGORY_TRANSPORT"),
-    //   contacts: [
-    //     { name: t("ROADSIDE_ASSISTANCE"), phone: "1-800-555-0166" },
-    //     { name: t("HIGHWAY_PATROL"), phone: "1-800-555-0155" },
-    //     { name: t("PUBLIC_TRANSPORT_EMERGENCY"), phone: "1-800-555-0133" },
-    //   ],
-    // },
-    // {
-    //   category: t("CATEGORY_ANIMAL"),
-    //   contacts: [
-    //     { name: t("ANIMAL_CONTROL"), phone: "1-800-555-0145" },
-    //     { name: t("WILDLIFE_RESCUE"), phone: "1-800-555-0146" },
-    //     { name: t("ENVIRONMENTAL_HAZARDS"), phone: "1-800-555-0150" },
-    //   ],
-    // },
-    // {
-    //   category: t("CATEGORY_COMMUNITY"),
-    //   contacts: [
-    //     { name: t("SENIOR_HELPLINE"), phone: "1-800-555-0111" },
-    //     { name: t("HOMELESS_SERVICES"), phone: "1-800-555-0112" },
-    //     { name: t("FOOD_ASSISTANCE"), phone: "1-800-555-0113" },
-    //   ],
-    // },
-  ];
+  const emergencyContacts = useMemo(
+    () => [
+      {
+        category: t("CATEGORY_SAFETY"),
+        contacts: [
+          { name: t("POLICE"), phone: dynamic.police },
+          { name: t("FIRE"), phone: dynamic.fire },
+          // { name: t("SECURITY"), phone: "(123) 456-7890" },
+          // { name: t("DOMESTIC_VIOLENCE"), phone: "1-800-799-7233" },
+          // { name: t("CHILD_ABUSE"), phone: "1-800-422-4453" },
+        ],
+      },
+      {
+        category: t("CATEGORY_MEDICAL"),
+        contacts: [
+          { name: t("MEDICAL_EMERGENCY"), phone: dynamic.ambulance },
+          // { name: t("POISON_CONTROL"), phone: "1-800-222-1222" },
+          { name: t("AMBULANCE"), phone: dynamic.ambulance },
+          { name: t("MENTAL_HEALTH"), phone: dynamic.suicide },
+          { name: t("SUICIDE_PREVENTION"), phone: dynamic.suicide },
+        ],
+      },
+      // {
+      //   category: t("CATEGORY_UTILITIES"),
+      //   contacts: [
+      //     { name: t("GAS_LEAK"), phone: "1-800-555-0199" },
+      //     { name: t("ELECTRICITY_OUTAGE"), phone: "1-800-555-0123" },
+      //     { name: t("WATER_DEPARTMENT"), phone: "1-800-555-0177" },
+      //   ],
+      // },
+      // {
+      //   category: t("CATEGORY_NATURAL"),
+      //   contacts: [
+      //     { name: t("FLOOD_HELP"), phone: "1-800-555-0198" },
+      //     { name: t("EARTHQUAKE_INFO"), phone: "1-800-555-0187" },
+      //     { name: t("HURRICANE_INFO"), phone: "1-800-555-0140" },
+      //     { name: t("EMERGENCY_MGMT"), phone: "1-800-555-0101" },
+      //   ],
+      // },
+      // {
+      //   category: t("CATEGORY_TRANSPORT"),
+      //   contacts: [
+      //     { name: t("ROADSIDE_ASSISTANCE"), phone: "1-800-555-0166" },
+      //     { name: t("HIGHWAY_PATROL"), phone: "1-800-555-0155" },
+      //     { name: t("PUBLIC_TRANSPORT_EMERGENCY"), phone: "1-800-555-0133" },
+      //   ],
+      // },
+      // {
+      //   category: t("CATEGORY_ANIMAL"),
+      //   contacts: [
+      //     { name: t("ANIMAL_CONTROL"), phone: "1-800-555-0145" },
+      //     { name: t("WILDLIFE_RESCUE"), phone: "1-800-555-0146" },
+      //     { name: t("ENVIRONMENTAL_HAZARDS"), phone: "1-800-555-0150" },
+      //   ],
+      // },
+      // {
+      //   category: t("CATEGORY_COMMUNITY"),
+      //   contacts: [
+      //     { name: t("SENIOR_HELPLINE"), phone: "1-800-555-0111" },
+      //     { name: t("HOMELESS_SERVICES"), phone: "1-800-555-0112" },
+      //     { name: t("FOOD_ASSISTANCE"), phone: "1-800-555-0113" },
+      //   ],
+      // },
+    ],
+    [t, dynamic],
+  );
 
   const locationLine = apiData?.resolved_location
     ? `${apiData.resolved_location.city}, ${apiData.resolved_location.state} (${apiData.resolved_location.country})`
@@ -214,9 +207,18 @@ const EmergencyContact = ({ embedded = false }) => {
           {loading
             ? "Fetching emergency numbers..."
             : locationLine
-              ? `Resolved location: ${locationLine} • match: ${apiData?.match_level}`
-              : "Using default emergency numbers."}
+              ? `Area Detected: ${locationLine}`
+              : "Using default emergency numbers - USA"}
         </p>
+
+        {/*/!* Optional status line *!/*/}
+        {/*<p className="text-sm text-gray-600 mb-6">*/}
+        {/*  {loading*/}
+        {/*    ? "Fetching emergency numbers..."*/}
+        {/*    : locationLine*/}
+        {/*      ? `location: ${locationLine} • match: ${apiData?.match_level}`*/}
+        {/*      : "Using default emergency numbers - USA"}*/}
+        {/*</p>*/}
 
         {emergencyContacts.map((section, idx) => (
           <Box key={idx} className="mb-6">
