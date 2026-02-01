@@ -242,8 +242,13 @@ export const signOffUser = async (userId, reason = "") => {
     reason: reason,
   };
 
-  const response = await api.delete(endpoints.SIGN_OFF_USER, {
+  const response = await api.request({
+    method: "DELETE",
+    url: endpoints.SIGN_OFF_USER,
     data: requestBody,
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   return response.data;

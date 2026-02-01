@@ -96,6 +96,11 @@ function SignOff({ setHasUnsavedChanges }) {
       }
 
       // Clear local storage and redirect to home
+      setHasUnsavedChanges(false);
+      alert(
+        t("ACCOUNT_DELETED_SUCCESS") ||
+          "Your account has been successfully deleted.",
+      );
       localStorage.clear();
       window.location.href = "/";
     } catch (error) {
