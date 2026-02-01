@@ -55,6 +55,8 @@
   "NON_PROFIT": "Non-Profit",
   "FOR_PROFIT": "For-Profit",
   "URL": "URL",
+  "HELP_CATEGORIES": "Help Categories",
+  "SELECT_HELP_CATEGORIES": "Select help categories your organization supports...",
 
   "DEFAULT DASHBOARD VIEW": "Default Dashboard View",
   "SELECT DASHBOARD": "Select Dashboard",

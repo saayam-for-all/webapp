@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
+import { HiChevronDown } from "react-icons/hi";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import PropTypes from "prop-types";
@@ -8,10 +9,25 @@ import PropTypes from "prop-types";
 const COUNTRY_CODE_API =
   "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json";
 
+// Mapping from API category keys to translation keys
+const CATEGORY_KEY_MAP = {
+  FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_AND_ESSENTIALS",
+  CLOTHING_SUPPORT: "CLOTHING_ASSISTANCE",
+  HOUSING_SUPPORT: "HOUSING_ASSISTANCE",
+  EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
+  HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_AND_WELLNESS",
+  ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_ASSISTANCE",
+  GENERAL_CATEGORY: "GENERAL_CATEGORY",
+};
+
 function OrganizationDetails({ setHasUnsavedChanges }) {
-  const { t } = useTranslation("profile");
+  const { t } = useTranslation(["profile", "categories"]);
   const [isEditing, setIsEditing] = useState(false);
   const organizationNameRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const categoryDropdownRef = useRef(null);
 
   const [errors, setErrors] = useState({});
 
@@ -27,10 +43,89 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     state: "",
     zipCode: "",
     organizationType: t("NON_PROFIT"),
+    helpCategories: [],
   });
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
+  // Helper function to get translated category label
+  const getCategoryLabel = (catName, parentCatName = null) => {
+    // Get the translation key (map API key to translation key if needed)
+    const translationKey = CATEGORY_KEY_MAP[catName] || catName;
+    const parentKey = parentCatName
+      ? CATEGORY_KEY_MAP[parentCatName] || parentCatName
+      : null;
+
+    let translatedLabel;
+    if (parentKey) {
+      // This is a subcategory
+      translatedLabel = t(
+        `categories:REQUEST_CATEGORIES.${parentKey}.SUBCATEGORIES.${translationKey}.LABEL`,
+        { defaultValue: "" },
+      );
+    } else {
+      // This is a main category
+      translatedLabel = t(
+        `categories:REQUEST_CATEGORIES.${translationKey}.LABEL`,
+        { defaultValue: "" },
+      );
+    }
+
+    // If translation found and not empty, return it
+    if (translatedLabel && !translatedLabel.includes("REQUEST_CATEGORIES")) {
+      return translatedLabel;
+    }
+
+    // Fallback: format the catName to be more readable
+    return catName
+      .replace(/_/g, " ")
+      .toLowerCase()
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
+  // Toggle category selection (for multi-select)
+  const toggleCategorySelection = (catName) => {
+    const currentSelection = organizationInfo.helpCategories || [];
+    const isSelected = currentSelection.includes(catName);
+    const newSelection = isSelected
+      ? currentSelection.filter((c) => c !== catName)
+      : [...currentSelection, catName];
+    handleInputChange("helpCategories", newSelection);
+  };
+
+  // Check if a category is selected
+  const isCategorySelected = (catName) => {
+    return (organizationInfo.helpCategories || []).includes(catName);
+  };
+
+  // Close dropdown when clicking outside
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        categoryDropdownRef.current &&
+        !categoryDropdownRef.current.contains(event.target)
+      ) {
+        setShowCategoryDropdown(false);
+        setHoveredCategory(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    // Load categories from localStorage (stored after user login)
+    const storedCategories = localStorage.getItem("categories");
+    if (storedCategories) {
+      try {
+        const parsedCategories = JSON.parse(storedCategories);
+        if (Array.isArray(parsedCategories)) {
+          setCategories(parsedCategories);
+        }
+      } catch (error) {
+        console.warn("Failed to parse categories from localStorage:", error);
+      }
+    }
+
     fetch(COUNTRY_CODE_API)
       .then((response) => response.json())
       .then((data) => {
@@ -53,7 +148,10 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       localStorage.getItem("organizationInfo"),
     );
     if (savedOrganizationInfo) {
-      setOrganizationInfo(savedOrganizationInfo);
+      setOrganizationInfo({
+        ...savedOrganizationInfo,
+        helpCategories: savedOrganizationInfo.helpCategories || [],
+      });
     }
   }, []);
 
@@ -446,6 +544,182 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
       </div>
 
+      {/* Help Categories Dropdown */}
+      <div className="grid grid-cols-1 gap-8 mb-6">
+        <div>
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {t("HELP_CATEGORIES")}
+          </label>
+          {isEditing ? (
+            <div className="relative" ref={categoryDropdownRef}>
+              {/* Selected categories display / trigger */}
+              <div
+                className="appearance-none block w-full bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 cursor-pointer flex items-center justify-between min-h-[42px]"
+                onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+              >
+                <div className="flex flex-wrap gap-1">
+                  {organizationInfo.helpCategories.length > 0 ? (
+                    organizationInfo.helpCategories.map((catName) => {
+                      // Find parent category for subcategories
+                      let parentCatName = null;
+                      for (const cat of categories) {
+                        if (
+                          cat.subCategories?.some(
+                            (sub) => sub.catName === catName,
+                          )
+                        ) {
+                          parentCatName = cat.catName;
+                          break;
+                        }
+                      }
+                      return (
+                        <span
+                          key={catName}
+                          className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
+                        >
+                          {getCategoryLabel(catName, parentCatName)}
+                        </span>
+                      );
+                    })
+                  ) : (
+                    <span className="text-gray-400">
+                      {t("SELECT_HELP_CATEGORIES")}
+                    </span>
+                  )}
+                </div>
+                <HiChevronDown className="h-5 w-5 text-gray-600 flex-shrink-0" />
+              </div>
+
+              {/* Two-column dropdown */}
+              {showCategoryDropdown && (
+                <div
+                  className="absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex"
+                  style={{
+                    maxHeight: "280px",
+                    minHeight: "120px",
+                    overflow: "hidden",
+                  }}
+                >
+                  {/* Main categories column */}
+                  <div
+                    className={
+                      hoveredCategory?.subCategories?.length > 0
+                        ? "w-1/2 overflow-y-auto border-r"
+                        : "w-full overflow-y-auto"
+                    }
+                    style={{ maxHeight: "280px" }}
+                  >
+                    {categories.map((category) => (
+                      <div
+                        key={category.catId}
+                        className={`p-2 cursor-pointer hover:bg-gray-100 flex items-center justify-between ${
+                          hoveredCategory?.catId === category.catId
+                            ? "bg-gray-50 font-semibold"
+                            : ""
+                        }`}
+                        onMouseEnter={() => setHoveredCategory(category)}
+                        onClick={() => {
+                          if (
+                            !category.subCategories ||
+                            category.subCategories.length === 0
+                          ) {
+                            toggleCategorySelection(category.catName);
+                          }
+                        }}
+                      >
+                        <div className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={isCategorySelected(category.catName)}
+                            onChange={() =>
+                              toggleCategorySelection(category.catName)
+                            }
+                            onClick={(e) => e.stopPropagation()}
+                            className="mr-2 h-4 w-4"
+                          />
+                          <span
+                            title={t(
+                              `categories:REQUEST_CATEGORIES.${CATEGORY_KEY_MAP[category.catName] || category.catName}.DESC`,
+                              { defaultValue: category.catDesc },
+                            )}
+                          >
+                            {getCategoryLabel(category.catName)}
+                          </span>
+                        </div>
+                        {category.subCategories?.length > 0 && (
+                          <span className="text-gray-400">&gt;</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Subcategories column */}
+                  {hoveredCategory?.subCategories?.length > 0 && (
+                    <div
+                      className="w-1/2 overflow-y-auto bg-gray-50"
+                      style={{ maxHeight: "280px" }}
+                    >
+                      {hoveredCategory.subCategories.map((subcategory) => (
+                        <div
+                          key={subcategory.catId}
+                          className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
+                          onClick={() =>
+                            toggleCategorySelection(subcategory.catName)
+                          }
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isCategorySelected(subcategory.catName)}
+                            onChange={() =>
+                              toggleCategorySelection(subcategory.catName)
+                            }
+                            onClick={(e) => e.stopPropagation()}
+                            className="mr-2 h-4 w-4"
+                          />
+                          <span
+                            title={t(
+                              `categories:REQUEST_CATEGORIES.${CATEGORY_KEY_MAP[hoveredCategory.catName] || hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
+                              { defaultValue: subcategory.catDesc },
+                            )}
+                          >
+                            {getCategoryLabel(
+                              subcategory.catName,
+                              hoveredCategory.catName,
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <p className="text-lg text-gray-900">
+              {organizationInfo.helpCategories.length > 0
+                ? organizationInfo.helpCategories
+                    .map((catName) => {
+                      // Find parent category for subcategories
+                      let parentCatName = null;
+                      for (const cat of categories) {
+                        if (
+                          cat.subCategories?.some(
+                            (sub) => sub.catName === catName,
+                          )
+                        ) {
+                          parentCatName = cat.catName;
+                          break;
+                        }
+                      }
+                      return getCategoryLabel(catName, parentCatName);
+                    })
+                    .join(", ")
+                : ""}
+            </p>
+          )}
+        </div>
+      </div>
+
       <div className="flex justify-center mt-6">
         {!isEditing ? (
           <button
@@ -481,9 +755,13 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                     state: "",
                     zipCode: "",
                     organizationType: t("NON_PROFIT"),
+                    helpCategories: [],
                   });
                 } else {
-                  setOrganizationInfo(savedOrganizationInfo);
+                  setOrganizationInfo({
+                    ...savedOrganizationInfo,
+                    helpCategories: savedOrganizationInfo.helpCategories || [],
+                  });
                 }
                 setIsEditing(false);
                 setErrors({});
