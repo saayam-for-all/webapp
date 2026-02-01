@@ -82,6 +82,22 @@ exports[`OrganizationDetails matches snapshot 1`] = `
       </div>
     </div>
     <div
+      class="grid grid-cols-1 gap-8 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Help Categories
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          Food And Essentials Support, Food Assistance
+        </p>
+      </div>
+    </div>
+    <div
       class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6"
     >
       <div>
@@ -146,22 +162,6 @@ exports[`OrganizationDetails matches snapshot 1`] = `
           class="text-lg text-gray-900"
         >
           12345
-        </p>
-      </div>
-    </div>
-    <div
-      class="grid grid-cols-1 gap-8 mb-6"
-    >
-      <div>
-        <label
-          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-        >
-          Help Categories
-        </label>
-        <p
-          class="text-lg text-gray-900"
-        >
-          Food And Essentials Support, Food Assistance
         </p>
       </div>
     </div>
