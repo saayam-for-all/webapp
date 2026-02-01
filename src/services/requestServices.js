@@ -1,4 +1,5 @@
 import api from "./api";
+// import axios from "axios";
 import endpoints from "./endpoints.json";
 
 export const getMyRequests = async () => {
@@ -31,8 +32,13 @@ export const createRequest = async (request) => {
   return response.data;
 };
 
-export const getEmergencyContactInfo = async () => {
-  const response = await api.get(endpoints.GET_EMERGENCY_CONTACT);
+export const getEmergencyContactInfo = async ({ lat, lng } = {}) => {
+  const response = await api.get(endpoints.GET_EMERGENCY_CONTACT, {
+    params:
+      typeof lat === "number" && typeof lng === "number"
+        ? { lat, lng }
+        : undefined,
+  });
   return response.data;
 };
 
