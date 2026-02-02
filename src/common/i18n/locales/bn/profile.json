@@ -51,6 +51,8 @@
   "NON_PROFIT": "অলাভজনক",
   "FOR_PROFIT": "লাভজনক",
   "URL": "ইউআরএল",
+  "HELP_CATEGORIES": "সাহায্য বিভাগসমূহ",
+  "SELECT_HELP_CATEGORIES": "আপনার সংস্থা যে সাহায্য বিভাগগুলি সমর্থন করে তা নির্বাচন করুন...",
   "DEFAULT DASHBOARD VIEW": "ডিফল্ট ড্যাশবোর্ড ভিউ",
   "SELECT DASHBOARD": "ড্যাশবোর্ড নির্বাচন করুন",
   "SUPER_ADMIN_DASHBOARD": "সুপার অ্যাডমিন ড্যাশবোর্ড",
