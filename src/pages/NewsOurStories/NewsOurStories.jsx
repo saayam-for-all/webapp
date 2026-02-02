@@ -1,71 +1,76 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import "./NewsOurStories.css";
+import { useTranslation } from "react-i18next";
 
-/* ✅ EXACT FILENAMES — DO NOT CHANGE */
-import seventeenMileWalk from "../../assets/news_our_stories/seventeenMileWalk.webp";
-import communityUpliftment from "../../assets/news_our_stories/communityupliftment.webp";
-import tieCon from "../../assets/news_our_stories/tieCon.webp";
-
+/* ✅ EXACT FILENAMES from src/assets/news_our_stories (DO NOT CHANGE) */
+import communityupliftment from "../../assets/news_our_stories/communityupliftment.webp";
 import indianConsular from "../../assets/news_our_stories/indian-consular.jpeg";
+import seventeenMileWalk from "../../assets/news_our_stories/seventeenMileWalk.webp";
 import withAmitZavery from "../../assets/news_our_stories/with_Amit_Zavery_from_IIT_Bay_Area_Conference.jpeg";
 import withMadhusudhanSai from "../../assets/news_our_stories/With_Madhusudhan_Sai.jpeg";
 import withMuralidharan from "../../assets/news_our_stories/With_Muralidharan_CEO_of_Sankara_Eye_Foundation.jpeg";
 import withJensen from "../../assets/news_our_stories/with-jensen.jpeg";
 import withVishalSikka from "../../assets/news_our_stories/with-vishal-sikka.jpeg";
 
-/* ===============================
-   STORIES DATA
-   =============================== */
 const stories = [
-  {
-    date: "05/02/2025",
-    title: "Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara",
-    image: tieCon,
-    description:
-      "Our CEO, Rao K Bhethanabotla, attended TiEcon 2025 at Santa Clara, engaging with global leaders and innovators while sharing Saayam’s mission and impact.",
-    link: "#",
-  },
   {
     date: "05/02/2025",
     title:
       "Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment",
-    image: withMadhusudhanSai,
+    image: communityupliftment,
     description:
-      "Saayam collaborated with Sri Madhusudan Sai to strengthen initiatives in healthcare, education, and rural upliftment.",
+      "Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.",
     link: "#",
   },
   {
     date: "05/02/2025",
-    title: "Indian Consular Meet – San Francisco",
+    title: "In Step with the Community: A 17-Mile Walk in San Ramon",
+    image: seventeenMileWalk,
+    description:
+      "Our CEO and Sateesh Mucharla recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.",
+    link: "#",
+  },
+
+  /* ✅ New / extra images (keep them, you can edit text later) */
+  {
+    date: "05/02/2025",
+    title: "With Indian Consular in San Francisco, CA",
     image: indianConsular,
     description:
-      "Saayam leadership met with the Indian Consulate in San Francisco to discuss community welfare and collaboration opportunities.",
+      "A moment with the Indian Consular team during a community engagement event in the Bay Area.",
     link: "#",
   },
   {
     date: "05/02/2025",
-    title: "With Amit Zavery – IIT Bay Area Conference",
+    title: "With Amit Zavery from IIT Bay Area Conference",
     image: withAmitZavery,
     description:
-      "Saayam leadership with Amit Zavery at the IIT Bay Area Conference, exchanging insights on technology and social impact.",
+      "Interaction during the IIT Bay Area Conference, discussing leadership, innovation, and community impact.",
     link: "#",
   },
   {
     date: "05/02/2025",
-    title: "With Muralidharan – CEO, Sankara Eye Foundation",
+    title: "With Madhusudhan Sai",
+    image: withMadhusudhanSai,
+    description:
+      "A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.",
+    link: "#",
+  },
+  {
+    date: "05/02/2025",
+    title: "With Muralidharan – CEO of Sankara Eye Foundation",
     image: withMuralidharan,
     description:
-      "A meaningful interaction with Muralidharan, CEO of Sankara Eye Foundation, exploring collaborations in healthcare outreach.",
+      "Discussion on social impact, healthcare accessibility, and collaborations that uplift communities.",
     link: "#",
   },
   {
     date: "05/02/2025",
-    title: "With Jensen – CEO of NVIDIA",
+    title: "With Jensen",
     image: withJensen,
     description:
-      "A memorable moment with Jensen, CEO of NVIDIA, discussing innovation, leadership, and the role of technology in social good.",
+      "A conversation on technology, leadership, and building mission-driven initiatives.",
     link: "#",
   },
   {
@@ -73,23 +78,7 @@ const stories = [
     title: "With Vishal Sikka – ex CEO of Infosys",
     image: withVishalSikka,
     description:
-      "Interaction with Vishal Sikka, former CEO of Infosys, sharing perspectives on leadership and purpose-driven innovation.",
-    link: "#",
-  },
-  {
-    date: "05/02/2025",
-    title: "In Step with the Community: A 17-Mile Walk",
-    image: seventeenMileWalk,
-    description:
-      "Our leadership participated in a 17-mile community walk promoting wellness, unity, and service.",
-    link: "#",
-  },
-  {
-    date: "05/02/2025",
-    title: "Community Upliftment Initiatives",
-    image: communityUpliftment,
-    description:
-      "Saayam continues to drive impactful community upliftment programs through collaboration and grassroots engagement.",
+      "Interaction with Vishal Sikka, sharing perspectives on leadership and purpose-driven innovation.",
     link: "#",
   },
 ];
@@ -100,42 +89,55 @@ export default function NewsOurStories() {
 
   return (
     <div className="news-our-stories-container px-4 md:px-0">
-      {/* HERO */}
+      {/* Hero Section */}
       <section className="news-our-stories-hero">
         <h1 className="news-our-stories-title">{t("News: Our Stories")}</h1>
+
         <p className="news-our-stories-subtitle">
           {t(
-            "Explore how Saayam for All is making headlines and building impact across communities.",
+            "Explore how Saayam for All is making headlines and gaining recognition for its work in uplifting communities, empowering volunteers, and building an inclusive support network.",
+          )}
+        </p>
+
+        <p className="news-our-stories-desc">
+          {t(
+            "From local stories to national features, discover how our mission is resonating beyond the platform and into the world.",
           )}
         </p>
       </section>
 
-      {/* STORIES */}
-      <section className="news-our-stories-section">
-        {stories.map((story, index) => (
-          <div key={index} className="news-our-stories-story">
-            <img
-              src={story.image}
-              alt={story.title}
-              className="news-our-stories-img-lg"
-            />
-            <div className="news-our-stories-date">{story.date}</div>
-            <h2 className="news-our-stories-story-title">{t(story.title)}</h2>
-            <p className="news-our-stories-story-desc">
-              {t(story.description)}
-            </p>
-            <a href={story.link} className="news-our-stories-link">
+      {/* ✅ 3-per-row grid */}
+      <section className="news-our-stories-grid">
+        {stories.map((story) => (
+          <div key={story.title} className="news-story-card">
+            <div className="news-story-imageWrap">
+              <img
+                src={story.image}
+                alt={story.title}
+                className="news-story-img"
+              />
+            </div>
+
+            <div className="news-story-date">{story.date}</div>
+
+            <h2 className="news-story-title">{t(story.title)}</h2>
+
+            <p className="news-story-desc">{t(story.description)}</p>
+
+            <a href={story.link} className="news-story-link">
               {t("Read More")}
             </a>
           </div>
         ))}
       </section>
 
-      {/* CTA */}
+      {/* Call to Action Section */}
       <section className="news-our-stories-cta">
         <h2 className="news-our-stories-cta-title">{t("Want to join us?")}</h2>
         <p className="news-our-stories-cta-desc">
-          {t("Get involved and connect with our growing community.")}
+          {t(
+            "Chat with our community and get in touch with different charity organizations!",
+          )}
         </p>
         <button
           className="news-our-stories-cta-btn"
