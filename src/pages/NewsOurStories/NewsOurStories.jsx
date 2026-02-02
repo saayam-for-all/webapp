@@ -1,10 +1,20 @@
 import React from "react";
-import seventeenMileWalk from "../../assets/news_our_stoires/17_Mile_walk.webp";
-import communityUpliftment from "../../assets/news_our_stoires/community_upliftment.webp";
-import tieCon from "../../assets/news_our_stoires/tie_con.webp";
 import { useNavigate } from "react-router-dom";
 import "./NewsOurStories.css";
 import { useTranslation } from "react-i18next";
+
+// ✅ Existing images (DO NOT DELETE)
+import seventeenMileWalk from "../../assets/news_our_stories/17_Mile_walk.webp";
+import communityUpliftment from "../../assets/news_our_stories/community_upliftment.webp";
+import tieCon from "../../assets/news_our_stories/tie_con.webp";
+
+// ✅ New images you downloaded (kept separately, not removing anything)
+import indianConsular from "../../assets/news_our_stories/indian-consular.jpeg";
+import withAmitZavery from "../../assets/news_our_stories/with_Amit_Zavery_from_IIT_Bay_Area_Conference.jpeg";
+import withJensen from "../../assets/news_our_stories/with-jensen.jpeg";
+import withMadhusudhanSai from "../../assets/news_our_stories/With_Madhusudhan_Sai.jpeg";
+import withMuralidharan from "../../assets/news_our_stories/With_Muralidharan_CEO_of_Sankara_Eye_Foundation.jpeg";
+import withVishalSikka from "../../assets/news_our_stories/with-vishal-sikka.jpeg";
 
 const stories = [
   {
@@ -34,19 +44,50 @@ const stories = [
   },
 ];
 
+// ✅ This is like “Our Team” page style: image + text under it
+const inTheNewsGallery = [
+  {
+    image: indianConsular,
+    caption: "With Indian Consular in San Francisco, CA",
+  },
+  {
+    image: withAmitZavery,
+    caption: "With Amit Zavery (IIT Bay Area Conference)",
+  },
+  {
+    image: withJensen,
+    caption: "With Jensen (CEO of NVIDIA)",
+  },
+  {
+    image: withMadhusudhanSai,
+    caption: "With Sri Madhusudhan Sai",
+  },
+  {
+    image: withMuralidharan,
+    caption: "With Muralidharan (CEO, Sankara Eye Foundation)",
+  },
+  {
+    image: withVishalSikka,
+    caption: "With Vishal Sikka (ex CEO, Infosys)",
+  },
+];
+
 export default function NewsOurStories() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   return (
     <div className="news-our-stories-container px-4 md:px-0">
       {/* Hero Section */}
       <section className="news-our-stories-hero">
         <h1 className="news-our-stories-title">{t("News: Our Stories")}</h1>
+
         <p className="news-our-stories-subtitle">
           {t(
             "Explore how Saayam for All is making headlines and gaining recognition for its work in uplifting communities, empowering volunteers, and building an inclusive support network.",
           )}
         </p>
+
         <p className="news-our-stories-desc">
           {t(
             "From local stories to national features, discover how our mission is resonating beyond the platform and into the world.",
@@ -54,7 +95,35 @@ export default function NewsOurStories() {
         </p>
       </section>
 
-      {/* Stories Section */}
+      {/* ✅ Gallery Section (Our Team style) */}
+      <section className="news-our-stories-section">
+        <h2
+          className="news-our-stories-story-title"
+          style={{ marginBottom: "18px" }}
+        >
+          {t("In The News")}
+        </h2>
+
+        <div className="flex flex-wrap justify-center gap-10">
+          {inTheNewsGallery.map((item, index) => (
+            <div key={index} className="w-[180px] text-center">
+              <div className="w-[200px] h-[140px] overflow-hidden rounded-lg mx-auto">
+                <img
+                  src={item.image}
+                  alt={item.caption}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="font-semibold text-sm mt-3 text-left pl-1">
+                {t(item.caption)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Stories Section (your existing layout kept) */}
       <section className="news-our-stories-section">
         {/* First story: full width image and text */}
         <div className="news-our-stories-story">
@@ -74,7 +143,8 @@ export default function NewsOurStories() {
             {t("Read More")}
           </a>
         </div>
-        {/* Next two stories: two columns on desktop, stacked on mobile, no card effect */}
+
+        {/* Next two stories */}
         <div className="news-our-stories-row">
           {stories.slice(1).map((story) => (
             <div key={story.title} className="news-our-stories-col">
