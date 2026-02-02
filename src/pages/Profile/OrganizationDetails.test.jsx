@@ -487,4 +487,234 @@ describe("OrganizationDetails", () => {
     );
     expect(asFragment()).toMatchSnapshot();
   });
+
+  it("allows changing organization type radio buttons", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const forProfitRadio = screen.getByLabelText("For-Profit");
+      fireEvent.click(forProfitRadio);
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("allows editing phone number field", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const phoneInput = screen.getByDisplayValue("1234567890");
+      fireEvent.change(phoneInput, { target: { value: "9876543210" } });
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("allows editing email field", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const emailInput = screen.getByDisplayValue("test@example.com");
+      fireEvent.change(emailInput, { target: { value: "new@example.com" } });
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("allows editing URL field", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const urlInput = screen.getByDisplayValue("https://test.org");
+      fireEvent.change(urlInput, { target: { value: "https://new.org" } });
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("allows editing address fields", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const streetInput = screen.getByDisplayValue("123 Main St");
+      fireEvent.change(streetInput, { target: { value: "456 New St" } });
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("allows editing city, state and zip code", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const cityInput = screen.getByDisplayValue("Test City");
+      fireEvent.change(cityInput, { target: { value: "New City" } });
+
+      const stateInput = screen.getByDisplayValue("TS");
+      fireEvent.change(stateInput, { target: { value: "NS" } });
+
+      const zipInput = screen.getByDisplayValue("12345");
+      fireEvent.change(zipInput, { target: { value: "54321" } });
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("selects category by clicking on category row (not checkbox)", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const dropdownTrigger = screen.getByTestId("chevron-icon").parentElement;
+      fireEvent.click(dropdownTrigger);
+    });
+
+    // Click on General Category row (which has no subcategories)
+    await waitFor(() => {
+      const generalCategoryRow = screen
+        .getByText(/General Category/i)
+        .closest("div[class*='cursor-pointer']");
+      fireEvent.click(generalCategoryRow);
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("selects subcategory by clicking on subcategory row", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const dropdownTrigger = screen.getByTestId("chevron-icon").parentElement;
+      fireEvent.click(dropdownTrigger);
+    });
+
+    // Hover over Housing category to show subcategories
+    await waitFor(() => {
+      const housingCategory = screen.getByText(/Housing Support/i);
+      fireEvent.mouseEnter(
+        housingCategory.closest("div[class*='cursor-pointer']"),
+      );
+    });
+
+    // Click on Lease Support subcategory row
+    await waitFor(() => {
+      const leaseRow = screen
+        .getByText(/Lease Support/i)
+        .closest("div[class*='cursor-pointer']");
+      fireEvent.click(leaseRow);
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("displays organization name in view mode", () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    expect(screen.getByText("Test Org")).toBeInTheDocument();
+    expect(screen.getByText("Non-Profit")).toBeInTheDocument();
+  });
+
+  it("displays phone number and email in view mode", () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    expect(screen.getByText(/1234567890/)).toBeInTheDocument();
+    expect(screen.getByText("test@example.com")).toBeInTheDocument();
+  });
+
+  it("displays address fields in view mode", () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    expect(screen.getByText("123 Main St")).toBeInTheDocument();
+    expect(screen.getByText("Suite 100")).toBeInTheDocument();
+    expect(screen.getByText("Test City")).toBeInTheDocument();
+    expect(screen.getByText("TS")).toBeInTheDocument();
+    expect(screen.getByText("12345")).toBeInTheDocument();
+  });
+
+  it("strips non-digit characters from phone input", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const phoneInput = screen.getByDisplayValue("1234567890");
+      fireEvent.change(phoneInput, { target: { value: "123-456-7890" } });
+    });
+
+    // Should strip non-digits
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("strips non-digit characters from zip code input", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const zipInput = screen.getByDisplayValue("12345");
+      fireEvent.change(zipInput, { target: { value: "12345-6789" } });
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("dispatches organization-info-updated event on save", async () => {
+    const eventSpy = jest.fn();
+    window.addEventListener("organization-info-updated", eventSpy);
+
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      fireEvent.click(screen.getByText("Save"));
+    });
+
+    expect(eventSpy).toHaveBeenCalled();
+
+    window.removeEventListener("organization-info-updated", eventSpy);
+  });
 });
