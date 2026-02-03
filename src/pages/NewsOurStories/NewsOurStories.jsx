@@ -1,27 +1,33 @@
 import React from "react";
-import seventeenMileWalk from "../../assets/news_our_stoires/17_Mile_walk.webp";
-import communityUpliftment from "../../assets/news_our_stoires/community_upliftment.webp";
-import tieCon from "../../assets/news_our_stoires/tie_con.webp";
 import { useNavigate } from "react-router-dom";
-import "./NewsOurStories.css";
 import { useTranslation } from "react-i18next";
+import "./NewsOurStories.css";
+
+/* Images (WEBP) */
+import seventeenMileWalk from "../../assets/news_our_stories/17_Mile_walk.webp";
+import withAmitZavery from "../../assets/news_our_stories/AmitZavery.webp";
+import communityUpliftment from "../../assets/news_our_stories/community_upliftment.webp";
+import indianConsular from "../../assets/news_our_stories/Indian_Consular.webp";
+import withJensen from "../../assets/news_our_stories/Jensen_CEO_NVIDIA.webp";
+import withMadhusudhanSai from "../../assets/news_our_stories/MadhusudhanSai.webp";
+import withMuralidharan from "../../assets/news_our_stories/Muralidharan.webp";
+import withVishalSikka from "../../assets/news_our_stories/VishalSikka.webp";
 
 const stories = [
   {
     date: "05/02/2025",
-    title: "Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara",
-    image: tieCon,
+    title: "With Jensen Huang, CEO of NVIDIA",
+    image: withJensen,
     description:
-      "Our CEO, Rao K Bhehanabobla recently attended TiEcon 2025 at the Santa Clara Convention Center, one of the premier global gatherings for entrepreneurs and innovators. He shared Saayam's journey in leveraging technology to build a support-driven community platform. The event spotlighted Saayam's mission and growing influence in the social impact ecosystem.",
+      "A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.",
     link: "#",
   },
   {
     date: "05/02/2025",
-    title:
-      "Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment",
-    image: communityUpliftment,
+    title: "With Vishal Sikka – Former CEO of Infosys",
+    image: withVishalSikka,
     description:
-      "Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.",
+      "An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.",
     link: "#",
   },
   {
@@ -29,7 +35,39 @@ const stories = [
     title: "In Step with the Community: A 17-Mile Walk in San Ramon",
     image: seventeenMileWalk,
     description:
-      "Our CEO and Satesth Mudrala recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.",
+      "Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.",
+    link: "#",
+  },
+  {
+    date: "05/02/2025",
+    title: "With Indian Consular",
+    image: indianConsular,
+    description:
+      "A moment with the Indian Consular team during a community engagement event.",
+    link: "#",
+  },
+  {
+    date: "05/02/2025",
+    title: "With Amit Zavery – IIT Bay Area",
+    image: withAmitZavery,
+    description:
+      "Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.",
+    link: "#",
+  },
+  {
+    date: "05/02/2025",
+    title: "With Madhusudhan Sai",
+    image: withMadhusudhanSai,
+    description:
+      "A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.",
+    link: "#",
+  },
+  {
+    date: "05/02/2025",
+    title: "With Muralidharan – CEO of Sankara Eye Foundation",
+    image: withMuralidharan,
+    description:
+      "Discussion on social impact, healthcare accessibility, and collaborations that uplift communities.",
     link: "#",
   },
 ];
@@ -37,6 +75,7 @@ const stories = [
 export default function NewsOurStories() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   return (
     <div className="news-our-stories-container px-4 md:px-0">
       {/* Hero Section */}
@@ -56,41 +95,30 @@ export default function NewsOurStories() {
 
       {/* Stories Section */}
       <section className="news-our-stories-section">
-        {/* First story: full width image and text */}
-        <div className="news-our-stories-story">
-          <img
-            src={stories[0].image}
-            alt={stories[0].title}
-            className="news-our-stories-img-lg"
-          />
-          <div className="news-our-stories-date">{stories[0].date}</div>
-          <h2 className="news-our-stories-story-title">
-            {t(stories[0].title)}
-          </h2>
-          <p className="news-our-stories-story-desc">
-            {t(stories[0].description)}
-          </p>
-          <a href={stories[0].link} className="news-our-stories-link">
-            {t("Read More")}
-          </a>
-        </div>
-        {/* Next two stories: two columns on desktop, stacked on mobile, no card effect */}
-        <div className="news-our-stories-row">
-          {stories.slice(1).map((story) => (
-            <div key={story.title} className="news-our-stories-col">
-              <img
-                src={story.image}
-                alt={story.title}
-                className="news-our-stories-img-sm"
-              />
-              <div className="news-our-stories-date">{story.date}</div>
-              <h2 className="news-our-stories-story-title">{t(story.title)}</h2>
-              <p className="news-our-stories-story-desc">
-                {t(story.description)}
-              </p>
-              <a href={story.link} className="news-our-stories-link">
-                {t("Read More")}
-              </a>
+        <div className="news-grid">
+          {stories.map((story) => (
+            <div key={story.title} className="news-card">
+              <div className="news-img-wrap">
+                <img src={story.image} alt={story.title} className="news-img" />
+              </div>
+
+              <div className="news-card-body">
+                <div className="news-date">{story.date}</div>
+                <h2 className="news-title">{t(story.title)}</h2>
+                <p className="news-desc">{t(story.description)}</p>
+
+                {/* optional Read More */}
+                {story.link && story.link !== "#" && (
+                  <a
+                    href={story.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="news-link"
+                  >
+                    {t("Read More")}
+                  </a>
+                )}
+              </div>
             </div>
           ))}
         </div>
