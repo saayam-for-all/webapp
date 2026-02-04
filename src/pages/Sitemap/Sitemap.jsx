@@ -1,5 +1,6 @@
 import React from "react";
 import "./Sitemap.css";
+import HorizontalAd from "#components/Ads/HorizontalAd";
 
 const Sitemap = () => {
   return (
@@ -76,6 +77,7 @@ const Sitemap = () => {
           </div>
         </div>
       </div>
+      <HorizontalAd />
     </div>
   );
 };
