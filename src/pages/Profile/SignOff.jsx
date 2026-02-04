@@ -97,12 +97,21 @@ function SignOff({ setHasUnsavedChanges }) {
 
       // Clear local storage and redirect to home
       setHasUnsavedChanges(false);
+      // Dispatch event to notify NavigationGuard that there are no unsaved changes
+      window.dispatchEvent(
+        new CustomEvent("unsaved-changes", {
+          detail: { hasUnsavedChanges: false },
+        }),
+      );
+      localStorage.clear();
       alert(
         t("ACCOUNT_DELETED_SUCCESS") ||
           "Your account has been successfully deleted.",
       );
-      localStorage.clear();
-      window.location.href = "/";
+      // Use setTimeout to allow React state to update before redirect
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 0);
     } catch (error) {
       console.error("Error deleting account:", error);
       alert(

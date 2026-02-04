@@ -251,5 +251,10 @@ export const signOffUser = async (userId, reason = "") => {
     },
   });
 
-  return response.data;
+  // Parse the body if it's a string (AWS Lambda response format)
+  const data = response.data;
+  if (data.body && typeof data.body === "string") {
+    return JSON.parse(data.body);
+  }
+  return data;
 };
