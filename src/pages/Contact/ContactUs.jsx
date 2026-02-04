@@ -103,7 +103,6 @@ const ContactUs = () => {
 
   return (
     <>
-      <HorizontalAd />
       <div className="bg-[#F5F5F5] min-h-screen flex flex-col p-8">
         <div className="flex flex-col md:flex-row w-full gap-6">
           {/* Left Column: Contact Info + FAQ */}
@@ -322,6 +321,9 @@ const ContactUs = () => {
             </Box>
           </div>
         </div>
+      </div>
+      <div className="overflow-hidden mt-2">
+        <HorizontalAd />
       </div>
     </>
   );
