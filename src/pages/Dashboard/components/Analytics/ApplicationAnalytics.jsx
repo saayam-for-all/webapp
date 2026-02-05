@@ -27,7 +27,7 @@ const ApplicationAnalytics = () => {
   ];
 
   return (
-    <div className="p-6 bg-gray-50">
+    <div className="pt-2 px-4 pb-4 bg-gray-50">
       <div className="flex mb-4">
         {tabs.map((tab, index) => (
           <button

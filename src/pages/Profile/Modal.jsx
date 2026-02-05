@@ -3,6 +3,7 @@ import { FaCamera, FaSave, FaTimes, FaTrashAlt } from "react-icons/fa";
 
 function Modal({
   profilePhoto,
+  uploadMessage,
   handlePhotoChange,
   handleSaveClick,
   handleCancelClick,
@@ -27,13 +28,13 @@ function Modal({
           )}
         </div>
 
-        <div className="flex justify-center space-x-4 mb-4">
+        <div className="flex justify-center space-x-4 mb-2">
           <label className="flex flex-col items-center cursor-pointer">
             <FaCamera className="text-2xl text-gray-600" />
             <span className="text-blue-600">Upload</span>
             <input
               type="file"
-              accept="image/*"
+              accept=".jpg,.jpeg,.png,image/jpeg,image/png"
               className="hidden"
               onChange={handlePhotoChange}
             />
@@ -47,6 +48,19 @@ function Modal({
             <span>Delete</span>
           </button>
         </div>
+
+        {uploadMessage && (
+          <div
+            role="alert"
+            className={`mb-4 px-3 py-2 rounded-md text-sm ${
+              uploadMessage.type === "success"
+                ? "bg-green-50 text-green-800 border border-green-200"
+                : "bg-red-50 text-red-800 border border-red-200"
+            }`}
+          >
+            {uploadMessage.text}
+          </div>
+        )}
 
         <div className="flex justify-center space-x-6 mt-4">
           <button

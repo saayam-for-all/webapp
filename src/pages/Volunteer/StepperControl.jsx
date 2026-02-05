@@ -14,8 +14,8 @@ const StepperControl = ({
   const disabledCondition =
     (currentStep === 1 && !isAcknowledged) ||
     (currentStep === 2 && !isUploaded) ||
-    (currentStep === steps.length && !isAvailabilityValid) ||
-    currentStep > steps.length;
+    (currentStep === 4 && !isAvailabilityValid) ||
+    currentStep >= steps.length;
 
   return (
     <div className="container flex justify-around mt-16 mb-8">
@@ -29,7 +29,7 @@ const StepperControl = ({
           onClick={() => handleClick("prev")}
           disabled={currentStep === 1}
         >
-          {t("BACK") || Back}
+          {t("BACK") || "Back"}
         </button>
       </div>
       <div className="px-4 w-24">
@@ -42,7 +42,9 @@ const StepperControl = ({
           }`}
           disabled={disabledCondition}
         >
-          {currentStep === steps.length ? "Confirm" : "Next"}
+          {currentStep === steps.length - 1
+            ? t("CONFIRM") || "Confirm"
+            : t("NEXT") || "Next"}
         </button>
       </div>
     </div>

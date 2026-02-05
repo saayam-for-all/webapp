@@ -39,14 +39,17 @@ export const getCategoriesFromStorage = () => {
 export const getStatusOptions = (t) => {
   const enums = getEnumsFromStorage();
 
-  if (enums && enums.requestStatus) {
-    // Get status keys from enums API
-    const statusKeys = Object.keys(enums.requestStatus);
-    return statusKeys.map((key) => ({
-      key: key,
-      value: enums.requestStatus[key],
-      label: t(`enums:requestStatus.${key}`, enums.requestStatus[key]),
+  if (enums && Array.isArray(enums.requestStatus)) {
+    const options = enums.requestStatus.map((status) => ({
+      key: status,
+      value: status,
+      label: t(`enums:requestStatus.${status}`, status),
     }));
+
+    return [
+      { key: "All", value: "All", label: t("common.All", "All") },
+      ...options,
+    ];
   }
 
   // Fallback to default values
@@ -89,11 +92,15 @@ export const getPriorityOptions = (t) => {
 
   if (enums && enums.requestPriority) {
     const priorityKeys = Object.keys(enums.requestPriority);
-    return priorityKeys.map((key) => ({
+    const options = priorityKeys.map((key) => ({
       key: key,
       value: enums.requestPriority[key],
       label: t(`enums:requestPriority.${key}`, enums.requestPriority[key]),
     }));
+    return [
+      { key: "All", value: "All", label: t("common.All", "All") },
+      ...options,
+    ];
   }
 
   // Fallback to default values
@@ -127,15 +134,21 @@ export const getTypeOptions = (t) => {
 
   if (enums && enums.requestType) {
     const typeKeys = Object.keys(enums.requestType);
-    return typeKeys.map((key) => ({
+    const options = typeKeys.map((key) => ({
       key: key,
       value: enums.requestType[key],
       label: t(`enums:requestType.${key}`, enums.requestType[key]),
     }));
+
+    return [
+      { key: "All", value: "All", label: t("common.All", "All") },
+      ...options,
+    ];
   }
 
-  // Fallback to default values
+  // Fallback
   return [
+    { key: "All", value: "All", label: t("common.All", "All") },
     {
       key: "IN_PERSON",
       value: "In Person",
@@ -208,25 +221,7 @@ export const flattenCategories = (categories, t, depth = 0) => {
  */
 export const normalizeTypeValue = (value) => {
   if (!value) return null;
-  const normalized = String(value).trim().toUpperCase();
-
-  // Map various forms to enum keys
-  if (
-    normalized === "IN PERSON" ||
-    normalized === "IN-PERSON" ||
-    normalized === "IN_PERSON"
-  ) {
-    return "IN_PERSON";
-  }
-  if (
-    normalized === "REMOTE" ||
-    normalized === "VIRTUAL" ||
-    normalized.includes("WORK FROM HOME")
-  ) {
-    return "REMOTE";
-  }
-
-  return normalized;
+  return String(value).trim().toUpperCase().replace(/\s+/g, "_");
 };
 
 /**
@@ -242,5 +237,5 @@ export const normalizeStatusValue = (value) => {
  */
 export const normalizePriorityValue = (value) => {
   if (!value) return null;
-  return String(value).trim().toUpperCase();
+  return String(value).trim().toUpperCase().replace(/\s+/g, "_");
 };

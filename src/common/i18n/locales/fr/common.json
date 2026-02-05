@@ -84,7 +84,7 @@
   "CONTACT": "Contactez-nous",
   "CONTACT_US": "Contactez-nous",
   "COOKIE_NOTICE": "Avis sur les cookies",
-  "COPYRIGHT": "Droits d'auteur © 2025 Saayam For All. Tous droits réservés.",
+  "COPYRIGHT": "Droits d'auteur © 2026 Saayam For All. Tous droits réservés.",
   "COPYRIGHT_TEXT": "Texte de copyright",
   "COST_EFFICIENCY": "Efficacité des coûts",
   "COUNTRY": "Pays",
@@ -153,7 +153,7 @@
   "EMAIL COMMUNICATION PREFERENCE": "Préférence de communication par courrier électronique",
   "EMAIL_CALL_COMPLETE_FORM": "Envoyez un e-mail, appelez ou remplissez le formulaire",
   "EMAIL_REQUIRED": "Veuillez entrer votre adresse e-mail",
-  "EMERGENCY_CONTACT": "Contact d'urgence",
+  "EMERGENCY_CONTACT": "Contacts d'urgence",
   "EMPOWER_INDIVIDUALS": "Notre mission est d'autonomiser les individus et les communautés du monde entier en facilitant l'assistance et le soutien mutuels par le biais de Saayam, une plateforme logicielle qui connecte les demandeurs, les bénévoles, les organisations bénévoles et les donateurs. Notre mission est de fournir une assistance ciblée et opportune à ceux qui sont confrontés à des difficultés dans leur vie, en favorisant une culture de compassion, de solidarité et de service à l'humanité.",
   "ENTER_DETAILS": "Entrez les détails et cliquez sur Soumettre",
   "ENTER_EMAIL": "Entrez l'adresse e-mail",
@@ -707,5 +707,11 @@
   "ENVIRONMENTAL_HAZARDS": "Risques environnementaux / gestion des déversements",
   "SENIOR_HELPLINE": "Ligne d'aide aux seniors",
   "HOMELESS_SERVICES": "Services pour sans-abri",
-  "FOOD_ASSISTANCE": "Ligne d'aide alimentaire"
+  "FOOD_ASSISTANCE": "Ligne d'aide alimentaire",
+
+  "REVIEW": "Examen",
+  "IN_REVIEW": "En cours d'examen",
+  "REVIEW_STATUS_MESSAGE": "Votre candidature de bénévole a été soumise et est actuellement en cours d'examen par un administrateur.",
+  "REVIEW_APPROVAL_MESSAGE": "Une fois approuvé, vous deviendrez bénévole et pourrez commencer à aider les autres.",
+  "CONFIRM": "Confirmer"
 }

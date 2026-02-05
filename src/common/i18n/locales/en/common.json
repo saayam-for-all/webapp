@@ -84,7 +84,7 @@
   "CONTACT": "Contact Us",
   "CONTACT_US": "Contact Us",
   "COOKIE_NOTICE": "Cookie Notice",
-  "COPYRIGHT": "Copyright © 2025 Saayam For All. All rights reserved.",
+  "COPYRIGHT": "Copyright © 2026 Saayam For All. All rights reserved.",
   "COPYRIGHT_TEXT": "Copyright Text",
   "COST_EFFICIENCY": "Cost Efficiency",
   "COUNTRY": "Country",
@@ -153,7 +153,7 @@
   "EMAIL COMMUNICATION PREFERENCE": "Email Communication Preference",
   "EMAIL_CALL_COMPLETE_FORM": "Email Call Complete Form",
   "EMAIL_REQUIRED": "Please enter your email",
-  "EMERGENCY_CONTACT": "Emergency Contact",
+  "EMERGENCY_CONTACT": "Emergency Contacts",
   "EMPOWER_INDIVIDUALS": "To empower individuals and communities worldwide by facilitating mutual assistance and support through Saayam For All, a software platform that connects requestors, volunteers, volunteer organizations, and donors. Our mission is to provide timely and targeted assistance to those facing challenges in their lives, fostering a culture of compassion, solidarity, and service to humanity.",
   "ENTER_DETAILS": "Enter the details and click Submit",
   "ENTER_EMAIL": "Enter Email",
@@ -713,5 +713,11 @@
   "ENVIRONMENTAL_HAZARDS": "Environmental Hazards / Spill Response",
   "SENIOR_HELPLINE": "Senior Helpline",
   "HOMELESS_SERVICES": "Homeless Shelter / Services",
-  "FOOD_ASSISTANCE": "Food Assistance Hotline"
+  "FOOD_ASSISTANCE": "Food Assistance Hotline",
+
+  "REVIEW": "Review",
+  "IN_REVIEW": "In Review",
+  "REVIEW_STATUS_MESSAGE": "Your volunteer application has been submitted and is currently under review by an administrator.",
+  "REVIEW_APPROVAL_MESSAGE": "Once approved, you will become a volunteer and can start helping others.",
+  "CONFIRM": "Confirm"
 }

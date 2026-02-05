@@ -55,6 +55,8 @@
   "NON_PROFIT": "Non-Profit",
   "FOR_PROFIT": "For-Profit",
   "URL": "URL",
+  "HELP_CATEGORIES": "Help Categories",
+  "SELECT_HELP_CATEGORIES": "Select help categories your organization supports...",
 
   "DEFAULT DASHBOARD VIEW": "Default Dashboard View",
   "SELECT DASHBOARD": "Select Dashboard",
@@ -100,5 +102,9 @@
   "SAVE": "Save",
   "SAVING": "Saving...",
   "CANCEL": "Cancel",
-  "SUBMIT": "Submit"
+  "SUBMIT": "Submit",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "Photo accepted. Click Save to confirm.",
+  "PROFILE_PHOTO_ERROR_SIZE": "File size must be 5 MB or less.",
+  "PROFILE_PHOTO_ERROR_FORMAT": "Only JPG and PNG formats are accepted."
 }

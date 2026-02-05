@@ -51,6 +51,8 @@
   "NON_PROFIT": "À but non lucratif",
   "FOR_PROFIT": "À but lucratif",
   "URL": "URL",
+  "HELP_CATEGORIES": "Catégories d'aide",
+  "SELECT_HELP_CATEGORIES": "Sélectionnez les catégories d'aide que votre organisation soutient...",
   "DEFAULT DASHBOARD VIEW": "Vue par défaut du tableau de bord",
   "SELECT DASHBOARD": "Sélectionner le tableau de bord",
   "SUPER_ADMIN_DASHBOARD": "Tableau de bord Super Admin",

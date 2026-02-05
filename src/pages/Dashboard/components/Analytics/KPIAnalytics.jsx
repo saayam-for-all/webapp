@@ -162,7 +162,7 @@ const KPIAnalytics = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-2 gap-4">
       {/* Chart 1: Request Status Distribution (Donut Chart with Center Metrics) */}
       <ChartContainer
         title="Request Status Distribution"

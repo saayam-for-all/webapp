@@ -370,19 +370,11 @@ const Dashboard = ({ userRole }) => {
     return getPriorityOptions(t);
   }, [t]);
 
-  const calamityOptions = useMemo(() => {
-    const values = [
-      ...new Set((data?.body || []).map((r) => r.calamity).filter(Boolean)),
-    ];
-    const normalized = values.map((v) =>
-      v === true || v === "Yes" || v === "yes"
-        ? "Yes"
-        : v === false || v === "None" || v === "no"
-          ? "None"
-          : v,
-    );
-    return normalized.length ? normalized : ["Yes", "None"];
-  }, [data]);
+  const calamityOptions = [
+    { key: "All", value: "All", label: "All" },
+    { key: "Yes", value: "Yes", label: "Yes" },
+    { key: "No", value: "No", label: "No" },
+  ];
 
   // Helper function to get checked status for hierarchical categories
   const getCategoryCheckedStatus = (categoryPath, filterState) => {
@@ -440,9 +432,9 @@ const Dashboard = ({ userRole }) => {
       const statusNormalized = normalizeStatusValue(request.status);
       const statusActive =
         Object.keys(statusFilter).length === 0 ||
-        Object.values(statusFilter).every((v) => !v) ||
-        statusFilter[statusNormalized] ||
-        statusFilter[request.status]; // Fallback for non-normalized
+        Object.values(statusFilter).every((v) => v === false) ||
+        statusFilter[statusNormalized];
+      // Fallback for non-normalized
 
       // Check if request category matches any selected category
       const categoryMatches = () => {
@@ -463,35 +455,35 @@ const Dashboard = ({ userRole }) => {
       const typeNormalized = normalizeTypeValue(request.type);
       const typeActive =
         Object.keys(typeFilter).length === 0 ||
-        Object.values(typeFilter).every((v) => !v) ||
-        typeFilter[typeNormalized] ||
-        typeFilter[request.type]; // Fallback for non-normalized
+        Object.values(typeFilter).every((v) => v === false) ||
+        typeFilter["All"] ||
+        typeFilter[typeNormalized];
 
       const priorityNormalized = normalizePriorityValue(request.priority);
       const priorityActive =
         Object.keys(priorityFilter).length === 0 ||
-        Object.values(priorityFilter).every((v) => !v) ||
-        priorityFilter[priorityNormalized] ||
-        priorityFilter[request.priority]; // Fallback for non-normalized
+        Object.values(priorityFilter).every((v) => v === false) ||
+        priorityFilter["All"] ||
+        priorityFilter[priorityNormalized];
 
       const calamityValue =
         request.calamity === true ||
         request.calamity === "Yes" ||
         request.calamity === "yes"
           ? "Yes"
-          : "None";
+          : "No";
 
       const calamityActive =
         Object.keys(calamityFilter).length === 0 ||
-        Object.values(calamityFilter).every((v) => !v) ||
-        calamityFilter[calamityValue] ||
-        calamityFilter[request.calamity]; // Fallback for non-normalized
+        Object.values(calamityFilter).every((v) => v === false) ||
+        calamityFilter["All"] ||
+        calamityFilter[calamityValue];
 
       const volunteerTypeActive =
         selectedDashboard !== DASHBOARDS.VOLUNTEER ||
         activeTab !== "managedRequests" ||
         Object.keys(volunteerTypeFilter).length === 0 ||
-        Object.values(volunteerTypeFilter).every((v) => !v) ||
+        Object.values(volunteerTypeFilter).every((v) => v === false) ||
         volunteerTypeFilter[request.volunteerType];
 
       const matchesSearch = Object.keys(request).some((key) =>
@@ -511,9 +503,121 @@ const Dashboard = ({ userRole }) => {
   };
 
   const [typeFilter, setTypeFilter] = useState({});
+  const handleTypeChange = (value) => {
+    if (value === "All") {
+      const allSelected =
+        typeOptions.length > 0 &&
+        typeOptions
+          .filter((t) => t.value !== "All")
+          .every((t) => typeFilter[t.value]);
+
+      if (!allSelected) {
+        const updated = {};
+        typeOptions.forEach((t) => {
+          updated[t.value] = true;
+        });
+        setTypeFilter(updated);
+      } else {
+        setTypeFilter({});
+      }
+    } else {
+      setTypeFilter((prev) => {
+        const updated = {
+          ...prev,
+          [value]: !prev[value],
+        };
+
+        const nonAllValues = typeOptions
+          .filter((t) => t.value !== "All")
+          .map((t) => t.value);
+
+        const allSelected = nonAllValues.every((v) => updated[v]);
+
+        updated["All"] = allSelected;
+
+        return updated;
+      });
+    }
+  };
 
   const [priorityFilter, setPriorityFilter] = useState({});
+
+  const handlePriorityChange = (value) => {
+    if (value === "All") {
+      const allSelected =
+        priorityOptions.length > 0 &&
+        priorityOptions
+          .filter((p) => p.value !== "All")
+          .every((p) => priorityFilter[p.value]);
+
+      if (!allSelected) {
+        const updated = {};
+        priorityOptions.forEach((p) => {
+          updated[p.value] = true;
+        });
+        setPriorityFilter(updated);
+      } else {
+        setPriorityFilter({});
+      }
+    } else {
+      setPriorityFilter((prev) => {
+        const updated = {
+          ...prev,
+          [value]: !prev[value],
+        };
+
+        const nonAllValues = priorityOptions
+          .filter((p) => p.value !== "All")
+          .map((p) => p.value);
+
+        const allSelected = nonAllValues.every((v) => updated[v]);
+
+        updated["All"] = allSelected;
+
+        return updated;
+      });
+    }
+  };
+
   const [calamityFilter, setCalamityFilter] = useState({});
+
+  const handleCalamityChange = (value) => {
+    if (value === "All") {
+      const allSelected =
+        calamityOptions.length > 0 &&
+        calamityOptions
+          .filter((c) => c.value !== "All")
+          .every((c) => calamityFilter[c.value]);
+
+      if (!allSelected) {
+        const updated = {};
+        calamityOptions.forEach((c) => {
+          updated[c.value] = true;
+        });
+        setCalamityFilter(updated);
+      } else {
+        setCalamityFilter({});
+      }
+    } else {
+      setCalamityFilter((prev) => {
+        const updated = {
+          ...prev,
+          [value]: !prev[value],
+        };
+
+        const nonAllValues = calamityOptions
+          .filter((c) => c.value !== "All")
+          .map((c) => c.value);
+
+        const allSelected = nonAllValues.every((v) => updated[v]);
+
+        updated["All"] = allSelected;
+
+        return updated;
+      });
+    }
+  };
+
   const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
   const [isPriorityDropdownOpen, setIsPriorityDropdownOpen] = useState(false);
   const [isCalamityDropdownOpen, setIsCalamityDropdownOpen] = useState(false);
@@ -901,7 +1005,7 @@ const Dashboard = ({ userRole }) => {
             <IoIosArrowDown className="m-2" />
           </div>
           {isCategoryDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 max-h-96 overflow-y-auto min-w-64">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-50 min-w-64 max-h-64 overflow-y-auto">
               <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                 <input
                   type="checkbox"
@@ -962,7 +1066,7 @@ const Dashboard = ({ userRole }) => {
                     onChange={() => handleStatusChange(status.key)}
                     className="cursor-pointer"
                   />
-                  <span>{status.label}</span>
+                  <span>{String(status.label).toUpperCase()}</span>
                 </label>
               ))}
             </div>
@@ -994,13 +1098,8 @@ const Dashboard = ({ userRole }) => {
                 >
                   <input
                     type="checkbox"
-                    checked={typeFilter[type.key] || false}
-                    onChange={() =>
-                      setTypeFilter((prev) => ({
-                        ...prev,
-                        [type.key]: !prev[type.key],
-                      }))
-                    }
+                    checked={typeFilter[type.value] || false}
+                    onChange={() => handleTypeChange(type.value)}
                     className="cursor-pointer"
                   />
                   <span>{type.label}</span>
@@ -1034,13 +1133,8 @@ const Dashboard = ({ userRole }) => {
                 >
                   <input
                     type="checkbox"
-                    checked={priorityFilter[priority.key] || false}
-                    onChange={() =>
-                      setPriorityFilter((prev) => ({
-                        ...prev,
-                        [priority.key]: !prev[priority.key],
-                      }))
-                    }
+                    checked={priorityFilter[priority.value] || false}
+                    onChange={() => handlePriorityChange(priority.value)}
                     className="cursor-pointer"
                   />
                   <span>{priority.label}</span>
@@ -1074,16 +1168,11 @@ const Dashboard = ({ userRole }) => {
                 >
                   <input
                     type="checkbox"
-                    checked={calamityFilter[cal] || false}
-                    onChange={() =>
-                      setCalamityFilter((prev) => ({
-                        ...prev,
-                        [cal]: !prev[cal],
-                      }))
-                    }
+                    checked={calamityFilter[cal.value] || false}
+                    onChange={() => handleCalamityChange(cal.value)}
                     className="cursor-pointer"
                   />
-                  <span>{cal}</span>
+                  <span>{cal.label}</span>
                 </label>
               ))}
             </div>
