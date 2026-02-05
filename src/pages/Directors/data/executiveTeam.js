@@ -1,10 +1,7 @@
-import Rishita_Rapuri from "../../../assets/images/Rishitha Rapuri.jpg";
 import Rashmi_Bilaskar from "../../../assets/images/Rashmi Bilaskar.jpeg";
 
 import Sunandha_agarwal from "../../../assets/images/Sunandha_agarwal.jpg";
-import Mohanakrishnan from "../../../assets/images/Mohanakrishnan.jpg";
-
-import Satya_Sai_Manoj from "../../../assets/images/Satya_Sai_Manoj.jpeg";
+import Tejaswi_Vadapalli from "../../../assets/images/Tejaswi_Vadaplli.jpeg";
 
 const ExecutiveTeamData = [
   {
@@ -14,12 +11,12 @@ const ExecutiveTeamData = [
     linkedin: "https://www.linkedin.com/in/rashmi-bilaskar",
   },
 
-  {
-    image: Rishita_Rapuri,
-    name: "Rishitha Rapuri",
-    role: "Business Analyst Team Lead",
-    linkedin: "https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/",
-  },
+  // {
+  //   image: Rishita_Rapuri,
+  //   name: "Rishitha Rapuri",
+  //   role: "Business Analyst Team Lead",
+  //   linkedin: "https://www.linkedin.com/in/rishitha-rapuri-a59a311a6/",
+  // },
 
   // {
   //   image: "https://cdn.builder.io/api/v1/image/assets/TEMP/e2fa182bfa332d6844de8112c9d522f03b2c678f",
@@ -34,13 +31,13 @@ const ExecutiveTeamData = [
   //   role: "Lead Product Manager",
   //   linkedin: "https://www.linkedin.com/in/purva-patil"
   // },
-  {
-    // image: "https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0",
-    image: Mohanakrishnan,
-    name: "Mohana Krishanan R.",
-    role: "Senior Data Architect",
-    linkedin: "https://in.linkedin.com/in/mohanakrishnan-rajamani",
-  },
+  // {
+  //   // image: "https://cdn.builder.io/api/v1/image/assets/TEMP/92f637ee67b17eef71df92364e32211645c6e3d0",
+  //   image: Mohanakrishnan,
+  //   name: "Mohana Krishanan R.",
+  //   role: "Senior Data Architect",
+  //   linkedin: "https://in.linkedin.com/in/mohanakrishnan-rajamani",
+  // },
   // {
   //   image: "https://cdn.builder.io/api/v1/image/assets/TEMP/f0e403a7bcfa9d9be2f1c66f6fac4ca2218935ea",
   //   name: "Rishab Ghosh",
@@ -54,6 +51,12 @@ const ExecutiveTeamData = [
     linkedin:
       "https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details",
   },
+  {
+    image: Tejaswi_Vadapalli,
+    name: "Tejaswi Vadapalli",
+    role: "Program and Operations Lead",
+    linkedin: "https://www.linkedin.com/in/sritejaswi/",
+  },
   // {
   //   image: "https://cdn.builder.io/api/v1/image/assets/TEMP/b6c938fe9f544ef0dacab7bd69eaca9a1a890fdb",
   //   name: "Uma",
@@ -61,12 +64,12 @@ const ExecutiveTeamData = [
   //   linkedin: "https://www.linkedin.com/in/uma"
   // },
 
-  {
-    image: Satya_Sai_Manoj,
-    name: "Satya Sai Manoj",
-    role: "Strategy and Project Management Lead",
-    linkedin: "https://www.linkedin.com/in/satya-sai-manoj-m-403179230/",
-  },
+  // {
+  //   image: Satya_Sai_Manoj,
+  //   name: "Satya Sai Manoj",
+  //   role: "Strategy and Project Management Lead",
+  //   linkedin: "https://www.linkedin.com/in/satya-sai-manoj-m-403179230/",
+  // },
 ];
 
 export default ExecutiveTeamData;
