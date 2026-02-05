@@ -100,3 +100,32 @@ export const speechDetectV2 = async (audioContent) => {
   });
   return response.data;
 };
+
+/**
+ * Sign off (delete) user from the database
+ * @param {string} userId - The user's database ID (e.g., "SID-00-000-002-556")
+ * @param {string} reason - Optional reason for leaving
+ * @returns {Promise<Object>} - Returns { success: boolean, statusCode: number, message: string, data: { userId: string } }
+ */
+export const signOffUser = async (userId, reason = "") => {
+  const requestBody = {
+    userId: userId,
+    reason: reason,
+  };
+
+  const response = await api.request({
+    method: "DELETE",
+    url: endpoints.SIGN_OFF_USER,
+    data: requestBody,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  // Parse the body if it's a string (AWS Lambda response format)
+  const data = response.data;
+  if (data.body && typeof data.body === "string") {
+    return JSON.parse(data.body);
+  }
+  return data;
+};
