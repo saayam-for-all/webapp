@@ -940,17 +940,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!userDbId) {
-      console.error("UserDbId is missing. Aborting submission.");
-      setSnackbar({
-        open: true,
-        message:
-          "Authentication Error: User ID missing. Please log out and log in again.",
-        severity: "error",
-      });
-      return;
-    }
-
     // Validate required fields from Description tab (mandatory tab)
     if (!formData.subject || formData.subject.trim() === "") {
       setSnackbar({
@@ -1115,11 +1104,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         requesterId: userDbId,
         enumMaps,
       });
-
-      console.log(
-        "Sending Create Request Payload:",
-        JSON.stringify(payload, null, 2),
-      );
 
       const respone = await createRequest(payload);
 

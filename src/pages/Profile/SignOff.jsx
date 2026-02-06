@@ -59,11 +59,7 @@ function SignOff({ setHasUnsavedChanges }) {
         console.log("Fetching user ID from database using email...");
         try {
           const userIdResponse = await getUserId(userEmail);
-          // Handle new API response structure (data.user_id) as well as potential old ones
-          userId =
-            userIdResponse?.data?.user_id ||
-            userIdResponse?.data?.id ||
-            userIdResponse?.id;
+          userId = userIdResponse?.data?.id;
         } catch (fetchError) {
           // User not found in database - this is okay, we'll skip DB deletion
           console.log(
