@@ -81,6 +81,9 @@ const RequestDetails = () => {
         </button>
       </div>
 
+      <div className="w-full px-4 mb-4">
+        <h1 className="text-3xl font-bold">{t("REQUEST_DETAILS")}</h1>
+      </div>
       <div className="m-8 grid grid-cols-13 gap-4">
         {!requestData ? (
           <div>Loading...</div>
