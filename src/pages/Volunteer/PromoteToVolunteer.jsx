@@ -3,7 +3,7 @@ import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
-import Complete from "./steps/Complete";
+import Review from "./steps/Review";
 import Skills from "./steps/Skills";
 import { useNavigate } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
@@ -75,7 +75,10 @@ const PromoteToVolunteer = () => {
         const transformedCategories = transformCategories(categoriesArray);
         setCategoriesData({ categories: transformedCategories });
       } catch (parseError) {
-        console.warn("Failed to parse categories from localStorage:", parseError);
+        console.warn(
+          "Failed to parse categories from localStorage:",
+          parseError,
+        );
       }
     }
   };
@@ -91,6 +94,7 @@ const PromoteToVolunteer = () => {
     "Identification",
     "Skills",
     "Availability",
+    "Review",
   ];
 
   const displayStep = (step) => {
@@ -108,6 +112,7 @@ const PromoteToVolunteer = () => {
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
             setIsUploaded={setIsUploaded}
+            onSaveFile={handleSaveFile}
           />
         );
       case 3:
@@ -131,7 +136,7 @@ const PromoteToVolunteer = () => {
           />
         );
       case 5:
-        return <Complete />;
+        return <Review />;
       default:
         return null;
     }
@@ -169,6 +174,16 @@ const PromoteToVolunteer = () => {
 
   const updateVolunteerData = (updates) => {
     volunteerDataRef.current = { ...volunteerDataRef.current, ...updates };
+  };
+
+  const handleSaveFile = () => {
+    if (govtIdFile) {
+      updateVolunteerData({
+        step: 2,
+        userId: userId,
+        govtIdFilename: govtIdFile.name,
+      });
+    }
   };
 
   const handleClick = async (direction) => {
@@ -265,7 +280,7 @@ const PromoteToVolunteer = () => {
       {errorMessage && (
         <div className="text-red-500 text-center my-4">{errorMessage}</div>
       )}
-      {currentStep !== steps.length + 1 && (
+      {currentStep !== steps.length && (
         <StepperControl
           handleClick={handleClick}
           currentStep={currentStep}

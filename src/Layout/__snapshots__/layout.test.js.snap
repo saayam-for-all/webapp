@@ -16,13 +16,23 @@ exports[`Layout renders correctly 1`] = `
           <mock-navbar />
         </header>
         <div
-          class="flex flex-col md:flex-row flex-1"
+          class="flex flex-1"
         >
+          <aside
+            class="left-ads-panel flex-1 "
+          >
+            <mock-left-ads />
+          </aside>
           <main
-            class="order-1 md:order-2 flex-[6] overflow-auto"
+            class="flex-[6] overflow-auto"
           >
             <mock-suspense />
           </main>
+          <aside
+            class="right-ads-panel flex-1 "
+          >
+            <mock-right-ads />
+          </aside>
         </div>
         <footer
           class=""
@@ -49,13 +59,23 @@ exports[`Layout renders correctly 1`] = `
         <mock-navbar />
       </header>
       <div
-        class="flex flex-col md:flex-row flex-1"
+        class="flex flex-1"
       >
+        <aside
+          class="left-ads-panel flex-1 "
+        >
+          <mock-left-ads />
+        </aside>
         <main
-          class="order-1 md:order-2 flex-[6] overflow-auto"
+          class="flex-[6] overflow-auto"
         >
           <mock-suspense />
         </main>
+        <aside
+          class="right-ads-panel flex-1 "
+        >
+          <mock-right-ads />
+        </aside>
       </div>
       <footer
         class=""

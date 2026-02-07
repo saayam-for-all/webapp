@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Pagination from "../Pagination/Pagination";
+
 const Table = ({
   headers,
   rows,
@@ -25,7 +26,7 @@ const Table = ({
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [totalRows, itemsPerPage]);
+  }, [totalRows, itemsPerPage, setCurrentPage]);
 
   const getSortIndicator = (key) => {
     if (sortConfig.key === key) {
@@ -42,7 +43,6 @@ const Table = ({
         const date = new Date(value);
         if (Number.isNaN(date.getTime())) return value;
 
-        // Format: MM/DD/YYYY HH:MM:SS AM/PM
         const datePart = date.toLocaleDateString("en-US", {
           year: "numeric",
           month: "2-digit",
@@ -66,6 +66,13 @@ const Table = ({
   const dataKeyMap = { requestId: "id", beneficiaryId: "userId" };
   const resolveKey = (header) => dataKeyMap[header] || header;
 
+  const getCellValue = (row, header) => {
+    if (header === "requestId") return row[resolveKey(header)];
+    return formatDateTime(row[header], header);
+  };
+
+  const shouldLinkCell = (header) => header === "requestId" || header === "id";
+
   return (
     <div className="relative h-full" data-testid="container">
       <div className="overflow-auto h-4/5">
@@ -73,7 +80,7 @@ const Table = ({
           className="min-w-full divide-y divide-gray-200"
           data-testid="table"
         >
-          <thead className="" data-testid="table-header">
+          <thead data-testid="table-header">
             <tr>
               {headers.map((key) => (
                 <th
@@ -96,8 +103,9 @@ const Table = ({
               ))}
             </tr>
           </thead>
+
           <tbody
-            className="bg-white divide-y divide-gray-200 "
+            className="bg-white divide-y divide-gray-200"
             data-testid="table-body"
           >
             {paginatedRequests.length === 0 ? (
@@ -119,33 +127,43 @@ const Table = ({
                 </td>
               </tr>
             ) : (
-              paginatedRequests.map((request, rowIndex) => (
+              paginatedRequests.map((row, rowIndex) => (
                 <tr key={rowIndex}>
-                  {headers.map((header, colIndex) => (
-                    <td
-                      key={colIndex}
-                      className="px-6 py-2"
-                      data-testid="map-data-one"
-                    >
-                      {header === "requestId" ? (
-                        <Link
-                          to={getLinkPath(request, header)}
-                          className="text-indigo-600 hover:text-indigo-900"
-                          state={getLinkState ? getLinkState(request) : {}}
-                        >
-                          {request[resolveKey(header)]}
-                        </Link>
-                      ) : (
-                        formatDateTime(request[header], header)
-                      )}
-                    </td>
-                  ))}
+                  {headers.map((header, colIndex) => {
+                    const value = getCellValue(row, header);
+
+                    const path =
+                      shouldLinkCell(header) && getLinkPath
+                        ? getLinkPath(row, header)
+                        : null;
+
+                    return (
+                      <td
+                        key={colIndex}
+                        className="px-6 py-2"
+                        data-testid="map-data-one"
+                      >
+                        {path ? (
+                          <Link
+                            to={path}
+                            className="text-indigo-600 hover:text-indigo-900"
+                            state={getLinkState ? getLinkState(row) : {}}
+                          >
+                            {value}
+                          </Link>
+                        ) : (
+                          value
+                        )}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
+
       <div className="h-1/5">
         {rows.length > 0 && (
           <Pagination
@@ -161,6 +179,7 @@ const Table = ({
     </div>
   );
 };
+
 Table.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string).isRequired,
   rows: PropTypes.array.isRequired,
@@ -178,4 +197,5 @@ Table.propTypes = {
   getLinkPath: PropTypes.func.isRequired,
   getLinkState: PropTypes.func,
 };
+
 export default Table;

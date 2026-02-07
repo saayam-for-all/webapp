@@ -174,7 +174,7 @@ const VoluntaryOrganizations = () => {
           onClick={() => navigate(-1)}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
+          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || "Back"}
         </button>
       </div>
       <h1 className="text-2xl font-bold mb-5">Organizations</h1>
@@ -227,20 +227,18 @@ const VoluntaryOrganizations = () => {
 
       <Table
         headers={headers}
-        rows={rows}
+        rows={filteredData}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-        totalRows={totalRows}
-        itemsPerPage={itemsPerPage}
+        totalPages={totalPages(filteredData)}
+        totalRows={filteredData.length}
+        itemsPerPage={rowsPerPage}
         sortConfig={sortConfig}
         requestSort={requestSort}
-        onRowsPerPageChange={onRowsPerPageChange}
-        getLinkPath={(request, header) => {
-          if (String(header).toLowerCase() === "id") {
-            return `/organization/${request.id}`;
-          }
-          return null;
+        onRowsPerPageChange={handleRowsPerPageChange}
+        getLinkPath={(row, header) => {
+          if (header !== "id") return null;
+          return `/organization/${row.id}`;
         }}
       />
     </div>

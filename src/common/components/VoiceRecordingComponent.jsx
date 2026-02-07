@@ -6,13 +6,14 @@ import {
   FiPlay,
   FiPause,
   FiAlertTriangle,
+  FiTrash2,
 } from "react-icons/fi";
 import { Howl } from "howler";
 import {
-  transcribeAudio,
-  uploadAudioToS3,
-  cleanupLocalAudio,
+  uploadAudioAndTranscribe,
+  blobToBase64,
 } from "../../services/audioServices";
+import { speechDetectV2 } from "../../services/audioServices";
 
 const VoiceRecordingComponent = ({
   onTranscriptionUpdate,
@@ -39,7 +40,7 @@ const VoiceRecordingComponent = ({
   const mimeTypeRef = useRef("audio/webm");
   const transcriptionIntervalRef = useRef(null);
   const accumulatedTextRef = useRef("");
-  const audioKeyRef = useRef(null); // Store audio key for cleanup
+  const audioUrlRef = useRef(null); // Store audio URL for cleanup
 
   // Cleanup Howler instance when audioUrl changes
   useEffect(() => {
@@ -66,10 +67,10 @@ const VoiceRecordingComponent = ({
         howlRef.current.unload();
         howlRef.current = null;
       }
-      // Clean up local audio storage when component unmounts
-      if (audioKeyRef.current) {
-        cleanupLocalAudio(audioKeyRef.current);
-        audioKeyRef.current = null;
+      // Clean up local audio URL when component unmounts
+      if (audioUrlRef.current) {
+        URL.revokeObjectURL(audioUrlRef.current);
+        audioUrlRef.current = null;
       }
     };
   }, []);
@@ -136,75 +137,57 @@ const VoiceRecordingComponent = ({
         setIsProcessing(true);
 
         try {
-          // Upload to S3 (currently stores locally for testing)
-          const uploadResult = await uploadAudioToS3(audioBlob);
-          // Store audio key for cleanup
-          audioKeyRef.current = uploadResult.key;
-          // Set audio URL for playback
-          console.log(
-            "[TESTING] Audio saved locally, URL created for playback:",
-            uploadResult.url,
-          );
-          console.log(
-            "[TESTING] Audio file size:",
-            (audioBlob.size / 1024).toFixed(2),
-            "KB",
-          );
-          setAudioUrl(uploadResult.url);
+          // Create local URL for playback
+          const localAudioUrl = URL.createObjectURL(audioBlob);
+          setAudioUrl(localAudioUrl);
+          audioUrlRef.current = localAudioUrl;
+
+          // Upload audio and get transcription using new API
+          const transcriptionResult = await uploadAudioAndTranscribe(audioBlob);
+
+          // Create upload result object with requestId and audio blob
+          const uploadResult = {
+            url: localAudioUrl,
+            requestId: transcriptionResult.requestId,
+            fileName: `recording-${Date.now()}.webm`,
+            size: audioBlob.size,
+            audioBlob: audioBlob, // Include blob for later submission
+            detectedLanguage: transcriptionResult.detectedLanguage || null, // Include detected language
+          };
+
           if (onAudioUploaded) {
             onAudioUploaded(uploadResult);
           }
 
-          // Final transcription to ensure accuracy (in case live transcription missed something)
-          // This will also use the same language as recording
-          try {
-            const finalTranscription = await transcribeAudio(
-              audioBlob,
-              languageCode,
-              false, // Final batch transcription
+          // Use transcription from speechDetectV2 API response
+          // The transcript is in the detected language (e.g., Hindi: "क्या मेरी आवाज आ रही है")
+          if (transcriptionResult && transcriptionResult.text) {
+            const finalText = transcriptionResult.text.substring(
+              0,
+              descriptionLimit,
             );
-            if (finalTranscription && finalTranscription.text) {
-              // Use final transcription if it's more complete than live transcription
-              const finalText = finalTranscription.text.substring(
-                0,
-                descriptionLimit,
-              );
-              accumulatedTextRef.current = finalText;
-              setTranscriptionError(false);
-              if (onTranscriptionUpdate) {
-                onTranscriptionUpdate(finalText);
-              }
-            } else if (accumulatedTextRef.current) {
-              // Fallback to accumulated live transcription if final fails
-              const truncatedText = accumulatedTextRef.current.substring(
-                0,
-                descriptionLimit,
-              );
-              setTranscriptionError(false);
-              if (onTranscriptionUpdate) {
-                onTranscriptionUpdate(truncatedText);
-              }
-            } else {
-              // No transcription available
-              setTranscriptionError(true);
+            accumulatedTextRef.current = finalText;
+            setTranscriptionError(false);
+
+            // Update description field with the transcript from speechDetectV2
+            if (onTranscriptionUpdate) {
+              onTranscriptionUpdate(finalText);
             }
-          } catch (transcriptionErr) {
-            console.error("Transcription failed:", transcriptionErr);
+          } else if (accumulatedTextRef.current) {
+            // Fallback to accumulated live transcription if API transcription is empty
+            const truncatedText = accumulatedTextRef.current.substring(
+              0,
+              descriptionLimit,
+            );
+            setTranscriptionError(false);
+            if (onTranscriptionUpdate) {
+              onTranscriptionUpdate(truncatedText);
+            }
+          } else {
+            // No transcription available
             setTranscriptionError(true);
-            // Still allow user to proceed - they can type manually
-            // Use accumulated live transcription if available
-            if (accumulatedTextRef.current) {
-              const truncatedText = accumulatedTextRef.current.substring(
-                0,
-                descriptionLimit,
-              );
-              if (onTranscriptionUpdate) {
-                onTranscriptionUpdate(truncatedText);
-              }
-            }
           }
         } catch (err) {
-          console.error("Error processing audio:", err);
           setError(err.message || "Failed to process audio");
           // Still try to use accumulated live transcription if available
           if (accumulatedTextRef.current) {
@@ -255,7 +238,6 @@ const VoiceRecordingComponent = ({
         }
       }, 3000); // Transcribe every 3 seconds during recording
     } catch (err) {
-      console.error("Error accessing microphone:", err);
       setError("Could not access microphone. Please check permissions.");
     }
   };
@@ -323,6 +305,7 @@ const VoiceRecordingComponent = ({
   };
 
   // Live transcription: send audio chunks periodically during recording
+  // Uses speechDetectV2 API which auto-detects language and returns transcript
   const performLiveTranscription = async () => {
     if (audioChunksRef.current.length === 0) return;
 
@@ -335,46 +318,34 @@ const VoiceRecordingComponent = ({
       // Only transcribe if we have enough audio (at least 2 seconds worth)
       if (cumulativeBlob.size < 10000) return; // Skip if too small
 
-      const transcription = await transcribeAudio(
-        cumulativeBlob,
-        languageCode,
-        true, // isStreaming = true for live transcription
-      );
+      // Convert audio blob to base64 for speechDetectV2 API
+      const base64Audio = await blobToBase64(cumulativeBlob);
 
-      if (transcription && transcription.text) {
-        // For live transcription, we want to append new text
-        // The backend should return only the new transcribed portion
-        const newText = transcription.text;
+      // Call speechDetectV2 API which auto-detects language and transcribes
+      const response = await speechDetectV2(base64Audio);
 
-        // If backend returns full transcription, extract only new parts
-        // Otherwise, append the new text
-        if (newText.length > accumulatedTextRef.current.length) {
-          // Backend returned full cumulative transcription
-          accumulatedTextRef.current = newText;
+      if (response && response.transcriptionText) {
+        // speechDetectV2 returns full cumulative transcription in detected language
+        // e.g., Hindi: "क्या मेरी आवाज आ रही है" or English: "can you hear me hello hello hello"
+        const newText = response.transcriptionText;
 
-          // Update description field with accumulated text (truncated to limit)
-          const updatedText = accumulatedTextRef.current.substring(
-            0,
-            descriptionLimit,
-          );
-          if (onTranscriptionUpdate) {
-            onTranscriptionUpdate(updatedText);
-          }
-        } else {
-          // Backend returned only new portion, append it
-          accumulatedTextRef.current += " " + newText;
-          const updatedText = accumulatedTextRef.current.substring(
-            0,
-            descriptionLimit,
-          );
-          if (onTranscriptionUpdate) {
-            onTranscriptionUpdate(updatedText);
-          }
+        // Update accumulated text with the full transcription (in detected language)
+        accumulatedTextRef.current = newText;
+
+        // Update description field with accumulated text (truncated to limit)
+        const updatedText = accumulatedTextRef.current.substring(
+          0,
+          descriptionLimit,
+        );
+
+        // Update description field with transcript from speechDetectV2
+        if (onTranscriptionUpdate) {
+          onTranscriptionUpdate(updatedText);
         }
+      } else {
       }
     } catch (err) {
       // Don't show errors for live transcription failures to avoid spam
-      console.log("Live transcription error (silent):", err);
     }
   };
 
@@ -403,26 +374,21 @@ const VoiceRecordingComponent = ({
             format: ["webm", "ogg", "mp3", "m4a", "wav"], // Support multiple formats
             volume: 1.0,
             onplay: () => {
-              console.log("Audio playback started");
               setIsPlaying(true);
             },
             onpause: () => {
-              console.log("Audio playback paused");
               setIsPlaying(false);
             },
             onend: () => {
-              console.log("Audio playback ended");
               setIsPlaying(false);
             },
             onloaderror: (id, error) => {
-              console.error("Howler load error:", error);
               setError(
                 "Failed to load audio. The audio format may not be supported.",
               );
               setIsPlaying(false);
             },
             onplayerror: (id, error) => {
-              console.error("Howler play error:", error);
               setError(
                 "Could not play audio. Please check browser audio permissions.",
               );
@@ -440,13 +406,45 @@ const VoiceRecordingComponent = ({
         }
 
         // Play the audio
-        const soundId = howlRef.current.play();
-        console.log("Playing audio with Howler, sound ID:", soundId);
+        howlRef.current.play();
       }
     } catch (error) {
-      console.error("Error playing audio:", error);
       setError("Could not play audio. Please check browser audio permissions.");
       setIsPlaying(false);
+    }
+  };
+
+  const deleteRecording = () => {
+    // Stop playback if playing
+    if (howlRef.current) {
+      howlRef.current.stop();
+      howlRef.current.unload();
+      howlRef.current = null;
+    }
+
+    // Clean up audio URL
+    if (audioUrlRef.current) {
+      URL.revokeObjectURL(audioUrlRef.current);
+      audioUrlRef.current = null;
+    }
+
+    // Reset state
+    setAudioUrl(null);
+    setAudioBlob(null);
+    setIsPlaying(false);
+    setError("");
+    setTranscriptionError(false);
+    accumulatedTextRef.current = "";
+    audioChunksRef.current = [];
+
+    // Notify parent component
+    if (onAudioUploaded) {
+      onAudioUploaded(null);
+    }
+
+    // Clear description if it was from transcription
+    if (onTranscriptionUpdate) {
+      onTranscriptionUpdate("");
     }
   };
 
@@ -466,7 +464,8 @@ const VoiceRecordingComponent = ({
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      {!isRecording ? (
+      {/* Show record button only when not recording and no audio exists */}
+      {!isRecording && !audioUrl && (
         <Tooltip text="Start recording">
           <button
             type="button"
@@ -477,14 +476,23 @@ const VoiceRecordingComponent = ({
             <FiMic size={20} />
           </button>
         </Tooltip>
-      ) : (
+      )}
+
+      {/* Show recording controls and visual feedback while recording */}
+      {isRecording && (
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 px-2 py-1 bg-red-500 text-white rounded-full">
-            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-            <span className="text-xs font-medium">
-              {formatTime(recordingTime)}
+          {/* Visual feedback: Pulsing red indicator with timer */}
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-red-500 text-white rounded-full shadow-md animate-pulse">
+            <div className="relative">
+              <div className="w-3 h-3 bg-white rounded-full"></div>
+              <div className="absolute inset-0 w-3 h-3 bg-white rounded-full animate-ping opacity-75"></div>
+            </div>
+            <span className="text-xs font-semibold">
+              Recording: {formatTime(recordingTime)}
             </span>
           </div>
+
+          {/* Pause/Resume button */}
           {isPaused ? (
             <Tooltip text="Resume recording">
               <button
@@ -506,6 +514,8 @@ const VoiceRecordingComponent = ({
               </button>
             </Tooltip>
           )}
+
+          {/* Stop button */}
           <Tooltip text="Stop recording">
             <button
               type="button"
@@ -517,14 +527,24 @@ const VoiceRecordingComponent = ({
           </Tooltip>
         </div>
       )}
+
+      {/* Processing indicator */}
       {isProcessing && (
-        <span className="text-xs text-gray-600">Processing...</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-gray-600 animate-pulse">
+            Processing audio...
+          </span>
+        </div>
       )}
+
+      {/* Error message */}
       {error && (
         <span className="text-xs text-red-600" role="alert">
           {error}
         </span>
       )}
+
+      {/* Transcription error indicator */}
       {transcriptionError && !isProcessing && (
         <Tooltip text="Transcription unavailable. You can type the description manually.">
           <div className="flex items-center justify-center w-10 h-10 bg-yellow-500 text-white rounded-full cursor-help shadow-md">
@@ -532,16 +552,30 @@ const VoiceRecordingComponent = ({
           </div>
         </Tooltip>
       )}
-      {audioUrl && !isProcessing && (
-        <Tooltip text={isPlaying ? "Pause playback" : "Play recording"}>
-          <button
-            type="button"
-            onClick={togglePlayback}
-            className="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md"
-          >
-            {isPlaying ? <FiPause size={18} /> : <FiPlay size={18} />}
-          </button>
-        </Tooltip>
+
+      {/* Playback and Delete controls - shown after recording stops and audio is ready */}
+      {audioUrl && !isProcessing && !isRecording && (
+        <div className="flex items-center gap-2">
+          <Tooltip text={isPlaying ? "Pause playback" : "Play recording"}>
+            <button
+              type="button"
+              onClick={togglePlayback}
+              className="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md"
+            >
+              {isPlaying ? <FiPause size={18} /> : <FiPlay size={18} />}
+            </button>
+          </Tooltip>
+
+          <Tooltip text="Delete recording">
+            <button
+              type="button"
+              onClick={deleteRecording}
+              className="flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-md"
+            >
+              <FiTrash2 size={18} />
+            </button>
+          </Tooltip>
+        </div>
       )}
     </div>
   );

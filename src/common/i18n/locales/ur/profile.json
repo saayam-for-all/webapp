@@ -55,6 +55,8 @@
   "NON_PROFIT": "غیر منافع بخش",
   "FOR_PROFIT": "منافع بخش",
   "URL": "یو آر ایل",
+  "HELP_CATEGORIES": "مدد کی اقسام",
+  "SELECT_HELP_CATEGORIES": "وہ مدد کی اقسام منتخب کریں جو آپ کی تنظیم سپورٹ کرتی ہے...",
 
   "DEFAULT DASHBOARD VIEW": "پہلے سے طے شدہ ڈیش بورڈ ویو",
   "SELECT DASHBOARD": "ڈیش بورڈ منتخب کریں",
@@ -102,4 +104,3 @@
   "CANCEL": "منسوخ کریں",
   "SUBMIT": "جمع کرائیں"
 }
-

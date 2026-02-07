@@ -51,6 +51,8 @@
   "NON_PROFIT": "Sem Fins Lucrativos",
   "FOR_PROFIT": "Com Fins Lucrativos",
   "URL": "URL",
+  "HELP_CATEGORIES": "Categorias de Ajuda",
+  "SELECT_HELP_CATEGORIES": "Selecione as categorias de ajuda que sua organização apoia...",
   "DEFAULT DASHBOARD VIEW": "Visualização Padrão do Painel",
   "SELECT DASHBOARD": "Selecionar Painel",
   "SUPER_ADMIN_DASHBOARD": "Painel do Super Admin",

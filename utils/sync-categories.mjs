@@ -21,7 +21,8 @@ function writeJson(filePath, data) {
 
 function deepMergeStructure(source, target) {
   if (source === null || typeof source !== "object") return target;
-  if (target === null || typeof target !== "object") target = Array.isArray(source) ? [] : {};
+  if (target === null || typeof target !== "object")
+    target = Array.isArray(source) ? [] : {};
 
   for (const key of Object.keys(source)) {
     const srcVal = source[key];
@@ -78,6 +79,3 @@ function main() {
 }
 
 main();
-
-
-

@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/saayam-for-all/webapp/graph/badge.svg?token=9PBXMY2VAP)](https://codecov.io/gh/saayam-for-all/webapp)
+
 # Project Title
 
 Saayam Web Application.

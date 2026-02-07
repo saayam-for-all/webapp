@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { FaExclamationTriangle, FaTrash } from "react-icons/fa";
+import { deleteUser } from "aws-amplify/auth";
+import { signOffUser } from "../../services/requestServices";
+import { getUserId } from "../../services/volunteerServices";
 
 function SignOff({ setHasUnsavedChanges }) {
   const { t } = useTranslation("profile");
+  const userDbId = useSelector((state) => state.auth.user?.userDbId);
+  const userEmail = useSelector((state) => state.auth.user?.email);
   const [isDeleteChecked, setIsDeleteChecked] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,22 +37,86 @@ function SignOff({ setHasUnsavedChanges }) {
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
     try {
-      // TODO: Implement AWS Cognito deleteUser() method
-      // TODO: Implement backend API call to delete user data
+      // Step 1: Get userDbId - try Redux first, then localStorage, then API
+      let userId = userDbId;
+      let userExistsInDb = true;
 
-      // Placeholder for the actual implementation
-      console.log("Deleting user account...");
+      // Try localStorage if Redux doesn't have it
+      if (!userId) {
+        userId = localStorage.getItem("userDbId");
+        if (userId) {
+          console.log("Got user ID from localStorage:", userId);
+        }
+      }
 
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // If still not found, try to fetch via API
+      if (!userId) {
+        if (!userEmail) {
+          throw new Error(
+            "User information not found. Please try logging in again.",
+          );
+        }
+        console.log("Fetching user ID from database using email...");
+        try {
+          const userIdResponse = await getUserId(userEmail);
+          userId = userIdResponse?.data?.id;
+        } catch (fetchError) {
+          // User not found in database - this is okay, we'll skip DB deletion
+          console.log(
+            "User not found in database, will skip DB deletion:",
+            fetchError.message,
+          );
+          userExistsInDb = false;
+        }
+      }
+
+      // Step 2: Delete user from database (if they exist)
+      if (userExistsInDb && userId) {
+        console.log("Deleting user from database...", userId);
+        const dbResponse = await signOffUser(userId, reasonForLeaving);
+        console.log("Database deletion response:", dbResponse);
+
+        if (!dbResponse.success) {
+          throw new Error(
+            dbResponse.message || "Failed to delete user from database.",
+          );
+        }
+      } else {
+        console.log("Skipping database deletion - user not found in database");
+      }
+
+      // Step 3: Delete user from AWS Cognito
+      console.log("Deleting user from Cognito...");
+      try {
+        await deleteUser();
+        console.log("Cognito user deleted successfully");
+      } catch (cognitoError) {
+        // Log Cognito error but proceed since DB deletion was successful (or skipped)
+        console.error("Error deleting user from Cognito:", cognitoError);
+      }
 
       // Clear local storage and redirect to home
+      setHasUnsavedChanges(false);
+      // Dispatch event to notify NavigationGuard that there are no unsaved changes
+      window.dispatchEvent(
+        new CustomEvent("unsaved-changes", {
+          detail: { hasUnsavedChanges: false },
+        }),
+      );
       localStorage.clear();
-      window.location.href = "/";
+      alert(
+        t("ACCOUNT_DELETED_SUCCESS") ||
+          "Your account has been successfully deleted.",
+      );
+      // Use setTimeout to allow React state to update before redirect
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 0);
     } catch (error) {
       console.error("Error deleting account:", error);
       alert(
         t("ACCOUNT_DELETION_ERROR") ||
+          error.message ||
           "An error occurred while deleting your account. Please try again.",
       );
     } finally {

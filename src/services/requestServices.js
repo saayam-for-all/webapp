@@ -1,75 +1,22 @@
 import api from "./api";
+// import axios from "axios";
 import endpoints from "./endpoints.json";
-import { requestsData } from "../pages/Dashboard/data";
 
 export const getMyRequests = async () => {
-  try {
-    const response = await api.get(endpoints.GET_MY_REQUESTS);
-    // If API returns empty data, fallback to mock data
-    if (
-      !response.data ||
-      !response.data.body ||
-      !Array.isArray(response.data.body) ||
-      response.data.body.length === 0
-    ) {
-      console.warn("API returned empty data, using mock data fallback");
-      return { body: requestsData.myRequests.data };
-    }
-    return response.data;
-  } catch (error) {
-    console.warn(
-      "Failed to fetch my requests from API, using mock data:",
-      error.message,
-    );
-    return { body: requestsData.myRequests.data };
-  }
+  const response = await api.get(endpoints.GET_MY_REQUESTS);
+  return response.data;
 };
 
 export const getOthersRequests = async () => {
-  try {
-    const response = await api.get(endpoints.GET_OTHERS_REQUESTS);
-    // If API returns empty data, fallback to mock data
-    if (
-      !response.data ||
-      !response.data.body ||
-      !Array.isArray(response.data.body) ||
-      response.data.body.length === 0
-    ) {
-      console.warn("API returned empty data, using mock data fallback");
-      return { body: requestsData.othersRequests.data };
-    }
-    return response.data;
-  } catch (error) {
-    console.warn(
-      "Failed to fetch others requests from API, using mock data:",
-      error.message,
-    );
-    return { body: requestsData.othersRequests.data };
-  }
+  const response = await api.get(endpoints.GET_OTHERS_REQUESTS);
+  return response.data;
 };
 
 export const getManagedRequests = async () => {
-  try {
-    const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
-    // If API returns empty data, fallback to mock data
-    if (
-      !response.data ||
-      !response.data.body ||
-      !Array.isArray(response.data.body) ||
-      response.data.body.length === 0
-    ) {
-      console.warn("API returned empty data, using mock data fallback");
-      return { body: requestsData.managedRequests.data };
-    }
-    return response.data;
-  } catch (error) {
-    console.warn(
-      "Failed to fetch managed requests from API, using mock data:",
-      error.message,
-    );
-    return { body: requestsData.managedRequests.data };
-  }
+  const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
+  return response.data;
 };
+
 export const getComments = async () => {
   const response = await api.get(endpoints.GET_REQUEST_COMMENTS);
   return response.data;
@@ -85,8 +32,13 @@ export const createRequest = async (request) => {
   return response.data;
 };
 
-export const getEmergencyContactInfo = async () => {
-  const response = await api.get(endpoints.GET_EMERGENCY_CONTACT);
+export const getEmergencyContactInfo = async ({ lat, lng } = {}) => {
+  const response = await api.get(endpoints.GET_EMERGENCY_CONTACT, {
+    params:
+      typeof lat === "number" && typeof lng === "number"
+        ? { lat, lng }
+        : undefined,
+  });
   return response.data;
 };
 
@@ -140,4 +92,40 @@ export const uploadRequestFile = async (file) => {
   );
 
   return response.data;
+};
+
+export const speechDetectV2 = async (audioContent) => {
+  const response = await api.post(endpoints.SPEECH_DETECT_V2, {
+    audioContent,
+  });
+  return response.data;
+};
+
+/**
+ * Sign off (delete) user from the database
+ * @param {string} userId - The user's database ID (e.g., "SID-00-000-002-556")
+ * @param {string} reason - Optional reason for leaving
+ * @returns {Promise<Object>} - Returns { success: boolean, statusCode: number, message: string, data: { userId: string } }
+ */
+export const signOffUser = async (userId, reason = "") => {
+  const requestBody = {
+    userId: userId,
+    reason: reason,
+  };
+
+  const response = await api.request({
+    method: "DELETE",
+    url: endpoints.SIGN_OFF_USER,
+    data: requestBody,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  // Parse the body if it's a string (AWS Lambda response format)
+  const data = response.data;
+  if (data.body && typeof data.body === "string") {
+    return JSON.parse(data.body);
+  }
+  return data;
 };

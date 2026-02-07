@@ -55,6 +55,8 @@
   "NON_PROFIT": "غير ربحية",
   "FOR_PROFIT": "ربحية",
   "URL": "الرابط",
+  "HELP_CATEGORIES": "فئات المساعدة",
+  "SELECT_HELP_CATEGORIES": "حدد فئات المساعدة التي تدعمها منظمتك...",
 
   "DEFAULT DASHBOARD VIEW": "عرض لوحة القيادة الافتراضي",
   "SELECT DASHBOARD": "اختر لوحة القيادة",
@@ -102,4 +104,3 @@
   "CANCEL": "إلغاء",
   "SUBMIT": "إرسال"
 }
-

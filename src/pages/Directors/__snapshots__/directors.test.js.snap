@@ -594,6 +594,36 @@ exports[`Directors renders correctly 1`] = `
                   mockTranslate(Strategy and Project Management Lead)
                 </div>
               </div>
+              <div
+                class="w-[180px] text-center"
+              >
+                <div
+                  class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+                >
+                  <img
+                    alt="Tejaswi Vadapalli"
+                    class="w-full h-full object-cover"
+                    src=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-base mt-3 text-left pl-1"
+                >
+                  <a
+                    class="text-black hover:underline"
+                    href="https://www.linkedin.com/in/sritejaswi/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Tejaswi Vadapalli)
+                  </a>
+                </div>
+                <div
+                  class="text-sm text-gray-500 mt-1 text-left pl-1"
+                >
+                  mockTranslate(Program and Operations Lead)
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -1188,6 +1218,36 @@ exports[`Directors renders correctly 1`] = `
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
                 mockTranslate(Strategy and Project Management Lead)
+              </div>
+            </div>
+            <div
+              class="w-[180px] text-center"
+            >
+              <div
+                class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
+              >
+                <img
+                  alt="Tejaswi Vadapalli"
+                  class="w-full h-full object-cover"
+                  src=""
+                />
+              </div>
+              <div
+                class="font-semibold text-base mt-3 text-left pl-1"
+              >
+                <a
+                  class="text-black hover:underline"
+                  href="https://www.linkedin.com/in/sritejaswi/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Tejaswi Vadapalli)
+                </a>
+              </div>
+              <div
+                class="text-sm text-gray-500 mt-1 text-left pl-1"
+              >
+                mockTranslate(Program and Operations Lead)
               </div>
             </div>
           </div>

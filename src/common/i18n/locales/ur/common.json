@@ -111,7 +111,7 @@
   "REQUEST_VOLUNTEERS": "رضاکاروں کی درخواست کریں",
   "NUMBER_OF_VOLUNTEERS": "مطلوبہ رضاکاروں کی تعداد درج کریں...",
   "VOLUNTEER_ORGANIZATIONS": "رضاکار تنظیمیں",
-  "EMERGENCY_CONTACT": "ایمرجنسی رابطہ",
+  "EMERGENCY_CONTACT": "ہنگامی رابطے",
   "MORE_INFORMATION": "مزید معلومات",
   "STATUS": "حیثیت",
   "FILTER_BY": "فلٹر کریں",
@@ -270,7 +270,7 @@
   "TERMS_CONTACT_TITLE": "18. رابطہ",
   "TERMS_CONTACT_CONTENT": "کسی بھی سوال کے لیے، ہم سے 📧 info@SaayamForAll.org یا 📍 Saayam For All, 3046 Rosato Ct., San Jose, California 95135 پر رابطہ کریں۔",
   "TERMS_THANK_YOU": "ٹیکنالوجی، ہمدردی، اور کمیونٹی سروس کے ذریعے انسانیت کی مدد کے ہمارے مشن کا حصہ بننے کے لیے شکریہ۔",
-  "COPYRIGHT": "کاپی رائٹ © 2025 Saayam For All۔ تمام حقوق محفوظ ہیں۔",
+  "COPYRIGHT": "کاپی رائٹ © 2026 Saayam For All۔ تمام حقوق محفوظ ہیں۔",
   "preferably WhatsApp": "ترجیحاً واٹس ایپ",
   "AT": "پر",
   "PRIVACY_INTRO": "(\"Saayam\"، \"ہم\"، \"ہمیں\" یا \"ہمارے\")، آپ کی رازداری ایک اعلیٰ ترجیح ہے...",
@@ -369,5 +369,11 @@
   "ENVIRONMENTAL_HAZARDS": "ماحولیاتی خطرات / سپل ردعمل",
   "SENIOR_HELPLINE": "بزرگ حضرات ہیلپ لائن",
   "HOMELESS_SERVICES": "بے گھر افراد کیلئے خدمات",
-  "FOOD_ASSISTANCE": "خوراک امداد ہاٹ لائن"
+  "FOOD_ASSISTANCE": "خوراک امداد ہاٹ لائن",
+
+  "REVIEW": "جائزہ",
+  "IN_REVIEW": "جائزے میں",
+  "REVIEW_STATUS_MESSAGE": "آپ کی رضاکارانہ درخواست جمع کر دی گئی ہے اور فی الحال ایڈمنسٹریٹر کی طرف سے جائزہ لیا جا رہا ہے۔",
+  "REVIEW_APPROVAL_MESSAGE": "منظوری کے بعد، آپ رضاکار بن جائیں گے اور دوسروں کی مدد کرنا شروع کر سکتے ہیں۔",
+  "CONFIRM": "تصدیق کریں"
 }
