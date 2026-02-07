@@ -5,25 +5,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import LOGO from "../../../assets/logo.svg";
 
-// Individual imports for outlined icons
+// Icons
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
 import Diversity1OutlinedIcon from "@mui/icons-material/Diversity1Outlined";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
 import ArticleIcon from "@mui/icons-material/Article";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
-import { Tooltip } from "@mui/material";
 
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
@@ -31,10 +28,15 @@ import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 
 const Navbar = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [volunteerOpenMenu, setVolunteerOpenMenu] = useState(false);
-  const [aboutUsOpenMenu, setAboutUsOpenMenu] = useState(false);
-  const [profileOpenMenu, setProfileOpenMenu] = useState(false);
+  // Separate anchors so menus don't clash
+  const [aboutAnchorEl, setAboutAnchorEl] = useState(null);
+  const [volunteerAnchorEl, setVolunteerAnchorEl] = useState(null);
+  const [profileAnchorEl, setProfileAnchorEl] = useState(null);
+
+  const aboutUsOpenMenu = Boolean(aboutAnchorEl);
+  const volunteerOpenMenu = Boolean(volunteerAnchorEl);
+  const profileOpenMenu = Boolean(profileAnchorEl);
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -61,12 +63,9 @@ const Navbar = () => {
 
     const handleProfilePhotoUpdated = () => {
       const updatedProfilePhoto = localStorage.getItem("profilePhoto");
-      if (updatedProfilePhoto) {
-        setProfileIcon(updatedProfilePhoto);
-      }
+      if (updatedProfilePhoto) setProfileIcon(updatedProfilePhoto);
     };
 
-    // Listen for unsaved changes events from Profile components
     const handleUnsavedChanges = (event) => {
       setHasUnsavedChanges(event.detail.hasUnsavedChanges);
     };
@@ -86,17 +85,10 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (!user?.userId) return; // don't fetch unless user is logged in
+    if (!user?.userId) return;
 
-    const notificationButton = document.getElementById("notificationButton");
-
-    if (notificationButton) {
-      notificationButton.style.display = user ? "flex" : "none";
-    }
     const fetchNotifications = async () => {
       try {
-        // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
-        // const rawNotifications = response.data.notifications || [];
         const rawNotifications = [
           {
             type: "Volunteer",
@@ -135,16 +127,11 @@ const Navbar = () => {
           },
         ];
 
-        // ✅ Add unique ID using crypto.randomUUID()
         const notificationsWithIds = rawNotifications.map((note) => ({
           ...note,
           id: crypto.randomUUID(),
         }));
 
-        notificationDispatch({
-          type: "SET_NOTIFICATIONS",
-          payload: notificationsWithIds,
-        });
         const existing = new Set(
           state.notifications.map((n) => n.message + n.date),
         );
@@ -152,13 +139,11 @@ const Navbar = () => {
           (n) => !existing.has(n.message + n.date),
         );
 
-        // Only update if new notifications exist
         if (newOnes.length > 0) {
           notificationDispatch({
             type: "SET_NOTIFICATIONS",
             payload: [...state.notifications, ...newOnes],
           });
-
           setNewNotificationCount((prev) => prev + newOnes.length);
         }
       } catch (error) {
@@ -166,65 +151,43 @@ const Navbar = () => {
       }
     };
 
-    fetchNotifications(); // Comment it after call ing the funciton below
-
-    const interval = setInterval(fetchNotifications, 2 * 60 * 1000); // fetch every 2 min
-
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 2 * 60 * 1000);
     return () => clearInterval(interval);
-  }, [notificationDispatch, user]);
+  }, [notificationDispatch, user]); // keep as you had
+
+  const closeAllMenus = () => {
+    setAboutAnchorEl(null);
+    setVolunteerAnchorEl(null);
+    setProfileAnchorEl(null);
+  };
 
   const handleLinkClick = (e, route) => {
     if (hasUnsavedChanges) {
       e.preventDefault();
-      if (
-        window.confirm(
-          "You have unsaved changes. Do you want to proceed without saving?",
-        )
-      ) {
-        setHasUnsavedChanges(false);
-
-        setVolunteerOpenMenu(false);
-        setAboutUsOpenMenu(false);
-        setProfileOpenMenu(false);
-
-        navigate(route);
-      } else {
-        return;
-      }
+      const ok = window.confirm(
+        "You have unsaved changes. Do you want to proceed without saving?",
+      );
+      if (!ok) return;
+      setHasUnsavedChanges(false);
     }
-    // Close all dropdowns
-    setVolunteerOpenMenu(false);
-    setAboutUsOpenMenu(false);
-    setProfileOpenMenu(false);
 
+    closeAllMenus();
     navigate(route);
   };
 
   const handleLogoutClick = (e) => {
     if (hasUnsavedChanges) {
       e.preventDefault();
-      if (
-        window.confirm(
-          "You have unsaved changes. Do you want to proceed without saving?",
-        )
-      ) {
-        setHasUnsavedChanges(false);
-
-        setVolunteerOpenMenu(false);
-        setAboutUsOpenMenu(false);
-        setProfileOpenMenu(false);
-
-        setIsLogoutModalOpen(true);
-      } else {
-        return;
-      }
-    } else {
-      setVolunteerOpenMenu(false);
-      setAboutUsOpenMenu(false);
-      setProfileOpenMenu(false);
-
-      setIsLogoutModalOpen(true);
+      const ok = window.confirm(
+        "You have unsaved changes. Do you want to proceed without saving?",
+      );
+      if (!ok) return;
+      setHasUnsavedChanges(false);
     }
+
+    closeAllMenus();
+    setIsLogoutModalOpen(true);
   };
 
   const handleSignOut = () => {
@@ -234,61 +197,36 @@ const Navbar = () => {
   };
 
   const handleDrawerClick = (e, route) => {
-    // Close all dropdowns
-    setVolunteerOpenMenu(false);
-    setAboutUsOpenMenu(false);
-
-    // Close Drawer
+    closeAllMenus();
     setDrawerOpen(false);
-
     navigate(route);
   };
 
-  const handleVSMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setVolunteerOpenMenu(true);
-  };
+  const toggleDrawer = (open) => setDrawerOpen(open);
 
-  const handleVSMenuClose = () => {
-    setAnchorEl(null);
-    setVolunteerOpenMenu(false);
-  };
+  // Menu open/close
+  const handleAUMenuClick = (event) => setAboutAnchorEl(event.currentTarget);
+  const handleAUMenuClose = () => setAboutAnchorEl(null);
 
-  const handleAUMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setAboutUsOpenMenu(true);
-  };
+  const handleVSMenuClick = (event) =>
+    setVolunteerAnchorEl(event.currentTarget);
+  const handleVSMenuClose = () => setVolunteerAnchorEl(null);
 
-  const handleAUMenuClose = () => {
-    setAnchorEl(null);
-    setAboutUsOpenMenu(false);
-  };
-
-  const handlePMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setProfileOpenMenu(true);
-  };
-
-  const handlePMenuClose = () => {
-    setAnchorEl(null);
-    setProfileOpenMenu(false);
-  };
-
-  const toggleDrawer = (open) => {
-    setDrawerOpen(open);
-  };
+  const handlePMenuClick = (event) => setProfileAnchorEl(event.currentTarget);
+  const handlePMenuClose = () => setProfileAnchorEl(null);
 
   return (
     <nav className="bg-[#FFFFFF] sticky top-0 h-[113px] w-full z-10 shadow-m p-4">
       <div className="flex items-center justify-between w-full px-2 h-full gap-2 sm:gap-4">
-        {/* Logo aligned to the left */}
+        {/* Logo */}
         <div
           className="flex items-center cursor-pointer"
           onClick={(e) => handleLinkClick(e, "/")}
         >
           <img src={LOGO} alt="Company Logo" className="w-[60px] h-[60px]" />
         </div>
-        {/* Mobile Donate button - visible next to logo */}
+
+        {/* Mobile Donate */}
         <div className="flex md:hidden items-center ml-2">
           <button
             onClick={(e) => handleLinkClick(e, "/donate")}
@@ -299,38 +237,23 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Desktop Menu (visible only on larger screens) */}
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center justify-center space-x-8 flex-1">
-          {/* Showing Home button for guest users */}
-          {!user?.userId && (
-            <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/")}
-                className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
-              >
-                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-              </button>
-            </div>
-          )}
+          {/* Home */}
+          <div className="relative">
+            <button
+              onClick={(e) => handleLinkClick(e, "/")}
+              className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
+            >
+              <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+            </button>
+          </div>
 
-          {/* Showing Home button for logged in users*/}
-          {user?.userId && (
-            <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/")}
-                className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
-              >
-                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-              </button>
-            </div>
-          )}
-
-          {/* Dashboard Button for logged in users - Land to Request Page */}
+          {/* Dashboard (logged in only) */}
           {user?.userId && (
             <div className="relative">
               <button
                 onClick={(e) => handleLinkClick(e, "/dashboard")}
-                // className="text-black flex items-center hover:text-gray-600 text-base"
                 className="text-black hover:text-gray-600 flex items-center text-base"
               >
                 <DashboardCustomizeIcon className="mr-2" /> {t("DASHBOARD")}
@@ -347,34 +270,36 @@ const Navbar = () => {
               <PeopleOutlinedIcon className="mr-2" /> {t("ABOUT")}
               <ArrowDropDownIcon />
             </button>
-            {aboutUsOpenMenu && (
-              <Menu
-                anchorEl={anchorEl}
-                open={aboutUsOpenMenu}
-                onClose={handleAUMenuClose}
-                PaperProps={{
-                  style: {
-                    position: "absolute",
-                    right: 0,
-                    top: "40px",
-                    zIndex: 1300, // to appear above other elements
-                    maxWidth: "fit-content",
-                  },
-                }}
+
+            <Menu
+              anchorEl={aboutAnchorEl}
+              open={aboutUsOpenMenu}
+              onClose={handleAUMenuClose}
+              PaperProps={{
+                style: {
+                  position: "absolute",
+                  right: 0,
+                  top: "40px",
+                  zIndex: 1300,
+                  maxWidth: "fit-content",
+                },
+              }}
+            >
+              <MenuItem onClick={(e) => handleLinkClick(e, "/our-team")}>
+                <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
+              </MenuItem>
+
+              <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
+                <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
+              </MenuItem>
+
+              {/* ✅ This is what was missing on desktop */}
+              <MenuItem
+                onClick={(e) => handleLinkClick(e, "/news-our-stories")}
               >
-                <MenuItem onClick={(e) => handleLinkClick(e, "/our-team")}>
-                  <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
-                </MenuItem>
-                <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
-                  <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
-                </MenuItem>
-                {/* <MenuItem
-                  onClick={(e) => handleLinkClick(e, "/news-our-stories")}
-                >
-                  <ArticleIcon className="mr-2" /> {t("In The News")}
-                </MenuItem> */}
-              </Menu>
-            )}
+                <ArticleIcon className="mr-2" /> In the News
+              </MenuItem>
+            </Menu>
           </div>
 
           {/* Volunteer Services Dropdown */}
@@ -387,54 +312,54 @@ const Navbar = () => {
               {t("VOLUNTEER_SERVICES")}
               <ArrowDropDownIcon />
             </button>
-            {volunteerOpenMenu && (
-              <Menu
-                anchorEl={anchorEl}
-                open={volunteerOpenMenu}
-                onClose={handleVSMenuClose}
-                PaperProps={{
-                  style: {
-                    position: "absolute",
-                    right: 0,
-                    top: "40px",
-                    zIndex: 1300, // to appear above other elements
-                    maxWidth: "fit-content",
-                  },
-                }}
-              >
-                <MenuItem
-                  onClick={(e) => handleLinkClick(e, "/how-we-operate")}
-                >
-                  <GroupsIcon className="mr-2" /> {t("HOW_WE_OPERATE")}
-                </MenuItem>
-                <MenuItem onClick={(e) => handleLinkClick(e, "/collaborators")}>
-                  <Diversity3Icon className="mr-2" /> {t("OUR_COLLABORATORS")}
-                </MenuItem>
-              </Menu>
-            )}
+
+            <Menu
+              anchorEl={volunteerAnchorEl}
+              open={volunteerOpenMenu}
+              onClose={handleVSMenuClose}
+              PaperProps={{
+                style: {
+                  position: "absolute",
+                  right: 0,
+                  top: "40px",
+                  zIndex: 1300,
+                  maxWidth: "fit-content",
+                },
+              }}
+            >
+              <MenuItem onClick={(e) => handleLinkClick(e, "/how-we-operate")}>
+                <GroupsIcon className="mr-2" /> {t("HOW_WE_OPERATE")}
+              </MenuItem>
+              <MenuItem onClick={(e) => handleLinkClick(e, "/collaborators")}>
+                <Diversity3Icon className="mr-2" /> {t("OUR_COLLABORATORS")}
+              </MenuItem>
+            </Menu>
           </div>
 
+          {/* Contact */}
           <div className="relative">
             <button
               onClick={(e) => handleLinkClick(e, "/contact")}
-              // className="text-black flex items-center hover:text-gray-600 text-base"
               className="text-black hover:text-gray-600 flex items-center text-base"
             >
               <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
             </button>
           </div>
 
+          {/* Notifications (logged in only) */}
           {user?.userId && (
             <div className="relative">
               <button
                 onClick={(e) => handleLinkClick(e, "/notifications")}
-                // className="text-black flex items-center hover:text-gray-600 text-base"
                 className="text-black hover:text-gray-600 flex items-center text-base"
               >
                 <NotificationsIcon className="mr-2" /> {t("NOTIFICATIONS")}
+                {newNotificationCount > 0 ? ` (${newNotificationCount})` : ""}
               </button>
             </div>
           )}
+
+          {/* Donate */}
           <div className="relative">
             <button
               onClick={(e) => handleLinkClick(e, "/donate")}
@@ -446,27 +371,9 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/*/!* Donate button aligned to the rightmost *!/*/}
-        {/*{user?.userId && (*/}
-        {/*  <div className="hidden md:flex relative items-center mr-4">*/}
-        {/*    <Tooltip title={t("EMERGENCY_CONTACTS")} arrow>*/}
-        {/*      <button*/}
-        {/*        onClick={(e) => handleLinkClick(e, "/emergency-contact")}*/}
-        {/*        className="text-black hover:text-red-600 flex items-center text-base p-1"*/}
-        {/*        aria-label={t("EMERGENCY_CONTACTS")}*/}
-        {/*      >*/}
-        {/*        <PhoneInTalkOutlinedIcon fontSize="medium" />*/}
-        {/*      </button>*/}
-        {/*    </Tooltip>*/}
-        {/*  </div>*/}
-        {/*)}*/}
-
-        {/* Login Part */}
+        {/* Profile/Login */}
         {user?.userId ? (
-          <div
-            className="relative flex flex-col items-center mr-2"
-            // ref={profileDropdownRef}
-          >
+          <div className="relative flex flex-col items-center mr-2">
             <div className="flex items-center">
               <IconButton color="inherit" edge="end">
                 <img
@@ -475,46 +382,41 @@ const Navbar = () => {
                   className="w-8 h-8 rounded-full cursor-pointer"
                   onClick={(e) => {
                     if (hasUnsavedChanges) {
-                      if (
-                        window.confirm(
-                          "You have unsaved changes. Do you want to proceed without saving?",
-                        )
-                      ) {
-                        setHasUnsavedChanges(false);
-                        handlePMenuClick(e);
-                      }
-                    } else {
-                      handlePMenuClick(e);
+                      const ok = window.confirm(
+                        "You have unsaved changes. Do you want to proceed without saving?",
+                      );
+                      if (!ok) return;
+                      setHasUnsavedChanges(false);
                     }
+                    handlePMenuClick(e);
                   }}
                 />
               </IconButton>
             </div>
-            {profileOpenMenu && (
-              <Menu
-                anchorEl={anchorEl}
-                open={profileOpenMenu}
-                onClose={handlePMenuClose}
-                PaperProps={{
-                  style: {
-                    position: "absolute",
-                    right: 0,
-                    top: "40px",
-                    zIndex: 1300, // to appear above other elements
-                    maxWidth: "fit-content",
-                  },
-                }}
-              >
-                <MenuItem onClick={(e) => handleLinkClick(e, "/profile")}>
-                  <AccountCircleIcon className="mr-2" />
-                  {t("PROFILE")}
-                </MenuItem>
-                <MenuItem onClick={(e) => handleLogoutClick()}>
-                  <LogoutIcon className="mr-2" />
-                  {t("Logout")}
-                </MenuItem>
-              </Menu>
-            )}
+
+            <Menu
+              anchorEl={profileAnchorEl}
+              open={profileOpenMenu}
+              onClose={handlePMenuClose}
+              PaperProps={{
+                style: {
+                  position: "absolute",
+                  right: 0,
+                  top: "40px",
+                  zIndex: 1300,
+                  maxWidth: "fit-content",
+                },
+              }}
+            >
+              <MenuItem onClick={(e) => handleLinkClick(e, "/profile")}>
+                <AccountCircleIcon className="mr-2" />
+                {t("PROFILE")}
+              </MenuItem>
+              <MenuItem onClick={(e) => handleLogoutClick(e)}>
+                <LogoutIcon className="mr-2" />
+                {t("Logout")}
+              </MenuItem>
+            </Menu>
           </div>
         ) : (
           <NavLink
@@ -557,20 +459,19 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* Mobile Menu Icon (visible only on mobile) */}
-        <div className=" md:hidden mr-4">
+        {/* Mobile Menu Icon */}
+        <div className="md:hidden mr-4">
           <IconButton
             color="inherit"
             edge="end"
             onClick={() => toggleDrawer(true)}
-            // sx={{ display: { xs: "block", sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
         </div>
       </div>
 
-      {/* Mobile Drawer (Replaces Navbar on Mobile) */}
+      {/* Mobile Drawer */}
       <Drawer
         anchor="top"
         open={drawerOpen}
@@ -578,7 +479,7 @@ const Navbar = () => {
         variant="temporary"
         sx={{
           "& .MuiDrawer-paper": {
-            top: "113px", // Adjusting the top offset so it aligns with the navbar height
+            top: "113px",
             width: "100%",
             paddingTop: "0",
             height: "auto",
@@ -586,36 +487,21 @@ const Navbar = () => {
         }}
       >
         <div className="p-6 w-64">
-          {/* Showing Home button for guest users */}
-          {!user?.userId && (
-            <div className="block text-black py-2 flex items-center">
-              <button
-                onClick={(e) => handleLinkClick(e, "/")}
-                className="text-black flex items-center hover:text-blue-600"
-              >
-                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-              </button>
-            </div>
-          )}
+          {/* Home */}
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={(e) => handleDrawerClick(e, "/")}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
+            </button>
+          </div>
 
-          {/* Showing Home button for logged in users*/}
+          {/* Dashboard */}
           {user?.userId && (
             <div className="block text-black py-2 flex items-center">
               <button
-                onClick={(e) => handleLinkClick(e, "/")}
-                className="text-black flex items-center hover:text-blue-600"
-              >
-                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-              </button>
-            </div>
-          )}
-
-          {/* Dashboard Button for logged in users - Land to Request Page */}
-          {user?.userId && (
-            <div className="block text-black py-2 flex items-center">
-              <button
-                onClick={(e) => handleLinkClick(e, "/dashboard")}
-                // className="text-black flex items-center hover:text-gray-600 text-base"
+                onClick={(e) => handleDrawerClick(e, "/dashboard")}
                 className="text-black flex items-center hover:text-blue-600"
               >
                 <DashboardCustomizeIcon className="mr-2" /> {t("DASHBOARD")}
@@ -623,6 +509,7 @@ const Navbar = () => {
             </div>
           )}
 
+          {/* About */}
           <div className="block text-black py-2 flex items-center">
             <button
               onClick={handleAUMenuClick}
@@ -631,38 +518,36 @@ const Navbar = () => {
               <PeopleOutlinedIcon className="mr-2" /> {t("ABOUT")}
               <ArrowDropDownIcon />
             </button>
-            {aboutUsOpenMenu && (
-              <Menu
-                anchorEl={anchorEl}
-                open={aboutUsOpenMenu}
-                onClose={handleAUMenuClose}
-                PaperProps={{
-                  style: {
-                    position: "absolute",
-                    right: 0,
-                    top: "40px",
-                    zIndex: 1300, // to appear above other elements
-                    maxWidth: "fit-content",
-                  },
-                }}
+
+            <Menu
+              anchorEl={aboutAnchorEl}
+              open={aboutUsOpenMenu}
+              onClose={handleAUMenuClose}
+              PaperProps={{
+                style: {
+                  position: "absolute",
+                  right: 0,
+                  top: "40px",
+                  zIndex: 1300,
+                  maxWidth: "fit-content",
+                },
+              }}
+            >
+              <MenuItem onClick={(e) => handleDrawerClick(e, "/our-team")}>
+                <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
+              </MenuItem>
+              <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
+                <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
+              </MenuItem>
+              <MenuItem
+                onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
               >
-                <MenuItem onClick={(e) => handleDrawerClick(e, "/our-team")}>
-                  <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
-                </MenuItem>
-                <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
-                  <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
-                </MenuItem>
-                {
-                  <MenuItem
-                    onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
-                  >
-                    <ArticleIcon className="mr-2" /> {t("In the news")}
-                  </MenuItem>
-                }
-              </Menu>
-            )}
+                <ArticleIcon className="mr-2" /> In the News
+              </MenuItem>
+            </Menu>
           </div>
 
+          {/* Volunteer */}
           <div className="block text-black py-2 flex items-center">
             <button
               onClick={handleVSMenuClick}
@@ -672,48 +557,33 @@ const Navbar = () => {
               {t("VOLUNTEER_SERVICES")}
               <ArrowDropDownIcon />
             </button>
-            {volunteerOpenMenu && (
-              <Menu
-                anchorEl={anchorEl}
-                open={volunteerOpenMenu}
-                onClose={handleVSMenuClose}
-                PaperProps={{
-                  style: {
-                    position: "absolute",
-                    right: 0,
-                    top: "40px",
-                    zIndex: 1300,
-                    maxWidth: "fit-content",
-                  },
-                }}
+
+            <Menu
+              anchorEl={volunteerAnchorEl}
+              open={volunteerOpenMenu}
+              onClose={handleVSMenuClose}
+              PaperProps={{
+                style: {
+                  position: "absolute",
+                  right: 0,
+                  top: "40px",
+                  zIndex: 1300,
+                  maxWidth: "fit-content",
+                },
+              }}
+            >
+              <MenuItem
+                onClick={(e) => handleDrawerClick(e, "/how-we-operate")}
               >
-                <MenuItem
-                  onClick={(e) => handleDrawerClick(e, "/how-we-operate")}
-                >
-                  <GroupsIcon className="mr-2" /> {t("HOW_WE_OPERATE")}
-                </MenuItem>
-                <MenuItem
-                  onClick={(e) => handleDrawerClick(e, "/collaborators")}
-                >
-                  <Diversity3Icon className="mr-2" /> {t("OUR_COLLABORATORS")}
-                </MenuItem>
-              </Menu>
-            )}
+                <GroupsIcon className="mr-2" /> {t("HOW_WE_OPERATE")}
+              </MenuItem>
+              <MenuItem onClick={(e) => handleDrawerClick(e, "/collaborators")}>
+                <Diversity3Icon className="mr-2" /> {t("OUR_COLLABORATORS")}
+              </MenuItem>
+            </Menu>
           </div>
 
-          {/*/!* Emergency Contact button for sidebar - visible only when logged in *!/*/}
-          {/*{user?.userId && (*/}
-          {/*  <div className="block text-black py-2 flex items-center">*/}
-          {/*    <button*/}
-          {/*      onClick={(e) => handleDrawerClick(e, "/emergency-contact")}*/}
-          {/*      className="text-black flex items-center hover:text-red-600"*/}
-          {/*    >*/}
-          {/*      <PhoneInTalkOutlinedIcon className="mr-2" />*/}
-          {/*      {t("EMERGENCY_CONTACT")}*/}
-          {/*    </button>*/}
-          {/*  </div>*/}
-          {/*)}*/}
-
+          {/* Contact */}
           <div className="block text-black py-2 flex items-center">
             <button
               onClick={(e) => handleDrawerClick(e, "/contact")}
@@ -723,6 +593,7 @@ const Navbar = () => {
             </button>
           </div>
 
+          {/* Notifications */}
           {user?.userId && (
             <div className="block text-black py-2 flex items-center">
               <button
@@ -733,6 +604,16 @@ const Navbar = () => {
               </button>
             </div>
           )}
+
+          {/* Donate (optional in drawer, if you want) */}
+          <div className="block text-black py-2 flex items-center">
+            <button
+              onClick={(e) => handleDrawerClick(e, "/donate")}
+              className="text-black flex items-center hover:text-blue-600"
+            >
+              <VolunteerActivismOutlinedIcon className="mr-2" /> {t("DONATE")}
+            </button>
+          </div>
         </div>
       </Drawer>
     </nav>
