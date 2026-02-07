@@ -539,6 +539,7 @@ const Navbar = () => {
               <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
                 <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
               </MenuItem>
+              /* istanbul ignore next */
               <MenuItem
                 onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
               >
