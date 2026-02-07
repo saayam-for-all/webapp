@@ -7,7 +7,7 @@ const ExecutiveTeam = () => {
   return (
     <div className="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]">
       <div className="text-center max-w-3xl mx-auto mb-12 px-4">
-        <h2 className="font-extrabold text-2xl sm:text-3xl mb-4">
+        <h2 className="font-extrabold text-2xl sm:text-3xl mb-4" data-testid = 'forTest'>
           {t("EXECUTIVE_TEAM")}
         </h2>
         <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-2">

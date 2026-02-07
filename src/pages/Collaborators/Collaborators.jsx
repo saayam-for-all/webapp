@@ -23,8 +23,8 @@ function Collaborators() {
   return (
     <div className="flex flex-col items-center p-8 min-h-screen bg-white">
       <div className="w-full max-w-6xl">
-        <h2 className="text-3xl font-bold text-center mb-4">
-          {t("Our Collaborators")}
+        <h2 className="text-3xl font-bold text-center mb-4" >
+          {t("Our Collaborators") }
         </h2>
 
         <p className="text-base text-center mb-12 text-gray-700">

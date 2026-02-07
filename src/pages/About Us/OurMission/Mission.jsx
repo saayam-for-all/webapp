@@ -6,7 +6,7 @@ export function Mission() {
       <div className="w-full max-w-[1100px] md:h-auto rounded-[30px] p-6 border-blue-200 flex flex-col justify-between">
         {/* Header Row: Our Mission + Paragraph in single row */}
         <div className="flex flex-col md:flex-row mb-2 justify-center items-center text-center md:text-left">
-          <h2 className="text-2xl font-bold mb-2 md:mb-0 md:mr-4 whitespace-nowrap">
+          <h2 className="text-2xl font-bold mb-2 md:mb-0 md:mr-4 whitespace-nowrap" data-testid = 'forTest'>
             {t("Our Mission")}
           </h2>
           <p className="text-gray-600 text-base leading-relaxed">

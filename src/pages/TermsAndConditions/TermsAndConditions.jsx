@@ -18,7 +18,7 @@ const TermsAndConditions = () => {
             <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
           </button>
         </div>
-        <h1 className="terms-title">{t("TERMS_AND_CONDITIONS")}</h1>
+        <h1 className="terms-title" data-testid = 'forTest'>{t("TERMS_AND_CONDITIONS")}</h1>
         <p className="terms-intro">{t("TERMS_INTRO")}</p>
 
         <section className="terms-section">

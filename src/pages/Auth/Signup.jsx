@@ -165,7 +165,7 @@ const SignUp = () => {
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
-        <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
+        <h1 className="my-4 text-3xl font-bold text-center" data-testid = 'forTest'>{t("SIGNUP")}</h1>
 
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}

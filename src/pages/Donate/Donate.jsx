@@ -169,7 +169,7 @@ const Donate = () => {
           src={donateImg}
         />
         <div className="donate-card-overlay">
-          <h1 className="donate-title">{t("Make a donation")}</h1>
+          <h1 className="donate-title" data-testid = 'forTest'>{t("Make a donation")}</h1>
           <p className="donate-subtitle">
             {t(
               "Your donation helps us create lasting change in communities across the globe.",

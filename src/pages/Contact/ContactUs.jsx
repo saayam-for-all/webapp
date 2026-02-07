@@ -105,7 +105,7 @@ const ContactUs = () => {
       <div className="flex flex-col md:flex-row w-full gap-6">
         {/* Left Column: Contact Info + FAQ */}
         <div className="flex flex-col w-full md:w-1/2 p-4">
-          <h1 className="text-3xl font-bold mb-2">{t("Contact Us")}</h1>
+          <h1 className="text-3xl font-bold mb-2" data-testid = 'forTest'>{t("Contact Us")}</h1>
           <p className="text-[#807D7D] text-lg mb-4">
             {t(
               "Email, call, or complete the form to learn how Saayam for All can help you with your challenges",

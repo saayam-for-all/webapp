@@ -8,7 +8,7 @@ const MissionVision = () => {
   return (
     <div className="px-20 mt-6">
       <div>
-        <h1 className="text-2xl font-semibold text-center">{t("MISSION")}</h1>
+        <h1 className="text-2xl font-semibold text-center" data-testid = 'forTest'>{t("MISSION")}</h1>
         <div className="flex">
           <div>
             <img

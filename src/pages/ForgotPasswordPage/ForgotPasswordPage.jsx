@@ -43,7 +43,7 @@ const ForgotPasswordPage = () => {
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         {/* Removed Back Arrow Section */}
 
-        <h1 className="my-4 text-3xl font-bold text-center">Password Reset</h1>
+        <h1 className="my-4 text-3xl font-bold text-center" data-testid = 'forTest'>Password Reset</h1>
 
         <div className="my-2 flex flex-col">
           <label htmlFor="email">

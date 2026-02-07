@@ -72,7 +72,7 @@ const LoginPage = () => {
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
-        <h1 className="my-4 text-3xl font-bold text-center">
+        <h1 className="my-4 text-3xl font-bold text-center" data-testid = 'forTest'>
           {t("common:LOGIN")}
         </h1>
         <div className="my-2 flex flex-col">
