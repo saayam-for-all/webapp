@@ -31,97 +31,231 @@ exports[`NewsOurStories renders correctly 1`] = `
           class="news-our-stories-section"
         >
           <div
-            class="news-our-stories-story"
-          >
-            <img
-              alt="Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara"
-              class="news-our-stories-img-lg"
-              src=""
-            />
-            <div
-              class="news-our-stories-date"
-            >
-              05/02/2025
-            </div>
-            <h2
-              class="news-our-stories-story-title"
-            >
-              mockTranslate(Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
-            >
-              mockTranslate(Our CEO, Rao K Bhehanabobla recently attended TiEcon 2025 at the Santa Clara Convention Center, one of the premier global gatherings for entrepreneurs and innovators. He shared Saayam's journey in leveraging technology to build a support-driven community platform. The event spotlighted Saayam's mission and growing influence in the social impact ecosystem.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
-            >
-              mockTranslate(Read More)
-            </a>
-          </div>
-          <div
-            class="news-our-stories-row"
+            class="news-grid"
           >
             <div
-              class="news-our-stories-col"
+              class="news-card"
             >
-              <img
-                alt="Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment"
-                class="news-our-stories-img-sm"
-                src=""
-              />
               <div
-                class="news-our-stories-date"
+                class="news-img-wrap"
               >
-                05/02/2025
+                <img
+                  alt="With Jensen Huang, CEO of NVIDIA"
+                  class="news-img"
+                  src=""
+                />
               </div>
-              <h2
-                class="news-our-stories-story-title"
+              <div
+                class="news-card-body"
               >
-                mockTranslate(Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment)
-              </h2>
-              <p
-                class="news-our-stories-story-desc"
-              >
-                mockTranslate(Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.)
-              </p>
-              <a
-                class="news-our-stories-link"
-                href="#"
-              >
-                mockTranslate(Read More)
-              </a>
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(With Jensen Huang, CEO of NVIDIA)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.)
+                </p>
+              </div>
             </div>
             <div
-              class="news-our-stories-col"
+              class="news-card"
             >
-              <img
-                alt="In Step with the Community: A 17-Mile Walk in San Ramon"
-                class="news-our-stories-img-sm"
-                src=""
-              />
               <div
-                class="news-our-stories-date"
+                class="news-img-wrap"
               >
-                05/02/2025
+                <img
+                  alt="With Vishal Sikka – Former CEO of Infosys"
+                  class="news-img"
+                  src=""
+                />
               </div>
-              <h2
-                class="news-our-stories-story-title"
+              <div
+                class="news-card-body"
               >
-                mockTranslate(In Step with the Community: A 17-Mile Walk in San Ramon)
-              </h2>
-              <p
-                class="news-our-stories-story-desc"
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(With Vishal Sikka – Former CEO of Infosys)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
               >
-                mockTranslate(Our CEO and Satesth Mudrala recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.)
-              </p>
-              <a
-                class="news-our-stories-link"
-                href="#"
+                <img
+                  alt="In Step with the Community: A 17-Mile Walk in San Ramon"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
               >
-                mockTranslate(Read More)
-              </a>
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(In Step with the Community: A 17-Mile Walk in San Ramon)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Indian Consular"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(With Indian Consular)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(A moment with the Indian Consular team during a community engagement event.)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Amit Zavery – IIT Bay Area"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(With Amit Zavery – IIT Bay Area)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Madhusudhan Sai"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(With Madhusudhan Sai)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Muralidharan – CEO of Sankara Eye Foundation"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(With Muralidharan – CEO of Sankara Eye Foundation)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(Discussion on social impact, healthcare accessibility, and collaborations that uplift communities.)
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -174,97 +308,231 @@ exports[`NewsOurStories renders correctly 1`] = `
         class="news-our-stories-section"
       >
         <div
-          class="news-our-stories-story"
-        >
-          <img
-            alt="Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara"
-            class="news-our-stories-img-lg"
-            src=""
-          />
-          <div
-            class="news-our-stories-date"
-          >
-            05/02/2025
-          </div>
-          <h2
-            class="news-our-stories-story-title"
-          >
-            mockTranslate(Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara)
-          </h2>
-          <p
-            class="news-our-stories-story-desc"
-          >
-            mockTranslate(Our CEO, Rao K Bhehanabobla recently attended TiEcon 2025 at the Santa Clara Convention Center, one of the premier global gatherings for entrepreneurs and innovators. He shared Saayam's journey in leveraging technology to build a support-driven community platform. The event spotlighted Saayam's mission and growing influence in the social impact ecosystem.)
-          </p>
-          <a
-            class="news-our-stories-link"
-            href="#"
-          >
-            mockTranslate(Read More)
-          </a>
-        </div>
-        <div
-          class="news-our-stories-row"
+          class="news-grid"
         >
           <div
-            class="news-our-stories-col"
+            class="news-card"
           >
-            <img
-              alt="Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment"
-              class="news-our-stories-img-sm"
-              src=""
-            />
             <div
-              class="news-our-stories-date"
+              class="news-img-wrap"
             >
-              05/02/2025
+              <img
+                alt="With Jensen Huang, CEO of NVIDIA"
+                class="news-img"
+                src=""
+              />
             </div>
-            <h2
-              class="news-our-stories-story-title"
+            <div
+              class="news-card-body"
             >
-              mockTranslate(Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
-            >
-              mockTranslate(Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
-            >
-              mockTranslate(Read More)
-            </a>
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(With Jensen Huang, CEO of NVIDIA)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.)
+              </p>
+            </div>
           </div>
           <div
-            class="news-our-stories-col"
+            class="news-card"
           >
-            <img
-              alt="In Step with the Community: A 17-Mile Walk in San Ramon"
-              class="news-our-stories-img-sm"
-              src=""
-            />
             <div
-              class="news-our-stories-date"
+              class="news-img-wrap"
             >
-              05/02/2025
+              <img
+                alt="With Vishal Sikka – Former CEO of Infosys"
+                class="news-img"
+                src=""
+              />
             </div>
-            <h2
-              class="news-our-stories-story-title"
+            <div
+              class="news-card-body"
             >
-              mockTranslate(In Step with the Community: A 17-Mile Walk in San Ramon)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(With Vishal Sikka – Former CEO of Infosys)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
             >
-              mockTranslate(Our CEO and Satesth Mudrala recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
+              <img
+                alt="In Step with the Community: A 17-Mile Walk in San Ramon"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
             >
-              mockTranslate(Read More)
-            </a>
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(In Step with the Community: A 17-Mile Walk in San Ramon)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Indian Consular"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(With Indian Consular)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(A moment with the Indian Consular team during a community engagement event.)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Amit Zavery – IIT Bay Area"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(With Amit Zavery – IIT Bay Area)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Madhusudhan Sai"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(With Madhusudhan Sai)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Muralidharan – CEO of Sankara Eye Foundation"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(With Muralidharan – CEO of Sankara Eye Foundation)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(Discussion on social impact, healthcare accessibility, and collaborations that uplift communities.)
+              </p>
+            </div>
           </div>
         </div>
       </section>
