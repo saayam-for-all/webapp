@@ -72,7 +72,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Vishal Sikka – Former CEO of Infosys"
+                  alt="With Vishal Sikka, Former CEO of Infosys"
                   class="news-img"
                   src=""
                 />
@@ -88,7 +88,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(With Vishal Sikka – Former CEO of Infosys)
+                  mockTranslate(With Vishal Sikka, Former CEO of Infosys)
                 </h2>
                 <p
                   class="news-desc"
@@ -136,7 +136,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Indian Consular"
+                  alt="With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA"
                   class="news-img"
                   src=""
                 />
@@ -152,7 +152,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(With Indian Consular)
+                  mockTranslate(With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA)
                 </h2>
                 <p
                   class="news-desc"
@@ -168,7 +168,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Amit Zavery – IIT Bay Area"
+                  alt="With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)"
                   class="news-img"
                   src=""
                 />
@@ -184,7 +184,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(With Amit Zavery – IIT Bay Area)
+                  mockTranslate(With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR))
                 </h2>
                 <p
                   class="news-desc"
@@ -200,7 +200,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Madhusudhan Sai"
+                  alt="With Madhusudhan Sai, global spiritual leader and humanitarian"
                   class="news-img"
                   src=""
                 />
@@ -216,7 +216,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(With Madhusudhan Sai)
+                  mockTranslate(With Madhusudhan Sai, global spiritual leader and humanitarian)
                 </h2>
                 <p
                   class="news-desc"
@@ -232,7 +232,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Muralidharan – CEO of Sankara Eye Foundation"
+                  alt="With Murali Krishnamurthy, CEO of Sankara Eye Foundation"
                   class="news-img"
                   src=""
                 />
@@ -248,12 +248,44 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(With Muralidharan – CEO of Sankara Eye Foundation)
+                  mockTranslate(With Murali Krishnamurthy, CEO of Sankara Eye Foundation)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(Discussion on social impact, healthcare accessibility, and collaborations that uplift communities.)
+                  mockTranslate(In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.)
                 </p>
               </div>
             </div>
@@ -349,7 +381,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Vishal Sikka – Former CEO of Infosys"
+                alt="With Vishal Sikka, Former CEO of Infosys"
                 class="news-img"
                 src=""
               />
@@ -365,7 +397,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(With Vishal Sikka – Former CEO of Infosys)
+                mockTranslate(With Vishal Sikka, Former CEO of Infosys)
               </h2>
               <p
                 class="news-desc"
@@ -413,7 +445,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Indian Consular"
+                alt="With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA"
                 class="news-img"
                 src=""
               />
@@ -429,7 +461,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(With Indian Consular)
+                mockTranslate(With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA)
               </h2>
               <p
                 class="news-desc"
@@ -445,7 +477,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Amit Zavery – IIT Bay Area"
+                alt="With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)"
                 class="news-img"
                 src=""
               />
@@ -461,7 +493,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(With Amit Zavery – IIT Bay Area)
+                mockTranslate(With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR))
               </h2>
               <p
                 class="news-desc"
@@ -477,7 +509,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Madhusudhan Sai"
+                alt="With Madhusudhan Sai, global spiritual leader and humanitarian"
                 class="news-img"
                 src=""
               />
@@ -493,7 +525,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(With Madhusudhan Sai)
+                mockTranslate(With Madhusudhan Sai, global spiritual leader and humanitarian)
               </h2>
               <p
                 class="news-desc"
@@ -509,7 +541,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Muralidharan – CEO of Sankara Eye Foundation"
+                alt="With Murali Krishnamurthy, CEO of Sankara Eye Foundation"
                 class="news-img"
                 src=""
               />
@@ -525,12 +557,44 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(With Muralidharan – CEO of Sankara Eye Foundation)
+                mockTranslate(With Murali Krishnamurthy, CEO of Sankara Eye Foundation)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(Discussion on social impact, healthcare accessibility, and collaborations that uplift communities.)
+                mockTranslate(In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.)
               </p>
             </div>
           </div>
