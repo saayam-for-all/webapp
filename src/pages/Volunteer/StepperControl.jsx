@@ -7,6 +7,7 @@ const StepperControl = ({
   steps,
   isAcknowledged,
   isUploaded,
+  isCheckedCategories,
   isAvailabilityValid,
 }) => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ const StepperControl = ({
   const disabledCondition =
     (currentStep === 1 && !isAcknowledged) ||
     (currentStep === 2 && !isUploaded) ||
+    (currentStep === 3 && !isCheckedCategories) ||
     (currentStep === 4 && !isAvailabilityValid) ||
     currentStep >= steps.length;
 
