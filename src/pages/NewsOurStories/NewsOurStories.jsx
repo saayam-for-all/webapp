@@ -12,7 +12,7 @@ import withJensen from "../../assets/news_our_stories/Jensen_CEO_NVIDIA.webp";
 import withMadhusudhanSai from "../../assets/news_our_stories/MadhusudhanSai.webp";
 import withMuralidharan from "../../assets/news_our_stories/Muralidharan.webp";
 import withVishalSikka from "../../assets/news_our_stories/VishalSikka.webp";
-
+import withJimmyPanettaandDomingoCandelas from "../../assets/news_our_stories/Jimmy Panetta and Domingo Candelas.webp";
 const stories = [
   {
     date: "05/02/2025",
@@ -24,7 +24,7 @@ const stories = [
   },
   {
     date: "05/02/2025",
-    title: "With Vishal Sikka – Former CEO of Infosys",
+    title: "With Vishal Sikka, Former CEO of Infosys",
     image: withVishalSikka,
     description:
       "An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.",
@@ -40,7 +40,7 @@ const stories = [
   },
   {
     date: "05/02/2025",
-    title: "With Indian Consular",
+    title: "With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA",
     image: indianConsular,
     description:
       "A moment with the Indian Consular team during a community engagement event.",
@@ -48,7 +48,8 @@ const stories = [
   },
   {
     date: "05/02/2025",
-    title: "With Amit Zavery – IIT Bay Area",
+    title:
+      "With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)",
     image: withAmitZavery,
     description:
       "Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.",
@@ -56,7 +57,7 @@ const stories = [
   },
   {
     date: "05/02/2025",
-    title: "With Madhusudhan Sai",
+    title: "With Madhusudhan Sai, global spiritual leader and humanitarian",
     image: withMadhusudhanSai,
     description:
       "A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.",
@@ -64,10 +65,19 @@ const stories = [
   },
   {
     date: "05/02/2025",
-    title: "With Muralidharan – CEO of Sankara Eye Foundation",
+    title: "With Murali Krishnamurthy, CEO of Sankara Eye Foundation",
     image: withMuralidharan,
     description:
-      "Discussion on social impact, healthcare accessibility, and collaborations that uplift communities.",
+      "In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.",
+    link: "#",
+  },
+  {
+    date: "05/02/2025",
+    title:
+      "With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas",
+    image: withJimmyPanettaandDomingoCandelas,
+    description:
+      "A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.",
     link: "#",
   },
 ];
