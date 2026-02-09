@@ -13,13 +13,15 @@ import withMadhusudhanSai from "../../assets/news_our_stories/MadhusudhanSai.web
 import withMuralidharan from "../../assets/news_our_stories/Muralidharan.webp";
 import withVishalSikka from "../../assets/news_our_stories/VishalSikka.webp";
 import withJimmyPanettaandDomingoCandelas from "../../assets/news_our_stories/Jimmy Panetta and Domingo Candelas.webp";
-import withJimmyPanetta from "../../assets/news_our_stories/RameshMaturu.webp";
+import withRameshMaturu from "../../assets/news_our_stories/RameshMaturu.webp";
+import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuandRamana Yerneni.webp";
+
 const stories = [
   {
     date: "02/09/2026",
     title:
       "Ramesh Maturu Named to the 2026 Georgia Titan 100 List, https://www.linkedin.com/in/rameshmaturu/",
-    image: RameshMaturu,
+    image: withRameshMaturu,
     description:
       "Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.",
     link: "#",
