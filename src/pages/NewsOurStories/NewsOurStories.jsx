@@ -14,7 +14,7 @@ import withMuralidharan from "../../assets/news_our_stories/Muralidharan.webp";
 import withVishalSikka from "../../assets/news_our_stories/VishalSikka.webp";
 import withJimmyPanettaandDomingoCandelas from "../../assets/news_our_stories/Jimmy Panetta and Domingo Candelas.webp";
 import withRameshMaturu from "../../assets/news_our_stories/RameshMaturu.webp";
-import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuandRamana Yerneni.webp";
+import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuAndRamanaYerneni.webp";
 
 const stories = [
   {
