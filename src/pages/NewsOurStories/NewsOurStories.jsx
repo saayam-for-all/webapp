@@ -13,14 +13,25 @@ import withMadhusudhanSai from "../../assets/news_our_stories/MadhusudhanSai.web
 import withMuralidharan from "../../assets/news_our_stories/Muralidharan.webp";
 import withVishalSikka from "../../assets/news_our_stories/VishalSikka.webp";
 import withJimmyPanettaandDomingoCandelas from "../../assets/news_our_stories/Jimmy Panetta and Domingo Candelas.webp";
+import withRameshMaturu from "../../assets/news_our_stories/RameshMaturu.webp";
+import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuAndRamanaYerneni.webp";
+
 const stories = [
+  {
+    date: "02/09/2026",
+    title: "Ramesh Maturu Named to the 2026 Georgia Titan 100 List",
+    image: withRameshMaturu,
+    description:
+      "Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.",
+    link: "https://www.linkedin.com/in/rameshmaturu/",
+  },
   {
     date: "05/02/2025",
     title: "With Jensen Huang, CEO of NVIDIA",
     image: withJensen,
     description:
       "A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.",
-    link: "#",
+    link: "https://www.linkedin.com/in/jenhsunhuang/",
   },
   {
     date: "05/02/2025",
@@ -28,8 +39,18 @@ const stories = [
     image: withVishalSikka,
     description:
       "An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.",
-    link: "#",
+    link: "https://www.linkedin.com/in/vishal-sikka-869a6b2/",
   },
+  {
+    date: "02/09/2026",
+    title:
+      "With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach",
+    image: leisuewithproductivity,
+    description:
+      "A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with Ramesh Maturu and Ramana Yerneni by the Pacific coast.",
+    link: "https://www.linkedin.com/in/ramanayerneni/",
+  },
+
   {
     date: "05/02/2025",
     title: "In Step with the Community: A 17-Mile Walk in San Ramon",
@@ -44,7 +65,7 @@ const stories = [
     image: indianConsular,
     description:
       "A moment with the Indian Consular team during a community engagement event.",
-    link: "#",
+    link: "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
   },
   {
     date: "05/02/2025",
@@ -53,7 +74,7 @@ const stories = [
     image: withAmitZavery,
     description:
       "Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.",
-    link: "#",
+    link: "https://www.linkedin.com/in/amitzavery/",
   },
   {
     date: "05/02/2025",
@@ -61,7 +82,7 @@ const stories = [
     image: withMadhusudhanSai,
     description:
       "A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.",
-    link: "#",
+    link: "https://srimadhusudansai.com/",
   },
   {
     date: "05/02/2025",
@@ -69,7 +90,7 @@ const stories = [
     image: withMuralidharan,
     description:
       "In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.",
-    link: "#",
+    link: "https://www.linkedin.com/in/muralikrishnamurthy/",
   },
   {
     date: "05/02/2025",
@@ -78,7 +99,8 @@ const stories = [
     image: withJimmyPanettaandDomingoCandelas,
     description:
       "A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.",
-    link: "#",
+    link: "https://panetta.house.gov/",
+    link2: "https://www.domingocandelas.com/",
   },
 ];
 
@@ -118,16 +140,30 @@ export default function NewsOurStories() {
                 <p className="news-desc">{t(story.description)}</p>
 
                 {/* optional Read More */}
-                {story.link && story.link !== "#" && (
-                  <a
-                    href={story.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="news-link"
-                  >
-                    {t("Read More")}
-                  </a>
-                )}
+                {/* optional Read More */}
+                <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
+                  {story.link && story.link !== "#" && (
+                    <a
+                      href={story.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="news-link"
+                    >
+                      {story.link2 ? "Jimmy Panetta" : t("Read More")}
+                    </a>
+                  )}
+
+                  {story.link2 && story.link2 !== "#" && (
+                    <a
+                      href={story.link2}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="news-link"
+                    >
+                      Domingo Candelas
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           ))}

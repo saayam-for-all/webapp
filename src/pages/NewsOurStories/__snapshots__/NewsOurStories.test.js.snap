@@ -40,6 +40,50 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
+                  alt="Ramesh Maturu Named to the 2026 Georgia Titan 100 List"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  02/09/2026
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(Ramesh Maturu Named to the 2026 Georgia Titan 100 List)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.)
+                </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://www.linkedin.com/in/rameshmaturu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Read More)
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
                   alt="With Jensen Huang, CEO of NVIDIA"
                   class="news-img"
                   src=""
@@ -63,6 +107,18 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.)
                 </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://www.linkedin.com/in/jenhsunhuang/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Read More)
+                  </a>
+                </div>
               </div>
             </div>
             <div
@@ -95,6 +151,62 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.)
                 </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Read More)
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  02/09/2026
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with Ramesh Maturu and Ramana Yerneni by the Pacific coast.)
+                </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://www.linkedin.com/in/ramanayerneni/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Read More)
+                  </a>
+                </div>
               </div>
             </div>
             <div
@@ -127,6 +239,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.)
                 </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                />
               </div>
             </div>
             <div
@@ -159,6 +274,18 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(A moment with the Indian Consular team during a community engagement event.)
                 </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Read More)
+                  </a>
+                </div>
               </div>
             </div>
             <div
@@ -191,6 +318,18 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.)
                 </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://www.linkedin.com/in/amitzavery/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Read More)
+                  </a>
+                </div>
               </div>
             </div>
             <div
@@ -223,6 +362,18 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.)
                 </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://srimadhusudansai.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Read More)
+                  </a>
+                </div>
               </div>
             </div>
             <div
@@ -255,6 +406,18 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.)
                 </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://www.linkedin.com/in/muralikrishnamurthy/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    mockTranslate(Read More)
+                  </a>
+                </div>
               </div>
             </div>
             <div
@@ -287,6 +450,26 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.)
                 </p>
+                <div
+                  style="display: flex; gap: 12px; margin-top: 8px;"
+                >
+                  <a
+                    class="news-link"
+                    href="https://panetta.house.gov/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Jimmy Panetta
+                  </a>
+                  <a
+                    class="news-link"
+                    href="https://www.domingocandelas.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Domingo Candelas
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -349,6 +532,50 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
+                alt="Ramesh Maturu Named to the 2026 Georgia Titan 100 List"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                02/09/2026
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(Ramesh Maturu Named to the 2026 Georgia Titan 100 List)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.)
+              </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
                 alt="With Jensen Huang, CEO of NVIDIA"
                 class="news-img"
                 src=""
@@ -372,6 +599,18 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.)
               </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://www.linkedin.com/in/jenhsunhuang/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
             </div>
           </div>
           <div
@@ -404,6 +643,62 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.)
               </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                02/09/2026
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with Ramesh Maturu and Ramana Yerneni by the Pacific coast.)
+              </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://www.linkedin.com/in/ramanayerneni/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
             </div>
           </div>
           <div
@@ -436,6 +731,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.)
               </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              />
             </div>
           </div>
           <div
@@ -468,6 +766,18 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(A moment with the Indian Consular team during a community engagement event.)
               </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
             </div>
           </div>
           <div
@@ -500,6 +810,18 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.)
               </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://www.linkedin.com/in/amitzavery/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
             </div>
           </div>
           <div
@@ -532,6 +854,18 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.)
               </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://srimadhusudansai.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
             </div>
           </div>
           <div
@@ -564,6 +898,18 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.)
               </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://www.linkedin.com/in/muralikrishnamurthy/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
             </div>
           </div>
           <div
@@ -596,6 +942,26 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.)
               </p>
+              <div
+                style="display: flex; gap: 12px; margin-top: 8px;"
+              >
+                <a
+                  class="news-link"
+                  href="https://panetta.house.gov/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Jimmy Panetta
+                </a>
+                <a
+                  class="news-link"
+                  href="https://www.domingocandelas.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Domingo Candelas
+                </a>
+              </div>
             </div>
           </div>
         </div>
