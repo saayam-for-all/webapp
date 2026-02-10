@@ -455,6 +455,7 @@
   "REFRESH_PAGE": "Refresh Page",
   "REMOTE": "Remoto",
   "REQUEST_CATEGORY": "Categoría de solicitud",
+  "REQUEST_DETAILS": "Detalles de la solicitud",
   "REQUEST_FOR_HELP": "Request For Help",
   "REQUEST_TYPE": "Tipo de solicitud",
   "REQUEST_TYPE_HELP_TEXT": "Indicate how you'd like help delivered: \"Remote\" for virtual support or \"In Person\" for onsite assistance.",
