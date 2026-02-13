@@ -100,5 +100,16 @@
   "SAVE": "सहेजें",
   "SAVING": "सहेजा जा रहा है...",
   "CANCEL": "रद्द करें",
-  "SUBMIT": "प्रस्तुत"
+  "SUBMIT": "प्रस्तुत",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "फ़ोटो स्वीकार किया गया। पुष्टि करने के लिए सहेजें पर क्लिक करें।",
+  "PROFILE_PHOTO_ERROR_SIZE": "फ़ाइल का आकार 5 MB या उससे कम होना चाहिए।",
+  "PROFILE_PHOTO_ERROR_FORMAT": "केवल JPG और PNG प्रारूप स्वीकार किए जाते हैं।",
+  "PROFILE_PHOTO_LOAD_ERROR": "प्रोफ़ाइल फ़ोटो लोड करने में विफल।",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "प्रोफ़ाइल फ़ोटो अपडेट करने में विफल।",
+  "PROFILE_PHOTO": "प्रोफ़ाइल फ़ोटो",
+  "UPLOAD": "अपलोड करें",
+  "DELETE": "हटाएं",
+  "NO_PHOTO": "कोई फ़ोटो नहीं",
+  "PROFILE_IMAGE_ALT": "प्रोफ़ाइल"
 }

@@ -93,5 +93,16 @@
   "SAVE": "Сохранить",
   "SAVING": "Сохранение...",
   "CANCEL": "Отмена",
-  "SUBMIT": "Отправить"
+  "SUBMIT": "Отправить",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "Фото принято. Нажмите «Сохранить» для подтверждения.",
+  "PROFILE_PHOTO_ERROR_SIZE": "Размер файла должен быть не более 5 МБ.",
+  "PROFILE_PHOTO_ERROR_FORMAT": "Допускаются только форматы JPG и PNG.",
+  "PROFILE_PHOTO_LOAD_ERROR": "Не удалось загрузить фото профиля.",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "Не удалось обновить фото профиля.",
+  "PROFILE_PHOTO": "Фото профиля",
+  "UPLOAD": "Загрузить",
+  "DELETE": "Удалить",
+  "NO_PHOTO": "Нет фото",
+  "PROFILE_IMAGE_ALT": "Профиль"
 }

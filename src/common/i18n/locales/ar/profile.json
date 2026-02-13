@@ -100,5 +100,16 @@
   "SAVE": "حفظ",
   "SAVING": "جاري الحفظ...",
   "CANCEL": "إلغاء",
-  "SUBMIT": "إرسال"
+  "SUBMIT": "إرسال",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "تم قبول الصورة. انقر على حفظ للتأكيد.",
+  "PROFILE_PHOTO_ERROR_SIZE": "يجب أن يكون حجم الملف 5 ميجابايت أو أقل.",
+  "PROFILE_PHOTO_ERROR_FORMAT": "يتم قبول صيغ JPG و PNG فقط.",
+  "PROFILE_PHOTO_LOAD_ERROR": "فشل تحميل صورة الملف الشخصي.",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "فشل تحديث صورة الملف الشخصي.",
+  "PROFILE_PHOTO": "صورة الملف الشخصي",
+  "UPLOAD": "رفع",
+  "DELETE": "حذف",
+  "NO_PHOTO": "لا توجد صورة",
+  "PROFILE_IMAGE_ALT": "الملف الشخصي"
 }

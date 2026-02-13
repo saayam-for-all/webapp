@@ -93,5 +93,16 @@
   "SAVE": "সংরক্ষণ",
   "SAVING": "সংরক্ষণ করা হচ্ছে...",
   "CANCEL": "বাতিল",
-  "SUBMIT": "জমা দিন"
+  "SUBMIT": "জমা দিন",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "ছবি গৃহীত হয়েছে। নিশ্চিত করতে সেভ ক্লিক করুন।",
+  "PROFILE_PHOTO_ERROR_SIZE": "ফাইলের আকার ৫ MB বা তার কম হতে হবে।",
+  "PROFILE_PHOTO_ERROR_FORMAT": "শুধুমাত্র JPG এবং PNG ফরম্যাট গ্রহণযোগ্য।",
+  "PROFILE_PHOTO_LOAD_ERROR": "প্রোফাইল ছবি লোড করতে ব্যর্থ।",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "প্রোফাইল ছবি আপডেট করতে ব্যর্থ।",
+  "PROFILE_PHOTO": "প্রোফাইল ছবি",
+  "UPLOAD": "আপলোড",
+  "DELETE": "মুছুন",
+  "NO_PHOTO": "কোনো ছবি নেই",
+  "PROFILE_IMAGE_ALT": "প্রোফাইল"
 }
