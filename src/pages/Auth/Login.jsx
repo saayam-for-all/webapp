@@ -1,3 +1,5 @@
+import Alert from "../../common/components/Alert";
+import Alert from "../../components/Alert";
 import { signIn } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,6 +23,7 @@ const LoginPage = () => {
   const [passwordFocus, setPasswordFocus] = useState(false);
 
   const [errors, setErrors] = useState({});
+  const hasError = errors && Object.keys(errors).length > 0;
 
   const { user } = useSelector((state) => state.auth);
 
@@ -87,6 +90,12 @@ const LoginPage = () => {
         <h1 className="my-4 text-3xl font-bold text-center">
           {t("common:LOGIN")}
         </h1>
+        {hasError && (
+          <div className="mb-3">
+            <Alert kind="error">{t("common:AUTH_INVALID_CREDENTIALS")}</Alert>
+          </div>
+        )}
+
         <div className="my-2 flex flex-col">
           <label htmlFor="email">{t("common:EMAIL")}</label>
           <input
