@@ -51,6 +51,8 @@
   "NON_PROFIT": "Gemeinnützig",
   "FOR_PROFIT": "Gewinnorientiert",
   "URL": "URL",
+  "HELP_CATEGORIES": "Hilfekategorien",
+  "SELECT_HELP_CATEGORIES": "Wählen Sie die Hilfekategorien aus, die Ihre Organisation unterstützt...",
   "DEFAULT DASHBOARD VIEW": "Standard-Dashboard-Ansicht",
   "SELECT DASHBOARD": "Dashboard auswählen",
   "SUPER_ADMIN_DASHBOARD": "Super-Admin-Dashboard",

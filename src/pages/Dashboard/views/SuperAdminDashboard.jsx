@@ -1,6 +1,7 @@
 import Table from "../../../common/components/DataTable/Table";
 import PropTypes from "prop-types";
 import ApplicationAnalytics from "../components/Analytics/ApplicationAnalytics";
+import GoogleAnalytics from "../components/Analytics/GoogleAnalytics";
 
 const SuperAdminDashboard = (props) => {
   const {
@@ -25,7 +26,7 @@ const SuperAdminDashboard = (props) => {
 
   return (
     <div>
-      <div className="flex mb-5">
+      <div className="flex mb-1">
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
             activeTab === "analytics"
@@ -52,7 +53,7 @@ const SuperAdminDashboard = (props) => {
 
       <div className="requests-section overflow-hidden table-height-fix">
         {activeTab === "analytics" && (
-          <div className="flex mb-4">
+          <div className="flex mb-0">
             <button
               className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
         ${
@@ -90,7 +91,7 @@ const SuperAdminDashboard = (props) => {
         )}
 
         {activeTab === "analytics" ? (
-          <div className="p-6 text-center text-gray-600">
+          <div className="text-center text-gray-600">
             {analyticsSubtab === "Infrastructure" && (
               <div className="py-8">
                 <p className="text-gray-700">
@@ -110,9 +111,7 @@ const SuperAdminDashboard = (props) => {
             {analyticsSubtab === "Application Analytics" && (
               <ApplicationAnalytics />
             )}
-            {analyticsSubtab === "Google Analytics" && (
-              <>Google Analytics - To Be Implemented</>
-            )}
+            {analyticsSubtab === "Google Analytics" && <GoogleAnalytics />}
           </div>
         ) : (
           !isLoading && (

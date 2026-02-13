@@ -51,6 +51,8 @@
   "NON_PROFIT": "非营利",
   "FOR_PROFIT": "营利",
   "URL": "网址",
+  "HELP_CATEGORIES": "帮助类别",
+  "SELECT_HELP_CATEGORIES": "选择您的组织支持的帮助类别...",
   "DEFAULT DASHBOARD VIEW": "默认仪表板视图",
   "SELECT DASHBOARD": "选择仪表板",
   "SUPER_ADMIN_DASHBOARD": "超级管理员仪表板",

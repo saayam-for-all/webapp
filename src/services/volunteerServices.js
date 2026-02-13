@@ -21,7 +21,7 @@ export const updateVolunteer = async (volunteerData) => {
 
 export const getUserId = async (email) => {
   try {
-    const response = await api.get(`${endpoints.GET_USER_ID}/${email}`);
+    const response = await api.post(endpoints.GET_USER_ID, { email });
     return response.data;
   } catch (error) {
     const message =

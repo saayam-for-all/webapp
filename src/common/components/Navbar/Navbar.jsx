@@ -706,11 +706,13 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
-                <MenuItem
-                  onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
-                >
-                  <ArticleIcon className="mr-2" /> {t("In the news")}
-                </MenuItem>
+                {
+                  <MenuItem
+                    onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
+                  >
+                    <ArticleIcon className="mr-2" /> {t("In the news")}
+                  </MenuItem>
+                }
               </Menu>
             )}
           </div>

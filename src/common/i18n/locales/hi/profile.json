@@ -55,6 +55,8 @@
   "NON_PROFIT": "नॉन-प्रॉफिट",
   "FOR_PROFIT": "लाभ के लिए",
   "URL": "यूआरएल",
+  "HELP_CATEGORIES": "सहायता श्रेणियाँ",
+  "SELECT_HELP_CATEGORIES": "अपने संगठन द्वारा समर्थित सहायता श्रेणियाँ चुनें...",
 
   "DEFAULT DASHBOARD VIEW": "डिफ़ॉल्ट डैशबोर्ड दृश्य",
   "SELECT DASHBOARD": "डैशबोर्ड चुनें",
