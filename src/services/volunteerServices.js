@@ -39,3 +39,25 @@ export const getVolunteersData = async () => {
       ? data
       : [];
 };
+
+/**
+ * Sign off (delete) user from the database
+ * @param {string} userId - The user's database ID (e.g., "SID-00-000-002-558")
+ * @param {string} reason - Optional reason for leaving
+ * @returns {Promise<Object>} - Returns { success: boolean, statusCode: number, message: string, data: { userId: string } }
+ */
+export const signOffUser = async (userId, reason = "") => {
+  const response = await api.request({
+    method: "DELETE",
+    url: endpoints.SIGN_OFF_USER,
+    data: {
+      userId: userId,
+      reason: reason,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.data;
+};

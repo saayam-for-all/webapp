@@ -1,10 +1,10 @@
-import { signOffUser } from "./requestServices";
+import { signOffUser } from "./volunteerServices";
 import api from "./api";
 
 // Mock the api module
 jest.mock("./api");
 
-describe("requestServices", () => {
+describe("volunteerServices", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -51,40 +51,20 @@ describe("requestServices", () => {
       );
     });
 
-    it("parses AWS Lambda response format with stringified body", async () => {
-      const lambdaResponse = {
-        data: {
-          statusCode: 200,
-          body: JSON.stringify({
-            success: true,
-            message: "User deleted successfully",
-            data: { userId: "SID-00-000-001" },
-          }),
-        },
-      };
-      api.request.mockResolvedValue(lambdaResponse);
-
-      const result = await signOffUser("SID-00-000-001", "Test reason");
-
-      expect(result).toEqual({
+    it("returns response data directly", async () => {
+      const responseData = {
         success: true,
-        message: "User deleted successfully",
-        data: { userId: "SID-00-000-001" },
-      });
-    });
-
-    it("returns data directly when body is not a string", async () => {
-      const directResponse = {
-        data: {
-          success: true,
-          message: "Deleted",
-        },
+        statusCode: 200,
+        saayamCode: "SAAAYAM-1205",
+        message: "User deleted",
+        data: { userId: "SID-00-000-002-558" },
+        timestamp: 1770661776.66827198,
       };
-      api.request.mockResolvedValue(directResponse);
+      api.request.mockResolvedValue({ data: responseData });
 
-      const result = await signOffUser("SID-00-000-001");
+      const result = await signOffUser("SID-00-000-002-558", "Test reason");
 
-      expect(result).toEqual({ success: true, message: "Deleted" });
+      expect(result).toEqual(responseData);
     });
 
     it("handles API error", async () => {
