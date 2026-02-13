@@ -4,6 +4,7 @@ import {
   deleteProfileImage,
   fetchProfileImage,
 } from "./volunteerServices";
+import { getUserId } from "./volunteerServices";
 
 jest.mock("./api");
 jest.mock("../utils/fileToBase64", () => ({
@@ -94,10 +95,8 @@ describe("volunteerServices profile image", () => {
         "User ID is required",
       );
     });
-import { getUserId } from "./volunteerServices";
-
-jest.mock("./api");
-
+  });
+});
 describe("getUserId", () => {
   afterEach(() => {
     jest.resetAllMocks();
