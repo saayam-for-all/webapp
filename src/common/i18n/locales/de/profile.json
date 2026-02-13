@@ -95,5 +95,16 @@
   "SAVE": "Speichern",
   "SAVING": "Speichern...",
   "CANCEL": "Abbrechen",
-  "SUBMIT": "Senden"
+  "SUBMIT": "Senden",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "Foto akzeptiert. Klicken Sie auf Speichern zur Bestätigung.",
+  "PROFILE_PHOTO_ERROR_SIZE": "Die Dateigröße darf 5 MB nicht überschreiten.",
+  "PROFILE_PHOTO_ERROR_FORMAT": "Nur JPG- und PNG-Formate werden akzeptiert.",
+  "PROFILE_PHOTO_LOAD_ERROR": "Profilfoto konnte nicht geladen werden.",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "Profilfoto konnte nicht aktualisiert werden.",
+  "PROFILE_PHOTO": "Profilfoto",
+  "UPLOAD": "Hochladen",
+  "DELETE": "Löschen",
+  "NO_PHOTO": "Kein Foto",
+  "PROFILE_IMAGE_ALT": "Profil"
 }

@@ -95,5 +95,16 @@
   "SAVE": "Salvar",
   "SAVING": "Salvando...",
   "CANCEL": "Cancelar",
-  "SUBMIT": "Enviar"
+  "SUBMIT": "Enviar",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "Foto aceita. Clique em Guardar para confirmar.",
+  "PROFILE_PHOTO_ERROR_SIZE": "O tamanho do ficheiro deve ser 5 MB ou menos.",
+  "PROFILE_PHOTO_ERROR_FORMAT": "Apenas formatos JPG e PNG são aceites.",
+  "PROFILE_PHOTO_LOAD_ERROR": "Falha ao carregar a foto de perfil.",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "Falha ao atualizar a foto de perfil.",
+  "PROFILE_PHOTO": "Foto de perfil",
+  "UPLOAD": "Carregar",
+  "DELETE": "Eliminar",
+  "NO_PHOTO": "Sem foto",
+  "PROFILE_IMAGE_ALT": "Perfil"
 }
