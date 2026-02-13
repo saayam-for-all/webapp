@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Information State Persistence Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .tab-buttons {
+        margin-bottom: 20px;
+      }
+      .tab-buttons button {
+        margin-right: 10px;
+        padding: 10px 20px;
+        background: #f0f0f0;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+      .tab-buttons button.active {
+        background: #007bff;
+        color: white;
+      }
+      .state-field {
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #ddd;
+        background: #f9f9f9;
+      }
+      .instructions {
+        margin-bottom: 30px;
+        padding: 15px;
+        background: #e8f4fd;
+        border-left: 4px solid #007bff;
+      }
+      .current-data {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f0f8ff;
+        border: 1px solid #b0d4f1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Personal Information State Field Persistence Test</h1>
+
+    <div class="instructions">
+      <h3>Test Instructions:</h3>
+      <ol>
+        <li>Set localStorage data by clicking "Set Test Data"</li>
+        <li>Switch between tabs using the buttons below</li>
+        <li>Observe if the State field value persists across tab switches</li>
+        <li>Before the fix: State would disappear when switching tabs</li>
+        <li>After the fix: State value should persist correctly</li>
+      </ol>
+      <button onclick="setTestData()">Set Test Data</button>
+      <button onclick="clearTestData()">Clear Test Data</button>
+    </div>
+
+    <div class="tab-buttons">
+      <button id="personal-tab" class="active" onclick="showTab('personal')">
+        Personal Info
+      </button>
+      <button id="org-tab" onclick="showTab('organization')">
+        Organization Details
+      </button>
+      <button id="skills-tab" onclick="showTab('skills')">Skills</button>
+    </div>
+
+    <div id="personal-content" class="tab-content">
+      <h2>Personal Information Tab</h2>
+      <div class="current-data">
+        <h4>Current localStorage Data:</h4>
+        <div id="personal-data-display">No data set</div>
+      </div>
+      <div class="state-field">
+        <h4>State Field Test:</h4>
+        <p>
+          <strong>Expected Behavior:</strong> The state field should show
+          "California" consistently when switching between tabs.
+        </p>
+        <p>
+          <strong>State Value:</strong> <span id="state-value">Not loaded</span>
+        </p>
+        <p>
+          <strong>States Array Length:</strong>
+          <span id="states-length">0</span>
+        </p>
+      </div>
+    </div>
+
+    <div id="organization-content" class="tab-content" style="display: none">
+      <h2>Organization Details Tab</h2>
+      <p>This tab is just for testing tab switching behavior.</p>
+      <p>Switch back to Personal Info tab to test state persistence.</p>
+    </div>
+
+    <div id="skills-content" class="tab-content" style="display: none">
+      <h2>Skills Tab</h2>
+      <p>This tab is just for testing tab switching behavior.</p>
+      <p>Switch back to Personal Info tab to test state persistence.</p>
+    </div>
+
+    <script>
+      let currentStates = [];
+      let personalInfo = {};
+
+      function setTestData() {
+        const testData = {
+          dateOfBirth: "1990-01-01",
+          gender: "Male",
+          streetAddress: "123 Main St",
+          streetAddress2: "",
+          country: "United States",
+          state: "California",
+          zipCode: "12345",
+          secondaryEmail: "test@example.com",
+          secondaryPhone: "5551234567",
+          secondaryPhoneCountryCode: "US",
+        };
+
+        localStorage.setItem("personalInfo", JSON.stringify(testData));
+        alert(
+          "Test data set! Now switch between tabs to test state persistence.",
+        );
+        updateDisplay();
+      }
+
+      function clearTestData() {
+        localStorage.removeItem("personalInfo");
+        personalInfo = {};
+        currentStates = [];
+        updateDisplay();
+      }
+
+      function showTab(tabName) {
+        // Hide all tab contents
+        const contents = document.querySelectorAll(".tab-content");
+        contents.forEach((content) => (content.style.display = "none"));
+
+        // Remove active class from all buttons
+        const buttons = document.querySelectorAll(".tab-buttons button");
+        buttons.forEach((button) => button.classList.remove("active"));
+
+        // Show selected tab and mark button as active
+        document.getElementById(tabName + "-content").style.display = "block";
+        document.getElementById(tabName + "-tab").classList.add("active");
+
+        // If showing personal tab, simulate component remount
+        if (tabName === "personal") {
+          loadPersonalInfo();
+        }
+      }
+
+      function loadPersonalInfo() {
+        // Simulate the component behavior
+        const savedPersonalInfo = localStorage.getItem("personalInfo");
+        if (savedPersonalInfo) {
+          personalInfo = JSON.parse(savedPersonalInfo);
+
+          // Simulate getLatestStatesList - this happens asynchronously
+          setTimeout(() => {
+            if (personalInfo.country === "United States") {
+              currentStates = [
+                { value: "CA", label: "California" },
+                { value: "NY", label: "New York" },
+                { value: "TX", label: "Texas" },
+              ];
+            } else {
+              currentStates = [];
+            }
+            updateDisplay();
+          }, 100); // Simulate async behavior
+        } else {
+          personalInfo = {};
+          currentStates = [];
+        }
+        updateDisplay();
+      }
+
+      function updateDisplay() {
+        // Update personal data display
+        const dataDisplay = document.getElementById("personal-data-display");
+        if (Object.keys(personalInfo).length > 0) {
+          dataDisplay.innerHTML = JSON.stringify(personalInfo, null, 2);
+        } else {
+          dataDisplay.innerHTML = "No data set";
+        }
+
+        // Update state field display - This simulates the issue and fix
+        const stateValueEl = document.getElementById("state-value");
+        const statesLengthEl = document.getElementById("states-length");
+
+        statesLengthEl.textContent = currentStates.length;
+
+        // Simulate the original bug and the fix
+        if (personalInfo.state && currentStates.length > 0) {
+          const stateExists = currentStates.find(
+            (option) => option.label === personalInfo.state,
+          );
+          if (stateExists) {
+            stateValueEl.textContent = personalInfo.state;
+            stateValueEl.style.color = "green";
+          } else {
+            stateValueEl.textContent =
+              "State not found in current states array";
+            stateValueEl.style.color = "red";
+          }
+        } else if (personalInfo.state && currentStates.length === 0) {
+          // This simulates the race condition issue
+          stateValueEl.textContent = "Waiting for states array...";
+          stateValueEl.style.color = "orange";
+        } else {
+          stateValueEl.textContent = "Not loaded";
+          stateValueEl.style.color = "gray";
+        }
+      }
+
+      // Initialize
+      loadPersonalInfo();
+    </script>
+  </body>
+</html>
