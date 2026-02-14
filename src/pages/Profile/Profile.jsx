@@ -24,6 +24,20 @@ import {
 const MAX_PROFILE_PHOTO_SIZE = 5 * 1024 * 1024; // 5 MB
 const ACCEPTED_PHOTO_TYPES = ["image/jpeg", "image/png"];
 
+const blobToDataUrl = (blob) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result);
+      } else {
+        reject(new Error("Failed to convert blob to data URL"));
+      }
+    };
+    reader.onerror = () => reject(new Error("Failed to read blob"));
+    reader.readAsDataURL(blob);
+  });
+
 function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation("profile");
@@ -43,12 +57,16 @@ function Profile() {
 
   const profileImageObjectUrlRef = useRef(null);
   const pendingFileRef = useRef(null);
-  const deleteRequestedRef = useRef(false);
 
   // When we have userDbId, fetch profile image from backend; otherwise fall back to localStorage
   useEffect(() => {
     if (userDbId) {
       let cancelled = false;
+      const savedProfilePhoto = localStorage.getItem("profilePhoto");
+      if (savedProfilePhoto) {
+        setProfilePhoto(savedProfilePhoto);
+        setTempProfilePhoto(savedProfilePhoto);
+      }
       setPhotoLoadError(null);
       fetchProfileImage(userDbId)
         .then((blob) => {
@@ -61,9 +79,15 @@ function Profile() {
             profileImageObjectUrlRef.current = url;
             setProfilePhoto(url);
             setTempProfilePhoto(url);
+            blobToDataUrl(blob)
+              .then((dataUrl) => {
+                localStorage.setItem("profilePhoto", dataUrl);
+              })
+              .catch(() => {});
           } else {
             setProfilePhoto(DEFAULT_PROFILE_ICON);
             setTempProfilePhoto(DEFAULT_PROFILE_ICON);
+            localStorage.removeItem("profilePhoto");
           }
         })
         .catch((err) => {
@@ -75,6 +99,7 @@ function Profile() {
             );
             setProfilePhoto(DEFAULT_PROFILE_ICON);
             setTempProfilePhoto(DEFAULT_PROFILE_ICON);
+            localStorage.removeItem("profilePhoto");
           }
         });
       return () => {
@@ -131,7 +156,6 @@ function Profile() {
       return;
     }
 
-    deleteRequestedRef.current = false;
     pendingFileRef.current = file;
 
     const reader = new FileReader();
@@ -149,31 +173,25 @@ function Profile() {
   };
 
   const handleSaveClick = async () => {
-    if (userDbId && (pendingFileRef.current || deleteRequestedRef.current)) {
+    if (userDbId && pendingFileRef.current) {
       setPhotoLoading(true);
       setPhotoLoadError(null);
       try {
-        if (deleteRequestedRef.current) {
-          await deleteProfileImage(userDbId);
+        await uploadProfileImage(userDbId, pendingFileRef.current);
+        const blob = await fetchProfileImage(userDbId);
+        if (blob) {
           if (profileImageObjectUrlRef.current) {
             URL.revokeObjectURL(profileImageObjectUrlRef.current);
-            profileImageObjectUrlRef.current = null;
           }
+          const url = URL.createObjectURL(blob);
+          profileImageObjectUrlRef.current = url;
+          setProfilePhoto(url);
+          setTempProfilePhoto(url);
+          const dataUrl = await blobToDataUrl(blob);
+          localStorage.setItem("profilePhoto", dataUrl);
+        } else {
           setProfilePhoto(DEFAULT_PROFILE_ICON);
           setTempProfilePhoto(DEFAULT_PROFILE_ICON);
-          localStorage.removeItem("profilePhoto");
-        } else if (pendingFileRef.current) {
-          await uploadProfileImage(userDbId, pendingFileRef.current);
-          const blob = await fetchProfileImage(userDbId);
-          if (blob) {
-            if (profileImageObjectUrlRef.current) {
-              URL.revokeObjectURL(profileImageObjectUrlRef.current);
-            }
-            const url = URL.createObjectURL(blob);
-            profileImageObjectUrlRef.current = url;
-            setProfilePhoto(url);
-            setTempProfilePhoto(url);
-          }
           localStorage.removeItem("profilePhoto");
         }
         window.dispatchEvent(new Event("profile-photo-updated"));
@@ -188,7 +206,6 @@ function Profile() {
         return;
       }
       pendingFileRef.current = null;
-      deleteRequestedRef.current = false;
       setPhotoLoading(false);
     } else {
       setProfilePhoto(tempProfilePhoto);
@@ -201,17 +218,46 @@ function Profile() {
 
   const handleCancelClick = () => {
     pendingFileRef.current = null;
-    deleteRequestedRef.current = false;
     setTempProfilePhoto(profilePhoto);
     setUploadMessage(null);
     setIsModalOpen(false);
   };
 
-  const handleDeleteClick = () => {
-    deleteRequestedRef.current = true;
+  const handleDeleteClick = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the picture?",
+    );
+    if (!confirmed) return;
+
+    if (userDbId) {
+      setPhotoLoading(true);
+      setPhotoLoadError(null);
+      try {
+        await deleteProfileImage(userDbId);
+      } catch (err) {
+        const message =
+          err?.response?.data?.message ||
+          err?.message ||
+          t("PROFILE_PHOTO_ERROR_UPLOAD") ||
+          "Failed to update profile photo.";
+        setUploadMessage({ type: "error", text: message });
+        setPhotoLoading(false);
+        return;
+      }
+      setPhotoLoading(false);
+    }
+
+    if (profileImageObjectUrlRef.current) {
+      URL.revokeObjectURL(profileImageObjectUrlRef.current);
+      profileImageObjectUrlRef.current = null;
+    }
     pendingFileRef.current = null;
+    setProfilePhoto(DEFAULT_PROFILE_ICON);
     setTempProfilePhoto(DEFAULT_PROFILE_ICON);
+    localStorage.removeItem("profilePhoto");
+    window.dispatchEvent(new Event("profile-photo-updated"));
     setUploadMessage(null);
+    setIsModalOpen(false);
   };
 
   const getTabDisplayName = (tab) => {
@@ -247,7 +293,6 @@ function Profile() {
   const openModal = () => {
     setTempProfilePhoto(profilePhoto);
     pendingFileRef.current = null;
-    deleteRequestedRef.current = false;
     if (hasUnsavedChanges) {
       const proceed = window.confirm(
         t("UNSAVED_PROFILE_CHANGES_WARNING") ||
