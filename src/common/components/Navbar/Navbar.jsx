@@ -31,6 +31,20 @@ import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
 
+const blobToDataUrl = (blob) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result);
+      } else {
+        reject(new Error("Failed to convert blob to data URL"));
+      }
+    };
+    reader.onerror = () => reject(new Error("Failed to read blob"));
+    reader.readAsDataURL(blob);
+  });
+
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [volunteerOpenMenu, setVolunteerOpenMenu] = useState(false);
@@ -70,9 +84,21 @@ const Navbar = () => {
           const url = URL.createObjectURL(blob);
           profileIconObjectUrlRef.current = url;
           setProfileIcon(url);
+          blobToDataUrl(blob)
+            .then((dataUrl) => {
+              localStorage.setItem("profilePhoto", dataUrl);
+            })
+            .catch(() => {});
+        } else {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+          localStorage.removeItem("profilePhoto");
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        if (cancelled) return;
+        setProfileIcon(DEFAULT_PROFILE_ICON);
+        localStorage.removeItem("profilePhoto");
+      });
     return () => {
       cancelled = true;
     };
@@ -81,7 +107,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleStorageChange = (event) => {
       if (event.key === "profilePhoto") {
-        setProfileIcon(event.newValue);
+        setProfileIcon(event.newValue || DEFAULT_PROFILE_ICON);
       }
     };
 
@@ -97,16 +123,22 @@ const Navbar = () => {
             const url = URL.createObjectURL(blob);
             profileIconObjectUrlRef.current = url;
             setProfileIcon(url);
+            const dataUrl = await blobToDataUrl(blob);
+            localStorage.setItem("profilePhoto", dataUrl);
           } else {
             setProfileIcon(DEFAULT_PROFILE_ICON);
+            localStorage.removeItem("profilePhoto");
           }
         } catch {
           setProfileIcon(DEFAULT_PROFILE_ICON);
+          localStorage.removeItem("profilePhoto");
         }
       } else {
         const updatedProfilePhoto = localStorage.getItem("profilePhoto");
         if (updatedProfilePhoto) {
           setProfileIcon(updatedProfilePhoto);
+        } else {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
         }
       }
     };
