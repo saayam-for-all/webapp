@@ -134,9 +134,16 @@ export const checkAuthStatus = () => async (dispatch) => {
     let userDbId = null;
     try {
       const result = await getUserId(email);
-      userDbId = result?.data?.id || null;
-      if (userDbId) {
+      userDbId =
+        result?.data?.user_id || result?.data?.id || result?.id || null;
+      if (userDbId && typeof userDbId === "string") {
         localStorage.setItem("userDbId", userDbId);
+      } else {
+        console.warn(
+          "getUserId returned successfully but no id found in response:",
+          JSON.stringify(result),
+        );
+        userDbId = null;
       }
     } catch (dbError) {
       console.warn(
@@ -155,14 +162,6 @@ export const checkAuthStatus = () => async (dispatch) => {
       groups,
       userDbId,
     };
-    if (user.userId) {
-      dispatch(
-        loginSuccess({
-          user,
-        }),
-      );
-    }
-
     dispatch(
       loginSuccess({
         user,

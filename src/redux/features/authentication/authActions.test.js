@@ -103,7 +103,19 @@ describe("authActions", () => {
       getMetadata.mockResolvedValue({ body: { key: "value" } });
     });
 
-    it("stores userDbId in localStorage when getUserId returns valid id", async () => {
+    it("stores userDbId in localStorage when getUserId returns user_id", async () => {
+      const { getUserId } = require("../../../services/volunteerServices");
+      getUserId.mockResolvedValue({ data: { user_id: "SID-00-000-002-622" } });
+
+      await checkAuthStatus()(dispatch);
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "userDbId",
+        "SID-00-000-002-622",
+      );
+    });
+
+    it("falls back to data.id when data.user_id is not present", async () => {
       const { getUserId } = require("../../../services/volunteerServices");
       getUserId.mockResolvedValue({ data: { id: "SID-00-000-001" } });
 
@@ -117,7 +129,7 @@ describe("authActions", () => {
 
     it("does not store userDbId in localStorage when getUserId returns null", async () => {
       const { getUserId } = require("../../../services/volunteerServices");
-      getUserId.mockResolvedValue({ data: { id: null } });
+      getUserId.mockResolvedValue({ data: { user_id: null } });
 
       await checkAuthStatus()(dispatch);
 
@@ -147,7 +159,7 @@ describe("authActions", () => {
 
     it("dispatches loginRequest at start", async () => {
       const { getUserId } = require("../../../services/volunteerServices");
-      getUserId.mockResolvedValue({ data: { id: "SID-00-000-001" } });
+      getUserId.mockResolvedValue({ data: { user_id: "SID-00-000-001" } });
 
       await checkAuthStatus()(dispatch);
 

@@ -287,10 +287,13 @@ const PromoteToVolunteer = () => {
           steps={steps}
           isAcknowledged={isAcknowledged}
           isUploaded={isUploaded}
+          isCheckedCategories={Object.keys(checkedCategories).length !== 0}
           isAvailabilityValid={isAvailabilityValid}
           disableNext={
             (currentStep === 1 && !isAcknowledged) ||
             (currentStep === 2 && !isUploaded) ||
+            (currentStep === 3 &&
+              Object.keys(checkedCategories).length === 0) ||
             (currentStep === 4 && !isAvailabilityValid)
           }
         />

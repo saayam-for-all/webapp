@@ -1703,7 +1703,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 //Temporarily commented out as MVP only allows for self requests
                 !selfFlag && (
                   <div
-                    className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
+                    className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
                     data-testid="parentDivTwo"
                   >
                     <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">

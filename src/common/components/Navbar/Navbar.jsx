@@ -1,5 +1,5 @@
 import { Drawer, IconButton, Menu, MenuItem } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -29,6 +29,7 @@ import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
+import { fetchProfileImage } from "../../../services/volunteerServices";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -46,23 +47,67 @@ const Navbar = () => {
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [newNotificationCount, setNewNotificationCount] = useState(0);
+  const profileIconObjectUrlRef = useRef(null);
 
   const { t } = useTranslation();
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
     if (savedProfilePhoto) setProfileIcon(savedProfilePhoto);
+  }, []);
 
+  useEffect(() => {
+    if (!user?.userDbId) return;
+    let cancelled = false;
+    fetchProfileImage(user.userDbId)
+      .then((blob) => {
+        if (cancelled) return;
+        if (profileIconObjectUrlRef.current) {
+          URL.revokeObjectURL(profileIconObjectUrlRef.current);
+          profileIconObjectUrlRef.current = null;
+        }
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          profileIconObjectUrlRef.current = url;
+          setProfileIcon(url);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.userDbId]);
+
+  useEffect(() => {
     const handleStorageChange = (event) => {
       if (event.key === "profilePhoto") {
         setProfileIcon(event.newValue);
       }
     };
 
-    const handleProfilePhotoUpdated = () => {
-      const updatedProfilePhoto = localStorage.getItem("profilePhoto");
-      if (updatedProfilePhoto) {
-        setProfileIcon(updatedProfilePhoto);
+    const handleProfilePhotoUpdated = async () => {
+      if (user?.userDbId) {
+        try {
+          const blob = await fetchProfileImage(user.userDbId);
+          if (profileIconObjectUrlRef.current) {
+            URL.revokeObjectURL(profileIconObjectUrlRef.current);
+            profileIconObjectUrlRef.current = null;
+          }
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            profileIconObjectUrlRef.current = url;
+            setProfileIcon(url);
+          } else {
+            setProfileIcon(DEFAULT_PROFILE_ICON);
+          }
+        } catch {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+        }
+      } else {
+        const updatedProfilePhoto = localStorage.getItem("profilePhoto");
+        if (updatedProfilePhoto) {
+          setProfileIcon(updatedProfilePhoto);
+        }
       }
     };
 
@@ -82,6 +127,15 @@ const Navbar = () => {
         handleProfilePhotoUpdated,
       );
       window.removeEventListener("unsaved-changes", handleUnsavedChanges);
+    };
+  }, [user?.userDbId]);
+
+  useEffect(() => {
+    return () => {
+      if (profileIconObjectUrlRef.current) {
+        URL.revokeObjectURL(profileIconObjectUrlRef.current);
+        profileIconObjectUrlRef.current = null;
+      }
     };
   }, []);
 
@@ -652,11 +706,13 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
-                <MenuItem
-                  onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
-                >
-                  <ArticleIcon className="mr-2" /> {t("In the news")}
-                </MenuItem>
+                {
+                  <MenuItem
+                    onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
+                  >
+                    <ArticleIcon className="mr-2" /> {t("In the news")}
+                  </MenuItem>
+                }
               </Menu>
             )}
           </div>
