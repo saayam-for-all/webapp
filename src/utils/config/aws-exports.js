@@ -9,6 +9,19 @@ const awsConfig = {
       userPoolClientId: "4vdh2ninjrbf48ufh8i91cukdj",
       loginWith: {
         email: true,
+        oauth: {
+          domain:
+            "saayamforall-qauserpool-testv2.auth.us-east-1.amazoncognito.com",
+          scopes: [
+            "email",
+            "profile",
+            "openid",
+            "aws.cognito.signin.user.admin",
+          ],
+          redirectSignIn: ["http://localhost:5173/dashboard"],
+          redirectSignOut: ["http://localhost:5173/login"],
+          responseType: "code",
+        },
       },
       signUpVerificationMethod: "code",
       userAttributes: {

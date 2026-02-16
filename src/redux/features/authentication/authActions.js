@@ -38,13 +38,18 @@ export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
   try {
     const { userId } = await getCurrentUser();
-    const {
+    {
+      /*const {
       email,
       family_name,
       given_name,
       phone_number,
       ["custom:Country"]: zoneinfo,
-    } = await fetchUserAttributes();
+    } = await fetchUserAttributes();*/
+    }
+    const attributes = await fetchUserAttributes();
+    //console.log("User id:", userId);
+    //console.log("User Attributes:", attributes);
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
 
@@ -133,7 +138,7 @@ export const checkAuthStatus = () => async (dispatch) => {
 
     let userDbId = null;
     try {
-      const result = await getUserId(email);
+      const result = await getUserId(attributes.email);
       userDbId = result?.data?.id || null;
     } catch (dbError) {
       console.warn(
@@ -144,13 +149,14 @@ export const checkAuthStatus = () => async (dispatch) => {
 
     const user = {
       userId,
-      email,
+      attributes,
+      /*email,
       family_name,
       given_name,
       phone_number,
       zoneinfo,
       groups,
-      userDbId,
+      userDbId,*/
     };
     if (user.userId) {
       dispatch(
