@@ -113,3 +113,13 @@
   font-size: 0.95rem;
   color: #6b7280;
 }
+
+.news-name-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.news-name-link:hover {
+  text-decoration: underline;
+}
