@@ -4,12 +4,13 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem 1.5rem;
-  text-align: center; /* centers title + paragraphs */
+  text-align: center;
 }
+
 .news-our-stories-section {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto; /* ✅ THIS CENTERS THE PAGE */
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,16 +43,23 @@
 /* image box consistent */
 .news-img-wrap {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  /* ✅ safer ratio than 16/10 to reduce face cropping */
+  aspect-ratio: 16 / 9;
+
   background: #f3f4f6;
   overflow: hidden;
 }
 
+/* ✅ Keep cards filled but reduce ugly cropping */
 .news-img {
   width: 100%;
   height: 100%;
+
+  /* Keep the modern "filled card" look */
   object-fit: cover;
-  object-position: top; /* ✅ keeps faces visible */
+
+  /* ✅ better than top-only; keeps faces better */
+  object-position: center 20%;
 }
 
 .news-card-body {
@@ -91,18 +99,21 @@
 .news-link:hover {
   text-decoration: underline;
 }
+
 .news-our-stories-title {
   font-size: 2rem;
   font-weight: 700;
   margin: 0 0 1rem;
   color: #111827;
 }
+
 .news-our-stories-subtitle,
 .news-our-stories-desc {
   max-width: 56rem;
   margin: 0 auto;
   line-height: 1.6;
 }
+
 .news-our-stories-subtitle {
   font-size: 1rem;
   color: #374151;
@@ -112,4 +123,14 @@
 .news-our-stories-desc {
   font-size: 0.95rem;
   color: #6b7280;
+}
+
+.news-name-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.news-name-link:hover {
+  text-decoration: underline;
 }
