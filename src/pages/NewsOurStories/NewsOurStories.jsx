@@ -16,24 +16,22 @@ import withRameshMaturu from "../../assets/news_our_stories/RameshMaturu.webp";
 import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuAndRamanaYerneni.webp";
 
 /**
- * Renders a title string but hyperlinks specific names inside it.
- * Keeps the original word order (so "With" stays first).
+ * Renders a title string but hyperlinks specific words/names inside it.
+ * Keeps original title order (so "With" stays first).
  */
 function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
   if (!linksMap || Object.keys(linksMap).length === 0) return title;
 
-  const names = Object.keys(linksMap)
+  const keys = Object.keys(linksMap)
     .filter(Boolean)
-    .sort((a, b) => b.length - a.length); // longer names first (safer)
+    .sort((a, b) => b.length - a.length); // longer first
 
-  if (names.length === 0) return title;
+  if (keys.length === 0) return title;
 
-  const escaped = names.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const escaped = keys.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   const regex = new RegExp(`(${escaped.join("|")})`, "g");
 
-  const parts = title.split(regex);
-
-  return parts.map((part, idx) => {
+  return title.split(regex).map((part, idx) => {
     const href = linksMap[part];
     if (href) {
       return (
@@ -61,7 +59,11 @@ const stories = [
       "Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.",
     titleLinks: {
       "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
+      "Pyramid Consulting": "https://www.pyramidci.com/",
     },
+    // ✅ Read more ONLY for this card (replace with exact article URL if needed)
+    readMoreLink:
+      "https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/",
   },
   {
     date: "05/02/2025",
@@ -71,16 +73,18 @@ const stories = [
       "A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.",
     titleLinks: {
       "Jensen Huang": "https://www.linkedin.com/in/jenhsunhuang/",
+      NVIDIA: "https://www.nvidia.com/",
     },
   },
   {
     date: "05/02/2025",
-    title: "With Vishal Sikka, Former CEO of Infosys",
+    title: "With Vishal Sikka, Founder & CEO of Vianai Systems",
     image: withVishalSikka,
     description:
       "An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.",
     titleLinks: {
       "Vishal Sikka": "https://www.linkedin.com/in/vishal-sikka-869a6b2/",
+      "Vianai Systems": "https://www.vian.ai/",
     },
   },
   {
@@ -90,10 +94,10 @@ const stories = [
     image: leisuewithproductivity,
     description:
       "A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with Ramesh Maturu and Ramana Yerneni by the Pacific coast.",
-    // ✅ both names hyperlinked
     titleLinks: {
       "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
       "Ramana Yerneni": "https://www.linkedin.com/in/ramanayerneni/",
+      "Pyramid Consulting": "https://www.pyramidci.com/",
     },
   },
   {
@@ -102,7 +106,7 @@ const stories = [
     image: seventeenMileWalk,
     description:
       "Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.",
-    titleLinks: {}, // no links
+    titleLinks: {},
   },
   {
     date: "05/02/2025",
@@ -113,8 +117,10 @@ const stories = [
     titleLinks: {
       "Dr. Srikar Reddy Koppula":
         "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
+      "Indian Consular": "https://www.cgisf.gov.in/",
     },
   },
+
   {
     date: "05/02/2025",
     title:
@@ -124,18 +130,28 @@ const stories = [
       "Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.",
     titleLinks: {
       "Amit Zavery": "https://www.linkedin.com/in/amitzavery/",
+      ServiceNow: "https://www.servicenow.com/",
+      Broadridge: "https://www.broadridge.com/",
     },
   },
+
+  // ✅ Updated per Rao message:
+  // - link BOTH person's LinkedIn + company URL
+  // - add Anand Kuchibhotla (person on right side) + Aria University link
   {
     date: "05/02/2025",
-    title: "With Madhusudhan Sai, global spiritual leader and humanitarian",
+    title:
+      "With Madhusudhan Sai, global humanitarian and spiritual leader and President of Aria University, Anand Kuchibhotla",
     image: withMadhusudhanSai,
     description:
       "A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.",
     titleLinks: {
       "Madhusudhan Sai": "https://srimadhusudansai.com/",
+      "Anand Kuchibhotla": "https://www.linkedin.com/in/anandkuchibhotla/",
+      "Aria University": "https://www.aria.edu/",
     },
   },
+
   {
     date: "05/02/2025",
     title: "With Murali Krishnamurthy, CEO of Sankara Eye Foundation",
@@ -145,6 +161,7 @@ const stories = [
     titleLinks: {
       "Murali Krishnamurthy":
         "https://www.linkedin.com/in/muralikrishnamurthy/",
+      "Sankara Eye Foundation": "https://sankaraeye.com/",
     },
   },
   {
@@ -154,10 +171,10 @@ const stories = [
     image: withJimmyPanettaandDomingoCandelas,
     description:
       "A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.",
-    // ✅ Domingo + Jimmy both hyperlinked inline (no extra link below)
     titleLinks: {
       "Jimmy Panetta": "https://panetta.house.gov/",
       "Domingo Candelas": "https://www.domingocandelas.com/",
+      "San José": "https://www.sanjoseca.gov/",
     },
   },
 ];
@@ -198,6 +215,18 @@ export default function NewsOurStories() {
                 </h2>
 
                 <p className="news-desc">{story.description}</p>
+
+                {/* ✅ Read more ONLY when readMoreLink is provided (Titan news only) */}
+                {story.readMoreLink && story.readMoreLink !== "#" && (
+                  <a
+                    href={story.readMoreLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="news-link"
+                  >
+                    {t("Read More")}
+                  </a>
+                )}
               </div>
             </div>
           ))}
