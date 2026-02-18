@@ -106,7 +106,9 @@ const stories = [
     image: seventeenMileWalk,
     description:
       "Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.",
-    titleLinks: {},
+    titleLinks: {
+      "Sateesh Mucharla": "https://www.linkedin.com/in/mucharla/",
+    },
   },
   {
     date: "05/02/2025",
@@ -214,7 +216,9 @@ export default function NewsOurStories() {
                   {renderLinkedTitle(story.title, story.titleLinks)}
                 </h2>
 
-                <p className="news-desc">{story.description}</p>
+                <p className="news-desc">
+                  {renderLinkedTitle(story.description, story.titleLinks)}
+                </p>
 
                 {/* ✅ Read more ONLY when readMoreLink is provided (Titan news only) */}
                 {story.readMoreLink && story.readMoreLink !== "#" && (
