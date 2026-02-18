@@ -69,7 +69,24 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
+                  <a
+                    class="news-name-link"
+                    href="https://www.pyramidci.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Pyramid Consulting
+                  </a>
+                   is pleased to announce that its President and Co-founder 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/rameshmaturu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramesh Maturu
+                  </a>
+                  , has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
                 </p>
                 <a
                   class="news-link"
@@ -126,7 +143,16 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.
+                  A meaningful interaction with 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/jenhsunhuang/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Jensen Huang
+                  </a>
+                  , discussing technology leadership, innovation, and the future of mission-driven platforms.
                 </p>
               </div>
             </div>
@@ -175,7 +201,16 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.
+                  An insightful exchange with 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Vishal Sikka
+                  </a>
+                   on leadership, purpose-driven innovation, and building organizations that create long-term impact.
                 </p>
               </div>
             </div>
@@ -225,7 +260,25 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with Ramesh Maturu and Ramana Yerneni by the Pacific coast.
+                  A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/rameshmaturu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramesh Maturu
+                  </a>
+                   and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/ramanayerneni/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramana Yerneni
+                  </a>
+                   by the Pacific coast.
                 </p>
               </div>
             </div>
@@ -257,7 +310,16 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.
+                  Our CEO and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/mucharla/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sateesh Mucharla
+                  </a>
+                   participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.
                 </p>
               </div>
             </div>
@@ -307,7 +369,16 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  A moment with the Indian Consular team during a community engagement event.
+                  A moment with the 
+                  <a
+                    class="news-name-link"
+                    href="https://www.cgisf.gov.in/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Indian Consular
+                  </a>
+                   team during a community engagement event.
                 </p>
               </div>
             </div>
@@ -473,7 +544,25 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.
+                  In conversation with 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/muralikrishnamurthy/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Murali Krishnamurthy
+                  </a>
+                  , CEO of 
+                  <a
+                    class="news-name-link"
+                    href="https://sankaraeye.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sankara Eye Foundation
+                  </a>
+                  , on strengthening collaborations to improve healthcare accessibility and community impact.
                 </p>
               </div>
             </div>
@@ -531,7 +620,34 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.
+                  A productive discussion with U.S. Representative 
+                  <a
+                    class="news-name-link"
+                    href="https://panetta.house.gov/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Jimmy Panetta
+                  </a>
+                   and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.sanjoseca.gov/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    San José
+                  </a>
+                   City Councilmember 
+                  <a
+                    class="news-name-link"
+                    href="https://www.domingocandelas.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Domingo Candelas
+                  </a>
+                   on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.
                 </p>
               </div>
             </div>
@@ -624,7 +740,24 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
+                <a
+                  class="news-name-link"
+                  href="https://www.pyramidci.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Pyramid Consulting
+                </a>
+                 is pleased to announce that its President and Co-founder 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramesh Maturu
+                </a>
+                , has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
               </p>
               <a
                 class="news-link"
@@ -681,7 +814,16 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.
+                A meaningful interaction with 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/jenhsunhuang/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Jensen Huang
+                </a>
+                , discussing technology leadership, innovation, and the future of mission-driven platforms.
               </p>
             </div>
           </div>
@@ -730,7 +872,16 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.
+                An insightful exchange with 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Vishal Sikka
+                </a>
+                 on leadership, purpose-driven innovation, and building organizations that create long-term impact.
               </p>
             </div>
           </div>
@@ -780,7 +931,25 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with Ramesh Maturu and Ramana Yerneni by the Pacific coast.
+                A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramesh Maturu
+                </a>
+                 and 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/ramanayerneni/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramana Yerneni
+                </a>
+                 by the Pacific coast.
               </p>
             </div>
           </div>
@@ -812,7 +981,16 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.
+                Our CEO and 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/mucharla/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sateesh Mucharla
+                </a>
+                 participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.
               </p>
             </div>
           </div>
@@ -862,7 +1040,16 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                A moment with the Indian Consular team during a community engagement event.
+                A moment with the 
+                <a
+                  class="news-name-link"
+                  href="https://www.cgisf.gov.in/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Indian Consular
+                </a>
+                 team during a community engagement event.
               </p>
             </div>
           </div>
@@ -1028,7 +1215,25 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.
+                In conversation with 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/muralikrishnamurthy/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Murali Krishnamurthy
+                </a>
+                , CEO of 
+                <a
+                  class="news-name-link"
+                  href="https://sankaraeye.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sankara Eye Foundation
+                </a>
+                , on strengthening collaborations to improve healthcare accessibility and community impact.
               </p>
             </div>
           </div>
@@ -1086,7 +1291,34 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.
+                A productive discussion with U.S. Representative 
+                <a
+                  class="news-name-link"
+                  href="https://panetta.house.gov/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Jimmy Panetta
+                </a>
+                 and 
+                <a
+                  class="news-name-link"
+                  href="https://www.sanjoseca.gov/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  San José
+                </a>
+                 City Councilmember 
+                <a
+                  class="news-name-link"
+                  href="https://www.domingocandelas.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Domingo Candelas
+                </a>
+                 on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.
               </p>
             </div>
           </div>
