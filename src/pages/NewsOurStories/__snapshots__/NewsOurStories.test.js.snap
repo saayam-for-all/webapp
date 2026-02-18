@@ -71,6 +71,14 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
                 </p>
+                <a
+                  class="news-link"
+                  href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
               </div>
             </div>
             <div
@@ -105,7 +113,15 @@ exports[`NewsOurStories renders correctly 1`] = `
                   >
                     Jensen Huang
                   </a>
-                  , CEO of NVIDIA
+                  , CEO of 
+                  <a
+                    class="news-name-link"
+                    href="https://www.nvidia.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    NVIDIA
+                  </a>
                 </h2>
                 <p
                   class="news-desc"
@@ -121,7 +137,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Vishal Sikka, Former CEO of Infosys"
+                  alt="With Vishal Sikka, Founder & CEO of Vianai Systems"
                   class="news-img"
                   src=""
                 />
@@ -146,7 +162,15 @@ exports[`NewsOurStories renders correctly 1`] = `
                   >
                     Vishal Sikka
                   </a>
-                  , Former CEO of Infosys
+                  , Founder & CEO of 
+                  <a
+                    class="news-name-link"
+                    href="https://www.vian.ai/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Vianai Systems
+                  </a>
                 </h2>
                 <p
                   class="news-desc"
@@ -269,7 +293,16 @@ exports[`NewsOurStories renders correctly 1`] = `
                   >
                     Dr. Srikar Reddy Koppula
                   </a>
-                  , Indian Consular in SF, CA
+                  , 
+                  <a
+                    class="news-name-link"
+                    href="https://www.cgisf.gov.in/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Indian Consular
+                  </a>
+                   in SF, CA
                 </h2>
                 <p
                   class="news-desc"
@@ -310,7 +343,25 @@ exports[`NewsOurStories renders correctly 1`] = `
                   >
                     Amit Zavery
                   </a>
-                  , President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)
+                  , President, CPO, and COO, 
+                  <a
+                    class="news-name-link"
+                    href="https://www.servicenow.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    ServiceNow
+                  </a>
+                  ; Board Member, 
+                  <a
+                    class="news-name-link"
+                    href="https://www.broadridge.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Broadridge
+                  </a>
+                   (NYSE:BR)
                 </h2>
                 <p
                   class="news-desc"
@@ -326,7 +377,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Madhusudhan Sai, global spiritual leader and humanitarian"
+                  alt="With Madhusudhan Sai, global humanitarian and spiritual leader and President of Aria University, Anand Kuchibhotla"
                   class="news-img"
                   src=""
                 />
@@ -351,7 +402,24 @@ exports[`NewsOurStories renders correctly 1`] = `
                   >
                     Madhusudhan Sai
                   </a>
-                  , global spiritual leader and humanitarian
+                  , global humanitarian and spiritual leader and President of 
+                  <a
+                    class="news-name-link"
+                    href="https://www.aria.edu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Aria University
+                  </a>
+                  , 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/anandkuchibhotla/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Anand Kuchibhotla
+                  </a>
                 </h2>
                 <p
                   class="news-desc"
@@ -392,7 +460,15 @@ exports[`NewsOurStories renders correctly 1`] = `
                   >
                     Murali Krishnamurthy
                   </a>
-                  , CEO of Sankara Eye Foundation
+                  , CEO of 
+                  <a
+                    class="news-name-link"
+                    href="https://sankaraeye.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sankara Eye Foundation
+                  </a>
                 </h2>
                 <p
                   class="news-desc"
@@ -433,7 +509,16 @@ exports[`NewsOurStories renders correctly 1`] = `
                   >
                     Jimmy Panetta
                   </a>
-                   and San José City Council member, 
+                   and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.sanjoseca.gov/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    San José
+                  </a>
+                   City Council member, 
                   <a
                     class="news-name-link"
                     href="https://www.domingocandelas.com/"
@@ -541,6 +626,14 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
               </p>
+              <a
+                class="news-link"
+                href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Read More)
+              </a>
             </div>
           </div>
           <div
@@ -575,7 +668,15 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Jensen Huang
                 </a>
-                , CEO of NVIDIA
+                , CEO of 
+                <a
+                  class="news-name-link"
+                  href="https://www.nvidia.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  NVIDIA
+                </a>
               </h2>
               <p
                 class="news-desc"
@@ -591,7 +692,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Vishal Sikka, Former CEO of Infosys"
+                alt="With Vishal Sikka, Founder & CEO of Vianai Systems"
                 class="news-img"
                 src=""
               />
@@ -616,7 +717,15 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Vishal Sikka
                 </a>
-                , Former CEO of Infosys
+                , Founder & CEO of 
+                <a
+                  class="news-name-link"
+                  href="https://www.vian.ai/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Vianai Systems
+                </a>
               </h2>
               <p
                 class="news-desc"
@@ -739,7 +848,16 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Dr. Srikar Reddy Koppula
                 </a>
-                , Indian Consular in SF, CA
+                , 
+                <a
+                  class="news-name-link"
+                  href="https://www.cgisf.gov.in/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Indian Consular
+                </a>
+                 in SF, CA
               </h2>
               <p
                 class="news-desc"
@@ -780,7 +898,25 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Amit Zavery
                 </a>
-                , President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)
+                , President, CPO, and COO, 
+                <a
+                  class="news-name-link"
+                  href="https://www.servicenow.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  ServiceNow
+                </a>
+                ; Board Member, 
+                <a
+                  class="news-name-link"
+                  href="https://www.broadridge.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Broadridge
+                </a>
+                 (NYSE:BR)
               </h2>
               <p
                 class="news-desc"
@@ -796,7 +932,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Madhusudhan Sai, global spiritual leader and humanitarian"
+                alt="With Madhusudhan Sai, global humanitarian and spiritual leader and President of Aria University, Anand Kuchibhotla"
                 class="news-img"
                 src=""
               />
@@ -821,7 +957,24 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Madhusudhan Sai
                 </a>
-                , global spiritual leader and humanitarian
+                , global humanitarian and spiritual leader and President of 
+                <a
+                  class="news-name-link"
+                  href="https://www.aria.edu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Aria University
+                </a>
+                , 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/anandkuchibhotla/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Anand Kuchibhotla
+                </a>
               </h2>
               <p
                 class="news-desc"
@@ -862,7 +1015,15 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Murali Krishnamurthy
                 </a>
-                , CEO of Sankara Eye Foundation
+                , CEO of 
+                <a
+                  class="news-name-link"
+                  href="https://sankaraeye.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sankara Eye Foundation
+                </a>
               </h2>
               <p
                 class="news-desc"
@@ -903,7 +1064,16 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Jimmy Panetta
                 </a>
-                 and San José City Council member, 
+                 and 
+                <a
+                  class="news-name-link"
+                  href="https://www.sanjoseca.gov/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  San José
+                </a>
+                 City Council member, 
                 <a
                   class="news-name-link"
                   href="https://www.domingocandelas.com/"
