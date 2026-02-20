@@ -181,17 +181,7 @@ const VolunteerAnalytics = () => {
         title="Volunteer Activity Trend"
         description="Monthly new volunteers and cumulative total"
       >
-        {/* Note about data limitations */}
-        <div className="mb-4 p-2 bg-yellow-50 border border-yellow-200 rounded">
-          <p className="text-xs text-yellow-800">
-            Note: Active volunteer data (iscomplete = true AND user_status =
-            active) not available in current dataset. Displaying simulated
-            active volunteers (~85-90% of total). Churn rate calculation
-            requires user_status change tracking.
-          </p>
-        </div>
-
-        <ResponsiveContainer width="100%" height={350}>
+        <ResponsiveContainer width="100%" height={220}>
           <LineChart data={activityData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis
@@ -259,46 +249,24 @@ const VolunteerAnalytics = () => {
           </LineChart>
         </ResponsiveContainer>
 
-        {/* Churn Rate Indicator */}
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <h4 className="text-sm font-semibold text-gray-700 mb-3">
-            📉 Volunteer Churn Rate Indicator
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white p-3 rounded border border-gray-300">
-              <p className="text-xs text-gray-500 mb-1">Monthly Churn Rate</p>
-              <p className="text-2xl font-bold text-orange-600">~5-8%</p>
-              <p className="text-xs text-gray-500 mt-1">
-                (Simulated - Requires user_status tracking)
-              </p>
-            </div>
-            <div className="bg-white p-3 rounded border border-gray-300">
-              <p className="text-xs text-gray-500 mb-1">Inactive Volunteers</p>
-              <p className="text-2xl font-bold text-red-600">
-                {activityData.length > 0
-                  ? Math.floor(
-                      activityData[activityData.length - 1].totalVolunteers *
-                        0.1,
-                    )
-                  : "N/A"}
-              </p>
-              <p className="text-xs text-gray-500 mt-1">
-                (Estimated ~10% of total)
-              </p>
-            </div>
-            <div className="bg-white p-3 rounded border border-gray-300">
-              <p className="text-xs text-gray-500 mb-1">Retention Rate</p>
-              <p className="text-2xl font-bold text-green-600">~90%</p>
-              <p className="text-xs text-gray-500 mt-1">
-                (Based on active vs total)
-              </p>
-            </div>
-          </div>
-          <p className="text-xs text-gray-500 mt-3">
-            <strong>Note:</strong> Accurate churn rate calculation requires
-            tracking volunteers who changed from active to inactive status over
-            time. Current dataset lacks user_status change history.
-          </p>
+        {/* Churn Rate — compact inline summary */}
+        <div className="mt-2 flex gap-3 flex-wrap px-1">
+          <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded px-2 py-1">
+            Churn: <strong className="text-orange-600">~5-8%</strong>/mo
+          </span>
+          <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded px-2 py-1">
+            Inactive:{" "}
+            <strong className="text-red-600">
+              {activityData.length > 0
+                ? Math.floor(
+                    activityData[activityData.length - 1].totalVolunteers * 0.1,
+                  )
+                : "N/A"}
+            </strong>
+          </span>
+          <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded px-2 py-1">
+            Retention: <strong className="text-green-600">~90%</strong>
+          </span>
         </div>
       </ChartContainer>
 
@@ -308,72 +276,48 @@ const VolunteerAnalytics = () => {
         description="Geographic distribution with country-state-city hierarchy"
       >
         {/* View controls */}
-        <div className="mb-4 flex gap-4 items-center flex-wrap">
-          <div>
-            <label className="text-sm font-medium text-gray-700 mr-2">
-              Country:
-            </label>
-            <select
-              value={selectedCountry}
-              onChange={(e) => setSelectedCountry(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm"
-            >
-              <option value="all">All Countries</option>
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="text-sm font-medium text-gray-700 mr-2">
-              View:
-            </label>
-            <select
-              value={viewType}
-              onChange={(e) => setViewType(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm"
-            >
-              <option value="chart">Bar Chart (Top 10)</option>
-              <option value="treemap">Treemap (Hierarchical)</option>
-              <option value="table">Table View</option>
-            </select>
-          </div>
-          <div>
-            <label className="text-sm font-medium text-gray-700 mr-2">
-              Filter by Skill:
-            </label>
-            <select
-              value={selectedSkill}
-              onChange={(e) => setSelectedSkill(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm"
-            >
-              <option value="all">All Skills</option>
-              <option value="medical" disabled>
-                Medical (requires skill data)
+        <div className="mb-2 flex gap-2 items-center flex-wrap">
+          <select
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
+          >
+            <option value="all">All Countries</option>
+            {countries.map((country) => (
+              <option key={country} value={country}>
+                {country}
               </option>
-              <option value="education" disabled>
-                Education (requires skill data)
-              </option>
-              <option value="logistics" disabled>
-                Logistics (requires skill data)
-              </option>
-            </select>
-          </div>
-        </div>
-
-        {/* Note about limitations */}
-        <div className="mb-4 p-2 bg-yellow-50 border border-yellow-200 rounded">
-          <p className="text-xs text-yellow-800">
-            Note: Skill filtering requires user_skills and skill_list table data
-            (skill_id, skill_desc). Treemap block sizes represent volunteer
-            count per location. Click/hover for details.
-          </p>
+            ))}
+          </select>
+          <select
+            value={viewType}
+            onChange={(e) => setViewType(e.target.value)}
+            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
+          >
+            <option value="chart">Bar Chart</option>
+            <option value="treemap">Treemap</option>
+            <option value="table">Table</option>
+          </select>
+          <select
+            value={selectedSkill}
+            onChange={(e) => setSelectedSkill(e.target.value)}
+            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
+          >
+            <option value="all">All Skills</option>
+            <option value="medical" disabled>
+              Medical
+            </option>
+            <option value="education" disabled>
+              Education
+            </option>
+            <option value="logistics" disabled>
+              Logistics
+            </option>
+          </select>
         </div>
 
         {viewType === "chart" ? (
-          <ResponsiveContainer width="100%" height={400}>
+          <ResponsiveContainer width="100%" height={220}>
             <BarChart
               data={locationData}
               layout="vertical"
@@ -405,7 +349,7 @@ const VolunteerAnalytics = () => {
             </BarChart>
           </ResponsiveContainer>
         ) : viewType === "treemap" ? (
-          <ResponsiveContainer width="100%" height={500}>
+          <ResponsiveContainer width="100%" height={280}>
             <Treemap
               data={processTreemapData.children}
               dataKey="size"

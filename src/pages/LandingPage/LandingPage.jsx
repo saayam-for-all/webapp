@@ -19,6 +19,7 @@ import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
+import MetricsTicker from "./components/MetricsTicker";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -64,12 +65,8 @@ export default function Home() {
           <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4">
             {t("Need help? Here to help?")}
           </h1>
-          <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
-            {t(
-              "At Saayam for All, your support can make a real difference today.",
-            )}
-          </div>
         </div>
+        <MetricsTicker />
       </div>
       <div className="w-full flex flex-row justify-center  ">
         <div className="w-[22%] h-[50%] flex flex-col justify-center items-center">
