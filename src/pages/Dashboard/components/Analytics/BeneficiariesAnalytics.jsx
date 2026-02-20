@@ -228,24 +228,19 @@ const BeneficiariesAnalytics = () => {
         description="Monthly new beneficiaries (bars) and cumulative total (line) with dual Y-axis"
       >
         {/* Status filter */}
-        <div className="mb-4 flex gap-4 items-center flex-wrap">
-          <div>
-            <label className="text-sm font-medium text-gray-700 mr-2">
-              Status Filter:
-            </label>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm"
-            >
-              <option value="all">All Beneficiaries</option>
-              <option value="active">Active Only</option>
-              <option value="inactive">Inactive Only</option>
-            </select>
-          </div>
+        <div className="mb-2 flex gap-2 items-center">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
+          >
+            <option value="all">All Beneficiaries</option>
+            <option value="active">Active Only</option>
+            <option value="inactive">Inactive Only</option>
+          </select>
         </div>
 
-        <ResponsiveContainer width="100%" height={350}>
+        <ResponsiveContainer width="100%" height={220}>
           <ComposedChart data={growthData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis
@@ -327,54 +322,45 @@ const BeneficiariesAnalytics = () => {
         title="Beneficiaries by Country"
         description="Geographic distribution of beneficiaries"
       >
-        <div className="mb-4 flex gap-4 items-center flex-wrap">
-          <div className="flex gap-2">
+        <div className="mb-2 flex gap-2 items-center flex-wrap">
+          <div className="flex gap-1">
             <button
               onClick={() => setGeoViewType("bar")}
-              className={`px-3 py-1 text-sm rounded ${
+              className={`px-2 py-0.5 text-xs rounded ${
                 geoViewType === "bar"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              Bar Chart
+              Bar
             </button>
             <button
               onClick={() => setGeoViewType("map")}
-              className={`px-3 py-1 text-sm rounded ${
+              className={`px-2 py-0.5 text-xs rounded ${
                 geoViewType === "map"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              Choropleth Map
+              Map
             </button>
           </div>
           {geoViewType === "bar" && (
-            <div>
-              <label className="inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showTop10Only}
-                  onChange={(e) => setShowTop10Only(e.target.checked)}
-                  className="mr-2"
-                />
-                <span className="text-sm font-medium text-gray-700">
-                  Show Top 10 Only
-                </span>
-              </label>
-            </div>
+            <label className="inline-flex items-center cursor-pointer text-xs text-gray-600 gap-1">
+              <input
+                type="checkbox"
+                checked={showTop10Only}
+                onChange={(e) => setShowTop10Only(e.target.checked)}
+                className="cursor-pointer"
+              />
+              Top 10 Only
+            </label>
           )}
-          <span className="text-sm text-gray-500">
-            {geoViewType === "map"
-              ? "Hover over countries to see counts. Color intensity = beneficiary count."
-              : "Click countries to drill down to state/regional level (requires additional data)."}
-          </span>
         </div>
 
         {geoViewType === "bar" ? (
           <>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={220}>
               <BarChart
                 data={countryData}
                 layout="vertical"
