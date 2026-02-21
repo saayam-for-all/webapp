@@ -177,25 +177,32 @@ const RequestDetails = () => {
               />
             </div>
             <div className="bg-white border border-gray-200 shadow-md m-0 flex flex-col">
-              <div className="flex flex-row justify-evenly w-full">
-                {["Comments", "Volunteers", "Details"].map(
-                  (newTab, index, array) => (
-                    <button
-                      key={newTab}
-                      className={`flex-1 py-3 text-center cursor-pointer font-bold w-1/3 ${
-                        newTab === tab
-                          ? "bg-white border-gray-300 border-b-2 border-l-2 border-r-2"
-                          : "bg-gray-300 border-transparent hover:bg-gray-200"
-                      } ${index < array.length - 1 ? "mr-4" : ""} `}
-                      onClick={() => {
-                        setShowEmergency(false);
-                        setTab(newTab);
-                      }}
-                    >
-                      {t(newTab)}
-                    </button>
-                  ),
-                )}
+              <div className="w-full">
+                {/* 1px divider effect like Dashboard */}
+                <div className="flex w-full bg-gray-200 gap-px">
+                  {["Comments", "Volunteers", "Details"].map((newTab) => {
+                    const isActive = newTab === tab;
+
+                    return (
+                      <button
+                        key={newTab}
+                        type="button"
+                        onClick={() => {
+                          setShowEmergency(false);
+                          setTab(newTab);
+                        }}
+                        className={[
+                          "flex-1 py-3 text-center font-semibold",
+                          isActive
+                            ? "bg-white text-blue-600 border-b-2 border-blue-600"
+                            : "bg-gray-300 text-gray-800 border-b-2 border-transparent hover:bg-gray-200",
+                        ].join(" ")}
+                      >
+                        {t(newTab)}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
               <div className="p-4">
                 {showEmergency ? (
