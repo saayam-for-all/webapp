@@ -37,6 +37,21 @@ import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
+import { fetchProfileImage } from "../../../services/volunteerServices";
+
+const blobToDataUrl = (blob) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result);
+      } else {
+        reject(new Error("Failed to convert blob to data URL"));
+      }
+    };
+    reader.onerror = () => reject(new Error("Failed to read blob"));
+    reader.readAsDataURL(blob);
+  });
 
 const ModernTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
@@ -84,23 +99,85 @@ const Navbar = () => {
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [newNotificationCount, setNewNotificationCount] = useState(0);
+  const profileIconObjectUrlRef = useRef(null);
 
   const { t } = useTranslation();
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
     if (savedProfilePhoto) setProfileIcon(savedProfilePhoto);
+  }, []);
 
+  useEffect(() => {
+    if (!user?.userDbId) return;
+    let cancelled = false;
+    fetchProfileImage(user.userDbId)
+      .then((blob) => {
+        if (cancelled) return;
+        if (profileIconObjectUrlRef.current) {
+          URL.revokeObjectURL(profileIconObjectUrlRef.current);
+          profileIconObjectUrlRef.current = null;
+        }
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          profileIconObjectUrlRef.current = url;
+          setProfileIcon(url);
+          blobToDataUrl(blob)
+            .then((dataUrl) => {
+              localStorage.setItem("profilePhoto", dataUrl);
+            })
+            .catch(() => {});
+        } else {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+          localStorage.removeItem("profilePhoto");
+        }
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setProfileIcon(DEFAULT_PROFILE_ICON);
+        localStorage.removeItem("profilePhoto");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.userDbId]);
+
+  useEffect(() => {
     const handleStorageChange = (event) => {
       if (event.key === "profilePhoto") {
-        setProfileIcon(event.newValue);
+        setProfileIcon(event.newValue || DEFAULT_PROFILE_ICON);
       }
     };
 
-    const handleProfilePhotoUpdated = () => {
-      const updatedProfilePhoto = localStorage.getItem("profilePhoto");
-      if (updatedProfilePhoto) {
-        setProfileIcon(updatedProfilePhoto);
+    const handleProfilePhotoUpdated = async () => {
+      if (user?.userDbId) {
+        try {
+          const blob = await fetchProfileImage(user.userDbId);
+          if (profileIconObjectUrlRef.current) {
+            URL.revokeObjectURL(profileIconObjectUrlRef.current);
+            profileIconObjectUrlRef.current = null;
+          }
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            profileIconObjectUrlRef.current = url;
+            setProfileIcon(url);
+            const dataUrl = await blobToDataUrl(blob);
+            localStorage.setItem("profilePhoto", dataUrl);
+          } else {
+            setProfileIcon(DEFAULT_PROFILE_ICON);
+            localStorage.removeItem("profilePhoto");
+          }
+        } catch {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+          localStorage.removeItem("profilePhoto");
+        }
+      } else {
+        const updatedProfilePhoto = localStorage.getItem("profilePhoto");
+        if (updatedProfilePhoto) {
+          setProfileIcon(updatedProfilePhoto);
+        } else {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+        }
       }
     };
 
@@ -120,6 +197,15 @@ const Navbar = () => {
         handleProfilePhotoUpdated,
       );
       window.removeEventListener("unsaved-changes", handleUnsavedChanges);
+    };
+  }, [user?.userDbId]);
+
+  useEffect(() => {
+    return () => {
+      if (profileIconObjectUrlRef.current) {
+        URL.revokeObjectURL(profileIconObjectUrlRef.current);
+        profileIconObjectUrlRef.current = null;
+      }
     };
   }, []);
 

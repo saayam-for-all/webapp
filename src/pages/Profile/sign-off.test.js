@@ -23,10 +23,8 @@ jest.mock("react-i18next", () => ({
 // Services
 const mockSignOffUser = jest.fn();
 const mockGetUserId = jest.fn();
-jest.mock("../../services/requestServices", () => ({
-  signOffUser: (...args) => mockSignOffUser(...args),
-}));
 jest.mock("../../services/volunteerServices", () => ({
+  signOffUser: (...args) => mockSignOffUser(...args),
   getUserId: (...args) => mockGetUserId(...args),
 }));
 

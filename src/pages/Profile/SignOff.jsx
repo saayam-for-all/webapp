@@ -3,8 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { FaExclamationTriangle, FaTrash } from "react-icons/fa";
 import { deleteUser } from "aws-amplify/auth";
-import { signOffUser } from "../../services/requestServices";
-import { getUserId } from "../../services/volunteerServices";
+import { signOffUser, getUserId } from "../../services/volunteerServices";
 
 function SignOff({ setHasUnsavedChanges }) {
   const { t } = useTranslation("profile");
