@@ -15,6 +15,7 @@
   "NEW_MATCH_REQUEST": "नवीन जुळणी विनंती",
   "ACCEPT": "स्वीकारा",
   "DENY": "नकार द्या",
+  "writeComment": "एक टिप्पणी लिहा",
   "ACCEPT_SUCCESS_MESSAGE": "तुम्ही ही विनंती स्वीकारली.",
   "DENY_SUCCESS_MESSAGE": "तुम्ही ही विनंती नाकारली.",
   "LOGISTIC_HELP": "लॉजिस्टिक मदत",

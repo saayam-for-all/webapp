@@ -15,6 +15,7 @@
   "NEW_MATCH_REQUEST": "คำขอจับคู่ใหม่",
   "ACCEPT": "ยอมรับ",
   "DENY": "ปฏิเสธ",
+  "writeComment": "เขียนความคิดเห็น",
   "ACCEPT_SUCCESS_MESSAGE": "คุณได้ยอมรับคำขอนี้แล้ว",
   "DENY_SUCCESS_MESSAGE": "คุณได้ปฏิเสธคำขอนี้แล้ว",
   "LOGISTIC_HELP": "ความช่วยเหลือด้านโลจิสติกส์",

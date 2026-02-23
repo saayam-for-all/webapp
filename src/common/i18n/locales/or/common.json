@@ -15,6 +15,7 @@
   "NEW_MATCH_REQUEST": "ନୂତନ ମେଳ ଅନୁରୋଧ",
   "ACCEPT": "ଗ୍ରହଣ କରନ୍ତୁ",
   "DENY": "ପ୍ରତ୍ୟାଖ୍ୟାନ କରନ୍ତୁ",
+  "writeComment": "ଏକ ମନ୍ତବ୍ୟ ଲେଖନ୍ତୁ |",
   "ACCEPT_SUCCESS_MESSAGE": "ଆପଣ ଏହି ଅନୁରୋଧକୁ ଗ୍ରହଣ କରିଛନ୍ତି।",
   "DENY_SUCCESS_MESSAGE": "ଆପଣ ଏହି ଅନୁରୋଧକୁ ପ୍ରତ୍ୟାଖ୍ୟାନ କରିଛନ୍ତି।",
   "LOGISTIC_HELP": "ଲଜିଷ୍ଟିକ୍ ସହାୟତା",
