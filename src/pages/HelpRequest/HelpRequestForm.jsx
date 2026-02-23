@@ -1410,7 +1410,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     onChange={handleChange}
                     className="border p-2 w-full rounded-lg"
                     maxLength={70}
-                    placeholder="Please give a brief description of the request"
+                    placeholder={t("SUBJECT_HELP_TEXT")}
                   />
                 </div>
 
@@ -1559,7 +1559,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     className="border p-2 w-full rounded-lg"
                     rows="5"
                     maxLength={500}
-                    placeholder="Please give a detailed description of the request"
+                    placeholder={t("DESCRIPTION_HELP_TEXT")}
                   ></textarea>
 
                   {/* Hidden file input */}
