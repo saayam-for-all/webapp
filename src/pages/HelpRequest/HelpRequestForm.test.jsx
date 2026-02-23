@@ -140,4 +140,22 @@ describe("HelpRequestForm — category dropdown display (issue #1223)", () => {
     const categoryInput = selectSubcategory();
     expect(categoryInput.value).toContain("\u2192");
   });
+
+  it("uses old-key fallback for parent label when new parent key returns the raw key name", () => {
+    // Returning the key name itself (=== newCatKey) for the new parent key makes the
+    // parentNewResult !== newCatKey condition false → triggers the else branch of parentLabel
+    mockT.mockImplementation((text, options) => {
+      if (
+        text ===
+          "categories:REQUEST_CATEGORIES.EDUCATION_CAREER_SUPPORT.LABEL" &&
+        options?.defaultValue === null
+      ) {
+        return "EDUCATION_CAREER_SUPPORT"; // equals newCatKey → else branch
+      }
+      return `mockTranslate(${text})`;
+    });
+    renderForm();
+    const categoryInput = selectSubcategory();
+    expect(categoryInput.value).toContain("\u2192");
+  });
 });
