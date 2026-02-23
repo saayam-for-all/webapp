@@ -451,6 +451,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
 
+    if (selectedKeyOrText === "General") {
+      return t("categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL", {
+        defaultValue: "General",
+      });
+    }
+
     // Ensure categories is an array before using array methods
     const categoriesArray = Array.isArray(categories) ? categories : [];
 
@@ -1182,7 +1188,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             <Tab
               label={
                 <span>
-                  Description<span className="text-red-500 ml-1">*</span>
+                  {t("DESCRIPTION")}
+                  <span className="text-red-500 ml-1">*</span>
                 </span>
               }
             >
@@ -1194,7 +1201,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="category"
                       className="font-medium text-gray-700"
                     >
-                      {t("Category")}
+                      {t("CATEGORY")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
@@ -1403,7 +1410,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     onChange={handleChange}
                     className="border p-2 w-full rounded-lg"
                     maxLength={70}
-                    placeholder="Please give a brief description of the request"
+                    placeholder={t("SUBJECT_HELP_TEXT")}
                   />
                 </div>
 
@@ -1552,7 +1559,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     className="border p-2 w-full rounded-lg"
                     rows="5"
                     maxLength={500}
-                    placeholder="Please give a detailed description of the request"
+                    placeholder={t("DESCRIPTION_HELP_TEXT")}
                   ></textarea>
 
                   {/* Hidden file input */}
@@ -1592,7 +1599,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </Tab>
 
-            <Tab label="Details">
+            <Tab label={t("DETAILS")}>
               {/* DETAILS TAB CONTENT */}
               <div className="mt-3 flex gap-4" data-testid="parentDivOne">
                 {/* For Self Dropdown */}
@@ -1646,7 +1653,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="lead_volunteer"
                       className="text-gray-700 font-medium"
                     >
-                      {t("Lead Volunteer")}
+                      {t("LEAD_VOLUNTEER")}
                     </label>
                     <div className="relative group cursor-pointer">
                       <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
@@ -1845,7 +1852,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="requestType"
                       className="font-medium text-gray-700"
                     >
-                      {t("Type")}
+                      {t("TYPE")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
@@ -1929,7 +1936,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                         htmlFor="calamity"
                         className="font-medium text-gray-700"
                       >
-                        Is Calamity?
+                        {t("IS_CALAMITY")}
                       </label>
                       <div className="relative group cursor-pointer">
                         {/* Circle Question Mark Icon */}
@@ -1967,7 +1974,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="requestPriority"
                       className="font-medium text-gray-700"
                     >
-                      {t("Priority")}
+                      {t("PRIORITY")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
