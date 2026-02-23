@@ -14,6 +14,7 @@
   "NEW_MATCH_REQUEST": "নতুন মিলান অনুৰোধ",
   "ACCEPT": "গ্ৰহণ কৰক",
   "DENY": "অস্বীকাৰ কৰক",
+  "writeComment": "এটা মন্তব্য লিখক",
   "ACCEPT_SUCCESS_MESSAGE": "আপুনি এই অনুৰোধটো গ্ৰহণ কৰিলে।",
   "DENY_SUCCESS_MESSAGE": "আপুনি এই অনুৰোধটো অস্বীকাৰ কৰিলে।",
   "LOGISTIC_HELP": "লজিষ্টিক সহায়",

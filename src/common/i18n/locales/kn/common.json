@@ -14,6 +14,7 @@
   "NEW_MATCH_REQUEST": "ಹೊಸ ಹೊಂದಾಣಿಕೆ ವಿನಂತಿ",
   "ACCEPT": "ಸ್ವೀಕರಿಸಿ",
   "DENY": "ನಿರಾಕರಿಸಿ",
+  "writeComment": "ಕಾಮೆಂಟ್ ಬರೆಯಿರಿ",
   "ACCEPT_SUCCESS_MESSAGE": "ನೀವು ಈ ವಿನಂತಿಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದೀರಿ.",
   "DENY_SUCCESS_MESSAGE": "ನೀವು ಈ ವಿನಂತಿಯನ್ನು ನಿರಾಕರಿಸಿದ್ದೀರಿ.",
   "LOGISTIC_HELP": "ಲಾಜಿಸ್ಟಿಕ್ ಸಹಾಯ",

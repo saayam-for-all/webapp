@@ -14,6 +14,7 @@
   "NEW_MATCH_REQUEST": "새 매칭 요청",
   "ACCEPT": "수락",
   "DENY": "거부",
+  "writeComment": "댓글을 쓰다",
   "ACCEPT_SUCCESS_MESSAGE": "이 요청을 수락했습니다.",
   "DENY_SUCCESS_MESSAGE": "이 요청을 거부했습니다.",
   "LOGISTIC_HELP": "물류 도움",

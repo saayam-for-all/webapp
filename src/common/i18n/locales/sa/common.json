@@ -15,6 +15,7 @@
   "NEW_MATCH_REQUEST": "नवीनं मेलनं निवेदनम्",
   "ACCEPT": "स्वीकरोतु",
   "DENY": "निराकरोतु",
+  "writeComment": "टिप्पणी लिखें",
   "ACCEPT_SUCCESS_MESSAGE": "भवान् एतत् निवेदनं स्वीकृतवान्।",
   "DENY_SUCCESS_MESSAGE": "भवान् एतत् निवेदनं निराकृतवान्।",
   "LOGISTIC_HELP": "रसद सहायता",

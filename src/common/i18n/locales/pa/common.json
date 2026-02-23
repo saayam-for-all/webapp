@@ -15,6 +15,7 @@
   "NEW_MATCH_REQUEST": "ਨਵੀਂ ਮੇਲ ਬੇਨਤੀ",
   "ACCEPT": "ਸਵੀਕਾਰ ਕਰੋ",
   "DENY": "ਇਨਕਾਰ ਕਰੋ",
+  "writeComment": "ਇੱਕ ਟਿੱਪਣੀ ਲਿਖੋ",
   "ACCEPT_SUCCESS_MESSAGE": "ਤੁਸੀਂ ਇਸ ਬੇਨਤੀ ਨੂੰ ਸਵੀਕਾਰ ਕੀਤਾ।",
   "DENY_SUCCESS_MESSAGE": "ਤੁਸੀਂ ਇਸ ਬੇਨਤੀ ਨੂੰ ਇਨਕਾਰ ਕੀਤਾ।",
   "LOGISTIC_HELP": "ਲੋਜਿਸਟਿਕ ਮਦਦ",

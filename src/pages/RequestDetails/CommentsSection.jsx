@@ -149,13 +149,17 @@ const CommentsSection = ({ comments = [] }) => {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Comment Input Field */}
-          <input
-            type="text"
+          <textarea
             value={comment}
             onChange={handleCommentChange}
-            placeholder="Write a comment....."
-            className="flex-1 px-4 py-2 bg-gray-100 outline-none border-2 border-white text-gray-600 placeholder-gray-400 text-sm rounded focus:border-black focus:outline-none"
+            placeholder={t("common:writeComment")}
+            rows={4}
+            maxLength={200}
+            className="flex-1 min-h-[100px] px-4 py-3 bg-gray-100 outline-none border-2 border-white text-gray-600 placeholder-gray-400 text-sm rounded focus:border-black focus:outline-none resize-none"
           />
+          <div className="text-xs text-gray-500 mt-1 text-right">
+            {comment.length}/200
+          </div>
 
           {/* Send Button */}
           <button

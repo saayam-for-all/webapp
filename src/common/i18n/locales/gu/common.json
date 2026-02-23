@@ -15,6 +15,7 @@
   "NEW_MATCH_REQUEST": "નવી મેળ વિનંતી",
   "ACCEPT": "સ્વીકારો",
   "DENY": "નકારો",
+  "writeComment": "એક ટિપ્પણી લખો",
   "ACCEPT_SUCCESS_MESSAGE": "તમે આ વિનંતી સ્વીકારી છે.",
   "DENY_SUCCESS_MESSAGE": "તમે આ વિનંતી નકારી છે.",
   "LOGISTIC_HELP": "લોજિસ્ટિક મદદ",

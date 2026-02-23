@@ -14,6 +14,7 @@
   "NEW_MATCH_REQUEST": "പുതിയ മാച്ച് അഭ്യർത്ഥന",
   "ACCEPT": "സ്വീകരിക്കുക",
   "DENY": "നിരസിക്കുക",
+  "writeComment": "ഒരു അഭിപ്രായം എഴുതുക",
   "ACCEPT_SUCCESS_MESSAGE": "നിങ്ങൾ ഈ അഭ്യർത്ഥന സ്വീകരിച്ചു.",
   "DENY_SUCCESS_MESSAGE": "നിങ്ങൾ ഈ അഭ്യർത്ഥന നിരസിച്ചു.",
   "LOGISTIC_HELP": "ലോജിസ്റ്റിക് സഹായം",
