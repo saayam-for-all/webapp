@@ -13,7 +13,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
 
-  const cDate = new Date(requestData.creationDate + "T00:00:00");
+  const cDate = new Date(requestData.creationDate);
   const formattedDate = cDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
