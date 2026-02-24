@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "நீங்கள் இந்த கோரிக்கையை ஏற்றுக்கொண்டீர்கள்.",
   "DENY_SUCCESS_MESSAGE": "நீங்கள் இந்த கோரிக்கையை மறுத்துவிட்டீர்கள்.",
   "LOGISTIC_HELP": "தளவாட உதவி",
-  "EDUCATIONAL_HELP": "கல்வி உதவி"
+  "EDUCATIONAL_HELP": "கல்வி உதவி",
+  "TOTAL_REQUESTS": "மொத்த கோரிக்கைகள்",
+  "REQUESTS_RESOLVED": "தீர்க்கப்பட்ட கோரிக்கைகள்",
+  "AVG_RESOLUTION_TIME": "சராசரி தீர்மான நேரம்",
+  "TOTAL_VOLUNTEERS": "மொத்த தன்னார்வலர்கள்",
+  "TOTAL_BENEFICIARIES": "மொத்த பயனாளிகள்"
 }

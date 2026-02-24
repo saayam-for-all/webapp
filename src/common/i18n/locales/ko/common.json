@@ -17,5 +17,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "이 요청을 수락했습니다.",
   "DENY_SUCCESS_MESSAGE": "이 요청을 거부했습니다.",
   "LOGISTIC_HELP": "물류 도움",
-  "EDUCATIONAL_HELP": "교육 도움"
+  "EDUCATIONAL_HELP": "교육 도움",
+  "TOTAL_REQUESTS": "총 요청 수",
+  "REQUESTS_RESOLVED": "해결된 요청",
+  "AVG_RESOLUTION_TIME": "평균 해결 시간",
+  "TOTAL_VOLUNTEERS": "총 자원봉사자",
+  "TOTAL_BENEFICIARIES": "총 수혜자"
 }

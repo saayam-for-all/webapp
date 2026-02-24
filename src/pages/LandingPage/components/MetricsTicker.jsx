@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const METRICS_S3_URL = import.meta.env.VITE_METRICS_S3_URL || "";
 
@@ -6,34 +7,34 @@ const METRICS_S3_URL = import.meta.env.VITE_METRICS_S3_URL || "";
 const METRIC_CONFIGS = [
   {
     key: "totalRequests",
-    label: "Total Requests",
+    labelKey: "TOTAL_REQUESTS",
     suffix: "",
     color: "#1e40af",
-  }, // blue-800   ~7.2:1
+  },
   {
     key: "requestsResolved",
-    label: "Requests Resolved",
+    labelKey: "REQUESTS_RESOLVED",
     suffix: "",
     color: "#166534",
-  }, // green-800  ~8.1:1
+  },
   {
     key: "avgResolutionHours",
-    label: "Avg Resolution Time",
+    labelKey: "AVG_RESOLUTION_TIME",
     suffix: " hrs",
     color: "#92400e",
-  }, // amber-800 ~5.1:1
+  },
   {
     key: "totalVolunteers",
-    label: "Total Volunteers",
+    labelKey: "TOTAL_VOLUNTEERS",
     suffix: "",
     color: "#5b21b6",
-  }, // violet-800 ~8.2:1
+  },
   {
     key: "totalBeneficiaries",
-    label: "Total Beneficiaries",
+    labelKey: "TOTAL_BENEFICIARIES",
     suffix: "",
     color: "#9a3412",
-  }, // orange-800 ~6.0:1
+  },
 ];
 
 function useCountUp(target, duration = 1200) {
@@ -62,7 +63,7 @@ function useCountUp(target, duration = 1200) {
   return value;
 }
 
-function MetricItem({ config, rawValue }) {
+function MetricItem({ config, rawValue, label }) {
   const animated = useCountUp(rawValue);
   const isFloat =
     config.key === "avgResolutionHours" && !Number.isInteger(rawValue);
@@ -72,7 +73,7 @@ function MetricItem({ config, rawValue }) {
 
   return (
     <span className="inline-flex items-baseline gap-1 whitespace-nowrap">
-      <span className="text-gray-500 text-sm font-medium">{config.label}:</span>
+      <span className="text-gray-500 text-sm font-medium">{label}:</span>
       <span
         className="text-sm font-bold tabular-nums"
         style={{ color: config.color }}
@@ -85,6 +86,7 @@ function MetricItem({ config, rawValue }) {
 }
 
 const MetricsTicker = () => {
+  const { t } = useTranslation();
   const [metrics, setMetrics] = useState({
     totalRequests: 0,
     requestsResolved: 0,
@@ -107,10 +109,14 @@ const MetricsTicker = () => {
   return (
     <div className="w-full bg-gray-50 border-y border-gray-200 shadow-sm">
       <div className="overflow-x-auto">
-        <div className="flex items-center gap-0 px-4 py-2.5 min-w-max mx-auto justify-center">
+        <div className="flex items-center px-4 py-2.5 min-w-max mx-auto justify-center">
           {METRIC_CONFIGS.map((config, index) => (
             <span key={config.key} className="flex items-center">
-              <MetricItem config={config} rawValue={metrics[config.key]} />
+              <MetricItem
+                config={config}
+                rawValue={metrics[config.key]}
+                label={t(config.labelKey)}
+              />
               {index < METRIC_CONFIGS.length - 1 && (
                 <span className="mx-3 text-gray-300 select-none font-light">
                   |

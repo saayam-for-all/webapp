@@ -676,7 +676,6 @@
   "volunteers.": "voluntarios.",
   "where the ethos of \"Manava Sevaye Madhava": "donde la ética de \"Manava Sevaye Madhava",
   "without desecrating any beliefs.": "sin profanar ninguna creencia.",
-
   "EMERGENCY_CONTACTS": "Contactos de emergencia",
   "EMERGENCY_SUBTITLE": "Todos los contactos de emergencia se muestran a continuación. Haz clic en cualquier número para llamar directamente desde tu dispositivo.",
   "CATEGORY_SAFETY": "Seguridad y Protección",
@@ -712,10 +711,14 @@
   "SENIOR_HELPLINE": "Línea de ayuda para personas mayores",
   "HOMELESS_SERVICES": "Servicios para personas sin hogar",
   "FOOD_ASSISTANCE": "Línea de asistencia alimentaria",
-
   "REVIEW": "Revisión",
   "IN_REVIEW": "En Revisión",
   "REVIEW_STATUS_MESSAGE": "Su solicitud de voluntariado ha sido enviada y actualmente está siendo revisada por un administrador.",
   "REVIEW_APPROVAL_MESSAGE": "Una vez aprobado, se convertirá en voluntario y podrá comenzar a ayudar a otros.",
-  "CONFIRM": "Confirmar"
+  "CONFIRM": "Confirmar",
+  "TOTAL_REQUESTS": "Solicitudes Totales",
+  "REQUESTS_RESOLVED": "Solicitudes Resueltas",
+  "AVG_RESOLUTION_TIME": "Tiempo Promedio de Resolución",
+  "TOTAL_VOLUNTEERS": "Total de Voluntarios",
+  "TOTAL_BENEFICIARIES": "Total de Beneficiarios"
 }

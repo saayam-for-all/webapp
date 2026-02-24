@@ -680,7 +680,6 @@
   "volunteers.": "志愿者。",
   "where the ethos of \"Manava Sevaye Madhava": "其“服务人类即服务神”的理念",
   "without desecrating any beliefs.": "不亵渎任何信仰。",
-
   "EMERGENCY_CONTACTS": "紧急联系人",
   "EMERGENCY_SUBTITLE": "下面列出了所有紧急联系人。点击任何号码即可从您的设备直接拨打。",
   "CATEGORY_SAFETY": "安全与安保",
@@ -716,10 +715,14 @@
   "SENIOR_HELPLINE": "老年人求助热线",
   "HOMELESS_SERVICES": "无家可归者服务",
   "FOOD_ASSISTANCE": "食物援助热线",
-
   "REVIEW": "审核",
   "IN_REVIEW": "审核中",
   "REVIEW_STATUS_MESSAGE": "您的志愿者申请已提交，目前正在由管理员审核。",
   "REVIEW_APPROVAL_MESSAGE": "审核通过后，您将成为志愿者，可以开始帮助他人。",
-  "CONFIRM": "确认"
+  "CONFIRM": "确认",
+  "TOTAL_REQUESTS": "总请求数",
+  "REQUESTS_RESOLVED": "已解决请求",
+  "AVG_RESOLUTION_TIME": "平均解决时间",
+  "TOTAL_VOLUNTEERS": "志愿者总数",
+  "TOTAL_BENEFICIARIES": "受益人总数"
 }

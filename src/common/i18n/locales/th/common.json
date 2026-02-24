@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "คุณได้ยอมรับคำขอนี้แล้ว",
   "DENY_SUCCESS_MESSAGE": "คุณได้ปฏิเสธคำขอนี้แล้ว",
   "LOGISTIC_HELP": "ความช่วยเหลือด้านโลจิสติกส์",
-  "EDUCATIONAL_HELP": "ความช่วยเหลือด้านการศึกษา"
+  "EDUCATIONAL_HELP": "ความช่วยเหลือด้านการศึกษา",
+  "TOTAL_REQUESTS": "คำขอทั้งหมด",
+  "REQUESTS_RESOLVED": "คำขอที่แก้ไขแล้ว",
+  "AVG_RESOLUTION_TIME": "เวลาแก้ไขเฉลี่ย",
+  "TOTAL_VOLUNTEERS": "อาสาสมัครทั้งหมด",
+  "TOTAL_BENEFICIARIES": "ผู้รับประโยชน์ทั้งหมด"
 }

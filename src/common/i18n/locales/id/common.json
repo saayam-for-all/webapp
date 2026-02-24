@@ -17,5 +17,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "Anda telah menerima permintaan ini.",
   "DENY_SUCCESS_MESSAGE": "Anda telah menolak permintaan ini.",
   "LOGISTIC_HELP": "Bantuan Logistik",
-  "EDUCATIONAL_HELP": "Bantuan Pendidikan"
+  "EDUCATIONAL_HELP": "Bantuan Pendidikan",
+  "TOTAL_REQUESTS": "Total Permintaan",
+  "REQUESTS_RESOLVED": "Permintaan Diselesaikan",
+  "AVG_RESOLUTION_TIME": "Rata-rata Waktu Penyelesaian",
+  "TOTAL_VOLUNTEERS": "Total Relawan",
+  "TOTAL_BENEFICIARIES": "Total Penerima Manfaat"
 }

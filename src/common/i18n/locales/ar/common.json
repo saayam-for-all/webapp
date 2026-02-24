@@ -677,7 +677,6 @@
   "YOUTUBE_VIDEO_TITLE": "عنوان فيديو يوتيوب",
   "ZIP_CODE": "الرمز البريدي",
   "Zoom, and GitHub to keep costs low.": "زوم وGitHub للحفاظ على انخفاض التكاليف.",
-
   "EMERGENCY_CONTACTS": "جهات الاتصال في حالات الطوارئ",
   "EMERGENCY_SUBTITLE": "جميع جهات الاتصال في حالات الطوارئ مدرجة أدناه. انقر على أي رقم للاتصال مباشرةً من جهازك.",
   "CATEGORY_SAFETY": "السلامة والأمن",
@@ -687,43 +686,40 @@
   "CATEGORY_TRANSPORT": "النقل والمساعدة على الطريق",
   "CATEGORY_ANIMAL": "الحيوانات والبيئة",
   "CATEGORY_COMMUNITY": "خدمات المجتمع الأخرى",
-
   "POLICE": "الشرطة",
   "FIRE": "الدفاع المدني / الإطفاء",
   "SECURITY": "مكتب الأمن",
   "DOMESTIC_VIOLENCE": "الخط الساخن للعنف الأسري",
   "CHILD_ABUSE": "الخط الساخن لإساءة معاملة الأطفال",
-
   "MEDICAL_EMERGENCY": "حالة طبية طارئة",
   "POISON_CONTROL": "مركز مكافحة السموم",
   "AMBULANCE": "الإسعاف",
   "MENTAL_HEALTH": "خط الطوارئ للصحة النفسية",
   "SUICIDE_PREVENTION": "الخط الساخن للوقاية من الانتحار",
-
   "GAS_LEAK": "تسرب الغاز",
   "ELECTRICITY_OUTAGE": "انقطاع التيار الكهربائي",
   "WATER_DEPARTMENT": "دائرة المياه",
-
   "FLOOD_HELP": "مساعدة الفيضانات",
   "EARTHQUAKE_INFO": "معلومات الزلازل",
   "HURRICANE_INFO": "معلومات الأعاصير",
   "EMERGENCY_MGMT": "مكتب إدارة الطوارئ",
-
   "ROADSIDE_ASSISTANCE": "المساعدة على الطريق",
   "HIGHWAY_PATROL": "دورية الطرق السريعة",
   "PUBLIC_TRANSPORT_EMERGENCY": "طوارئ النقل العام",
-
   "ANIMAL_CONTROL": "مراقبة الحيوانات",
   "WILDLIFE_RESCUE": "إنقاذ الحياة البرية",
   "ENVIRONMENTAL_HAZARDS": "المخاطر البيئية",
-
   "SENIOR_HELPLINE": "الخط الساخن لكبار السن",
   "HOMELESS_SERVICES": "خدمات المشردين",
   "FOOD_ASSISTANCE": "الخط الساخن للمساعدات الغذائية",
-
   "REVIEW": "مراجعة",
   "IN_REVIEW": "قيد المراجعة",
   "REVIEW_STATUS_MESSAGE": "تم تقديم طلب التطوع الخاص بك وهو قيد المراجعة حاليًا من قبل المسؤول.",
   "REVIEW_APPROVAL_MESSAGE": "بمجرد الموافقة، ستصبح متطوعًا ويمكنك البدء في مساعدة الآخرين.",
-  "CONFIRM": "تأكيد"
+  "CONFIRM": "تأكيد",
+  "TOTAL_REQUESTS": "إجمالي الطلبات",
+  "REQUESTS_RESOLVED": "الطلبات المحلولة",
+  "AVG_RESOLUTION_TIME": "متوسط وقت الحل",
+  "TOTAL_VOLUNTEERS": "إجمالي المتطوعين",
+  "TOTAL_BENEFICIARIES": "إجمالي المستفيدين"
 }

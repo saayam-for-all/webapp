@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "भवान् एतत् निवेदनं स्वीकृतवान्।",
   "DENY_SUCCESS_MESSAGE": "भवान् एतत् निवेदनं निराकृतवान्।",
   "LOGISTIC_HELP": "रसद सहायता",
-  "EDUCATIONAL_HELP": "शैक्षिक सहायता"
+  "EDUCATIONAL_HELP": "शैक्षिक सहायता",
+  "TOTAL_REQUESTS": "सम्पूर्णं निवेदनानि",
+  "REQUESTS_RESOLVED": "समाधितानि निवेदनानि",
+  "AVG_RESOLUTION_TIME": "औसतं समाधान कालः",
+  "TOTAL_VOLUNTEERS": "सम्पूर्णाः स्वयंसेवकाः",
+  "TOTAL_BENEFICIARIES": "सम्पूर्णाः लाभार्थिनः"
 }

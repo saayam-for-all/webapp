@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "Bạn đã chấp nhận yêu cầu này.",
   "DENY_SUCCESS_MESSAGE": "Bạn đã từ chối yêu cầu này.",
   "LOGISTIC_HELP": "Hỗ trợ Logistics",
-  "EDUCATIONAL_HELP": "Hỗ trợ Giáo dục"
+  "EDUCATIONAL_HELP": "Hỗ trợ Giáo dục",
+  "TOTAL_REQUESTS": "Tổng Yêu Cầu",
+  "REQUESTS_RESOLVED": "Yêu Cầu Đã Giải Quyết",
+  "AVG_RESOLUTION_TIME": "Thời Gian Giải Quyết TB",
+  "TOTAL_VOLUNTEERS": "Tổng Tình Nguyện Viên",
+  "TOTAL_BENEFICIARIES": "Tổng Người Thụ Hưởng"
 }

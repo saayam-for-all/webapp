@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "तुसें एह् मंग गी स्वीकार कीता।",
   "DENY_SUCCESS_MESSAGE": "तुसें एह् मंग गी इनकार कीता।",
   "LOGISTIC_HELP": "रसद सहायता",
-  "EDUCATIONAL_HELP": "शैक्षिक सहायता"
+  "EDUCATIONAL_HELP": "शैक्षिक सहायता",
+  "TOTAL_REQUESTS": "कुल बेनती",
+  "REQUESTS_RESOLVED": "हल होई बेनतियाँ",
+  "AVG_RESOLUTION_TIME": "औसत हल वेला",
+  "TOTAL_VOLUNTEERS": "कुल सेवादार",
+  "TOTAL_BENEFICIARIES": "कुल लाभार्थी"
 }

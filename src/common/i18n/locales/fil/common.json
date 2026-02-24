@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "Tinanggap mo ang kahilingang ito.",
   "DENY_SUCCESS_MESSAGE": "Tinanggihan mo ang kahilingang ito.",
   "LOGISTIC_HELP": "Tulong sa Logistiko",
-  "EDUCATIONAL_HELP": "Tulong sa Edukasyon"
+  "EDUCATIONAL_HELP": "Tulong sa Edukasyon",
+  "TOTAL_REQUESTS": "Kabuuang Kahilingan",
+  "REQUESTS_RESOLVED": "Nalutas na Kahilingan",
+  "AVG_RESOLUTION_TIME": "Avg Oras ng Resolusyon",
+  "TOTAL_VOLUNTEERS": "Kabuuang Boluntaryo",
+  "TOTAL_BENEFICIARIES": "Kabuuang Benepisyaryo"
 }

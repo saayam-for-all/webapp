@@ -17,5 +17,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "このリクエストを承認しました。",
   "DENY_SUCCESS_MESSAGE": "このリクエストを拒否しました。",
   "LOGISTIC_HELP": "物流支援",
-  "EDUCATIONAL_HELP": "教育支援"
+  "EDUCATIONAL_HELP": "教育支援",
+  "TOTAL_REQUESTS": "総リクエスト数",
+  "REQUESTS_RESOLVED": "解決済みリクエスト",
+  "AVG_RESOLUTION_TIME": "平均解決時間",
+  "TOTAL_VOLUNTEERS": "ボランティア総数",
+  "TOTAL_BENEFICIARIES": "受益者総数"
 }

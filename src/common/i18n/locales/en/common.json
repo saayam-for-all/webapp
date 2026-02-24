@@ -683,7 +683,6 @@
   "Priority": "Priority",
   "Calamity": "Calamity",
   "Volunteer Type": "Volunteer Type",
-
   "EMERGENCY_CONTACTS": "Emergency Contacts",
   "EMERGENCY_SUBTITLE": "All emergency contacts are listed below. Click any number to call directly from your device.",
   "CATEGORY_SAFETY": "Safety & Security",
@@ -719,10 +718,14 @@
   "SENIOR_HELPLINE": "Senior Helpline",
   "HOMELESS_SERVICES": "Homeless Shelter / Services",
   "FOOD_ASSISTANCE": "Food Assistance Hotline",
-
   "REVIEW": "Review",
   "IN_REVIEW": "In Review",
   "REVIEW_STATUS_MESSAGE": "Your volunteer application has been submitted and is currently under review by an administrator.",
   "REVIEW_APPROVAL_MESSAGE": "Once approved, you will become a volunteer and can start helping others.",
-  "CONFIRM": "Confirm"
+  "CONFIRM": "Confirm",
+  "TOTAL_REQUESTS": "Total Requests",
+  "REQUESTS_RESOLVED": "Requests Resolved",
+  "AVG_RESOLUTION_TIME": "Avg Resolution Time",
+  "TOTAL_VOLUNTEERS": "Total Volunteers",
+  "TOTAL_BENEFICIARIES": "Total Beneficiaries"
 }
