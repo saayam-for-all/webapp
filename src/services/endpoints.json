@@ -18,7 +18,7 @@
   "DELETE_PROFILE_IMAGE": "v1/volunteer/profileImage",
   "VIEW_PROFILE_IMAGE": "v1/volunteer/profileImage/view",
   "GET_USER_ID": "v1/volunteer/getUserIdByEmail",
-  "GET_CATEGORIES": "v1/request/mockCategories",
+  "GET_CATEGORIES": "v1/request/mockHelpCategories",
   "GET_METADATA": "v1/request/mockMetadata",
   "GET_ENUMS": "v1/request/mockEnums",
   "UPLOAD_REQUEST_FILE": "/requests/v0.0.1/file-upload",

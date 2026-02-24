@@ -108,6 +108,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [searchInput, setSearchInput] = useState("");
   const [requestType, setRequestType] = useState("");
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
@@ -172,6 +173,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const inputref = useRef(null);
   const dropdownRef = useRef(null);
+  const categoryHoverTimerRef = useRef(null);
+  const subHoverTimerRef = useRef(null);
   const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
@@ -433,11 +436,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           localStorage.setItem("categories", JSON.stringify(validCategories));
           dispatch(loadCategories(validCategories));
         } catch (error) {
-          console.warn(
-            "Categories API failed, using static fallback:",
-            error.message,
-          );
-          dispatch(loadCategories()); // Load static categories as fallback
+          console.warn("Categories API failed:", error.message);
         }
       }
     };
@@ -529,6 +528,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             defaultValue: match.catName,
           },
         );
+      }
+    }
+
+    // Check if matches a sub-sub-category catName or catId
+    for (const c of categoriesArray) {
+      for (const sub of c.subCategories || []) {
+        const match = (sub.subCategories || []).find(
+          (ss) =>
+            ss.catName === selectedKeyOrText || ss.catId === selectedKeyOrText,
+        );
+        if (match) {
+          return t(
+            `categories:REQUEST_CATEGORIES.${c.catName}.SUBCATEGORIES.${sub.catName}.SUBCATEGORIES.${match.catName}.LABEL`,
+            { defaultValue: match.catName },
+          );
+        }
       }
     }
 
@@ -1140,6 +1155,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   // ---------- RENDER ----------
   if (isLoading) return <div>Loading...</div>;
+  const hasSubCats = hoveredCategory?.subCategories?.length > 0;
+  const hasSubSubCats = hoveredSubcategory?.subCategories?.length > 0;
   return (
     <div className="">
       <Snackbar
@@ -1240,11 +1257,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {showDropdown && (
                     <div
                       className={`absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex${
-                        hoveredCategory &&
-                        hoveredCategory.subCategories &&
-                        hoveredCategory.subCategories.length > 0
-                          ? ""
-                          : " flex-col"
+                        !hasSubCats ? " flex-col" : ""
                       }`}
                       style={{
                         maxHeight: "240px",
@@ -1256,14 +1269,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       ref={dropdownRef}
                       tabIndex={0}
                     >
-                      {/* Main categories column */}
+                      {/* Column 1: Main categories */}
                       <div
                         className={
-                          hoveredCategory &&
-                          hoveredCategory.subCategories &&
-                          hoveredCategory.subCategories.length > 0
-                            ? "w-1/2 overflow-y-auto"
-                            : "w-full overflow-y-auto"
+                          hasSubSubCats
+                            ? "w-1/3 overflow-y-auto"
+                            : hasSubCats
+                              ? "w-1/2 overflow-y-auto"
+                              : "w-full overflow-y-auto"
                         }
                         style={{ maxHeight: "240px" }}
                       >
@@ -1277,14 +1290,17 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             }`}
                             style={{ background: "#fff" }}
                             onClick={(e) => {
-                              if (
-                                !category.subCategories ||
-                                category.subCategories.length === 0
-                              ) {
+                              if (!category.subCategories?.length) {
                                 handleCategoryClick(category.catName);
                               }
                             }}
-                            onMouseEnter={() => setHoveredCategory(category)}
+                            onMouseEnter={() => {
+                              clearTimeout(categoryHoverTimerRef.current);
+                              categoryHoverTimerRef.current = setTimeout(() => {
+                                setHoveredCategory(category);
+                                setHoveredSubcategory(null);
+                              }, 150);
+                            }}
                           >
                             <span
                               title={t(
@@ -1297,76 +1313,139 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                 { defaultValue: category.catName },
                               )}
                             </span>
-                            {/* Show chevron if subcategories exist */}
-                            {category.subCategories &&
-                              category.subCategories.length > 0 && (
-                                <span className="ml-2 text-gray-400">&gt;</span>
-                              )}
+                            {category.subCategories?.length > 0 && (
+                              <span className="ml-2 text-gray-400">&gt;</span>
+                            )}
                           </div>
                         ))}
                       </div>
-                      {/* Only show subcategories column if there are subcategories */}
-                      {hoveredCategory &&
-                        hoveredCategory.subCategories &&
-                        hoveredCategory.subCategories.length > 0 && (
-                          <>
-                            {/* Vertical divider */}
-                            <div
-                              className="w-px bg-gray-300 mx-1"
-                              style={{ minHeight: "100%" }}
-                            />
-                            {/* Subcategories column */}
-                            <div
-                              className="w-1/2 overflow-y-auto"
-                              style={{ maxHeight: "240px" }}
-                            >
-                              {hoveredCategory.subCategories.map(
-                                (subcategory, index) => (
-                                  <div
-                                    key={subcategory.catId}
-                                    className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
-                                      index !==
-                                      hoveredCategory.subCategories.length - 1
-                                        ? " border-b-0 border-t border-gray-200"
-                                        : ""
-                                    }`}
-                                    style={{
-                                      background: "#fff",
-                                      borderTop:
-                                        index !== 0
-                                          ? "1px solid #e5e7eb"
-                                          : "none",
-                                      borderBottom: "none",
-                                    }}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      // Popup modal for subcategory - Pass subcategory details to handler
+                      {/* Column 2: Subcategories */}
+                      {hasSubCats && (
+                        <>
+                          <div
+                            className="w-px bg-gray-300 mx-1"
+                            style={{ minHeight: "100%" }}
+                          />
+                          <div
+                            className={
+                              hasSubSubCats
+                                ? "w-1/3 overflow-y-auto"
+                                : "w-1/2 overflow-y-auto"
+                            }
+                            style={{ maxHeight: "240px" }}
+                            onMouseEnter={() =>
+                              clearTimeout(categoryHoverTimerRef.current)
+                            }
+                          >
+                            {hoveredCategory.subCategories.map(
+                              (subcategory, index) => (
+                                <div
+                                  key={subcategory.catId}
+                                  className={`cursor-pointer hover:bg-gray-200 p-2 bg-white flex items-center justify-between${
+                                    index !== 0
+                                      ? " border-t border-gray-200"
+                                      : ""
+                                  }`}
+                                  style={{
+                                    background:
+                                      hoveredSubcategory?.catId ===
+                                      subcategory.catId
+                                        ? "#f3f4f6"
+                                        : "#fff",
+                                    borderBottom: "none",
+                                  }}
+                                  onMouseEnter={() => {
+                                    clearTimeout(subHoverTimerRef.current);
+                                    subHoverTimerRef.current = setTimeout(
+                                      () => setHoveredSubcategory(subcategory),
+                                      150,
+                                    );
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (!subcategory.subCategories?.length) {
                                       handleSubcategoryClick(
                                         subcategory.catId,
                                         subcategory.catName,
                                         hoveredCategory.catName,
                                       );
-                                    }}
+                                    } else {
+                                      setHoveredSubcategory(subcategory);
+                                    }
+                                  }}
+                                >
+                                  <span
+                                    title={t(
+                                      `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
+                                      { defaultValue: subcategory.catDesc },
+                                    )}
                                   >
-                                    <span
-                                      title={t(
-                                        `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
-                                        { defaultValue: subcategory.catDesc },
-                                      )}
-                                    >
-                                      {t(
-                                        `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
-                                        {
-                                          defaultValue: subcategory.catName,
-                                        },
-                                      )}
+                                    {t(
+                                      `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
+                                      { defaultValue: subcategory.catName },
+                                    )}
+                                  </span>
+                                  {subcategory.subCategories?.length > 0 && (
+                                    <span className="ml-2 text-gray-400">
+                                      &gt;
                                     </span>
-                                  </div>
-                                ),
-                              )}
-                            </div>
-                          </>
-                        )}
+                                  )}
+                                </div>
+                              ),
+                            )}
+                          </div>
+                        </>
+                      )}
+                      {/* Column 3: Sub-sub-categories */}
+                      {hasSubSubCats && (
+                        <>
+                          <div
+                            className="w-px bg-gray-300 mx-1"
+                            style={{ minHeight: "100%" }}
+                          />
+                          <div
+                            className="w-1/3 overflow-y-auto"
+                            style={{ maxHeight: "240px" }}
+                            onMouseEnter={() =>
+                              clearTimeout(subHoverTimerRef.current)
+                            }
+                          >
+                            {hoveredSubcategory.subCategories.map(
+                              (subSubCat, index) => (
+                                <div
+                                  key={subSubCat.catId}
+                                  className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
+                                    index !== 0
+                                      ? " border-t border-gray-200"
+                                      : ""
+                                  }`}
+                                  style={{ background: "#fff" }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSubcategoryClick(
+                                      subSubCat.catId,
+                                      subSubCat.catName,
+                                      hoveredCategory.catName,
+                                    );
+                                  }}
+                                >
+                                  <span
+                                    title={t(
+                                      `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${hoveredSubcategory.catName}.SUBCATEGORIES.${subSubCat.catName}.DESC`,
+                                      { defaultValue: subSubCat.catDesc },
+                                    )}
+                                  >
+                                    {t(
+                                      `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${hoveredSubcategory.catName}.SUBCATEGORIES.${subSubCat.catName}.LABEL`,
+                                      { defaultValue: subSubCat.catName },
+                                    )}
+                                  </span>
+                                </div>
+                              ),
+                            )}
+                          </div>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
