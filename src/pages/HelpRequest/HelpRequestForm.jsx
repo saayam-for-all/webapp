@@ -445,7 +445,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   htmlFor="lead_volunteer"
                   className="text-gray-700 font-medium"
                 >
-                  {t("Lead Volunteer")}
+                  {t("LEAD_VOLUNTEER")}
                 </label>
                 <div className="relative group cursor-pointer">
                   <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
@@ -717,7 +717,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                         }}
                         onMouseEnter={() => setHoveredCategory(category)}
                       >
-                        <span>{category.name}</span>
+                        <span>{t(category.name)}</span>
                         {/* Show chevron if subcategories exist */}
                         {category.subcategories &&
                           category.subcategories.length > 0 && (
@@ -762,7 +762,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                   handleSubcategoryClick(subcategory);
                                 }}
                               >
-                                {subcategory}
+                                {t(subcategory)}
                               </div>
                             ),
                           )}
@@ -826,7 +826,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   htmlFor="requestPriority"
                   className="font-medium text-gray-700"
                 >
-                  {t("Request Priority")}
+                  {t("REQUEST_PRIORITY")}
                 </label>
                 <div className="relative group cursor-pointer">
                   {/* Circle Question Mark Icon */}
@@ -856,9 +856,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                   "
                 >
-                  <option value="LOW">{t("Low")}</option>
-                  <option value="MEDIUM">{t("Medium")}</option>
-                  <option value="HIGH">{t("High")}</option>
+                  <option value="LOW">{t("PRIORITY_LOW")}</option>
+                  <option value="MEDIUM">{t("PRIORITY_MEDIUM")}</option>
+                  <option value="HIGH">{t("PRIORITY_HIGH")}</option>
                 </select>
 
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -873,7 +873,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   htmlFor="location"
                   className="block mb-1 font-medium text-gray-700"
                 >
-                  Location
+                  {t("Location")}
                 </label>
                 {isLoaded && (
                   <StandaloneSearchBox
@@ -960,10 +960,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       </form>
       {/* Modal Component */}
       <Dialog open={showModal} onClose={() => setShowModal(false)}>
-        <DialogTitle>Select a Category</DialogTitle>
+        <DialogTitle>{t("SELECT_CATEGORY")}</DialogTitle>
         <DialogContent>
           <Typography className="mb-4">
-            Select an appropriate help category so we can match the right
+            {t("SELECT_CATEGORY_DESCRIPTION")}
             volunteers for your request.
           </Typography>
 
