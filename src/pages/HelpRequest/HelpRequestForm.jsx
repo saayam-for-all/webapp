@@ -512,23 +512,35 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           GENERAL_CATEGORY: "GENERAL",
         };
 
+        // Get parent category label for "Category → Subcategory" display
+        const parentNewResult = t(
+          `categories:REQUEST_CATEGORIES.${newCatKey}.LABEL`,
+          { defaultValue: null },
+        );
+        const parentLabel =
+          parentNewResult && parentNewResult !== newCatKey
+            ? parentNewResult
+            : t(
+                `categories:REQUEST_CATEGORIES.${oldKeyMap[newCatKey] || newCatKey}.LABEL`,
+                { defaultValue: c.catName },
+              );
+
         // Try new key first
         const newResult = t(
           `categories:REQUEST_CATEGORIES.${newCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
           { defaultValue: null },
         );
         if (newResult && newResult !== newSubKey) {
-          return newResult;
+          return `${parentLabel} \u2192 ${newResult}`;
         }
 
         // Fall back to old key structure
         const oldCatKey = oldKeyMap[newCatKey] || newCatKey;
-        return t(
+        const subLabel = t(
           `categories:REQUEST_CATEGORIES.${oldCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
-          {
-            defaultValue: match.catName,
-          },
+          { defaultValue: match.catName },
         );
+        return `${parentLabel} \u2192 ${subLabel}`;
       }
     }
 
