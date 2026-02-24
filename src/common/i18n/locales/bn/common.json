@@ -677,7 +677,6 @@
   "volunteers.": "সায়াম ডলার ব্যবহার করুন।",
   "where the ethos of \"Manava Sevaye Madhava": "যেখানে \"মানব সেবায়ে মাধব",
   "without desecrating any beliefs.": "কোনো বিশ্বাসের অবমাননা ছাড়াই।",
-
   "EMERGENCY_CONTACTS": "জরুরি যোগাযোগ",
   "EMERGENCY_SUBTITLE": "সমস্ত জরুরি যোগাযোগ নিচে তালিকাভুক্ত। আপনার ডিভাইস থেকে সরাসরি কল করতে যেকোনো নম্বরে ক্লিক করুন।",
   "CATEGORY_SAFETY": "নিরাপত্তা ও সুরক্ষা",
@@ -713,10 +712,14 @@
   "SENIOR_HELPLINE": "বয়স্কদের সহায়তা হটলাইন",
   "HOMELESS_SERVICES": "গৃহহীন আশ্রয় / সেবা",
   "FOOD_ASSISTANCE": "খাদ্য সহায়তা হটলাইন",
-
   "REVIEW": "পর্যালোচনা",
   "IN_REVIEW": "পর্যালোচনাধীন",
   "REVIEW_STATUS_MESSAGE": "আপনার স্বেচ্ছাসেবক আবেদন জমা দেওয়া হয়েছে এবং বর্তমানে একজন প্রশাসক দ্বারা পর্যালোচনা করা হচ্ছে।",
   "REVIEW_APPROVAL_MESSAGE": "অনুমোদিত হলে, আপনি একজন স্বেচ্ছাসেবক হয়ে যাবেন এবং অন্যদের সাহায্য করা শুরু করতে পারবেন।",
-  "CONFIRM": "নিশ্চিত করুন"
+  "CONFIRM": "নিশ্চিত করুন",
+  "TOTAL_REQUESTS": "মোট অনুরোধ",
+  "REQUESTS_RESOLVED": "সমাধান হওয়া অনুরোধ",
+  "AVG_RESOLUTION_TIME": "গড় সমাধান সময়",
+  "TOTAL_VOLUNTEERS": "মোট স্বেচ্ছাসেবক",
+  "TOTAL_BENEFICIARIES": "মোট সুবিধাভোগী"
 }

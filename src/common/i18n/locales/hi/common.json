@@ -678,7 +678,6 @@
   "volunteers.": "सायम डॉलर का उपयोग करें।",
   "where the ethos of \"Manava Sevaye Madhava": "जहाँ \"मानव सेवाये माधव",
   "without desecrating any beliefs.": "बिना किसी मान्यता का अपमान किए।",
-
   "EMERGENCY_CONTACTS": "आपातकालीन संपर्क",
   "EMERGENCY_SUBTITLE": "नीचे सभी आपातकालीन संपर्क सूचीबद्ध हैं। सीधे अपने डिवाइस से कॉल करने के लिए किसी भी नंबर पर क्लिक करें।",
   "CATEGORY_SAFETY": "सुरक्षा एवं सुरक्षा",
@@ -714,10 +713,14 @@
   "SENIOR_HELPLINE": "वरिष्ठ नागरिक सहायता हॉटलाइन",
   "HOMELESS_SERVICES": "बेघर सेवा",
   "FOOD_ASSISTANCE": "भोजन सहायता हॉटलाइन",
-
   "REVIEW": "समीक्षा",
   "IN_REVIEW": "समीक्षाधीन",
   "REVIEW_STATUS_MESSAGE": "आपका स्वयंसेवक आवेदन जमा कर दिया गया है और वर्तमान में एक व्यवस्थापक द्वारा समीक्षा की जा रही है।",
   "REVIEW_APPROVAL_MESSAGE": "स्वीकृति के बाद, आप एक स्वयंसेवक बन जाएंगे और दूसरों की मदद करना शुरू कर सकते हैं।",
-  "CONFIRM": "पुष्टि करें"
+  "CONFIRM": "पुष्टि करें",
+  "TOTAL_REQUESTS": "कुल अनुरोध",
+  "REQUESTS_RESOLVED": "अनुरोध हल किए गए",
+  "AVG_RESOLUTION_TIME": "औसत समाधान समय",
+  "TOTAL_VOLUNTEERS": "कुल स्वयंसेवक",
+  "TOTAL_BENEFICIARIES": "कुल लाभार्थी"
 }

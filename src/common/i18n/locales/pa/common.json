@@ -19,5 +19,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "ਤੁਸੀਂ ਇਸ ਬੇਨਤੀ ਨੂੰ ਸਵੀਕਾਰ ਕੀਤਾ।",
   "DENY_SUCCESS_MESSAGE": "ਤੁਸੀਂ ਇਸ ਬੇਨਤੀ ਨੂੰ ਇਨਕਾਰ ਕੀਤਾ।",
   "LOGISTIC_HELP": "ਲੋਜਿਸਟਿਕ ਮਦਦ",
-  "EDUCATIONAL_HELP": "ਵਿਦਿਅਕ ਮਦਦ"
+  "EDUCATIONAL_HELP": "ਵਿਦਿਅਕ ਮਦਦ",
+  "TOTAL_REQUESTS": "ਕੁੱਲ ਬੇਨਤੀਆਂ",
+  "REQUESTS_RESOLVED": "ਹੱਲ ਕੀਤੀਆਂ ਬੇਨਤੀਆਂ",
+  "AVG_RESOLUTION_TIME": "ਔਸਤ ਹੱਲ ਸਮਾਂ",
+  "TOTAL_VOLUNTEERS": "ਕੁੱਲ ਵਲੰਟੀਅਰ",
+  "TOTAL_BENEFICIARIES": "ਕੁੱਲ ਲਾਭਪਾਤਰੀ"
 }

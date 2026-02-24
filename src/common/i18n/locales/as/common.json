@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "আপুনি এই অনুৰোধটো গ্ৰহণ কৰিলে।",
   "DENY_SUCCESS_MESSAGE": "আপুনি এই অনুৰোধটো অস্বীকাৰ কৰিলে।",
   "LOGISTIC_HELP": "লজিষ্টিক সহায়",
-  "EDUCATIONAL_HELP": "শৈক্ষিক সহায়"
+  "EDUCATIONAL_HELP": "শৈক্ষিক সহায়",
+  "TOTAL_REQUESTS": "মুঠ অনুৰোধ",
+  "REQUESTS_RESOLVED": "সমাধান হোৱা অনুৰোধ",
+  "AVG_RESOLUTION_TIME": "গড় সমাধান সময়",
+  "TOTAL_VOLUNTEERS": "মুঠ স্বেচ্ছাসেৱক",
+  "TOTAL_BENEFICIARIES": "মুঠ সুবিধাভোগী"
 }

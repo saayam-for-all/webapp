@@ -19,5 +19,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "તમે આ વિનંતી સ્વીકારી છે.",
   "DENY_SUCCESS_MESSAGE": "તમે આ વિનંતી નકારી છે.",
   "LOGISTIC_HELP": "લોજિસ્ટિક મદદ",
-  "EDUCATIONAL_HELP": "શૈક્ષણિક મદદ"
+  "EDUCATIONAL_HELP": "શૈક્ષણિક મદદ",
+  "TOTAL_REQUESTS": "કુલ વિનંતીઓ",
+  "REQUESTS_RESOLVED": "ઉકેલાયેલ વિનંતીઓ",
+  "AVG_RESOLUTION_TIME": "સરેરાશ સમાધાન સમય",
+  "TOTAL_VOLUNTEERS": "કુલ સ્વયંસેવકો",
+  "TOTAL_BENEFICIARIES": "કુલ લાભાર્થીઓ"
 }

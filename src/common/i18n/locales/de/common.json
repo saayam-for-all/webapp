@@ -24,7 +24,6 @@
   "AMERICAN_RED_CROSS": "Amerikanisches Rotes Kreuz",
   "AMERICAN_RED_CROSS_DESC": "Freiwillige und Mitarbeiter des Roten Kreuzes arbeiten daran, lebenswichtige Dienste zu erbringen – von der Bereitstellung von Hilfe und Unterstützung für Menschen in Krisensituationen.",
   "ARE_DONATIONS_TAX_DEDUCTIBLE": "Sind Spenden steuerlich absetzbar",
-  "ARE_DONATIONS_TAX_DEDUCTIBLE": "Sind Spenden steuerlich absetzbar",
   "Are you sure, you want to log out? There may be unsaved data on the page.": "Sind Sie sicher, dass Sie sich abmelden möchten? Es können nicht gespeicherte Daten auf der Seite vorhanden sein.",
   "ASK_FOR_HELP": "Als Anfragender können Sie Hilfe anfordern (ähnlich wie eine Fahrtanfrage).",
   "ASSISTANCE_PROVIDED": "Geleistete Hilfe:",
@@ -678,7 +677,6 @@
   "facing challenges in their lives, fostering a culture of compassion,": "die Herausforderungen in ihrem Leben gegenüberstehen, und eine Kultur des Mitgefühls zu fördern,",
   "medical, healthcare.": "medizinische Versorgung, Gesundheit.",
   "minimal human intervention.": "minimalem menschlichen Eingriff.",
-
   "EMERGENCY_CONTACTS": "Notfallkontakte",
   "EMERGENCY_SUBTITLE": "Alle Notfallkontakte sind unten aufgeführt. Tippen Sie auf eine Nummer, um direkt von Ihrem Gerät anzurufen.",
   "CATEGORY_SAFETY": "Sicherheit & Schutz",
@@ -714,10 +712,14 @@
   "SENIOR_HELPLINE": "Senioren‑Hotline",
   "HOMELESS_SERVICES": "Dienste für Obdachlose",
   "FOOD_ASSISTANCE": "Lebensmittelhilfe‑Hotline",
-
   "REVIEW": "Überprüfung",
   "IN_REVIEW": "In Überprüfung",
   "REVIEW_STATUS_MESSAGE": "Ihre Freiwilligenanmeldung wurde eingereicht und wird derzeit von einem Administrator überprüft.",
   "REVIEW_APPROVAL_MESSAGE": "Nach der Genehmigung werden Sie Freiwilliger und können anderen helfen.",
-  "CONFIRM": "Bestätigen"
+  "CONFIRM": "Bestätigen",
+  "TOTAL_REQUESTS": "Anfragen Gesamt",
+  "REQUESTS_RESOLVED": "Gelöste Anfragen",
+  "AVG_RESOLUTION_TIME": "Durchschn. Lösungszeit",
+  "TOTAL_VOLUNTEERS": "Freiwillige Gesamt",
+  "TOTAL_BENEFICIARIES": "Begünstigte Gesamt"
 }

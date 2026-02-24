@@ -32,7 +32,7 @@ exports[`LandingPage renders correctly 1`] = `
               class="overflow-x-auto"
             >
               <div
-                class="flex items-center gap-0 px-4 py-2.5 min-w-max mx-auto justify-center"
+                class="flex items-center px-4 py-2.5 min-w-max mx-auto justify-center"
               >
                 <span
                   class="flex items-center"
@@ -43,7 +43,7 @@ exports[`LandingPage renders correctly 1`] = `
                     <span
                       class="text-gray-500 text-sm font-medium"
                     >
-                      Total Requests
+                      mockTranslate(TOTAL_REQUESTS)
                       :
                     </span>
                     <span
@@ -68,7 +68,7 @@ exports[`LandingPage renders correctly 1`] = `
                     <span
                       class="text-gray-500 text-sm font-medium"
                     >
-                      Requests Resolved
+                      mockTranslate(REQUESTS_RESOLVED)
                       :
                     </span>
                     <span
@@ -93,7 +93,7 @@ exports[`LandingPage renders correctly 1`] = `
                     <span
                       class="text-gray-500 text-sm font-medium"
                     >
-                      Avg Resolution Time
+                      mockTranslate(AVG_RESOLUTION_TIME)
                       :
                     </span>
                     <span
@@ -119,7 +119,7 @@ exports[`LandingPage renders correctly 1`] = `
                     <span
                       class="text-gray-500 text-sm font-medium"
                     >
-                      Total Volunteers
+                      mockTranslate(TOTAL_VOLUNTEERS)
                       :
                     </span>
                     <span
@@ -144,7 +144,7 @@ exports[`LandingPage renders correctly 1`] = `
                     <span
                       class="text-gray-500 text-sm font-medium"
                     >
-                      Total Beneficiaries
+                      mockTranslate(TOTAL_BENEFICIARIES)
                       :
                     </span>
                     <span
@@ -484,7 +484,7 @@ exports[`LandingPage renders correctly 1`] = `
             class="overflow-x-auto"
           >
             <div
-              class="flex items-center gap-0 px-4 py-2.5 min-w-max mx-auto justify-center"
+              class="flex items-center px-4 py-2.5 min-w-max mx-auto justify-center"
             >
               <span
                 class="flex items-center"
@@ -495,7 +495,7 @@ exports[`LandingPage renders correctly 1`] = `
                   <span
                     class="text-gray-500 text-sm font-medium"
                   >
-                    Total Requests
+                    mockTranslate(TOTAL_REQUESTS)
                     :
                   </span>
                   <span
@@ -520,7 +520,7 @@ exports[`LandingPage renders correctly 1`] = `
                   <span
                     class="text-gray-500 text-sm font-medium"
                   >
-                    Requests Resolved
+                    mockTranslate(REQUESTS_RESOLVED)
                     :
                   </span>
                   <span
@@ -545,7 +545,7 @@ exports[`LandingPage renders correctly 1`] = `
                   <span
                     class="text-gray-500 text-sm font-medium"
                   >
-                    Avg Resolution Time
+                    mockTranslate(AVG_RESOLUTION_TIME)
                     :
                   </span>
                   <span
@@ -571,7 +571,7 @@ exports[`LandingPage renders correctly 1`] = `
                   <span
                     class="text-gray-500 text-sm font-medium"
                   >
-                    Total Volunteers
+                    mockTranslate(TOTAL_VOLUNTEERS)
                     :
                   </span>
                   <span
@@ -596,7 +596,7 @@ exports[`LandingPage renders correctly 1`] = `
                   <span
                     class="text-gray-500 text-sm font-medium"
                   >
-                    Total Beneficiaries
+                    mockTranslate(TOTAL_BENEFICIARIES)
                     :
                   </span>
                   <span

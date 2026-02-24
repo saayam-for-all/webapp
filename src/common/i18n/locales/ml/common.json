@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "നിങ്ങൾ ഈ അഭ്യർത്ഥന സ്വീകരിച്ചു.",
   "DENY_SUCCESS_MESSAGE": "നിങ്ങൾ ഈ അഭ്യർത്ഥന നിരസിച്ചു.",
   "LOGISTIC_HELP": "ലോജിസ്റ്റിക് സഹായം",
-  "EDUCATIONAL_HELP": "വിദ്യാഭ്യാസ സഹായം"
+  "EDUCATIONAL_HELP": "വിദ്യാഭ്യാസ സഹായം",
+  "TOTAL_REQUESTS": "ആകെ അഭ്യർത്ഥനകൾ",
+  "REQUESTS_RESOLVED": "പരിഹരിച്ച അഭ്യർത്ഥനകൾ",
+  "AVG_RESOLUTION_TIME": "ശരാശരി പരിഹാര സമയം",
+  "TOTAL_VOLUNTEERS": "ആകെ സന്നദ്ധസേവകർ",
+  "TOTAL_BENEFICIARIES": "ആകെ ഗുണഭോക്താക്കൾ"
 }

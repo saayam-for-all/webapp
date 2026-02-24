@@ -677,7 +677,6 @@
   "volunteers.": "волонтеров.",
   "where the ethos of \"Manava Sevaye Madhava": "где этос \"Manava Sevaye Madhava",
   "without desecrating any beliefs.": "без осквернения каких-либо убеждений.",
-
   "EMERGENCY_CONTACTS": "Контакты экстренной помощи",
   "EMERGENCY_SUBTITLE": "Ниже перечислены все экстренные контакты. Нажмите на любой номер, чтобы позвонить напрямую с вашего устройства.",
   "CATEGORY_SAFETY": "Безопасность и охрана",
@@ -713,10 +712,14 @@
   "SENIOR_HELPLINE": "Горячая линия для пожилых людей",
   "HOMELESS_SERVICES": "Службы для бездомных",
   "FOOD_ASSISTANCE": "Горячая линия продовольственной помощи",
-
   "REVIEW": "Рассмотрение",
   "IN_REVIEW": "На рассмотрении",
   "REVIEW_STATUS_MESSAGE": "Ваша заявка на волонтёрство была отправлена и в настоящее время рассматривается администратором.",
   "REVIEW_APPROVAL_MESSAGE": "После одобрения вы станете волонтёром и сможете начать помогать другим.",
-  "CONFIRM": "Подтвердить"
+  "CONFIRM": "Подтвердить",
+  "TOTAL_REQUESTS": "Всего запросов",
+  "REQUESTS_RESOLVED": "Запросов решено",
+  "AVG_RESOLUTION_TIME": "Среднее время решения",
+  "TOTAL_VOLUNTEERS": "Всего волонтёров",
+  "TOTAL_BENEFICIARIES": "Всего благополучателей"
 }

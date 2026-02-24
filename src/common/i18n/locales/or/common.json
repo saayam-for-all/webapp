@@ -19,5 +19,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "ଆପଣ ଏହି ଅନୁରୋଧକୁ ଗ୍ରହଣ କରିଛନ୍ତି।",
   "DENY_SUCCESS_MESSAGE": "ଆପଣ ଏହି ଅନୁରୋଧକୁ ପ୍ରତ୍ୟାଖ୍ୟାନ କରିଛନ୍ତି।",
   "LOGISTIC_HELP": "ଲଜିଷ୍ଟିକ୍ ସହାୟତା",
-  "EDUCATIONAL_HELP": "ଶିକ୍ଷାଗତ ସହାୟତା"
+  "EDUCATIONAL_HELP": "ଶିକ୍ଷାଗତ ସହାୟତା",
+  "TOTAL_REQUESTS": "ମୋଟ ଅନୁରୋଧ",
+  "REQUESTS_RESOLVED": "ସମାଧାନ ହୋଇଥିବା ଅନୁରୋଧ",
+  "AVG_RESOLUTION_TIME": "ଗଡ଼ ସମାଧାନ ସମୟ",
+  "TOTAL_VOLUNTEERS": "ମୋଟ ସ୍ୱେଚ୍ଛାସେବୀ",
+  "TOTAL_BENEFICIARIES": "ମୋଟ ଲାଭାର୍ଥୀ"
 }

@@ -676,7 +676,6 @@
   "volunteers.": "సాయం డాలర్లను ఉపయోగించండి.",
   "where the ethos of \"Manava Sevaye Madhava": "ఇక్కడ \"మానవ సేవయే మాధవ",
   "without desecrating any beliefs.": "ఎవరి నమ్మకాలను కూడా దూషించకుండా.",
-
   "EMERGENCY_CONTACTS": "అత్యవసర సంప్రదింపులు",
   "EMERGENCY_SUBTITLE": "అన్ని అత్యవసర సంప్రదింపులు క్రింద జాబితా చేయబడ్డాయి. మీ పరికరం నుండి నేరుగా డైలింగ్ కు ఏదైనా నంబర్‌పై క్లిక్ చేయండి.",
   "CATEGORY_SAFETY": "సురక్షా & భద్రత",
@@ -712,10 +711,14 @@
   "SENIOR_HELPLINE": "వృద్ధుల హెల్ప్ లైన్",
   "HOMELESS_SERVICES": "నిరాశ్రయులకు సేవలు",
   "FOOD_ASSISTANCE": "ఆహార సహాయ హెల్ప్ లైన్",
-
   "REVIEW": "సమీక్ష",
   "IN_REVIEW": "సమీక్షలో ఉంది",
   "REVIEW_STATUS_MESSAGE": "మీ వాలంటీర్ దరఖాస్తు సమర్పించబడింది మరియు ప్రస్తుతం నిర్వాహకుడు సమీక్షిస్తున్నారు.",
   "REVIEW_APPROVAL_MESSAGE": "ఆమోదించిన తర్వాత, మీరు వాలంటీర్ అవుతారు మరియు ఇతరులకు సహాయం చేయడం ప్రారంభించవచ్చు.",
-  "CONFIRM": "నిర్ధారించు"
+  "CONFIRM": "నిర్ధారించు",
+  "TOTAL_REQUESTS": "మొత్తం అభ్యర్థనలు",
+  "REQUESTS_RESOLVED": "పరిష్కరించిన అభ్యర్థనలు",
+  "AVG_RESOLUTION_TIME": "సగటు పరిష్కార సమయం",
+  "TOTAL_VOLUNTEERS": "మొత్తం స్వయంసేవకులు",
+  "TOTAL_BENEFICIARIES": "మొత్తం లబ్ధిదారులు"
 }

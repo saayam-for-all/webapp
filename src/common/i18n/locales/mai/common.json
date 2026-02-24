@@ -18,5 +18,10 @@
   "ACCEPT_SUCCESS_MESSAGE": "अहाँ ई अनुरोध स्वीकार कयलहुँ।",
   "DENY_SUCCESS_MESSAGE": "अहाँ ई अनुरोध अस्वीकार कयलहुँ।",
   "LOGISTIC_HELP": "रसद सहायता",
-  "EDUCATIONAL_HELP": "शैक्षिक सहायता"
+  "EDUCATIONAL_HELP": "शैक्षिक सहायता",
+  "TOTAL_REQUESTS": "कुल अनुरोध",
+  "REQUESTS_RESOLVED": "समाधान भेल अनुरोध",
+  "AVG_RESOLUTION_TIME": "औसत समाधान समय",
+  "TOTAL_VOLUNTEERS": "कुल स्वयंसेवक",
+  "TOTAL_BENEFICIARIES": "कुल लाभार्थी"
 }
