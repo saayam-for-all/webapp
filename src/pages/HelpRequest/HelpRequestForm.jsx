@@ -699,6 +699,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       setShowElderlySupportForm(true);
       setShowDropdown(false);
       setHoveredCategory(null);
+      setHoveredSubcategory(null);
       return;
     } else {
       // Popup modal for subcategory - For other categories, proceed normally
@@ -708,6 +709,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
       setShowDropdown(false);
       setHoveredCategory(null);
+      setHoveredSubcategory(null);
     }
   };
 
