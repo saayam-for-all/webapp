@@ -26,22 +26,24 @@ exports[`LandingPage renders correctly 1`] = `
             </h1>
           </div>
           <div
-            class="w-full bg-gray-50 border-y border-gray-200 shadow-sm"
+            class="w-full py-3"
           >
             <div
               class="overflow-x-auto"
             >
               <div
-                class="flex items-center px-4 py-2.5 min-w-max mx-auto justify-center"
+                class="flex items-center justify-center px-4 min-w-max mx-auto"
               >
                 <span
                   class="flex items-center"
                 >
                   <span
-                    class="inline-flex items-baseline gap-1 whitespace-nowrap"
+                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                    style="background-color: rgb(219, 234, 254);"
                   >
                     <span
-                      class="text-gray-500 text-sm font-medium"
+                      class="text-sm font-medium"
+                      style="color: rgb(30, 64, 175);"
                     >
                       mockTranslate(TOTAL_REQUESTS)
                       :
@@ -54,7 +56,7 @@ exports[`LandingPage renders correctly 1`] = `
                     </span>
                   </span>
                   <span
-                    class="mx-3 text-gray-300 select-none font-light"
+                    class="mx-4 text-gray-300 select-none font-light"
                   >
                     |
                   </span>
@@ -63,10 +65,12 @@ exports[`LandingPage renders correctly 1`] = `
                   class="flex items-center"
                 >
                   <span
-                    class="inline-flex items-baseline gap-1 whitespace-nowrap"
+                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                    style="background-color: rgb(220, 252, 231);"
                   >
                     <span
-                      class="text-gray-500 text-sm font-medium"
+                      class="text-sm font-medium"
+                      style="color: rgb(22, 101, 52);"
                     >
                       mockTranslate(REQUESTS_RESOLVED)
                       :
@@ -79,7 +83,7 @@ exports[`LandingPage renders correctly 1`] = `
                     </span>
                   </span>
                   <span
-                    class="mx-3 text-gray-300 select-none font-light"
+                    class="mx-4 text-gray-300 select-none font-light"
                   >
                     |
                   </span>
@@ -88,36 +92,12 @@ exports[`LandingPage renders correctly 1`] = `
                   class="flex items-center"
                 >
                   <span
-                    class="inline-flex items-baseline gap-1 whitespace-nowrap"
+                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                    style="background-color: rgb(237, 233, 254);"
                   >
                     <span
-                      class="text-gray-500 text-sm font-medium"
-                    >
-                      mockTranslate(AVG_RESOLUTION_TIME)
-                      :
-                    </span>
-                    <span
-                      class="text-sm font-bold tabular-nums"
-                      style="color: rgb(146, 64, 14);"
-                    >
-                      0
-                       hrs
-                    </span>
-                  </span>
-                  <span
-                    class="mx-3 text-gray-300 select-none font-light"
-                  >
-                    |
-                  </span>
-                </span>
-                <span
-                  class="flex items-center"
-                >
-                  <span
-                    class="inline-flex items-baseline gap-1 whitespace-nowrap"
-                  >
-                    <span
-                      class="text-gray-500 text-sm font-medium"
+                      class="text-sm font-medium"
+                      style="color: rgb(91, 33, 182);"
                     >
                       mockTranslate(TOTAL_VOLUNTEERS)
                       :
@@ -130,7 +110,7 @@ exports[`LandingPage renders correctly 1`] = `
                     </span>
                   </span>
                   <span
-                    class="mx-3 text-gray-300 select-none font-light"
+                    class="mx-4 text-gray-300 select-none font-light"
                   >
                     |
                   </span>
@@ -139,10 +119,12 @@ exports[`LandingPage renders correctly 1`] = `
                   class="flex items-center"
                 >
                   <span
-                    class="inline-flex items-baseline gap-1 whitespace-nowrap"
+                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                    style="background-color: rgb(255, 237, 213);"
                   >
                     <span
-                      class="text-gray-500 text-sm font-medium"
+                      class="text-sm font-medium"
+                      style="color: rgb(154, 52, 18);"
                     >
                       mockTranslate(TOTAL_BENEFICIARIES)
                       :
@@ -160,7 +142,7 @@ exports[`LandingPage renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="w-full flex flex-row justify-center  "
+          class="w-full flex flex-row justify-center mt-8"
         >
           <div
             class="w-[22%] h-[50%] flex flex-col justify-center items-center"
@@ -478,22 +460,24 @@ exports[`LandingPage renders correctly 1`] = `
           </h1>
         </div>
         <div
-          class="w-full bg-gray-50 border-y border-gray-200 shadow-sm"
+          class="w-full py-3"
         >
           <div
             class="overflow-x-auto"
           >
             <div
-              class="flex items-center px-4 py-2.5 min-w-max mx-auto justify-center"
+              class="flex items-center justify-center px-4 min-w-max mx-auto"
             >
               <span
                 class="flex items-center"
               >
                 <span
-                  class="inline-flex items-baseline gap-1 whitespace-nowrap"
+                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                  style="background-color: rgb(219, 234, 254);"
                 >
                   <span
-                    class="text-gray-500 text-sm font-medium"
+                    class="text-sm font-medium"
+                    style="color: rgb(30, 64, 175);"
                   >
                     mockTranslate(TOTAL_REQUESTS)
                     :
@@ -506,7 +490,7 @@ exports[`LandingPage renders correctly 1`] = `
                   </span>
                 </span>
                 <span
-                  class="mx-3 text-gray-300 select-none font-light"
+                  class="mx-4 text-gray-300 select-none font-light"
                 >
                   |
                 </span>
@@ -515,10 +499,12 @@ exports[`LandingPage renders correctly 1`] = `
                 class="flex items-center"
               >
                 <span
-                  class="inline-flex items-baseline gap-1 whitespace-nowrap"
+                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                  style="background-color: rgb(220, 252, 231);"
                 >
                   <span
-                    class="text-gray-500 text-sm font-medium"
+                    class="text-sm font-medium"
+                    style="color: rgb(22, 101, 52);"
                   >
                     mockTranslate(REQUESTS_RESOLVED)
                     :
@@ -531,7 +517,7 @@ exports[`LandingPage renders correctly 1`] = `
                   </span>
                 </span>
                 <span
-                  class="mx-3 text-gray-300 select-none font-light"
+                  class="mx-4 text-gray-300 select-none font-light"
                 >
                   |
                 </span>
@@ -540,36 +526,12 @@ exports[`LandingPage renders correctly 1`] = `
                 class="flex items-center"
               >
                 <span
-                  class="inline-flex items-baseline gap-1 whitespace-nowrap"
+                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                  style="background-color: rgb(237, 233, 254);"
                 >
                   <span
-                    class="text-gray-500 text-sm font-medium"
-                  >
-                    mockTranslate(AVG_RESOLUTION_TIME)
-                    :
-                  </span>
-                  <span
-                    class="text-sm font-bold tabular-nums"
-                    style="color: rgb(146, 64, 14);"
-                  >
-                    0
-                     hrs
-                  </span>
-                </span>
-                <span
-                  class="mx-3 text-gray-300 select-none font-light"
-                >
-                  |
-                </span>
-              </span>
-              <span
-                class="flex items-center"
-              >
-                <span
-                  class="inline-flex items-baseline gap-1 whitespace-nowrap"
-                >
-                  <span
-                    class="text-gray-500 text-sm font-medium"
+                    class="text-sm font-medium"
+                    style="color: rgb(91, 33, 182);"
                   >
                     mockTranslate(TOTAL_VOLUNTEERS)
                     :
@@ -582,7 +544,7 @@ exports[`LandingPage renders correctly 1`] = `
                   </span>
                 </span>
                 <span
-                  class="mx-3 text-gray-300 select-none font-light"
+                  class="mx-4 text-gray-300 select-none font-light"
                 >
                   |
                 </span>
@@ -591,10 +553,12 @@ exports[`LandingPage renders correctly 1`] = `
                 class="flex items-center"
               >
                 <span
-                  class="inline-flex items-baseline gap-1 whitespace-nowrap"
+                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                  style="background-color: rgb(255, 237, 213);"
                 >
                   <span
-                    class="text-gray-500 text-sm font-medium"
+                    class="text-sm font-medium"
+                    style="color: rgb(154, 52, 18);"
                   >
                     mockTranslate(TOTAL_BENEFICIARIES)
                     :
@@ -612,7 +576,7 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="w-full flex flex-row justify-center  "
+        class="w-full flex flex-row justify-center mt-8"
       >
         <div
           class="w-[22%] h-[50%] flex flex-col justify-center items-center"

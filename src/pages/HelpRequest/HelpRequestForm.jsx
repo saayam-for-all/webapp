@@ -173,8 +173,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const inputref = useRef(null);
   const dropdownRef = useRef(null);
-  const categoryHoverTimerRef = useRef(null);
-  const subHoverTimerRef = useRef(null);
+
   const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
@@ -511,23 +510,35 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           GENERAL_CATEGORY: "GENERAL",
         };
 
+        // Get parent category label
+        const parentNewResult = t(
+          `categories:REQUEST_CATEGORIES.${newCatKey}.LABEL`,
+          { defaultValue: null },
+        );
+        const parentLabel =
+          parentNewResult && parentNewResult !== newCatKey
+            ? parentNewResult
+            : t(
+                `categories:REQUEST_CATEGORIES.${oldKeyMap[newCatKey] || newCatKey}.LABEL`,
+                { defaultValue: c.catName },
+              );
+
         // Try new key first
         const newResult = t(
           `categories:REQUEST_CATEGORIES.${newCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
           { defaultValue: null },
         );
         if (newResult && newResult !== newSubKey) {
-          return newResult;
+          return `${parentLabel} \u2192 ${newResult}`;
         }
 
         // Fall back to old key structure
         const oldCatKey = oldKeyMap[newCatKey] || newCatKey;
-        return t(
+        const subLabel = t(
           `categories:REQUEST_CATEGORIES.${oldCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
-          {
-            defaultValue: match.catName,
-          },
+          { defaultValue: match.catName },
         );
+        return `${parentLabel} \u2192 ${subLabel}`;
       }
     }
 
@@ -539,10 +550,19 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             ss.catName === selectedKeyOrText || ss.catId === selectedKeyOrText,
         );
         if (match) {
-          return t(
+          const catLabel = t(
+            `categories:REQUEST_CATEGORIES.${c.catName}.LABEL`,
+            { defaultValue: c.catName },
+          );
+          const subLabel = t(
+            `categories:REQUEST_CATEGORIES.${c.catName}.SUBCATEGORIES.${sub.catName}.LABEL`,
+            { defaultValue: sub.catName },
+          );
+          const subSubLabel = t(
             `categories:REQUEST_CATEGORIES.${c.catName}.SUBCATEGORIES.${sub.catName}.SUBCATEGORIES.${match.catName}.LABEL`,
             { defaultValue: match.catName },
           );
+          return `${catLabel} \u2192 ${subLabel} \u2192 ${subSubLabel}`;
         }
       }
     }
@@ -1295,11 +1315,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                               }
                             }}
                             onMouseEnter={() => {
-                              clearTimeout(categoryHoverTimerRef.current);
-                              categoryHoverTimerRef.current = setTimeout(() => {
-                                setHoveredCategory(category);
-                                setHoveredSubcategory(null);
-                              }, 150);
+                              setHoveredCategory(category);
+                              setHoveredSubcategory(null);
                             }}
                           >
                             <span
@@ -1333,9 +1350,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                 : "w-1/2 overflow-y-auto"
                             }
                             style={{ maxHeight: "240px" }}
-                            onMouseEnter={() =>
-                              clearTimeout(categoryHoverTimerRef.current)
-                            }
                           >
                             {hoveredCategory.subCategories.map(
                               (subcategory, index) => (
@@ -1355,11 +1369,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                     borderBottom: "none",
                                   }}
                                   onMouseEnter={() => {
-                                    clearTimeout(subHoverTimerRef.current);
-                                    subHoverTimerRef.current = setTimeout(
-                                      () => setHoveredSubcategory(subcategory),
-                                      150,
-                                    );
+                                    setHoveredSubcategory(subcategory);
                                   }}
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -1406,9 +1416,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                           <div
                             className="w-1/3 overflow-y-auto"
                             style={{ maxHeight: "240px" }}
-                            onMouseEnter={() =>
-                              clearTimeout(subHoverTimerRef.current)
-                            }
                           >
                             {hoveredSubcategory.subCategories.map(
                               (subSubCat, index) => (
