@@ -510,7 +510,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           GENERAL_CATEGORY: "GENERAL",
         };
 
-        // Get parent category label
+        // Get parent category label for "Category → Subcategory" display
         const parentNewResult = t(
           `categories:REQUEST_CATEGORIES.${newCatKey}.LABEL`,
           { defaultValue: null },
