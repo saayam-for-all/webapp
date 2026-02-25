@@ -12,6 +12,7 @@ body {
 .sitemap-container {
   /* padding: 1rem 1rem; */
   background-color: #fff;
+  overflow: hidden;
 }
 
 .sitemap-inner {
