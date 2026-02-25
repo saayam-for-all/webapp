@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import "./NewsOurStories.css";
 
 /* Images (WEBP) */
@@ -237,20 +238,20 @@ export default function NewsOurStories() {
         </div>
       </section>
 
-      <section className="news-our-stories-cta">
-        <h2 className="news-our-stories-cta-title">{t("Want to join us?")}</h2>
-        <p className="news-our-stories-cta-desc">
+      <div className="text-center mt-16 mb-16">
+        <h2 className="text-3xl font-bold mb-4">{t("Want to join us?")}</h2>
+        <p className="text-base mb-8">
           {t(
             "Chat with our community and get in touch with different charity organizations!",
           )}
         </p>
-        <button
-          className="news-our-stories-cta-btn"
-          onClick={() => navigate("/contact")}
+        <Link
+          to="/contact"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"
         >
           {t("Join the community")}
-        </button>
-      </section>
+        </Link>
+      </div>
     </div>
   );
 }
