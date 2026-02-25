@@ -653,25 +653,26 @@ exports[`NewsOurStories renders correctly 1`] = `
             </div>
           </div>
         </section>
-        <section
-          class="news-our-stories-cta"
+        <div
+          class="text-center mt-16 mb-16"
         >
           <h2
-            class="news-our-stories-cta-title"
+            class="text-3xl font-bold mb-4"
           >
             mockTranslate(Want to join us?)
           </h2>
           <p
-            class="news-our-stories-cta-desc"
+            class="text-base mb-8"
           >
             mockTranslate(Chat with our community and get in touch with different charity organizations!)
           </p>
-          <button
-            class="news-our-stories-cta-btn"
+          <mock-link
+            props="{"className":"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"}"
+            to="/contact"
           >
             mockTranslate(Join the community)
-          </button>
-        </section>
+          </mock-link>
+        </div>
       </div>
     </div>
   </body>,
@@ -1324,25 +1325,26 @@ exports[`NewsOurStories renders correctly 1`] = `
           </div>
         </div>
       </section>
-      <section
-        class="news-our-stories-cta"
+      <div
+        class="text-center mt-16 mb-16"
       >
         <h2
-          class="news-our-stories-cta-title"
+          class="text-3xl font-bold mb-4"
         >
           mockTranslate(Want to join us?)
         </h2>
         <p
-          class="news-our-stories-cta-desc"
+          class="text-base mb-8"
         >
           mockTranslate(Chat with our community and get in touch with different charity organizations!)
         </p>
-        <button
-          class="news-our-stories-cta-btn"
+        <mock-link
+          props="{"className":"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"}"
+          to="/contact"
         >
           mockTranslate(Join the community)
-        </button>
-      </section>
+        </mock-link>
+      </div>
     </div>
   </div>,
   "debug": [Function],
