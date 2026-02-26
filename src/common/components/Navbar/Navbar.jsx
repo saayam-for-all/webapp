@@ -43,8 +43,9 @@ const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
-      if (typeof reader.result === "string") {
-        resolve(reader.result);
+      const base64Value = reader.result;
+      if (typeof base64Value === "string") {
+        resolve(base64Value);
       } else {
         reject(new Error("Failed to convert blob to data URL"));
       }
