@@ -81,7 +81,12 @@ export const fetchProfileImage = async (userId) => {
     const response = await api.post(
       endpoints.VIEW_PROFILE_IMAGE,
       { userId },
-      { responseType: "blob" },
+      {
+        responseType: "blob",
+        headers: {
+          Accept: "image/jpeg, image/png",
+        },
+      },
     );
     return response.data instanceof Blob ? response.data : null;
   } catch (error) {

@@ -75,7 +75,10 @@ describe("volunteerServices profile image", () => {
       expect(api.post).toHaveBeenCalledWith(
         expect.any(String),
         { userId: "SID-789" },
-        { responseType: "blob" },
+        {
+          responseType: "blob",
+          headers: { Accept: "image/jpeg, image/png" },
+        },
       );
       expect(result).toBe(blob);
     });
