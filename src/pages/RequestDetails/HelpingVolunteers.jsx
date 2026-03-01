@@ -1,11 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { getVolunteersData } from "../../services/volunteerServices";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [chooseVolunteer, setChooseVolunteer] = useState(false);
-  const [volunteersCount, setVolunteersCount] = useState("");
+  const [chooseVolunteer, setChooseVolunteer] = useState(true);
+  const [volunteersCount, setVolunteersCount] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [sortConfig, setSortConfig] = useState({
@@ -28,66 +29,87 @@ const HelpingVolunteers = () => {
     hour12: true,
   });
 
+  // api integrated code
+
+  const [volunteerData, setVolunteerData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchVolunteers = async () => {
+      try {
+        setLoading(true);
+        const list = await getVolunteersData();
+        setVolunteerData(Array.isArray(list) ? list : []);
+      } catch (err) {
+        setError(err?.message || "Failed to fetch volunteers");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchVolunteers();
+  }, []);
+
   // Dummy volunteer data with added date field
-  const volunteerData = useMemo(
-    () => [
-      {
-        name: "Jane Cooper",
-        cause: "Cooking",
-        phone: "(225) 555-0118",
-        email: "jane@microsoft.com",
-        location: "Boston, USA",
-        rating: "★★★★★",
-        dateAdded: "2023-10-01",
-      },
-      {
-        name: "Floyd Miles",
-        cause: "Banking",
-        phone: "(205) 555-0100",
-        email: "floyd@yahoo.com",
-        location: "New York, USA",
-        rating: "★★★☆☆",
-        dateAdded: "2023-09-25",
-      },
-      {
-        name: "Ronald Richards",
-        cause: "Medical",
-        phone: "(302) 555-0107",
-        email: "ronald@adobe.com",
-        location: "Brasilia, Brazil",
-        rating: "★★★★☆",
-        dateAdded: "2023-10-05",
-      },
-      {
-        name: "Marvin McKinney",
-        cause: "College admission",
-        phone: "(252) 555-0126",
-        email: "marvin@tesla.com",
-        location: "Delhi, India",
-        rating: "★★★★★",
-        dateAdded: "2023-09-30",
-      },
-      {
-        name: "Jerome Bell",
-        cause: "Housing",
-        phone: "(629) 555-0129",
-        email: "jerome@google.com",
-        location: "Texas, USA",
-        rating: "★★★☆☆",
-        dateAdded: "2023-10-10",
-      },
-      {
-        name: "Kathryn Murphy",
-        cause: "Cooking",
-        phone: "(406) 555-0120",
-        email: "kathryn@microsoft.com",
-        location: "Chicago, USA",
-        rating: "★★☆☆☆",
-        dateAdded: "2023-10-08",
-      },
-    ],
-    [],
-  );
+  // const volunteerData = useMemo(
+  //   () => [
+  //     {
+  //       name: "Jane Cooper",
+  //       cause: "Cooking",
+  //       phone: "(225) 555-0118",
+  //       email: "jane@microsoft.com",
+  //       location: "Boston, USA",
+  //       rating: "★★★★★",
+  //       dateAdded: "2023-10-01",
+  //     },
+  //     {
+  //       name: "Floyd Miles",
+  //       cause: "Banking",
+  //       phone: "(205) 555-0100",
+  //       email: "floyd@yahoo.com",
+  //       location: "New York, USA",
+  //       rating: "★★★☆☆",
+  //       dateAdded: "2023-09-25",
+  //     },
+  //     {
+  //       name: "Ronald Richards",
+  //       cause: "Medical",
+  //       phone: "(302) 555-0107",
+  //       email: "ronald@adobe.com",
+  //       location: "Brasilia, Brazil",
+  //       rating: "★★★★☆",
+  //       dateAdded: "2023-10-05",
+  //     },
+  //     {
+  //       name: "Marvin McKinney",
+  //       cause: "College admission",
+  //       phone: "(252) 555-0126",
+  //       email: "marvin@tesla.com",
+  //       location: "Delhi, India",
+  //       rating: "★★★★★",
+  //       dateAdded: "2023-09-30",
+  //     },
+  //     {
+  //       name: "Jerome Bell",
+  //       cause: "Housing",
+  //       phone: "(629) 555-0129",
+  //       email: "jerome@google.com",
+  //       location: "Texas, USA",
+  //       rating: "★★★☆☆",
+  //       dateAdded: "2023-10-10",
+  //     },
+  //     {
+  //       name: "Kathryn Murphy",
+  //       cause: "Cooking",
+  //       phone: "(406) 555-0120",
+  //       email: "kathryn@microsoft.com",
+  //       location: "Chicago, USA",
+  //       rating: "★★☆☆☆",
+  //       dateAdded: "2023-10-08",
+  //     },
+  //   ],
+  //   [],
+  // );
 
   // Columns for the table
   const headers = [
@@ -110,7 +132,11 @@ const HelpingVolunteers = () => {
 
   // Sorting and filtering logic
   const filteredAndSortedVolunteers = useMemo(() => {
-    let filteredVolunteers = volunteerData.filter((volunteer) =>
+    let topN = volunteerData.slice(
+      0,
+      Math.min(volunteerData.length, volunteersCount),
+    );
+    let filteredVolunteers = topN.filter((volunteer) =>
       volunteer.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
@@ -139,7 +165,7 @@ const HelpingVolunteers = () => {
     });
 
     return filteredVolunteers;
-  }, [volunteerData, searchTerm, filter, sortConfig]);
+  }, [volunteerData, searchTerm, filter, sortConfig, volunteersCount]);
 
   const totalRows = filteredAndSortedVolunteers.length;
   const totalPages = Math.ceil(totalRows / itemsPerPage);
@@ -290,7 +316,7 @@ const HelpingVolunteers = () => {
                   {`${volunteersAssigned} Assigned`}
                 </div>
               </div>
-              <div className="text-md text-gray-400 font-light">{`${formattedDate}`}</div>
+              <div className="text-md text-gray-600 font-light">{`${formattedDate}`}</div>
             </div>
           )}
 

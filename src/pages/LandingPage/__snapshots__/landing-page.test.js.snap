@@ -6,173 +6,441 @@ exports[`LandingPage renders correctly 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="w-full"
+        class="w-full overflow-hidden"
       >
-        <section
-          class="video-section"
+        <div
+          class="w-full"
         >
           <div
-            class="video-overlay flex flex-col justify-center"
+            class="w-full flex flex-col items-center justify-center"
           >
             <div
-              class="flex flex-col items-end justify-end"
+              class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px] text-center px-4"
             >
-              <p
-                class="landing-title"
-              >
-                Sayaam For All
-              </p>
-              <h6
-                class="landing-subtitle"
-              >
-                Connecting Help to those who need it
-              </h6>
+              mockTranslate(Real help. Real people. Right when you need it.)
             </div>
-            <button
-              class="join-community-button text-white bg-blue-500 hover:bg-blue-700 rounded-lg px-8 py-2 text-lg hover:underline"
+            <h1
+              class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4"
             >
-              Join the Community
-            </button>
+              mockTranslate(Need help? Here to help?)
+            </h1>
           </div>
           <div
-            class="video-wrapper"
+            class="w-full py-3"
           >
-            <iframe
-              allow="autoplay"
-              id="landing-iframe"
-              src="https://www.youtube.com/embed/9CBLVoSSuwM?autoplay=1&mute=1&loop=1&controls=1&rel=0&playlist=9CBLVoSSuwM&enablejsapi=1"
-              title="YouTube Video"
-            />
+            <div
+              class="overflow-x-auto"
+            >
+              <div
+                class="flex items-center justify-center px-4 min-w-max mx-auto"
+              >
+                <span
+                  class="flex items-center"
+                >
+                  <span
+                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                    style="background-color: rgb(219, 234, 254);"
+                  >
+                    <span
+                      class="text-sm font-medium"
+                      style="color: rgb(30, 64, 175);"
+                    >
+                      mockTranslate(TOTAL_REQUESTS)
+                      :
+                    </span>
+                    <span
+                      class="text-sm font-bold tabular-nums"
+                      style="color: rgb(30, 64, 175);"
+                    >
+                      0
+                    </span>
+                  </span>
+                  <span
+                    class="mx-4 text-gray-300 select-none font-light"
+                  >
+                    |
+                  </span>
+                </span>
+                <span
+                  class="flex items-center"
+                >
+                  <span
+                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                    style="background-color: rgb(220, 252, 231);"
+                  >
+                    <span
+                      class="text-sm font-medium"
+                      style="color: rgb(22, 101, 52);"
+                    >
+                      mockTranslate(REQUESTS_RESOLVED)
+                      :
+                    </span>
+                    <span
+                      class="text-sm font-bold tabular-nums"
+                      style="color: rgb(22, 101, 52);"
+                    >
+                      0
+                    </span>
+                  </span>
+                  <span
+                    class="mx-4 text-gray-300 select-none font-light"
+                  >
+                    |
+                  </span>
+                </span>
+                <span
+                  class="flex items-center"
+                >
+                  <span
+                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                    style="background-color: rgb(237, 233, 254);"
+                  >
+                    <span
+                      class="text-sm font-medium"
+                      style="color: rgb(91, 33, 182);"
+                    >
+                      mockTranslate(TOTAL_VOLUNTEERS)
+                      :
+                    </span>
+                    <span
+                      class="text-sm font-bold tabular-nums"
+                      style="color: rgb(91, 33, 182);"
+                    >
+                      0
+                    </span>
+                  </span>
+                  <span
+                    class="mx-4 text-gray-300 select-none font-light"
+                  >
+                    |
+                  </span>
+                </span>
+                <span
+                  class="flex items-center"
+                >
+                  <span
+                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                    style="background-color: rgb(255, 237, 213);"
+                  >
+                    <span
+                      class="text-sm font-medium"
+                      style="color: rgb(154, 52, 18);"
+                    >
+                      mockTranslate(TOTAL_BENEFICIARIES)
+                      :
+                    </span>
+                    <span
+                      class="text-sm font-bold tabular-nums"
+                      style="color: rgb(154, 52, 18);"
+                    >
+                      0
+                    </span>
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
         <div
-          class="flex flex-row items-center bg-white h-80 mt-5 gap-10"
+          class="w-full flex flex-row justify-center mt-8"
         >
           <div
-            class="flex flex-col justify-start items-start w-3/5 p-10 h-full"
+            class="w-[22%] h-[50%] flex flex-col justify-center items-center"
+          >
+            <img
+              alt="mockTranslate(SARVE_JANA_SUKHINO_BHAVANTU_ALT)"
+              class="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+              src=""
+            />
+            <h3
+              class="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center"
+            >
+              mockTranslate(Sarve jana sukhino bhavantu)
+            </h3>
+            <div
+              class="text-xs md:text-sm md:text-lg text-gray-600 text-center"
+            >
+              mockTranslate(May all live happily.)
+            </div>
+          </div>
+          <div
+            class="w-[33%] h-full flex flex-col justify-center items-center"
+          >
+            <img
+              alt="mockTranslate(JNANAM_VARDHATI_SANCHAYAT_ALT)"
+              class="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+              src=""
+            />
+            <h3
+              class="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
+            >
+              mockTranslate(jñānam vardhati sanchayāt)
+            </h3>
+            <div
+              class="text-xs md:text-sm  md:text-lg text-gray-600 text-center"
+            >
+              mockTranslate(Sharing knowledge expands one's own understanding and the knowledge of others.)
+            </div>
+          </div>
+          <div
+            class="w-[22%] h-full flex flex-col justify-center items-center"
+          >
+            <img
+              alt="mockTranslate(MANAVA_SEVAYE_MADHAVA_SEVA_ALT)"
+              class="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+              src=""
+            />
+            <h3
+              class="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
+            >
+              mockTranslate(Manava sevaye Madhava seva)
+            </h3>
+            <div
+              class="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3"
+            >
+              mockTranslate(Service to mankind is Service to God.)
+            </div>
+          </div>
+        </div>
+        <mock-carousel />
+        <ins
+          class="adsbygoogle"
+          data-ad-client="ca-pub-3674612346757233"
+          data-ad-format="auto"
+          data-ad-slot="2901014906"
+          data-full-width-responsive="true"
+          style="display: block;"
+        />
+        <div
+          class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
+        >
+          <div
+            class="w-full flex flex-row overflow-hidden hidden"
+          >
+            <div
+              class="scroll imgBox"
+            >
+              <div>
+                <img
+                  class="w-[150px] ml-[75px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  class="w-[125px]"
+                  src=""
+                />
+              </div>
+              <div>
+                <img
+                  class="w-[150px] ml-[75px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  src=""
+                />
+                <img
+                  class="w-[200px]"
+                  src=""
+                />
+                <img
+                  class="w-[125px]"
+                  src=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[200px] lg:mb-[100px] px-4 md:px-0"
+        >
+          <div
+            class="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full"
           >
             <h3
-              class="font-bold text-3xl h-1/3 w-2/3 pb-5"
+              class="font-bold text-2xl md:text-4xl w-full md:w-3/4 mb-4 md:mb-[10px]"
             >
-              Creating a World Where Help is Always Within Reach
+              mockTranslate(Creating a World Where Help is Always Within Reach)
             </h3>
             <p
-              class="h-1/3 text-lg text-gray-500"
+              class="text-base md:text-lg text-gray-500 md:h-1/3"
             >
-              Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.
+              mockTranslate(Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.)
             </p>
             <button
-              class="mt-10 text-sm text-gray-500 hover:text-blue-500 hover:underline"
+              class="mt-6 md:mt-[80px] lg:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             >
-              How We Operate →
+              mockTranslate(Our Mission)
+               →
             </button>
           </div>
           <div
-            class="flex flex-row w-2/5 h-full gap-5 overflow-hidden"
+            class="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center"
           >
             <img
-              alt="A sunny day with two people looking at each other comfortingly"
-              class="w-1/2 rounded-lg"
+              alt="mockTranslate(LANDING_IMAGE_ALT_1)"
+              class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
               src=""
             />
             <img
-              alt="A joyful family stands in a lush field on a sunny day"
-              class="w-1/2 rounded-lg"
+              alt="mockTranslate(LANDING_IMAGE_ALT_2)"
+              class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
               src=""
             />
           </div>
         </div>
-        <mock-carousel />
         <div
-          class="community-container"
+          class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0"
         >
           <div
-            class="cards-section"
+            class="order-1 md:order-2 flex flex-col justify-start items-start w-full md:w-1/2 p-4 md:p-10 h-auto md:h-full"
           >
-            <div
-              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
-              style="margin-top: 0px;"
+            <h3
+              class="font-bold text-2xl md:text-4xl w-full md:w-2/3 pb-4 md:pb-5"
             >
-              <img
-                alt="Red rescue jacket and cap with Red Cross logos"
-                class="absolute w-full h-full object-cover"
-                src=""
-              />
-              <div
-                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
-              >
-                <div
-                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
-                >
-                  <p
-                    class="text-white text-lg font-bold text-center"
-                  >
-                    Take help from our Volunteers
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
-              style="margin-top: 120px;"
+              mockTranslate(How We Operate)
+            </h3>
+            <p
+              class="text-base md:text-lg text-gray-500"
             >
-              <img
-                alt="A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
-                class="absolute w-full h-full object-cover"
-                src=""
-              />
-              <div
-                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
-              >
-                <div
-                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
-                >
-                  <p
-                    class="text-white text-lg font-bold text-center"
-                  >
-                    Planning and budgeting advice for travel
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
-              style="margin-top: 240px;"
-            >
-              <img
-                alt="Woman hiking at sunset with a backpack and trekking poles, set against a mountainous landscape"
-                class="absolute w-full h-full object-cover"
-                src=""
-              />
-              <div
-                class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
-              >
-                <div
-                  class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
-                >
-                  <p
-                    class="text-white text-lg font-bold text-center"
-                  >
-                    A whole new community of charity organisations
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="text-section"
-          >
-            <h2>
-              Discover our community
-            </h2>
-            <p>
-              Chat with our community and get in touch with different charity organisations!
+              mockTranslate(Watch our 5 minute video to understand how Saayam for All works and how we make a difference.)
             </p>
             <button
-              class="join-btn"
+              class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             >
-              Join the community
+              mockTranslate(Learn More)
+               →
             </button>
+          </div>
+          <div
+            class="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5"
+          >
+            <iframe
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              class="landing-iframe "
+              src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0&hl=en&cc_lang_pref=en"
+              title="mockTranslate(YOUTUBE_VIDEO_TITLE)"
+            />
+          </div>
+        </div>
+        <div
+          class="bg-gray-100 flex flex-col w-full items-center justify-center"
+        >
+          <h1
+            class="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center"
+          >
+            mockTranslate(One Platform. Many Ways to Contribute.)
+          </h1>
+          <div
+            class="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center"
+          >
+            mockTranslate(Learn about different roles in our ecosystem and how each one contributes to creating an impact.)
+          </div>
+          <div
+            class="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]"
+          >
+            <div
+              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style="background-image: url();"
+            >
+              <div
+                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+              >
+                <h3
+                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                >
+                  mockTranslate(Beneficiaries)
+                </h3>
+                <h6
+                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+                >
+                  mockTranslate(Receive help for their requests)
+                </h6>
+              </div>
+            </div>
+            <div
+              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style="background-image: url();"
+            >
+              <div
+                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+              >
+                <h3
+                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                >
+                  mockTranslate(Volunteers)
+                </h3>
+                <h6
+                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+                >
+                  mockTranslate(Provide guidance and solutions to beneficiaries)
+                </h6>
+              </div>
+            </div>
+            <div
+              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style="background-image: url();"
+            >
+              <div
+                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+              >
+                <h3
+                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                >
+                  mockTranslate(ORGANIZATIONS)
+                </h3>
+                <h6
+                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+                >
+                  mockTranslate(Offer necessary support to beneficiaries)
+                </h6>
+              </div>
+            </div>
+            <div
+              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              style="background-image: url();"
+            >
+              <div
+                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+              >
+                <h3
+                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                >
+                  mockTranslate(Donors)
+                </h3>
+                <h6
+                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+                >
+                  mockTranslate(Provide financial assistance to voluntary organization)
+                </h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -180,173 +448,441 @@ exports[`LandingPage renders correctly 1`] = `
   </body>,
   "container": <div>
     <div
-      class="w-full"
+      class="w-full overflow-hidden"
     >
-      <section
-        class="video-section"
+      <div
+        class="w-full"
       >
         <div
-          class="video-overlay flex flex-col justify-center"
+          class="w-full flex flex-col items-center justify-center"
         >
           <div
-            class="flex flex-col items-end justify-end"
+            class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px] text-center px-4"
           >
-            <p
-              class="landing-title"
-            >
-              Sayaam For All
-            </p>
-            <h6
-              class="landing-subtitle"
-            >
-              Connecting Help to those who need it
-            </h6>
+            mockTranslate(Real help. Real people. Right when you need it.)
           </div>
-          <button
-            class="join-community-button text-white bg-blue-500 hover:bg-blue-700 rounded-lg px-8 py-2 text-lg hover:underline"
+          <h1
+            class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4"
           >
-            Join the Community
-          </button>
+            mockTranslate(Need help? Here to help?)
+          </h1>
         </div>
         <div
-          class="video-wrapper"
+          class="w-full py-3"
         >
-          <iframe
-            allow="autoplay"
-            id="landing-iframe"
-            src="https://www.youtube.com/embed/9CBLVoSSuwM?autoplay=1&mute=1&loop=1&controls=1&rel=0&playlist=9CBLVoSSuwM&enablejsapi=1"
-            title="YouTube Video"
-          />
+          <div
+            class="overflow-x-auto"
+          >
+            <div
+              class="flex items-center justify-center px-4 min-w-max mx-auto"
+            >
+              <span
+                class="flex items-center"
+              >
+                <span
+                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                  style="background-color: rgb(219, 234, 254);"
+                >
+                  <span
+                    class="text-sm font-medium"
+                    style="color: rgb(30, 64, 175);"
+                  >
+                    mockTranslate(TOTAL_REQUESTS)
+                    :
+                  </span>
+                  <span
+                    class="text-sm font-bold tabular-nums"
+                    style="color: rgb(30, 64, 175);"
+                  >
+                    0
+                  </span>
+                </span>
+                <span
+                  class="mx-4 text-gray-300 select-none font-light"
+                >
+                  |
+                </span>
+              </span>
+              <span
+                class="flex items-center"
+              >
+                <span
+                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                  style="background-color: rgb(220, 252, 231);"
+                >
+                  <span
+                    class="text-sm font-medium"
+                    style="color: rgb(22, 101, 52);"
+                  >
+                    mockTranslate(REQUESTS_RESOLVED)
+                    :
+                  </span>
+                  <span
+                    class="text-sm font-bold tabular-nums"
+                    style="color: rgb(22, 101, 52);"
+                  >
+                    0
+                  </span>
+                </span>
+                <span
+                  class="mx-4 text-gray-300 select-none font-light"
+                >
+                  |
+                </span>
+              </span>
+              <span
+                class="flex items-center"
+              >
+                <span
+                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                  style="background-color: rgb(237, 233, 254);"
+                >
+                  <span
+                    class="text-sm font-medium"
+                    style="color: rgb(91, 33, 182);"
+                  >
+                    mockTranslate(TOTAL_VOLUNTEERS)
+                    :
+                  </span>
+                  <span
+                    class="text-sm font-bold tabular-nums"
+                    style="color: rgb(91, 33, 182);"
+                  >
+                    0
+                  </span>
+                </span>
+                <span
+                  class="mx-4 text-gray-300 select-none font-light"
+                >
+                  |
+                </span>
+              </span>
+              <span
+                class="flex items-center"
+              >
+                <span
+                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+                  style="background-color: rgb(255, 237, 213);"
+                >
+                  <span
+                    class="text-sm font-medium"
+                    style="color: rgb(154, 52, 18);"
+                  >
+                    mockTranslate(TOTAL_BENEFICIARIES)
+                    :
+                  </span>
+                  <span
+                    class="text-sm font-bold tabular-nums"
+                    style="color: rgb(154, 52, 18);"
+                  >
+                    0
+                  </span>
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
       <div
-        class="flex flex-row items-center bg-white h-80 mt-5 gap-10"
+        class="w-full flex flex-row justify-center mt-8"
       >
         <div
-          class="flex flex-col justify-start items-start w-3/5 p-10 h-full"
+          class="w-[22%] h-[50%] flex flex-col justify-center items-center"
+        >
+          <img
+            alt="mockTranslate(SARVE_JANA_SUKHINO_BHAVANTU_ALT)"
+            class="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+            src=""
+          />
+          <h3
+            class="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center"
+          >
+            mockTranslate(Sarve jana sukhino bhavantu)
+          </h3>
+          <div
+            class="text-xs md:text-sm md:text-lg text-gray-600 text-center"
+          >
+            mockTranslate(May all live happily.)
+          </div>
+        </div>
+        <div
+          class="w-[33%] h-full flex flex-col justify-center items-center"
+        >
+          <img
+            alt="mockTranslate(JNANAM_VARDHATI_SANCHAYAT_ALT)"
+            class="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+            src=""
+          />
+          <h3
+            class="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
+          >
+            mockTranslate(jñānam vardhati sanchayāt)
+          </h3>
+          <div
+            class="text-xs md:text-sm  md:text-lg text-gray-600 text-center"
+          >
+            mockTranslate(Sharing knowledge expands one's own understanding and the knowledge of others.)
+          </div>
+        </div>
+        <div
+          class="w-[22%] h-full flex flex-col justify-center items-center"
+        >
+          <img
+            alt="mockTranslate(MANAVA_SEVAYE_MADHAVA_SEVA_ALT)"
+            class="aspect-[.77] w-full object-cover object-center rounded-[10px]"
+            src=""
+          />
+          <h3
+            class="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
+          >
+            mockTranslate(Manava sevaye Madhava seva)
+          </h3>
+          <div
+            class="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3"
+          >
+            mockTranslate(Service to mankind is Service to God.)
+          </div>
+        </div>
+      </div>
+      <mock-carousel />
+      <ins
+        class="adsbygoogle"
+        data-ad-client="ca-pub-3674612346757233"
+        data-ad-format="auto"
+        data-ad-slot="2901014906"
+        data-full-width-responsive="true"
+        style="display: block;"
+      />
+      <div
+        class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
+      >
+        <div
+          class="w-full flex flex-row overflow-hidden hidden"
+        >
+          <div
+            class="scroll imgBox"
+          >
+            <div>
+              <img
+                class="w-[150px] ml-[75px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                class="w-[125px]"
+                src=""
+              />
+            </div>
+            <div>
+              <img
+                class="w-[150px] ml-[75px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                src=""
+              />
+              <img
+                class="w-[200px]"
+                src=""
+              />
+              <img
+                class="w-[125px]"
+                src=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[200px] lg:mb-[100px] px-4 md:px-0"
+      >
+        <div
+          class="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full"
         >
           <h3
-            class="font-bold text-3xl h-1/3 w-2/3 pb-5"
+            class="font-bold text-2xl md:text-4xl w-full md:w-3/4 mb-4 md:mb-[10px]"
           >
-            Creating a World Where Help is Always Within Reach
+            mockTranslate(Creating a World Where Help is Always Within Reach)
           </h3>
           <p
-            class="h-1/3 text-lg text-gray-500"
+            class="text-base md:text-lg text-gray-500 md:h-1/3"
           >
-            Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.
+            mockTranslate(Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.)
           </p>
           <button
-            class="mt-10 text-sm text-gray-500 hover:text-blue-500 hover:underline"
+            class="mt-6 md:mt-[80px] lg:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
           >
-            How We Operate →
+            mockTranslate(Our Mission)
+             →
           </button>
         </div>
         <div
-          class="flex flex-row w-2/5 h-full gap-5 overflow-hidden"
+          class="flex flex-row w-full md:w-2/5 h-auto md:h-full gap-4 md:gap-5 overflow-hidden justify-center"
         >
           <img
-            alt="A sunny day with two people looking at each other comfortingly"
-            class="w-1/2 rounded-lg"
+            alt="mockTranslate(LANDING_IMAGE_ALT_1)"
+            class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover ml-[10px] border-2"
             src=""
           />
           <img
-            alt="A joyful family stands in a lush field on a sunny day"
-            class="w-1/2 rounded-lg"
+            alt="mockTranslate(LANDING_IMAGE_ALT_2)"
+            class="w-[45%] md:w-1/2 h-[180px] md:h-auto rounded-2xl md:rounded-md object-cover"
             src=""
           />
         </div>
       </div>
-      <mock-carousel />
       <div
-        class="community-container"
+        class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0"
       >
         <div
-          class="cards-section"
+          class="order-1 md:order-2 flex flex-col justify-start items-start w-full md:w-1/2 p-4 md:p-10 h-auto md:h-full"
         >
-          <div
-            class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
-            style="margin-top: 0px;"
+          <h3
+            class="font-bold text-2xl md:text-4xl w-full md:w-2/3 pb-4 md:pb-5"
           >
-            <img
-              alt="Red rescue jacket and cap with Red Cross logos"
-              class="absolute w-full h-full object-cover"
-              src=""
-            />
-            <div
-              class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
-            >
-              <div
-                class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
-              >
-                <p
-                  class="text-white text-lg font-bold text-center"
-                >
-                  Take help from our Volunteers
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
-            style="margin-top: 120px;"
+            mockTranslate(How We Operate)
+          </h3>
+          <p
+            class="text-base md:text-lg text-gray-500"
           >
-            <img
-              alt="A woman with a backpack walks down a narrow, cobblestone alley between colorful, old buildings"
-              class="absolute w-full h-full object-cover"
-              src=""
-            />
-            <div
-              class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
-            >
-              <div
-                class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
-              >
-                <p
-                  class="text-white text-lg font-bold text-center"
-                >
-                  Planning and budgeting advice for travel
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="relative w-[200px] h-[300px] rounded-[25px] overflow-hidden"
-            style="margin-top: 240px;"
-          >
-            <img
-              alt="Woman hiking at sunset with a backpack and trekking poles, set against a mountainous landscape"
-              class="absolute w-full h-full object-cover"
-              src=""
-            />
-            <div
-              class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
-            >
-              <div
-                class="border-2 border-white rounded-[25px] w-full h-full p-5 mr-2 mt-2"
-              >
-                <p
-                  class="text-white text-lg font-bold text-center"
-                >
-                  A whole new community of charity organisations
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="text-section"
-        >
-          <h2>
-            Discover our community
-          </h2>
-          <p>
-            Chat with our community and get in touch with different charity organisations!
+            mockTranslate(Watch our 5 minute video to understand how Saayam for All works and how we make a difference.)
           </p>
           <button
-            class="join-btn"
+            class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
           >
-            Join the community
+            mockTranslate(Learn More)
+             →
           </button>
+        </div>
+        <div
+          class="order-2 md:order-1 w-full md:w-1/2 h-[200px] md:h-full flex justify-center md:justify-start overflow-hidden md:ml-5"
+        >
+          <iframe
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            class="landing-iframe "
+            src="https://www.youtube.com/embed/zupN0-zXrLQ?controls=1&rel=0&hl=en&cc_lang_pref=en"
+            title="mockTranslate(YOUTUBE_VIDEO_TITLE)"
+          />
+        </div>
+      </div>
+      <div
+        class="bg-gray-100 flex flex-col w-full items-center justify-center"
+      >
+        <h1
+          class="w-[90%] font-bold text-3xl md:text-4xl tracking-wide mb-[25px] mt-[25px] md:mb-[50px] md:mt-[50px] text-center"
+        >
+          mockTranslate(One Platform. Many Ways to Contribute.)
+        </h1>
+        <div
+          class="w-[90%] md:w-[60%] text-sm md:text-lg text-black mb-[20px] md:mb-[40px] text-center"
+        >
+          mockTranslate(Learn about different roles in our ecosystem and how each one contributes to creating an impact.)
+        </div>
+        <div
+          class="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]"
+        >
+          <div
+            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            style="background-image: url();"
+          >
+            <div
+              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+            >
+              <h3
+                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+              >
+                mockTranslate(Beneficiaries)
+              </h3>
+              <h6
+                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+              >
+                mockTranslate(Receive help for their requests)
+              </h6>
+            </div>
+          </div>
+          <div
+            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            style="background-image: url();"
+          >
+            <div
+              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+            >
+              <h3
+                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+              >
+                mockTranslate(Volunteers)
+              </h3>
+              <h6
+                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+              >
+                mockTranslate(Provide guidance and solutions to beneficiaries)
+              </h6>
+            </div>
+          </div>
+          <div
+            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            style="background-image: url();"
+          >
+            <div
+              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+            >
+              <h3
+                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+              >
+                mockTranslate(ORGANIZATIONS)
+              </h3>
+              <h6
+                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+              >
+                mockTranslate(Offer necessary support to beneficiaries)
+              </h6>
+            </div>
+          </div>
+          <div
+            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            style="background-image: url();"
+          >
+            <div
+              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+            >
+              <h3
+                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+              >
+                mockTranslate(Donors)
+              </h3>
+              <h6
+                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+              >
+                mockTranslate(Provide financial assistance to voluntary organization)
+              </h6>
+            </div>
+          </div>
         </div>
       </div>
     </div>

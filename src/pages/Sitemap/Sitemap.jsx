@@ -1,10 +1,22 @@
 import React from "react";
 import "./Sitemap.css";
+import { useNavigate } from "react-router-dom";
+import HorizontalAd from "#components/Ads/HorizontalAd";
 
 const Sitemap = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="sitemap-container">
       <div className="sitemap-inner">
+        <div className="w-full mb-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> Back
+          </button>
+        </div>
         <h1 className="sitemap-title">Sitemap</h1>
         <div className="sitemap-content-wrapper">
           {/* Row 1: Home */}
@@ -31,7 +43,7 @@ const Sitemap = () => {
                     <a href="/our-mission">Our Mission</a>
                   </li>
                   <li>
-                    <a href="/directors">Our Team</a>
+                    <a href="/our-team">Our Team</a>
                   </li>
                 </ul>
               </div>
@@ -76,6 +88,7 @@ const Sitemap = () => {
           </div>
         </div>
       </div>
+      <HorizontalAd />
     </div>
   );
 };

@@ -5,13 +5,18 @@ import { useSelector } from "react-redux";
 import { GET_NOTIFICATIONS } from "../../services/requestServices";
 import { useNotifications } from "../../context/NotificationContext";
 import { NotificationProvider } from "../../context/NotificationContext";
+import { useTranslation } from "react-i18next";
+import Pagination from "../../common/components/Pagination/Pagination";
 
 export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
+  const { t } = useTranslation(["common"]);
   const { user } = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.idToken);
   const { dispatch, state } = useNotifications();
   const notifications = state.notifications;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const typeIcons = {
     Volunteer: <BiDonateHeart className="mr-1 text-5xl md:text-6xl" />,
@@ -29,6 +34,18 @@ export default function NotificationUI() {
     return true;
   });
 
+  const totalRows = filteredNotifications.length;
+  const totalPages = Math.max(1, Math.ceil(totalRows / rowsPerPage));
+  const startIdx = (currentPage - 1) * rowsPerPage;
+  const pageItems = filteredNotifications.slice(
+    startIdx,
+    startIdx + rowsPerPage,
+  );
+
+  useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [totalPages, currentPage]);
+
   const handleAccept = async (note) => {
     // Also need to call a function whihch will update the data in the database cuch that this userid has acceoted the task.
     // It should be posting the status of the
@@ -38,7 +55,7 @@ export default function NotificationUI() {
         payload: {
           id: note.id,
           data: {
-            message: " ✅ You accepted this request.",
+            message: `✅ ${t("ACCEPT_SUCCESS_MESSAGE")}`,
             status: "accepted",
           },
         },
@@ -55,7 +72,10 @@ export default function NotificationUI() {
         type: "UPDATE_NOTIFICATION",
         payload: {
           id: note.id,
-          data: { message: " ❌ You denied this request.", status: "denied" },
+          data: {
+            message: `❌ ${t("DENY_SUCCESS_MESSAGE")}`,
+            status: "denied",
+          },
         },
       });
     } catch (error) {
@@ -78,13 +98,16 @@ export default function NotificationUI() {
                 ? "bg-blue-600 text-white"
                 : "bg-blue-100 text-blue-600 hover:text-blue-600"
             }`}
-            onClick={() => setFilter(type)}
+            onClick={() => {
+              setFilter(type);
+              setCurrentPage(1);
+            }}
           >
             {type === "all"
-              ? "All"
+              ? t("ALL")
               : type === "volunteer"
-                ? "Volunteer Match"
-                : "Help Request"}
+                ? t("VOLUNTEER_MATCH")
+                : t("HELP_REQUEST_BUTTON")}
           </button>
         ))}
         <div className="ml-auto">
@@ -95,7 +118,7 @@ export default function NotificationUI() {
       </div>
 
       <div className="divide-y divide-gray-300 bg-white rounded-lg shadow">
-        {filteredNotifications.map((note) => (
+        {pageItems.map((note) => (
           <div
             key={note.id}
             className="p-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
@@ -104,11 +127,11 @@ export default function NotificationUI() {
               <div className="text-2xl sm:text-3xl">{typeIcons[note.type]}</div>
               <div className="flex-1">
                 <h3 className="font-bold text-gray-800 text-base">
-                  {note.title}
+                  {note.titleKey ? t(note.titleKey) : note.title}
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">{note.message}</p>
 
-                {note.title === "New Match Request" &&
+                {note.titleKey === "NEW_MATCH_REQUEST" &&
                   !note.message.includes("✅") &&
                   !note.message.includes("❌") && (
                     <div className="mt-3 flex flex-wrap gap-4 sm:flex-nowrap">
@@ -116,23 +139,36 @@ export default function NotificationUI() {
                         className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
                         onClick={() => handleAccept(note)}
                       >
-                        Accept
+                        {t("ACCEPT")}
                       </button>
                       <button
                         className="flex-1 sm:flex-none border border-red-500 hover:bg-red-700 hover:text-white text-red-500 px-4 py-1 rounded"
                         onClick={() => handleDeny(note)}
                       >
-                        Deny
+                        {t("DENY")}
                       </button>
                     </div>
                   )}
               </div>
             </div>
-            <div className="text-sm text-gray-400 mt-2 sm:mt-0 sm:text-right">
+            <div className="text-sm text-gray-600 mt-2 sm:mt-0 sm:text-right">
               {note.date}
             </div>
           </div>
         ))}
+      </div>
+      <div className="mt-4">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          rowsPerPage={rowsPerPage}
+          totalRows={totalRows}
+          onRowsPerPageChange={(n) => {
+            setRowsPerPage(n);
+            setCurrentPage(1);
+          }}
+        />
       </div>
     </div>
   );

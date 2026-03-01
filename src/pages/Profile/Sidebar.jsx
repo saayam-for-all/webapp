@@ -1,7 +1,16 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { FaLock, FaTools, FaUserCircle } from "react-icons/fa";
-import { FiChevronRight, FiEdit2 } from "react-icons/fi";
+import {
+  FaUserCircle,
+  FaLock,
+  FaTags,
+  FaClock,
+  FaCog,
+  FaSignOutAlt,
+} from "react-icons/fa";
+// REMOVED: FaCalendarAlt for preferences
+import { FiChevronRight } from "react-icons/fi";
+import { FiEdit2 } from "react-icons/fi";
 
 function Sidebar({
   profilePhoto,
@@ -11,9 +20,9 @@ function Sidebar({
   activeTab,
   openModal,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   return (
-    <div className="flex flex-col justify-between h-full p-4 bg-white w-60 border-r">
+    <div className="flex flex-col justify-between h-1/2 p-4 bg-white w-100 border-r">
       <div className="text-center mb-8">
         <div className="relative mb-4">
           {profilePhoto ? (
@@ -28,7 +37,7 @@ function Sidebar({
               className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto cursor-pointer border-2 border-dashed border-gray-300"
               onClick={openModal}
             >
-              <span className="text-gray-400">{t("UPLOAD_PHOTO")}</span>
+              <span className="text-gray-600">{t("UPLOAD_PHOTO")}</span>
             </div>
           )}
           <div
@@ -45,10 +54,10 @@ function Sidebar({
       {/* Sidebar Tabs */}
       <div className="space-y-1">
         <button
-          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
             activeTab === "profile"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
+              : "hover:bg-gray-100 text-gray-700"
           }`}
           onClick={() => handleTabChange("profile")}
         >
@@ -57,15 +66,15 @@ function Sidebar({
             {t("YOUR_PROFILE")}
           </div>
           {activeTab !== "profile" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
         <button
-          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
             activeTab === "personal"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
+              : "hover:bg-gray-100 text-gray-700"
           }`}
           onClick={() => handleTabChange("personal")}
         >
@@ -74,15 +83,32 @@ function Sidebar({
             {t("PERSONAL_INFORMATION")}
           </div>
           {activeTab !== "personal" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
         <button
-          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "uploadDocument"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("uploadDocument")}
+        >
+          <div className="flex items-center">
+            <FaUserCircle className="mr-2 text-gray-500" />
+            {t("IDENTITY_DOCUMENT")}
+          </div>
+          {activeTab !== "uploadDocument" && (
+            <FiChevronRight className="text-gray-600" />
+          )}
+        </button>
+
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
             activeTab === "password"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
+              : "hover:bg-gray-100 text-gray-700"
           }`}
           onClick={() => handleTabChange("password")}
         >
@@ -91,15 +117,15 @@ function Sidebar({
             {t("CHANGE_PASSWORD")}
           </div>
           {activeTab !== "password" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
         <button
-          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
             activeTab === "organization"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
+              : "hover:bg-gray-100 text-gray-700"
           }`}
           onClick={() => handleTabChange("organization")}
         >
@@ -108,24 +134,79 @@ function Sidebar({
             {t("ORGANIZATION_DETAILS")}
           </div>
           {activeTab !== "organization" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
 
+        {/* Skills Tab */}
         <button
-          className={`flex items-center justify-between py-3 px-3 w-full text-left ${
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
             activeTab === "skills"
               ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700 border-b-2 border-transparent"
+              : "hover:bg-gray-100 text-gray-700"
           }`}
           onClick={() => handleTabChange("skills")}
         >
           <div className="flex items-center">
-            <FaTools className="mr-2 text-gray-500" />
+            <FaTags className="mr-2 text-gray-500" />
             {t("SKILLS")}
           </div>
           {activeTab !== "skills" && (
-            <FiChevronRight className="text-gray-400" />
+            <FiChevronRight className="text-gray-600" />
+          )}
+        </button>
+
+        {/* Availability Tab */}
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "availability"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("availability")}
+        >
+          <div className="flex items-center">
+            <FaClock className="mr-2 text-gray-500" />
+            {t("AVAILABILITY")}
+          </div>
+          {activeTab !== "availability" && (
+            <FiChevronRight className="text-gray-600" />
+          )}
+        </button>
+
+        {/* Preferences Tab */}
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "preferences"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("preferences")}
+        >
+          <div className="flex items-center">
+            <FaCog className="mr-2 text-gray-500" />
+            {t("PREFERENCES")}
+          </div>
+          {activeTab !== "preferences" && (
+            <FiChevronRight className="text-gray-600" />
+          )}
+        </button>
+
+        {/* Sign Off Tab */}
+        <button
+          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
+            activeTab === "signoff"
+              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => handleTabChange("signoff")}
+        >
+          <div className="flex items-center">
+            <FaSignOutAlt className="mr-2 text-gray-500" />
+            {t("SIGN_OFF")}
+          </div>
+          {activeTab !== "signoff" && (
+            <FiChevronRight className="text-gray-600" />
           )}
         </button>
       </div>

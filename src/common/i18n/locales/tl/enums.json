@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "Sarili",
+    "OTHER": "Iba"
+  },
+  "requestPriority": {
+    "LOW": "Mababa",
+    "MEDIUM": "Katamtaman",
+    "HIGH": "Mataas",
+    "CRITICAL": "Kritikal"
+  },
+  "requestStatus": {
+    "CREATED": "Nilikha",
+    "MATCHING VOLUNTEER": "Naghahanap ng Boluntaryo",
+    "MANAGED": "Pinamamahalaan",
+    "RESOLVED": "Nalutas",
+    "CANCELLED": "Kinansela",
+    "DELETED": "Tinanggal"
+  },
+  "requestType": {
+    "INPERSON": "Personal",
+    "REMOTE": "Malayuan"
+  }
+}

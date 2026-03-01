@@ -93,20 +93,22 @@
   --------------------------------------------------- */
 .footer-bottom-grid {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 140px;
-  max-width: 1000px; /* wider to fit everything inline */
-  margin: 0 auto;
-  padding-top: 10px;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .footer-copy {
-  text-align: left;
+  text-align: center;
   font-size: 13px;
   color: #ccc;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .footer-links {
@@ -135,6 +137,7 @@
     grid-template-columns: 1fr;
     text-align: center;
   }
+
   .footer-contact {
     justify-self: center;
   }

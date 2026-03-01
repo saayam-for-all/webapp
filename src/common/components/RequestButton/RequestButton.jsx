@@ -39,6 +39,7 @@ const RequestButton = ({
   customStyle,
   icon,
   requestData = {},
+  onClick,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [responseContent, setResponseContent] = useState(null);
@@ -46,6 +47,12 @@ const RequestButton = ({
   const { user } = useSelector((state) => state.auth);
 
   const handleClick = async () => {
+    // 🔴 HIGHEST PRIORITY: external click handler
+    if (onClick) {
+      onClick();
+      return;
+    }
+
     if (isInfoRequest) {
       try {
         // Simulate API call (going to replace with actual API call to the microservice)
@@ -108,7 +115,7 @@ const RequestButton = ({
     <>
       <button
         onClick={handleClick}
-        className={`${customStyle} h-12 flex items-center justify-center sm:justify-center lg:justify-start `}
+        className={`${customStyle} h-12 flex items-center justify-center sm:justify-center lg:justify-start`}
       >
         <span>{getIcon()}</span>
         <span className="hidden lg:inline">{text}</span>

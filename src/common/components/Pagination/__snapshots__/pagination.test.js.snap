@@ -15,7 +15,7 @@ exports[`Pagination renders correctly 1`] = `
             class="flex items-center justify-center mb-2"
           >
             <span
-              class="mr-2 text-gray-400"
+              class="mr-2 text-gray-600"
             >
               Showing data 
               1
@@ -126,7 +126,7 @@ exports[`Pagination renders correctly 1`] = `
           class="flex items-center justify-center mb-2"
         >
           <span
-            class="mr-2 text-gray-400"
+            class="mr-2 text-gray-600"
           >
             Showing data 
             1

@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/saayam-for-all/webapp/graph/badge.svg?token=9PBXMY2VAP)](https://codecov.io/gh/saayam-for-all/webapp)
+
 # Project Title
 
 Saayam Web Application.
@@ -32,16 +34,17 @@ Saayam Web Application.
 
 ### Installation
 
-Clone the repository:
+Clone to the test branch:
 
 ```bash
-git clone https://github.com/saayam-for-all/saayam_web.git
+git clone -b test https://github.com/saayam-for-all/webapp.git
+
 ```
 
 Navigate to the project directory:
 
 ```bash
-cd your-project
+cd webapp
 ```
 
 Install dependencies:

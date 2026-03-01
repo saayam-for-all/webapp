@@ -1,17 +1,19 @@
 // import { Typography, Box } from "@mui/material";
-import executiveTeamData from "../data/executiveTeam";
 import { useTranslation } from "react-i18next";
+import executiveTeamData from "../data/executiveTeam";
 
 const ExecutiveTeam = () => {
   const { t } = useTranslation();
   return (
-    <div className="bg-gray-100 py-16 px-24">
-      <div className="text-center max-w-3xl mx-auto mb-12">
-        <h2 className="font-extrabold text-3xl mb-4">{t("EXECUTIVE_TEAM")}</h2>
-        <p className="text-gray-600 text-base leading-[0.5]">
+    <div className="bg-gray-100 py-16 px-4 sm:px-8 md:px-16 lg:px-[150px] xl:px-[250px]">
+      <div className="text-center max-w-3xl mx-auto mb-12 px-4">
+        <h2 className="font-extrabold text-2xl sm:text-3xl mb-4">
+          {t("EXECUTIVE_TEAM")}
+        </h2>
+        <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-2">
           {t("EXECUTIVE_DESCRIPTION_1")}
         </p>
-        <p className="text-gray-600 text-base leading-[0.5]">
+        <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
           {t("EXECUTIVE_DESCRIPTION_2")}
         </p>
       </div>
@@ -36,11 +38,11 @@ const ExecutiveTeam = () => {
                 rel="noopener noreferrer"
                 className="text-black hover:underline"
               >
-                {member.name}
+                {t(member.name)}
               </a>
             </div>
             <div className="text-sm text-gray-500 mt-1 text-left pl-1">
-              {member.role || " "}
+              {t(member.role) || " "}
             </div>
           </div>
         ))}

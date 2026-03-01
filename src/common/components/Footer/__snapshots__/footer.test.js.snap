@@ -32,44 +32,39 @@ exports[`Footer renders correctly 1`] = `
                 <a
                   href="/"
                 >
-                  Home
+                  mockTranslate(HOME)
                 </a>
                 <a
                   href="/our-mission"
                 >
-                  About Us
+                  mockTranslate(OUR_MISSION)
                 </a>
                 <a
-                  href="/"
+                  href="/our-team"
                 >
-                  Mission & Vision
+                  mockTranslate(OUR_TEAM)
                 </a>
                 <a
-                  href="/directors"
+                  href="/how-we-operate"
                 >
-                  Our Team
+                  mockTranslate(HOW_WE_OPERATE)
                 </a>
                 <a
-                  href="/"
+                  href="/contact"
                 >
-                  What We Offer
-                </a>
-                <a
-                  href="/donate"
-                >
-                  Donate
+                  mockTranslate(CONTACT)
                 </a>
               </nav>
               <div
                 class="footer-contact"
               >
                 <a
-                  href="/contact"
+                  href="/donate"
                 >
                   <button
                     type="button"
                   >
-                    Contact Us
+                    mockTranslate(DONATE)
                   </button>
                 </a>
               </div>
@@ -84,7 +79,7 @@ exports[`Footer renders correctly 1`] = `
             <div
               class="footer-copy"
             >
-              Copyright © 2025 Saayam For All. All rights reserved.
+              mockTranslate(COPYRIGHT)
             </div>
             <div
               class="footer-links"
@@ -92,17 +87,17 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/sitemap"
               >
-                Site Map
+                mockTranslate(SITE_MAP)
               </a>
               <a
-                href="#"
+                href="/terms-and-conditions"
               >
-                Terms and Conditions
+                mockTranslate(TERMS_AND_CONDITIONS)
               </a>
               <a
-                href="#"
+                href="/privacy-policy"
               >
-                Privacy Policy
+                mockTranslate(PRIVACY_POLICY)
               </a>
             </div>
           </div>
@@ -138,44 +133,39 @@ exports[`Footer renders correctly 1`] = `
               <a
                 href="/"
               >
-                Home
+                mockTranslate(HOME)
               </a>
               <a
                 href="/our-mission"
               >
-                About Us
+                mockTranslate(OUR_MISSION)
               </a>
               <a
-                href="/"
+                href="/our-team"
               >
-                Mission & Vision
+                mockTranslate(OUR_TEAM)
               </a>
               <a
-                href="/directors"
+                href="/how-we-operate"
               >
-                Our Team
+                mockTranslate(HOW_WE_OPERATE)
               </a>
               <a
-                href="/"
+                href="/contact"
               >
-                What We Offer
-              </a>
-              <a
-                href="/donate"
-              >
-                Donate
+                mockTranslate(CONTACT)
               </a>
             </nav>
             <div
               class="footer-contact"
             >
               <a
-                href="/contact"
+                href="/donate"
               >
                 <button
                   type="button"
                 >
-                  Contact Us
+                  mockTranslate(DONATE)
                 </button>
               </a>
             </div>
@@ -190,7 +180,7 @@ exports[`Footer renders correctly 1`] = `
           <div
             class="footer-copy"
           >
-            Copyright © 2025 Saayam For All. All rights reserved.
+            mockTranslate(COPYRIGHT)
           </div>
           <div
             class="footer-links"
@@ -198,17 +188,17 @@ exports[`Footer renders correctly 1`] = `
             <a
               href="/sitemap"
             >
-              Site Map
+              mockTranslate(SITE_MAP)
             </a>
             <a
-              href="#"
+              href="/terms-and-conditions"
             >
-              Terms and Conditions
+              mockTranslate(TERMS_AND_CONDITIONS)
             </a>
             <a
-              href="#"
+              href="/privacy-policy"
             >
-              Privacy Policy
+              mockTranslate(PRIVACY_POLICY)
             </a>
           </div>
         </div>

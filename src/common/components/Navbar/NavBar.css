@@ -53,3 +53,36 @@ button:hover {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
 }
+@media (max-width: 1024px) {
+  .navbar-end-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    width: 100%;
+    margin-left: auto;
+    padding-right: 12px;
+    box-sizing: border-box;
+  }
+
+  .donate-button {
+    font-size: 14px;
+    padding: 8px 16px;
+    white-space: nowrap;
+  }
+
+  .login-button {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .menu-button {
+    padding: 0;
+  }
+
+  .navbar-end-group > * {
+    flex: 0 1 auto;
+  }
+}

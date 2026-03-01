@@ -12,16 +12,13 @@ body {
 .sitemap-container {
   /* padding: 1rem 1rem; */
   background-color: #fff;
+  overflow: hidden;
 }
 
 .sitemap-inner {
   max-width: 900px;
   margin: 0 auto;
   padding: 0 1rem;
-}
-
-.sitemap-content-wrapper {
-  transform: translateX(20px);
 }
 
 .sitemap-title {
