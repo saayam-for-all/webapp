@@ -144,39 +144,38 @@ const CommentsSection = ({ comments = [] }) => {
     <div>
       <div className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-gray-200">
         <div
-          className="flex items-center space-x-2"
+          className="flex items-center space-x-2 flex-col sm:flex-row gap-2"
           style={{ flexBasis: "50%" }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Comment Input Field */}
-          <textarea
-            value={comment}
-            onChange={handleCommentChange}
-            placeholder={t("common:writeComment")}
-            rows={4}
-            maxLength={200}
-            className="flex-1 min-h-[100px] px-4 py-3 bg-gray-100 outline-none border-2 border-white text-gray-600 placeholder-gray-400 text-sm rounded focus:border-black focus:outline-none resize-none"
-          />
-          <div className="text-xs text-gray-500 mt-1 text-right">
-            {comment.length}/200
+          {/* Comment Input Field - similar to Description in Create Help Request */}
+          <div className="flex-1 w-full">
+            <textarea
+              value={comment}
+              onChange={handleCommentChange}
+              placeholder={t("common:writeComment")}
+              rows={5}
+              maxLength={200}
+              className="w-full min-h-[120px] px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 placeholder-gray-400 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none resize-y"
+            />
+            <div className="flex items-center justify-between mt-1">
+              <div className="text-xs text-gray-500">{comment.length}/200</div>
+              <button
+                className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all"
+                onClick={handleSubmit}
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke="none"
+                  style={{ transform: "rotate(-30deg)" }}
+                >
+                  <path d="M2.003 21L23 12 2.003 3 2 10l15 2-15 2 .003 7z" />
+                </svg>
+              </button>
+            </div>
           </div>
-
-          {/* Send Button */}
-          <button
-            className="ml-2 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all"
-            onClick={handleSubmit}
-          >
-            {/* Send message icon - Paper Plane */}
-            <svg
-              className="w-5 h-5 transform rotate-0"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              stroke="none"
-              style={{ transform: "rotate(-30deg)" }}
-            >
-              <path d="M2.003 21L23 12 2.003 3 2 10l15 2-15 2 .003 7z" />
-            </svg>
-          </button>
         </div>
       </div>
       <div onClick={(e) => e.stopPropagation()}>
