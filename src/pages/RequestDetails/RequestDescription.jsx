@@ -69,6 +69,24 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             </li>
             <button
               className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
+              onClick={() => {
+                // TODO: Implement change volunteer functionality
+                console.log("Change Volunteer clicked");
+              }}
+            >
+              {t("Change Volunteer")}
+            </button>
+            <button
+              className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600"
+              onClick={() => {
+                // TODO: Implement delete functionality
+                console.log("Delete clicked");
+              }}
+            >
+              {t("Delete")}
+            </button>
+            <button
+              className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600"
               onClick={() => setIsEditing(true)}
             >
               {t("EDIT")}

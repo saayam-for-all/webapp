@@ -5,6 +5,8 @@ import Sunandha_agarwal from "../../../assets/images/Sunandha_agarwal.jpg";
 import Mohanakrishnan from "../../../assets/images/Mohanakrishnan.jpg";
 import Divya_Tanwar from "../../../assets/images/Divya Tanwar.jpg";
 import Sriram_Mahankali from "../../../assets/images/Sriram_Mahankali.jpeg";
+import Satya_Sai_Manoj from "../../../assets/images/Satya_Sai_Manoj.jpeg";
+import Tejaswi_Vadapalli from "../../../assets/images/Tejaswi_Vadaplli.jpeg";
 
 const ExecutiveTeamData = [
   {
@@ -80,6 +82,19 @@ const ExecutiveTeamData = [
     name: "Meghana Karri",
     role: "Lead User Experience Designer",
     linkedin: "https://www.linkedin.com/in/meghanakarri/",
+  },
+  {
+    image: Satya_Sai_Manoj,
+    name: "Satya Sai Manoj",
+    role: "Strategy and Project Management Lead",
+    linkedin: "https://www.linkedin.com/in/satya-sai-manoj-m-403179230/",
+  },
+
+  {
+    image: Tejaswi_Vadapalli,
+    name: "Tejaswi Vadapalli",
+    role: "Program and Operations Lead",
+    linkedin: "https://www.linkedin.com/in/sritejaswi/",
   },
 ];
 

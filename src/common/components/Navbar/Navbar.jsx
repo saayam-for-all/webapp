@@ -1,5 +1,5 @@
 import { Drawer, IconButton, Menu, MenuItem } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -17,16 +17,33 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
 import ArticleIcon from "@mui/icons-material/Article";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import { Tooltip } from "@mui/material";
 
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
+import { fetchProfileImage } from "../../../services/volunteerServices";
+
+const blobToDataUrl = (blob) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result);
+      } else {
+        reject(new Error("Failed to convert blob to data URL"));
+      }
+    };
+    reader.onerror = () => reject(new Error("Failed to read blob"));
+    reader.readAsDataURL(blob);
+  });
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,23 +61,85 @@ const Navbar = () => {
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [newNotificationCount, setNewNotificationCount] = useState(0);
+  const profileIconObjectUrlRef = useRef(null);
 
   const { t } = useTranslation();
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
     if (savedProfilePhoto) setProfileIcon(savedProfilePhoto);
+  }, []);
 
+  useEffect(() => {
+    if (!user?.userDbId) return;
+    let cancelled = false;
+    fetchProfileImage(user.userDbId)
+      .then((blob) => {
+        if (cancelled) return;
+        if (profileIconObjectUrlRef.current) {
+          URL.revokeObjectURL(profileIconObjectUrlRef.current);
+          profileIconObjectUrlRef.current = null;
+        }
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          profileIconObjectUrlRef.current = url;
+          setProfileIcon(url);
+          blobToDataUrl(blob)
+            .then((dataUrl) => {
+              localStorage.setItem("profilePhoto", dataUrl);
+            })
+            .catch(() => {});
+        } else {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+          localStorage.removeItem("profilePhoto");
+        }
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setProfileIcon(DEFAULT_PROFILE_ICON);
+        localStorage.removeItem("profilePhoto");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.userDbId]);
+
+  useEffect(() => {
     const handleStorageChange = (event) => {
       if (event.key === "profilePhoto") {
-        setProfileIcon(event.newValue);
+        setProfileIcon(event.newValue || DEFAULT_PROFILE_ICON);
       }
     };
 
-    const handleProfilePhotoUpdated = () => {
-      const updatedProfilePhoto = localStorage.getItem("profilePhoto");
-      if (updatedProfilePhoto) {
-        setProfileIcon(updatedProfilePhoto);
+    const handleProfilePhotoUpdated = async () => {
+      if (user?.userDbId) {
+        try {
+          const blob = await fetchProfileImage(user.userDbId);
+          if (profileIconObjectUrlRef.current) {
+            URL.revokeObjectURL(profileIconObjectUrlRef.current);
+            profileIconObjectUrlRef.current = null;
+          }
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            profileIconObjectUrlRef.current = url;
+            setProfileIcon(url);
+            const dataUrl = await blobToDataUrl(blob);
+            localStorage.setItem("profilePhoto", dataUrl);
+          } else {
+            setProfileIcon(DEFAULT_PROFILE_ICON);
+            localStorage.removeItem("profilePhoto");
+          }
+        } catch {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+          localStorage.removeItem("profilePhoto");
+        }
+      } else {
+        const updatedProfilePhoto = localStorage.getItem("profilePhoto");
+        if (updatedProfilePhoto) {
+          setProfileIcon(updatedProfilePhoto);
+        } else {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+        }
       }
     };
 
@@ -81,6 +160,15 @@ const Navbar = () => {
       );
       window.removeEventListener("unsaved-changes", handleUnsavedChanges);
     };
+  }, [user?.userDbId]);
+
+  useEffect(() => {
+    return () => {
+      if (profileIconObjectUrlRef.current) {
+        URL.revokeObjectURL(profileIconObjectUrlRef.current);
+        profileIconObjectUrlRef.current = null;
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -98,30 +186,35 @@ const Navbar = () => {
         const rawNotifications = [
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "You have new Volunteer match request in Logistics",
             date: "Mar 15, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "Hospital",
             date: "Jun 15, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "LOGISTIC_HELP",
             title: "Logistic Help",
             message: "Logistics",
             date: "Nov 15, 2023, 10:30 AM",
           },
           {
             type: "helpRequest",
+            titleKey: "EDUCATIONAL_HELP",
             title: "Educational Help",
             message: "Need help with Logistics",
             date: "Dec 16, 2023, 10:30 AM",
           },
           {
             type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
             title: "New Match Request",
             message: "Education",
             date: "Jan 15, 2023, 10:30 AM",
@@ -161,10 +254,7 @@ const Navbar = () => {
 
     fetchNotifications(); // Comment it after call ing the funciton below
 
-    const interval = setInterval(
-      "call fetchNotifications() here",
-      2 * 60 * 1000,
-    ); // fetch every 2 min
+    const interval = setInterval(fetchNotifications, 2 * 60 * 1000); // fetch every 2 min
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);
@@ -364,11 +454,11 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
-                {/* <MenuItem
+                <MenuItem
                   onClick={(e) => handleLinkClick(e, "/news-our-stories")}
                 >
                   <ArticleIcon className="mr-2" /> {t("In The News")}
-                </MenuItem> */}
+                </MenuItem>
               </Menu>
             )}
           </div>
@@ -427,7 +517,7 @@ const Navbar = () => {
                 // className="text-black flex items-center hover:text-gray-600 text-base"
                 className="text-black hover:text-gray-600 flex items-center text-base"
               >
-                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+                <NotificationsIcon className="mr-2" /> {t("NOTIFICATIONS")}
               </button>
             </div>
           )}
@@ -442,7 +532,20 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Donate button aligned to the rightmost */}
+        {/*/!* Donate button aligned to the rightmost *!/*/}
+        {/*{user?.userId && (*/}
+        {/*  <div className="hidden md:flex relative items-center mr-4">*/}
+        {/*    <Tooltip title={t("EMERGENCY_CONTACTS")} arrow>*/}
+        {/*      <button*/}
+        {/*        onClick={(e) => handleLinkClick(e, "/emergency-contact")}*/}
+        {/*        className="text-black hover:text-red-600 flex items-center text-base p-1"*/}
+        {/*        aria-label={t("EMERGENCY_CONTACTS")}*/}
+        {/*      >*/}
+        {/*        <PhoneInTalkOutlinedIcon fontSize="medium" />*/}
+        {/*      </button>*/}
+        {/*    </Tooltip>*/}
+        {/*  </div>*/}
+        {/*)}*/}
 
         {/* Login Part */}
         {user?.userId ? (
@@ -490,7 +593,7 @@ const Navbar = () => {
               >
                 <MenuItem onClick={(e) => handleLinkClick(e, "/profile")}>
                   <AccountCircleIcon className="mr-2" />
-                  {t("Profile")}
+                  {t("PROFILE")}
                 </MenuItem>
                 <MenuItem onClick={(e) => handleLogoutClick()}>
                   <LogoutIcon className="mr-2" />
@@ -635,11 +738,13 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
-                {/* <MenuItem
-                  onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
-                >
-                  <ArticleIcon className="mr-2" /> {t("In the news")}
-                </MenuItem> */}
+                {
+                  <MenuItem
+                    onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
+                  >
+                    <ArticleIcon className="mr-2" /> {t("In the news")}
+                  </MenuItem>
+                }
               </Menu>
             )}
           </div>
@@ -682,6 +787,19 @@ const Navbar = () => {
             )}
           </div>
 
+          {/*/!* Emergency Contact button for sidebar - visible only when logged in *!/*/}
+          {/*{user?.userId && (*/}
+          {/*  <div className="block text-black py-2 flex items-center">*/}
+          {/*    <button*/}
+          {/*      onClick={(e) => handleDrawerClick(e, "/emergency-contact")}*/}
+          {/*      className="text-black flex items-center hover:text-red-600"*/}
+          {/*    >*/}
+          {/*      <PhoneInTalkOutlinedIcon className="mr-2" />*/}
+          {/*      {t("EMERGENCY_CONTACT")}*/}
+          {/*    </button>*/}
+          {/*  </div>*/}
+          {/*)}*/}
+
           <div className="block text-black py-2 flex items-center">
             <button
               onClick={(e) => handleDrawerClick(e, "/contact")}
@@ -697,7 +815,7 @@ const Navbar = () => {
                 onClick={(e) => handleDrawerClick(e, "/notifications")}
                 className="text-black flex items-center hover:text-blue-600"
               >
-                <NotificationsIcon className="mr-2" /> {t("Notifications")}
+                <NotificationsIcon className="mr-2" /> {t("NOTIFICATIONS")}
               </button>
             </div>
           )}

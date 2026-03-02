@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StepperControl renders correctly 1`] = `
+<div>
+  <div
+    class="container flex justify-around mt-16 mb-8"
+  >
+    <div
+      class="px-4 w-24"
+    >
+      <button
+        class="bg-white text-slate-900 uppercase py-2 px-4 rounded-xl font-semibold border-2 border-slate-900 transition duration-200 ease-in-out opacity-50 cursor-not-allowed"
+        disabled=""
+      >
+        mockTranslate(BACK)
+      </button>
+    </div>
+    <div
+      class="px-4 w-24"
+    >
+      <button
+        class="uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
+      >
+        mockTranslate(NEXT)
+      </button>
+    </div>
+  </div>
+</div>
+`;

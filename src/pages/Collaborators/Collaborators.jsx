@@ -23,11 +23,11 @@ function Collaborators() {
   return (
     <div className="flex flex-col items-center p-8 min-h-screen bg-white">
       <div className="w-full max-w-6xl">
-        <h1 className="text-4xl font-bold text-center mb-6">
+        <h2 className="text-3xl font-bold text-center mb-4">
           {t("Our Collaborators")}
-        </h1>
+        </h2>
 
-        <p className="text-lg text-center mb-12 text-gray-700">
+        <p className="text-base text-center mb-12 text-gray-700">
           {t(
             "In some cases, our volunteers partner with local NGOs, community groups, and service organizations to ensure that every request is fulfilled effectively. Saayam For All builds a collaborative ecosystem that strengthens community support—because helping hands are stronger together.",
           )}
@@ -59,7 +59,7 @@ function Collaborators() {
 
         <div className="text-center mt-16 mb-16">
           <h2 className="text-3xl font-bold mb-4">{t("Want to join us?")}</h2>
-          <p className="text-lg mb-8">
+          <p className="text-base mb-8">
             {t(
               "Chat with our community and get in touch with different charity organizations!",
             )}

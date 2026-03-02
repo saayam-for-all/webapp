@@ -1,18 +1,15 @@
+import React, { Suspense } from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "#components/Navbar/Navbar";
+import MainLoader from "#components/Loader/MainLoader";
 import Footer from "#components/Footer/Footer";
 import LeftAds from "#components/LeftAds/LeftAds";
-import MainLoader from "#components/Loader/MainLoader";
-import Navbar from "#components/Navbar/Navbar";
-import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
 import RightAds from "#components/RightAds/RightAds";
-import { Suspense } from "react";
-import { Outlet, useMatches } from "react-router-dom";
+import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
 import { NotificationProvider } from "../context/NotificationContext";
 import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
 
 const Layout = () => {
-  const matches = useMatches();
-  const showAds = matches.some((match) => match?.handle?.leaveAdSpace);
-
   return (
     <div className="flex flex-col h-screen">
       <NotificationProvider>
@@ -27,22 +24,17 @@ const Layout = () => {
 
         {/* main content */}
         <div className="flex flex-1">
-          {showAds && (
-            <aside className="left-ads-panel flex-1 ">
-              <LeftAds />
-            </aside>
-          )}
-
+          <aside className="left-ads-panel flex-1 ">
+            <LeftAds />
+          </aside>
           <main className="flex-[6] overflow-auto">
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
           </main>
-          {showAds && (
-            <aside className="right-ads-panel flex-1 ">
-              <RightAds />
-            </aside>
-          )}
+          <aside className="right-ads-panel flex-1 ">
+            <RightAds />
+          </aside>
         </div>
 
         {/* footer */}

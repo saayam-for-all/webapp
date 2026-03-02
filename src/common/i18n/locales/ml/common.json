@@ -1,0 +1,21 @@
+{
+  "ABOUT": "ഞങ്ങളേക്കുറിച്ച്",
+  "DONATE": "സംഭാവനചെയ്യുക",
+  "LOGIN": "ലോഗിൻ",
+  "DIRECTORS": "ഡയറക്ടർ ബോർഡ്",
+  "HOW_WE_OPERATE": "ഞങ്ങൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു",
+  "MISSION": "ദൗത്യം",
+  "VISION": "ദർശനം",
+  "CONTACT": "ബന്ധപ്പെടുക",
+  "DASHBOARD": "ഡാഷ്ബോർഡ്",
+  "ALL": "എല്ലാം",
+  "VOLUNTEER_MATCH": "സന്നദ്ധപ്രവർത്തക മാച്ച്",
+  "HELP_REQUEST_BUTTON": "സഹായ അഭ്യർത്ഥന",
+  "NEW_MATCH_REQUEST": "പുതിയ മാച്ച് അഭ്യർത്ഥന",
+  "ACCEPT": "സ്വീകരിക്കുക",
+  "DENY": "നിരസിക്കുക",
+  "ACCEPT_SUCCESS_MESSAGE": "നിങ്ങൾ ഈ അഭ്യർത്ഥന സ്വീകരിച്ചു.",
+  "DENY_SUCCESS_MESSAGE": "നിങ്ങൾ ഈ അഭ്യർത്ഥന നിരസിച്ചു.",
+  "LOGISTIC_HELP": "ലോജിസ്റ്റിക് സഹായം",
+  "EDUCATIONAL_HELP": "വിദ്യാഭ്യാസ സഹായം"
+}
