@@ -71,7 +71,7 @@ const stories = [
     title: "With Jensen Huang, CEO of NVIDIA",
     image: withJensen,
     description:
-      "A meaningful interaction with Jensen Huang, discussing technology leadership, innovation, and the future of mission-driven platforms.",
+      "Rao with Jensen Huang, CEO of Nvidia in IIT Bay Area Conference.",
     titleLinks: {
       "Jensen Huang": "https://www.linkedin.com/in/jenhsunhuang/",
       NVIDIA: "https://www.nvidia.com/",

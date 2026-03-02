@@ -143,7 +143,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <p
                   class="news-desc"
                 >
-                  A meaningful interaction with 
+                  Rao with 
                   <a
                     class="news-name-link"
                     href="https://www.linkedin.com/in/jenhsunhuang/"
@@ -152,7 +152,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                   >
                     Jensen Huang
                   </a>
-                  , discussing technology leadership, innovation, and the future of mission-driven platforms.
+                  , CEO of Nvidia in IIT Bay Area Conference.
                 </p>
               </div>
             </div>
@@ -815,7 +815,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               <p
                 class="news-desc"
               >
-                A meaningful interaction with 
+                Rao with 
                 <a
                   class="news-name-link"
                   href="https://www.linkedin.com/in/jenhsunhuang/"
@@ -824,7 +824,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   Jensen Huang
                 </a>
-                , discussing technology leadership, innovation, and the future of mission-driven platforms.
+                , CEO of Nvidia in IIT Bay Area Conference.
               </p>
             </div>
           </div>
