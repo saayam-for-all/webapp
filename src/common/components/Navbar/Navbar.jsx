@@ -707,7 +707,14 @@ const Navbar = () => {
                 aria-label={t("PROFILE")}
                 sx={{ p: 0.5 }}
               >
-                <AccountCircleIcon sx={{ fontSize: 38 }} />
+                <img
+                  src={profileIcon || DEFAULT_PROFILE_ICON}
+                  alt={t("PROFILE")}
+                  className="w-[38px] h-[38px] rounded-full object-cover border border-gray-200"
+                  onError={(e) => {
+                    e.currentTarget.src = DEFAULT_PROFILE_ICON;
+                  }}
+                />
               </IconButton>
             </div>
             {profileOpenMenu && (
