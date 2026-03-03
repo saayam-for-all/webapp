@@ -666,6 +666,18 @@ describe("DynamicAdditionalFields", () => {
     expect(screen.getByTestId("radio-1.1.A.2")).toBeChecked();
   });
 
+  // ── Sub-sub-category fallback ────────────────────────────────────────
+
+  it("falls back to parent catId when sub-sub-category has no metadata", () => {
+    const onChange = jest.fn();
+    // catId "1.1.1" doesn't exist in metadata, but "1.1" does
+    render(<DynamicAdditionalFields catId="1.1.1" onChange={onChange} />);
+    // Should display the parent "1.1" fields
+    expect(screen.getByText("Preferred Meal Type")).toBeInTheDocument();
+    expect(screen.getByText("Dietary Restrictions")).toBeInTheDocument();
+    expect(screen.getByText("Household Size")).toBeInTheDocument();
+  });
+
   // ── Wrapper ─────────────────────────────────────────────────────────
 
   it("renders the wrapper container with correct test id", () => {
