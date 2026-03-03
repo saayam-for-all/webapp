@@ -3,8 +3,9 @@ export const mapHelpRequestPayload = ({
   selectedCategoryId,
   requesterId,
   enumMaps,
+  additionalFields,
 }) => {
-  return {
+  const payload = {
     requesterId: requesterId,
     requestSubject: formData.subject,
     requestDescription: formData.description,
@@ -32,4 +33,11 @@ export const mapHelpRequestPayload = ({
           : enumMaps.requestFor.OTHER,
     },
   };
+
+  // Include dynamic additional fields if any were filled
+  if (additionalFields && Object.keys(additionalFields).length > 0) {
+    payload.additionalFields = additionalFields;
+  }
+
+  return payload;
 };
