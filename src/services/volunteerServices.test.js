@@ -5,6 +5,11 @@ import {
   fetchProfileImage,
   signOffUser,
   getUserId,
+  getVolunteerOrgsList,
+  getVolunteerSkills,
+  createVolunteer,
+  updateVolunteer,
+  getVolunteersData,
 } from "./volunteerServices";
 
 jest.mock("./api");
@@ -209,5 +214,173 @@ describe("getUserId", () => {
     await expect(getUserId("bad@example.com")).rejects.toThrow(
       "Unknown error while fetching user ID",
     );
+  });
+});
+
+describe("getVolunteerSkills", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("calls GET and returns response.data", async () => {
+    const mockSkills = ["cooking", "driving", "tutoring"];
+    api.get.mockResolvedValue({ data: mockSkills });
+
+    const result = await getVolunteerSkills();
+
+    expect(api.get).toHaveBeenCalledWith("v1/volunteer/skills");
+    expect(result).toEqual(mockSkills);
+  });
+
+  it("throws error when API call fails", async () => {
+    api.get.mockRejectedValue(new Error("Network error"));
+
+    await expect(getVolunteerSkills()).rejects.toThrow("Network error");
+  });
+});
+
+describe("createVolunteer", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("calls POST with volunteer data and returns response.data", async () => {
+    const volunteerData = { name: "John", email: "john@test.com" };
+    const mockResponse = { success: true, id: "V-123" };
+    api.post.mockResolvedValue({ data: mockResponse });
+
+    const result = await createVolunteer(volunteerData);
+
+    expect(api.post).toHaveBeenCalledWith(
+      "v1/volunteer/createNewVolunteer",
+      volunteerData,
+    );
+    expect(result).toEqual(mockResponse);
+  });
+
+  it("throws error when API call fails", async () => {
+    api.post.mockRejectedValue(new Error("Create failed"));
+
+    await expect(createVolunteer({})).rejects.toThrow("Create failed");
+  });
+});
+
+describe("updateVolunteer", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("calls PUT with volunteer data and returns response.data", async () => {
+    const volunteerData = { id: "V-123", name: "John Updated" };
+    const mockResponse = { success: true };
+    api.put.mockResolvedValue({ data: mockResponse });
+
+    const result = await updateVolunteer(volunteerData);
+
+    expect(api.put).toHaveBeenCalledWith(
+      "v1/volunteer/updateVolunteer",
+      volunteerData,
+    );
+    expect(result).toEqual(mockResponse);
+  });
+
+  it("throws error when API call fails", async () => {
+    api.put.mockRejectedValue(new Error("Update failed"));
+
+    await expect(updateVolunteer({})).rejects.toThrow("Update failed");
+  });
+});
+
+describe("getVolunteersData", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("returns body array when data.body is array", async () => {
+    const mockBody = [{ id: 1 }, { id: 2 }];
+    api.get.mockResolvedValue({ data: { body: mockBody } });
+
+    const result = await getVolunteersData();
+
+    expect(api.get).toHaveBeenCalledWith("v1/volunteer/getVolunteersData");
+    expect(result).toEqual(mockBody);
+  });
+
+  it("returns data directly when data is array", async () => {
+    const mockData = [{ id: 1 }, { id: 2 }];
+    api.get.mockResolvedValue({ data: mockData });
+
+    const result = await getVolunteersData();
+
+    expect(result).toEqual(mockData);
+  });
+
+  it("returns empty array when data is not array", async () => {
+    api.get.mockResolvedValue({ data: { something: "else" } });
+
+    const result = await getVolunteersData();
+
+    expect(result).toEqual([]);
+  });
+
+  it("throws error when API call fails", async () => {
+    api.get.mockRejectedValue(new Error("Fetch failed"));
+
+    await expect(getVolunteersData()).rejects.toThrow("Fetch failed");
+  });
+});
+
+describe("getVolunteerOrgsList", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("calls POST with the provided payload", async () => {
+    const mockResponse = { data: { body: [] } };
+    api.post.mockResolvedValue(mockResponse);
+
+    const payload = {
+      category: "Food",
+      subject: "Food Assistance",
+      description: "Need food help",
+      location: "Tampa, FL",
+    };
+
+    await getVolunteerOrgsList(payload);
+
+    expect(api.post).toHaveBeenCalledWith("v1/ml/orgAggregatorList", payload);
+  });
+
+  it("returns response.data directly", async () => {
+    const mockData = {
+      statusCode: 200,
+      body: [
+        { name: "Org 1", location: "FL", db_or_ai: "db" },
+        { name: "Org 2", location: "CA", db_or_ai: "ai" },
+      ],
+    };
+    api.post.mockResolvedValue({ data: mockData });
+
+    const result = await getVolunteerOrgsList({ category: "Food" });
+
+    expect(result).toEqual(mockData);
+  });
+
+  it("throws error when API call fails", async () => {
+    api.post.mockRejectedValue(new Error("Network error"));
+
+    await expect(getVolunteerOrgsList({ category: "Food" })).rejects.toThrow(
+      "Network error",
+    );
+  });
+
+  it("handles empty payload", async () => {
+    const mockResponse = { data: { body: [] } };
+    api.post.mockResolvedValue(mockResponse);
+
+    const result = await getVolunteerOrgsList({});
+
+    expect(api.post).toHaveBeenCalledWith("v1/ml/orgAggregatorList", {});
+    expect(result).toEqual({ body: [] });
   });
 });

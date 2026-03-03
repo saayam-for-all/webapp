@@ -1,6 +1,5 @@
-import { useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { useEffect, useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
 
 const Table = ({
@@ -16,8 +15,8 @@ const Table = ({
   onRowsPerPageChange,
   getLinkPath,
   getLinkState = undefined,
-  headerLabels = {},
 }) => {
+  const navigate = useNavigate();
   const paginatedRequests = useMemo(() => {
     return rows.slice(
       (currentPage - 1) * itemsPerPage,
@@ -27,7 +26,7 @@ const Table = ({
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [totalRows, itemsPerPage, setCurrentPage]);
+  }, [totalRows, itemsPerPage]);
 
   const getSortIndicator = (key) => {
     if (sortConfig.key === key) {
@@ -36,44 +35,6 @@ const Table = ({
     return "";
   };
 
-  const formatDateTime = (value, header) => {
-    if (header === "creationDate" || header === "updatedDate") {
-      if (!value) return "";
-
-      try {
-        const date = new Date(value);
-        if (Number.isNaN(date.getTime())) return value;
-
-        const datePart = date.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        });
-        const timePart = date.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: true,
-        });
-        return `${datePart} ${timePart}`;
-      } catch (error) {
-        console.error("Error formatting date:", error);
-        return value;
-      }
-    }
-    return value;
-  };
-
-  const dataKeyMap = { requestId: "id", beneficiaryId: "userId" };
-  const resolveKey = (header) => dataKeyMap[header] || header;
-
-  const getCellValue = (row, header) => {
-    if (header === "requestId") return row[resolveKey(header)];
-    return formatDateTime(row[header], header);
-  };
-
-  const shouldLinkCell = (header) => header === "requestId" || header === "id";
-
   return (
     <div className="relative h-full" data-testid="container">
       <div className="overflow-auto h-4/5">
@@ -81,101 +42,56 @@ const Table = ({
           className="min-w-full divide-y divide-gray-200"
           data-testid="table"
         >
-          <thead data-testid="table-header">
+          <thead className="" data-testid="table-header">
             <tr>
               {headers.map((key) => (
                 <th
                   key={key}
-                  className="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                   data-testid="map-header-one"
                 >
-                  <button
-                    type="button"
-                    onClick={() => requestSort(resolveKey(key))}
-                  >
-                    {headerLabels[key] ||
-                      key.charAt(0).toUpperCase() +
-                        key
-                          .slice(1)
-                          .replace(/([A-Z])/g, " $1")
-                          .replace(/_/g, " ")
-                          .trim()}
-                    {getSortIndicator(resolveKey(key))}
+                  <button type="button" onClick={() => requestSort(key)}>
+                    {key.charAt(0).toUpperCase() +
+                      key
+                        .slice(1)
+                        .replace(/([A-Z])/g, " $1")
+                        .trim()}
+                    {getSortIndicator(key)}
                   </button>
                 </th>
               ))}
             </tr>
           </thead>
-
           <tbody
-            className="bg-white divide-y divide-gray-200"
+            className="bg-white divide-y divide-gray-200 "
             data-testid="table-body"
           >
-            {paginatedRequests.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={headers.length}
-                  className="px-6 py-8 text-center text-gray-500"
-                >
-                  <div className="flex flex-col items-center justify-center">
-                    <p className="text-lg font-semibold mb-2">
-                      No requests found
-                    </p>
-                    <p className="text-sm">
-                      {rows.length === 0
-                        ? "There are no requests to display."
-                        : "Try adjusting your filters to see more results."}
-                    </p>
-                  </div>
-                </td>
-              </tr>
-            ) : (
-              paginatedRequests.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {headers.map((header, colIndex) => {
-                    const value = getCellValue(row, header);
-
-                    const path = getLinkPath ? getLinkPath(row, header) : null;
-                    const isExternalLink = path && path.startsWith("http");
-
-                    return (
-                      <td
-                        key={colIndex}
-                        className="px-6 py-2"
-                        data-testid="map-data-one"
+            {paginatedRequests.map((request, rowIndex) => (
+              <tr key={rowIndex}>
+                {headers.map((header, colIndex) => (
+                  <td
+                    key={colIndex}
+                    className="px-6 py-4 whitespace-nowrap"
+                    data-testid="map-data-one"
+                  >
+                    {header === "id" ? (
+                      <Link
+                        to={getLinkPath(request, header)}
+                        className="text-indigo-600 hover:text-indigo-900"
+                        state={getLinkState ? getLinkState(request) : {}}
                       >
-                        {path ? (
-                          isExternalLink ? (
-                            <a
-                              href={path}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-indigo-600 hover:text-indigo-900 underline"
-                            >
-                              {value || "Link"}
-                            </a>
-                          ) : (
-                            <Link
-                              to={path}
-                              className="text-indigo-600 hover:text-indigo-900"
-                              state={getLinkState ? getLinkState(row) : {}}
-                            >
-                              {value}
-                            </Link>
-                          )
-                        ) : (
-                          value
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))
-            )}
+                        {request[header]}
+                      </Link>
+                    ) : (
+                      request[header]
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
-
       <div className="h-1/5">
         {rows.length > 0 && (
           <Pagination
@@ -190,25 +106,6 @@ const Table = ({
       </div>
     </div>
   );
-};
-
-Table.propTypes = {
-  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  rows: PropTypes.array.isRequired,
-  currentPage: PropTypes.number.isRequired,
-  setCurrentPage: PropTypes.func.isRequired,
-  totalPages: PropTypes.number.isRequired,
-  totalRows: PropTypes.number.isRequired,
-  itemsPerPage: PropTypes.number.isRequired,
-  sortConfig: PropTypes.shape({
-    key: PropTypes.string,
-    direction: PropTypes.oneOf(["ascending", "descending"]),
-  }).isRequired,
-  requestSort: PropTypes.func.isRequired,
-  onRowsPerPageChange: PropTypes.func.isRequired,
-  getLinkPath: PropTypes.func.isRequired,
-  getLinkState: PropTypes.func,
-  headerLabels: PropTypes.objectOf(PropTypes.string),
 };
 
 export default Table;

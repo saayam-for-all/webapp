@@ -2,58 +2,17 @@ import api from "./api";
 import endpoints from "./endpoints.json";
 import { fileToBase64 } from "../utils/fileToBase64";
 
-// Get organizations from Lambda aggregator (uses GenAI + DB)
-// Routes through API Gateway which handles Lambda invocation
-export const getVolunteerOrgsList = async (params = {}) => {
-  const {
-    category = "",
-    subject = "",
-    description = "",
-    location = "",
-  } = params;
-
-  // Send actual values - Lambda needs real data, not placeholders
-  const requestPayload = {
-    category,
-    subject: subject || category, // Use category as fallback for subject
-    description,
-    location,
-  };
-
-  try {
-    const response = await api.post(
-      endpoints.GET_ORGS_FROM_DB_AND_GENAI,
-      requestPayload,
-    );
-
-    const data = response.data;
-
-    // Lambda returns: { statusCode, headers, body: [...] }
-    // body is already a parsed array
-    if (data?.body && Array.isArray(data.body)) {
-      return data.body;
-    }
-
-    // Fallback: body might be stringified JSON
-    if (data?.body && typeof data.body === "string") {
-      try {
-        return JSON.parse(data.body);
-      } catch {
-        return [];
-      }
-    }
-
-    // Direct array response
-    if (Array.isArray(data)) {
-      return data;
-    }
-
-    return [];
-  } catch (error) {
-    console.error("🔴 Lambda Error:", error.message);
-    console.error("🔴 Lambda Error Response:", error.response?.data);
-    throw error;
-  }
+/**
+ * Get organizations from Lambda aggregator (uses GenAI + DB)
+ * @param {Object} payload - { category, subject, description, location }
+ * @returns {Promise<Object>} - Raw API response data
+ */
+export const getVolunteerOrgsList = async (payload) => {
+  const response = await api.post(
+    endpoints.GET_ORGS_FROM_DB_AND_GENAI,
+    payload,
+  );
+  return response.data;
 };
 export const getVolunteerSkills = async () => {
   const response = await api.get(endpoints.GET_VOLUNTEER_SKILLS);

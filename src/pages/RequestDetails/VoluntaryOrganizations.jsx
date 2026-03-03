@@ -60,8 +60,23 @@ const VoluntaryOrganizations = () => {
         location: locationStr || "US",
       };
 
-      const orgs = await getVolunteerOrgsList(payload);
-      setOrganizations(orgs || []);
+      const response = await getVolunteerOrgsList(payload);
+
+      // Parse response - Lambda returns: { statusCode, headers, body: [...] }
+      let orgs = [];
+      if (response?.body && Array.isArray(response.body)) {
+        orgs = response.body;
+      } else if (response?.body && typeof response.body === "string") {
+        try {
+          orgs = JSON.parse(response.body);
+        } catch {
+          orgs = [];
+        }
+      } else if (Array.isArray(response)) {
+        orgs = response;
+      }
+
+      setOrganizations(orgs);
     } catch (err) {
       console.error("Error fetching organizations:", err);
       setError("Failed to load organizations. Please try again.");
