@@ -14,6 +14,7 @@ export const requestsData = {
         category: "BUY_THINGS",
         priority: "HIGH",
         calamity: "None",
+        location: "Tampa, FL",
       },
       {
         id: "REQ-00-000-000-0002",
@@ -27,6 +28,7 @@ export const requestsData = {
         category: "MEDICINE_DELIVERY",
         priority: "CRITICAL",
         calamity: "None",
+        location: "Los Angeles, CA",
       },
       {
         id: "REQ-00-000-000-0003",
@@ -40,6 +42,7 @@ export const requestsData = {
         category: "BUY_THINGS",
         priority: "HIGH",
         calamity: "None",
+        location: "New York, NY",
       },
       {
         id: "REQ-00-000-000-0004",
@@ -53,6 +56,7 @@ export const requestsData = {
         category: "GROCERY_SHOPPING_AND_DELIVERY",
         priority: "MEDIUM",
         calamity: "None",
+        location: "Chicago, IL",
       },
       {
         id: "REQ-00-000-000-0005",

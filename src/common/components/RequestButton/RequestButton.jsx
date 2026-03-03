@@ -40,6 +40,7 @@ const RequestButton = ({
   icon,
   requestData = {},
   onClick,
+  state,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [responseContent, setResponseContent] = useState(null);
@@ -93,8 +94,8 @@ const RequestButton = ({
         setShowModal(true);
       }
     } else {
-      // Navigate to the provided link
-      navigate(link);
+      // Navigate to the provided link with optional state
+      navigate(link, { state });
     }
   };
 
