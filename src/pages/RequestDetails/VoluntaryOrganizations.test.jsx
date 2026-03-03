@@ -187,6 +187,14 @@ describe("VoluntaryOrganizations", () => {
   });
 
   describe("Error Handling", () => {
+    beforeEach(() => {
+      jest.spyOn(console, "error").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      console.error.mockRestore();
+    });
+
     it("shows error message when API call fails", async () => {
       getVolunteerOrgsList.mockRejectedValue(new Error("Network error"));
 
