@@ -10,6 +10,8 @@ import {
   FaGlobe,
   FaBuilding,
   FaArrowLeft,
+  FaRobot,
+  FaClipboardList,
 } from "react-icons/fa";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
@@ -24,6 +26,7 @@ const VoluntaryOrganizations = () => {
   const [loading, setLoading] = useState(true);
   const [noRequestData, setNoRequestData] = useState(false);
   const [error, setError] = useState(null);
+  const [sourceFilter, setSourceFilter] = useState("all"); // 'all', 'ai', 'db'
 
   const getVoluntaryOrganizations = async () => {
     const categoryStr =
@@ -77,17 +80,50 @@ const VoluntaryOrganizations = () => {
     requestData.location,
   ]);
 
-  // Filter by search term across all fields
+  // Filter by search term and source
   const filteredOrganizations = useMemo(() => {
-    if (!searchTerm) return organizations;
-    return organizations.filter((org) =>
-      Object.keys(org).some((key) =>
-        String(org[key] || "")
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()),
-      ),
-    );
-  }, [organizations, searchTerm]);
+    let filtered = organizations;
+
+    // Filter by source (using db_or_ai field)
+    if (sourceFilter !== "all") {
+      filtered = filtered.filter((org) => {
+        const orgSource = (org.db_or_ai || "db").toLowerCase();
+        if (sourceFilter === "ai") {
+          return (
+            orgSource === "llm" || orgSource === "ai" || orgSource === "genai"
+          );
+        }
+        return orgSource === "db" || orgSource === "database";
+      });
+    }
+
+    // Filter by search term
+    if (searchTerm) {
+      filtered = filtered.filter((org) =>
+        Object.keys(org).some((key) =>
+          String(org[key] || "")
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()),
+        ),
+      );
+    }
+
+    return filtered;
+  }, [organizations, searchTerm, sourceFilter]);
+
+  // Count organizations by source (using db_or_ai field)
+  const sourceCounts = useMemo(() => {
+    const counts = { all: organizations.length, ai: 0, db: 0 };
+    organizations.forEach((org) => {
+      const source = (org.db_or_ai || "db").toLowerCase();
+      if (source === "llm" || source === "ai" || source === "genai") {
+        counts.ai++;
+      } else {
+        counts.db++;
+      }
+    });
+    return counts;
+  }, [organizations]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -124,18 +160,55 @@ const VoluntaryOrganizations = () => {
     </div>
   );
 
+  // Helper to determine source type (using db_or_ai field)
+  const getSourceType = (dbOrAi) => {
+    const s = (dbOrAi || "db").toLowerCase();
+    return s === "llm" || s === "ai" || s === "genai" ? "ai" : "db";
+  };
+
+  // Source badge component
+  const SourceBadge = ({ dbOrAi }) => {
+    const isAI = getSourceType(dbOrAi) === "ai";
+    return (
+      <div
+        className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${
+          isAI
+            ? "bg-purple-100 text-purple-700"
+            : "bg-emerald-100 text-emerald-700"
+        }`}
+      >
+        {isAI ? (
+          <>
+            <FaRobot className="text-xs" />
+            <span>AI Suggested</span>
+          </>
+        ) : (
+          <>
+            <FaClipboardList className="text-xs" />
+            <span>Registered</span>
+          </>
+        )}
+      </div>
+    );
+  };
+
   // Organization card component
   const OrganizationCard = ({ org }) => (
     <div className="bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 overflow-hidden group">
       {/* Card Header */}
       <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-4">
-        <div className="flex items-center gap-3">
-          <div className="bg-white/20 backdrop-blur-sm p-3 rounded-lg">
-            <FaBuilding className="text-white text-xl" />
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="bg-white/20 backdrop-blur-sm p-3 rounded-lg flex-shrink-0">
+              <FaBuilding className="text-white text-xl" />
+            </div>
+            <h3 className="text-lg font-bold text-white line-clamp-2">
+              {org.name}
+            </h3>
           </div>
-          <h3 className="text-lg font-bold text-white line-clamp-2">
-            {org.name}
-          </h3>
+          <div className="flex-shrink-0">
+            <SourceBadge dbOrAi={org.db_or_ai} />
+          </div>
         </div>
       </div>
 
@@ -266,9 +339,72 @@ const VoluntaryOrganizations = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Search Bar */}
+        {/* Filter Bar */}
         {!loading && !noRequestData && organizations.length > 0 && (
-          <div className="mb-8">
+          <div className="mb-8 space-y-4">
+            {/* Source Toggle */}
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="text-sm font-medium text-gray-700">
+                Filter by source:
+              </span>
+              <div className="inline-flex rounded-lg border border-gray-200 bg-white shadow-sm p-1">
+                <button
+                  onClick={() => setSourceFilter("all")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    sourceFilter === "all"
+                      ? "bg-primary-600 text-white shadow-sm"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  All
+                  <span
+                    className={`px-1.5 py-0.5 rounded-full text-xs ${
+                      sourceFilter === "all" ? "bg-white/20" : "bg-gray-100"
+                    }`}
+                  >
+                    {sourceCounts.all}
+                  </span>
+                </button>
+                <button
+                  onClick={() => setSourceFilter("ai")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    sourceFilter === "ai"
+                      ? "bg-purple-600 text-white shadow-sm"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  <FaRobot className="text-xs" />
+                  AI Suggested
+                  <span
+                    className={`px-1.5 py-0.5 rounded-full text-xs ${
+                      sourceFilter === "ai" ? "bg-white/20" : "bg-gray-100"
+                    }`}
+                  >
+                    {sourceCounts.ai}
+                  </span>
+                </button>
+                <button
+                  onClick={() => setSourceFilter("db")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    sourceFilter === "db"
+                      ? "bg-emerald-600 text-white shadow-sm"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  <FaClipboardList className="text-xs" />
+                  Registered
+                  <span
+                    className={`px-1.5 py-0.5 rounded-full text-xs ${
+                      sourceFilter === "db" ? "bg-white/20" : "bg-gray-100"
+                    }`}
+                  >
+                    {sourceCounts.db}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Search Bar */}
             <div className="relative max-w-xl">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <IoSearchOutline className="text-gray-400 text-xl" />
@@ -375,10 +511,20 @@ const VoluntaryOrganizations = () => {
           !error &&
           filteredOrganizations.length > 0 && (
             <div className="mt-8 text-center text-sm text-gray-600">
-              <p>
-                Organizations are suggested based on your request details and
-                may include AI-powered recommendations.
-              </p>
+              <div className="flex items-center justify-center gap-6 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-purple-100 text-purple-700 text-xs">
+                    <FaRobot /> AI Suggested
+                  </span>
+                  <span>= Recommended by AI based on your request</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs">
+                    <FaClipboardList /> Registered
+                  </span>
+                  <span>= Registered with us</span>
+                </div>
+              </div>
             </div>
           )}
       </div>
