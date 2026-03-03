@@ -340,9 +340,10 @@ describe("VoluntaryOrganizations", () => {
 
       await waitFor(() => {
         // All = 3, AI = 2, Registered = 1
-        expect(screen.getByText("3")).toBeInTheDocument(); // All count
-        expect(screen.getByText("2")).toBeInTheDocument(); // AI count
-        expect(screen.getByText("1")).toBeInTheDocument(); // Registered count
+        // Check that the filter buttons contain the counts
+        expect(screen.getByText(/All \(3\)/)).toBeInTheDocument();
+        expect(screen.getByText(/AI Suggested \(2\)/)).toBeInTheDocument();
+        expect(screen.getByText(/Registered \(1\)/)).toBeInTheDocument();
       });
     });
   });

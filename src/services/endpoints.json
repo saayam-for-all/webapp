@@ -5,6 +5,7 @@
   "CHECK_PROFANITY": "v1/request/checkProfanity",
   "GET_VOLUNTEERS_DATA": "v1/volunteer/getVolunteersData",
   "GET_VOLUNTEER_ORGS_LIST": "v1/volunteerorgs/organizations-list",
+  "GET_ORGS_FROM_DB_AND_GENAI": "v1/ml/orgAggregatorList",
   "GET_VOLUNTEER_SKILLS": "v1/volunteer/skills",
   "GET_REQUEST_COMMENTS": "v1/request/getComments",
   "CREATE_VOLUNTEER": "v1/volunteer/createNewVolunteer",
