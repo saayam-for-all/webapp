@@ -67,11 +67,7 @@ const VoluntaryOrganizations = () => {
       if (response?.body && Array.isArray(response.body)) {
         orgs = response.body;
       } else if (response?.body && typeof response.body === "string") {
-        try {
-          orgs = JSON.parse(response.body);
-        } catch {
-          orgs = [];
-        }
+        orgs = JSON.parse(response.body);
       } else if (Array.isArray(response)) {
         orgs = response;
       }

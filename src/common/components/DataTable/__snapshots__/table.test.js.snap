@@ -17,12 +17,11 @@ exports[`Table renders correctly 1`] = `
             data-testid="table"
           >
             <thead
-              class=""
               data-testid="table-header"
             >
               <tr>
                 <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  class="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                   data-testid="map-header-one"
                 >
                   <button
@@ -32,7 +31,7 @@ exports[`Table renders correctly 1`] = `
                   </button>
                 </th>
                 <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  class="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                   data-testid="map-header-one"
                 >
                   <button
@@ -45,12 +44,12 @@ exports[`Table renders correctly 1`] = `
               </tr>
             </thead>
             <tbody
-              class="bg-white divide-y divide-gray-200 "
+              class="bg-white divide-y divide-gray-200"
               data-testid="table-body"
             >
               <tr>
                 <td
-                  class="px-6 py-4 whitespace-nowrap"
+                  class="px-6 py-2"
                   data-testid="map-data-one"
                 >
                   <mock-link
@@ -61,7 +60,7 @@ exports[`Table renders correctly 1`] = `
                   </mock-link>
                 </td>
                 <td
-                  class="px-6 py-4 whitespace-nowrap"
+                  class="px-6 py-2"
                   data-testid="map-data-one"
                 >
                   Item 1
@@ -69,7 +68,7 @@ exports[`Table renders correctly 1`] = `
               </tr>
               <tr>
                 <td
-                  class="px-6 py-4 whitespace-nowrap"
+                  class="px-6 py-2"
                   data-testid="map-data-one"
                 >
                   <mock-link
@@ -80,7 +79,7 @@ exports[`Table renders correctly 1`] = `
                   </mock-link>
                 </td>
                 <td
-                  class="px-6 py-4 whitespace-nowrap"
+                  class="px-6 py-2"
                   data-testid="map-data-one"
                 >
                   Item 2
@@ -115,12 +114,11 @@ exports[`Table renders correctly 1`] = `
           data-testid="table"
         >
           <thead
-            class=""
             data-testid="table-header"
           >
             <tr>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                class="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                 data-testid="map-header-one"
               >
                 <button
@@ -130,7 +128,7 @@ exports[`Table renders correctly 1`] = `
                 </button>
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                class="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                 data-testid="map-header-one"
               >
                 <button
@@ -143,12 +141,12 @@ exports[`Table renders correctly 1`] = `
             </tr>
           </thead>
           <tbody
-            class="bg-white divide-y divide-gray-200 "
+            class="bg-white divide-y divide-gray-200"
             data-testid="table-body"
           >
             <tr>
               <td
-                class="px-6 py-4 whitespace-nowrap"
+                class="px-6 py-2"
                 data-testid="map-data-one"
               >
                 <mock-link
@@ -159,7 +157,7 @@ exports[`Table renders correctly 1`] = `
                 </mock-link>
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap"
+                class="px-6 py-2"
                 data-testid="map-data-one"
               >
                 Item 1
@@ -167,7 +165,7 @@ exports[`Table renders correctly 1`] = `
             </tr>
             <tr>
               <td
-                class="px-6 py-4 whitespace-nowrap"
+                class="px-6 py-2"
                 data-testid="map-data-one"
               >
                 <mock-link
@@ -178,7 +176,7 @@ exports[`Table renders correctly 1`] = `
                 </mock-link>
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap"
+                class="px-6 py-2"
                 data-testid="map-data-one"
               >
                 Item 2
