@@ -14,6 +14,7 @@
   "PREDICT_CATEGORIES": "v1/genai/predict_categories",
   "GET_NOTIFICATIONS": "v1/request/getNotifications",
   "GENERATE_ANSWER": "v1/genai/generate_answer",
+  "GENERATE_ANSWER_API": "v1/genai/generate_answer_api",
   "UPLOAD_PROFILE_IMAGE": "v1/volunteer/profileImage",
   "DELETE_PROFILE_IMAGE": "v1/volunteer/profileImage",
   "VIEW_PROFILE_IMAGE": "v1/volunteer/profileImage/view",
