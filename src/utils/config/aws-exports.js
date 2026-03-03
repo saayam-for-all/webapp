@@ -5,13 +5,12 @@ const awsConfig = {
     Cognito: {
       identityPoolId: "us-east-1:d43f18d8-08e1-4444-8ad3-43eb18540540",
       region: "auth.us-east-1",
-      userPoolId: "us-east-1_rhpm7lZNw",
-      userPoolClientId: "4vdh2ninjrbf48ufh8i91cukdj",
+      userPoolId: "us-east-1_hzvIMnDNi",
+      userPoolClientId: "433qjfh10rhfb201cav0pdb8mk",
       loginWith: {
         email: true,
         oauth: {
-          domain:
-            "saayamforall-qauserpool-testv2.auth.us-east-1.amazoncognito.com",
+          domain: "saayamforall-qauserpool.auth.us-east-1.amazoncognito.com",
           scopes: [
             "email",
             "profile",
