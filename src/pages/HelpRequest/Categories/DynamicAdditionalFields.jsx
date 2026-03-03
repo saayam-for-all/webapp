@@ -32,7 +32,15 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
       if (!raw) return [];
       const allMetadata = JSON.parse(raw);
       if (!Array.isArray(allMetadata)) return [];
-      const entry = allMetadata.find((m) => m.catId === catId);
+
+      // Try exact match first
+      let entry = allMetadata.find((m) => m.catId === catId);
+
+      if (!entry && catId.includes(".")) {
+        const parentCatId = catId.substring(0, catId.lastIndexOf("."));
+        entry = allMetadata.find((m) => m.catId === parentCatId);
+      }
+
       if (!entry || !Array.isArray(entry.fields)) return [];
       // Only show active fields
       return entry.fields.filter((f) => f.status === "active");
