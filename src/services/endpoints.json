@@ -31,6 +31,5 @@
   "SPEECH_DETECT_C2": "/requests/v0.0.1/speechDetectC2",
   "SPEECH_DETECT_V2": "v1/request/speechDetectV2",
   "SIGN_OFF_USER": "v1/volunteer/signOffUser",
-  "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis",
-  "GET_ORGS_FROM_DB_AND_GENAI": "v1/ml/orgAggregatorList"
+  "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis"
 }
