@@ -2,12 +2,8 @@ import api from "./api";
 import endpoints from "./endpoints.json";
 import { fileToBase64 } from "../utils/fileToBase64";
 
-// Get organizations from Lambda aggregator (uses GenAI + DB)
-export const getVolunteerOrgsList = async (payload) => {
-  const response = await api.post(
-    endpoints.GET_ORGS_FROM_DB_AND_GENAI,
-    payload,
-  );
+export const getVolunteerOrgsList = async () => {
+  const response = await api.get(endpoints.GET_VOLUNTEER_ORGS_LIST);
   return response.data;
 };
 export const getVolunteerSkills = async () => {
