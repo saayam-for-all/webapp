@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "#components/Navbar/Navbar";
 import MainLoader from "#components/Loader/MainLoader";
 import Footer from "#components/Footer/Footer";
@@ -9,36 +9,49 @@ import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
 import { NotificationProvider } from "../context/NotificationContext";
 import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
 
-const Layout = () => {
-  return (
-    <div className="flex flex-col h-screen">
-      <NotificationProvider>
-        {/* Navigation Guard to check for unsaved changes */}
+const AUTH_PATHS = ["/login", "/signup", "/forgot-password"];
 
+const Layout = () => {
+  const { pathname } = useLocation();
+  const isAuthPage = AUTH_PATHS.some(
+    (path) => pathname === path || pathname.endsWith(path),
+  );
+  // Auth pages (login, signup, forgot-password): content flow so footer sits right after form. Other pages: fill viewport.
+  const fillViewport = !isAuthPage;
+
+  return (
+    <div className={`flex flex-col ${fillViewport ? "h-screen" : ""}`}>
+      <NotificationProvider>
         <NavigationGuard />
 
-        {/* header includes Navbar which spans full width */}
-        <header className="sticky z-10" id="header">
+        <header className="sticky top-0 z-10 shrink-0" id="header">
           <Navbar />
         </header>
 
-        {/* main content */}
-        <div className="flex flex-1">
-          <aside className="left-ads-panel flex-1 ">
-            <LeftAds />
-          </aside>
-          <main className="flex-[6] overflow-auto">
+        {/* Auth pages: content-sized, footer right after form. Other pages: fill viewport, main scrolls. */}
+        <div
+          className={`flex min-h-0 ${fillViewport ? "flex-1" : "flex-initial"}`}
+        >
+          {!isAuthPage && (
+            <aside className="left-ads-panel flex-1">
+              <LeftAds />
+            </aside>
+          )}
+          <main
+            className={`min-w-0 ${isAuthPage ? "w-full flex-1" : "flex-[6] overflow-auto"}`}
+          >
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
           </main>
-          <aside className="right-ads-panel flex-1 ">
-            <RightAds />
-          </aside>
+          {!isAuthPage && (
+            <aside className="right-ads-panel flex-1">
+              <RightAds />
+            </aside>
+          )}
         </div>
 
-        {/* footer */}
-        <footer className="">
+        <footer className="shrink-0">
           <Footer />
         </footer>
         <ScrollToTop />
