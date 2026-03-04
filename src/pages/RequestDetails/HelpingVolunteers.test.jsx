@@ -30,6 +30,63 @@ jest.mock("../../services/volunteerServices", () => ({
 }));
 
 describe("HelpingVolunteers", () => {
+  it("searches volunteers by name", async () => {
+    render(<HelpingVolunteers />);
+    expect(await screen.findByText("Jane Cooper")).toBeInTheDocument();
+    fireEvent.change(screen.getByPlaceholderText("Search by name..."), {
+      target: { value: "John" },
+    });
+    expect(await screen.findByText("John Doe")).toBeInTheDocument();
+    expect(screen.queryByText("Jane Cooper")).not.toBeInTheDocument();
+  });
+
+  it("filters volunteers by cause", async () => {
+    render(<HelpingVolunteers />);
+    expect(await screen.findByText("Jane Cooper")).toBeInTheDocument();
+    fireEvent.change(
+      screen.getByRole("combobox", { name: /Filter by: All Causes/i }),
+      { target: { value: "Medical" } },
+    );
+    expect(await screen.findByText("John Doe")).toBeInTheDocument();
+    expect(screen.queryByText("Jane Cooper")).not.toBeInTheDocument();
+  });
+
+  it("renders with zero volunteers", async () => {
+    jest.mock("../../services/volunteerServices", () => ({
+      getVolunteersData: jest.fn(() => Promise.resolve([])),
+    }));
+    render(<HelpingVolunteers />);
+    expect(screen.queryByText("Jane Cooper")).not.toBeInTheDocument();
+    expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
+    // There are multiple elements with "Volunteers" (title and badge), so use getAllByText
+    expect(screen.getAllByText(/Volunteers/).length).toBeGreaterThan(0);
+  });
+
+  it("handles min and max volunteers count", async () => {
+    render(<HelpingVolunteers />);
+    const countInput = screen.getAllByRole("textbox")[0];
+    fireEvent.change(countInput, { target: { value: "1" } });
+    fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
+    await waitFor(() => {
+      expect(screen.getByText("Jane Cooper")).toBeInTheDocument();
+      expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
+    });
+    fireEvent.change(countInput, { target: { value: "10" } });
+    fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
+    await waitFor(() => {
+      expect(screen.getByText("Jane Cooper")).toBeInTheDocument();
+      expect(screen.getByText("John Doe")).toBeInTheDocument();
+    });
+  });
+
+  it("renders badge and formatted date", async () => {
+    render(<HelpingVolunteers />);
+    expect(await screen.findByText(/Assigned/)).toBeInTheDocument();
+    expect(screen.getByText(/Volunteers Requested/)).toBeInTheDocument();
+    // Date format: Mar 3, 2026, ...
+    const dateRegex = /Mar \d{1,2}, 2026, \d{1,2}:\d{2} (AM|PM)/;
+    expect(screen.getByText(dateRegex)).toBeInTheDocument();
+  });
   beforeEach(() => {
     jest.clearAllMocks();
   });
