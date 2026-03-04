@@ -186,8 +186,6 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    // Strip region code (e.g., "ar-SA" -> "ar") to match resource keys
-    load: "languageOnly",
     // Set default namespace to load
     defaultNS: "common",
     // Define all namespaces that will be used
