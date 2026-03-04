@@ -110,11 +110,15 @@ describe("HelpingVolunteers", () => {
     const checkboxes = await screen.findAllByRole("checkbox");
     fireEvent.click(checkboxes[0]);
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
-    fireEvent.change(screen.getByLabelText(/Date/i), {
-      target: { value: "2026-03-10" },
+    // Cover both date inputs
+    const dateInputs = screen.getAllByLabelText(/Date/i);
+    dateInputs.forEach((input) => {
+      fireEvent.change(input, { target: { value: "2026-03-10" } });
     });
-    fireEvent.change(screen.getByLabelText(/Time/i), {
-      target: { value: "12:00" },
+    // Cover both time inputs
+    const timeInputs = screen.getAllByLabelText(/Time/i);
+    timeInputs.forEach((input) => {
+      fireEvent.change(input, { target: { value: "12:00" } });
     });
     fireEvent.click(screen.getByText(/Confirm/i));
     await waitFor(() =>
@@ -130,6 +134,75 @@ describe("HelpingVolunteers", () => {
       ).not.toBeInTheDocument(),
     );
     jest.useRealTimers();
+  });
+
+  it("resets modal state when Cancel button is clicked", async () => {
+    render(<HelpingVolunteers />);
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
+    // Fill date/time
+    fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
+      target: { value: "2026-03-10" },
+    });
+    fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
+      target: { value: "12:00" },
+    });
+    // Click Cancel
+    fireEvent.click(screen.getByRole("button", { name: /Cancel/i }));
+    // Modal should close and inputs reset
+    expect(
+      screen.queryByText(/Schedule Zoom Meeting/i),
+    ).not.toBeInTheDocument();
+    // Reopen modal to check reset
+    fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
+    expect(screen.getAllByLabelText(/Date/i)[0].value).toBe("");
+    expect(screen.getAllByLabelText(/Time/i)[0].value).toBe("");
+  });
+
+  it("resets modal state when close (×) button is clicked", async () => {
+    render(<HelpingVolunteers />);
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
+    // Fill date/time
+    fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
+      target: { value: "2026-03-10" },
+    });
+    fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
+      target: { value: "12:00" },
+    });
+    // Click close (×) button
+    fireEvent.click(screen.getByLabelText("Close"));
+    // Modal should close and inputs reset
+    expect(
+      screen.queryByText(/Schedule Zoom Meeting/i),
+    ).not.toBeInTheDocument();
+    // Reopen modal to check reset
+    fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
+    expect(screen.getAllByLabelText(/Date/i)[0].value).toBe("");
+    expect(screen.getAllByLabelText(/Time/i)[0].value).toBe("");
+  });
+
+  it("shows error message when meeting creation fails", async () => {
+    meetingServices.createZoomMeeting.mockRejectedValue(new Error("API error"));
+    render(<HelpingVolunteers />);
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
+    fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
+      target: { value: "2026-03-10" },
+    });
+    fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
+      target: { value: "12:00" },
+    });
+    fireEvent.click(screen.getByText(/Confirm/i));
+    await waitFor(() => {
+      expect(screen.getByText(/API error/i)).toBeInTheDocument();
+      expect(
+        screen.queryByText(/Meeting scheduled and invitations sent!/i),
+      ).not.toBeInTheDocument();
+    });
   });
   it("searches volunteers by name", async () => {
     render(<HelpingVolunteers />);
