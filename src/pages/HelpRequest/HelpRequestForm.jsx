@@ -25,6 +25,7 @@ import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 // Popup modal for subcategory - Import ElderlySupport component
 import ElderlySupport from "./Categories/ElderlySupport";
+import DynamicAdditionalFields from "./Categories/DynamicAdditionalFields";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
@@ -122,6 +123,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [savedSubcategoryId, setSavedSubcategoryId] = useState(null);
   // stores multiple file errors
   const [fileErrorMessages, setFileErrorMessages] = useState([]);
+  // Dynamic additional fields state
+  const [additionalFieldValues, setAdditionalFieldValues] = useState({});
 
   // useEffect(() => {
   //   const fetchEnumsData = async () => {
@@ -1146,6 +1149,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         selectedCategoryId: formData.category,
         requesterId: userDbId,
         enumMaps,
+        additionalFields: additionalFieldValues,
       });
 
       const respone = await createRequest(payload);
@@ -1480,6 +1484,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
                 {formData.category === "Jobs" && <JobsCategory />}
                 {formData.category === "Housing" && <HousingCategory />}
+
+                {/* Dynamic additional fields from metadata */}
+                <DynamicAdditionalFields
+                  catId={formData.category}
+                  onChange={setAdditionalFieldValues}
+                />
 
                 <div className="mt-3">
                   <label
