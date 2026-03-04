@@ -5,6 +5,7 @@ import {
   fetchProfileImage,
   signOffUser,
   getUserId,
+  getVolunteerOrgsList,
 } from "./volunteerServices";
 
 jest.mock("./api");
@@ -208,6 +209,46 @@ describe("getUserId", () => {
 
     await expect(getUserId("bad@example.com")).rejects.toThrow(
       "Unknown error while fetching user ID",
+    );
+  });
+});
+
+describe("getVolunteerOrgsList", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("calls POST with params and returns response data", async () => {
+    const mockOrgs = [{ name: "Org 1", location: "NYC" }];
+    api.post.mockResolvedValue({ data: mockOrgs });
+
+    const params = {
+      category: "FOOD",
+      subject: "Food assistance",
+      description: "Need food help",
+      location: "New York",
+    };
+
+    const result = await getVolunteerOrgsList(params);
+
+    expect(api.post).toHaveBeenCalledWith("v1/ml/orgAggregatorList", params);
+    expect(result).toEqual(mockOrgs);
+  });
+
+  it("returns response data with body containing array", async () => {
+    const mockBody = [{ name: "Org 1" }, { name: "Org 2" }];
+    api.post.mockResolvedValue({ data: { statusCode: 200, body: mockBody } });
+
+    const result = await getVolunteerOrgsList({ category: "TEST" });
+
+    expect(result).toEqual({ statusCode: 200, body: mockBody });
+  });
+
+  it("throws on API error", async () => {
+    api.post.mockRejectedValue(new Error("Network error"));
+
+    await expect(getVolunteerOrgsList({ category: "TEST" })).rejects.toThrow(
+      "Network error",
     );
   });
 });

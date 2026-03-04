@@ -16,7 +16,6 @@ const Table = ({
   onRowsPerPageChange,
   getLinkPath,
   getLinkState = undefined,
-  headerLabels = {},
 }) => {
   const paginatedRequests = useMemo(() => {
     return rows.slice(
@@ -93,13 +92,11 @@ const Table = ({
                     type="button"
                     onClick={() => requestSort(resolveKey(key))}
                   >
-                    {headerLabels[key] ||
-                      key.charAt(0).toUpperCase() +
-                        key
-                          .slice(1)
-                          .replace(/([A-Z])/g, " $1")
-                          .replace(/_/g, " ")
-                          .trim()}
+                    {key.charAt(0).toUpperCase() +
+                      key
+                        .slice(1)
+                        .replace(/([A-Z])/g, " $1")
+                        .trim()}
                     {getSortIndicator(resolveKey(key))}
                   </button>
                 </th>
@@ -135,8 +132,10 @@ const Table = ({
                   {headers.map((header, colIndex) => {
                     const value = getCellValue(row, header);
 
-                    const path = getLinkPath ? getLinkPath(row, header) : null;
-                    const isExternalLink = path && path.startsWith("http");
+                    const path =
+                      shouldLinkCell(header) && getLinkPath
+                        ? getLinkPath(row, header)
+                        : null;
 
                     return (
                       <td
@@ -145,24 +144,13 @@ const Table = ({
                         data-testid="map-data-one"
                       >
                         {path ? (
-                          isExternalLink ? (
-                            <a
-                              href={path}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-indigo-600 hover:text-indigo-900 underline"
-                            >
-                              {value || "Link"}
-                            </a>
-                          ) : (
-                            <Link
-                              to={path}
-                              className="text-indigo-600 hover:text-indigo-900"
-                              state={getLinkState ? getLinkState(row) : {}}
-                            >
-                              {value}
-                            </Link>
-                          )
+                          <Link
+                            to={path}
+                            className="text-indigo-600 hover:text-indigo-900"
+                            state={getLinkState ? getLinkState(row) : {}}
+                          >
+                            {value}
+                          </Link>
                         ) : (
                           value
                         )}
@@ -208,7 +196,6 @@ Table.propTypes = {
   onRowsPerPageChange: PropTypes.func.isRequired,
   getLinkPath: PropTypes.func.isRequired,
   getLinkState: PropTypes.func,
-  headerLabels: PropTypes.objectOf(PropTypes.string),
 };
 
 export default Table;
