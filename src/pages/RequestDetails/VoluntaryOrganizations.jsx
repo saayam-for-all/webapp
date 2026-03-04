@@ -1,53 +1,27 @@
 import React, { useState, useEffect, useMemo } from "react";
+import Table from "../../common/components/DataTable/Table";
 import { getVolunteerOrgsList } from "../../services/volunteerServices";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router-dom";
-import { IoSearchOutline } from "react-icons/io5";
-import {
-  FaMapMarkerAlt,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaGlobe,
-  FaBuilding,
-  FaArrowLeft,
-  FaRobot,
-  FaClipboardList,
-} from "react-icons/fa";
-import { HiOutlineExternalLink } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const VoluntaryOrganizations = () => {
   const { t } = useTranslation();
-  const location = useLocation();
-  const requestData = location.state || {};
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({
+    key: "rating",
+    direction: "descending",
+  });
   const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState({});
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
+  const headers = ["id", "name", "location", "causes", "size", "rating"];
   const [organizations, setOrganizations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [noRequestData, setNoRequestData] = useState(false);
-  const [error, setError] = useState(null);
-  const [sourceFilter, setSourceFilter] = useState("all"); // 'all', 'ai', 'db'
+  // const organizations = voluntaryOrganizationsData;
 
   const getVoluntaryOrganizations = async () => {
-    const categoryStr =
-      typeof requestData.category === "object"
-        ? requestData.category?.name || requestData.category?.catName || ""
-        : requestData.category || "";
-
-    const descriptionStr = requestData.description || "";
-    const locationStr =
-      requestData.location || requestData.city || requestData.state || "";
-    const subjectStr = requestData.subject || categoryStr;
-
-    const hasRequiredData =
-      categoryStr.trim().length > 0 || descriptionStr.trim().length > 0;
-
-    if (!hasRequiredData) {
-      setNoRequestData(true);
-      setLoading(false);
-      return;
-    }
-
     try {
       setLoading(true);
       setNoRequestData(false);
@@ -82,461 +56,215 @@ const VoluntaryOrganizations = () => {
 
   useEffect(() => {
     getVoluntaryOrganizations();
-  }, [
-    requestData.category,
-    requestData.subject,
-    requestData.description,
-    requestData.location,
-  ]);
+  }, []);
 
-  // Filter by search term and source
-  const filteredOrganizations = useMemo(() => {
-    let filtered = organizations;
-
-    // Filter by source (using db_or_ai field)
-    if (sourceFilter !== "all") {
-      filtered = filtered.filter((org) => {
-        const orgSource = (org.db_or_ai || "db").toLowerCase();
-        if (sourceFilter === "ai") {
-          return (
-            orgSource === "llm" || orgSource === "ai" || orgSource === "genai"
-          );
+  const sortedOrganizations = (organizations) => {
+    if (!organizations || organizations.length === 0) {
+      return [];
+    }
+    let sortableOrganizations = [...organizations];
+    if (sortConfig !== null) {
+      sortableOrganizations.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
         }
-        return orgSource === "db" || orgSource === "database";
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
       });
     }
+    return sortableOrganizations;
+  };
 
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter((org) =>
-        Object.keys(org).some((key) =>
-          String(org[key] || "")
+  const sortedData = useMemo(() => {
+    return sortedOrganizations(organizations || []);
+  }, [organizations, sortConfig]);
+
+  //add the filter by category and filter with search input functionality here
+  const filteredOrganizations = (organizations) => {
+    return organizations.filter(
+      (organization) =>
+        (Object.keys(categoryFilter).length === 0 ||
+          categoryFilter[organization.causes]) &&
+        Object.keys(organization).some((key) =>
+          String(organization[key])
             .toLowerCase()
             .includes(searchTerm.toLowerCase()),
         ),
-      );
-    }
-
-    return filtered;
-  }, [organizations, searchTerm, sourceFilter]);
-
-  // Count organizations by source (using db_or_ai field)
-  const sourceCounts = useMemo(() => {
-    const counts = { all: organizations.length, ai: 0, db: 0 };
-    organizations.forEach((org) => {
-      const source = (org.db_or_ai || "db").toLowerCase();
-      if (source === "llm" || source === "ai" || source === "genai") {
-        counts.ai++;
-      } else {
-        counts.db++;
-      }
-    });
-    return counts;
-  }, [organizations]);
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  // Get display category name
-  const categoryDisplay =
-    typeof requestData.category === "object"
-      ? requestData.category?.name || requestData.category?.catName || ""
-      : requestData.category || "";
-
-  // Loading skeleton component
-  const LoadingSkeleton = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div
-          key={i}
-          className="bg-white rounded-xl shadow-md border border-gray-100 p-6 animate-pulse"
-        >
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-gray-200 rounded-lg"></div>
-            <div className="flex-1">
-              <div className="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            </div>
-          </div>
-          <div className="mt-4 space-y-3">
-            <div className="h-4 bg-gray-200 rounded w-full"></div>
-            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-            <div className="h-4 bg-gray-200 rounded w-4/6"></div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
-  // Helper to determine source type (using db_or_ai field)
-  const getSourceType = (dbOrAi) => {
-    const s = (dbOrAi || "db").toLowerCase();
-    return s === "llm" || s === "ai" || s === "genai" ? "ai" : "db";
-  };
-
-  // Source badge component
-  const SourceBadge = ({ dbOrAi }) => {
-    const isAI = getSourceType(dbOrAi) === "ai";
-    return (
-      <div
-        className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${
-          isAI
-            ? "bg-purple-100 text-purple-700"
-            : "bg-emerald-100 text-emerald-700"
-        }`}
-      >
-        {isAI ? (
-          <>
-            <FaRobot className="text-xs" />
-            <span>AI Suggested</span>
-          </>
-        ) : (
-          <>
-            <FaClipboardList className="text-xs" />
-            <span>Registered</span>
-          </>
-        )}
-      </div>
     );
   };
 
-  // Organization card component
-  const OrganizationCard = ({ org }) => (
-    <div className="bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 overflow-hidden group">
-      {/* Card Header */}
-      <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-4">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className="bg-white/20 backdrop-blur-sm p-3 rounded-lg flex-shrink-0">
-              <FaBuilding className="text-white text-xl" />
-            </div>
-            <h3 className="text-lg font-bold text-white line-clamp-2">
-              {org.name}
-            </h3>
-          </div>
-          <div className="flex-shrink-0">
-            <SourceBadge dbOrAi={org.db_or_ai} />
-          </div>
-        </div>
-      </div>
+  const filteredData = useMemo(() => {
+    return filteredOrganizations(sortedData);
+  }, [sortedData, categoryFilter, searchTerm]);
 
-      {/* Card Body */}
-      <div className="p-5 space-y-4">
-        {/* Location */}
-        {org.location && (
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5">
-              <FaMapMarkerAlt className="text-red-500" />
-            </div>
-            <p className="text-gray-600 text-sm">{org.location}</p>
-          </div>
-        )}
+  const totalPages = (filteredData) => {
+    if (!filteredData || filteredData.length == 0) return 1;
+    return Math.ceil(filteredData.length / rowsPerPage);
+  };
 
-        {/* Contact */}
-        {org.contact && (
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5">
-              <FaPhoneAlt className="text-green-500" />
-            </div>
-            <a
-              href={`tel:${org.contact.replace(/[^0-9+]/g, "")}`}
-              className="text-gray-600 text-sm hover:text-primary-600 transition-colors"
-            >
-              {org.contact}
-            </a>
-          </div>
-        )}
+  const requestSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
 
-        {/* Email */}
-        {org.email && (
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5">
-              <FaEnvelope className="text-blue-500" />
-            </div>
-            <a
-              href={`mailto:${org.email}`}
-              className="text-gray-600 text-sm hover:text-primary-600 transition-colors truncate"
-            >
-              {org.email}
-            </a>
-          </div>
-        )}
+  const handleRowsPerPageChange = (rows) => {
+    setRowsPerPage(rows);
+    setCurrentPage(1);
+  };
 
-        {/* Mission (if available) */}
-        {org.mission && (
-          <div className="mt-3 pt-3 border-t border-gray-100">
-            <p className="text-gray-500 text-sm line-clamp-3 italic">
-              "{org.mission}"
-            </p>
-          </div>
-        )}
-      </div>
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
 
-      {/* Card Footer - Website Link */}
-      {org.web_url && (
-        <div className="px-5 pb-5">
-          <a
-            href={org.web_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-primary-50 hover:bg-primary-100 text-primary-700 font-medium rounded-lg transition-colors group-hover:bg-primary-100"
-          >
-            <FaGlobe className="text-sm" />
-            <span>Visit Website</span>
-            <HiOutlineExternalLink className="text-sm" />
-          </a>
-        </div>
-      )}
-    </div>
-  );
+  const toggleCategoryDropdown = () => {
+    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+  };
 
-  // Empty state component
-  const EmptyState = ({ icon: Icon, title, description }) => (
-    <div className="flex flex-col items-center justify-center py-16 px-4">
-      <div className="bg-gray-100 p-6 rounded-full mb-6">
-        <Icon className="text-gray-400 text-4xl" />
-      </div>
-      <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
-      <p className="text-gray-500 text-center max-w-md">{description}</p>
-    </div>
-  );
+  const handleCategoryChange = (category) => {
+    setCategoryFilter((prev) => {
+      const newFilter = { ...prev };
+      if (category === "All") {
+        return Object.keys(newFilter).length ===
+          Object.keys(allCategories).length
+          ? {}
+          : allCategories;
+      } else {
+        if (newFilter[category]) {
+          delete newFilter[category];
+        } else {
+          newFilter[category] = true;
+        }
+        if (
+          Object.keys(newFilter).length ===
+          Object.keys(allCategories).length - 1
+        ) {
+          newFilter["All"] = true;
+        } else {
+          delete newFilter["All"];
+        }
+        return newFilter;
+      }
+    });
+  };
+
+  const allCategories = {
+    All: true,
+    Banking: true,
+    Books: true,
+    Clothes: true,
+    "College Admissions": true,
+    Cooking: true,
+    Education: true,
+    Employment: true,
+    Finance: true,
+    Food: true,
+    Gardening: true,
+    Homelessness: true,
+    Housing: true,
+    Jobs: true,
+    Investing: true,
+    Matrimonial: true,
+    Medical: true,
+    Rental: true,
+    School: true,
+    Shopping: true,
+    Sports: true,
+    Stocks: true,
+    Travel: true,
+    Tourism: true,
+  };
+
+  useEffect(() => {
+    if (Object.keys(categoryFilter).length === 0) {
+      setCategoryFilter(allCategories);
+    }
+  }, []);
+
+  const handleFilterBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget))
+      setIsCategoryDropdownOpen(false);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          {/* Back Button */}
+    <div className="p-5">
+      <div className="w-full mb-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+        >
+          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || "Back"}
+        </button>
+      </div>
+      <h1 className="text-2xl font-bold mb-5">Organizations</h1>
+
+      <div className="mb-4 flex gap-2">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="p-2 border rounded flex-grow"
+        />
+        <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
           <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-primary-600 hover:text-primary-800 font-semibold mb-4 transition-colors"
+            className="bg-gray-200 text-black py-2 px-4 rounded hover:bg-gray-300"
+            onClick={toggleCategoryDropdown}
+            tabIndex={0}
           >
-            <FaArrowLeft className="text-sm" />
-            <span>{t("BACK") || "Back"}</span>
+            {t("FILTER_BY")}
           </button>
-
-          {/* Title */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                {t("VOLUNTARY_ORGANIZATIONS") || "Voluntary Organizations"}
-              </h1>
-              {categoryDisplay && (
-                <p className="mt-2 text-lg text-gray-700">
-                  Showing organizations that can help with{" "}
-                  <span className="font-semibold text-primary-600">
-                    {categoryDisplay.replace(/_/g, " ").toLowerCase()}
-                  </span>
-                </p>
-              )}
+          {isCategoryDropdownOpen && (
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10">
+              <label className="block">
+                <input
+                  type="checkbox"
+                  checked={
+                    Object.keys(categoryFilter).length ===
+                    Object.keys(allCategories).length
+                  }
+                  onChange={() => handleCategoryChange("All")}
+                />
+                All Categories
+              </label>
+              {Object.keys(allCategories)
+                .filter((cat) => cat !== "All")
+                .map((category) => (
+                  <label key={category} className="block">
+                    <input
+                      type="checkbox"
+                      checked={categoryFilter[category] || false}
+                      onChange={() => handleCategoryChange(category)}
+                    />
+                    {category}
+                  </label>
+                ))}
             </div>
-
-            {/* Results count */}
-            {!loading && !noRequestData && organizations.length > 0 && (
-              <div className="bg-primary-50 text-primary-700 px-4 py-2 rounded-full text-sm font-medium">
-                {filteredOrganizations.length}{" "}
-                {filteredOrganizations.length === 1
-                  ? "organization"
-                  : "organizations"}{" "}
-                found
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Filter Bar */}
-        {!loading && !noRequestData && organizations.length > 0 && (
-          <div className="mb-8 space-y-4">
-            {/* Source Toggle */}
-            <div className="flex flex-wrap items-center gap-4">
-              <span className="text-sm font-medium text-gray-700">
-                Filter by source:
-              </span>
-              <div className="inline-flex rounded-lg border border-gray-200 bg-white shadow-sm p-1">
-                <button
-                  onClick={() => setSourceFilter("all")}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                    sourceFilter === "all"
-                      ? "bg-primary-600 text-white shadow-sm"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
-                >
-                  All
-                  <span
-                    className={`px-1.5 py-0.5 rounded-full text-xs ${
-                      sourceFilter === "all" ? "bg-white/20" : "bg-gray-100"
-                    }`}
-                  >
-                    {sourceCounts.all}
-                  </span>
-                </button>
-                <button
-                  onClick={() => setSourceFilter("ai")}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                    sourceFilter === "ai"
-                      ? "bg-purple-600 text-white shadow-sm"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
-                >
-                  <FaRobot className="text-xs" />
-                  AI Suggested
-                  <span
-                    className={`px-1.5 py-0.5 rounded-full text-xs ${
-                      sourceFilter === "ai" ? "bg-white/20" : "bg-gray-100"
-                    }`}
-                  >
-                    {sourceCounts.ai}
-                  </span>
-                </button>
-                <button
-                  onClick={() => setSourceFilter("db")}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                    sourceFilter === "db"
-                      ? "bg-emerald-600 text-white shadow-sm"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
-                >
-                  <FaClipboardList className="text-xs" />
-                  Registered
-                  <span
-                    className={`px-1.5 py-0.5 rounded-full text-xs ${
-                      sourceFilter === "db" ? "bg-white/20" : "bg-gray-100"
-                    }`}
-                  >
-                    {sourceCounts.db}
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            {/* Search Bar */}
-            <div className="relative max-w-xl">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <IoSearchOutline className="text-gray-400 text-xl" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search organizations by name, location, or contact..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-gray-700 placeholder-gray-400 bg-white shadow-sm"
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm("")}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Loading State */}
-        {loading && <LoadingSkeleton />}
-
-        {/* Error State */}
-        {error && !loading && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-            <p className="text-red-600 font-medium">{error}</p>
-            <button
-              onClick={getVoluntaryOrganizations}
-              className="mt-4 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-            >
-              Try Again
-            </button>
-          </div>
-        )}
-
-        {/* No Request Data State */}
-        {noRequestData && !loading && (
-          <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
-            <EmptyState
-              icon={FaBuilding}
-              title="Request Details Required"
-              description="Please provide request details (category, description, or location) to find relevant organizations that can help."
-            />
-            <div className="flex justify-center mt-6">
-              <button
-                onClick={() => navigate("/dashboard")}
-                className="px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
-              >
-                Go to Dashboard
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* No Results State */}
-        {!loading &&
-          !noRequestData &&
-          !error &&
-          filteredOrganizations.length === 0 && (
-            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
-              <EmptyState
-                icon={IoSearchOutline}
-                title={
-                  searchTerm ? "No Matching Results" : "No Organizations Found"
-                }
-                description={
-                  searchTerm
-                    ? `No organizations match "${searchTerm}". Try adjusting your search.`
-                    : "We couldn't find any organizations for this request at the moment."
-                }
-              />
-              {searchTerm && (
-                <div className="flex justify-center mt-6">
-                  <button
-                    onClick={() => setSearchTerm("")}
-                    className="px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
-                  >
-                    Clear Search
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-        {/* Organizations Grid */}
-        {!loading &&
-          !noRequestData &&
-          !error &&
-          filteredOrganizations.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredOrganizations.map((org, index) => (
-                <OrganizationCard key={org.id || index} org={org} />
-              ))}
-            </div>
-          )}
-
-        {/* Source Attribution */}
-        {!loading &&
-          !noRequestData &&
-          !error &&
-          filteredOrganizations.length > 0 && (
-            <div className="mt-8 text-center text-sm text-gray-600">
-              <div className="flex items-center justify-center gap-6 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-purple-100 text-purple-700 text-xs">
-                    <FaRobot /> AI Suggested
-                  </span>
-                  <span>= Recommended by AI based on your request</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs">
-                    <FaClipboardList /> Registered
-                  </span>
-                  <span>= Registered with us</span>
-                </div>
-              </div>
-            </div>
-          )}
-      </div>
+      <Table
+        headers={headers}
+        rows={filteredData}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages(filteredData)}
+        totalRows={filteredData.length}
+        itemsPerPage={rowsPerPage}
+        sortConfig={sortConfig}
+        requestSort={requestSort}
+        onRowsPerPageChange={handleRowsPerPageChange}
+        getLinkPath={(row, header) => {
+          if (header !== "id") return null;
+          return `/organization/${row.id}`;
+        }}
+      />
     </div>
   );
 };
