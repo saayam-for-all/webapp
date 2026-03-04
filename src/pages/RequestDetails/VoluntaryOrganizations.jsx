@@ -28,6 +28,27 @@ const VoluntaryOrganizations = () => {
   const [error, setError] = useState(null);
   const [sourceFilter, setSourceFilter] = useState("all"); // 'all', 'ai', 'db'
 
+  // Parse Lambda response - handles various response formats
+  const parseOrganizationsResponse = (data) => {
+    // Lambda returns: { statusCode, headers, body: [...] }
+    if (data?.body && Array.isArray(data.body)) {
+      return data.body;
+    }
+    // Fallback: body might be stringified JSON
+    if (data?.body && typeof data.body === "string") {
+      try {
+        return JSON.parse(data.body);
+      } catch (e) {
+        throw new Error(`Failed to parse organizations response: ${e.message}`);
+      }
+    }
+    // Direct array response
+    if (Array.isArray(data)) {
+      return data;
+    }
+    return [];
+  };
+
   const getVoluntaryOrganizations = async () => {
     const categoryStr =
       typeof requestData.category === "object"
@@ -60,10 +81,10 @@ const VoluntaryOrganizations = () => {
         location: locationStr || "US",
       };
 
-      const orgs = await getVolunteerOrgsList(payload);
-      setOrganizations(orgs || []);
+      const response = await getVolunteerOrgsList(payload);
+      const orgs = parseOrganizationsResponse(response);
+      setOrganizations(orgs);
     } catch (err) {
-      console.error("Error fetching organizations:", err);
       setError("Failed to load organizations. Please try again.");
       setOrganizations([]);
     } finally {
