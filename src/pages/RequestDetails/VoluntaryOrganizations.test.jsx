@@ -604,5 +604,309 @@ describe("VoluntaryOrganizations", () => {
 
       expect(mockNavigate).toHaveBeenCalledWith(-1);
     });
+
+    it("Go to Dashboard button navigates to /dashboard when no request data", async () => {
+      reactRouterDom.useLocation.mockReturnValue({ state: null });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("GO_TO_DASHBOARD")).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText("GO_TO_DASHBOARD"));
+
+      expect(mockNavigate).toHaveBeenCalledWith("/dashboard");
+    });
+  });
+
+  describe("Source badges", () => {
+    it("displays AI_SUGGESTED badge for AI organizations", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "AI Org", db_or_ai: "ai" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("AI Org")).toBeInTheDocument();
+        // AI badge appears in the card
+        const aiLabels = screen.getAllByText("AI_SUGGESTED");
+        expect(aiLabels.length).toBeGreaterThan(0);
+      });
+    });
+
+    it("displays REGISTERED badge for DB organizations", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "DB Org", db_or_ai: "db" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("DB Org")).toBeInTheDocument();
+        // Registered badge appears in the card
+        const registeredLabels = screen.getAllByText("REGISTERED");
+        expect(registeredLabels.length).toBeGreaterThan(0);
+      });
+    });
+
+    it("defaults to REGISTERED badge when db_or_ai is missing", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Unknown Source Org" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("Unknown Source Org")).toBeInTheDocument();
+        const registeredLabels = screen.getAllByText("REGISTERED");
+        expect(registeredLabels.length).toBeGreaterThan(0);
+      });
+    });
+  });
+
+  describe("Results count display", () => {
+    it("shows singular ORGANIZATION when only one result", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Single Org", db_or_ai: "db" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        // Check that organization card is rendered
+        expect(screen.getByText("Single Org")).toBeInTheDocument();
+        // The result count badge contains singular ORGANIZATION (not ORGANIZATIONS)
+        const countBadge = screen.getByText(/FOUND/i).closest("div");
+        expect(countBadge.textContent).toMatch(/1.*ORGANIZATION.*FOUND/);
+        expect(countBadge.textContent).not.toMatch(/ORGANIZATIONS/);
+      });
+    });
+
+    it("shows plural ORGANIZATIONS when multiple results", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [
+          { name: "Org 1", db_or_ai: "db" },
+          { name: "Org 2", db_or_ai: "db" },
+        ],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        // Check that organization cards are rendered
+        expect(screen.getByText("Org 1")).toBeInTheDocument();
+        expect(screen.getByText("Org 2")).toBeInTheDocument();
+        // The result count badge contains plural ORGANIZATIONS
+        const countBadge = screen.getByText(/FOUND/i).closest("div");
+        expect(countBadge.textContent).toMatch(/2.*ORGANIZATIONS.*FOUND/);
+      });
+    });
+  });
+
+  describe("Category display", () => {
+    it("displays category with catName fallback for object categories", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: { catName: "HOUSING_ASSISTANCE" },
+          description: "Need housing help",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Housing Org" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("SHOWING_ORGANIZATIONS_FOR"),
+        ).toBeInTheDocument();
+        expect(screen.getByText("housing assistance")).toBeInTheDocument();
+      });
+    });
+
+    it("displays string category directly", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: "FOOD_ASSISTANCE",
+          description: "Need food help",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Food Org" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("food assistance")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("No results with search - Clear Search button", () => {
+    it("shows Clear Search button when search has no matches and clicking it clears search", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Test Org", location: "Tampa" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("Test Org")).toBeInTheDocument();
+      });
+
+      // Search for something that doesn't exist
+      const searchInput = screen.getByPlaceholderText(
+        /SEARCH_ORGANIZATIONS_PLACEHOLDER/i,
+      );
+      fireEvent.change(searchInput, { target: { value: "nonexistent" } });
+
+      await waitFor(() => {
+        expect(screen.getByText("NO_MATCHING_RESULTS")).toBeInTheDocument();
+        expect(screen.getByText("CLEAR_SEARCH")).toBeInTheDocument();
+      });
+
+      // Click Clear Search button
+      fireEvent.click(screen.getByText("CLEAR_SEARCH"));
+
+      await waitFor(() => {
+        expect(screen.getByText("Test Org")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Source attribution footer", () => {
+    it("displays source attribution legend when organizations are shown", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Test Org", db_or_ai: "db" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        // Check that the attribution footer is rendered with both labels
+        expect(screen.getByText(/RECOMMENDED_BY_AI/)).toBeInTheDocument();
+        expect(screen.getByText(/REGISTERED_WITH_US/)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Location fallback in payload", () => {
+    it("uses city when location is not provided", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: "FOOD",
+          description: "Need food",
+          city: "Orlando",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({ body: [] });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(volunteerServices.getVolunteerOrgsList).toHaveBeenCalledWith(
+          expect.objectContaining({
+            location: "Orlando",
+          }),
+        );
+      });
+    });
+
+    it("uses state when location and city are not provided", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: "FOOD",
+          description: "Need food",
+          state: "Florida",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({ body: [] });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(volunteerServices.getVolunteerOrgsList).toHaveBeenCalledWith(
+          expect.objectContaining({
+            location: "Florida",
+          }),
+        );
+      });
+    });
+
+    it("uses default US when no location data provided", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: "FOOD",
+          description: "Need food",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({ body: [] });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(volunteerServices.getVolunteerOrgsList).toHaveBeenCalledWith(
+          expect.objectContaining({
+            location: "US",
+          }),
+        );
+      });
+    });
   });
 });
