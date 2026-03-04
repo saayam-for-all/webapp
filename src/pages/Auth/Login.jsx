@@ -82,8 +82,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center h-full justify-center">
-      <div className="px-4 py-4 flex flex-col relative w-1/2">
+    <div className="flex flex-col items-center pt-8 pb-8 min-h-0">
+      <div className="px-4 py-4 flex flex-col relative w-full max-w-md">
         <h1 className="my-4 text-3xl font-bold text-center">
           {t("common:LOGIN")}
         </h1>
@@ -174,7 +174,7 @@ const LoginPage = () => {
           </button>
         </div> */}
 
-        <div className="mt-16 flex flex-row justify-center">
+        <div className="mt-8 flex flex-row justify-center">
           <p>{t("common:NONE_ACCOUNT")}</p>
           <button
             className="mx-2 text-left underline"
