@@ -30,6 +30,76 @@ jest.mock("../../services/volunteerServices", () => ({
 }));
 
 describe("HelpingVolunteers", () => {
+  it("shows error if volunteers API fails", async () => {
+    const { getVolunteersData } = require("../../services/volunteerServices");
+    getVolunteersData.mockImplementationOnce(() =>
+      Promise.reject(new Error("API error")),
+    );
+    render(<HelpingVolunteers />);
+    // Wait for error state to be set
+    await waitFor(() => {
+      expect(
+        screen.getByText(/API error|Failed to fetch volunteers/i),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("disables confirm/cancel buttons during meeting loading", async () => {
+    meetingServices.createZoomMeeting.mockImplementation(
+      () => new Promise(() => {}),
+    );
+    render(<HelpingVolunteers />);
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
+    fireEvent.change(screen.getByLabelText(/Date/i), {
+      target: { value: "2026-03-10" },
+    });
+    fireEvent.change(screen.getByLabelText(/Time/i), {
+      target: { value: "12:00" },
+    });
+    // Wait for modal to open and Confirm button to appear
+    const confirmBtn = await screen.findByRole("button", { name: /Confirm/i });
+    const cancelBtn = await screen.findByRole("button", { name: /Cancel/i });
+    fireEvent.click(confirmBtn);
+    // Wait for loading state
+    await waitFor(() => {
+      expect(confirmBtn).toBeDisabled();
+      expect(cancelBtn).toBeDisabled();
+    });
+  });
+
+  it("shows and hides meeting success message", async () => {
+    meetingServices.createZoomMeeting.mockResolvedValue({
+      zoomLink: "link",
+      meetingId: "id",
+    });
+    meetingServices.storeMeetingDetails.mockResolvedValue({});
+    render(<HelpingVolunteers />);
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
+    fireEvent.change(screen.getByLabelText(/Date/i), {
+      target: { value: "2026-03-10" },
+    });
+    fireEvent.change(screen.getByLabelText(/Time/i), {
+      target: { value: "12:00" },
+    });
+    fireEvent.click(screen.getByText(/Confirm/i));
+    await waitFor(() =>
+      expect(
+        screen.getByText(/Meeting scheduled and invitations sent!/i),
+      ).toBeInTheDocument(),
+    );
+    // Simulate time passing for message to disappear
+    await waitFor(
+      () =>
+        expect(
+          screen.queryByText(/Meeting scheduled and invitations sent!/i),
+        ).not.toBeInTheDocument(),
+      { timeout: 2000 },
+    );
+  });
   it("searches volunteers by name", async () => {
     render(<HelpingVolunteers />);
     expect(await screen.findByText("Jane Cooper")).toBeInTheDocument();

@@ -16,6 +16,14 @@ const HelpingVolunteers = () => {
   const [meetingLoading, setMeetingLoading] = useState(false);
   const [meetingError, setMeetingError] = useState("");
   const [meetingSuccess, setMeetingSuccess] = useState("");
+
+  // Auto-hide meeting success message after 2 seconds
+  useEffect(() => {
+    if (meetingSuccess) {
+      const timer = setTimeout(() => setMeetingSuccess(""), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [meetingSuccess]);
   const [isOpen, setIsOpen] = useState(false);
   const [chooseVolunteer, setChooseVolunteer] = useState(true);
   const [volunteersCount, setVolunteersCount] = useState(2);
@@ -227,6 +235,11 @@ const HelpingVolunteers = () => {
 
   return (
     <div className="w-full border border-gray-300 rounded-md">
+      {error && (
+        <div className="text-red-600 font-semibold px-4 pt-4" role="alert">
+          {error}
+        </div>
+      )}
       <div className="flex justify-between items-center px-4 pt-4">
         <div className="font-bold text-lg">Volunteer Management</div>
         <button
