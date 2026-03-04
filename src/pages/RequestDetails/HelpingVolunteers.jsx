@@ -235,6 +235,11 @@ const HelpingVolunteers = () => {
 
   return (
     <div className="w-full border border-gray-300 rounded-md">
+      {loading && (
+        <div className="text-center py-8 text-lg font-semibold" role="status">
+          Loading...
+        </div>
+      )}
       {error && (
         <div className="text-red-600 font-semibold px-4 pt-4" role="alert">
           {error}

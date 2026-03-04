@@ -1,21 +1,3 @@
-// TESTS for coverage
-if (process.env.NODE_ENV === "test") {
-  // eslint-disable-next-line
-  const { describe, it, expect } = require("@jest/globals");
-  const api = { post: jest.fn() };
-  describe("meetingServices", () => {
-    it("createZoomMeeting handles error", async () => {
-      api.post.mockRejectedValueOnce(new Error("Network Error"));
-      await expect(
-        createZoomMeeting({ emails: [], date: "", time: "" }),
-      ).rejects.toThrow("Network Error");
-    });
-    it("storeMeetingDetails handles error", async () => {
-      api.post.mockRejectedValueOnce(new Error("Network Error"));
-      await expect(storeMeetingDetails({})).rejects.toThrow("Network Error");
-    });
-  });
-}
 import api from "./api";
 
 // Create a Zoom meeting and notify selected volunteers

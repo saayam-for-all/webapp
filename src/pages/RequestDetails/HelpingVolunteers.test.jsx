@@ -30,6 +30,36 @@ jest.mock("../../services/volunteerServices", () => ({
 }));
 
 describe("HelpingVolunteers", () => {
+  it("shows loading spinner when fetching volunteers", async () => {
+    const { getVolunteersData } = require("../../services/volunteerServices");
+    getVolunteersData.mockImplementationOnce(() => new Promise(() => {}));
+    render(<HelpingVolunteers />);
+    expect(await screen.findByText(/Loading.../i)).toBeInTheDocument();
+  });
+
+  it("renders fallback UI for volunteersCount = 0", async () => {
+    render(<HelpingVolunteers />);
+    const countInput = screen.getAllByRole("textbox")[0];
+    fireEvent.change(countInput, { target: { value: "0" } });
+    fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
+    // Should show no volunteers, but still show badge and date
+    expect(screen.getAllByText(/Volunteers/).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Assigned/)).toBeInTheDocument();
+    const dateRegex = /Mar \d{1,2}, 2026, \d{1,2}:\d{2} (AM|PM)/;
+    expect(screen.getByText(dateRegex)).toBeInTheDocument();
+  });
+
+  it("renders fallback UI for negative volunteersCount", async () => {
+    render(<HelpingVolunteers />);
+    const countInput = screen.getAllByRole("textbox")[0];
+    fireEvent.change(countInput, { target: { value: "-5" } });
+    fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
+    // Should show no volunteers, but still show badge and date
+    expect(screen.getAllByText(/Volunteers/).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Assigned/)).toBeInTheDocument();
+    const dateRegex = /Mar \d{1,2}, 2026, \d{1,2}:\d{2} (AM|PM)/;
+    expect(screen.getByText(dateRegex)).toBeInTheDocument();
+  });
   it("shows error if volunteers API fails", async () => {
     const { getVolunteersData } = require("../../services/volunteerServices");
     getVolunteersData.mockImplementationOnce(() =>
@@ -70,6 +100,7 @@ describe("HelpingVolunteers", () => {
   });
 
   it("shows and hides meeting success message", async () => {
+    jest.useFakeTimers();
     meetingServices.createZoomMeeting.mockResolvedValue({
       zoomLink: "link",
       meetingId: "id",
@@ -91,14 +122,14 @@ describe("HelpingVolunteers", () => {
         screen.getByText(/Meeting scheduled and invitations sent!/i),
       ).toBeInTheDocument(),
     );
-    // Simulate time passing for message to disappear
-    await waitFor(
-      () =>
-        expect(
-          screen.queryByText(/Meeting scheduled and invitations sent!/i),
-        ).not.toBeInTheDocument(),
-      { timeout: 2000 },
+    // Fast-forward timers to auto-hide message
+    jest.advanceTimersByTime(2000);
+    await waitFor(() =>
+      expect(
+        screen.queryByText(/Meeting scheduled and invitations sent!/i),
+      ).not.toBeInTheDocument(),
     );
+    jest.useRealTimers();
   });
   it("searches volunteers by name", async () => {
     render(<HelpingVolunteers />);
