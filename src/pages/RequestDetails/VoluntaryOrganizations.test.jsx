@@ -120,7 +120,7 @@ describe("VoluntaryOrganizations", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText("No Organizations Found")).toBeInTheDocument();
+        expect(screen.getByText("NO_ORGANIZATIONS_FOUND")).toBeInTheDocument();
       });
     });
   });
@@ -197,7 +197,7 @@ describe("VoluntaryOrganizations", () => {
         expect(screen.getByText("Orlando, FL")).toBeInTheDocument();
         expect(screen.getByText("555-1234")).toBeInTheDocument();
         expect(screen.getByText("help@center.org")).toBeInTheDocument();
-        expect(screen.getByText("Visit Website")).toBeInTheDocument();
+        expect(screen.getByText("VISIT_WEBSITE")).toBeInTheDocument();
         // Mission is displayed in quotes
         expect(screen.getByText('"Serving the community"')).toBeInTheDocument();
       });
@@ -215,7 +215,7 @@ describe("VoluntaryOrganizations", () => {
       );
 
       await waitFor(() => {
-        const link = screen.getByText("Visit Website").closest("a");
+        const link = screen.getByText("VISIT_WEBSITE").closest("a");
         expect(link).toHaveAttribute("href", "https://example.org");
         expect(link).toHaveAttribute("target", "_blank");
         expect(link).toHaveAttribute("rel", "noopener noreferrer");
@@ -299,11 +299,11 @@ describe("VoluntaryOrganizations", () => {
         expect(screen.getByText("AI Org 1")).toBeInTheDocument();
       });
 
-      // Find and click AI filter button (contains "AI Suggested" text and count "3")
+      // Find and click AI filter button (contains "AI_SUGGESTED" text and count "3")
       const buttons = screen.getAllByRole("button");
       const aiButton = buttons.find(
         (btn) =>
-          btn.textContent.includes("AI Suggested") &&
+          btn.textContent.includes("AI_SUGGESTED") &&
           btn.textContent.includes("3"),
       );
       fireEvent.click(aiButton);
@@ -330,11 +330,11 @@ describe("VoluntaryOrganizations", () => {
         expect(screen.getByText("DB Org 1")).toBeInTheDocument();
       });
 
-      // Find and click Registered filter button (contains "Registered" text and count "2")
+      // Find and click Registered filter button (contains "REGISTERED" text and count "2")
       const buttons = screen.getAllByRole("button");
       const dbButton = buttons.find(
         (btn) =>
-          btn.textContent.includes("Registered") &&
+          btn.textContent.includes("REGISTERED") &&
           btn.textContent.includes("2"),
       );
       fireEvent.click(dbButton);
@@ -359,19 +359,19 @@ describe("VoluntaryOrganizations", () => {
 
       await waitFor(() => {
         // All button should show 5
-        const allButton = screen.getByText("All").closest("button");
+        const allButton = screen.getByText("ALL").closest("button");
         expect(allButton.textContent).toContain("5");
 
         // AI filter should show 3 (llm, ai, genai)
         const buttons = screen.getAllByRole("button");
         const aiButton = buttons.find((btn) =>
-          btn.textContent.includes("AI Suggested"),
+          btn.textContent.includes("AI_SUGGESTED"),
         );
         expect(aiButton.textContent).toContain("3");
 
         // Registered filter should show 2 (db, database)
         const dbButton = buttons.find((btn) =>
-          btn.textContent.includes("Registered"),
+          btn.textContent.includes("REGISTERED"),
         );
         expect(dbButton.textContent).toContain("2");
       });
@@ -397,7 +397,9 @@ describe("VoluntaryOrganizations", () => {
         expect(screen.getByText("Food Pantry")).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText(/Search organizations/i);
+      const searchInput = screen.getByPlaceholderText(
+        /SEARCH_ORGANIZATIONS_PLACEHOLDER/i,
+      );
       fireEvent.change(searchInput, { target: { value: "Food" } });
 
       await waitFor(() => {
@@ -424,7 +426,9 @@ describe("VoluntaryOrganizations", () => {
         expect(screen.getByText("Org A")).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText(/Search organizations/i);
+      const searchInput = screen.getByPlaceholderText(
+        /SEARCH_ORGANIZATIONS_PLACEHOLDER/i,
+      );
       fireEvent.change(searchInput, { target: { value: "Orlando" } });
 
       await waitFor(() => {
@@ -448,7 +452,9 @@ describe("VoluntaryOrganizations", () => {
         expect(screen.getByText("FOOD BANK")).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText(/Search organizations/i);
+      const searchInput = screen.getByPlaceholderText(
+        /SEARCH_ORGANIZATIONS_PLACEHOLDER/i,
+      );
       fireEvent.change(searchInput, { target: { value: "food bank" } });
 
       await waitFor(() => {
@@ -475,7 +481,9 @@ describe("VoluntaryOrganizations", () => {
       });
 
       // Type in search to filter
-      const searchInput = screen.getByPlaceholderText(/Search organizations/i);
+      const searchInput = screen.getByPlaceholderText(
+        /SEARCH_ORGANIZATIONS_PLACEHOLDER/i,
+      );
       fireEvent.change(searchInput, { target: { value: "Orlando" } });
 
       await waitFor(() => {
@@ -509,7 +517,7 @@ describe("VoluntaryOrganizations", () => {
         expect(
           screen.getByText("Failed to load organizations. Please try again."),
         ).toBeInTheDocument();
-        expect(screen.getByText("Try Again")).toBeInTheDocument();
+        expect(screen.getByText("TRY_AGAIN")).toBeInTheDocument();
       });
     });
 
@@ -525,10 +533,10 @@ describe("VoluntaryOrganizations", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText("Try Again")).toBeInTheDocument();
+        expect(screen.getByText("TRY_AGAIN")).toBeInTheDocument();
       });
 
-      fireEvent.click(screen.getByText("Try Again"));
+      fireEvent.click(screen.getByText("TRY_AGAIN"));
 
       await waitFor(() => {
         expect(screen.getByText("Success Org")).toBeInTheDocument();
@@ -551,7 +559,7 @@ describe("VoluntaryOrganizations", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText("Request Details Required"),
+          screen.getByText("REQUEST_DETAILS_REQUIRED"),
         ).toBeInTheDocument();
       });
     });
@@ -569,7 +577,7 @@ describe("VoluntaryOrganizations", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText("Request Details Required"),
+          screen.getByText("REQUEST_DETAILS_REQUIRED"),
         ).toBeInTheDocument();
       });
 
@@ -595,6 +603,310 @@ describe("VoluntaryOrganizations", () => {
       fireEvent.click(screen.getByText("BACK"));
 
       expect(mockNavigate).toHaveBeenCalledWith(-1);
+    });
+
+    it("Go to Dashboard button navigates to /dashboard when no request data", async () => {
+      reactRouterDom.useLocation.mockReturnValue({ state: null });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("GO_TO_DASHBOARD")).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText("GO_TO_DASHBOARD"));
+
+      expect(mockNavigate).toHaveBeenCalledWith("/dashboard");
+    });
+  });
+
+  describe("Source badges", () => {
+    it("displays AI_SUGGESTED badge for AI organizations", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "AI Org", db_or_ai: "ai" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("AI Org")).toBeInTheDocument();
+        // AI badge appears in the card
+        const aiLabels = screen.getAllByText("AI_SUGGESTED");
+        expect(aiLabels.length).toBeGreaterThan(0);
+      });
+    });
+
+    it("displays REGISTERED badge for DB organizations", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "DB Org", db_or_ai: "db" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("DB Org")).toBeInTheDocument();
+        // Registered badge appears in the card
+        const registeredLabels = screen.getAllByText("REGISTERED");
+        expect(registeredLabels.length).toBeGreaterThan(0);
+      });
+    });
+
+    it("defaults to REGISTERED badge when db_or_ai is missing", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Unknown Source Org" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("Unknown Source Org")).toBeInTheDocument();
+        const registeredLabels = screen.getAllByText("REGISTERED");
+        expect(registeredLabels.length).toBeGreaterThan(0);
+      });
+    });
+  });
+
+  describe("Results count display", () => {
+    it("shows singular ORGANIZATION when only one result", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Single Org", db_or_ai: "db" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        // Check that organization card is rendered
+        expect(screen.getByText("Single Org")).toBeInTheDocument();
+        // The result count badge contains singular ORGANIZATION (not ORGANIZATIONS)
+        const countBadge = screen.getByText(/FOUND/i).closest("div");
+        expect(countBadge.textContent).toMatch(/1.*ORGANIZATION.*FOUND/);
+        expect(countBadge.textContent).not.toMatch(/ORGANIZATIONS/);
+      });
+    });
+
+    it("shows plural ORGANIZATIONS when multiple results", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [
+          { name: "Org 1", db_or_ai: "db" },
+          { name: "Org 2", db_or_ai: "db" },
+        ],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        // Check that organization cards are rendered
+        expect(screen.getByText("Org 1")).toBeInTheDocument();
+        expect(screen.getByText("Org 2")).toBeInTheDocument();
+        // The result count badge contains plural ORGANIZATIONS
+        const countBadge = screen.getByText(/FOUND/i).closest("div");
+        expect(countBadge.textContent).toMatch(/2.*ORGANIZATIONS.*FOUND/);
+      });
+    });
+  });
+
+  describe("Category display", () => {
+    it("displays category with catName fallback for object categories", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: { catName: "HOUSING_ASSISTANCE" },
+          description: "Need housing help",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Housing Org" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("SHOWING_ORGANIZATIONS_FOR"),
+        ).toBeInTheDocument();
+        expect(screen.getByText("housing assistance")).toBeInTheDocument();
+      });
+    });
+
+    it("displays string category directly", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: "FOOD_ASSISTANCE",
+          description: "Need food help",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Food Org" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("food assistance")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("No results with search - Clear Search button", () => {
+    it("shows Clear Search button when search has no matches and clicking it clears search", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Test Org", location: "Tampa" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("Test Org")).toBeInTheDocument();
+      });
+
+      // Search for something that doesn't exist
+      const searchInput = screen.getByPlaceholderText(
+        /SEARCH_ORGANIZATIONS_PLACEHOLDER/i,
+      );
+      fireEvent.change(searchInput, { target: { value: "nonexistent" } });
+
+      await waitFor(() => {
+        expect(screen.getByText("NO_MATCHING_RESULTS")).toBeInTheDocument();
+        expect(screen.getByText("CLEAR_SEARCH")).toBeInTheDocument();
+      });
+
+      // Click Clear Search button
+      fireEvent.click(screen.getByText("CLEAR_SEARCH"));
+
+      await waitFor(() => {
+        expect(screen.getByText("Test Org")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Source attribution footer", () => {
+    it("displays source attribution legend when organizations are shown", async () => {
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({
+        body: [{ name: "Test Org", db_or_ai: "db" }],
+      });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        // Check that the attribution footer is rendered with both labels
+        expect(screen.getByText(/RECOMMENDED_BY_AI/)).toBeInTheDocument();
+        expect(screen.getByText(/REGISTERED_WITH_US/)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Location fallback in payload", () => {
+    it("uses city when location is not provided", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: "FOOD",
+          description: "Need food",
+          city: "Orlando",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({ body: [] });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(volunteerServices.getVolunteerOrgsList).toHaveBeenCalledWith(
+          expect.objectContaining({
+            location: "Orlando",
+          }),
+        );
+      });
+    });
+
+    it("uses state when location and city are not provided", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: "FOOD",
+          description: "Need food",
+          state: "Florida",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({ body: [] });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(volunteerServices.getVolunteerOrgsList).toHaveBeenCalledWith(
+          expect.objectContaining({
+            location: "Florida",
+          }),
+        );
+      });
+    });
+
+    it("uses default US when no location data provided", async () => {
+      reactRouterDom.useLocation.mockReturnValue({
+        state: {
+          category: "FOOD",
+          description: "Need food",
+        },
+      });
+      volunteerServices.getVolunteerOrgsList.mockResolvedValue({ body: [] });
+
+      render(
+        <MemoryRouter>
+          <VoluntaryOrganizations />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(volunteerServices.getVolunteerOrgsList).toHaveBeenCalledWith(
+          expect.objectContaining({
+            location: "US",
+          }),
+        );
+      });
     });
   });
 });

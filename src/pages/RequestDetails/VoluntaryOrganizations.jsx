@@ -190,6 +190,7 @@ const VoluntaryOrganizations = () => {
   // Source badge component
   const SourceBadge = ({ dbOrAi }) => {
     const isAI = getSourceType(dbOrAi) === "ai";
+    /* eslint-disable react/prop-types */
     return (
       <div
         className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${
@@ -201,12 +202,12 @@ const VoluntaryOrganizations = () => {
         {isAI ? (
           <>
             <FaRobot className="text-xs" />
-            <span>AI Suggested</span>
+            <span>{t("AI_SUGGESTED")}</span>
           </>
         ) : (
           <>
             <FaClipboardList className="text-xs" />
-            <span>Registered</span>
+            <span>{t("REGISTERED")}</span>
           </>
         )}
       </div>
@@ -295,7 +296,7 @@ const VoluntaryOrganizations = () => {
             className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-primary-50 hover:bg-primary-100 text-primary-700 font-medium rounded-lg transition-colors group-hover:bg-primary-100"
           >
             <FaGlobe className="text-sm" />
-            <span>Visit Website</span>
+            <span>{t("VISIT_WEBSITE")}</span>
             <HiOutlineExternalLink className="text-sm" />
           </a>
         </div>
@@ -336,7 +337,7 @@ const VoluntaryOrganizations = () => {
               </h1>
               {categoryDisplay && (
                 <p className="mt-2 text-lg text-gray-700">
-                  Showing organizations that can help with{" "}
+                  {t("SHOWING_ORGANIZATIONS_FOR")}{" "}
                   <span className="font-semibold text-primary-600">
                     {categoryDisplay.replace(/_/g, " ").toLowerCase()}
                   </span>
@@ -349,9 +350,9 @@ const VoluntaryOrganizations = () => {
               <div className="bg-primary-50 text-primary-700 px-4 py-2 rounded-full text-sm font-medium">
                 {filteredOrganizations.length}{" "}
                 {filteredOrganizations.length === 1
-                  ? "organization"
-                  : "organizations"}{" "}
-                found
+                  ? t("ORGANIZATION")
+                  : t("ORGANIZATIONS")}{" "}
+                {t("FOUND")}
               </div>
             )}
           </div>
@@ -366,7 +367,7 @@ const VoluntaryOrganizations = () => {
             {/* Source Toggle */}
             <div className="flex flex-wrap items-center gap-4">
               <span className="text-sm font-medium text-gray-700">
-                Filter by source:
+                {t("FILTER_BY_SOURCE")}
               </span>
               <div className="inline-flex rounded-lg border border-gray-200 bg-white shadow-sm p-1">
                 <button
@@ -377,7 +378,7 @@ const VoluntaryOrganizations = () => {
                       : "text-gray-600 hover:bg-gray-100"
                   }`}
                 >
-                  All
+                  {t("ALL")}
                   <span
                     className={`px-1.5 py-0.5 rounded-full text-xs ${
                       sourceFilter === "all" ? "bg-white/20" : "bg-gray-100"
@@ -395,7 +396,7 @@ const VoluntaryOrganizations = () => {
                   }`}
                 >
                   <FaRobot className="text-xs" />
-                  AI Suggested
+                  {t("AI_SUGGESTED")}
                   <span
                     className={`px-1.5 py-0.5 rounded-full text-xs ${
                       sourceFilter === "ai" ? "bg-white/20" : "bg-gray-100"
@@ -413,7 +414,7 @@ const VoluntaryOrganizations = () => {
                   }`}
                 >
                   <FaClipboardList className="text-xs" />
-                  Registered
+                  {t("REGISTERED")}
                   <span
                     className={`px-1.5 py-0.5 rounded-full text-xs ${
                       sourceFilter === "db" ? "bg-white/20" : "bg-gray-100"
@@ -432,7 +433,7 @@ const VoluntaryOrganizations = () => {
               </div>
               <input
                 type="text"
-                placeholder="Search organizations by name, location, or contact..."
+                placeholder={t("SEARCH_ORGANIZATIONS_PLACEHOLDER")}
                 value={searchTerm}
                 onChange={handleSearchChange}
                 className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-gray-700 placeholder-gray-400 bg-white shadow-sm"
@@ -460,7 +461,7 @@ const VoluntaryOrganizations = () => {
               onClick={getVoluntaryOrganizations}
               className="mt-4 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
             >
-              Try Again
+              {t("TRY_AGAIN")}
             </button>
           </div>
         )}
@@ -470,15 +471,15 @@ const VoluntaryOrganizations = () => {
           <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
             <EmptyState
               icon={FaBuilding}
-              title="Request Details Required"
-              description="Please provide request details (category, description, or location) to find relevant organizations that can help."
+              title={t("REQUEST_DETAILS_REQUIRED")}
+              description={t("REQUEST_DETAILS_REQUIRED_DESC")}
             />
             <div className="flex justify-center mt-6">
               <button
                 onClick={() => navigate("/dashboard")}
                 className="px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
               >
-                Go to Dashboard
+                {t("GO_TO_DASHBOARD")}
               </button>
             </div>
           </div>
@@ -493,12 +494,14 @@ const VoluntaryOrganizations = () => {
               <EmptyState
                 icon={IoSearchOutline}
                 title={
-                  searchTerm ? "No Matching Results" : "No Organizations Found"
+                  searchTerm
+                    ? t("NO_MATCHING_RESULTS")
+                    : t("NO_ORGANIZATIONS_FOUND")
                 }
                 description={
                   searchTerm
-                    ? `No organizations match "${searchTerm}". Try adjusting your search.`
-                    : "We couldn't find any organizations for this request at the moment."
+                    ? t("NO_ORGANIZATIONS_MATCH", { searchTerm })
+                    : t("NO_ORGANIZATIONS_AT_MOMENT")
                 }
               />
               {searchTerm && (
@@ -507,7 +510,7 @@ const VoluntaryOrganizations = () => {
                     onClick={() => setSearchTerm("")}
                     className="px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
                   >
-                    Clear Search
+                    {t("CLEAR_SEARCH")}
                   </button>
                 </div>
               )}
@@ -535,15 +538,15 @@ const VoluntaryOrganizations = () => {
               <div className="flex items-center justify-center gap-6 flex-wrap">
                 <div className="flex items-center gap-2">
                   <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-purple-100 text-purple-700 text-xs">
-                    <FaRobot /> AI Suggested
+                    <FaRobot /> {t("AI_SUGGESTED")}
                   </span>
-                  <span>= Recommended by AI based on your request</span>
+                  <span>= {t("RECOMMENDED_BY_AI")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs">
-                    <FaClipboardList /> Registered
+                    <FaClipboardList /> {t("REGISTERED")}
                   </span>
-                  <span>= Registered with us</span>
+                  <span>= {t("REGISTERED_WITH_US")}</span>
                 </div>
               </div>
             </div>
