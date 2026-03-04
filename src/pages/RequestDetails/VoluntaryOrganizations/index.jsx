@@ -65,7 +65,7 @@ const VoluntaryOrganizations = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                {t("VOLUNTARY_ORGANIZATIONS") || "Voluntary Organizations"}
+                {t("ORGANIZATIONS") || "Organizations"}
               </h1>
               {categoryDisplay && (
                 <p className="mt-2 text-lg text-gray-700">
