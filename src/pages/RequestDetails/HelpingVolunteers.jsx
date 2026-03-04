@@ -270,12 +270,40 @@ const HelpingVolunteers = () => {
                   onChange={(e) => setMeetingDate(e.target.value)}
                   disabled={meetingLoading}
                 />
+                <label
+                  htmlFor="meeting-date"
+                  className="block mb-1 font-semibold text-gray-700"
+                >
+                  Date
+                </label>
+                <input
+                  id="meeting-date"
+                  type="date"
+                  className="border-2 border-gray-200 rounded-lg px-4 py-2 w-full focus:border-blue-400 focus:outline-none transition"
+                  value={meetingDate}
+                  onChange={(e) => setMeetingDate(e.target.value)}
+                  disabled={meetingLoading}
+                />
               </div>
               <div className="mb-5">
                 <label className="block mb-1 font-semibold text-gray-700">
                   Time
                 </label>
                 <input
+                  type="time"
+                  className="border-2 border-gray-200 rounded-lg px-4 py-2 w-full focus:border-blue-400 focus:outline-none transition"
+                  value={meetingTime}
+                  onChange={(e) => setMeetingTime(e.target.value)}
+                  disabled={meetingLoading}
+                />
+                <label
+                  htmlFor="meeting-time"
+                  className="block mb-1 font-semibold text-gray-700"
+                >
+                  Time
+                </label>
+                <input
+                  id="meeting-time"
                   type="time"
                   className="border-2 border-gray-200 rounded-lg px-4 py-2 w-full focus:border-blue-400 focus:outline-none transition"
                   value={meetingTime}
@@ -469,7 +497,14 @@ const HelpingVolunteers = () => {
 
               {/* Filter By Dropdown */}
               <div>
+                <label
+                  htmlFor="filter-causes"
+                  className="mr-2 font-semibold text-gray-700"
+                >
+                  Filter by: All Causes
+                </label>
                 <select
+                  id="filter-causes"
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
                   className="p-2 border border-gray-300 rounded-md"
