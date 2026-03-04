@@ -93,8 +93,8 @@ const RequestButton = ({
         setShowModal(true);
       }
     } else {
-      // Navigate to the provided link
-      navigate(link);
+      // Navigate to the provided link, passing requestData as state
+      navigate(link, { state: requestData });
     }
   };
 
