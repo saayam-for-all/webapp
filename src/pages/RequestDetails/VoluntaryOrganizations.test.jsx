@@ -20,7 +20,7 @@ jest.mock("react-router-dom", () => ({
 // Mock react-i18next
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => key,
+    t: (key, options) => options?.defaultValue || key,
   }),
 }));
 
