@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "#components/Navbar/Navbar";
 import MainLoader from "#components/Loader/MainLoader";
 import Footer from "#components/Footer/Footer";
@@ -10,6 +10,12 @@ import { NotificationProvider } from "../context/NotificationContext";
 import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
 
 const Layout = () => {
+  const location = useLocation();
+
+  const hideAds =
+    location.pathname === "/login" ||
+    location.pathname === "/signup" ||
+    location.pathname === "/forgot-password";
   return (
     <div className="flex flex-col h-screen">
       <NotificationProvider>
@@ -24,17 +30,21 @@ const Layout = () => {
 
         {/* main content */}
         <div className="flex flex-1">
-          <aside className="left-ads-panel flex-1 ">
-            <LeftAds />
-          </aside>
+          {!hideAds && (
+            <aside className="left-ads-panel flex-1 ">
+              <LeftAds />
+            </aside>
+          )}
           <main className="flex-[6] overflow-auto">
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
           </main>
-          <aside className="right-ads-panel flex-1 ">
-            <RightAds />
-          </aside>
+          {!hideAds && (
+            <aside className="right-ads-panel flex-1 ">
+              <RightAds />
+            </aside>
+          )}
         </div>
 
         {/* footer */}
