@@ -5,7 +5,7 @@ import { useImmer } from "use-immer";
 import { getVolunteerSkills } from "../../services/volunteerServices";
 
 const Skills = ({ setHasUnsavedChanges }) => {
-  const { t } = useTranslation("profile");
+  const { t } = useTranslation(["profile", "categories"]);
   const [isEditing, setIsEditing] = useState(false);
   const mockCategories = {
     Books: { checked: true },
@@ -18,9 +18,45 @@ const Skills = ({ setHasUnsavedChanges }) => {
     Matrimonial: { checked: true },
     Shopping: { checked: true },
   };
-  // Update with user skills data from the API once that is created
   const [checkedCategories, setCheckedCategories] = useImmer(mockCategories);
   const [categoriesData, setCategoriesData] = useState();
+
+  const CATEGORY_LABEL_TO_KEY = {
+    "Food & Essentials": "FOOD_AND_ESSENTIALS",
+    "Clothing Assistance": "CLOTHING_ASSISTANCE",
+    "Housing Assistance": "HOUSING_ASSISTANCE",
+    "Education & Career Assistance": "EDUCATION_CAREER_SUPPORT",
+    "Healthcare & Wellbeing": "HEALTHCARE_AND_WELLNESS",
+    "Elderly & Community Assistance": "ELDERLY_COMMUNITY_ASSISTANCE",
+    General: "GENERAL_CATEGORY",
+  };
+
+  const toI18nKey = (label) => {
+    if (!label) return "";
+    if (CATEGORY_LABEL_TO_KEY[label]) return CATEGORY_LABEL_TO_KEY[label];
+    if (/^[A-Z0-9_]+$/.test(label)) return label;
+    return label
+      .toUpperCase()
+      .replace(/\//g, "_")
+      .replace(/&/g, "AND")
+      .replace(/\s+/g, "_");
+  };
+
+  const translateCategory = (categoryName, parentPath = "") => {
+    const categoryKey = toI18nKey(categoryName);
+
+    if (parentPath) {
+      const parentKey = toI18nKey(parentPath.split(".")[0]);
+      return t(
+        `categories:REQUEST_CATEGORIES.${parentKey}.SUBCATEGORIES.${categoryKey}.LABEL`,
+        { defaultValue: categoryName },
+      );
+    }
+
+    return t(`categories:REQUEST_CATEGORIES.${categoryKey}.LABEL`, {
+      defaultValue: categoryName,
+    });
+  };
 
   const getSelectedSkills = (categories, parentPath = "", selected = []) => {
     return categories.map((cat, index) => {
@@ -34,7 +70,9 @@ const Skills = ({ setHasUnsavedChanges }) => {
       return (
         <div className="flex flex-col" disablePadding>
           <ListItem key={index} className="" disablePadding>
-            <ListItemText primary={`• ${categoryName}`} />
+            <ListItemText
+              primary={`• ${translateCategory(categoryName, parentPath)}`}
+            />
           </ListItem>
           {hasSubCategories && getCheckedStatus(currentPath) && (
             <div className="ml-5" disablePadding>
@@ -53,7 +91,9 @@ const Skills = ({ setHasUnsavedChanges }) => {
       .then((data) => {
         setCategoriesData(data?.body);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const getCheckedStatus = (categoryPath) => {
@@ -120,7 +160,7 @@ const Skills = ({ setHasUnsavedChanges }) => {
               onChange={() => handleCheckboxChange(currentPath)}
             />
             <span className={getCheckedStatus(currentPath) ? "font-bold" : ""}>
-              {categoryName}
+              {translateCategory(categoryName, parentPath)}
             </span>
           </label>
 
