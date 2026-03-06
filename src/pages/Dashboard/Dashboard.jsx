@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useSearchParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./views/AdminDashboard";
@@ -1246,6 +1246,7 @@ const Dashboard = ({ userRole }) => {
 
   return (
     <div className="p-5">
+      <Outlet />
       <ToastContainer
         position="top-center"
         autoClose={3000}
@@ -1255,7 +1256,7 @@ const Dashboard = ({ userRole }) => {
       <div className="flex items-center justify-between gap-4 mb-2">
         <div className="flex items-center gap-2">
           <Link
-            to="/request"
+            to="/dashboard/request"
             onClick={(e) => {
               if (!hasAddress) {
                 e.preventDefault();
@@ -1270,7 +1271,7 @@ const Dashboard = ({ userRole }) => {
           {!groups?.includes("Volunteers") &&
             selectedDashboard !== DASHBOARDS.VOLUNTEER && (
               <Link
-                to="/promote-to-volunteer"
+                to="/dashboard/promote-to-volunteer"
                 onClick={(e) => {
                   if (!hasAddress) {
                     e.preventDefault();
@@ -1285,7 +1286,7 @@ const Dashboard = ({ userRole }) => {
             )}
           {selectedDashboard === DASHBOARDS.BENEFICIARY && (
             <Link
-              to="/emergency-contact"
+              to="/dashboard/emergency-contact"
               className="bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-md flex items-center justify-center gap-2"
               style={{ color: "white", textDecoration: "none" }}
             >
