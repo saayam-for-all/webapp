@@ -5,6 +5,14 @@ import {
 } from "#utils/test-utils.jsx";
 import Navbar from "./Navbar";
 
+/* router mocks */
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useLocation: () => ({ pathname: "/dashboard" }),
+  useNavigate: () => jest.fn(),
+  Link: ({ children }) => <a>{children}</a>,
+}));
+
 beforeAll(() => {
   if (!global.crypto) global.crypto = {};
   global.crypto.randomUUID = () => "mock-uuid";

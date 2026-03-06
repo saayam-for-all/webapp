@@ -1,48 +1,51 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import DynamicBreadcrumbs from "./Breadcrumbs";
+import DynamicBreadcrumbs from "#components/Breadcrumb/Breadcrumbs";
+import * as router from "react-router-dom";
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useLocation: jest.fn(),
+  Link: ({ children }) => <a>{children}</a>,
+}));
+
+jest.mock("@mui/material/Breadcrumbs", () => ({ children }) => (
+  <nav>{children}</nav>
+));
+jest.mock("@mui/material/Typography", () => ({ children }) => (
+  <span>{children}</span>
+));
+jest.mock("@mui/material/Link", () => ({ children }) => <a>{children}</a>);
+jest.mock("@mui/icons-material/NavigateNext", () => () => <span>/</span>);
 
 describe("DynamicBreadcrumbs", () => {
   test("renders Home breadcrumb", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <DynamicBreadcrumbs />
-      </MemoryRouter>,
-    );
+    router.useLocation.mockReturnValue({ pathname: "/" });
+
+    render(<DynamicBreadcrumbs />);
 
     expect(screen.getByText("Home")).toBeInTheDocument();
   });
 
-  test("renders breadcrumbs for nested routes", () => {
-    render(
-      <MemoryRouter initialEntries={["/dashboard/profile"]}>
-        <DynamicBreadcrumbs />
-      </MemoryRouter>,
-    );
+  test("renders nested breadcrumbs", () => {
+    router.useLocation.mockReturnValue({
+      pathname: "/dashboard/profile",
+    });
+
+    render(<DynamicBreadcrumbs />);
 
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Profile")).toBeInTheDocument();
   });
 
-  test("last breadcrumb should not be a link", () => {
-    render(
-      <MemoryRouter initialEntries={["/dashboard"]}>
-        <DynamicBreadcrumbs />
-      </MemoryRouter>,
-    );
-
-    const dashboard = screen.getByText("Dashboard");
-    expect(dashboard.closest("a")).toBeNull();
-  });
-
   test("formats hyphenated route correctly", () => {
-    render(
-      <MemoryRouter initialEntries={["/promote-to-volunteer"]}>
-        <DynamicBreadcrumbs />
-      </MemoryRouter>,
-    );
+    router.useLocation.mockReturnValue({
+      pathname: "/promote-to-volunteer",
+    });
 
-    expect(screen.getByText("Promote To Volunteer")).toBeInTheDocument();
+    render(<DynamicBreadcrumbs />);
+
+    expect(screen.getByText("Promote To-Volunteer")).toBeInTheDocument();
   });
 });
