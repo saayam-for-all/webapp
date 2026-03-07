@@ -1,4 +1,4 @@
-import { signIn } from "aws-amplify/auth";
+import { signIn, signInWithRedirect } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
@@ -9,6 +9,8 @@ import { INACTIVITY_TIMEOUT } from "../../common/components/InactivityTimer/Inac
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 import "./Login.css";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
 
 const LoginPage = () => {
   const { t } = useTranslation(["common"]);
@@ -31,6 +33,14 @@ const LoginPage = () => {
     email: z.string().min(1, { message: t("common:EMAIL_REQUIRED") }),
     password: z.string().min(1, { message: t("common:PASSWORD_REQUIRED") }),
   });
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithRedirect({ provider: "Google" });
+    } catch (error) {
+      console.error("Error redirecting to Google:", error);
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -156,23 +166,26 @@ const LoginPage = () => {
         )}
 
         {/* Uncommment for Google and Facebook signin is fully functional*/}
-        {/* <div className="flex items-center my-4">
+        <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">{t("common:OR_WITH")}</span>
           <div className="flex-grow border-t border-gray-300"></div>
-        </div> 
+        </div>
 
-         <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center">
           <button className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
             <FaFacebookF className="mx-2 text-xl text-blue-800" />
             <span>{t("common:FACEBOOK")}</span>
           </button>
 
-          <button className="ml-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
+          <button
+            className="ml-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl"
+            onClick={handleGoogleLogin}
+          >
             <FcGoogle className="mx-2 text-xl" />
             <span>{t("common:GOOGLE")}</span>
           </button>
-        </div> */}
+        </div>
 
         <div className="mt-16 flex flex-row justify-center">
           <p>{t("common:NONE_ACCOUNT")}</p>
