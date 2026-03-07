@@ -42,6 +42,14 @@ const LoginPage = () => {
     }
   };
 
+  const handleFacebookLogin = async () => {
+    try {
+      await signInWithRedirect({ provider: "Facebook" });
+    } catch (error) {
+      console.error("Error redirecting to Facebook:", error);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       navigate("/dashboard");
@@ -173,7 +181,10 @@ const LoginPage = () => {
         </div>
 
         <div className="flex flex-row items-center">
-          <button className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
+          <button
+            className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl"
+            onClick={handleFacebookLogin}
+          >
             <FaFacebookF className="mx-2 text-xl text-blue-800" />
             <span>{t("common:FACEBOOK")}</span>
           </button>
