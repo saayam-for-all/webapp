@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
-import HorizontalAd from "./VerticalAd";
+import VerticalAd from "./VerticalAd";
 
-describe("HorizontalAd Component", () => {
+describe("VerticlaeAd Component", () => {
   const originalLocation = window.location;
 
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe("HorizontalAd Component", () => {
     // 1. Set hostname to match production
     window.location.hostname = "saayamforall.org";
 
-    render(<HorizontalAd />);
+    render(<VerticalAd />);
 
     // 2. Check if push was called
     expect(window.adsbygoogle.push).toHaveBeenCalledTimes(1);
@@ -33,7 +33,7 @@ describe("HorizontalAd Component", () => {
     // 1. Set hostname to localhost
     window.location.hostname = "localhost";
 
-    render(<HorizontalAd />);
+    render(<VerticalAd />);
 
     // 2. Check that push was never called
     expect(window.adsbygoogle.push).not.toHaveBeenCalled();
