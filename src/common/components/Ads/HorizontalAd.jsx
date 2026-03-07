@@ -4,7 +4,7 @@ const HorizontalAd = () => {
   useEffect(() => {
     try {
       if (window.location.hostname === "saayamforall.org") {
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     } catch (e) {
       console.error("Adsense error", e);
