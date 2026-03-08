@@ -51,154 +51,45 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
   });
 }
 
-const stories = [
-  {
-    date: "02/09/2026",
-    title: "Ramesh Maturu Named to the 2026 Georgia Titan 100 List",
-    image: withRameshMaturu,
-    description:
-      "Pyramid Consulting is pleased to announce that its President and Co-founder Ramesh Maturu, has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.",
-    titleLinks: {
-      "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
-      "Pyramid Consulting": "https://www.pyramidci.com/",
-    },
-    // ✅ Read more ONLY for this card (replace with exact article URL if needed)
-    readMoreLink:
-      "https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/",
-  },
-  {
-    date: "05/02/2025",
-    title: "With Jensen Huang, CEO of NVIDIA",
-    image: withJensen,
-    description:
-      "Rao with Jensen Huang, CEO of Nvidia in IIT Bay Area Conference.",
-    titleLinks: {
-      "Jensen Huang": "https://www.linkedin.com/in/jenhsunhuang/",
-      NVIDIA: "https://www.nvidia.com/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title: "With Vishal Sikka, Founder & CEO of Vianai Systems",
-    image: withVishalSikka,
-    description:
-      "An insightful exchange with Vishal Sikka on leadership, purpose-driven innovation, and building organizations that create long-term impact.",
-    titleLinks: {
-      "Vishal Sikka": "https://www.linkedin.com/in/vishal-sikka-869a6b2/",
-      "Vianai Systems": "https://www.vian.ai/",
-    },
-  },
-  {
-    date: "02/09/2026",
-    title:
-      "With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach",
-    image: leisuewithproductivity,
-    description:
-      "A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with Ramesh Maturu and Ramana Yerneni by the Pacific coast.",
-    titleLinks: {
-      "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
-      "Ramana Yerneni": "https://www.linkedin.com/in/ramanayerneni/",
-      "Pyramid Consulting": "https://www.pyramidci.com/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title: "In Step with the Community: A 17-Mile Walk in San Ramon",
-    image: seventeenMileWalk,
-    description:
-      "Our CEO and Sateesh Mucharla participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.",
-    titleLinks: {
-      "Sateesh Mucharla": "https://www.linkedin.com/in/mucharla/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title: "With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA",
-    image: indianConsular,
-    description:
-      "A moment with the Indian Consular team during a community engagement event.",
-    titleLinks: {
-      "Dr. Srikar Reddy Koppula":
-        "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
-      "Indian Consular": "https://www.cgisf.gov.in/",
-    },
-  },
-
-  {
-    date: "05/02/2025",
-    title:
-      "With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)",
-    image: withAmitZavery,
-    description:
-      "Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.",
-    titleLinks: {
-      "Amit Zavery": "https://www.linkedin.com/in/amitzavery/",
-      ServiceNow: "https://www.servicenow.com/",
-      Broadridge: "https://www.broadridge.com/",
-    },
-  },
-
-  // ✅ Updated per Rao message:
-  // - link BOTH person's LinkedIn + company URL
-  // - add Anand Kuchibhotla (person on right side) + Aria University link
-  {
-    date: "05/02/2025",
-    title:
-      "With Madhusudhan Sai, global humanitarian and spiritual leader and President of Aria University, Anand Kuchibhotla",
-    image: withMadhusudhanSai,
-    description:
-      "A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.",
-    titleLinks: {
-      "Madhusudhan Sai": "https://srimadhusudansai.com/",
-      "Anand Kuchibhotla": "https://www.linkedin.com/in/anandkuchibhotla/",
-      "Aria University": "https://www.aria.edu/",
-    },
-  },
-
-  {
-    date: "05/02/2025",
-    title: "With Murali Krishnamurthy, CEO of Sankara Eye Foundation",
-    image: withMuralidharan,
-    description:
-      "In conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.",
-    titleLinks: {
-      "Murali Krishnamurthy":
-        "https://www.linkedin.com/in/muralikrishnamurthy/",
-      "Sankara Eye Foundation": "https://sankaraeye.com/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title:
-      "With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas",
-    image: withJimmyPanettaandDomingoCandelas,
-    description:
-      "A productive discussion with U.S. Representative Jimmy Panetta and San José City Councilmember Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.",
-    titleLinks: {
-      "Jimmy Panetta": "https://panetta.house.gov/",
-      "Domingo Candelas": "https://www.domingocandelas.com/",
-      "San José": "https://www.sanjoseca.gov/",
-    },
-  },
-];
-
 export default function NewsOurStories() {
-  const { t } = useTranslation();
+  const { t } = useTranslation("news");
   const navigate = useNavigate();
+
+  const storiesData = t("STORIES", { returnObjects: true });
+  /**
+   * Stories data comes from news.json.
+   * Note:
+   * Only the Titan 100 story currently contains a readMoreLink.
+   * The "Read More" button renders only when this field exists.
+  */
+
+  const images = {
+    ramesh_maturu: withRameshMaturu,
+    jensen_huang: withJensen,
+    vishal_sikka: withVishalSikka,
+    ramesh_ramana: leisuewithproductivity,
+    san_ramon_walk: seventeenMileWalk,
+    srikar_reddy_koppula: indianConsular,
+    amit_zavery: withAmitZavery,
+    madhusudhan_sai: withMadhusudhanSai,
+    murali_krishnamurthy: withMuralidharan,
+    jimmy_panetta_domingo_candelas: withJimmyPanettaandDomingoCandelas,
+  };
+
+  const stories = Object.entries(storiesData).map(([key, story]) => ({
+    ...story,
+    image: images[key],
+  }));
 
   return (
     <div className="news-our-stories-container px-4 md:px-0">
       <section className="news-our-stories-hero">
-        <h1 className="news-our-stories-title">{t("News: Our Stories")}</h1>
+        <h1 className="news-our-stories-title">{t("PAGE_TITLE")}</h1>
         <p className="news-our-stories-subtitle">
-          {t(
-            "Explore how Saayam for All is making headlines and gaining recognition for its work in uplifting communities, empowering volunteers, and building an inclusive support network.",
-          )}
+          {t("HERO_SUBTITLE")}
         </p>
         <p className="news-our-stories-desc">
-          {t(
-            "From local stories to national features, discover how our mission is resonating beyond the platform and into the world.",
-          )}
+          {t("HERO_DESCRIPTION")}
         </p>
       </section>
 
@@ -229,7 +120,7 @@ export default function NewsOurStories() {
                     rel="noopener noreferrer"
                     className="news-link"
                   >
-                    {t("Read More")}
+                    {t("READ_MORE")}
                   </a>
                 )}
               </div>
@@ -239,17 +130,17 @@ export default function NewsOurStories() {
       </section>
 
       <div className="text-center mt-16 mb-16">
-        <h2 className="text-3xl font-bold mb-4">{t("Want to join us?")}</h2>
+        <h2 className="text-3xl font-bold mb-4">{t("JOIN_TITLE")}</h2>
         <p className="text-base mb-8">
           {t(
-            "Chat with our community and get in touch with different charity organizations!",
+            "JOIN_DESCRIPTION",
           )}
         </p>
         <Link
           to="/contact"
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"
         >
-          {t("Join the community")}
+          {t("JOIN_BUTTON")}
         </Link>
       </div>
     </div>

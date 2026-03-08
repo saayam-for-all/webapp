@@ -1,0 +1,105 @@
+{
+  "PAGE_TITLE": "Noticias: Nuestras Historias",
+  "HERO_SUBTITLE": "Descubre cómo Saayam for All está apareciendo en los medios y obteniendo reconocimiento por su trabajo en el apoyo a las comunidades, el empoderamiento de voluntarios y la construcción de una red de apoyo inclusiva.",
+  "HERO_DESCRIPTION": "Desde historias locales hasta reportajes nacionales, descubre cómo nuestra misión está resonando más allá de la plataforma y llegando al mundo.",
+  "READ_MORE": "Leer más",
+  "JOIN_TITLE": "¿Quieres unirte a nosotros?",
+  "JOIN_DESCRIPTION": "¡Habla con nuestra comunidad y conéctate con diferentes organizaciones benéficas!",
+  "JOIN_BUTTON": "Únete a la comunidad",
+  "STORIES": {
+    "ramesh_maturu": {
+      "date": "02/09/2026",
+      "title": "Ramesh Maturu nombrado en la lista Georgia Titan 100 de 2026",
+      "description": "Pyramid Consulting se complace en anunciar que su presidente y cofundador, Ramesh Maturu, ha sido nombrado en la lista Georgia Titan 100 de 2026, su segundo reconocimiento después de haber sido seleccionado por primera vez en 2024. El programa Titan 100 reconoce a los 100 principales directores ejecutivos y líderes de nivel C de Georgia que demuestran liderazgo excepcional, visión y pasión.",
+      "titleLinks": {
+        "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
+        "Pyramid Consulting": "https://www.pyramidci.com/"
+      },
+      "readMoreLink": "https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
+    },
+    "jensen_huang": {
+      "date": "05/02/2025",
+      "title": "Con Jensen Huang, CEO de NVIDIA",
+      "description": "Rao con Jensen Huang, CEO de Nvidia, en la conferencia IIT Bay Area.",
+      "titleLinks": {
+        "Jensen Huang": "https://www.linkedin.com/in/jenhsunhuang/",
+        "NVIDIA": "https://www.nvidia.com/"
+      }
+    },
+    "vishal_sikka": {
+      "date": "05/02/2025",
+      "title": "Con Vishal Sikka, fundador y CEO de Vianai Systems",
+      "description": "Un intercambio enriquecedor con Vishal Sikka sobre liderazgo, innovación impulsada por un propósito y la construcción de organizaciones que generan impacto a largo plazo.",
+      "titleLinks": {
+        "Vishal Sikka": "https://www.linkedin.com/in/vishal-sikka-869a6b2/",
+        "Vianai Systems": "https://www.vian.ai/"
+      }
+    },
+    "ramesh_ramana": {
+      "date": "02/09/2026",
+      "title": "Con Ramesh Maturu y Ramana Yerneni en la playa de Carmel-by-the-Sea, CA",
+      "description": "Un momento memorable en Carmel-by-the-Sea, California, reflexionando sobre conversaciones significativas y conexiones con Ramesh Maturu y Ramana Yerneni junto a la costa del Pacífico.",
+      "titleLinks": {
+        "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
+        "Ramana Yerneni": "https://www.linkedin.com/in/ramanayerneni/",
+        "Pyramid Consulting": "https://www.pyramidci.com/"
+      }
+    },
+    "san_ramon_walk": {
+      "date": "05/02/2025",
+      "title": "En sintonía con la comunidad: una caminata de 17 millas en San Ramon",
+      "description": "Nuestro CEO y Sateesh Mucharla participaron en una caminata de 17 millas por San Ramon, California, promoviendo el bienestar, la unidad y el servicio público.",
+      "titleLinks": {
+        "Sateesh Mucharla": "https://www.linkedin.com/in/mucharla/"
+      }
+    },
+    "srikar_reddy_koppula": {
+      "date": "05/02/2025",
+      "title": "Con el Dr. Srikar Reddy Koppula, cónsul indio en San Francisco, CA",
+      "description": "Un momento con el equipo del Consulado de la India durante un evento de participación comunitaria.",
+      "titleLinks": {
+        "Dr. Srikar Reddy Koppula": "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
+        "Indian Consular": "https://www.cgisf.gov.in/"
+      }
+    },
+    "amit_zavery": {
+      "date": "05/02/2025",
+      "title": "Con Amit Zavery, presidente, CPO y COO de ServiceNow; miembro del consejo de Broadridge (NYSE:BR)",
+      "description": "Interacción durante la conferencia IIT Bay Area discutiendo liderazgo, innovación e impacto comunitario.",
+      "titleLinks": {
+        "Amit Zavery": "https://www.linkedin.com/in/amitzavery/",
+        "ServiceNow": "https://www.servicenow.com/",
+        "Broadridge": "https://www.broadridge.com/"
+      }
+    },
+    "madhusudhan_sai": {
+      "date": "05/02/2025",
+      "title": "Con Madhusudhan Sai, líder humanitario y espiritual global, y Anand Kuchibhotla, presidente de Aria University",
+      "description": "Un encuentro significativo que destaca los valores de servicio, compasión e iniciativas impulsadas por un propósito.",
+      "titleLinks": {
+        "Madhusudhan Sai": "https://srimadhusudansai.com/",
+        "Anand Kuchibhotla": "https://www.linkedin.com/in/anandkuchibhotla/",
+        "Aria University": "https://www.aria.edu/"
+      }
+    },
+    "murali_krishnamurthy": {
+      "date": "05/02/2025",
+      "title": "Con Murali Krishnamurthy, CEO de Sankara Eye Foundation",
+      "description": "En conversación con Murali Krishnamurthy, CEO de Sankara Eye Foundation, sobre fortalecer colaboraciones para mejorar el acceso a la atención médica y el impacto comunitario.",
+      "titleLinks": {
+        "Murali Krishnamurthy": "https://www.linkedin.com/in/muralikrishnamurthy/",
+        "Sankara Eye Foundation": "https://sankaraeye.com/"
+      }
+    },
+    "jimmy_panetta_domingo_candelas": {
+      "date": "05/02/2025",
+      "title": "Con el representante de EE. UU. Jimmy Panetta y el concejal de San José Domingo Candelas",
+      "description": "Una conversación productiva con el representante de EE. UU. Jimmy Panetta y el concejal de San José Domingo Candelas sobre impacto social, acceso a la atención médica y esfuerzos colaborativos para apoyar a las comunidades locales.",
+      "titleLinks": {
+        "Jimmy Panetta": "https://panetta.house.gov/",
+        "Domingo Candelas": "https://www.domingocandelas.com/",
+        "San José": "https://www.sanjoseca.gov/"
+      }
+    }
+  }
+}
