@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import "./NewsOurStories.css";
@@ -54,7 +53,6 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
 
 export default function NewsOurStories() {
   const { t } = useTranslation("news");
-  const navigate = useNavigate();
 
   /**
  * Stories data comes from news.json.
