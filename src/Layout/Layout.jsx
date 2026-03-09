@@ -11,7 +11,8 @@ import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
 
 const Layout = () => {
   return (
-    <div className="flex flex-col h-screen">
+    //<div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <NotificationProvider>
         {/* Navigation Guard to check for unsaved changes */}
 
@@ -23,8 +24,8 @@ const Layout = () => {
         </header>
 
         {/* main content */}
-        <div className="flex flex-1">
-          <aside className="left-ads-panel flex-1 ">
+        <div className="flex flex-1 items-start">
+          <aside className="left-ads-panel flex-none ">
             <LeftAds />
           </aside>
           <main className="flex-[6] overflow-auto">
@@ -32,7 +33,7 @@ const Layout = () => {
               <Outlet />
             </Suspense>
           </main>
-          <aside className="right-ads-panel flex-1 ">
+          <aside className="right-ads-panel flex-none ">
             <RightAds />
           </aside>
         </div>
