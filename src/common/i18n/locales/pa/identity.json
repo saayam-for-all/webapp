@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "ਸਰਕਾਰੀ ID ਅਪਲੋਡ ਕਰੋ",
+  "SELECT_SOURCE": "ਸਰੋਤ ਚੁਣੋ",
+  "DEVICE": "ਡਿਵਾਈਸ",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "ਫਾਈਲ ਅਪਲੋਡ ਕਰੋ",
+  "FILE": "ਫਾਈਲ",
+  "FILE_PREVIEW": "ਪੂਰਵਦਰਸ਼ਨ",
+  "UPLOAD": "ਅਪਲੋਡ",
+  "UPLOADING": "ਅਪਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+  "REMOVE": "ਹਟਾਓ",
+  "FILE_SIZE_ERROR": "ਫਾਈਲ ਦਾ ਆਕਾਰ 2MB ਤੋਂ ਵੱਧ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ",
+  "FILE_TYPE_ERROR": "ਸਿਰਫ਼ JPEG, JPG, PNG, ਅਤੇ PDF ਫਾਈਲਾਂ ਦੀ ਇਜਾਜ਼ਤ ਹੈ। ਖੋਜੀ ਗਈ ਫਾਈਲ ਕਿਸਮ: {{fileType}}, ਐਕਸਟੈਂਸ਼ਨ: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "ਸਿਰਫ਼ JPEG, JPG, PNG, ਜਾਂ PDF ਫਾਈਲਾਂ। ਵੱਧ ਤੋਂ ਵੱਧ ਆਕਾਰ: 2MB.",
+  "UPLOAD_SUCCESS": "ਫਾਈਲ ਸਫਲਤਾਪੂਰਵਕ ਅਪਲੋਡ ਹੋਈ",
+  "UPLOAD_FAILED": "ਫਾਈਲ ਅਪਲੋਡ ਅਸਫਲ ਹੋਈ",
+  "UPLOAD_ERROR": "ਫਾਈਲ ਅਪਲੋਡ ਦੌਰਾਨ ਇੱਕ ਗਲਤੀ ਆਈ"
+}
