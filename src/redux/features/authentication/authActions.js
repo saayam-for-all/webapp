@@ -48,8 +48,15 @@ export const checkAuthStatus = () => async (dispatch) => {
     } = await fetchUserAttributes();*/
     }
     const attributes = await fetchUserAttributes();
-    //console.log("User id:", userId);
-    //console.log("User Attributes:", attributes);
+    // Log attributes for debugging social login differences (Google vs Facebook)
+    console.log("User id:", userId);
+    console.log("User Attributes:", attributes);
+    console.log(
+      "Auth provider:",
+      attributes.identities
+        ? (JSON.parse(attributes.identities)?.[0]?.providerName ?? "unknown")
+        : "Cognito (email/password)",
+    );
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
 
@@ -137,13 +144,19 @@ export const checkAuthStatus = () => async (dispatch) => {
     }
 
     let userDbId = null;
-    try {
-      const result = await getUserId(attributes.email);
-      userDbId = result?.data?.id || null;
-    } catch (dbError) {
+    if (attributes.email) {
+      try {
+        const result = await getUserId(attributes.email);
+        userDbId = result?.data?.id || null;
+      } catch (dbError) {
+        console.warn(
+          "Database lookup failed, continuing without databaseId:",
+          dbError.message,
+        );
+      }
+    } else {
       console.warn(
-        "Database lookup failed, continuing without databaseId:",
-        dbError.message,
+        "No email attribute returned from auth provider. Skipping DB user lookup.",
       );
     }
 
