@@ -82,8 +82,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center h-full justify-center">
-      <div className="px-4 py-4 flex flex-col relative w-1/2">
+    <div className="flex items-center justify-center min-h-[calc(100vh-113px)] bg-white">
+      <div className="px-4 py-4 flex flex-col relative w-full max-w-md">
         <h1 className="my-4 text-3xl font-bold text-center">
           {t("common:LOGIN")}
         </h1>
