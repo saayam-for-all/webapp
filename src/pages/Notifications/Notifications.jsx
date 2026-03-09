@@ -7,6 +7,7 @@ import { useNotifications } from "../../context/NotificationContext";
 import { NotificationProvider } from "../../context/NotificationContext";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../common/components/Pagination/Pagination";
+import logger from "../../utils/logger";
 
 export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
@@ -61,7 +62,7 @@ export default function NotificationUI() {
         },
       });
     } catch (error) {
-      console.error("Failed to accept:", error);
+      logger.error("Failed to accept:", error);
     }
   };
 
@@ -79,12 +80,12 @@ export default function NotificationUI() {
         },
       });
     } catch (error) {
-      console.error("Failed to deny:", error);
+      logger.error("Failed to deny:", error);
     }
   };
 
   const handleSettingsClick = () => {
-    console.log("Settings clicked");
+    logger.log("Settings clicked");
   };
 
   return (

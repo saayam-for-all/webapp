@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import logger from "../../utils/logger";
 
 const HelpRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -24,9 +25,9 @@ const HelpRequestForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/help-requests", formData);
-      console.log("Help request created:", response.data);
+      logger.log("Help request created:", response.data);
     } catch (error) {
-      console.error("Error creating help request:", error);
+      logger.error("Error creating help request:", error);
     }
   };
 

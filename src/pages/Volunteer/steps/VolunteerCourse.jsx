@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import React from "react"; //added for testing
+import logger from "../../../utils/logger";
 
 const VolunteerCourse = ({
   selectedFile,
@@ -19,10 +20,9 @@ const VolunteerCourse = ({
     setSelectedFile(uploadedFile);
 
     if (uploadedFile) {
-      // Debug: Log file information
-      console.log("File name:", uploadedFile.name);
-      console.log("File type:", uploadedFile.type);
-      console.log("File size:", uploadedFile.size);
+      logger.log("File name:", uploadedFile.name);
+      logger.log("File type:", uploadedFile.type);
+      logger.log("File size:", uploadedFile.size);
 
       // Validate file size (2MB = 2 * 1024 * 1024 bytes)
       if (uploadedFile.size > 2 * 1024 * 1024) {
@@ -42,8 +42,8 @@ const VolunteerCourse = ({
         "application/pdf",
       ];
       const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf"];
-      console.log("Allowed types:", allowedTypes);
-      console.log(
+      logger.log("Allowed types:", allowedTypes);
+      logger.log(
         "File type in allowed types:",
         allowedTypes.includes(uploadedFile.type),
       );
@@ -55,8 +55,8 @@ const VolunteerCourse = ({
         .substring(uploadedFile.name.lastIndexOf("."));
       const isValidExtension = allowedExtensions.includes(fileExtension);
 
-      console.log("File extension:", fileExtension);
-      console.log("Is valid extension:", isValidExtension);
+      logger.log("File extension:", fileExtension);
+      logger.log("Is valid extension:", isValidExtension);
 
       if (!isValidMimeType && !isValidExtension) {
         setError(
@@ -114,7 +114,7 @@ const VolunteerCourse = ({
         setPreview("");
       },
       cancel: () => {
-        console.log("Dropbox chooser closed");
+        logger.log("Dropbox chooser closed");
       },
       linkType: "direct",
       multiselect: false,
@@ -152,7 +152,7 @@ const VolunteerCourse = ({
 
       if (response.ok) {
         // Handle successful response
-        console.log("File uploaded successfully");
+        logger.log("File uploaded successfully");
       } else {
         // Handle errors
         const errorData = await response.json();
@@ -160,7 +160,7 @@ const VolunteerCourse = ({
       }
     } catch (err) {
       setError("An error occurred during file upload");
-      console.error(err);
+      logger.error("File upload error:", err);
     } finally {
       setIsLoading(false); // Hide loading state
     }

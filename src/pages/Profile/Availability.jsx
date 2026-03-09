@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
 import { FiClock } from "react-icons/fi";
 import LoadingIndicator from "../../common/components/Loading/Loading";
+import logger from "../../utils/logger";
 
 const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
   try {
@@ -65,7 +66,7 @@ const convertTo12HourFormat = (time24h) => {
       hour12: true,
     });
   } catch (e) {
-    console.error("Error converting time to 12-hour format:", time24h, e);
+    logger.error("Error converting time to 12-hour format:", time24h, e);
     return time24h;
   }
 };
@@ -336,7 +337,7 @@ function Availability({ setHasUnsavedChanges }) {
         );
       }, 500);
     } catch (error) {
-      console.error("Error saving availability:", error);
+      logger.error("Error saving availability:", error);
       alert(tAvailability("SAVE_ERROR"));
       setLoading(false);
     }

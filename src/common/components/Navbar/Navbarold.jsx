@@ -17,6 +17,7 @@ import { GET_NOTIFICATIONS } from "../../../services/requestServices";
 import { useNotifications } from "../../../context/NotificationContext";
 import OurTeamIcon from "../../../assets/Our_Team_SVG.svg";
 import OurMissionIcon from "../../../assets/Our_Mission.svg";
+import logger from "../../../utils/logger";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -160,7 +161,7 @@ const Navbar = () => {
           setNewNotificationCount((prev) => prev + newOnes.length);
         }
       } catch (error) {
-        console.error("Error fetching Notifications:", error);
+        logger.error("Error fetching Notifications:", error);
       }
     };
 
@@ -223,7 +224,7 @@ const Navbar = () => {
   };
 
   const handleNotificationsClick = () => {
-    console.log("notifications");
+    logger.log("notifications");
   };
 
   const handleProfileClick = (e) => {

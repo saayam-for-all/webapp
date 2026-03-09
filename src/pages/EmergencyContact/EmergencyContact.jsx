@@ -4,6 +4,7 @@ import { Box, List, ListItem, ListItemText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getEmergencyContactInfo } from "../../services/requestServices";
+import logger from "../../utils/logger";
 
 // Get browser GPS coords (prompts user for permission)
 const getBrowserCoords = () =>
@@ -46,7 +47,7 @@ const EmergencyContact = ({ embedded = false }) => {
         try {
           return JSON.parse(raw.body);
         } catch (e) {
-          console.error("❌ Failed to parse body:", e, raw.body);
+          logger.error("Failed to parse body:", e, raw.body);
           return null;
         }
       }
@@ -69,7 +70,7 @@ const EmergencyContact = ({ embedded = false }) => {
 
           if (alive) setApiData(parsed);
         } catch (geoErr) {
-          console.warn("GPS failed / denied:", geoErr);
+          logger.warn("GPS failed / denied:", geoErr);
 
           // 2) fallback
           const raw = await getEmergencyContactInfo();
@@ -81,7 +82,7 @@ const EmergencyContact = ({ embedded = false }) => {
           if (alive) setApiData(parsed);
         }
       } catch (err) {
-        console.error("Failed to fetch emergency contacts:", err);
+        logger.error("Failed to fetch emergency contacts:", err);
         if (alive) setApiData(null);
       } finally {
         if (alive) setLoading(false);

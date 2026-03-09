@@ -8,6 +8,7 @@ import { TbTriangleSquareCircle } from "react-icons/tb";
 import { VscCalendar } from "react-icons/vsc";
 import { useSelector } from "react-redux";
 import "./RequestDescription.css";
+import logger from "../../utils/logger";
 
 const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t } = useTranslation();
@@ -20,7 +21,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
     day: "numeric",
   });
 
-  console.log(requestData);
+  logger.log("requestData:", requestData);
 
   const attributes = [
     {
@@ -71,7 +72,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
               className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600 ml-auto"
               onClick={() => {
                 // TODO: Implement change volunteer functionality
-                console.log("Change Volunteer clicked");
+                logger.log("Change Volunteer clicked");
               }}
             >
               {t("Change Volunteer")}
@@ -80,7 +81,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
               className="bg-blue-500 text-white text-sm px-7 py-2 rounded-lg hover:bg-blue-600"
               onClick={() => {
                 // TODO: Implement delete functionality
-                console.log("Delete clicked");
+                logger.log("Delete clicked");
               }}
             >
               {t("Delete")}

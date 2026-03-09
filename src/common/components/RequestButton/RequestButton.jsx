@@ -7,6 +7,7 @@ import Markdown from "react-markdown";
 import Modal from "../Modal/Modal";
 import { useSelector } from "react-redux";
 import { getEmergencyContactInfo } from "../../../services/requestServices";
+import logger from "../../../utils/logger";
 import { moreInformation } from "../../../services/requestServices";
 
 const ExpandableMarkdown = ({ children }) => {
@@ -86,7 +87,7 @@ const RequestButton = ({
         // Show the modal
         setShowModal(true);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        logger.error("Error fetching data:", error);
         setResponseContent(
           <p>An error occurred while fetching the information.</p>,
         );

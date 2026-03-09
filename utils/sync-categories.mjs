@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import logger from "../src/utils/logger.js";
 
 const localesDir = path.resolve("src/common/i18n/locales");
 const sourceLocale = "en";
@@ -44,7 +45,7 @@ function main() {
   const sourcePath = path.join(localesDir, sourceLocale, categoriesFilename);
   const sourceJson = readJson(sourcePath);
   if (!sourceJson) {
-    console.error(`Could not read source categories at ${sourcePath}`);
+    logger.error(`Could not read source categories at ${sourcePath}`);
     process.exit(1);
   }
 
@@ -59,7 +60,7 @@ function main() {
     if (!fs.existsSync(filePath)) {
       // create file with English content as baseline for missing locales
       writeJson(filePath, sourceJson);
-      console.log(`[created] ${locale}/${categoriesFilename}`);
+      logger.log(`[created] ${locale}/${categoriesFilename}`);
       changed += 1;
       continue;
     }
@@ -70,12 +71,12 @@ function main() {
     const after = JSON.stringify(merged);
     if (before !== after) {
       writeJson(filePath, merged);
-      console.log(`[updated] ${locale}/${categoriesFilename}`);
+      logger.log(`[updated] ${locale}/${categoriesFilename}`);
       changed += 1;
     }
   }
 
-  console.log(`Done. Locales updated: ${changed}`);
+  logger.log(`Done. Locales updated: ${changed}`);
 }
 
 main();

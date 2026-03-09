@@ -1,3 +1,5 @@
+import logger from "./logger";
+
 export const isDevEnvironment = () => {
   try {
     const env = localStorage.getItem("environment");
@@ -9,7 +11,7 @@ export const isDevEnvironment = () => {
         : envValue?.environment || envValue?.body;
     return envString?.toLowerCase() === "dev";
   } catch (error) {
-    console.error("Error checking environment:", error);
+    logger.error("Error checking environment:", error);
     return false;
   }
 };

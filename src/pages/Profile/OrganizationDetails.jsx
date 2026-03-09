@@ -5,6 +5,7 @@ import { HiChevronDown } from "react-icons/hi";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
 import PropTypes from "prop-types";
+import logger from "../../utils/logger";
 
 const COUNTRY_CODE_API =
   "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json";
@@ -186,7 +187,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
           setCategories(parsedCategories);
         }
       } catch (error) {
-        console.warn("Failed to parse categories from localStorage:", error);
+        logger.warn("Failed to parse categories from localStorage:", error);
       }
     }
 
@@ -206,7 +207,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
         setCountryOptions(sortedCountries);
       })
-      .catch((error) => console.error("Error fetching country codes:", error));
+      .catch((error) => logger.error("Error fetching country codes:", error));
 
     const savedOrganizationInfo = JSON.parse(
       localStorage.getItem("organizationInfo"),

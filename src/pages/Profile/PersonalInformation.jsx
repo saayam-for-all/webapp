@@ -10,6 +10,7 @@ import Select from "react-select";
 import CountryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import countryCodes from "../../utils/country-codes-en.json";
+import logger from "../../utils/logger";
 
 const genderOptions = [
   { value: "Female", labelKey: "GENDER_OPTIONS.FEMALE" },
@@ -67,7 +68,7 @@ export const getLocaleAndFormat = async (countryName) => {
       placeholder: "MM/DD/YYYY",
     };
   } catch (error) {
-    console.error("Error fetching country data:", error);
+    logger.error("Error fetching country data:", error);
     return {
       locale: "en-US",
       dateFormat: "MM/dd/yyyy",

@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { maskEmail } from "../../utils/utils";
 import { updateUserProfile } from "../../redux/features/authentication/authActions";
+import logger from "../../utils/logger";
 
 function OTPVerification() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -96,7 +97,7 @@ function OTPVerification() {
         }
       }
     } catch (error) {
-      console.error("Verification error:", error);
+      logger.error("Verification error:", error);
       setMessage("Invalid OTP. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -115,7 +116,7 @@ function OTPVerification() {
       }
       setTimeout(() => setResendMessage(""), 5000);
     } catch (error) {
-      console.error("Resend OTP error:", error);
+      logger.error("Resend OTP error:", error);
       setResendMessage(
         "Failed to resend OTP. Please try again later. \n" + error,
       );

@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Pagination from "../Pagination/Pagination";
+import logger from "../../../utils/logger";
 
 const Table = ({
   headers,
@@ -56,7 +57,7 @@ const Table = ({
         });
         return `${datePart} ${timePart}`;
       } catch (error) {
-        console.error("Error formatting date:", error);
+        logger.error("Error formatting date:", error);
         return value;
       }
     }

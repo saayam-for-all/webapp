@@ -2,6 +2,7 @@
  * Helper functions for dashboard filters using Enums and Categories APIs
  * Handles reading from localStorage and providing translated values
  */
+import logger from "./logger";
 
 /**
  * Get enums from localStorage
@@ -12,7 +13,7 @@ export const getEnumsFromStorage = () => {
     const enums = localStorage.getItem("enums");
     return enums ? JSON.parse(enums) : null;
   } catch (error) {
-    console.warn("Failed to parse enums from localStorage:", error);
+    logger.warn("Failed to parse enums from localStorage:", error);
     return null;
   }
 };
@@ -26,7 +27,7 @@ export const getCategoriesFromStorage = () => {
     const categories = localStorage.getItem("categories");
     return categories ? JSON.parse(categories) : null;
   } catch (error) {
-    console.warn("Failed to parse categories from localStorage:", error);
+    logger.warn("Failed to parse categories from localStorage:", error);
     return null;
   }
 };

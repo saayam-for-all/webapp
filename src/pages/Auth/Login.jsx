@@ -8,6 +8,7 @@ import { z } from "zod";
 import { INACTIVITY_TIMEOUT } from "../../common/components/InactivityTimer/InactivityTimer.jsx";
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
+import logger from "../../utils/logger";
 import "./Login.css";
 
 const LoginPage = () => {
@@ -76,7 +77,7 @@ const LoginPage = () => {
         }
       }
     } catch (error) {
-      console.log("error", error);
+      logger.error("Sign in error:", error);
       setErrors({ root: t("common:INVALID_CREDENTIALS") });
     }
   };
