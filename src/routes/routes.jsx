@@ -1,7 +1,6 @@
 import OurMission from "../pages/About Us/OurMission/OurMission";
 import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/Signup";
-import AuthDisabledPage from "../pages/Auth/AuthDisabledPage";
 import OTPVerification from "../pages/Auth/VerifyOtp";
 import Collaborators from "../pages/Collaborators/Collaborators";
 import ContactUs from "../pages/Contact/ContactUs";
@@ -29,6 +28,7 @@ import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Thanks from "../pages/Thanks/Thanks";
+import EmergencyContact from "../pages/EmergencyContact/EmergencyContact";
 
 const routes = [
   {
@@ -62,6 +62,10 @@ const routes = [
   {
     path: "contact",
     element: <ContactUs />,
+  },
+  {
+    path: "emergency-contact",
+    element: <EmergencyContact />,
   },
   {
     path: "thanks",
@@ -133,19 +137,19 @@ const routes = [
   },
   {
     path: "verify-otp",
-    element: <AuthDisabledPage />,
+    element: <OTPVerification />,
   },
   {
     path: "login",
-    element: <AuthDisabledPage />,
+    element: <Login />,
   },
   {
     path: "signup",
-    element: <AuthDisabledPage />,
+    element: <SignUp />,
   },
   {
     path: "forgot-password",
-    element: <AuthDisabledPage />,
+    element: <ForgotPasswordPage />,
   },
   {
     path: "verify-account",
