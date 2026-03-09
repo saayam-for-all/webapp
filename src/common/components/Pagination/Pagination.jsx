@@ -1,4 +1,5 @@
 import React from "react";
+import logger from "../../../utils/logger";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 const Pagination = ({
   currentPage,
@@ -54,7 +55,7 @@ const Pagination = ({
       }
     } else {
       if (totalPages > 2) {
-        console.log("more");
+        logger.log("more");
         for (let i = 2; i <= Math.min(maxFirstPages, totalPages - 1); i++) {
           pages.push(
             <button

@@ -37,6 +37,7 @@ import {
   normalizePriorityValue,
 } from "../../utils/filterHelpers";
 import "./Dashboard.css";
+import logger from "../../utils/logger";
 
 const Dashboard = ({ userRole }) => {
   const { t } = useTranslation();
@@ -137,7 +138,7 @@ const Dashboard = ({ userRole }) => {
       const response = await requestApi();
       setData(response);
     } catch (error) {
-      console.error("Error fetching requests:", error);
+      logger.error("Error fetching requests:", error);
     }
   };
 
@@ -340,7 +341,7 @@ const Dashboard = ({ userRole }) => {
       }
 
       // API categories don't match data - use data categories instead
-      console.warn(
+      logger.warn(
         "API categories don't match data categories (matched " +
           matchCount +
           " out of " +

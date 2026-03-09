@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import CountryList from "react-select-country-list";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
+import logger from "../../utils/logger";
 import { FaWhatsapp } from "react-icons/fa";
 
 import CallModal from "./CallModal.jsx";
@@ -246,7 +247,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       await updateUserAttributes({ userAttributes: { email: newEmail } });
       return true;
     } catch (error) {
-      console.error("Error sending email verification:", error);
+      logger.error("Error sending email verification:", error);
       throw new Error("Failed to send verification email");
     }
   };
@@ -398,7 +399,7 @@ function YourProfile({ setHasUnsavedChanges }) {
         }
       }
     } catch (error) {
-      console.error("Profile save error:", error);
+      logger.error("Profile save error:", error);
       setSaveError(error.message);
     } finally {
       setLoading(false);

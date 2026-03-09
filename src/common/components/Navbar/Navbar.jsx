@@ -38,6 +38,7 @@ import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImag
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
+import logger from "../../../utils/logger";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -287,7 +288,7 @@ const Navbar = () => {
           setNewNotificationCount((prev) => prev + newOnes.length);
         }
       } catch (error) {
-        console.error("Error fetching Notifications:", error);
+        logger.error("Error fetching Notifications:", error);
       }
     };
 

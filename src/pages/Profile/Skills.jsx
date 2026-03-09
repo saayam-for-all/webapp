@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useImmer } from "use-immer";
 import { getVolunteerSkills } from "../../services/volunteerServices";
+import logger from "../../utils/logger";
 
 const Skills = ({ setHasUnsavedChanges }) => {
   const { t } = useTranslation("profile");
@@ -147,7 +148,7 @@ const Skills = ({ setHasUnsavedChanges }) => {
       setIsEditing(false);
       setHasUnsavedChanges(false);
     } catch (error) {
-      console.error("Error saving skills:", error);
+      logger.error("Error saving skills:", error);
     }
   };
 

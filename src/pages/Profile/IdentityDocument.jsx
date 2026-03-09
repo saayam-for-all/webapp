@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import logger from "../../utils/logger";
 import { useTranslation } from "react-i18next";
 
 const IdentityDocument = ({ setHasUnsavedChanges }) => {
@@ -14,10 +15,9 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
 
-    // Debug: Log file information
-    console.log("File name:", selectedFile.name);
-    console.log("File type:", selectedFile.type);
-    console.log("File size:", selectedFile.size);
+    logger.log("File name:", selectedFile.name);
+    logger.log("File type:", selectedFile.type);
+    logger.log("File size:", selectedFile.size);
 
     // Validate file size (2MB)
     if (selectedFile.size > 2 * 1024 * 1024) {
@@ -36,8 +36,8 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
       "application/pdf",
     ];
     const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf"];
-    console.log("Allowed types:", allowedTypes);
-    console.log(
+    logger.log("Allowed types:", allowedTypes);
+    logger.log(
       "File type in allowed types:",
       allowedTypes.includes(selectedFile.type),
     );
@@ -49,8 +49,8 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
       .substring(selectedFile.name.lastIndexOf("."));
     const isValidExtension = allowedExtensions.includes(fileExtension);
 
-    console.log("File extension:", fileExtension);
-    console.log("Is valid extension:", isValidExtension);
+    logger.log("File extension:", fileExtension);
+    logger.log("Is valid extension:", isValidExtension);
 
     if (!isValidMimeType && !isValidExtension) {
       setError(
@@ -115,7 +115,7 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
         setHasUnsavedChanges(true);
       },
       cancel: () => {
-        console.log("Dropbox chooser closed");
+        logger.log("Dropbox chooser closed");
       },
       linkType: "direct",
       multiselect: false,
@@ -152,7 +152,7 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
       });
 
       if (response.ok) {
-        console.log(t("UPLOAD_SUCCESS"));
+        logger.log(t("UPLOAD_SUCCESS"));
         setHasUnsavedChanges(false);
       } else {
         const errorData = await response.json();
@@ -160,7 +160,7 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
       }
     } catch (err) {
       setError(t("UPLOAD_ERROR"));
-      console.error(err);
+      logger.error("Upload error:", err);
     } finally {
       setIsLoading(false);
     }

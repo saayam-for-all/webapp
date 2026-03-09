@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { FaExclamationTriangle, FaTrash } from "react-icons/fa";
 import { deleteUser } from "aws-amplify/auth";
 import { signOffUser, getUserId } from "../../services/volunteerServices";
+import logger from "../../utils/logger";
 
 function SignOff({ setHasUnsavedChanges }) {
   const { t } = useTranslation("profile");
@@ -44,7 +45,7 @@ function SignOff({ setHasUnsavedChanges }) {
       if (!userId) {
         userId = localStorage.getItem("userDbId");
         if (userId) {
-          console.log("Got user ID from localStorage:", userId);
+          logger.log("Got user ID from localStorage:", userId);
         }
       }
 
@@ -55,13 +56,13 @@ function SignOff({ setHasUnsavedChanges }) {
             "User information not found. Please try logging in again.",
           );
         }
-        console.log("Fetching user ID from database using email...");
+        logger.log("Fetching user ID from database using email...");
         try {
           const userIdResponse = await getUserId(userEmail);
           userId = userIdResponse?.data?.id;
         } catch (fetchError) {
           // User not found in database - this is okay, we'll skip DB deletion
-          console.log(
+          logger.log(
             "User not found in database, will skip DB deletion:",
             fetchError.message,
           );
@@ -71,9 +72,9 @@ function SignOff({ setHasUnsavedChanges }) {
 
       // Step 2: Delete user from database (if they exist)
       if (userExistsInDb && userId) {
-        console.log("Deleting user from database...", userId);
+        logger.log("Deleting user from database...", userId);
         const dbResponse = await signOffUser(userId, reasonForLeaving);
-        console.log("Database deletion response:", dbResponse);
+        logger.log("Database deletion response:", dbResponse);
 
         if (!dbResponse.success) {
           throw new Error(
@@ -81,17 +82,17 @@ function SignOff({ setHasUnsavedChanges }) {
           );
         }
       } else {
-        console.log("Skipping database deletion - user not found in database");
+        logger.log("Skipping database deletion - user not found in database");
       }
 
       // Step 3: Delete user from AWS Cognito
-      console.log("Deleting user from Cognito...");
+      logger.log("Deleting user from Cognito...");
       try {
         await deleteUser();
-        console.log("Cognito user deleted successfully");
+        logger.log("Cognito user deleted successfully");
       } catch (cognitoError) {
         // Log Cognito error but proceed since DB deletion was successful (or skipped)
-        console.error("Error deleting user from Cognito:", cognitoError);
+        logger.error("Error deleting user from Cognito:", cognitoError);
       }
 
       // Clear local storage and redirect to home
@@ -112,7 +113,7 @@ function SignOff({ setHasUnsavedChanges }) {
         window.location.href = "/";
       }, 0);
     } catch (error) {
-      console.error("Error deleting account:", error);
+      logger.error("Error deleting account:", error);
       alert(
         t("ACCOUNT_DELETION_ERROR") ||
           error.message ||

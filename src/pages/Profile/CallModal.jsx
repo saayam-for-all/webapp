@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import logger from "../../utils/logger";
 import {
   FiPhoneCall,
   FiVideo,
@@ -37,11 +38,11 @@ const CallModal = ({ isOpen, onClose, callType }) => {
         try {
           await videoRef.current.play();
         } catch (err) {
-          console.error("Error playing initial video:", err);
+          logger.error("Error playing initial video:", err);
         }
       }
     } catch (error) {
-      console.error("Error accessing media devices:", error);
+      logger.error("Error accessing media devices:", error);
       alert("Could not access camera/microphone. Please check permissions.");
     }
   };
@@ -98,11 +99,11 @@ const CallModal = ({ isOpen, onClose, callType }) => {
             try {
               await videoRef.current.play();
             } catch (err) {
-              console.error("Error playing video after toggle:", err);
+              logger.error("Error playing video after toggle:", err);
             }
           }
         } catch (error) {
-          console.error("Error restarting video:", error);
+          logger.error("Error restarting video:", error);
           return;
         }
       }
@@ -189,7 +190,7 @@ const CallModal = ({ isOpen, onClose, callType }) => {
         <button
           className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
           onClick={() => {
-            console.log("Call started with settings:", {
+            logger.log("Call started with settings:", {
               isMuted,
               isVideoOn,
               stream,

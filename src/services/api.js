@@ -1,5 +1,6 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 import axios from "axios";
+import logger from "../utils/logger";
 
 // centralizing the configuration and reusing the instance across the application
 
@@ -18,7 +19,7 @@ const getToken = async () => {
     const session = await fetchAuthSession();
     return session?.tokens?.idToken?.toString();
   } catch (error) {
-    console.log("Error fetching token:", error);
+    logger.error("Error fetching token:", error);
     return null;
   }
 };
@@ -62,7 +63,7 @@ api.interceptors.response.use(
       try {
         const newToken = await getToken();
         if (!newToken) {
-          console.log("Error refreshing token. Logging Out..");
+          logger.error("Error refreshing token. Logging Out..");
           window.location.href = "/login";
           return Promise.reject(error);
         }
@@ -71,7 +72,7 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `${newToken}`;
         return api.request(originalRequest);
       } catch (refreshError) {
-        console.log("Token refresh failed:", refreshError);
+        logger.error("Token refresh failed:", refreshError);
         failedRequestqueue.forEach((p) => p.reject(refreshError));
         failedRequestqueue = [];
         window.location.href = "/login";

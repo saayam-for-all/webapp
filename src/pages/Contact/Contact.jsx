@@ -9,7 +9,6 @@ const Contact = () => {
   };
   const fromSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(formData);
   };
   return (
     <div className="flex items-center justify-center flex-col gap-5 mt-5">

@@ -18,6 +18,7 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import ChartContainer from "./charts/ChartContainer";
+import logger from "../../../../utils/logger";
 import { getBeneficiariesTrendAnalysis } from "../../../../services/analyticsServices";
 import beneficiariesGrowthDataFallback from "../../../../data/analytics/beneficiaries_growth_monthly.json";
 import beneficiariesByCountryDataFallback from "../../../../data/analytics/beneficiaries_by_country_monthly.json";
@@ -47,11 +48,11 @@ const BeneficiariesAnalytics = () => {
       try {
         setApiLoading(true);
         const response = await getBeneficiariesTrendAnalysis();
-        console.log("Beneficiaries API response:", response);
+        logger.log("Beneficiaries API response:", response);
         setApiData(response);
         setApiError(null);
       } catch (error) {
-        console.error("Failed to fetch beneficiaries analytics:", error);
+        logger.error("Failed to fetch beneficiaries analytics:", error);
         setApiError(error);
       } finally {
         setApiLoading(false);

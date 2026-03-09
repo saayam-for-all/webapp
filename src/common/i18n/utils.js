@@ -1,6 +1,7 @@
 import i18n from "./i18n";
 import localeList from "./localeList.js";
 import { validateString, validateArray } from "../../utils/validators";
+import logger from "../../utils/logger";
 
 const PERSONAL_INFO = "personalInfo";
 const USER_PREFERENCES = "userPreferences";
@@ -26,7 +27,7 @@ function getUserLanguages(personalOrPrefs) {
       personalOrPrefs?.languagePreference3,
     ].filter((language) => validateString(language));
   } catch (error) {
-    console.error("Error on preferences parsing.", error);
+    logger.error("Error on preferences parsing.", error);
     return null;
   }
 }
@@ -35,7 +36,7 @@ export const changeUiLanguage = (personalInfo = null) => {
   const languages = getUserLanguages(personalInfo);
 
   if (!validateArray(languages)) {
-    console.log("No valid user preferences — using browser language");
+    logger.log("No valid user preferences — using browser language");
     localStorage.removeItem("i18nextLng");
     i18n.changeLanguage(); // re-run detection to respect browser language
     return;
@@ -48,19 +49,17 @@ export const changeUiLanguage = (personalInfo = null) => {
     const targetLang = localeList[firstLanguage];
 
     if (i18n.language !== targetLang) {
-      console.log("Switching to user preferred language:", targetLang);
+      logger.log("Switching to user preferred language:", targetLang);
       i18n.changeLanguage(targetLang);
     } else {
-      console.log("Language already active:", targetLang, "— forcing event.");
+      logger.log("Language already active:", targetLang, "— forcing event.");
       i18n.emit("languageChanged", targetLang);
     }
 
     return;
   }
 
-  console.log(
-    "First preference is invalid — falling back to browser language.",
-  );
+  logger.log("First preference is invalid — falling back to browser language.");
   // Don't force change — browser language will persist
 };
 

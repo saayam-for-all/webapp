@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import logger from "../../utils/logger";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
@@ -158,7 +159,7 @@ const SignUp = () => {
       if (error.name === "UsernameExistsException") {
         setErrors({ email: t("USER_ALREADY_EXISTS") });
       }
-      console.log("Sign up error:", error);
+      logger.error("Sign up error:", error);
     }
   };
 

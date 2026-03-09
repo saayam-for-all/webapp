@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useRef } from "react"; //added for testing
+import logger from "../../utils/logger";
 import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
@@ -44,7 +45,7 @@ const PromoteToVolunteer = () => {
         setUserId(user.userId);
         // setUserId("SID-00-000-000-086"); // remove this line.. added to test with aws api
       } catch (error) {
-        console.error("Error fetching user ID:", error);
+        logger.error("Error fetching user ID:", error);
       }
     };
 
@@ -75,7 +76,7 @@ const PromoteToVolunteer = () => {
         const transformedCategories = transformCategories(categoriesArray);
         setCategoriesData({ categories: transformedCategories });
       } catch (parseError) {
-        console.warn(
+        logger.warn(
           "Failed to parse categories from localStorage:",
           parseError,
         );

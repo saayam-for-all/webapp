@@ -6,6 +6,7 @@ import Select from "react-select";
 import { updateUserProfileSuccess } from "../../redux/features/authentication/authSlice";
 import { changeUiLanguage } from "../../common/i18n/utils";
 import languagesData from "../../common/i18n/languagesData";
+import logger from "../../utils/logger";
 
 // Timezone utility function (same as Availability page)
 const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
@@ -414,17 +415,17 @@ function Preferences({ setHasUnsavedChanges }) {
         updatedAttributes["custom:emergency_notifications"] =
           preferencesInfo.receiveEmergencyNotifications.toString();
 
-        console.log("Attempting to update Cognito with:", updatedAttributes);
+        logger.log("Attempting to update Cognito with:", updatedAttributes);
 
         if (Object.keys(updatedAttributes).length > 0) {
           await updateUserAttributes(updatedAttributes);
-          console.log("Cognito update successful");
+          logger.log("Cognito update successful");
         }
 
         // Update Redux state
         dispatch(updateUserProfileSuccess(updatedAttributes));
       } catch (cognitoError) {
-        console.warn(
+        logger.warn(
           "Cognito update failed, but preferences saved locally:",
           cognitoError,
         );
@@ -437,7 +438,7 @@ function Preferences({ setHasUnsavedChanges }) {
         t("PREFERENCES UPDATED SUCCESS") || "Preferences updated successfully!",
       );
     } catch (error) {
-      console.error("Error saving preferences:", error);
+      logger.error("Error saving preferences:", error);
       alert(
         "Some preferences may not have been saved to the server, but they are saved locally. Please try again later.",
       );
@@ -472,7 +473,7 @@ function Preferences({ setHasUnsavedChanges }) {
         });
         return;
       } catch (e) {
-        console.warn("Failed to parse saved preferences");
+        logger.warn("Failed to parse saved preferences");
       }
     }
 

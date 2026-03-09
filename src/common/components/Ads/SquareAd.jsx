@@ -1,11 +1,12 @@
 import { useEffect } from "react";
+import logger from "../../../utils/logger";
 
 const SquareAd = () => {
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {
-      console.error("Adsense error", e);
+      logger.error("Adsense error", e);
     }
   }, []);
 

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import logger from "../../../utils/logger";
 
 const VerticalAd = () => {
   useEffect(() => {
@@ -7,7 +8,7 @@ const VerticalAd = () => {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     } catch (e) {
-      console.error("Adsense error", e);
+      logger.error("Adsense error", e);
     }
   }, []);
 

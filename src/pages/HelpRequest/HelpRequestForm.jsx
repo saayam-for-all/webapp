@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
 import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
+import logger from "../../utils/logger";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import { FiPaperclip } from "react-icons/fi";
 import { mapHelpRequestPayload } from "../../utils/mapHelpRequestPayload";
@@ -146,7 +147,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     if (storedEnums) {
       setEnums(JSON.parse(storedEnums));
     } else {
-      console.warn("Enums not found in localStorage, please re-login.");
+      logger.warn("Enums not found in localStorage, please re-login.");
     }
   }, []);
 
@@ -276,7 +277,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       };
 
       const response = await predictCategories(requestBody);
-      console.log("API Response:", response);
+      logger.log("API Response:", response);
       const formattedCategories = (response || []).map((category) => ({
         id: category.toLowerCase(),
         name: category,
@@ -293,7 +294,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         setSuggestedCategories([{ id: "general", name: "General" }]);
       }
     } catch (error) {
-      console.error("Error fetching predicted categories:", error);
+      logger.error("Error fetching predicted categories:", error);
     }
   };
 
@@ -328,7 +329,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
         // Ensure data is an array before processing
         if (!Array.isArray(data)) {
-          console.warn("Languages API returned non-array data, using fallback");
+          logger.warn("Languages API returned non-array data, using fallback");
           setLanguages([
             { value: "English", label: "English" },
             { value: "Spanish", label: "Spanish" },
@@ -351,7 +352,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           [...languageSet].map((lang) => ({ value: lang, label: lang })),
         );
       } catch (error) {
-        console.warn(
+        logger.warn(
           "Error fetching languages, using fallback:",
           error.message,
         );
@@ -382,7 +383,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             dispatch(loadCategories(validCategories));
             return; // Exit early if we got categories from localStorage
           } catch (parseError) {
-            console.warn(
+            logger.warn(
               "Failed to parse categories from localStorage:",
               parseError,
             );
@@ -396,7 +397,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
           // Store the API response directly in Redux as-is
           // No complex mappings needed - API keys now match i18n keys exactly
-          console.log("Categories API response:", categoriesData);
+          logger.log("Categories API response:", categoriesData);
 
           // Extract categories array from API response
           let categoriesArray;
@@ -409,7 +410,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             categoriesArray = categoriesData.categories;
           } else if (categoriesData && typeof categoriesData === "object") {
             // Log the structure to understand the API format
-            console.log("API response structure:", Object.keys(categoriesData));
+            logger.log("API response structure:", Object.keys(categoriesData));
             throw new Error(
               "Invalid API response format - expected array or object with categories array",
             );
@@ -428,7 +429,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               !cat.catId.toLowerCase().includes("cat_id"),
           );
 
-          console.log(
+          logger.log(
             "Filtered categories:",
             validCategories.length,
             "out of",
@@ -438,7 +439,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           localStorage.setItem("categories", JSON.stringify(validCategories));
           dispatch(loadCategories(validCategories));
         } catch (error) {
-          console.warn("Categories API failed:", error.message);
+          logger.warn("Categories API failed:", error.message);
         }
       }
     };
@@ -750,7 +751,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     setHoveredCategory(null);
 
     // Popup modal for subcategory - You can also log or send this data to your backend here
-    console.log("Elderly Support Data Saved:", {
+    logger.log("Elderly Support Data Saved:", {
       subcategory: subcategory.name,
       data: data,
     });
@@ -927,7 +928,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
         if (!fileUrl) {
           // Backend didn't return expected URL
-          console.warn("Upload response:", res);
+          logger.warn("Upload response:", res);
           reject(new Error("Upload failed - no file URL returned"));
           return;
         }
@@ -937,7 +938,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
         resolve(fileUrl);
       } catch (err) {
-        console.error("Upload error for file:", file.name, err);
+        logger.error("Upload error for file:", file.name, err);
         setUploadProgress((prev) => ({ ...prev, [file.name || index]: 0 }));
         reject(err);
       }
@@ -1066,9 +1067,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       // If user recorded audio, send it to the API
       if (audioBlob) {
         try {
-          console.log("=== Sending recorded audio to API on submit ===");
-          console.log("Audio blob type:", audioBlob.type);
-          console.log(
+          logger.log("=== Sending recorded audio to API on submit ===");
+          logger.log("Audio blob type:", audioBlob.type);
+          logger.log(
             "Audio blob size:",
             (audioBlob.size / 1024).toFixed(2),
             "KB",
@@ -1076,13 +1077,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
           // Convert audio blob to base64
           const audioBase64 = await blobToBase64(audioBlob);
-          console.log("Base64 audio length:", audioBase64.length, "characters");
+          logger.log("Base64 audio length:", audioBase64.length, "characters");
 
           // Send to speechDetectV2 API
           const audioResponse = await speechDetectV2(audioBase64);
-          console.log("Audio API Response:", audioResponse);
-          console.log("Detected Language:", audioResponse.detectedLanguage);
-          console.log("Transcription Text:", audioResponse.transcriptionText);
+          logger.log("Audio API Response:", audioResponse);
+          logger.log("Detected Language:", audioResponse.detectedLanguage);
+          logger.log("Transcription Text:", audioResponse.transcriptionText);
 
           // Store the transcription result - always update with the transcribed text
           // The API returns text in the detected language (e.g., Hindi, English, etc.)
@@ -1091,11 +1092,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               0,
               500,
             );
-            console.log(
+            logger.log(
               "Setting description with transcribed text:",
               transcriptionText,
             );
-            console.log("Detected Language:", audioResponse.detectedLanguage);
+            logger.log("Detected Language:", audioResponse.detectedLanguage);
 
             // Update formData with transcription text and detected language
             setFormData((prev) => ({
@@ -1113,24 +1114,24 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
           // Optionally store requestId or other metadata from audio API
           if (audioResponse.requestId) {
-            console.log(
+            logger.log(
               "Audio transcription request ID:",
               audioResponse.requestId,
             );
           }
 
           if (audioResponse.detectedLanguage) {
-            console.log(
+            logger.log(
               "Language detected by API:",
               audioResponse.detectedLanguage,
             );
-            console.log(
+            logger.log(
               "Detected language stored in formData for translation:",
               audioResponse.detectedLanguage,
             );
           }
         } catch (audioError) {
-          console.error("Error sending audio on submit:", audioError);
+          logger.error("Error sending audio on submit:", audioError);
           // Don't block form submission if audio upload fails
           // Just log the error and continue
           setSnackbar({
@@ -1170,7 +1171,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         });
       }, 1200);
     } catch (error) {
-      console.error("Failed to process request:", error);
+      logger.error("Failed to process request:", error);
       setSnackbar({
         open: true,
         message: "Failed to submit request!",
@@ -1539,7 +1540,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             // Audio was deleted
                             setAudioUploadResult(null);
                             setAudioBlob(null);
-                            console.log("Audio deleted by user");
+                            logger.log("Audio deleted by user");
                             return;
                           }
 
@@ -1554,12 +1555,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                               ...prev,
                               detected_language: uploadResult.detectedLanguage,
                             }));
-                            console.log(
+                            logger.log(
                               "Detected language stored:",
                               uploadResult.detectedLanguage,
                             );
                           }
-                          console.log("Audio uploaded:", uploadResult);
+                          logger.log("Audio uploaded:", uploadResult);
                         }}
                         maxFileSizeMB={10}
                         descriptionLimit={500}

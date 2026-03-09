@@ -3,6 +3,7 @@ import Table from "../../common/components/DataTable/Table";
 import { getVolunteerOrgsList } from "../../services/volunteerServices";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import logger from "../../utils/logger";
 
 const VoluntaryOrganizations = () => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ const VoluntaryOrganizations = () => {
       const response = await getVolunteerOrgsList();
       setOrganizations(response?.body);
     } catch (error) {
-      console.error("Error fetching volunteer organizations:", error);
+      logger.error("Error fetching volunteer organizations:", error);
     }
   };
 

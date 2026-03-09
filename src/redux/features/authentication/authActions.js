@@ -33,6 +33,7 @@ import {
 } from "./authSlice";
 
 import { clearToken, setToken } from "../../../services/authService";
+import logger from "../../../utils/logger";
 
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
@@ -54,9 +55,9 @@ export const checkAuthStatus = () => async (dispatch) => {
     try {
       const enumsData = await getEnums();
       localStorage.setItem("enums", JSON.stringify(enumsData));
-      console.log("Enums fetched and stored in localStorage:", enumsData);
+      logger.log("Enums fetched and stored in localStorage:", enumsData);
     } catch (enumError) {
-      console.warn(" Failed to fetch enums after login:", enumError.message);
+      logger.warn("Failed to fetch enums after login:", enumError.message);
     }
 
     try {
@@ -68,7 +69,7 @@ export const checkAuthStatus = () => async (dispatch) => {
       } else if (categoriesData && Array.isArray(categoriesData.categories)) {
         categoriesArray = categoriesData.categories;
       } else if (categoriesData && typeof categoriesData === "object") {
-        console.log(
+        logger.log(
           "Categories API response structure:",
           Object.keys(categoriesData),
         );
@@ -95,7 +96,7 @@ export const checkAuthStatus = () => async (dispatch) => {
       // Also load into Redux state
       dispatch(loadCategories(validCategories));
     } catch (categoryError) {
-      console.warn(
+      logger.warn(
         "Failed to fetch categories after login:",
         categoryError.message,
       );
@@ -106,7 +107,7 @@ export const checkAuthStatus = () => async (dispatch) => {
       const metadataPayload = metadataData?.body ?? metadataData;
       localStorage.setItem("metadata", JSON.stringify(metadataPayload));
     } catch (metadataError) {
-      console.warn(
+      logger.warn(
         "Failed to fetch metadata after login:",
         metadataError.message,
       );
@@ -121,12 +122,9 @@ export const checkAuthStatus = () => async (dispatch) => {
         environmentData?.environment ||
         environmentData;
       localStorage.setItem("environment", JSON.stringify(envValue));
-      console.log("Environment fetched and stored:", envValue);
+      logger.log("Environment fetched and stored:", envValue);
     } catch (envError) {
-      console.warn(
-        "Failed to fetch environment after login:",
-        envError.message,
-      );
+      logger.warn("Failed to fetch environment after login:", envError.message);
       // Setting default to production if fetch fails
       localStorage.setItem("environment", JSON.stringify("production"));
     }
@@ -139,14 +137,14 @@ export const checkAuthStatus = () => async (dispatch) => {
       if (userDbId && typeof userDbId === "string") {
         localStorage.setItem("userDbId", userDbId);
       } else {
-        console.warn(
+        logger.warn(
           "getUserId returned successfully but no id found in response:",
           JSON.stringify(result),
         );
         userDbId = null;
       }
     } catch (dbError) {
-      console.warn(
+      logger.warn(
         "Database lookup failed, continuing without databaseId:",
         dbError.message,
       );
@@ -206,7 +204,7 @@ export const updateUserProfile = (userData) => async (dispatch) => {
       user: updatedUser,
     });
   } catch (error) {
-    console.error("Error updating user profile:", error);
+    logger.error("Error updating user profile:", error);
     return Promise.reject(error);
   }
 };
@@ -228,7 +226,7 @@ export const forgotPassword = (email) => async (dispatch) => {
   try {
     await resetPassword({ username: email });
   } catch (error) {
-    console.log(error);
+    logger.error("Forgot password error:", error);
     dispatch(resetPasswordFailure(error.message));
   }
 };
@@ -239,7 +237,7 @@ export const confirmForgotPassword =
       await confirmResetPassword({ username, confirmationCode, newPassword });
       dispatch(resetPasswordSuccess());
     } catch (error) {
-      console.log(error);
+      logger.error("Confirm forgot password error:", error);
       dispatch(resetPasswordFailure(error.message));
     }
   };
