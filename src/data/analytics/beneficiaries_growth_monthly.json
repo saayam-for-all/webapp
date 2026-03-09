@@ -1,0 +1,54 @@
+[
+  {
+    "month": "2024-12",
+    "newBeneficiaries": 32
+  },
+  {
+    "month": "2025-01",
+    "newBeneficiaries": 44
+  },
+  {
+    "month": "2025-02",
+    "newBeneficiaries": 34
+  },
+  {
+    "month": "2025-03",
+    "newBeneficiaries": 45
+  },
+  {
+    "month": "2025-04",
+    "newBeneficiaries": 45
+  },
+  {
+    "month": "2025-05",
+    "newBeneficiaries": 35
+  },
+  {
+    "month": "2025-06",
+    "newBeneficiaries": 34
+  },
+  {
+    "month": "2025-07",
+    "newBeneficiaries": 42
+  },
+  {
+    "month": "2025-08",
+    "newBeneficiaries": 45
+  },
+  {
+    "month": "2025-09",
+    "newBeneficiaries": 51
+  },
+  {
+    "month": "2025-10",
+    "newBeneficiaries": 39
+  },
+  {
+    "month": "2025-11",
+    "newBeneficiaries": 39
+  },
+  {
+    "month": "2025-12",
+    "newBeneficiaries": 15
+  }
+]

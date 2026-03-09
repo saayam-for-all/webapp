@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "پاڻ",
+    "OTHER": "ٻيو"
+  },
+  "requestPriority": {
+    "LOW": "گھٽ",
+    "MEDIUM": "وچولي",
+    "HIGH": "وڌيڪ",
+    "CRITICAL": "نازڪ"
+  },
+  "requestStatus": {
+    "CREATED": "ٺاهيو ويو",
+    "MATCHING VOLUNTEER": "رضاڪار ڳولي رهيا آهيون",
+    "MANAGED": "منظم ٿيل",
+    "RESOLVED": "حل ٿيو",
+    "CANCELLED": "منسوخ ٿيو",
+    "DELETED": "ڊاٺو ويو"
+  },
+  "requestType": {
+    "INPERSON": "ذاتي طور تي",
+    "REMOTE": "پري کان"
+  }
+}

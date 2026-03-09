@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "आफैं",
+    "OTHER": "अन्य"
+  },
+  "requestPriority": {
+    "LOW": "कम",
+    "MEDIUM": "मध्यम",
+    "HIGH": "उच्च",
+    "CRITICAL": "गम्भीर"
+  },
+  "requestStatus": {
+    "CREATED": "सिर्जना गरियो",
+    "MATCHING VOLUNTEER": "स्वयंसेवक खोज्दै",
+    "MANAGED": "व्यवस्थित",
+    "RESOLVED": "समाधान गरियो",
+    "CANCELLED": "रद्द गरियो",
+    "DELETED": "मेटाइयो"
+  },
+  "requestType": {
+    "INPERSON": "व्यक्तिगत रूपमा",
+    "REMOTE": "टाढाबाट"
+  }
+}

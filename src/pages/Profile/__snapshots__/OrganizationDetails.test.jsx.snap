@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OrganizationDetails matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="flex flex-col p-8 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md"
+  >
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Organization Name
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          Test Org
+        </p>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 gap-8 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Organization Type
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          Non-Profit
+        </p>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Phone Number
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          US 1234567890
+        </p>
+      </div>
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Email
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          test@example.com
+        </p>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 gap-8 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          URL
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          https://test.org
+        </p>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 gap-8 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Help Categories
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          Food And Essentials Support, Food Assistance
+        </p>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Street Address
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          123 Main St
+        </p>
+      </div>
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Street Address 2
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          Suite 100
+        </p>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6"
+    >
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          City
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          Test City
+        </p>
+      </div>
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          State
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          TS
+        </p>
+      </div>
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          ZIP Code
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        >
+          12345
+        </p>
+      </div>
+    </div>
+    <div
+      class="flex justify-center mt-6"
+    >
+      <button
+        class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+      >
+        Edit
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "अपने लेई",
+    "OTHER": "होर"
+  },
+  "requestPriority": {
+    "LOW": "घट्ट",
+    "MEDIUM": "मध्यम",
+    "HIGH": "उच्च",
+    "CRITICAL": "गंभीर"
+  },
+  "requestStatus": {
+    "CREATED": "बनाया गेया",
+    "MATCHING VOLUNTEER": "स्वयंसेवक तोपा करदे",
+    "MANAGED": "प्रबंधत",
+    "RESOLVED": "हल होया",
+    "CANCELLED": "रद्द होया",
+    "DELETED": "मिटाया गेया"
+  },
+  "requestType": {
+    "INPERSON": "खुद मिलीकरी",
+    "REMOTE": "दूर थमां"
+  }
+}
