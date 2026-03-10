@@ -327,5 +327,16 @@
   "TOS_AGREEMENT": "इस बॉक्स को चेक करके, आप सहमति दे रहे हैं",
   "ALREADY_HAVE_ACCOUNT": "क्या आपके पास पहले से खाता है?",
   "SIGN_IN": "साइन इन करें",
-  "": ""
+  "": "",
+  "CHANGE_VOLUNTEER": "स्वयंसेवक बदलें",
+  "CHANGE_VOLUNTEER_REASON": "स्वयंसेवक बदलने का कारण",
+  "CHANGE_VOLUNTEER_REASON_PLACEHOLDER": "कृपया स्वयंसेवक बदलने का कारण बताएं...",
+  "DELETE_REQUEST": "अनुरोध हटाएं",
+  "DELETE_REQUEST_REASON": "अनुरोध हटाने का कारण",
+  "DELETE_REQUEST_REASON_PLACEHOLDER": "कृपया इस अनुरोध को हटाने का कारण बताएं...",
+  "CONFIRM_DELETE": "हटाना पुष्टि करें",
+  "NO_COMMENTS_FOUND": "कोई टिप्पणी नहीं मिली",
+  "CLEAR_SEARCH": "खोज साफ़ करें",
+  "WRITE_COMMENT": "एक टिप्पणी लिखें...",
+  "SEARCH_PLACEHOLDER": "खोजें..."
 }
