@@ -324,5 +324,16 @@
   "FAQ_USE_ANSWER": "Sua doação será utilizada para apoiar nossos diversos programas, incluindo coordenação de voluntários, programas de assistência e custos operacionais para manter nossa plataforma.",
   "Can I cancel recurring donations?": "Posso cancelar doações recorrentes?",
   "FAQ_CANCEL_ANSWER": "Sim, você pode cancelar entrando em contato com nossa equipe de suporte.",
-  "": ""
+  "": "",
+  "CHANGE_VOLUNTEER": "Mudar Voluntário",
+  "CHANGE_VOLUNTEER_REASON": "Motivo para Mudar o Voluntário",
+  "CHANGE_VOLUNTEER_REASON_PLACEHOLDER": "Por favor, forneça um motivo para mudar o voluntário...",
+  "DELETE_REQUEST": "Excluir Solicitação",
+  "DELETE_REQUEST_REASON": "Motivo para Excluir a Solicitação",
+  "DELETE_REQUEST_REASON_PLACEHOLDER": "Por favor, forneça um motivo para excluir esta solicitação...",
+  "CONFIRM_DELETE": "Confirmar Exclusão",
+  "NO_COMMENTS_FOUND": "Nenhum comentário encontrado",
+  "CLEAR_SEARCH": "Limpar Pesquisa",
+  "WRITE_COMMENT": "Escreva um comentário...",
+  "SEARCH_PLACEHOLDER": "Pesquisar..."
 }
