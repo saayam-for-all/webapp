@@ -58,7 +58,7 @@ const TimeInputComponent = ({
           format="hh:mm a"
           hourplaceholder="hh"
           minuteplaceholder="mm"
-          clearicon={null}
+          cleanable={false}
         />
         {errors?.startTime && (
           <div className="text-xs text-red-500">Required</div>
@@ -76,7 +76,7 @@ const TimeInputComponent = ({
           format="hh:mm a"
           hourplaceholder="hh"
           minuteplaceholder="mm"
-          clearicon={null}
+          cleanable={false}
           shouldDisableHour={(hour) => {
             if (!startTime) return false;
             return hour <= startTime.getHours();
@@ -103,31 +103,33 @@ const TimeInputComponent = ({
       </div>
 
       {/* ----- Remove Button ----- */}
-      <button
-        className="mt-2 sm:mt-0 sm:ml-1 w-8 h-8 flex items-center justify-center 
-             border border-red-500 rounded-full hover:bg-red-100 p-1 shrink-0"
-        onClick={() => onRemove(index)}
-        type="button"
-        aria-label="Remove row"
-        title="Remove row"
-      >
-        <svg
-          className="w-3 h-3"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 48 48"
+      {index > 0 && (
+        <button
+          className="mt-2 sm:mt-0 sm:ml-1 w-8 h-8 flex items-center justify-center 
+               border border-red-500 rounded-full hover:bg-red-100 p-1 shrink-0"
+          onClick={() => onRemove(index)}
+          type="button"
+          aria-label="Remove row"
+          title="Remove row"
         >
-          <path
-            fill="#F44336"
-            d="M21.5 4.5H26.501V43.5H21.5z"
-            transform="rotate(45.001 24 24)"
-          ></path>
-          <path
-            fill="#F44336"
-            d="M21.5 4.5H26.5V43.501H21.5z"
-            transform="rotate(135.008 24 24)"
-          ></path>
-        </svg>
-      </button>
+          <svg
+            className="w-3 h-3"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 48 48"
+          >
+            <path
+              fill="#F44336"
+              d="M21.5 4.5H26.501V43.5H21.5z"
+              transform="rotate(45.001 24 24)"
+            ></path>
+            <path
+              fill="#F44336"
+              d="M21.5 4.5H26.5V43.501H21.5z"
+              transform="rotate(135.008 24 24)"
+            ></path>
+          </svg>
+        </button>
+      )}
     </div>
   );
 };
