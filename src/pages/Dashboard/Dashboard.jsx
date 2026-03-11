@@ -12,6 +12,7 @@ import StewardDashboard from "./views/StewardDashboard";
 import SuperAdminDashboard from "./views/SuperAdminDashboard";
 import VolunteerDashboard from "./views/VolunteerDashboard";
 import { MdOutlineContactPhone } from "react-icons/md";
+import { HiOutlineUserGroup } from "react-icons/hi";
 
 import {
   getAccessibleDashboards,
@@ -1293,6 +1294,14 @@ const Dashboard = ({ userRole }) => {
               <span className="hover:underline">{t("EMERGENCY_CONTACT")}</span>
             </Link>
           )}
+          <Link
+            to="/volunteer/register"
+            className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-md flex items-center justify-center gap-2"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <HiOutlineUserGroup size={20} />
+            <span className="hover:underline">{t("JOIN_OUR_TEAM")}</span>
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">

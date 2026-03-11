@@ -22,6 +22,7 @@ import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizatio
 import Sitemap from "../pages/Sitemap/Sitemap";
 // import Vision from "../pages/Vision/Vision";
 import PromoteToVolunteer from "../pages/Volunteer/PromoteToVolunteer";
+import VolunteerRegistration from "../pages/Volunteer/VolunteerRegistration";
 import ProtectedRoute from "./ProtectedRoute";
 import BenevityInfo from "../pages/Benevity/BenevityInfo";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
@@ -116,6 +117,11 @@ const routes = [
       {
         path: "promote-to-volunteer",
         element: <PromoteToVolunteer />,
+        handle: { leaveAdSpace: true },
+      },
+      {
+        path: "volunteer/register",
+        element: <VolunteerRegistration />,
         handle: { leaveAdSpace: true },
       },
       {

@@ -31,5 +31,8 @@
   "SPEECH_DETECT_C2": "/requests/v0.0.1/speechDetectC2",
   "SPEECH_DETECT_V2": "v1/request/speechDetectV2",
   "SIGN_OFF_USER": "v1/volunteer/signOffUser",
-  "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis"
+  "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis",
+  "REGISTER_VOLUNTEER": "v1/volunteer/register",
+  "GET_VOLUNTEER_UPLOAD_URL": "v1/volunteer/upload-url",
+  "VOLUNTEER_REGISTRATION_STATUS": "v1/volunteer/registration-status"
 }
