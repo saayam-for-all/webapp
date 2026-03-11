@@ -11,6 +11,7 @@ global.IntersectionObserver = class {
 };
 
 import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import Layout from "./Layout";
 
 jest.mock("react", () => ({
@@ -33,7 +34,11 @@ jest.mock("#components/NavigationGuard/NavigationGuard");
 
 describe("Layout", () => {
   it("renders correctly", () => {
-    const tree = render(<Layout />);
+    const tree = render(
+      <MemoryRouter>
+        <Layout />
+      </MemoryRouter>,
+    );
     expect(tree).toMatchSnapshot();
   });
 });
