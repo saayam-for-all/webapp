@@ -111,21 +111,23 @@ const Skills = ({ setHasUnsavedChanges }) => {
         : categoryName;
 
       return (
-        <div key={index} className="ml-4 mb-2">
-          <label className="inline-flex items-center space-x-2">
+        <div key={index} className="ml-4 mb-3">
+          <label className="inline-flex items-center space-x-3 cursor-pointer group">
             <input
               type="checkbox"
-              className="h-4 w-4"
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2 transition-all"
               checked={getCheckedStatus(currentPath)}
               onChange={() => handleCheckboxChange(currentPath)}
             />
-            <span className={getCheckedStatus(currentPath) ? "font-bold" : ""}>
+            <span
+              className={`text-sm ${getCheckedStatus(currentPath) ? "font-semibold text-blue-700" : "text-gray-700 group-hover:text-gray-900"} transition-colors`}
+            >
               {categoryName}
             </span>
           </label>
 
           {hasSubCategories && getCheckedStatus(currentPath) && (
-            <div className="ml-3">
+            <div className="ml-4 mt-2 pl-3 border-l-2 border-blue-100">
               {renderCategories(cat.subCategories, currentPath)}
             </div>
           )}
@@ -152,35 +154,61 @@ const Skills = ({ setHasUnsavedChanges }) => {
   };
 
   return (
-    <div className="p-6">
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="space-y-4">
-          {categoriesData?.categories?.length > 0 &&
-            (isEditing ? (
-              renderCategories(categoriesData.categories)
-            ) : (
-              <List className="flex flex-col" disablePadding>
-                {getSelectedSkills(categoriesData.categories)}
-              </List>
-            ))}
-        </div>
+    <div className="space-y-6">
+      {/* Header Section */}
+      <div className="space-y-1">
+        <h2 className="text-xl font-semibold text-gray-900">{t("SKILLS")}</h2>
+        <p className="text-sm text-gray-500">{t("SKILLS_DESCRIPTION")}</p>
       </div>
-      <div className="flex flex-row justify-center items-center mb-6 mt-4">
-        {isEditing ? (
-          <button
-            onClick={handleSave}
-            className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            {t("SAVE")}
-          </button>
-        ) : (
-          <button
-            onClick={() => setIsEditing(true)}
-            className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            {t("EDIT")}
-          </button>
-        )}
+
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        <div className="space-y-3">
+          {categoriesData?.categories?.length > 0 ? (
+            isEditing ? (
+              <div className="space-y-2">
+                {renderCategories(categoriesData.categories)}
+              </div>
+            ) : (
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                <List className="flex flex-col" disablePadding>
+                  {getSelectedSkills(categoriesData.categories)}
+                </List>
+              </div>
+            )
+          ) : (
+            <div className="text-center py-8 text-gray-500">
+              <p>{t("NO_SKILLS_DATA")}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-end pt-6 mt-6 border-t border-gray-100">
+          {isEditing ? (
+            <div className="flex gap-3">
+              <button
+                onClick={() => setIsEditing(false)}
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all duration-200"
+              >
+                {t("CANCEL")}
+              </button>
+              <button
+                onClick={handleSave}
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+              >
+                {t("SAVE")}
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+            >
+              {t("EDIT")}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

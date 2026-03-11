@@ -536,323 +536,407 @@ function Preferences({ setHasUnsavedChanges }) {
     getTimezoneDetails(preferencesInfo.timezone, currentLocale).label;
 
   return (
-    <div className="flex flex-col border p-6 rounded-lg w-full">
-      {/* Default Dashboard View */}
-      <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {t("DEFAULT DASHBOARD VIEW")}
-        </label>
-        {isEditing ? (
-          <Select
-            ref={dashboardRef}
-            value={dashboardOptions.find(
-              (option) => option.value === preferencesInfo.defaultDashboard,
-            )}
-            options={dashboardOptions}
-            onChange={(selectedOption) =>
-              handleInputChange("defaultDashboard", selectedOption?.value || "")
-            }
-            className="w-full"
-            placeholder={t("SELECT DASHBOARD")}
-          />
-        ) : (
-          <p className="text-lg text-gray-900">
-            {dashboardOptions.find(
-              (opt) => opt.value === preferencesInfo.defaultDashboard,
-            )?.label || "Beneficiary Dashboard"}
-          </p>
-        )}
+    <div className="space-y-6">
+      {/* Header Section */}
+      <div className="space-y-1">
+        <h2 className="text-xl font-semibold text-gray-900">
+          {t("PREFERENCES")}
+        </h2>
+        <p className="text-sm text-gray-500">{t("PREFERENCES_DESCRIPTION")}</p>
       </div>
 
-      {/* Language Preferences - Exact same implementation as PersonalInformation.jsx */}
-      <div className="grid grid-cols-3 gap-8 mb-6">
-        {/* Preference 1 - full list */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("FIRST_LANGUAGE_PREFERENCE")}
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        {/* Default Dashboard View */}
+        <div className="mb-6">
+          <label className="text-sm font-semibold text-gray-700 block mb-2">
+            {t("DEFAULT DASHBOARD VIEW")}
           </label>
           {isEditing ? (
             <Select
-              value={languages.find(
-                (option) =>
-                  option.value === preferencesInfo.languagePreference1,
+              ref={dashboardRef}
+              value={dashboardOptions.find(
+                (option) => option.value === preferencesInfo.defaultDashboard,
               )}
-              options={languages}
+              options={dashboardOptions}
               onChange={(selectedOption) =>
                 handleInputChange(
-                  "languagePreference1",
+                  "defaultDashboard",
                   selectedOption?.value || "",
                 )
               }
-              className="w-full"
+              className="w-full max-w-md"
+              placeholder={t("SELECT DASHBOARD")}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  backgroundColor: "#f9fafb",
+                  borderColor: "#e5e7eb",
+                  borderRadius: "0.5rem",
+                  padding: "0.25rem",
+                  "&:hover": { borderColor: "#93c5fd" },
+                }),
+              }}
             />
           ) : (
-            <p className="text-lg text-gray-900">
-              {t(preferencesInfo.languagePreference1) || ""}
+            <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100 max-w-md">
+              {dashboardOptions.find(
+                (opt) => opt.value === preferencesInfo.defaultDashboard,
+              )?.label || "Beneficiary Dashboard"}
             </p>
           )}
         </div>
-        {/* Preference 2 - filter out languagePreference1 */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("SECOND_LANGUAGE_PREFERENCE")}
-          </label>
-          {isEditing ? (
-            <Select
-              value={languages.find(
-                (option) =>
-                  option.value === preferencesInfo.languagePreference2,
-              )}
-              options={languages.filter(
-                (option) =>
-                  option.value !== preferencesInfo.languagePreference1,
-              )}
-              onChange={(selectedOption) =>
-                handleInputChange(
-                  "languagePreference2",
-                  selectedOption?.value || "",
-                )
-              }
-              className="w-full"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {t(preferencesInfo.languagePreference2) || ""}
-            </p>
-          )}
-        </div>
-        {/* Preference 3 - filter out languagePreference1 and languagePreference2 */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("THIRD_LANGUAGE_PREFERENCE")}
-          </label>
-          {isEditing ? (
-            <Select
-              value={languages.find(
-                (option) =>
-                  option.value === preferencesInfo.languagePreference3,
-              )}
-              options={languages.filter(
-                (option) =>
-                  option.value !== preferencesInfo.languagePreference1 &&
-                  option.value !== preferencesInfo.languagePreference2,
-              )}
-              onChange={(selectedOption) =>
-                handleInputChange(
-                  "languagePreference3",
-                  selectedOption?.value || "",
-                )
-              }
-              className="w-full"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {t(preferencesInfo.languagePreference3) || ""}
-            </p>
-          )}
-        </div>
-      </div>
 
-      {/* Email Preferences */}
-      <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {t("EMAIL COMMUNICATION PREFERENCE")}
-        </label>
-        <div className="space-y-2">
-          {preferencesInfo.primaryEmailPreference && (
-            <div className="flex items-center">
-              <input
-                type="radio"
-                id="primary-email"
-                name="emailPreference"
-                value="primary"
-                checked={preferencesInfo.selectedEmailPreference === "primary"}
-                onChange={(e) =>
-                  handleInputChange("selectedEmailPreference", e.target.value)
+        {/* Language Preferences */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          {/* Preference 1 */}
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("FIRST_LANGUAGE_PREFERENCE")}
+            </label>
+            {isEditing ? (
+              <Select
+                value={languages.find(
+                  (option) =>
+                    option.value === preferencesInfo.languagePreference1,
+                )}
+                options={languages}
+                onChange={(selectedOption) =>
+                  handleInputChange(
+                    "languagePreference1",
+                    selectedOption?.value || "",
+                  )
                 }
-                disabled={!isEditing}
-                className="mr-2"
+                className="w-full"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    backgroundColor: "#f9fafb",
+                    borderColor: "#e5e7eb",
+                    borderRadius: "0.5rem",
+                    padding: "0.25rem",
+                    "&:hover": { borderColor: "#93c5fd" },
+                  }),
+                }}
               />
-              <label htmlFor="primary-email" className="text-sm">
-                <span className="font-medium">{t("PRIMARY EMAIL")}:</span>{" "}
-                {preferencesInfo.primaryEmailPreference}
-              </label>
-            </div>
-          )}
-          {preferencesInfo.secondaryEmailPreference && (
-            <div className="flex items-center">
-              <input
-                type="radio"
-                id="secondary-email"
-                name="emailPreference"
-                value="secondary"
-                checked={
-                  preferencesInfo.selectedEmailPreference === "secondary"
-                }
-                onChange={(e) =>
-                  handleInputChange("selectedEmailPreference", e.target.value)
-                }
-                disabled={!isEditing}
-                className="mr-2"
-              />
-              <label htmlFor="secondary-email" className="text-sm">
-                <span className="font-medium">{t("SECONDARY_EMAIL")}:</span>{" "}
-                {preferencesInfo.secondaryEmailPreference}
-              </label>
-            </div>
-          )}
-          {!preferencesInfo.primaryEmailPreference &&
-            !preferencesInfo.secondaryEmailPreference && (
-              <p className="text-gray-500 text-sm">
-                No email addresses available. Please add email addresses in
-                Personal Information.
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {t(preferencesInfo.languagePreference1) || "—"}
               </p>
             )}
-        </div>
-      </div>
-
-      {/* Phone Preferences */}
-      <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {t("PHONE COMMUNICATION PREFERENCE")}
-        </label>
-        <div className="space-y-2">
-          {preferencesInfo.primaryPhonePreference && (
-            <div className="flex items-center">
-              <input
-                type="radio"
-                id="primary-phone"
-                name="phonePreference"
-                value="primary"
-                checked={preferencesInfo.selectedPhonePreference === "primary"}
-                onChange={(e) =>
-                  handleInputChange("selectedPhonePreference", e.target.value)
-                }
-                disabled={!isEditing}
-                className="mr-2"
-              />
-              <label htmlFor="primary-phone" className="text-sm">
-                <span className="font-medium">{t("PRIMARY PHONE")}:</span>{" "}
-                {preferencesInfo.primaryPhonePreference}
-              </label>
-            </div>
-          )}
-          {preferencesInfo.secondaryPhonePreference && (
-            <div className="flex items-center">
-              <input
-                type="radio"
-                id="secondary-phone"
-                name="phonePreference"
-                value="secondary"
-                checked={
-                  preferencesInfo.selectedPhonePreference === "secondary"
-                }
-                onChange={(e) =>
-                  handleInputChange("selectedPhonePreference", e.target.value)
-                }
-                disabled={!isEditing}
-                className="mr-2"
-              />
-              <label htmlFor="secondary-phone" className="text-sm">
-                <span className="font-medium">{t("SECONDARY PHONE")}:</span>{" "}
-                {preferencesInfo.secondaryPhonePreference}
-              </label>
-            </div>
-          )}
-          {!preferencesInfo.primaryPhonePreference &&
-            !preferencesInfo.secondaryPhonePreference && (
-              <p className="text-gray-500 text-sm">
-                No phone numbers available. Please add phone numbers in Personal
-                Information.
-              </p>
-            )}
-        </div>
-      </div>
-
-      {/* Timezone Selection */}
-      <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {t("TIMEZONE")}
-        </label>
-        {isEditing ? (
-          <div className="flex items-center gap-2">
-            <select
-              id="timezone-select"
-              value={preferencesInfo.timezone}
-              onChange={(e) => handleInputChange("timezone", e.target.value)}
-              className="appearance-none block w-full max-w-lg bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            >
-              {allAvailableTimezones.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={handleUseCurrentTimezone}
-              className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm whitespace-nowrap"
-              aria-label={t("USE_CURRENT_TIMEZONE")}
-            >
-              {t("USE_CURRENT_TIMEZONE")}
-            </button>
           </div>
-        ) : (
-          <p className="text-lg text-gray-900">{selectedTimezoneDisplay}</p>
-        )}
-      </div>
-
-      {/* Emergency Notifications */}
-      <div className="mb-6">
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="emergency-notifications"
-            checked={preferencesInfo.receiveEmergencyNotifications}
-            onChange={(e) =>
-              handleInputChange(
-                "receiveEmergencyNotifications",
-                e.target.checked,
-              )
-            }
-            disabled={!isEditing}
-            className="mr-2"
-          />
-          <label
-            htmlFor="emergency-notifications"
-            className="text-sm font-bold"
-          >
-            {t("RECEIVE EMERGENCY NOTIFICATIONS")}
-          </label>
+          {/* Preference 2 */}
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("SECOND_LANGUAGE_PREFERENCE")}
+            </label>
+            {isEditing ? (
+              <Select
+                value={languages.find(
+                  (option) =>
+                    option.value === preferencesInfo.languagePreference2,
+                )}
+                options={languages.filter(
+                  (option) =>
+                    option.value !== preferencesInfo.languagePreference1,
+                )}
+                onChange={(selectedOption) =>
+                  handleInputChange(
+                    "languagePreference2",
+                    selectedOption?.value || "",
+                  )
+                }
+                className="w-full"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    backgroundColor: "#f9fafb",
+                    borderColor: "#e5e7eb",
+                    borderRadius: "0.5rem",
+                    padding: "0.25rem",
+                    "&:hover": { borderColor: "#93c5fd" },
+                  }),
+                }}
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {t(preferencesInfo.languagePreference2) || "—"}
+              </p>
+            )}
+          </div>
+          {/* Preference 3 */}
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("THIRD_LANGUAGE_PREFERENCE")}
+            </label>
+            {isEditing ? (
+              <Select
+                value={languages.find(
+                  (option) =>
+                    option.value === preferencesInfo.languagePreference3,
+                )}
+                options={languages.filter(
+                  (option) =>
+                    option.value !== preferencesInfo.languagePreference1 &&
+                    option.value !== preferencesInfo.languagePreference2,
+                )}
+                onChange={(selectedOption) =>
+                  handleInputChange(
+                    "languagePreference3",
+                    selectedOption?.value || "",
+                  )
+                }
+                className="w-full"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    backgroundColor: "#f9fafb",
+                    borderColor: "#e5e7eb",
+                    borderRadius: "0.5rem",
+                    padding: "0.25rem",
+                    "&:hover": { borderColor: "#93c5fd" },
+                  }),
+                }}
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {t(preferencesInfo.languagePreference3) || "—"}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Edit / Save Buttons */}
-      <div className="flex justify-center mt-6">
-        {!isEditing ? (
-          <button
-            className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            onClick={handleEditClick}
-          >
-            {t("EDIT")}
-          </button>
-        ) : (
-          <>
-            <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
-              onClick={handleSave}
-              disabled={loading}
+        {/* Email Preferences */}
+        <div className="mb-6">
+          <label className="text-sm font-semibold text-gray-700 block mb-3">
+            {t("EMAIL COMMUNICATION PREFERENCE")}
+          </label>
+          <div className="space-y-3 bg-gray-50 rounded-lg p-4 border border-gray-100">
+            {preferencesInfo.primaryEmailPreference && (
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="primary-email"
+                  name="emailPreference"
+                  value="primary"
+                  checked={
+                    preferencesInfo.selectedEmailPreference === "primary"
+                  }
+                  onChange={(e) =>
+                    handleInputChange("selectedEmailPreference", e.target.value)
+                  }
+                  disabled={!isEditing}
+                  className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                />
+                <label
+                  htmlFor="primary-email"
+                  className="text-sm text-gray-700"
+                >
+                  <span className="font-medium text-gray-900">
+                    {t("PRIMARY EMAIL")}:
+                  </span>{" "}
+                  {preferencesInfo.primaryEmailPreference}
+                </label>
+              </div>
+            )}
+            {preferencesInfo.secondaryEmailPreference && (
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="secondary-email"
+                  name="emailPreference"
+                  value="secondary"
+                  checked={
+                    preferencesInfo.selectedEmailPreference === "secondary"
+                  }
+                  onChange={(e) =>
+                    handleInputChange("selectedEmailPreference", e.target.value)
+                  }
+                  disabled={!isEditing}
+                  className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                />
+                <label
+                  htmlFor="secondary-email"
+                  className="text-sm text-gray-700"
+                >
+                  <span className="font-medium text-gray-900">
+                    {t("SECONDARY_EMAIL")}:
+                  </span>{" "}
+                  {preferencesInfo.secondaryEmailPreference}
+                </label>
+              </div>
+            )}
+            {!preferencesInfo.primaryEmailPreference &&
+              !preferencesInfo.secondaryEmailPreference && (
+                <p className="text-gray-500 text-sm">
+                  No email addresses available. Please add email addresses in
+                  Personal Information.
+                </p>
+              )}
+          </div>
+        </div>
+
+        {/* Phone Preferences */}
+        <div className="mb-6">
+          <label className="text-sm font-semibold text-gray-700 block mb-3">
+            {t("PHONE COMMUNICATION PREFERENCE")}
+          </label>
+          <div className="space-y-3 bg-gray-50 rounded-lg p-4 border border-gray-100">
+            {preferencesInfo.primaryPhonePreference && (
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="primary-phone"
+                  name="phonePreference"
+                  value="primary"
+                  checked={
+                    preferencesInfo.selectedPhonePreference === "primary"
+                  }
+                  onChange={(e) =>
+                    handleInputChange("selectedPhonePreference", e.target.value)
+                  }
+                  disabled={!isEditing}
+                  className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                />
+                <label
+                  htmlFor="primary-phone"
+                  className="text-sm text-gray-700"
+                >
+                  <span className="font-medium text-gray-900">
+                    {t("PRIMARY PHONE")}:
+                  </span>{" "}
+                  {preferencesInfo.primaryPhonePreference}
+                </label>
+              </div>
+            )}
+            {preferencesInfo.secondaryPhonePreference && (
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="secondary-phone"
+                  name="phonePreference"
+                  value="secondary"
+                  checked={
+                    preferencesInfo.selectedPhonePreference === "secondary"
+                  }
+                  onChange={(e) =>
+                    handleInputChange("selectedPhonePreference", e.target.value)
+                  }
+                  disabled={!isEditing}
+                  className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                />
+                <label
+                  htmlFor="secondary-phone"
+                  className="text-sm text-gray-700"
+                >
+                  <span className="font-medium text-gray-900">
+                    {t("SECONDARY PHONE")}:
+                  </span>{" "}
+                  {preferencesInfo.secondaryPhonePreference}
+                </label>
+              </div>
+            )}
+            {!preferencesInfo.primaryPhonePreference &&
+              !preferencesInfo.secondaryPhonePreference && (
+                <p className="text-gray-500 text-sm">
+                  No phone numbers available. Please add phone numbers in
+                  Personal Information.
+                </p>
+              )}
+          </div>
+        </div>
+
+        {/* Timezone Selection */}
+        <div className="mb-6">
+          <label className="text-sm font-semibold text-gray-700 block mb-2">
+            {t("TIMEZONE")}
+          </label>
+          {isEditing ? (
+            <div className="flex items-center gap-3">
+              <select
+                id="timezone-select"
+                value={preferencesInfo.timezone}
+                onChange={(e) => handleInputChange("timezone", e.target.value)}
+                className="flex-1 max-w-lg bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+              >
+                {allAvailableTimezones.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleUseCurrentTimezone}
+                className="py-2.5 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium whitespace-nowrap transition-all duration-200"
+                aria-label={t("USE_CURRENT_TIMEZONE")}
+              >
+                {t("USE_CURRENT_TIMEZONE")}
+              </button>
+            </div>
+          ) : (
+            <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+              {selectedTimezoneDisplay}
+            </p>
+          )}
+        </div>
+
+        {/* Emergency Notifications */}
+        <div className="mb-6 bg-red-50 rounded-lg p-4 border border-red-100">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="emergency-notifications"
+              checked={preferencesInfo.receiveEmergencyNotifications}
+              onChange={(e) =>
+                handleInputChange(
+                  "receiveEmergencyNotifications",
+                  e.target.checked,
+                )
+              }
+              disabled={!isEditing}
+              className="mr-3 h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
+            />
+            <label
+              htmlFor="emergency-notifications"
+              className="text-sm font-semibold text-red-800"
             >
-              {loading ? t("SAVING") || "Saving..." : t("SAVE")}
-            </button>
+              {t("RECEIVE EMERGENCY NOTIFICATIONS")}
+            </label>
+          </div>
+          <p className="text-xs text-red-700 mt-2 ml-7">
+            {t("EMERGENCY_NOTIFICATIONS_DESCRIPTION") ||
+              "Receive urgent notifications for emergency situations."}
+          </p>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-end pt-4 border-t border-gray-100">
+          {!isEditing ? (
             <button
-              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={handleCancelClick}
-              disabled={loading}
+              className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+              onClick={handleEditClick}
             >
-              {t("CANCEL")}
+              {t("EDIT")}
             </button>
-          </>
-        )}
+          ) : (
+            <div className="flex gap-3">
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all duration-200 disabled:opacity-50"
+                onClick={handleCancelClick}
+                disabled={loading}
+              >
+                {t("CANCEL")}
+              </button>
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 disabled:opacity-50"
+                onClick={handleSave}
+                disabled={loading}
+              >
+                {loading ? t("SAVING") || "Saving..." : t("SAVE")}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

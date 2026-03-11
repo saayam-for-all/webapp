@@ -339,9 +339,15 @@ function Profile() {
   };
 
   return (
-    <div className="flex flex-col p-2 md:p-4 min-h-screen bg-gray-100">
+    <div className="flex flex-col p-3 md:p-6 min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50">
+      {/* Decorative background elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full opacity-30 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-100 rounded-full opacity-30 blur-3xl" />
+      </div>
+
       {/* Back Button */}
-      <div className="w-full mb-4">
+      <div className="relative w-full mb-4">
         <button
           onClick={() => {
             if (hasUnsavedChanges) {
@@ -356,31 +362,36 @@ function Profile() {
               navigate("/dashboard");
             }
           }}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-base md:text-lg flex items-center transition-colors duration-200"
+          className="group inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 font-medium text-base transition-all duration-200"
         >
-          <span className="text-xl md:text-2xl mr-2">&larr;</span>{" "}
-          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
+          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-sm group-hover:shadow-md group-hover:bg-blue-50 transition-all duration-200">
+            <span className="text-lg">&larr;</span>
+          </span>
+          <span>{t("BACK_TO_DASHBOARD") || "Back to Dashboard"}</span>
         </button>
       </div>
 
       {/* Dropdown Menu Button - Only visible on mobile */}
-      <div className="w-full mb-4 md:hidden">
+      <div className="relative w-full mb-4 md:hidden">
         <button
           onClick={() => setIsSidebarOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors duration-200"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl shadow-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 hover:shadow-md transition-all duration-200"
           aria-label="Open profile menu"
         >
-          <FaBars className="text-lg" />
+          <FaBars className="text-lg text-blue-600" />
           <span className="font-medium">{getTabDisplayName(activeTab)}</span>
         </button>
       </div>
 
       {/* Main Profile Layout */}
-      <div className="flex flex-col md:flex-row w-full bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="relative flex flex-col md:flex-row w-full bg-white rounded-2xl shadow-xl shadow-gray-200/50 overflow-hidden border border-gray-100">
         {/* Desktop Sidebar */}
-        <div className="hidden md:block">
+        <div className="hidden md:block border-r border-gray-100">
           {photoLoadError && (
-            <p className="text-red-600 text-xs px-2 pb-1" role="alert">
+            <p
+              className="text-red-600 text-xs px-4 py-2 bg-red-50"
+              role="alert"
+            >
               {photoLoadError}
             </p>
           )}
@@ -393,7 +404,9 @@ function Profile() {
         </div>
 
         {/* Content Area */}
-        <div className="w-full md:w-3/4 p-3 md:p-6">{renderTabContent()}</div>
+        <div className="flex-1 w-full md:w-3/4 p-4 md:p-8 bg-gradient-to-br from-white to-gray-50/50">
+          {renderTabContent()}
+        </div>
       </div>
 
       {/* Mobile Sliding Sidebar Overlay */}
@@ -401,20 +414,20 @@ function Profile() {
         <div className="fixed inset-0 z-50 md:hidden">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
             onClick={() => setIsSidebarOpen(false)}
           />
 
           {/* Sliding Sidebar */}
-          <div className="absolute left-0 top-0 h-full w-80 max-w-[85%] bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+          <div className="absolute left-0 top-0 h-full w-80 max-w-[85%] bg-white shadow-2xl transform transition-transform duration-300 ease-out rounded-r-2xl">
             {/* Header with Close Button */}
-            <div className="flex items-center justify-between p-4 border-b bg-gray-50">
-              <h2 className="font-semibold text-gray-800">
+            <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-blue-600 to-indigo-700">
+              <h2 className="font-semibold text-white">
                 {t("YOUR_PROFILE") || "Profile Menu"}
               </h2>
               <button
                 onClick={() => setIsSidebarOpen(false)}
-                className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-full transition-colors duration-200"
+                className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200"
                 aria-label="Close profile menu"
               >
                 <FaTimes className="text-lg" />
@@ -422,7 +435,7 @@ function Profile() {
             </div>
 
             {/* Sidebar Content */}
-            <div className="h-full overflow-y-auto">
+            <div className="h-full overflow-y-auto pb-20">
               <Sidebar
                 profilePhoto={profilePhoto}
                 handleTabChange={(tab) => {

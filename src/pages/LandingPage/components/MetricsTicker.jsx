@@ -85,10 +85,10 @@ function MetricItem({ config, rawValue, label }) {
 const MetricsTicker = () => {
   const { t } = useTranslation();
   const [metrics, setMetrics] = useState({
-    totalRequests: 0,
-    requestsResolved: 0,
-    totalVolunteers: 0,
-    totalBeneficiaries: 0,
+    totalRequests: 350,
+    requestsResolved: 42,
+    totalVolunteers: 87,
+    totalBeneficiaries: 2137,
   });
 
   useEffect(() => {

@@ -320,524 +320,564 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   };
 
   return (
-    <div className="flex flex-col p-8 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ORGANIZATION_NAME")}
-          </label>
-          {isEditing ? (
-            <input
-              ref={organizationNameRef}
-              type="text"
-              name="organizationName"
-              value={organizationInfo.organizationName}
-              onChange={(e) =>
-                handleInputChange("organizationName", e.target.value)
-              }
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.organizationName || ""}
-            </p>
-          )}
-          {errors.organizationName && (
-            <p className="text-red-500 text-xs">{errors.organizationName}</p>
-          )}
-        </div>
+    <div className="flex flex-col w-full">
+      {/* Header */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          {t("ORGANIZATION_DETAILS")}
+        </h2>
+        <p className="text-gray-500 text-sm">
+          {t("ORGANIZATION_DETAILS_DESCRIPTION") ||
+            "Manage your organization information"}
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ORGANIZATION_TYPE")}
-          </label>
-          {isEditing ? (
-            <div>
-              <label className="inline-flex items-center">
-                <input
-                  type="radio"
-                  name="organizationType"
-                  value={t("NON_PROFIT")}
-                  checked={
-                    organizationInfo.organizationType === t("NON_PROFIT")
-                  }
-                  onChange={(e) =>
-                    handleInputChange(
-                      "organizationType",
-                      e.target.value || t("NON_PROFIT"),
-                    )
-                  }
-                  className="form-radio h-4 w-4 text-blue-500"
-                />
-                <span className="ml-2">{t("NON_PROFIT")}</span>
-              </label>
-              <label className="inline-flex items-center ml-6">
-                <input
-                  type="radio"
-                  name="organizationType"
-                  value={t("FOR_PROFIT")}
-                  checked={
-                    organizationInfo.organizationType === t("FOR_PROFIT")
-                  }
-                  onChange={(e) =>
-                    handleInputChange(
-                      "organizationType",
-                      e.target.value || t("FOR_PROFIT"),
-                    )
-                  }
-                  className="form-radio h-4 w-4 text-blue-500"
-                />
-                <span className="ml-2">{t("FOR_PROFIT")}</span>
-              </label>
-            </div>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.organizationType}
-            </p>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("PHONE_NUMBER")}
-          </label>
-          {isEditing ? (
-            <div className="flex">
-              <Select
-                name="phoneCountryCode"
-                value={phoneCodeOptions.find(
-                  (option) => option.code === organizationInfo.phoneCountryCode,
-                )}
-                getOptionLabel={(option) =>
-                  `${option.country} (${option.dialCode})`
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("ORGANIZATION_NAME")}
+            </label>
+            {isEditing ? (
+              <input
+                ref={organizationNameRef}
+                type="text"
+                name="organizationName"
+                value={organizationInfo.organizationName}
+                onChange={(e) =>
+                  handleInputChange("organizationName", e.target.value)
                 }
-                getOptionValue={(option) => option.code}
-                options={phoneCodeOptions}
-                onChange={(selectedOption) =>
-                  handleInputChange({
-                    target: {
-                      name: "phoneCountryCode",
-                      value: selectedOption.code,
-                    },
-                  })
-                }
-                className="w-1/3 mr-2"
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
               />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.organizationName || "—"}
+              </p>
+            )}
+            {errors.organizationName && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {errors.organizationName}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("ORGANIZATION_TYPE")}
+            </label>
+            {isEditing ? (
+              <div className="flex items-center gap-6 py-2">
+                <label className="inline-flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="organizationType"
+                    value={t("NON_PROFIT")}
+                    checked={
+                      organizationInfo.organizationType === t("NON_PROFIT")
+                    }
+                    onChange={(e) =>
+                      handleInputChange(
+                        "organizationType",
+                        e.target.value || t("NON_PROFIT"),
+                      )
+                    }
+                    className="form-radio h-4 w-4 text-blue-600"
+                  />
+                  <span className="ml-2 text-gray-700">{t("NON_PROFIT")}</span>
+                </label>
+                <label className="inline-flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="organizationType"
+                    value={t("FOR_PROFIT")}
+                    checked={
+                      organizationInfo.organizationType === t("FOR_PROFIT")
+                    }
+                    onChange={(e) =>
+                      handleInputChange(
+                        "organizationType",
+                        e.target.value || t("FOR_PROFIT"),
+                      )
+                    }
+                    className="form-radio h-4 w-4 text-blue-600"
+                  />
+                  <span className="ml-2 text-gray-700">{t("FOR_PROFIT")}</span>
+                </label>
+              </div>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.organizationType || "—"}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("PHONE_NUMBER")}
+            </label>
+            {isEditing ? (
+              <div className="flex gap-2">
+                <Select
+                  name="phoneCountryCode"
+                  value={phoneCodeOptions.find(
+                    (option) =>
+                      option.code === organizationInfo.phoneCountryCode,
+                  )}
+                  getOptionLabel={(option) =>
+                    `${option.country} (${option.dialCode})`
+                  }
+                  getOptionValue={(option) => option.code}
+                  options={phoneCodeOptions}
+                  onChange={(selectedOption) =>
+                    handleInputChange({
+                      target: {
+                        name: "phoneCountryCode",
+                        value: selectedOption.code,
+                      },
+                    })
+                  }
+                  className="w-1/3"
+                  classNamePrefix="react-select"
+                />
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  value={organizationInfo.phoneNumber}
+                  onChange={(e) => {
+                    const onlyDigits = e.target.value.replace(/\D/g, "");
+                    handleInputChange("phoneNumber", onlyDigits);
+                  }}
+                  maxLength={10}
+                  className="w-2/3 bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                />
+              </div>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.phoneCountryCode}{" "}
+                {organizationInfo.phoneNumber || "—"}
+              </p>
+            )}
+            {errors.phoneNumber && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {errors.phoneNumber}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("EMAIL")}
+            </label>
+            {isEditing ? (
+              <input
+                type="email"
+                name="email"
+                value={organizationInfo.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.email || "—"}
+              </p>
+            )}
+            {errors.email && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {errors.email}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("URL")}
+            </label>
+            {isEditing ? (
               <input
                 type="text"
-                name="phoneNumber"
-                value={organizationInfo.phoneNumber}
-                onChange={(e) => {
-                  const onlyDigits = e.target.value.replace(/\D/g, "");
-                  handleInputChange("phoneNumber", onlyDigits);
-                }}
-                maxLength={10}
-                className="appearance-none block w-2/3 bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="url"
+                value={organizationInfo.url}
+                onChange={(e) => handleInputChange("url", e.target.value)}
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
               />
-            </div>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.phoneCountryCode}{" "}
-              {organizationInfo.phoneNumber || ""}
-            </p>
-          )}
-          {errors.phoneNumber && (
-            <p className="text-red-500 text-xs">{errors.phoneNumber}</p>
-          )}
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.url || "—"}
+              </p>
+            )}
+          </div>
         </div>
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("EMAIL")}
-          </label>
-          {isEditing ? (
-            <input
-              type="email"
-              name="email"
-              value={organizationInfo.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.email || ""}
-            </p>
-          )}
-          {errors.email && (
-            <p className="text-red-500 text-xs">{errors.email}</p>
-          )}
-        </div>
-      </div>
 
-      <div className="grid grid-cols-1 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("URL")}
-          </label>
-          {isEditing ? (
-            <input
-              type="text"
-              name="url"
-              value={organizationInfo.url}
-              onChange={(e) => handleInputChange("url", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.url || ""}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Help Categories Dropdown */}
-      <div className="grid grid-cols-1 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("HELP_CATEGORIES")}
-          </label>
-          {isEditing ? (
-            <div className="relative" ref={categoryDropdownRef}>
-              {/* Selected categories display / trigger */}
-              <div
-                className="appearance-none block w-full bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 cursor-pointer flex items-center justify-between min-h-[42px]"
-                onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-              >
-                <div className="flex flex-wrap gap-1">
-                  {organizationInfo.helpCategories.length > 0 ? (
-                    organizationInfo.helpCategories.map((catName) => {
-                      // Find parent category for subcategories
-                      let parentCatName = null;
-                      for (const cat of categories) {
-                        if (
-                          cat.subCategories?.some(
-                            (sub) => sub.catName === catName,
-                          )
-                        ) {
-                          parentCatName = cat.catName;
-                          break;
-                        }
-                      }
-                      return (
-                        <span
-                          key={catName}
-                          className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
-                        >
-                          {getCategoryLabel(catName, parentCatName)}
-                        </span>
-                      );
-                    })
-                  ) : (
-                    <span className="text-gray-400">
-                      {t("SELECT_HELP_CATEGORIES")}
-                    </span>
-                  )}
-                </div>
-                <HiChevronDown className="h-5 w-5 text-gray-600 flex-shrink-0" />
-              </div>
-
-              {/* Two-column dropdown */}
-              {showCategoryDropdown && (
+        {/* Help Categories Dropdown */}
+        <div className="grid grid-cols-1 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("HELP_CATEGORIES")}
+            </label>
+            {isEditing ? (
+              <div className="relative" ref={categoryDropdownRef}>
+                {/* Selected categories display / trigger */}
                 <div
-                  className="absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex"
-                  style={{
-                    maxHeight: "280px",
-                    minHeight: "120px",
-                    overflow: "hidden",
-                  }}
+                  className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 cursor-pointer flex items-center justify-between min-h-[48px] hover:border-blue-300 transition-all duration-200"
+                  onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
                 >
-                  {/* Main categories column */}
-                  <div
-                    className={
-                      hoveredCategory?.subCategories?.length > 0
-                        ? "w-1/2 overflow-y-auto border-r"
-                        : "w-full overflow-y-auto"
-                    }
-                    style={{ maxHeight: "280px" }}
-                  >
-                    {categories.map((category) => (
-                      <div
-                        key={category.catId}
-                        className={`p-2 cursor-pointer hover:bg-gray-100 flex items-center justify-between ${
-                          hoveredCategory?.catId === category.catId
-                            ? "bg-gray-50 font-semibold"
-                            : ""
-                        }`}
-                        onMouseEnter={() => setHoveredCategory(category)}
-                        onClick={() => {
+                  <div className="flex flex-wrap gap-1">
+                    {organizationInfo.helpCategories.length > 0 ? (
+                      organizationInfo.helpCategories.map((catName) => {
+                        let parentCatName = null;
+                        for (const cat of categories) {
                           if (
-                            !category.subCategories ||
-                            category.subCategories.length === 0
+                            cat.subCategories?.some(
+                              (sub) => sub.catName === catName,
+                            )
                           ) {
-                            toggleCategorySelection(category.catName);
+                            parentCatName = cat.catName;
+                            break;
                           }
-                        }}
-                      >
-                        <div className="flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={isCategorySelected(category.catName)}
-                            onChange={() =>
-                              toggleCategorySelection(category.catName)
-                            }
-                            onClick={(e) => e.stopPropagation()}
-                            className="mr-2 h-4 w-4"
-                          />
+                        }
+                        return (
                           <span
-                            title={getCategoryDescription(
-                              category.catName,
-                              null,
-                              category.catDesc,
-                            )}
+                            key={catName}
+                            className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-md font-medium"
                           >
-                            {getCategoryLabel(category.catName)}
+                            {getCategoryLabel(catName, parentCatName)}
                           </span>
-                        </div>
-                        {category.subCategories?.length > 0 && (
-                          <span className="text-gray-400">&gt;</span>
-                        )}
-                      </div>
-                    ))}
+                        );
+                      })
+                    ) : (
+                      <span className="text-gray-400">
+                        {t("SELECT_HELP_CATEGORIES")}
+                      </span>
+                    )}
                   </div>
+                  <HiChevronDown className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                </div>
 
-                  {/* Subcategories column */}
-                  {hoveredCategory?.subCategories?.length > 0 && (
+                {/* Two-column dropdown */}
+                {showCategoryDropdown && (
+                  <div
+                    className="absolute z-30 bg-white border border-gray-200 mt-1 rounded-xl shadow-lg w-full flex overflow-hidden"
+                    style={{
+                      maxHeight: "280px",
+                      minHeight: "120px",
+                    }}
+                  >
+                    {/* Main categories column */}
                     <div
-                      className="w-1/2 overflow-y-auto bg-gray-50"
+                      className={
+                        hoveredCategory?.subCategories?.length > 0
+                          ? "w-1/2 overflow-y-auto border-r"
+                          : "w-full overflow-y-auto"
+                      }
                       style={{ maxHeight: "280px" }}
                     >
-                      {hoveredCategory.subCategories.map((subcategory) => (
+                      {categories.map((category) => (
                         <div
-                          key={subcategory.catId}
-                          className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
-                          onClick={() =>
-                            toggleCategorySelection(subcategory.catName)
-                          }
-                        >
-                          <input
-                            type="checkbox"
-                            checked={isCategorySelected(subcategory.catName)}
-                            onChange={() =>
-                              toggleCategorySelection(subcategory.catName)
+                          key={category.catId}
+                          className={`p-3 cursor-pointer hover:bg-blue-50 flex items-center justify-between transition-colors ${
+                            hoveredCategory?.catId === category.catId
+                              ? "bg-blue-50 font-medium"
+                              : ""
+                          }`}
+                          onMouseEnter={() => setHoveredCategory(category)}
+                          onClick={() => {
+                            if (
+                              !category.subCategories ||
+                              category.subCategories.length === 0
+                            ) {
+                              toggleCategorySelection(category.catName);
                             }
-                            onClick={(e) => e.stopPropagation()}
-                            className="mr-2 h-4 w-4"
-                          />
-                          <span
-                            title={getCategoryDescription(
-                              subcategory.catName,
-                              hoveredCategory.catName,
-                              subcategory.catDesc,
-                            )}
-                          >
-                            {getCategoryLabel(
-                              subcategory.catName,
-                              hoveredCategory.catName,
-                            )}
-                          </span>
+                          }}
+                        >
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={isCategorySelected(category.catName)}
+                              onChange={() =>
+                                toggleCategorySelection(category.catName)
+                              }
+                              onClick={(e) => e.stopPropagation()}
+                              className="mr-3 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            />
+                            <span
+                              title={getCategoryDescription(
+                                category.catName,
+                                null,
+                                category.catDesc,
+                              )}
+                              className="text-sm text-gray-700"
+                            >
+                              {getCategoryLabel(category.catName)}
+                            </span>
+                          </div>
+                          {category.subCategories?.length > 0 && (
+                            <span className="text-gray-400 text-xs">&gt;</span>
+                          )}
                         </div>
                       ))}
                     </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.helpCategories.length > 0
-                ? organizationInfo.helpCategories
-                    .map((catName) => {
-                      // Find parent category for subcategories
-                      let parentCatName = null;
-                      for (const cat of categories) {
-                        if (
-                          cat.subCategories?.some(
-                            (sub) => sub.catName === catName,
-                          )
-                        ) {
-                          parentCatName = cat.catName;
-                          break;
+
+                    {/* Subcategories column */}
+                    {hoveredCategory?.subCategories?.length > 0 && (
+                      <div
+                        className="w-1/2 overflow-y-auto bg-gray-50"
+                        style={{ maxHeight: "280px" }}
+                      >
+                        {hoveredCategory.subCategories.map((subcategory) => (
+                          <div
+                            key={subcategory.catId}
+                            className="p-3 cursor-pointer hover:bg-blue-100 flex items-center transition-colors"
+                            onClick={() =>
+                              toggleCategorySelection(subcategory.catName)
+                            }
+                          >
+                            <input
+                              type="checkbox"
+                              checked={isCategorySelected(subcategory.catName)}
+                              onChange={() =>
+                                toggleCategorySelection(subcategory.catName)
+                              }
+                              onClick={(e) => e.stopPropagation()}
+                              className="mr-3 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            />
+                            <span
+                              title={getCategoryDescription(
+                                subcategory.catName,
+                                hoveredCategory.catName,
+                                subcategory.catDesc,
+                              )}
+                              className="text-sm text-gray-700"
+                            >
+                              {getCategoryLabel(
+                                subcategory.catName,
+                                hoveredCategory.catName,
+                              )}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.helpCategories.length > 0
+                  ? organizationInfo.helpCategories
+                      .map((catName) => {
+                        let parentCatName = null;
+                        for (const cat of categories) {
+                          if (
+                            cat.subCategories?.some(
+                              (sub) => sub.catName === catName,
+                            )
+                          ) {
+                            parentCatName = cat.catName;
+                            break;
+                          }
                         }
-                      }
-                      return getCategoryLabel(catName, parentCatName);
-                    })
-                    .join(", ")
-                : ""}
-            </p>
-          )}
+                        return getCategoryLabel(catName, parentCatName);
+                      })
+                      .join(", ")
+                  : "—"}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ADDRESS", { optional: "" })}
-          </label>
-          {isEditing ? (
-            <input
-              type="text"
-              name="streetAddress"
-              value={organizationInfo.streetAddress}
-              onChange={(e) =>
-                handleInputChange("streetAddress", e.target.value)
-              }
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.streetAddress || ""}
-            </p>
-          )}
-          {errors.streetAddress && (
-            <p className="text-red-500 text-xs">{errors.streetAddress}</p>
-          )}
-        </div>
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ADDRESS", { optional: " 2" })}
-          </label>
-          {isEditing ? (
-            <input
-              type="text"
-              name="streetAddress2"
-              value={organizationInfo.streetAddress2}
-              onChange={(e) =>
-                handleInputChange("streetAddress2", e.target.value)
-              }
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.streetAddress2 || ""}
-            </p>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("CITY")}
-          </label>
-          {isEditing ? (
-            <input
-              type="text"
-              name="city"
-              value={organizationInfo.city}
-              onChange={(e) => handleInputChange("city", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.city || ""}
-            </p>
-          )}
-          {errors.city && <p className="text-red-500 text-xs">{errors.city}</p>}
-        </div>
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("STATE")}
-          </label>
-          {isEditing ? (
-            <input
-              type="text"
-              name="state"
-              value={organizationInfo.state}
-              onChange={(e) => handleInputChange("state", e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.state || ""}
-            </p>
-          )}
-          {errors.state && (
-            <p className="text-red-500 text-xs">{errors.state}</p>
-          )}
-        </div>
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ZIP_CODE")}
-          </label>
-          {isEditing ? (
-            <input
-              type="text"
-              name="zipCode"
-              value={organizationInfo.zipCode}
-              onChange={(e) => {
-                const onlyDigits = e.target.value
-                  .replace(/\D/g, "")
-                  .slice(0, 10);
-                handleInputChange("zipCode", onlyDigits);
-              }}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">
-              {organizationInfo.zipCode || ""}
-            </p>
-          )}
-          {errors.zipCode && (
-            <p className="text-red-500 text-xs">{errors.zipCode}</p>
-          )}
-        </div>
-      </div>
-
-      <div className="flex justify-center mt-6">
-        {!isEditing ? (
-          <button
-            className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            onClick={handleEditClick}
-          >
-            {t("EDIT")}
-          </button>
-        ) : (
-          <>
-            <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
-              onClick={handleSaveClick}
-            >
-              {t("SAVE")}
-            </button>
-            <button
-              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={() => {
-                const savedOrganizationInfo = JSON.parse(
-                  localStorage.getItem("organizationInfo"),
-                );
-                if (!savedOrganizationInfo) {
-                  setOrganizationInfo({
-                    organizationName: "",
-                    phoneNumber: "",
-                    phoneCountryCode: "",
-                    email: "",
-                    url: "",
-                    streetAddress: "",
-                    streetAddress2: "",
-                    city: "",
-                    state: "",
-                    zipCode: "",
-                    organizationType: t("NON_PROFIT"),
-                    helpCategories: [],
-                  });
-                } else {
-                  setOrganizationInfo({
-                    ...savedOrganizationInfo,
-                    helpCategories: savedOrganizationInfo.helpCategories || [],
-                  });
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("ADDRESS", { optional: "" })}
+            </label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="streetAddress"
+                value={organizationInfo.streetAddress}
+                onChange={(e) =>
+                  handleInputChange("streetAddress", e.target.value)
                 }
-                setIsEditing(false);
-                setErrors({});
-                setHasUnsavedChanges(false);
-              }}
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.streetAddress || "—"}
+              </p>
+            )}
+            {errors.streetAddress && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {errors.streetAddress}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("ADDRESS", { optional: " 2" })}
+            </label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="streetAddress2"
+                value={organizationInfo.streetAddress2}
+                onChange={(e) =>
+                  handleInputChange("streetAddress2", e.target.value)
+                }
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.streetAddress2 || "—"}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("CITY")}
+            </label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="city"
+                value={organizationInfo.city}
+                onChange={(e) => handleInputChange("city", e.target.value)}
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.city || "—"}
+              </p>
+            )}
+            {errors.city && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {errors.city}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("STATE")}
+            </label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="state"
+                value={organizationInfo.state}
+                onChange={(e) => handleInputChange("state", e.target.value)}
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.state || "—"}
+              </p>
+            )}
+            {errors.state && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {errors.state}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("ZIP_CODE")}
+            </label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="zipCode"
+                value={organizationInfo.zipCode}
+                onChange={(e) => {
+                  const onlyDigits = e.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 10);
+                  handleInputChange("zipCode", onlyDigits);
+                }}
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {organizationInfo.zipCode || "—"}
+              </p>
+            )}
+            {errors.zipCode && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {errors.zipCode}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-end pt-4 border-t border-gray-100">
+          {!isEditing ? (
+            <button
+              className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+              onClick={handleEditClick}
             >
-              {t("CANCEL")}
+              {t("EDIT")}
             </button>
-          </>
-        )}
+          ) : (
+            <div className="flex gap-3">
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all duration-200"
+                onClick={() => {
+                  const savedOrganizationInfo = JSON.parse(
+                    localStorage.getItem("organizationInfo"),
+                  );
+                  if (!savedOrganizationInfo) {
+                    setOrganizationInfo({
+                      organizationName: "",
+                      phoneNumber: "",
+                      phoneCountryCode: "",
+                      email: "",
+                      url: "",
+                      streetAddress: "",
+                      streetAddress2: "",
+                      city: "",
+                      state: "",
+                      zipCode: "",
+                      organizationType: t("NON_PROFIT"),
+                      helpCategories: [],
+                    });
+                  } else {
+                    setOrganizationInfo({
+                      ...savedOrganizationInfo,
+                      helpCategories:
+                        savedOrganizationInfo.helpCategories || [],
+                    });
+                  }
+                  setIsEditing(false);
+                  setErrors({});
+                  setHasUnsavedChanges(false);
+                }}
+              >
+                {t("CANCEL")}
+              </button>
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+                onClick={handleSaveClick}
+              >
+                {t("SAVE")}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

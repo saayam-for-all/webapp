@@ -9,6 +9,20 @@
   "PREFERENCES": "Preferences",
   "SIGN_OFF": "Sign Off",
   "BACK_TO_DASHBOARD": "Back to Dashboard",
+
+  "ACCOUNT_SETTINGS": "Account Settings",
+  "VOLUNTEER_SETTINGS": "Volunteer Settings",
+
+  "PROFILE_DESCRIPTION": "Manage your personal account information",
+  "PERSONAL_INFORMATION_DESCRIPTION": "Update your personal details and address",
+  "IDENTITY_DOCUMENT_DESCRIPTION": "Upload your government-issued identification",
+  "CHANGE_PASSWORD_DESCRIPTION": "Update your account password for security",
+  "ORGANIZATION_DETAILS_DESCRIPTION": "Manage your organization information",
+  "SKILLS_DESCRIPTION": "Select your areas of expertise and skills",
+  "NO_SKILLS_DATA": "No skills data available",
+  "AVAILABILITY_DESCRIPTION": "Set your available times for volunteering",
+  "PREFERENCES_DESCRIPTION": "Customize your account and communication preferences",
+  "SIGN_OFF_DESCRIPTION": "Permanently delete your account",
   "UNSAVED_CHANGES_WARNING": "You have unsaved changes. Do you want to proceed without saving?",
   "UNSAVED_PROFILE_CHANGES_WARNING": "You have unsaved changes in your profile. Do you want to proceed without saving?",
 
@@ -86,6 +100,7 @@
   "TIMEZONE": "Timezone",
   "USE_CURRENT_TIMEZONE": "Use current timezone",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Receive Emergency Notifications",
+  "EMERGENCY_NOTIFICATIONS_DESCRIPTION": "Receive urgent notifications for emergency situations",
   "PREFERENCES UPDATED SUCCESS": "Preferences updated successfully!",
 
   "ACCOUNT_DELETION_WARNING_TITLE": "Account Deletion",

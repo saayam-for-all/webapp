@@ -332,445 +332,438 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   };
 
   return (
-    <div className="flex flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
-      {/* Date of Birth and Gender */}
-      <div className="grid grid-cols-2 gap-8 mb-6">
-        <div>
-          {/* Label and Tooltip */}
-          <div className="flex items-center gap-1 mb-2">
-            <label className="tracking-wide text-gray-700 text-xs font-bold">
-              {t("BIRTHDAY")}
-            </label>
-            <div className="relative group cursor-pointer">
-              <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-500 text-white text-xs font-bold">
-                ?
-              </div>
-              <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                {t("BIRTHDAY_TOOLTIP")}
+    <div className="flex flex-col w-full">
+      {/* Header */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          {t("PERSONAL_INFORMATION")}
+        </h2>
+        <p className="text-gray-500 text-sm">
+          {t("PERSONAL_INFORMATION_DESCRIPTION") ||
+            "Update your personal details and address"}
+        </p>
+      </div>
+
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        {/* Date of Birth and Gender */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-2">
+            {/* Label and Tooltip */}
+            <div className="flex items-center gap-1">
+              <label className="text-sm font-semibold text-gray-700">
+                {t("BIRTHDAY")}
+              </label>
+              <div className="relative group cursor-pointer">
+                <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                  ?
+                </div>
+                <div className="absolute left-5 top-0 w-52 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                  {t("BIRTHDAY_TOOLTIP")}
+                </div>
               </div>
             </div>
+
+            {isEditing ? (
+              <>
+                <DatePicker
+                  ref={dateOfBirthRef}
+                  selected={personalInfo.dateOfBirth || null}
+                  onChange={(date) => handleInputChange("dateOfBirth", date)}
+                  dateFormat={dateFormat}
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="scroll"
+                  scrollableYearDropdown
+                  yearDropdownItemNumber={100}
+                  maxDate={new Date()}
+                  placeholderText={placeholder}
+                  className={`w-full bg-gray-50 text-gray-700 border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                    errors.dateOfBirth
+                      ? "border-red-300 focus:ring-red-500/20 focus:border-red-500"
+                      : "border-gray-200 focus:ring-blue-500/20 focus:border-blue-500"
+                  }`}
+                />
+                {errors.dateOfBirth && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.dateOfBirth}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {personalInfo.dateOfBirth ? (
+                  new Intl.DateTimeFormat(locale).format(
+                    personalInfo.dateOfBirth,
+                  )
+                ) : (
+                  <span className="text-gray-400">{placeholder}</span>
+                )}
+              </p>
+            )}
           </div>
 
-          {isEditing ? (
-            <>
-              <DatePicker
-                ref={dateOfBirthRef}
-                selected={personalInfo.dateOfBirth || null}
-                onChange={(date) => handleInputChange("dateOfBirth", date)}
-                dateFormat={dateFormat}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="scroll"
-                scrollableYearDropdown
-                yearDropdownItemNumber={100}
-                maxDate={new Date()}
-                placeholderText={placeholder}
-                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
-                  errors.dateOfBirth ? "border-red-500" : "border-gray-200"
-                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-              />
-              {errors.dateOfBirth && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.dateOfBirth}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.dateOfBirth ? (
-                new Intl.DateTimeFormat(locale).format(personalInfo.dateOfBirth)
-              ) : (
-                <span className="text-gray-500">{placeholder}</span>
-              )}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("GENDER")}
-          </label>
-          {isEditing ? (
-            <>
-              <Select
-                value={localizedGenderOptions.find(
-                  (option) => option.value === personalInfo.gender,
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("GENDER")}
+            </label>
+            {isEditing ? (
+              <>
+                <Select
+                  value={localizedGenderOptions.find(
+                    (option) => option.value === personalInfo.gender,
+                  )}
+                  options={localizedGenderOptions}
+                  onChange={(selectedOption) =>
+                    handleInputChange("gender", selectedOption?.value || "")
+                  }
+                  className="w-full"
+                  classNamePrefix="react-select"
+                />
+                {errors.gender && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.gender}
+                  </p>
                 )}
-                options={localizedGenderOptions}
-                onChange={(selectedOption) =>
-                  handleInputChange("gender", selectedOption?.value || "")
-                }
-                className="w-full"
-              />
-              {errors.gender && (
-                <p className="text-red-500 text-xs mt-1">{errors.gender}</p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {getGenderLabel(personalInfo.gender)}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Street Address */}
-      <div className="grid grid-cols-1 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {isEditing && (
-              <>
-                <span className="text-red-500 mr-1" aria-hidden="true">
-                  *
-                </span>
-                <span className="sr-only">
-                  {" "}
-                  ({t("required") || "required"})
-                </span>
               </>
-            )}
-            {t("ADDRESS", { optional: "" })}
-          </label>
-          {isEditing ? (
-            <>
-              <input
-                ref={streetAddressRef}
-                type="text"
-                name="streetAddress"
-                value={personalInfo.streetAddress}
-                onChange={(e) =>
-                  handleInputChange("streetAddress", e.target.value)
-                }
-                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
-                  errors.streetAddress ? "border-red-500" : "border-gray-200"
-                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-              />
-              {errors.streetAddress && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.streetAddress}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.streetAddress || ""}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ADDRESS", { optional: " 2" })}
-          </label>
-          {isEditing ? (
-            <>
-              <input
-                type="text"
-                name="streetAddress2"
-                value={personalInfo.streetAddress2}
-                onChange={(e) =>
-                  handleInputChange("streetAddress2", e.target.value)
-                }
-                //className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
-                  errors.streetAddress2 ? "border-red-500" : "border-gray-200"
-                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-              />
-              {errors.streetAddress2 && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.streetAddress2}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.streetAddress2 || ""}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* City, State, Country, Zip Code */}
-      <div className="grid grid-cols-2 gap-8 mb-6">
-        {/* City */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {isEditing && (
-              <>
-                <span className="text-red-500 mr-1" aria-hidden="true">
-                  *
-                </span>
-                <span className="sr-only">
-                  {" "}
-                  ({t("required") || "required"})
-                </span>
-              </>
-            )}
-            {t("CITY")}
-          </label>
-          {isEditing ? (
-            <>
-              <input
-                type="text"
-                name="city"
-                value={personalInfo.city}
-                onChange={(e) => handleInputChange("city", e.target.value)}
-                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
-                  errors.city ? "border-red-500" : "border-gray-200"
-                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-              />
-              {errors.city && (
-                <p className="text-red-500 text-xs italic mt-1">
-                  {errors.city}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">{personalInfo.city || ""}</p>
-          )}
-        </div>
-
-        {/* State */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {isEditing && (
-              <>
-                <span className="text-red-500 mr-1" aria-hidden="true">
-                  *
-                </span>
-                <span className="sr-only">
-                  {" "}
-                  ({t("required") || "required"})
-                </span>
-              </>
-            )}
-            {t("STATE")}
-          </label>
-          {isEditing ? (
-            <>
-              <Select
-                value={
-                  states.find(
-                    (option) => option.value === personalInfo.state,
-                  ) || null
-                }
-                options={states}
-                onChange={(selectedOption) =>
-                  handleInputChange("state", selectedOption?.value || "")
-                }
-              />
-              {errors.state && (
-                <p className="text-red-500 text-xs mt-1">{errors.state}</p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {
-                states.find((option) => option.value === personalInfo.state)
-                  ?.label
-              }
-            </p>
-          )}
-        </div>
-
-        {/* Country */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("COUNTRY")}
-          </label>
-          {isEditing ? (
-            <>
-              <Select
-                value={countries.find(
-                  (option) => option.value === personalInfo.country,
-                )}
-                options={countries}
-                // If you ever re-enable country change, also reset state + update state list
-                // onChange={(selectedOption) => {
-                //   handleInputChange("country", selectedOption?.value || "");
-                //   setPersonalInfo((prevInfo) => ({
-                //     ...prevInfo,
-                //     state: "",
-                //   }));
-                //   getLatestStatesList(selectedOption?.value || "");
-                // }}
-                isDisabled={true}
-                className={`w-full ${
-                  errors.country ? "border border-red-500" : ""
-                }`}
-              />
-              {errors.country && (
-                <p className="text-red-500 text-xs italic mt-1">
-                  {errors.country}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {countries.find((option) => option.value === personalInfo.country)
-                ?.label ||
-                user?.zoneinfo ||
-                ""}
-            </p>
-          )}
-        </div>
-
-        {/* ZIP Code */}
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {isEditing && (
-              <>
-                <span className="text-red-500 mr-1" aria-hidden="true">
-                  *
-                </span>
-                <span className="sr-only">
-                  {" "}
-                  ({t("required") || "required"})
-                </span>
-              </>
-            )}
-            {t("ZIP_CODE")}
-          </label>
-          {isEditing ? (
-            <>
-              <input
-                type="text"
-                name="zipCode"
-                value={personalInfo.zipCode}
-                onChange={(e) => handleInputChange("zipCode", e.target.value)}
-                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
-                  errors.zipCode ? "border-red-500" : "border-gray-200"
-                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-              />
-              {errors.zipCode && (
-                <p className="text-red-500 text-xs italic mt-1">
-                  {errors.zipCode}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.zipCode || ""}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Secondary Email and Secondary Phone */}
-      <div className="grid grid-cols-2 gap-8 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("SECONDARY_EMAIL")}
-          </label>
-          {isEditing ? (
-            <>
-              <input
-                type="email"
-                name="secondaryEmail"
-                value={personalInfo.secondaryEmail}
-                onChange={(e) =>
-                  handleInputChange("secondaryEmail", e.target.value)
-                }
-                className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              />
-              {errors.secondaryEmail && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.secondaryEmail}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-gray-900">
-              {personalInfo.secondaryEmail || ""}
-            </p>
-          )}
-        </div>
-
-        <div>
-          {isEditing ? (
-            <PhoneNumberInputWithCountry
-              phone={personalInfo.secondaryPhone}
-              setPhone={(value) => handleInputChange("secondaryPhone", value)}
-              countryCode={personalInfo.secondaryPhoneCountryCode}
-              setCountryCode={(value) =>
-                handleInputChange("secondaryPhoneCountryCode", value)
-              }
-              error={errors.secondaryPhone}
-              setError={(err) =>
-                setErrors((prev) => ({ ...prev, secondaryPhone: err }))
-              }
-              label={t("SECONDARY PHONE")}
-              required={false}
-              t={t}
-            />
-          ) : (
-            <>
-              <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-                {t("SECONDARY PHONE")}
-              </label>
-              <p className="text-lg text-gray-900">
-                {personalInfo.secondaryPhoneCountryCode}{" "}
-                {personalInfo.secondaryPhone || ""}
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {getGenderLabel(personalInfo.gender) || "—"}
               </p>
-            </>
+            )}
+          </div>
+        </div>
+
+        {/* Street Address */}
+        <div className="grid grid-cols-1 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="flex items-center text-sm font-semibold text-gray-700">
+              {isEditing && <span className="text-red-500 mr-1">*</span>}
+              {t("ADDRESS", { optional: "" })}
+            </label>
+            {isEditing ? (
+              <>
+                <input
+                  ref={streetAddressRef}
+                  type="text"
+                  name="streetAddress"
+                  value={personalInfo.streetAddress}
+                  onChange={(e) =>
+                    handleInputChange("streetAddress", e.target.value)
+                  }
+                  className={`w-full bg-gray-50 text-gray-700 border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                    errors.streetAddress
+                      ? "border-red-300 focus:ring-red-500/20 focus:border-red-500"
+                      : "border-gray-200 focus:ring-blue-500/20 focus:border-blue-500"
+                  }`}
+                />
+                {errors.streetAddress && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.streetAddress}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {personalInfo.streetAddress || "—"}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("ADDRESS", { optional: " 2" })}
+            </label>
+            {isEditing ? (
+              <>
+                <input
+                  type="text"
+                  name="streetAddress2"
+                  value={personalInfo.streetAddress2}
+                  onChange={(e) =>
+                    handleInputChange("streetAddress2", e.target.value)
+                  }
+                  className={`w-full bg-gray-50 text-gray-700 border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                    errors.streetAddress2
+                      ? "border-red-300 focus:ring-red-500/20 focus:border-red-500"
+                      : "border-gray-200 focus:ring-blue-500/20 focus:border-blue-500"
+                  }`}
+                />
+                {errors.streetAddress2 && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.streetAddress2}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {personalInfo.streetAddress2 || "—"}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* City, State, Country, Zip Code */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          {/* City */}
+          <div className="space-y-2">
+            <label className="flex items-center text-sm font-semibold text-gray-700">
+              {isEditing && <span className="text-red-500 mr-1">*</span>}
+              {t("CITY")}
+            </label>
+            {isEditing ? (
+              <>
+                <input
+                  type="text"
+                  name="city"
+                  value={personalInfo.city}
+                  onChange={(e) => handleInputChange("city", e.target.value)}
+                  className={`w-full bg-gray-50 text-gray-700 border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                    errors.city
+                      ? "border-red-300 focus:ring-red-500/20 focus:border-red-500"
+                      : "border-gray-200 focus:ring-blue-500/20 focus:border-blue-500"
+                  }`}
+                />
+                {errors.city && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.city}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {personalInfo.city || "—"}
+              </p>
+            )}
+          </div>
+
+          {/* State */}
+          <div className="space-y-2">
+            <label className="flex items-center text-sm font-semibold text-gray-700">
+              {isEditing && <span className="text-red-500 mr-1">*</span>}
+              {t("STATE")}
+            </label>
+            {isEditing ? (
+              <>
+                <Select
+                  value={
+                    states.find(
+                      (option) => option.value === personalInfo.state,
+                    ) || null
+                  }
+                  options={states}
+                  onChange={(selectedOption) =>
+                    handleInputChange("state", selectedOption?.value || "")
+                  }
+                  className="w-full"
+                  classNamePrefix="react-select"
+                />
+                {errors.state && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.state}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {states.find((option) => option.value === personalInfo.state)
+                  ?.label || "—"}
+              </p>
+            )}
+          </div>
+
+          {/* Country */}
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("COUNTRY")}
+            </label>
+            {isEditing ? (
+              <>
+                <Select
+                  value={countries.find(
+                    (option) => option.value === personalInfo.country,
+                  )}
+                  options={countries}
+                  isDisabled={true}
+                  className="w-full"
+                  classNamePrefix="react-select"
+                />
+                {errors.country && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.country}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {countries.find(
+                  (option) => option.value === personalInfo.country,
+                )?.label ||
+                  user?.zoneinfo ||
+                  "—"}
+              </p>
+            )}
+          </div>
+
+          {/* ZIP Code */}
+          <div className="space-y-2">
+            <label className="flex items-center text-sm font-semibold text-gray-700">
+              {isEditing && <span className="text-red-500 mr-1">*</span>}
+              {t("ZIP_CODE")}
+            </label>
+            {isEditing ? (
+              <>
+                <input
+                  type="text"
+                  name="zipCode"
+                  value={personalInfo.zipCode}
+                  onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                  className={`w-full bg-gray-50 text-gray-700 border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                    errors.zipCode
+                      ? "border-red-300 focus:ring-red-500/20 focus:border-red-500"
+                      : "border-gray-200 focus:ring-blue-500/20 focus:border-blue-500"
+                  }`}
+                />
+                {errors.zipCode && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.zipCode}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {personalInfo.zipCode || "—"}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Secondary Email and Secondary Phone */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
+              {t("SECONDARY_EMAIL")}
+            </label>
+            {isEditing ? (
+              <>
+                <input
+                  type="email"
+                  name="secondaryEmail"
+                  value={personalInfo.secondaryEmail}
+                  onChange={(e) =>
+                    handleInputChange("secondaryEmail", e.target.value)
+                  }
+                  className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                />
+                {errors.secondaryEmail && (
+                  <p className="text-sm text-red-600 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                    {errors.secondaryEmail}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {personalInfo.secondaryEmail || "—"}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            {isEditing ? (
+              <PhoneNumberInputWithCountry
+                phone={personalInfo.secondaryPhone}
+                setPhone={(value) => handleInputChange("secondaryPhone", value)}
+                countryCode={personalInfo.secondaryPhoneCountryCode}
+                setCountryCode={(value) =>
+                  handleInputChange("secondaryPhoneCountryCode", value)
+                }
+                error={errors.secondaryPhone}
+                setError={(err) =>
+                  setErrors((prev) => ({ ...prev, secondaryPhone: err }))
+                }
+                label={t("SECONDARY PHONE")}
+                required={false}
+                t={t}
+              />
+            ) : (
+              <>
+                <label className="text-sm font-semibold text-gray-700">
+                  {t("SECONDARY PHONE")}
+                </label>
+                <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                  {personalInfo.secondaryPhoneCountryCode}{" "}
+                  {personalInfo.secondaryPhone || "—"}
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-end pt-4 border-t border-gray-100">
+          {!isEditing ? (
+            <button
+              className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+              onClick={handleEditClick}
+            >
+              {t("EDIT")}
+            </button>
+          ) : (
+            <div className="flex gap-3">
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all duration-200"
+                onClick={() => {
+                  const savedPersonalInfo = JSON.parse(
+                    localStorage.getItem("personalInfo"),
+                  );
+                  if (savedPersonalInfo) {
+                    setPersonalInfo({
+                      ...savedPersonalInfo,
+                      dateOfBirth: savedPersonalInfo.dateOfBirth
+                        ? new Date(savedPersonalInfo.dateOfBirth)
+                        : null,
+                    });
+                  } else {
+                    setPersonalInfo({
+                      dateOfBirth: null,
+                      gender: "",
+                      streetAddress: "",
+                      streetAddress2: "",
+                      city: "",
+                      country:
+                        getCountryCodeFromZoneInfo(user?.zoneinfo) || "US",
+                      state: "",
+                      zipCode: "",
+                      secondaryEmail: "",
+                      secondaryPhone: "",
+                      secondaryPhoneCountryCode: "US",
+                    });
+                  }
+                  setIsEditing(false);
+                  setErrors({});
+                  setHasUnsavedChanges(false);
+                }}
+              >
+                {t("CANCEL")}
+              </button>
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+                onClick={handleSaveClick}
+              >
+                {t("SAVE")}
+              </button>
+            </div>
           )}
         </div>
-      </div>
-
-      {/* Save/Cancel Buttons */}
-      <div className="flex justify-center mt-6">
-        {!isEditing ? (
-          <button
-            className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            onClick={handleEditClick}
-          >
-            {t("EDIT")}
-          </button>
-        ) : (
-          <>
-            <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
-              onClick={handleSaveClick}
-            >
-              {t("SAVE")}
-            </button>
-            <button
-              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={() => {
-                const savedPersonalInfo = JSON.parse(
-                  localStorage.getItem("personalInfo"),
-                );
-                if (savedPersonalInfo) {
-                  setPersonalInfo({
-                    ...savedPersonalInfo,
-                    dateOfBirth: savedPersonalInfo.dateOfBirth
-                      ? new Date(savedPersonalInfo.dateOfBirth)
-                      : null,
-                  });
-                } else {
-                  setPersonalInfo({
-                    dateOfBirth: null,
-                    gender: "",
-                    streetAddress: "",
-                    streetAddress2: "",
-                    city: "",
-                    country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "US",
-                    state: "",
-                    zipCode: "",
-                    secondaryEmail: "",
-                    secondaryPhone: "",
-                    secondaryPhoneCountryCode: "US",
-                  });
-                }
-                setIsEditing(false);
-                setErrors({});
-                setHasUnsavedChanges(false);
-              }}
-            >
-              {t("CANCEL")}
-            </button>
-          </>
-        )}
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
 {
+  "AVAILABILITY": "Availability",
+  "AVAILABILITY_DESCRIPTION": "Set your available times for volunteering",
   "EVERYDAY": "Everyday",
   "WEEKDAYS": "Weekdays",
   "WEEKENDS": "Weekends",

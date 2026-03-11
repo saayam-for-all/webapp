@@ -134,90 +134,106 @@ function SignOff({ setHasUnsavedChanges }) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex items-center mb-6">
-          <FaTrash className="text-orange-500 text-2xl mr-3" />
+    <div className="flex flex-col w-full">
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
+            <FaTrash className="text-rose-600 text-lg" />
+          </div>
           <h2 className="text-2xl font-bold text-gray-800">
             {t("SIGN_OFF") || "Sign Off"}
           </h2>
         </div>
+        <p className="text-gray-500 text-sm">
+          {t("SIGN_OFF_DESCRIPTION") ||
+            "Permanently remove your account from our system"}
+        </p>
+      </div>
 
-        <div className="mb-6">
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
-            <div className="flex items-center mb-2">
-              <FaExclamationTriangle className="text-orange-500 text-xl mr-3 flex-shrink-0" />
-              <h3 className="text-orange-800 font-semibold">
-                {t("ACCOUNT_DELETION_WARNING_TITLE") || "Account Deletion"}
-              </h3>
-            </div>
-            <p className="text-orange-700 text-sm">
+      {/* Warning Card */}
+      <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-5 mb-6">
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+            <FaExclamationTriangle className="text-orange-600" />
+          </div>
+          <div>
+            <h3 className="text-orange-800 font-semibold mb-1">
+              {t("ACCOUNT_DELETION_WARNING_TITLE") || "Account Deletion"}
+            </h3>
+            <p className="text-orange-700 text-sm leading-relaxed">
               {t("ACCOUNT_DELETION_WARNING_TEXT") ||
                 "This action will permanently delete your account and all associated data. This action cannot be undone. Please ensure you have backed up any important information before proceeding."}
             </p>
           </div>
+        </div>
+      </div>
 
-          <div className="space-y-4">
-            <div className="space-y-3">
-              <label
-                htmlFor="reasonForLeaving"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {"Reason for leaving (Optional)"}
-              </label>
-              <textarea
-                id="reasonForLeaving"
-                value={reasonForLeaving}
-                onChange={handleReasonChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 resize-none"
-                rows="3"
-                maxLength="500"
-              />
-              <div className="text-xs text-gray-500 text-right">
-                {reasonForLeaving.length}/500 characters
-              </div>
-            </div>
-
-            <div className="flex items-start">
-              <input
-                type="checkbox"
-                id="deleteAccount"
-                checked={isDeleteChecked}
-                onChange={handleCheckboxChange}
-                className="mt-1 h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
-              />
-              <label
-                htmlFor="deleteAccount"
-                className="ml-3 text-sm text-gray-700"
-              >
-                <span className="font-medium text-orange-600">
-                  {t("I_WANT_TO_DELETE_MY_ACCOUNT") ||
-                    "I want to delete my account"}
-                </span>
-                <p className="text-gray-500 mt-1">
-                  {t("ACCOUNT_DELETION_CONFIRMATION_TEXT") ||
-                    "By checking this box, you acknowledge that you understand the consequences of deleting your account."}
-                </p>
-              </label>
-            </div>
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        {/* Reason for leaving */}
+        <div className="mb-6 space-y-2">
+          <label
+            htmlFor="reasonForLeaving"
+            className="flex items-center text-sm font-semibold text-gray-700"
+          >
+            {t("REASON_FOR_LEAVING") || "Reason for leaving"}{" "}
+            <span className="ml-1 text-gray-400 font-normal">(Optional)</span>
+          </label>
+          <textarea
+            id="reasonForLeaving"
+            value={reasonForLeaving}
+            onChange={handleReasonChange}
+            className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none"
+            rows="3"
+            maxLength="500"
+            placeholder={
+              t("REASON_PLACEHOLDER") || "Tell us why you're leaving..."
+            }
+          />
+          <div className="text-xs text-gray-400 text-right">
+            {reasonForLeaving.length}/500 characters
           </div>
         </div>
 
-        <div className="flex justify-end space-x-3">
+        {/* Checkbox confirmation */}
+        <div className="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              id="deleteAccount"
+              checked={isDeleteChecked}
+              onChange={handleCheckboxChange}
+              className="mt-1 h-5 w-5 text-rose-600 border-gray-300 rounded focus:ring-rose-500 cursor-pointer"
+            />
+            <div>
+              <span className="font-semibold text-rose-600 group-hover:text-rose-700 transition-colors">
+                {t("I_WANT_TO_DELETE_MY_ACCOUNT") ||
+                  "I want to delete my account"}
+              </span>
+              <p className="text-gray-500 text-sm mt-1 leading-relaxed">
+                {t("ACCOUNT_DELETION_CONFIRMATION_TEXT") ||
+                  "By checking this box, you acknowledge that you understand the consequences of deleting your account."}
+              </p>
+            </div>
+          </label>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
           <button
             onClick={handleCancelClick}
-            className="px-6 py-2 rounded-lg font-medium bg-gray-500 text-white hover:bg-gray-600 transition-colors duration-200"
+            className="inline-flex items-center gap-2 py-2.5 px-6 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all duration-200"
           >
             {t("CANCEL") || "Cancel"}
           </button>
-
           <button
             onClick={handleSubmit}
             disabled={!isDeleteChecked}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
+            className={`inline-flex items-center gap-2 py-2.5 px-6 rounded-xl font-medium transition-all duration-200 ${
               isDeleteChecked
-                ? "bg-red-600 hover:bg-red-700 text-white"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg shadow-rose-500/25 hover:shadow-rose-500/40"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
           >
             {t("SUBMIT") || "Submit"}
@@ -227,35 +243,37 @@ function SignOff({ setHasUnsavedChanges }) {
 
       {/* Confirmation Modal */}
       {showConfirmationModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md mx-4">
-            <div className="flex items-center mb-4">
-              <FaExclamationTriangle className="text-red-500 text-2xl mr-3" />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
+                <FaExclamationTriangle className="text-red-600 text-xl" />
+              </div>
               <h3 className="text-xl font-bold text-gray-800">
                 {t("CONFIRM_ACCOUNT_DELETION") || "Confirm Account Deletion"}
               </h3>
             </div>
 
-            <p className="text-gray-700 mb-6">
+            <p className="text-gray-600 mb-6 leading-relaxed">
               {t("CONFIRM_ACCOUNT_DELETION_TEXT") ||
                 "Are you absolutely sure you want to delete your account? This action cannot be undone and all your data will be permanently removed."}
             </p>
 
-            <div className="flex justify-end space-x-3">
+            <div className="flex gap-3">
               <button
                 onClick={handleCancelDelete}
                 disabled={isDeleting}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors duration-200"
+                className="flex-1 py-3 px-4 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 disabled:opacity-50 transition-all duration-200"
               >
                 {t("CANCEL") || "Cancel"}
               </button>
               <button
                 onClick={handleConfirmDelete}
                 disabled={isDeleting}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
                   isDeleting
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-red-600 hover:bg-red-700 text-white"
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg shadow-rose-500/25"
                 }`}
               >
                 {isDeleting

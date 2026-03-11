@@ -456,244 +456,286 @@ function YourProfile({ setHasUnsavedChanges }) {
   };
 
   return (
-    <div className="flex flex-col border p-6 rounded-lg w-full">
-      {/* Name */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {isEditing && <span className="text-red-500 mr-1">*</span>}
-            {t("FIRST_NAME")}
-          </label>
-          {isEditing ? (
-            <input
-              ref={firstNameRef}
-              type="text"
-              value={profileInfo.firstName}
-              onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">{profileInfo.firstName}</p>
-          )}
-          {nameErrors.firstName && isEditing && (
-            <p className="text-sm text-red-600 mt-1">{nameErrors.firstName}</p>
-          )}
-        </div>
-        <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {isEditing && <span className="text-red-500 mr-1">*</span>}
-            {t("LAST_NAME")}
-          </label>
-          {isEditing ? (
-            <input
-              type="text"
-              value={profileInfo.lastName}
-              onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-            />
-          ) : (
-            <p className="text-lg text-gray-900">{profileInfo.lastName}</p>
-          )}
-          {nameErrors.lastName && isEditing && (
-            <p className="text-sm text-red-600 mt-1">{nameErrors.lastName}</p>
-          )}
-        </div>
+    <div className="flex flex-col w-full">
+      {/* Header */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          {t("YOUR_PROFILE") || "Your Profile"}
+        </h2>
+        <p className="text-gray-500 text-sm">
+          {t("PROFILE_DESCRIPTION") ||
+            "Manage your personal account information"}
+        </p>
       </div>
 
-      {/* Email */}
-      <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {isEditing && <span className="text-red-500 mr-1">*</span>}
-          {t("EMAIL")}
-        </label>
-        {isEditing ? (
-          <div>
-            <input
-              type="email"
-              value={profileInfo.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              className={`block w-full bg-white text-gray-700 border ${
-                emailError ? "border-red-500" : "border-gray-200"
-              } rounded py-3 px-4 focus:outline-none`}
-            />
-            {emailError && (
-              <p className="text-sm text-red-600 mt-1">{emailError}</p>
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        {/* Name Fields */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="flex items-center text-sm font-semibold text-gray-700">
+              {isEditing && <span className="text-red-500 mr-1">*</span>}
+              {t("FIRST_NAME")}
+            </label>
+            {isEditing ? (
+              <input
+                ref={firstNameRef}
+                type="text"
+                value={profileInfo.firstName}
+                onChange={(e) => handleInputChange("firstName", e.target.value)}
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                placeholder={t("ENTER_FIRST_NAME") || "Enter first name"}
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {profileInfo.firstName || "—"}
+              </p>
             )}
-            {showEmailVerificationMessage &&
-              profileInfo.email !== originalEmail &&
-              !emailError && (
-                <p className="text-sm text-orange-600 mt-1">
-                  {t(
-                    "EMAIL_VERIFICATION_REQUIRED",
-                    "Email verification will be required for this change",
-                  )}
+            {nameErrors.firstName && isEditing && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {nameErrors.firstName}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <label className="flex items-center text-sm font-semibold text-gray-700">
+              {isEditing && <span className="text-red-500 mr-1">*</span>}
+              {t("LAST_NAME")}
+            </label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={profileInfo.lastName}
+                onChange={(e) => handleInputChange("lastName", e.target.value)}
+                className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                placeholder={t("ENTER_LAST_NAME") || "Enter last name"}
+              />
+            ) : (
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {profileInfo.lastName || "—"}
+              </p>
+            )}
+            {nameErrors.lastName && isEditing && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                {nameErrors.lastName}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Email Field */}
+        <div className="mb-6 space-y-2">
+          <label className="flex items-center text-sm font-semibold text-gray-700">
+            {isEditing && <span className="text-red-500 mr-1">*</span>}
+            {t("EMAIL")}
+          </label>
+          {isEditing ? (
+            <div>
+              <input
+                type="email"
+                value={profileInfo.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                className={`w-full bg-gray-50 text-gray-700 border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                  emailError
+                    ? "border-red-300 focus:ring-red-500/20 focus:border-red-500"
+                    : "border-gray-200 focus:ring-blue-500/20 focus:border-blue-500"
+                }`}
+                placeholder={t("ENTER_EMAIL") || "Enter email address"}
+              />
+              {emailError && (
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 rounded-full bg-red-500"></span>
+                  {emailError}
                 </p>
               )}
-          </div>
-        ) : (
-          <p className="text-lg text-gray-900">{profileInfo.email}</p>
-        )}
-      </div>
-
-      {/* Phone Number */}
-      <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {t("PHONE_NUMBER")}
-        </label>
-        <div className="flex items-center gap-2">
-          {isEditing ? (
-            <PhoneNumberInputWithCountry
-              phone={phone}
-              setPhone={(v) => {
-                setPhone(v);
-                setProfileInfo((p) => ({ ...p, phone: v }));
-                setHasUnsavedChanges(true);
-                if (phoneError) setPhoneError("");
-              }}
-              countryCode={countryCode}
-              setCountryCode={(iso) => {
-                setCountryCode(iso);
-                setProfileInfo((p) => ({ ...p, phoneCountryCode: iso }));
-                setHasUnsavedChanges(true);
-                if (phoneError) setPhoneError("");
-              }}
-              error={phoneError}
-              setError={setPhoneError}
-              required={false}
-              t={t}
-              hideLabel={true}
-            />
+              {showEmailVerificationMessage &&
+                profileInfo.email !== originalEmail &&
+                !emailError && (
+                  <p className="text-sm text-amber-600 mt-1 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-amber-500"></span>
+                    {t(
+                      "EMAIL_VERIFICATION_REQUIRED",
+                      "Email verification will be required for this change",
+                    )}
+                  </p>
+                )}
+            </div>
           ) : (
-            <>
-              {/* show only +dial and digits to avoid “UK vs Guernsey” wording confusion */}
-              <p className="text-lg text-gray-900">
-                <span className="mr-2">
-                  {PHONECODESEN[profileInfo.phoneCountryCode]?.secondary || ""}
-                </span>
-                <span>{profileInfo.phone}</span>
-              </p>
-
-              <button
-                type="button"
-                data-testid="phone-call-icon"
-                className="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
-                onClick={() => handleCallInitiation("audio")}
-              >
-                <FiPhoneCall size={22} />
-              </button>
-
-              <button
-                type="button"
-                data-testid="video-call-icon"
-                className="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
-                onClick={() => handleCallInitiation("video")}
-              >
-                <FiVideo size={22} />
-              </button>
-
-              {profileInfo.phone && (
-                <FaWhatsapp
-                  size={22}
-                  className="text-green-600 cursor-pointer hover:opacity-80 ml-3"
-                  title="WhatsApp"
-                  onClick={handleWhatsAppCall}
-                />
-              )}
-            </>
+            <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+              {profileInfo.email || "—"}
+            </p>
           )}
         </div>
-        {/* Phone error is rendered by the PhoneNumberInputWithCountry when editing */}
-      </div>
 
-      {/* Country */}
-      <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {isEditing && <span className="text-red-500 mr-1">*</span>}
-          {t("COUNTRY")}
-        </label>
-        {isEditing ? (
-          <select
-            value={profileInfo.country}
-            onChange={(e) => handleInputChange("country", e.target.value)}
-            className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
-          >
-            <option value="United States">United States</option>
-          </select>
-        ) : (
-          <p className="text-lg text-gray-900">{profileInfo.country}</p>
-        )}
-      </div>
+        {/* Phone Number Field */}
+        <div className="mb-6 space-y-2">
+          <label className="flex items-center text-sm font-semibold text-gray-700">
+            {t("PHONE_NUMBER")}
+          </label>
+          <div className="flex items-center gap-2">
+            {isEditing ? (
+              <PhoneNumberInputWithCountry
+                phone={phone}
+                setPhone={(v) => {
+                  setPhone(v);
+                  setProfileInfo((p) => ({ ...p, phone: v }));
+                  setHasUnsavedChanges(true);
+                  if (phoneError) setPhoneError("");
+                }}
+                countryCode={countryCode}
+                setCountryCode={(iso) => {
+                  setCountryCode(iso);
+                  setProfileInfo((p) => ({ ...p, phoneCountryCode: iso }));
+                  setHasUnsavedChanges(true);
+                  if (phoneError) setPhoneError("");
+                }}
+                error={phoneError}
+                setError={setPhoneError}
+                required={false}
+                t={t}
+                hideLabel={true}
+              />
+            ) : (
+              <>
+                <p className="flex-1 text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                  <span className="text-gray-500 mr-2">
+                    {PHONECODESEN[profileInfo.phoneCountryCode]?.secondary ||
+                      ""}
+                  </span>
+                  <span>{profileInfo.phone || "�"}</span>
+                </p>
 
-      {/* Error Message (kept for non-phone errors) */}
-      {saveError && (
-        <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
-          {saveError}
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    data-testid="phone-call-icon"
+                    className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all duration-200"
+                    onClick={() => handleCallInitiation("audio")}
+                    title={t("AUDIO_CALL") || "Audio Call"}
+                  >
+                    <FiPhoneCall size={18} />
+                  </button>
+
+                  <button
+                    type="button"
+                    data-testid="video-call-icon"
+                    className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all duration-200"
+                    onClick={() => handleCallInitiation("video")}
+                    title={t("VIDEO_CALL") || "Video Call"}
+                  >
+                    <FiVideo size={18} />
+                  </button>
+
+                  {profileInfo.phone && (
+                    <button
+                      type="button"
+                      className="w-10 h-10 rounded-lg bg-green-50 border border-green-100 flex items-center justify-center text-green-600 hover:bg-green-100 hover:border-green-200 transition-all duration-200"
+                      onClick={handleWhatsAppCall}
+                      title="WhatsApp"
+                    >
+                      <FaWhatsapp size={18} />
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      )}
 
-      {/* Buttons */}
-      <div className="flex justify-center mt-6">
-        {!isEditing ? (
-          <button
-            className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            onClick={() => {
-              // ensure the edit component starts with clean digits & ISO
-              setProfileInfo((prev) => ({
-                ...prev,
-                phone: digitsOnlyMax10(
-                  stripDialOnce(
-                    user?.phone_number || "",
-                    prev.phoneCountryCode,
-                  ),
-                ),
-              }));
-              setPhoneError("");
-              setPhone(
-                digitsOnlyMax10(
-                  stripDialOnce(
-                    user?.phone_number || "",
-                    profileInfo.phoneCountryCode,
-                  ),
-                ),
-              );
-              setCountryCode(profileInfo.phoneCountryCode || "US");
-              setIsEditing(true);
-              setTimeout(() => {
-                if (firstNameRef.current) firstNameRef.current.focus();
-              }, 0);
-            }}
-          >
-            {t("EDIT")}
-          </button>
-        ) : (
-          <>
-            <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 flex items-center justify-center"
-              onClick={handleSave}
-              disabled={loading}
+        {/* Country Field */}
+        <div className="mb-6 space-y-2">
+          <label className="flex items-center text-sm font-semibold text-gray-700">
+            {isEditing && <span className="text-red-500 mr-1">*</span>}
+            {t("COUNTRY")}
+          </label>
+          {isEditing ? (
+            <select
+              value={profileInfo.country}
+              onChange={(e) => handleInputChange("country", e.target.value)}
+              className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
             >
-              {loading ? (
-                <>
-                  <LoadingIndicator size="20px" className="mr-2" />
-                  {t("SAVING")}
-                </>
-              ) : (
-                t("SAVE")
-              )}
-            </button>
-            <button
-              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={() => {
-                setIsEditing(false);
-                setHasUnsavedChanges(false);
-                resetFormData();
-              }}
-              disabled={loading}
-            >
-              {t("CANCEL")}
-            </button>
-          </>
+              <option value="United States">United States</option>
+            </select>
+          ) : (
+            <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+              {profileInfo.country || "�"}
+            </p>
+          )}
+        </div>
+
+        {/* Error Message */}
+        {saveError && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"></span>
+            {saveError}
+          </div>
         )}
+
+        {/* Action Buttons */}
+        <div className="flex justify-end pt-4 border-t border-gray-100">
+          {!isEditing ? (
+            <button
+              className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+              onClick={() => {
+                setProfileInfo((prev) => ({
+                  ...prev,
+                  phone: digitsOnlyMax10(
+                    stripDialOnce(
+                      user?.phone_number || "",
+                      prev.phoneCountryCode,
+                    ),
+                  ),
+                }));
+                setPhoneError("");
+                setPhone(
+                  digitsOnlyMax10(
+                    stripDialOnce(
+                      user?.phone_number || "",
+                      profileInfo.phoneCountryCode,
+                    ),
+                  ),
+                );
+                setCountryCode(profileInfo.phoneCountryCode || "US");
+                setIsEditing(true);
+                setTimeout(() => {
+                  if (firstNameRef.current) firstNameRef.current.focus();
+                }, 0);
+              }}
+            >
+              {t("EDIT")}
+            </button>
+          ) : (
+            <div className="flex gap-3">
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all duration-200"
+                onClick={() => {
+                  setIsEditing(false);
+                  setHasUnsavedChanges(false);
+                  resetFormData();
+                }}
+                disabled={loading}
+              >
+                {t("CANCEL")}
+              </button>
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                onClick={handleSave}
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <LoadingIndicator size="20px" />
+                    {t("SAVING")}
+                  </>
+                ) : (
+                  t("SAVE")
+                )}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Call Modal */}

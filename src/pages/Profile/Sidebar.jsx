@@ -7,10 +7,60 @@ import {
   FaClock,
   FaCog,
   FaSignOutAlt,
+  FaIdCard,
+  FaBuilding,
+  FaUser,
 } from "react-icons/fa";
-// REMOVED: FaCalendarAlt for preferences
-import { FiChevronRight } from "react-icons/fi";
-import { FiEdit2 } from "react-icons/fi";
+import { FiChevronRight, FiEdit2 } from "react-icons/fi";
+
+// Tab configuration with unique icons and colors
+const tabConfig = {
+  profile: {
+    icon: FaUser,
+    color: "blue",
+    gradient: "from-blue-500 to-blue-600",
+  },
+  personal: {
+    icon: FaUserCircle,
+    color: "indigo",
+    gradient: "from-indigo-500 to-indigo-600",
+  },
+  uploadDocument: {
+    icon: FaIdCard,
+    color: "purple",
+    gradient: "from-purple-500 to-purple-600",
+  },
+  password: {
+    icon: FaLock,
+    color: "amber",
+    gradient: "from-amber-500 to-amber-600",
+  },
+  organization: {
+    icon: FaBuilding,
+    color: "teal",
+    gradient: "from-teal-500 to-teal-600",
+  },
+  skills: {
+    icon: FaTags,
+    color: "emerald",
+    gradient: "from-emerald-500 to-emerald-600",
+  },
+  availability: {
+    icon: FaClock,
+    color: "cyan",
+    gradient: "from-cyan-500 to-cyan-600",
+  },
+  preferences: {
+    icon: FaCog,
+    color: "slate",
+    gradient: "from-slate-500 to-slate-600",
+  },
+  signoff: {
+    icon: FaSignOutAlt,
+    color: "rose",
+    gradient: "from-rose-500 to-rose-600",
+  },
+};
 
 function Sidebar({
   profilePhoto,
@@ -21,194 +71,115 @@ function Sidebar({
   openModal,
 }) {
   const { t } = useTranslation("profile");
-  return (
-    <div className="flex flex-col justify-between h-1/2 p-4 bg-white w-100 border-r">
-      <div className="text-center mb-8">
-        <div className="relative mb-4">
-          {profilePhoto ? (
-            <img
-              src={profilePhoto}
-              alt="Profile"
-              className="rounded-full w-24 h-24 object-cover mx-auto cursor-pointer border-2 border-dashed border-gray-300"
-              onClick={openModal}
+
+  const renderTab = (tabKey, labelKey) => {
+    const config = tabConfig[tabKey];
+    const Icon = config.icon;
+    const isActive = activeTab === tabKey;
+
+    return (
+      <button
+        key={tabKey}
+        className={`group flex items-center justify-between py-3 px-4 w-full text-left rounded-lg transition-all duration-200 ${
+          isActive
+            ? `bg-gradient-to-r ${config.gradient} text-white shadow-md`
+            : "hover:bg-gray-50 text-gray-700 hover:translate-x-1"
+        }`}
+        onClick={() => handleTabChange(tabKey)}
+      >
+        <div className="flex items-center">
+          <div
+            className={`w-8 h-8 rounded-lg flex items-center justify-center mr-3 transition-all duration-200 ${
+              isActive ? "bg-white/20" : "bg-gray-100 group-hover:bg-gray-200"
+            }`}
+          >
+            <Icon
+              className={`w-4 h-4 ${
+                isActive
+                  ? "text-white"
+                  : "text-gray-500 group-hover:text-gray-700"
+              }`}
             />
-          ) : (
-            <div
-              className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto cursor-pointer border-2 border-dashed border-gray-300"
+          </div>
+          <span className={`font-medium ${isActive ? "text-white" : ""}`}>
+            {t(labelKey)}
+          </span>
+        </div>
+        {!isActive && (
+          <FiChevronRight className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+        )}
+      </button>
+    );
+  };
+
+  return (
+    <div className="flex flex-col h-full bg-white w-72">
+      {/* Profile Header with Gradient Background */}
+      <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-6 rounded-br-3xl">
+        {/* Decorative circles */}
+        <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+
+        <div className="relative text-center">
+          <div className="relative inline-block mb-4">
+            {profilePhoto ? (
+              <img
+                src={profilePhoto}
+                alt="Profile"
+                className="rounded-full w-24 h-24 object-cover mx-auto cursor-pointer ring-4 ring-white/30 shadow-xl hover:ring-white/50 transition-all duration-300"
+                onClick={openModal}
+              />
+            ) : (
+              <div
+                className="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto cursor-pointer ring-4 ring-white/30 hover:ring-white/50 transition-all duration-300"
+                onClick={openModal}
+              >
+                <span className="text-white/80 text-xs text-center px-2">
+                  {t("UPLOAD_PHOTO")}
+                </span>
+              </div>
+            )}
+            <button
+              className="absolute bottom-0 right-0 bg-white shadow-lg rounded-full p-2 cursor-pointer hover:bg-gray-50 hover:scale-110 transition-all duration-200"
               onClick={openModal}
             >
-              <span className="text-gray-600">{t("UPLOAD_PHOTO")}</span>
-            </div>
-          )}
-          <div
-            className="absolute bottom-2 right-2 bg-white border rounded-full p-1 cursor-pointer"
-            onClick={openModal}
-          >
-            <FiEdit2 className="text-gray-600 w-4 h-4" />
+              <FiEdit2 className="text-blue-600 w-4 h-4" />
+            </button>
           </div>
+          <h3 className="font-bold text-lg text-white truncate">{userName}</h3>
+          <p className="text-blue-100 text-sm truncate opacity-90">
+            {userEmail}
+          </p>
         </div>
-        <h3 className="font-semibold text-lg">{userName}</h3>
-        <p className="text-gray-500 text-sm">{userEmail}</p>
       </div>
 
-      {/* Sidebar Tabs */}
-      <div className="space-y-1">
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "profile"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("profile")}
-        >
-          <div className="flex items-center">
-            <FaUserCircle className="mr-2 text-gray-500" />
-            {t("YOUR_PROFILE")}
-          </div>
-          {activeTab !== "profile" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
+      {/* Navigation Tabs */}
+      <div className="flex-1 overflow-y-auto p-4">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
+          {t("ACCOUNT_SETTINGS")}
+        </p>
+        <nav className="space-y-1">
+          {renderTab("profile", "YOUR_PROFILE")}
+          {renderTab("personal", "PERSONAL_INFORMATION")}
+          {renderTab("uploadDocument", "IDENTITY_DOCUMENT")}
+          {renderTab("password", "CHANGE_PASSWORD")}
+          {renderTab("organization", "ORGANIZATION_DETAILS")}
+        </nav>
 
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "personal"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("personal")}
-        >
-          <div className="flex items-center">
-            <FaUserCircle className="mr-2 text-gray-500" />
-            {t("PERSONAL_INFORMATION")}
-          </div>
-          {activeTab !== "personal" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
+        <div className="my-4 border-t border-gray-100" />
 
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "uploadDocument"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("uploadDocument")}
-        >
-          <div className="flex items-center">
-            <FaUserCircle className="mr-2 text-gray-500" />
-            {t("IDENTITY_DOCUMENT")}
-          </div>
-          {activeTab !== "uploadDocument" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
+          {t("VOLUNTEER_SETTINGS")}
+        </p>
+        <nav className="space-y-1">
+          {renderTab("skills", "SKILLS")}
+          {renderTab("availability", "AVAILABILITY")}
+          {renderTab("preferences", "PREFERENCES")}
+        </nav>
 
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "password"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("password")}
-        >
-          <div className="flex items-center">
-            <FaLock className="mr-2 text-gray-500" />
-            {t("CHANGE_PASSWORD")}
-          </div>
-          {activeTab !== "password" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
+        <div className="my-4 border-t border-gray-100" />
 
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "organization"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("organization")}
-        >
-          <div className="flex items-center">
-            <FaUserCircle className="mr-2 text-gray-500" />
-            {t("ORGANIZATION_DETAILS")}
-          </div>
-          {activeTab !== "organization" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
-
-        {/* Skills Tab */}
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "skills"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("skills")}
-        >
-          <div className="flex items-center">
-            <FaTags className="mr-2 text-gray-500" />
-            {t("SKILLS")}
-          </div>
-          {activeTab !== "skills" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
-
-        {/* Availability Tab */}
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "availability"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("availability")}
-        >
-          <div className="flex items-center">
-            <FaClock className="mr-2 text-gray-500" />
-            {t("AVAILABILITY")}
-          </div>
-          {activeTab !== "availability" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
-
-        {/* Preferences Tab */}
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "preferences"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("preferences")}
-        >
-          <div className="flex items-center">
-            <FaCog className="mr-2 text-gray-500" />
-            {t("PREFERENCES")}
-          </div>
-          {activeTab !== "preferences" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
-
-        {/* Sign Off Tab */}
-        <button
-          className={`flex items-center justify-between py-3 px-4 w-full text-left ${
-            activeTab === "signoff"
-              ? "font-semibold text-blue-500 border-b-2 border-blue-500"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => handleTabChange("signoff")}
-        >
-          <div className="flex items-center">
-            <FaSignOutAlt className="mr-2 text-gray-500" />
-            {t("SIGN_OFF")}
-          </div>
-          {activeTab !== "signoff" && (
-            <FiChevronRight className="text-gray-600" />
-          )}
-        </button>
+        <nav className="space-y-1">{renderTab("signoff", "SIGN_OFF")}</nav>
       </div>
     </div>
   );

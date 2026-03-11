@@ -375,262 +375,284 @@ function Availability({ setHasUnsavedChanges }) {
     getTimezoneDetails(timezone, currentLocale).label;
 
   return (
-    <div className="flex flex-col border p-6 rounded-lg w-full">
-      {isEditing ? (
-        <div className="mb-6">
-          {/* Timezone Selection */}
-          <div className="mb-6">
-            <label
-              htmlFor="timezone-select"
-              className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >
-              {tAvailability("TIMEZONE")}
-            </label>
-            <div className="flex items-center gap-2">
-              <select
-                id="timezone-select"
-                value={timezone}
-                onChange={(e) => setTimezone(e.target.value)}
-                className="appearance-none block w-full max-w-lg bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+    <div className="space-y-6">
+      {/* Header Section */}
+      <div className="space-y-1">
+        <h2 className="text-xl font-semibold text-gray-900">
+          {tAvailability("AVAILABILITY")}
+        </h2>
+        <p className="text-sm text-gray-500">
+          {tAvailability("AVAILABILITY_DESCRIPTION")}
+        </p>
+      </div>
+
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        {isEditing ? (
+          <div className="space-y-6">
+            {/* Timezone Selection */}
+            <div className="space-y-2">
+              <label
+                htmlFor="timezone-select"
+                className="text-sm font-semibold text-gray-700"
               >
-                {/* Grouping by UTC offset for better readability */}
-                {/* This is a more advanced grouping, for simplicity, mapping directly */}
-                {allAvailableTimezones.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={handleUseCurrentTimezone}
-                className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm whitespace-nowrap"
-                aria-label={tAvailability("USE_CURRENT_TIMEZONE")}
-              >
-                {tAvailability("USE_CURRENT_TIMEZONE")}
-              </button>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {tAvailability("CURRENT_DETECTED_TIMEZONE")}:{" "}
-              <span className="font-semibold">
-                {currentTimezoneInfo.userFriendlyName ||
-                  currentTimezoneInfo.value}{" "}
-                {currentTimezoneInfo.displayOffset
-                  ? `(${currentTimezoneInfo.displayOffset})`
-                  : ""}
-              </span>
-            </p>
-          </div>
-
-          {/* Vacation Mode */}
-          <div className="mb-6">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={vacationMode}
-                onChange={(e) => setVacationMode(e.target.checked)}
-                className="mr-2 h-4 w-4"
-              />
-              <span className="tracking-wide text-gray-700 text-xs font-bold">
-                {tAvailability("VACATION_MODE")}
-              </span>
-            </label>
-            <p className="text-xs text-gray-500 mt-1 ml-6">
-              {tAvailability("VACATION_MODE_DESCRIPTION")}
-            </p>
-          </div>
-
-          {/* Vacation Dates */}
-          {vacationMode && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 ml-6">
-              <div>
-                <label
-                  htmlFor="vacation-start-date"
-                  className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-                >
-                  {tAvailability("VACATION_START_DATE")}
-                </label>
-                <input
-                  id="vacation-start-date"
-                  type="date"
-                  value={vacationStartDate}
-                  onChange={(e) => setVacationStartDate(e.target.value)}
-                  className="appearance-none block w-full bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="vacation-end-date"
-                  className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
-                >
-                  {tAvailability("VACATION_END_DATE")}
-                </label>
-                <input
-                  id="vacation-end-date"
-                  type="date"
-                  value={vacationEndDate}
-                  onChange={(e) => setVacationEndDate(e.target.value)}
-                  className="appearance-none block w-full bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Availability Slots */}
-          <div className="mb-6">
-            <h4 className="text-lg font-medium mb-2">
-              {tAvailability("YOUR_AVAILABLE_TIME_SLOTS")}
-            </h4>
-
-            {availabilitySlots.map((slot) => (
-              <div
-                key={slot.id}
-                className="flex flex-col sm:flex-row items-center gap-3 mb-3"
-              >
+                {tAvailability("TIMEZONE")}
+              </label>
+              <div className="flex items-center gap-3">
                 <select
-                  value={slot.frequency}
-                  onChange={(e) =>
-                    handleSlotChange(slot.id, "frequency", e.target.value)
-                  }
-                  className="appearance-none block w-full sm:w-auto bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="timezone-select"
+                  value={timezone}
+                  onChange={(e) => setTimezone(e.target.value)}
+                  className="flex-1 max-w-lg bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
                 >
-                  {frequencyOptions.map((option) => (
+                  {allAvailableTimezones.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
                   ))}
                 </select>
-
-                <div className="relative w-full sm:w-auto">
-                  <input
-                    type="time"
-                    value={slot.startTime}
-                    onChange={(e) =>
-                      handleSlotChange(slot.id, "startTime", e.target.value)
-                    }
-                    className="appearance-none block w-full bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 pl-8"
-                  />
-                  <FiClock className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                </div>
-
-                <div className="relative w-full sm:w-auto">
-                  <input
-                    type="time"
-                    value={slot.endTime}
-                    onChange={(e) =>
-                      handleSlotChange(slot.id, "endTime", e.target.value)
-                    }
-                    className="appearance-none block w-full bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 pl-8"
-                  />
-                  <FiClock className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                </div>
-
                 <button
-                  onClick={() => handleRemoveSlot(slot.id)}
-                  className="text-red-500 hover:text-red-700 p-2"
-                  aria-label={tAvailability("REMOVE_TIME_SLOT")}
+                  onClick={handleUseCurrentTimezone}
+                  className="py-2.5 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium whitespace-nowrap transition-all duration-200"
+                  aria-label={tAvailability("USE_CURRENT_TIMEZONE")}
                 >
-                  <FaTrashAlt />
+                  {tAvailability("USE_CURRENT_TIMEZONE")}
                 </button>
               </div>
-            ))}
-
-            <button
-              onClick={handleAddSlot}
-              className="flex items-center gap-2 text-blue-500 hover:text-blue-700 mt-2 bg-blue-100 py-2 px-4 rounded-md"
-            >
-              <FaPlus />
-              <span>{tAvailability("ADD_TIME_SLOT")}</span>
-            </button>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-center mt-6">
-            <button
-              disabled={loading}
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 flex items-center justify-center"
-              onClick={handleSaveClick}
-            >
-              <span className={loading ? "mr-2" : ""}>{t("SAVE")}</span>
-              {loading && <LoadingIndicator size="24px" />}
-            </button>
-            <button
-              disabled={loading}
-              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={handleCancelClick}
-            >
-              {t("CANCEL")}
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div>
-          {/* Display Mode */}
-
-          {/* Timezone Display */}
-          <div className="mb-4">
-            <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-              {tAvailability("TIMEZONE")}
-            </label>
-            <p className="text-lg text-gray-900">{selectedTimezoneDisplay}</p>
-          </div>
-
-          {/* Vacation Mode Display */}
-          {vacationMode && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded p-4 mb-4">
-              <p className="text-yellow-800 font-bold">
-                {tAvailability("VACATION_MODE_ACTIVE")}
+              <p className="text-xs text-gray-500 mt-1">
+                {tAvailability("CURRENT_DETECTED_TIMEZONE")}:{" "}
+                <span className="font-medium text-gray-700">
+                  {currentTimezoneInfo.userFriendlyName ||
+                    currentTimezoneInfo.value}{" "}
+                  {currentTimezoneInfo.displayOffset
+                    ? `(${currentTimezoneInfo.displayOffset})`
+                    : ""}
+                </span>
               </p>
-              {vacationStartDate && vacationEndDate && (
-                <p className="text-yellow-700 text-sm">
-                  {new Date(vacationStartDate).toLocaleDateString()} -{" "}
-                  {new Date(vacationEndDate).toLocaleDateString()}
-                </p>
+            </div>
+
+            {/* Vacation Mode */}
+            <div className="bg-amber-50 rounded-lg p-4 border border-amber-100">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={vacationMode}
+                  onChange={(e) => setVacationMode(e.target.checked)}
+                  className="mr-3 h-4 w-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                />
+                <span className="text-sm font-semibold text-amber-800">
+                  {tAvailability("VACATION_MODE")}
+                </span>
+              </label>
+              <p className="text-xs text-amber-700 mt-2 ml-7">
+                {tAvailability("VACATION_MODE_DESCRIPTION")}
+              </p>
+
+              {/* Vacation Dates */}
+              {vacationMode && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 ml-7">
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="vacation-start-date"
+                      className="text-sm font-medium text-amber-800"
+                    >
+                      {tAvailability("VACATION_START_DATE")}
+                    </label>
+                    <input
+                      id="vacation-start-date"
+                      type="date"
+                      value={vacationStartDate}
+                      onChange={(e) => setVacationStartDate(e.target.value)}
+                      className="w-full bg-white text-gray-700 border border-amber-200 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all duration-200"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="vacation-end-date"
+                      className="text-sm font-medium text-amber-800"
+                    >
+                      {tAvailability("VACATION_END_DATE")}
+                    </label>
+                    <input
+                      id="vacation-end-date"
+                      type="date"
+                      value={vacationEndDate}
+                      onChange={(e) => setVacationEndDate(e.target.value)}
+                      className="w-full bg-white text-gray-700 border border-amber-200 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all duration-200"
+                    />
+                  </div>
+                </div>
               )}
             </div>
-          )}
 
-          {/* Availability Slots Display */}
-          {availabilitySlots.length > 0 ? (
-            <div className="mb-6">
-              <h4 className="text-lg font-medium mb-2">
+            {/* Availability Slots */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-700">
                 {tAvailability("YOUR_AVAILABLE_TIME_SLOTS")}
               </h4>
-              <div className="space-y-2">
+
+              <div className="space-y-3">
                 {availabilitySlots.map((slot) => (
-                  <div key={slot.id} className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-gray-900">
-                      <span className="font-medium">
-                        {frequencyOptions.find(
-                          (opt) => opt.value === slot.frequency,
-                        )?.label || slot.frequency}
-                        :
-                      </span>{" "}
-                      {/* APPLY THE NEW HELPER FUNCTION HERE */}
-                      {convertTo12HourFormat(slot.startTime)} -{" "}
-                      {convertTo12HourFormat(slot.endTime)}
-                    </p>
+                  <div
+                    key={slot.id}
+                    className="flex flex-col sm:flex-row items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-100"
+                  >
+                    <select
+                      value={slot.frequency}
+                      onChange={(e) =>
+                        handleSlotChange(slot.id, "frequency", e.target.value)
+                      }
+                      className="w-full sm:w-40 bg-white text-gray-700 border border-gray-200 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                    >
+                      {frequencyOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+
+                    <div className="relative w-full sm:w-auto">
+                      <input
+                        type="time"
+                        value={slot.startTime}
+                        onChange={(e) =>
+                          handleSlotChange(slot.id, "startTime", e.target.value)
+                        }
+                        className="w-full bg-white text-gray-700 border border-gray-200 rounded-lg py-2.5 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                      />
+                      <FiClock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    </div>
+
+                    <span className="text-gray-400 hidden sm:block">—</span>
+
+                    <div className="relative w-full sm:w-auto">
+                      <input
+                        type="time"
+                        value={slot.endTime}
+                        onChange={(e) =>
+                          handleSlotChange(slot.id, "endTime", e.target.value)
+                        }
+                        className="w-full bg-white text-gray-700 border border-gray-200 rounded-lg py-2.5 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                      />
+                      <FiClock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    </div>
+
+                    <button
+                      onClick={() => handleRemoveSlot(slot.id)}
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                      aria-label={tAvailability("REMOVE_TIME_SLOT")}
+                    >
+                      <FaTrashAlt />
+                    </button>
                   </div>
                 ))}
               </div>
+
+              <button
+                onClick={handleAddSlot}
+                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 py-2.5 px-4 rounded-lg font-medium transition-all duration-200"
+              >
+                <FaPlus className="w-3 h-3" />
+                <span>{tAvailability("ADD_TIME_SLOT")}</span>
+              </button>
             </div>
-          ) : (
-            <div className="text-center p-6 bg-gray-50 rounded-lg mb-6">
-              <p className="text-gray-500">
-                {tAvailability("NO_AVAILABILITY_SLOTS")}
+
+            {/* Action Buttons */}
+            <div className="flex justify-end pt-4 border-t border-gray-100">
+              <div className="flex gap-3">
+                <button
+                  disabled={loading}
+                  className="inline-flex items-center gap-2 py-2.5 px-6 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all duration-200 disabled:opacity-50"
+                  onClick={handleCancelClick}
+                >
+                  {t("CANCEL")}
+                </button>
+                <button
+                  disabled={loading}
+                  className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 disabled:opacity-50"
+                  onClick={handleSaveClick}
+                >
+                  <span>{t("SAVE")}</span>
+                  {loading && <LoadingIndicator size="20px" />}
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {/* Timezone Display */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700">
+                {tAvailability("TIMEZONE")}
+              </label>
+              <p className="text-base text-gray-900 py-3 px-4 bg-gray-50 rounded-lg border border-gray-100">
+                {selectedTimezoneDisplay}
               </p>
             </div>
-          )}
 
-          <div className="flex justify-center">
-            <button
-              className="py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              onClick={handleEditClick}
-            >
-              {t("EDIT")}
-            </button>
+            {/* Vacation Mode Display */}
+            {vacationMode && (
+              <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
+                <p className="text-amber-800 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                  {tAvailability("VACATION_MODE_ACTIVE")}
+                </p>
+                {vacationStartDate && vacationEndDate && (
+                  <p className="text-amber-700 text-sm mt-1 ml-4">
+                    {new Date(vacationStartDate).toLocaleDateString()} -{" "}
+                    {new Date(vacationEndDate).toLocaleDateString()}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Availability Slots Display */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-semibold text-gray-700">
+                {tAvailability("YOUR_AVAILABLE_TIME_SLOTS")}
+              </h4>
+              {availabilitySlots.length > 0 ? (
+                <div className="space-y-2">
+                  {availabilitySlots.map((slot) => (
+                    <div
+                      key={slot.id}
+                      className="bg-gray-50 p-4 rounded-lg border border-gray-100"
+                    >
+                      <p className="text-gray-900">
+                        <span className="font-medium text-blue-700">
+                          {frequencyOptions.find(
+                            (opt) => opt.value === slot.frequency,
+                          )?.label || slot.frequency}
+                          :
+                        </span>{" "}
+                        {convertTo12HourFormat(slot.startTime)} —{" "}
+                        {convertTo12HourFormat(slot.endTime)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-100">
+                  <FiClock className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                  <p className="text-gray-500">
+                    {tAvailability("NO_AVAILABILITY_SLOTS")}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end pt-4 border-t border-gray-100">
+              <button
+                className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+                onClick={handleEditClick}
+              >
+                {t("EDIT")}
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

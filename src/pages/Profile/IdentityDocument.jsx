@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { FiUploadCloud, FiTrash2, FiFile, FiImage } from "react-icons/fi";
 
 const IdentityDocument = ({ setHasUnsavedChanges }) => {
   const { t } = useTranslation("identity");
+  const { t: tProfile } = useTranslation("profile");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
@@ -167,86 +169,130 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">
-        {t("UPLOAD_GOVERNMENT_ID")}
-      </h2>
-
-      {/* Source Selection Dropdown */}
-      <div className="mb-4">
-        <label
-          htmlFor="source"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          {t("SELECT_SOURCE")}
-        </label>
-        <select
-          id="source"
-          className="w-full border border-gray-300 rounded-md p-2"
-          value={source}
-          onChange={handleSourceChange}
-        >
-          <option value="device">{t("DEVICE")}</option>
-          <option value="drive">{t("GOOGLE_DRIVE")}</option>
-          <option value="dropbox">{t("DROPBOX")}</option>
-        </select>
+    <div className="flex flex-col w-full">
+      {/* Header */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          {tProfile("IDENTITY_DOCUMENT")}
+        </h2>
+        <p className="text-gray-500 text-sm">
+          {tProfile("IDENTITY_DOCUMENT_DESCRIPTION") ||
+            "Upload your government-issued identification"}
+        </p>
       </div>
 
-      {/* File Upload Input (visible only if 'Device' is selected) */}
-      {source === "device" && (
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            {t("UPLOAD_FILE")}
-          </label>
-          <input
-            type="file"
-            accept=".jpeg,.jpg,.png,.pdf"
-            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-            onChange={handleFileChange}
-            ref={fileInputRef}
-          />
-          <p className="mt-1 text-sm text-gray-500">
-            {t("FILE_TYPE_REQUIREMENT")}
-          </p>
-        </div>
-      )}
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          {t("UPLOAD_GOVERNMENT_ID")}
+        </h3>
 
-      {/* File Preview */}
-      {file && (
-        <div className="mb-4">
-          <p className="text-sm font-medium text-gray-700">
-            {t("FILE")}: {file.name || file.id}
-          </p>
-          {preview && (
-            <img
-              src={preview}
-              alt={t("FILE_PREVIEW")}
-              className="mt-2 max-h-40 rounded"
-            />
-          )}
-        </div>
-      )}
-
-      {/* Error Message */}
-      {error && <p className="text-sm text-red-600">{error}</p>}
-
-      {/* Upload and Remove Buttons */}
-      <div className="flex justify-between items-center">
-        <button
-          onClick={handleUpload}
-          disabled={!file || isLoading}
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
-        >
-          {isLoading ? t("UPLOADING") : t("UPLOAD")}
-        </button>
-        {file && (
-          <button
-            onClick={handleRemoveFile}
-            className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+        {/* Source Selection Dropdown */}
+        <div className="mb-6 space-y-2">
+          <label
+            htmlFor="source"
+            className="text-sm font-semibold text-gray-700"
           >
-            {t("REMOVE")}
-          </button>
+            {t("SELECT_SOURCE")}
+          </label>
+          <select
+            id="source"
+            className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+            value={source}
+            onChange={handleSourceChange}
+          >
+            <option value="device">{t("DEVICE")}</option>
+            <option value="drive">{t("GOOGLE_DRIVE")}</option>
+            <option value="dropbox">{t("DROPBOX")}</option>
+          </select>
+        </div>
+
+        {/* File Upload Input (visible only if 'Device' is selected) */}
+        {source === "device" && (
+          <div className="mb-6">
+            <label className="text-sm font-semibold text-gray-700 mb-2 block">
+              {t("UPLOAD_FILE")}
+            </label>
+            <div className="relative">
+              <input
+                type="file"
+                accept=".jpeg,.jpg,.png,.pdf"
+                className="hidden"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                id="file-upload"
+              />
+              <label
+                htmlFor="file-upload"
+                className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 hover:border-blue-400 transition-all duration-200"
+              >
+                <FiUploadCloud className="w-10 h-10 text-gray-400 mb-2" />
+                <span className="text-sm text-gray-600 font-medium">
+                  {t("CLICK_TO_UPLOAD") || "Click to upload or drag and drop"}
+                </span>
+                <span className="text-xs text-gray-400 mt-1">
+                  {t("FILE_TYPE_REQUIREMENT")}
+                </span>
+              </label>
+            </div>
+          </div>
         )}
+
+        {/* File Preview */}
+        {file && (
+          <div className="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <div className="flex items-center gap-3">
+              {preview ? (
+                <FiImage className="w-8 h-8 text-blue-500" />
+              ) : (
+                <FiFile className="w-8 h-8 text-blue-500" />
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-700 truncate">
+                  {file.name || file.id}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {file.size ? `${(file.size / 1024).toFixed(1)} KB` : ""}
+                </p>
+              </div>
+            </div>
+            {preview && (
+              <img
+                src={preview}
+                alt={t("FILE_PREVIEW")}
+                className="mt-4 max-h-48 rounded-lg mx-auto"
+              />
+            )}
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"></span>
+            {error}
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+          {file && (
+            <button
+              onClick={handleRemoveFile}
+              className="inline-flex items-center gap-2 py-2.5 px-6 bg-red-50 text-red-600 rounded-xl font-medium hover:bg-red-100 transition-all duration-200"
+            >
+              <FiTrash2 className="w-4 h-4" />
+              {t("REMOVE")}
+            </button>
+          )}
+          <button
+            onClick={handleUpload}
+            disabled={!file || isLoading}
+            className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+          >
+            {isLoading ? t("UPLOADING") : t("UPLOAD")}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -70,10 +70,24 @@ function ChangePassword({ setHasUnsavedChanges }) {
   };
 
   return (
-    <div className="flex flex-col border p-6 rounded-lg w-full">
-      <>
-        <div className="mb-6">
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+    <div className="flex flex-col w-full">
+      {/* Header */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          {t("CHANGE_PASSWORD") || "Change Password"}
+        </h2>
+        <p className="text-gray-500 text-sm">
+          {t("CHANGE_PASSWORD_DESCRIPTION") ||
+            "Update your password to keep your account secure"}
+        </p>
+      </div>
+
+      {/* Form Card */}
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        {/* Current Password */}
+        <div className="mb-6 space-y-2">
+          <label className="flex items-center text-sm font-semibold text-gray-700">
+            <span className="text-red-500 mr-1">*</span>
             {t("CURRENT_PASSWORD")}
           </label>
           <div className="relative">
@@ -82,18 +96,29 @@ function ChangePassword({ setHasUnsavedChanges }) {
               type={showPassword ? "text" : "password"}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+              placeholder={
+                t("ENTER_CURRENT_PASSWORD") || "Enter current password"
+              }
             />
-            <div
+            <button
+              type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
+              className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700 transition-colors"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-            </div>
+              {showPassword ? (
+                <AiOutlineEyeInvisible size={20} />
+              ) : (
+                <AiOutlineEye size={20} />
+              )}
+            </button>
           </div>
         </div>
-        <div className="mb-6">
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+
+        {/* New Password */}
+        <div className="mb-6 space-y-2">
+          <label className="flex items-center text-sm font-semibold text-gray-700">
+            <span className="text-red-500 mr-1">*</span>
             {t("NEW_PASSWORD")}
           </label>
           <div className="relative">
@@ -101,24 +126,40 @@ function ChangePassword({ setHasUnsavedChanges }) {
               type={showPassword ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
-                errorMessage ? "border-red-500" : "border-gray-200"
-              } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              className={`w-full bg-gray-50 text-gray-700 border rounded-lg py-3 px-4 pr-12 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                errorMessage
+                  ? "border-red-300 focus:ring-red-500/20 focus:border-red-500"
+                  : "border-gray-200 focus:ring-blue-500/20 focus:border-blue-500"
+              }`}
+              placeholder={t("ENTER_NEW_PASSWORD") || "Enter new password"}
             />
-            <div
+            <button
+              type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
+              className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700 transition-colors"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-            </div>
+              {showPassword ? (
+                <AiOutlineEyeInvisible size={20} />
+              ) : (
+                <AiOutlineEye size={20} />
+              )}
+            </button>
           </div>
           {errorMessage && (
-            <p className="text-red-500 text-xs mt-1">{errorMessage}</p>
+            <p className="text-sm text-red-600 flex items-center gap-1">
+              <span className="w-1 h-1 rounded-full bg-red-500"></span>
+              {errorMessage}
+            </p>
           )}
-          <p className="text-xs text-gray-500">{t("PASSWORD_REQUIREMENTS")}</p>
+          <p className="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg border border-gray-100">
+            {t("PASSWORD_REQUIREMENTS")}
+          </p>
         </div>
-        <div className="mb-6">
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+
+        {/* Confirm Password */}
+        <div className="mb-6 space-y-2">
+          <label className="flex items-center text-sm font-semibold text-gray-700">
+            <span className="text-red-500 mr-1">*</span>
             {t("CONFIRM_PASSWORD")}
           </label>
           <div className="relative">
@@ -126,39 +167,58 @@ function ChangePassword({ setHasUnsavedChanges }) {
               type={showPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
-                passwordMatchError ? "border-red-500" : "border-gray-200"
-              } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              className={`w-full bg-gray-50 text-gray-700 border rounded-lg py-3 px-4 pr-12 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                passwordMatchError
+                  ? "border-red-300 focus:ring-red-500/20 focus:border-red-500"
+                  : "border-gray-200 focus:ring-blue-500/20 focus:border-blue-500"
+              }`}
+              placeholder={t("CONFIRM_NEW_PASSWORD") || "Confirm new password"}
             />
-            <div
+            <button
+              type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
+              className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700 transition-colors"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-            </div>
+              {showPassword ? (
+                <AiOutlineEyeInvisible size={20} />
+              ) : (
+                <AiOutlineEye size={20} />
+              )}
+            </button>
           </div>
           {passwordMatchError && (
-            <p className="text-red-500 text-xs mt-1">{passwordMatchError}</p>
+            <p className="text-sm text-red-600 flex items-center gap-1">
+              <span className="w-1 h-1 rounded-full bg-red-500"></span>
+              {passwordMatchError}
+            </p>
           )}
         </div>
-        <div className="flex justify-center mt-6">
+
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
           <button
             disabled={loading}
-            className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 flex items-center justify-center"
-            onClick={handleSaveClick}
-          >
-            <span className={loading ? "mr-2" : ""}>{t("SAVE")}</span>
-            {loading && <LoadingIndicator size="24px" />}
-          </button>
-          <button
-            disabled={loading}
-            className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+            className="inline-flex items-center gap-2 py-2.5 px-6 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 disabled:opacity-50 transition-all duration-200"
             onClick={handleCancelClick}
           >
             {t("CANCEL")}
           </button>
+          <button
+            disabled={loading}
+            className="inline-flex items-center gap-2 py-2.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            onClick={handleSaveClick}
+          >
+            {loading ? (
+              <>
+                <LoadingIndicator size="20px" />
+                {t("SAVING") || "Saving..."}
+              </>
+            ) : (
+              t("SAVE")
+            )}
+          </button>
         </div>
-      </>
+      </div>
     </div>
   );
 }
