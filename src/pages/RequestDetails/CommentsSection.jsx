@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Comments from "./Comments";
+import SearchCancelIconButton from "../../common/components/SearchCancelIconButton/SearchCancelIconButton";
 
 /* // Get the current system date
   const systemDate = new Date();
@@ -188,16 +189,25 @@ const CommentsSection = ({ comments = [] }) => {
               {/* Remove the showing text from the top section */}
               <div className="bg-gray-100 p-4 rounded-lg">
                 <div className="flex flex-col sm:flex-row gap-3 w-full">
-                  <input
-                    type="text"
-                    value={searchText}
-                    onChange={handleSearchChange}
-                    placeholder="Search..."
-                    className="w-full sm:flex-1 px-4 py-2 bg-white shadow-sm border rounded border outline-none"
-                  />
+                  <div className="relative w-full sm:flex-1">
+                    <input
+                      type="text"
+                      value={searchText}
+                      onChange={handleSearchChange}
+                      placeholder="Search..."
+                      className="w-full sm:flex-1 pl-4 pr-8 py-2 bg-white shadow-sm rounded border outline-none"
+                    />
+                    {searchText && (
+                      <SearchCancelIconButton
+                        onClick={() => setSearchText("")}
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                      />
+                    )}
+                  </div>
+
                   <button
                     onClick={handleSortChange}
-                    className="px-4 py-2 bg-white shadow-sm border rounded border shrink-0"
+                    className="px-4 py-2 bg-white shadow-sm rounded border shrink-0"
                   >
                     {t("SORT_BY")}:{" "}
                     {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
