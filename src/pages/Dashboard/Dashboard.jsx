@@ -1361,10 +1361,12 @@ const Dashboard = ({ userRole }) => {
       )}
 
       <div className="flex-1 text-center">
-        <h2 className="text-xl font-semibold mt-3 mb-3">{dashboardTitle}</h2>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mt-4 mb-4">
+          {dashboardTitle}
+        </h2>
       </div>
 
-      <div className="border">
+      <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
         {selectedDashboard && canAccessDashboard(groups, selectedDashboard) ? (
           <div className="requests-section overflow-hidden table-height-fix">
             {selectedDashboard === DASHBOARDS.SUPER_ADMIN && (

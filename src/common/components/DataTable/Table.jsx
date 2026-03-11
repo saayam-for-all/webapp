@@ -28,13 +28,6 @@ const Table = ({
     setCurrentPage(1);
   }, [totalRows, itemsPerPage, setCurrentPage]);
 
-  const getSortIndicator = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === "ascending" ? "↑" : "↓";
-    }
-    return "";
-  };
-
   const formatDateTime = (value, header) => {
     if (header === "creationDate" || header === "updatedDate") {
       if (!value) return "";
@@ -75,29 +68,44 @@ const Table = ({
 
   return (
     <div className="relative h-full" data-testid="container">
-      <div className="overflow-auto h-4/5">
-        <table
-          className="min-w-full divide-y divide-gray-200"
-          data-testid="table"
-        >
-          <thead data-testid="table-header">
+      <div className="overflow-auto h-4/5 mx-4 mt-2 rounded-xl shadow-md border border-gray-200">
+        <table className="min-w-full" data-testid="table">
+          <thead
+            data-testid="table-header"
+            className="bg-gradient-to-r from-slate-100 to-gray-200 sticky top-0"
+          >
             <tr>
               {headers.map((key) => (
                 <th
                   key={key}
-                  className="px-6 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200"
                   data-testid="map-header-one"
                 >
                   <button
                     type="button"
                     onClick={() => requestSort(resolveKey(key))}
+                    className="flex items-center gap-1.5 hover:text-blue-600 transition-colors group"
                   >
-                    {key.charAt(0).toUpperCase() +
-                      key
-                        .slice(1)
-                        .replace(/([A-Z])/g, " $1")
-                        .trim()}
-                    {getSortIndicator(resolveKey(key))}
+                    <span>
+                      {key.charAt(0).toUpperCase() +
+                        key
+                          .slice(1)
+                          .replace(/([A-Z])/g, " $1")
+                          .trim()}
+                    </span>
+                    <span
+                      className={`text-sm transition-all ${
+                        sortConfig.key === resolveKey(key)
+                          ? "text-blue-600 font-bold"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      {sortConfig.key === resolveKey(key)
+                        ? sortConfig.direction === "ascending"
+                          ? "↑"
+                          : "↓"
+                        : "↕"}
+                    </span>
                   </button>
                 </th>
               ))}
@@ -105,20 +113,35 @@ const Table = ({
           </thead>
 
           <tbody
-            className="bg-white divide-y divide-gray-200"
+            className="bg-white divide-y divide-gray-100"
             data-testid="table-body"
           >
             {paginatedRequests.length === 0 ? (
               <tr>
                 <td
                   colSpan={headers.length}
-                  className="px-6 py-8 text-center text-gray-500"
+                  className="px-6 py-16 text-center text-gray-500"
                 >
                   <div className="flex flex-col items-center justify-center">
-                    <p className="text-lg font-semibold mb-2">
+                    <div className="w-16 h-16 mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                      <svg
+                        className="w-8 h-8 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-lg font-semibold text-gray-700 mb-1">
                       No requests found
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-gray-500">
                       {rows.length === 0
                         ? "There are no requests to display."
                         : "Try adjusting your filters to see more results."}
@@ -128,7 +151,10 @@ const Table = ({
               </tr>
             ) : (
               paginatedRequests.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+                <tr
+                  key={rowIndex}
+                  className="hover:bg-blue-50/50 transition-colors duration-150"
+                >
                   {headers.map((header, colIndex) => {
                     const value = getCellValue(row, header);
 
@@ -140,13 +166,13 @@ const Table = ({
                     return (
                       <td
                         key={colIndex}
-                        className="px-6 py-2"
+                        className="px-6 py-3.5 text-sm text-gray-700"
                         data-testid="map-data-one"
                       >
                         {path ? (
                           <Link
                             to={path}
-                            className="text-indigo-600 hover:text-indigo-900"
+                            className="text-blue-600 hover:text-blue-800 font-medium hover:underline transition-colors"
                             state={getLinkState ? getLinkState(row) : {}}
                           >
                             {value}

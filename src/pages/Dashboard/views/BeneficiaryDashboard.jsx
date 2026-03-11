@@ -25,22 +25,22 @@ const BeneficiaryDashboard = (props) => {
 
   return (
     <div>
-      <div className="flex mb-5">
+      <div className="flex gap-1 mb-6 p-1 bg-gray-100 rounded-xl mx-4 mt-4">
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+          className={`flex-1 py-3 px-4 text-center cursor-pointer rounded-lg font-semibold text-sm transition-all duration-200 ${
             activeTab === "myRequests"
-              ? "bg-white text-blue-500 border-blue-500"
-              : "bg-gray-300 border-transparent hover:bg-gray-200"
+              ? "bg-white text-blue-600 shadow-sm"
+              : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
           }`}
           onClick={() => handleTabChange("myRequests")}
         >
           {t("MY_REQUESTS")}
         </button>
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+          className={`flex-1 py-3 px-4 text-center cursor-pointer rounded-lg font-semibold text-sm transition-all duration-200 ${
             activeTab === "othersRequests"
-              ? "bg-white text-blue-500 border-blue-500"
-              : "bg-gray-300 border-transparent hover:bg-gray-200"
+              ? "bg-white text-blue-600 shadow-sm"
+              : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
           }`}
           onClick={() => handleTabChange("othersRequests")}
         >
@@ -50,7 +50,7 @@ const BeneficiaryDashboard = (props) => {
               <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
                 ?
               </div>
-              <div className="absolute left-5 top-0 w-[10rem] bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+              <div className="absolute left-5 top-0 w-[10rem] bg-gray-800 text-white text-xs rounded-lg py-2 px-3 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none shadow-lg">
                 Requests filed for other people
               </div>
             </div>

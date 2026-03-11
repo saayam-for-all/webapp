@@ -26,22 +26,22 @@ const SuperAdminDashboard = (props) => {
 
   return (
     <div>
-      <div className="flex mb-1">
+      <div className="flex gap-1 mb-4 p-1 bg-gray-100 rounded-xl mx-4 mt-4">
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+          className={`flex-1 py-3 px-4 text-center cursor-pointer rounded-lg font-semibold text-sm transition-all duration-200 ${
             activeTab === "analytics"
-              ? "bg-white text-blue-500 border-blue-500"
-              : "bg-gray-300 border-transparent hover:bg-gray-200"
+              ? "bg-white text-blue-600 shadow-sm"
+              : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
           }`}
           onClick={() => handleTabChange("analytics")}
         >
           Analytics
         </button>
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+          className={`flex-1 py-3 px-4 text-center cursor-pointer rounded-lg font-semibold text-sm transition-all duration-200 ${
             activeTab === "myRequests"
-              ? "bg-white text-blue-500 border-blue-500"
-              : "bg-gray-300 border-transparent hover:bg-gray-200"
+              ? "bg-white text-blue-600 shadow-sm"
+              : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
           }`}
           onClick={() => handleTabChange("myRequests")}
         >
@@ -53,36 +53,33 @@ const SuperAdminDashboard = (props) => {
 
       <div className="requests-section overflow-hidden table-height-fix">
         {activeTab === "analytics" && (
-          <div className="flex mb-0">
+          <div className="flex gap-1 p-1 bg-gray-50 rounded-lg mx-4 mb-4">
             <button
-              className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
-        ${
-          analyticsSubtab === "Infrastructure"
-            ? "bg-white text-blue-500 border-blue-500"
-            : "bg-gray-100 border-transparent hover:bg-gray-200"
-        } mr-1`}
+              className={`flex-1 py-2 px-3 text-center cursor-pointer rounded-md font-medium text-sm transition-all duration-200 ${
+                analyticsSubtab === "Infrastructure"
+                  ? "bg-white text-blue-600 shadow-sm"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-white/50"
+              }`}
               onClick={() => setAnalyticsSubtab("Infrastructure")}
             >
               Infrastructure
             </button>
             <button
-              className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
-        ${
-          analyticsSubtab === "Application Analytics"
-            ? "bg-white text-blue-500 border-blue-500"
-            : "bg-gray-100 border-transparent hover:bg-gray-200"
-        } mr-1`}
+              className={`flex-1 py-2 px-3 text-center cursor-pointer rounded-md font-medium text-sm transition-all duration-200 ${
+                analyticsSubtab === "Application Analytics"
+                  ? "bg-white text-blue-600 shadow-sm"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-white/50"
+              }`}
               onClick={() => setAnalyticsSubtab("Application Analytics")}
             >
               Application Analytics
             </button>
             <button
-              className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
-        ${
-          analyticsSubtab === "Google Analytics"
-            ? "bg-white text-blue-500 border-blue-500"
-            : "bg-gray-100 border-transparent hover:bg-gray-200"
-        }`}
+              className={`flex-1 py-2 px-3 text-center cursor-pointer rounded-md font-medium text-sm transition-all duration-200 ${
+                analyticsSubtab === "Google Analytics"
+                  ? "bg-white text-blue-600 shadow-sm"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-white/50"
+              }`}
               onClick={() => setAnalyticsSubtab("Google Analytics")}
             >
               Google Analytics

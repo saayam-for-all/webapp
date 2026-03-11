@@ -19,10 +19,8 @@ const StewardDashboard = (props) => {
 
   return (
     <div>
-      <div className="flex mb-5">
-        <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold bg-white text-blue-500 border-blue-500`}
-        >
+      <div className="flex gap-1 mb-6 p-1 bg-gray-100 rounded-xl mx-4 mt-4">
+        <button className="flex-1 py-3 px-4 text-center cursor-pointer rounded-lg font-semibold text-sm bg-white text-blue-600 shadow-sm">
           All Requests
         </button>
       </div>
