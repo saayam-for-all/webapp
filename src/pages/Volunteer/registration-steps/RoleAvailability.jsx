@@ -145,7 +145,7 @@ const RoleAvailability = ({ data, setData, errors, setErrors }) => {
         )}
       </div>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 mt-4 shadow-sm">
         <p className="text-amber-800 text-sm">
           <strong>{t("NOTE") || "Note"}:</strong>{" "}
           {t("COMMITMENT_NOTE") ||

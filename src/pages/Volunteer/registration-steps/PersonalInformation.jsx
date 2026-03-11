@@ -96,11 +96,11 @@ const PersonalInformation = ({ data, setData, errors, setErrors }) => {
           <select
             value={data.countryCode}
             onChange={(e) => handleChange("countryCode", e.target.value)}
-            className="w-32 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-36 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             {getPhoneCodeslist(PHONECODESEN).map((option) => (
               <option key={option.code} value={option.code}>
-                {option.dial_code} ({option.code})
+                {option.dialCode} ({option.code})
               </option>
             ))}
           </select>

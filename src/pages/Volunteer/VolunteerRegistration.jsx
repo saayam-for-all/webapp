@@ -509,21 +509,32 @@ const VolunteerRegistration = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 py-8 px-4">
       <ToastContainer position="top-center" autoClose={5000} />
 
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-8">
+        {/* Back to Dashboard */}
+        <div className="mb-4">
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="text-purple-600 hover:text-purple-800 font-semibold text-lg flex items-center transition-colors"
+          >
+            <span className="text-2xl mr-2">&lt;</span>
+            {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
+          </button>
+        </div>
+
+        <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-8">
           {t("VOLUNTEER_REGISTRATION") || "Volunteer Registration"}
         </h1>
 
         {/* Stepper */}
-        <div className="mb-8">
+        <div className="mb-8 bg-white rounded-xl shadow-sm p-4 border border-gray-100">
           <Stepper steps={STEPS} currentStep={currentStep} />
         </div>
 
         {/* Step Content */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 mb-6">
           {renderStep()}
         </div>
 
@@ -532,10 +543,10 @@ const VolunteerRegistration = () => {
           <button
             onClick={handleBack}
             disabled={currentStep === 1}
-            className={`px-6 py-2 rounded-md font-medium transition-colors ${
+            className={`px-6 py-2.5 rounded-lg font-medium transition-all duration-200 ${
               currentStep === 1
-                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:shadow-md"
             }`}
           >
             {t("BACK") || "Back"}
@@ -545,10 +556,10 @@ const VolunteerRegistration = () => {
             <button
               onClick={handleNext}
               disabled={isNextDisabled()}
-              className={`px-6 py-2 rounded-md font-medium transition-colors ${
+              className={`px-6 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md ${
                 isNextDisabled()
                   ? "bg-blue-300 text-white cursor-not-allowed"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
+                  : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
               }`}
             >
               {t("NEXT") || "Next"}
@@ -557,10 +568,10 @@ const VolunteerRegistration = () => {
             <button
               onClick={handleSubmit}
               disabled={!allAcknowledgmentsChecked || isSubmitting}
-              className={`px-8 py-2 rounded-md font-medium transition-colors ${
+              className={`px-8 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md ${
                 !allAcknowledgmentsChecked || isSubmitting
                   ? "bg-green-300 text-white cursor-not-allowed"
-                  : "bg-green-600 text-white hover:bg-green-700"
+                  : "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 hover:shadow-lg"
               }`}
             >
               {isSubmitting ? (

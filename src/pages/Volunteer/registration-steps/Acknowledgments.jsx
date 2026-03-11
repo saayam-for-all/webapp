@@ -58,7 +58,7 @@ const Acknowledgments = ({ acknowledgments, setAcknowledgments }) => {
         </p>
       </div>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 mb-6 shadow-sm">
         <p className="text-amber-800 text-sm">
           <strong>{t("IMPORTANT") || "Important"}:</strong>{" "}
           {t("ALL_REQUIRED") ||
@@ -74,14 +74,21 @@ const Acknowledgments = ({ acknowledgments, setAcknowledgments }) => {
             {ACKNOWLEDGMENT_ITEMS.length}
           </span>
           {allChecked && (
-            <span className="text-sm text-green-600 font-medium">
+            <span className="text-sm text-green-600 font-medium flex items-center gap-1">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
               {t("ALL_ACKNOWLEDGED") || "All acknowledged!"}
             </span>
           )}
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
           <div
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            className="bg-gradient-to-r from-blue-500 to-purple-500 h-2.5 rounded-full transition-all duration-500 ease-out"
             style={{
               width: `${(checkedCount / ACKNOWLEDGMENT_ITEMS.length) * 100}%`,
             }}
@@ -94,10 +101,10 @@ const Acknowledgments = ({ acknowledgments, setAcknowledgments }) => {
         {ACKNOWLEDGMENT_ITEMS.map((item, index) => (
           <label
             key={item.key}
-            className={`flex items-start gap-4 p-4 border-2 rounded-lg cursor-pointer transition-all ${
+            className={`flex items-start gap-4 p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
               acknowledgments[item.key]
-                ? "border-green-400 bg-green-50"
-                : "border-gray-200 hover:border-blue-200 hover:bg-gray-50"
+                ? "border-green-400 bg-gradient-to-r from-green-50 to-emerald-50 shadow-sm"
+                : "border-gray-200 hover:border-purple-200 hover:bg-purple-50/30 hover:shadow-sm"
             }`}
           >
             <div className="flex-shrink-0 mt-0.5">
@@ -110,7 +117,7 @@ const Acknowledgments = ({ acknowledgments, setAcknowledgments }) => {
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className="inline-flex items-center justify-center w-6 h-6 text-xs font-semibold text-white bg-blue-500 rounded-full">
+                <span className="inline-flex items-center justify-center w-6 h-6 text-xs font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-sm">
                   {index + 1}
                 </span>
                 <h3
@@ -154,11 +161,20 @@ const Acknowledgments = ({ acknowledgments, setAcknowledgments }) => {
       )}
 
       {allChecked && (
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-          <p className="text-green-800 text-sm text-center">
-            <strong>{t("READY_TO_SUBMIT") || "Ready to submit!"}</strong>{" "}
-            {t("CLICK_SUBMIT") ||
-              'Click the "Submit" button below to complete your registration.'}
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 mt-4 shadow-sm">
+          <p className="text-green-800 text-sm text-center flex items-center justify-center gap-2">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span>
+              <strong>{t("READY_TO_SUBMIT") || "Ready to submit!"}</strong>{" "}
+              {t("CLICK_SUBMIT") ||
+                'Click the "Submit" button below to complete your registration.'}
+            </span>
           </p>
         </div>
       )}

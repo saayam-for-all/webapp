@@ -105,7 +105,7 @@ const EducationBackground = ({ data, setData, errors, setErrors }) => {
         </div>
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+      <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-4 mt-4 shadow-sm">
         <p className="text-blue-800 text-sm">
           <strong>{t("TIP") || "Tip"}:</strong>{" "}
           {t("EXPERIENCE_TIP") ||

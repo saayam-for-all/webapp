@@ -57,12 +57,12 @@ const Stepper = ({ steps, currentStep }) => {
             : "flex items-center"
         }
       >
-        <div className="relative flex flex-col items-center text-teal-600">
+        <div className="relative flex flex-col items-center text-purple-600">
           <div
-            className={`rounded-full transition duration-500 ease-in-out border-2 border-gray-300 h-12 w-12 flex items-center justify-center py-3 ${
+            className={`rounded-full transition-all duration-300 border-2 border-gray-300 h-12 w-12 flex items-center justify-center py-3 ${
               step.selected
-                ? "bg-green-600 text-white font-bold border border-green-600"
-                : ""
+                ? "bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold border-purple-500 shadow-md"
+                : "bg-white"
             }`}
           >
             {step.completed ? (
@@ -73,14 +73,14 @@ const Stepper = ({ steps, currentStep }) => {
           </div>
           <div
             className={`absolute text-center mt-16 w-max text-xs font-medium uppercase 
-            ${step.highlighted ? "text-gray-900" : "text-gray-600"}`}
+            ${step.highlighted ? "text-purple-700" : "text-gray-600"}`}
           >
             {step.description}
           </div>
         </div>
         <div
-          className={`flex-auto border-t-2 transition duration-500 ease-in-out ${
-            step.completed ? "border-green-600" : "border-gray-300"
+          className={`flex-auto border-t-2 transition-all duration-300 ${
+            step.completed ? "border-purple-500" : "border-gray-300"
           }`}
         ></div>
       </div>

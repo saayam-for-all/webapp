@@ -178,14 +178,14 @@ const EmergencyContact = ({ embedded = false }) => {
     : null;
 
   return (
-    <div className="flex flex-col items-center p-5 px-5">
+    <div className="flex flex-col items-center p-5 px-5 min-h-screen bg-gradient-to-br from-gray-50 to-rose-50">
       {/* Show ONLY on standalone page */}
       {!embedded && (
         <div className="w-full max-w-[900px] px-4 mb-4 flex items-center justify-between">
           <button
             type="button"
             onClick={() => navigate("/dashboard")}
-            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+            className="text-red-600 hover:text-red-800 font-semibold text-lg flex items-center transition-colors"
           >
             <span className="text-2xl mr-2">&lt;</span>{" "}
             {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
@@ -193,8 +193,8 @@ const EmergencyContact = ({ embedded = false }) => {
         </div>
       )}
 
-      <div className="max-w-[900px] w-full bg-white rounded-lg p-10 shadow-lg">
-        <h1 className="text-center text-3xl font-bold mb-4 text-black">
+      <div className="max-w-[900px] w-full bg-white rounded-xl p-10 shadow-lg border border-gray-100">
+        <h1 className="text-center text-3xl font-bold mb-4 bg-gradient-to-r from-red-600 to-rose-600 bg-clip-text text-transparent">
           {t("EMERGENCY_CONTACTS")}
         </h1>
 
@@ -222,8 +222,8 @@ const EmergencyContact = ({ embedded = false }) => {
 
         {emergencyContacts.map((section, idx) => (
           <Box key={idx} className="mb-6">
-            <h2 className="flex items-center text-xl font-bold text-black mb-3 relative">
-              <span className="absolute -left-4 w-1 h-7 bg-blue-500 rounded-full"></span>
+            <h2 className="flex items-center text-xl font-bold text-gray-800 mb-3 relative">
+              <span className="absolute -left-4 w-1 h-7 bg-gradient-to-b from-red-500 to-rose-500 rounded-full"></span>
               <span className="ml-4">{section.category}</span>
             </h2>
 
@@ -234,7 +234,7 @@ const EmergencyContact = ({ embedded = false }) => {
                   button
                   component="a"
                   href={`tel:${String(contact.phone).replace(/\D/g, "")}`}
-                  className="border border-gray-200 rounded-md px-4 py-3 mb-2 transition-all hover:bg-red-100 hover:border-red-600 hover:scale-[1.01]"
+                  className="border border-gray-200 rounded-xl px-4 py-3 mb-2 transition-all duration-200 hover:bg-gradient-to-r hover:from-red-50 hover:to-rose-50 hover:border-red-400 hover:scale-[1.01] hover:shadow-sm"
                 >
                   <ListItemText
                     primary={`${contact.name} — ${contact.phone}`}

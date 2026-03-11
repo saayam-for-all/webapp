@@ -1254,7 +1254,7 @@ const Dashboard = ({ userRole }) => {
         pauseOnHover
       />
       <div className="flex items-center justify-between gap-4 mb-2">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Link
             to="/request"
             onClick={(e) => {
@@ -1263,10 +1263,10 @@ const Dashboard = ({ userRole }) => {
                 setShowAddressMsg(true);
               }
             }}
-            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2.5 px-5 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <span className="hover:underline">{t("CREATE_HELP_REQUEST")}</span>
+            <span>{t("CREATE_HELP_REQUEST")}</span>
           </Link>
           {!groups?.includes("Volunteers") &&
             selectedDashboard !== DASHBOARDS.VOLUNTEER && (
@@ -1278,29 +1278,29 @@ const Dashboard = ({ userRole }) => {
                     setShowAddressMsg(true);
                   }
                 }}
-                className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center"
+                className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white py-2.5 px-5 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
                 style={{ color: "white", textDecoration: "none" }}
               >
-                <span className="hover:underline">{t("BECOME_VOLUNTEER")}</span>
+                <span>{t("BECOME_VOLUNTEER")}</span>
               </Link>
             )}
           {selectedDashboard === DASHBOARDS.BENEFICIARY && (
             <Link
               to="/emergency-contact"
-              className="bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-md flex items-center justify-center gap-2"
+              className="bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white py-2.5 px-5 rounded-lg flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
               style={{ color: "white", textDecoration: "none" }}
             >
               <MdOutlineContactPhone size={20} />
-              <span className="hover:underline">{t("EMERGENCY_CONTACT")}</span>
+              <span>{t("EMERGENCY_CONTACT")}</span>
             </Link>
           )}
           <Link
             to="/volunteer/register"
-            className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-md flex items-center justify-center gap-2"
+            className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white py-2.5 px-5 rounded-lg flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
             style={{ color: "white", textDecoration: "none" }}
           >
             <HiOutlineUserGroup size={20} />
-            <span className="hover:underline">{t("JOIN_OUR_TEAM")}</span>
+            <span>{t("JOIN_OUR_TEAM")}</span>
           </Link>
         </div>
 

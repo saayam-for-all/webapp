@@ -82,10 +82,10 @@ const DocumentUploads = ({
 
       {!documents[docType] ? (
         <label
-          className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+          className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-200 ${
             errors[docType]
               ? "border-red-400 bg-red-50"
-              : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
+              : "border-gray-300 hover:border-purple-400 hover:bg-purple-50/50 hover:shadow-sm"
           }`}
         >
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -93,7 +93,7 @@ const DocumentUploads = ({
               className={`w-8 h-8 mb-2 ${errors[docType] ? "text-red-400" : "text-gray-400"}`}
             />
             <p className="text-sm text-gray-500">
-              <span className="font-semibold text-blue-600">
+              <span className="font-semibold text-purple-600">
                 {t("CLICK_TO_UPLOAD") || "Click to upload"}
               </span>
             </p>
@@ -109,7 +109,7 @@ const DocumentUploads = ({
           />
         </label>
       ) : (
-        <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl shadow-sm">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-green-100 rounded-lg">
               <FiFile className="w-6 h-6 text-green-600" />
@@ -155,7 +155,7 @@ const DocumentUploads = ({
         </p>
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-6 shadow-sm">
         <p className="text-blue-800 text-sm">
           <strong>{t("FILE_REQUIREMENTS") || "File Requirements"}:</strong>
           <ul className="list-disc ml-5 mt-2 space-y-1">
@@ -220,7 +220,7 @@ const DocumentUploads = ({
         )}
       </div>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-6">
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 mt-6 shadow-sm">
         <p className="text-amber-800 text-sm">
           <strong>{t("PRIVACY_NOTE") || "Privacy Note"}:</strong>{" "}
           {t("DOCUMENT_PRIVACY") ||

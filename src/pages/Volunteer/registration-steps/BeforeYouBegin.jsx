@@ -44,7 +44,7 @@ const BeforeYouBegin = ({ materialsReviewed, setMaterialsReviewed }) => {
         </p>
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-6 shadow-sm">
         <p className="text-blue-800 text-sm">
           <strong>{t("IMPORTANT") || "Important"}:</strong>{" "}
           {t("LINKS_OPEN_NEW_TAB") ||
@@ -59,13 +59,13 @@ const BeforeYouBegin = ({ materialsReviewed, setMaterialsReviewed }) => {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-blue-400 transition-all group"
+            className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-400 hover:shadow-md transition-all duration-200 group"
           >
             <span className="font-medium text-gray-700 group-hover:text-blue-600">
               {link.title}
             </span>
             <FiExternalLink
-              className="text-gray-400 group-hover:text-blue-500"
+              className="text-gray-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-1"
               size={20}
             />
           </a>

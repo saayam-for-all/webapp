@@ -261,46 +261,54 @@ const PromoteToVolunteer = () => {
   };
 
   return (
-    <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
-      <div className="w-full px-4 mt-4 flex justify-start">
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-        >
-          <span className="text-2xl mr-2">&lt;</span>
-          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
-        </button>
+    <div className="w-full mx-auto pb-2 min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50">
+      <div className="max-w-4xl mx-auto">
+        <div className="w-full px-4 pt-6 flex justify-start">
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="text-teal-600 hover:text-teal-800 font-semibold text-lg flex items-center transition-colors"
+          >
+            <span className="text-2xl mr-2">&lt;</span>
+            {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
+          </button>
+        </div>
+        {/* FIXED STEPPER WRAPPER */}
+        <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
+          <h1 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+            {t("Become a Volunteer") || "Become a Volunteer"}
+          </h1>
+          <div className="w-full bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+            <Stepper steps={steps} currentStep={currentStep} />
+            {/* FIXED CONTENT WRAPPER */}
+            <div className="w-full mt-8 px-4">{displayStep(currentStep)}</div>
+          </div>
+        </div>
+        {errorMessage && (
+          <div className="text-red-500 text-center my-4 bg-red-50 p-3 rounded-lg mx-4">
+            {errorMessage}
+          </div>
+        )}
+        {currentStep !== steps.length && (
+          <div className="mt-6 px-4">
+            <StepperControl
+              handleClick={handleClick}
+              currentStep={currentStep}
+              steps={steps}
+              isAcknowledged={isAcknowledged}
+              isUploaded={isUploaded}
+              isCheckedCategories={Object.keys(checkedCategories).length !== 0}
+              isAvailabilityValid={isAvailabilityValid}
+              disableNext={
+                (currentStep === 1 && !isAcknowledged) ||
+                (currentStep === 2 && !isUploaded) ||
+                (currentStep === 3 &&
+                  Object.keys(checkedCategories).length === 0) ||
+                (currentStep === 4 && !isAvailabilityValid)
+              }
+            />
+          </div>
+        )}
       </div>
-      {/* FIXED STEPPER WRAPPER */}
-      <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
-        <h1 className="text-3xl font-bold text-center mb-8">
-          {t("Become a Volunteer") || "Become a Volunteer"}
-        </h1>
-        <Stepper steps={steps} currentStep={currentStep} />
-        {/* FIXED CONTENT WRAPPER */}
-        <div className="w-full mt-8 px-4">{displayStep(currentStep)}</div>
-      </div>
-      {errorMessage && (
-        <div className="text-red-500 text-center my-4">{errorMessage}</div>
-      )}
-      {currentStep !== steps.length && (
-        <StepperControl
-          handleClick={handleClick}
-          currentStep={currentStep}
-          steps={steps}
-          isAcknowledged={isAcknowledged}
-          isUploaded={isUploaded}
-          isCheckedCategories={Object.keys(checkedCategories).length !== 0}
-          isAvailabilityValid={isAvailabilityValid}
-          disableNext={
-            (currentStep === 1 && !isAcknowledged) ||
-            (currentStep === 2 && !isUploaded) ||
-            (currentStep === 3 &&
-              Object.keys(checkedCategories).length === 0) ||
-            (currentStep === 4 && !isAvailabilityValid)
-          }
-        />
-      )}
     </div>
   );
 };

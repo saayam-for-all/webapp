@@ -57,11 +57,11 @@ const Stepper = ({ steps, currentStep }) => {
         <div key={index} className="flex flex-col items-center z-10 w-full">
           {/* Circle */}
           <div
-            className={`rounded-full border-2 h-12 w-12 flex items-center justify-center transition 
+            className={`rounded-full border-2 h-12 w-12 flex items-center justify-center transition-all duration-200 
               ${
                 step.selected
-                  ? "bg-green-600 text-white border-green-600 font-bold"
-                  : "border-gray-300 text-gray-700"
+                  ? "bg-gradient-to-r from-teal-500 to-cyan-500 text-white border-teal-500 font-bold shadow-md"
+                  : "border-gray-300 text-gray-700 bg-white"
               }`}
           >
             {step.completed ? (
@@ -74,7 +74,7 @@ const Stepper = ({ steps, currentStep }) => {
           {/* Label */}
           <div
             className={`mt-2 text-center text-[10px] sm:text-xs font-medium uppercase 
-              ${step.highlighted ? "text-gray-900" : "text-gray-600"}`}
+              ${step.highlighted ? "text-teal-700" : "text-gray-600"}`}
           >
             {step.description}
           </div>

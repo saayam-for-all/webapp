@@ -1184,7 +1184,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const hasSubCats = hoveredCategory?.subCategories?.length > 0;
   const hasSubSubCats = hoveredSubcategory?.subCategories?.length > 0;
   return (
-    <div className="">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-4">
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}
@@ -1204,15 +1204,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         <div className="w-full max-w-2xl mx-auto px-4 mt-4 flex items-center justify-between">
           <button
             onClick={() => navigate("/dashboard")}
-            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center transition-colors"
           >
             <span className="text-2xl mr-2">&lt;</span>{" "}
             {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
           </button>
         </div>
 
-        <div className="bg-white p-8 rounded-lg shadow-md border">
-          <h1 className="text-2xl font-bold text-gray-800 text-center">
+        <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent text-center">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
           </h1>
           <div

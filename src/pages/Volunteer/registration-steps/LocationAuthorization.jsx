@@ -57,13 +57,19 @@ const LocationAuthorization = ({ data, setData, errors, setErrors }) => {
   };
 
   const RadioOption = ({ label, checked, onChange, name }) => (
-    <label className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+    <label
+      className={`flex items-center gap-3 p-3 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+        checked
+          ? "border-purple-500 bg-gradient-to-r from-purple-50 to-indigo-50 shadow-sm"
+          : "border-gray-200 hover:border-purple-300 hover:bg-purple-50/50"
+      }`}
+    >
       <input
         type="radio"
         name={name}
         checked={checked}
         onChange={onChange}
-        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+        className="w-4 h-4 text-purple-600 focus:ring-purple-500"
       />
       <span className="font-medium text-gray-700">{label}</span>
     </label>
@@ -144,10 +150,10 @@ const LocationAuthorization = ({ data, setData, errors, setErrors }) => {
               </label>
               <div className="flex gap-4">
                 <label
-                  className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
                     data.documentType === "EAD"
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-200 hover:border-blue-200"
+                      ? "border-purple-500 bg-gradient-to-r from-purple-50 to-indigo-50 shadow-sm"
+                      : "border-gray-200 hover:border-purple-300 hover:bg-purple-50/50"
                   }`}
                 >
                   <input
@@ -155,7 +161,7 @@ const LocationAuthorization = ({ data, setData, errors, setErrors }) => {
                     name="documentType"
                     checked={data.documentType === "EAD"}
                     onChange={() => handleDocumentTypeChange("EAD")}
-                    className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    className="w-4 h-4 text-purple-600 focus:ring-purple-500"
                   />
                   <div>
                     <span className="font-medium text-gray-700">EAD</span>
@@ -165,10 +171,10 @@ const LocationAuthorization = ({ data, setData, errors, setErrors }) => {
                   </div>
                 </label>
                 <label
-                  className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
                     data.documentType === "i20"
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-200 hover:border-blue-200"
+                      ? "border-purple-500 bg-gradient-to-r from-purple-50 to-indigo-50 shadow-sm"
+                      : "border-gray-200 hover:border-purple-300 hover:bg-purple-50/50"
                   }`}
                 >
                   <input
@@ -176,7 +182,7 @@ const LocationAuthorization = ({ data, setData, errors, setErrors }) => {
                     name="documentType"
                     checked={data.documentType === "i20"}
                     onChange={() => handleDocumentTypeChange("i20")}
-                    className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    className="w-4 h-4 text-purple-600 focus:ring-purple-500"
                   />
                   <div>
                     <span className="font-medium text-gray-700">i20</span>
@@ -216,7 +222,7 @@ const LocationAuthorization = ({ data, setData, errors, setErrors }) => {
         </div>
       )}
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mt-4 shadow-sm">
         <p className="text-blue-800 text-sm">
           <strong>{t("INFO") || "Info"}:</strong>{" "}
           {t("LOCATION_INFO") ||

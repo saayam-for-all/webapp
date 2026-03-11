@@ -20,13 +20,13 @@ const StepperControl = ({
     currentStep >= steps.length;
 
   return (
-    <div className="container flex justify-around mt-16 mb-8">
-      <div className="px-4 w-24">
+    <div className="container flex justify-around mt-8 mb-8">
+      <div className="px-4">
         <button
-          className={`bg-white text-slate-900 uppercase py-2 px-4 rounded-xl font-semibold border-2 border-slate-900 transition duration-200 ease-in-out ${
+          className={`bg-white text-gray-700 uppercase py-2.5 px-6 rounded-lg font-semibold border-2 border-gray-300 transition-all duration-200 ${
             currentStep === 1
               ? "opacity-50 cursor-not-allowed"
-              : "cursor-pointer hover:bg-slate-700 hover:text-white"
+              : "cursor-pointer hover:bg-gray-100 hover:border-gray-400 hover:shadow-md"
           }`}
           onClick={() => handleClick("prev")}
           disabled={currentStep === 1}
@@ -34,13 +34,13 @@ const StepperControl = ({
           {t("BACK") || "Back"}
         </button>
       </div>
-      <div className="px-4 w-24">
+      <div className="px-4">
         <button
           onClick={() => handleClick("next")}
-          className={`uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 ${
+          className={`uppercase py-2.5 px-6 rounded-lg font-semibold transition-all duration-200 border-2 shadow-md ${
             disabledCondition
-              ? "bg-green-300 text-gray border-green-300 opacity-50 cursor-not-allowed"
-              : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
+              ? "bg-teal-300 text-white border-teal-300 opacity-50 cursor-not-allowed"
+              : "bg-gradient-to-r from-teal-500 to-cyan-500 text-white border-teal-500 cursor-pointer hover:from-teal-600 hover:to-cyan-600 hover:shadow-lg"
           }`}
           disabled={disabledCondition}
         >
