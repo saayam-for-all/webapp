@@ -1,32 +1,32 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-const METRICS_S3_URL = import.meta.env.VITE_METRICS_S3_URL || "";
-
+//const METRICS_S3_URL = import.meta.env.VITE_METRICS_S3_URL || "";
+const METRICS_S3_URL = "https://test.help-for-everyone.org/api/stats";
 const METRIC_CONFIGS = [
   {
-    key: "totalRequests",
+    key: "total_requests",
     labelKey: "TOTAL_REQUESTS",
     suffix: "",
     color: "#1e40af",
     bg: "#dbeafe",
   },
   {
-    key: "requestsResolved",
+    key: "requests_resolved",
     labelKey: "REQUESTS_RESOLVED",
     suffix: "",
     color: "#166534",
     bg: "#dcfce7",
   },
   {
-    key: "totalVolunteers",
+    key: "total_volunteers",
     labelKey: "TOTAL_VOLUNTEERS",
     suffix: "",
     color: "#5b21b6",
     bg: "#ede9fe",
   },
   {
-    key: "totalBeneficiaries",
+    key: "total_beneficiaries",
     labelKey: "TOTAL_BENEFICIARIES",
     suffix: "",
     color: "#9a3412",
@@ -91,7 +91,8 @@ const MetricsTicker = () => {
     totalBeneficiaries: 0,
   });
 
-  useEffect(() => {
+  {
+    /* useEffect(() => {
     if (!METRICS_S3_URL) return;
     fetch(METRICS_S3_URL)
       .then((res) => {
@@ -100,6 +101,23 @@ const MetricsTicker = () => {
       })
       .then((data) => setMetrics((prev) => ({ ...prev, ...data })))
       .catch(() => {});
+  }, []); */
+  }
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch(METRICS_S3_URL);
+        const data = await response.json();
+        setMetrics(data);
+      } catch (err) {
+        console.error("Failed to fetch stats:", err);
+      }
+    };
+
+    fetchStats();
+    const interval = setInterval(fetchStats, 30000); // Poll every 30s
+    return () => clearInterval(interval);
   }, []);
 
   return (
