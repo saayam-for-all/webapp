@@ -1,5 +1,25 @@
 import { useTranslation } from "react-i18next";
 
+// RadioOption moved outside component to prevent re-creation on each render
+const RadioOption = ({ label, checked, onChange, name }) => (
+  <label
+    className={`flex items-center gap-3 p-3 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+      checked
+        ? "border-purple-500 bg-gradient-to-r from-purple-50 to-indigo-50 shadow-sm"
+        : "border-gray-200 hover:border-purple-300 hover:bg-purple-50/50"
+    }`}
+  >
+    <input
+      type="radio"
+      name={name}
+      checked={checked}
+      onChange={onChange}
+      className="w-4 h-4 text-purple-600 focus:ring-purple-500"
+    />
+    <span className="font-medium text-gray-700">{label}</span>
+  </label>
+);
+
 const LocationAuthorization = ({ data, setData, errors, setErrors }) => {
   const { t } = useTranslation();
 
@@ -55,25 +75,6 @@ const LocationAuthorization = ({ data, setData, errors, setErrors }) => {
       });
     }
   };
-
-  const RadioOption = ({ label, checked, onChange, name }) => (
-    <label
-      className={`flex items-center gap-3 p-3 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
-        checked
-          ? "border-purple-500 bg-gradient-to-r from-purple-50 to-indigo-50 shadow-sm"
-          : "border-gray-200 hover:border-purple-300 hover:bg-purple-50/50"
-      }`}
-    >
-      <input
-        type="radio"
-        name={name}
-        checked={checked}
-        onChange={onChange}
-        className="w-4 h-4 text-purple-600 focus:ring-purple-500"
-      />
-      <span className="font-medium text-gray-700">{label}</span>
-    </label>
-  );
 
   return (
     <div className="space-y-6">

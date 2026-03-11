@@ -10,6 +10,7 @@ import {
   FaIdCard,
   FaBuilding,
   FaUser,
+  FaClipboardList,
 } from "react-icons/fa";
 import { FiChevronRight, FiEdit2 } from "react-icons/fi";
 
@@ -54,6 +55,11 @@ const tabConfig = {
     icon: FaCog,
     color: "slate",
     gradient: "from-slate-500 to-slate-600",
+  },
+  timesheets: {
+    icon: FaClipboardList,
+    color: "orange",
+    gradient: "from-orange-500 to-orange-600",
   },
   signoff: {
     icon: FaSignOutAlt,
@@ -175,6 +181,7 @@ function Sidebar({
           {renderTab("skills", "SKILLS")}
           {renderTab("availability", "AVAILABILITY")}
           {renderTab("preferences", "PREFERENCES")}
+          {renderTab("timesheets", "TIMESHEETS")}
         </nav>
 
         <div className="my-4 border-t border-gray-100" />

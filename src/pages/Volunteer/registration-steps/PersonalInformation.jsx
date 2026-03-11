@@ -12,6 +12,36 @@ const TIME_ZONES = [
   { value: "Other", label: "Other" },
 ];
 
+// InputField moved outside component to prevent re-creation on each render
+const InputField = ({
+  label,
+  field,
+  type = "text",
+  placeholder,
+  required = true,
+  maxLength,
+  value,
+  onChange,
+  error,
+}) => (
+  <div className="space-y-1">
+    <label className="block text-sm font-medium text-gray-700">
+      {label} {required && <span className="text-red-500">*</span>}
+    </label>
+    <input
+      type={type}
+      value={value}
+      onChange={(e) => onChange(field, e.target.value)}
+      placeholder={placeholder}
+      maxLength={maxLength}
+      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+        error ? "border-red-500 bg-red-50" : "border-gray-300"
+      }`}
+    />
+    {error && <p className="text-sm text-red-600">{error}</p>}
+  </div>
+);
+
 const PersonalInformation = ({ data, setData, errors, setErrors }) => {
   const { t } = useTranslation();
 
@@ -26,32 +56,6 @@ const PersonalInformation = ({ data, setData, errors, setErrors }) => {
       });
     }
   };
-
-  const InputField = ({
-    label,
-    field,
-    type = "text",
-    placeholder,
-    required = true,
-    maxLength,
-  }) => (
-    <div className="space-y-1">
-      <label className="block text-sm font-medium text-gray-700">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <input
-        type={type}
-        value={data[field]}
-        onChange={(e) => handleChange(field, e.target.value)}
-        placeholder={placeholder}
-        maxLength={maxLength}
-        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-          errors[field] ? "border-red-500 bg-red-50" : "border-gray-300"
-        }`}
-      />
-      {errors[field] && <p className="text-sm text-red-600">{errors[field]}</p>}
-    </div>
-  );
 
   return (
     <div className="space-y-6">
@@ -70,11 +74,17 @@ const PersonalInformation = ({ data, setData, errors, setErrors }) => {
           label={t("FIRST_NAME") || "First Name"}
           field="firstName"
           placeholder="John"
+          value={data.firstName}
+          onChange={handleChange}
+          error={errors.firstName}
         />
         <InputField
           label={t("LAST_NAME") || "Last Name"}
           field="lastName"
           placeholder="Doe"
+          value={data.lastName}
+          onChange={handleChange}
+          error={errors.lastName}
         />
       </div>
 
@@ -83,6 +93,9 @@ const PersonalInformation = ({ data, setData, errors, setErrors }) => {
         field="email"
         type="email"
         placeholder="john.doe@example.com"
+        value={data.email}
+        onChange={handleChange}
+        error={errors.email}
       />
 
       {/* Phone Number Row */}
@@ -152,12 +165,18 @@ const PersonalInformation = ({ data, setData, errors, setErrors }) => {
         label={t("LINKEDIN_URL") || "LinkedIn URL"}
         field="linkedInUrl"
         placeholder="https://www.linkedin.com/in/yourprofile"
+        value={data.linkedInUrl}
+        onChange={handleChange}
+        error={errors.linkedInUrl}
       />
 
       <InputField
         label={t("GITHUB_URL") || "GitHub URL"}
         field="githubUrl"
         placeholder="https://github.com/yourusername"
+        value={data.githubUrl}
+        onChange={handleChange}
+        error={errors.githubUrl}
       />
 
       {/* Time Zone */}

@@ -1,5 +1,35 @@
 import { useTranslation } from "react-i18next";
 
+// InputField moved outside component to prevent re-creation on each render
+const InputField = ({
+  label,
+  field,
+  placeholder,
+  required = true,
+  value,
+  onChange,
+  error,
+}) => (
+  <div className="space-y-1">
+    <label className="block text-sm font-medium text-gray-700">
+      {label} {required && <span className="text-red-500">*</span>}
+      {!required && (
+        <span className="text-gray-400 text-xs ml-1">(optional)</span>
+      )}
+    </label>
+    <input
+      type="text"
+      value={value}
+      onChange={(e) => onChange(field, e.target.value)}
+      placeholder={placeholder}
+      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+        error ? "border-red-500 bg-red-50" : "border-gray-300"
+      }`}
+    />
+    {error && <p className="text-sm text-red-600">{error}</p>}
+  </div>
+);
+
 const EducationBackground = ({ data, setData, errors, setErrors }) => {
   const { t } = useTranslation();
 
@@ -14,27 +44,6 @@ const EducationBackground = ({ data, setData, errors, setErrors }) => {
       });
     }
   };
-
-  const InputField = ({ label, field, placeholder, required = true }) => (
-    <div className="space-y-1">
-      <label className="block text-sm font-medium text-gray-700">
-        {label} {required && <span className="text-red-500">*</span>}
-        {!required && (
-          <span className="text-gray-400 text-xs ml-1">(optional)</span>
-        )}
-      </label>
-      <input
-        type="text"
-        value={data[field]}
-        onChange={(e) => handleChange(field, e.target.value)}
-        placeholder={placeholder}
-        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-          errors[field] ? "border-red-500 bg-red-50" : "border-gray-300"
-        }`}
-      />
-      {errors[field] && <p className="text-sm text-red-600">{errors[field]}</p>}
-    </div>
-  );
 
   return (
     <div className="space-y-6">
@@ -52,12 +61,18 @@ const EducationBackground = ({ data, setData, errors, setErrors }) => {
         label={t("COLLEGE_UNIVERSITY") || "College/University"}
         field="college"
         placeholder="Stanford University"
+        value={data.college}
+        onChange={handleChange}
+        error={errors.college}
       />
 
       <InputField
         label={t("DEGREE_PROGRAM") || "Degree Program"}
         field="degreeProgram"
         placeholder="Bachelor of Science in Computer Science"
+        value={data.degreeProgram}
+        onChange={handleChange}
+        error={errors.degreeProgram}
       />
 
       <InputField
@@ -65,6 +80,9 @@ const EducationBackground = ({ data, setData, errors, setErrors }) => {
         field="deanContact"
         placeholder="+1 234 567 8901"
         required={false}
+        value={data.deanContact}
+        onChange={handleChange}
+        error={errors.deanContact}
       />
 
       {/* Relevant Experience Textarea */}

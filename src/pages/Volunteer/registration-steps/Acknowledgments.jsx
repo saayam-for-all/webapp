@@ -43,6 +43,12 @@ const Acknowledgments = ({ acknowledgments, setAcknowledgments }) => {
     }));
   };
 
+  // Helper to get translation with fallback (t() returns the key if not found, not undefined)
+  const getTranslation = (key, fallback) => {
+    const translation = t(key);
+    return translation === key ? fallback : translation;
+  };
+
   const allChecked = Object.values(acknowledgments).every(Boolean);
   const checkedCount = Object.values(acknowledgments).filter(Boolean).length;
 
@@ -123,13 +129,19 @@ const Acknowledgments = ({ acknowledgments, setAcknowledgments }) => {
                 <h3
                   className={`font-medium ${acknowledgments[item.key] ? "text-green-700" : "text-gray-800"}`}
                 >
-                  {t(`ACK_${item.key.toUpperCase()}_TITLE`) || item.title}
+                  {getTranslation(
+                    `ACK_${item.key.toUpperCase()}_TITLE`,
+                    item.title,
+                  )}
                 </h3>
               </div>
               <p
                 className={`text-sm ${acknowledgments[item.key] ? "text-green-600" : "text-gray-600"}`}
               >
-                {t(`ACK_${item.key.toUpperCase()}_DESC`) || item.description}
+                {getTranslation(
+                  `ACK_${item.key.toUpperCase()}_DESC`,
+                  item.description,
+                )}
               </p>
             </div>
             {acknowledgments[item.key] && (

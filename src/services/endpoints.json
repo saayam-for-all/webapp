@@ -34,5 +34,10 @@
   "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis",
   "REGISTER_VOLUNTEER": "v1/volunteer/register",
   "GET_VOLUNTEER_UPLOAD_URL": "v1/volunteer/upload-url",
-  "VOLUNTEER_REGISTRATION_STATUS": "v1/volunteer/registration-status"
+  "VOLUNTEER_REGISTRATION_STATUS": "v1/volunteer/registration-status",
+  "GET_TIMESHEETS": "v1/volunteer/timesheets",
+  "GET_TIMESHEET": "v1/volunteer/timesheets/:id",
+  "SUBMIT_TIMESHEET": "v1/volunteer/timesheets",
+  "UPDATE_TIMESHEET": "v1/volunteer/timesheets/:id",
+  "ADMIN_UPDATE_TIMESHEET_STATUS": "v1/admin/timesheets/:id/status"
 }

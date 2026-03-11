@@ -194,9 +194,14 @@ const VolunteerRegistration = () => {
     if (!roleAvailability.startDate) {
       errors.startDate = "Start date is required";
     } else {
-      const selectedDate = new Date(roleAvailability.startDate);
+      // Parse date parts to avoid timezone issues
+      const [year, month, day] = roleAvailability.startDate
+        .split("-")
+        .map(Number);
+      const selectedDate = new Date(year, month - 1, day); // month is 0-indexed
       const today = new Date();
       today.setHours(0, 0, 0, 0);
+      selectedDate.setHours(0, 0, 0, 0);
       if (selectedDate < today) {
         errors.startDate = "Start date cannot be in the past";
       }
