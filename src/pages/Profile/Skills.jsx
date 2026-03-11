@@ -2,10 +2,10 @@ import { List, ListItem, ListItemText } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useImmer } from "use-immer";
-import { getVolunteerSkills } from "../../services/volunteerServices";
+import { useSelector } from "react-redux";
 
 const Skills = ({ setHasUnsavedChanges }) => {
-  const { t } = useTranslation("profile");
+  const { t } = useTranslation(["profile", "categories"]);
   const [isEditing, setIsEditing] = useState(false);
   const mockCategories = {
     Books: { checked: true },
@@ -18,28 +18,50 @@ const Skills = ({ setHasUnsavedChanges }) => {
     Matrimonial: { checked: true },
     Shopping: { checked: true },
   };
-  // Update with user skills data from the API once that is created
   const [checkedCategories, setCheckedCategories] = useImmer(mockCategories);
-  const [categoriesData, setCategoriesData] = useState();
+  const [categoriesData, setCategoriesData] = useState([]);
 
-  const getSelectedSkills = (categories, parentPath = "", selected = []) => {
+  const categories = useSelector((state) => state.request?.categories || []);
+
+  const getCategoryName = (cat) =>
+    typeof cat === "object" ? cat.catName || cat.category : cat;
+
+  const getSubCategories = (cat) =>
+    typeof cat === "object" ? cat.subCategories || [] : [];
+  const translateCategory = (categoryName, parentPath = "") => {
+    if (!categoryName) return "";
+    if (parentPath) {
+      const parentKey = parentPath.split(".")[0];
+      return t(
+        `categories:REQUEST_CATEGORIES.${parentKey}.SUBCATEGORIES.${categoryName}.LABEL`,
+        { defaultValue: categoryName },
+      );
+    }
+    return t(`categories:REQUEST_CATEGORIES.${categoryName}.LABEL`, {
+      defaultValue: categoryName,
+    });
+  };
+
+  const getSelectedSkills = (categories, parentPath = "") => {
     return categories.map((cat, index) => {
-      const isObject = typeof cat === "object";
-      const categoryName = isObject ? cat.category : cat;
-      const hasSubCategories = isObject && cat.subCategories;
+      const categoryName = getCategoryName(cat);
+      const subCategories = getSubCategories(cat);
+      const hasSubCategories = subCategories.length > 0;
       const currentPath = parentPath
         ? `${parentPath}.${categoryName}`
         : categoryName;
       if (!getCheckedStatus(currentPath)) return;
       return (
-        <div className="flex flex-col" disablePadding>
-          <ListItem key={index} className="" disablePadding>
-            <ListItemText primary={`• ${categoryName}`} />
+        <div className="flex flex-col" disablePadding key={index}>
+          <ListItem className="" disablePadding>
+            <ListItemText
+              primary={`• ${translateCategory(categoryName, parentPath)}`}
+            />
           </ListItem>
           {hasSubCategories && getCheckedStatus(currentPath) && (
             <div className="ml-5" disablePadding>
               <List className="" disablePadding>
-                {getSelectedSkills(cat.subCategories, currentPath)}
+                {getSelectedSkills(subCategories, currentPath)}
               </List>
             </div>
           )}
@@ -49,12 +71,20 @@ const Skills = ({ setHasUnsavedChanges }) => {
   };
 
   useEffect(() => {
-    getVolunteerSkills()
-      .then((data) => {
-        setCategoriesData(data?.body);
-      })
-      .catch((error) => {});
-  }, []);
+    if (categories && categories.length > 0) {
+      setCategoriesData(categories);
+      return;
+    }
+
+    const stored = localStorage.getItem("categories");
+    if (stored) {
+      try {
+        setCategoriesData(JSON.parse(stored));
+      } catch (e) {
+        console.warn("Failed to parse categories from localStorage:", e);
+      }
+    }
+  }, [categories]);
 
   const getCheckedStatus = (categoryPath) => {
     const keys = categoryPath.split(".");
@@ -68,17 +98,13 @@ const Skills = ({ setHasUnsavedChanges }) => {
     return currentLevel.checked;
   };
 
-  // Function to handle the checkbox click
   const handleCheckboxChange = (categoryPath) => {
     setCheckedCategories((draft) => {
       const checkedStatus = getCheckedStatus(categoryPath);
-
-      // Toggle the current category checkbox state
       setCheckboxState(draft, categoryPath, !checkedStatus);
     });
   };
 
-  // Set the checkbox state for a category at a given path using immer's draft
   const setCheckboxState = (draft, categoryPath, checked) => {
     const keys = categoryPath.split(".");
     let currentLevel = draft;
@@ -86,10 +112,8 @@ const Skills = ({ setHasUnsavedChanges }) => {
     keys.forEach((key, index) => {
       if (index === keys.length - 1) {
         if (checked) {
-          // If the checkbox is checked, set it to true
           currentLevel[key] = { checked: true };
         } else {
-          // If unchecked, remove the key entirely
           delete currentLevel[key];
         }
       } else {
@@ -103,9 +127,9 @@ const Skills = ({ setHasUnsavedChanges }) => {
 
   const renderCategories = (categories, parentPath = "") => {
     return categories.map((cat, index) => {
-      const isObject = typeof cat === "object";
-      const categoryName = isObject ? cat.category : cat;
-      const hasSubCategories = isObject && cat.subCategories;
+      const categoryName = getCategoryName(cat);
+      const subCategories = getSubCategories(cat);
+      const hasSubCategories = subCategories.length > 0;
       const currentPath = parentPath
         ? `${parentPath}.${categoryName}`
         : categoryName;
@@ -120,13 +144,13 @@ const Skills = ({ setHasUnsavedChanges }) => {
               onChange={() => handleCheckboxChange(currentPath)}
             />
             <span className={getCheckedStatus(currentPath) ? "font-bold" : ""}>
-              {categoryName}
+              {translateCategory(categoryName, parentPath)}
             </span>
           </label>
 
           {hasSubCategories && getCheckedStatus(currentPath) && (
             <div className="ml-3">
-              {renderCategories(cat.subCategories, currentPath)}
+              {renderCategories(subCategories, currentPath)}
             </div>
           )}
         </div>
@@ -136,14 +160,6 @@ const Skills = ({ setHasUnsavedChanges }) => {
 
   const handleSave = async () => {
     try {
-      // TODO: Replace with actual API call
-      // await fetch("/api/user/skills", {
-      //   method: "PUT",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ skills: userSkills }),
-      // });
       setIsEditing(false);
       setHasUnsavedChanges(false);
     } catch (error) {
@@ -155,12 +171,12 @@ const Skills = ({ setHasUnsavedChanges }) => {
     <div className="p-6">
       <div className="bg-white rounded-lg shadow p-6">
         <div className="space-y-4">
-          {categoriesData?.categories?.length > 0 &&
+          {categoriesData?.length > 0 &&
             (isEditing ? (
-              renderCategories(categoriesData.categories)
+              renderCategories(categoriesData)
             ) : (
               <List className="flex flex-col" disablePadding>
-                {getSelectedSkills(categoriesData.categories)}
+                {getSelectedSkills(categoriesData)}
               </List>
             ))}
         </div>
