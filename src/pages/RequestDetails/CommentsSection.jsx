@@ -142,20 +142,21 @@ const CommentsSection = ({ comments = [] }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+      <div className="flex items-center justify-between bg-white p-3 rounded">
         <div
-          className="flex items-center space-x-2"
-          style={{ flexBasis: "50%" }}
+          className="flex flex-col sm:flex-row items-start gap-2 w-full"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Comment Input Field */}
           <textarea
             value={comment}
             onChange={handleCommentChange}
-            placeholder={t("common:writeComment")}
+            placeholder={t("writeComment")}
             rows={4}
             maxLength={200}
-            className="flex-1 min-h-[100px] px-4 py-3 bg-gray-100 outline-none border-2 border-white text-gray-600 placeholder-gray-400 text-sm rounded focus:border-black focus:outline-none resize-none"
+            className="w-full flex-1 px-4 py-3 bg-gray-100 outline-none border-2 border-white 
+                       text-gray-600 placeholder-gray-400 text-sm rounded 
+                       focus:border-black focus:outline-none resize-none"
           />
           <div className="text-xs text-gray-500 mt-1 text-right">
             {comment.length}/200
@@ -185,23 +186,23 @@ const CommentsSection = ({ comments = [] }) => {
           {filteredComments.length > 0 ? (
             <>
               {/* Remove the showing text from the top section */}
-
-              <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
-                <input
-                  type="text"
-                  value={searchText}
-                  onChange={handleSearchChange}
-                  placeholder="Search..."
-                  className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-1/3 focus:border-black focus:outline-none"
-                />
-
-                <button
-                  onClick={handleSortChange}
-                  className="p-2 border border-gray-300 rounded-md"
-                >
-                  {t("SORT_BY")}:{" "}
-                  {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
-                </button>
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <div className="flex flex-col sm:flex-row gap-3 w-full">
+                  <input
+                    type="text"
+                    value={searchText}
+                    onChange={handleSearchChange}
+                    placeholder="Search..."
+                    className="w-full sm:flex-1 px-4 py-2 bg-white shadow-sm border rounded border outline-none"
+                  />
+                  <button
+                    onClick={handleSortChange}
+                    className="px-4 py-2 bg-white shadow-sm border rounded border shrink-0"
+                  >
+                    {t("SORT_BY")}:{" "}
+                    {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
+                  </button>
+                </div>
               </div>
               {/* Comments list */}
               {currentComments.map((comment) => {
