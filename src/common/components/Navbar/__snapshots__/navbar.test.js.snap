@@ -391,6 +391,50 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             </button>
           </div>
         </div>
+        <div
+          class="MuiBox-root css-10754fm"
+        >
+          <nav
+            class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-5cvx94-MuiTypography-root-MuiBreadcrumbs-root"
+          >
+            <ol
+              class="MuiBreadcrumbs-ol css-1uwp4ue-MuiBreadcrumbs-ol"
+            >
+              <li
+                class="MuiBreadcrumbs-li"
+              >
+                <a>
+                  Home
+                </a>
+              </li>
+              <li
+                aria-hidden="true"
+                class="MuiBreadcrumbs-separator css-jhr02i-MuiBreadcrumbs-separator"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                  data-testid="NavigateNextIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                  />
+                </svg>
+              </li>
+              <li
+                class="MuiBreadcrumbs-li"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4leci6-MuiTypography-root"
+                >
+                  Dashboard
+                </p>
+              </li>
+            </ol>
+          </nav>
+        </div>
       </nav>
     </div>
   </body>,
@@ -781,6 +825,50 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           </button>
         </div>
       </div>
+      <div
+        class="MuiBox-root css-10754fm"
+      >
+        <nav
+          class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-5cvx94-MuiTypography-root-MuiBreadcrumbs-root"
+        >
+          <ol
+            class="MuiBreadcrumbs-ol css-1uwp4ue-MuiBreadcrumbs-ol"
+          >
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a>
+                Home
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="MuiBreadcrumbs-separator css-jhr02i-MuiBreadcrumbs-separator"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                data-testid="NavigateNextIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </li>
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-4leci6-MuiTypography-root"
+              >
+                Dashboard
+              </p>
+            </li>
+          </ol>
+        </nav>
+      </div>
     </nav>
   </div>,
   "debug": [Function],
@@ -1079,6 +1167,50 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             </button>
           </div>
         </div>
+        <div
+          class="MuiBox-root css-10754fm"
+        >
+          <nav
+            class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-5cvx94-MuiTypography-root-MuiBreadcrumbs-root"
+          >
+            <ol
+              class="MuiBreadcrumbs-ol css-1uwp4ue-MuiBreadcrumbs-ol"
+            >
+              <li
+                class="MuiBreadcrumbs-li"
+              >
+                <a>
+                  Home
+                </a>
+              </li>
+              <li
+                aria-hidden="true"
+                class="MuiBreadcrumbs-separator css-jhr02i-MuiBreadcrumbs-separator"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                  data-testid="NavigateNextIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                  />
+                </svg>
+              </li>
+              <li
+                class="MuiBreadcrumbs-li"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4leci6-MuiTypography-root"
+                >
+                  Dashboard
+                </p>
+              </li>
+            </ol>
+          </nav>
+        </div>
       </nav>
     </div>
   </body>,
@@ -1312,6 +1444,50 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             </svg>
           </button>
         </div>
+      </div>
+      <div
+        class="MuiBox-root css-10754fm"
+      >
+        <nav
+          class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-5cvx94-MuiTypography-root-MuiBreadcrumbs-root"
+        >
+          <ol
+            class="MuiBreadcrumbs-ol css-1uwp4ue-MuiBreadcrumbs-ol"
+          >
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <a>
+                Home
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="MuiBreadcrumbs-separator css-jhr02i-MuiBreadcrumbs-separator"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                data-testid="NavigateNextIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </li>
+            <li
+              class="MuiBreadcrumbs-li"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-4leci6-MuiTypography-root"
+              >
+                Dashboard
+              </p>
+            </li>
+          </ol>
+        </nav>
       </div>
     </nav>
   </div>,

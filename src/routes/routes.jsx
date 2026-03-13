@@ -64,10 +64,6 @@ const routes = [
     element: <ContactUs />,
   },
   {
-    path: "emergency-contact",
-    element: <EmergencyContact />,
-  },
-  {
     path: "thanks",
     element: <Thanks />,
   },
@@ -102,20 +98,26 @@ const routes = [
         path: "dashboard",
         element: <Dashboard />,
         handle: { leaveAdSpace: true },
+        children: [
+          {
+            path: "request",
+            element: <HelpRequestForm />,
+            handle: { leaveAdSpace: true },
+          },
+          {
+            path: "promote-to-volunteer",
+            element: <PromoteToVolunteer />,
+            handle: { leaveAdSpace: true },
+          },
+          {
+            path: "emergency-contact",
+            element: <EmergencyContact />,
+          },
+        ],
       },
       {
         path: "request/:id",
         element: <RequestDetails />,
-        handle: { leaveAdSpace: true },
-      },
-      {
-        path: "request",
-        element: <HelpRequestForm />,
-        handle: { leaveAdSpace: true },
-      },
-      {
-        path: "promote-to-volunteer",
-        element: <PromoteToVolunteer />,
         handle: { leaveAdSpace: true },
       },
       {
