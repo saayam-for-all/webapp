@@ -278,16 +278,6 @@ const HelpingVolunteers = () => {
                 </h2>
               </div>
               <div className="mb-5">
-                <label className="block mb-1 font-semibold text-gray-700">
-                  Date
-                </label>
-                <input
-                  type="date"
-                  className="border-2 border-gray-200 rounded-lg px-4 py-2 w-full focus:border-blue-400 focus:outline-none transition"
-                  value={meetingDate}
-                  onChange={(e) => setMeetingDate(e.target.value)}
-                  disabled={meetingLoading}
-                />
                 <label
                   htmlFor="meeting-date"
                   className="block mb-1 font-semibold text-gray-700"
@@ -299,21 +289,12 @@ const HelpingVolunteers = () => {
                   type="date"
                   className="border-2 border-gray-200 rounded-lg px-4 py-2 w-full focus:border-blue-400 focus:outline-none transition"
                   value={meetingDate}
+                  min={new Date().toISOString().split("T")[0]}
                   onChange={(e) => setMeetingDate(e.target.value)}
                   disabled={meetingLoading}
                 />
               </div>
               <div className="mb-5">
-                <label className="block mb-1 font-semibold text-gray-700">
-                  Time
-                </label>
-                <input
-                  type="time"
-                  className="border-2 border-gray-200 rounded-lg px-4 py-2 w-full focus:border-blue-400 focus:outline-none transition"
-                  value={meetingTime}
-                  onChange={(e) => setMeetingTime(e.target.value)}
-                  disabled={meetingLoading}
-                />
                 <label
                   htmlFor="meeting-time"
                   className="block mb-1 font-semibold text-gray-700"
@@ -329,6 +310,11 @@ const HelpingVolunteers = () => {
                   disabled={meetingLoading}
                 />
               </div>
+              {meetingSuccess && (
+                <div className="text-yellow-600 bg-yellow-50 border border-yellow-300 rounded-lg px-4 py-3 mb-3 font-medium text-sm">
+                  ⚠️ {meetingSuccess}
+                </div>
+              )}
               {meetingError && (
                 <div className="text-red-600 mb-3 font-medium animate-shake">
                   {meetingError}
@@ -355,37 +341,8 @@ const HelpingVolunteers = () => {
                       return;
                     }
                     setMeetingError("");
-                    setMeetingLoading(true);
-                    setMeetingSuccess("");
-                    try {
-                      // 1. Create Zoom meeting and send emails
-                      const meetingRes = await createZoomMeeting({
-                        emails: selectedVolunteers,
-                        date: meetingDate,
-                        time: meetingTime,
-                      });
-                      // 2. Store meeting details in DB
-                      await storeMeetingDetails({
-                        emails: selectedVolunteers,
-                        date: meetingDate,
-                        time: meetingTime,
-                        zoomLink: meetingRes.zoomLink || "",
-                        meetingId: meetingRes.meetingId || "",
-                      });
-                      setMeetingSuccess(
-                        "Meeting scheduled and invitations sent!",
-                      );
-                      setMeetingModalOpen(false);
-                      setMeetingDate("");
-                      setMeetingTime("");
-                      setSelectedVolunteers([]);
-                    } catch (err) {
-                      setMeetingError(
-                        err?.message || "Failed to schedule meeting.",
-                      );
-                    } finally {
-                      setMeetingLoading(false);
-                    }
+                    // TODO: Need to integrate with backend
+                    setMeetingSuccess("TODO: Need to integrate with backend");
                   }}
                   disabled={meetingLoading}
                 >
@@ -419,12 +376,6 @@ const HelpingVolunteers = () => {
                 </button>
               </div>
             </div>
-          </div>
-        )}
-        {meetingSuccess && (
-          <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-4 rounded-xl shadow-2xl z-50 text-lg font-semibold animate-fadeIn">
-            <span className="mr-2">✅</span>
-            {meetingSuccess}
           </div>
         )}
       </div>
