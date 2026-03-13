@@ -8,6 +8,7 @@ import RightAds from "#components/RightAds/RightAds";
 import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
 import { NotificationProvider } from "../context/NotificationContext";
 import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
+import Breadcrumbs from "#components/BreadCrumbs/BreadCrumbs";
 
 const Layout = () => {
   return (
@@ -28,6 +29,7 @@ const Layout = () => {
             <LeftAds />
           </aside>
           <main className="flex-[6] overflow-auto">
+            <Breadcrumbs />
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
