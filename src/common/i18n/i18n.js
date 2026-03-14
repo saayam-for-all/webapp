@@ -10,6 +10,7 @@ import enAvailability from "./locales/en/availability.json";
 import enEnums from "./locales/en/enums.json";
 import enIdentity from "./locales/en/identity.json";
 import enProfile from "./locales/en/profile.json";
+import enNews from "./locales/en/news.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
@@ -26,6 +27,7 @@ import esCategories from "./locales/es/categories.json";
 import esAvailability from "./locales/es/availability.json";
 import esIdentity from "./locales/es/identity.json";
 import esProfile from "./locales/es/profile.json";
+import esNews from "./locales/es/news.json";
 
 import frCommon from "./locales/fr/common.json";
 import frAuth from "./locales/fr/auth.json";
@@ -197,6 +199,7 @@ i18n
       "identity",
       "profile",
       "enums",
+      "news",
     ],
     resources: {
       en: {
@@ -207,6 +210,7 @@ i18n
         enums: enEnums,
         identity: enIdentity,
         profile: enProfile,
+        news: enNews,
       },
       de: {
         common: deCommon,
@@ -225,6 +229,7 @@ i18n
         availability: esAvailability,
         identity: esIdentity,
         profile: esProfile,
+        news: esNews,
       },
       fr: {
         common: frCommon,
