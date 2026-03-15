@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "#components/Navbar/Navbar";
 import MainLoader from "#components/Loader/MainLoader";
 import Footer from "#components/Footer/Footer";
@@ -11,35 +11,39 @@ import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
 import Breadcrumbs from "#components/BreadCrumbs/BreadCrumbs";
 
 const Layout = () => {
+  const location = useLocation();
+
+  const hideBreadcrumbRoutes = ["/", "/home", "/login"];
+  const shouldHideBreadcrumbs = hideBreadcrumbRoutes.includes(
+    location.pathname.toLowerCase(),
+  );
+
   return (
     <div className="flex flex-col h-screen">
       <NotificationProvider>
-        {/* Navigation Guard to check for unsaved changes */}
-
         <NavigationGuard />
 
-        {/* header includes Navbar which spans full width */}
         <header className="sticky z-10" id="header">
           <Navbar />
         </header>
 
-        {/* main content */}
         <div className="flex flex-1">
           <aside className="left-ads-panel flex-1 ">
             <LeftAds />
           </aside>
+
           <main className="flex-[6] overflow-auto">
-            <Breadcrumbs />
+            {!shouldHideBreadcrumbs && <Breadcrumbs />}
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
           </main>
+
           <aside className="right-ads-panel flex-1 ">
             <RightAds />
           </aside>
         </div>
 
-        {/* footer */}
         <footer className="">
           <Footer />
         </footer>
