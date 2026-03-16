@@ -364,5 +364,16 @@
   "TERMS_CONTACT_TITLE": "18. Контакты",
   "TERMS_CONTACT_CONTENT": "По всем вопросам обращайтесь: 📧 info@SaayamForAll.org или 📍 Saayam For All, 3046 Rosato Ct., Сан-Хосе, Калифорния 95135.",
   "TERMS_THANK_YOU": "Спасибо, что являетесь частью нашей миссии помогать человечеству с помощью технологий, сострадания и служения обществу.",
-  "preferably WhatsApp": "предпочтительно WhatsApp"
+  "preferably WhatsApp": "предпочтительно WhatsApp",
+  "CHANGE_VOLUNTEER": "Сменить Волонтёра",
+  "CHANGE_VOLUNTEER_REASON": "Причина смены волонтёра",
+  "CHANGE_VOLUNTEER_REASON_PLACEHOLDER": "Пожалуйста, укажите причину смены волонтёра...",
+  "DELETE_REQUEST": "Удалить запрос",
+  "DELETE_REQUEST_REASON": "Причина удаления запроса",
+  "DELETE_REQUEST_REASON_PLACEHOLDER": "Пожалуйста, укажите причину удаления этого запроса...",
+  "CONFIRM_DELETE": "Подтвердить удаление",
+  "NO_COMMENTS_FOUND": "Комментарии не найдены",
+  "CLEAR_SEARCH": "Очистить поиск",
+  "WRITE_COMMENT": "Напишите комментарий...",
+  "SEARCH_PLACEHOLDER": "Поиск..."
 }

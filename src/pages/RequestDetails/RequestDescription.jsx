@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPhoneAlt, FaVideo } from "react-icons/fa";
 import { IoPersonCircle } from "react-icons/io5";
@@ -12,6 +12,11 @@ import "./RequestDescription.css";
 const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
+  const [showChangeVolunteerDialog, setShowChangeVolunteerDialog] =
+    useState(false);
+  const [changeVolunteerReason, setChangeVolunteerReason] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleteReason, setDeleteReason] = useState("");
 
   const cDate = new Date(requestData.creationDate + "T00:00:00");
   const formattedDate = cDate.toLocaleDateString("en-US", {
@@ -73,6 +78,24 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             >
               {t("EDIT")}
             </button>
+            <button
+              className="bg-yellow-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-yellow-600"
+              onClick={() => {
+                setChangeVolunteerReason("");
+                setShowChangeVolunteerDialog(true);
+              }}
+            >
+              {t("CHANGE_VOLUNTEER")}
+            </button>
+            <button
+              className="bg-red-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600"
+              onClick={() => {
+                setDeleteReason("");
+                setShowDeleteDialog(true);
+              }}
+            >
+              {t("DELETE_REQUEST")}
+            </button>
           </ul>
 
           <div className="w-full m-0">
@@ -96,6 +119,90 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
           </div>
         </div>
       </div>
+
+      {/* Change Volunteer Dialog */}
+      {showChangeVolunteerDialog && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={() => setShowChangeVolunteerDialog(false)}
+        >
+          <div
+            className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold mb-4">
+              {t("CHANGE_VOLUNTEER_REASON")}
+            </h3>
+            <textarea
+              rows={4}
+              value={changeVolunteerReason}
+              onChange={(e) => setChangeVolunteerReason(e.target.value)}
+              placeholder={t("CHANGE_VOLUNTEER_REASON_PLACEHOLDER")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-blue-500 resize-none"
+            />
+            <div className="flex justify-end gap-3 mt-4">
+              <button
+                className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-100"
+                onClick={() => setShowChangeVolunteerDialog(false)}
+              >
+                {t("CANCEL")}
+              </button>
+              <button
+                className="px-4 py-2 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 disabled:opacity-50"
+                disabled={!changeVolunteerReason.trim()}
+                onClick={() => {
+                  // TODO: submit change volunteer reason
+                  setShowChangeVolunteerDialog(false);
+                }}
+              >
+                {t("SUBMIT")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Request Dialog */}
+      {showDeleteDialog && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={() => setShowDeleteDialog(false)}
+        >
+          <div
+            className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold mb-4">
+              {t("DELETE_REQUEST_REASON")}
+            </h3>
+            <textarea
+              rows={4}
+              value={deleteReason}
+              onChange={(e) => setDeleteReason(e.target.value)}
+              placeholder={t("DELETE_REQUEST_REASON_PLACEHOLDER")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-red-500 resize-none"
+            />
+            <div className="flex justify-end gap-3 mt-4">
+              <button
+                className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-100"
+                onClick={() => setShowDeleteDialog(false)}
+              >
+                {t("CANCEL")}
+              </button>
+              <button
+                className="px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50"
+                disabled={!deleteReason.trim()}
+                onClick={() => {
+                  // TODO: submit delete request with reason
+                  setShowDeleteDialog(false);
+                }}
+              >
+                {t("CONFIRM_DELETE")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
