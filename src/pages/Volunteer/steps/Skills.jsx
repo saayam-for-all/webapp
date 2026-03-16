@@ -1,140 +1,517 @@
-import React, { useState } from "react"; //added for testing
+import React, { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-// Example JSON data with multiple levels of subCategories - need to get this data from server
-const Skills = ({
-  checkedCategories,
-  setCheckedCategories,
-  categoriesData,
-  setTextboxCheck,
-  textboxValue,
-  setTextboxValue,
-}) => {
-  // const [text, setText] = useState("");
-  const { t } = useTranslation();
-  // Recursive function to handle rendering categories and subcategories
-  const renderCategories = (categories, parentPath = "") => {
-    const sortedCategories = [...categories].sort((a, b) => {
-      const aName = typeof a === "object" ? a.category : a;
-      const bName = typeof b === "object" ? b.category : b;
-      return aName.localeCompare(bName);
-    });
+const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
+  const { t, i18n } = useTranslation(["common", "categories"]);
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
+  const [mobileActiveCategory, setMobileActiveCategory] = useState(null);
+  const [mobileActiveSubcategory, setMobileActiveSubcategory] = useState(null);
 
-    return sortedCategories.map((cat, index) => {
-      const isObject = typeof cat === "object";
-      const categoryName = isObject ? cat.category : cat;
-      const hasSubCategories = isObject && cat.subCategories;
+  // Sort categories alphabetically by translated label, push General to end
+  const sortedCategories = useMemo(() => {
+    if (!categories || categories.length === 0) return [];
+    const general = categories.find(
+      (cat) => cat.catName === "GENERAL_CATEGORY",
+    );
+    const others = categories.filter(
+      (cat) => cat.catName !== "GENERAL_CATEGORY",
+    );
+    const resolvedLabel = (cat) =>
+      t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
+        defaultValue: cat.catName,
+      });
+    const sorted = others.sort((a, b) =>
+      resolvedLabel(a).localeCompare(resolvedLabel(b), i18n.language || "en"),
+    );
+    if (general) sorted.push(general);
+    return sorted;
+  }, [categories, i18n.language, t]);
 
-      // Create a unique path for each category, concatenating parent path and current category name
-      const currentPath = parentPath
-        ? `${parentPath}.${categoryName}`
-        : categoryName;
+  // Check if a category node is a leaf (no subcategories)
+  const isLeaf = (node) =>
+    !node.subCategories || node.subCategories.length === 0;
 
-      return (
-        <div key={index} className="ml-4">
-          <label className="inline-flex items-center space-x-2">
-            <input
-              type="checkbox"
-              className="h-4 w-4"
-              checked={getCheckedStatus(currentPath)}
-              onChange={() => handleCheckboxChange(currentPath)}
-            />
-            <span className={getCheckedStatus(currentPath) ? "font-bold" : ""}>
-              {categoryName}
-            </span>
-          </label>
+  // Check if a skill is selected
+  const isSelected = (catId) => selectedSkills.includes(catId);
 
-          {currentPath === "General" && getCheckedStatus(currentPath) && (
-            <div className="ml-5 mt-2">
-              <label
-                htmlFor="description"
-                className="block text-gray-700 font-medium mb-2"
-              >
-                {t("DESCRIPTION")}
-                <span className="text-red-500 m-1">*</span>(
-                {t("MAX_CHARACTERS", { count: 500 })})
-              </label>
-              <textarea
-                value={textboxValue}
-                onChange={(e) => setTextboxValue(e.target.value)}
-                placeholder="Please enter the details here (Required)"
-                maxLength={500}
-                className="border p-2 w-full rounded-lg"
-              ></textarea>
-            </div>
-          )}
-
-          {/* Recursively render subcategories if they exist */}
-          {hasSubCategories && getCheckedStatus(currentPath) && (
-            <div className="ml-3">
-              {renderCategories(cat.subCategories, currentPath)}
-            </div>
-          )}
-        </div>
-      );
-    });
-  };
-
-  // Function to handle the checkbox click
-  const handleCheckboxChange = (categoryPath) => {
-    setCheckedCategories((draft) => {
-      const checkedStatus = getCheckedStatus(categoryPath);
-
-      // Toggle the current category checkbox state
-      setCheckboxState(draft, categoryPath, !checkedStatus);
-    });
-  };
-
-  // Get the checked status of a category by its hierarchical path
-  const getCheckedStatus = (categoryPath) => {
-    const keys = categoryPath.split(".");
-    let currentLevel = checkedCategories || {};
-
-    for (let key of keys) {
-      if (!currentLevel[key]) return false;
-      currentLevel = currentLevel[key];
+  // Toggle a leaf skill selection
+  const toggleSkill = (catId) => {
+    if (isSelected(catId)) {
+      setSelectedSkills(selectedSkills.filter((id) => id !== catId));
+    } else {
+      setSelectedSkills([...selectedSkills, catId]);
     }
-
-    return currentLevel.checked;
   };
 
-  // Set the checkbox state for a category at a given path using immer's draft
-  const setCheckboxState = (draft, categoryPath, checked) => {
-    const keys = categoryPath.split(".");
-    let currentLevel = draft;
-
-    keys.forEach((key, index) => {
-      if (index === keys.length - 1) {
-        if (checked) {
-          // If the checkbox is checked, set it to true
-          currentLevel[key] = { checked: true };
-          if (key == "General") {
-            setTextboxCheck(false);
-          }
-        } else {
-          // If unchecked, remove the key entirely
-          delete currentLevel[key];
-          if (key == "General") {
-            setTextboxCheck(true);
-          }
-        }
-      } else {
-        if (!currentLevel[key]) {
-          currentLevel[key] = {};
-        }
-        currentLevel = currentLevel[key];
+  // Resolve the full hierarchy path label for a selected skill catId
+  const resolveSkillPath = (catId) => {
+    for (const cat of categories) {
+      // Level 1 leaf
+      if (cat.catId === catId && isLeaf(cat)) {
+        return {
+          categoryName: t(
+            `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
+            {
+              defaultValue: cat.catName,
+            },
+          ),
+          skillName: t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
+            defaultValue: cat.catName,
+          }),
+          isLevel1: true,
+        };
       }
-    });
+      for (const sub of cat.subCategories || []) {
+        // Level 2 leaf
+        if (sub.catId === catId && isLeaf(sub)) {
+          const catLabel = t(
+            `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
+            { defaultValue: cat.catName },
+          );
+          const subLabel = t(
+            `categories:REQUEST_CATEGORIES.${cat.catName}.SUBCATEGORIES.${sub.catName}.LABEL`,
+            { defaultValue: sub.catName },
+          );
+          return {
+            categoryName: catLabel,
+            skillName: subLabel,
+            isLevel1: false,
+          };
+        }
+        for (const subSub of sub.subCategories || []) {
+          // Level 3 leaf
+          if (subSub.catId === catId) {
+            const catLabel = t(
+              `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
+              { defaultValue: cat.catName },
+            );
+            const subLabel = t(
+              `categories:REQUEST_CATEGORIES.${cat.catName}.SUBCATEGORIES.${sub.catName}.LABEL`,
+              { defaultValue: sub.catName },
+            );
+            const subSubLabel = t(
+              `categories:REQUEST_CATEGORIES.${cat.catName}.SUBCATEGORIES.${sub.catName}.SUBCATEGORIES.${subSub.catName}.LABEL`,
+              { defaultValue: subSub.catName },
+            );
+            return {
+              categoryName: catLabel,
+              parentName: subLabel,
+              skillName: subSubLabel,
+              isLevel1: false,
+            };
+          }
+        }
+      }
+    }
+    return { categoryName: catId, skillName: catId, isLevel1: true };
   };
+
+  // Group selected skills by category for display
+  const groupedSelectedSkills = useMemo(() => {
+    const groups = {};
+    selectedSkills.forEach((catId) => {
+      const pathInfo = resolveSkillPath(catId);
+      const key = pathInfo.categoryName;
+      if (!groups[key]) {
+        groups[key] = {
+          categoryName: pathInfo.categoryName,
+          skills: [],
+          catIds: [],
+        };
+      }
+      groups[key].skills.push(
+        pathInfo.parentName
+          ? `${pathInfo.parentName} → ${pathInfo.skillName}`
+          : pathInfo.skillName,
+      );
+      groups[key].catIds.push(catId);
+    });
+    return Object.values(groups);
+  }, [selectedSkills, categories, i18n.language]);
+
+  const hasSubCats = hoveredCategory?.subCategories?.length > 0;
+  const hasSubSubCats = hoveredSubcategory?.subCategories?.length > 0;
 
   return (
-    <>
-      <p className="font-bold text-xl mb-4">
-        Select Your Skills For Volunteer Assignments
+    <div>
+      <p className="font-bold text-xl mb-2">
+        {t("common:SKILLS_SELECTOR_TITLE")}
       </p>
-      {categoriesData?.categories?.length > 0 &&
-        renderCategories(categoriesData.categories)}
-    </>
+      <p className="text-sm text-gray-500 mb-4">
+        {t("common:SKILLS_SELECTOR_PLACEHOLDER")}
+      </p>
+
+      {/* Desktop: Multi-column selector panel */}
+      <div className="hidden md:block">
+        <div
+          className={`bg-white border rounded shadow-lg w-full flex${
+            !hasSubCats ? " flex-col" : ""
+          }`}
+          style={{
+            maxHeight: "280px",
+            minHeight: "140px",
+            overflow: "hidden",
+          }}
+        >
+          {/* Column 1: Main categories */}
+          <div
+            className={
+              hasSubSubCats
+                ? "w-1/3 overflow-y-auto"
+                : hasSubCats
+                  ? "w-1/2 overflow-y-auto"
+                  : "w-full overflow-y-auto"
+            }
+            style={{ maxHeight: "280px" }}
+          >
+            {sortedCategories.map((category) => {
+              const leaf = isLeaf(category);
+              const selected = leaf && isSelected(category.catId);
+              return (
+                <div
+                  key={category.catId}
+                  className={`p-2 flex items-center justify-between ${
+                    leaf ? "cursor-pointer" : "cursor-default"
+                  } hover:bg-gray-100 ${
+                    hoveredCategory?.catId === category.catId
+                      ? "font-semibold bg-gray-50"
+                      : ""
+                  } ${selected ? "bg-blue-50" : "bg-white"}`}
+                  onClick={() => {
+                    if (leaf) {
+                      toggleSkill(category.catId);
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    setHoveredCategory(category);
+                    setHoveredSubcategory(null);
+                  }}
+                >
+                  <span
+                    title={t(
+                      `categories:REQUEST_CATEGORIES.${category.catName}.DESC`,
+                      { defaultValue: category.catDesc },
+                    )}
+                  >
+                    {t(
+                      `categories:REQUEST_CATEGORIES.${category.catName}.LABEL`,
+                      { defaultValue: category.catName },
+                    )}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    {selected && (
+                      <span className="text-green-600 text-sm">&#10003;</span>
+                    )}
+                    {!leaf && <span className="ml-2 text-gray-400">&gt;</span>}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Column 2: Subcategories */}
+          {hasSubCats && (
+            <>
+              <div
+                className="w-px bg-gray-300 mx-1"
+                style={{ minHeight: "100%" }}
+              />
+              <div
+                className={
+                  hasSubSubCats
+                    ? "w-1/3 overflow-y-auto"
+                    : "w-1/2 overflow-y-auto"
+                }
+                style={{ maxHeight: "280px" }}
+              >
+                {hoveredCategory.subCategories.map((subcategory, index) => {
+                  const leaf = isLeaf(subcategory);
+                  const selected = leaf && isSelected(subcategory.catId);
+                  return (
+                    <div
+                      key={subcategory.catId}
+                      className={`p-2 flex items-center justify-between ${
+                        leaf ? "cursor-pointer" : "cursor-default"
+                      } hover:bg-gray-200 ${
+                        index !== 0 ? " border-t border-gray-200" : ""
+                      } ${
+                        hoveredSubcategory?.catId === subcategory.catId
+                          ? "bg-gray-100"
+                          : ""
+                      } ${selected ? "bg-blue-50" : "bg-white"}`}
+                      onMouseEnter={() => {
+                        setHoveredSubcategory(subcategory);
+                      }}
+                      onClick={() => {
+                        if (leaf) {
+                          toggleSkill(subcategory.catId);
+                        }
+                      }}
+                    >
+                      <span
+                        title={t(
+                          `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
+                          { defaultValue: subcategory.catDesc },
+                        )}
+                      >
+                        {t(
+                          `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
+                          { defaultValue: subcategory.catName },
+                        )}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        {selected && (
+                          <span className="text-green-600 text-sm">
+                            &#10003;
+                          </span>
+                        )}
+                        {!leaf && (
+                          <span className="ml-2 text-gray-400">&gt;</span>
+                        )}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+
+          {/* Column 3: Sub-sub-categories */}
+          {hasSubSubCats && (
+            <>
+              <div
+                className="w-px bg-gray-300 mx-1"
+                style={{ minHeight: "100%" }}
+              />
+              <div
+                className="w-1/3 overflow-y-auto"
+                style={{ maxHeight: "280px" }}
+              >
+                {hoveredSubcategory.subCategories.map((subSubCat, index) => {
+                  const selected = isSelected(subSubCat.catId);
+                  return (
+                    <div
+                      key={subSubCat.catId}
+                      className={`cursor-pointer hover:bg-gray-200 p-2 flex items-center justify-between ${
+                        index !== 0 ? " border-t border-gray-200" : ""
+                      } ${selected ? "bg-blue-50" : "bg-white"}`}
+                      onClick={() => {
+                        toggleSkill(subSubCat.catId);
+                      }}
+                    >
+                      <span
+                        title={t(
+                          `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${hoveredSubcategory.catName}.SUBCATEGORIES.${subSubCat.catName}.DESC`,
+                          { defaultValue: subSubCat.catDesc },
+                        )}
+                      >
+                        {t(
+                          `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${hoveredSubcategory.catName}.SUBCATEGORIES.${subSubCat.catName}.LABEL`,
+                          { defaultValue: subSubCat.catName },
+                        )}
+                      </span>
+                      {selected && (
+                        <span className="text-green-600 text-sm">&#10003;</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile: Single-column drill-down selector */}
+      <div className="md:hidden bg-white border rounded shadow-lg w-full">
+        {/* Level 1: Main categories (or back button + subcategories) */}
+        {!mobileActiveCategory ? (
+          <div className="overflow-y-auto" style={{ maxHeight: "280px" }}>
+            {sortedCategories.map((category) => {
+              const leaf = isLeaf(category);
+              const selected = leaf && isSelected(category.catId);
+              return (
+                <div
+                  key={category.catId}
+                  className={`p-3 flex items-center justify-between border-b border-gray-200 active:bg-gray-100 ${
+                    selected ? "bg-blue-50" : "bg-white"
+                  }`}
+                  onClick={() => {
+                    if (leaf) {
+                      toggleSkill(category.catId);
+                    } else {
+                      setMobileActiveCategory(category);
+                      setMobileActiveSubcategory(null);
+                    }
+                  }}
+                >
+                  <span className="text-base">
+                    {t(
+                      `categories:REQUEST_CATEGORIES.${category.catName}.LABEL`,
+                      { defaultValue: category.catName },
+                    )}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    {selected && (
+                      <span className="text-green-600 text-lg">&#10003;</span>
+                    )}
+                    {!leaf && (
+                      <span className="text-gray-400 text-xl">&gt;</span>
+                    )}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        ) : !mobileActiveSubcategory ? (
+          <div>
+            {/* Back button */}
+            <div
+              className="p-3 flex items-center gap-2 border-b border-gray-300 bg-gray-50 active:bg-gray-200 sticky top-0"
+              onClick={() => setMobileActiveCategory(null)}
+            >
+              <span className="text-gray-600 text-xl">&lt;</span>
+              <span className="font-semibold">
+                {t(
+                  `categories:REQUEST_CATEGORIES.${mobileActiveCategory.catName}.LABEL`,
+                  { defaultValue: mobileActiveCategory.catName },
+                )}
+              </span>
+            </div>
+            {/* Subcategories */}
+            <div className="overflow-y-auto" style={{ maxHeight: "240px" }}>
+              {mobileActiveCategory.subCategories?.map((subcategory) => {
+                const leaf = isLeaf(subcategory);
+                const selected = leaf && isSelected(subcategory.catId);
+                return (
+                  <div
+                    key={subcategory.catId}
+                    className={`p-3 flex items-center justify-between border-b border-gray-200 active:bg-gray-100 ${
+                      selected ? "bg-blue-50" : "bg-white"
+                    }`}
+                    onClick={() => {
+                      if (leaf) {
+                        toggleSkill(subcategory.catId);
+                      } else {
+                        setMobileActiveSubcategory(subcategory);
+                      }
+                    }}
+                  >
+                    <span className="text-base">
+                      {t(
+                        `categories:REQUEST_CATEGORIES.${mobileActiveCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
+                        { defaultValue: subcategory.catName },
+                      )}
+                    </span>
+                    <span className="flex items-center gap-2">
+                      {selected && (
+                        <span className="text-green-600 text-lg">&#10003;</span>
+                      )}
+                      {!leaf && (
+                        <span className="text-gray-400 text-xl">&gt;</span>
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div>
+            {/* Back button */}
+            <div
+              className="p-3 flex items-center gap-2 border-b border-gray-300 bg-gray-50 active:bg-gray-200 sticky top-0"
+              onClick={() => setMobileActiveSubcategory(null)}
+            >
+              <span className="text-gray-600 text-xl">&lt;</span>
+              <span className="font-semibold">
+                {t(
+                  `categories:REQUEST_CATEGORIES.${mobileActiveCategory.catName}.SUBCATEGORIES.${mobileActiveSubcategory.catName}.LABEL`,
+                  { defaultValue: mobileActiveSubcategory.catName },
+                )}
+              </span>
+            </div>
+            {/* Sub-subcategories */}
+            <div className="overflow-y-auto" style={{ maxHeight: "240px" }}>
+              {mobileActiveSubcategory.subCategories?.map((subSubCat) => {
+                const selected = isSelected(subSubCat.catId);
+                return (
+                  <div
+                    key={subSubCat.catId}
+                    className={`p-3 flex items-center justify-between border-b border-gray-200 active:bg-gray-100 ${
+                      selected ? "bg-blue-50" : "bg-white"
+                    }`}
+                    onClick={() => {
+                      toggleSkill(subSubCat.catId);
+                    }}
+                  >
+                    <span className="text-base">
+                      {t(
+                        `categories:REQUEST_CATEGORIES.${mobileActiveCategory.catName}.SUBCATEGORIES.${mobileActiveSubcategory.catName}.SUBCATEGORIES.${subSubCat.catName}.LABEL`,
+                        { defaultValue: subSubCat.catName },
+                      )}
+                    </span>
+                    {selected && (
+                      <span className="text-green-600 text-lg">&#10003;</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Selected skills display */}
+      <div className="mt-6">
+        <p className="font-semibold text-lg mb-2">
+          {t("common:SELECTED_SKILLS")}
+        </p>
+        {selectedSkills.length === 0 ? (
+          <p className="text-sm text-gray-400 italic">
+            {t("common:NO_SKILLS_SELECTED")}
+          </p>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {groupedSelectedSkills.map((group) => (
+              <div
+                key={group.categoryName}
+                className="border border-blue-200 rounded-lg bg-blue-50 p-3"
+              >
+                <div className="font-medium text-sm text-blue-900 mb-2">
+                  {group.categoryName}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skillName, index) => (
+                    <div
+                      key={group.catIds[index]}
+                      className="flex items-center gap-1 bg-white border border-blue-300 rounded-full px-3 py-1 text-sm shadow-sm"
+                    >
+                      <span>{skillName}</span>
+                      <button
+                        type="button"
+                        className="text-gray-500 hover:text-red-500 font-bold ml-1"
+                        onClick={() => {
+                          setSelectedSkills(
+                            selectedSkills.filter(
+                              (id) => id !== group.catIds[index],
+                            ),
+                          );
+                        }}
+                        title={t("common:REMOVE_SKILL")}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

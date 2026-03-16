@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo, useRef } from "react"; //added for testing
-import { useImmer } from "use-immer";
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
@@ -24,17 +23,15 @@ const PromoteToVolunteer = () => {
   const [isAcknowledged, setIsAcknowledged] = useState(false);
   const [govtIdFile, setGovtIdFile] = useState(null);
   const token = useSelector((state) => state.auth.idToken);
-  const [checkedCategories, setCheckedCategories] = useImmer({});
-  const [categoriesData, setCategoriesData] = useState({});
-  const [availabilitySlots, setAvailabilitySlots] = useImmer([
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [availabilitySlots, setAvailabilitySlots] = useState([
     { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
   ]);
   const [tobeNotified, setNotification] = useState(false);
   const volunteerDataRef = useRef({});
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [textboxCheck, setTextboxCheck] = useState(true);
-  const [textboxValue, setTextboxValue] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
 
   useEffect(() => {
@@ -51,41 +48,19 @@ const PromoteToVolunteer = () => {
     if (!userId) fetchUserId();
   }, [userId]);
 
-  // Transform categories from mockCategories API format to Skills component format
-  const transformCategories = (categories) => {
-    return categories.map((cat) => {
-      const transformed = {
-        category: cat.catName, // Transform catName to category
-        subCategories: cat.subCategories
-          ? transformCategories(cat.subCategories)
-          : [],
-      };
-      return transformed;
-    });
-  };
-
-  const fetchSkills = () => {
-    // Use categories from localStorage (same as mockCategories API)
-    const storedCategories = localStorage.getItem("categories");
-    if (storedCategories) {
-      try {
-        const categoriesArray = JSON.parse(storedCategories);
-        // Transform categories to match the expected structure for Skills component
-        // Skills component expects { categories: [...] } where each category has a 'category' property
-        const transformedCategories = transformCategories(categoriesArray);
-        setCategoriesData({ categories: transformedCategories });
-      } catch (parseError) {
-        console.warn(
-          "Failed to parse categories from localStorage:",
-          parseError,
-        );
-      }
-    }
-  };
-
   useEffect(() => {
-    if (!categoriesData?.categories) {
-      fetchSkills();
+    if (categories.length === 0) {
+      const storedCategories = localStorage.getItem("categories");
+      if (storedCategories) {
+        try {
+          setCategories(JSON.parse(storedCategories));
+        } catch (parseError) {
+          console.warn(
+            "Failed to parse categories from localStorage:",
+            parseError,
+          );
+        }
+      }
     }
   }, []);
 
@@ -118,12 +93,9 @@ const PromoteToVolunteer = () => {
       case 3:
         return (
           <Skills
-            checkedCategories={checkedCategories}
-            setCheckedCategories={setCheckedCategories}
-            categoriesData={categoriesData}
-            setTextboxCheck={setTextboxCheck}
-            textboxValue={textboxValue}
-            setTextboxValue={setTextboxValue}
+            selectedSkills={selectedSkills}
+            setSelectedSkills={setSelectedSkills}
+            categories={categories}
           />
         );
       case 4:
@@ -151,24 +123,7 @@ const PromoteToVolunteer = () => {
     });
   }, [availabilitySlots]);
 
-  const extractSkillsWithHierarchy = (categories) => {
-    let skills = [];
-
-    Object.keys(categories).forEach((category) => {
-      if (categories[category].checked) {
-        skills.push(category);
-      }
-
-      Object.keys(categories[category]).forEach((subcategory) => {
-        if (
-          subcategory !== "checked" &&
-          categories[category][subcategory].checked
-        ) {
-          skills.push(`${category}:${subcategory}`);
-        }
-      });
-    });
-
+  const extractSkillsFromArray = (skills) => {
     return skills.join(", ");
   };
 
@@ -210,14 +165,11 @@ const PromoteToVolunteer = () => {
           });
           break;
         case 3: {
-          const selectedSkills = extractSkillsWithHierarchy(checkedCategories);
-          isValidStep =
-            selectedSkills !== "" &&
-            (textboxCheck || (!textboxCheck && textboxValue.trim().length > 0));
+          isValidStep = selectedSkills.length > 0;
           updateVolunteerData({
             step: currentStep,
             userId: userId,
-            skills: selectedSkills,
+            skills: extractSkillsFromArray(selectedSkills),
           });
           break;
         }
@@ -290,13 +242,12 @@ const PromoteToVolunteer = () => {
           steps={steps}
           isAcknowledged={isAcknowledged}
           isUploaded={isUploaded}
-          isCheckedCategories={Object.keys(checkedCategories).length !== 0}
+          isCheckedCategories={selectedSkills.length > 0}
           isAvailabilityValid={isAvailabilityValid}
           disableNext={
             (currentStep === 1 && !isAcknowledged) ||
             (currentStep === 2 && !isUploaded) ||
-            (currentStep === 3 &&
-              Object.keys(checkedCategories).length === 0) ||
+            (currentStep === 3 && selectedSkills.length === 0) ||
             (currentStep === 4 && !isAvailabilityValid)
           }
         />
