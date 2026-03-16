@@ -729,5 +729,10 @@
   "REQUESTS_RESOLVED": "Requests Resolved",
   "AVG_RESOLUTION_TIME": "Avg Resolution Time",
   "TOTAL_VOLUNTEERS": "Total Volunteers",
-  "TOTAL_BENEFICIARIES": "Total Beneficiaries"
+  "TOTAL_BENEFICIARIES": "Total Beneficiaries",
+  "SKILLS_SELECTOR_TITLE": "Select Your Skills For Volunteer Assignments",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Hover to explore categories, click to select skills",
+  "SELECTED_SKILLS": "Selected Skills",
+  "NO_SKILLS_SELECTED": "No skills selected yet",
+  "REMOVE_SKILL": "Remove skill"
 }
