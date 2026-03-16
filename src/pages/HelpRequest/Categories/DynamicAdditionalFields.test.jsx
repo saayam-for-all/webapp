@@ -575,10 +575,7 @@ describe("DynamicAdditionalFields", () => {
   it("renders list items with textbox itemType", () => {
     const onChange = jest.fn();
     render(<DynamicAdditionalFields catId="6.2" onChange={onChange} />);
-    // Both the h3 heading and the field label say "Additional Information"
-    expect(
-      screen.getAllByText("Additional Information").length,
-    ).toBeGreaterThanOrEqual(2);
+    expect(screen.getByText("Additional Information")).toBeInTheDocument();
     expect(screen.getByTestId("text-6.2.A.1")).toHaveAttribute("type", "text");
     expect(screen.getByTestId("text-6.2.A.2")).toHaveAttribute("type", "text");
   });

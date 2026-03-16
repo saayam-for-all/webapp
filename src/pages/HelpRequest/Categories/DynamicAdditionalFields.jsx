@@ -410,12 +410,9 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
   // ── Main render ─────────────────────────────────────────────────────
   return (
     <div
-      className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50"
+      className="mt-4 ml-2 sm:ml-4 pt-1 pb-4 px-4 border border-gray-200 rounded-lg bg-gray-50"
       data-testid="dynamic-additional-fields"
     >
-      <h3 className="text-base font-semibold mb-2 text-gray-800">
-        Additional Information
-      </h3>
       {metadataFields.map((field) => renderField(field))}
     </div>
   );
