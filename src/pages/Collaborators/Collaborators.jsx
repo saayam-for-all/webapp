@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import VolunteerMatchLogo from "../../assets/Collab_logos/volunteer-match.png";
 import HorizontalAd from "#components/Ads/HorizontalAd";
-import { collaborators } from "../../data/collaboratorsData";
 
 function Collaborators() {
   const { t } = useTranslation();
+  const volunteerLinkRef = useRef(null);
 
-  const firstRow = collaborators.slice(0, 3);
-  const secondRow = collaborators.slice(3);
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && volunteerLinkRef.current) {
+        volunteerLinkRef.current.blur();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <>
@@ -24,52 +35,28 @@ function Collaborators() {
             )}
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-10 place-items-center">
-            {firstRow.map((collab) => (
-              <a
-                key={collab.name}
-                href={collab.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center max-w-md text-blue-700 hover:underline focus:outline-none"
-              >
-                <img
-                  src={collab.logo}
-                  alt={collab.name}
-                  className="w-40 h-40 object-contain mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">{collab.name}</h3>
-                {collab.description ? (
-                  <p className="text-center text-gray-600 text-sm">
-                    {t(collab.description)}
-                  </p>
-                ) : null}
-              </a>
-            ))}
-          </div>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-10 mb-16">
-            {secondRow.map((collab) => (
-              <a
-                key={collab.name}
-                href={collab.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center max-w-md text-blue-700 hover:underline focus:outline-none"
-              >
-                <img
-                  src={collab.logo}
-                  alt={collab.name}
-                  className="w-40 h-40 object-contain mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">{collab.name}</h3>
-                {collab.description ? (
-                  <p className="text-center text-gray-600 text-sm">
-                    {t(collab.description)}
-                  </p>
-                ) : null}
-              </a>
-            ))}
+          <div className="flex justify-center mb-16">
+            <a
+              ref={volunteerLinkRef}
+              href="https://www.volunteermatch.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center max-w-md text-blue-700 hover:underline focus:outline-none"
+            >
+              <img
+                src={VolunteerMatchLogo}
+                alt="Volunteer Match"
+                className="w-40 h-40 object-contain mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">
+                {t("Volunteer Match")}
+              </h3>
+              <p className="text-center text-gray-600 text-sm">
+                {t(
+                  "U.S based nonprofit organization which provides a national digital infrastructure to serve volunteers and nonprofits organization.",
+                )}
+              </p>
+            </a>
           </div>
 
           <div className="text-center mt-16 mb-16">
