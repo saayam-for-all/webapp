@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "सरकारी पहचान पत्र अपलोड करें",
+  "SELECT_SOURCE": "स्रोत चुनें",
+  "DEVICE": "डिवाइस",
+  "GOOGLE_DRIVE": "गूगल ड्राइव",
+  "DROPBOX": "ड्रॉपबॉक्स",
+  "UPLOAD_FILE": "फ़ाइल अपलोड करें",
+  "FILE": "फ़ाइल",
+  "FILE_PREVIEW": "पूर्वावलोकन",
+  "UPLOAD": "अपलोड करें",
+  "UPLOADING": "अपलोड हो रहा है...",
+  "REMOVE": "हटाएं",
+  "FILE_SIZE_ERROR": "फ़ाइल का आकार 2MB से अधिक नहीं होना चाहिए",
+  "FILE_TYPE_ERROR": "केवल JPEG, JPG, PNG, और PDF फ़ाइलों की अनुमति है। फ़ाइल प्रकार पाया गया: {{fileType}}, एक्सटेंशन: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "केवल JPEG, JPG, PNG, या PDF फ़ाइलें। अधिकतम आकार: 2MB।",
+  "UPLOAD_SUCCESS": "फ़ाइल सफलतापूर्वक अपलोड की गई",
+  "UPLOAD_FAILED": "फ़ाइल अपलोड विफल",
+  "UPLOAD_ERROR": "फ़ाइल अपलोड के दौरान त्रुटि हुई"
+}

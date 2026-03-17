@@ -1,0 +1,344 @@
+{
+  "REQUEST_CATEGORIES": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "General",
+      "DESC": "Usa esta opción cuando no estés seguro; describe tu necesidad con detalle."
+    },
+    "FOOD_AND_ESSENTIALS": {
+      "LABEL": "Comida y artículos esenciales",
+      "DESC": "Accede a apoyo alimentario, ayuda con compras y preparación de comidas.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Asistencia alimentaria",
+          "DESC": "Encontrar bancos de alimentos, despensas o programas de comidas."
+        },
+        "GROCERY_SHOPPING_AND_DELIVERY": {
+          "LABEL": "Compras y entrega de comestibles",
+          "DESC": "Solicitar ayuda con las compras y entrega de comestibles."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Ayuda para cocinar",
+          "DESC": "Obtener orientación con la preparación de comidas y cocinar.",
+          "SUBCATEGORIES": {
+            "MEAL_PREP_BASIC": {
+              "LABEL": "Preparación básica de comidas.",
+              "DESC": "Ayuda con las tareas básicas de preparación de comidas."
+            },
+            "FESTIVE_OR_BULK_COOKING": {
+              "LABEL": "Cocina festiva o en grandes cantidades",
+              "DESC": "Asistencia en cocina para eventos o grandes cantidades."
+            },
+            "NUTRITIONAL_MEAL_PLANNING": {
+              "LABEL": "Planificación de comidas nutricionales",
+              "DESC": "Orientación para planificar comidas equilibradas y saludables."
+            },
+            "CULTURAL_CUISINE_GUIDANCE": {
+              "LABEL": "guía de cocina cultural",
+              "DESC": "Ayude a preparar comidas de tradiciones culturales específicas."
+            },
+            "OTHER_COOKING_HELP": {
+              "LABEL": "Otra ayuda para cocinar",
+              "DESC": "Cualquier otra ayuda relacionada con la cocina."
+            }
+          }
+        }
+      }
+    },
+    "CLOTHING_ASSISTANCE": {
+      "LABEL": "Asistencia con ropa",
+      "DESC": "Donar, pedir prestado, arreglar o solicitar ayuda con ropa.",
+      "SUBCATEGORIES": {
+        "DONATE_CLOTHES": {
+          "LABEL": "Donar ropa",
+          "DESC": "Donar ropa a quienes la necesitan."
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "Pedir prestada ropa",
+          "DESC": "Pedir prestada ropa en buen estado."
+        },
+        "EMERGENCY_CLOTHING_ASSISTANCE": {
+          "LABEL": "Asistencia de ropa de emergencia",
+          "DESC": "Apoyo rápido cuando necesitas ropa con urgencia."
+        },
+        "TAILORING": {
+          "LABEL": "Sastrería",
+          "DESC": "Servicios de reparación y modificación de ropa."
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "Asistencia de vivienda",
+      "DESC": "Apoyo con alquileres, mudanzas y organización del hogar.",
+      "SUBCATEGORIES": {
+        "LEASE_SUPPORT": {
+          "LABEL": "Apoyo con contratos de arrendamiento",
+          "DESC": "Ayuda para entender términos y requisitos de la renta."
+        },
+        "TENANT_RENT_SUPPORT": {
+          "LABEL": "Apoyo para el pago de alquiler",
+          "DESC": "Guía cuando tienes dificultades para cubrir la renta."
+        },
+        "REPAIR_MAINTENANCE_SUPPORT": {
+          "LABEL": "Apoyo en reparaciones y mantenimiento",
+          "DESC": "Asistencia para coordinar reparaciones básicas del hogar.",
+          "SUBCATEGORIES": {
+            "PLUMBING": {
+              "LABEL": "Plomería",
+              "DESC": "Ayuda con fugas, tuberías y problemas de plomería."
+            },
+            "HANDYMAN": {
+              "LABEL": "Factótum",
+              "DESC": "Reparaciones generales del hogar y trabajos ocasionales."
+            },
+            "ELECTRICIAN": {
+              "LABEL": "Electricista",
+              "DESC": "Reparaciones e instalaciones eléctricas."
+            },
+            "CARPENTRY": {
+              "LABEL": "Carpintería",
+              "DESC": "Carpintería, montaje y reparación de muebles."
+            },
+            "GARDEN": {
+              "LABEL": "Jardinería",
+              "DESC": "Cuidado del césped, plantación y mantenimiento de jardines."
+            },
+            "HVAC_AIR_CONDITIONING": {
+              "LABEL": "HVAC / Aire acondicionado",
+              "DESC": "Soporte de calefacción, ventilación y aire acondicionado."
+            },
+            "ROOFING": {
+              "LABEL": "Techumbre",
+              "DESC": "Inspección, reparación y mantenimiento de techos."
+            },
+            "LOCKSMITH": {
+              "LABEL": "Cerrajero",
+              "DESC": "Cambios de cerraduras, duplicado de llaves y asistencia en caso de bloqueo."
+            },
+            "PAINTING": {
+              "LABEL": "Pintura",
+              "DESC": "Asistencia con pintura interior y exterior."
+            },
+            "MASONRY_OR_CONCRETE": {
+              "LABEL": "Albañilería / Hormigón",
+              "DESC": "Reparaciones de mampostería, hormigón y piedra."
+            },
+            "METALWORK_OR_WELDING": {
+              "LABEL": "Carpintería / Soldadura",
+              "DESC": "Fabricación de metales y soporte de soldadura."
+            },
+            "POOL_AND_SPA_MAINTENANCE": {
+              "LABEL": "Mantenimiento de piscinas y spa.",
+              "DESC": "Limpieza y mantenimiento de piscinas y spas."
+            },
+            "OTHER_RAPAIR_MAINTENANCE_SUPPORT": {
+              "LABEL": "Otras reparaciones y mantenimiento",
+              "DESC": "Cualquier otra necesidad de reparación o mantenimiento del hogar."
+            }
+          }
+        },
+        "UTILITIES_SETUP_SUPPORT": {
+          "LABEL": "Configuración de servicios básicos",
+          "DESC": "Ayuda para activar internet, electricidad u otros servicios."
+        },
+        "LOOKING_FOR_RENTAL": {
+          "LABEL": "Búsqueda de vivienda en alquiler",
+          "DESC": "Apoyo para encontrar apartamentos o habitaciones."
+        },
+        "FIND_ROOMATE": {
+          "LABEL": "Encontrar compañero de piso",
+          "DESC": "Te ayuda a coincidir con compañeros o vivienda compartida."
+        },
+        "MOVE_IN_HELP": {
+          "LABEL": "Ayuda para mudarse",
+          "DESC": "Apoyo práctico para empacar, cargar y desempacar."
+        },
+        "BOOKING_PACKERS_MOVERS_SUPPORT": {
+          "LABEL": "Apoyo para contratar mudanzas",
+          "DESC": "Asesoría para reservar empresas de mudanza confiables."
+        },
+        "BUY_THINGS": {
+          "LABEL": "Comprar artículos del hogar",
+          "DESC": "Ayuda para encontrar muebles y artículos esenciales."
+        },
+        "SELL_THINGS": {
+          "LABEL": "Vender artículos del hogar",
+          "DESC": "Apoyo para ofrecer o donar artículos que ya no necesitas."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Apoyo educativo y profesional",
+      "DESC": "Aplicaciones universitarias, revisiones de SOP, tutoría y apoyo de estudio.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATION_HELP": {
+          "LABEL": "Ayuda con aplicaciones universitarias",
+          "DESC": "Ayuda con aplicaciones y formularios."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "Revisión de SOP y ensayos",
+          "DESC": "Comentarios sobre declaraciones y ensayos."
+        },
+        "TUTORING": {
+          "LABEL": "Tutoría",
+          "DESC": "Tutoría de materias y apoyo de estudio.",
+          "SUBCATEGORIES": {
+            "MATH": {
+              "LABEL": "Matemáticas",
+              "DESC": "Ayuda con matemáticas en cualquier nivel."
+            },
+            "ENGLISH": {
+              "LABEL": "Inglés",
+              "DESC": "Apoyo en lectura, escritura y lengua y literatura."
+            },
+            "SCIENCE": {
+              "LABEL": "Ciencia",
+              "DESC": "Física, química, biología y más."
+            },
+            "COMPUTER_SCIENCE": {
+              "LABEL": "Ciencias de la Computación",
+              "DESC": "Ayuda con programación, algoritmos y codificación."
+            },
+            "TEST_PREP": {
+              "LABEL": "Preparación para el examen",
+              "DESC": "Preparación para SAT, ACT, GRE y otros exámenes."
+            },
+            "OTHER_SUBJECTS": {
+              "LABEL": "Otros temas",
+              "DESC": "Tutorías para cualquier materia no mencionada anteriormente."
+            }
+          }
+        },
+        "SCHOLARSHIP_KNOWLEDGE": {
+          "LABEL": "Información sobre becas",
+          "DESC": "Comparte detalles sobre becas y ayudas económicas."
+        },
+        "STUDY_GROUP_FORMATION": {
+          "LABEL": "Formación de grupos de estudio",
+          "DESC": "Encuentra u organiza grupos de estudio colaborativos."
+        },
+        "CAREER_GUIDANCE": {
+          "LABEL": "Orientación profesional",
+          "DESC": "Planificación de carrera, currículum y entrevistas."
+        },
+        "EDUCATION_RESOURCE_SHARING": {
+          "LABEL": "Intercambio de recursos educativos",
+          "DESC": "Comparte apuntes, grabaciones o materiales de práctica."
+        }
+      }
+    },
+    "HEALTHCARE_AND_WELLNESS": {
+      "LABEL": "Salud y bienestar",
+      "DESC": "Orientación médica no clínica, recordatorios y apoyo al bienestar.",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "Consulta médica",
+          "DESC": "Ayuda para coordinar teleconsultas o información básica.",
+          "SUBCATEGORIES": {
+            "GENERAL_CONSULTATION": {
+              "LABEL": "Consulta General",
+              "DESC": "Orientación y navegación médica general."
+            },
+            "ENT(EAR_NOSE_AND_THROAT)": {
+              "LABEL": "Otorrinolaringología (oído, nariz y garganta)",
+              "DESC": "Apoyo para problemas de oídos, nariz y garganta."
+            },
+            "DENTAL_OR_ORAL_HEALTH": {
+              "LABEL": "Salud dental/bucal",
+              "DESC": "Orientación sobre el cuidado de la salud bucal y dental."
+            },
+            "EYE_OR_VISION_CARE": {
+              "LABEL": "Cuidado de los ojos y la visión",
+              "DESC": "Ayuda con exámenes de la vista y necesidades relacionadas con la visión."
+            },
+            "CARDIAC_OR_BLOOD_PRESSURE": {
+              "LABEL": "Presión arterial/frecuencia cardíaca",
+              "DESC": "Apoyo para preocupaciones cardíacas y de presión arterial."
+            },
+            "ORTHOPEDIC_OR_PHYSIOTHERAPY": {
+              "LABEL": "Ortopedia / Fisioterapia",
+              "DESC": "Ayuda con las necesidades de huesos, articulaciones y fisioterapia."
+            },
+            "SKIN_OR_DERMATOLOGY": {
+              "LABEL": "Piel / Dermatología",
+              "DESC": "Orientación sobre enfermedades de la piel y dermatología."
+            },
+            "WOMENS_OR_REPRODUCTIVE_HEALTH": {
+              "LABEL": "Salud de la mujer y reproductiva",
+              "DESC": "Apoyo a la salud de la mujer y reproductiva."
+            },
+            "VACCINATIONS_AND_PREVENTIVE_SCREENINGS": {
+              "LABEL": "Vacunas y exámenes preventivos",
+              "DESC": "Información sobre vacunas y cuidados preventivos."
+            },
+            "PEDIATRICS_OR_CHILD_HEALTH": {
+              "LABEL": "Pediatría / Salud infantil",
+              "DESC": "Orientación sanitaria para niños y bebés."
+            },
+            "OTHER_MEDICAL_CONCERN": {
+              "LABEL": "Otra preocupación médica",
+              "DESC": "Cualquier otro problema médico no mencionado anteriormente."
+            }
+          }
+        },
+        "MEDICINE_DELIVERY": {
+          "LABEL": "Entrega de medicamentos",
+          "DESC": "Recogida y entrega de medicamentos de venta libre."
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "Apoyo de bienestar mental",
+          "DESC": "Acceso a recursos generales de salud mental."
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "Recordatorios de medicamentos",
+          "DESC": "Recordatorios de medicamentos no clínicos."
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "Orientación de educación sanitaria",
+          "DESC": "Conciencia de bienestar y educación sanitaria."
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_ASSISTANCE": {
+      "LABEL": "Asistencia comunitaria para mayores",
+      "DESC": "Apoyo no clínico para personas mayores, cuidadores y comunidades.",
+      "SUBCATEGORIES": {
+        "SENIOR_RELOCATION_SUPPORT": {
+          "LABEL": "Apoyo para reubicación de mayores",
+          "DESC": "Planificación de mudanzas entre hogares o centros de cuidado."
+        },
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "Apoyo digital para personas mayores",
+          "DESC": "Asistencia con dispositivos y aplicaciones."
+        },
+        "MEDICATION_MANAGEMENT": {
+          "LABEL": "Gestión de medicamentos",
+          "DESC": "Supervisa horarios, recordatorios y almacenamiento."
+        },
+        "MEDICAL_DEVICES_SETUP": {
+          "LABEL": "Configuración de dispositivos médicos",
+          "DESC": "Instala o ajusta dispositivos médicos y de asistencia."
+        },
+        "ERRANDS_EVENTS_TRANSPORTATION": {
+          "LABEL": "Mandados, eventos y transporte",
+          "DESC": "Acompañamiento a mandados o eventos especiales."
+        },
+        "TRANSPORTATION_APPOINTMENTS_EVENTS": {
+          "LABEL": "Transporte para citas",
+          "DESC": "Organiza viajes a citas y reuniones."
+        },
+        "SCHEDULING_APPOINTMENTS_OR_TASKS": {
+          "LABEL": "Programación de citas o tareas",
+          "DESC": "Mantén el registro de citas, recargas y tareas."
+        },
+        "SOCIAL_CONNECTION": {
+          "LABEL": "Conexión social",
+          "DESC": "Compañía y actividades sociales."
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "Apoyo de comidas",
+          "DESC": "Ayuda con la preparación de comidas y cocinar."
+        }
+      }
+    }
+  }
+}

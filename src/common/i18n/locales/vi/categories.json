@@ -1,0 +1,160 @@
+{
+  "REQUEST_CATEGORIES": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "Chung",
+      "DESC": "Sử dụng khi không chắc chắn; mô tả chi tiết nhu cầu của bạn."
+    },
+    "FOOD_AND_ESSENTIALS_SUPPORT": {
+      "LABEL": "Thực phẩm & Nhu yếu phẩm",
+      "DESC": "Tiếp cận hỗ trợ thực phẩm, dịch vụ tạp hóa và giúp đỡ nấu ăn.",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "Hỗ trợ thực phẩm",
+          "DESC": "Tìm ngân hàng thực phẩm, kho thực phẩm hoặc chương trình bữa ăn."
+        },
+        "GROCERY_SHOPPING_AND_DELIVERY": {
+          "LABEL": "Mua sắm & Giao hàng tạp hóa",
+          "DESC": "Yêu cầu giúp đỡ mua sắm và giao hàng tạp hóa."
+        },
+        "COOKING_HELP": {
+          "LABEL": "Giúp đỡ nấu ăn",
+          "DESC": "Nhận hướng dẫn về chuẩn bị bữa ăn và nấu ăn."
+        }
+      }
+    },
+    "CLOTHING_SUPPORT": {
+      "LABEL": "Quần áo và Hỗ trợ",
+      "DESC": "Quyên góp, mượn, sửa chữa hoặc yêu cầu hỗ trợ quần áo.",
+      "SUBCATEGORIES": {
+        "DONATE_CLOTHES": {
+          "LABEL": "Quyên góp quần áo",
+          "DESC": "Tặng quần áo cho những người cần."
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "Mượn quần áo",
+          "DESC": "Mượn quần áo đã sử dụng nhẹ."
+        },
+        "EMERGENCY_ASSISTANCE": {
+          "LABEL": "Hỗ trợ khẩn cấp",
+          "DESC": "Nhu cầu quần áo khẩn cấp trong khủng hoảng."
+        },
+        "SEASONAL_DRIVE_NOTIFICATION": {
+          "LABEL": "Thông báo chiến dịch theo mùa",
+          "DESC": "Chiến dịch quần áo theo mùa và quyên góp."
+        },
+        "TAILORING": {
+          "LABEL": "May vá",
+          "DESC": "Dịch vụ sửa chữa và thay đổi quần áo."
+        }
+      }
+    },
+    "HOUSING_SUPPORT": {
+      "LABEL": "Hỗ trợ nhà ở",
+      "DESC": "Bạn cùng phòng, hướng dẫn thuê nhà, giúp đỡ di chuyển và thiết lập nhà.",
+      "SUBCATEGORIES": {
+        "FIND_A_ROOMMATE": {
+          "LABEL": "Tìm bạn cùng phòng",
+          "DESC": "Nhận giúp đỡ tìm bạn cùng phòng."
+        },
+        "RENTING_SUPPORT": {
+          "LABEL": "Hỗ trợ thuê nhà",
+          "DESC": "Hỗ trợ với thuê nhà và cơ bản về thuê."
+        },
+        "HOUSEHOLD_ITEM_EXCHANGE": {
+          "LABEL": "Trao đổi đồ gia dụng",
+          "DESC": "Giúp đỡ mua hoặc bán đồ gia dụng."
+        },
+        "MOVING_ASSISTANCE": {
+          "LABEL": "Giúp đỡ di chuyển",
+          "DESC": "Hỗ trợ với di chuyển và đóng gói."
+        },
+        "CLEANING_HELP": {
+          "LABEL": "Giúp đỡ dọn dẹp",
+          "DESC": "Hỗ trợ với các công việc dọn dẹp cơ bản."
+        },
+        "HOME_REPAIR_SUPPORT": {
+          "LABEL": "Hỗ trợ sửa chữa nhà",
+          "DESC": "Hỗ trợ cho sửa chữa nhà nhỏ."
+        },
+        "UTILITIES_SETUP": {
+          "LABEL": "Thiết lập tiện ích",
+          "DESC": "Giúp đỡ thiết lập tiện ích và dịch vụ."
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "Hỗ trợ Giáo dục & Nghề nghiệp",
+      "DESC": "Đơn đại học, đánh giá SOP, gia sư và hỗ trợ học tập.",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATION_HELP": {
+          "LABEL": "Giúp đỡ đơn đại học",
+          "DESC": "Giúp đỡ với đơn và biểu mẫu."
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "Đánh giá SOP & Bài luận",
+          "DESC": "Phản hồi về tuyên bố và bài luận."
+        },
+        "TUTORING": {
+          "LABEL": "Gia sư",
+          "DESC": "Gia sư môn học và hỗ trợ học tập."
+        }
+      }
+    },
+    "HEALTHCARE_WELLNESS_SUPPORT": {
+      "LABEL": "Chăm sóc sức khỏe & Hạnh phúc",
+      "DESC": "Điều hướng sức khỏe phi lâm sàng và hỗ trợ hạnh phúc.",
+      "SUBCATEGORIES": {
+        "MEDICAL_NAVIGATION": {
+          "LABEL": "Điều hướng y tế",
+          "DESC": "Điều hướng cơ bản và hướng dẫn phi lâm sàng."
+        },
+        "MEDICINE_DELIVERY": {
+          "LABEL": "Giao thuốc",
+          "DESC": "Nhận và giao thuốc OTC."
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "Hỗ trợ sức khỏe tinh thần",
+          "DESC": "Tiếp cận tài nguyên sức khỏe tinh thần chung."
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "Nhắc nhở thuốc",
+          "DESC": "Nhắc nhở thuốc phi lâm sàng."
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "Hướng dẫn giáo dục sức khỏe",
+          "DESC": "Nhận thức về sức khỏe và giáo dục sức khỏe."
+        }
+      }
+    },
+    "ELDERLY_SUPPORT": {
+      "LABEL": "Hỗ trợ Người cao tuổi",
+      "DESC": "Hỗ trợ phi y tế cho người cao tuổi và hỗ trợ cộng đồng.",
+      "SUBCATEGORIES": {
+        "SENIOR_LIVING_RELOCATION": {
+          "LABEL": "Di chuyển nhà ở người cao tuổi",
+          "DESC": "Giúp đỡ với nhà ở người cao tuổi và di chuyển."
+        },
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "Hỗ trợ kỹ thuật số cho người cao tuổi",
+          "DESC": "Hỗ trợ với thiết bị và ứng dụng."
+        },
+        "MEDICAL_HELP": {
+          "LABEL": "Giúp đỡ y tế",
+          "DESC": "Hỗ trợ y tế phi lâm sàng cho người cao tuổi."
+        },
+        "ERRANDS_TRANSPORTATION": {
+          "LABEL": "Việc vặt và Vận chuyển",
+          "DESC": "Giúp đỡ với việc vặt và vận chuyển."
+        },
+        "SOCIAL_CONNECTION": {
+          "LABEL": "Kết nối xã hội",
+          "DESC": "Đồng hành và hoạt động xã hội."
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "Hỗ trợ bữa ăn",
+          "DESC": "Giúp đỡ với chuẩn bị bữa ăn và nấu ăn."
+        }
+      }
+    }
+  }
+}

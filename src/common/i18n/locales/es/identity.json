@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "Subir documento de identidad gubernamental",
+  "SELECT_SOURCE": "Seleccionar fuente",
+  "DEVICE": "Dispositivo",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "Subir archivo",
+  "FILE": "Archivo",
+  "FILE_PREVIEW": "Vista previa",
+  "UPLOAD": "Subir",
+  "UPLOADING": "Subiendo...",
+  "REMOVE": "Eliminar",
+  "FILE_SIZE_ERROR": "El tamaño del archivo no debe exceder 2MB",
+  "FILE_TYPE_ERROR": "Solo se permiten archivos JPEG, JPG, PNG y PDF. Tipo de archivo detectado: {{fileType}}, extensión: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "Solo archivos JPEG, JPG, PNG o PDF. Tamaño máximo: 2MB.",
+  "UPLOAD_SUCCESS": "Archivo subido exitosamente",
+  "UPLOAD_FAILED": "Falló la subida del archivo",
+  "UPLOAD_ERROR": "Ocurrió un error durante la subida del archivo"
+}
