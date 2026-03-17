@@ -130,6 +130,11 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
     return Object.values(groups);
   }, [selectedSkills, categories, i18n.language]);
 
+  // Remove all skills from a category
+  const removeCategorySkills = (catIds) => {
+    setSelectedSkills(selectedSkills.filter((id) => !catIds.includes(id)));
+  };
+
   const hasSubCats = hoveredCategory?.subCategories?.length > 0;
   const hasSubSubCats = hoveredSubcategory?.subCategories?.length > 0;
 
@@ -479,8 +484,16 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
                 key={group.categoryName}
                 className="border border-blue-200 rounded-lg bg-blue-50 p-3"
               >
-                <div className="font-medium text-sm text-blue-900 mb-2">
-                  {group.categoryName}
+                <div className="font-medium text-sm text-blue-900 mb-2 flex items-center">
+                  <span>{group.categoryName}</span>
+                  <button
+                    type="button"
+                    className="text-red-600 hover:text-red-800 font-bold ml-1 text-lg"
+                    onClick={() => removeCategorySkills(group.catIds)}
+                    title={t("common:REMOVE_CATEGORY")}
+                  >
+                    &times;
+                  </button>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {group.skills.map((skillName, index) => (

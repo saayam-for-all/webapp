@@ -722,6 +722,13 @@
   "TOTAL_REQUESTS": "Demandes Totales",
   "REQUESTS_RESOLVED": "Demandes Résolues",
   "AVG_RESOLUTION_TIME": "Temps Moyen de Résolution",
-  "TOTAL_VOLUNTEERS": "Total des Bénévoles",
-  "TOTAL_BENEFICIARIES": "Total des Bénéficiaires"
+  "TOTAL_VOLUNTEERS": "Total des bénévoles",
+  "TOTAL_BENEFICIARIES": "Total des bénéficiaires",
+  "SKILLS_SELECTOR_TITLE": "Sélectionnez vos compétences pour les missions de bénévolat",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Survolez pour explorer les catégories, cliquez pour sélectionner les compétences",
+  "SELECTED_SKILLS": "Compétences sélectionnées",
+  "NO_SKILLS_SELECTED": "Aucune compétence sélectionnée pour le moment",
+  "REMOVE_SKILL": "Supprimer la compétence",
+  "REMOVE_CATEGORY": "Supprimer toutes les compétences de cette catégorie",
+  "SELECT_SKILL_TO_CONTINUE": "Sélectionnez au moins une compétence spécifique pour passer à l'étape suivante"
 }
