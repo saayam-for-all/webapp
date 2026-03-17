@@ -6,6 +6,10 @@ import {
   renderWithProviders,
 } from "#utils/test-utils.jsx";
 
+jest.mock("aws-amplify/auth", () => ({
+  getCurrentUser: jest.fn(() => Promise.resolve({ userId: "mockUser123" })),
+}));
+
 jest.mock("../../services/volunteerServices", () => ({
   getVolunteerSkills: jest.fn(() =>
     Promise.resolve({ message: "Mocked API Response" }),
