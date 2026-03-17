@@ -340,7 +340,7 @@
   "NEWSLETTER": "NEWSLETTER",
   "NEW_MATCH_REQUEST": "新匹配请求",
   "NEW_PASSWORD": "新密码",
-  "NEXT": "NEXT",
+  "NEXT": "下一步",
   "NO": "否",
   "NONE_ACCOUNT": "没有账户？",
   "NON_PROFIT": "非营利",
@@ -725,5 +725,12 @@
   "REQUESTS_RESOLVED": "已解决请求",
   "AVG_RESOLUTION_TIME": "平均解决时间",
   "TOTAL_VOLUNTEERS": "志愿者总数",
-  "TOTAL_BENEFICIARIES": "受益人总数"
+  "TOTAL_BENEFICIARIES": "受益人总数",
+  "SKILLS_SELECTOR_TITLE": "选择您的志愿者分配技能",
+  "SKILLS_SELECTOR_PLACEHOLDER": "悬停以探索类别，点击以选择技能",
+  "SELECTED_SKILLS": "已选技能",
+  "NO_SKILLS_SELECTED": "尚未选择技能",
+  "REMOVE_SKILL": "删除技能",
+  "REMOVE_CATEGORY": "删除此类别的所有技能",
+  "SELECT_SKILL_TO_CONTINUE": "选择至少一项特定技能以进入下一步"
 }

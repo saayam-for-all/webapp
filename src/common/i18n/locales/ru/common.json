@@ -1,4 +1,4 @@
-{
+﻿{
   "*By clicking Submit, you are agreeing to our": "*Нажимая Отправить, вы соглашаетесь с нашими",
   "ABOUT": "О нас",
   "ACCEPT": "Принять",
@@ -338,7 +338,7 @@
   "NEWSLETTER": "NEWSLETTER",
   "NEW_MATCH_REQUEST": "Новый запрос на подбор",
   "NEW_PASSWORD": "Новый пароль",
-  "NEXT": "NEXT",
+  "NEXT": "Далее",
   "NO": "Нет",
   "NONE_ACCOUNT": "У вас нет учетной записи?",
   "NON_PROFIT": "Некоммерческая",
@@ -722,5 +722,12 @@
   "REQUESTS_RESOLVED": "Запросов решено",
   "AVG_RESOLUTION_TIME": "Среднее время решения",
   "TOTAL_VOLUNTEERS": "Всего волонтёров",
-  "TOTAL_BENEFICIARIES": "Всего благополучателей"
+  "TOTAL_BENEFICIARIES": "Всего благополучателей",
+  "SKILLS_SELECTOR_TITLE": "Select Your Skills For Volunteer Assignments",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Hover to explore categories, click to select skills",
+  "SELECTED_SKILLS": "Selected Skills",
+  "NO_SKILLS_SELECTED": "No skills selected yet",
+  "REMOVE_SKILL": "Remove skill",
+  "REMOVE_CATEGORY": "Remove all skills from this category",
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
 }
