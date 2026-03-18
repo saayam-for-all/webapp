@@ -339,6 +339,8 @@
   "NEW_MATCH_REQUEST": "Nueva solicitud de coincidencia",
   "NEW_PASSWORD": "Nueva contraseña",
   "NEXT": "Siguiente",
+  "TOOLTIP_ACCEPT_TERMS": "Por favor acepte los términos y condiciones",
+  "TOOLTIP_UPLOAD_GOVT_ID": "Por favor suba la identificación gubernamental",
   "NO": "No",
   "NONE_ACCOUNT": "¿No tienes cuenta?",
   "NON_PROFIT": "Sin fines de lucro",

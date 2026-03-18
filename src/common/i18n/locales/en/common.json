@@ -340,6 +340,8 @@
   "NEW_MATCH_REQUEST": "New Match Request",
   "NEW_PASSWORD": "New Password",
   "NEXT": "NEXT",
+  "TOOLTIP_ACCEPT_TERMS": "Please accept the terms and conditions",
+  "TOOLTIP_UPLOAD_GOVT_ID": "Please upload government-id",
   "NO": "No",
   "NONE_ACCOUNT": "Don't have an account?",
   "NON_PROFIT": "Non-Profit",

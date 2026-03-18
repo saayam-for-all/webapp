@@ -345,6 +345,8 @@
   "NEW_MATCH_REQUEST": "Novo pedido de correspondência",
   "NEW_PASSWORD": "Nova senha",
   "NEXT": "PRÓXIMO",
+  "TOOLTIP_ACCEPT_TERMS": "Por favor, aceite os termos e condições",
+  "TOOLTIP_UPLOAD_GOVT_ID": "Por favor, carregue a identificação governamental",
   "NO": "Não",
   "NONE_ACCOUNT": "Não tem uma conta?",
   "NON_PROFIT": "Sem fins lucrativos",
