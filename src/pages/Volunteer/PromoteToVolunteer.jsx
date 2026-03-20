@@ -171,6 +171,11 @@ const PromoteToVolunteer = () => {
             userId: userId,
             skills: extractSkillsFromArray(selectedSkills),
           });
+          // TEMP: persist selected skills locally so Profile → Skills can display them
+          localStorage.setItem(
+            "volunteer_skills",
+            JSON.stringify(selectedSkills),
+          );
           break;
         }
         case 4: {
