@@ -113,6 +113,16 @@ const routes = [
             path: "emergency-contact",
             element: <EmergencyContact />,
           },
+          {
+            path: "voluntary-organizations",
+            element: <VoluntaryOrganizations />,
+            handle: { leaveAdSpace: true },
+          },
+          {
+            path: "organization/:id",
+            element: <OrganizationDetails />,
+            handle: { leaveAdSpace: true },
+          },
         ],
       },
       {
@@ -123,16 +133,6 @@ const routes = [
       {
         path: "profile",
         element: <Profile />,
-        handle: { leaveAdSpace: true },
-      },
-      {
-        path: "dashboard/voluntary-organizations",
-        element: <VoluntaryOrganizations />,
-        handle: { leaveAdSpace: true },
-      },
-      {
-        path: "dashboard/organization/:id",
-        element: <OrganizationDetails />,
         handle: { leaveAdSpace: true },
       },
     ],
