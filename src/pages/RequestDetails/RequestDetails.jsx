@@ -157,7 +157,7 @@ const RequestDetails = () => {
 
             <div className="flex flex-row justify-between">
               <RequestButton
-                link="/voluntary-organizations"
+                link="/dashboard/voluntary-organizations"
                 text={t("ORGANIZATIONS")}
                 customStyle="bg-blue-400 hover:bg-blue-600 text-white w-[30%] px-6 py-3 rounded-lg flex items-center justify-start space-x-3 lg:text-md"
                 icon="i-volunteer"
