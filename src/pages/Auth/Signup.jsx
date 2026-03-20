@@ -1,3 +1,4 @@
+import Alert from "../../common/components/Alert";
 import { signUp } from "aws-amplify/auth";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
