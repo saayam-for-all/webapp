@@ -15,8 +15,8 @@ const getToken = async () => {
   try {
     const session = await fetchAuthSession();
     return session?.tokens?.idToken?.toString();
-  } catch {
-    return null;
+  } catch (error) {
+    console.log("Error fetching token:", error);
   }
 };
 
@@ -24,7 +24,7 @@ api.interceptors.request.use(
   async (config) => {
     const token = await getToken();
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `${token}`;
     }
     return config;
   },
@@ -49,7 +49,7 @@ api.interceptors.response.use(
           failedRequestqueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
+            originalRequest.headers.Authorization = `${token}`;
             return api.request(originalRequest);
           })
           .catch(() => Promise.reject(error));
@@ -61,6 +61,7 @@ api.interceptors.response.use(
       try {
         const newToken = await getToken();
         if (!newToken) {
+          console.log("Error refreshing token. Logging Out..");
           window.location.href = "/login";
           return Promise.reject(error);
         }
@@ -68,9 +69,10 @@ api.interceptors.response.use(
         failedRequestqueue.forEach((p) => p.resolve(newToken));
         failedRequestqueue = [];
 
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        originalRequest.headers.Authorization = `${newToken}`;
         return api.request(originalRequest);
       } catch (refreshError) {
+        console.log("Token refresh failed:", refreshError);
         failedRequestqueue.forEach((p) => p.reject(refreshError));
         failedRequestqueue = [];
         window.location.href = "/login";
