@@ -1374,7 +1374,7 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/dashboard/request/${request[resolveKey(header)]}`
+                  `/request/${request[resolveKey(header)]}`
                 }
                 getLinkState={(request) => request}
                 searchFilters={
@@ -1400,7 +1400,7 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/dashboard/request/${request[resolveKey(header)]}`
+                  `/request/${request[resolveKey(header)]}`
                 }
                 getLinkState={(request) => request}
                 searchFilters={
@@ -1424,7 +1424,7 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/dashboard/request/${request[resolveKey(header)]}`
+                  `/request/${request[resolveKey(header)]}`
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
@@ -1446,7 +1446,7 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/dashboard/request/${request[resolveKey(header)]}`
+                  `/request/${request[resolveKey(header)]}`
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
@@ -1468,7 +1468,7 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/dashboard/request/${request[resolveKey(header)]}`
+                  `/request/${request[resolveKey(header)]}`
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}

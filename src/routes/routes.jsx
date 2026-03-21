@@ -126,13 +126,23 @@ const routes = [
         ],
       },
       {
-        path: "dashboard/request/:id",
+        path: "request/:id",
         element: <RequestDetails />,
         handle: { leaveAdSpace: true },
       },
       {
         path: "profile",
         element: <Profile />,
+        handle: { leaveAdSpace: true },
+      },
+      {
+        path: "voluntary-organizations",
+        element: <VoluntaryOrganizations />,
+        handle: { leaveAdSpace: true },
+      },
+      {
+        path: "organization/:id",
+        element: <OrganizationDetails />,
         handle: { leaveAdSpace: true },
       },
     ],

@@ -238,7 +238,7 @@ const VoluntaryOrganizations = () => {
         onRowsPerPageChange={handleRowsPerPageChange}
         getLinkPath={(row, header) => {
           if (header !== "id") return null;
-          return `/dashboard/organization/${row.id}`;
+          return `/organization/${row.id}`;
         }}
       />
     </div>
