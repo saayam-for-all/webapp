@@ -1,11 +1,9 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 import axios from "axios";
 
-// centralizing the configuration and reusing the instance across the application
-
 const api = axios.create({
   baseURL:
-    typeof process == "undefined"
+    typeof process === "undefined"
       ? import.meta.env.VITE_BASE_API_URL
       : process.env.VITE_BASE_API_URL,
   headers: {
@@ -17,8 +15,7 @@ const getToken = async () => {
   try {
     const session = await fetchAuthSession();
     return session?.tokens?.idToken?.toString();
-  } catch (error) {
-    console.log("Error fetching token:", error);
+  } catch {
     return null;
   }
 };
@@ -27,7 +24,7 @@ api.interceptors.request.use(
   async (config) => {
     const token = await getToken();
     if (token) {
-      config.headers.Authorization = `${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -41,6 +38,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
     if (
       error.response &&
       error.response.status === 401 &&
@@ -51,27 +49,28 @@ api.interceptors.response.use(
           failedRequestqueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers.Authorization = `${token}`;
+            originalRequest.headers.Authorization = `Bearer ${token}`;
             return api.request(originalRequest);
           })
-          .catch((err) => Promise.reject(error));
+          .catch(() => Promise.reject(error));
       }
 
       originalRequest._retry = true;
       isRefreshing = true;
+
       try {
         const newToken = await getToken();
         if (!newToken) {
-          console.log("Error refreshing token. Logging Out..");
           window.location.href = "/login";
           return Promise.reject(error);
         }
+
         failedRequestqueue.forEach((p) => p.resolve(newToken));
         failedRequestqueue = [];
-        originalRequest.headers.Authorization = `${newToken}`;
+
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return api.request(originalRequest);
       } catch (refreshError) {
-        console.log("Token refresh failed:", refreshError);
         failedRequestqueue.forEach((p) => p.reject(refreshError));
         failedRequestqueue = [];
         window.location.href = "/login";
@@ -80,6 +79,7 @@ api.interceptors.response.use(
         isRefreshing = false;
       }
     }
+
     return Promise.reject(error);
   },
 );
