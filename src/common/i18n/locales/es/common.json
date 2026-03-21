@@ -338,7 +338,9 @@
   "NEWSLETTER": "NEWSLETTER",
   "NEW_MATCH_REQUEST": "Nueva solicitud de coincidencia",
   "NEW_PASSWORD": "Nueva contraseña",
-  "NEXT": "NEXT",
+  "NEXT": "Siguiente",
+  "TOOLTIP_ACCEPT_TERMS": "Por favor acepte los términos y condiciones",
+  "TOOLTIP_UPLOAD_GOVT_ID": "Por favor suba la identificación gubernamental",
   "NO": "No",
   "NONE_ACCOUNT": "¿No tienes cuenta?",
   "NON_PROFIT": "Sin fines de lucro",
@@ -722,5 +724,12 @@
   "REQUESTS_RESOLVED": "Solicitudes Resueltas",
   "AVG_RESOLUTION_TIME": "Tiempo Promedio de Resolución",
   "TOTAL_VOLUNTEERS": "Total de Voluntarios",
-  "TOTAL_BENEFICIARIES": "Total de Beneficiarios"
+  "TOTAL_BENEFICIARIES": "Total de Beneficiarios",
+  "SKILLS_SELECTOR_TITLE": "Seleccione sus habilidades para asignaciones de voluntariado",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Pase el cursor para explorar categorías, haga clic para seleccionar habilidades",
+  "SELECTED_SKILLS": "Habilidades seleccionadas",
+  "NO_SKILLS_SELECTED": "Aún no se han seleccionado habilidades",
+  "REMOVE_SKILL": "Eliminar habilidad",
+  "REMOVE_CATEGORY": "Eliminar todas las habilidades de esta categoría",
+  "SELECT_SKILL_TO_CONTINUE": "Seleccione al menos una habilidad específica para pasar al siguiente paso"
 }

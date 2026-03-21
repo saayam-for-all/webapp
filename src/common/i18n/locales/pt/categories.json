@@ -18,7 +18,29 @@
         },
         "COOKING_HELP": {
           "LABEL": "Ajuda na cozinha",
-          "DESC": "Receba orientação para preparar e cozinhar refeições."
+          "DESC": "Receba orientação para preparar e cozinhar refeições.",
+          "SUBCATEGORIES": {
+            "MEAL_PREP_BASIC": {
+              "LABEL": "Preparação de Refeições Básicas",
+              "DESC": "Auxílio em tarefas básicas de preparação de refeições."
+            },
+            "FESTIVE_OR_BULK_COOKING": {
+              "LABEL": "Cozinhar em festas ou cozinhar em grandes quantidades",
+              "DESC": "Auxílio no preparo de refeições para eventos ou em grandes quantidades."
+            },
+            "NUTRITIONAL_MEAL_PLANNING": {
+              "LABEL": "Planejamento Nutricional de Refeições",
+              "DESC": "Orientações para o planejamento de refeições equilibradas e saudáveis."
+            },
+            "CULTURAL_CUISINE_GUIDANCE": {
+              "LABEL": "Guia Culinário Cultural",
+              "DESC": "Auxiliar no preparo de refeições de acordo com tradições culturais específicas."
+            },
+            "OTHER_COOKING_HELP": {
+              "LABEL": "Outra ajuda culinária",
+              "DESC": "Qualquer outra ajuda relacionada à culinária."
+            }
+          }
         }
       }
     },
@@ -58,7 +80,61 @@
         },
         "REPAIR_MAINTENANCE_SUPPORT": {
           "LABEL": "Suporte em reparos e manutenção",
-          "DESC": "Assistência para organizar reparos domésticos básicos."
+          "DESC": "Assistência para organizar reparos domésticos básicos.",
+          "SUBCATEGORIES": {
+            "PLUMBING": {
+              "LABEL": "Encanamento",
+              "DESC": "Assistência com vazamentos, canos e problemas de encanamento."
+            },
+            "HANDYMAN": {
+              "LABEL": "faz-tudo",
+              "DESC": "Reparos domésticos gerais e pequenos serviços."
+            },
+            "ELECTRICIAN": {
+              "LABEL": "Eletricista",
+              "DESC": "Reparos e instalações elétricas."
+            },
+            "CARPENTRY": {
+              "LABEL": "Carpintaria",
+              "DESC": "Trabalhos em madeira, montagem e reparação de móveis."
+            },
+            "GARDEN": {
+              "LABEL": "Jardinagem",
+              "DESC": "Cuidados com o gramado, plantio e manutenção do jardim."
+            },
+            "HVAC_AIR_CONDITIONING": {
+              "LABEL": "HVAC / Ar Condicionado",
+              "DESC": "Suporte para sistemas de aquecimento, ventilação e ar condicionado."
+            },
+            "ROOFING": {
+              "LABEL": "Cobertura",
+              "DESC": "Inspeção, reparação e manutenção de telhados."
+            },
+            "LOCKSMITH": {
+              "LABEL": "Serralheiro",
+              "DESC": "Substituição de fechaduras, confecção de chaves e assistência em casos de trancamento fora de casa."
+            },
+            "PAINTING": {
+              "LABEL": "Pintura",
+              "DESC": "Auxílio com pintura interna e externa."
+            },
+            "MASONRY_OR_CONCRETE": {
+              "LABEL": "Alvenaria / Concreto",
+              "DESC": "Reparos em alvenaria de tijolo, concreto e pedra."
+            },
+            "METALWORK_OR_WELDING": {
+              "LABEL": "Metalurgia / Soldagem",
+              "DESC": "Suporte para fabricação e soldagem de metais."
+            },
+            "POOL_AND_SPA_MAINTENANCE": {
+              "LABEL": "Manutenção de piscinas e spa",
+              "DESC": "Limpeza e manutenção de piscinas e spas."
+            },
+            "OTHER_RAPAIR_MAINTENANCE_SUPPORT": {
+              "LABEL": "Outros reparos e manutenção",
+              "DESC": "Qualquer outra necessidade de reparo ou manutenção da casa."
+            }
+          }
         },
         "UTILITIES_SETUP_SUPPORT": {
           "LABEL": "Configuração de serviços básicos",
@@ -104,7 +180,33 @@
         },
         "TUTORING": {
           "LABEL": "Tutoria",
-          "DESC": "Suporte de estudo e reforço em disciplinas."
+          "DESC": "Suporte de estudo e reforço em disciplinas.",
+          "SUBCATEGORIES": {
+            "MATH": {
+              "LABEL": "Matemática",
+              "DESC": "Auxílio com matemática em qualquer nível."
+            },
+            "ENGLISH": {
+              "LABEL": "Inglês",
+              "DESC": "Apoio à leitura, escrita e artes da linguagem."
+            },
+            "SCIENCE": {
+              "LABEL": "Ciência",
+              "DESC": "Física, química, biologia e muito mais."
+            },
+            "COMPUTER_SCIENCE": {
+              "LABEL": "Ciência da Computação",
+              "DESC": "Auxílio com programação, algoritmos e codificação."
+            },
+            "TEST_PREP": {
+              "LABEL": "Preparação para teste",
+              "DESC": "Preparação para o SAT, ACT, GRE e outros exames."
+            },
+            "OTHER_SUBJECTS": {
+              "LABEL": "Outros assuntos",
+              "DESC": "Aulas particulares para qualquer matéria não listada acima."
+            }
+          }
         },
         "SCHOLARSHIP_KNOWLEDGE": {
           "LABEL": "Informações sobre bolsas",
@@ -130,7 +232,53 @@
       "SUBCATEGORIES": {
         "MEDICAL_CONSULTATION": {
           "LABEL": "Consulta médica",
-          "DESC": "Ajuda para coordenar teleconsultas ou informações básicas."
+          "DESC": "Ajuda para coordenar teleconsultas ou informações básicas.",
+          "SUBCATEGORIES": {
+            "GENERAL_CONSULTATION": {
+              "LABEL": "Consulta Geral",
+              "DESC": "Orientações médicas gerais e acompanhamento."
+            },
+            "ENT(EAR_NOSE_AND_THROAT)": {
+              "LABEL": "Otorrinolaringologia (Ouvido, Nariz e Garganta)",
+              "DESC": "Suporte para problemas de ouvido, nariz e garganta."
+            },
+            "DENTAL_OR_ORAL_HEALTH": {
+              "LABEL": "Saúde Bucal / Odontológica",
+              "DESC": "Diretrizes sobre cuidados dentários e de saúde bucal."
+            },
+            "EYE_OR_VISION_CARE": {
+              "LABEL": "Cuidados com os olhos/visão",
+              "DESC": "Auxílio com exames oftalmológicos e necessidades relacionadas à visão."
+            },
+            "CARDIAC_OR_BLOOD_PRESSURE": {
+              "LABEL": "Coração / Pressão Arterial",
+              "DESC": "Suporte para problemas cardíacos e pressão arterial."
+            },
+            "ORTHOPEDIC_OR_PHYSIOTHERAPY": {
+              "LABEL": "Ortopedia / Fisioterapia",
+              "DESC": "Assistência com necessidades ósseas, articulares e de fisioterapia."
+            },
+            "SKIN_OR_DERMATOLOGY": {
+              "LABEL": "Pele / Dermatologia",
+              "DESC": "Orientações sobre doenças de pele e dermatologia."
+            },
+            "WOMENS_OR_REPRODUCTIVE_HEALTH": {
+              "LABEL": "Saúde da Mulher / Saúde Reprodutiva",
+              "DESC": "Apoio à saúde da mulher e à saúde reprodutiva."
+            },
+            "VACCINATIONS_AND_PREVENTIVE_SCREENINGS": {
+              "LABEL": "Vacinação e exames preventivos",
+              "DESC": "Informações sobre vacinas e cuidados preventivos."
+            },
+            "PEDIATRICS_OR_CHILD_HEALTH": {
+              "LABEL": "Pediatria / Saúde Infantil",
+              "DESC": "Orientações de saúde para crianças e bebês."
+            },
+            "OTHER_MEDICAL_CONCERN": {
+              "LABEL": "Outra preocupação médica",
+              "DESC": "Qualquer outro problema médico não listado acima."
+            }
+          }
         },
         "MEDICINE_DELIVERY": {
           "LABEL": "Entrega de medicamentos",

@@ -18,7 +18,29 @@
         },
         "COOKING_HELP": {
           "LABEL": "Hilfe beim Kochen",
-          "DESC": "Hole dir Tipps zur Essensvorbereitung und zum Kochen."
+          "DESC": "Hole dir Tipps zur Essensvorbereitung und zum Kochen.",
+          "SUBCATEGORIES": {
+            "MEAL_PREP_BASIC": {
+              "LABEL": "Grundlagen der Speisenzubereitung",
+              "DESC": "Hilfe bei einfachen Aufgaben der Speisenzubereitung."
+            },
+            "FESTIVE_OR_BULK_COOKING": {
+              "LABEL": "Festliche oder gewerbliche Küche",
+              "DESC": "Unterstützung beim Kochen für Veranstaltungen oder in großen Mengen."
+            },
+            "NUTRITIONAL_MEAL_PLANNING": {
+              "LABEL": "Ernährungsplanung",
+              "DESC": "Tipps für die Planung ausgewogener und gesunder Mahlzeiten."
+            },
+            "CULTURAL_CUISINE_GUIDANCE": {
+              "LABEL": "Leitfaden zur kulturellen Küche",
+              "DESC": "Hilfe bei der Zubereitung von Gerichten aus spezifischen kulturellen Traditionen."
+            },
+            "OTHER_COOKING_HELP": {
+              "LABEL": "Andere Kochhilfe",
+              "DESC": "Jegliche weitere Unterstützung im Zusammenhang mit dem Kochen."
+            }
+          }
         }
       }
     },
@@ -58,7 +80,61 @@
         },
         "REPAIR_MAINTENANCE_SUPPORT": {
           "LABEL": "Reparatur- & Wartungshilfe",
-          "DESC": "Unterstützung bei der Organisation kleiner Hausreparaturen."
+          "DESC": "Unterstützung bei der Organisation kleiner Hausreparaturen.",
+          "SUBCATEGORIES": {
+            "PLUMBING": {
+              "LABEL": "Klempnerarbeiten",
+              "DESC": "Hilfe bei Lecks, Rohren und Sanitärproblemen."
+            },
+            "HANDYMAN": {
+              "LABEL": "Heimwerkerin",
+              "DESC": "Allgemeine Haushaltsreparaturen und sonstige notwendige Arbeiten."
+            },
+            "ELECTRICIAN": {
+              "LABEL": "Elektrikerin",
+              "DESC": "Elektroreparaturen und -installationen."
+            },
+            "CARPENTRY": {
+              "LABEL": "Zimmerei",
+              "DESC": "Holzbearbeitung, Möbelmontage und -reparaturen."
+            },
+            "GARDEN": {
+              "LABEL": "Gartenarbeit",
+              "DESC": "Rasenpflege, Anpflanzung und Garteninstandhaltung."
+            },
+            "HVAC_AIR_CONDITIONING": {
+              "LABEL": "Heizung, Lüftung, Klimaanlage",
+              "DESC": "Unterstützung für Heizung, Lüftung und Klimaanlage."
+            },
+            "ROOFING": {
+              "LABEL": "Überdachung",
+              "DESC": "Dachinspektion, Reparatur und Wartung."
+            },
+            "LOCKSMITH": {
+              "LABEL": "Schlosser",
+              "DESC": "Schlossaustausch, Schlüsselanfertigung und Hilfe bei Aussperrungen."
+            },
+            "PAINTING": {
+              "LABEL": "Malerei",
+              "DESC": "Unterstützung bei Malerarbeiten im Innen- und Außenbereich."
+            },
+            "MASONRY_OR_CONCRETE": {
+              "LABEL": "Mauerwerk/Beton",
+              "DESC": "Brickwork, concrete, and stonework repairs."
+            },
+            "METALWORK_OR_WELDING": {
+              "LABEL": "Metallarbeiten / Schweißen",
+              "DESC": "Unterstützung bei Metallbearbeitung und Schweißen."
+            },
+            "POOL_AND_SPA_MAINTENANCE": {
+              "LABEL": "Pool- und Spa-Pflege",
+              "DESC": "Reinigung und Instandhaltung von Pools und Whirlpools."
+            },
+            "OTHER_RAPAIR_MAINTENANCE_SUPPORT": {
+              "LABEL": "Sonstige Reparatur und Wartung",
+              "DESC": "Alle weiteren notwendigen Reparatur- oder Wartungsarbeiten am Haus."
+            }
+          }
         },
         "UTILITIES_SETUP_SUPPORT": {
           "LABEL": "Versorger einrichten",
@@ -99,12 +175,38 @@
           "DESC": "Unterstützung bei Formularen und Bewerbungsprozessen."
         },
         "SOP_ESSAY_REVIEW": {
-          "LABEL": "SOP- & Essay-Review",
+          "LABEL": "SOP- und Essayprüfung",
           "DESC": "Feedback zu Motivationsschreiben und Essays."
         },
         "TUTORING": {
           "LABEL": "Nachhilfe",
-          "DESC": "Fachbezogene Nachhilfe und Lernhilfe."
+          "DESC": "Fachbezogene Nachhilfe und Lernhilfe.",
+          "SUBCATEGORIES": {
+            "MATH": {
+              "LABEL": "Mathe",
+              "DESC": "Mathematikhilfe auf allen Ebenen."
+            },
+            "ENGLISH": {
+              "LABEL": "Englisch",
+              "DESC": "Unterstützung in den Bereichen Lesen, Schreiben und Sprachkompetenz."
+            },
+            "SCIENCE": {
+              "LABEL": "Wissenschaft",
+              "DESC": "Physik, Chemie, Biologie und mehr."
+            },
+            "COMPUTER_SCIENCE": {
+              "LABEL": "Informatik",
+              "DESC": "Programmierung, Algorithmen und Codierung helfen."
+            },
+            "TEST_PREP": {
+              "LABEL": "Prüfungsvorbereitung",
+              "DESC": "Vorbereitung auf SAT, ACT, GRE und andere Prüfungen."
+            },
+            "OTHER_SUBJECTS": {
+              "LABEL": "Andere Themen",
+              "DESC": "Nachhilfe für alle oben nicht aufgeführten Fächer."
+            }
+          }
         },
         "SCHOLARSHIP_KNOWLEDGE": {
           "LABEL": "Stipendienwissen",
@@ -130,7 +232,53 @@
       "SUBCATEGORIES": {
         "MEDICAL_CONSULTATION": {
           "LABEL": "Medizinische Konsultation",
-          "DESC": "Hilfe beim Koordinieren von Telekonsultationen oder Basisinformationen."
+          "DESC": "Hilfe beim Koordinieren von Telekonsultationen oder Basisinformationen.",
+          "SUBCATEGORIES": {
+            "GENERAL_CONSULTATION": {
+              "LABEL": "Allgemeine Ratschläge",
+              "DESC": "Allgemeine medizinische Beratung und Navigation."
+            },
+            "ENT(EAR_NOSE_AND_THROAT)": {
+              "LABEL": "HNO (Hals-Nasen-Ohren-Heilkunde)",
+              "DESC": "Unterstützung bei Erkrankungen des Ohrs, der Nase und des Halses."
+            },
+            "DENTAL_OR_ORAL_HEALTH": {
+              "LABEL": "Mundgesundheit",
+              "DESC": "Leitfaden zur Zahn- und Mundgesundheitspflege."
+            },
+            "EYE_OR_VISION_CARE": {
+              "LABEL": "Augen-/Sehpflege",
+              "DESC": "Hilfe bei Augenuntersuchungen und allen Fragen rund ums Sehen."
+            },
+            "CARDIAC_OR_BLOOD_PRESSURE": {
+              "LABEL": "Herz-Kreislauf-System / Blutdruck",
+              "DESC": "Unterstützung bei Herz- und Blutdruckproblemen."
+            },
+            "ORTHOPEDIC_OR_PHYSIOTHERAPY": {
+              "LABEL": "Orthopädie / Physiotherapie",
+              "DESC": "Unterstützung bei Knochen-, Gelenk- und Physiotherapiebedürfnissen."
+            },
+            "SKIN_OR_DERMATOLOGY": {
+              "LABEL": "Haut / Dermatologie",
+              "DESC": "Leitfaden zu Hautkrankheiten und Dermatologie."
+            },
+            "WOMENS_OR_REPRODUCTIVE_HEALTH": {
+              "LABEL": "Frauengesundheit / Reproduktionsgesundheit",
+              "DESC": "Unterstützung für die Gesundheit von Frauen und die reproduktive Gesundheit."
+            },
+            "VACCINATIONS_AND_PREVENTIVE_SCREENINGS": {
+              "LABEL": "Impfungen und Vorsorgeuntersuchungen",
+              "DESC": "Informationen zu Impfungen und Präventionsmaßnahmen."
+            },
+            "PEDIATRICS_OR_CHILD_HEALTH": {
+              "LABEL": "Pädiatrie / Kindergesundheit",
+              "DESC": "Gesundheitshinweise für Kinder und Säuglinge."
+            },
+            "OTHER_MEDICAL_CONCERN": {
+              "LABEL": "Andere medizinische Bedenken",
+              "DESC": "Alle weiteren medizinischen Bedenken, die oben nicht aufgeführt sind."
+            }
+          }
         },
         "MEDICINE_DELIVERY": {
           "LABEL": "Medikamentenlieferung",

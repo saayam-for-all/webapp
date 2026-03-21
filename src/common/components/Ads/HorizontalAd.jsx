@@ -3,7 +3,9 @@ import { useEffect } from "react";
 const HorizontalAd = () => {
   useEffect(() => {
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      if (window.location.hostname === "saayamforall.org") {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
     } catch (e) {
       console.error("Adsense error", e);
     }

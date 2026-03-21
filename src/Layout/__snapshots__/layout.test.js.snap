@@ -26,7 +26,35 @@ exports[`Layout renders correctly 1`] = `
           <main
             class="flex-[6] overflow-auto"
           >
-            <mock-suspense />
+            <nav
+              aria-label="breadcrumb"
+              class="breadcrumb-nav"
+            >
+              <ol
+                class="breadcrumbs"
+              >
+                <li
+                  class="breadcrumb-item"
+                >
+                  <a
+                    href="/"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li
+                  aria-current="page"
+                  class="breadcrumb-item active"
+                >
+                  Dashboard
+                </li>
+              </ol>
+            </nav>
+            <mock-suspense>
+              <div>
+                Outlet
+              </div>
+            </mock-suspense>
           </main>
           <aside
             class="right-ads-panel flex-1 "
@@ -69,7 +97,35 @@ exports[`Layout renders correctly 1`] = `
         <main
           class="flex-[6] overflow-auto"
         >
-          <mock-suspense />
+          <nav
+            aria-label="breadcrumb"
+            class="breadcrumb-nav"
+          >
+            <ol
+              class="breadcrumbs"
+            >
+              <li
+                class="breadcrumb-item"
+              >
+                <a
+                  href="/"
+                >
+                  Home
+                </a>
+              </li>
+              <li
+                aria-current="page"
+                class="breadcrumb-item active"
+              >
+                Dashboard
+              </li>
+            </ol>
+          </nav>
+          <mock-suspense>
+            <div>
+              Outlet
+            </div>
+          </mock-suspense>
         </main>
         <aside
           class="right-ads-panel flex-1 "

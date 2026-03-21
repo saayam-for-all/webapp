@@ -339,7 +339,9 @@
   "NEWSLETTER": "NEWSLETTER",
   "NEW_MATCH_REQUEST": "नया मिलान अनुरोध",
   "NEW_PASSWORD": "नया पासवर्ड",
-  "NEXT": "NEXT",
+  "NEXT": "अगला",
+  "TOOLTIP_ACCEPT_TERMS": "कृपया नियम और शर्तें स्वीकार करें",
+  "TOOLTIP_UPLOAD_GOVT_ID": "कृपया सरकारी पहचान पत्र अपलोड करें",
   "NO": "नहीं",
   "NONE_ACCOUNT": "क्या आपके पास खाता नहीं है?",
   "NON_PROFIT": "नॉन-प्रॉफिट",
@@ -723,5 +725,12 @@
   "REQUESTS_RESOLVED": "अनुरोध हल किए गए",
   "AVG_RESOLUTION_TIME": "औसत समाधान समय",
   "TOTAL_VOLUNTEERS": "कुल स्वयंसेवक",
-  "TOTAL_BENEFICIARIES": "कुल लाभार्थी"
+  "TOTAL_BENEFICIARIES": "कुल लाभार्थी",
+  "SKILLS_SELECTOR_TITLE": "स्वयंसेवक असाइनमेंट के लिए अपने कौशल चुनें",
+  "SKILLS_SELECTOR_PLACEHOLDER": "श्रेणियों का पता लगाने के लिए होवर करें, कौशल चुनने के लिए क्लिक करें",
+  "SELECTED_SKILLS": "चयनित कौशल",
+  "NO_SKILLS_SELECTED": "अभी तक कोई कौशल नहीं चुना गया",
+  "REMOVE_SKILL": "कौशल हटाएं",
+  "REMOVE_CATEGORY": "इस श्रेणी से सभी कौशल हटाएं",
+  "SELECT_SKILL_TO_CONTINUE": "अगले चरण पर जाने के लिए कम से कम एक विशिष्ट कौशल चुनें"
 }
