@@ -11,6 +11,8 @@ const LOCAL_KEY = "latestVolunteerLocation";
 const DEFAULT_INTERVAL_MS = 5 * 60 * 1000;
 const MIN_DISTANCE_METERS = 50;
 
+const formatCoordinate = (value) => Number(Number(value).toFixed(4));
+
 const getStoredLocalLocation = () => {
   try {
     return JSON.parse(localStorage.getItem(LOCAL_KEY) || "null");
@@ -19,13 +21,19 @@ const getStoredLocalLocation = () => {
   }
 };
 
-const setStoredLocalLocation = ({ latitude, longitude, address = "" }) => {
+const setStoredLocalLocation = ({
+  latitude = null,
+  longitude = null,
+  address = "",
+  mode = "address",
+}) => {
   localStorage.setItem(
     LOCAL_KEY,
     JSON.stringify({
       latitude,
       longitude,
       address,
+      mode,
       updatedAt: new Date().toISOString(),
     }),
   );
@@ -35,7 +43,6 @@ const toRadians = (value) => (value * Math.PI) / 180;
 
 const getDistanceMeters = (lat1, lon1, lat2, lon2) => {
   const earthRadius = 6371000;
-
   const dLat = toRadians(lat2 - lat1);
   const dLon = toRadians(lon2 - lon1);
 
@@ -55,8 +62,14 @@ const hasLocationChanged = (
   newLoc,
   thresholdMeters = MIN_DISTANCE_METERS,
 ) => {
-  if (!oldLoc?.latitude || !oldLoc?.longitude) return true;
-  if (!newLoc?.latitude || !newLoc?.longitude) return false;
+  if (
+    oldLoc?.latitude == null ||
+    oldLoc?.longitude == null ||
+    newLoc?.latitude == null ||
+    newLoc?.longitude == null
+  ) {
+    return true;
+  }
 
   const distance = getDistanceMeters(
     Number(oldLoc.latitude),
@@ -148,24 +161,20 @@ const getBrowserPosition = () =>
     );
   });
 
-const updateVolunteerLocation = async ({
-  user_id,
-  address,
-  latitude,
-  longitude,
-}) => {
-  const response = await api.post(endpoints.UPDATE_VOLUNTEER_LOCATION, {
-    user_id,
-    address,
-    latitude,
-    longitude,
-  });
+const updateVolunteerLocation = async (payload) => {
+  const response = await api.post(endpoints.UPDATE_VOLUNTEER_LOCATION, payload);
 
   return {
     latitude:
-      response?.data?.data?.latitude ?? response?.data?.latitude ?? latitude,
+      response?.data?.data?.latitude ??
+      response?.data?.latitude ??
+      payload.latitude ??
+      null,
     longitude:
-      response?.data?.data?.longitude ?? response?.data?.longitude ?? longitude,
+      response?.data?.data?.longitude ??
+      response?.data?.longitude ??
+      payload.longitude ??
+      null,
     raw: response?.data,
   };
 };
@@ -176,40 +185,63 @@ const checkAndSyncLocation = async () => {
   try {
     inFlight = true;
 
-    const browserPosition = await getBrowserPosition();
+    const user_id = await resolveSidOnce();
     const address = getAddressFromProfile();
-
-    const currentLocation = {
-      latitude: browserPosition.latitude,
-      longitude: browserPosition.longitude,
-      address,
-    };
-
     const storedLocation = getStoredLocalLocation();
 
-    if (
-      storedLocation &&
-      !hasLocationChanged(storedLocation, currentLocation)
-    ) {
-      return;
+    try {
+      const browserPosition = await getBrowserPosition();
+
+      const currentLocation = {
+        latitude: formatCoordinate(browserPosition.latitude),
+        longitude: formatCoordinate(browserPosition.longitude),
+      };
+
+      if (
+        storedLocation?.mode === "coords" &&
+        !hasLocationChanged(storedLocation, currentLocation)
+      ) {
+        return;
+      }
+
+      const updated = await updateVolunteerLocation({
+        user_id,
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+      });
+
+      setStoredLocalLocation({
+        latitude: formatCoordinate(updated.latitude),
+        longitude: formatCoordinate(updated.longitude),
+        address: "",
+        mode: "coords",
+      });
+    } catch (geoError) {
+      if (!address) {
+        return;
+      }
+
+      if (
+        storedLocation?.mode === "address" &&
+        storedLocation?.address?.trim() === address.trim()
+      ) {
+        return;
+      }
+
+      await updateVolunteerLocation({
+        user_id,
+        address,
+      });
+
+      setStoredLocalLocation({
+        latitude: null,
+        longitude: null,
+        address,
+        mode: "address",
+      });
     }
-
-    const user_id = await resolveSidOnce();
-
-    const updated = await updateVolunteerLocation({
-      user_id,
-      address,
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-    });
-
-    setStoredLocalLocation({
-      latitude: updated.latitude,
-      longitude: updated.longitude,
-      address,
-    });
-  } catch {
-    // intentionally silent
+  } catch (error) {
+    console.error("Volunteer location sync failed:", error);
   } finally {
     inFlight = false;
   }
@@ -220,7 +252,6 @@ export const startVolunteerLocationTracking = async ({
 } = {}) => {
   const volunteer = await isVolunteerUser();
   if (!volunteer) return;
-
   if (intervalId) return;
 
   await checkAndSyncLocation();
