@@ -7,7 +7,7 @@ const ExecutiveTeamData = [
   {
     image: Rashmi_Bilaskar,
     name: "Rashmi Bilaskar",
-    role: "Director of Engineering",
+    role: "Senior Director of Engineering",
     linkedin: "https://www.linkedin.com/in/rashmi-bilaskar",
   },
 
@@ -47,7 +47,7 @@ const ExecutiveTeamData = [
   {
     image: Sunandha_agarwal,
     name: "Sugandha Agrawal",
-    role: "Developer Advocate/AI/ML Dev Manager",
+    role: "Director of Engineering",
     linkedin:
       "https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details",
   },

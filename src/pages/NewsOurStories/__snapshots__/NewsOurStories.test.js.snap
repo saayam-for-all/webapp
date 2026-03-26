@@ -31,119 +31,648 @@ exports[`NewsOurStories renders correctly 1`] = `
           class="news-our-stories-section"
         >
           <div
-            class="news-our-stories-story"
-          >
-            <img
-              alt="Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara"
-              class="news-our-stories-img-lg"
-              src=""
-            />
-            <div
-              class="news-our-stories-date"
-            >
-              05/02/2025
-            </div>
-            <h2
-              class="news-our-stories-story-title"
-            >
-              mockTranslate(Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
-            >
-              mockTranslate(Our CEO, Rao K Bhehanabobla recently attended TiEcon 2025 at the Santa Clara Convention Center, one of the premier global gatherings for entrepreneurs and innovators. He shared Saayam's journey in leveraging technology to build a support-driven community platform. The event spotlighted Saayam's mission and growing influence in the social impact ecosystem.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
-            >
-              mockTranslate(Read More)
-            </a>
-          </div>
-          <div
-            class="news-our-stories-row"
+            class="news-grid"
           >
             <div
-              class="news-our-stories-col"
+              class="news-card"
             >
-              <img
-                alt="Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment"
-                class="news-our-stories-img-sm"
-                src=""
-              />
               <div
-                class="news-our-stories-date"
+                class="news-img-wrap"
               >
-                05/02/2025
+                <img
+                  alt="Ramesh Maturu Named to the 2026 Georgia Titan 100 List"
+                  class="news-img"
+                  src=""
+                />
               </div>
-              <h2
-                class="news-our-stories-story-title"
+              <div
+                class="news-card-body"
               >
-                mockTranslate(Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment)
-              </h2>
-              <p
-                class="news-our-stories-story-desc"
-              >
-                mockTranslate(Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.)
-              </p>
-              <a
-                class="news-our-stories-link"
-                href="#"
-              >
-                mockTranslate(Read More)
-              </a>
+                <div
+                  class="news-date"
+                >
+                  02/09/2026
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/rameshmaturu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramesh Maturu
+                  </a>
+                   Named to the 2026 Georgia Titan 100 List
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  <a
+                    class="news-name-link"
+                    href="https://www.pyramidci.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Pyramid Consulting
+                  </a>
+                   is pleased to announce that its President and Co-founder 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/rameshmaturu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramesh Maturu
+                  </a>
+                  , has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
+                </p>
+                <a
+                  class="news-link"
+                  href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(Read More)
+                </a>
+              </div>
             </div>
             <div
-              class="news-our-stories-col"
+              class="news-card"
             >
-              <img
-                alt="In Step with the Community: A 17-Mile Walk in San Ramon"
-                class="news-our-stories-img-sm"
-                src=""
-              />
               <div
-                class="news-our-stories-date"
+                class="news-img-wrap"
               >
-                05/02/2025
+                <img
+                  alt="With Jensen Huang, CEO of NVIDIA"
+                  class="news-img"
+                  src=""
+                />
               </div>
-              <h2
-                class="news-our-stories-story-title"
+              <div
+                class="news-card-body"
               >
-                mockTranslate(In Step with the Community: A 17-Mile Walk in San Ramon)
-              </h2>
-              <p
-                class="news-our-stories-story-desc"
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  With 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/jenhsunhuang/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Jensen Huang
+                  </a>
+                  , CEO of 
+                  <a
+                    class="news-name-link"
+                    href="https://www.nvidia.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    NVIDIA
+                  </a>
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  Rao with 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/jenhsunhuang/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Jensen Huang
+                  </a>
+                  , CEO of Nvidia in IIT Bay Area Conference.
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
               >
-                mockTranslate(Our CEO and Satesth Mudrala recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.)
-              </p>
-              <a
-                class="news-our-stories-link"
-                href="#"
+                <img
+                  alt="With Vishal Sikka, Founder & CEO of Vianai Systems"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
               >
-                mockTranslate(Read More)
-              </a>
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  With 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Vishal Sikka
+                  </a>
+                  , Founder & CEO of 
+                  <a
+                    class="news-name-link"
+                    href="https://www.vian.ai/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Vianai Systems
+                  </a>
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  An insightful exchange with 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Vishal Sikka
+                  </a>
+                   on leadership, purpose-driven innovation, and building organizations that create long-term impact.
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  02/09/2026
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  With 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/rameshmaturu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramesh Maturu
+                  </a>
+                   and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/ramanayerneni/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramana Yerneni
+                  </a>
+                   on Carmel-by-the-Sea, CA beach
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/rameshmaturu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramesh Maturu
+                  </a>
+                   and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/ramanayerneni/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ramana Yerneni
+                  </a>
+                   by the Pacific coast.
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="In Step with the Community: A 17-Mile Walk in San Ramon"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  In Step with the Community: A 17-Mile Walk in San Ramon
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  Our CEO and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/mucharla/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sateesh Mucharla
+                  </a>
+                   participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  With 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Dr. Srikar Reddy Koppula
+                  </a>
+                  , 
+                  <a
+                    class="news-name-link"
+                    href="https://www.cgisf.gov.in/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Indian Consular
+                  </a>
+                   in SF, CA
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  A moment with the 
+                  <a
+                    class="news-name-link"
+                    href="https://www.cgisf.gov.in/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Indian Consular
+                  </a>
+                   team during a community engagement event.
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  With 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/amitzavery/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Amit Zavery
+                  </a>
+                  , President, CPO, and COO, 
+                  <a
+                    class="news-name-link"
+                    href="https://www.servicenow.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    ServiceNow
+                  </a>
+                  ; Board Member, 
+                  <a
+                    class="news-name-link"
+                    href="https://www.broadridge.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Broadridge
+                  </a>
+                   (NYSE:BR)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Madhusudhan Sai, global humanitarian and spiritual leader and President of Aria University, Anand Kuchibhotla"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  With 
+                  <a
+                    class="news-name-link"
+                    href="https://srimadhusudansai.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Madhusudhan Sai
+                  </a>
+                  , global humanitarian and spiritual leader and President of 
+                  <a
+                    class="news-name-link"
+                    href="https://www.aria.edu/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Aria University
+                  </a>
+                  , 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/anandkuchibhotla/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Anand Kuchibhotla
+                  </a>
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With Murali Krishnamurthy, CEO of Sankara Eye Foundation"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  With 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/muralikrishnamurthy/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Murali Krishnamurthy
+                  </a>
+                  , CEO of 
+                  <a
+                    class="news-name-link"
+                    href="https://sankaraeye.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sankara Eye Foundation
+                  </a>
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  In conversation with 
+                  <a
+                    class="news-name-link"
+                    href="https://www.linkedin.com/in/muralikrishnamurthy/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Murali Krishnamurthy
+                  </a>
+                  , CEO of 
+                  <a
+                    class="news-name-link"
+                    href="https://sankaraeye.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Sankara Eye Foundation
+                  </a>
+                  , on strengthening collaborations to improve healthcare accessibility and community impact.
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  With U.S. Representative, 
+                  <a
+                    class="news-name-link"
+                    href="https://panetta.house.gov/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Jimmy Panetta
+                  </a>
+                   and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.sanjoseca.gov/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    San José
+                  </a>
+                   City Council member, 
+                  <a
+                    class="news-name-link"
+                    href="https://www.domingocandelas.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Domingo Candelas
+                  </a>
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  A productive discussion with U.S. Representative 
+                  <a
+                    class="news-name-link"
+                    href="https://panetta.house.gov/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Jimmy Panetta
+                  </a>
+                   and 
+                  <a
+                    class="news-name-link"
+                    href="https://www.sanjoseca.gov/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    San José
+                  </a>
+                   City Councilmember 
+                  <a
+                    class="news-name-link"
+                    href="https://www.domingocandelas.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Domingo Candelas
+                  </a>
+                   on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.
+                </p>
+              </div>
             </div>
           </div>
         </section>
-        <section
-          class="news-our-stories-cta"
+        <div
+          class="text-center mt-16 mb-16"
         >
           <h2
-            class="news-our-stories-cta-title"
+            class="text-3xl font-bold mb-4"
           >
             mockTranslate(Want to join us?)
           </h2>
           <p
-            class="news-our-stories-cta-desc"
+            class="text-base mb-8"
           >
             mockTranslate(Chat with our community and get in touch with different charity organizations!)
           </p>
-          <button
-            class="news-our-stories-cta-btn"
+          <mock-link
+            props="{"className":"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"}"
+            to="/contact"
           >
             mockTranslate(Join the community)
-          </button>
-        </section>
+          </mock-link>
+        </div>
       </div>
     </div>
   </body>,
@@ -174,119 +703,648 @@ exports[`NewsOurStories renders correctly 1`] = `
         class="news-our-stories-section"
       >
         <div
-          class="news-our-stories-story"
-        >
-          <img
-            alt="Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara"
-            class="news-our-stories-img-lg"
-            src=""
-          />
-          <div
-            class="news-our-stories-date"
-          >
-            05/02/2025
-          </div>
-          <h2
-            class="news-our-stories-story-title"
-          >
-            mockTranslate(Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara)
-          </h2>
-          <p
-            class="news-our-stories-story-desc"
-          >
-            mockTranslate(Our CEO, Rao K Bhehanabobla recently attended TiEcon 2025 at the Santa Clara Convention Center, one of the premier global gatherings for entrepreneurs and innovators. He shared Saayam's journey in leveraging technology to build a support-driven community platform. The event spotlighted Saayam's mission and growing influence in the social impact ecosystem.)
-          </p>
-          <a
-            class="news-our-stories-link"
-            href="#"
-          >
-            mockTranslate(Read More)
-          </a>
-        </div>
-        <div
-          class="news-our-stories-row"
+          class="news-grid"
         >
           <div
-            class="news-our-stories-col"
+            class="news-card"
           >
-            <img
-              alt="Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment"
-              class="news-our-stories-img-sm"
-              src=""
-            />
             <div
-              class="news-our-stories-date"
+              class="news-img-wrap"
             >
-              05/02/2025
+              <img
+                alt="Ramesh Maturu Named to the 2026 Georgia Titan 100 List"
+                class="news-img"
+                src=""
+              />
             </div>
-            <h2
-              class="news-our-stories-story-title"
+            <div
+              class="news-card-body"
             >
-              mockTranslate(Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
-            >
-              mockTranslate(Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
-            >
-              mockTranslate(Read More)
-            </a>
+              <div
+                class="news-date"
+              >
+                02/09/2026
+              </div>
+              <h2
+                class="news-title"
+              >
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramesh Maturu
+                </a>
+                 Named to the 2026 Georgia Titan 100 List
+              </h2>
+              <p
+                class="news-desc"
+              >
+                <a
+                  class="news-name-link"
+                  href="https://www.pyramidci.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Pyramid Consulting
+                </a>
+                 is pleased to announce that its President and Co-founder 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramesh Maturu
+                </a>
+                , has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
+              </p>
+              <a
+                class="news-link"
+                href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(Read More)
+              </a>
+            </div>
           </div>
           <div
-            class="news-our-stories-col"
+            class="news-card"
           >
-            <img
-              alt="In Step with the Community: A 17-Mile Walk in San Ramon"
-              class="news-our-stories-img-sm"
-              src=""
-            />
             <div
-              class="news-our-stories-date"
+              class="news-img-wrap"
             >
-              05/02/2025
+              <img
+                alt="With Jensen Huang, CEO of NVIDIA"
+                class="news-img"
+                src=""
+              />
             </div>
-            <h2
-              class="news-our-stories-story-title"
+            <div
+              class="news-card-body"
             >
-              mockTranslate(In Step with the Community: A 17-Mile Walk in San Ramon)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                With 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/jenhsunhuang/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Jensen Huang
+                </a>
+                , CEO of 
+                <a
+                  class="news-name-link"
+                  href="https://www.nvidia.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  NVIDIA
+                </a>
+              </h2>
+              <p
+                class="news-desc"
+              >
+                Rao with 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/jenhsunhuang/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Jensen Huang
+                </a>
+                , CEO of Nvidia in IIT Bay Area Conference.
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
             >
-              mockTranslate(Our CEO and Satesth Mudrala recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
+              <img
+                alt="With Vishal Sikka, Founder & CEO of Vianai Systems"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
             >
-              mockTranslate(Read More)
-            </a>
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                With 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Vishal Sikka
+                </a>
+                , Founder & CEO of 
+                <a
+                  class="news-name-link"
+                  href="https://www.vian.ai/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Vianai Systems
+                </a>
+              </h2>
+              <p
+                class="news-desc"
+              >
+                An insightful exchange with 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Vishal Sikka
+                </a>
+                 on leadership, purpose-driven innovation, and building organizations that create long-term impact.
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                02/09/2026
+              </div>
+              <h2
+                class="news-title"
+              >
+                With 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramesh Maturu
+                </a>
+                 and 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/ramanayerneni/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramana Yerneni
+                </a>
+                 on Carmel-by-the-Sea, CA beach
+              </h2>
+              <p
+                class="news-desc"
+              >
+                A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/rameshmaturu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramesh Maturu
+                </a>
+                 and 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/ramanayerneni/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ramana Yerneni
+                </a>
+                 by the Pacific coast.
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="In Step with the Community: A 17-Mile Walk in San Ramon"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                In Step with the Community: A 17-Mile Walk in San Ramon
+              </h2>
+              <p
+                class="news-desc"
+              >
+                Our CEO and 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/mucharla/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sateesh Mucharla
+                </a>
+                 participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                With 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Dr. Srikar Reddy Koppula
+                </a>
+                , 
+                <a
+                  class="news-name-link"
+                  href="https://www.cgisf.gov.in/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Indian Consular
+                </a>
+                 in SF, CA
+              </h2>
+              <p
+                class="news-desc"
+              >
+                A moment with the 
+                <a
+                  class="news-name-link"
+                  href="https://www.cgisf.gov.in/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Indian Consular
+                </a>
+                 team during a community engagement event.
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                With 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/amitzavery/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Amit Zavery
+                </a>
+                , President, CPO, and COO, 
+                <a
+                  class="news-name-link"
+                  href="https://www.servicenow.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  ServiceNow
+                </a>
+                ; Board Member, 
+                <a
+                  class="news-name-link"
+                  href="https://www.broadridge.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Broadridge
+                </a>
+                 (NYSE:BR)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Madhusudhan Sai, global humanitarian and spiritual leader and President of Aria University, Anand Kuchibhotla"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                With 
+                <a
+                  class="news-name-link"
+                  href="https://srimadhusudansai.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Madhusudhan Sai
+                </a>
+                , global humanitarian and spiritual leader and President of 
+                <a
+                  class="news-name-link"
+                  href="https://www.aria.edu/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Aria University
+                </a>
+                , 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/anandkuchibhotla/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Anand Kuchibhotla
+                </a>
+              </h2>
+              <p
+                class="news-desc"
+              >
+                A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With Murali Krishnamurthy, CEO of Sankara Eye Foundation"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                With 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/muralikrishnamurthy/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Murali Krishnamurthy
+                </a>
+                , CEO of 
+                <a
+                  class="news-name-link"
+                  href="https://sankaraeye.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sankara Eye Foundation
+                </a>
+              </h2>
+              <p
+                class="news-desc"
+              >
+                In conversation with 
+                <a
+                  class="news-name-link"
+                  href="https://www.linkedin.com/in/muralikrishnamurthy/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Murali Krishnamurthy
+                </a>
+                , CEO of 
+                <a
+                  class="news-name-link"
+                  href="https://sankaraeye.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Sankara Eye Foundation
+                </a>
+                , on strengthening collaborations to improve healthcare accessibility and community impact.
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                With U.S. Representative, 
+                <a
+                  class="news-name-link"
+                  href="https://panetta.house.gov/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Jimmy Panetta
+                </a>
+                 and 
+                <a
+                  class="news-name-link"
+                  href="https://www.sanjoseca.gov/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  San José
+                </a>
+                 City Council member, 
+                <a
+                  class="news-name-link"
+                  href="https://www.domingocandelas.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Domingo Candelas
+                </a>
+              </h2>
+              <p
+                class="news-desc"
+              >
+                A productive discussion with U.S. Representative 
+                <a
+                  class="news-name-link"
+                  href="https://panetta.house.gov/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Jimmy Panetta
+                </a>
+                 and 
+                <a
+                  class="news-name-link"
+                  href="https://www.sanjoseca.gov/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  San José
+                </a>
+                 City Councilmember 
+                <a
+                  class="news-name-link"
+                  href="https://www.domingocandelas.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Domingo Candelas
+                </a>
+                 on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.
+              </p>
+            </div>
           </div>
         </div>
       </section>
-      <section
-        class="news-our-stories-cta"
+      <div
+        class="text-center mt-16 mb-16"
       >
         <h2
-          class="news-our-stories-cta-title"
+          class="text-3xl font-bold mb-4"
         >
           mockTranslate(Want to join us?)
         </h2>
         <p
-          class="news-our-stories-cta-desc"
+          class="text-base mb-8"
         >
           mockTranslate(Chat with our community and get in touch with different charity organizations!)
         </p>
-        <button
-          class="news-our-stories-cta-btn"
+        <mock-link
+          props="{"className":"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"}"
+          to="/contact"
         >
           mockTranslate(Join the community)
-        </button>
-      </section>
+        </mock-link>
+      </div>
     </div>
   </div>,
   "debug": [Function],
