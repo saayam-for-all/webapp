@@ -1,10 +1,8 @@
+import { store } from "../redux/store";
 import api from "./api";
 import endpoints from "./endpoints.json";
-import { getTokenPayload } from "./tokenService";
-import { getUserId } from "./volunteerServices";
 
 let intervalId = null;
-let cachedSid = null;
 let inFlight = false;
 
 const LOCAL_KEY = "latestVolunteerLocation";
@@ -106,58 +104,50 @@ const getAddressFromProfile = () => {
   return parts.join(", ");
 };
 
-const getEmailFromToken = async () => {
-  const payload = await getTokenPayload();
-  return payload?.email || "";
+const getAuthState = () => store.getState()?.auth || {};
+
+const getVolunteerUserId = () => {
+  const authState = getAuthState();
+
+  return authState?.user?.userDbId || "";
 };
 
-const resolveSidOnce = async () => {
-  if (cachedSid) return cachedSid;
+const isVolunteerUser = () => {
+  const authState = getAuthState();
+  const user = authState?.user || {};
 
-  const email = await getEmailFromToken();
-  if (!email) {
-    throw new Error("Email missing in token payload");
-  }
+  const rawGroups =
+    user?.groups ??
+    user?.group ??
+    user?.cognitoGroups ??
+    user?.["cognito:groups"] ??
+    [];
 
-  const response = await getUserId(email);
-  const sid =
-    response?.data?.user_id || response?.user_id || response?.body?.user_id;
+  const normalizedGroups = Array.isArray(rawGroups)
+    ? rawGroups
+    : [rawGroups].filter(Boolean);
 
-  if (!sid) {
-    throw new Error("SID missing from getUserIdByEmail response");
-  }
-
-  cachedSid = sid;
-  return sid;
-};
-
-const isVolunteerUser = async () => {
-  const payload = await getTokenPayload();
-  const groups = payload?.["cognito:groups"] || [];
-  return Array.isArray(groups) && groups.includes("Volunteers");
+  return (
+    normalizedGroups.includes("Volunteers") ||
+    normalizedGroups.includes("Volunteer")
+  );
 };
 
 const getBrowserPosition = () =>
   new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
-      reject(new Error("Geolocation is not supported by this browser"));
+      reject(new Error("Geolocation is not supported"));
       return;
     }
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      (position) =>
         resolve({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          accuracy: position.coords.accuracy,
-        });
-      },
-      (error) => reject(error),
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 0,
-      },
+        }),
+      reject,
+      { enableHighAccuracy: true, timeout: 15000 },
     );
   });
 
@@ -175,8 +165,55 @@ const updateVolunteerLocation = async (payload) => {
       response?.data?.longitude ??
       payload.longitude ??
       null,
-    raw: response?.data,
   };
+};
+
+const syncWithCoordinates = async ({ user_id, storedLocation }) => {
+  const browserPosition = await getBrowserPosition();
+
+  const currentLocation = {
+    latitude: formatCoordinate(browserPosition.latitude),
+    longitude: formatCoordinate(browserPosition.longitude),
+  };
+
+  const shouldSkipApi =
+    storedLocation?.mode === "coords" &&
+    !hasLocationChanged(storedLocation, currentLocation);
+
+  if (shouldSkipApi) return;
+
+  const updated = await updateVolunteerLocation({
+    user_id,
+    latitude: currentLocation.latitude,
+    longitude: currentLocation.longitude,
+  });
+
+  setStoredLocalLocation({
+    latitude: formatCoordinate(updated.latitude),
+    longitude: formatCoordinate(updated.longitude),
+    address: "",
+    mode: "coords",
+  });
+};
+
+const syncWithAddress = async ({ user_id, storedLocation }) => {
+  const address = getAddressFromProfile();
+  if (!address) return;
+
+  const shouldSkipApi =
+    storedLocation?.mode === "address" &&
+    storedLocation?.address?.trim() === address.trim();
+
+  if (shouldSkipApi) return;
+
+  await updateVolunteerLocation({ user_id, address });
+
+  setStoredLocalLocation({
+    latitude: null,
+    longitude: null,
+    address,
+    mode: "address",
+  });
 };
 
 const checkAndSyncLocation = async () => {
@@ -185,63 +222,18 @@ const checkAndSyncLocation = async () => {
   try {
     inFlight = true;
 
-    const user_id = await resolveSidOnce();
-    const address = getAddressFromProfile();
+    if (!isVolunteerUser()) return;
+
+    const user_id = getVolunteerUserId();
+    if (!user_id) return;
+
     const storedLocation = getStoredLocalLocation();
 
     try {
-      const browserPosition = await getBrowserPosition();
-
-      const currentLocation = {
-        latitude: formatCoordinate(browserPosition.latitude),
-        longitude: formatCoordinate(browserPosition.longitude),
-      };
-
-      if (
-        storedLocation?.mode === "coords" &&
-        !hasLocationChanged(storedLocation, currentLocation)
-      ) {
-        return;
-      }
-
-      const updated = await updateVolunteerLocation({
-        user_id,
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-      });
-
-      setStoredLocalLocation({
-        latitude: formatCoordinate(updated.latitude),
-        longitude: formatCoordinate(updated.longitude),
-        address: "",
-        mode: "coords",
-      });
-    } catch (geoError) {
-      if (!address) {
-        return;
-      }
-
-      if (
-        storedLocation?.mode === "address" &&
-        storedLocation?.address?.trim() === address.trim()
-      ) {
-        return;
-      }
-
-      await updateVolunteerLocation({
-        user_id,
-        address,
-      });
-
-      setStoredLocalLocation({
-        latitude: null,
-        longitude: null,
-        address,
-        mode: "address",
-      });
+      await syncWithCoordinates({ user_id, storedLocation });
+    } catch {
+      await syncWithAddress({ user_id, storedLocation });
     }
-  } catch (error) {
-    console.error("Volunteer location sync failed:", error);
   } finally {
     inFlight = false;
   }
@@ -250,25 +242,18 @@ const checkAndSyncLocation = async () => {
 export const startVolunteerLocationTracking = async ({
   intervalMs = DEFAULT_INTERVAL_MS,
 } = {}) => {
-  const volunteer = await isVolunteerUser();
-  if (!volunteer) return;
+  if (!isVolunteerUser()) return;
   if (intervalId) return;
 
   await checkAndSyncLocation();
 
-  intervalId = window.setInterval(() => {
-    checkAndSyncLocation();
-  }, intervalMs);
+  intervalId = window.setInterval(checkAndSyncLocation, intervalMs);
 };
 
 export const stopVolunteerLocationTracking = () => {
-  if (intervalId) {
-    window.clearInterval(intervalId);
-  }
-
+  if (intervalId) window.clearInterval(intervalId);
   intervalId = null;
   inFlight = false;
-  cachedSid = null;
 };
 
 export const syncVolunteerLocationNow = async () => {

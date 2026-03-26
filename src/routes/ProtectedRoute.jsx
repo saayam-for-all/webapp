@@ -2,68 +2,65 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import InactivityLogoutTimer from "../common/components/InactivityTimer/InactivityTimer";
-
 import {
   startVolunteerLocationTracking,
   stopVolunteerLocationTracking,
   syncVolunteerLocationNow,
 } from "../services/volunteerLocationTracker";
 
-import { getIdToken, getTokenPayload } from "../services/tokenService";
-
 const ProtectedRoute = () => {
-  const { user } = useSelector((state) => state.auth);
+  const authState = useSelector((state) => state.auth);
+  const user = authState?.user || null;
+
+  const userDBid = user?.userDbId || "";
+
   const location = useLocation();
 
   useEffect(() => {
-    let cancelled = false;
     let removeListener = null;
 
-    const boot = async () => {
-      const token = await getIdToken();
-      if (cancelled) return;
+    const rawGroups =
+      user?.groups ??
+      user?.group ??
+      user?.cognitoGroups ??
+      user?.["cognito:groups"] ??
+      [];
 
-      if (!token) {
-        stopVolunteerLocationTracking();
-        return;
-      }
+    const normalizedGroups = Array.isArray(rawGroups)
+      ? rawGroups
+      : [rawGroups].filter(Boolean);
 
-      const payload = await getTokenPayload();
-      const groups = payload?.["cognito:groups"] || [];
-      const isVolunteer =
-        Array.isArray(groups) && groups.includes("Volunteers");
+    const isVolunteer =
+      normalizedGroups.includes("Volunteers") ||
+      normalizedGroups.includes("Volunteer");
 
-      if (!isVolunteer) {
-        stopVolunteerLocationTracking();
-        return;
-      }
+    if (!user || !userDBid || !isVolunteer) {
+      stopVolunteerLocationTracking();
+      return;
+    }
 
-      await startVolunteerLocationTracking({
-        intervalMs: 5 * 60 * 1000,
-      });
+    startVolunteerLocationTracking({
+      intervalMs: 5 * 60 * 1000,
+    });
 
-      const onPersonalInfoUpdated = async () => {
-        await syncVolunteerLocationNow();
-      };
-
-      window.addEventListener("personal-info-updated", onPersonalInfoUpdated);
-
-      removeListener = () => {
-        window.removeEventListener(
-          "personal-info-updated",
-          onPersonalInfoUpdated,
-        );
-      };
+    const onPersonalInfoUpdated = async () => {
+      await syncVolunteerLocationNow();
     };
 
-    boot();
+    window.addEventListener("personal-info-updated", onPersonalInfoUpdated);
+
+    removeListener = () => {
+      window.removeEventListener(
+        "personal-info-updated",
+        onPersonalInfoUpdated,
+      );
+    };
 
     return () => {
-      cancelled = true;
       stopVolunteerLocationTracking();
       if (removeListener) removeListener();
     };
-  }, []);
+  }, [authState, user, userDBid, location.pathname]);
 
   useEffect(() => {
     const publicPaths = [

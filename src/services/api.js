@@ -1,9 +1,11 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 import axios from "axios";
 
+// centralizing the configuration and reusing the instance across the application
+
 const api = axios.create({
   baseURL:
-    typeof process === "undefined"
+    typeof process == "undefined"
       ? import.meta.env.VITE_BASE_API_URL
       : process.env.VITE_BASE_API_URL,
   headers: {
@@ -17,6 +19,7 @@ const getToken = async () => {
     return session?.tokens?.idToken?.toString();
   } catch (error) {
     console.log("Error fetching token:", error);
+    return null;
   }
 };
 
@@ -38,7 +41,6 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     if (
       error.response &&
       error.response.status === 401 &&
@@ -52,12 +54,11 @@ api.interceptors.response.use(
             originalRequest.headers.Authorization = `${token}`;
             return api.request(originalRequest);
           })
-          .catch(() => Promise.reject(error));
+          .catch((err) => Promise.reject(error));
       }
 
       originalRequest._retry = true;
       isRefreshing = true;
-
       try {
         const newToken = await getToken();
         if (!newToken) {
@@ -65,10 +66,8 @@ api.interceptors.response.use(
           window.location.href = "/login";
           return Promise.reject(error);
         }
-
         failedRequestqueue.forEach((p) => p.resolve(newToken));
         failedRequestqueue = [];
-
         originalRequest.headers.Authorization = `${newToken}`;
         return api.request(originalRequest);
       } catch (refreshError) {
@@ -81,7 +80,6 @@ api.interceptors.response.use(
         isRefreshing = false;
       }
     }
-
     return Promise.reject(error);
   },
 );
