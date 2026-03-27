@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Markdown from "react-markdown";
 import { moreInformationChat } from "../../../services/requestServices";
+import { getCategoriesFromStorage } from "../../../utils/filterHelpers";
 import i18n from "../../i18n/i18n";
 
 const MAX_QUESTIONS = 5;
@@ -11,8 +12,23 @@ async function translateText(text /*, targetLang */) {
   return text; // passthrough until endpoint available
 }
 
+const findCatId = (catName) => {
+  const categories = getCategoriesFromStorage() || [];
+  const search = (list) => {
+    for (const cat of list) {
+      if (cat.catName === catName) return cat.catId;
+      if (cat.subCategories) {
+        const found = search(cat.subCategories);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+  return search(categories) ?? catName;
+};
+
 const buildPayload = (requestData) => ({
-  category_id: requestData.category ?? "",
+  category_id: findCatId(requestData.category ?? ""),
   subject: requestData.subject ?? "",
   description: requestData.description ?? "",
   location: requestData.location ?? "",
@@ -37,7 +53,7 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
   // Seed initial AI message whenever initialResponse changes / modal opens
   useEffect(() => {
     if (show && initialResponse) {
-      setMessages([{ role: "ai", content: initialResponse }]);
+      setMessages([{ role: "assistant", content: initialResponse }]);
       setRemaining(MAX_QUESTIONS);
       setInputText("");
     }
@@ -67,22 +83,35 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
     setIsLoading(true);
 
     try {
+      // Build conversation_history in backend format
+      const conversationHistory = nextMessages.map((msg) => ({
+        role: msg.role,
+        content:
+          msg.role === "user" && msg === nextMessages[0]
+            ? `Subject: ${requestData.subject ?? ""}\nQuestion: ${msg.content}`
+            : msg.content,
+      }));
+
       const payload = {
         ...buildPayload(requestData),
-        chat_history: nextMessages,
-        question: toSend,
+        description: toSend,
+        conversation_history: conversationHistory,
       };
-      const aiReply = await moreInformationChat(payload);
+      const rawReply = await moreInformationChat(payload);
+      const aiReply = rawReply?.body?.answer ?? "";
       const localizedReply = needsTranslation
         ? await translateText(aiReply, i18n.language)
         : aiReply;
 
-      setMessages((prev) => [...prev, { role: "ai", content: localizedReply }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: localizedReply },
+      ]);
     } catch {
       setMessages((prev) => [
         ...prev,
         {
-          role: "ai",
+          role: "assistant",
           content: "An error occurred while fetching the response.",
         },
       ]);
@@ -152,7 +181,7 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
                     : "bg-gray-100 text-gray-800 rounded-bl-none"
                 }`}
               >
-                {msg.role === "ai" ? (
+                {msg.role === "assistant" ? (
                   <Markdown>{msg.content}</Markdown>
                 ) : (
                   <span>{msg.content}</span>

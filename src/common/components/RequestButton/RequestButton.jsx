@@ -7,9 +7,9 @@ import Modal from "../Modal/Modal";
 import { useSelector } from "react-redux";
 import {
   getEmergencyContactInfo,
-  moreInformation,
   moreInformationChat,
 } from "../../../services/requestServices";
+import { getCategoriesFromStorage } from "../../../utils/filterHelpers";
 import MoreInfoChatModal from "../MoreInfoChatModal/MoreInfoChatModal";
 
 const COOLDOWN_MS = 30 * 60 * 1000;
@@ -26,8 +26,23 @@ const isCoolingDown = (data) => {
   return false;
 };
 
+const findCatId = (catName) => {
+  const categories = getCategoriesFromStorage() || [];
+  const search = (list) => {
+    for (const cat of list) {
+      if (cat.catName === catName) return cat.catId;
+      if (cat.subCategories) {
+        const found = search(cat.subCategories);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+  return search(categories) ?? catName;
+};
+
 const buildPayload = (requestData) => ({
-  category_id: requestData.category ?? "",
+  category_id: findCatId(requestData.category ?? ""),
   subject: requestData.subject ?? "",
   description: requestData.description ?? "",
   location: requestData.location ?? "",
@@ -80,10 +95,8 @@ const RequestButton = ({
           return;
         }
 
-        const aiReply = await moreInformation(requestData);
-        setInitialResponse(
-          typeof aiReply === "string" ? aiReply : JSON.stringify(aiReply),
-        );
+        const aiReply = await moreInformationChat(buildPayload(requestData));
+        setInitialResponse(aiReply?.body?.answer ?? "");
         setShowModal(true);
       } catch (error) {
         console.error("Error fetching data:", error);
