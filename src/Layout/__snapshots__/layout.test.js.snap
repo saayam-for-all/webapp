@@ -16,7 +16,7 @@ exports[`Layout renders correctly 1`] = `
           <mock-navbar />
         </header>
         <div
-          class="flex flex-1"
+          class="flex flex-1 pt-10"
         >
           <aside
             class="left-ads-panel flex-1 "
@@ -87,7 +87,7 @@ exports[`Layout renders correctly 1`] = `
         <mock-navbar />
       </header>
       <div
-        class="flex flex-1"
+        class="flex flex-1 pt-10"
       >
         <aside
           class="left-ads-panel flex-1 "

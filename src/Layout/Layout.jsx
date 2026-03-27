@@ -27,7 +27,8 @@ const Layout = () => {
           <Navbar />
         </header>
 
-        <div className="flex flex-1">
+        {/* main content */}
+        <div className="flex flex-1 pt-10">
           <aside className="left-ads-panel flex-1 ">
             <LeftAds />
           </aside>

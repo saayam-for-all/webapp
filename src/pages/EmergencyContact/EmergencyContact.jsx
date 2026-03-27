@@ -1,7 +1,7 @@
 // src/pages/EmergencyContact/EmergencyContact.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, List, ListItem, ListItemText } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getEmergencyContactInfo } from "../../services/requestServices";
 
@@ -180,6 +180,7 @@ const EmergencyContact = ({ embedded = false }) => {
   return (
     <div className="flex flex-col items-center p-5 px-5">
       {/* Show ONLY on standalone page */}
+      <Outlet />
       {!embedded && (
         <div className="w-full max-w-[900px] px-4 mb-4 flex items-center justify-between">
           <button

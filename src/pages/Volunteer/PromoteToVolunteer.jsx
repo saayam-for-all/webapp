@@ -4,7 +4,7 @@ import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
 import Review from "./steps/Review";
 import Skills from "./steps/Skills";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
@@ -219,6 +219,7 @@ const PromoteToVolunteer = () => {
 
   return (
     <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+      <Outlet />
       <div className="w-full px-4 mt-4 flex justify-start">
         <button
           onClick={() => navigate("/dashboard")}
