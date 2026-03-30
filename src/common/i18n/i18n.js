@@ -10,6 +10,7 @@ import enAvailability from "./locales/en/availability.json";
 import enEnums from "./locales/en/enums.json";
 import enIdentity from "./locales/en/identity.json";
 import enProfile from "./locales/en/profile.json";
+import enCollaborator from "./locales/en/collaborator.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
@@ -18,6 +19,7 @@ import deCategories from "./locales/de/categories.json";
 import deAvailability from "./locales/de/availability.json";
 import deIdentity from "./locales/de/identity.json";
 import deProfile from "./locales/de/profile.json";
+import deCollaborator from "./locales/de/collaborator.json";
 
 import esCommon from "./locales/es/common.json";
 import esAuth from "./locales/es/auth.json";
@@ -26,6 +28,7 @@ import esCategories from "./locales/es/categories.json";
 import esAvailability from "./locales/es/availability.json";
 import esIdentity from "./locales/es/identity.json";
 import esProfile from "./locales/es/profile.json";
+import esCollaborator from "./locales/es/collaborator.json";
 
 import frCommon from "./locales/fr/common.json";
 import frAuth from "./locales/fr/auth.json";
@@ -34,6 +37,7 @@ import frCategories from "./locales/fr/categories.json";
 import frAvailability from "./locales/fr/availability.json";
 import frIdentity from "./locales/fr/identity.json";
 import frProfile from "./locales/fr/profile.json";
+import frCollaborator from "./locales/fr/collaborator.json";
 
 import ruCommon from "./locales/ru/common.json";
 import ruAuth from "./locales/ru/auth.json";
@@ -42,6 +46,7 @@ import ruCategories from "./locales/ru/categories.json";
 import ruAvailability from "./locales/ru/availability.json";
 import ruIdentity from "./locales/ru/identity.json";
 import ruProfile from "./locales/ru/profile.json";
+import ruCollaborator from "./locales/ru/collaborator.json";
 
 import hiCommon from "./locales/hi/common.json";
 import hiAuth from "./locales/hi/auth.json";
@@ -50,6 +55,7 @@ import hiCategories from "./locales/hi/categories.json";
 import hiAvailability from "./locales/hi/availability.json";
 import hiIdentity from "./locales/hi/identity.json";
 import hiProfile from "./locales/hi/profile.json";
+import hiCollaborator from "./locales/hi/collaborator.json";
 
 import teCommon from "./locales/te/common.json";
 import teAuth from "./locales/te/auth.json";
@@ -58,6 +64,7 @@ import teCategories from "./locales/te/categories.json";
 import teAvailability from "./locales/te/availability.json";
 import teIdentity from "./locales/te/identity.json";
 import teProfile from "./locales/te/profile.json";
+import teCollaborator from "./locales/te/collaborator.json";
 
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
@@ -66,6 +73,7 @@ import zhCategories from "./locales/zh/categories.json";
 import zhAvailability from "./locales/zh/availability.json";
 import zhIdentity from "./locales/zh/identity.json";
 import zhProfile from "./locales/zh/profile.json";
+import zhCollaborator from "./locales/zh/collaborator.json";
 
 import ptCommon from "./locales/pt/common.json";
 import ptAuth from "./locales/pt/auth.json";
@@ -74,6 +82,7 @@ import ptCategories from "./locales/pt/categories.json";
 import ptAvailability from "./locales/pt/availability.json";
 import ptIdentity from "./locales/pt/identity.json";
 import ptProfile from "./locales/pt/profile.json";
+import ptCollaborator from "./locales/pt/collaborator.json";
 
 import bnCommon from "./locales/bn/common.json";
 import bnAuth from "./locales/bn/auth.json";
@@ -82,6 +91,7 @@ import bnEnums from "./locales/bn/enums.json";
 import bnAvailability from "./locales/bn/availability.json";
 import bnIdentity from "./locales/bn/identity.json";
 import bnProfile from "./locales/bn/profile.json";
+import bnCollaborator from "./locales/bn/collaborator.json";
 
 import arCommon from "./locales/ar/common.json";
 import arAuth from "./locales/ar/auth.json";
@@ -91,6 +101,7 @@ import arAvailability from "./locales/ar/availability.json";
 import arIdentity from "./locales/ar/identity.json";
 import arProfile from "./locales/ar/profile.json";
 import arPreferences from "./locales/ar/preferences.json";
+import arCollaborator from "./locales/ar/collaborator.json";
 
 import asCommon from "./locales/as/common.json";
 import asAuth from "./locales/as/auth.json";
@@ -176,6 +187,7 @@ import urAvailability from "./locales/ur/availability.json";
 import urIdentity from "./locales/ur/identity.json";
 import urProfile from "./locales/ur/profile.json";
 import urPreferences from "./locales/ur/preferences.json";
+import urCollaborator from "./locales/ur/collaborator.json";
 
 import viCommon from "./locales/vi/common.json";
 import viAuth from "./locales/vi/auth.json";
@@ -197,6 +209,7 @@ i18n
       "identity",
       "profile",
       "enums",
+      "collaborator",
     ],
     resources: {
       en: {
@@ -207,6 +220,7 @@ i18n
         enums: enEnums,
         identity: enIdentity,
         profile: enProfile,
+        collaborator: enCollaborator,
       },
       de: {
         common: deCommon,
@@ -216,6 +230,7 @@ i18n
         availability: deAvailability,
         identity: deIdentity,
         profile: deProfile,
+        collaborator: deCollaborator,
       },
       es: {
         common: esCommon,
@@ -225,6 +240,7 @@ i18n
         availability: esAvailability,
         identity: esIdentity,
         profile: esProfile,
+        collaborator: esCollaborator,
       },
       fr: {
         common: frCommon,
@@ -234,6 +250,7 @@ i18n
         availability: frAvailability,
         identity: frIdentity,
         profile: frProfile,
+        collaborator: frCollaborator,
       },
       ru: {
         common: ruCommon,
@@ -243,6 +260,7 @@ i18n
         availability: ruAvailability,
         identity: ruIdentity,
         profile: ruProfile,
+        collaborator: ruCollaborator,
       },
       hi: {
         common: hiCommon,
@@ -252,6 +270,7 @@ i18n
         availability: hiAvailability,
         identity: hiIdentity,
         profile: hiProfile,
+        collaborator: hiCollaborator,
       },
       te: {
         common: teCommon,
@@ -261,6 +280,7 @@ i18n
         availability: teAvailability,
         identity: teIdentity,
         profile: teProfile,
+        collaborator: teCollaborator,
       },
       zh: {
         common: zhCommon,
@@ -270,6 +290,7 @@ i18n
         availability: zhAvailability,
         identity: zhIdentity,
         profile: zhProfile,
+        collaborator: zhCollaborator,
       },
       pt: {
         common: ptCommon,
@@ -279,6 +300,7 @@ i18n
         availability: ptAvailability,
         identity: ptIdentity,
         profile: ptProfile,
+        collaborator: ptCollaborator,
       },
       bn: {
         common: bnCommon,
@@ -288,6 +310,7 @@ i18n
         availability: bnAvailability,
         identity: bnIdentity,
         profile: bnProfile,
+        collaborator: bnCollaborator,
       },
       ar: {
         common: arCommon,
@@ -298,6 +321,7 @@ i18n
         identity: arIdentity,
         profile: arProfile,
         preferences: arPreferences,
+        collaborator: arCollaborator,
       },
       as: {
         common: asCommon,
@@ -403,6 +427,7 @@ i18n
         identity: urIdentity,
         profile: urProfile,
         preferences: urPreferences,
+        collaborator: urCollaborator,
       },
       vi: {
         common: viCommon,
