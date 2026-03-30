@@ -9,35 +9,30 @@ export const collaborators = [
     name: "Idealist",
     url: "https://www.idealist.org/volunteermatch",
     logo: idealistLogo,
-    description:
-      "Connects people with volunteer opportunities, nonprofit jobs, and ways to take action through the Idealist platform.",
+    description: "COLLAB_DESC_IDEALIST",
   },
   {
     name: "TBI4Life",
     url: "https://tbi4life.com",
     logo: tbi4lifeLogo,
-    description:
-      "Supports individuals and families impacted by traumatic brain injury through resources, advocacy, and community education.",
+    description: "COLLAB_DESC_TBI4LIFE",
   },
   {
     name: "Sri Sathya Sai Annapoorna Trust",
     url: "https://annapoorna.org.in/",
     logo: annapoornaLogo,
-    description:
-      "Provides daily nutrition to school children to improve health, attendance, and learning outcomes.",
+    description: "COLLAB_DESC_ANNAPOORNA",
   },
   {
     name: "The Driven Scholars Foundation",
     url: "https://drivenscholars.org",
     logo: drivenScholarsLogo,
-    description:
-      "Empowers students through mentorship, leadership development, and educational support programs.",
+    description: "COLLAB_DESC_DRIVEN",
   },
   {
     name: "South Portland Food Cupboard",
     url: "https://www.southportlandfoodcupboard.org/",
     logo: southPortlandLogo,
-    description:
-      "Provides emergency food assistance to individuals and families in the South Portland community.",
+    description: "COLLAB_DESC_SOUTH_PORTLAND",
   },
 ];
