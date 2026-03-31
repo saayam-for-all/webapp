@@ -105,9 +105,9 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             <input
               type="radio"
               name={fieldId}
-              value={item.itemValue}
-              checked={fieldValues[fieldId] === item.itemValue}
-              onChange={() => updateField(fieldId, item.itemValue)}
+              value={item.itemId}
+              checked={fieldValues[fieldId] === item.itemId}
+              onChange={() => updateField(fieldId, item.itemId)}
               className="rounded"
               data-testid={`radio-${key}`}
             />
@@ -123,8 +123,8 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
               checked={(Array.isArray(fieldValues[fieldId])
                 ? fieldValues[fieldId]
                 : []
-              ).includes(item.itemValue)}
-              onChange={() => toggleCheckbox(fieldId, item.itemValue)}
+              ).includes(item.itemId)}
+              onChange={() => toggleCheckbox(fieldId, item.itemId)}
               className="rounded"
               data-testid={`checkbox-${key}`}
             />
