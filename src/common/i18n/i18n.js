@@ -11,6 +11,7 @@ import enEnums from "./locales/en/enums.json";
 import enIdentity from "./locales/en/identity.json";
 import enProfile from "./locales/en/profile.json";
 import enCollaborator from "./locales/en/collaborator.json";
+import enNews from "./locales/en/news.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
@@ -210,6 +211,7 @@ i18n
       "profile",
       "enums",
       "collaborator",
+      "news",
     ],
     resources: {
       en: {
@@ -221,6 +223,7 @@ i18n
         identity: enIdentity,
         profile: enProfile,
         collaborator: enCollaborator,
+        news: enNews,
       },
       de: {
         common: deCommon,
