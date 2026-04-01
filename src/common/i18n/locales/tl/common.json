@@ -1,4 +1,4 @@
-{
+﻿{
   "ABOUT": "Tungkol sa atin",
   "DONATE": "Mag-donate",
   "LOGIN": "Mag log in",
@@ -23,5 +23,12 @@
   "REQUESTS_RESOLVED": "Nalutas na Kahilingan",
   "AVG_RESOLUTION_TIME": "Avg Oras ng Resolusyon",
   "TOTAL_VOLUNTEERS": "Kabuuang Boluntaryo",
-  "TOTAL_BENEFICIARIES": "Kabuuang Benepisyaryo"
+  "TOTAL_BENEFICIARIES": "Kabuuang Benepisyaryo",
+  "SKILLS_SELECTOR_TITLE": "Select Your Skills For Volunteer Assignments",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Hover to explore categories, click to select skills",
+  "SELECTED_SKILLS": "Selected Skills",
+  "NO_SKILLS_SELECTED": "No skills selected yet",
+  "REMOVE_SKILL": "Remove skill",
+  "REMOVE_CATEGORY": "Remove all skills from this category",
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
 }

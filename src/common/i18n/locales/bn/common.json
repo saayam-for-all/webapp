@@ -1,4 +1,4 @@
-{
+﻿{
   "*By clicking Submit, you are agreeing to our": "*জমা দিন ক্লিক করে আপনি আমাদের সাথে সম্মত হচ্ছেন",
   "ABOUT": "আমাদের সম্পর্কে",
   "ACCEPT": "গ্রহণ করুন",
@@ -338,6 +338,8 @@
   "NEW_MATCH_REQUEST": "নতুন মিলান অনুরোধ",
   "NEW_PASSWORD": "নতুন পাসওয়ার্ড",
   "NEXT": "পরবর্তী",
+  "TOOLTIP_ACCEPT_TERMS": "অনুগ্রহ করে শর্তাবলী স্বীকার করুন",
+  "TOOLTIP_UPLOAD_GOVT_ID": "অনুগ্রহ করে সরকারি পরিচয়পত্র আপলোড করুন",
   "NO": "না",
   "NONE_ACCOUNT": "কোন অ্যাকাউন্ট নেই?",
   "NON_PROFIT": "গবেষণা প্রতিষ্ঠান",
@@ -722,5 +724,12 @@
   "REQUESTS_RESOLVED": "সমাধান হওয়া অনুরোধ",
   "AVG_RESOLUTION_TIME": "গড় সমাধান সময়",
   "TOTAL_VOLUNTEERS": "মোট স্বেচ্ছাসেবক",
-  "TOTAL_BENEFICIARIES": "মোট সুবিধাভোগী"
+  "TOTAL_BENEFICIARIES": "মোট সুবিধাভোগী",
+  "SKILLS_SELECTOR_TITLE": "Select Your Skills For Volunteer Assignments",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Hover to explore categories, click to select skills",
+  "SELECTED_SKILLS": "Selected Skills",
+  "NO_SKILLS_SELECTED": "No skills selected yet",
+  "REMOVE_SKILL": "Remove skill",
+  "REMOVE_CATEGORY": "Remove all skills from this category",
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
 }

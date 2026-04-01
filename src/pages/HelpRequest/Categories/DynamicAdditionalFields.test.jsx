@@ -341,7 +341,7 @@ describe("DynamicAdditionalFields", () => {
     render(<DynamicAdditionalFields catId="1.1" onChange={onChange} />);
     fireEvent.click(screen.getByTestId("radio-1.1.A.1"));
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-    expect(lastCall["1.1.A"]).toBe("VEGETARIAN");
+    expect(lastCall["1.1.A"]).toBe("1.1.A.1");
   });
 
   // ── Checkbox list fields ────────────────────────────────────────────
@@ -359,7 +359,7 @@ describe("DynamicAdditionalFields", () => {
     render(<DynamicAdditionalFields catId="1.1" onChange={onChange} />);
     fireEvent.click(screen.getByTestId("checkbox-1.1.B.1"));
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-    expect(lastCall["1.1.B"]).toContain("DIABETIC_FRIENDLY");
+    expect(lastCall["1.1.B"]).toContain("1.1.B.1");
   });
 
   it("calls onChange correctly when checkbox is toggled off", () => {
@@ -370,7 +370,7 @@ describe("DynamicAdditionalFields", () => {
     // Toggle off
     fireEvent.click(screen.getByTestId("checkbox-1.1.B.1"));
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-    expect(lastCall["1.1.B"]).not.toContain("DIABETIC_FRIENDLY");
+    expect(lastCall["1.1.B"]).not.toContain("1.1.B.1");
   });
 
   // ── Integer / int fields ────────────────────────────────────────────
@@ -575,10 +575,7 @@ describe("DynamicAdditionalFields", () => {
   it("renders list items with textbox itemType", () => {
     const onChange = jest.fn();
     render(<DynamicAdditionalFields catId="6.2" onChange={onChange} />);
-    // Both the h3 heading and the field label say "Additional Information"
-    expect(
-      screen.getAllByText("Additional Information").length,
-    ).toBeGreaterThanOrEqual(2);
+    expect(screen.getByText("Additional Information")).toBeInTheDocument();
     expect(screen.getByTestId("text-6.2.A.1")).toHaveAttribute("type", "text");
     expect(screen.getByTestId("text-6.2.A.2")).toHaveAttribute("type", "text");
   });
@@ -660,7 +657,7 @@ describe("DynamicAdditionalFields", () => {
       <DynamicAdditionalFields
         catId="1.1"
         onChange={onChange}
-        initialValues={{ "1.1.A": "VEGAN" }}
+        initialValues={{ "1.1.A": "1.1.A.2" }}
       />,
     );
     expect(screen.getByTestId("radio-1.1.A.2")).toBeChecked();

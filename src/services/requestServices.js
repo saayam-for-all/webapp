@@ -57,6 +57,11 @@ export const moreInformation = async (request) => {
   return response.data;
 };
 
+export const moreInformationChat = async (payload) => {
+  const response = await api.post(endpoints.GENERATE_ANSWER_API, payload);
+  return response.data;
+};
+
 export const getCategories = async () => {
   const response = await api.get(endpoints.GET_CATEGORIES);
   return response.data;

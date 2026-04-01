@@ -14,6 +14,7 @@
   "PREDICT_CATEGORIES": "v1/genai/predict_categories",
   "GET_NOTIFICATIONS": "v1/request/getNotifications",
   "GENERATE_ANSWER": "v1/genai/generate_answer",
+  "GENERATE_ANSWER_API": "v1/genai/generate_answer_api",
   "UPLOAD_PROFILE_IMAGE": "v1/volunteer/profileImage",
   "DELETE_PROFILE_IMAGE": "v1/volunteer/profileImage",
   "VIEW_PROFILE_IMAGE": "v1/volunteer/profileImage/view",
@@ -31,5 +32,6 @@
   "SPEECH_DETECT_C2": "/requests/v0.0.1/speechDetectC2",
   "SPEECH_DETECT_V2": "v1/request/speechDetectV2",
   "SIGN_OFF_USER": "v1/volunteer/signOffUser",
-  "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis"
+  "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis",
+  "UPDATE_VOLUNTEER_LOCATION": "v1/spatial/updateVolunteerLocation"
 }

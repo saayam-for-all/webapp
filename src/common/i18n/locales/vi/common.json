@@ -1,4 +1,4 @@
-{
+﻿{
   "ABOUT": "Về chúng tôi",
   "DONATE": "Quyên tặng",
   "LOGIN": "Đăng nhập",
@@ -23,5 +23,12 @@
   "REQUESTS_RESOLVED": "Yêu Cầu Đã Giải Quyết",
   "AVG_RESOLUTION_TIME": "Thời Gian Giải Quyết TB",
   "TOTAL_VOLUNTEERS": "Tổng Tình Nguyện Viên",
-  "TOTAL_BENEFICIARIES": "Tổng Người Thụ Hưởng"
+  "TOTAL_BENEFICIARIES": "Tổng Người Thụ Hưởng",
+  "SKILLS_SELECTOR_TITLE": "Select Your Skills For Volunteer Assignments",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Hover to explore categories, click to select skills",
+  "SELECTED_SKILLS": "Selected Skills",
+  "NO_SKILLS_SELECTED": "No skills selected yet",
+  "REMOVE_SKILL": "Remove skill",
+  "REMOVE_CATEGORY": "Remove all skills from this category",
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
 }
