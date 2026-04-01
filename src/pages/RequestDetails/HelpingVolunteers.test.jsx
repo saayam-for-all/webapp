@@ -45,7 +45,7 @@ describe("HelpingVolunteers", () => {
     // Should show no volunteers, but still show badge and date
     expect(screen.getAllByText(/Volunteers/).length).toBeGreaterThan(0);
     expect(screen.getByText(/Assigned/)).toBeInTheDocument();
-    const dateRegex = /Mar \d{1,2}, 2026, \d{1,2}:\d{2} (AM|PM)/;
+    const dateRegex = /\w{3} \d{1,2}, \d{4}, \d{1,2}:\d{2} (AM|PM)/;
     expect(screen.getByText(dateRegex)).toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe("HelpingVolunteers", () => {
     // Should show no volunteers, but still show badge and date
     expect(screen.getAllByText(/Volunteers/).length).toBeGreaterThan(0);
     expect(screen.getByText(/Assigned/)).toBeInTheDocument();
-    const dateRegex = /Mar \d{1,2}, 2026, \d{1,2}:\d{2} (AM|PM)/;
+    const dateRegex = /\w{3} \d{1,2}, \d{4}, \d{1,2}:\d{2} (AM|PM)/;
     expect(screen.getByText(dateRegex)).toBeInTheDocument();
   });
   it("shows error if volunteers API fails", async () => {
@@ -249,8 +249,8 @@ describe("HelpingVolunteers", () => {
     render(<HelpingVolunteers />);
     expect(await screen.findByText(/Assigned/)).toBeInTheDocument();
     expect(screen.getByText(/Volunteers Requested/)).toBeInTheDocument();
-    // Date format: Mar 3, 2026, ...
-    const dateRegex = /Mar \d{1,2}, 2026, \d{1,2}:\d{2} (AM|PM)/;
+    // Date format: Apr 1, 2026, ...
+    const dateRegex = /\w{3} \d{1,2}, \d{4}, \d{1,2}:\d{2} (AM|PM)/;
     expect(screen.getByText(dateRegex)).toBeInTheDocument();
   });
   beforeEach(() => {
