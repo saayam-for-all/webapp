@@ -214,63 +214,64 @@ exports[`LandingPage renders correctly 1`] = `
         <div
           class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
+          <h3
+            class="font-bold text-3xl md:text-4xl md:mb-[40px]"
+          >
+            mockTranslate(Our Collaborators)
+          </h3>
           <div
-            class="w-full flex flex-row overflow-hidden hidden"
+            class="w-full flex flex-row overflow-hidden"
           >
             <div
               class="scroll imgBox"
             >
               <div>
                 <img
-                  class="w-[150px] ml-[75px]"
+                  alt="Idealist"
+                  class="w-[200px] ml-[75px]"
                   src=""
                 />
                 <img
-                  src=""
-                />
-                <img
+                  alt="TBI4Life"
                   class="w-[200px]"
                   src=""
                 />
                 <img
+                  alt="Sri Sathya Sai Annapoorna Trust"
+                  class="w-[150px]"
                   src=""
                 />
                 <img
+                  alt="The Driven Scholars Foundation"
                   src=""
                 />
                 <img
-                  class="w-[200px]"
-                  src=""
-                />
-                <img
-                  class="w-[125px]"
+                  alt="South Portland Food Cupboard"
                   src=""
                 />
               </div>
               <div>
                 <img
-                  class="w-[150px] ml-[75px]"
+                  alt="Idealist"
+                  class="w-[200px] ml-[75px]"
                   src=""
                 />
                 <img
-                  src=""
-                />
-                <img
+                  alt="TBI4Life"
                   class="w-[200px]"
                   src=""
                 />
                 <img
+                  alt="Sri Sathya Sai Annapoorna Trust"
+                  class="w-[150px]"
                   src=""
                 />
                 <img
+                  alt="The Driven Scholars Foundation"
                   src=""
                 />
                 <img
-                  class="w-[200px]"
-                  src=""
-                />
-                <img
-                  class="w-[125px]"
+                  alt="South Portland Food Cupboard"
                   src=""
                 />
               </div>
@@ -656,63 +657,64 @@ exports[`LandingPage renders correctly 1`] = `
       <div
         class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >
+        <h3
+          class="font-bold text-3xl md:text-4xl md:mb-[40px]"
+        >
+          mockTranslate(Our Collaborators)
+        </h3>
         <div
-          class="w-full flex flex-row overflow-hidden hidden"
+          class="w-full flex flex-row overflow-hidden"
         >
           <div
             class="scroll imgBox"
           >
             <div>
               <img
-                class="w-[150px] ml-[75px]"
+                alt="Idealist"
+                class="w-[200px] ml-[75px]"
                 src=""
               />
               <img
-                src=""
-              />
-              <img
+                alt="TBI4Life"
                 class="w-[200px]"
                 src=""
               />
               <img
+                alt="Sri Sathya Sai Annapoorna Trust"
+                class="w-[150px]"
                 src=""
               />
               <img
+                alt="The Driven Scholars Foundation"
                 src=""
               />
               <img
-                class="w-[200px]"
-                src=""
-              />
-              <img
-                class="w-[125px]"
+                alt="South Portland Food Cupboard"
                 src=""
               />
             </div>
             <div>
               <img
-                class="w-[150px] ml-[75px]"
+                alt="Idealist"
+                class="w-[200px] ml-[75px]"
                 src=""
               />
               <img
-                src=""
-              />
-              <img
+                alt="TBI4Life"
                 class="w-[200px]"
                 src=""
               />
               <img
+                alt="Sri Sathya Sai Annapoorna Trust"
+                class="w-[150px]"
                 src=""
               />
               <img
+                alt="The Driven Scholars Foundation"
                 src=""
               />
               <img
-                class="w-[200px]"
-                src=""
-              />
-              <img
-                class="w-[125px]"
+                alt="South Portland Food Cupboard"
                 src=""
               />
             </div>

@@ -1,4 +1,5 @@
 import { renderWithProviders } from "#utils/test-utils.jsx";
+import { waitFor } from "@testing-library/react";
 import LandingPage from "./LandingPage";
 
 // Mock internal dependencies
@@ -25,8 +26,11 @@ describe("LandingPage", () => {
     fetch.mockClear();
   });
 
-  it("renders correctly", () => {
-    const tree = renderWithProviders(<LandingPage />);
-    expect(tree).toMatchSnapshot();
+  it("renders correctly", async () => {
+    const view = renderWithProviders(<LandingPage />);
+
+    await waitFor(() => expect(fetch).toHaveBeenCalled());
+
+    expect(view).toMatchSnapshot();
   });
 });

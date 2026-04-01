@@ -8,19 +8,16 @@ import bottomFour from "../../assets/landingPageImages/bottomFour.jpg";
 import bottomOne from "../../assets/landingPageImages/bottomOne.jpg";
 import bottomThree from "../../assets/landingPageImages/bottomThree.jpg";
 import bottomTwo from "../../assets/landingPageImages/bottomTwo.jpg";
-import collabFive from "../../assets/landingPageImages/collab_five.jpg";
-import collabFour from "../../assets/landingPageImages/collab_four.jpg";
-import collabOne from "../../assets/landingPageImages/collab_one.jpg";
-import collabSeven from "../../assets/landingPageImages/collab_seven.jpg";
-import collabSix from "../../assets/landingPageImages/collab_six.jpg";
-import collabThree from "../../assets/landingPageImages/collab_three.jpg";
-import collabTwo from "../../assets/landingPageImages/collab_two.jpg";
+import annapoornaLogo from "../../assets/Collab_logos/annapoorna.webp";
+import drivenScholarsLogo from "../../assets/Collab_logos/drivenscholars.webp";
+import idealistLogo from "../../assets/Collab_logos/idealist.webp";
+import southPortlandLogo from "../../assets/Collab_logos/southportland.webp";
+import tbi4lifeLogo from "../../assets/Collab_logos/tbi4life.webp";
 import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
 import MetricsTicker from "./components/MetricsTicker";
-import SquareAd from "#components/Ads/SquareAd";
 import HorizontalAd from "#components/Ads/HorizontalAd";
 
 export default function Home() {
@@ -117,30 +114,53 @@ export default function Home() {
       <Carousel />
       <HorizontalAd />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
-        {/* <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
+        <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
           {t("Our Collaborators")}
-        </h3> */}
+        </h3>
 
-        {/* Hid collaborators until we get permission from them all*/}
-        <div className="w-full flex flex-row overflow-hidden hidden">
+        <div className="w-full flex flex-row overflow-hidden">
           <div className="scroll imgBox">
             <div>
-              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
-              <img src={collabTwo}></img>
-              <img src={collabThree} className="w-[200px]"></img>
-              <img src={collabFour}></img>
-              <img src={collabFive}></img>
-              <img src={collabSix} className="w-[200px]"></img>
-              <img src={collabSeven} className="w-[125px]"></img>
+              <img
+                src={idealistLogo}
+                alt="Idealist"
+                className="w-[200px] ml-[75px]"
+              ></img>
+              <img src={tbi4lifeLogo} alt="TBI4Life" className="w-[200px]"></img>
+              <img
+                src={annapoornaLogo}
+                alt="Sri Sathya Sai Annapoorna Trust"
+                className="w-[150px]"
+              ></img>
+              <img
+                src={drivenScholarsLogo}
+                alt="The Driven Scholars Foundation"
+              ></img>
+              <img
+                src={southPortlandLogo}
+                alt="South Portland Food Cupboard"
+              ></img>
             </div>
             <div>
-              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
-              <img src={collabTwo}></img>
-              <img src={collabThree} className="w-[200px]"></img>
-              <img src={collabFour}></img>
-              <img src={collabFive}></img>
-              <img src={collabSix} className="w-[200px]"></img>
-              <img src={collabSeven} className="w-[125px]"></img>
+              <img
+                src={idealistLogo}
+                alt="Idealist"
+                className="w-[200px] ml-[75px]"
+              ></img>
+              <img src={tbi4lifeLogo} alt="TBI4Life" className="w-[200px]"></img>
+              <img
+                src={annapoornaLogo}
+                alt="Sri Sathya Sai Annapoorna Trust"
+                className="w-[150px]"
+              ></img>
+              <img
+                src={drivenScholarsLogo}
+                alt="The Driven Scholars Foundation"
+              ></img>
+              <img
+                src={southPortlandLogo}
+                alt="South Portland Food Cupboard"
+              ></img>
             </div>
           </div>
         </div>
