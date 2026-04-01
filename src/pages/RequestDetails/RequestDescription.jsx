@@ -13,6 +13,46 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
 
+  const formatEnumLabel = (value) => {
+    if (!value) return "";
+    const normalized = String(value).toLowerCase().replaceAll("_", " ");
+    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+  };
+
+  const normalizedStatus = String(requestData?.status || "").toUpperCase();
+  const normalizedPriority = String(requestData?.priority || "").toUpperCase();
+
+  const statusStyles = {
+    CREATED: "bg-blue-100 text-blue-800",
+    MATCHING_VOLUNTEER: "bg-yellow-100 text-yellow-800",
+    MANAGED: "bg-indigo-100 text-indigo-800",
+    RESOLVED: "bg-green-100 text-green-800",
+    CANCELLED: "bg-red-100 text-red-800",
+  };
+
+  const priorityStyles = {
+    LOW: "text-green-600",
+    MEDIUM: "text-yellow-600",
+    HIGH: "text-orange-600",
+    CRITICAL: "text-red-500",
+  };
+
+  const statusLabelRaw = t(`enums:requestStatus.${normalizedStatus}`, {
+    defaultValue: requestData?.status || "",
+  });
+  const priorityLabelRaw = t(`enums:requestPriority.${normalizedPriority}`, {
+    defaultValue: requestData?.priority || "",
+  });
+
+  const statusLabel =
+    statusLabelRaw === requestData?.status
+      ? formatEnumLabel(requestData?.status)
+      : statusLabelRaw;
+  const priorityLabel =
+    priorityLabelRaw === requestData?.priority
+      ? formatEnumLabel(requestData?.priority)
+      : priorityLabelRaw;
+
   const cDate = new Date(requestData.creationDate);
   const formattedDate = cDate.toLocaleDateString("en-US", {
     year: "numeric",
@@ -55,15 +95,21 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
                 </li>
               ))}
             <li>
-              <span className="bg-green-200 text-black-800 text-xs md:text-sm px-3 py-1 rounded-full items-center flex">
-                {t(requestData.status)}
+              <span
+                className={`text-xs md:text-sm px-3 py-1 rounded-full items-center flex ${statusStyles[normalizedStatus] || "bg-gray-100 text-gray-700"}`}
+              >
+                {statusLabel}
               </span>
             </li>
             <li>
               <div className="flex items-center">
-                <PiWarningDiamondFill className="mr-1 text-red-500" />
-                <span className="text-md font-bold">
-                  {t(requestData.priority)}
+                <PiWarningDiamondFill
+                  className={`mr-1 ${priorityStyles[normalizedPriority] || "text-gray-500"}`}
+                />
+                <span
+                  className={`text-md font-bold ${priorityStyles[normalizedPriority] || "text-gray-700"}`}
+                >
+                  {priorityLabel}
                 </span>
               </div>
             </li>
