@@ -78,4 +78,20 @@ describe("mapHelpRequestPayload", () => {
     });
     expect(result.isLeadVolunteer).toBe(0);
   });
+
+  it("maps 'GENERAL_CATEGORY' to '0.0.0.0.0'", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      selectedCategoryId: "GENERAL_CATEGORY",
+    });
+    expect(result.helpCategory.catId).toBe("0.0.0.0.0");
+  });
+
+  it("maps 'General' to '0.0.0.0.0'", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      selectedCategoryId: "General",
+    });
+    expect(result.helpCategory.catId).toBe("0.0.0.0.0");
+  });
 });
