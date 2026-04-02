@@ -6,6 +6,10 @@ jest.mock("react-router");
 
 jest.mock("./components/Carousel");
 
+jest.mock("./components/MetricsTicker", () => () => (
+  <div data-testid="metrics-ticker" />
+));
+
 // Mock fetch API for MetricsTicker
 global.fetch = jest.fn(() =>
   Promise.resolve({

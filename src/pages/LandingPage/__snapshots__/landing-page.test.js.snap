@@ -26,120 +26,8 @@ exports[`LandingPage renders correctly 1`] = `
             </h1>
           </div>
           <div
-            class="w-full py-3"
-          >
-            <div
-              class="overflow-x-auto"
-            >
-              <div
-                class="flex items-center justify-center px-4 min-w-max mx-auto"
-              >
-                <span
-                  class="flex items-center"
-                >
-                  <span
-                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
-                    style="background-color: rgb(219, 234, 254);"
-                  >
-                    <span
-                      class="text-sm font-medium"
-                      style="color: rgb(30, 64, 175);"
-                    >
-                      mockTranslate(TOTAL_REQUESTS)
-                      :
-                    </span>
-                    <span
-                      class="text-sm font-bold tabular-nums"
-                      style="color: rgb(30, 64, 175);"
-                    >
-                      0
-                    </span>
-                  </span>
-                  <span
-                    class="mx-4 text-gray-300 select-none font-light"
-                  >
-                    |
-                  </span>
-                </span>
-                <span
-                  class="flex items-center"
-                >
-                  <span
-                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
-                    style="background-color: rgb(220, 252, 231);"
-                  >
-                    <span
-                      class="text-sm font-medium"
-                      style="color: rgb(22, 101, 52);"
-                    >
-                      mockTranslate(REQUESTS_RESOLVED)
-                      :
-                    </span>
-                    <span
-                      class="text-sm font-bold tabular-nums"
-                      style="color: rgb(22, 101, 52);"
-                    >
-                      0
-                    </span>
-                  </span>
-                  <span
-                    class="mx-4 text-gray-300 select-none font-light"
-                  >
-                    |
-                  </span>
-                </span>
-                <span
-                  class="flex items-center"
-                >
-                  <span
-                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
-                    style="background-color: rgb(237, 233, 254);"
-                  >
-                    <span
-                      class="text-sm font-medium"
-                      style="color: rgb(91, 33, 182);"
-                    >
-                      mockTranslate(TOTAL_VOLUNTEERS)
-                      :
-                    </span>
-                    <span
-                      class="text-sm font-bold tabular-nums"
-                      style="color: rgb(91, 33, 182);"
-                    >
-                      0
-                    </span>
-                  </span>
-                  <span
-                    class="mx-4 text-gray-300 select-none font-light"
-                  >
-                    |
-                  </span>
-                </span>
-                <span
-                  class="flex items-center"
-                >
-                  <span
-                    class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
-                    style="background-color: rgb(255, 237, 213);"
-                  >
-                    <span
-                      class="text-sm font-medium"
-                      style="color: rgb(154, 52, 18);"
-                    >
-                      mockTranslate(TOTAL_BENEFICIARIES)
-                      :
-                    </span>
-                    <span
-                      class="text-sm font-bold tabular-nums"
-                      style="color: rgb(154, 52, 18);"
-                    >
-                      0
-                    </span>
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
+            data-testid="metrics-ticker"
+          />
         </div>
         <div
           class="w-full flex flex-row justify-center mt-8"
@@ -214,8 +102,13 @@ exports[`LandingPage renders correctly 1`] = `
         <div
           class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
+          <h3
+            class="font-bold text-3xl md:text-4xl md:mb-[40px]"
+          >
+            mockTranslate(Our Collaborators)
+          </h3>
           <div
-            class="w-full flex flex-row overflow-hidden hidden"
+            class="w-full flex flex-row overflow-hidden"
           >
             <div
               class="scroll imgBox"
@@ -468,120 +361,8 @@ exports[`LandingPage renders correctly 1`] = `
           </h1>
         </div>
         <div
-          class="w-full py-3"
-        >
-          <div
-            class="overflow-x-auto"
-          >
-            <div
-              class="flex items-center justify-center px-4 min-w-max mx-auto"
-            >
-              <span
-                class="flex items-center"
-              >
-                <span
-                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
-                  style="background-color: rgb(219, 234, 254);"
-                >
-                  <span
-                    class="text-sm font-medium"
-                    style="color: rgb(30, 64, 175);"
-                  >
-                    mockTranslate(TOTAL_REQUESTS)
-                    :
-                  </span>
-                  <span
-                    class="text-sm font-bold tabular-nums"
-                    style="color: rgb(30, 64, 175);"
-                  >
-                    0
-                  </span>
-                </span>
-                <span
-                  class="mx-4 text-gray-300 select-none font-light"
-                >
-                  |
-                </span>
-              </span>
-              <span
-                class="flex items-center"
-              >
-                <span
-                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
-                  style="background-color: rgb(220, 252, 231);"
-                >
-                  <span
-                    class="text-sm font-medium"
-                    style="color: rgb(22, 101, 52);"
-                  >
-                    mockTranslate(REQUESTS_RESOLVED)
-                    :
-                  </span>
-                  <span
-                    class="text-sm font-bold tabular-nums"
-                    style="color: rgb(22, 101, 52);"
-                  >
-                    0
-                  </span>
-                </span>
-                <span
-                  class="mx-4 text-gray-300 select-none font-light"
-                >
-                  |
-                </span>
-              </span>
-              <span
-                class="flex items-center"
-              >
-                <span
-                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
-                  style="background-color: rgb(237, 233, 254);"
-                >
-                  <span
-                    class="text-sm font-medium"
-                    style="color: rgb(91, 33, 182);"
-                  >
-                    mockTranslate(TOTAL_VOLUNTEERS)
-                    :
-                  </span>
-                  <span
-                    class="text-sm font-bold tabular-nums"
-                    style="color: rgb(91, 33, 182);"
-                  >
-                    0
-                  </span>
-                </span>
-                <span
-                  class="mx-4 text-gray-300 select-none font-light"
-                >
-                  |
-                </span>
-              </span>
-              <span
-                class="flex items-center"
-              >
-                <span
-                  class="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
-                  style="background-color: rgb(255, 237, 213);"
-                >
-                  <span
-                    class="text-sm font-medium"
-                    style="color: rgb(154, 52, 18);"
-                  >
-                    mockTranslate(TOTAL_BENEFICIARIES)
-                    :
-                  </span>
-                  <span
-                    class="text-sm font-bold tabular-nums"
-                    style="color: rgb(154, 52, 18);"
-                  >
-                    0
-                  </span>
-                </span>
-              </span>
-            </div>
-          </div>
-        </div>
+          data-testid="metrics-ticker"
+        />
       </div>
       <div
         class="w-full flex flex-row justify-center mt-8"
@@ -656,8 +437,13 @@ exports[`LandingPage renders correctly 1`] = `
       <div
         class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >
+        <h3
+          class="font-bold text-3xl md:text-4xl md:mb-[40px]"
+        >
+          mockTranslate(Our Collaborators)
+        </h3>
         <div
-          class="w-full flex flex-row overflow-hidden hidden"
+          class="w-full flex flex-row overflow-hidden"
         >
           <div
             class="scroll imgBox"
