@@ -53,7 +53,7 @@ exports[`Table renders correctly 1`] = `
                   data-testid="map-data-one"
                 >
                   <mock-link
-                    props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                    props="{"className":"text-indigo-600 hover:text-indigo-900"}"
                     to="/mock-link-path"
                   >
                     1
@@ -63,7 +63,12 @@ exports[`Table renders correctly 1`] = `
                   class="px-6 py-2"
                   data-testid="map-data-one"
                 >
-                  Item 1
+                  <mock-link
+                    props="{"className":"text-indigo-600 hover:text-indigo-900"}"
+                    to="/mock-link-path"
+                  >
+                    Item 1
+                  </mock-link>
                 </td>
               </tr>
               <tr>
@@ -72,7 +77,7 @@ exports[`Table renders correctly 1`] = `
                   data-testid="map-data-one"
                 >
                   <mock-link
-                    props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                    props="{"className":"text-indigo-600 hover:text-indigo-900"}"
                     to="/mock-link-path"
                   >
                     2
@@ -82,7 +87,12 @@ exports[`Table renders correctly 1`] = `
                   class="px-6 py-2"
                   data-testid="map-data-one"
                 >
-                  Item 2
+                  <mock-link
+                    props="{"className":"text-indigo-600 hover:text-indigo-900"}"
+                    to="/mock-link-path"
+                  >
+                    Item 2
+                  </mock-link>
                 </td>
               </tr>
             </tbody>
@@ -150,7 +160,7 @@ exports[`Table renders correctly 1`] = `
                 data-testid="map-data-one"
               >
                 <mock-link
-                  props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                  props="{"className":"text-indigo-600 hover:text-indigo-900"}"
                   to="/mock-link-path"
                 >
                   1
@@ -160,7 +170,12 @@ exports[`Table renders correctly 1`] = `
                 class="px-6 py-2"
                 data-testid="map-data-one"
               >
-                Item 1
+                <mock-link
+                  props="{"className":"text-indigo-600 hover:text-indigo-900"}"
+                  to="/mock-link-path"
+                >
+                  Item 1
+                </mock-link>
               </td>
             </tr>
             <tr>
@@ -169,7 +184,7 @@ exports[`Table renders correctly 1`] = `
                 data-testid="map-data-one"
               >
                 <mock-link
-                  props="{"className":"text-indigo-600 hover:text-indigo-900","state":{}}"
+                  props="{"className":"text-indigo-600 hover:text-indigo-900"}"
                   to="/mock-link-path"
                 >
                   2
@@ -179,7 +194,12 @@ exports[`Table renders correctly 1`] = `
                 class="px-6 py-2"
                 data-testid="map-data-one"
               >
-                Item 2
+                <mock-link
+                  props="{"className":"text-indigo-600 hover:text-indigo-900"}"
+                  to="/mock-link-path"
+                >
+                  Item 2
+                </mock-link>
               </td>
             </tr>
           </tbody>

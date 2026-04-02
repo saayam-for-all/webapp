@@ -33,5 +33,7 @@
   "SPEECH_DETECT_V2": "v1/request/speechDetectV2",
   "SIGN_OFF_USER": "v1/volunteer/signOffUser",
   "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis",
-  "UPDATE_VOLUNTEER_LOCATION": "v1/spatial/updateVolunteerLocation"
+  "UPDATE_VOLUNTEER_LOCATION": "v1/spatial/updateVolunteerLocation",
+  "ORG_AGGREGATOR_LIST": "v1/ml/orgAggregatorList",
+  "MOCK_ORG_DATA": "v1/ml/mockOrgData"
 }

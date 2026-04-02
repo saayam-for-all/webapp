@@ -106,7 +106,7 @@ const RequestButton = ({
         setShowModal(true);
       }
     } else {
-      navigate(link);
+      navigate(link, { state: requestData });
     }
   };
 

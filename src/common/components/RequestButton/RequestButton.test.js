@@ -83,7 +83,7 @@ describe("RequestButton", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button"));
-    expect(mockNavigate).toHaveBeenCalledWith("/volunteer");
+    expect(mockNavigate).toHaveBeenCalledWith("/volunteer", { state: {} });
   });
 
   it("calls onClick prop when provided", () => {
