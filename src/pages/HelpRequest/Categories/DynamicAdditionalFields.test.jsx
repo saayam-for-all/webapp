@@ -341,7 +341,7 @@ describe("DynamicAdditionalFields", () => {
     render(<DynamicAdditionalFields catId="1.1" onChange={onChange} />);
     fireEvent.click(screen.getByTestId("radio-1.1.A.1"));
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-    expect(lastCall["1.1.A"]).toBe("1.1.A.1");
+    expect(lastCall["1.1.A"]).toEqual(["1.1.A.1"]);
   });
 
   // ── Checkbox list fields ────────────────────────────────────────────
@@ -452,7 +452,7 @@ describe("DynamicAdditionalFields", () => {
       target: { value: "2026-03-15" },
     });
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-    expect(lastCall["3.7.B_date"]).toBe("2026-03-15");
+    expect(lastCall["3.7.B"]["3.7.B_date"]).toBe("2026-03-15");
   });
 
   it("calls onChange when time field changes", () => {
@@ -462,7 +462,7 @@ describe("DynamicAdditionalFields", () => {
       target: { value: "14:30" },
     });
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-    expect(lastCall["3.7.B_time"]).toBe("14:30");
+    expect(lastCall["3.7.B"]["3.7.B_time"]).toBe("14:30");
   });
 
   // ── Standalone checkbox fields ──────────────────────────────────────
@@ -482,7 +482,7 @@ describe("DynamicAdditionalFields", () => {
     render(<DynamicAdditionalFields catId="3.7" onChange={onChange} />);
     fireEvent.click(screen.getByTestId("field-3.7.D"));
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-    expect(lastCall["3.7.D"]).toBe(true);
+    expect(lastCall["3.7.D"]).toBe("true");
   });
 
   // ── Time-only field ─────────────────────────────────────────────────
@@ -657,7 +657,7 @@ describe("DynamicAdditionalFields", () => {
       <DynamicAdditionalFields
         catId="1.1"
         onChange={onChange}
-        initialValues={{ "1.1.A": "1.1.A.2" }}
+        initialValues={{ "1.1.A": ["1.1.A.2"] }}
       />,
     );
     expect(screen.getByTestId("radio-1.1.A.2")).toBeChecked();
