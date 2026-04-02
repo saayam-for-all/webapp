@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "सरकारी पन्छान पत्तर अपलोड करो",
+  "SELECT_SOURCE": "स्रोत चुनो",
+  "DEVICE": "डिवाइस",
+  "GOOGLE_DRIVE": "गूगल ड्राइव",
+  "DROPBOX": "ड्रापबाक्स",
+  "UPLOAD_FILE": "फाइल अपलोड करो",
+  "FILE": "फाइल",
+  "FILE_PREVIEW": "पूर्वावलोकन",
+  "UPLOAD": "अपलोड",
+  "UPLOADING": "अपलोड होआ दा...",
+  "REMOVE": "हटाओ",
+  "FILE_SIZE_ERROR": "फाइल दा आकार 2MB थमां बधुआ नेईं होनां चाहिदा",
+  "FILE_TYPE_ERROR": "सिर्फ JPEG, JPG, PNG, ते PDF फाइलें गी अनुमति ऐ। फाइल दी किस्म पता लगी: {{fileType}}, एक्सटेंशन: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "सिर्फ JPEG, JPG, PNG, जां PDF फाइलें। अधिकतम आकार: 2MB।",
+  "UPLOAD_SUCCESS": "फाइल सफलतापूर्वक अपलोड होई गेदी",
+  "UPLOAD_FAILED": "फाइल अपलोड असफल होई गेआ",
+  "UPLOAD_ERROR": "फाइल अपलोड करदे समें इक त्रुटि होई गेई"
+}

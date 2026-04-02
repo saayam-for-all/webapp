@@ -3,20 +3,30 @@ import localeList from "./localeList.js";
 import { validateString, validateArray } from "../../utils/validators";
 
 const PERSONAL_INFO = "personalInfo";
+const USER_PREFERENCES = "userPreferences";
 
-function getUserLanguages(personalInfo) {
+function getUserLanguages(personalOrPrefs) {
   try {
-    if (!personalInfo) {
-      const savedPersonalInfo = localStorage.getItem(PERSONAL_INFO);
-      personalInfo = JSON.parse(savedPersonalInfo);
+    // Prefer explicit object passed in (e.g., from Preferences save)
+    if (!personalOrPrefs) {
+      // 1) Prefer saved user preferences
+      const savedPrefsRaw = localStorage.getItem(USER_PREFERENCES);
+      if (savedPrefsRaw) {
+        personalOrPrefs = JSON.parse(savedPrefsRaw);
+      } else {
+        // 2) Fallback to legacy personalInfo storage
+        const savedPersonalInfo = localStorage.getItem(PERSONAL_INFO);
+        personalOrPrefs = JSON.parse(savedPersonalInfo);
+      }
     }
+
     return [
-      personalInfo?.languagePreference1,
-      personalInfo?.languagePreference2,
-      personalInfo?.languagePreference3,
+      personalOrPrefs?.languagePreference1,
+      personalOrPrefs?.languagePreference2,
+      personalOrPrefs?.languagePreference3,
     ].filter((language) => validateString(language));
   } catch (error) {
-    console.error("Error on PersonalInfo parsing.", error);
+    console.error("Error on preferences parsing.", error);
     return null;
   }
 }
@@ -26,7 +36,9 @@ export const changeUiLanguage = (personalInfo = null) => {
 
   if (!validateArray(languages)) {
     console.log("No valid user preferences — using browser language");
-    return; // Letting i18n use browser default
+    localStorage.removeItem("i18nextLng");
+    i18n.changeLanguage(); // re-run detection to respect browser language
+    return;
   }
 
   const pattern = Object.keys(localeList);
