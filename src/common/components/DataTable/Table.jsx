@@ -132,10 +132,7 @@ const Table = ({
                   {headers.map((header, colIndex) => {
                     const value = getCellValue(row, header);
 
-                    const path =
-                      shouldLinkCell(header) && getLinkPath
-                        ? getLinkPath(row, header)
-                        : null;
+                    const path = getLinkPath ? getLinkPath(row, header) : null;
 
                     return (
                       <td
