@@ -465,6 +465,24 @@ describe("DynamicAdditionalFields", () => {
     expect(lastCall["3.7.B"]["3.7.B_time"]).toBe("14:30");
   });
 
+  it("renders date&time fields with initial values", () => {
+    const onChange = jest.fn();
+    render(
+      <DynamicAdditionalFields
+        catId="3.7"
+        onChange={onChange}
+        initialValues={{
+          "3.7.B": {
+            "3.7.B_date": "2026-03-15",
+            "3.7.B_time": "14:30",
+          },
+        }}
+      />,
+    );
+    expect(screen.getByTestId("field-3.7.B-date")).toHaveValue("2026-03-15");
+    expect(screen.getByTestId("field-3.7.B-time")).toHaveValue("14:30");
+  });
+
   // ── Standalone checkbox fields ──────────────────────────────────────
 
   it("renders standalone checkbox fields", () => {
@@ -483,6 +501,39 @@ describe("DynamicAdditionalFields", () => {
     fireEvent.click(screen.getByTestId("field-3.7.D"));
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
     expect(lastCall["3.7.D"]).toBe("true");
+
+    // Click again to uncheck and verify "false" is sent
+    fireEvent.click(screen.getByTestId("field-3.7.D"));
+    const secondCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
+    expect(secondCall["3.7.D"]).toBe("false");
+  });
+
+  it("renders standalone checkbox with initial 'true' value", () => {
+    const onChange = jest.fn();
+    render(
+      <DynamicAdditionalFields
+        catId="3.7"
+        onChange={onChange}
+        initialValues={{
+          "3.7.D": "true",
+        }}
+      />,
+    );
+    expect(screen.getByTestId("field-3.7.D")).toBeChecked();
+  });
+
+  it("renders standalone checkbox with initial 'false' value", () => {
+    const onChange = jest.fn();
+    render(
+      <DynamicAdditionalFields
+        catId="3.7"
+        onChange={onChange}
+        initialValues={{
+          "3.7.D": "false",
+        }}
+      />,
+    );
+    expect(screen.getByTestId("field-3.7.D")).not.toBeChecked();
   });
 
   // ── Time-only field ─────────────────────────────────────────────────
