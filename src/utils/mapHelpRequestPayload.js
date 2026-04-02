@@ -23,7 +23,11 @@ export const mapHelpRequestPayload = ({
     },
 
     helpCategory: {
-      catId: selectedCategoryId,
+      catId:
+        selectedCategoryId === "GENERAL_CATEGORY" ||
+        selectedCategoryId === "General"
+          ? "0.0.0.0.0"
+          : selectedCategoryId,
     },
 
     requestFor: {
