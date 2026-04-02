@@ -985,9 +985,18 @@ const Dashboard = ({ userRole }) => {
             onChange={handleSearchChange}
             className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
           />
+          <p className="mt-2 text-sm text-gray-600">
+            google with human touch
+            <span
+              title="Trademark pending"
+              className="inline-block cursor-help ml-1"
+            >
+              *
+            </span>
+          </p>
         </div>
       </div>
-      <div className="mb-4 flex flex-wrap gap-2 px-10">
+      <div className="mt-4 flex flex-wrap gap-2 px-10">
         <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
           <div
             className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
