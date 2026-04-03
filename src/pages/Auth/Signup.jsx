@@ -389,34 +389,12 @@ const SignUp = () => {
           </label>
         </div>
         <button
-          className={`my-4 py-2 rounded-xl text-white 
-    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
-  `}
+          className={`my-4 py-2 rounded-xl text-white ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}`}
           onClick={handleSignUp}
           disabled={!acceptedTOS}
         >
           Sign up
         </button>
-
-        {/* Uncomment this snippet when the signup functionality is fully developed  */}
-
-        {/* <div className="flex items-center my-4">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="px-4 text-gray-500">Or With</span>
-          <div className="flex-grow border-t border-gray-300"></div>
-        </div>
-
-        <div className="flex flex-row items-center">
-          <button className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
-            <FaFacebookF className="mx-2 text-xl text-blue-800" />
-            <span>Facebook</span>
-          </button>
-
-          <button className="ml-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
-            <FcGoogle className="mx-2 text-xl" />
-            <span>Google</span>
-          </button>
-        </div> */}
 
         <div className="mt-8 flex flex-row justify-center">
           <p>{t("ALREADY_HAVE_ACCOUNT")}</p>
