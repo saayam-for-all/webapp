@@ -29,21 +29,8 @@ const getBrowserCoords = () =>
     );
   });
 
-const getDisplayNumber = (service, fallback) => {
-  if (!service) return fallback;
-  if (typeof service === "string") return service;
-  return service.display_number || service.dial_number || fallback;
-};
-
-const getDialNumber = (service, fallback) => {
-  if (!service) return fallback;
-  if (typeof service === "string") return service.replace(/\D/g, "");
-  return (service.dial_number || service.display_number || fallback)
-    .toString()
-    .replace(/\D/g, "");
-};
-
 const EmergencyContact = ({ embedded = false }) => {
+  //console.log("✅ EmergencyContact component rendered");
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -54,6 +41,7 @@ const EmergencyContact = ({ embedded = false }) => {
     let alive = true;
 
     const normalize = (raw) => {
+      // Lambda proxy response: { statusCode, headers, body: "json string" }
       if (raw && typeof raw === "object" && typeof raw.body === "string") {
         try {
           return JSON.parse(raw.body);
@@ -62,22 +50,33 @@ const EmergencyContact = ({ embedded = false }) => {
           return null;
         }
       }
+      // Already normal JSON
       return raw;
     };
 
     const fetchContacts = async () => {
       try {
+        // 1) GPS
         try {
           const { lat, lng } = await getBrowserCoords();
+          // console.log("GPS coordinates:", { lat, lng });
+
           const raw = await getEmergencyContactInfo({ lat, lng });
+          // console.log("Emergency API response (GPS raw):", raw);
+
           const parsed = normalize(raw);
+          // console.log("Emergency API response (GPS parsed):", parsed);
 
           if (alive) setApiData(parsed);
         } catch (geoErr) {
           console.warn("GPS failed / denied:", geoErr);
 
+          // 2) fallback
           const raw = await getEmergencyContactInfo();
+          // console.log("Fallback API response (raw):", raw);
+
           const parsed = normalize(raw);
+          // console.log("Fallback API response (parsed):", parsed);
 
           if (alive) setApiData(parsed);
         }
@@ -90,77 +89,86 @@ const EmergencyContact = ({ embedded = false }) => {
     };
 
     fetchContacts();
-
     return () => {
       alive = false;
     };
   }, []);
 
+  // Normalize service numbers from backend
   const dynamic = useMemo(() => {
     const services = apiData?.services || {};
-
     return {
-      police: {
-        display: getDisplayNumber(services.police, "911"),
-        dial: getDialNumber(services.police, "911"),
-      },
-      fire: {
-        display: getDisplayNumber(services.fire, "911"),
-        dial: getDialNumber(services.fire, "911"),
-      },
-      ambulance: {
-        display: getDisplayNumber(services.ambulance, "911"),
-        dial: getDialNumber(services.ambulance, "911"),
-      },
-      suicide: {
-        display: getDisplayNumber(services.suicide_helpline, "988"),
-        dial: getDialNumber(services.suicide_helpline, "988"),
-      },
+      police: services.police || "911",
+      fire: services.fire || "911",
+      ambulance: services.ambulance || "911",
+      suicide: services.suicide_helpline || "988",
     };
   }, [apiData]);
 
+  // Keep your i18n labels; only inject dynamic phone numbers
   const emergencyContacts = useMemo(
     () => [
       {
         category: t("CATEGORY_SAFETY"),
         contacts: [
-          {
-            name: t("POLICE"),
-            phone: dynamic.police.display,
-            dial: dynamic.police.dial,
-          },
-          {
-            name: t("FIRE"),
-            phone: dynamic.fire.display,
-            dial: dynamic.fire.dial,
-          },
+          { name: t("POLICE"), phone: dynamic.police },
+          { name: t("FIRE"), phone: dynamic.fire },
+          // { name: t("SECURITY"), phone: "(123) 456-7890" },
+          // { name: t("DOMESTIC_VIOLENCE"), phone: "1-800-799-7233" },
+          // { name: t("CHILD_ABUSE"), phone: "1-800-422-4453" },
         ],
       },
       {
         category: t("CATEGORY_MEDICAL"),
         contacts: [
-          {
-            name: t("MEDICAL_EMERGENCY"),
-            phone: dynamic.ambulance.display,
-            dial: dynamic.ambulance.dial,
-          },
-          {
-            name: t("AMBULANCE"),
-            phone: dynamic.ambulance.display,
-            dial: dynamic.ambulance.dial,
-          },
-          {
-            name: t("MENTAL_HEALTH"),
-            phone: dynamic.suicide.display,
-            dial: dynamic.suicide.dial,
-          },
-          {
-            name: t("SUICIDE_PREVENTION"),
-            phone: dynamic.suicide.display,
-            dial: dynamic.suicide.dial,
-          },
+          { name: t("MEDICAL_EMERGENCY"), phone: dynamic.ambulance },
+          // { name: t("POISON_CONTROL"), phone: "1-800-222-1222" },
+          { name: t("AMBULANCE"), phone: dynamic.ambulance },
+          { name: t("MENTAL_HEALTH"), phone: dynamic.suicide },
+          { name: t("SUICIDE_PREVENTION"), phone: dynamic.suicide },
         ],
       },
+      // {
+      //   category: t("CATEGORY_UTILITIES"),
+      //   contacts: [
+      //     { name: t("GAS_LEAK"), phone: "1-800-555-0199" },
+      //     { name: t("ELECTRICITY_OUTAGE"), phone: "1-800-555-0123" },
+      //     { name: t("WATER_DEPARTMENT"), phone: "1-800-555-0177" },
+      //   ],
+      // },
+      // {
+      //   category: t("CATEGORY_NATURAL"),
+      //   contacts: [
+      //     { name: t("FLOOD_HELP"), phone: "1-800-555-0198" },
+      //     { name: t("EARTHQUAKE_INFO"), phone: "1-800-555-0187" },
+      //     { name: t("HURRICANE_INFO"), phone: "1-800-555-0140" },
+      //     { name: t("EMERGENCY_MGMT"), phone: "1-800-555-0101" },
+      //   ],
+      // },
+      // {
+      //   category: t("CATEGORY_TRANSPORT"),
+      //   contacts: [
+      //     { name: t("ROADSIDE_ASSISTANCE"), phone: "1-800-555-0166" },
+      //     { name: t("HIGHWAY_PATROL"), phone: "1-800-555-0155" },
+      //     { name: t("PUBLIC_TRANSPORT_EMERGENCY"), phone: "1-800-555-0133" },
+      //   ],
+      // },
+      // {
+      //   category: t("CATEGORY_ANIMAL"),
+      //   contacts: [
+      //     { name: t("ANIMAL_CONTROL"), phone: "1-800-555-0145" },
+      //     { name: t("WILDLIFE_RESCUE"), phone: "1-800-555-0146" },
+      //     { name: t("ENVIRONMENTAL_HAZARDS"), phone: "1-800-555-0150" },
+      //   ],
+      // },
+      // {
+      //   category: t("CATEGORY_COMMUNITY"),
+      //   contacts: [
+      //     { name: t("SENIOR_HELPLINE"), phone: "1-800-555-0111" },
+      //     { name: t("HOMELESS_SERVICES"), phone: "1-800-555-0112" },
+      //     { name: t("FOOD_ASSISTANCE"), phone: "1-800-555-0113" },
+      //   ],
+      // },
     ],
     [t, dynamic],
   );
@@ -171,6 +179,7 @@ const EmergencyContact = ({ embedded = false }) => {
 
   return (
     <div className="flex flex-col items-center p-5 px-5">
+      {/* Show ONLY on standalone page */}
       {!embedded && (
         <div className="w-full max-w-[900px] px-4 mb-4 flex items-center justify-between">
           <button
@@ -193,6 +202,7 @@ const EmergencyContact = ({ embedded = false }) => {
           {t("EMERGENCY_SUBTITLE")}
         </p>
 
+        {/* Optional status line */}
         <p className="text-sm text-gray-600 mb-6">
           {loading
             ? "Fetching emergency numbers..."
@@ -200,6 +210,15 @@ const EmergencyContact = ({ embedded = false }) => {
               ? `Area Detected: ${locationLine}`
               : "Using default emergency numbers - USA"}
         </p>
+
+        {/*/!* Optional status line *!/*/}
+        {/*<p className="text-sm text-gray-600 mb-6">*/}
+        {/*  {loading*/}
+        {/*    ? "Fetching emergency numbers..."*/}
+        {/*    : locationLine*/}
+        {/*      ? `location: ${locationLine} • match: ${apiData?.match_level}`*/}
+        {/*      : "Using default emergency numbers - USA"}*/}
+        {/*</p>*/}
 
         {emergencyContacts.map((section, idx) => (
           <Box key={idx} className="mb-6">
@@ -214,7 +233,7 @@ const EmergencyContact = ({ embedded = false }) => {
                   key={cidx}
                   button
                   component="a"
-                  href={`tel:${contact.dial}`}
+                  href={`tel:${String(contact.phone).replace(/\D/g, "")}`}
                   className="border border-gray-200 rounded-md px-4 py-3 mb-2 transition-all hover:bg-red-100 hover:border-red-600 hover:scale-[1.01]"
                 >
                   <ListItemText
