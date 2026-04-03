@@ -1,4 +1,4 @@
-{
+﻿{
   "ABOUT": "साडे बारे च",
   "DONATE": "दान देना",
   "LOGIN": "लॉगिन करो",
@@ -18,5 +18,17 @@
   "ACCEPT_SUCCESS_MESSAGE": "तुसें एह् मंग गी स्वीकार कीता।",
   "DENY_SUCCESS_MESSAGE": "तुसें एह् मंग गी इनकार कीता।",
   "LOGISTIC_HELP": "रसद सहायता",
-  "EDUCATIONAL_HELP": "शैक्षिक सहायता"
+  "EDUCATIONAL_HELP": "शैक्षिक सहायता",
+  "TOTAL_REQUESTS": "कुल बेनती",
+  "REQUESTS_RESOLVED": "हल होई बेनतियाँ",
+  "AVG_RESOLUTION_TIME": "औसत हल वेला",
+  "TOTAL_VOLUNTEERS": "कुल सेवादार",
+  "TOTAL_BENEFICIARIES": "कुल लाभार्थी",
+  "SKILLS_SELECTOR_TITLE": "Select Your Skills For Volunteer Assignments",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Hover to explore categories, click to select skills",
+  "SELECTED_SKILLS": "Selected Skills",
+  "NO_SKILLS_SELECTED": "No skills selected yet",
+  "REMOVE_SKILL": "Remove skill",
+  "REMOVE_CATEGORY": "Remove all skills from this category",
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
 }

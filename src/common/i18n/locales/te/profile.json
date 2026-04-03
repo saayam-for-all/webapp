@@ -95,5 +95,16 @@
   "SAVE": "సేవ్ చేయి",
   "SAVING": "సేవ్ చేస్తోంది...",
   "CANCEL": "రద్దు చేయి",
-  "SUBMIT": "సమర్పించు"
+  "SUBMIT": "సమర్పించు",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "ఫోటో అంగీకరించబడింది. నిర్ధారించడానికి సేవ్ క్లిక్ చేయండి.",
+  "PROFILE_PHOTO_ERROR_SIZE": "ఫైల్ సైజ్ 5 MB లేదా అంతకంటే తక్కువ ఉండాలి.",
+  "PROFILE_PHOTO_ERROR_FORMAT": "JPG మరియు PNG ఫార్మాట్లు మాత్రమే అంగీకరించబడతాయి.",
+  "PROFILE_PHOTO_LOAD_ERROR": "ప్రొఫైల్ ఫోటో లోడ్ చేయడం విఫలమైంది.",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "ప్రొఫైల్ ఫోటో నవీకరించడం విఫలమైంది.",
+  "PROFILE_PHOTO": "ప్రొఫైల్ ఫోటో",
+  "UPLOAD": "అప్‌లోడ్",
+  "DELETE": "తొలగించు",
+  "NO_PHOTO": "ఫోటో లేదు",
+  "PROFILE_IMAGE_ALT": "ప్రొఫైల్"
 }

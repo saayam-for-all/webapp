@@ -24,15 +24,13 @@ exports[`LandingPage renders correctly 1`] = `
             >
               mockTranslate(Need help? Here to help?)
             </h1>
-            <div
-              class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center"
-            >
-              mockTranslate(At Saayam for All, your support can make a real difference today.)
-            </div>
           </div>
+          <div
+            data-testid="metrics-ticker"
+          />
         </div>
         <div
-          class="w-full flex flex-row justify-center  "
+          class="w-full flex flex-row justify-center mt-8"
         >
           <div
             class="w-[22%] h-[50%] flex flex-col justify-center items-center"
@@ -93,11 +91,24 @@ exports[`LandingPage renders correctly 1`] = `
           </div>
         </div>
         <mock-carousel />
+        <ins
+          class="adsbygoogle"
+          data-ad-client="ca-pub-3674612346757233"
+          data-ad-format="auto"
+          data-ad-slot="2901014906"
+          data-full-width-responsive="true"
+          style="display: block;"
+        />
         <div
           class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
+          <h3
+            class="font-bold text-3xl md:text-4xl md:mb-[40px]"
+          >
+            mockTranslate(Our Collaborators)
+          </h3>
           <div
-            class="w-full flex flex-row overflow-hidden hidden"
+            class="w-full flex flex-row overflow-hidden"
           >
             <div
               class="scroll imgBox"
@@ -348,15 +359,13 @@ exports[`LandingPage renders correctly 1`] = `
           >
             mockTranslate(Need help? Here to help?)
           </h1>
-          <div
-            class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center"
-          >
-            mockTranslate(At Saayam for All, your support can make a real difference today.)
-          </div>
         </div>
+        <div
+          data-testid="metrics-ticker"
+        />
       </div>
       <div
-        class="w-full flex flex-row justify-center  "
+        class="w-full flex flex-row justify-center mt-8"
       >
         <div
           class="w-[22%] h-[50%] flex flex-col justify-center items-center"
@@ -417,11 +426,24 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
       </div>
       <mock-carousel />
+      <ins
+        class="adsbygoogle"
+        data-ad-client="ca-pub-3674612346757233"
+        data-ad-format="auto"
+        data-ad-slot="2901014906"
+        data-full-width-responsive="true"
+        style="display: block;"
+      />
       <div
         class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >
+        <h3
+          class="font-bold text-3xl md:text-4xl md:mb-[40px]"
+        >
+          mockTranslate(Our Collaborators)
+        </h3>
         <div
-          class="w-full flex flex-row overflow-hidden hidden"
+          class="w-full flex flex-row overflow-hidden"
         >
           <div
             class="scroll imgBox"

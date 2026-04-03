@@ -18,7 +18,29 @@
         },
         "COOKING_HELP": {
           "LABEL": "Cooking Help",
-          "DESC": "Get guidance with meal prep and cooking."
+          "DESC": "Get guidance with meal prep and cooking.",
+          "SUBCATEGORIES": {
+            "MEAL_PREP_BASIC": {
+              "LABEL": "Meal Prep Basic",
+              "DESC": "Help with basic meal preparation tasks."
+            },
+            "FESTIVE_OR_BULK_COOKING": {
+              "LABEL": "Festive or Bulk Cooking",
+              "DESC": "Assistance cooking for events or in large quantities."
+            },
+            "NUTRITIONAL_MEAL_PLANNING": {
+              "LABEL": "Nutritional Meal Planning",
+              "DESC": "Guidance on planning balanced and healthy meals."
+            },
+            "CULTURAL_CUISINE_GUIDANCE": {
+              "LABEL": "Cultural Cuisine Guidance",
+              "DESC": "Help preparing meals from specific cultural traditions."
+            },
+            "OTHER_COOKING_HELP": {
+              "LABEL": "Other Cooking Help",
+              "DESC": "Any other cooking-related assistance."
+            }
+          }
         }
       }
     },
@@ -58,7 +80,61 @@
         },
         "REPAIR_MAINTENANCE_SUPPORT": {
           "LABEL": "Repair & Maintenance Support",
-          "DESC": "Assistance scheduling basic repairs or maintenance."
+          "DESC": "Assistance scheduling basic repairs or maintenance.",
+          "SUBCATEGORIES": {
+            "PLUMBING": {
+              "LABEL": "Plumbing",
+              "DESC": "Help with leaks, pipes, and plumbing issues."
+            },
+            "HANDYMAN": {
+              "LABEL": "Handyman",
+              "DESC": "General household repairs and odd jobs."
+            },
+            "ELECTRICIAN": {
+              "LABEL": "Electrician",
+              "DESC": "Electrical repairs and installations."
+            },
+            "CARPENTRY": {
+              "LABEL": "Carpentry",
+              "DESC": "Woodwork, furniture assembly, and repairs."
+            },
+            "GARDEN": {
+              "LABEL": "Gardening",
+              "DESC": "Lawn care, planting, and garden maintenance."
+            },
+            "HVAC_AIR_CONDITIONING": {
+              "LABEL": "HVAC / Air Conditioning",
+              "DESC": "Heating, ventilation, and AC support."
+            },
+            "ROOFING": {
+              "LABEL": "Roofing",
+              "DESC": "Roof inspection, repair, and maintenance."
+            },
+            "LOCKSMITH": {
+              "LABEL": "Locksmith",
+              "DESC": "Lock changes, key cutting, and lockout help."
+            },
+            "PAINTING": {
+              "LABEL": "Painting",
+              "DESC": "Interior and exterior painting assistance."
+            },
+            "MASONRY_OR_CONCRETE": {
+              "LABEL": "Masonry / Concrete",
+              "DESC": "Brickwork, concrete, and stonework repairs."
+            },
+            "METALWORK_OR_WELDING": {
+              "LABEL": "Metalwork / Welding",
+              "DESC": "Metal fabrication and welding support."
+            },
+            "POOL_AND_SPA_MAINTENANCE": {
+              "LABEL": "Pool & Spa Maintenance",
+              "DESC": "Cleaning and upkeep of pools and spas."
+            },
+            "OTHER_RAPAIR_MAINTENANCE_SUPPORT": {
+              "LABEL": "Other Repair & Maintenance",
+              "DESC": "Any other home repair or maintenance needs."
+            }
+          }
         },
         "UTILITIES_SETUP_SUPPORT": {
           "LABEL": "Utilities Setup Support",
@@ -104,7 +180,33 @@
         },
         "TUTORING": {
           "LABEL": "Tutoring",
-          "DESC": "Subject tutoring and study support."
+          "DESC": "Subject tutoring and study support.",
+          "SUBCATEGORIES": {
+            "MATH": {
+              "LABEL": "Math",
+              "DESC": "Help with mathematics at any level."
+            },
+            "ENGLISH": {
+              "LABEL": "English",
+              "DESC": "Reading, writing, and language arts support."
+            },
+            "SCIENCE": {
+              "LABEL": "Science",
+              "DESC": "Physics, chemistry, biology, and more."
+            },
+            "COMPUTER_SCIENCE": {
+              "LABEL": "Computer Science",
+              "DESC": "Programming, algorithms, and coding help."
+            },
+            "TEST_PREP": {
+              "LABEL": "Test Prep",
+              "DESC": "Preparation for SAT, ACT, GRE, and other exams."
+            },
+            "OTHER_SUBJECTS": {
+              "LABEL": "Other Subjects",
+              "DESC": "Tutoring for any subject not listed above."
+            }
+          }
         },
         "SCHOLARSHIP_KNOWLEDGE": {
           "LABEL": "Scholarship Knowledge",
@@ -130,7 +232,53 @@
       "SUBCATEGORIES": {
         "MEDICAL_CONSULTATION": {
           "LABEL": "Medical Consultation",
-          "DESC": "Help coordinating tele-consults or basic medical info."
+          "DESC": "Help coordinating tele-consults or basic medical info.",
+          "SUBCATEGORIES": {
+            "GENERAL_CONSULTATION": {
+              "LABEL": "General Consultation",
+              "DESC": "General medical guidance and navigation."
+            },
+            "ENT(EAR_NOSE_AND_THROAT)": {
+              "LABEL": "ENT (Ear, Nose & Throat)",
+              "DESC": "Support for ear, nose, and throat concerns."
+            },
+            "DENTAL_OR_ORAL_HEALTH": {
+              "LABEL": "Dental / Oral Health",
+              "DESC": "Guidance on dental and oral health care."
+            },
+            "EYE_OR_VISION_CARE": {
+              "LABEL": "Eye / Vision Care",
+              "DESC": "Help with eye exams and vision-related needs."
+            },
+            "CARDIAC_OR_BLOOD_PRESSURE": {
+              "LABEL": "Cardiac / Blood Pressure",
+              "DESC": "Support for heart and blood pressure concerns."
+            },
+            "ORTHOPEDIC_OR_PHYSIOTHERAPY": {
+              "LABEL": "Orthopedic / Physiotherapy",
+              "DESC": "Help with bone, joint, and physical therapy needs."
+            },
+            "SKIN_OR_DERMATOLOGY": {
+              "LABEL": "Skin / Dermatology",
+              "DESC": "Guidance for skin conditions and dermatology."
+            },
+            "WOMENS_OR_REPRODUCTIVE_HEALTH": {
+              "LABEL": "Women's / Reproductive Health",
+              "DESC": "Support for women's and reproductive health."
+            },
+            "VACCINATIONS_AND_PREVENTIVE_SCREENINGS": {
+              "LABEL": "Vaccinations & Preventive Screenings",
+              "DESC": "Information on vaccines and preventive care."
+            },
+            "PEDIATRICS_OR_CHILD_HEALTH": {
+              "LABEL": "Pediatrics / Child Health",
+              "DESC": "Health guidance for children and infants."
+            },
+            "OTHER_MEDICAL_CONCERN": {
+              "LABEL": "Other Medical Concern",
+              "DESC": "Any other medical concern not listed above."
+            }
+          }
         },
         "MEDICINE_DELIVERY": {
           "LABEL": "Medicine Delivery",

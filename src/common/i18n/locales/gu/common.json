@@ -1,4 +1,4 @@
-{
+﻿{
   "ABOUT": "અમારા વિશે",
   "DONATE": "દાન કરો",
   "LOGIN": "પ્રવેશ કરો",
@@ -15,8 +15,21 @@
   "NEW_MATCH_REQUEST": "નવી મેળ વિનંતી",
   "ACCEPT": "સ્વીકારો",
   "DENY": "નકારો",
+  "writeComment": "એક ટિપ્પણી લખો",
   "ACCEPT_SUCCESS_MESSAGE": "તમે આ વિનંતી સ્વીકારી છે.",
   "DENY_SUCCESS_MESSAGE": "તમે આ વિનંતી નકારી છે.",
   "LOGISTIC_HELP": "લોજિસ્ટિક મદદ",
-  "EDUCATIONAL_HELP": "શૈક્ષણિક મદદ"
+  "EDUCATIONAL_HELP": "શૈક્ષણિક મદદ",
+  "TOTAL_REQUESTS": "કુલ વિનંતીઓ",
+  "REQUESTS_RESOLVED": "ઉકેલાયેલ વિનંતીઓ",
+  "AVG_RESOLUTION_TIME": "સરેરાશ સમાધાન સમય",
+  "TOTAL_VOLUNTEERS": "કુલ સ્વયંસેવકો",
+  "TOTAL_BENEFICIARIES": "કુલ લાભાર્થીઓ",
+  "SKILLS_SELECTOR_TITLE": "Select Your Skills For Volunteer Assignments",
+  "SKILLS_SELECTOR_PLACEHOLDER": "Hover to explore categories, click to select skills",
+  "SELECTED_SKILLS": "Selected Skills",
+  "NO_SKILLS_SELECTED": "No skills selected yet",
+  "REMOVE_SKILL": "Remove skill",
+  "REMOVE_CATEGORY": "Remove all skills from this category",
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
 }

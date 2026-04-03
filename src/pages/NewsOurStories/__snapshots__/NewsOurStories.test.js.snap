@@ -14,136 +14,375 @@ exports[`NewsOurStories renders correctly 1`] = `
           <h1
             class="news-our-stories-title"
           >
-            mockTranslate(News: Our Stories)
+            mockTranslate(TITLE)
           </h1>
           <p
             class="news-our-stories-subtitle"
           >
-            mockTranslate(Explore how Saayam for All is making headlines and gaining recognition for its work in uplifting communities, empowering volunteers, and building an inclusive support network.)
+            mockTranslate(SUBTITLE)
           </p>
           <p
             class="news-our-stories-desc"
           >
-            mockTranslate(From local stories to national features, discover how our mission is resonating beyond the platform and into the world.)
+            mockTranslate(DESCRIPTION)
           </p>
         </section>
         <section
           class="news-our-stories-section"
         >
           <div
-            class="news-our-stories-story"
-          >
-            <img
-              alt="Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara"
-              class="news-our-stories-img-lg"
-              src=""
-            />
-            <div
-              class="news-our-stories-date"
-            >
-              05/02/2025
-            </div>
-            <h2
-              class="news-our-stories-story-title"
-            >
-              mockTranslate(Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
-            >
-              mockTranslate(Our CEO, Rao K Bhehanabobla recently attended TiEcon 2025 at the Santa Clara Convention Center, one of the premier global gatherings for entrepreneurs and innovators. He shared Saayam's journey in leveraging technology to build a support-driven community platform. The event spotlighted Saayam's mission and growing influence in the social impact ecosystem.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
-            >
-              mockTranslate(Read More)
-            </a>
-          </div>
-          <div
-            class="news-our-stories-row"
+            class="news-grid"
           >
             <div
-              class="news-our-stories-col"
+              class="news-card"
             >
-              <img
-                alt="Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment"
-                class="news-our-stories-img-sm"
-                src=""
-              />
               <div
-                class="news-our-stories-date"
+                class="news-img-wrap"
               >
-                05/02/2025
+                <img
+                  alt="STORY_1_TITLE"
+                  class="news-img"
+                  src=""
+                />
               </div>
-              <h2
-                class="news-our-stories-story-title"
+              <div
+                class="news-card-body"
               >
-                mockTranslate(Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment)
-              </h2>
-              <p
-                class="news-our-stories-story-desc"
-              >
-                mockTranslate(Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.)
-              </p>
-              <a
-                class="news-our-stories-link"
-                href="#"
-              >
-                mockTranslate(Read More)
-              </a>
+                <div
+                  class="news-date"
+                >
+                  02/09/2026
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_1_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_1_DESC)
+                </p>
+                <a
+                  class="news-link"
+                  href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  mockTranslate(READ_MORE)
+                </a>
+              </div>
             </div>
             <div
-              class="news-our-stories-col"
+              class="news-card"
             >
-              <img
-                alt="In Step with the Community: A 17-Mile Walk in San Ramon"
-                class="news-our-stories-img-sm"
-                src=""
-              />
               <div
-                class="news-our-stories-date"
+                class="news-img-wrap"
               >
-                05/02/2025
+                <img
+                  alt="STORY_2_TITLE"
+                  class="news-img"
+                  src=""
+                />
               </div>
-              <h2
-                class="news-our-stories-story-title"
+              <div
+                class="news-card-body"
               >
-                mockTranslate(In Step with the Community: A 17-Mile Walk in San Ramon)
-              </h2>
-              <p
-                class="news-our-stories-story-desc"
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_2_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_2_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
               >
-                mockTranslate(Our CEO and Satesth Mudrala recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.)
-              </p>
-              <a
-                class="news-our-stories-link"
-                href="#"
+                <img
+                  alt="STORY_3_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
               >
-                mockTranslate(Read More)
-              </a>
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_3_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_3_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="STORY_4_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  02/09/2026
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_4_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_4_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="STORY_5_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_5_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_5_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="STORY_6_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_6_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_6_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="STORY_7_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_7_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_7_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="STORY_8_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_8_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_8_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="STORY_9_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_9_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_9_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="STORY_10_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <div
+                  class="news-date"
+                >
+                  05/02/2025
+                </div>
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_10_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_10_DESC)
+                </p>
+              </div>
             </div>
           </div>
         </section>
-        <section
-          class="news-our-stories-cta"
+        <div
+          class="text-center mt-16 mb-16"
         >
           <h2
-            class="news-our-stories-cta-title"
+            class="text-3xl font-bold mb-4"
           >
-            mockTranslate(Want to join us?)
+            mockTranslate(JOIN_TITLE)
           </h2>
           <p
-            class="news-our-stories-cta-desc"
+            class="text-base mb-8"
           >
-            mockTranslate(Chat with our community and get in touch with different charity organizations!)
+            mockTranslate(JOIN_BODY)
           </p>
-          <button
-            class="news-our-stories-cta-btn"
+          <mock-link
+            props="{"className":"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"}"
+            to="/contact"
           >
-            mockTranslate(Join the community)
-          </button>
-        </section>
+            mockTranslate(JOIN_BUTTON)
+          </mock-link>
+        </div>
       </div>
     </div>
   </body>,
@@ -157,136 +396,375 @@ exports[`NewsOurStories renders correctly 1`] = `
         <h1
           class="news-our-stories-title"
         >
-          mockTranslate(News: Our Stories)
+          mockTranslate(TITLE)
         </h1>
         <p
           class="news-our-stories-subtitle"
         >
-          mockTranslate(Explore how Saayam for All is making headlines and gaining recognition for its work in uplifting communities, empowering volunteers, and building an inclusive support network.)
+          mockTranslate(SUBTITLE)
         </p>
         <p
           class="news-our-stories-desc"
         >
-          mockTranslate(From local stories to national features, discover how our mission is resonating beyond the platform and into the world.)
+          mockTranslate(DESCRIPTION)
         </p>
       </section>
       <section
         class="news-our-stories-section"
       >
         <div
-          class="news-our-stories-story"
-        >
-          <img
-            alt="Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara"
-            class="news-our-stories-img-lg"
-            src=""
-          />
-          <div
-            class="news-our-stories-date"
-          >
-            05/02/2025
-          </div>
-          <h2
-            class="news-our-stories-story-title"
-          >
-            mockTranslate(Saayam for All CEO Represents at TiEcon AiVerse 2025, Santa Clara)
-          </h2>
-          <p
-            class="news-our-stories-story-desc"
-          >
-            mockTranslate(Our CEO, Rao K Bhehanabobla recently attended TiEcon 2025 at the Santa Clara Convention Center, one of the premier global gatherings for entrepreneurs and innovators. He shared Saayam's journey in leveraging technology to build a support-driven community platform. The event spotlighted Saayam's mission and growing influence in the social impact ecosystem.)
-          </p>
-          <a
-            class="news-our-stories-link"
-            href="#"
-          >
-            mockTranslate(Read More)
-          </a>
-        </div>
-        <div
-          class="news-our-stories-row"
+          class="news-grid"
         >
           <div
-            class="news-our-stories-col"
+            class="news-card"
           >
-            <img
-              alt="Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment"
-              class="news-our-stories-img-sm"
-              src=""
-            />
             <div
-              class="news-our-stories-date"
+              class="news-img-wrap"
             >
-              05/02/2025
+              <img
+                alt="STORY_1_TITLE"
+                class="news-img"
+                src=""
+              />
             </div>
-            <h2
-              class="news-our-stories-story-title"
+            <div
+              class="news-card-body"
             >
-              mockTranslate(Saayam x Sri Madhusudan Sai: Collaboration for Community Upliftment)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
-            >
-              mockTranslate(Saayam is proud to collaborate with Sri Madhusudan Sai, a global humanitarian known for his work in healthcare, education, and rural upliftment. This partnership strengthens our shared commitment to serving communities with compassion, integrity, and purpose.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
-            >
-              mockTranslate(Read More)
-            </a>
+              <div
+                class="news-date"
+              >
+                02/09/2026
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_1_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_1_DESC)
+              </p>
+              <a
+                class="news-link"
+                href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                mockTranslate(READ_MORE)
+              </a>
+            </div>
           </div>
           <div
-            class="news-our-stories-col"
+            class="news-card"
           >
-            <img
-              alt="In Step with the Community: A 17-Mile Walk in San Ramon"
-              class="news-our-stories-img-sm"
-              src=""
-            />
             <div
-              class="news-our-stories-date"
+              class="news-img-wrap"
             >
-              05/02/2025
+              <img
+                alt="STORY_2_TITLE"
+                class="news-img"
+                src=""
+              />
             </div>
-            <h2
-              class="news-our-stories-story-title"
+            <div
+              class="news-card-body"
             >
-              mockTranslate(In Step with the Community: A 17-Mile Walk in San Ramon)
-            </h2>
-            <p
-              class="news-our-stories-story-desc"
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_2_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_2_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
             >
-              mockTranslate(Our CEO and Satesth Mudrala recently participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service. Their commitment to engaging with the local community exemplifies Saayam's mission of stepping forward—both literally and figuratively—for meaningful impact.)
-            </p>
-            <a
-              class="news-our-stories-link"
-              href="#"
+              <img
+                alt="STORY_3_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
             >
-              mockTranslate(Read More)
-            </a>
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_3_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_3_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="STORY_4_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                02/09/2026
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_4_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_4_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="STORY_5_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_5_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_5_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="STORY_6_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_6_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_6_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="STORY_7_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_7_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_7_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="STORY_8_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_8_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_8_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="STORY_9_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_9_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_9_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="STORY_10_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <div
+                class="news-date"
+              >
+                05/02/2025
+              </div>
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_10_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_10_DESC)
+              </p>
+            </div>
           </div>
         </div>
       </section>
-      <section
-        class="news-our-stories-cta"
+      <div
+        class="text-center mt-16 mb-16"
       >
         <h2
-          class="news-our-stories-cta-title"
+          class="text-3xl font-bold mb-4"
         >
-          mockTranslate(Want to join us?)
+          mockTranslate(JOIN_TITLE)
         </h2>
         <p
-          class="news-our-stories-cta-desc"
+          class="text-base mb-8"
         >
-          mockTranslate(Chat with our community and get in touch with different charity organizations!)
+          mockTranslate(JOIN_BODY)
         </p>
-        <button
-          class="news-our-stories-cta-btn"
+        <mock-link
+          props="{"className":"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"}"
+          to="/contact"
         >
-          mockTranslate(Join the community)
-        </button>
-      </section>
+          mockTranslate(JOIN_BUTTON)
+        </mock-link>
+      </div>
     </div>
   </div>,
   "debug": [Function],

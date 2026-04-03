@@ -25,6 +25,8 @@ import HousingCategory from "./Categories/HousingCategory";
 import JobsCategory from "./Categories/JobCategory";
 // Popup modal for subcategory - Import ElderlySupport component
 import ElderlySupport from "./Categories/ElderlySupport";
+import DynamicAdditionalFields from "./Categories/DynamicAdditionalFields";
+import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
@@ -108,6 +110,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [searchInput, setSearchInput] = useState("");
   const [requestType, setRequestType] = useState("");
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
@@ -121,6 +124,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [savedSubcategoryId, setSavedSubcategoryId] = useState(null);
   // stores multiple file errors
   const [fileErrorMessages, setFileErrorMessages] = useState([]);
+  // Dynamic additional fields state
+  const [additionalFieldValues, setAdditionalFieldValues] = useState({});
 
   // useEffect(() => {
   //   const fetchEnumsData = async () => {
@@ -172,6 +177,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const inputref = useRef(null);
   const dropdownRef = useRef(null);
+
   const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
@@ -231,6 +237,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [uploadedFilesInfo, setUploadedFilesInfo] = useState([]);
   const [showFilesDialog, setShowFilesDialog] = useState(false);
   const [isUploadingFiles, setIsUploadingFiles] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // Audio recording state
   const [audioUploadResult, setAudioUploadResult] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
@@ -433,11 +440,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           localStorage.setItem("categories", JSON.stringify(validCategories));
           dispatch(loadCategories(validCategories));
         } catch (error) {
-          console.warn(
-            "Categories API failed, using static fallback:",
-            error.message,
-          );
-          dispatch(loadCategories()); // Load static categories as fallback
+          console.warn("Categories API failed:", error.message);
         }
       }
     };
@@ -450,6 +453,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   // Resolve category label function
   const resolveCategoryLabel = (selectedKeyOrText) => {
     if (!selectedKeyOrText) return "";
+
+    if (selectedKeyOrText === "General") {
+      return t("categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL", {
+        defaultValue: "General",
+      });
+    }
 
     // Ensure categories is an array before using array methods
     const categoriesArray = Array.isArray(categories) ? categories : [];
@@ -506,23 +515,60 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           GENERAL_CATEGORY: "GENERAL",
         };
 
+        // Get parent category label for "Category → Subcategory" display
+        const parentNewResult = t(
+          `categories:REQUEST_CATEGORIES.${newCatKey}.LABEL`,
+          { defaultValue: null },
+        );
+        const parentLabel =
+          parentNewResult && parentNewResult !== newCatKey
+            ? parentNewResult
+            : t(
+                `categories:REQUEST_CATEGORIES.${oldKeyMap[newCatKey] || newCatKey}.LABEL`,
+                { defaultValue: c.catName },
+              );
+
         // Try new key first
         const newResult = t(
           `categories:REQUEST_CATEGORIES.${newCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
           { defaultValue: null },
         );
         if (newResult && newResult !== newSubKey) {
-          return newResult;
+          return `${parentLabel} \u2192 ${newResult}`;
         }
 
         // Fall back to old key structure
         const oldCatKey = oldKeyMap[newCatKey] || newCatKey;
-        return t(
+        const subLabel = t(
           `categories:REQUEST_CATEGORIES.${oldCatKey}.SUBCATEGORIES.${newSubKey}.LABEL`,
-          {
-            defaultValue: match.catName,
-          },
+          { defaultValue: match.catName },
         );
+        return `${parentLabel} \u2192 ${subLabel}`;
+      }
+    }
+
+    // Check if matches a sub-sub-category catName or catId
+    for (const c of categoriesArray) {
+      for (const sub of c.subCategories || []) {
+        const match = (sub.subCategories || []).find(
+          (ss) =>
+            ss.catName === selectedKeyOrText || ss.catId === selectedKeyOrText,
+        );
+        if (match) {
+          const catLabel = t(
+            `categories:REQUEST_CATEGORIES.${c.catName}.LABEL`,
+            { defaultValue: c.catName },
+          );
+          const subLabel = t(
+            `categories:REQUEST_CATEGORIES.${c.catName}.SUBCATEGORIES.${sub.catName}.LABEL`,
+            { defaultValue: sub.catName },
+          );
+          const subSubLabel = t(
+            `categories:REQUEST_CATEGORIES.${c.catName}.SUBCATEGORIES.${sub.catName}.SUBCATEGORIES.${match.catName}.LABEL`,
+            { defaultValue: match.catName },
+          );
+          return `${catLabel} \u2192 ${subLabel} \u2192 ${subSubLabel}`;
+        }
       }
     }
 
@@ -658,6 +704,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       setShowElderlySupportForm(true);
       setShowDropdown(false);
       setHoveredCategory(null);
+      setHoveredSubcategory(null);
       return;
     } else {
       // Popup modal for subcategory - For other categories, proceed normally
@@ -667,6 +714,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
       setShowDropdown(false);
       setHoveredCategory(null);
+      setHoveredSubcategory(null);
     }
   };
 
@@ -965,6 +1013,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       location,
     };
 
+    setIsSubmitting(true);
     try {
       const res = await checkProfanity({
         subject: formData.subject,
@@ -1103,6 +1152,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         selectedCategoryId: formData.category,
         requesterId: userDbId,
         enumMaps,
+        additionalFields: additionalFieldValues,
       });
 
       const respone = await createRequest(payload);
@@ -1129,11 +1179,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         message: "Failed to submit request!",
         severity: "error",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   // ---------- RENDER ----------
   if (isLoading) return <div>Loading...</div>;
+  const hasSubCats = hoveredCategory?.subCategories?.length > 0;
+  const hasSubSubCats = hoveredSubcategory?.subCategories?.length > 0;
   return (
     <div className="">
       <Snackbar
@@ -1182,7 +1236,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             <Tab
               label={
                 <span>
-                  Description<span className="text-red-500 ml-1">*</span>
+                  {t("DESCRIPTION")}
+                  <span className="text-red-500 ml-1">*</span>
                 </span>
               }
             >
@@ -1194,7 +1249,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="category"
                       className="font-medium text-gray-700"
                     >
-                      {t("Category")}
+                      {t("CATEGORY")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
@@ -1233,11 +1288,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                   {showDropdown && (
                     <div
                       className={`absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex${
-                        hoveredCategory &&
-                        hoveredCategory.subCategories &&
-                        hoveredCategory.subCategories.length > 0
-                          ? ""
-                          : " flex-col"
+                        !hasSubCats ? " flex-col" : ""
                       }`}
                       style={{
                         maxHeight: "240px",
@@ -1249,14 +1300,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       ref={dropdownRef}
                       tabIndex={0}
                     >
-                      {/* Main categories column */}
+                      {/* Column 1: Main categories */}
                       <div
                         className={
-                          hoveredCategory &&
-                          hoveredCategory.subCategories &&
-                          hoveredCategory.subCategories.length > 0
-                            ? "w-1/2 overflow-y-auto"
-                            : "w-full overflow-y-auto"
+                          hasSubSubCats
+                            ? "w-1/3 overflow-y-auto"
+                            : hasSubCats
+                              ? "w-1/2 overflow-y-auto"
+                              : "w-full overflow-y-auto"
                         }
                         style={{ maxHeight: "240px" }}
                       >
@@ -1270,14 +1321,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                             }`}
                             style={{ background: "#fff" }}
                             onClick={(e) => {
-                              if (
-                                !category.subCategories ||
-                                category.subCategories.length === 0
-                              ) {
+                              if (!category.subCategories?.length) {
                                 handleCategoryClick(category.catName);
                               }
                             }}
-                            onMouseEnter={() => setHoveredCategory(category)}
+                            onMouseEnter={() => {
+                              setHoveredCategory(category);
+                              setHoveredSubcategory(null);
+                            }}
                           >
                             <span
                               title={t(
@@ -1290,76 +1341,129 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                                 { defaultValue: category.catName },
                               )}
                             </span>
-                            {/* Show chevron if subcategories exist */}
-                            {category.subCategories &&
-                              category.subCategories.length > 0 && (
-                                <span className="ml-2 text-gray-400">&gt;</span>
-                              )}
+                            {category.subCategories?.length > 0 && (
+                              <span className="ml-2 text-gray-400">&gt;</span>
+                            )}
                           </div>
                         ))}
                       </div>
-                      {/* Only show subcategories column if there are subcategories */}
-                      {hoveredCategory &&
-                        hoveredCategory.subCategories &&
-                        hoveredCategory.subCategories.length > 0 && (
-                          <>
-                            {/* Vertical divider */}
-                            <div
-                              className="w-px bg-gray-300 mx-1"
-                              style={{ minHeight: "100%" }}
-                            />
-                            {/* Subcategories column */}
-                            <div
-                              className="w-1/2 overflow-y-auto"
-                              style={{ maxHeight: "240px" }}
-                            >
-                              {hoveredCategory.subCategories.map(
-                                (subcategory, index) => (
-                                  <div
-                                    key={subcategory.catId}
-                                    className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
-                                      index !==
-                                      hoveredCategory.subCategories.length - 1
-                                        ? " border-b-0 border-t border-gray-200"
-                                        : ""
-                                    }`}
-                                    style={{
-                                      background: "#fff",
-                                      borderTop:
-                                        index !== 0
-                                          ? "1px solid #e5e7eb"
-                                          : "none",
-                                      borderBottom: "none",
-                                    }}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      // Popup modal for subcategory - Pass subcategory details to handler
+                      {/* Column 2: Subcategories */}
+                      {hasSubCats && (
+                        <>
+                          <div
+                            className="w-px bg-gray-300 mx-1"
+                            style={{ minHeight: "100%" }}
+                          />
+                          <div
+                            className={
+                              hasSubSubCats
+                                ? "w-1/3 overflow-y-auto"
+                                : "w-1/2 overflow-y-auto"
+                            }
+                            style={{ maxHeight: "240px" }}
+                          >
+                            {hoveredCategory.subCategories.map(
+                              (subcategory, index) => (
+                                <div
+                                  key={subcategory.catId}
+                                  className={`cursor-pointer hover:bg-gray-200 p-2 bg-white flex items-center justify-between${
+                                    index !== 0
+                                      ? " border-t border-gray-200"
+                                      : ""
+                                  }`}
+                                  style={{
+                                    background:
+                                      hoveredSubcategory?.catId ===
+                                      subcategory.catId
+                                        ? "#f3f4f6"
+                                        : "#fff",
+                                    borderBottom: "none",
+                                  }}
+                                  onMouseEnter={() => {
+                                    setHoveredSubcategory(subcategory);
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (!subcategory.subCategories?.length) {
                                       handleSubcategoryClick(
                                         subcategory.catId,
                                         subcategory.catName,
                                         hoveredCategory.catName,
                                       );
-                                    }}
+                                    } else {
+                                      setHoveredSubcategory(subcategory);
+                                    }
+                                  }}
+                                >
+                                  <span
+                                    title={t(
+                                      `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
+                                      { defaultValue: subcategory.catDesc },
+                                    )}
                                   >
-                                    <span
-                                      title={t(
-                                        `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.DESC`,
-                                        { defaultValue: subcategory.catDesc },
-                                      )}
-                                    >
-                                      {t(
-                                        `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
-                                        {
-                                          defaultValue: subcategory.catName,
-                                        },
-                                      )}
+                                    {t(
+                                      `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${subcategory.catName}.LABEL`,
+                                      { defaultValue: subcategory.catName },
+                                    )}
+                                  </span>
+                                  {subcategory.subCategories?.length > 0 && (
+                                    <span className="ml-2 text-gray-400">
+                                      &gt;
                                     </span>
-                                  </div>
-                                ),
-                              )}
-                            </div>
-                          </>
-                        )}
+                                  )}
+                                </div>
+                              ),
+                            )}
+                          </div>
+                        </>
+                      )}
+                      {/* Column 3: Sub-sub-categories */}
+                      {hasSubSubCats && (
+                        <>
+                          <div
+                            className="w-px bg-gray-300 mx-1"
+                            style={{ minHeight: "100%" }}
+                          />
+                          <div
+                            className="w-1/3 overflow-y-auto"
+                            style={{ maxHeight: "240px" }}
+                          >
+                            {hoveredSubcategory.subCategories.map(
+                              (subSubCat, index) => (
+                                <div
+                                  key={subSubCat.catId}
+                                  className={`cursor-pointer hover:bg-gray-200 p-2 bg-white${
+                                    index !== 0
+                                      ? " border-t border-gray-200"
+                                      : ""
+                                  }`}
+                                  style={{ background: "#fff" }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSubcategoryClick(
+                                      subSubCat.catId,
+                                      subSubCat.catName,
+                                      hoveredCategory.catName,
+                                    );
+                                  }}
+                                >
+                                  <span
+                                    title={t(
+                                      `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${hoveredSubcategory.catName}.SUBCATEGORIES.${subSubCat.catName}.DESC`,
+                                      { defaultValue: subSubCat.catDesc },
+                                    )}
+                                  >
+                                    {t(
+                                      `categories:REQUEST_CATEGORIES.${hoveredCategory.catName}.SUBCATEGORIES.${hoveredSubcategory.catName}.SUBCATEGORIES.${subSubCat.catName}.LABEL`,
+                                      { defaultValue: subSubCat.catName },
+                                    )}
+                                  </span>
+                                </div>
+                              ),
+                            )}
+                          </div>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1386,6 +1490,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 {formData.category === "Jobs" && <JobsCategory />}
                 {formData.category === "Housing" && <HousingCategory />}
 
+                {/* Dynamic additional fields from metadata */}
+                <DynamicAdditionalFields
+                  catId={formData.category}
+                  onChange={setAdditionalFieldValues}
+                />
+
                 <div className="mt-3">
                   <label
                     htmlFor="subject"
@@ -1403,7 +1513,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     onChange={handleChange}
                     className="border p-2 w-full rounded-lg"
                     maxLength={70}
-                    placeholder="Please give a brief description of the request"
+                    placeholder={t("SUBJECT_HELP_TEXT")}
                   />
                 </div>
 
@@ -1552,7 +1662,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     className="border p-2 w-full rounded-lg"
                     rows="5"
                     maxLength={500}
-                    placeholder="Please give a detailed description of the request"
+                    placeholder={t("DESCRIPTION_HELP_TEXT")}
                   ></textarea>
 
                   {/* Hidden file input */}
@@ -1592,7 +1702,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               </div>
             </Tab>
 
-            <Tab label="Details">
+            <Tab label={t("DETAILS")}>
               {/* DETAILS TAB CONTENT */}
               <div className="mt-3 flex gap-4" data-testid="parentDivOne">
                 {/* For Self Dropdown */}
@@ -1646,7 +1756,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="lead_volunteer"
                       className="text-gray-700 font-medium"
                     >
-                      {t("Lead Volunteer")}
+                      {t("LEAD_VOLUNTEER")}
                     </label>
                     <div className="relative group cursor-pointer">
                       <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
@@ -1703,7 +1813,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 //Temporarily commented out as MVP only allows for self requests
                 !selfFlag && (
                   <div
-                    className="mt-5 w-full border border-gray-200 rounded-lg p-4 bg-gray-50"
+                    className="mt-5 ml-2 sm:ml-4 border border-gray-200 rounded-lg p-4 bg-gray-50"
                     data-testid="parentDivTwo"
                   >
                     <div className="flex items-start gap-2 mb-3 text-sm text-gray-600">
@@ -1845,7 +1955,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="requestType"
                       className="font-medium text-gray-700"
                     >
-                      {t("Type")}
+                      {t("TYPE")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
@@ -1929,7 +2039,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                         htmlFor="calamity"
                         className="font-medium text-gray-700"
                       >
-                        Is Calamity?
+                        {t("IS_CALAMITY")}
                       </label>
                       <div className="relative group cursor-pointer">
                         {/* Circle Question Mark Icon */}
@@ -1967,7 +2077,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       htmlFor="requestPriority"
                       className="font-medium text-gray-700"
                     >
-                      {t("Priority")}
+                      {t("PRIORITY")}
                     </label>
                     <div className="relative group cursor-pointer">
                       {/* Circle Question Mark Icon */}
@@ -2019,9 +2129,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           <div className="mt-8 flex justify-end gap-2">
             <button
               type="submit"
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
+              disabled={isSubmitting}
+              className={`py-2 px-4 text-white rounded-md mr-2 flex items-center ${
+                isSubmitting
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
             >
-              {isEdit ? t("SAVE") : t("SUBMIT")}
+              <span className={isSubmitting ? "mr-2" : ""}>
+                {isSubmitting
+                  ? t("SUBMITTING") || "Submitting..."
+                  : isEdit
+                    ? t("SAVE")
+                    : t("SUBMIT")}
+              </span>
+              {isSubmitting && <LoadingIndicator size="24px" />}
             </button>
             <button
               onClick={isEdit ? onClose : closeForm}

@@ -18,7 +18,29 @@
         },
         "COOKING_HELP": {
           "LABEL": "做饭帮助",
-          "DESC": "获得餐食准备与烹饪方面的指导。"
+          "DESC": "获得餐食准备与烹饪方面的指导。",
+          "SUBCATEGORIES": {
+            "MEAL_PREP_BASIC": {
+              "LABEL": "基本餐點準備",
+              "DESC": "協助完成基本的膳食準備工作。"
+            },
+            "FESTIVE_OR_BULK_COOKING": {
+              "LABEL": "節慶烹飪或大規模烹飪",
+              "DESC": "協助為活動或大量食品提供烹飪服務。"
+            },
+            "NUTRITIONAL_MEAL_PLANNING": {
+              "LABEL": "營養膳食計劃",
+              "DESC": "如何制定均衡健康的飲食計畫的指導。"
+            },
+            "CULTURAL_CUISINE_GUIDANCE": {
+              "LABEL": "文化美食指南",
+              "DESC": "協助準備符合特定文化傳統的菜餚。"
+            },
+            "OTHER_COOKING_HELP": {
+              "LABEL": "其他烹飪幫助",
+              "DESC": "其他任何與烹飪相關的幫助。"
+            }
+          }
         }
       }
     },
@@ -58,7 +80,61 @@
         },
         "REPAIR_MAINTENANCE_SUPPORT": {
           "LABEL": "维修与维护支持",
-          "DESC": "协助安排基本的家庭维修。"
+          "DESC": "协助安排基本的家庭维修。",
+          "SUBCATEGORIES": {
+            "PLUMBING": {
+              "LABEL": "水暖",
+              "DESC": "協助解決漏水、管線和水暖問題。"
+            },
+            "HANDYMAN": {
+              "LABEL": "勤雜工",
+              "DESC": "房屋一般維修和零工。"
+            },
+            "ELECTRICIAN": {
+              "LABEL": "電工",
+              "DESC": "電氣維修和安裝。"
+            },
+            "CARPENTRY": {
+              "LABEL": "木工",
+              "DESC": "木工、家具組裝和維修。"
+            },
+            "GARDEN": {
+              "LABEL": "園藝",
+              "DESC": "草坪護理、種植和花園維護。"
+            },
+            "HVAC_AIR_CONDITIONING": {
+              "LABEL": "暖通空調/空調",
+              "DESC": "暖氣、通風和空調支援。"
+            },
+            "ROOFING": {
+              "LABEL": "屋頂",
+              "DESC": "屋頂檢查、維修和保養。"
+            },
+            "LOCKSMITH": {
+              "LABEL": "鎖匠",
+              "DESC": "鎖芯更換、鑰匙複製和鎖匠服務。"
+            },
+            "PAINTING": {
+              "LABEL": "繪畫",
+              "DESC": "Interior and exterior painting assistance."
+            },
+            "MASONRY_OR_CONCRETE": {
+              "LABEL": "磚石/混凝土",
+              "DESC": "磚、混凝土和石材工程的維修。"
+            },
+            "METALWORK_OR_WELDING": {
+              "LABEL": "金屬加工/焊接",
+              "DESC": "金屬加工和焊接支持。"
+            },
+            "POOL_AND_SPA_MAINTENANCE": {
+              "LABEL": "泳池和水療中心維護",
+              "DESC": "游泳池和水療池的清潔和維護。"
+            },
+            "OTHER_RAPAIR_MAINTENANCE_SUPPORT": {
+              "LABEL": "其他維修和保養",
+              "DESC": "其他任何房屋維修或保養需求。"
+            }
+          }
         },
         "UTILITIES_SETUP_SUPPORT": {
           "LABEL": "公共服务开通",
@@ -104,7 +180,33 @@
         },
         "TUTORING": {
           "LABEL": "辅导",
-          "DESC": "提供课程辅导与学习支持。"
+          "DESC": "提供课程辅导与学习支持。",
+          "SUBCATEGORIES": {
+            "MATH": {
+              "LABEL": "數學",
+              "DESC": "提供各級別數學補習。"
+            },
+            "ENGLISH": {
+              "LABEL": "英語",
+              "DESC": "閱讀、寫作和語言藝術輔導。"
+            },
+            "SCIENCE": {
+              "LABEL": "科學",
+              "DESC": "物理、化學、生物等。"
+            },
+            "COMPUTER_SCIENCE": {
+              "LABEL": "電腦科學",
+              "DESC": "程式設計、演算法和編碼方面的幫助。"
+            },
+            "TEST_PREP": {
+              "LABEL": "考試準備",
+              "DESC": "SAT、ACT、GRE 及其他考試的準備。"
+            },
+            "OTHER_SUBJECTS": {
+              "LABEL": "其他科目",
+              "DESC": "我們提供以上未列出科目的輔導。"
+            }
+          }
         },
         "SCHOLARSHIP_KNOWLEDGE": {
           "LABEL": "奖学金资讯",
@@ -130,7 +232,53 @@
       "SUBCATEGORIES": {
         "MEDICAL_CONSULTATION": {
           "LABEL": "医疗咨询",
-          "DESC": "协助安排远程问诊或基础医疗信息。"
+          "DESC": "协助安排远程问诊或基础医疗信息。",
+          "SUBCATEGORIES": {
+            "GENERAL_CONSULTATION": {
+              "LABEL": "一般查詢",
+              "DESC": "一般醫療指導和導航。"
+            },
+            "ENT(EAR_NOSE_AND_THROAT)": {
+              "LABEL": "耳鼻喉科",
+              "DESC": "耳鼻喉疾病的診斷和治療服務。"
+            },
+            "DENTAL_OR_ORAL_HEALTH": {
+              "LABEL": "牙齒/口腔健康",
+              "DESC": "牙齒和口腔健康指南。"
+            },
+            "EYE_OR_VISION_CARE": {
+              "LABEL": "眼科/視力保健",
+              "DESC": "提供眼科檢查和視力相關問題的協助。"
+            },
+            "CARDIAC_OR_BLOOD_PRESSURE": {
+              "LABEL": "心率/血壓",
+              "DESC": "支持治療心臟和血壓相關疾病。"
+            },
+            "ORTHOPEDIC_OR_PHYSIOTHERAPY": {
+              "LABEL": "骨科/物理治療",
+              "DESC": "提供骨骼、關節和物理治療的協助。"
+            },
+            "SKIN_OR_DERMATOLOGY": {
+              "LABEL": "皮膚科",
+              "DESC": "皮膚病及皮膚病學指南。"
+            },
+            "WOMENS_OR_REPRODUCTIVE_HEALTH": {
+              "LABEL": "女性/生殖健康",
+              "DESC": "支持婦女和生殖健康。"
+            },
+            "VACCINATIONS_AND_PREVENTIVE_SCREENINGS": {
+              "LABEL": "疫苗接種及預防性篩檢",
+              "DESC": "疫苗和預防保健資訊。"
+            },
+            "PEDIATRICS_OR_CHILD_HEALTH": {
+              "LABEL": "兒科/兒童健康",
+              "DESC": "兒童及嬰兒健康指導。"
+            },
+            "OTHER_MEDICAL_CONCERN": {
+              "LABEL": "其他醫療問題",
+              "DESC": "除了以上列出的其他醫療問題之外。"
+            }
+          }
         },
         "MEDICINE_DELIVERY": {
           "LABEL": "药品配送",

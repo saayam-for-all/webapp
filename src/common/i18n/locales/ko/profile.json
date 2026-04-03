@@ -100,5 +100,16 @@
   "SAVE": "저장",
   "SAVING": "저장 중...",
   "CANCEL": "취소",
-  "SUBMIT": "제출"
+  "SUBMIT": "제출",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "사진이 수락되었습니다. 확인하려면 저장을 클릭하세요.",
+  "PROFILE_PHOTO_ERROR_SIZE": "파일 크기는 5MB 이하여야 합니다.",
+  "PROFILE_PHOTO_ERROR_FORMAT": "JPG 및 PNG 형식만 허용됩니다.",
+  "PROFILE_PHOTO_LOAD_ERROR": "프로필 사진을 불러오지 못했습니다.",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "프로필 사진을 업데이트하지 못했습니다.",
+  "PROFILE_PHOTO": "프로필 사진",
+  "UPLOAD": "업로드",
+  "DELETE": "삭제",
+  "NO_PHOTO": "사진 없음",
+  "PROFILE_IMAGE_ALT": "프로필"
 }

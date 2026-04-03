@@ -1,6 +1,7 @@
 import React from "react";
 import "./Sitemap.css";
 import { useNavigate } from "react-router-dom";
+import HorizontalAd from "#components/Ads/HorizontalAd";
 
 const Sitemap = () => {
   const navigate = useNavigate();
@@ -87,6 +88,7 @@ const Sitemap = () => {
           </div>
         </div>
       </div>
+      <HorizontalAd />
     </div>
   );
 };

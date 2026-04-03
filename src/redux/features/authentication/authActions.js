@@ -171,14 +171,6 @@ export const checkAuthStatus = () => async (dispatch) => {
       groups,
       userDbId,*/
     };
-    if (user.userId) {
-      dispatch(
-        loginSuccess({
-          user,
-        }),
-      );
-    }
-
     dispatch(
       loginSuccess({
         user,
@@ -233,6 +225,7 @@ export const logout = () => async (dispatch) => {
     returnDefaultLanguage();
     await signOut();
     clearToken();
+    localStorage.removeItem("userDbId");
     dispatch(logoutSuccess());
   } catch (error) {
     dispatch(loginFailure(error.message));
