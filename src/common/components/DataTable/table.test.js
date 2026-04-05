@@ -136,6 +136,24 @@ describe("Table", () => {
       expect(screen.getByText("UNKNOWN_CATEGORY")).toBeInTheDocument();
     });
 
+    it("falls back to raw code when categories bundle is unavailable", () => {
+      jest
+        .spyOn(require("react-i18next"), "useTranslation")
+        .mockReturnValueOnce({
+          t: (key) => key,
+          i18n: {
+            language: "en",
+            getResourceBundle: () => null,
+          },
+        });
+      const props = {
+        ...defaultProps,
+        rows: [{ ...defaultProps.rows[0], category: "FOOD_ASSISTANCE" }],
+      };
+      render(<Table {...props} />);
+      expect(screen.getByText("FOOD_ASSISTANCE")).toBeInTheDocument();
+    });
+
     it("handles empty category gracefully", () => {
       const props = {
         ...defaultProps,
