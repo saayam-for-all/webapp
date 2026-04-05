@@ -1,52 +1,25 @@
 import React from "react";
-import "./PrivacyPolicy.css";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import "./PrivacyPolicy.css";
 
 const PrivacyPolicy = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { t } = useTranslation("privacyPolicy");
 
   return (
     <div className="privacy-policy-container">
       <div className="privacy-policy-inner">
-        <div className="w-full mb-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-          >
-            <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
-          </button>
-        </div>
-        <h1 className="privacy-policy-title">{t("PRIVACY_POLICY")}</h1>
-        <p>
-          {t("AT")} <strong>Saayam for All</strong> {t("PRIVACY_INTRO")}
-        </p>
+        <h1 className="privacy-policy-title">{t("PRIVACY_POLICY_TITLE")}</h1>
+        <p>{t("PRIVACY_INTRO")}</p>
 
         <h2 className="privacy-policy-heading">
           {t("PRIVACY_SECTION_1_TITLE")}
         </h2>
         <ul>
-          <li>
-            <strong>{t("PRIVACY_INFO_PERSONAL")}</strong>{" "}
-            {t("PRIVACY_INFO_PERSONAL_CONTENT")}
-          </li>
-          <li>
-            <strong>{t("PRIVACY_INFO_PROFILE")}</strong>{" "}
-            {t("PRIVACY_INFO_PROFILE_CONTENT")}
-          </li>
-          <li>
-            <strong>{t("PRIVACY_INFO_LOCATION")}</strong>{" "}
-            {t("PRIVACY_INFO_LOCATION_CONTENT")}
-          </li>
-          <li>
-            <strong>{t("PRIVACY_INFO_USAGE")}</strong>{" "}
-            {t("PRIVACY_INFO_USAGE_CONTENT")}
-          </li>
-          <li>
-            <strong>{t("PRIVACY_INFO_REQUEST_RESPONSE")}</strong>{" "}
-            {t("PRIVACY_INFO_REQUEST_RESPONSE_CONTENT")}
-          </li>
+          <li>{t("PRIVACY_SECTION_1_IDENTIFIERS")}</li>
+          <li>{t("PRIVACY_SECTION_1_PROFILE")}</li>
+          <li>{t("PRIVACY_SECTION_1_LOCATION")}</li>
+          <li>{t("PRIVACY_SECTION_1_USAGE")}</li>
+          <li>{t("PRIVACY_SECTION_1_RECORDS")}</li>
         </ul>
 
         <h2 className="privacy-policy-heading">
@@ -73,9 +46,9 @@ const PrivacyPolicy = () => {
           {t("PRIVACY_SECTION_6_TITLE")}
         </h2>
         <ul>
-          <li>{t("PRIVACY_6_ACCESS")}</li>
-          <li>{t("PRIVACY_6_DELETE")}</li>
-          <li>{t("PRIVACY_6_WITHDRAW")}</li>
+          <li>{t("PRIVACY_SECTION_6_ACCESS")}</li>
+          <li>{t("PRIVACY_SECTION_6_DELETION")}</li>
+          <li>{t("PRIVACY_SECTION_6_CONSENT")}</li>
         </ul>
 
         <h2 className="privacy-policy-heading">
@@ -97,9 +70,11 @@ const PrivacyPolicy = () => {
           {t("PRIVACY_SECTION_10_TITLE")}
         </h2>
         <p>
-          📧 <a href="mailto:info@SaayamForAll.org">info@SaayamForAll.org</a>
+          <a href="mailto:info@SaayamForAll.org">
+            {t("PRIVACY_CONTACT_EMAIL")}
+          </a>
           <br />
-          📍 {t("PRIVACY_CONTACT_CONTENT")}
+          {t("PRIVACY_CONTACT_ADDRESS")}
         </p>
       </div>
     </div>
