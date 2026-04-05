@@ -39,6 +39,7 @@ import frAvailability from "./locales/fr/availability.json";
 import frIdentity from "./locales/fr/identity.json";
 import frProfile from "./locales/fr/profile.json";
 import frCollaborator from "./locales/fr/collaborator.json";
+import frNews from "./locales/fr/news.json";
 
 import ruCommon from "./locales/ru/common.json";
 import ruAuth from "./locales/ru/auth.json";
@@ -254,6 +255,7 @@ i18n
         identity: frIdentity,
         profile: frProfile,
         collaborator: frCollaborator,
+        news: frNews,
       },
       ru: {
         common: ruCommon,
