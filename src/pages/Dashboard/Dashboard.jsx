@@ -234,7 +234,9 @@ const Dashboard = ({ userRole }) => {
           ]
         : baseHeaders;
     const isAllSelected = Object.values(statusFilter).every(Boolean);
-    return isAllSelected ? ["status", ...headersWithUserId] : headersWithUserId;
+    return isAllSelected
+      ? ["requestId", "status", ...headersWithUserId.slice(1)]
+      : headersWithUserId;
   }, [statusFilter, activeTab]);
 
   const sortedRequests = (requests) => {
