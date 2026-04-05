@@ -2,55 +2,79 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-//import arTranslation from './locales/ar_SA.json';
-//import asTranslation from './locales/as_IN.json';
+// translation namespace (existing flat files)
 import bnTranslation from "./locales/bn_BD.json";
-//import doiTranslation from './locales/doi_IN.json';
 import deTranslation from "./locales/de_DE.json";
 import enTranslation from "./locales/en_US.json";
 import esTranslation from "./locales/es_ES.json";
-//import filTranslation from './locales/fil_PH.json';
 import frTranslation from "./locales/fr_FR.json";
-//import guTranslation from './locales/gu_IN.json';
 import hiTranslation from "./locales/hi_IN.json";
-//import idTranslation from './locales/id_ID.json';
-//import jaTranslation from './locales/ja_JP.json';
-//import knTranslation from './locales/kn_IN.json';
-//import koTranslation from './locales/ko_KR.json';
-//import maiTranslation from './locales/mai_IN.json';
-//import mlTranslation from './locales/ml_IN.json';
-//import mrTranslation from './locales/mr_IN.json';
-//import neTranslation from './locales/ne_NP.json';
-//import orTranslation from './locales/or_IN.json';
-//import paTranslation from './locales/pa_IN.json';
 import ptTranslation from "./locales/pt_PT.json";
 import ruTranslation from "./locales/ru_RU.json";
-//import saTranslation from './locales/sa_IN.json';
-//import sdTranslation from './locales/sd_IN.json';
-//import taTranslation from './locales/ta_IN.json';
 import teTranslation from "./locales/te_IN.json";
-//import thTranslation from './locales/th_TH.json';
-//import tlTranslation from './locales/tl_PH.json';
-//import urTranslation from './locales/ur_PK.json';
-//import viTranslation from './locales/vi_VN.json';
 import zhTranslation from "./locales/zh_CN.json";
+
+// termsAndConditions namespace
+import enTerms from "./locales/en/termsAndConditions.json";
+import deTerms from "./locales/de/termsAndConditions.json";
+import esTerms from "./locales/es/termsAndConditions.json";
+import frTerms from "./locales/fr/termsAndConditions.json";
+import ruTerms from "./locales/ru/termsAndConditions.json";
+
+// privacyPolicy namespace
+import enPrivacy from "./locales/en/privacyPolicy.json";
+
+// messages namespace
+import enMessages from "./locales/en/messages.json";
+import bnMessages from "./locales/bn/messages.json";
+import deMessages from "./locales/de/messages.json";
+import esMessages from "./locales/es/messages.json";
+import frMessages from "./locales/fr/messages.json";
+import hiMessages from "./locales/hi/messages.json";
+import ptMessages from "./locales/pt/messages.json";
+import ruMessages from "./locales/ru/messages.json";
+import teMessages from "./locales/te/messages.json";
+import zhMessages from "./locales/zh/messages.json";
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
+    ns: ["translation", "termsAndConditions", "privacyPolicy", "messages"],
+    defaultNS: "translation",
     resources: {
-      bn: { translation: bnTranslation },
-      de: { translation: deTranslation },
-      en: { translation: enTranslation },
-      es: { translation: esTranslation },
-      fr: { translation: frTranslation },
-      hi: { translation: hiTranslation },
-      pt: { translation: ptTranslation },
-      ru: { translation: ruTranslation },
-      te: { translation: teTranslation },
-      zh: { translation: zhTranslation },
+      bn: { translation: bnTranslation, messages: bnMessages },
+      de: {
+        translation: deTranslation,
+        termsAndConditions: deTerms,
+        messages: deMessages,
+      },
+      en: {
+        translation: enTranslation,
+        termsAndConditions: enTerms,
+        privacyPolicy: enPrivacy,
+        messages: enMessages,
+      },
+      es: {
+        translation: esTranslation,
+        termsAndConditions: esTerms,
+        messages: esMessages,
+      },
+      fr: {
+        translation: frTranslation,
+        termsAndConditions: frTerms,
+        messages: frMessages,
+      },
+      hi: { translation: hiTranslation, messages: hiMessages },
+      pt: { translation: ptTranslation, messages: ptMessages },
+      ru: {
+        translation: ruTranslation,
+        termsAndConditions: ruTerms,
+        messages: ruMessages,
+      },
+      te: { translation: teTranslation, messages: teMessages },
+      zh: { translation: zhTranslation, messages: zhMessages },
     },
     detection: {
       order: [
