@@ -411,6 +411,16 @@ const HelpingVolunteers = () => {
             </svg>
             {t("REQUEST_VOLUNTEERS")}
           </button>
+          <div className="ml-auto flex items-center space-x-4">
+            <input
+              type="text"
+              placeholder="Enter volunteer name"
+              className="p-3 border rounded-md w-64"
+            />
+            <button className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center">
+              Find by name
+            </button>
+          </div>
         </div>
 
         <div className="mt-6 bg-white p-6 shadow-lg">
