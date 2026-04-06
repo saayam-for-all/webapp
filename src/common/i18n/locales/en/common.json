@@ -393,6 +393,7 @@
   "PAGE_NOT_FOUND": "Page Not Found",
   "PASSWORD": "Password",
   "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
+  "ACCOUNT_CREATED_SUCCESS": "Account created successfully! Please sign in.",
   "PASSWORD_MISMATCH_ERROR": "Passwords do not match.",
   "PASSWORD_REQUIRED": "Please enter your password",
   "PASSWORD_REQUIREMENTS": "Must contain at least 8 characters.",

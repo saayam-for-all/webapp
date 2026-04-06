@@ -92,7 +92,10 @@ function OTPVerification() {
 
         if (isSignUpComplete) {
           setMessage("OTP Verified Successfully!");
-          setTimeout(() => navigate("/login"), 2000);
+          setTimeout(
+            () => navigate("/login", { state: { accountCreated: true } }),
+            2000,
+          );
         }
       }
     } catch (error) {
