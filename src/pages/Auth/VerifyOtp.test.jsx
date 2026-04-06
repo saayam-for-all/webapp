@@ -61,6 +61,52 @@ describe("OTPVerification", () => {
     ).toBeInTheDocument();
   });
 
+  it("distributes pasted digits across all OTP inputs", () => {
+    renderVerifyOtp();
+    const inputs = screen.getAllByRole("textbox");
+
+    fireEvent.paste(inputs[0], {
+      clipboardData: { getData: () => "123456" },
+    });
+
+    expect(inputs[0]).toHaveValue("1");
+    expect(inputs[1]).toHaveValue("2");
+    expect(inputs[2]).toHaveValue("3");
+    expect(inputs[3]).toHaveValue("4");
+    expect(inputs[4]).toHaveValue("5");
+    expect(inputs[5]).toHaveValue("6");
+  });
+
+  it("distributes partial paste and leaves remaining inputs empty", () => {
+    renderVerifyOtp();
+    const inputs = screen.getAllByRole("textbox");
+
+    fireEvent.paste(inputs[0], {
+      clipboardData: { getData: () => "123" },
+    });
+
+    expect(inputs[0]).toHaveValue("1");
+    expect(inputs[1]).toHaveValue("2");
+    expect(inputs[2]).toHaveValue("3");
+    expect(inputs[3]).toHaveValue("");
+    expect(inputs[4]).toHaveValue("");
+    expect(inputs[5]).toHaveValue("");
+  });
+
+  it("strips non-numeric characters from pasted text", () => {
+    renderVerifyOtp();
+    const inputs = screen.getAllByRole("textbox");
+
+    fireEvent.paste(inputs[0], {
+      clipboardData: { getData: () => "1a2b3c" },
+    });
+
+    expect(inputs[0]).toHaveValue("1");
+    expect(inputs[1]).toHaveValue("2");
+    expect(inputs[2]).toHaveValue("3");
+    expect(inputs[3]).toHaveValue("");
+  });
+
   it("navigates to login with accountCreated state after successful OTP verification", async () => {
     const { confirmSignUp } = require("aws-amplify/auth");
     confirmSignUp.mockResolvedValueOnce({ isSignUpComplete: true });
