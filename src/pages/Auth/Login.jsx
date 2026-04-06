@@ -1,9 +1,13 @@
 import { signIn } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import {
+  IoCheckmarkCircle,
+  IoEyeOffOutline,
+  IoEyeOutline,
+} from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { INACTIVITY_TIMEOUT } from "../../common/components/InactivityTimer/InactivityTimer.jsx";
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
@@ -25,6 +29,7 @@ const LoginPage = () => {
   const { user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const loginSchema = z.object({
@@ -84,6 +89,14 @@ const LoginPage = () => {
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
+        {location.state?.accountCreated && (
+          <div className="flex items-center gap-3 px-4 py-3 mb-4 bg-green-50 border border-green-200 rounded-xl">
+            <IoCheckmarkCircle className="text-green-600 text-2xl shrink-0" />
+            <p className="text-green-800 text-sm font-medium">
+              {t("common:ACCOUNT_CREATED_SUCCESS")}
+            </p>
+          </div>
+        )}
         <h1 className="my-4 text-3xl font-bold text-center">
           {t("common:LOGIN")}
         </h1>
