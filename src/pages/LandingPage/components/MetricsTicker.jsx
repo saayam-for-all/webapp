@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-//const METRICS_S3_URL = import.meta.env.VITE_METRICS_S3_URL || "";
-const METRICS_S3_URL = "https://test.help-for-everyone.org/api/stats";
+const METRICS_S3_URL = import.meta.env.VITE_METRICS_CDN_URL || "";
 const METRIC_CONFIGS = [
   {
     key: "total_requests",
@@ -116,7 +115,7 @@ const MetricsTicker = () => {
     };
 
     fetchStats();
-    const interval = setInterval(fetchStats, 30000); // Poll every 30s
+    const interval = setInterval(fetchStats, 4 * 60 * 60 * 1000); // Poll every 4 hours
     return () => clearInterval(interval);
   }, []);
 

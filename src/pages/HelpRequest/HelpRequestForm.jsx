@@ -26,6 +26,7 @@ import JobsCategory from "./Categories/JobCategory";
 // Popup modal for subcategory - Import ElderlySupport component
 import ElderlySupport from "./Categories/ElderlySupport";
 import DynamicAdditionalFields from "./Categories/DynamicAdditionalFields";
+import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
@@ -236,6 +237,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [uploadedFilesInfo, setUploadedFilesInfo] = useState([]);
   const [showFilesDialog, setShowFilesDialog] = useState(false);
   const [isUploadingFiles, setIsUploadingFiles] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // Audio recording state
   const [audioUploadResult, setAudioUploadResult] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
@@ -1011,6 +1013,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       location,
     };
 
+    setIsSubmitting(true);
     try {
       const res = await checkProfanity({
         subject: formData.subject,
@@ -1176,6 +1179,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         message: "Failed to submit request!",
         severity: "error",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -2124,9 +2129,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           <div className="mt-8 flex justify-end gap-2">
             <button
               type="submit"
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
+              disabled={isSubmitting}
+              className={`py-2 px-4 text-white rounded-md mr-2 flex items-center ${
+                isSubmitting
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
             >
-              {isEdit ? t("SAVE") : t("SUBMIT")}
+              <span className={isSubmitting ? "mr-2" : ""}>
+                {isSubmitting
+                  ? t("SUBMITTING") || "Submitting..."
+                  : isEdit
+                    ? t("SAVE")
+                    : t("SUBMIT")}
+              </span>
+              {isSubmitting && <LoadingIndicator size="24px" />}
             </button>
             <button
               onClick={isEdit ? onClose : closeForm}

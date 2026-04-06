@@ -65,6 +65,10 @@ jest.mock("../../common/components/VoiceRecordingComponent", () => () => (
   <div data-testid="voice-recorder" />
 ));
 
+jest.mock("../../common/components/Loading/Loading.jsx", () => () => (
+  <span data-testid="loading-spinner" />
+));
+
 const mockCategories = [
   {
     catId: "cat-edu",
@@ -79,7 +83,7 @@ const mockCategories = [
   },
 ];
 
-function renderForm() {
+function renderForm({ isEdit = false } = {}) {
   const store = configureStore({
     reducer: { auth: authReducer, request: requestReducer },
     preloadedState: {
@@ -90,7 +94,7 @@ function renderForm() {
   render(
     <Provider store={store}>
       <NotificationProvider>
-        <HelpRequestForm />
+        <HelpRequestForm isEdit={isEdit} onClose={jest.fn()} />
       </NotificationProvider>
     </Provider>,
   );
@@ -157,5 +161,110 @@ describe("HelpRequestForm — category dropdown display (issue #1223)", () => {
     renderForm();
     const categoryInput = selectSubcategory();
     expect(categoryInput.value).toContain("\u2192");
+  });
+});
+
+describe("HelpRequestForm — form submission loader", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+  });
+
+  /** Fill subject + description so validation passes, then click submit */
+  function fillAndSubmit() {
+    fireEvent.change(document.getElementById("subject"), {
+      target: { name: "subject", value: "I need help" },
+    });
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "Detailed description here" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+  }
+
+  it("shows loading spinner and disables button while submitting", async () => {
+    const { checkProfanity } = require("../../services/requestServices");
+    let resolveProfanity;
+    checkProfanity.mockReturnValue(
+      new Promise((resolve) => {
+        resolveProfanity = resolve;
+      }),
+    );
+
+    renderForm();
+    fillAndSubmit();
+
+    const btn = await screen.findByRole("button", {
+      name: /mockTranslate\(SUBMITTING\)/,
+    });
+    expect(btn).toBeDisabled();
+    expect(screen.getByTestId("loading-spinner")).toBeInTheDocument();
+
+    await require("@testing-library/react").act(async () => {
+      resolveProfanity({ contains_profanity: false });
+    });
+  });
+
+  it("falls back to plain submitting text when translation is missing", async () => {
+    const { checkProfanity } = require("../../services/requestServices");
+    let resolveProfanity;
+    mockT.mockImplementation((text) =>
+      text === "SUBMITTING" ? "" : `mockTranslate(${text})`,
+    );
+    checkProfanity.mockReturnValue(
+      new Promise((resolve) => {
+        resolveProfanity = resolve;
+      }),
+    );
+
+    renderForm();
+    fillAndSubmit();
+
+    expect(
+      await screen.findByRole("button", { name: /Submitting\.\.\./ }),
+    ).toBeDisabled();
+
+    await require("@testing-library/react").act(async () => {
+      resolveProfanity({ contains_profanity: false });
+    });
+  });
+
+  it("re-enables submit button after a submission error", async () => {
+    const { checkProfanity } = require("../../services/requestServices");
+    let rejectProfanity;
+    checkProfanity.mockReturnValue(
+      new Promise((_resolve, reject) => {
+        rejectProfanity = reject;
+      }),
+    );
+
+    renderForm();
+    fillAndSubmit();
+
+    // While awaiting — button is disabled
+    expect(
+      await screen.findByRole("button", {
+        name: /mockTranslate\(SUBMITTING\)/,
+      }),
+    ).toBeDisabled();
+
+    // Reject the promise → catch block runs, then finally resets isSubmitting
+    await require("@testing-library/react").act(async () => {
+      rejectProfanity(new Error("network failure"));
+    });
+
+    // Button should revert to its normal enabled state
+    expect(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    ).toBeEnabled();
+    expect(screen.queryByTestId("loading-spinner")).not.toBeInTheDocument();
+  });
+
+  it("shows SAVE label on submit button in edit mode", () => {
+    renderForm({ isEdit: true });
+    expect(
+      screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+    ).toBeEnabled();
   });
 });

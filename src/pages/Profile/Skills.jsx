@@ -20,6 +20,7 @@ const Skills = ({ setHasUnsavedChanges }) => {
   };
   const [checkedCategories, setCheckedCategories] = useImmer(mockCategories);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [savedSkills, setSavedSkills] = useState([]);
 
   const categories = useSelector((state) => state.request?.categories || []);
 
@@ -40,6 +41,38 @@ const Skills = ({ setHasUnsavedChanges }) => {
     return t(`categories:REQUEST_CATEGORIES.${categoryName}.LABEL`, {
       defaultValue: categoryName,
     });
+  };
+
+  const resolveSkillLabel = (skillId) => {
+    if (!skillId) return "";
+    const id = String(skillId);
+    const top = categoriesData.find(
+      (c) => String(c.catId) === id || c.catName === id,
+    );
+    if (top) return translateCategory(top.catName);
+
+    for (const c of categoriesData) {
+      const sub = (c.subCategories || []).find(
+        (s) => String(s.catId) === id || s.catName === id,
+      );
+      if (sub) {
+        return translateCategory(sub.catName, c.catName);
+      }
+
+      for (const s of c.subCategories || []) {
+        const subSub = (s.subCategories || []).find(
+          (ss) => String(ss.catId) === id || ss.catName === id,
+        );
+        if (subSub) {
+          return t(
+            `categories:REQUEST_CATEGORIES.${c.catName}.SUBCATEGORIES.${s.catName}.SUBCATEGORIES.${subSub.catName}.LABEL`,
+            { defaultValue: subSub.catName },
+          );
+        }
+      }
+    }
+
+    return skillId;
   };
 
   const getSelectedSkills = (categories, parentPath = "") => {
@@ -85,6 +118,17 @@ const Skills = ({ setHasUnsavedChanges }) => {
       }
     }
   }, [categories]);
+
+  useEffect(() => {
+    const storedSkills = localStorage.getItem("volunteer_skills");
+    if (storedSkills) {
+      try {
+        setSavedSkills(JSON.parse(storedSkills));
+      } catch (e) {
+        console.warn("Failed to parse volunteer skills:", e);
+      }
+    }
+  }, []);
 
   const getCheckedStatus = (categoryPath) => {
     const keys = categoryPath.split(".");
@@ -171,24 +215,42 @@ const Skills = ({ setHasUnsavedChanges }) => {
     <div className="p-6">
       <div className="bg-white rounded-lg shadow p-6">
         <div className="space-y-4">
-          {categoriesData?.length > 0 &&
-            (isEditing ? (
-              renderCategories(categoriesData)
-            ) : (
-              <List className="flex flex-col" disablePadding>
-                {getSelectedSkills(categoriesData)}
-              </List>
-            ))}
+          {isEditing ? (
+            renderCategories(categoriesData)
+          ) : savedSkills.length > 0 ? (
+            <List className="flex flex-col" disablePadding>
+              {savedSkills.map((skill, idx) => (
+                <ListItem key={idx} disablePadding>
+                  <ListItemText primary={`• ${resolveSkillLabel(skill)}`} />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <List className="flex flex-col" disablePadding>
+              {getSelectedSkills(categoriesData)}
+            </List>
+          )}
         </div>
       </div>
-      <div className="flex flex-row justify-center items-center mb-6 mt-4">
+      <div className="flex flex-row justify-center items-center gap-3 mb-6 mt-4">
         {isEditing ? (
-          <button
-            onClick={handleSave}
-            className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            {t("SAVE")}
-          </button>
+          <>
+            <button
+              onClick={handleSave}
+              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              {t("SAVE")}
+            </button>
+            <button
+              onClick={() => {
+                setIsEditing(false);
+                setHasUnsavedChanges(false);
+              }}
+              className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+            >
+              {t("CANCEL")}
+            </button>
+          </>
         ) : (
           <button
             onClick={() => setIsEditing(true)}

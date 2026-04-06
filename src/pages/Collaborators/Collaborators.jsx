@@ -5,7 +5,7 @@ import HorizontalAd from "#components/Ads/HorizontalAd";
 import { collaborators } from "../../data/collaboratorsData";
 
 function Collaborators() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["collaborator"]);
 
   const firstRow = collaborators.slice(0, 3);
   const secondRow = collaborators.slice(3);
@@ -14,14 +14,10 @@ function Collaborators() {
     <>
       <div className="flex flex-col items-center p-8 min-h-screen bg-white">
         <div className="w-full max-w-6xl">
-          <h2 className="text-3xl font-bold text-center mb-4">
-            {t("Our Collaborators")}
-          </h2>
+          <h2 className="text-3xl font-bold text-center mb-4">{t("TITLE")}</h2>
 
           <p className="text-base text-center mb-12 text-gray-700">
-            {t(
-              "In some cases, our volunteers partner with local NGOs, community groups, and service organizations to ensure that every request is fulfilled effectively. Saayam For All builds a collaborative ecosystem that strengthens community support—because helping hands are stronger together.",
-            )}
+            {t("INTRO")}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-10 place-items-center">
@@ -73,17 +69,13 @@ function Collaborators() {
           </div>
 
           <div className="text-center mt-16 mb-16">
-            <h2 className="text-3xl font-bold mb-4">{t("Want to join us?")}</h2>
-            <p className="text-base mb-8">
-              {t(
-                "Chat with our community and get in touch with different charity organizations!",
-              )}
-            </p>
+            <h2 className="text-3xl font-bold mb-4">{t("JOIN_TITLE")}</h2>{" "}
+            <p className="text-base mb-8">{t("JOIN_BODY")}</p>
             <Link
               to="/contact"
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"
             >
-              {t("Join the community")}
+              {t("JOIN_BUTTON")}
             </Link>
           </div>
         </div>

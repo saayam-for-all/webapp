@@ -234,7 +234,9 @@ const Dashboard = ({ userRole }) => {
           ]
         : baseHeaders;
     const isAllSelected = Object.values(statusFilter).every(Boolean);
-    return isAllSelected ? ["status", ...headersWithUserId] : headersWithUserId;
+    return isAllSelected
+      ? ["requestId", "status", ...headersWithUserId.slice(1)]
+      : headersWithUserId;
   }, [statusFilter, activeTab]);
 
   const sortedRequests = (requests) => {
@@ -1373,7 +1375,9 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/request/${request[resolveKey(header)]}`
+                  header === "requestId" || header === "id"
+                    ? `/request/${request[resolveKey(header)]}`
+                    : null
                 }
                 getLinkState={(request) => request}
                 searchFilters={
@@ -1399,7 +1403,9 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/request/${request[resolveKey(header)]}`
+                  header === "requestId" || header === "id"
+                    ? `/request/${request[resolveKey(header)]}`
+                    : null
                 }
                 getLinkState={(request) => request}
                 searchFilters={
@@ -1423,7 +1429,9 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/request/${request[resolveKey(header)]}`
+                  header === "requestId" || header === "id"
+                    ? `/request/${request[resolveKey(header)]}`
+                    : null
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
@@ -1445,7 +1453,9 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/request/${request[resolveKey(header)]}`
+                  header === "requestId" || header === "id"
+                    ? `/request/${request[resolveKey(header)]}`
+                    : null
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
@@ -1467,7 +1477,9 @@ const Dashboard = ({ userRole }) => {
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 getLinkPath={(request, header) =>
-                  `/request/${request[resolveKey(header)]}`
+                  header === "requestId" || header === "id"
+                    ? `/request/${request[resolveKey(header)]}`
+                    : null
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
