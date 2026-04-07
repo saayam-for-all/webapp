@@ -462,6 +462,50 @@ describe("HelpRequestForm — predict categories modal", () => {
     expect(callArgs.selectedCategoryId).toBe("4.3");
     expect(callArgs.selectedCategoryId).not.toBe("TUTORING");
   });
+
+  it("does not show snackbar when General is confirmed without changing category", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3",
+            category_name: "TUTORING",
+            confidence: 0.9,
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "I need help with something." },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() =>
+      expect(screen.getByText("General")).toBeInTheDocument(),
+    );
+
+    // Confirm without changing — keeps "General", no snackbar should fire
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Select" }));
+    });
+
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+
+    expect(screen.queryByText(/Category updated from/)).not.toBeInTheDocument();
+  });
 });
 
 describe("HelpRequestForm — generateSubject auto-fill", () => {
