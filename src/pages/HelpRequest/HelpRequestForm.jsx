@@ -291,6 +291,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       const formattedCategories = rawCategories.map((cat) => ({
         id: cat.category_name,
         name: cat.category_name,
+        category_number: cat.category_number,
         displayName: formatApiCategoryName(cat.category_name),
         confidence: cat.confidence,
       }));
@@ -815,14 +816,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleConfirmCategorySelection = () => {
     const oldCategory = "General";
     const newCategory = formData.category;
+    const matched = suggestedCategories.find(
+      (c) => (c.category_number ?? c.name) === newCategory,
+    );
+    const newCategoryDisplay = matched?.displayName ?? newCategory;
 
     setCategoryConfirmed(true); // unlock submission
     setShowModal(false);
 
-    if (oldCategory !== newCategory) {
+    if (oldCategory !== newCategoryDisplay) {
       setSnackbar({
         open: true,
-        message: `Category updated from \"${oldCategory}\" to \"${newCategory}\". Click Submit to continue.`,
+        message: `Category updated from \"${oldCategory}\" to \"${newCategoryDisplay}\". Click Submit to continue.`,
         severity: "info",
       });
     }
@@ -2185,7 +2190,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             {suggestedCategories.map((category, index) => (
               <FormControlLabel
                 key={index}
-                value={category.name}
+                value={category.category_number ?? category.name}
                 control={<Radio />}
                 label={category.displayName ?? category.name}
               />
