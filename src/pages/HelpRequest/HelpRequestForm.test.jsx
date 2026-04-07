@@ -54,6 +54,10 @@ jest.mock("../../services/requestApi", () => ({
   useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
+jest.mock("../../utils/mapHelpRequestPayload", () => ({
+  mapHelpRequestPayload: jest.fn().mockReturnValue({}),
+}));
+
 jest.mock("../../services/requestServices", () => ({
   checkProfanity: jest.fn(),
   createRequest: jest.fn(),
@@ -308,6 +312,87 @@ describe("HelpRequestForm — subject field is optional", () => {
   });
 });
 
+describe("HelpRequestForm — predict categories modal", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+  });
+
+  it("shows formatted category names in the modal after submit with General category", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "1.2",
+            category_name: "GROCERY_SHOPPING_AND_DELIVERY",
+            confidence: 0.95,
+          },
+          {
+            category_number: "1.1",
+            category_name: "FOOD_ASSISTANCE",
+            confidence: 0.8,
+          },
+        ],
+        top_category: {
+          category_number: "1.2",
+          category_name: "GROCERY_SHOPPING_AND_DELIVERY",
+          confidence: 0.95,
+        },
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help picking up groceries from the store.",
+      },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Grocery Shopping And Delivery"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Food Assistance")).toBeInTheDocument();
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+
+  it("shows only General when predictCategories API fails", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockRejectedValue(new Error("API error"));
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help picking up groceries from the store.",
+      },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+});
+
 describe("HelpRequestForm — generateSubject auto-fill", () => {
   beforeEach(() => {
     mockT.mockReset();
@@ -384,6 +469,26 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
     expect(generateSubject).not.toHaveBeenCalled();
   });
 
+  it("logs error and leaves subject empty when generateSubject API fails", async () => {
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockRejectedValue(new Error("API error"));
+
+    renderForm();
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("description"), {
+        target: {
+          name: "description",
+          value: "I need help picking up groceries from the store.",
+        },
+      });
+      jest.advanceTimersByTime(800);
+    });
+
+    expect(generateSubject).toHaveBeenCalled();
+    expect(document.getElementById("subject").value).toBe("");
+  });
+
   it("does not overwrite subject the user has manually typed", async () => {
     const { generateSubject } = require("../../services/requestServices");
     generateSubject.mockResolvedValue({
@@ -412,5 +517,87 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
 
     expect(generateSubject).not.toHaveBeenCalled();
     expect(document.getElementById("subject").value).toBe("My own subject");
+  });
+});
+
+describe("HelpRequestForm — successful submission", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    // Prevent generateSubject debounce from interfering with submit flow
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({ body: null });
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("calls createRequest and navigates with requestId when API returns one", async () => {
+    const {
+      checkProfanity,
+      createRequest,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({ requestId: "REQ-12345" });
+
+    renderForm();
+
+    // Select a non-General subcategory to bypass the predict categories modal
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with my college application process.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+    // Advance past the 1200ms navigate timeout to cover success navigation code
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("navigates with generic message when createRequest response has no requestId", async () => {
+    const {
+      checkProfanity,
+      createRequest,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({});
+
+    renderForm();
+
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with my college application process.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+    // Advance past the 1200ms navigate timeout — covers the falsy requestId branch
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
   });
 });
