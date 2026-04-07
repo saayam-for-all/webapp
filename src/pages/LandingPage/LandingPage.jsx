@@ -8,13 +8,11 @@ import bottomFour from "../../assets/landingPageImages/bottomFour.jpg";
 import bottomOne from "../../assets/landingPageImages/bottomOne.jpg";
 import bottomThree from "../../assets/landingPageImages/bottomThree.jpg";
 import bottomTwo from "../../assets/landingPageImages/bottomTwo.jpg";
-import collabFive from "../../assets/landingPageImages/collab_five.jpg";
-import collabFour from "../../assets/landingPageImages/collab_four.jpg";
-import collabOne from "../../assets/landingPageImages/collab_one.jpg";
-import collabSeven from "../../assets/landingPageImages/collab_seven.jpg";
-import collabSix from "../../assets/landingPageImages/collab_six.jpg";
-import collabThree from "../../assets/landingPageImages/collab_three.jpg";
-import collabTwo from "../../assets/landingPageImages/collab_two.jpg";
+import tbi4lifeLogo from "../../assets/Collab_logos/tbi4life.webp";
+import annapoornaLogo from "../../assets/Collab_logos/annapoorna.webp";
+import drivenScholarsLogo from "../../assets/Collab_logos/drivenscholars.webp";
+import southPortlandLogo from "../../assets/Collab_logos/southportland.webp";
+import idealistLogo from "../../assets/Collab_logos/idealist.webp";
 import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
@@ -125,22 +123,18 @@ export default function Home() {
         <div className="w-full flex flex-row overflow-hidden">
           <div className="scroll imgBox">
             <div>
-              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
-              <img src={collabTwo}></img>
-              <img src={collabThree} className="w-[200px]"></img>
-              <img src={collabFour}></img>
-              <img src={collabFive}></img>
-              <img src={collabSix} className="w-[200px]"></img>
-              <img src={collabSeven} className="w-[125px]"></img>
+              <img src={tbi4lifeLogo} className="w-[150px] ml-[75px]"></img>
+              <img src={annapoornaLogo}></img>
+              <img src={drivenScholarsLogo} className="w-[200px]"></img>
+              <img src={southPortlandLogo}></img>
+              <img src={idealistLogo}></img>
             </div>
             <div>
-              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
-              <img src={collabTwo}></img>
-              <img src={collabThree} className="w-[200px]"></img>
-              <img src={collabFour}></img>
-              <img src={collabFive}></img>
-              <img src={collabSix} className="w-[200px]"></img>
-              <img src={collabSeven} className="w-[125px]"></img>
+              <img src={tbi4lifeLogo} className="w-[150px] ml-[75px]"></img>
+              <img src={annapoornaLogo}></img>
+              <img src={drivenScholarsLogo} className="w-[200px]"></img>
+              <img src={southPortlandLogo}></img>
+              <img src={idealistLogo}></img>
             </div>
           </div>
         </div>
