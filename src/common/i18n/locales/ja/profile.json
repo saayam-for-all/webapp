@@ -100,5 +100,16 @@
   "SAVE": "保存",
   "SAVING": "保存中...",
   "CANCEL": "キャンセル",
-  "SUBMIT": "送信"
+  "SUBMIT": "送信",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "写真を受け付けました。保存をクリックして確認してください。",
+  "PROFILE_PHOTO_ERROR_SIZE": "ファイルサイズは5MB以下にしてください。",
+  "PROFILE_PHOTO_ERROR_FORMAT": "JPGとPNG形式のみ受け付けています。",
+  "PROFILE_PHOTO_LOAD_ERROR": "プロフィール写真の読み込みに失敗しました。",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "プロフィール写真の更新に失敗しました。",
+  "PROFILE_PHOTO": "プロフィール写真",
+  "UPLOAD": "アップロード",
+  "DELETE": "削除",
+  "NO_PHOTO": "写真なし",
+  "PROFILE_IMAGE_ALT": "プロフィール"
 }

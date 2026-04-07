@@ -100,5 +100,16 @@
   "SAVE": "Simpan",
   "SAVING": "Menyimpan...",
   "CANCEL": "Batal",
-  "SUBMIT": "Kirim"
+  "SUBMIT": "Kirim",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "Photo accepted. Click Save to confirm.",
+  "PROFILE_PHOTO_ERROR_SIZE": "File size must be 5 MB or less.",
+  "PROFILE_PHOTO_ERROR_FORMAT": "Only JPG and PNG formats are accepted.",
+  "PROFILE_PHOTO_LOAD_ERROR": "Failed to load profile photo.",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "Failed to update profile photo.",
+  "PROFILE_PHOTO": "Profile Photo",
+  "UPLOAD": "Upload",
+  "DELETE": "Delete",
+  "NO_PHOTO": "No Photo",
+  "PROFILE_IMAGE_ALT": "Profile"
 }

@@ -169,32 +169,32 @@ const KPIAnalytics = () => {
         description="Breakdown of requests by current status (Click segments for details)"
       >
         {/* Controls */}
-        <div className="mb-4 flex gap-3 items-center flex-wrap">
+        <div className="mb-2 flex gap-2 items-center flex-wrap">
           <button
             onClick={() => {
               setShowStatusTable(!showStatusTable);
               setSelectedSegment(null);
             }}
-            className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="px-2 py-0.5 text-xs bg-blue-500 text-white rounded hover:bg-blue-600"
           >
-            {showStatusTable ? "Show Chart View" : "Show Table View"}
+            {showStatusTable ? "Chart View" : "Table View"}
           </button>
 
           {selectedSegment && (
             <>
-              <div className="px-3 py-1 text-sm bg-green-100 text-green-800 rounded">
-                Selected: <strong>{selectedSegment}</strong>
+              <div className="px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded">
+                <strong>{selectedSegment}</strong>
               </div>
               <button
                 onClick={() => setSelectedSegment(null)}
-                className="px-3 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600"
+                className="px-2 py-0.5 text-xs bg-gray-500 text-white rounded hover:bg-gray-600"
               >
-                Clear Selection
+                Clear
               </button>
               <select
                 value={breakdownView}
                 onChange={(e) => setBreakdownView(e.target.value)}
-                className="px-3 py-1 border border-gray-300 rounded text-sm"
+                className="px-2 py-0.5 border border-gray-300 rounded text-xs"
               >
                 <option value="category">By Category</option>
                 <option value="region">By Region</option>
@@ -205,7 +205,7 @@ const KPIAnalytics = () => {
 
         {!showStatusTable ? (
           <>
-            <ResponsiveContainer width="100%" height={350}>
+            <ResponsiveContainer width="100%" height={220}>
               <PieChart>
                 <Pie
                   data={statusData}
@@ -349,7 +349,7 @@ const KPIAnalytics = () => {
         title="Average Resolution Time by Category"
         description={`SLA Target: ${SLA_TARGET / 24} days | Warning: ${SLA_WARNING / 24} days | Color coding: Green (within SLA), Yellow (approaching SLA), Red (exceeded SLA)`}
       >
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={220}>
           <BarChart
             data={resolutionData}
             layout="vertical"

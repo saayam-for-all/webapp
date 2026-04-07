@@ -9,11 +9,7 @@ import {
   FiTrash2,
 } from "react-icons/fi";
 import { Howl } from "howler";
-import {
-  uploadAudioAndTranscribe,
-  blobToBase64,
-} from "../../services/audioServices";
-import { speechDetectV2 } from "../../services/audioServices";
+import { uploadAudioAndTranscribe } from "../../services/audioServices";
 
 const VoiceRecordingComponent = ({
   onTranscriptionUpdate,
@@ -38,9 +34,8 @@ const VoiceRecordingComponent = ({
   const streamRef = useRef(null);
   const timerRef = useRef(null);
   const mimeTypeRef = useRef("audio/webm");
-  const transcriptionIntervalRef = useRef(null);
-  const accumulatedTextRef = useRef("");
   const audioUrlRef = useRef(null); // Store audio URL for cleanup
+  const MAX_RECORDING_TIME = 60; // Maximum recording time in seconds
 
   // Cleanup Howler instance when audioUrl changes
   useEffect(() => {
@@ -58,9 +53,6 @@ const VoiceRecordingComponent = ({
       stopRecording();
       if (timerRef.current) {
         clearInterval(timerRef.current);
-      }
-      if (transcriptionIntervalRef.current) {
-        clearInterval(transcriptionIntervalRef.current);
       }
       // Clean up Howler instance
       if (howlRef.current) {
@@ -113,12 +105,6 @@ const VoiceRecordingComponent = ({
       };
 
       mediaRecorder.onstop = async () => {
-        // Stop live transcription interval
-        if (transcriptionIntervalRef.current) {
-          clearInterval(transcriptionIntervalRef.current);
-          transcriptionIntervalRef.current = null;
-        }
-
         const audioBlob = new Blob(audioChunksRef.current, {
           type: mimeTypeRef.current,
         });
@@ -166,22 +152,11 @@ const VoiceRecordingComponent = ({
               0,
               descriptionLimit,
             );
-            accumulatedTextRef.current = finalText;
             setTranscriptionError(false);
 
             // Update description field with the transcript from speechDetectV2
             if (onTranscriptionUpdate) {
               onTranscriptionUpdate(finalText);
-            }
-          } else if (accumulatedTextRef.current) {
-            // Fallback to accumulated live transcription if API transcription is empty
-            const truncatedText = accumulatedTextRef.current.substring(
-              0,
-              descriptionLimit,
-            );
-            setTranscriptionError(false);
-            if (onTranscriptionUpdate) {
-              onTranscriptionUpdate(truncatedText);
             }
           } else {
             // No transcription available
@@ -189,23 +164,12 @@ const VoiceRecordingComponent = ({
           }
         } catch (err) {
           setError(err.message || "Failed to process audio");
-          // Still try to use accumulated live transcription if available
-          if (accumulatedTextRef.current) {
-            const truncatedText = accumulatedTextRef.current.substring(
-              0,
-              descriptionLimit,
-            );
-            if (onTranscriptionUpdate) {
-              onTranscriptionUpdate(truncatedText);
-            }
-          }
+          setTranscriptionError(true);
         } finally {
           setIsProcessing(false);
         }
       };
 
-      // Reset accumulated text when starting new recording
-      accumulatedTextRef.current = "";
       setTranscriptionError(false);
       setAudioUrl(null);
       setIsPlaying(false);
@@ -222,21 +186,17 @@ const VoiceRecordingComponent = ({
       setIsPaused(false);
       setRecordingTime(0);
 
-      // Start timer
+      // Start timer with auto-stop at MAX_RECORDING_TIME
       timerRef.current = setInterval(() => {
-        setRecordingTime((prev) => prev + 1);
+        setRecordingTime((prev) => {
+          const newTime = prev + 1;
+          // Auto-stop recording at MAX_RECORDING_TIME
+          if (newTime >= MAX_RECORDING_TIME) {
+            stopRecording();
+          }
+          return newTime;
+        });
       }, 1000);
-
-      // Start live transcription - send chunks every 3 seconds
-      transcriptionIntervalRef.current = setInterval(() => {
-        // Use refs to avoid stale closure issues
-        if (
-          mediaRecorderRef.current &&
-          mediaRecorderRef.current.state === "recording"
-        ) {
-          performLiveTranscription();
-        }
-      }, 3000); // Transcribe every 3 seconds during recording
     } catch (err) {
       setError("Could not access microphone. Please check permissions.");
     }
@@ -244,12 +204,6 @@ const VoiceRecordingComponent = ({
 
   const stopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
-      // Stop live transcription interval
-      if (transcriptionIntervalRef.current) {
-        clearInterval(transcriptionIntervalRef.current);
-        transcriptionIntervalRef.current = null;
-      }
-
       mediaRecorderRef.current.stop();
       setIsRecording(false);
       setIsPaused(false);
@@ -273,11 +227,6 @@ const VoiceRecordingComponent = ({
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
-      // Pause live transcription
-      if (transcriptionIntervalRef.current) {
-        clearInterval(transcriptionIntervalRef.current);
-        transcriptionIntervalRef.current = null;
-      }
     }
   };
 
@@ -286,66 +235,15 @@ const VoiceRecordingComponent = ({
       mediaRecorderRef.current.resume();
       setIsPaused(false);
       timerRef.current = setInterval(() => {
-        setRecordingTime((prev) => prev + 1);
-      }, 1000);
-
-      // Resume live transcription
-      if (!transcriptionIntervalRef.current && mediaRecorderRef.current) {
-        transcriptionIntervalRef.current = setInterval(() => {
-          // Use refs to avoid stale closure issues
-          if (
-            mediaRecorderRef.current &&
-            mediaRecorderRef.current.state === "recording"
-          ) {
-            performLiveTranscription();
+        setRecordingTime((prev) => {
+          const newTime = prev + 1;
+          // Auto-stop recording at MAX_RECORDING_TIME
+          if (newTime >= MAX_RECORDING_TIME) {
+            stopRecording();
           }
-        }, 3000);
-      }
-    }
-  };
-
-  // Live transcription: send audio chunks periodically during recording
-  // Uses speechDetectV2 API which auto-detects language and returns transcript
-  const performLiveTranscription = async () => {
-    if (audioChunksRef.current.length === 0) return;
-
-    try {
-      // Get cumulative blob of all audio so far
-      const cumulativeBlob = new Blob(audioChunksRef.current, {
-        type: mimeTypeRef.current,
-      });
-
-      // Only transcribe if we have enough audio (at least 2 seconds worth)
-      if (cumulativeBlob.size < 10000) return; // Skip if too small
-
-      // Convert audio blob to base64 for speechDetectV2 API
-      const base64Audio = await blobToBase64(cumulativeBlob);
-
-      // Call speechDetectV2 API which auto-detects language and transcribes
-      const response = await speechDetectV2(base64Audio);
-
-      if (response && response.transcriptionText) {
-        // speechDetectV2 returns full cumulative transcription in detected language
-        // e.g., Hindi: "क्या मेरी आवाज आ रही है" or English: "can you hear me hello hello hello"
-        const newText = response.transcriptionText;
-
-        // Update accumulated text with the full transcription (in detected language)
-        accumulatedTextRef.current = newText;
-
-        // Update description field with accumulated text (truncated to limit)
-        const updatedText = accumulatedTextRef.current.substring(
-          0,
-          descriptionLimit,
-        );
-
-        // Update description field with transcript from speechDetectV2
-        if (onTranscriptionUpdate) {
-          onTranscriptionUpdate(updatedText);
-        }
-      } else {
-      }
-    } catch (err) {
-      // Don't show errors for live transcription failures to avoid spam
+          return newTime;
+        });
+      }, 1000);
     }
   };
 
@@ -434,7 +332,6 @@ const VoiceRecordingComponent = ({
     setIsPlaying(false);
     setError("");
     setTranscriptionError(false);
-    accumulatedTextRef.current = "";
     audioChunksRef.current = [];
 
     // Notify parent component
@@ -482,13 +379,24 @@ const VoiceRecordingComponent = ({
       {isRecording && (
         <div className="flex items-center gap-2">
           {/* Visual feedback: Pulsing red indicator with timer */}
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-red-500 text-white rounded-full shadow-md animate-pulse">
+          <div
+            className={`flex items-center gap-2 px-3 py-1.5 text-white rounded-full shadow-md animate-pulse ${
+              recordingTime >= MAX_RECORDING_TIME - 10
+                ? "bg-orange-500"
+                : "bg-red-500"
+            }`}
+          >
             <div className="relative">
               <div className="w-3 h-3 bg-white rounded-full"></div>
               <div className="absolute inset-0 w-3 h-3 bg-white rounded-full animate-ping opacity-75"></div>
             </div>
             <span className="text-xs font-semibold">
-              Recording: {formatTime(recordingTime)}
+              Recording: {formatTime(recordingTime)} /{" "}
+              {formatTime(MAX_RECORDING_TIME)}
+              {recordingTime >= MAX_RECORDING_TIME - 10 &&
+                recordingTime < MAX_RECORDING_TIME && (
+                  <span className="ml-1">⚠️</span>
+                )}
             </span>
           </div>
 

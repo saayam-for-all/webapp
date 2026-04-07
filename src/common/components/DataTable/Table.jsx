@@ -132,10 +132,7 @@ const Table = ({
                   {headers.map((header, colIndex) => {
                     const value = getCellValue(row, header);
 
-                    const path =
-                      shouldLinkCell(header) && getLinkPath
-                        ? getLinkPath(row, header)
-                        : null;
+                    const path = getLinkPath ? getLinkPath(row, header) : null;
 
                     return (
                       <td
@@ -147,7 +144,7 @@ const Table = ({
                           <Link
                             to={path}
                             className="text-indigo-600 hover:text-indigo-900"
-                            state={getLinkState ? getLinkState(row) : {}}
+                            state={getLinkState ? getLinkState(row) : undefined}
                           >
                             {value}
                           </Link>

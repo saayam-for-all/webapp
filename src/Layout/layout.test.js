@@ -11,6 +11,7 @@ global.IntersectionObserver = class {
 };
 
 import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import Layout from "./Layout";
 
 jest.mock("react", () => ({
@@ -21,6 +22,7 @@ jest.mock("react", () => ({
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useMatches: () => [{ pathname: "/", params: {} }],
+  Outlet: () => <div>Outlet</div>,
 }));
 
 // Mock all the custom components because they have their own snapshot tests
@@ -33,7 +35,11 @@ jest.mock("#components/NavigationGuard/NavigationGuard");
 
 describe("Layout", () => {
   it("renders correctly", () => {
-    const tree = render(<Layout />);
+    const tree = render(
+      <MemoryRouter initialEntries={["/dashboard"]}>
+        <Layout />
+      </MemoryRouter>,
+    );
     expect(tree).toMatchSnapshot();
   });
 });

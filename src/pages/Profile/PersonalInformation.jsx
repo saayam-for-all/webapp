@@ -463,15 +463,25 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             {t("ADDRESS", { optional: " 2" })}
           </label>
           {isEditing ? (
-            <input
-              type="text"
-              name="streetAddress2"
-              value={personalInfo.streetAddress2}
-              onChange={(e) =>
-                handleInputChange("streetAddress2", e.target.value)
-              }
-              className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
+            <>
+              <input
+                type="text"
+                name="streetAddress2"
+                value={personalInfo.streetAddress2}
+                onChange={(e) =>
+                  handleInputChange("streetAddress2", e.target.value)
+                }
+                //className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
+                  errors.streetAddress2 ? "border-red-500" : "border-gray-200"
+                } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+              />
+              {errors.streetAddress2 && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.streetAddress2}
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-lg text-gray-900">
               {personalInfo.streetAddress2 || ""}

@@ -1,12 +1,9 @@
-import { signUp, signInWithRedirect } from "aws-amplify/auth";
+import { signUp } from "aws-amplify/auth";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF } from "react-icons/fa";
-import { signOut } from "aws-amplify/auth";
 import { z } from "zod";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import PHONECODESEN from "../../utils/phone-codes-en";
@@ -88,14 +85,6 @@ const SignUp = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
       password,
     );
-
-  const handleGoogleLogin = async () => {
-    try {
-      await signInWithRedirect({ provider: "Google" });
-    } catch (error) {
-      console.error("Error redirecting to Google:", error);
-    }
-  };
 
   const handleSignUp = async () => {
     try {
@@ -406,33 +395,6 @@ const SignUp = () => {
         >
           Sign up
         </button>
-
-        {/* Uncomment this snippet when the signup functionality is fully developed  */}
-
-        <div className="flex items-center my-4">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="px-4 text-gray-500">Or With</span>
-          <div className="flex-grow border-t border-gray-300"></div>
-        </div>
-
-        <div className="flex flex-row items-center">
-          <button
-            onClick={() => signOut()}
-            className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl"
-          >
-            <FaFacebookF className="mx-2 text-xl text-blue-800" />
-            <span>Facebook</span>
-          </button>
-
-          <button
-            className="ml-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl"
-            onClick={handleGoogleLogin}
-          >
-            <FcGoogle className="mx-2 text-xl" />
-
-            <span>Google</span>
-          </button>
-        </div>
 
         <div className="mt-8 flex flex-row justify-center">
           <p>{t("ALREADY_HAVE_ACCOUNT")}</p>

@@ -19,6 +19,9 @@ import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
+import MetricsTicker from "./components/MetricsTicker";
+import SquareAd from "#components/Ads/SquareAd";
+import HorizontalAd from "#components/Ads/HorizontalAd";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -64,14 +67,10 @@ export default function Home() {
           <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4">
             {t("Need help? Here to help?")}
           </h1>
-          <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
-            {t(
-              "At Saayam for All, your support can make a real difference today.",
-            )}
-          </div>
         </div>
+        <MetricsTicker />
       </div>
-      <div className="w-full flex flex-row justify-center  ">
+      <div className="w-full flex flex-row justify-center mt-8">
         <div className="w-[22%] h-[50%] flex flex-col justify-center items-center">
           <img
             src={bannerImageOne}
@@ -116,13 +115,14 @@ export default function Home() {
       </div>
 
       <Carousel />
+      <HorizontalAd />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
-        {/* <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
+        <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
           {t("Our Collaborators")}
-        </h3> */}
+        </h3>
 
         {/* Hid collaborators until we get permission from them all*/}
-        <div className="w-full flex flex-row overflow-hidden hidden">
+        <div className="w-full flex flex-row overflow-hidden">
           <div className="scroll imgBox">
             <div>
               <img src={collabOne} className="w-[150px] ml-[75px]"></img>

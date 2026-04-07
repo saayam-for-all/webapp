@@ -95,5 +95,16 @@
   "SAVE": "保存",
   "SAVING": "保存中...",
   "CANCEL": "取消",
-  "SUBMIT": "提交"
+  "SUBMIT": "提交",
+
+  "PROFILE_PHOTO_UPLOAD_SUCCESS": "照片已接受。点击保存以确认。",
+  "PROFILE_PHOTO_ERROR_SIZE": "文件大小必须为 5 MB 或以下。",
+  "PROFILE_PHOTO_ERROR_FORMAT": "仅接受 JPG 和 PNG 格式。",
+  "PROFILE_PHOTO_LOAD_ERROR": "加载个人资料照片失败。",
+  "PROFILE_PHOTO_ERROR_UPLOAD": "更新个人资料照片失败。",
+  "PROFILE_PHOTO": "个人资料照片",
+  "UPLOAD": "上传",
+  "DELETE": "删除",
+  "NO_PHOTO": "无照片",
+  "PROFILE_IMAGE_ALT": "个人资料"
 }

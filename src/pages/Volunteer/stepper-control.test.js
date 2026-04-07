@@ -25,14 +25,18 @@ describe("StepperControl", () => {
 
   it("renders Back and Next buttons", () => {
     render(<StepperControl {...defaultProps} />);
-    expect(screen.getByText(/mockTranslate\(BACK\)/)).toBeInTheDocument();
-    expect(screen.getByText(/mockTranslate\(NEXT\)/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/mockTranslate\(common:BACK\)/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/mockTranslate\(common:NEXT\)/),
+    ).toBeInTheDocument();
   });
 
   it("disables Back button on step 1", () => {
     render(<StepperControl {...defaultProps} currentStep={1} />);
     const backButton = screen
-      .getByText(/mockTranslate\(BACK\)/)
+      .getByText(/mockTranslate\(common:BACK\)/)
       .closest("button");
     expect(backButton).toBeDisabled();
   });
@@ -40,19 +44,23 @@ describe("StepperControl", () => {
   it("enables Back button on step 2 and above", () => {
     render(<StepperControl {...defaultProps} currentStep={2} />);
     const backButton = screen
-      .getByText(/mockTranslate\(BACK\)/)
+      .getByText(/mockTranslate\(common:BACK\)/)
       .closest("button");
     expect(backButton).not.toBeDisabled();
   });
 
   it("shows Confirm button on step 4 (steps.length - 1)", () => {
     render(<StepperControl {...defaultProps} currentStep={4} />);
-    expect(screen.getByText(/mockTranslate\(CONFIRM\)/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/mockTranslate\(common:CONFIRM\)/),
+    ).toBeInTheDocument();
   });
 
   it("shows Next button on steps before step 4", () => {
     render(<StepperControl {...defaultProps} currentStep={3} />);
-    expect(screen.getByText(/mockTranslate\(NEXT\)/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/mockTranslate\(common:NEXT\)/),
+    ).toBeInTheDocument();
   });
 
   it("disables Next button when isAcknowledged is false on step 1", () => {
@@ -64,7 +72,7 @@ describe("StepperControl", () => {
       />,
     );
     const nextButton = screen
-      .getByText(/mockTranslate\(NEXT\)/)
+      .getByText(/mockTranslate\(common:NEXT\)/)
       .closest("button");
     expect(nextButton).toBeDisabled();
   });
@@ -74,7 +82,7 @@ describe("StepperControl", () => {
       <StepperControl {...defaultProps} currentStep={2} isUploaded={false} />,
     );
     const nextButton = screen
-      .getByText(/mockTranslate\(NEXT\)/)
+      .getByText(/mockTranslate\(common:NEXT\)/)
       .closest("button");
     expect(nextButton).toBeDisabled();
   });
@@ -88,7 +96,7 @@ describe("StepperControl", () => {
       />,
     );
     const confirmButton = screen
-      .getByText(/mockTranslate\(CONFIRM\)/)
+      .getByText(/mockTranslate\(common:CONFIRM\)/)
       .closest("button");
     expect(confirmButton).toBeDisabled();
   });
@@ -110,7 +118,7 @@ describe("StepperControl", () => {
       />,
     );
     const backButton = screen
-      .getByText(/mockTranslate\(BACK\)/)
+      .getByText(/mockTranslate\(common:BACK\)/)
       .closest("button");
     fireEvent.click(backButton);
     expect(handleClick).toHaveBeenCalledWith("prev");
@@ -126,7 +134,7 @@ describe("StepperControl", () => {
       />,
     );
     const nextButton = screen
-      .getByText(/mockTranslate\(NEXT\)/)
+      .getByText(/mockTranslate\(common:NEXT\)/)
       .closest("button");
     fireEvent.click(nextButton);
     expect(handleClick).toHaveBeenCalledWith("next");

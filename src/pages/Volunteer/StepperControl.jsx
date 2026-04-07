@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
+import { Tooltip } from "react-tooltip";
 
 const StepperControl = ({
   handleClick,
@@ -7,6 +8,7 @@ const StepperControl = ({
   steps,
   isAcknowledged,
   isUploaded,
+  isCheckedCategories,
   isAvailabilityValid,
 }) => {
   const { t } = useTranslation();
@@ -14,6 +16,7 @@ const StepperControl = ({
   const disabledCondition =
     (currentStep === 1 && !isAcknowledged) ||
     (currentStep === 2 && !isUploaded) ||
+    (currentStep === 3 && !isCheckedCategories) ||
     (currentStep === 4 && !isAvailabilityValid) ||
     currentStep >= steps.length;
 
@@ -29,7 +32,7 @@ const StepperControl = ({
           onClick={() => handleClick("prev")}
           disabled={currentStep === 1}
         >
-          {t("BACK") || "Back"}
+          {t("common:BACK") || "Back"}
         </button>
       </div>
       <div className="px-4 w-24">
@@ -41,11 +44,30 @@ const StepperControl = ({
               : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
           }`}
           disabled={disabledCondition}
+          data-tooltip-id="next-button-tooltip"
+          data-tooltip-content={
+            currentStep === 3 && !isCheckedCategories
+              ? t("common:SELECT_SKILL_TO_CONTINUE")
+              : currentStep === 1 && !isAcknowledged
+              ? t("TOOLTIP_ACCEPT_TERMS")
+              : currentStep === 2 && !isUploaded
+              ? t("TOOLTIP_UPLOAD_GOVT_ID")
+              : ""
+          }
         >
           {currentStep === steps.length - 1
-            ? t("CONFIRM") || "Confirm"
-            : t("NEXT") || "Next"}
+            ? t("common:CONFIRM") || "Confirm"
+            : t("common:NEXT") || "Next"}
         </button>
+        {(currentStep === 3 && !isCheckedCategories) || 
+         (currentStep === 1 && !isAcknowledged) || 
+         (currentStep === 2 && !isUploaded) ? (
+          <Tooltip
+            id="next-button-tooltip"
+            place="top"
+            style={{ backgroundColor: "#1f2937", color: "#fff" }}
+          />
+        ) : null}
       </div>
     </div>
   );

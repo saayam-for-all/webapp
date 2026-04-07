@@ -31,7 +31,6 @@ const RequestsAnalytics = () => {
   const [selectedCountry, setSelectedCountry] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("total"); // total, name
-  const [hiddenCountries, setHiddenCountries] = useState(new Set());
 
   // Format month for display (e.g., "2025-01" -> "Jan 2025")
   const formatMonth = (monthStr) => {
@@ -91,12 +90,23 @@ const RequestsAnalytics = () => {
 
   const volumeData = getFilteredVolumeData;
 
+  // Compute top 5 countries by total request count across all data
+  const top5Countries = useMemo(() => {
+    const countryTotals = {};
+    requestsByCategoryRegionData.forEach((item) => {
+      countryTotals[item.country] =
+        (countryTotals[item.country] || 0) + item.requestCount;
+    });
+    return Object.entries(countryTotals)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([country, total]) => ({ country, total }));
+  }, []);
+
   // Process stacked bar data for category & region
   const processStackedData = useMemo(() => {
-    // Get unique countries
-    const allCountries = [
-      ...new Set(requestsByCategoryRegionData.map((item) => item.country)),
-    ].sort();
+    // Use top 5 countries (by total requests across all data)
+    const top5CountryNames = top5Countries.map((c) => c.country);
 
     // Filter by selected category (if not "all")
     let filteredData =
@@ -142,13 +152,13 @@ const RequestsAnalytics = () => {
       result.sort((a, b) => a.category.localeCompare(b.category));
     }
 
-    // Filter countries that aren't hidden
-    const visibleCountries = allCountries.filter(
-      (country) => !hiddenCountries.has(country),
-    );
+    // Determine visible countries: if filtering by a single country show that,
+    // otherwise show the top 5
+    const visibleCountries =
+      selectedCountry !== "all" ? [selectedCountry] : top5CountryNames;
 
-    return { data: result, countries: allCountries, visibleCountries };
-  }, [selectedCountry, selectedCategory, sortBy, hiddenCountries]);
+    return { data: result, visibleCountries };
+  }, [selectedCountry, selectedCategory, sortBy, top5Countries]);
 
   // Get unique countries and categories for filter dropdowns
   const countries = useMemo(() => {
@@ -162,19 +172,6 @@ const RequestsAnalytics = () => {
       ...new Set(requestsByCategoryRegionData.map((item) => item.category)),
     ].sort();
   }, []);
-
-  // Toggle country visibility in legend
-  const toggleCountry = (country) => {
-    setHiddenCountries((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(country)) {
-        newSet.delete(country);
-      } else {
-        newSet.add(country);
-      }
-      return newSet;
-    });
-  };
 
   // Custom tooltip for volume trend
   const CustomVolumeTooltip = ({ active, payload }) => {
@@ -223,88 +220,46 @@ const RequestsAnalytics = () => {
       {/* Chart 1: Request Volume Trend with Time Range Selector */}
       <ChartContainer title="Request Volume Trend" description="">
         {/* Time Range Selector */}
-        <div className="flex gap-2 mb-4 flex-wrap items-center">
-          <button
-            onClick={() => setTimeRange("7d")}
-            className={`px-3 py-1 text-sm rounded ${
-              timeRange === "7d"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            7 Days
-          </button>
-          <button
-            onClick={() => setTimeRange("30d")}
-            className={`px-3 py-1 text-sm rounded ${
-              timeRange === "30d"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            30 Days
-          </button>
-          <button
-            onClick={() => setTimeRange("1yr")}
-            className={`px-3 py-1 text-sm rounded ${
-              timeRange === "1yr"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            1 Year
-          </button>
-          <button
-            onClick={() => setTimeRange("all")}
-            className={`px-3 py-1 text-sm rounded ${
-              timeRange === "all"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            All Time
-          </button>
-          <button
-            onClick={() => setTimeRange("custom")}
-            className={`px-3 py-1 text-sm rounded ${
-              timeRange === "custom"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            Custom Range
-          </button>
-
-          {/* Custom Date Range Inputs */}
+        <div className="flex gap-1.5 mb-2 flex-wrap items-center">
+          {[
+            { id: "7d", label: "7D" },
+            { id: "30d", label: "30D" },
+            { id: "1yr", label: "1Y" },
+            { id: "all", label: "All" },
+            { id: "custom", label: "Custom" },
+          ].map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => setTimeRange(id)}
+              className={`px-2 py-0.5 text-xs rounded ${
+                timeRange === id
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
           {timeRange === "custom" && (
             <>
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Start:
-                </label>
-                <input
-                  type="month"
-                  value={customStartDate}
-                  onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="px-2 py-1 border border-gray-300 rounded text-sm"
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">
-                  End:
-                </label>
-                <input
-                  type="month"
-                  value={customEndDate}
-                  onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="px-2 py-1 border border-gray-300 rounded text-sm"
-                />
-              </div>
+              <input
+                type="month"
+                value={customStartDate}
+                onChange={(e) => setCustomStartDate(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+              <span className="text-xs text-gray-500">→</span>
+              <input
+                type="month"
+                value={customEndDate}
+                onChange={(e) => setCustomEndDate(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
             </>
           )}
         </div>
 
-        <ResponsiveContainer width="100%" height={350}>
+        <ResponsiveContainer width="100%" height={210}>
           <AreaChart data={volumeData}>
             <defs>
               <linearGradient id="colorRequests" x1="0" y1="0" x2="0" y2="1">
@@ -351,85 +306,61 @@ const RequestsAnalytics = () => {
         description="Geographic distribution of requests across categories"
       >
         {/* Filters */}
-        <div className="flex gap-4 mb-4 items-center flex-wrap">
-          <div>
-            <label className="text-sm font-medium text-gray-700 mr-2">
-              Category Type:
-            </label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm"
-            >
-              <option value="all">All Categories</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="text-sm font-medium text-gray-700 mr-2">
-              Country:
-            </label>
-            <select
-              value={selectedCountry}
-              onChange={(e) => setSelectedCountry(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm"
-            >
-              <option value="all">All Countries</option>
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="text-sm font-medium text-gray-700 mr-2">
-              Sort by:
-            </label>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm"
-            >
-              <option value="total">Total Requests</option>
-              <option value="name">Category Name</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Interactive Legend - Toggle Countries On/Off */}
-        <div className="mb-4 p-3 bg-gray-50 rounded border border-gray-200">
-          <p className="text-xs font-semibold text-gray-600 mb-2">
-            Interactive Legend (Click to toggle countries):
-          </p>
-          <div className="flex gap-2 flex-wrap">
-            {processStackedData.countries.map((country) => (
-              <button
-                key={country}
-                onClick={() => toggleCountry(country)}
-                className={`px-3 py-1 text-sm rounded border transition-all ${
-                  hiddenCountries.has(country)
-                    ? "bg-gray-200 text-gray-400 border-gray-300 line-through"
-                    : "bg-white border-gray-400 hover:bg-gray-100"
-                }`}
-                style={{
-                  borderLeftWidth: "4px",
-                  borderLeftColor: hiddenCountries.has(country)
-                    ? "#d1d5db"
-                    : COUNTRY_COLORS[country] || "#6b7280",
-                }}
-              >
-                {country}
-              </button>
+        <div className="flex gap-2 mb-2 items-center flex-wrap">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
+          >
+            <option value="all">All Categories</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
-          </div>
+          </select>
+          <select
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
+          >
+            <option value="all">All Countries</option>
+            {countries.map((country) => (
+              <option key={country} value={country}>
+                {country}
+              </option>
+            ))}
+          </select>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
+          >
+            <option value="total">Sort: Total</option>
+            <option value="name">Sort: Name</option>
+          </select>
         </div>
 
-        <ResponsiveContainer width="100%" height={400}>
+        {/* Top 5 Countries */}
+        <div className="mb-2 flex gap-1.5 flex-wrap items-center">
+          <span className="text-xs font-semibold text-gray-500">Top 5:</span>
+          {top5Countries.map(({ country, total }, index) => (
+            <div
+              key={country}
+              className="flex items-center gap-1 px-2 py-0.5 bg-white border border-gray-200 rounded-full text-xs shadow-sm"
+              style={{
+                borderLeftWidth: "3px",
+                borderLeftColor: COUNTRY_COLORS[country] || "#6b7280",
+              }}
+            >
+              <span className="font-bold text-gray-400">#{index + 1}</span>
+              <span className="font-medium text-gray-700">{country}</span>
+              <span className="text-gray-400">({total})</span>
+            </div>
+          ))}
+        </div>
+
+        <ResponsiveContainer width="100%" height={210}>
           <BarChart
             data={processStackedData.data}
             layout="vertical"

@@ -1,5 +1,12 @@
-import { Drawer, IconButton, Menu, MenuItem } from "@mui/material";
-import { useEffect, useState } from "react";
+import {
+  Drawer,
+  IconButton,
+  Menu,
+  MenuItem,
+  TextField,
+  InputAdornment,
+} from "@mui/material";
+import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -15,7 +22,9 @@ import Diversity3Icon from "@mui/icons-material/Diversity3";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -23,15 +32,60 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import VolunteerActivismOutlinedIcon from "@mui/icons-material/VolunteerActivismOutlined";
 import ArticleIcon from "@mui/icons-material/Article";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
-import { Tooltip } from "@mui/material";
-
+import { Tooltip, styled, tooltipClasses } from "@mui/material";
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
+import { fetchProfileImage } from "../../../services/volunteerServices";
 
+const blobToDataUrl = (blob) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64Value = reader.result;
+      if (typeof base64Value === "string") {
+        resolve(base64Value);
+      } else {
+        reject(new Error("Failed to convert blob to data URL"));
+      }
+    };
+    reader.onerror = () => reject(new Error("Failed to read blob"));
+    reader.readAsDataURL(blob);
+  });
+
+const ModernTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(() => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#1F2937",
+    color: "#fff",
+    fontSize: "14px",
+    padding: "8px 14px",
+    borderRadius: "10px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: "#1F2937",
+  },
+}));
 const Navbar = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [aboutAnchorEl, setAboutAnchorEl] = useState(null);
+  const [volunteerAnchorEl, setVolunteerAnchorEl] = useState(null);
+  const [profileAnchorEl, setProfileAnchorEl] = useState(null);
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value ?? "";
+    setSearchText(value.slice(0, 80)); // hard limit 80 chars
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      // later: call API / navigate to search results
+    }
+  };
   const [volunteerOpenMenu, setVolunteerOpenMenu] = useState(false);
   const [aboutUsOpenMenu, setAboutUsOpenMenu] = useState(false);
   const [profileOpenMenu, setProfileOpenMenu] = useState(false);
@@ -46,23 +100,85 @@ const Navbar = () => {
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [newNotificationCount, setNewNotificationCount] = useState(0);
+  const profileIconObjectUrlRef = useRef(null);
 
   const { t } = useTranslation();
 
   useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
     if (savedProfilePhoto) setProfileIcon(savedProfilePhoto);
+  }, []);
 
+  useEffect(() => {
+    if (!user?.userDbId) return;
+    let cancelled = false;
+    fetchProfileImage(user.userDbId)
+      .then((blob) => {
+        if (cancelled) return;
+        if (profileIconObjectUrlRef.current) {
+          URL.revokeObjectURL(profileIconObjectUrlRef.current);
+          profileIconObjectUrlRef.current = null;
+        }
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          profileIconObjectUrlRef.current = url;
+          setProfileIcon(url);
+          blobToDataUrl(blob)
+            .then((dataUrl) => {
+              localStorage.setItem("profilePhoto", dataUrl);
+            })
+            .catch(() => {});
+        } else {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+          localStorage.removeItem("profilePhoto");
+        }
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setProfileIcon(DEFAULT_PROFILE_ICON);
+        localStorage.removeItem("profilePhoto");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.userDbId]);
+
+  useEffect(() => {
     const handleStorageChange = (event) => {
       if (event.key === "profilePhoto") {
-        setProfileIcon(event.newValue);
+        setProfileIcon(event.newValue || DEFAULT_PROFILE_ICON);
       }
     };
 
-    const handleProfilePhotoUpdated = () => {
-      const updatedProfilePhoto = localStorage.getItem("profilePhoto");
-      if (updatedProfilePhoto) {
-        setProfileIcon(updatedProfilePhoto);
+    const handleProfilePhotoUpdated = async () => {
+      if (user?.userDbId) {
+        try {
+          const blob = await fetchProfileImage(user.userDbId);
+          if (profileIconObjectUrlRef.current) {
+            URL.revokeObjectURL(profileIconObjectUrlRef.current);
+            profileIconObjectUrlRef.current = null;
+          }
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            profileIconObjectUrlRef.current = url;
+            setProfileIcon(url);
+            const dataUrl = await blobToDataUrl(blob);
+            localStorage.setItem("profilePhoto", dataUrl);
+          } else {
+            setProfileIcon(DEFAULT_PROFILE_ICON);
+            localStorage.removeItem("profilePhoto");
+          }
+        } catch {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+          localStorage.removeItem("profilePhoto");
+        }
+      } else {
+        const updatedProfilePhoto = localStorage.getItem("profilePhoto");
+        if (updatedProfilePhoto) {
+          setProfileIcon(updatedProfilePhoto);
+        } else {
+          setProfileIcon(DEFAULT_PROFILE_ICON);
+        }
       }
     };
 
@@ -82,6 +198,15 @@ const Navbar = () => {
         handleProfilePhotoUpdated,
       );
       window.removeEventListener("unsaved-changes", handleUnsavedChanges);
+    };
+  }, [user?.userDbId]);
+
+  useEffect(() => {
+    return () => {
+      if (profileIconObjectUrlRef.current) {
+        URL.revokeObjectURL(profileIconObjectUrlRef.current);
+        profileIconObjectUrlRef.current = null;
+      }
     };
   }, []);
 
@@ -245,32 +370,32 @@ const Navbar = () => {
   };
 
   const handleVSMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setVolunteerAnchorEl(event.currentTarget);
     setVolunteerOpenMenu(true);
   };
 
   const handleVSMenuClose = () => {
-    setAnchorEl(null);
+    setVolunteerAnchorEl(null);
     setVolunteerOpenMenu(false);
   };
 
   const handleAUMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAboutAnchorEl(event.currentTarget);
     setAboutUsOpenMenu(true);
   };
 
   const handleAUMenuClose = () => {
-    setAnchorEl(null);
+    setAboutAnchorEl(null);
     setAboutUsOpenMenu(false);
   };
 
   const handlePMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setProfileAnchorEl(event.currentTarget);
     setProfileOpenMenu(true);
   };
 
   const handlePMenuClose = () => {
-    setAnchorEl(null);
+    setProfileAnchorEl(null);
     setProfileOpenMenu(false);
   };
 
@@ -288,161 +413,255 @@ const Navbar = () => {
         >
           <img src={LOGO} alt="Company Logo" className="w-[60px] h-[60px]" />
         </div>
-        {/* Mobile Donate button - visible next to logo */}
-        <div className="flex md:hidden items-center ml-2">
-          <button
-            onClick={(e) => handleLinkClick(e, "/donate")}
-            className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
-          >
-            <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
-            {t("DONATE")}
-          </button>
-        </div>
 
-        {/* Desktop Menu (visible only on larger screens) */}
-        <div className="hidden md:flex items-center justify-center space-x-8 flex-1">
-          {/* Showing Home button for guest users */}
-          {!user?.userId && (
-            <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/")}
-                className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
-              >
-                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-              </button>
-            </div>
-          )}
-
-          {/* Showing Home button for logged in users*/}
-          {user?.userId && (
-            <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/")}
-                className="text-black hover:text-gray-600 flex items-center text-base md:ml-2"
-              >
-                <HomeOutlinedIcon className="mr-2" /> {t("HOME")}
-              </button>
-            </div>
-          )}
-
-          {/* Dashboard Button for logged in users - Land to Request Page */}
-          {user?.userId && (
-            <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/dashboard")}
-                // className="text-black flex items-center hover:text-gray-600 text-base"
-                className="text-black hover:text-gray-600 flex items-center text-base"
-              >
-                <DashboardCustomizeIcon className="mr-2" /> {t("DASHBOARD")}
-              </button>
-            </div>
-          )}
-
-          {/* About Us Dropdown */}
-          <div className="relative">
-            <button
-              onClick={handleAUMenuClick}
-              className="text-black flex items-center hover:text-gray-600 text-base"
-            >
-              <PeopleOutlinedIcon className="mr-2" /> {t("ABOUT")}
-              <ArrowDropDownIcon />
-            </button>
-            {aboutUsOpenMenu && (
-              <Menu
-                anchorEl={anchorEl}
-                open={aboutUsOpenMenu}
-                onClose={handleAUMenuClose}
-                PaperProps={{
-                  style: {
-                    position: "absolute",
-                    right: 0,
-                    top: "40px",
-                    zIndex: 1300, // to appear above other elements
-                    maxWidth: "fit-content",
-                  },
-                }}
-              >
-                <MenuItem onClick={(e) => handleLinkClick(e, "/our-team")}>
-                  <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
-                </MenuItem>
-                <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
-                  <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
-                </MenuItem>
-                <MenuItem
-                  onClick={(e) => handleLinkClick(e, "/news-our-stories")}
-                >
-                  <ArticleIcon className="mr-2" /> {t("In The News")}
-                </MenuItem>
-              </Menu>
-            )}
+        {/* Mobile Search (only after login) */}
+        {user?.userId && (
+          <div className="flex md:hidden flex-1 mx-2">
+            <TextField
+              value={searchText}
+              onChange={handleSearchChange}
+              onKeyDown={handleSearchKeyDown}
+              placeholder="Search..."
+              size="small"
+              fullWidth
+              inputProps={{ maxLength: 80 }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon fontSize="small" />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "9999px",
+                  height: "38px",
+                },
+                minWidth: 0,
+              }}
+            />
           </div>
+        )}
 
-          {/* Volunteer Services Dropdown */}
-          <div className="relative">
-            <button
-              onClick={handleVSMenuClick}
-              className="text-black flex items-center hover:text-gray-600 text-base"
-            >
-              <Diversity1OutlinedIcon className="mr-2" />
-              {t("VOLUNTEER_SERVICES")}
-              <ArrowDropDownIcon />
-            </button>
-            {volunteerOpenMenu && (
-              <Menu
-                anchorEl={anchorEl}
-                open={volunteerOpenMenu}
-                onClose={handleVSMenuClose}
-                PaperProps={{
-                  style: {
-                    position: "absolute",
-                    right: 0,
-                    top: "40px",
-                    zIndex: 1300, // to appear above other elements
-                    maxWidth: "fit-content",
-                  },
-                }}
-              >
-                <MenuItem
-                  onClick={(e) => handleLinkClick(e, "/how-we-operate")}
-                >
-                  <GroupsIcon className="mr-2" /> {t("HOW_WE_OPERATE")}
-                </MenuItem>
-                <MenuItem onClick={(e) => handleLinkClick(e, "/collaborators")}>
-                  <Diversity3Icon className="mr-2" /> {t("OUR_COLLABORATORS")}
-                </MenuItem>
-              </Menu>
-            )}
-          </div>
-
-          <div className="relative">
-            <button
-              onClick={(e) => handleLinkClick(e, "/contact")}
-              // className="text-black flex items-center hover:text-gray-600 text-base"
-              className="text-black hover:text-gray-600 flex items-center text-base"
-            >
-              <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
-            </button>
-          </div>
-
-          {user?.userId && (
-            <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/notifications")}
-                // className="text-black flex items-center hover:text-gray-600 text-base"
-                className="text-black hover:text-gray-600 flex items-center text-base"
-              >
-                <NotificationsIcon className="mr-2" /> {t("NOTIFICATIONS")}
-              </button>
-            </div>
-          )}
-          <div className="relative">
+        {/* Mobile Donate (guest = full button, logged-in = icon-only) */}
+        <div className="flex md:hidden items-center">
+          {user?.userId ? (
+            // ✅ After login: icon-only
             <button
               onClick={(e) => handleLinkClick(e, "/donate")}
-              className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
+              className="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+              aria-label={t("DONATE")}
+              title={t("DONATE")}
+              type="button"
+            >
+              <VolunteerActivismOutlinedIcon fontSize="small" />
+            </button>
+          ) : (
+            // ✅ Before login: full Donate button (keep your original)
+            <button
+              onClick={(e) => handleLinkClick(e, "/donate")}
+              className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+              type="button"
             >
               <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
               {t("DONATE")}
             </button>
+          )}
+        </div>
+
+        {/* Desktop Menu (visible only on larger screens) */}
+        <div className="hidden md:flex items-center flex-1 ml-4">
+          {" "}
+          {user?.userId && (
+            <div className="flex items-center w-full max-w-[800px] mr-4">
+              <TextField
+                value={searchText}
+                onChange={handleSearchChange}
+                onKeyDown={handleSearchKeyDown}
+                placeholder="Search..."
+                size="small"
+                fullWidth
+                inputProps={{ maxLength: 80 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "9999px",
+                    height: "40px",
+                  },
+                  minWidth: 0,
+                }}
+              />
+            </div>
+          )}
+          <div className="flex items-center ml-auto gap-3 lg:gap-6">
+            {/* Showing Home button for guest users */}
+            {!user?.userId && (
+              <div className="relative">
+                <ModernTooltip title={t("HOME")}>
+                  <button
+                    onClick={(e) => handleLinkClick(e, "/")}
+                    className="text-black hover:text-gray-600 flex items-center"
+                    aria-label={t("HOME")}
+                  >
+                    <HomeOutlinedIcon sx={{ fontSize: 38 }} />
+                  </button>
+                </ModernTooltip>
+              </div>
+            )}
+
+            {/* Showing Home button for logged in users*/}
+            {user?.userId && (
+              <div className="relative">
+                <ModernTooltip title={t("HOME")}>
+                  <button
+                    onClick={(e) => handleLinkClick(e, "/")}
+                    className="text-black hover:text-gray-600 flex items-center"
+                    aria-label={t("HOME")}
+                  >
+                    <HomeOutlinedIcon sx={{ fontSize: 38 }} />
+                  </button>
+                </ModernTooltip>
+              </div>
+            )}
+
+            {/* Dashboard Button for logged in users - Land to Request Page */}
+            {user?.userId && (
+              <div className="relative">
+                <ModernTooltip title={t("DASHBOARD")} arrow>
+                  <button
+                    onClick={(e) => handleLinkClick(e, "/dashboard")}
+                    className="text-black hover:text-gray-600 flex items-center"
+                    aria-label={t("DASHBOARD")}
+                  >
+                    <DashboardCustomizeIcon sx={{ fontSize: 38 }} />
+                  </button>
+                </ModernTooltip>
+              </div>
+            )}
+
+            {/* About Us Dropdown */}
+            <div className="relative">
+              <ModernTooltip title={t("ABOUT")} arrow>
+                <button
+                  onClick={handleAUMenuClick}
+                  className="text-black flex items-center hover:text-gray-600"
+                  aria-label={t("ABOUT")}
+                >
+                  <PeopleOutlinedIcon sx={{ fontSize: 38 }} />
+                  <ArrowDropDownIcon sx={{ fontSize: 38 }} />
+                </button>
+              </ModernTooltip>
+              {aboutUsOpenMenu && (
+                <Menu
+                  anchorEl={aboutAnchorEl}
+                  open={aboutUsOpenMenu}
+                  onClose={handleAUMenuClose}
+                  PaperProps={{
+                    style: {
+                      position: "absolute",
+                      right: 0,
+                      top: "40px",
+                      zIndex: 1300, // to appear above other elements
+                      maxWidth: "fit-content",
+                    },
+                  }}
+                >
+                  <MenuItem onClick={(e) => handleLinkClick(e, "/our-team")}>
+                    <GroupsIcon className="mr-2" /> {t("OUR_TEAM")}
+                  </MenuItem>
+                  <MenuItem onClick={(e) => handleLinkClick(e, "/our-mission")}>
+                    <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
+                  </MenuItem>
+                  <MenuItem
+                    onClick={(e) => handleLinkClick(e, "/news-our-stories")}
+                  >
+                    <ArticleIcon className="mr-2" /> {t("In The News")}
+                  </MenuItem>
+                </Menu>
+              )}
+            </div>
+
+            {/* Volunteer Services Dropdown */}
+            <div className="relative">
+              <ModernTooltip title={t("VOLUNTEER_SERVICES")} arrow>
+                <button
+                  onClick={handleVSMenuClick}
+                  className="text-black flex items-center hover:text-gray-600"
+                  aria-label={t("VOLUNTEER_SERVICES")}
+                >
+                  <Diversity1OutlinedIcon sx={{ fontSize: 38 }} />
+                  <ArrowDropDownIcon sx={{ fontSize: 38 }} />
+                </button>
+              </ModernTooltip>
+              {volunteerOpenMenu && (
+                <Menu
+                  anchorEl={volunteerAnchorEl}
+                  open={volunteerOpenMenu}
+                  onClose={handleVSMenuClose}
+                  PaperProps={{
+                    style: {
+                      position: "absolute",
+                      right: 0,
+                      top: "40px",
+                      zIndex: 1300, // to appear above other elements
+                      maxWidth: "fit-content",
+                    },
+                  }}
+                >
+                  <MenuItem
+                    onClick={(e) => handleLinkClick(e, "/how-we-operate")}
+                  >
+                    <GroupsIcon className="mr-2" /> {t("HOW_WE_OPERATE")}
+                  </MenuItem>
+                  <MenuItem
+                    onClick={(e) => handleLinkClick(e, "/collaborators")}
+                  >
+                    <Diversity3Icon className="mr-2" /> {t("OUR_COLLABORATORS")}
+                  </MenuItem>
+                </Menu>
+              )}
+            </div>
+
+            <div className="relative">
+              <ModernTooltip title={t("CONTACT")}>
+                <button
+                  onClick={(e) => handleLinkClick(e, "/contact")}
+                  className="text-black hover:text-gray-600 flex items-center"
+                  aria-label={t("CONTACT")}
+                >
+                  <ContactMailOutlinedIcon sx={{ fontSize: 38 }} />
+                </button>
+              </ModernTooltip>
+            </div>
+
+            {user?.userId && (
+              <div className="relative">
+                <ModernTooltip title={t("NOTIFICATIONS")}>
+                  <button
+                    onClick={(e) => handleLinkClick(e, "/notifications")}
+                    className="text-black hover:text-gray-600 flex items-center"
+                    aria-label={t("NOTIFICATIONS")}
+                  >
+                    <NotificationsIcon sx={{ fontSize: 38 }} />
+                  </button>
+                </ModernTooltip>
+              </div>
+            )}
+            <div className="relative">
+              <button
+                onClick={(e) => handleLinkClick(e, "/donate")}
+                className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
+              >
+                <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
+                {t("DONATE")}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -468,31 +687,39 @@ const Navbar = () => {
             // ref={profileDropdownRef}
           >
             <div className="flex items-center">
-              <IconButton color="inherit" edge="end">
-                <img
-                  src={profileIcon}
-                  alt="Profile Icon"
-                  className="w-8 h-8 rounded-full cursor-pointer"
-                  onClick={(e) => {
-                    if (hasUnsavedChanges) {
-                      if (
-                        window.confirm(
-                          "You have unsaved changes. Do you want to proceed without saving?",
-                        )
-                      ) {
-                        setHasUnsavedChanges(false);
-                        handlePMenuClick(e);
-                      }
-                    } else {
+              <IconButton
+                color="inherit"
+                edge="end"
+                onClick={(e) => {
+                  if (hasUnsavedChanges) {
+                    if (
+                      window.confirm(
+                        "You have unsaved changes. Do you want to proceed without saving?",
+                      )
+                    ) {
+                      setHasUnsavedChanges(false);
                       handlePMenuClick(e);
                     }
+                  } else {
+                    handlePMenuClick(e);
+                  }
+                }}
+                aria-label={t("PROFILE")}
+                sx={{ p: 0.5 }}
+              >
+                <img
+                  src={profileIcon || DEFAULT_PROFILE_ICON}
+                  alt={t("PROFILE")}
+                  className="w-[38px] h-[38px] rounded-full object-cover border border-gray-200"
+                  onError={(e) => {
+                    e.currentTarget.src = DEFAULT_PROFILE_ICON;
                   }}
                 />
               </IconButton>
             </div>
             {profileOpenMenu && (
               <Menu
-                anchorEl={anchorEl}
+                anchorEl={profileAnchorEl}
                 open={profileOpenMenu}
                 onClose={handlePMenuClose}
                 PaperProps={{
@@ -517,15 +744,17 @@ const Navbar = () => {
             )}
           </div>
         ) : (
-          <NavLink
-            to="/login"
-            className="font-semibold flex flex-col items-center ml-2 mr-2"
-            id="loginButton"
-            onClick={(e) => handleLinkClick(e, "/login")}
-          >
-            <IoLogInOutline className="mr-1 text-xl" />
-            {t("LOGIN")}
-          </NavLink>
+          <div className="relative">
+            <ModernTooltip title={t("LOGIN")}>
+              <button
+                onClick={(e) => handleLinkClick(e, "/login")}
+                className="text-black hover:text-gray-600 flex items-center"
+                aria-label={t("LOGIN")}
+              >
+                <LoginIcon sx={{ fontSize: 38 }} />
+              </button>
+            </ModernTooltip>
+          </div>
         )}
 
         {/* Logout Confirmation Modal */}
@@ -633,7 +862,7 @@ const Navbar = () => {
             </button>
             {aboutUsOpenMenu && (
               <Menu
-                anchorEl={anchorEl}
+                anchorEl={aboutAnchorEl}
                 open={aboutUsOpenMenu}
                 onClose={handleAUMenuClose}
                 PaperProps={{
@@ -652,11 +881,13 @@ const Navbar = () => {
                 <MenuItem onClick={(e) => handleDrawerClick(e, "/our-mission")}>
                   <CrisisAlertIcon className="mr-2" /> {t("OUR_MISSION")}
                 </MenuItem>
-                <MenuItem
-                  onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
-                >
-                  <ArticleIcon className="mr-2" /> {t("In the news")}
-                </MenuItem>
+                {
+                  <MenuItem
+                    onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
+                  >
+                    <ArticleIcon className="mr-2" /> {t("In the news")}
+                  </MenuItem>
+                }
               </Menu>
             )}
           </div>
@@ -672,7 +903,7 @@ const Navbar = () => {
             </button>
             {volunteerOpenMenu && (
               <Menu
-                anchorEl={anchorEl}
+                anchorEl={volunteerAnchorEl}
                 open={volunteerOpenMenu}
                 onClose={handleVSMenuClose}
                 PaperProps={{
