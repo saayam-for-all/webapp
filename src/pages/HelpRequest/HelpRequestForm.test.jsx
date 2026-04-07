@@ -391,6 +391,77 @@ describe("HelpRequestForm — predict categories modal", () => {
       expect(screen.getByText("General")).toBeInTheDocument();
     });
   });
+
+  it("submits with category_number as catId when a GenAI suggested category is selected", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+      createRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({ requestId: "REQ-999" });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3",
+            category_name: "TUTORING",
+            confidence: 0.92,
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    // Type a description to enable prediction
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "I need help with math tutoring." },
+    });
+
+    // First Submit — triggers the GenAI modal (category is still "General")
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    // Wait for the modal to appear with the suggested category
+    await waitFor(() => {
+      expect(screen.getByText("Tutoring")).toBeInTheDocument();
+    });
+
+    // Select the "Tutoring" radio — its value should be "4.3" (category_number)
+    fireEvent.click(screen.getByDisplayValue("4.3"));
+
+    // Confirm the selection and wait for modal to close + state updates to flush
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Select" }));
+    });
+
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+
+    // Second Submit — category is now confirmed, should actually submit
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+    // Verify mapHelpRequestPayload received the numeric catId, not the name string
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.selectedCategoryId).toBe("4.3");
+    expect(callArgs.selectedCategoryId).not.toBe("TUTORING");
+  });
 });
 
 describe("HelpRequestForm — generateSubject auto-fill", () => {
