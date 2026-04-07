@@ -1,4 +1,10 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  waitFor,
+} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -48,10 +54,15 @@ jest.mock("../../services/requestApi", () => ({
   useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
+jest.mock("../../utils/mapHelpRequestPayload", () => ({
+  mapHelpRequestPayload: jest.fn().mockReturnValue({}),
+}));
+
 jest.mock("../../services/requestServices", () => ({
   checkProfanity: jest.fn(),
   createRequest: jest.fn(),
   predictCategories: jest.fn(),
+  generateSubject: jest.fn(),
   getCategories: jest.fn(),
   uploadRequestFile: jest.fn(),
 }));
@@ -266,5 +277,327 @@ describe("HelpRequestForm — form submission loader", () => {
     expect(
       screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
     ).toBeEnabled();
+  });
+});
+
+describe("HelpRequestForm — subject field is optional", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+  });
+
+  it("does not render a required asterisk on the subject label", () => {
+    renderForm();
+    const label = document.querySelector("label[for='subject']");
+    expect(label).toBeInTheDocument();
+    expect(label.querySelector(".text-red-500")).toBeNull();
+  });
+
+  it("does not block submission when subject is empty and description is filled", async () => {
+    const { checkProfanity } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "Detailed description here" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Subject is required/)).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe("HelpRequestForm — predict categories modal", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+  });
+
+  it("shows formatted category names in the modal after submit with General category", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "1.2",
+            category_name: "GROCERY_SHOPPING_AND_DELIVERY",
+            confidence: 0.95,
+          },
+          {
+            category_number: "1.1",
+            category_name: "FOOD_ASSISTANCE",
+            confidence: 0.8,
+          },
+        ],
+        top_category: {
+          category_number: "1.2",
+          category_name: "GROCERY_SHOPPING_AND_DELIVERY",
+          confidence: 0.95,
+        },
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help picking up groceries from the store.",
+      },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Grocery Shopping And Delivery"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Food Assistance")).toBeInTheDocument();
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+
+  it("shows only General when predictCategories API fails", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockRejectedValue(new Error("API error"));
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help picking up groceries from the store.",
+      },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+});
+
+describe("HelpRequestForm — generateSubject auto-fill", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockClear();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("auto-fills subject after description reaches 10+ characters in create mode", async () => {
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({
+      body: {
+        subject: "Grocery Pickup Help",
+        max_length: 70,
+        description_length: 60,
+      },
+    });
+
+    renderForm();
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("description"), {
+        target: {
+          name: "description",
+          value: "I need help picking up groceries from the store.",
+        },
+      });
+      jest.advanceTimersByTime(800);
+    });
+
+    expect(generateSubject).toHaveBeenCalledWith(
+      "I need help picking up groceries from the store.",
+    );
+    expect(document.getElementById("subject").value).toBe(
+      "Grocery Pickup Help",
+    );
+  });
+
+  it("does not call generateSubject when description is under 10 characters", async () => {
+    const { generateSubject } = require("../../services/requestServices");
+
+    renderForm();
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("description"), {
+        target: { name: "description", value: "Short" },
+      });
+      jest.advanceTimersByTime(800);
+    });
+
+    expect(generateSubject).not.toHaveBeenCalled();
+  });
+
+  it("does not call generateSubject in edit mode", async () => {
+    const { generateSubject } = require("../../services/requestServices");
+
+    renderForm({ isEdit: true });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("description"), {
+        target: {
+          name: "description",
+          value: "I need help picking up groceries from the store.",
+        },
+      });
+      jest.advanceTimersByTime(800);
+    });
+
+    expect(generateSubject).not.toHaveBeenCalled();
+  });
+
+  it("logs error and leaves subject empty when generateSubject API fails", async () => {
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockRejectedValue(new Error("API error"));
+
+    renderForm();
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("description"), {
+        target: {
+          name: "description",
+          value: "I need help picking up groceries from the store.",
+        },
+      });
+      jest.advanceTimersByTime(800);
+    });
+
+    expect(generateSubject).toHaveBeenCalled();
+    expect(document.getElementById("subject").value).toBe("");
+  });
+
+  it("does not overwrite subject the user has manually typed", async () => {
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({
+      body: {
+        subject: "AI Generated Subject",
+        max_length: 70,
+        description_length: 48,
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("subject"), {
+      target: { name: "subject", value: "My own subject" },
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("description"), {
+        target: {
+          name: "description",
+          value: "I need help picking up groceries from the store.",
+        },
+      });
+      jest.advanceTimersByTime(800);
+    });
+
+    expect(generateSubject).not.toHaveBeenCalled();
+    expect(document.getElementById("subject").value).toBe("My own subject");
+  });
+});
+
+describe("HelpRequestForm — successful submission", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    // Prevent generateSubject debounce from interfering with submit flow
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({ body: null });
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("calls createRequest and navigates with requestId when API returns one", async () => {
+    const {
+      checkProfanity,
+      createRequest,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({ requestId: "REQ-12345" });
+
+    renderForm();
+
+    // Select a non-General subcategory to bypass the predict categories modal
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with my college application process.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+    // Advance past the 1200ms navigate timeout to cover success navigation code
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("navigates with generic message when createRequest response has no requestId", async () => {
+    const {
+      checkProfanity,
+      createRequest,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({});
+
+    renderForm();
+
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with my college application process.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+    // Advance past the 1200ms navigate timeout — covers the falsy requestId branch
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
   });
 });
