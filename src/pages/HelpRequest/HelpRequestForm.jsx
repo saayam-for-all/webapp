@@ -816,10 +816,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleConfirmCategorySelection = () => {
     const oldCategory = "General";
     const newCategory = formData.category;
-    const newCategoryDisplay =
-      suggestedCategories.find(
-        (c) => (c.category_number ?? c.name) === newCategory,
-      )?.displayName ?? newCategory;
+    const matched = suggestedCategories.find(
+      (c) => (c.category_number ?? c.name) === newCategory,
+    );
+    const newCategoryDisplay = matched?.displayName ?? newCategory;
 
     setCategoryConfirmed(true); // unlock submission
     setShowModal(false);
