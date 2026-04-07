@@ -28,6 +28,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const categoryDropdownRef = useRef(null);
+  const [countryOptions, setCountryOptions] = useState([]);
 
   const [errors, setErrors] = useState({});
 
