@@ -131,14 +131,6 @@ exports[`LandingPage renders correctly 1`] = `
                 <img
                   src=""
                 />
-                <img
-                  class="w-[200px]"
-                  src=""
-                />
-                <img
-                  class="w-[125px]"
-                  src=""
-                />
               </div>
               <div>
                 <img
@@ -156,14 +148,6 @@ exports[`LandingPage renders correctly 1`] = `
                   src=""
                 />
                 <img
-                  src=""
-                />
-                <img
-                  class="w-[200px]"
-                  src=""
-                />
-                <img
-                  class="w-[125px]"
                   src=""
                 />
               </div>
@@ -466,14 +450,6 @@ exports[`LandingPage renders correctly 1`] = `
               <img
                 src=""
               />
-              <img
-                class="w-[200px]"
-                src=""
-              />
-              <img
-                class="w-[125px]"
-                src=""
-              />
             </div>
             <div>
               <img
@@ -491,14 +467,6 @@ exports[`LandingPage renders correctly 1`] = `
                 src=""
               />
               <img
-                src=""
-              />
-              <img
-                class="w-[200px]"
-                src=""
-              />
-              <img
-                class="w-[125px]"
                 src=""
               />
             </div>
