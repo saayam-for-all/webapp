@@ -178,8 +178,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const inputref = useRef(null);
   const dropdownRef = useRef(null);
-
   const fileInputRef = useRef(null);
+  // Tracks whether the user has manually edited the subject field.
+  // When true, auto-generation from description is suppressed.
+  const hasUserEditedSubjectRef = useRef(false);
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -267,6 +269,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, [data, id]);
 
+  // Converts API snake_case category names to title-case for display.
+  // e.g. "GROCERY_SHOPPING_AND_DELIVERY" → "Grocery Shopping And Delivery"
+  const formatApiCategoryName = (name) =>
+    name
+      .toLowerCase()
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+
   // Fetch predicted categories when category is "General" and description is filled
   const fetchPredictedCategories = async () => {
     if (formData.category !== "General") return;
@@ -281,22 +291,29 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       const formattedCategories = rawCategories.map((cat) => ({
         id: cat.category_name,
         name: cat.category_name,
+        displayName: formatApiCategoryName(cat.category_name),
         confidence: cat.confidence,
       }));
 
       const categoriesWithGeneral = [
-        { id: "general", name: "General" },
+        { id: "general", name: "General", displayName: "General" },
         ...formattedCategories,
       ];
       setSuggestedCategories(categoriesWithGeneral);
     } catch (error) {
       console.error("Error fetching predicted categories:", error);
-      setSuggestedCategories([{ id: "general", name: "General" }]);
+      setSuggestedCategories([
+        { id: "general", name: "General", displayName: "General" },
+      ]);
     }
   };
 
-  // Auto-generate subject from description using the genai API (debounced)
+  // Auto-generate subject from description using the genai API (debounced).
+  // Skipped in edit mode (preserves saved subject) and when the user has
+  // manually typed their own subject.
   useEffect(() => {
+    if (isEdit) return;
+    if (hasUserEditedSubjectRef.current) return;
     if (!formData.description || formData.description.trim().length < 10)
       return;
 
@@ -318,6 +335,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   // handleChange
   const handleChange = (e) => {
     const { id, value } = e.target;
+    if (id === "subject") hasUserEditedSubjectRef.current = true;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -412,10 +430,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         try {
           const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
 
-          // Store the API response directly in Redux as-is
-          // No complex mappings needed - API keys now match i18n keys exactly
-          console.log("Categories API response:", categoriesData);
-
           // Extract categories array from API response
           let categoriesArray;
           if (Array.isArray(categoriesData)) {
@@ -426,8 +440,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           ) {
             categoriesArray = categoriesData.categories;
           } else if (categoriesData && typeof categoriesData === "object") {
-            // Log the structure to understand the API format
-            console.log("API response structure:", Object.keys(categoriesData));
             throw new Error(
               "Invalid API response format - expected array or object with categories array",
             );
@@ -446,12 +458,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               !cat.catId.toLowerCase().includes("cat_id"),
           );
 
-          console.log(
-            "Filtered categories:",
-            validCategories.length,
-            "out of",
-            categoriesArray.length,
-          );
           // Store in localStorage for future use
           localStorage.setItem("categories", JSON.stringify(validCategories));
           dispatch(loadCategories(validCategories));
@@ -1161,9 +1167,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         additionalFields: additionalFieldValues,
       });
 
-      const respone = await createRequest(payload);
+      const response = await createRequest(payload);
+      const requestId =
+        response?.requestId || response?.body?.requestId || response?.id;
 
-      // success flow (mimic original)
       setSnackbar({
         open: true,
         message: "Help Request submitted successfully!",
@@ -1173,8 +1180,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       setTimeout(() => {
         navigate("/dashboard", {
           state: {
-            successMessage:
-              "New Request #REQ-00-000-000-00011 submitted successfully!",
+            successMessage: requestId
+              ? `New Request #${requestId} submitted successfully!`
+              : "Help Request submitted successfully!",
           },
         });
       }, 1200);
@@ -2179,7 +2187,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 key={index}
                 value={category.name}
                 control={<Radio />}
-                label={category.name}
+                label={category.displayName ?? category.name}
               />
             ))}
           </RadioGroup>

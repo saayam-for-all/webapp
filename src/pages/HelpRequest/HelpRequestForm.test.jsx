@@ -52,6 +52,7 @@ jest.mock("../../services/requestServices", () => ({
   checkProfanity: jest.fn(),
   createRequest: jest.fn(),
   predictCategories: jest.fn(),
+  generateSubject: jest.fn(),
   getCategories: jest.fn(),
   uploadRequestFile: jest.fn(),
 }));
