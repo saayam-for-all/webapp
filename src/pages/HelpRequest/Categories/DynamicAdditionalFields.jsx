@@ -106,8 +106,11 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
               type="radio"
               name={fieldId}
               value={item.itemId}
-              checked={fieldValues[fieldId] === item.itemId}
-              onChange={() => updateField(fieldId, item.itemId)}
+              checked={
+                Array.isArray(fieldValues[fieldId]) &&
+                fieldValues[fieldId].includes(item.itemId)
+              }
+              onChange={() => updateField(fieldId, [item.itemId])}
               className="rounded"
               data-testid={`radio-${key}`}
             />
@@ -304,8 +307,10 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
           <div key={fieldId} className="mt-3 flex items-center space-x-2">
             <input
               type="checkbox"
-              checked={!!fieldValues[fieldId]}
-              onChange={(e) => updateField(fieldId, e.target.checked)}
+              checked={fieldValues[fieldId] === "true"}
+              onChange={(e) =>
+                updateField(fieldId, e.target.checked ? "true" : "false")
+              }
               className="rounded"
               data-testid={`field-${fieldId}`}
             />
@@ -323,15 +328,35 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             <div className="flex gap-2">
               <input
                 type="date"
-                value={fieldValues[`${fieldId}_date`] || ""}
-                onChange={(e) => updateField(`${fieldId}_date`, e.target.value)}
+                value={
+                  (fieldValues[fieldId] &&
+                    fieldValues[fieldId][`${fieldId}_date`]) ||
+                  ""
+                }
+                onChange={(e) =>
+                  updateListItemValue(
+                    fieldId,
+                    `${fieldId}_date`,
+                    e.target.value,
+                  )
+                }
                 className="rounded-lg border border-gray-300 py-2 px-3"
                 data-testid={`field-${fieldId}-date`}
               />
               <input
                 type="time"
-                value={fieldValues[`${fieldId}_time`] || ""}
-                onChange={(e) => updateField(`${fieldId}_time`, e.target.value)}
+                value={
+                  (fieldValues[fieldId] &&
+                    fieldValues[fieldId][`${fieldId}_time`]) ||
+                  ""
+                }
+                onChange={(e) =>
+                  updateListItemValue(
+                    fieldId,
+                    `${fieldId}_time`,
+                    e.target.value,
+                  )
+                }
                 className="rounded-lg border border-gray-300 py-2 px-3"
                 data-testid={`field-${fieldId}-time`}
               />

@@ -9,7 +9,6 @@ import {
   getEmergencyContactInfo,
   moreInformationChat,
 } from "../../../services/requestServices";
-import { getCategoriesFromStorage } from "../../../utils/filterHelpers";
 import MoreInfoChatModal from "../MoreInfoChatModal/MoreInfoChatModal";
 
 const COOLDOWN_MS = 30 * 60 * 1000;
@@ -26,28 +25,10 @@ const isCoolingDown = (data) => {
   return false;
 };
 
-const findCatId = (catName) => {
-  const categories = getCategoriesFromStorage() || [];
-  const search = (list) => {
-    for (const cat of list) {
-      if (cat.catName === catName) return cat.catId;
-      if (cat.subCategories) {
-        const found = search(cat.subCategories);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
-  return search(categories) ?? catName;
-};
-
-const buildPayload = (requestData) => ({
-  category_id: findCatId(requestData.category ?? ""),
-  subject: requestData.subject ?? "",
-  description: requestData.description ?? "",
-  location: requestData.location ?? "",
-  gender: requestData.gender ?? "",
-  age: requestData.age ?? "",
+// TODO: replace hardcoded defaults with dynamic user_id and req_id
+const buildPayload = () => ({
+  user_id: "SID-00-000-000-050",
+  req_id: "REQ-00-000-000-0085",
 });
 
 const RequestButton = ({
@@ -95,7 +76,10 @@ const RequestButton = ({
           return;
         }
 
-        const aiReply = await moreInformationChat(buildPayload(requestData));
+        const aiReply = await moreInformationChat({
+          ...buildPayload(),
+          conversation_history: [],
+        });
         setInitialResponse(aiReply?.body?.answer ?? "");
         setShowModal(true);
       } catch (error) {
@@ -106,7 +90,7 @@ const RequestButton = ({
         setShowModal(true);
       }
     } else {
-      navigate(link);
+      navigate(link, { state: requestData });
     }
   };
 

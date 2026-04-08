@@ -47,6 +47,11 @@ export const predictCategories = async (request) => {
   return response.data;
 };
 
+export const generateSubject = async (description) => {
+  const response = await api.post(endpoints.GENERATE_SUBJECT, { description });
+  return response.data;
+};
+
 export const GET_NOTIFICATIONS = async () => {
   const response = await api.get(endpoints.GET_NOTIFICATIONS);
   return response.data;

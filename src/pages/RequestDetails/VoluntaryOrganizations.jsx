@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Table from "../../common/components/DataTable/Table";
-import { getVolunteerOrgsList } from "../../services/volunteerServices";
+import { getMockOrganizations } from "../../services/mlServices";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import LoadingIndicator from "../../common/components/Loading/Loading";
 
 const VoluntaryOrganizations = () => {
   const { t } = useTranslation();
@@ -15,18 +16,70 @@ const VoluntaryOrganizations = () => {
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const headers = ["id", "name", "location", "causes", "size", "rating"];
+  const headers = [
+    "name",
+    "organization_type",
+    "collaborator",
+    "location",
+    "size",
+    "rating",
+  ];
   const [organizations, setOrganizations] = useState([]);
-  // const organizations = voluntaryOrganizationsData;
+  const location = useLocation();
+  const requestData = location.state || {};
+
+  if (!location.state) {
+    console.warn("No requestData passed through navigation");
+  }
 
   const getVoluntaryOrganizations = async () => {
     try {
-      const response = await getVolunteerOrgsList();
-      setOrganizations(response?.body);
+      setIsLoading(true);
+      const personalInfo = JSON.parse(
+        localStorage.getItem("personalInfo") || "{}",
+      );
+      const payload = {
+        category: requestData?.category || "",
+        subject: requestData?.subject || "",
+        description: requestData?.description || "",
+        location: personalInfo?.city ?? "",
+      };
+
+      const response = await getMockOrganizations(payload);
+
+      const organizationsArray =
+        response?.body || response?.data || response || [];
+
+      // Sort: Collaborators first
+      const sortedArray = [...organizationsArray].sort((a, b) => {
+        if (a.Collaborator && !b.Collaborator) return -1;
+        if (!a.Collaborator && b.Collaborator) return 1;
+        return 0;
+      });
+
+      const formattedOrganizations = sortedArray.map((org, index) => ({
+        id: index + 1, // Fallback ID for routing
+        name: org.Name,
+        organization_type: org["Org-type"] || "N/A",
+        collaborator: org.Collaborator ? (
+          <span className="text-green-600 text-lg">✓</span>
+        ) : (
+          ""
+        ),
+        location: org.location,
+        size: org.size || "N/A",
+        rating: org.rating || "N/A",
+        _rawData: org, // Preserve raw API data for drill-down
+      }));
+
+      setOrganizations(formattedOrganizations);
     } catch (error) {
-      console.error("Error fetching volunteer organizations:", error);
+      console.error("Error fetching organizations:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -41,10 +94,19 @@ const VoluntaryOrganizations = () => {
     let sortableOrganizations = [...organizations];
     if (sortConfig !== null) {
       sortableOrganizations.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
+        let valA = a[sortConfig.key];
+        let valB = b[sortConfig.key];
+
+        // Handle JSX in collaborator column for comparison
+        if (sortConfig.key === "collaborator") {
+          valA = React.isValidElement(valA) ? "Yes" : valA;
+          valB = React.isValidElement(valB) ? "Yes" : valB;
+        }
+
+        if (valA < valB) {
           return sortConfig.direction === "ascending" ? -1 : 1;
         }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
+        if (valA > valB) {
           return sortConfig.direction === "ascending" ? 1 : -1;
         }
         return 0;
@@ -58,21 +120,20 @@ const VoluntaryOrganizations = () => {
   }, [organizations, sortConfig]);
 
   //add the filter by category and filter with search input functionality here
-  const filteredOrganizations = (organizations) => {
-    return organizations.filter(
-      (organization) =>
-        (Object.keys(categoryFilter).length === 0 ||
-          categoryFilter[organization.causes]) &&
-        Object.keys(organization).some((key) =>
-          String(organization[key])
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()),
-        ),
+  const filteredOrganizations = (organizations) =>
+    organizations.filter((org) =>
+      Object.values(org).some(
+        (value) =>
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
     );
-  };
 
   const filteredData = useMemo(() => {
-    return filteredOrganizations(sortedData);
+    console.log("Organizations:", organizations);
+    const filtered = filteredOrganizations(sortedData);
+    console.log("Filtered:", filtered);
+    return filtered;
   }, [sortedData, categoryFilter, searchTerm]);
 
   const totalPages = (filteredData) => {
@@ -131,6 +192,7 @@ const VoluntaryOrganizations = () => {
 
   const allCategories = {
     All: true,
+    Community: true,
     Banking: true,
     Books: true,
     Clothes: true,
@@ -225,22 +287,32 @@ const VoluntaryOrganizations = () => {
         </div>
       </div>
 
-      <Table
-        headers={headers}
-        rows={filteredData}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages(filteredData)}
-        totalRows={filteredData.length}
-        itemsPerPage={rowsPerPage}
-        sortConfig={sortConfig}
-        requestSort={requestSort}
-        onRowsPerPageChange={handleRowsPerPageChange}
-        getLinkPath={(row, header) => {
-          if (header !== "id") return null;
-          return `/organization/${row.id}`;
-        }}
-      />
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center min-h-[400px]">
+          <LoadingIndicator size="80px" position="center" />
+          <p className="mt-4 text-gray-600 font-medium">
+            Fetching best organizations for you...
+          </p>
+        </div>
+      ) : (
+        <Table
+          headers={headers}
+          rows={filteredData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages(filteredData)}
+          totalRows={filteredData.length}
+          itemsPerPage={rowsPerPage}
+          sortConfig={sortConfig}
+          requestSort={requestSort}
+          onRowsPerPageChange={handleRowsPerPageChange}
+          getLinkPath={(row, header) => {
+            if (header !== "name") return null;
+            return `/organization/${row.id}`;
+          }}
+          getLinkState={(row) => ({ organizationData: row._rawData })}
+        />
+      )}
     </div>
   );
 };

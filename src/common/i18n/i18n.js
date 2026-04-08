@@ -12,6 +12,9 @@ import enIdentity from "./locales/en/identity.json";
 import enProfile from "./locales/en/profile.json";
 import enCollaborator from "./locales/en/collaborator.json";
 import enNews from "./locales/en/news.json";
+import enTerms from "./locales/en/termsAndConditions.json";
+import enPrivacy from "./locales/en/privacyPolicy.json";
+import enMessages from "./locales/en/messages.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
@@ -21,6 +24,8 @@ import deAvailability from "./locales/de/availability.json";
 import deIdentity from "./locales/de/identity.json";
 import deProfile from "./locales/de/profile.json";
 import deCollaborator from "./locales/de/collaborator.json";
+import deTerms from "./locales/de/termsAndConditions.json";
+import deMessages from "./locales/de/messages.json";
 
 import esCommon from "./locales/es/common.json";
 import esAuth from "./locales/es/auth.json";
@@ -30,6 +35,8 @@ import esAvailability from "./locales/es/availability.json";
 import esIdentity from "./locales/es/identity.json";
 import esProfile from "./locales/es/profile.json";
 import esCollaborator from "./locales/es/collaborator.json";
+import esTerms from "./locales/es/termsAndConditions.json";
+import esMessages from "./locales/es/messages.json";
 
 import frCommon from "./locales/fr/common.json";
 import frAuth from "./locales/fr/auth.json";
@@ -39,6 +46,9 @@ import frAvailability from "./locales/fr/availability.json";
 import frIdentity from "./locales/fr/identity.json";
 import frProfile from "./locales/fr/profile.json";
 import frCollaborator from "./locales/fr/collaborator.json";
+import frNews from "./locales/fr/news.json";
+import frTerms from "./locales/fr/termsAndConditions.json";
+import frMessages from "./locales/fr/messages.json";
 
 import ruCommon from "./locales/ru/common.json";
 import ruAuth from "./locales/ru/auth.json";
@@ -48,6 +58,8 @@ import ruAvailability from "./locales/ru/availability.json";
 import ruIdentity from "./locales/ru/identity.json";
 import ruProfile from "./locales/ru/profile.json";
 import ruCollaborator from "./locales/ru/collaborator.json";
+import ruTerms from "./locales/ru/termsAndConditions.json";
+import ruMessages from "./locales/ru/messages.json";
 
 import hiCommon from "./locales/hi/common.json";
 import hiAuth from "./locales/hi/auth.json";
@@ -57,6 +69,7 @@ import hiAvailability from "./locales/hi/availability.json";
 import hiIdentity from "./locales/hi/identity.json";
 import hiProfile from "./locales/hi/profile.json";
 import hiCollaborator from "./locales/hi/collaborator.json";
+import hiMessages from "./locales/hi/messages.json";
 
 import teCommon from "./locales/te/common.json";
 import teAuth from "./locales/te/auth.json";
@@ -66,6 +79,7 @@ import teAvailability from "./locales/te/availability.json";
 import teIdentity from "./locales/te/identity.json";
 import teProfile from "./locales/te/profile.json";
 import teCollaborator from "./locales/te/collaborator.json";
+import teMessages from "./locales/te/messages.json";
 
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
@@ -75,6 +89,7 @@ import zhAvailability from "./locales/zh/availability.json";
 import zhIdentity from "./locales/zh/identity.json";
 import zhProfile from "./locales/zh/profile.json";
 import zhCollaborator from "./locales/zh/collaborator.json";
+import zhMessages from "./locales/zh/messages.json";
 
 import ptCommon from "./locales/pt/common.json";
 import ptAuth from "./locales/pt/auth.json";
@@ -84,6 +99,7 @@ import ptAvailability from "./locales/pt/availability.json";
 import ptIdentity from "./locales/pt/identity.json";
 import ptProfile from "./locales/pt/profile.json";
 import ptCollaborator from "./locales/pt/collaborator.json";
+import ptMessages from "./locales/pt/messages.json";
 
 import bnCommon from "./locales/bn/common.json";
 import bnAuth from "./locales/bn/auth.json";
@@ -93,6 +109,7 @@ import bnAvailability from "./locales/bn/availability.json";
 import bnIdentity from "./locales/bn/identity.json";
 import bnProfile from "./locales/bn/profile.json";
 import bnCollaborator from "./locales/bn/collaborator.json";
+import bnMessages from "./locales/bn/messages.json";
 
 import arCommon from "./locales/ar/common.json";
 import arAuth from "./locales/ar/auth.json";
@@ -199,9 +216,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    // Set default namespace to load
     defaultNS: "common",
-    // Define all namespaces that will be used
     ns: [
       "common",
       "auth",
@@ -212,6 +227,9 @@ i18n
       "enums",
       "collaborator",
       "news",
+      "termsAndConditions",
+      "privacyPolicy",
+      "messages",
     ],
     resources: {
       en: {
@@ -224,6 +242,9 @@ i18n
         profile: enProfile,
         collaborator: enCollaborator,
         news: enNews,
+        termsAndConditions: enTerms,
+        privacyPolicy: enPrivacy,
+        messages: enMessages,
       },
       de: {
         common: deCommon,
@@ -234,6 +255,8 @@ i18n
         identity: deIdentity,
         profile: deProfile,
         collaborator: deCollaborator,
+        termsAndConditions: deTerms,
+        messages: deMessages,
       },
       es: {
         common: esCommon,
@@ -244,6 +267,8 @@ i18n
         identity: esIdentity,
         profile: esProfile,
         collaborator: esCollaborator,
+        termsAndConditions: esTerms,
+        messages: esMessages,
       },
       fr: {
         common: frCommon,
@@ -254,6 +279,9 @@ i18n
         identity: frIdentity,
         profile: frProfile,
         collaborator: frCollaborator,
+        news: frNews,
+        termsAndConditions: frTerms,
+        messages: frMessages,
       },
       ru: {
         common: ruCommon,
@@ -264,6 +292,8 @@ i18n
         identity: ruIdentity,
         profile: ruProfile,
         collaborator: ruCollaborator,
+        termsAndConditions: ruTerms,
+        messages: ruMessages,
       },
       hi: {
         common: hiCommon,
@@ -274,6 +304,7 @@ i18n
         identity: hiIdentity,
         profile: hiProfile,
         collaborator: hiCollaborator,
+        messages: hiMessages,
       },
       te: {
         common: teCommon,
@@ -284,6 +315,7 @@ i18n
         identity: teIdentity,
         profile: teProfile,
         collaborator: teCollaborator,
+        messages: teMessages,
       },
       zh: {
         common: zhCommon,
@@ -294,6 +326,7 @@ i18n
         identity: zhIdentity,
         profile: zhProfile,
         collaborator: zhCollaborator,
+        messages: zhMessages,
       },
       pt: {
         common: ptCommon,
@@ -304,6 +337,7 @@ i18n
         identity: ptIdentity,
         profile: ptProfile,
         collaborator: ptCollaborator,
+        messages: ptMessages,
       },
       bn: {
         common: bnCommon,
@@ -314,6 +348,7 @@ i18n
         identity: bnIdentity,
         profile: bnProfile,
         collaborator: bnCollaborator,
+        messages: bnMessages,
       },
       ar: {
         common: arCommon,

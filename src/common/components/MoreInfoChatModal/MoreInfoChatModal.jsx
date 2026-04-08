@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Markdown from "react-markdown";
 import { moreInformationChat } from "../../../services/requestServices";
-import { getCategoriesFromStorage } from "../../../utils/filterHelpers";
 import i18n from "../../i18n/i18n";
 
 const MAX_QUESTIONS = 5;
@@ -12,28 +11,10 @@ async function translateText(text /*, targetLang */) {
   return text; // passthrough until endpoint available
 }
 
-const findCatId = (catName) => {
-  const categories = getCategoriesFromStorage() || [];
-  const search = (list) => {
-    for (const cat of list) {
-      if (cat.catName === catName) return cat.catId;
-      if (cat.subCategories) {
-        const found = search(cat.subCategories);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
-  return search(categories) ?? catName;
-};
-
-const buildPayload = (requestData) => ({
-  category_id: findCatId(requestData.category ?? ""),
-  subject: requestData.subject ?? "",
-  description: requestData.description ?? "",
-  location: requestData.location ?? "",
-  gender: requestData.gender ?? "",
-  age: requestData.age ?? "",
+// TODO: replace hardcoded defaults with dynamic user_id and req_id
+const buildPayload = () => ({
+  user_id: "SID-00-000-000-050",
+  req_id: "REQ-00-000-000-0085",
 });
 
 const counterColorClass = (remaining) => {
@@ -83,19 +64,9 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
     setIsLoading(true);
 
     try {
-      // Build conversation_history in backend format
-      const conversationHistory = nextMessages.map((msg) => ({
-        role: msg.role,
-        content:
-          msg.role === "user" && msg === nextMessages[0]
-            ? `Subject: ${requestData.subject ?? ""}\nQuestion: ${msg.content}`
-            : msg.content,
-      }));
-
       const payload = {
-        ...buildPayload(requestData),
-        description: toSend,
-        conversation_history: conversationHistory,
+        ...buildPayload(),
+        conversation_history: nextMessages,
       };
       const rawReply = await moreInformationChat(payload);
       const aiReply = rawReply?.body?.answer ?? "";
@@ -208,19 +179,22 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
         </div>
 
         {/* Input area */}
-        <div className="border-t border-gray-200 p-3 flex gap-2">
-          <input
-            type="text"
+        <div className="border-t border-gray-200 p-3 flex gap-2 items-end">
+          <textarea
             value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value.length <= 250) setInputText(e.target.value);
+            }}
             onKeyDown={handleKeyDown}
             disabled={remaining === 0 || isLoading}
+            rows={3}
+            maxLength={250}
             placeholder={
               remaining === 0
                 ? "No questions remaining"
-                : "Ask a follow-up question…"
+                : "Ask a follow-up question… (max 250 characters)"
             }
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
           />
           <button
             onClick={handleSend}

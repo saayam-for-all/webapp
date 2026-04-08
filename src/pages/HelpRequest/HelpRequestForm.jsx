@@ -19,6 +19,7 @@ import {
   checkProfanity,
   createRequest,
   predictCategories,
+  generateSubject,
   getCategories,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
@@ -26,6 +27,7 @@ import JobsCategory from "./Categories/JobCategory";
 // Popup modal for subcategory - Import ElderlySupport component
 import ElderlySupport from "./Categories/ElderlySupport";
 import DynamicAdditionalFields from "./Categories/DynamicAdditionalFields";
+import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import usePlacesSearchBox from "./location/usePlacesSearchBox";
 import { HiChevronDown } from "react-icons/hi";
 import languagesData from "../../common/i18n/languagesData";
@@ -176,8 +178,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const inputref = useRef(null);
   const dropdownRef = useRef(null);
-
   const fileInputRef = useRef(null);
+  // Tracks whether the user has manually edited the subject field.
+  // When true, auto-generation from description is suppressed.
+  const hasUserEditedSubjectRef = useRef(false);
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -236,6 +240,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [uploadedFilesInfo, setUploadedFilesInfo] = useState([]);
   const [showFilesDialog, setShowFilesDialog] = useState(false);
   const [isUploadingFiles, setIsUploadingFiles] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // Audio recording state
   const [audioUploadResult, setAudioUploadResult] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
@@ -264,42 +269,74 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }
   }, [data, id]);
 
-  // Fetch predicted categories when category is "General" and debounced values change
+  // Converts API snake_case category names to title-case for display.
+  // e.g. "GROCERY_SHOPPING_AND_DELIVERY" → "Grocery Shopping And Delivery"
+  const formatApiCategoryName = (name) =>
+    name
+      .toLowerCase()
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+
+  // Fetch predicted categories when category is "General" and description is filled
   const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return; // Only call the API if category is "General"
-    if (!formData.subject || !formData.description) return; // Skip if no relevant data
+    if (formData.category !== "General") return;
+    if (!formData.description) return;
 
     try {
-      const requestBody = {
-        subject: formData.subject,
+      const response = await predictCategories({
         description: formData.description,
-      };
+      });
 
-      const response = await predictCategories(requestBody);
-      console.log("API Response:", response);
-      const formattedCategories = (response || []).map((category) => ({
-        id: category.toLowerCase(),
-        name: category,
+      const rawCategories = response?.body?.categories ?? [];
+      const formattedCategories = rawCategories.map((cat) => ({
+        id: cat.category_name,
+        name: cat.category_name,
+        category_number: cat.category_number,
+        displayName: formatApiCategoryName(cat.category_name),
+        confidence: cat.confidence,
       }));
 
-      if (formattedCategories.length > 0) {
-        const categoriesWithGeneral = [
-          { id: "general", name: "General" },
-          ...formattedCategories,
-        ];
-
-        setSuggestedCategories(categoriesWithGeneral);
-      } else {
-        setSuggestedCategories([{ id: "general", name: "General" }]);
-      }
+      const categoriesWithGeneral = [
+        { id: "general", name: "General", displayName: "General" },
+        ...formattedCategories,
+      ];
+      setSuggestedCategories(categoriesWithGeneral);
     } catch (error) {
       console.error("Error fetching predicted categories:", error);
+      setSuggestedCategories([
+        { id: "general", name: "General", displayName: "General" },
+      ]);
     }
   };
+
+  // Auto-generate subject from description using the genai API (debounced).
+  // Skipped in edit mode (preserves saved subject) and when the user has
+  // manually typed their own subject.
+  useEffect(() => {
+    if (isEdit) return;
+    if (hasUserEditedSubjectRef.current) return;
+    if (!formData.description || formData.description.trim().length < 10)
+      return;
+
+    const timer = setTimeout(async () => {
+      try {
+        const response = await generateSubject(formData.description);
+        const generatedSubject = response?.body?.subject;
+        if (generatedSubject) {
+          setFormData((prev) => ({ ...prev, subject: generatedSubject }));
+        }
+      } catch (error) {
+        console.error("Error generating subject:", error);
+      }
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [formData.description]);
 
   // handleChange
   const handleChange = (e) => {
     const { id, value } = e.target;
+    if (id === "subject") hasUserEditedSubjectRef.current = true;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -394,10 +431,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         try {
           const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
 
-          // Store the API response directly in Redux as-is
-          // No complex mappings needed - API keys now match i18n keys exactly
-          console.log("Categories API response:", categoriesData);
-
           // Extract categories array from API response
           let categoriesArray;
           if (Array.isArray(categoriesData)) {
@@ -408,8 +441,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           ) {
             categoriesArray = categoriesData.categories;
           } else if (categoriesData && typeof categoriesData === "object") {
-            // Log the structure to understand the API format
-            console.log("API response structure:", Object.keys(categoriesData));
             throw new Error(
               "Invalid API response format - expected array or object with categories array",
             );
@@ -428,12 +459,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               !cat.catId.toLowerCase().includes("cat_id"),
           );
 
-          console.log(
-            "Filtered categories:",
-            validCategories.length,
-            "out of",
-            categoriesArray.length,
-          );
           // Store in localStorage for future use
           localStorage.setItem("categories", JSON.stringify(validCategories));
           dispatch(loadCategories(validCategories));
@@ -791,14 +816,18 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleConfirmCategorySelection = () => {
     const oldCategory = "General";
     const newCategory = formData.category;
+    const matched = suggestedCategories.find(
+      (c) => (c.category_number ?? c.name) === newCategory,
+    );
+    const newCategoryDisplay = matched?.displayName ?? newCategory;
 
     setCategoryConfirmed(true); // unlock submission
     setShowModal(false);
 
-    if (oldCategory !== newCategory) {
+    if (oldCategory !== newCategoryDisplay) {
       setSnackbar({
         open: true,
-        message: `Category updated from \"${oldCategory}\" to \"${newCategory}\". Click Submit to continue.`,
+        message: `Category updated from \"${oldCategory}\" to \"${newCategoryDisplay}\". Click Submit to continue.`,
         severity: "info",
       });
     }
@@ -987,15 +1016,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     e.preventDefault();
 
     // Validate required fields from Description tab (mandatory tab)
-    if (!formData.subject || formData.subject.trim() === "") {
-      setSnackbar({
-        open: true,
-        message: "Subject is required. Please fill out the Description tab.",
-        severity: "error",
-      });
-      return;
-    }
-
     if (!formData.description || formData.description.trim() === "") {
       setSnackbar({
         open: true,
@@ -1011,6 +1031,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       location,
     };
 
+    setIsSubmitting(true);
     try {
       const res = await checkProfanity({
         subject: formData.subject,
@@ -1031,7 +1052,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
       if (
         formData.category === "General" &&
-        formData.subject.trim() !== "" &&
         formData.description.trim() !== "" &&
         !categoryConfirmed
       ) {
@@ -1152,9 +1172,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         additionalFields: additionalFieldValues,
       });
 
-      const respone = await createRequest(payload);
+      const response = await createRequest(payload);
+      const requestId =
+        response?.requestId || response?.body?.requestId || response?.id;
 
-      // success flow (mimic original)
       setSnackbar({
         open: true,
         message: "Help Request submitted successfully!",
@@ -1164,8 +1185,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       setTimeout(() => {
         navigate("/dashboard", {
           state: {
-            successMessage:
-              "New Request #REQ-00-000-000-00011 submitted successfully!",
+            successMessage: requestId
+              ? `New Request #${requestId} submitted successfully!`
+              : "Help Request submitted successfully!",
           },
         });
       }, 1200);
@@ -1176,6 +1198,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         message: "Failed to submit request!",
         severity: "error",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -1496,9 +1520,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     htmlFor="subject"
                     className="block text-gray-700 font-medium mb-2"
                   >
-                    {t("SUBJECT")}
-                    <span className="text-red-500 m-1">*</span>(
-                    {t("MAX_CHARACTERS", { count: 70 })})
+                    {t("SUBJECT")}({t("MAX_CHARACTERS", { count: 70 })})
                   </label>
                   <input
                     type="text"
@@ -2124,9 +2146,21 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           <div className="mt-8 flex justify-end gap-2">
             <button
               type="submit"
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
+              disabled={isSubmitting}
+              className={`py-2 px-4 text-white rounded-md mr-2 flex items-center ${
+                isSubmitting
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
             >
-              {isEdit ? t("SAVE") : t("SUBMIT")}
+              <span className={isSubmitting ? "mr-2" : ""}>
+                {isSubmitting
+                  ? t("SUBMITTING") || "Submitting..."
+                  : isEdit
+                    ? t("SAVE")
+                    : t("SUBMIT")}
+              </span>
+              {isSubmitting && <LoadingIndicator size="24px" />}
             </button>
             <button
               onClick={isEdit ? onClose : closeForm}
@@ -2156,9 +2190,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             {suggestedCategories.map((category, index) => (
               <FormControlLabel
                 key={index}
-                value={category.name}
+                value={category.category_number ?? category.name}
                 control={<Radio />}
-                label={category.name}
+                label={category.displayName ?? category.name}
               />
             ))}
           </RadioGroup>
