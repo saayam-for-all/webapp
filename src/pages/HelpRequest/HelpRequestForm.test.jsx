@@ -403,7 +403,7 @@ describe("HelpRequestForm — predict categories modal", () => {
     } = require("../../utils/mapHelpRequestPayload");
 
     checkProfanity.mockResolvedValue({ contains_profanity: false });
-    createRequest.mockResolvedValue({ requestId: "REQ-999" });
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-999" } });
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -655,7 +655,7 @@ describe("HelpRequestForm — successful submission", () => {
       createRequest,
     } = require("../../services/requestServices");
     checkProfanity.mockResolvedValue({ contains_profanity: false });
-    createRequest.mockResolvedValue({ requestId: "REQ-12345" });
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-12345" } });
 
     renderForm();
 

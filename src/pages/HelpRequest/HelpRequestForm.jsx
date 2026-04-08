@@ -1173,8 +1173,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       });
 
       const response = await createRequest(payload);
-      const requestId =
-        response?.requestId || response?.body?.requestId || response?.id;
+      const requestId = response?.data?.requestId;
 
       setSnackbar({
         open: true,
