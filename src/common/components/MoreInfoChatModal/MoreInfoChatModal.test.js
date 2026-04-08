@@ -12,18 +12,6 @@ jest.mock("../../../services/requestServices", () => ({
   moreInformationChat: jest.fn(),
 }));
 
-jest.mock("../../../utils/filterHelpers", () => ({
-  getCategoriesFromStorage: jest.fn(() => [
-    {
-      catId: "6",
-      catName: "ELDERLY_COMMUNITY_ASSISTANCE",
-      subCategories: [
-        { catId: "6.5", catName: "ERRANDS_EVENTS_TRANSPORTATION" },
-      ],
-    },
-  ]),
-}));
-
 jest.mock("../../i18n/i18n", () => ({
   language: "en",
 }));
@@ -39,15 +27,13 @@ const { moreInformationChat } = require("../../../services/requestServices");
 
 const mockRequestData = {
   id: "REQ-001",
-  category: "ERRANDS_EVENTS_TRANSPORTATION",
   subject: "Pick up dry cleaning",
   description: "Need someone to pick up my dry cleaning.",
-  location: "San Francisco, CA",
-  gender: "Female",
-  age: "35",
 };
 
 const mockOnClose = jest.fn();
+
+const PLACEHOLDER = "Ask a follow-up question… (max 250 characters)";
 
 const renderModal = (props = {}) =>
   render(
@@ -92,11 +78,28 @@ describe("MoreInfoChatModal", () => {
     expect(screen.getByTitle("5 questions remaining")).toHaveTextContent("5");
   });
 
+  it("renders a textarea for input", () => {
+    renderModal();
+    const textarea = screen.getByPlaceholderText(PLACEHOLDER);
+    expect(textarea.tagName).toBe("TEXTAREA");
+    expect(textarea).toHaveAttribute("maxLength", "250");
+    expect(textarea).toHaveAttribute("rows", "3");
+  });
+
   it("updates input text on change", () => {
     renderModal();
-    const input = screen.getByPlaceholderText("Ask a follow-up question…");
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
     fireEvent.change(input, { target: { value: "What documents?" } });
     expect(input.value).toBe("What documents?");
+  });
+
+  it("enforces 250 character limit", () => {
+    renderModal();
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
+    const longText = "a".repeat(300);
+    fireEvent.change(input, { target: { value: longText } });
+    // onChange guard rejects values over 250
+    expect(input.value).toBe("");
   });
 
   it("sends message and decrements counter on Send click", async () => {
@@ -105,7 +108,7 @@ describe("MoreInfoChatModal", () => {
     });
 
     renderModal();
-    const input = screen.getByPlaceholderText("Ask a follow-up question…");
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
     fireEvent.change(input, { target: { value: "What documents do I need?" } });
     fireEvent.click(screen.getByText("Send"));
 
@@ -124,7 +127,7 @@ describe("MoreInfoChatModal", () => {
     });
 
     renderModal();
-    const input = screen.getByPlaceholderText("Ask a follow-up question…");
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
     fireEvent.change(input, { target: { value: "Enter test" } });
     fireEvent.keyDown(input, { key: "Enter", shiftKey: false });
 
@@ -135,11 +138,13 @@ describe("MoreInfoChatModal", () => {
 
   it("does not send on Shift+Enter", () => {
     renderModal();
-    const input = screen.getByPlaceholderText("Ask a follow-up question…");
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
     fireEvent.change(input, { target: { value: "No send" } });
     fireEvent.keyDown(input, { key: "Enter", shiftKey: true });
 
-    expect(screen.queryByText("No send")).not.toBeInTheDocument();
+    // Message should stay in textarea, not be sent to the API
+    expect(moreInformationChat).not.toHaveBeenCalled();
+    expect(input.value).toBe("No send");
   });
 
   it("does not send empty message", () => {
@@ -152,7 +157,7 @@ describe("MoreInfoChatModal", () => {
     moreInformationChat.mockRejectedValue(new Error("Network error"));
 
     renderModal();
-    const input = screen.getByPlaceholderText("Ask a follow-up question…");
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
     fireEvent.change(input, { target: { value: "Will this fail?" } });
     fireEvent.click(screen.getByText("Send"));
 
@@ -201,25 +206,24 @@ describe("MoreInfoChatModal", () => {
     expect(mockOnClose).toHaveBeenCalled();
   });
 
-  it("calls moreInformationChat with correct payload shape", async () => {
+  it("calls moreInformationChat with user_id, req_id, and conversation_history", async () => {
     moreInformationChat.mockResolvedValue({
       body: { answer: "Response." },
     });
 
     renderModal();
-    const input = screen.getByPlaceholderText("Ask a follow-up question…");
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
     fireEvent.change(input, { target: { value: "My question" } });
     fireEvent.click(screen.getByText("Send"));
 
     await waitFor(() => {
       expect(moreInformationChat).toHaveBeenCalledWith(
         expect.objectContaining({
-          category_id: "6.5",
-          subject: "Pick up dry cleaning",
-          description: "My question",
+          user_id: "SID-00-000-000-050",
+          req_id: "REQ-00-000-000-0085",
           conversation_history: expect.arrayContaining([
             expect.objectContaining({ role: "assistant" }),
-            expect.objectContaining({ role: "user" }),
+            expect.objectContaining({ role: "user", content: "My question" }),
           ]),
         }),
       );
