@@ -1,4 +1,6 @@
 {
+  "GET_ALL_REQUESTS": "v1/request/mockRequests",
+  "ADD_HELP_REQUEST": "v1/request/help-request",
   "GET_MY_REQUESTS": "v1/request/mockRequests",
   "GET_OTHERS_REQUESTS": "v1/request/mockRequests",
   "GET_MANAGED_REQUESTS": "v1/request/mockRequests",
