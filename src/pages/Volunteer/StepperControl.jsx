@@ -49,19 +49,19 @@ const StepperControl = ({
             currentStep === 3 && !isCheckedCategories
               ? t("common:SELECT_SKILL_TO_CONTINUE")
               : currentStep === 1 && !isAcknowledged
-              ? t("TOOLTIP_ACCEPT_TERMS")
-              : currentStep === 2 && !isUploaded
-              ? t("TOOLTIP_UPLOAD_GOVT_ID")
-              : ""
+                ? t("TOOLTIP_ACCEPT_TERMS")
+                : currentStep === 2 && !isUploaded
+                  ? t("TOOLTIP_UPLOAD_GOVT_ID")
+                  : ""
           }
         >
           {currentStep === steps.length - 1
             ? t("common:CONFIRM") || "Confirm"
             : t("common:NEXT") || "Next"}
         </button>
-        {(currentStep === 3 && !isCheckedCategories) || 
-         (currentStep === 1 && !isAcknowledged) || 
-         (currentStep === 2 && !isUploaded) ? (
+        {(currentStep === 3 && !isCheckedCategories) ||
+        (currentStep === 1 && !isAcknowledged) ||
+        (currentStep === 2 && !isUploaded) ? (
           <Tooltip
             id="next-button-tooltip"
             place="top"
