@@ -32,11 +32,23 @@ export const mapHelpRequestPayload = ({
 
     requestFor: {
       requestForId:
-        formData.is_self === "yes"
-          ? enumMaps.requestFor.SELF
-          : enumMaps.requestFor.OTHER,
+        enumMaps.requestFor[formData.request_for] ?? enumMaps.requestFor.SELF,
     },
   };
+
+  // Include guest details when request is for someone else (OTHER)
+  const requestForId = payload.requestFor.requestForId;
+  if (requestForId === enumMaps.requestFor.OTHER) {
+    payload.guestDetails = {
+      reqFname: formData.requester_first_name,
+      reqLname: formData.requester_last_name,
+      reqEmail: formData.email,
+      reqPhone: formData.phone,
+      reqAge: formData.age ? Number(formData.age) : null,
+      reqGender: formData.gender !== "Select" ? formData.gender : null,
+      reqPrefLang: formData.preferred_language || null,
+    };
+  }
 
   // Include dynamic additional fields if any were filled
   if (additionalFields && Object.keys(additionalFields).length > 0) {
