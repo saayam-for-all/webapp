@@ -15,6 +15,20 @@ const toSentenceCase = (value = "") => {
   return normalized.charAt(0).toUpperCase() + normalized.slice(1);
 };
 
+const findCategoryLabel = (node, targetKey) => {
+  if (!node || !targetKey) return null;
+
+  for (const [key, value] of Object.entries(node)) {
+    if (key === targetKey && value?.LABEL) return value.LABEL;
+
+    if (value?.SUBCATEGORIES) {
+      const found = findCategoryLabel(value.SUBCATEGORIES, targetKey);
+      if (found) return found;
+    }
+  }
+  return null;
+};
+
 const STATUS_STYLES = {
   CREATED: "bg-blue-100 text-blue-800",
   MATCHING_VOLUNTEER: "bg-yellow-100 text-yellow-800",
@@ -34,7 +48,7 @@ const PRIORITY_STYLES = {
 };
 
 const RequestDescription = ({ requestData, setIsEditing }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
 
   const normalizedStatus = String(requestData?.status || "").toUpperCase();
@@ -54,6 +68,17 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
     day: "numeric",
   });
 
+  const lang = i18n.resolvedLanguage || i18n.language || "en";
+  const categoriesBundle = i18n.hasResourceBundle?.(lang, "categories")
+    ? i18n.getResourceBundle(lang, "categories")
+    : i18n.getResourceBundle("en", "categories");
+
+  const categoryLabel =
+    findCategoryLabel(
+      categoriesBundle?.REQUEST_CATEGORIES,
+      requestData?.category,
+    ) || requestData?.category;
+
   const attributes = [
     {
       context: formattedDate,
@@ -61,7 +86,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
       icon: <VscCalendar size={22} />,
     },
     {
-      context: requestData.category,
+      context: categoryLabel,
       type: "Category",
       icon: <TbTriangleSquareCircle size={22} />,
     },
@@ -80,7 +105,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
                   className="flex items-center gap-2 group relative"
                 >
                   {header.icon}
-                  {t(header.context)}
+                  {header.context}
                   <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>
