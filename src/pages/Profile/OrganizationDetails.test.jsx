@@ -677,6 +677,21 @@ describe("OrganizationDetails", () => {
     });
   });
 
+  it("calls handleInputChange when organization size is changed", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const selects = screen.getAllByTestId("react-select");
+      fireEvent.change(selects[0], { target: { value: "Small" } });
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
   it("displays phone number and email in view mode", () => {
     render(
       <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
