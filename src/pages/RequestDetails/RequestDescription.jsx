@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import "./RequestDescription.css";
 
 const RequestDescription = ({ requestData, setIsEditing }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
   const navigate = useNavigate();
 
@@ -30,17 +30,6 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
     day: "numeric",
   });
 
-  const lang = i18n.resolvedLanguage || i18n.language || "en";
-  const categoriesBundle = i18n.hasResourceBundle?.(lang, "categories")
-    ? i18n.getResourceBundle(lang, "categories")
-    : i18n.getResourceBundle("en", "categories");
-
-  const categoryLabel =
-    findCategoryLabel(
-      categoriesBundle?.REQUEST_CATEGORIES,
-      requestData?.category,
-    ) || requestData?.category;
-
   const attributes = [
     {
       context: formattedDate,
@@ -48,7 +37,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
       icon: <VscCalendar size={22} />,
     },
     {
-      context: categoryLabel,
+      context: requestData.category,
       type: "Category",
       icon: <TbTriangleSquareCircle size={22} />,
     },
