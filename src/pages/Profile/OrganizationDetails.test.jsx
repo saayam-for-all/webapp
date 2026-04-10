@@ -647,6 +647,36 @@ describe("OrganizationDetails", () => {
     expect(screen.getByText("Non-Profit")).toBeInTheDocument();
   });
 
+  it("displays organization size label in view mode when set", () => {
+    localStorage.setItem(
+      "organizationInfo",
+      JSON.stringify({ ...mockOrganizationInfo, organizationSize: "Small" }),
+    );
+
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    expect(screen.getByText("SMALL")).toBeInTheDocument();
+  });
+
+  it("renders organization size select in edit mode with existing value", async () => {
+    localStorage.setItem(
+      "organizationInfo",
+      JSON.stringify({ ...mockOrganizationInfo, organizationSize: "Medium" }),
+    );
+
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Save")).toBeInTheDocument();
+    });
+  });
+
   it("displays phone number and email in view mode", () => {
     render(
       <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
