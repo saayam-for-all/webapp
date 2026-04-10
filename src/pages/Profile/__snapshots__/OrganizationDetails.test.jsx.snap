@@ -22,7 +22,7 @@ exports[`OrganizationDetails matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="grid grid-cols-1 gap-8 mb-6"
+      class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6"
     >
       <div>
         <label
@@ -35,6 +35,16 @@ exports[`OrganizationDetails matches snapshot 1`] = `
         >
           Non-Profit
         </p>
+      </div>
+      <div>
+        <label
+          class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          ORGANIZATION_SIZE
+        </label>
+        <p
+          class="text-lg text-gray-900"
+        />
       </div>
     </div>
     <div
