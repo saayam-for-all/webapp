@@ -15,21 +15,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./RequestDescription.css";
 
-const findCategoryLabel = (node, targetKey) => {
-  if (!node || !targetKey) return null;
-
-  for (const [key, value] of Object.entries(node)) {
-    if (key === targetKey && value?.LABEL) return value.LABEL;
-
-    if (value?.SUBCATEGORIES) {
-      const found = findCategoryLabel(value.SUBCATEGORIES, targetKey);
-      if (found) return found;
-    }
-  }
-
-  return null;
-};
-
 const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
@@ -78,7 +63,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             {attributes.map((header, index) => (
               <li key={index} className="flex items-center gap-2">
                 {header.icon}
-                {header.context}
+                {t(header.context)}
               </li>
             ))}
 
