@@ -113,7 +113,6 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
                 {t("Change Volunteer")}
               </button>
 
-              {/* ✅ DELETE BUTTON (UPDATED) */}
               <button
                 className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600"
                 onClick={() => setDeleteDialogOpen(true)}
@@ -136,7 +135,6 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
         </div>
       </div>
 
-      {/* ✅ DELETE DIALOG */}
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
