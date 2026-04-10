@@ -31,6 +31,12 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
   const [errors, setErrors] = useState({});
 
+  const organizationSizeOptions = [
+    { value: "Small", label: t("SMALL") },
+    { value: "Medium", label: t("MEDIUM") },
+    { value: "Large", label: t("LARGE") },
+  ];
+
   const [organizationInfo, setOrganizationInfo] = useState({
     organizationName: "",
     phoneNumber: "",
@@ -43,6 +49,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     state: "",
     zipCode: "",
     organizationType: t("NON_PROFIT"),
+    organizationSize: "",
     helpCategories: [],
   });
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
@@ -348,7 +355,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("ORGANIZATION_TYPE")}
@@ -395,6 +402,34 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.organizationType}
+            </p>
+          )}
+        </div>
+        <div>
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {t("ORGANIZATION_SIZE")}
+          </label>
+          {isEditing ? (
+            <Select
+              value={organizationSizeOptions.find(
+                (option) => option.value === organizationInfo.organizationSize,
+              )}
+              options={organizationSizeOptions}
+              onChange={(selectedOption) =>
+                handleInputChange(
+                  "organizationSize",
+                  selectedOption?.value || "",
+                )
+              }
+              isClearable
+              className="w-full"
+              placeholder={t("SELECT_ORGANIZATION_SIZE")}
+            />
+          ) : (
+            <p className="text-lg text-gray-900">
+              {organizationSizeOptions.find(
+                (opt) => opt.value === organizationInfo.organizationSize,
+              )?.label || ""}
             </p>
           )}
         </div>
@@ -821,6 +856,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                     state: "",
                     zipCode: "",
                     organizationType: t("NON_PROFIT"),
+                    organizationSize: "",
                     helpCategories: [],
                   });
                 } else {
