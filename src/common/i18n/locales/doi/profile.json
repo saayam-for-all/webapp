@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "संगठन दी किस्म",
   "NON_PROFIT": "गैर-लाभकारी",
   "FOR_PROFIT": "लाभकारी",
+  "ORGANIZATION_SIZE": "संगठन दा आकार",
+  "SELECT_ORGANIZATION_SIZE": "संगठन दा आकार चुनो...",
+  "SMALL": "छोटा",
+  "MEDIUM": "मध्यम",
+  "LARGE": "बड़ा",
   "URL": "यूआरएल",
 
   "DEFAULT DASHBOARD VIEW": "डिफाल्ट डैशबोर्ड दृश्य",

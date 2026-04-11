@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "組織の種類",
   "NON_PROFIT": "非営利",
   "FOR_PROFIT": "営利",
+  "ORGANIZATION_SIZE": "組織の規模",
+  "SELECT_ORGANIZATION_SIZE": "組織の規模を選択...",
+  "SMALL": "小規模",
+  "MEDIUM": "中規模",
+  "LARGE": "大規模",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "デフォルトダッシュボード表示",

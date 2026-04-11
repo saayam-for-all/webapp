@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "സംഘടന തരം",
   "NON_PROFIT": "ലാഭരഹിതം",
   "FOR_PROFIT": "ലാഭലക്ഷ്യം",
+  "ORGANIZATION_SIZE": "സംഘടനയുടെ വലിപ്പം",
+  "SELECT_ORGANIZATION_SIZE": "സംഘടനയുടെ വലിപ്പം തിരഞ്ഞെടുക്കൂ...",
+  "SMALL": "ചെറുത്",
+  "MEDIUM": "ഇടത്തരം",
+  "LARGE": "വലുത്",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "ഡീഫോൾട്ട് ഡാഷ്‌ബോർഡ് കാഴ്ച",
