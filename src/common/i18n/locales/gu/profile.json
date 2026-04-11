@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "સંસ્થા પ્રકાર",
   "NON_PROFIT": "બિન-નફાકારક",
   "FOR_PROFIT": "નફાકારક",
+  "ORGANIZATION_SIZE": "સંસ્થાનું કદ",
+  "SELECT_ORGANIZATION_SIZE": "સંસ્થાનું કદ પસંદ કરો...",
+  "SMALL": "નાની",
+  "MEDIUM": "મધ્યમ",
+  "LARGE": "મોટી",
   "URL": "યુઆરએલ",
 
   "DEFAULT DASHBOARD VIEW": "ડિફોલ્ટ ડેશબોર્ડ દૃશ્ય",

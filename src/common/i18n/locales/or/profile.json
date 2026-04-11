@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "ସଂସ୍ଥାର ପ୍ରକାର",
   "NON_PROFIT": "ଅଣ-ଲାଭଜନକ",
   "FOR_PROFIT": "ଲାଭଜନକ",
+  "ORGANIZATION_SIZE": "ସଂସ୍ଥାର ଆକାର",
+  "SELECT_ORGANIZATION_SIZE": "ସଂସ୍ଥାର ଆକାର ବାଛନ୍ତୁ...",
+  "SMALL": "ଛୋଟ",
+  "MEDIUM": "ମଧ୍ୟମ",
+  "LARGE": "ବଡ",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "ଡିଫଲ୍ଟ ଡ୍ୟାସବୋର୍ଡ ଦୃଶ୍ୟ",

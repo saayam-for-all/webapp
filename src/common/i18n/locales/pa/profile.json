@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "ਸੰਗਠਨ ਕਿਸਮ",
   "NON_PROFIT": "ਗੈਰ-ਮੁਨਾਫ਼ਾ",
   "FOR_PROFIT": "ਮੁਨਾਫ਼ੇ ਲਈ",
+  "ORGANIZATION_SIZE": "ਸੰਗਠਨ ਦਾ ਆਕਾਰ",
+  "SELECT_ORGANIZATION_SIZE": "ਸੰਗਠਨ ਦਾ ਆਕਾਰ ਚੁਣੋ...",
+  "SMALL": "ਛੋਟਾ",
+  "MEDIUM": "ਮੱਧਮ",
+  "LARGE": "ਵੱਡਾ",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "ਡਿਫਾਲਟ ਡੈਸ਼ਬੋਰਡ ਦ੍ਰਿਸ਼",

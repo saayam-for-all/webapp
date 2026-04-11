@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "संस्थेचा प्रकार",
   "NON_PROFIT": "ना-नफा",
   "FOR_PROFIT": "नफ्यासाठी",
+  "ORGANIZATION_SIZE": "संस्थेचा आकार",
+  "SELECT_ORGANIZATION_SIZE": "संस्थेचा आकार निवडा...",
+  "SMALL": "लहान",
+  "MEDIUM": "मध्यम",
+  "LARGE": "मोठे",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "डीफॉल्ट डॅशबोर्ड दृश्य",

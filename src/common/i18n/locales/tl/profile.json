@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "Uri ng Organisasyon",
   "NON_PROFIT": "Walang Tubo",
   "FOR_PROFIT": "May Tubo",
+  "ORGANIZATION_SIZE": "Laki ng Organisasyon",
+  "SELECT_ORGANIZATION_SIZE": "Piliin ang laki ng organisasyon...",
+  "SMALL": "Maliit",
+  "MEDIUM": "Katamtaman",
+  "LARGE": "Malaki",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "Default na Dashboard View",
