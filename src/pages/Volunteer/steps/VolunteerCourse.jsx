@@ -1,7 +1,12 @@
 import { useState, useRef } from "react";
 import React from "react"; //added for testing
 
-const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
+const VolunteerCourse = ({
+  selectedFile,
+  setSelectedFile,
+  setIsUploaded,
+  onSaveFile,
+}) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
@@ -10,29 +15,64 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
   const fileInputRef = useRef(null); // Reference to the file input
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+    const uploadedFile = e.target.files[0];
+    setSelectedFile(uploadedFile);
 
-    if (selectedFile) {
+    if (uploadedFile) {
+      // Debug: Log file information
+      console.log("File name:", uploadedFile.name);
+      console.log("File type:", uploadedFile.type);
+      console.log("File size:", uploadedFile.size);
+
       // Validate file size (2MB = 2 * 1024 * 1024 bytes)
-      if (selectedFile.size > 2 * 1024 * 1024) {
+      if (uploadedFile.size > 2 * 1024 * 1024) {
         setError("File size should not exceed 2MB");
         setFile(null);
         setPreview("");
+        setIsUploaded(false);
+        setSelectedFile(null);
         return;
       }
 
       // Validate file type
-      const allowedTypes = ["image/jpg", "image/jpeg", "application/pdf"];
-      if (!allowedTypes.includes(selectedFile.type)) {
-        setError("Only JPEG, JPG, and PDF files are allowed");
+      const allowedTypes = [
+        "image/jpg",
+        "image/jpeg",
+        "image/png",
+        "application/pdf",
+      ];
+      const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf"];
+      console.log("Allowed types:", allowedTypes);
+      console.log(
+        "File type in allowed types:",
+        allowedTypes.includes(uploadedFile.type),
+      );
+
+      // Check MIME type first, then fallback to file extension
+      const isValidMimeType = allowedTypes.includes(uploadedFile.type);
+      const fileExtension = uploadedFile.name
+        .toLowerCase()
+        .substring(uploadedFile.name.lastIndexOf("."));
+      const isValidExtension = allowedExtensions.includes(fileExtension);
+
+      console.log("File extension:", fileExtension);
+      console.log("Is valid extension:", isValidExtension);
+
+      if (!isValidMimeType && !isValidExtension) {
+        setError(
+          `Only JPEG, JPG, PNG, and PDF files are allowed. File type detected: ${uploadedFile.type}, extension: ${fileExtension}`,
+        );
         setFile(null);
         setPreview("");
+        setIsUploaded(false);
+        setSelectedFile(null);
         return;
       }
 
       setError("");
-      setFile(selectedFile);
-      setPreview(URL.createObjectURL(selectedFile));
+      setSelectedFile(uploadedFile);
+      setPreview(URL.createObjectURL(uploadedFile));
+      setIsUploaded(true);
     }
   };
 
@@ -84,9 +124,10 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
   };
 
   const handleRemoveFile = () => {
-    setFile(null);
+    setSelectedFile(null);
     setPreview("");
     setError("");
+    setIsUploaded(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Reset the file input
     }
@@ -157,21 +198,23 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
           </label>
           <input
             type="file"
-            accept=".jpeg,.jpg,.pdf"
+            accept=".jpeg,.jpg,.png,.pdf"
             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
             onChange={handleFileChange}
             ref={fileInputRef} // Reference the input
           />
           <p className="mt-1 text-sm text-gray-500">
-            Only JPEG, JPG, or PDF files. Max size: 2MB.
+            Only JPEG, JPG, PNG, or PDF files. Max size: 2MB.
           </p>
         </div>
       )}
 
       {/* File Preview */}
-      {file && (
+      {selectedFile && (
         <div className="mb-4">
-          <p className="text-sm font-medium text-gray-700">File: {file.name}</p>
+          <p className="text-sm font-medium text-gray-700">
+            File: {selectedFile.name}
+          </p>
         </div>
       )}
 
@@ -179,15 +222,8 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       {/* Upload and Remove Buttons */}
-      <div className="flex justify-between items-center">
-        <button
-          onClick={handleUpload}
-          disabled={!file || isLoading}
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
-        >
-          {isLoading ? "Uploading..." : "Upload"}
-        </button>
-        {file && (
+      <div className="flex gap-3 items-center">
+        {selectedFile && (
           <button
             onClick={handleRemoveFile}
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
@@ -195,6 +231,13 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
             Remove
           </button>
         )}
+        <button
+          onClick={onSaveFile}
+          disabled={!selectedFile}
+          className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+        >
+          Save
+        </button>
       </div>
     </div>
   );

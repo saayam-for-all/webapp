@@ -1,12 +1,14 @@
 import { useRef } from "react";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 
+const GOOGLE_MAP_LIBRARIES = ["places"];
+
 const usePlacesSearchBox = (setLocation) => {
   const inputRef = useRef(null);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDv7--yEnq84ZN3l03y50O33M4S89Un4U0",
-    libraries: ["places"],
+    libraries: GOOGLE_MAP_LIBRARIES,
   });
 
   const handleOnPlacesChanged = () => {

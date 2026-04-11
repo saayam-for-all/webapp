@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "上传政府身份证件",
+  "SELECT_SOURCE": "选择来源",
+  "DEVICE": "设备",
+  "GOOGLE_DRIVE": "谷歌云端硬盘",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "上传文件",
+  "FILE": "文件",
+  "FILE_PREVIEW": "预览",
+  "UPLOAD": "上传",
+  "UPLOADING": "上传中...",
+  "REMOVE": "删除",
+  "FILE_SIZE_ERROR": "文件大小不应超过2MB",
+  "FILE_TYPE_ERROR": "仅允许 JPEG、JPG、PNG 和 PDF 文件。检测到的文件类型：{{fileType}}，扩展名：{{extension}}",
+  "FILE_TYPE_REQUIREMENT": "仅限 JPEG、JPG、PNG 或 PDF 文件。最大大小：2MB。",
+  "UPLOAD_SUCCESS": "文件上传成功",
+  "UPLOAD_FAILED": "文件上传失败",
+  "UPLOAD_ERROR": "文件上传过程中发生错误"
+}

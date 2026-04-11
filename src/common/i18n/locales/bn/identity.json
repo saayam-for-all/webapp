@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "সরকারি পরিচয়পত্র আপলোড করুন",
+  "SELECT_SOURCE": "উৎস নির্বাচন করুন",
+  "DEVICE": "ডিভাইস",
+  "GOOGLE_DRIVE": "গুগল ড্রাইভ",
+  "DROPBOX": "ড্রপবক্স",
+  "UPLOAD_FILE": "ফাইল আপলোড করুন",
+  "FILE": "ফাইল",
+  "FILE_PREVIEW": "পূর্বরূপ",
+  "UPLOAD": "আপলোড করুন",
+  "UPLOADING": "আপলোড হচ্ছে...",
+  "REMOVE": "সরান",
+  "FILE_SIZE_ERROR": "ফাইলের আকার 2MB এর বেশি হওয়া উচিত নয়",
+  "FILE_TYPE_ERROR": "শুধুমাত্র JPEG, JPG, PNG, এবং PDF ফাইল অনুমোদিত। সনাক্ত করা ফাইল প্রকার: {{fileType}}, এক্সটেনশন: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "শুধুমাত্র JPEG, JPG, PNG, বা PDF ফাইল। সর্বোচ্চ আকার: 2MB।",
+  "UPLOAD_SUCCESS": "ফাইল সফলভাবে আপলোড হয়েছে",
+  "UPLOAD_FAILED": "ফাইল আপলোড ব্যর্থ হয়েছে",
+  "UPLOAD_ERROR": "ফাইল আপলোডের সময় একটি ত্রুটি ঘটেছে"
+}

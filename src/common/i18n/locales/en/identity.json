@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "Upload Government ID",
+  "SELECT_SOURCE": "Select Source",
+  "DEVICE": "Device",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "Upload File",
+  "FILE": "File",
+  "FILE_PREVIEW": "Preview",
+  "UPLOAD": "Upload",
+  "UPLOADING": "Uploading...",
+  "REMOVE": "Remove",
+  "FILE_SIZE_ERROR": "File size should not exceed 2MB",
+  "FILE_TYPE_ERROR": "Only JPEG, JPG, PNG, and PDF files are allowed. File type detected: {{fileType}}, extension: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "Only JPEG, JPG, PNG, or PDF files. Max size: 2MB.",
+  "UPLOAD_SUCCESS": "File uploaded successfully",
+  "UPLOAD_FAILED": "File upload failed",
+  "UPLOAD_ERROR": "An error occurred during file upload"
+}

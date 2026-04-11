@@ -2,8 +2,10 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { voluntaryOrganizationsData } from "./dummyData";
 import { FaMapMarkerAlt, FaPhoneAlt, FaGlobe } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const OrganizationDetails = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const organization = voluntaryOrganizationsData.find(
@@ -28,7 +30,7 @@ const OrganizationDetails = () => {
           onClick={() => navigate(-1)}
           className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
         >
-          <span className="text-2xl mr-2">&lt;</span> Back
+          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
         </button>
       </div>
       <div className="flex justify-center items-center min-h-screen">

@@ -1,0 +1,327 @@
+[
+  {
+    "month": "2024-12",
+    "country": "Australia",
+    "beneficiaryCount": 5
+  },
+  {
+    "month": "2024-12",
+    "country": "Canada",
+    "beneficiaryCount": 6
+  },
+  {
+    "month": "2024-12",
+    "country": "India",
+    "beneficiaryCount": 5
+  },
+  {
+    "month": "2024-12",
+    "country": "USA",
+    "beneficiaryCount": 4
+  },
+  {
+    "month": "2024-12",
+    "country": "United Kingdom",
+    "beneficiaryCount": 12
+  },
+  {
+    "month": "2025-01",
+    "country": "Australia",
+    "beneficiaryCount": 7
+  },
+  {
+    "month": "2025-01",
+    "country": "Canada",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-01",
+    "country": "India",
+    "beneficiaryCount": 11
+  },
+  {
+    "month": "2025-01",
+    "country": "USA",
+    "beneficiaryCount": 5
+  },
+  {
+    "month": "2025-01",
+    "country": "United Kingdom",
+    "beneficiaryCount": 12
+  },
+  {
+    "month": "2025-02",
+    "country": "Australia",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-02",
+    "country": "Canada",
+    "beneficiaryCount": 7
+  },
+  {
+    "month": "2025-02",
+    "country": "India",
+    "beneficiaryCount": 5
+  },
+  {
+    "month": "2025-02",
+    "country": "USA",
+    "beneficiaryCount": 7
+  },
+  {
+    "month": "2025-02",
+    "country": "United Kingdom",
+    "beneficiaryCount": 6
+  },
+  {
+    "month": "2025-03",
+    "country": "Australia",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-03",
+    "country": "Canada",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-03",
+    "country": "India",
+    "beneficiaryCount": 7
+  },
+  {
+    "month": "2025-03",
+    "country": "USA",
+    "beneficiaryCount": 12
+  },
+  {
+    "month": "2025-03",
+    "country": "United Kingdom",
+    "beneficiaryCount": 10
+  },
+  {
+    "month": "2025-04",
+    "country": "Australia",
+    "beneficiaryCount": 13
+  },
+  {
+    "month": "2025-04",
+    "country": "Canada",
+    "beneficiaryCount": 6
+  },
+  {
+    "month": "2025-04",
+    "country": "India",
+    "beneficiaryCount": 6
+  },
+  {
+    "month": "2025-04",
+    "country": "USA",
+    "beneficiaryCount": 7
+  },
+  {
+    "month": "2025-04",
+    "country": "United Kingdom",
+    "beneficiaryCount": 13
+  },
+  {
+    "month": "2025-05",
+    "country": "Australia",
+    "beneficiaryCount": 4
+  },
+  {
+    "month": "2025-05",
+    "country": "Canada",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-05",
+    "country": "India",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-05",
+    "country": "USA",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-05",
+    "country": "United Kingdom",
+    "beneficiaryCount": 7
+  },
+  {
+    "month": "2025-06",
+    "country": "Australia",
+    "beneficiaryCount": 4
+  },
+  {
+    "month": "2025-06",
+    "country": "Canada",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-06",
+    "country": "India",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-06",
+    "country": "USA",
+    "beneficiaryCount": 4
+  },
+  {
+    "month": "2025-06",
+    "country": "United Kingdom",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-07",
+    "country": "Australia",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-07",
+    "country": "Canada",
+    "beneficiaryCount": 6
+  },
+  {
+    "month": "2025-07",
+    "country": "India",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-07",
+    "country": "USA",
+    "beneficiaryCount": 10
+  },
+  {
+    "month": "2025-07",
+    "country": "United Kingdom",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-08",
+    "country": "Australia",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-08",
+    "country": "Canada",
+    "beneficiaryCount": 10
+  },
+  {
+    "month": "2025-08",
+    "country": "India",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-08",
+    "country": "USA",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-08",
+    "country": "United Kingdom",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-09",
+    "country": "Australia",
+    "beneficiaryCount": 11
+  },
+  {
+    "month": "2025-09",
+    "country": "Canada",
+    "beneficiaryCount": 10
+  },
+  {
+    "month": "2025-09",
+    "country": "India",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-09",
+    "country": "USA",
+    "beneficiaryCount": 13
+  },
+  {
+    "month": "2025-09",
+    "country": "United Kingdom",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-10",
+    "country": "Australia",
+    "beneficiaryCount": 7
+  },
+  {
+    "month": "2025-10",
+    "country": "Canada",
+    "beneficiaryCount": 5
+  },
+  {
+    "month": "2025-10",
+    "country": "India",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-10",
+    "country": "USA",
+    "beneficiaryCount": 9
+  },
+  {
+    "month": "2025-10",
+    "country": "United Kingdom",
+    "beneficiaryCount": 10
+  },
+  {
+    "month": "2025-11",
+    "country": "Australia",
+    "beneficiaryCount": 5
+  },
+  {
+    "month": "2025-11",
+    "country": "Canada",
+    "beneficiaryCount": 11
+  },
+  {
+    "month": "2025-11",
+    "country": "India",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-11",
+    "country": "USA",
+    "beneficiaryCount": 7
+  },
+  {
+    "month": "2025-11",
+    "country": "United Kingdom",
+    "beneficiaryCount": 8
+  },
+  {
+    "month": "2025-12",
+    "country": "Australia",
+    "beneficiaryCount": 5
+  },
+  {
+    "month": "2025-12",
+    "country": "Canada",
+    "beneficiaryCount": 2
+  },
+  {
+    "month": "2025-12",
+    "country": "India",
+    "beneficiaryCount": 1
+  },
+  {
+    "month": "2025-12",
+    "country": "USA",
+    "beneficiaryCount": 4
+  },
+  {
+    "month": "2025-12",
+    "country": "United Kingdom",
+    "beneficiaryCount": 3
+  }
+]

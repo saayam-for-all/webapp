@@ -1,16 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
+import { HiChevronDown } from "react-icons/hi";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
+import PropTypes from "prop-types";
 
 const COUNTRY_CODE_API =
   "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json";
 
+// Mapping from API category keys to translation keys
+const CATEGORY_KEY_MAP = {
+  FOOD_AND_ESSENTIALS_SUPPORT: "FOOD_AND_ESSENTIALS",
+  CLOTHING_SUPPORT: "CLOTHING_ASSISTANCE",
+  HOUSING_SUPPORT: "HOUSING_ASSISTANCE",
+  EDUCATION_CAREER_SUPPORT: "EDUCATION_CAREER_SUPPORT",
+  HEALTHCARE_WELLNESS_SUPPORT: "HEALTHCARE_AND_WELLNESS",
+  ELDERLY_SUPPORT: "ELDERLY_COMMUNITY_ASSISTANCE",
+  GENERAL_CATEGORY: "GENERAL_CATEGORY",
+};
+
 function OrganizationDetails({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["profile", "categories"]);
   const [isEditing, setIsEditing] = useState(false);
   const organizationNameRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const categoryDropdownRef = useRef(null);
 
   const [errors, setErrors] = useState({});
 
@@ -26,10 +43,153 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     state: "",
     zipCode: "",
     organizationType: t("NON_PROFIT"),
+    helpCategories: [],
   });
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
 
+  // Helper function to get translated category label
+  const getCategoryLabel = (catName, parentCatName = null) => {
+    // Get the translation key (map API key to translation key if needed)
+    const translationKey = CATEGORY_KEY_MAP[catName] || catName;
+    const parentKey = parentCatName
+      ? CATEGORY_KEY_MAP[parentCatName] || parentCatName
+      : null;
+
+    // Helper to check if translation was successful
+    const isValidTranslation = (label) =>
+      label && !label.includes("REQUEST_CATEGORIES");
+
+    let translatedLabel;
+    if (parentKey) {
+      // This is a subcategory - try mapped key first
+      translatedLabel = t(
+        `categories:REQUEST_CATEGORIES.${parentKey}.SUBCATEGORIES.${translationKey}.LABEL`,
+        { defaultValue: "" },
+      );
+
+      // If not found with mapped key, try with API key (for languages using API keys)
+      if (!isValidTranslation(translatedLabel)) {
+        translatedLabel = t(
+          `categories:REQUEST_CATEGORIES.${parentCatName}.SUBCATEGORIES.${catName}.LABEL`,
+          { defaultValue: "" },
+        );
+      }
+    } else {
+      // This is a main category - try mapped key first
+      translatedLabel = t(
+        `categories:REQUEST_CATEGORIES.${translationKey}.LABEL`,
+        { defaultValue: "" },
+      );
+
+      // If not found with mapped key, try with API key (for languages using API keys)
+      if (!isValidTranslation(translatedLabel)) {
+        translatedLabel = t(`categories:REQUEST_CATEGORIES.${catName}.LABEL`, {
+          defaultValue: "",
+        });
+      }
+    }
+
+    // If translation found and valid, return it
+    if (isValidTranslation(translatedLabel)) {
+      return translatedLabel;
+    }
+
+    // Fallback: format the catName to be more readable
+    return catName
+      .replace(/_/g, " ")
+      .toLowerCase()
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
+  // Helper function to get translated category description (for tooltips)
+  const getCategoryDescription = (
+    catName,
+    parentCatName = null,
+    fallback = "",
+  ) => {
+    const translationKey = CATEGORY_KEY_MAP[catName] || catName;
+    const parentKey = parentCatName
+      ? CATEGORY_KEY_MAP[parentCatName] || parentCatName
+      : null;
+
+    const isValidTranslation = (desc) =>
+      desc && !desc.includes("REQUEST_CATEGORIES");
+
+    let translatedDesc;
+    if (parentKey) {
+      // Subcategory - try mapped key first
+      translatedDesc = t(
+        `categories:REQUEST_CATEGORIES.${parentKey}.SUBCATEGORIES.${translationKey}.DESC`,
+        { defaultValue: "" },
+      );
+      // Fallback to API key
+      if (!isValidTranslation(translatedDesc)) {
+        translatedDesc = t(
+          `categories:REQUEST_CATEGORIES.${parentCatName}.SUBCATEGORIES.${catName}.DESC`,
+          { defaultValue: "" },
+        );
+      }
+    } else {
+      // Main category - try mapped key first
+      translatedDesc = t(
+        `categories:REQUEST_CATEGORIES.${translationKey}.DESC`,
+        { defaultValue: "" },
+      );
+      // Fallback to API key
+      if (!isValidTranslation(translatedDesc)) {
+        translatedDesc = t(`categories:REQUEST_CATEGORIES.${catName}.DESC`, {
+          defaultValue: "",
+        });
+      }
+    }
+
+    return isValidTranslation(translatedDesc) ? translatedDesc : fallback;
+  };
+
+  // Toggle category selection (for multi-select)
+  const toggleCategorySelection = (catName) => {
+    const currentSelection = organizationInfo.helpCategories || [];
+    const isSelected = currentSelection.includes(catName);
+    const newSelection = isSelected
+      ? currentSelection.filter((c) => c !== catName)
+      : [...currentSelection, catName];
+    handleInputChange("helpCategories", newSelection);
+  };
+
+  // Check if a category is selected
+  const isCategorySelected = (catName) => {
+    return (organizationInfo.helpCategories || []).includes(catName);
+  };
+
+  // Close dropdown when clicking outside
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        categoryDropdownRef.current &&
+        !categoryDropdownRef.current.contains(event.target)
+      ) {
+        setShowCategoryDropdown(false);
+        setHoveredCategory(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    // Load categories from localStorage (stored after user login)
+    const storedCategories = localStorage.getItem("categories");
+    if (storedCategories) {
+      try {
+        const parsedCategories = JSON.parse(storedCategories);
+        if (Array.isArray(parsedCategories)) {
+          setCategories(parsedCategories);
+        }
+      } catch (error) {
+        console.warn("Failed to parse categories from localStorage:", error);
+      }
+    }
+
     fetch(COUNTRY_CODE_API)
       .then((response) => response.json())
       .then((data) => {
@@ -52,32 +212,66 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       localStorage.getItem("organizationInfo"),
     );
     if (savedOrganizationInfo) {
-      setOrganizationInfo(savedOrganizationInfo);
+      setOrganizationInfo({
+        ...savedOrganizationInfo,
+        helpCategories: savedOrganizationInfo.helpCategories || [],
+      });
     }
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const validateField = (name, value) => {
+    let error = "";
 
-    let errorMsg = "";
-    if (name == "email") {
+    if (name === "organizationName") {
+      if (!value.trim()) {
+        error = "Organization Name is required.";
+      }
+    }
+
+    if (name === "email") {
       if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$/.test(value)) {
-        errorMsg = "Please enter a valid Email Address.";
+        error = "Please enter a valid Email Address.";
       }
     }
-    if (name == "phoneNumber") {
+    if (name === "phoneNumber") {
       if (!/^\d{10}$/.test(value)) {
-        errorMsg = "Please enter a valid Phone Number.";
-      }
-    }
-    if (name == "url") {
-      if (!/^https?:\/\/.+\.[a-zA-Z]{2,}$/.test(value)) {
-        errorMsg = "Please enter a valid URL.";
+        error = "Please enter a valid Phone Number.";
       }
     }
 
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMsg }));
+    if (name === "streetAddress") {
+      if (!value) {
+        error = "Street Address is required.";
+      } else if (value.length < 5) {
+        error = "Street Address must be at least 5 characters long.";
+      }
+    }
 
+    if (name === "city") {
+      if (!value) {
+        error = "City is required.";
+      }
+    }
+
+    if (name === "state") {
+      if (!value) {
+        error = "State is required.";
+      }
+    }
+
+    if (name === "zipCode") {
+      if (!value && !/^[0-9-]+$/.test(value)) {
+        error = "ZIP Code is required.";
+      } else if (value.length < 5) {
+        error = "ZIP Code must be at least 5 characters long.";
+      }
+    }
+    return error;
+  };
+
+  const handleInputChange = (name, value) => {
+    const error = validateField(name, value);
+    setErrors({ ...errors, [name]: error });
     setOrganizationInfo((prevInfo) => ({
       ...prevInfo,
       [name]: value,
@@ -95,24 +289,33 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
   };
 
   const handleSaveClick = () => {
-    let hasError = false;
-    Object.values(errors).forEach((error) => {
-      if (error !== "") {
-        hasError = true;
+    const newErrors = {};
+    const fieldsToValidate = [
+      "organizationName",
+      "phoneNumber",
+      "phoneCountryCode",
+      "email",
+      "streetAddress",
+      "city",
+      "state",
+      "zipCode",
+    ];
+
+    fieldsToValidate.forEach((field) => {
+      const error = validateField(field, organizationInfo[field]);
+      if (error) {
+        newErrors[field] = error;
       }
     });
-    if (hasError) {
-      alert("Please fix the Errors before saving.");
-      return;
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // Prevent saving if there are errors
     }
 
     setIsEditing(false);
     localStorage.setItem("organizationInfo", JSON.stringify(organizationInfo));
-    setHasUnsavedChanges(false);
-  };
-
-  const handleCancelClick = () => {
-    setIsEditing(false);
+    window.dispatchEvent(new Event("organization-info-updated"));
     setHasUnsavedChanges(false);
   };
 
@@ -129,13 +332,18 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="organizationName"
               value={organizationInfo.organizationName}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                handleInputChange("organizationName", e.target.value)
+              }
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.organizationName || ""}
             </p>
+          )}
+          {errors.organizationName && (
+            <p className="text-red-500 text-xs">{errors.organizationName}</p>
           )}
         </div>
       </div>
@@ -155,7 +363,12 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                   checked={
                     organizationInfo.organizationType === t("NON_PROFIT")
                   }
-                  onChange={handleInputChange}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "organizationType",
+                      e.target.value || t("NON_PROFIT"),
+                    )
+                  }
                   className="form-radio h-4 w-4 text-blue-500"
                 />
                 <span className="ml-2">{t("NON_PROFIT")}</span>
@@ -168,7 +381,12 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                   checked={
                     organizationInfo.organizationType === t("FOR_PROFIT")
                   }
-                  onChange={handleInputChange}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "organizationType",
+                      e.target.value || t("FOR_PROFIT"),
+                    )
+                  }
                   className="form-radio h-4 w-4 text-blue-500"
                 />
                 <span className="ml-2">{t("FOR_PROFIT")}</span>
@@ -213,7 +431,11 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                 type="text"
                 name="phoneNumber"
                 value={organizationInfo.phoneNumber}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  const onlyDigits = e.target.value.replace(/\D/g, "");
+                  handleInputChange("phoneNumber", onlyDigits);
+                }}
+                maxLength={10}
                 className="appearance-none block w-2/3 bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
@@ -229,14 +451,14 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Email
+            {t("EMAIL")}
           </label>
           {isEditing ? (
             <input
               type="email"
               name="email"
               value={organizationInfo.email}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("email", e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
@@ -253,14 +475,14 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            URL
+            {t("URL")}
           </label>
           {isEditing ? (
             <input
               type="text"
               name="url"
               value={organizationInfo.url}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("url", e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
@@ -268,7 +490,184 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               {organizationInfo.url || ""}
             </p>
           )}
-          {errors.url && <p className="text-red-500 text-xs">{errors.url}</p>}
+        </div>
+      </div>
+
+      {/* Help Categories Dropdown */}
+      <div className="grid grid-cols-1 gap-8 mb-6">
+        <div>
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            {t("HELP_CATEGORIES")}
+          </label>
+          {isEditing ? (
+            <div className="relative" ref={categoryDropdownRef}>
+              {/* Selected categories display / trigger */}
+              <div
+                className="appearance-none block w-full bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 cursor-pointer flex items-center justify-between min-h-[42px]"
+                onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+              >
+                <div className="flex flex-wrap gap-1">
+                  {organizationInfo.helpCategories.length > 0 ? (
+                    organizationInfo.helpCategories.map((catName) => {
+                      // Find parent category for subcategories
+                      let parentCatName = null;
+                      for (const cat of categories) {
+                        if (
+                          cat.subCategories?.some(
+                            (sub) => sub.catName === catName,
+                          )
+                        ) {
+                          parentCatName = cat.catName;
+                          break;
+                        }
+                      }
+                      return (
+                        <span
+                          key={catName}
+                          className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
+                        >
+                          {getCategoryLabel(catName, parentCatName)}
+                        </span>
+                      );
+                    })
+                  ) : (
+                    <span className="text-gray-400">
+                      {t("SELECT_HELP_CATEGORIES")}
+                    </span>
+                  )}
+                </div>
+                <HiChevronDown className="h-5 w-5 text-gray-600 flex-shrink-0" />
+              </div>
+
+              {/* Two-column dropdown */}
+              {showCategoryDropdown && (
+                <div
+                  className="absolute z-30 bg-white border mt-1 rounded shadow-lg w-full flex"
+                  style={{
+                    maxHeight: "280px",
+                    minHeight: "120px",
+                    overflow: "hidden",
+                  }}
+                >
+                  {/* Main categories column */}
+                  <div
+                    className={
+                      hoveredCategory?.subCategories?.length > 0
+                        ? "w-1/2 overflow-y-auto border-r"
+                        : "w-full overflow-y-auto"
+                    }
+                    style={{ maxHeight: "280px" }}
+                  >
+                    {categories.map((category) => (
+                      <div
+                        key={category.catId}
+                        className={`p-2 cursor-pointer hover:bg-gray-100 flex items-center justify-between ${
+                          hoveredCategory?.catId === category.catId
+                            ? "bg-gray-50 font-semibold"
+                            : ""
+                        }`}
+                        onMouseEnter={() => setHoveredCategory(category)}
+                        onClick={() => {
+                          if (
+                            !category.subCategories ||
+                            category.subCategories.length === 0
+                          ) {
+                            toggleCategorySelection(category.catName);
+                          }
+                        }}
+                      >
+                        <div className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={isCategorySelected(category.catName)}
+                            onChange={() =>
+                              toggleCategorySelection(category.catName)
+                            }
+                            onClick={(e) => e.stopPropagation()}
+                            className="mr-2 h-4 w-4"
+                          />
+                          <span
+                            title={getCategoryDescription(
+                              category.catName,
+                              null,
+                              category.catDesc,
+                            )}
+                          >
+                            {getCategoryLabel(category.catName)}
+                          </span>
+                        </div>
+                        {category.subCategories?.length > 0 && (
+                          <span className="text-gray-400">&gt;</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Subcategories column */}
+                  {hoveredCategory?.subCategories?.length > 0 && (
+                    <div
+                      className="w-1/2 overflow-y-auto bg-gray-50"
+                      style={{ maxHeight: "280px" }}
+                    >
+                      {hoveredCategory.subCategories.map((subcategory) => (
+                        <div
+                          key={subcategory.catId}
+                          className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
+                          onClick={() =>
+                            toggleCategorySelection(subcategory.catName)
+                          }
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isCategorySelected(subcategory.catName)}
+                            onChange={() =>
+                              toggleCategorySelection(subcategory.catName)
+                            }
+                            onClick={(e) => e.stopPropagation()}
+                            className="mr-2 h-4 w-4"
+                          />
+                          <span
+                            title={getCategoryDescription(
+                              subcategory.catName,
+                              hoveredCategory.catName,
+                              subcategory.catDesc,
+                            )}
+                          >
+                            {getCategoryLabel(
+                              subcategory.catName,
+                              hoveredCategory.catName,
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <p className="text-lg text-gray-900">
+              {organizationInfo.helpCategories.length > 0
+                ? organizationInfo.helpCategories
+                    .map((catName) => {
+                      // Find parent category for subcategories
+                      let parentCatName = null;
+                      for (const cat of categories) {
+                        if (
+                          cat.subCategories?.some(
+                            (sub) => sub.catName === catName,
+                          )
+                        ) {
+                          parentCatName = cat.catName;
+                          break;
+                        }
+                      }
+                      return getCategoryLabel(catName, parentCatName);
+                    })
+                    .join(", ")
+                : ""}
+            </p>
+          )}
         </div>
       </div>
 
@@ -282,13 +681,18 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="streetAddress"
               value={organizationInfo.streetAddress}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                handleInputChange("streetAddress", e.target.value)
+              }
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.streetAddress || ""}
             </p>
+          )}
+          {errors.streetAddress && (
+            <p className="text-red-500 text-xs">{errors.streetAddress}</p>
           )}
         </div>
         <div>
@@ -300,7 +704,9 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="streetAddress2"
               value={organizationInfo.streetAddress2}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                handleInputChange("streetAddress2", e.target.value)
+              }
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
@@ -321,7 +727,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="city"
               value={organizationInfo.city}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("city", e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
@@ -329,6 +735,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               {organizationInfo.city || ""}
             </p>
           )}
+          {errors.city && <p className="text-red-500 text-xs">{errors.city}</p>}
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -339,13 +746,16 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="state"
               value={organizationInfo.state}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("state", e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.state || ""}
             </p>
+          )}
+          {errors.state && (
+            <p className="text-red-500 text-xs">{errors.state}</p>
           )}
         </div>
         <div>
@@ -357,13 +767,21 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
               type="text"
               name="zipCode"
               value={organizationInfo.zipCode}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                const onlyDigits = e.target.value
+                  .replace(/\D/g, "")
+                  .slice(0, 10);
+                handleInputChange("zipCode", onlyDigits);
+              }}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.zipCode || ""}
             </p>
+          )}
+          {errors.zipCode && (
+            <p className="text-red-500 text-xs">{errors.zipCode}</p>
           )}
         </div>
       </div>
@@ -386,7 +804,35 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              onClick={handleCancelClick}
+              onClick={() => {
+                const savedOrganizationInfo = JSON.parse(
+                  localStorage.getItem("organizationInfo"),
+                );
+                if (!savedOrganizationInfo) {
+                  setOrganizationInfo({
+                    organizationName: "",
+                    phoneNumber: "",
+                    phoneCountryCode: "",
+                    email: "",
+                    url: "",
+                    streetAddress: "",
+                    streetAddress2: "",
+                    city: "",
+                    state: "",
+                    zipCode: "",
+                    organizationType: t("NON_PROFIT"),
+                    helpCategories: [],
+                  });
+                } else {
+                  setOrganizationInfo({
+                    ...savedOrganizationInfo,
+                    helpCategories: savedOrganizationInfo.helpCategories || [],
+                  });
+                }
+                setIsEditing(false);
+                setErrors({});
+                setHasUnsavedChanges(false);
+              }}
             >
               {t("CANCEL")}
             </button>
@@ -398,3 +844,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 }
 
 export default OrganizationDetails;
+
+OrganizationDetails.propTypes = {
+  setHasUnsavedChanges: PropTypes.func.isRequired,
+};

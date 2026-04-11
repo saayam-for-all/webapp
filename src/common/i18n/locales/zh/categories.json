@@ -1,0 +1,344 @@
+{
+  "REQUEST_CATEGORIES": {
+    "GENERAL_CATEGORY": {
+      "LABEL": "通用",
+      "DESC": "当你不确定时请选择此项，并详细描述你的需求。"
+    },
+    "FOOD_AND_ESSENTIALS": {
+      "LABEL": "食品与生活必需品",
+      "DESC": "获取食品援助、购物配送与做饭方面的帮助。",
+      "SUBCATEGORIES": {
+        "FOOD_ASSISTANCE": {
+          "LABEL": "食品援助",
+          "DESC": "寻找食物银行、救助站或供餐项目。"
+        },
+        "GROCERY_SHOPPING_AND_DELIVERY": {
+          "LABEL": "采购与配送",
+          "DESC": "请求协助购买和配送日用品。"
+        },
+        "COOKING_HELP": {
+          "LABEL": "做饭帮助",
+          "DESC": "获得餐食准备与烹饪方面的指导。",
+          "SUBCATEGORIES": {
+            "MEAL_PREP_BASIC": {
+              "LABEL": "基本餐點準備",
+              "DESC": "協助完成基本的膳食準備工作。"
+            },
+            "FESTIVE_OR_BULK_COOKING": {
+              "LABEL": "節慶烹飪或大規模烹飪",
+              "DESC": "協助為活動或大量食品提供烹飪服務。"
+            },
+            "NUTRITIONAL_MEAL_PLANNING": {
+              "LABEL": "營養膳食計劃",
+              "DESC": "如何制定均衡健康的飲食計畫的指導。"
+            },
+            "CULTURAL_CUISINE_GUIDANCE": {
+              "LABEL": "文化美食指南",
+              "DESC": "協助準備符合特定文化傳統的菜餚。"
+            },
+            "OTHER_COOKING_HELP": {
+              "LABEL": "其他烹飪幫助",
+              "DESC": "其他任何與烹飪相關的幫助。"
+            }
+          }
+        }
+      }
+    },
+    "CLOTHING_ASSISTANCE": {
+      "LABEL": "衣物援助",
+      "DESC": "捐赠、借用、修改或请求衣物方面的帮助。",
+      "SUBCATEGORIES": {
+        "DONATE_CLOTHES": {
+          "LABEL": "捐赠衣物",
+          "DESC": "将衣物捐给有需要的人。"
+        },
+        "BORROW_CLOTHES": {
+          "LABEL": "借用衣物",
+          "DESC": "借用状况良好的衣物。"
+        },
+        "EMERGENCY_CLOTHING_ASSISTANCE": {
+          "LABEL": "紧急衣物援助",
+          "DESC": "当你急需衣物时提供快速支援。"
+        },
+        "TAILORING": {
+          "LABEL": "裁缝修改",
+          "DESC": "提供衣物修补与尺寸调整服务。"
+        }
+      }
+    },
+    "HOUSING_ASSISTANCE": {
+      "LABEL": "住房援助",
+      "DESC": "在租房、搬家与家庭布置方面获得支持。",
+      "SUBCATEGORIES": {
+        "LEASE_SUPPORT": {
+          "LABEL": "租约支持",
+          "DESC": "帮助理解租约条款与要求。"
+        },
+        "TENANT_RENT_SUPPORT": {
+          "LABEL": "租金协助",
+          "DESC": "当支付房租有困难时提供指导。"
+        },
+        "REPAIR_MAINTENANCE_SUPPORT": {
+          "LABEL": "维修与维护支持",
+          "DESC": "协助安排基本的家庭维修。",
+          "SUBCATEGORIES": {
+            "PLUMBING": {
+              "LABEL": "水暖",
+              "DESC": "協助解決漏水、管線和水暖問題。"
+            },
+            "HANDYMAN": {
+              "LABEL": "勤雜工",
+              "DESC": "房屋一般維修和零工。"
+            },
+            "ELECTRICIAN": {
+              "LABEL": "電工",
+              "DESC": "電氣維修和安裝。"
+            },
+            "CARPENTRY": {
+              "LABEL": "木工",
+              "DESC": "木工、家具組裝和維修。"
+            },
+            "GARDEN": {
+              "LABEL": "園藝",
+              "DESC": "草坪護理、種植和花園維護。"
+            },
+            "HVAC_AIR_CONDITIONING": {
+              "LABEL": "暖通空調/空調",
+              "DESC": "暖氣、通風和空調支援。"
+            },
+            "ROOFING": {
+              "LABEL": "屋頂",
+              "DESC": "屋頂檢查、維修和保養。"
+            },
+            "LOCKSMITH": {
+              "LABEL": "鎖匠",
+              "DESC": "鎖芯更換、鑰匙複製和鎖匠服務。"
+            },
+            "PAINTING": {
+              "LABEL": "繪畫",
+              "DESC": "Interior and exterior painting assistance."
+            },
+            "MASONRY_OR_CONCRETE": {
+              "LABEL": "磚石/混凝土",
+              "DESC": "磚、混凝土和石材工程的維修。"
+            },
+            "METALWORK_OR_WELDING": {
+              "LABEL": "金屬加工/焊接",
+              "DESC": "金屬加工和焊接支持。"
+            },
+            "POOL_AND_SPA_MAINTENANCE": {
+              "LABEL": "泳池和水療中心維護",
+              "DESC": "游泳池和水療池的清潔和維護。"
+            },
+            "OTHER_RAPAIR_MAINTENANCE_SUPPORT": {
+              "LABEL": "其他維修和保養",
+              "DESC": "其他任何房屋維修或保養需求。"
+            }
+          }
+        },
+        "UTILITIES_SETUP_SUPPORT": {
+          "LABEL": "公共服务开通",
+          "DESC": "帮助开通网络、电力等基本服务。"
+        },
+        "LOOKING_FOR_RENTAL": {
+          "LABEL": "寻找租住房",
+          "DESC": "协助寻找公寓或合租房间。"
+        },
+        "FIND_ROOMATE": {
+          "LABEL": "寻找室友",
+          "DESC": "帮助匹配室友或共享住房。"
+        },
+        "MOVE_IN_HELP": {
+          "LABEL": "搬家协助",
+          "DESC": "在打包、搬运和拆包时提供帮助。"
+        },
+        "BOOKING_PACKERS_MOVERS_SUPPORT": {
+          "LABEL": "预订搬家公司支持",
+          "DESC": "指导你预订可靠的搬家服务。"
+        },
+        "BUY_THINGS": {
+          "LABEL": "购买家居用品",
+          "DESC": "协助寻找家具与生活必需品。"
+        },
+        "SELL_THINGS": {
+          "LABEL": "出售家居用品",
+          "DESC": "帮助出售或捐赠不再需要的物品。"
+        }
+      }
+    },
+    "EDUCATION_CAREER_SUPPORT": {
+      "LABEL": "教育与职业支持",
+      "DESC": "涵盖大学申请、SOP审阅、辅导与学习支持。",
+      "SUBCATEGORIES": {
+        "COLLEGE_APPLICATION_HELP": {
+          "LABEL": "大学申请协助",
+          "DESC": "在申请表与流程上提供帮助。"
+        },
+        "SOP_ESSAY_REVIEW": {
+          "LABEL": "SOP与作文审阅",
+          "DESC": "对陈述与文章提供反馈。"
+        },
+        "TUTORING": {
+          "LABEL": "辅导",
+          "DESC": "提供课程辅导与学习支持。",
+          "SUBCATEGORIES": {
+            "MATH": {
+              "LABEL": "數學",
+              "DESC": "提供各級別數學補習。"
+            },
+            "ENGLISH": {
+              "LABEL": "英語",
+              "DESC": "閱讀、寫作和語言藝術輔導。"
+            },
+            "SCIENCE": {
+              "LABEL": "科學",
+              "DESC": "物理、化學、生物等。"
+            },
+            "COMPUTER_SCIENCE": {
+              "LABEL": "電腦科學",
+              "DESC": "程式設計、演算法和編碼方面的幫助。"
+            },
+            "TEST_PREP": {
+              "LABEL": "考試準備",
+              "DESC": "SAT、ACT、GRE 及其他考試的準備。"
+            },
+            "OTHER_SUBJECTS": {
+              "LABEL": "其他科目",
+              "DESC": "我們提供以上未列出科目的輔導。"
+            }
+          }
+        },
+        "SCHOLARSHIP_KNOWLEDGE": {
+          "LABEL": "奖学金资讯",
+          "DESC": "分享奖学金与资助的相关信息。"
+        },
+        "STUDY_GROUP_FORMATION": {
+          "LABEL": "学习小组组织",
+          "DESC": "寻找或组织协作型学习小组。"
+        },
+        "CAREER_GUIDANCE": {
+          "LABEL": "职业指导",
+          "DESC": "提供职业规划、简历与面试帮助。"
+        },
+        "EDUCATION_RESOURCE_SHARING": {
+          "LABEL": "教学资源共享",
+          "DESC": "共享笔记、录音或练习材料。"
+        }
+      }
+    },
+    "HEALTHCARE_AND_WELLNESS": {
+      "LABEL": "健康与身心",
+      "DESC": "提供非临床医学指导、提醒与身心支持。",
+      "SUBCATEGORIES": {
+        "MEDICAL_CONSULTATION": {
+          "LABEL": "医疗咨询",
+          "DESC": "协助安排远程问诊或基础医疗信息。",
+          "SUBCATEGORIES": {
+            "GENERAL_CONSULTATION": {
+              "LABEL": "一般查詢",
+              "DESC": "一般醫療指導和導航。"
+            },
+            "ENT(EAR_NOSE_AND_THROAT)": {
+              "LABEL": "耳鼻喉科",
+              "DESC": "耳鼻喉疾病的診斷和治療服務。"
+            },
+            "DENTAL_OR_ORAL_HEALTH": {
+              "LABEL": "牙齒/口腔健康",
+              "DESC": "牙齒和口腔健康指南。"
+            },
+            "EYE_OR_VISION_CARE": {
+              "LABEL": "眼科/視力保健",
+              "DESC": "提供眼科檢查和視力相關問題的協助。"
+            },
+            "CARDIAC_OR_BLOOD_PRESSURE": {
+              "LABEL": "心率/血壓",
+              "DESC": "支持治療心臟和血壓相關疾病。"
+            },
+            "ORTHOPEDIC_OR_PHYSIOTHERAPY": {
+              "LABEL": "骨科/物理治療",
+              "DESC": "提供骨骼、關節和物理治療的協助。"
+            },
+            "SKIN_OR_DERMATOLOGY": {
+              "LABEL": "皮膚科",
+              "DESC": "皮膚病及皮膚病學指南。"
+            },
+            "WOMENS_OR_REPRODUCTIVE_HEALTH": {
+              "LABEL": "女性/生殖健康",
+              "DESC": "支持婦女和生殖健康。"
+            },
+            "VACCINATIONS_AND_PREVENTIVE_SCREENINGS": {
+              "LABEL": "疫苗接種及預防性篩檢",
+              "DESC": "疫苗和預防保健資訊。"
+            },
+            "PEDIATRICS_OR_CHILD_HEALTH": {
+              "LABEL": "兒科/兒童健康",
+              "DESC": "兒童及嬰兒健康指導。"
+            },
+            "OTHER_MEDICAL_CONCERN": {
+              "LABEL": "其他醫療問題",
+              "DESC": "除了以上列出的其他醫療問題之外。"
+            }
+          }
+        },
+        "MEDICINE_DELIVERY": {
+          "LABEL": "药品配送",
+          "DESC": "领取并配送非处方药品。"
+        },
+        "MENTAL_WELLBEING_SUPPORT": {
+          "LABEL": "心理健康支持",
+          "DESC": "获取通用的心理健康资源。"
+        },
+        "MEDICATION_REMINDERS": {
+          "LABEL": "用药提醒",
+          "DESC": "提供非临床的用药提醒。"
+        },
+        "HEALTH_EDUCATION_GUIDANCE": {
+          "LABEL": "健康教育指导",
+          "DESC": "提升健康意识与相关知识。"
+        }
+      }
+    },
+    "ELDERLY_COMMUNITY_ASSISTANCE": {
+      "LABEL": "长者社区援助",
+      "DESC": "为长者、照护者与社区提供非医疗支持。",
+      "SUBCATEGORIES": {
+        "SENIOR_RELOCATION_SUPPORT": {
+          "LABEL": "长者搬迁支持",
+          "DESC": "协助在住所或护理机构之间搬迁。"
+        },
+        "DIGITAL_SUPPORT_FOR_SENIORS": {
+          "LABEL": "长者数字支持",
+          "DESC": "帮助熟悉电子设备与应用。"
+        },
+        "MEDICATION_MANAGEMENT": {
+          "LABEL": "用药管理",
+          "DESC": "监督用药时间、提醒与存放。"
+        },
+        "MEDICAL_DEVICES_SETUP": {
+          "LABEL": "医疗设备安装",
+          "DESC": "安装或调整医疗及辅助设备。"
+        },
+        "ERRANDS_EVENTS_TRANSPORTATION": {
+          "LABEL": "差事、活动与交通",
+          "DESC": "陪同办理差事或参加活动。"
+        },
+        "TRANSPORTATION_APPOINTMENTS_EVENTS": {
+          "LABEL": "就诊交通安排",
+          "DESC": "安排前往预约或聚会的交通。"
+        },
+        "SCHEDULING_APPOINTMENTS_OR_TASKS": {
+          "LABEL": "安排预约或任务",
+          "DESC": "记录并提醒各类预约、续药与任务。"
+        },
+        "SOCIAL_CONNECTION": {
+          "LABEL": "社交陪伴",
+          "DESC": "提供陪伴与社交活动。"
+        },
+        "MEAL_SUPPORT": {
+          "LABEL": "饮食支持",
+          "DESC": "协助准备与烹饪餐食。"
+        }
+      }
+    }
+  }
+}

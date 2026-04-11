@@ -1,5 +1,5 @@
 const languages = [
-  //{ name: "Arabic", code: "ar" },
+  { name: "Arabic", code: "ar" },
   //{ name: "Assamese", code: "as" },
   { name: "Bengali", code: "bn" },
   //{ name: "Dogri", code: "doi" },
@@ -30,7 +30,7 @@ const languages = [
   { name: "Telugu", code: "te" },
   //{ name: "Thai", code: "th" },
   //{ name: "Tagalog (Filipino)", code: "tl" },
-  //{ name: "Urdu", code: "ur" },
+  { name: "Urdu", code: "ur" },
   //{ name: "Vietnamese", code: "vi" },
   { name: "Mandarin Chinese", code: "zh" },
 ];

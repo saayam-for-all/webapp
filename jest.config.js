@@ -12,4 +12,5 @@ export default {
     "\\.(jpg|jpeg|png|gif|svg|webp|ico|bmp)$":
       "<rootDir>/__mocks__/fileMock.js",
   },
+  collectCoverageFrom: ["src/**/*.{js,jsx}"],
 };

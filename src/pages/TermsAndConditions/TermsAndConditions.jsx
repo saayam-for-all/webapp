@@ -1,13 +1,23 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import "./TermsAndConditions.css";
+import { useNavigate } from "react-router-dom";
 
 const TermsAndConditions = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <div className="terms-container">
       <div className="terms-inner">
+        <div className="w-full mb-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
+          >
+            <span className="text-2xl mr-2">&lt;</span> {t("BACK") || Back}
+          </button>
+        </div>
         <h1 className="terms-title">{t("TERMS_AND_CONDITIONS")}</h1>
         <p className="terms-intro">{t("TERMS_INTRO")}</p>
 

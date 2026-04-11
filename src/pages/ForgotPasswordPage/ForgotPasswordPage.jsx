@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { forgotPassword } from "../../redux/features/authentication/authActions";
 import { z } from "zod";
+import { useTranslation } from "react-i18next";
 
 const forgotPasswordSchema = z.object({
   email: z
@@ -12,6 +13,7 @@ const forgotPasswordSchema = z.object({
 });
 
 const ForgotPasswordPage = () => {
+  const { t } = useTranslation();
   const [emailValue, setEmailValue] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -32,12 +34,21 @@ const ForgotPasswordPage = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate(-1); // go back to previous page
+  };
+
   return (
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
+        {/* Removed Back Arrow Section */}
+
         <h1 className="my-4 text-3xl font-bold text-center">Password Reset</h1>
+
         <div className="my-2 flex flex-col">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">
+            Email <span className="text-red-500">*</span>
+          </label>
           <input
             id="email"
             value={emailValue}
@@ -54,12 +65,21 @@ const ForgotPasswordPage = () => {
           />
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
-        <button
-          className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
+
+        <div className="my-4 flex gap-4">
+          <button
+            className="flex-1 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
+            onClick={handleSubmit}
+          >
+            Reset
+          </button>
+          <button
+            className="flex-1 py-2 bg-gray-300 text-black rounded-xl hover:bg-gray-400"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

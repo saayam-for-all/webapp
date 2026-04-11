@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "Télécharger une pièce d'identité gouvernementale",
+  "SELECT_SOURCE": "Sélectionner la source",
+  "DEVICE": "Appareil",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "Télécharger un fichier",
+  "FILE": "Fichier",
+  "FILE_PREVIEW": "Aperçu",
+  "UPLOAD": "Télécharger",
+  "UPLOADING": "Téléchargement en cours...",
+  "REMOVE": "Supprimer",
+  "FILE_SIZE_ERROR": "La taille du fichier ne doit pas dépasser 2 Mo",
+  "FILE_TYPE_ERROR": "Seuls les fichiers JPEG, JPG, PNG et PDF sont autorisés. Type de fichier détecté : {{fileType}}, extension : {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "Uniquement les fichiers JPEG, JPG, PNG ou PDF. Taille maximale : 2 Mo.",
+  "UPLOAD_SUCCESS": "Fichier téléchargé avec succès",
+  "UPLOAD_FAILED": "Échec du téléchargement du fichier",
+  "UPLOAD_ERROR": "Une erreur s'est produite lors du téléchargement du fichier"
+}

@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "চৰকাৰী পৰিচয় পত্ৰ আপলোড কৰক",
+  "SELECT_SOURCE": "উৎস নিৰ্বাচন কৰক",
+  "DEVICE": "ডিভাইচ",
+  "GOOGLE_DRIVE": "গুগল ড্ৰাইভ",
+  "DROPBOX": "ড্ৰপবক্স",
+  "UPLOAD_FILE": "ফাইল আপলোড কৰক",
+  "FILE": "ফাইল",
+  "FILE_PREVIEW": "পূৰ্বদৰ্শন",
+  "UPLOAD": "আপলোড",
+  "UPLOADING": "আপলোড হৈ আছে...",
+  "REMOVE": "আঁতৰাওক",
+  "FILE_SIZE_ERROR": "ফাইলৰ আকাৰ 2MB তকৈ অধিক হ'ব নালাগে",
+  "FILE_TYPE_ERROR": "কেৱল JPEG, JPG, PNG, আৰু PDF ফাইলহে অনুমোদিত। ধৰা পৰা ফাইল প্ৰকাৰ: {{fileType}}, সম্প্ৰসাৰণ: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "কেৱল JPEG, JPG, PNG, বা PDF ফাইল। সৰ্বোচ্চ আকাৰ: 2MB।",
+  "UPLOAD_SUCCESS": "ফাইল সফলতাৰে আপলোড হৈছে",
+  "UPLOAD_FAILED": "ফাইল আপলোড বিফল হৈছে",
+  "UPLOAD_ERROR": "ফাইল আপলোড কৰাৰ সময়ত এটা ত্ৰুটি হৈছে"
+}

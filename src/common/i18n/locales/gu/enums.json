@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "પોતે",
+    "OTHER": "અન્ય"
+  },
+  "requestPriority": {
+    "LOW": "ઓછું",
+    "MEDIUM": "મધ્યમ",
+    "HIGH": "ઊંચું",
+    "CRITICAL": "ગંભીર"
+  },
+  "requestStatus": {
+    "CREATED": "બનાવ્યું",
+    "MATCHING VOLUNTEER": "સ્વયંસેવક શોધી રહ્યા છીએ",
+    "MANAGED": "સંચાલિત",
+    "RESOLVED": "ઉકેલાયું",
+    "CANCELLED": "રદ કર્યું",
+    "DELETED": "કાઢી નાખ્યું"
+  },
+  "requestType": {
+    "INPERSON": "રૂબરૂ",
+    "REMOTE": "દૂરસ્થ"
+  }
+}

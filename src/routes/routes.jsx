@@ -28,6 +28,7 @@ import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Thanks from "../pages/Thanks/Thanks";
+import EmergencyContact from "../pages/EmergencyContact/EmergencyContact";
 
 const routes = [
   {
@@ -61,6 +62,10 @@ const routes = [
   {
     path: "contact",
     element: <ContactUs />,
+  },
+  {
+    path: "emergency-contact",
+    element: <EmergencyContact />,
   },
   {
     path: "thanks",

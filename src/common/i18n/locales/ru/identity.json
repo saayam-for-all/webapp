@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "Загрузить удостоверение личности",
+  "SELECT_SOURCE": "Выбрать источник",
+  "DEVICE": "Устройство",
+  "GOOGLE_DRIVE": "Гугл Драйв",
+  "DROPBOX": "Дропбокс",
+  "UPLOAD_FILE": "Загрузить файл",
+  "FILE": "Файл",
+  "FILE_PREVIEW": "Предпросмотр",
+  "UPLOAD": "Загрузить",
+  "UPLOADING": "Загрузка...",
+  "REMOVE": "Удалить",
+  "FILE_SIZE_ERROR": "Размер файла не должен превышать 2 МБ",
+  "FILE_TYPE_ERROR": "Разрешены только файлы JPEG, JPG, PNG и PDF. Обнаружен тип файла: {{fileType}}, расширение: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "Только файлы JPEG, JPG, PNG или PDF. Максимальный размер: 2 МБ.",
+  "UPLOAD_SUCCESS": "Файл успешно загружен",
+  "UPLOAD_FAILED": "Не удалось загрузить файл",
+  "UPLOAD_ERROR": "При загрузке файла произошла ошибка"
+}

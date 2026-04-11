@@ -6,6 +6,10 @@ import {
   renderWithProviders,
 } from "#utils/test-utils.jsx";
 
+jest.mock("aws-amplify/auth", () => ({
+  getCurrentUser: jest.fn(() => Promise.resolve({ userId: "mockUser123" })),
+}));
+
 jest.mock("../../services/volunteerServices", () => ({
   getVolunteerSkills: jest.fn(() =>
     Promise.resolve({ message: "Mocked API Response" }),
@@ -26,7 +30,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText("Next");
+    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
     fireEvent.click(nextButton);
 
     expect(screen.getByText("Identification")).toBeInTheDocument();
@@ -37,7 +41,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText("Next");
+    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
     fireEvent.click(nextButton);
     fireEvent.click(nextButton);
 
@@ -49,7 +53,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText("Next");
+    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
     fireEvent.click(nextButton);
     fireEvent.click(nextButton);
     fireEvent.click(nextButton);
@@ -57,17 +61,11 @@ describe("PromoteToVolunteer Component", () => {
     expect(screen.getByText("Availability")).toBeInTheDocument();
   });
 
-  /*
-    it('renders Complete on step 5', () => {
-      renderWithProviders(<PromoteToVolunteer />, {preloadedState: MOCK_STATE_LOGGED_IN});
-
-      const nextButton = screen.getByText('Next');
-      fireEvent.click(nextButton);
-      fireEvent.click(nextButton);
-      fireEvent.click(nextButton);
-      fireEvent.click(nextButton);
-
-      expect(screen.getByText('Complete')).toBeInTheDocument();
+  it("renders Review step label in stepper", () => {
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
     });
-*/
+
+    expect(screen.getByText("Review")).toBeInTheDocument();
+  });
 });
