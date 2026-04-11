@@ -38,6 +38,7 @@ const RequestButton = ({
   customStyle,
   icon,
   requestData = {},
+  navigationState,
   onClick,
 }) => {
   const [showModal, setShowModal] = useState(false);
@@ -90,7 +91,7 @@ const RequestButton = ({
         setShowModal(true);
       }
     } else {
-      navigate(link, { state: requestData });
+      navigate(link, { state: navigationState ?? requestData });
     }
   };
 

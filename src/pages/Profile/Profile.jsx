@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -39,7 +39,6 @@ const blobToDataUrl = (blob) =>
   });
 
 function Profile() {
-  const navigate = useNavigate();
   const { t } = useTranslation("profile");
   const location = useLocation();
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
@@ -340,29 +339,6 @@ function Profile() {
 
   return (
     <div className="flex flex-col p-2 md:p-4 min-h-screen bg-gray-100">
-      {/* Back Button */}
-      <div className="w-full mb-4">
-        <button
-          onClick={() => {
-            if (hasUnsavedChanges) {
-              const proceed = window.confirm(
-                t("UNSAVED_CHANGES_WARNING") ||
-                  "You have unsaved changes. Do you want to proceed without saving?",
-              );
-              if (proceed) {
-                navigate("/dashboard");
-              }
-            } else {
-              navigate("/dashboard");
-            }
-          }}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-base md:text-lg flex items-center transition-colors duration-200"
-        >
-          <span className="text-xl md:text-2xl mr-2">&larr;</span>{" "}
-          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
-        </button>
-      </div>
-
       {/* Dropdown Menu Button - Only visible on mobile */}
       <div className="w-full mb-4 md:hidden">
         <button

@@ -4,6 +4,7 @@ import { getMockOrganizations } from "../../services/mlServices";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoadingIndicator from "../../common/components/Loading/Loading";
+import { createOrganizationDetailsTrail } from "../../common/components/BreadCrumbs/breadcrumbUtils";
 
 const VoluntaryOrganizations = () => {
   const { t } = useTranslation();
@@ -30,6 +31,15 @@ const VoluntaryOrganizations = () => {
   const [organizations, setOrganizations] = useState([]);
   const location = useLocation();
   const requestData = location.state || {};
+  const breadcrumbTrail = Array.isArray(location.state?.breadcrumbTrail)
+    ? location.state.breadcrumbTrail
+    : [];
+  const requestId =
+    requestData?.id ||
+    breadcrumbTrail
+      .find((item) => item.path?.startsWith("/request/"))
+      ?.path?.split("/")
+      ?.pop();
 
   if (!location.state) {
     console.warn("No requestData passed through navigation");
@@ -231,14 +241,6 @@ const VoluntaryOrganizations = () => {
 
   return (
     <div className="p-5">
-      <div className="w-full mb-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-        >
-          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || "Back"}
-        </button>
-      </div>
       <h1 className="text-2xl font-bold mb-5">Organizations</h1>
 
       <div className="mb-4 flex gap-2">
@@ -310,7 +312,16 @@ const VoluntaryOrganizations = () => {
             if (header !== "name") return null;
             return `/organization/${row.id}`;
           }}
-          getLinkState={(row) => ({ organizationData: row._rawData })}
+          getLinkState={(row) => ({
+            organizationData: row._rawData,
+            breadcrumbTrail: createOrganizationDetailsTrail({
+              organizationName: row.name,
+              requestId,
+              requestData,
+              requestLabel: t("REQUEST_DETAILS"),
+              organizationsLabel: t("ORGANIZATIONS"),
+            }),
+          })}
         />
       )}
     </div>

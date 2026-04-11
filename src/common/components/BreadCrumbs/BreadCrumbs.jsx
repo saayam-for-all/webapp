@@ -5,100 +5,42 @@ import "./BreadCrumbs.css";
 const Breadcrumbs = () => {
   const location = useLocation();
   const currentPath = location.pathname.toLowerCase();
+  const passedTrail = Array.isArray(location.state?.breadcrumbTrail)
+    ? location.state.breadcrumbTrail
+    : [];
 
-  if (currentPath === "/voluntary-organizations") {
-    const trailFromState = location.state?.breadcrumbTrail || [];
-    const trailFromSession = JSON.parse(
-      sessionStorage.getItem("organizationBreadcrumbTrail") || "[]",
-    );
+  const renderTrail = (trail) => (
+    <nav aria-label="breadcrumb" className="breadcrumb-nav">
+      <ol className="breadcrumbs">
+        <li className="breadcrumb-item">
+          <Link to="/">Home</Link>
+        </li>
 
-    const effectiveTrail =
-      trailFromState.length > 0 ? trailFromState : trailFromSession;
+        {trail.map((item, index) => {
+          const isLast = index === trail.length - 1;
 
-    if (effectiveTrail.length) {
-      const normalizedTrail = effectiveTrail.map((item) => {
-        if (item.label === "Voluntary Organizations" && !item.path) {
-          return {
-            ...item,
-            path: "/voluntary-organizations",
-          };
-        }
-        return item;
-      });
+          return (
+            <li
+              key={`${item.label}-${item.path || "no-path"}-${index}`}
+              className={`breadcrumb-item${isLast ? " active" : ""}`}
+              aria-current={isLast ? "page" : undefined}
+            >
+              {!isLast && item.path ? (
+                <Link to={item.path} state={item.state}>
+                  {item.label}
+                </Link>
+              ) : (
+                item.label
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
 
-      return (
-        <nav aria-label="breadcrumb" className="breadcrumb-nav">
-          <ol className="breadcrumbs">
-            {normalizedTrail.map((item, index) => {
-              const isLast = index === normalizedTrail.length - 1;
-
-              return (
-                <li
-                  key={`${item.label}-${item.path || "no-path"}-${index}`}
-                  className={`breadcrumb-item${isLast ? " active" : ""}`}
-                  aria-current={isLast ? "page" : undefined}
-                >
-                  {!isLast && item.path ? (
-                    <Link to={item.path} state={item.state}>
-                      {item.label}
-                    </Link>
-                  ) : (
-                    item.label
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </nav>
-      );
-    }
-  }
-
-  if (currentPath.startsWith("/organization/")) {
-    const storedTrail = JSON.parse(
-      sessionStorage.getItem("organizationBreadcrumbTrail") || "[]",
-    );
-
-    if (storedTrail.length) {
-      const normalizedTrail = storedTrail.map((item) => {
-        if (item.label === "Voluntary Organizations" && !item.path) {
-          return {
-            ...item,
-            path: "/voluntary-organizations",
-          };
-        }
-
-        return item;
-      });
-
-      const fullTrail = [...normalizedTrail, { label: "Organization Details" }];
-
-      return (
-        <nav aria-label="breadcrumb" className="breadcrumb-nav">
-          <ol className="breadcrumbs">
-            {fullTrail.map((item, index) => {
-              const isLast = index === fullTrail.length - 1;
-
-              return (
-                <li
-                  key={`${item.label}-${item.path || "no-path"}-${index}`}
-                  className={`breadcrumb-item${isLast ? " active" : ""}`}
-                  aria-current={isLast ? "page" : undefined}
-                >
-                  {!isLast && item.path ? (
-                    <Link to={item.path} state={item.state}>
-                      {item.label}
-                    </Link>
-                  ) : (
-                    item.label
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </nav>
-      );
-    }
+  if (passedTrail.length) {
+    return renderTrail(passedTrail);
   }
 
   const hideBreadcrumbRoutes = [
@@ -123,6 +65,7 @@ const Breadcrumbs = () => {
         "/request/",
         "/promote-to-volunteer",
         "/emergency-contact",
+        "/profile",
         "/voluntary-organizations",
         "/organization/",
       ],
@@ -146,10 +89,6 @@ const Breadcrumbs = () => {
     {
       parent: { label: "Donate", path: "/donate" },
       pages: ["/donate"],
-    },
-    {
-      parent: { label: "Profile", path: "/profile" },
-      pages: ["/profile"],
     },
     {
       parent: { label: "Terms And Conditions", path: "/terms-and-conditions" },
@@ -197,13 +136,14 @@ const Breadcrumbs = () => {
 
   const getCurrentPageLabel = () => {
     if (currentPath === "/dashboard") return "Dashboard";
-    if (currentPath === "/request") return "Request";
+    if (currentPath === "/request") return "Create Help Request";
     if (currentPath.startsWith("/request/")) return "Request Details";
     if (currentPath === "/promote-to-volunteer") return "Promote To Volunteer";
     if (currentPath === "/emergency-contact") return "Emergency Contact";
-    if (currentPath === "/voluntary-organizations")
-      return "Voluntary Organizations";
-    if (currentPath.startsWith("/organization/")) return "Organization Details";
+    if (currentPath === "/voluntary-organizations") return "Organizations";
+    if (currentPath.startsWith("/organization/")) {
+      return location.state?.organizationData?.Name || "Organization Details";
+    }
     if (currentPath === "/our-team") return "Our Team";
     if (currentPath === "/our-mission") return "Our Mission";
     if (currentPath === "/news-our-stories") return "News Our Stories";
@@ -232,51 +172,25 @@ const Breadcrumbs = () => {
     currentPath === matchedSection.parent.path &&
     matchedSection.parent.label === currentPageLabel;
 
-  return (
-    <nav aria-label="breadcrumb" className="breadcrumb-nav">
-      <ol className="breadcrumbs">
-        <li className="breadcrumb-item">
-          <Link to="/">Home</Link>
-        </li>
+  const fallbackTrail = matchedSection
+    ? [
+        {
+          label: matchedSection.parent.label,
+          path:
+            isDashboardPage || isStandalonePage
+              ? null
+              : matchedSection.parent.path,
+        },
+        ...(!isDashboardPage &&
+        !isStandalonePage &&
+        currentPageLabel &&
+        currentPageLabel !== matchedSection.parent.label
+          ? [{ label: currentPageLabel }]
+          : []),
+      ]
+    : [{ label: currentPageLabel }];
 
-        {matchedSection ? (
-          <>
-            <li
-              className={`breadcrumb-item${
-                isDashboardPage || isStandalonePage ? " active" : ""
-              }`}
-              aria-current={
-                isDashboardPage || isStandalonePage ? "page" : undefined
-              }
-            >
-              {!isDashboardPage &&
-              !isStandalonePage &&
-              matchedSection.parent.path ? (
-                <Link to={matchedSection.parent.path}>
-                  {matchedSection.parent.label}
-                </Link>
-              ) : (
-                matchedSection.parent.label
-              )}
-            </li>
-
-            {!isDashboardPage &&
-              !isStandalonePage &&
-              currentPageLabel &&
-              currentPageLabel !== matchedSection.parent.label && (
-                <li className="breadcrumb-item active" aria-current="page">
-                  {currentPageLabel}
-                </li>
-              )}
-          </>
-        ) : (
-          <li className="breadcrumb-item active" aria-current="page">
-            {currentPageLabel}
-          </li>
-        )}
-      </ol>
-    </nav>
-  );
+  return renderTrail(fallbackTrail);
 };
 
 export default Breadcrumbs;

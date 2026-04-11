@@ -219,15 +219,6 @@ const PromoteToVolunteer = () => {
 
   return (
     <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
-      <div className="w-full px-4 mt-4 flex justify-start">
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-        >
-          <span className="text-2xl mr-2">&lt;</span>
-          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
-        </button>
-      </div>
       {/* FIXED STEPPER WRAPPER */}
       <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
         <h1 className="text-3xl font-bold text-center mb-8">

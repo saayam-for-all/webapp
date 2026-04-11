@@ -1224,16 +1224,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       </Snackbar>
 
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
-        <div className="w-full max-w-2xl mx-auto px-4 mt-4 flex items-center justify-between">
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-          >
-            <span className="text-2xl mr-2">&lt;</span>{" "}
-            {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
-          </button>
-        </div>
-
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 text-center">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
