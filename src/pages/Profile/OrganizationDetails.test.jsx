@@ -647,6 +647,51 @@ describe("OrganizationDetails", () => {
     expect(screen.getByText("Non-Profit")).toBeInTheDocument();
   });
 
+  it("displays organization size label in view mode when set", () => {
+    localStorage.setItem(
+      "organizationInfo",
+      JSON.stringify({ ...mockOrganizationInfo, organizationSize: "Small" }),
+    );
+
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    expect(screen.getByText("SMALL")).toBeInTheDocument();
+  });
+
+  it("renders organization size select in edit mode with existing value", async () => {
+    localStorage.setItem(
+      "organizationInfo",
+      JSON.stringify({ ...mockOrganizationInfo, organizationSize: "Medium" }),
+    );
+
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Save")).toBeInTheDocument();
+    });
+  });
+
+  it("calls handleInputChange when organization size is changed", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      const selects = screen.getAllByTestId("react-select");
+      fireEvent.change(selects[0], { target: { value: "Small" } });
+    });
+
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
   it("displays phone number and email in view mode", () => {
     render(
       <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
