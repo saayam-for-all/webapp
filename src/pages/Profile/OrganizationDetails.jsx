@@ -407,7 +407,23 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {t("ORGANIZATION_SIZE")}
+            <div className="flex items-center gap-2">
+              <span>{t("ORGANIZATION_SIZE")}</span>
+              {/* Tooltip Icon and Content */}
+              <div className="relative group cursor-pointer">
+                <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                  ?
+                </div>
+                <div className="absolute left-5 top-0 w-56 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                  <div className="font-medium">
+                    {t("TYPICAL_ORGANIZATION_SIZE")}
+                  </div>
+                  <div>{t("ORG_SIZE_SMALL")}</div>
+                  <div>{t("ORG_SIZE_MEDIUM")}</div>
+                  <div>{t("ORG_SIZE_LARGE")}</div>
+                </div>
+              </div>
+            </div>
           </label>
           {isEditing ? (
             <Select
