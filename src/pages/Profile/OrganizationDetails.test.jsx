@@ -28,6 +28,15 @@ jest.mock("react-i18next", () => ({
         SAVE: "Save",
         CANCEL: "Cancel",
         ADDRESS: "Street Address",
+        ORGANIZATION_SIZE: "Organization Size",
+        SELECT_ORGANIZATION_SIZE: "Select Organization Size",
+        SMALL: "Small",
+        MEDIUM: "Medium",
+        LARGE: "Large",
+        TYPICAL_ORGANIZATION_SIZE: "Typical Organization Size",
+        ORG_SIZE_SMALL: "Small: 1-50 employees",
+        ORG_SIZE_MEDIUM: "Medium: 50-250 employees",
+        ORG_SIZE_LARGE: "Large: 250-500+ employees",
       };
       // Handle ADDRESS with optional parameter
       if (key === "ADDRESS" && options && options.optional !== undefined) {
@@ -62,10 +71,12 @@ jest.mock("react-select", () => {
       <select
         data-testid="react-select"
         onChange={(e) => props.onChange?.({ code: e.target.value })}
+        placeholder={props.placeholder}
       >
-        <option value="">Select...</option>
-        <option value="US">US</option>
-        <option value="CA">CA</option>
+        <option value="">{props.placeholder || "Select..."}</option>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
       </select>
     );
   };
@@ -139,6 +150,7 @@ const mockOrganizationInfo = {
   state: "TS",
   zipCode: "12345",
   organizationType: "Non-Profit",
+  organizationSize: "Medium",
   helpCategories: ["FOOD_AND_ESSENTIALS_SUPPORT", "FOOD_ASSISTANCE"],
 };
 
@@ -657,7 +669,7 @@ describe("OrganizationDetails", () => {
       <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
     );
 
-    expect(screen.getByText("SMALL")).toBeInTheDocument();
+    expect(screen.getByText("Small")).toBeInTheDocument();
   });
 
   it("renders organization size select in edit mode with existing value", async () => {
@@ -761,5 +773,52 @@ describe("OrganizationDetails", () => {
     expect(eventSpy).toHaveBeenCalled();
 
     window.removeEventListener("organization-info-updated", eventSpy);
+  });
+
+  it("renders organization size label with tooltip", () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    expect(screen.getByText("Organization Size")).toBeInTheDocument();
+    // Check for tooltip icon
+    const tooltipIcon = screen.getByText("?");
+    expect(tooltipIcon).toBeInTheDocument();
+    expect(tooltipIcon).toHaveClass("bg-gray-400", "text-white");
+  });
+
+  it("displays tooltip content in the DOM", () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    // Tooltip content should be present even if not visible
+    expect(screen.getByText("Typical Organization Size")).toBeInTheDocument();
+    expect(screen.getByText("Small: 1-50 employees")).toBeInTheDocument();
+    expect(screen.getByText("Medium: 50-250 employees")).toBeInTheDocument();
+    expect(screen.getByText("Large: 250-500+ employees")).toBeInTheDocument();
+  });
+
+  it("displays organization size in view mode", () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    // Should display "Medium" since mockOrganizationInfo has organizationSize: "Medium"
+    expect(screen.getByText("Medium")).toBeInTheDocument();
+  });
+
+  it("shows organization size select in edit mode", async () => {
+    render(
+      <OrganizationDetails setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      // Should show the select dropdown
+      const selectElement = screen.getByText("Select Organization Size");
+      expect(selectElement).toBeInTheDocument();
+    });
   });
 });

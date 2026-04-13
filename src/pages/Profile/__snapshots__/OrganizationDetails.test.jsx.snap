@@ -40,11 +40,46 @@ exports[`OrganizationDetails matches snapshot 1`] = `
         <label
           class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
         >
-          ORGANIZATION_SIZE
+          <div
+            class="flex items-center gap-2"
+          >
+            <span>
+              Organization Size
+            </span>
+            <div
+              class="relative group cursor-pointer"
+            >
+              <div
+                class="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold"
+              >
+                ?
+              </div>
+              <div
+                class="absolute left-5 top-0 w-56 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none"
+              >
+                <div
+                  class="font-medium"
+                >
+                  Typical Organization Size
+                </div>
+                <div>
+                  Small: 1-50 employees
+                </div>
+                <div>
+                  Medium: 50-250 employees
+                </div>
+                <div>
+                  Large: 250-500+ employees
+                </div>
+              </div>
+            </div>
+          </div>
         </label>
         <p
           class="text-lg text-gray-900"
-        />
+        >
+          Medium
+        </p>
       </div>
     </div>
     <div
