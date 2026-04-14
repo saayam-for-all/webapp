@@ -1491,6 +1491,15 @@ const Dashboard = ({ userRole }) => {
           </div>
         )}
       </div>
+      <p className="mt-4 text-sm text-gray-600 text-center">
+        google with human touch
+        <span
+          title="Trademark pending"
+          className="inline-block cursor-help ml-1"
+        >
+          *
+        </span>
+      </p>
     </div>
   );
 };
