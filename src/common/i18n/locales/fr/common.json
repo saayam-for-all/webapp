@@ -609,7 +609,7 @@
   "VISION_DESCRIPTION": "Saayam envisage un monde où chacun a accès à l'aide et aux ressources dont il a besoin pour surmonter les obstacles et mener une vie épanouissante. Nous aspirons à être un leader mondial de l'aide humanitaire, en tirant parti de la technologie et de la collaboration pour créer un réseau de soutien transparent qui transcende les barrières géographiques, culturelles et socio-économiques. Notre vision est de cultiver une communauté où l'éthique de « Manava Sevaye Madhava » (Le service à l'humanité est un service à Dieu) et « Sarve jana sukhino bhavantu » (Que tous vivent heureux) guide nos actions, en suscitant des changements positifs et en favorisant un monde plus compatissant et plus équitable pour tous.",
   "VISION_STATEMENT": "Énoncé de vision",
   "VOLUNTARY_ORGANIZATIONS": "Organisations bénévoles",
-  "VOLUNTEERS": "BÉNÉVOLES",
+  "VOLUNTEERS": "Bénévoles",
   "VOLUNTEERS_PARTNER_LOCAL_NGOS": "Les bénévoles s'associent avec des ONG locales",
   "VOLUNTEER_AGREEMENT": "Accord de bénévolat pour Saayam For All",
   "VOLUNTEER_APPROACH": "Approche du bénévole : ",
@@ -732,5 +732,6 @@
   "NO_SKILLS_SELECTED": "Aucune compétence sélectionnée pour le moment",
   "REMOVE_SKILL": "Supprimer la compétence",
   "REMOVE_CATEGORY": "Supprimer toutes les compétences de cette catégorie",
-  "SELECT_SKILL_TO_CONTINUE": "Sélectionnez au moins une compétence spécifique pour passer à l'étape suivante"
+  "SELECT_SKILL_TO_CONTINUE": "Sélectionnez au moins une compétence spécifique pour passer à l'étape suivante",
+  "COMMENTS": "Commentaires"
 }

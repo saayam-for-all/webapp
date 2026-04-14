@@ -1,4 +1,4 @@
-﻿{
+{
   "ABOUT": "எங்களை பற்றி",
   "DONATE": "தானம் செய்",
   "LOGIN": "உள்நுழைய",
@@ -33,5 +33,7 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "Aakash Gangji": "ஆகாஷ் காங்க்ஜி",
-  "Lead AI/ML Developer/Engineer": "முன்னணி AI/ML டெவலப்பர்/எஞ்சினியர்"
+  "Lead AI/ML Developer/Engineer": "முன்னணி AI/ML டெவலப்பர்/எஞ்சினியர்",
+  "COMMENTS": "கருத்துகள்",
+  "VOLUNTEERS": "தன்னார்வலர்கள்"
 }
