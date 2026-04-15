@@ -735,5 +735,8 @@
   "NO_SKILLS_SELECTED": "अभी तक कोई कौशल नहीं चुना गया",
   "REMOVE_SKILL": "कौशल हटाएं",
   "REMOVE_CATEGORY": "इस श्रेणी से सभी कौशल हटाएं",
-  "SELECT_SKILL_TO_CONTINUE": "अगले चरण पर जाने के लिए कम से कम एक विशिष्ट कौशल चुनें"
+  "SELECT_SKILL_TO_CONTINUE": "अगले चरण पर जाने के लिए कम से कम एक विशिष्ट कौशल चुनें",
+  "CHANGE_VOLUNTEER": "स्वयंसेवक बदलें",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "कृपया स्वयंसेवक बदलने का कारण बताएं",
+  "REASON": "कारण"
 }
