@@ -37,6 +37,9 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteReason, setDeleteReason] = useState("");
+  const [changeVolunteerDialogOpen, setChangeVolunteerDialogOpen] =
+    useState(false);
+  const [volunteerChangeReason, setVolunteerChangeReason] = useState("");
 
   const cDate = new Date(requestData.creationDate);
   const formattedDate = cDate.toLocaleDateString("en-US", {
@@ -81,6 +84,19 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
     }
   };
 
+  const handleChangeVolunteer = async () => {
+    try {
+      console.log("Changing volunteer for request:", requestData.id);
+      console.log("Reason:", volunteerChangeReason);
+
+      setChangeVolunteerDialogOpen(false);
+      setVolunteerChangeReason("");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Volunteer change failed:", error);
+    }
+  };
+
   return (
     <>
       <div className="border border-gray-300 rounded-lg p-4">
@@ -108,7 +124,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             <div className="flex gap-3 ml-auto">
               <button
                 className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
-                onClick={() => console.log("Change Volunteer clicked")}
+                onClick={() => setChangeVolunteerDialogOpen(true)}
               >
                 {t("Change Volunteer")}
               </button>
@@ -164,6 +180,42 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             disabled={!deleteReason.trim()}
           >
             {t("Delete")}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={changeVolunteerDialogOpen}
+        onClose={() => setChangeVolunteerDialogOpen(false)}
+      >
+        <DialogTitle>
+          {t("Please specify the reason for change of volunteer")}
+        </DialogTitle>
+
+        <DialogContent>
+          <textarea
+            value={volunteerChangeReason}
+            onChange={(e) => setVolunteerChangeReason(e.target.value)}
+            className="border p-2 w-full rounded-lg min-h-[100px]"
+            placeholder={t("Reason")}
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            onClick={() => setChangeVolunteerDialogOpen(false)}
+            variant="outlined"
+          >
+            {t("Cancel")}
+          </Button>
+
+          <Button
+            onClick={handleChangeVolunteer}
+            color="primary"
+            variant="contained"
+            disabled={!volunteerChangeReason.trim()}
+          >
+            {t("Change Volunteer")}
           </Button>
         </DialogActions>
       </Dialog>
