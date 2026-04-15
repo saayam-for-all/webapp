@@ -1,14 +1,36 @@
 import React, { useState, useEffect, useMemo } from "react";
 
+const LABEL_WORD_OVERRIDES = {
+  xs: "XS",
+  s: "S",
+  m: "M",
+  l: "L",
+  xl: "XL",
+  xxl: "XXL",
+  xxxl: "XXXL",
+  "2xl": "2XL",
+  "3xl": "3XL",
+};
+
 /**
- * Convert UPPER_SNAKE_CASE keys to Title Case labels.
- * e.g. "PREFERRED_MEAL_TYPE" → "Preferred Meal Type"
+ * Convert metadata keys to readable labels while preserving encoded ranges
+ * and clothing-size acronyms.
+ * e.g. "PREFERRED_MEAL_TYPE" -> "Preferred Meal Type"
+ * e.g. "CHILD_3_12" -> "Child 3-12", "XXL" -> "XXL"
  */
 const toTitleCase = (str) =>
-  str
+  String(str)
+    .replace(/(\d)[_\s]+(\d)/g, "$1-$2")
     .replace(/_/g, " ")
     .toLowerCase()
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => {
+      const override = LABEL_WORD_OVERRIDES[word];
+      if (override) return override;
+      return word.replace(/\b\w/g, (c) => c.toUpperCase());
+    })
+    .join(" ");
 
 /**
  * DynamicAdditionalFields

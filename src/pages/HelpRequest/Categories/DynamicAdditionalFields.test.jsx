@@ -223,6 +223,35 @@ const sampleMetadata = [
     ],
   },
   {
+    catId: "clothing-formatting",
+    fields: [
+      {
+        fieldId: "cloth.A",
+        fieldNameKey: "TYPE_OF_CLOTHING",
+        fieldType: "list",
+        status: "active",
+        catId: "clothing-formatting",
+        listItems: [
+          {
+            itemId: "cloth.A.1",
+            itemValue: "CHILD_3_12",
+            itemType: "radiobutton",
+          },
+          {
+            itemId: "cloth.A.2",
+            itemValue: "XXL",
+            itemType: "radiobutton",
+          },
+          {
+            itemId: "cloth.A.3",
+            itemValue: "XL_T_SHIRT",
+            itemType: "radiobutton",
+          },
+        ],
+      },
+    ],
+  },
+  {
     catId: "empty-list",
     fields: [
       {
@@ -334,6 +363,23 @@ describe("DynamicAdditionalFields", () => {
     expect(screen.getByTestId("radio-1.1.A.2")).toBeInTheDocument();
     expect(screen.getByText("Vegetarian")).toBeInTheDocument();
     expect(screen.getByText("Vegan")).toBeInTheDocument();
+  });
+
+  it("preserves clothing sizes and encoded age ranges in list labels", () => {
+    const onChange = jest.fn();
+    render(
+      <DynamicAdditionalFields
+        catId="clothing-formatting"
+        onChange={onChange}
+      />,
+    );
+
+    expect(screen.getByText("Type Of Clothing")).toBeInTheDocument();
+    expect(screen.getByText("Child 3-12")).toBeInTheDocument();
+    expect(screen.getByText("XXL")).toBeInTheDocument();
+    expect(screen.getByText("XL T Shirt")).toBeInTheDocument();
+    expect(screen.queryByText("Child 3 12")).not.toBeInTheDocument();
+    expect(screen.queryByText("Xxl")).not.toBeInTheDocument();
   });
 
   it("calls onChange with correct values when radio button is selected", () => {
