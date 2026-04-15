@@ -1,8 +1,36 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 import CommentsSection from "./CommentsSection";
-import i18n from "../../common/i18n/i18n";
+
+// Initialize i18n for tests
+i18n.use(initReactI18next).init({
+  lng: "en",
+  fallbackLng: "en",
+  ns: ["common"],
+  defaultNS: "common",
+  resources: {
+    en: {
+      common: {
+        NO_COMMENTS_FOUND: "No comments found",
+        SORT_BY: "Sort by",
+        NEWEST: "Newest",
+        OLDEST: "Oldest",
+        Showing: "Showing",
+        to: "to",
+        of: "of",
+        comments: "comments",
+        "Rows per view": "Rows per view",
+        writeComment: "Write a comment",
+      },
+    },
+  },
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 const renderWithI18n = (component) => {
   return render(<I18nextProvider i18n={i18n}>{component}</I18nextProvider>);
@@ -37,7 +65,7 @@ describe("CommentsSection", () => {
 
   it("displays NO_COMMENTS_FOUND when comments array is empty", () => {
     renderWithI18n(<CommentsSection comments={[]} />);
-    expect(screen.getByText("NO_COMMENTS_FOUND")).toBeInTheDocument();
+    expect(screen.getByText("No comments found")).toBeInTheDocument();
   });
 
   it("displays NO_COMMENTS_FOUND when search returns no results", () => {
@@ -46,7 +74,7 @@ describe("CommentsSection", () => {
     const searchInput = screen.getByPlaceholderText(/search/i);
     fireEvent.change(searchInput, { target: { value: "nonexistent" } });
 
-    expect(screen.getByText("NO_COMMENTS_FOUND")).toBeInTheDocument();
+    expect(screen.getByText("No comments found")).toBeInTheDocument();
   });
 
   it("filters comments based on search text (name)", () => {
@@ -83,17 +111,17 @@ describe("CommentsSection", () => {
 
   it("sorts comments by newest by default", () => {
     renderWithI18n(<CommentsSection comments={mockComments} />);
-    const sortButton = screen.getByText(/SORT_BY/i);
+    const sortButton = screen.getByText(/Sort by/i);
     expect(sortButton).toBeInTheDocument();
   });
 
   it("toggles sort order when sort button is clicked", () => {
     renderWithI18n(<CommentsSection comments={mockComments} />);
 
-    const sortButton = screen.getByText(/SORT_BY/i);
+    const sortButton = screen.getByText(/Sort by/i);
     fireEvent.click(sortButton);
 
-    expect(screen.getByText(/OLDEST/i)).toBeInTheDocument();
+    expect(screen.getByText(/Oldest/i)).toBeInTheDocument();
   });
 
   it("resets to page 1 when search text changes", () => {
@@ -102,7 +130,7 @@ describe("CommentsSection", () => {
     const searchInput = screen.getByPlaceholderText(/search/i);
     fireEvent.change(searchInput, { target: { value: "John" } });
 
-    expect(screen.getByText(/Showing.*1.*to/i)).toBeInTheDocument();
+    expect(screen.getByText(/Showing.*1.*to.*3/i)).toBeInTheDocument();
   });
 
   it("displays pagination when there are multiple pages", () => {
@@ -122,7 +150,7 @@ describe("CommentsSection", () => {
   it("handles comment submission", () => {
     renderWithI18n(<CommentsSection comments={mockComments} />);
 
-    const textarea = screen.getByPlaceholderText(/writeComment/i);
+    const textarea = screen.getByPlaceholderText(/Write a comment/i);
     fireEvent.change(textarea, { target: { value: "New comment" } });
 
     // The send button is the blue circular button next to textarea
@@ -138,7 +166,7 @@ describe("CommentsSection", () => {
   it("shows character count for comment input", () => {
     renderWithI18n(<CommentsSection comments={mockComments} />);
 
-    const textarea = screen.getByPlaceholderText(/writeComment/i);
+    const textarea = screen.getByPlaceholderText(/Write a comment/i);
     fireEvent.change(textarea, { target: { value: "Hello" } });
 
     expect(screen.getByText("5/200")).toBeInTheDocument();
