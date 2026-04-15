@@ -1,19 +1,12 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { I18nextProvider } from "react-i18next";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
 import CommentsSection from "./CommentsSection";
 
-// Initialize i18n for tests
-i18n.use(initReactI18next).init({
-  lng: "en",
-  fallbackLng: "en",
-  ns: ["common"],
-  defaultNS: "common",
-  resources: {
-    en: {
-      common: {
+// Mock the useTranslation hook
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key) => {
+      const translations = {
         NO_COMMENTS_FOUND: "No comments found",
         SORT_BY: "Sort by",
         NEWEST: "Newest",
@@ -24,16 +17,14 @@ i18n.use(initReactI18next).init({
         comments: "comments",
         "Rows per view": "Rows per view",
         writeComment: "Write a comment",
-      },
+      };
+      return translations[key] || key;
     },
-  },
-  interpolation: {
-    escapeValue: false,
-  },
-});
+  }),
+}));
 
 const renderWithI18n = (component) => {
-  return render(<I18nextProvider i18n={i18n}>{component}</I18nextProvider>);
+  return render(component);
 };
 
 describe("CommentsSection", () => {
