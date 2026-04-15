@@ -189,7 +189,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
         onClose={() => setChangeVolunteerDialogOpen(false)}
       >
         <DialogTitle>
-          {t("Please specify the reason for change of volunteer")}
+          {t("PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER")}
         </DialogTitle>
 
         <DialogContent>
@@ -197,7 +197,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             value={volunteerChangeReason}
             onChange={(e) => setVolunteerChangeReason(e.target.value)}
             className="border p-2 w-full rounded-lg min-h-[100px]"
-            placeholder={t("Reason")}
+            placeholder={t("REASON")}
           />
         </DialogContent>
 
@@ -206,7 +206,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             onClick={() => setChangeVolunteerDialogOpen(false)}
             variant="outlined"
           >
-            {t("Cancel")}
+            {t("CANCEL")}
           </Button>
 
           <Button
@@ -215,7 +215,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             variant="contained"
             disabled={!volunteerChangeReason.trim()}
           >
-            {t("Change Volunteer")}
+            {t("CHANGE_VOLUNTEER")}
           </Button>
         </DialogActions>
       </Dialog>

@@ -18,6 +18,11 @@ jest.mock("react-i18next", () => ({
         Cancel: "Cancel",
         "Please specify the reason for change of volunteer":
           "Please specify the reason for change of volunteer",
+        CHANGE_VOLUNTEER: "Change Volunteer",
+        PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER:
+          "Please specify the reason for change of volunteer",
+        REASON: "Reason",
+        CANCEL: "Cancel",
         High: "High",
         Medium: "Medium",
         Low: "Low",
