@@ -11,8 +11,7 @@
   "UPDATE_VOLUNTEER": "v1/volunteer/updateVolunteer",
   "CREATE_HELP_REQUEST": "v1/request/createRequest",
   "GET_EMERGENCY_CONTACT": "v1/genai/emergency_number_api",
-  "PREDICT_CATEGORIES": "v1/genai/predict_category_api",
-  "GENERATE_SUBJECT": "v1/genai/generate_subject_api",
+  "PREDICT_CATEGORIES": "v1/genai/predict_categories",
   "GET_NOTIFICATIONS": "v1/request/getNotifications",
   "GENERATE_ANSWER": "v1/genai/generate_answer",
   "GENERATE_ANSWER_API": "v1/genai/generate_answer_api",
@@ -36,5 +35,6 @@
   "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis",
   "UPDATE_VOLUNTEER_LOCATION": "v1/spatial/updateVolunteerLocation",
   "ORG_AGGREGATOR_LIST": "v1/ml/orgAggregatorList",
-  "MOCK_ORG_DATA": "v1/ml/mockOrgData"
+  "MOCK_ORG_DATA": "v1/ml/mockOrgData",
+  "GET_APP_ENV": "v1/request/getAppEnv"
 }

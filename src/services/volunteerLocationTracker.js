@@ -1,13 +1,15 @@
 import { store } from "../redux/store";
 import api from "./api";
 import endpoints from "./endpoints.json";
+import {
+  getSpatialIntervalMs,
+  getMinDistanceMeters,
+} from "../utils/appEnvConfig.js";
 
 let intervalId = null;
 let inFlight = false;
 
 const LOCAL_KEY = "latestVolunteerLocation";
-const DEFAULT_INTERVAL_MS = 5 * 60 * 1000;
-const MIN_DISTANCE_METERS = 50;
 
 const formatCoordinate = (value) => Number(Number(value).toFixed(4));
 
@@ -55,11 +57,9 @@ const getDistanceMeters = (lat1, lon1, lat2, lon2) => {
   return earthRadius * c;
 };
 
-const hasLocationChanged = (
-  oldLoc,
-  newLoc,
-  thresholdMeters = MIN_DISTANCE_METERS,
-) => {
+const hasLocationChanged = (oldLoc, newLoc) => {
+  const thresholdMeters = getMinDistanceMeters();
+
   if (
     oldLoc?.latitude == null ||
     oldLoc?.longitude == null ||
@@ -108,7 +108,6 @@ const getAuthState = () => store.getState()?.auth || {};
 
 const getVolunteerUserId = () => {
   const authState = getAuthState();
-
   return authState?.user?.userDbId || "";
 };
 
@@ -136,18 +135,45 @@ const isVolunteerUser = () => {
 const getBrowserPosition = () =>
   new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
-      reject(new Error("Geolocation is not supported"));
+      console.warn("⚠️ Geolocation not supported. Using fallback (address)");
+      reject(new Error("Geolocation not supported"));
       return;
     }
 
     navigator.geolocation.getCurrentPosition(
-      (position) =>
+      (position) => {
+        console.log("Location permission granted. Using browser coordinates");
+
         resolve({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-        }),
-      reject,
-      { enableHighAccuracy: true, timeout: 15000 },
+        });
+      },
+      (error) => {
+        if (error.code === error.PERMISSION_DENIED) {
+          console.warn(
+            "User denied location permission. Using fallback (profile address)",
+          );
+        } else if (error.code === error.TIMEOUT) {
+          console.warn(
+            "Location request timed out. Using fallback (profile address)",
+          );
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+          console.warn(
+            "Location unavailable. Using fallback (profile address)",
+          );
+        } else {
+          console.warn(
+            "Unknown location error. Using fallback (profile address)",
+          );
+        }
+
+        reject(error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+      },
     );
   });
 
@@ -239,15 +265,15 @@ const checkAndSyncLocation = async () => {
   }
 };
 
-export const startVolunteerLocationTracking = async ({
-  intervalMs = DEFAULT_INTERVAL_MS,
-} = {}) => {
+export const startVolunteerLocationTracking = async ({ intervalMs } = {}) => {
   if (!isVolunteerUser()) return;
   if (intervalId) return;
 
+  const resolvedIntervalMs = intervalMs || getSpatialIntervalMs();
+
   await checkAndSyncLocation();
 
-  intervalId = window.setInterval(checkAndSyncLocation, intervalMs);
+  intervalId = window.setInterval(checkAndSyncLocation, resolvedIntervalMs);
 };
 
 export const stopVolunteerLocationTracking = () => {
