@@ -40,12 +40,6 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
   const [changeVolunteerDialogOpen, setChangeVolunteerDialogOpen] =
     useState(false);
   const [volunteerChangeReason, setVolunteerChangeReason] = useState("");
-  const [changeVolunteerDialogOpen, setChangeVolunteerDialogOpen] =
-    useState(false);
-  const [volunteerChangeReason, setVolunteerChangeReason] = useState("");
-  const [changeVolunteerDialogOpen, setChangeVolunteerDialogOpen] =
-    useState(false);
-  const [volunteerChangeReason, setVolunteerChangeReason] = useState("");
 
   const cDate = new Date(requestData.creationDate);
   const formattedDate = cDate.toLocaleDateString("en-US", {
@@ -87,32 +81,6 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
       navigate("/dashboard");
     } catch (error) {
       console.error("Delete failed:", error);
-    }
-  };
-
-  const handleChangeVolunteer = async () => {
-    try {
-      console.log("Changing volunteer for request:", requestData.id);
-      console.log("Reason:", volunteerChangeReason);
-
-      setChangeVolunteerDialogOpen(false);
-      setVolunteerChangeReason("");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Volunteer change failed:", error);
-    }
-  };
-
-  const handleChangeVolunteer = async () => {
-    try {
-      console.log("Changing volunteer for request:", requestData.id);
-      console.log("Reason:", volunteerChangeReason);
-
-      setChangeVolunteerDialogOpen(false);
-      setVolunteerChangeReason("");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Volunteer change failed:", error);
     }
   };
 
