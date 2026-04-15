@@ -4,7 +4,7 @@ import endpoints from "./endpoints.json";
 import {
   getSpatialIntervalMs,
   getMinDistanceMeters,
-} from "../utils/appEnvConfig.js";
+} from "#utils/appEnvConfig.js";
 
 let intervalId = null;
 let inFlight = false;
