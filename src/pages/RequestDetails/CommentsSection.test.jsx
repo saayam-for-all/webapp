@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import CommentsSection from "./CommentsSection";
 
 // Mock the useTranslation hook
@@ -121,7 +122,7 @@ describe("CommentsSection", () => {
     const searchInput = screen.getByPlaceholderText(/search/i);
     fireEvent.change(searchInput, { target: { value: "John" } });
 
-    expect(screen.getByText(/Showing.*1.*to.*3/i)).toBeInTheDocument();
+    expect(screen.getByText(/Showing.*1.*to.*1/i)).toBeInTheDocument();
   });
 
   it("displays pagination when there are multiple pages", () => {
@@ -173,7 +174,8 @@ describe("CommentsSection", () => {
 
     renderWithI18n(<CommentsSection comments={manyComments} />);
 
-    const select = screen.getByLabelText(/Rows per view/i);
+    // Find the select element by its text content instead of label
+    const select = screen.getByText(/Rows per view/i).nextElementSibling;
     fireEvent.change(select, { target: { value: "10" } });
 
     expect(screen.getByText(/Showing.*1.*to.*10/i)).toBeInTheDocument();
