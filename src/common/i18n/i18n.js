@@ -86,6 +86,7 @@ import teIdentity from "./locales/te/identity.json";
 import teProfile from "./locales/te/profile.json";
 import teCollaborator from "./locales/te/collaborator.json";
 import teMessages from "./locales/te/messages.json";
+import teMetadata from "./locales/te/metadata.json";
 
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
@@ -118,6 +119,7 @@ import bnIdentity from "./locales/bn/identity.json";
 import bnProfile from "./locales/bn/profile.json";
 import bnCollaborator from "./locales/bn/collaborator.json";
 import bnMessages from "./locales/bn/messages.json";
+import bnMetadata from "./locales/bn/metadata.json";
 
 import arCommon from "./locales/ar/common.json";
 import arAuth from "./locales/ar/auth.json";
@@ -128,6 +130,7 @@ import arIdentity from "./locales/ar/identity.json";
 import arProfile from "./locales/ar/profile.json";
 import arPreferences from "./locales/ar/preferences.json";
 import arCollaborator from "./locales/ar/collaborator.json";
+import arMetadata from "./locales/ar/metadata.json";
 
 import asCommon from "./locales/as/common.json";
 import asAuth from "./locales/as/auth.json";
@@ -214,6 +217,7 @@ import urIdentity from "./locales/ur/identity.json";
 import urProfile from "./locales/ur/profile.json";
 import urPreferences from "./locales/ur/preferences.json";
 import urCollaborator from "./locales/ur/collaborator.json";
+import urMetadata from "./locales/ur/metadata.json";
 
 import viCommon from "./locales/vi/common.json";
 import viAuth from "./locales/vi/auth.json";
@@ -331,6 +335,7 @@ i18n
         profile: teProfile,
         collaborator: teCollaborator,
         messages: teMessages,
+        metadata: teMetadata,
       },
       zh: {
         common: zhCommon,
@@ -366,6 +371,7 @@ i18n
         profile: bnProfile,
         collaborator: bnCollaborator,
         messages: bnMessages,
+        metadata: bnMetadata,
       },
       ar: {
         common: arCommon,
@@ -377,6 +383,7 @@ i18n
         profile: arProfile,
         preferences: arPreferences,
         collaborator: arCollaborator,
+        metadata: arMetadata,
       },
       as: {
         common: asCommon,
@@ -483,6 +490,7 @@ i18n
         profile: urProfile,
         preferences: urPreferences,
         collaborator: urCollaborator,
+        metadata: urMetadata,
       },
       vi: {
         common: viCommon,
