@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 const LABEL_WORD_OVERRIDES = {
   xs: "XS",
@@ -44,6 +45,7 @@ const toTitleCase = (str) =>
  *   initialValues – optional pre-filled values (for edit mode)
  */
 const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
+  const { t } = useTranslation("metadata");
   const [fieldValues, setFieldValues] = useState({});
 
   // ── Resolve metadata for the current catId ──────────────────────────
@@ -115,6 +117,17 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
     });
   };
 
+  const translateMetadataLabel = (key, fallback) => {
+    const translated = t(key, { defaultValue: fallback });
+    return translated === key ? fallback : translated;
+  };
+
+  const getFieldLabel = (fieldNameKey) =>
+    translateMetadataLabel(`FIELDS.${fieldNameKey}`, toTitleCase(fieldNameKey));
+
+  const getItemLabel = (itemValue) =>
+    translateMetadataLabel(`ITEMS.${itemValue}`, toTitleCase(itemValue));
+
   // ── Render a single list item based on its itemType ─────────────────
   const renderListItem = (field, item) => {
     const fieldId = field.fieldId;
@@ -136,7 +149,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
               className="rounded"
               data-testid={`radio-${key}`}
             />
-            <span className="text-sm">{toTitleCase(item.itemValue)}</span>
+            <span className="text-sm">{getItemLabel(item.itemValue)}</span>
           </label>
         );
 
@@ -153,7 +166,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
               className="rounded"
               data-testid={`checkbox-${key}`}
             />
-            <span className="text-sm">{toTitleCase(item.itemValue)}</span>
+            <span className="text-sm">{getItemLabel(item.itemValue)}</span>
           </label>
         );
 
@@ -161,7 +174,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
         return (
           <div key={key} className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-600 min-w-[120px]">
-              {toTitleCase(item.itemValue)}
+              {getItemLabel(item.itemValue)}
             </span>
             <input
               type="text"
@@ -184,7 +197,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
         return (
           <div key={key} className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-600 min-w-[120px]">
-              {toTitleCase(item.itemValue)}
+              {getItemLabel(item.itemValue)}
             </span>
             <input
               type="number"
@@ -207,7 +220,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
         return (
           <div key={key} className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-600 min-w-[120px]">
-              {toTitleCase(item.itemValue)}
+              {getItemLabel(item.itemValue)}
             </span>
             <div className="flex items-center">
               <span className="text-sm text-gray-500 mr-1">$</span>
@@ -235,7 +248,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
         return (
           <div key={key} className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-medium text-gray-600 min-w-[120px]">
-              {toTitleCase(item.itemValue)}
+              {getItemLabel(item.itemValue)}
             </span>
             <input
               type="date"
@@ -284,7 +297,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
   // ── Render a top-level field ─────────────────────────────────────────
   const renderField = (field) => {
     const { fieldId, fieldNameKey, fieldType, listItems } = field;
-    const label = toTitleCase(fieldNameKey);
+    const label = getFieldLabel(fieldNameKey);
 
     switch (fieldType) {
       // Simple text input

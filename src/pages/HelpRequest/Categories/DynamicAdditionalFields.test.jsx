@@ -3,6 +3,16 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DynamicAdditionalFields from "./DynamicAdditionalFields";
 
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key, options) => options?.defaultValue ?? key,
+    i18n: {
+      language: "en",
+      changeLanguage: jest.fn(),
+    },
+  }),
+}));
+
 // ── Sample metadata matching the wiki schema ─────────────────────────
 const sampleMetadata = [
   {
