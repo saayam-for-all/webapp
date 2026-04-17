@@ -8,11 +8,11 @@ import bottomFour from "../../assets/landingPageImages/bottomFour.jpg";
 import bottomOne from "../../assets/landingPageImages/bottomOne.jpg";
 import bottomThree from "../../assets/landingPageImages/bottomThree.jpg";
 import bottomTwo from "../../assets/landingPageImages/bottomTwo.jpg";
-import tbi4lifeLogo from "../../assets/Collab_logos/tbi4life.webp";
-import annapoornaLogo from "../../assets/Collab_logos/annapoorna.webp";
-import drivenScholarsLogo from "../../assets/Collab_logos/drivenscholars.webp";
-import southPortlandLogo from "../../assets/Collab_logos/southportland.webp";
-import idealistLogo from "../../assets/Collab_logos/idealist.webp";
+import tbi4lifeLogo from "../../assets/Homepage_logos/tbi4life.jpg";
+import annapoornaLogo from "../../assets/Homepage_logos/Annapoorna.png";
+import drivenScholarsLogo from "../../assets/Homepage_logos/DrivenScholar.png";
+import southPortlandLogo from "../../assets/Homepage_logos/SouthPortland.png";
+import idealistLogo from "../../assets/Collab_logos/idealist.jpeg";
 import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
@@ -115,7 +115,7 @@ export default function Home() {
       <Carousel />
       <HorizontalAd />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
-        <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
+        <h3 className="font-bold text-3xl md:text-4xl">
           {t("Our Collaborators")}
         </h3>
 
@@ -123,16 +123,16 @@ export default function Home() {
         <div className="w-full flex flex-row overflow-hidden">
           <div className="scroll imgBox">
             <div>
-              <img src={tbi4lifeLogo} className="w-[150px] ml-[75px]"></img>
+              <img src={tbi4lifeLogo} className="w-[100px] ml-[50px]"></img>
               <img src={annapoornaLogo}></img>
-              <img src={drivenScholarsLogo} className="w-[200px]"></img>
+              <img src={drivenScholarsLogo} className="w-[140px]"></img>
               <img src={southPortlandLogo}></img>
               <img src={idealistLogo}></img>
             </div>
             <div>
-              <img src={tbi4lifeLogo} className="w-[150px] ml-[75px]"></img>
+              <img src={tbi4lifeLogo} className="w-[100px] ml-[50px]"></img>
               <img src={annapoornaLogo}></img>
-              <img src={drivenScholarsLogo} className="w-[200px]"></img>
+              <img src={drivenScholarsLogo} className="w-[140px]"></img>
               <img src={southPortlandLogo}></img>
               <img src={idealistLogo}></img>
             </div>
