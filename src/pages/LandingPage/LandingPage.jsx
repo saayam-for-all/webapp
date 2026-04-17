@@ -8,17 +8,18 @@ import bottomFour from "../../assets/landingPageImages/bottomFour.jpg";
 import bottomOne from "../../assets/landingPageImages/bottomOne.jpg";
 import bottomThree from "../../assets/landingPageImages/bottomThree.jpg";
 import bottomTwo from "../../assets/landingPageImages/bottomTwo.jpg";
-import collabFive from "../../assets/landingPageImages/collab_five.jpg";
-import collabFour from "../../assets/landingPageImages/collab_four.jpg";
-import collabOne from "../../assets/landingPageImages/collab_one.jpg";
-import collabSeven from "../../assets/landingPageImages/collab_seven.jpg";
-import collabSix from "../../assets/landingPageImages/collab_six.jpg";
-import collabThree from "../../assets/landingPageImages/collab_three.jpg";
-import collabTwo from "../../assets/landingPageImages/collab_two.jpg";
+import tbi4lifeLogo from "../../assets/Homepage_logos/tbi4life.jpg";
+import annapoornaLogo from "../../assets/Homepage_logos/Annapoorna.png";
+import drivenScholarsLogo from "../../assets/Homepage_logos/DrivenScholar.png";
+import southPortlandLogo from "../../assets/Homepage_logos/SouthPortland.png";
+import idealistLogo from "../../assets/Collab_logos/idealist.jpeg";
 import topOne from "../../assets/landingPageImages/topOne.jpg";
-import topTwo from "../../assets/landingPageImages/topTwo.jpg";
+import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
+import MetricsTicker from "./components/MetricsTicker";
+import SquareAd from "#components/Ads/SquareAd";
+import HorizontalAd from "#components/Ads/HorizontalAd";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -46,7 +47,6 @@ export default function Home() {
   };
 
   const currentLanguage = getYouTubeLanguageCode(i18n.language);
-
   // uncomment this for debugging
   // console.log("Current i18n language:", i18n.language);
   // console.log("Mapped YouTube language:", currentLanguage);
@@ -59,20 +59,16 @@ export default function Home() {
     <div className="w-full overflow-hidden">
       <div className="w-full">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]">
+          <div className="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px] text-center px-4">
             {t("Real help. Real people. Right when you need it.")}
           </div>
-          <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]">
+          <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4">
             {t("Need help? Here to help?")}
           </h1>
-          <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
-            {t(
-              "At Saayam for All, your support can make a real difference today.",
-            )}
-          </div>
         </div>
+        <MetricsTicker />
       </div>
-      <div className="w-full flex flex-row justify-center  ">
+      <div className="w-full flex flex-row justify-center mt-8">
         <div className="w-[22%] h-[50%] flex flex-col justify-center items-center">
           <img
             src={bannerImageOne}
@@ -117,39 +113,36 @@ export default function Home() {
       </div>
 
       <Carousel />
+      <HorizontalAd />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
-        {/* <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
+        <h3 className="font-bold text-3xl md:text-4xl">
           {t("Our Collaborators")}
-        </h3> */}
+        </h3>
 
         {/* Hid collaborators until we get permission from them all*/}
-        <div className="w-full flex flex-row overflow-hidden hidden">
+        <div className="w-full flex flex-row overflow-hidden">
           <div className="scroll imgBox">
             <div>
-              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
-              <img src={collabTwo}></img>
-              <img src={collabThree} className="w-[200px]"></img>
-              <img src={collabFour}></img>
-              <img src={collabFive}></img>
-              <img src={collabSix} className="w-[200px]"></img>
-              <img src={collabSeven} className="w-[125px]"></img>
+              <img src={tbi4lifeLogo} className="w-[100px] ml-[50px]"></img>
+              <img src={annapoornaLogo}></img>
+              <img src={drivenScholarsLogo} className="w-[140px]"></img>
+              <img src={southPortlandLogo}></img>
+              <img src={idealistLogo}></img>
             </div>
             <div>
-              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
-              <img src={collabTwo}></img>
-              <img src={collabThree} className="w-[200px]"></img>
-              <img src={collabFour}></img>
-              <img src={collabFive}></img>
-              <img src={collabSix} className="w-[200px]"></img>
-              <img src={collabSeven} className="w-[125px]"></img>
+              <img src={tbi4lifeLogo} className="w-[100px] ml-[50px]"></img>
+              <img src={annapoornaLogo}></img>
+              <img src={drivenScholarsLogo} className="w-[140px]"></img>
+              <img src={southPortlandLogo}></img>
+              <img src={idealistLogo}></img>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0">
+      <div className="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[200px] lg:mb-[100px] px-4 md:px-0">
         <div className="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full">
-          <h3 className="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]">
+          <h3 className="font-bold text-2xl md:text-4xl w-full md:w-3/4 mb-4 md:mb-[10px]">
             {t("Creating a World Where Help is Always Within Reach")}
           </h3>
           <p className="text-base md:text-lg text-gray-500 md:h-1/3">
@@ -158,7 +151,7 @@ export default function Home() {
             )}
           </p>
           <button
-            className="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+            className="mt-6 md:mt-[80px] lg:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             onClick={() => navigate("/our-mission")}
           >
             {t("Our Mission")} →
@@ -226,12 +219,9 @@ export default function Home() {
               <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]">
                 <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
                   {t(
-                    [
-                      "Beneficiaries",
-                      "Volunteers",
-                      "Voluntary Organizations",
-                      "Donors",
-                    ][i],
+                    ["Beneficiaries", "Volunteers", "ORGANIZATIONS", "Donors"][
+                      i
+                    ],
                   )}
                 </h3>
                 <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
