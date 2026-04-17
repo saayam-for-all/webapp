@@ -349,6 +349,7 @@
   "NO_BUILDING_SCHOOLS_HOSPITALS": "No Building Schools Hospitals",
   "NO_INFRASTRUCTURE_MONEY_DISTRIBUTION": "No Infrastructure Money Distribution",
   "NO_RESULTS": "No Results",
+  "NO_COMMENTS_FOUND": "No se encontraron comentarios",
   "NUMBER_OF_VOLUNTEERS": "Ingresa el número de voluntarios requeridos...",
   "Naveen Sharma": "Naveen Sharma",
   "Necessities": "necesidades básicas",
@@ -734,5 +735,8 @@
   "REMOVE_SKILL": "Eliminar habilidad",
   "REMOVE_CATEGORY": "Eliminar todas las habilidades de esta categoría",
   "SELECT_SKILL_TO_CONTINUE": "Seleccione al menos una habilidad específica para pasar al siguiente paso",
-  "COMMENTS": "Comentarios"
+  "COMMENTS": "Comentarios",
+  "CHANGE_VOLUNTEER": "Cambiar Voluntario",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Por favor especifique la razón del cambio de voluntario",
+  "REASON": "Razón"
 }

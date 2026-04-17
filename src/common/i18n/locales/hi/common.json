@@ -350,7 +350,8 @@
   "NOTIFICATIONS": "सूचनाएं",
   "NO_BUILDING_SCHOOLS_HOSPITALS": "No Building Schools Hospitals",
   "NO_INFRASTRUCTURE_MONEY_DISTRIBUTION": "No Infrastructure Money Distribution",
-  "NO_RESULTS": "No Results",
+  "NO_RESULTS": "कोई परिणाम नहीं",
+  "NO_COMMENTS_FOUND": "कोई टिप्पणी नहीं मिली",
   "NUMBER_OF_VOLUNTEERS": "स्वयंसेवकों की संख्या दर्ज करें...",
   "Naveen Sharma": "नवीन शर्मा",
   "Necessities": "पूरा करना",
@@ -735,5 +736,8 @@
   "REMOVE_SKILL": "कौशल हटाएं",
   "REMOVE_CATEGORY": "इस श्रेणी से सभी कौशल हटाएं",
   "SELECT_SKILL_TO_CONTINUE": "अगले चरण पर जाने के लिए कम से कम एक विशिष्ट कौशल चुनें",
-  "COMMENTS": "टिप्पणियाँ"
+  "COMMENTS": "टिप्पणियाँ",
+  "CHANGE_VOLUNTEER": "स्वयंसेवक बदलें",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "कृपया स्वयंसेवक बदलने का कारण बताएं",
+  "REASON": "कारण"
 }

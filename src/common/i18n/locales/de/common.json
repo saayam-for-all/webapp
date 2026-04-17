@@ -370,6 +370,7 @@
   "No Infrastructure or": "Keine Infrastruktur oder",
   "no direct distribution of money.": "keine direkte Geldverteilung.",
   "NO_RESULTS": "Keine Ergebnisse",
+  "NO_COMMENTS_FOUND": "Keine Kommentare gefunden",
   "NUMBER_OF_VOLUNTEERS": "Anzahl der benötigten Freiwilligen eingeben...",
   "OFFER_NECESSARY_SUPPORT": "Notwendige Unterstützung bieten",
   "Offer necessary support to beneficiaries": "Bieten den Begünstigten notwendige Unterstützung",
@@ -734,5 +735,8 @@
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
-  "COMMENTS": "Kommentare"
+  "COMMENTS": "Kommentare",
+  "CHANGE_VOLUNTEER": "Freiwilligen Ändern",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Bitte geben Sie den Grund für die Änderung des Freiwilligen an",
+  "REASON": "Grund"
 }
