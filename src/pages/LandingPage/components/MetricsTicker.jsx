@@ -104,6 +104,8 @@ const MetricsTicker = () => {
   }
 
   useEffect(() => {
+    if (!METRICS_S3_URL) return;
+
     const fetchStats = async () => {
       try {
         const response = await fetch(METRICS_S3_URL);

@@ -103,7 +103,7 @@ exports[`LandingPage renders correctly 1`] = `
           class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
           <h3
-            class="font-bold text-3xl md:text-4xl md:mb-[40px]"
+            class="font-bold text-3xl md:text-4xl"
           >
             mockTranslate(Our Collaborators)
           </h3>
@@ -115,14 +115,14 @@ exports[`LandingPage renders correctly 1`] = `
             >
               <div>
                 <img
-                  class="w-[150px] ml-[75px]"
+                  class="w-[100px] ml-[50px]"
                   src=""
                 />
                 <img
                   src=""
                 />
                 <img
-                  class="w-[200px]"
+                  class="w-[140px]"
                   src=""
                 />
                 <img
@@ -134,14 +134,14 @@ exports[`LandingPage renders correctly 1`] = `
               </div>
               <div>
                 <img
-                  class="w-[150px] ml-[75px]"
+                  class="w-[100px] ml-[50px]"
                   src=""
                 />
                 <img
                   src=""
                 />
                 <img
-                  class="w-[200px]"
+                  class="w-[140px]"
                   src=""
                 />
                 <img
@@ -422,7 +422,7 @@ exports[`LandingPage renders correctly 1`] = `
         class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >
         <h3
-          class="font-bold text-3xl md:text-4xl md:mb-[40px]"
+          class="font-bold text-3xl md:text-4xl"
         >
           mockTranslate(Our Collaborators)
         </h3>
@@ -434,14 +434,14 @@ exports[`LandingPage renders correctly 1`] = `
           >
             <div>
               <img
-                class="w-[150px] ml-[75px]"
+                class="w-[100px] ml-[50px]"
                 src=""
               />
               <img
                 src=""
               />
               <img
-                class="w-[200px]"
+                class="w-[140px]"
                 src=""
               />
               <img
@@ -453,14 +453,14 @@ exports[`LandingPage renders correctly 1`] = `
             </div>
             <div>
               <img
-                class="w-[150px] ml-[75px]"
+                class="w-[100px] ml-[50px]"
                 src=""
               />
               <img
                 src=""
               />
               <img
-                class="w-[200px]"
+                class="w-[140px]"
                 src=""
               />
               <img
