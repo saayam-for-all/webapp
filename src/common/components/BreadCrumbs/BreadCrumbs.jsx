@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./BreadCrumbs.css";
 
 const Breadcrumbs = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const currentPath = location.pathname.toLowerCase();
   const passedTrail = Array.isArray(location.state?.breadcrumbTrail)
@@ -146,7 +148,7 @@ const Breadcrumbs = () => {
     }
     if (currentPath === "/our-team") return "Our Team";
     if (currentPath === "/our-mission") return "Our Mission";
-    if (currentPath === "/news-our-stories") return "News Our Stories";
+    if (currentPath === "/news-our-stories") return t("IN_THE_NEWS");
     if (currentPath === "/how-we-operate") return "How We Operate";
     if (currentPath === "/collaborators") return "Collaborators";
     if (currentPath === "/contact") return "Contact";
