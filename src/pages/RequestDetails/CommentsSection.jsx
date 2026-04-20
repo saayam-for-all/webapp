@@ -22,8 +22,6 @@ const CommentsSection = ({ comments = [] }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5); // Remove itemsPerPage, use only rowsPerPage
   const [searchText, setSearchText] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
-  const [commentsData, setComments] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
 
   // Move filteredComments definition before useEffect
   const filteredComments = useMemo(() => {
@@ -40,13 +38,10 @@ const CommentsSection = ({ comments = [] }) => {
       });
   }, [comments, searchText, sortOrder]);
 
-  useEffect(() => {
-    // Calculate total pages whenever filtered comments or rows per page changes
-    const calculatedTotalPages = Math.ceil(
-      filteredComments.length / rowsPerPage,
-    );
-    setTotalPages(calculatedTotalPages || 1); // Ensure at least 1 page
-  }, [filteredComments, rowsPerPage]);
+  const totalPages = useMemo(
+    () => Math.ceil(filteredComments.length / rowsPerPage) || 1,
+    [filteredComments, rowsPerPage],
+  );
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -183,38 +178,38 @@ const CommentsSection = ({ comments = [] }) => {
       </div>
       <div onClick={(e) => e.stopPropagation()}>
         <div className="mt-4 bg-gray-100 p-6 shadow-md w-full rounded-lg">
-          {/* Only show pagination if there are comments */}
+          {/* Search and sort bar - always visible */}
+          <div className="bg-gray-100 p-4 rounded-lg">
+            <div className="flex flex-col sm:flex-row gap-3 w-full">
+              <div className="relative w-full sm:flex-1">
+                <input
+                  type="text"
+                  value={searchText}
+                  onChange={handleSearchChange}
+                  placeholder="Search..."
+                  className="w-full sm:flex-1 pl-4 pr-8 py-2 bg-white shadow-sm rounded border outline-none"
+                />
+                {searchText && (
+                  <SearchCancelIconButton
+                    onClick={() => setSearchText("")}
+                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                  />
+                )}
+              </div>
+
+              <button
+                onClick={handleSortChange}
+                className="px-4 py-2 bg-white shadow-sm rounded border shrink-0"
+              >
+                {t("SORT_BY")}:{" "}
+                {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
+              </button>
+            </div>
+          </div>
+
+          {/* Comments list or empty state */}
           {filteredComments.length > 0 ? (
             <>
-              {/* Remove the showing text from the top section */}
-              <div className="bg-gray-100 p-4 rounded-lg">
-                <div className="flex flex-col sm:flex-row gap-3 w-full">
-                  <div className="relative w-full sm:flex-1">
-                    <input
-                      type="text"
-                      value={searchText}
-                      onChange={handleSearchChange}
-                      placeholder="Search..."
-                      className="w-full sm:flex-1 pl-4 pr-8 py-2 bg-white shadow-sm rounded border outline-none"
-                    />
-                    {searchText && (
-                      <SearchCancelIconButton
-                        onClick={() => setSearchText("")}
-                        className="absolute right-2 top-1/2 -translate-y-1/2"
-                      />
-                    )}
-                  </div>
-
-                  <button
-                    onClick={handleSortChange}
-                    className="px-4 py-2 bg-white shadow-sm rounded border shrink-0"
-                  >
-                    {t("SORT_BY")}:{" "}
-                    {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
-                  </button>
-                </div>
-              </div>
-              {/* Comments list */}
               {currentComments.map((comment) => {
                 const { message, name, date, id } = comment;
                 return (
@@ -259,7 +254,7 @@ const CommentsSection = ({ comments = [] }) => {
               </div>
             </>
           ) : (
-            <div className="text-center text-gray-500">
+            <div className="text-center text-gray-500 py-8">
               {t("NO_COMMENTS_FOUND")}
             </div>
           )}

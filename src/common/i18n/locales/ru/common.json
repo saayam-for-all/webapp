@@ -349,6 +349,7 @@
   "NO_BUILDING_SCHOOLS_HOSPITALS": "No Building Schools Hospitals",
   "NO_INFRASTRUCTURE_MONEY_DISTRIBUTION": "No Infrastructure Money Distribution",
   "NO_RESULTS": "No Results",
+  "NO_COMMENTS_FOUND": "Комментарии не найдены",
   "NUMBER_OF_VOLUNTEERS": "Введите количество требуемых волонтеров...",
   "Naveen Sharma": "Naveen Sharma",
   "Necessities": "потребностей",
@@ -733,5 +734,8 @@
   "NO_SKILLS_SELECTED": "No skills selected yet",
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
-  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "CHANGE_VOLUNTEER": "Change Volunteer",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Change Volunteer",
+  "REASON": "Change Volunteer"
 }
