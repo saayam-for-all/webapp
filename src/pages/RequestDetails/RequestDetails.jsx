@@ -21,7 +21,7 @@ const RequestDetails = () => {
   const { id } = useParams();
   const [requestData, setRequestData] = useState(undefined);
   const [comments, setComments] = useState([]);
-  const [tab, setTab] = useState("Comments");
+  const [tab, setTab] = useState("COMMENTS");
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const [showEmergency, setShowEmergency] = useState(false);
@@ -181,16 +181,19 @@ const RequestDetails = () => {
               <div className="w-full">
                 {/* 1px divider effect like Dashboard */}
                 <div className="flex w-full bg-gray-200 gap-px">
-                  {["Comments", "Volunteers", "Details"].map((newTab) => {
-                    const isActive = newTab === tab;
-
+                  {[
+                    { key: "COMMENTS" },
+                    { key: "VOLUNTEERS" },
+                    { key: "DETAILS" },
+                  ].map(({ key }) => {
+                    const isActive = key === tab;
                     return (
                       <button
-                        key={newTab}
+                        key={key}
                         type="button"
                         onClick={() => {
                           setShowEmergency(false);
-                          setTab(newTab);
+                          setTab(key);
                         }}
                         className={[
                           "flex-1 py-3 text-center font-semibold",
@@ -199,7 +202,7 @@ const RequestDetails = () => {
                             : "bg-gray-300 text-gray-800 border-b-2 border-transparent hover:bg-gray-200",
                         ].join(" ")}
                       >
-                        {t(newTab)}
+                        {t(key)}
                       </button>
                     );
                   })}
@@ -208,9 +211,9 @@ const RequestDetails = () => {
               <div className="p-4">
                 {showEmergency ? (
                   <EmergencyContact embedded />
-                ) : tab === "Comments" ? (
+                ) : tab === "COMMENTS" ? (
                   <CommentsSection comments={comments} />
-                ) : tab === "Volunteers" ? (
+                ) : tab === "VOLUNTEERS" ? (
                   <HelpingVolunteers />
                 ) : (
                   <RequestDescription
