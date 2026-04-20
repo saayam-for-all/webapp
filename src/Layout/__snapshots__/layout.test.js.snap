@@ -6,7 +6,7 @@ exports[`Layout renders correctly 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="flex min-h-screen flex-col"
+        class="flex flex-col h-screen"
       >
         <mock-navigation-guard />
         <header
@@ -24,7 +24,7 @@ exports[`Layout renders correctly 1`] = `
             <mock-left-ads />
           </aside>
           <main
-            class="flex-[6] flex-1"
+            class="flex-[6] overflow-auto"
           >
             <nav
               aria-label="breadcrumb"
@@ -77,7 +77,7 @@ exports[`Layout renders correctly 1`] = `
   </body>,
   "container": <div>
     <div
-      class="flex min-h-screen flex-col"
+      class="flex flex-col h-screen"
     >
       <mock-navigation-guard />
       <header
@@ -95,7 +95,7 @@ exports[`Layout renders correctly 1`] = `
           <mock-left-ads />
         </aside>
         <main
-          class="flex-[6] flex-1"
+          class="flex-[6] overflow-auto"
         >
           <nav
             aria-label="breadcrumb"

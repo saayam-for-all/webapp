@@ -12,22 +12,14 @@ import Breadcrumbs from "#components/BreadCrumbs/BreadCrumbs";
 
 const Layout = () => {
   const location = useLocation();
-  const currentPath = location.pathname.toLowerCase();
 
   const hideBreadcrumbRoutes = ["/", "/home", "/login"];
-  const shouldHideBreadcrumbs = hideBreadcrumbRoutes.includes(currentPath);
-  const hideAdsRoutes = [
-    "/login",
-    "/signup",
-    "/forgot-password",
-    "/reset-password",
-    "/verify-otp",
-  ];
-
-  const shouldHideAds = hideAdsRoutes.includes(currentPath);
+  const shouldHideBreadcrumbs = hideBreadcrumbRoutes.includes(
+    location.pathname.toLowerCase(),
+  );
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col h-screen">
       <NotificationProvider>
         <NavigationGuard />
 
@@ -36,24 +28,20 @@ const Layout = () => {
         </header>
 
         <div className="flex flex-1">
-          {!shouldHideAds && (
-            <aside className="left-ads-panel flex-1 ">
-              <LeftAds />
-            </aside>
-          )}
+          <aside className="left-ads-panel flex-1 ">
+            <LeftAds />
+          </aside>
 
-          <main className={`${shouldHideAds ? "flex-1" : "flex-[6]"} flex-1`}>
+          <main className="flex-[6] overflow-auto">
             {!shouldHideBreadcrumbs && <Breadcrumbs />}
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
           </main>
 
-          {!shouldHideAds && (
-            <aside className="right-ads-panel flex-1 ">
-              <RightAds />
-            </aside>
-          )}
+          <aside className="right-ads-panel flex-1 ">
+            <RightAds />
+          </aside>
         </div>
 
         <footer className="">
