@@ -121,23 +121,21 @@ const MetricsTicker = () => {
 
   return (
     <div className="w-full py-3">
-      <div className="overflow-x-auto">
-        <div className="flex items-center justify-center px-4 min-w-max mx-auto">
-          {METRIC_CONFIGS.map((config, index) => (
-            <span key={config.key} className="flex items-center">
-              <MetricItem
-                config={config}
-                rawValue={metrics[config.key]}
-                label={t(config.labelKey)}
-              />
-              {index < METRIC_CONFIGS.length - 1 && (
-                <span className="mx-4 text-gray-300 select-none font-light">
-                  |
-                </span>
-              )}
-            </span>
-          ))}
-        </div>
+      <div className="flex flex-wrap items-center justify-center px-4 gap-2 mx-auto">
+        {METRIC_CONFIGS.map((config, index) => (
+          <span key={config.key} className="flex items-center">
+            <MetricItem
+              config={config}
+              rawValue={metrics[config.key]}
+              label={t(config.labelKey)}
+            />
+            {index < METRIC_CONFIGS.length - 1 && (
+              <span className="mx-4 text-gray-300 select-none font-light hidden sm:inline">
+                |
+              </span>
+            )}
+          </span>
+        ))}
       </div>
     </div>
   );
