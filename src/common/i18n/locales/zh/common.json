@@ -608,7 +608,7 @@
   "VISION_DESCRIPTION": "Saayam (赛亚姆) 设想一个世界，每个人都能获得克服障碍和过上充实生活所需的帮助和资源。我们渴望成为人道主义援助领域的全球领导者，利用技术和协作建立一个超越地理、文化和社会经济障碍的无缝支持网络。我们的愿景是建立一个社区，其中“服务人类就是服务上帝”和“愿所有人幸福”的理念指导我们的行动，带来积极的变化并促进一个更仁慈、更公正的世界。",
   "VISION_STATEMENT": "Vision Statement",
   "VOLUNTARY_ORGANIZATIONS": "Voluntary Organizations",
-  "VOLUNTEERS": "VOLUNTEERS",
+  "VOLUNTEERS": "志愿者",
   "VOLUNTEERS_PARTNER_LOCAL_NGOS": "Volunteers Partner Local NGOs",
   "VOLUNTEER_AGREEMENT": "所有人志愿者协议",
   "VOLUNTEER_APPROACH": "志愿者方法：",
@@ -732,5 +732,6 @@
   "NO_SKILLS_SELECTED": "尚未选择技能",
   "REMOVE_SKILL": "删除技能",
   "REMOVE_CATEGORY": "删除此类别的所有技能",
-  "SELECT_SKILL_TO_CONTINUE": "选择至少一项特定技能以进入下一步"
+  "SELECT_SKILL_TO_CONTINUE": "选择至少一项特定技能以进入下一步",
+  "COMMENTS": "评论"
 }

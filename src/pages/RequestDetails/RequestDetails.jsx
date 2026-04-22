@@ -181,16 +181,20 @@ const RequestDetails = () => {
               <div className="w-full">
                 {/* 1px divider effect like Dashboard */}
                 <div className="flex w-full bg-gray-200 gap-px">
-                  {["Comments", "Volunteers", "Details"].map((newTab) => {
-                    const isActive = newTab === tab;
+                  {[
+                    { key: "COMMENTS", value: "Comments" },
+                    { key: "VOLUNTEERS", value: "Volunteers" },
+                    { key: "DETAILS", value: "Details" },
+                  ].map(({ key, value }) => {
+                    const isActive = value === tab;
 
                     return (
                       <button
-                        key={newTab}
+                        key={value}
                         type="button"
                         onClick={() => {
                           setShowEmergency(false);
-                          setTab(newTab);
+                          setTab(value);
                         }}
                         className={[
                           "flex-1 py-3 text-center font-semibold",
@@ -199,7 +203,7 @@ const RequestDetails = () => {
                             : "bg-gray-300 text-gray-800 border-b-2 border-transparent hover:bg-gray-200",
                         ].join(" ")}
                       >
-                        {t(newTab)}
+                        {t(key)}
                       </button>
                     );
                   })}
