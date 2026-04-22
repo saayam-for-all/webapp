@@ -1,4 +1,4 @@
-﻿{
+{
   "*By clicking Submit, you are agreeing to our": "*জমা দিন ক্লিক করে আপনি আমাদের সাথে সম্মত হচ্ছেন",
   "ABOUT": "আমাদের সম্পর্কে",
   "ACCEPT": "গ্রহণ করুন",
@@ -736,6 +736,7 @@
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "COMMENTS": "মন্তব্য",
   "CHANGE_VOLUNTEER": "Change Volunteer",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Change Volunteer",
   "REASON": "Change Volunteer"

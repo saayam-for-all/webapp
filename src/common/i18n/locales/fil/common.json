@@ -1,4 +1,4 @@
-﻿{
+{
   "ABOUT": "Tungkol sa atin",
   "DONATE": "Mag-donate",
   "LOGIN": "Mag log in",
@@ -30,5 +30,7 @@
   "NO_SKILLS_SELECTED": "No skills selected yet",
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
-  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "COMMENTS": "Mga Komento",
+  "VOLUNTEERS": "Mga Boluntaryo"
 }
