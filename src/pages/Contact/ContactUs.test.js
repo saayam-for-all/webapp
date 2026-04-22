@@ -90,6 +90,7 @@ describe("ContactUs", () => {
     ).toBeTruthy();
 
     // Click again to collapse it — covers the openFAQIndex === index ? null : index branch
+    //
     fireEvent.click(faqButton);
   });
 });
