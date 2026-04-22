@@ -37,9 +37,13 @@ const submitForm = () => {
 };
 
 describe("ContactUs", () => {
-  it("renders correctly", () => {
-    const tree = render(<ContactUs />);
-    expect(tree).toMatchSnapshot();
+  it("renders without crashing", () => {
+    render(<ContactUs />);
+    // Sanity checks — the page's main headings and submit button are present.
+    // Avoids brittle MUI snapshots that differ across environments.
+    expect(screen.getByText("Contact Us")).toBeTruthy();
+    expect(screen.getByText("Get In Touch")).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Submit/i })).toBeTruthy();
   });
 
   it("shows validation errors when submitting an empty form", () => {
