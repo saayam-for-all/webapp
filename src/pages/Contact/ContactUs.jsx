@@ -88,30 +88,30 @@ const ContactUs = () => {
       PHONECODESEN[countryCode] &&
       `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
     if (!formData.firstName.trim()) {
-      newErrors.firstName = "First Name is required";
+      newErrors.firstName = t("First Name is required");
     } else if (!nameRegex.test(formData.firstName.trim())) {
-      newErrors.firstName = "First Name should contain only letters";
+      newErrors.firstName = t("First Name should contain only letters");
     }
     if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last Name is required";
+      newErrors.lastName = t("Last Name is required");
     } else if (!nameRegex.test(formData.lastName.trim())) {
-      newErrors.lastName = "Last Name should contain only letters";
+      newErrors.lastName = t("Last Name should contain only letters");
     }
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t("Email is required");
     } else if (!emailRegex.test(formData.email.trim())) {
-      newErrors.email = "Email is invalid";
+      newErrors.email = t("Email is invalid");
     }
     if (!phone) {
-      newErrors.phone = "Phone is required";
+      newErrors.phone = t("Phone is required");
     } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
-      newErrors.phone = "Please enter a valid phone number";
+      newErrors.phone = t("Please enter a valid phone number");
     }
     if (!formData.reason) {
-      newErrors.reason = "Please select a reason for contacting";
+      newErrors.reason = t("Please select a reason for contacting");
     }
     if (!formData.message) {
-      newErrors.message = "Message is required";
+      newErrors.message = t("Message is required");
     }
     setErrors(newErrors);
     setPhoneError(newErrors.phone || "");
