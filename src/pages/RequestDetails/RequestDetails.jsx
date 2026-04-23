@@ -62,6 +62,12 @@ const RequestDetails = () => {
       isClickable: true,
     },
     {
+      context: "John Doe", // Mock name
+      type: "REQUESTER", // Translation key
+      icon: <IoPersonCircle size={26} />,
+      isClickable: false,
+    },
+    {
       context: "Ethan Marshall",
       type: "Volunteer",
       icon: <RiUserStarLine size={22} />,
