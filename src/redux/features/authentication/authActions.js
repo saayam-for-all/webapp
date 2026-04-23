@@ -147,7 +147,10 @@ export const checkAuthStatus = () => async (dispatch) => {
     if (attributes.email) {
       try {
         const result = await getUserId(attributes.email);
-        userDbId = result?.data?.id || null;
+        userDbId = result?.data?.user_id || result?.data?.id || null;
+        if (userDbId) {
+          localStorage.setItem("userDbId", userDbId);
+        }
       } catch (dbError) {
         console.warn(
           "Database lookup failed, continuing without databaseId:",
