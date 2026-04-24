@@ -299,44 +299,44 @@
       }
     },
     "ELDERLY_COMMUNITY_ASSISTANCE": {
-      "LABEL": "老年人社区援助",
-      "DESC": "为老年人、看护人和社区提供非医疗支持。",
+      "LABEL": "长者社区援助",
+      "DESC": "为长者、照护者与社区提供非医疗支持。",
       "SUBCATEGORIES": {
         "SENIOR_RELOCATION_SUPPORT": {
-          "LABEL": "老年人搬迁支持",
-          "DESC": "规划家庭或护理机构之间的搬迁。"
+          "LABEL": "长者搬迁支持",
+          "DESC": "协助在住所或护理机构之间搬迁。"
         },
         "DIGITAL_SUPPORT_FOR_SENIORS": {
-          "LABEL": "老年人数字支持",
-          "DESC": "协助使用设备和应用程序。"
+          "LABEL": "长者数字支持",
+          "DESC": "帮助熟悉电子设备与应用。"
         },
         "MEDICATION_MANAGEMENT": {
-          "LABEL": "药物管理",
-          "DESC": "确保日程安排、提醒和存储都在正轨上。"
+          "LABEL": "用药管理",
+          "DESC": "监督用药时间、提醒与存放。"
         },
         "MEDICAL_DEVICES_SETUP": {
-          "LABEL": "医疗设备设置",
-          "DESC": "设置医疗和辅助设备或进行故障排除。"
+          "LABEL": "医疗设备安装",
+          "DESC": "安装或调整医疗及辅助设备。"
         },
         "ERRANDS_EVENTS_TRANSPORTATION": {
-          "LABEL": "差事、活动和交通",
-          "DESC": "护送老年人办理差事或参加特殊活动。"
+          "LABEL": "差事、活动与交通",
+          "DESC": "陪同办理差事或参加活动。"
         },
         "TRANSPORTATION_APPOINTMENTS_EVENTS": {
-          "LABEL": "预约交通",
-          "DESC": "安排乘车前往赴约和聚会。"
+          "LABEL": "就诊交通安排",
+          "DESC": "安排前往预约或聚会的交通。"
         },
         "SCHEDULING_APPOINTMENTS_OR_TASKS": {
-          "LABEL": "安排约会或任务",
-          "DESC": "跟踪约会、续药和家务。"
+          "LABEL": "安排预约或任务",
+          "DESC": "记录并提醒各类预约、续药与任务。"
         },
         "SOCIAL_CONNECTION": {
-          "LABEL": "社会联系",
-          "DESC": "陪伴和社交活动。"
+          "LABEL": "社交陪伴",
+          "DESC": "提供陪伴与社交活动。"
         },
         "MEAL_SUPPORT": {
-          "LABEL": "膳食支持",
-          "DESC": "帮助准备和烹饪膳食。"
+          "LABEL": "饮食支持",
+          "DESC": "协助准备与烹饪餐食。"
         }
       }
     }

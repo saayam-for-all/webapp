@@ -299,44 +299,44 @@
       }
     },
     "ELDERLY_COMMUNITY_ASSISTANCE": {
-      "LABEL": "Assistance Communautaire aux Personnes Âgées",
-      "DESC": "Soutien non médical pour les personnes âgées, les aidants et les communautés.",
+      "LABEL": "Assistance communautaire aux aînés",
+      "DESC": "Soutien non clinique pour les aînés, aidants et communautés.",
       "SUBCATEGORIES": {
         "SENIOR_RELOCATION_SUPPORT": {
-          "LABEL": "Soutien au Relogement des Seniors",
-          "DESC": "Planifier les déménagements entre domiciles ou établissements de soins."
+          "LABEL": "Soutien au relogement des aînés",
+          "DESC": "Planifier les déménagements entre domiciles ou centres de soins."
         },
         "DIGITAL_SUPPORT_FOR_SENIORS": {
-          "LABEL": "Soutien Numérique pour les Seniors",
-          "DESC": "Assistance avec les appareils et les applications."
+          "LABEL": "Aide numérique pour aînés",
+          "DESC": "Assistance avec appareils et applications."
         },
         "MEDICATION_MANAGEMENT": {
-          "LABEL": "Gestion des Médicaments",
-          "DESC": "S'assurer que les horaires, les rappels et le stockage sont à jour."
+          "LABEL": "Gestion des médicaments",
+          "DESC": "Suivi des horaires, rappels et stockage des traitements."
         },
         "MEDICAL_DEVICES_SETUP": {
-          "LABEL": "Configuration des Appareils Médicaux",
-          "DESC": "Configurer ou dépanner les appareils médicaux et d'assistance."
+          "LABEL": "Installation des dispositifs médicaux",
+          "DESC": "Mettre en place ou régler les appareils médicaux et d'assistance."
         },
         "ERRANDS_EVENTS_TRANSPORTATION": {
-          "LABEL": "Courses, Événements et Transport",
-          "DESC": "Accompagner les personnes âgées pour des courses ou des événements spéciaux."
+          "LABEL": "Courses, événements et transport",
+          "DESC": "Accompagnement aux courses ou événements spéciaux."
         },
         "TRANSPORTATION_APPOINTMENTS_EVENTS": {
-          "LABEL": "Transport pour les Rendez-vous",
-          "DESC": "Organiser des trajets pour des rendez-vous et des réunions."
+          "LABEL": "Transport vers les rendez-vous",
+          "DESC": "Organisation des trajets pour les rendez-vous et rencontres."
         },
         "SCHEDULING_APPOINTMENTS_OR_TASKS": {
-          "LABEL": "Planification de Rendez-vous ou Tâches",
-          "DESC": "Garder une trace des rendez-vous, des renouvellements et des corvées."
+          "LABEL": "Planification de rendez-vous ou tâches",
+          "DESC": "Tenir à jour les rendez-vous, renouvellements et tâches."
         },
         "SOCIAL_CONNECTION": {
-          "LABEL": "Lien Social",
+          "LABEL": "Lien social",
           "DESC": "Compagnie et activités sociales."
         },
         "MEAL_SUPPORT": {
-          "LABEL": "Soutien pour les Repas",
-          "DESC": "Aide à la préparation et à la cuisson des repas."
+          "LABEL": "Soutien aux repas",
+          "DESC": "Aide pour la préparation des repas et la cuisine."
         }
       }
     }

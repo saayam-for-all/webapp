@@ -299,44 +299,44 @@
       }
     },
     "ELDERLY_COMMUNITY_ASSISTANCE": {
-      "LABEL": "Seniorengemeinschaftshilfe",
-      "DESC": "Nicht-medizinische Unterstützung für Senioren, Pflegekräfte und Gemeinden.",
+      "LABEL": "Senioren-Community-Unterstützung",
+      "DESC": "Nicht-medizinische Hilfe für Senioren, Angehörige und Gemeinschaften.",
       "SUBCATEGORIES": {
         "SENIOR_RELOCATION_SUPPORT": {
-          "LABEL": "Unterstützung beim Umzug von Senioren",
-          "DESC": "Planen Sie Umzüge zwischen Häusern oder Pflegeeinrichtungen."
+          "LABEL": "Unterstützung beim Seniorenumzug",
+          "DESC": "Planung von Umzügen zwischen Wohnungen oder Pflegeeinrichtungen."
         },
         "DIGITAL_SUPPORT_FOR_SENIORS": {
-          "LABEL": "Digitale Unterstützung für Senioren",
-          "DESC": "Hilfe bei Geräten und Apps."
+          "LABEL": "Digitale Hilfe für Senioren",
+          "DESC": "Unterstützung bei Geräten und Apps."
         },
         "MEDICATION_MANAGEMENT": {
           "LABEL": "Medikamentenmanagement",
-          "DESC": "Stellen Sie sicher, dass Zeitpläne, Erinnerungen und Aufbewahrung auf dem richtigen Weg sind."
+          "DESC": "Überwachung von Zeiten, Erinnerungen und Aufbewahrung."
         },
         "MEDICAL_DEVICES_SETUP": {
           "LABEL": "Einrichtung medizinischer Geräte",
-          "DESC": "Richten Sie medizinische und Hilfsgeräte ein oder beheben Sie Fehler."
+          "DESC": "Medizinische oder unterstützende Geräte installieren und einstellen."
         },
         "ERRANDS_EVENTS_TRANSPORTATION": {
-          "LABEL": "Besorgungen, Veranstaltungen und Transport",
-          "DESC": "Begleiten Sie Senioren zu Besorgungen oder besonderen Veranstaltungen."
+          "LABEL": "Besorgungen, Events & Transport",
+          "DESC": "Begleitung zu Besorgungen oder besonderen Veranstaltungen."
         },
         "TRANSPORTATION_APPOINTMENTS_EVENTS": {
           "LABEL": "Transport zu Terminen",
-          "DESC": "Organisieren Sie Fahrten zu Terminen und Treffen."
+          "DESC": "Organisation von Fahrten zu Arztterminen und Treffen."
         },
         "SCHEDULING_APPOINTMENTS_OR_TASKS": {
           "LABEL": "Termine oder Aufgaben planen",
-          "DESC": "Behalten Sie den Überblick über Termine, Nachfüllungen und Aufgaben."
+          "DESC": "Termine, Nachfüllungen und Aufgaben im Blick behalten."
         },
         "SOCIAL_CONNECTION": {
-          "LABEL": "Soziale Verbindung",
-          "DESC": "Gesellschaft und soziale Aktivitäten."
+          "LABEL": "Soziale Kontakte",
+          "DESC": "Gesellschaft und gemeinsame Aktivitäten."
         },
         "MEAL_SUPPORT": {
-          "LABEL": "Mahlzeitenunterstützung",
-          "DESC": "Hilfe bei der Zubereitung und dem Kochen von Mahlzeiten."
+          "LABEL": "Essensunterstützung",
+          "DESC": "Hilfe bei der Vorbereitung und beim Kochen von Mahlzeiten."
         }
       }
     }
