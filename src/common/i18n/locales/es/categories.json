@@ -299,44 +299,44 @@
       }
     },
     "ELDERLY_COMMUNITY_ASSISTANCE": {
-      "LABEL": "Asistencia comunitaria para mayores",
-      "DESC": "Apoyo no clínico para personas mayores, cuidadores y comunidades.",
+      "LABEL": "Asistencia Comunitaria para Ancianos",
+      "DESC": "Apoyo no médico para personas mayores, cuidadores y comunidades.",
       "SUBCATEGORIES": {
         "SENIOR_RELOCATION_SUPPORT": {
-          "LABEL": "Apoyo para reubicación de mayores",
-          "DESC": "Planificación de mudanzas entre hogares o centros de cuidado."
+          "LABEL": "Apoyo para Reubicación de Ancianos",
+          "DESC": "Planificación de mudanzas entre hogares o instalaciones de cuidado."
         },
         "DIGITAL_SUPPORT_FOR_SENIORS": {
-          "LABEL": "Apoyo digital para personas mayores",
+          "LABEL": "Soporte Digital para Ancianos",
           "DESC": "Asistencia con dispositivos y aplicaciones."
         },
         "MEDICATION_MANAGEMENT": {
-          "LABEL": "Gestión de medicamentos",
-          "DESC": "Supervisa horarios, recordatorios y almacenamiento."
+          "LABEL": "Gestión de Medicamentos",
+          "DESC": "Asegurar que los horarios, recordatorios y el almacenamiento estén al día."
         },
         "MEDICAL_DEVICES_SETUP": {
-          "LABEL": "Configuración de dispositivos médicos",
-          "DESC": "Instala o ajusta dispositivos médicos y de asistencia."
+          "LABEL": "Configuración de Dispositivos Médicos",
+          "DESC": "Configurar o solucionar problemas de dispositivos médicos y de asistencia."
         },
         "ERRANDS_EVENTS_TRANSPORTATION": {
-          "LABEL": "Mandados, eventos y transporte",
-          "DESC": "Acompañamiento a mandados o eventos especiales."
+          "LABEL": "Recados, Eventos y Transporte",
+          "DESC": "Acompañar a personas mayores a recados o eventos especiales."
         },
         "TRANSPORTATION_APPOINTMENTS_EVENTS": {
-          "LABEL": "Transporte para citas",
-          "DESC": "Organiza viajes a citas y reuniones."
+          "LABEL": "Transporte para Citas",
+          "DESC": "Organizar viajes a citas y reuniones."
         },
         "SCHEDULING_APPOINTMENTS_OR_TASKS": {
-          "LABEL": "Programación de citas o tareas",
-          "DESC": "Mantén el registro de citas, recargas y tareas."
+          "LABEL": "Programación de Citas o Tareas",
+          "DESC": "Llevar un registro de citas, recargas y tareas."
         },
         "SOCIAL_CONNECTION": {
-          "LABEL": "Conexión social",
+          "LABEL": "Conexión Social",
           "DESC": "Compañía y actividades sociales."
         },
         "MEAL_SUPPORT": {
-          "LABEL": "Apoyo de comidas",
-          "DESC": "Ayuda con la preparación de comidas y cocinar."
+          "LABEL": "Apoyo de Comidas",
+          "DESC": "Ayuda con la preparación y cocción de comidas."
         }
       }
     }
