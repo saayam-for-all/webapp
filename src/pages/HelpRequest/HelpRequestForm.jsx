@@ -292,7 +292,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         id: cat.category_name,
         name: cat.category_name,
         category_number: cat.category_number,
-        displayName: cat.hierarchy ?? formatApiCategoryName(cat.category_name),
+        displayName: formatApiCategoryName(cat.category_name),
+        hierarchy: cat.hierarchy,
         confidence: cat.confidence,
       }));
 
@@ -819,8 +820,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const matched = suggestedCategories.find(
       (c) => (c.category_number ?? c.name) === newCategory,
     );
-    const newCategoryDisplay = matched?.displayName ?? newCategory;
-
+    const newCategoryDisplay =
+      matched?.hierarchy ?? matched?.displayName ?? newCategory;
+    setFormData({ ...formData, category: newCategoryDisplay });
     setCategoryConfirmed(true); // unlock submission
     setShowModal(false);
 
