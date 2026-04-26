@@ -165,14 +165,11 @@ export const checkAuthStatus = () => async (dispatch) => {
 
     const user = {
       userId,
+      ...attributes,
       attributes,
-      /*email,
-      family_name,
-      given_name,
-      phone_number,
-      zoneinfo,
       groups,
-      userDbId,*/
+      userDbId,
+      cognitoGroups: groups,
     };
     dispatch(
       loginSuccess({

@@ -3,43 +3,37 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import InactivityLogoutTimer from "../common/components/InactivityTimer/InactivityTimer";
 import LoadingIndicator from "../common/components/Loading/Loading";
+import {
+  startVolunteerLocationTracking,
+  stopVolunteerLocationTracking,
+  syncVolunteerLocationNow,
+} from "../services/volunteerLocationTracker";
 
 const ProtectedRoute = () => {
   const { user, loading } = useSelector((state) => state.auth);
-
-  // Wait for auth initialization to complete before redirecting.
-  // This prevents the race condition where an OAuth callback lands on
-  // /dashboard but gets bounced to "/" because checkAuthStatus() hasn't
-  // finished yet.
-  if (loading) {
-    return <LoadingIndicator size="50px" position="center" />;
-  }
-
+  const location = useLocation();
   const userDBid = user?.userDbId || "";
 
-  const location = useLocation();
+  const rawGroups =
+    user?.groups ??
+    user?.group ??
+    user?.cognitoGroups ??
+    user?.["cognito:groups"] ??
+    [];
+
+  const normalizedGroups = Array.isArray(rawGroups)
+    ? rawGroups
+    : [rawGroups].filter(Boolean);
+  const isVolunteer =
+    normalizedGroups.includes("Volunteers") ||
+    normalizedGroups.includes("Volunteer");
 
   useEffect(() => {
-    let removeListener = null;
-
-    const rawGroups =
-      user?.groups ??
-      user?.group ??
-      user?.cognitoGroups ??
-      user?.["cognito:groups"] ??
-      [];
-
-    const normalizedGroups = Array.isArray(rawGroups)
-      ? rawGroups
-      : [rawGroups].filter(Boolean);
-
-    const isVolunteer =
-      normalizedGroups.includes("Volunteers") ||
-      normalizedGroups.includes("Volunteer");
+    if (loading) return undefined;
 
     if (!user || !userDBid || !isVolunteer) {
       stopVolunteerLocationTracking();
-      return;
+      return undefined;
     }
 
     startVolunteerLocationTracking({
@@ -61,9 +55,12 @@ const ProtectedRoute = () => {
 
     return () => {
       stopVolunteerLocationTracking();
-      if (removeListener) removeListener();
+      window.removeEventListener(
+        "personal-info-updated",
+        onPersonalInfoUpdated,
+      );
     };
-  }, [authState, user, userDBid, location.pathname]);
+  }, [isVolunteer, loading, user, userDBid]);
 
   useEffect(() => {
     const publicPaths = [
@@ -79,6 +76,14 @@ const ProtectedRoute = () => {
       stopVolunteerLocationTracking();
     }
   }, [location.pathname]);
+
+  // Wait for auth initialization to complete before redirecting.
+  // This prevents the race condition where an OAuth callback lands on
+  // /dashboard but gets bounced to "/" because checkAuthStatus() hasn't
+  // finished yet.
+  if (loading) {
+    return <LoadingIndicator size="50px" position="center" />;
+  }
 
   if (!user) return <Navigate to="/" replace />;
 
