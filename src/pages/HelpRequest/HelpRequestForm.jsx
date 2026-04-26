@@ -292,7 +292,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         id: cat.category_name,
         name: cat.category_name,
         category_number: cat.category_number,
-        displayName: formatApiCategoryName(cat.category_name),
+        displayName: cat.hierarchy ?? formatApiCategoryName(cat.category_name),
         confidence: cat.confidence,
       }));
 
