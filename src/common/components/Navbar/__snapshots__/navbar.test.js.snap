@@ -82,13 +82,13 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           >
             <button
               aria-label="mockTranslate(DONATE)"
-              class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+              class="text-black hover:text-gray-600 flex items-center"
               title="mockTranslate(DONATE)"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1p832ek-MuiSvgIcon-root"
                 data-testid="VolunteerActivismOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -331,11 +331,12 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 class="relative"
               >
                 <button
-                  class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center md:-ml-2"
+                  aria-label="mockTranslate(DONATE)"
+                  class="text-black hover:text-gray-600 flex items-center"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14wgcet-MuiSvgIcon-root"
                     data-testid="VolunteerActivismOutlinedIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -471,13 +472,13 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
         >
           <button
             aria-label="mockTranslate(DONATE)"
-            class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+            class="text-black hover:text-gray-600 flex items-center"
             title="mockTranslate(DONATE)"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1p832ek-MuiSvgIcon-root"
               data-testid="VolunteerActivismOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -720,11 +721,12 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               class="relative"
             >
               <button
-                class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center md:-ml-2"
+                aria-label="mockTranslate(DONATE)"
+                class="text-black hover:text-gray-600 flex items-center"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14wgcet-MuiSvgIcon-root"
                   data-testid="VolunteerActivismOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -867,13 +869,13 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
           >
             <button
               aria-label="mockTranslate(DONATE)"
-              class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+              class="text-black hover:text-gray-600 flex items-center"
               title="mockTranslate(DONATE)"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1p832ek-MuiSvgIcon-root"
                 data-testid="VolunteerActivismOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1017,11 +1019,12 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                 class="relative"
               >
                 <button
-                  class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center md:-ml-2"
+                  aria-label="mockTranslate(DONATE)"
+                  class="text-black hover:text-gray-600 flex items-center"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14wgcet-MuiSvgIcon-root"
                     data-testid="VolunteerActivismOutlinedIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1101,13 +1104,13 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
         >
           <button
             aria-label="mockTranslate(DONATE)"
-            class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+            class="text-black hover:text-gray-600 flex items-center"
             title="mockTranslate(DONATE)"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1p832ek-MuiSvgIcon-root"
               data-testid="VolunteerActivismOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1251,11 +1254,12 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               class="relative"
             >
               <button
-                class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center md:-ml-2"
+                aria-label="mockTranslate(DONATE)"
+                class="text-black hover:text-gray-600 flex items-center"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14wgcet-MuiSvgIcon-root"
                   data-testid="VolunteerActivismOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"

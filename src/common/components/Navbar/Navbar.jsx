@@ -449,23 +449,23 @@ const Navbar = () => {
             // ✅ After login: icon-only
             <button
               onClick={(e) => handleLinkClick(e, "/donate")}
-              className="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+              className="text-black hover:text-gray-600 flex items-center"
               aria-label={t("DONATE")}
               title={t("DONATE")}
               type="button"
             >
-              <VolunteerActivismOutlinedIcon fontSize="small" />
+              <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
             </button>
           ) : (
             // ✅ Before login: full Donate button (keep your original)
             <button
               onClick={(e) => handleLinkClick(e, "/donate")}
-              className="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+              className="text-black hover:text-gray-600 flex items-center"
               aria-label={t("DONATE")}
               title={t("DONATE")}
               type="button"
             >
-              <VolunteerActivismOutlinedIcon fontSize="small" />
+              <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
             </button>
           )}
         </div>
@@ -657,9 +657,10 @@ const Navbar = () => {
             <div className="relative">
               <button
                 onClick={(e) => handleLinkClick(e, "/donate")}
-                className="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center md:-ml-2"
+                className="text-black hover:text-gray-600 flex items-center"
+                aria-label={t("DONATE")}
               >
-                <VolunteerActivismOutlinedIcon fontSize="small" />
+                <VolunteerActivismOutlinedIcon sx={{ fontSize: 38 }} />
               </button>
             </div>
           </div>
