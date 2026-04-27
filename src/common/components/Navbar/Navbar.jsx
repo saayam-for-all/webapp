@@ -460,11 +460,12 @@ const Navbar = () => {
             // ✅ Before login: full Donate button (keep your original)
             <button
               onClick={(e) => handleLinkClick(e, "/donate")}
-              className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+              className="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+              aria-label={t("DONATE")}
+              title={t("DONATE")}
               type="button"
             >
-              <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
-              {t("DONATE")}
+              <VolunteerActivismOutlinedIcon fontSize="small" />
             </button>
           )}
         </div>
@@ -656,10 +657,9 @@ const Navbar = () => {
             <div className="relative">
               <button
                 onClick={(e) => handleLinkClick(e, "/donate")}
-                className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
+                className="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center md:-ml-2"
               >
-                <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
-                {t("DONATE")}
+                <VolunteerActivismOutlinedIcon fontSize="small" />
               </button>
             </div>
           </div>
