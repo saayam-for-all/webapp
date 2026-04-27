@@ -114,6 +114,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
   const [enums, setEnums] = useState(null);
   // Popup modal for subcategory - State for Elderly Support inline form
@@ -823,6 +824,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const newCategoryDisplay =
       matched?.hierarchy ?? matched?.displayName ?? newCategory;
     setFormData({ ...formData, category: newCategoryDisplay });
+    setSelectedCategoryId(matched?.category_number ?? newCategory);
     setCategoryConfirmed(true); // unlock submission
     setShowModal(false);
 
@@ -1168,7 +1170,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       //const response = await createRequest(submissionData);
       const payload = mapHelpRequestPayload({
         formData: submissionData,
-        selectedCategoryId: formData.category,
+        selectedCategoryId: selectedCategoryId ?? formData.category,
         requesterId: userDbId,
         enumMaps,
         additionalFields: additionalFieldValues,
