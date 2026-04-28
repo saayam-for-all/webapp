@@ -538,6 +538,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       {/* Phone Number */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          {isEditing && <span className="text-red-500 mr-1">*</span>}
           {t("PHONE_NUMBER")}
         </label>
         <div className="flex items-center gap-2">
