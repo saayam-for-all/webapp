@@ -16,6 +16,7 @@
   "EMAIL": "电子邮件",
   "EMAIL_VERIFICATION_REQUIRED": "此更改将需要电子邮件验证",
   "PHONE_NUMBER": "电话号码",
+  "YOUR_PHONE_NUMBER": "您的电话号码",
   "COUNTRY": "国家",
   "SELECT_COUNTRY": "选择您的国家",
   "PROFILE_UPDATE_SUCCESS": "个人资料更新成功",

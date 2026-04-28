@@ -17,6 +17,7 @@
   "EMAIL": "Email",
   "EMAIL_VERIFICATION_REQUIRED": "Email verification will be required for this change",
   "PHONE_NUMBER": "Phone Number",
+  "YOUR_PHONE_NUMBER": "Your phone number",
   "COUNTRY": "Country",
   "SELECT_COUNTRY": "Select your country",
   "PROFILE_UPDATE_SUCCESS": "Profile updated successfully!",
