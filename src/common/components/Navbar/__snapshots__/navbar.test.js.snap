@@ -83,6 +83,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             <button
               aria-label="mockTranslate(DONATE)"
               class="text-black hover:text-gray-600 flex items-center"
+              data-mui-internal-clone-element="true"
               title="mockTranslate(DONATE)"
               type="button"
             >
@@ -136,7 +137,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   <input
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r1:"
+                    id=":r2:"
                     maxlength="80"
                     placeholder="Search..."
                     type="text"
@@ -333,6 +334,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 <button
                   aria-label="mockTranslate(DONATE)"
                   class="text-black hover:text-gray-600 flex items-center"
+                  data-mui-internal-clone-element="true"
                 >
                   <svg
                     aria-hidden="true"
@@ -473,6 +475,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           <button
             aria-label="mockTranslate(DONATE)"
             class="text-black hover:text-gray-600 flex items-center"
+            data-mui-internal-clone-element="true"
             title="mockTranslate(DONATE)"
             type="button"
           >
@@ -526,7 +529,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r1:"
+                  id=":r2:"
                   maxlength="80"
                   placeholder="Search..."
                   type="text"
@@ -723,6 +726,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               <button
                 aria-label="mockTranslate(DONATE)"
                 class="text-black hover:text-gray-600 flex items-center"
+                data-mui-internal-clone-element="true"
               >
                 <svg
                   aria-hidden="true"
@@ -870,6 +874,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             <button
               aria-label="mockTranslate(DONATE)"
               class="text-black hover:text-gray-600 flex items-center"
+              data-mui-internal-clone-element="true"
               title="mockTranslate(DONATE)"
               type="button"
             >
@@ -1021,6 +1026,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                 <button
                   aria-label="mockTranslate(DONATE)"
                   class="text-black hover:text-gray-600 flex items-center"
+                  data-mui-internal-clone-element="true"
                 >
                   <svg
                     aria-hidden="true"
@@ -1105,6 +1111,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
           <button
             aria-label="mockTranslate(DONATE)"
             class="text-black hover:text-gray-600 flex items-center"
+            data-mui-internal-clone-element="true"
             title="mockTranslate(DONATE)"
             type="button"
           >
@@ -1256,6 +1263,7 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               <button
                 aria-label="mockTranslate(DONATE)"
                 class="text-black hover:text-gray-600 flex items-center"
+                data-mui-internal-clone-element="true"
               >
                 <svg
                   aria-hidden="true"
