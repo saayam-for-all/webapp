@@ -128,4 +128,19 @@ describe("ContactUs", () => {
     // Click again to collapse (covers the setOpenFAQIndex(null) branch)
     fireEvent.click(faqButton);
   });
+
+  it("displays the 24-48 hour response time note", () => {
+    render(<ContactUs />);
+
+    // Verify the response time note is visible on the page
+    // This covers the rendering of the note section before the submit button
+    expect(
+      screen.getByText(
+        "We typically respond to your inquiry within 24-48 hours.",
+      ),
+    ).toBeTruthy();
+
+    // Verify the "Note:" label is also present
+    expect(screen.getByText("Note:")).toBeTruthy();
+  });
 });
