@@ -376,6 +376,16 @@ const ContactUs = () => {
                 />
               </div>
 
+              {/* Response Time Note */}
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded">
+                <p className="text-sm text-blue-800">
+                  <span className="font-semibold">{t("Note:")}</span>{" "}
+                  {t(
+                    "We typically respond to your inquiry within 24-48 hours.",
+                  )}
+                </p>
+              </div>
+
               {/* Submit */}
               <Button
                 type="submit"
