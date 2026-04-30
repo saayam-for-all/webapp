@@ -1574,6 +1574,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                         }}
                         maxFileSizeMB={10}
                         descriptionLimit={500}
+                        maxRecordingSeconds={55}
                       />
 
                       {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}

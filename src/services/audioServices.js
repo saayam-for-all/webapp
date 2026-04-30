@@ -128,16 +128,40 @@ export const blobToBase64 = (audioBlob) => {
 
 const normalizeSpeechDetectV2Response = (data) => {
   if (Array.isArray(data) && data.length > 0) {
-    const firstResult = data[0];
+    const items = data.filter((x) => x && typeof x === "object");
+
+    const transcriptionText = items
+      .map(
+        (x) =>
+          x.transcript || x.transcriptionText || x.transcription_text || "",
+      )
+      .filter(Boolean)
+      .join(" ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const detectedLanguage =
+      items.find((x) => x.detected_language)?.detected_language ||
+      items.find((x) => x.detectedLanguage)?.detectedLanguage ||
+      null;
+
+    const confidence =
+      items.length > 0
+        ? Math.max(
+            ...items.map((x) =>
+              Number(
+                x.confidence ?? x.confidence_score ?? x.confidenceScore ?? 0,
+              ),
+            ),
+          )
+        : 0;
+
     return {
-      transcriptionText:
-        firstResult.transcript ||
-        firstResult.transcriptionText ||
-        firstResult.transcription_text ||
-        "",
-      detectedLanguage:
-        firstResult.detected_language || firstResult.detectedLanguage || null,
-      requestId: firstResult.requestId || firstResult.request_id || null,
+      transcriptionText,
+      detectedLanguage,
+      confidence,
+      requestId:
+        items.find((x) => x.requestId || x.request_id)?.requestId || null,
     };
   }
 
@@ -149,6 +173,7 @@ const normalizeSpeechDetectV2Response = (data) => {
         data.transcription_text ||
         "",
       detectedLanguage: data.detected_language || data.detectedLanguage || null,
+      confidence: Number(data.confidence ?? 0),
       requestId: data.requestId || data.request_id || null,
     };
   }
@@ -156,6 +181,7 @@ const normalizeSpeechDetectV2Response = (data) => {
   return {
     transcriptionText: "",
     detectedLanguage: null,
+    confidence: 0,
     requestId: null,
   };
 };
@@ -530,6 +556,8 @@ export const generateHelloAudio = async () => {
  * @returns {Promise<Object>} - Returns transcription text and requestId
  */
 export const uploadAudioAndTranscribe = async (audioBlob) => {
+  const base64Audio = await blobToBase64(audioBlob);
+  const response = await speechDetectV2(base64Audio);
   try {
     // Convert WEBM/Opus audio blob to base64 string (no format conversion needed)
     const base64Audio = await blobToBase64(audioBlob);
@@ -542,6 +570,7 @@ export const uploadAudioAndTranscribe = async (audioBlob) => {
       text: response.transcriptionText || "",
       requestId: response.requestId || null,
       detectedLanguage: response.detectedLanguage || null,
+      confidence: response.confidence || 0,
     };
   } catch (error) {
     // Provide more specific error messages
