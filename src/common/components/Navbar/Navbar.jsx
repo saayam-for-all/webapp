@@ -447,26 +447,30 @@ const Navbar = () => {
         <div className="flex md:hidden items-center">
           {user?.userId ? (
             // ✅ After login: icon-only
-            <button
-              onClick={(e) => handleLinkClick(e, "/donate")}
-              className="text-black hover:text-gray-600 flex items-center"
-              aria-label={t("DONATE")}
-              title={t("DONATE")}
-              type="button"
-            >
-              <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
-            </button>
+            <ModernTooltip title={t("DONATE")}>
+              <button
+                onClick={(e) => handleLinkClick(e, "/donate")}
+                className="text-black hover:text-gray-600 flex items-center"
+                aria-label={t("DONATE")}
+                title={t("DONATE")}
+                type="button"
+              >
+                <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
+              </button>
+            </ModernTooltip>
           ) : (
             // ✅ Before login: full Donate button (keep your original)
-            <button
-              onClick={(e) => handleLinkClick(e, "/donate")}
-              className="text-black hover:text-gray-600 flex items-center"
-              aria-label={t("DONATE")}
-              title={t("DONATE")}
-              type="button"
-            >
-              <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
-            </button>
+            <ModernTooltip title={t("DONATE")}>
+              <button
+                onClick={(e) => handleLinkClick(e, "/donate")}
+                className="text-black hover:text-gray-600 flex items-center"
+                aria-label={t("DONATE")}
+                title={t("DONATE")}
+                type="button"
+              >
+                <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
+              </button>
+            </ModernTooltip>
           )}
         </div>
 
@@ -655,13 +659,15 @@ const Navbar = () => {
               </div>
             )}
             <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/donate")}
-                className="text-black hover:text-gray-600 flex items-center"
-                aria-label={t("DONATE")}
-              >
-                <VolunteerActivismOutlinedIcon sx={{ fontSize: 38 }} />
-              </button>
+              <ModernTooltip title={t("DONATE")} arrow>
+                <button
+                  onClick={(e) => handleLinkClick(e, "/donate")}
+                  className="text-black hover:text-gray-600 flex items-center"
+                  aria-label={t("DONATE")}
+                >
+                  <VolunteerActivismOutlinedIcon sx={{ fontSize: 38 }} />
+                </button>
+              </ModernTooltip>
             </div>
           </div>
         </div>
