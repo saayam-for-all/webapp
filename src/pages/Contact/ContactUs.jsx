@@ -1,12 +1,32 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Box, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  MenuItem,
+  FormControl,
+  Select,
+} from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import HorizontalAd from "#components/Ads/HorizontalAd";
+
+// Map of contact reasons to their respective FormSubmit hash endpoints.
+// Each hash corresponds to a real email alias configured on formsubmit.co.
+const CONTACT_REASON_HASHES = {
+  "Volunteering / Internship": "664052b85250d40af3837478d1f4d1a1", // onboarding@saayamforall.org
+  "Timesheet Issues": "ebee724fffe3196c8366aa11068a9939", // timesheets@saayamforall.org
+  "Offer / Relieving / Verification Letter": "6eb39361216482205ba375d24826ae55", // letters@saayamforall.org
+  "Collaboration / Partnership": "a7a345dbfc019be815c726ef1f38a8ba", // marketing@saayamforall.org
+  "General Inquiry": "bfa2648b3a4420ce3800ff9d23a5f96f", // info@saayamforall.org
+};
+
+// Fallback hash used until a reason is selected (General Inquiry / info@)
+const DEFAULT_HASH = "bfa2648b3a4420ce3800ff9d23a5f96f";
 
 const ContactUs = () => {
   const { t } = useTranslation();
@@ -15,6 +35,7 @@ const ContactUs = () => {
     lastName: "",
     email: "",
     message: "",
+    reason: "",
   });
 
   const formRef = useRef(null);
@@ -67,27 +88,30 @@ const ContactUs = () => {
       PHONECODESEN[countryCode] &&
       `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
     if (!formData.firstName.trim()) {
-      newErrors.firstName = "First Name is required";
+      newErrors.firstName = t("First Name is required");
     } else if (!nameRegex.test(formData.firstName.trim())) {
-      newErrors.firstName = "First Name should contain only letters";
+      newErrors.firstName = t("First Name should contain only letters");
     }
     if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last Name is required";
+      newErrors.lastName = t("Last Name is required");
     } else if (!nameRegex.test(formData.lastName.trim())) {
-      newErrors.lastName = "Last Name should contain only letters";
+      newErrors.lastName = t("Last Name should contain only letters");
     }
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t("Email is required");
     } else if (!emailRegex.test(formData.email.trim())) {
-      newErrors.email = "Email is invalid";
+      newErrors.email = t("Email is invalid");
     }
     if (!phone) {
-      newErrors.phone = "Phone is required";
+      newErrors.phone = t("Phone is required");
     } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
-      newErrors.phone = "Please enter a valid phone number";
+      newErrors.phone = t("Please enter a valid phone number");
+    }
+    if (!formData.reason) {
+      newErrors.reason = t("Please select a reason for contacting");
     }
     if (!formData.message) {
-      newErrors.message = "Message is required";
+      newErrors.message = t("Message is required");
     }
     setErrors(newErrors);
     setPhoneError(newErrors.phone || "");
@@ -100,6 +124,11 @@ const ContactUs = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Determine the target hash based on selected reason
+  const targetHash = formData.reason
+    ? CONTACT_REASON_HASHES[formData.reason]
+    : DEFAULT_HASH;
 
   return (
     <>
@@ -148,7 +177,7 @@ const ContactUs = () => {
               component="form"
               onSubmit={handleSubmit}
               ref={formRef}
-              action="https://formsubmit.co/hr@saayamforall.org"
+              action={`https://formsubmit.co/${targetHash}`}
               method="POST"
               className="w-full max-w-2xl bg-white p-6 rounded-3xl shadow-md"
             >
@@ -265,6 +294,61 @@ const ContactUs = () => {
                 name="_next"
                 value={`${window.location.origin}/thanks`}
               />
+              <input
+                type="hidden"
+                name="_subject"
+                value={
+                  formData.reason
+                    ? `New Contact Form: ${formData.reason}`
+                    : "New Contact Form Submission"
+                }
+              />
+
+              {/* Reason for contacting drop down */}
+              <div className="mb-4">
+                <label
+                  htmlFor="reason"
+                  className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
+                >
+                  <span className="text-red-500 mr-1">*</span>
+                  {t("Reason for Contacting")}
+                </label>
+                <FormControl
+                  fullWidth
+                  margin="dense"
+                  error={!!errors.reason}
+                  required
+                >
+                  <Select
+                    id="reason"
+                    name="reason"
+                    value={formData.reason}
+                    onChange={handleChange}
+                    displayEmpty
+                    renderValue={(selected) => {
+                      if (!selected) {
+                        return (
+                          <span style={{ color: "#9e9e9e" }}>
+                            {t("Select a reason")}
+                          </span>
+                        );
+                      }
+                      return t(selected);
+                    }}
+                  >
+                    {Object.keys(CONTACT_REASON_HASHES).map((reason) => (
+                      <MenuItem key={reason} value={reason}>
+                        {t(reason)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.reason && (
+                    <p className="text-xs text-red-600 mt-1 ml-3">
+                      {errors.reason}
+                    </p>
+                  )}
+                </FormControl>
+              </div>
 
               {/* Message */}
               <div className="mb-4">
@@ -290,6 +374,16 @@ const ContactUs = () => {
                   error={!!errors.message}
                   helperText={errors.message}
                 />
+              </div>
+
+              {/* Response Time Note */}
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded">
+                <p className="text-sm text-blue-800">
+                  <span className="font-semibold">{t("Note:")}</span>{" "}
+                  {t(
+                    "We typically respond to your inquiry within 24-48 hours.",
+                  )}
+                </p>
               </div>
 
               {/* Submit */}
