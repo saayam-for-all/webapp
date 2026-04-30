@@ -82,13 +82,14 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           >
             <button
               aria-label="mockTranslate(DONATE)"
-              class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+              class="text-black hover:text-gray-600 flex items-center"
+              data-mui-internal-clone-element="true"
               title="mockTranslate(DONATE)"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1p832ek-MuiSvgIcon-root"
                 data-testid="VolunteerActivismOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -136,7 +137,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   <input
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r1:"
+                    id=":r2:"
                     maxlength="80"
                     placeholder="Search..."
                     type="text"
@@ -331,11 +332,13 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 class="relative"
               >
                 <button
-                  class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
+                  aria-label="mockTranslate(DONATE)"
+                  class="text-black hover:text-gray-600 flex items-center"
+                  data-mui-internal-clone-element="true"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14wgcet-MuiSvgIcon-root"
                     data-testid="VolunteerActivismOutlinedIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -344,7 +347,6 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                       d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
                     />
                   </svg>
-                  mockTranslate(DONATE)
                 </button>
               </div>
             </div>
@@ -472,13 +474,14 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
         >
           <button
             aria-label="mockTranslate(DONATE)"
-            class="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
+            class="text-black hover:text-gray-600 flex items-center"
+            data-mui-internal-clone-element="true"
             title="mockTranslate(DONATE)"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1p832ek-MuiSvgIcon-root"
               data-testid="VolunteerActivismOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -526,7 +529,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r1:"
+                  id=":r2:"
                   maxlength="80"
                   placeholder="Search..."
                   type="text"
@@ -721,11 +724,13 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               class="relative"
             >
               <button
-                class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
+                aria-label="mockTranslate(DONATE)"
+                class="text-black hover:text-gray-600 flex items-center"
+                data-mui-internal-clone-element="true"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14wgcet-MuiSvgIcon-root"
                   data-testid="VolunteerActivismOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -734,7 +739,6 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                     d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
                   />
                 </svg>
-                mockTranslate(DONATE)
               </button>
             </div>
           </div>
@@ -868,12 +872,15 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             class="flex md:hidden items-center"
           >
             <button
-              class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+              aria-label="mockTranslate(DONATE)"
+              class="text-black hover:text-gray-600 flex items-center"
+              data-mui-internal-clone-element="true"
+              title="mockTranslate(DONATE)"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1p832ek-MuiSvgIcon-root"
                 data-testid="VolunteerActivismOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -882,7 +889,6 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                   d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
                 />
               </svg>
-              mockTranslate(DONATE)
             </button>
           </div>
           <div
@@ -1018,11 +1024,13 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                 class="relative"
               >
                 <button
-                  class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
+                  aria-label="mockTranslate(DONATE)"
+                  class="text-black hover:text-gray-600 flex items-center"
+                  data-mui-internal-clone-element="true"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14wgcet-MuiSvgIcon-root"
                     data-testid="VolunteerActivismOutlinedIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1031,7 +1039,6 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                       d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
                     />
                   </svg>
-                  mockTranslate(DONATE)
                 </button>
               </div>
             </div>
@@ -1102,12 +1109,15 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
           class="flex md:hidden items-center"
         >
           <button
-            class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
+            aria-label="mockTranslate(DONATE)"
+            class="text-black hover:text-gray-600 flex items-center"
+            data-mui-internal-clone-element="true"
+            title="mockTranslate(DONATE)"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1p832ek-MuiSvgIcon-root"
               data-testid="VolunteerActivismOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1116,7 +1126,6 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                 d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
               />
             </svg>
-            mockTranslate(DONATE)
           </button>
         </div>
         <div
@@ -1252,11 +1261,13 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               class="relative"
             >
               <button
-                class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
+                aria-label="mockTranslate(DONATE)"
+                class="text-black hover:text-gray-600 flex items-center"
+                data-mui-internal-clone-element="true"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mr-2 text-base css-1umw9bq-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14wgcet-MuiSvgIcon-root"
                   data-testid="VolunteerActivismOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1265,7 +1276,6 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
                     d="M16 13c3.09-2.81 6-5.44 6-7.7C22 3.45 20.55 2 18.7 2c-1.04 0-2.05.49-2.7 1.25C15.34 2.49 14.34 2 13.3 2 11.45 2 10 3.45 10 5.3c0 2.26 2.91 4.89 6 7.7m-2.7-9c.44 0 .89.21 1.18.55L16 6.34l1.52-1.79c.29-.34.74-.55 1.18-.55.74 0 1.3.56 1.3 1.3 0 1.12-2.04 3.17-4 4.99-1.96-1.82-4-3.88-4-4.99 0-.74.56-1.3 1.3-1.3M19 16h-2c0-1.2-.75-2.28-1.87-2.7L8.97 11H1v11h6v-1.44l7 1.94 8-2.5v-1c0-1.66-1.34-3-3-3M3 20v-7h2v7zm10.97.41L7 18.48V13h1.61l5.82 2.17c.34.13.57.46.57.83 0 0-1.99-.05-2.3-.15l-2.38-.79-.63 1.9 2.38.79c.51.17 1.04.26 1.58.26H19c.39 0 .74.23.9.56z"
                   />
                 </svg>
-                mockTranslate(DONATE)
               </button>
             </div>
           </div>
