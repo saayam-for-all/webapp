@@ -40,16 +40,16 @@ exports[`Review renders correctly 1`] = `
           mockTranslate(REVIEW_APPROVAL_MESSAGE)
         </p>
       </div>
-      <button
-        class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12"
+      <mock-link
+        props="{}"
+        to="/dashboard"
       >
-        <mock-link
-          props="{}"
-          to="/dashboard"
+        <button
+          class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12"
         >
           mockTranslate(CLOSE)
-        </mock-link>
-      </button>
+        </button>
+      </mock-link>
     </div>
   </div>
 </div>

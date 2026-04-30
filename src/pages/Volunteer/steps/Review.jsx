@@ -25,9 +25,11 @@ const Review = () => {
           <p>{t("REVIEW_STATUS_MESSAGE")}</p>
           <p className="mt-2">{t("REVIEW_APPROVAL_MESSAGE")}</p>
         </div>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12">
-          <Link to="/dashboard">{t("CLOSE")}</Link>
-        </button>
+        <Link to="/dashboard">
+          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12">
+            {t("CLOSE")}
+          </button>
+        </Link>
       </div>
     </div>
   );
