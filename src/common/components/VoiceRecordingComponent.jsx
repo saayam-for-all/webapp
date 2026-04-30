@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useMemo, useRef, useEffect, useState } from "react";
 import {
   FiMic,
   FiMicOff,
@@ -11,12 +11,15 @@ import {
 import { Howl } from "howler";
 import { uploadAudioAndTranscribe } from "../../services/audioServices";
 
+const DEFAULT_MAX_RECORDING_SECONDS = 60;
+
 const VoiceRecordingComponent = ({
   onTranscriptionUpdate,
   onAudioUploaded,
-  languageCode = "en-US",
   maxFileSizeMB = 10,
   descriptionLimit = 500,
+  maxRecordingSeconds = DEFAULT_MAX_RECORDING_SECONDS,
+  showLanguage = true,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -27,15 +30,74 @@ const VoiceRecordingComponent = ({
   const [audioUrl, setAudioUrl] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [transcriptionError, setTranscriptionError] = useState(false);
-  const howlRef = useRef(null);
+  const [detectedLanguage, setDetectedLanguage] = useState(null);
 
+  const howlRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const streamRef = useRef(null);
   const timerRef = useRef(null);
   const mimeTypeRef = useRef("audio/webm");
-  const audioUrlRef = useRef(null); // Store audio URL for cleanup
-  const MAX_RECORDING_TIME = 60; // Maximum recording time in seconds
+  const audioUrlRef = useRef(null);
+
+  const clampedMaxSeconds = Math.max(
+    1,
+    Math.min(Number(maxRecordingSeconds) || DEFAULT_MAX_RECORDING_SECONDS, 60),
+  );
+
+  const languageDisplay = useMemo(() => {
+    const tag = detectedLanguage;
+    if (!tag) return { tag: "", name: "" };
+
+    const base = String(tag).split("-")[0];
+    let name = "";
+
+    try {
+      if (typeof Intl !== "undefined" && Intl.DisplayNames) {
+        const dn = new Intl.DisplayNames([navigator.language || "en"], {
+          type: "language",
+        });
+        name = dn.of(base) || "";
+      }
+    } catch (e) {
+      // no-op
+    }
+
+    if (!name) {
+      name = base; // fallback: show base code
+    }
+
+    return { tag: String(tag), name };
+  }, [detectedLanguage]);
+
+  const clearTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const stopStream = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+  };
+
+  const stopRecording = () => {
+    const mr = mediaRecorderRef.current;
+    const canStop = mr && mr.state && mr.state !== "inactive";
+
+    setIsRecording(false);
+    setIsPaused(false);
+    clearTimer();
+
+    if (canStop) {
+      mr.stop();
+    }
+
+    stopStream();
+  };
 
   // Cleanup Howler instance when audioUrl changes
   useEffect(() => {
@@ -51,29 +113,28 @@ const VoiceRecordingComponent = ({
   useEffect(() => {
     return () => {
       stopRecording();
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-      // Clean up Howler instance
+      clearTimer();
       if (howlRef.current) {
         howlRef.current.unload();
         howlRef.current = null;
       }
-      // Clean up local audio URL when component unmounts
       if (audioUrlRef.current) {
         URL.revokeObjectURL(audioUrlRef.current);
         audioUrlRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const startRecording = async () => {
     try {
       setError("");
+      setTranscriptionError(false);
+      setDetectedLanguage(null);
+
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
 
-      // Try to find a supported MIME type
       let mimeType = "audio/webm;codecs=opus";
       const supportedTypes = [
         "audio/webm;codecs=opus",
@@ -91,30 +152,26 @@ const VoiceRecordingComponent = ({
 
       mimeTypeRef.current = mimeType;
 
-      const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: mimeType,
-      });
-
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
       mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
+        if (event.data && event.data.size > 0) {
           audioChunksRef.current.push(event.data);
         }
       };
 
       mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, {
+        const nextBlob = new Blob(audioChunksRef.current, {
           type: mimeTypeRef.current,
         });
-        setAudioBlob(audioBlob);
+        setAudioBlob(nextBlob);
 
-        // Check file size
-        const fileSizeMB = audioBlob.size / (1024 * 1024);
+        const fileSizeMB = nextBlob.size / (1024 * 1024);
         if (fileSizeMB > maxFileSizeMB) {
           setError(
-            `Audio file size (${fileSizeMB.toFixed(2)}MB) exceeds maximum allowed size (${maxFileSizeMB}MB)`,
+            `Audio file size (${fileSizeMB.toFixed(2)}MB) exceeds maximum allowed size (${maxFileSizeMB}MB).`,
           );
           setIsProcessing(false);
           return;
@@ -123,78 +180,67 @@ const VoiceRecordingComponent = ({
         setIsProcessing(true);
 
         try {
-          // Create local URL for playback
-          const localAudioUrl = URL.createObjectURL(audioBlob);
+          const localAudioUrl = URL.createObjectURL(nextBlob);
           setAudioUrl(localAudioUrl);
           audioUrlRef.current = localAudioUrl;
 
-          // Upload audio and get transcription using new API
-          const transcriptionResult = await uploadAudioAndTranscribe(audioBlob);
+          const transcriptionResult = await uploadAudioAndTranscribe(nextBlob);
 
-          // Create upload result object with requestId and audio blob
+          const dl = transcriptionResult?.detectedLanguage || null;
+          setDetectedLanguage(dl);
+
           const uploadResult = {
             url: localAudioUrl,
-            requestId: transcriptionResult.requestId,
+            requestId: transcriptionResult?.requestId || null,
             fileName: `recording-${Date.now()}.webm`,
-            size: audioBlob.size,
-            audioBlob: audioBlob, // Include blob for later submission
-            detectedLanguage: transcriptionResult.detectedLanguage || null, // Include detected language
+            size: nextBlob.size,
+            audioBlob: nextBlob,
+            detectedLanguage: dl,
           };
 
-          if (onAudioUploaded) {
-            onAudioUploaded(uploadResult);
-          }
+          if (onAudioUploaded) onAudioUploaded(uploadResult);
 
-          // Use transcription from speechDetectV2 API response
-          // The transcript is in the detected language (e.g., Hindi: "क्या मेरी आवाज आ रही है")
-          if (transcriptionResult && transcriptionResult.text) {
-            const finalText = transcriptionResult.text.substring(
-              0,
-              descriptionLimit,
-            );
+          const text = transcriptionResult?.text || "";
+          if (text) {
+            const finalText = text.substring(0, descriptionLimit);
             setTranscriptionError(false);
-
-            // Update description field with the transcript from speechDetectV2
-            if (onTranscriptionUpdate) {
-              onTranscriptionUpdate(finalText);
-            }
+            if (onTranscriptionUpdate) onTranscriptionUpdate(finalText);
           } else {
-            // No transcription available
             setTranscriptionError(true);
           }
         } catch (err) {
-          setError(err.message || "Failed to process audio");
+          setError(err?.message || "Failed to process audio");
           setTranscriptionError(true);
         } finally {
           setIsProcessing(false);
         }
       };
 
-      setTranscriptionError(false);
+      // reset local state for new recording
       setAudioUrl(null);
       setIsPlaying(false);
       setAudioBlob(null);
-      // Stop any currently playing audio
+      audioChunksRef.current = [];
+
       if (howlRef.current) {
         howlRef.current.stop();
         howlRef.current.unload();
         howlRef.current = null;
       }
 
-      mediaRecorder.start(1000); // Collect data every second
+      mediaRecorder.start(1000);
       setIsRecording(true);
       setIsPaused(false);
       setRecordingTime(0);
 
-      // Start timer with auto-stop at MAX_RECORDING_TIME
+      clearTimer();
       timerRef.current = setInterval(() => {
         setRecordingTime((prev) => {
-          const newTime = prev + 1;
-          // Auto-stop recording at MAX_RECORDING_TIME
-          if (newTime >= MAX_RECORDING_TIME) {
+          const next = prev + 1;
+          if (next >= clampedMaxSeconds) {
             stopRecording();
           }
-          return newTime;
+          return next;
         });
       }, 1000);
     } catch (err) {
@@ -202,46 +248,29 @@ const VoiceRecordingComponent = ({
     }
   };
 
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-      setIsPaused(false);
-
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
-
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-        streamRef.current = null;
-      }
-    }
-  };
-
   const pauseRecording = () => {
-    if (mediaRecorderRef.current && isRecording && !isPaused) {
-      mediaRecorderRef.current.pause();
+    const mr = mediaRecorderRef.current;
+    if (mr && mr.state === "recording") {
+      mr.pause();
       setIsPaused(true);
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      clearTimer();
     }
   };
 
   const resumeRecording = () => {
-    if (mediaRecorderRef.current && isRecording && isPaused) {
-      mediaRecorderRef.current.resume();
+    const mr = mediaRecorderRef.current;
+    if (mr && mr.state === "paused") {
+      mr.resume();
       setIsPaused(false);
+
+      clearTimer();
       timerRef.current = setInterval(() => {
         setRecordingTime((prev) => {
-          const newTime = prev + 1;
-          // Auto-stop recording at MAX_RECORDING_TIME
-          if (newTime >= MAX_RECORDING_TIME) {
+          const next = prev + 1;
+          if (next >= clampedMaxSeconds) {
             stopRecording();
           }
-          return newTime;
+          return next;
         });
       }, 1000);
     }
@@ -258,91 +287,66 @@ const VoiceRecordingComponent = ({
 
     try {
       if (isPlaying) {
-        // Pause playback
         if (howlRef.current) {
           howlRef.current.pause();
           setIsPlaying(false);
         }
-      } else {
-        // If Howl instance doesn't exist or was unloaded, create a new one
-        if (!howlRef.current) {
-          howlRef.current = new Howl({
-            src: [audioUrl],
-            html5: true, // Use HTML5 Audio for blob URLs
-            format: ["webm", "ogg", "mp3", "m4a", "wav"], // Support multiple formats
-            volume: 1.0,
-            onplay: () => {
-              setIsPlaying(true);
-            },
-            onpause: () => {
-              setIsPlaying(false);
-            },
-            onend: () => {
-              setIsPlaying(false);
-            },
-            onloaderror: (id, error) => {
-              setError(
-                "Failed to load audio. The audio format may not be supported.",
-              );
-              setIsPlaying(false);
-            },
-            onplayerror: (id, error) => {
-              setError(
-                "Could not play audio. Please check browser audio permissions.",
-              );
-              setIsPlaying(false);
-              // Try to recover by unloading and reloading
-              if (howlRef.current) {
-                howlRef.current.once("unlock", () => {
-                  if (howlRef.current) {
-                    howlRef.current.play();
-                  }
-                });
-              }
-            },
-          });
-        }
-
-        // Play the audio
-        howlRef.current.play();
+        return;
       }
-    } catch (error) {
+
+      if (!howlRef.current) {
+        howlRef.current = new Howl({
+          src: [audioUrl],
+          html5: true,
+          format: ["webm", "ogg", "mp3", "m4a", "wav"],
+          volume: 1.0,
+          onplay: () => setIsPlaying(true),
+          onpause: () => setIsPlaying(false),
+          onend: () => setIsPlaying(false),
+          onloaderror: () => {
+            setError(
+              "Failed to load audio. The audio format may not be supported.",
+            );
+            setIsPlaying(false);
+          },
+          onplayerror: () => {
+            setError(
+              "Could not play audio. Please check browser audio permissions.",
+            );
+            setIsPlaying(false);
+          },
+        });
+      }
+
+      howlRef.current.play();
+    } catch (e) {
       setError("Could not play audio. Please check browser audio permissions.");
       setIsPlaying(false);
     }
   };
 
   const deleteRecording = () => {
-    // Stop playback if playing
     if (howlRef.current) {
       howlRef.current.stop();
       howlRef.current.unload();
       howlRef.current = null;
     }
 
-    // Clean up audio URL
     if (audioUrlRef.current) {
       URL.revokeObjectURL(audioUrlRef.current);
       audioUrlRef.current = null;
     }
 
-    // Reset state
     setAudioUrl(null);
     setAudioBlob(null);
     setIsPlaying(false);
     setError("");
     setTranscriptionError(false);
+    setDetectedLanguage(null);
     audioChunksRef.current = [];
 
-    // Notify parent component
-    if (onAudioUploaded) {
-      onAudioUploaded(null);
-    }
-
-    // Clear description if it was from transcription
-    if (onTranscriptionUpdate) {
-      onTranscriptionUpdate("");
-    }
+    if (onAudioUploaded) onAudioUploaded(null);
+    if (onTranscriptionUpdate) onTranscriptionUpdate("");
   };
 
   const Tooltip = ({ children, text }) => {
@@ -359,132 +363,142 @@ const VoiceRecordingComponent = ({
     );
   };
 
+  const showCountdownWarning =
+    isRecording && recordingTime >= Math.max(0, clampedMaxSeconds - 10);
+
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      {/* Show record button only when not recording and no audio exists */}
-      {!isRecording && !audioUrl && (
-        <Tooltip text="Start recording">
-          <button
-            type="button"
-            onClick={startRecording}
-            disabled={isProcessing}
-            className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors shadow-md"
-          >
-            <FiMic size={20} />
-          </button>
-        </Tooltip>
-      )}
-
-      {/* Show recording controls and visual feedback while recording */}
-      {isRecording && (
-        <div className="flex items-center gap-2">
-          {/* Visual feedback: Pulsing red indicator with timer */}
-          <div
-            className={`flex items-center gap-2 px-3 py-1.5 text-white rounded-full shadow-md animate-pulse ${
-              recordingTime >= MAX_RECORDING_TIME - 10
-                ? "bg-orange-500"
-                : "bg-red-500"
-            }`}
-          >
-            <div className="relative">
-              <div className="w-3 h-3 bg-white rounded-full"></div>
-              <div className="absolute inset-0 w-3 h-3 bg-white rounded-full animate-ping opacity-75"></div>
-            </div>
-            <span className="text-xs font-semibold">
-              Recording: {formatTime(recordingTime)} /{" "}
-              {formatTime(MAX_RECORDING_TIME)}
-              {recordingTime >= MAX_RECORDING_TIME - 10 &&
-                recordingTime < MAX_RECORDING_TIME && (
-                  <span className="ml-1">⚠️</span>
-                )}
-            </span>
-          </div>
-
-          {/* Pause/Resume button */}
-          {isPaused ? (
-            <Tooltip text="Resume recording">
-              <button
-                type="button"
-                onClick={resumeRecording}
-                className="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md"
-              >
-                <FiMic size={20} />
-              </button>
-            </Tooltip>
-          ) : (
-            <Tooltip text="Pause recording">
-              <button
-                type="button"
-                onClick={pauseRecording}
-                className="flex items-center justify-center w-10 h-10 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition-colors shadow-md"
-              >
-                <FiMicOff size={20} />
-              </button>
-            </Tooltip>
-          )}
-
-          {/* Stop button */}
-          <Tooltip text="Stop recording">
-            <button
-              type="button"
-              onClick={stopRecording}
-              className="flex items-center justify-center w-10 h-10 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors shadow-md"
-            >
-              <FiStopCircle size={20} />
-            </button>
-          </Tooltip>
-        </div>
-      )}
-
-      {/* Processing indicator */}
-      {isProcessing && (
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-600 animate-pulse">
-            Processing audio...
+    <div
+      className="flex items-center gap-3 border border-gray-300 rounded-lg bg-white shadow-sm px-2 py-1"
+      aria-label="Voice recording options"
+    >
+      {showLanguage && (
+        <div className="flex items-center gap-2 pr-2 border-r border-gray-200">
+          <span className="text-xs text-gray-600">Language:</span>
+          <span className="text-xs font-medium text-gray-800">
+            {languageDisplay.name || "—"}
+            {languageDisplay.tag ? ` (${languageDisplay.tag})` : ""}
           </span>
         </div>
       )}
 
-      {/* Error message */}
-      {error && (
-        <span className="text-xs text-red-600" role="alert">
-          {error}
-        </span>
-      )}
+      <div className="flex items-center gap-2 flex-wrap">
+        {!isRecording && !audioUrl && (
+          <Tooltip text="Start recording">
+            <button
+              type="button"
+              onClick={startRecording}
+              disabled={isProcessing}
+              className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors shadow-md"
+              aria-label="Start recording"
+            >
+              <FiMic size={20} />
+            </button>
+          </Tooltip>
+        )}
 
-      {/* Transcription error indicator */}
-      {transcriptionError && !isProcessing && (
-        <Tooltip text="Transcription unavailable. You can type the description manually.">
-          <div className="flex items-center justify-center w-10 h-10 bg-yellow-500 text-white rounded-full cursor-help shadow-md">
-            <FiAlertTriangle size={20} />
+        {isRecording && (
+          <div className="flex items-center gap-2">
+            <div
+              className={`flex items-center gap-2 px-3 py-1.5 text-white rounded-full shadow-md animate-pulse ${
+                showCountdownWarning ? "bg-orange-500" : "bg-red-500"
+              }`}
+              aria-live="polite"
+            >
+              <div className="relative">
+                <div className="w-3 h-3 bg-white rounded-full"></div>
+                <div className="absolute inset-0 w-3 h-3 bg-white rounded-full animate-ping opacity-75"></div>
+              </div>
+              <span className="text-xs font-semibold">
+                Recording: {formatTime(recordingTime)} /{" "}
+                {formatTime(clampedMaxSeconds)}
+              </span>
+            </div>
+
+            {isPaused ? (
+              <Tooltip text="Resume recording">
+                <button
+                  type="button"
+                  onClick={resumeRecording}
+                  className="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md"
+                  aria-label="Resume recording"
+                >
+                  <FiMic size={20} />
+                </button>
+              </Tooltip>
+            ) : (
+              <Tooltip text="Pause recording">
+                <button
+                  type="button"
+                  onClick={pauseRecording}
+                  className="flex items-center justify-center w-10 h-10 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition-colors shadow-md"
+                  aria-label="Pause recording"
+                >
+                  <FiMicOff size={20} />
+                </button>
+              </Tooltip>
+            )}
+
+            <Tooltip text="Stop recording">
+              <button
+                type="button"
+                onClick={stopRecording}
+                className="flex items-center justify-center w-10 h-10 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors shadow-md"
+                aria-label="Stop recording"
+              >
+                <FiStopCircle size={20} />
+              </button>
+            </Tooltip>
           </div>
-        </Tooltip>
-      )}
+        )}
 
-      {/* Playback and Delete controls - shown after recording stops and audio is ready */}
-      {audioUrl && !isProcessing && !isRecording && (
-        <div className="flex items-center gap-2">
-          <Tooltip text={isPlaying ? "Pause playback" : "Play recording"}>
-            <button
-              type="button"
-              onClick={togglePlayback}
-              className="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md"
-            >
-              {isPlaying ? <FiPause size={18} /> : <FiPlay size={18} />}
-            </button>
-          </Tooltip>
+        {isProcessing && (
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-600 animate-pulse">
+              Processing audio...
+            </span>
+          </div>
+        )}
 
-          <Tooltip text="Delete recording">
-            <button
-              type="button"
-              onClick={deleteRecording}
-              className="flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-md"
-            >
-              <FiTrash2 size={18} />
-            </button>
+        {error && (
+          <span className="text-xs text-red-600" role="alert">
+            {error}
+          </span>
+        )}
+
+        {transcriptionError && !isProcessing && (
+          <Tooltip text="Transcription unavailable. You can type the description manually.">
+            <div className="flex items-center justify-center w-10 h-10 bg-yellow-500 text-white rounded-full cursor-help shadow-md">
+              <FiAlertTriangle size={20} />
+            </div>
           </Tooltip>
-        </div>
-      )}
+        )}
+
+        {audioUrl && !isProcessing && !isRecording && (
+          <div className="flex items-center gap-2">
+            <Tooltip text={isPlaying ? "Pause playback" : "Play recording"}>
+              <button
+                type="button"
+                onClick={togglePlayback}
+                className="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md"
+                aria-label={isPlaying ? "Pause playback" : "Play recording"}
+              >
+                {isPlaying ? <FiPause size={18} /> : <FiPlay size={18} />}
+              </button>
+            </Tooltip>
+
+            <Tooltip text="Delete recording">
+              <button
+                type="button"
+                onClick={deleteRecording}
+                className="flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-md"
+                aria-label="Delete recording"
+              >
+                <FiTrash2 size={18} />
+              </button>
+            </Tooltip>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
