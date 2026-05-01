@@ -17,8 +17,14 @@ const awsConfig = {
             "openid",
             "aws.cognito.signin.user.admin",
           ],
-          redirectSignIn: ["http://localhost:5173/dashboard"],
-          redirectSignOut: ["http://localhost:5173/login"],
+          redirectSignIn: [
+            "http://localhost:5173/dashboard",
+            "https://idptest-saayam.netlify.app/dashboard",
+          ],
+          redirectSignOut: [
+            "http://localhost:5173/login",
+            "https://idptest-saayam.netlify.app/login",
+          ],
           responseType: "code",
         },
       },
