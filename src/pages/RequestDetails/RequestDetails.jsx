@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-// import RequestDetailsSidebar from "./RequestDetailsSidebar";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaPhoneAlt, FaVideo } from "react-icons/fa";
@@ -15,6 +14,55 @@ import RequestDescription from "./RequestDescription";
 import EmergencyContact from "../EmergencyContact/EmergencyContact";
 import { createOrganizationsPageState } from "../../common/components/BreadCrumbs/breadcrumbUtils";
 
+// ─── Volunteers Dropdown Component ───
+const VolunteersDropdown = () => {
+  const [open, setOpen] = useState(false);
+
+  // Mock volunteer list matching Akshay's design
+  // This will be replaced with real API data once backend is ready
+  const assignedVolunteers = [
+    { name: "Ethan Marshall" },
+    { name: "Jane Cooper" },
+    { name: "Floyd Miles" },
+    { name: "Ronald Richards" },
+    { name: "Marvin McKinney" },
+    { name: "Jerome Bell" },
+    { name: "Kathryn Murphy" },
+  ];
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2 border border-gray-300 rounded-lg px-4 py-2 bg-white shadow-sm hover:bg-gray-50"
+      >
+        <RiUserStarLine size={18} />
+        <span className="font-medium text-sm">
+          {assignedVolunteers.length} Volunteers Assigned
+        </span>
+        <span className="text-gray-500 text-xs">{open ? "▲" : "▼"}</span>
+      </button>
+
+      {open && (
+        <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+          {assignedVolunteers.map((volunteer, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50"
+            >
+              <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm font-semibold">
+                {volunteer.name.charAt(0)}
+              </div>
+              <span className="text-sm">{volunteer.name}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ─── Main RequestDetails Component ───
 const RequestDetails = () => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -29,11 +77,10 @@ const RequestDetails = () => {
 
   useEffect(() => {
     if (isEditing) {
-      document.body.style.overflow = "hidden"; // Prevent background scrolling
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "unset"; // Restore background scrolling
+      document.body.style.overflow = "unset";
     }
-
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -64,15 +111,9 @@ const RequestDetails = () => {
       isClickable: true,
     },
     {
-      context: "John Doe", // Mock name
-      type: "REQUESTER", // Translation key
+      context: "John Doe",
+      type: "REQUESTER",
       icon: <IoPersonCircle size={26} />,
-      isClickable: false,
-    },
-    {
-      context: "Ethan Marshall",
-      type: "Volunteer",
-      icon: <RiUserStarLine size={22} />,
       isClickable: false,
     },
   ];
@@ -119,14 +160,16 @@ const RequestDetails = () => {
                 </div>,
                 document.body,
               )}
+
+            {/* Request Title */}
             <div className="flex flex-row justify-between md:items-center">
               <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 capitalize">
                 {requestData.subject}
               </h2>
-              {/**Edit Button was previously here */}
             </div>
 
-            <div className="flex flex-row gap-5 justify-between">
+            {/* Beneficiary + Requester + Volunteers Dropdown */}
+            <div className="flex flex-row gap-5 justify-between items-center">
               {attributes.map((header, index) => (
                 <li
                   key={index}
@@ -153,13 +196,14 @@ const RequestDetails = () => {
                   <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>
-                  {/*
-                  <FaPhoneAlt className="cursor-pointer" size={15} />
-                  <FaVideo className="cursor-pointer" size={17} /> */}
                 </li>
               ))}
+
+              {/* ── Volunteers Dropdown (Akshay's new design) ── */}
+              <VolunteersDropdown />
             </div>
 
+            {/* Action Buttons Row */}
             <div className="flex flex-row justify-between">
               <RequestButton
                 link="/voluntary-organizations"
@@ -183,9 +227,10 @@ const RequestDetails = () => {
                 requestData={requestData}
               />
             </div>
+
+            {/* Tabs */}
             <div className="bg-white border border-gray-200 shadow-md m-0 flex flex-col">
               <div className="w-full">
-                {/* 1px divider effect like Dashboard */}
                 <div className="flex w-full bg-gray-200 gap-px">
                   {[
                     { key: "COMMENTS", value: "Comments" },
@@ -193,7 +238,6 @@ const RequestDetails = () => {
                     { key: "DETAILS", value: "Details" },
                   ].map(({ key, value }) => {
                     const isActive = value === tab;
-
                     return (
                       <button
                         key={value}
@@ -215,6 +259,8 @@ const RequestDetails = () => {
                   })}
                 </div>
               </div>
+
+              {/* Tab Content */}
               <div className="p-4">
                 {showEmergency ? (
                   <EmergencyContact embedded />
