@@ -72,3 +72,59 @@ describe("RequestDetails - Tab Translation Tests", () => {
     expect(screen.getByTestId("request-description")).toBeInTheDocument();
   });
 });
+
+describe("RequestDetails - Volunteers Dropdown Tests", () => {
+  it("renders the volunteers assigned dropdown button", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(screen.getByText("7 Volunteers Assigned")).toBeInTheDocument();
+  });
+
+  it("dropdown is closed by default", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(screen.queryByText("Ethan Marshall")).not.toBeInTheDocument();
+  });
+
+  it("opens dropdown when button is clicked", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("7 Volunteers Assigned"));
+    expect(screen.getByText("Ethan Marshall")).toBeInTheDocument();
+    expect(screen.getByText("Jane Cooper")).toBeInTheDocument();
+    expect(screen.getByText("Floyd Miles")).toBeInTheDocument();
+  });
+
+  it("shows all 7 volunteers when dropdown is open", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("7 Volunteers Assigned"));
+    expect(screen.getByText("Ethan Marshall")).toBeInTheDocument();
+    expect(screen.getByText("Jane Cooper")).toBeInTheDocument();
+    expect(screen.getByText("Floyd Miles")).toBeInTheDocument();
+    expect(screen.getByText("Ronald Richards")).toBeInTheDocument();
+    expect(screen.getByText("Marvin McKinney")).toBeInTheDocument();
+    expect(screen.getByText("Jerome Bell")).toBeInTheDocument();
+    expect(screen.getByText("Kathryn Murphy")).toBeInTheDocument();
+  });
+
+  it("closes dropdown when button is clicked again", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("7 Volunteers Assigned"));
+    expect(screen.getByText("Ethan Marshall")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("7 Volunteers Assigned"));
+    expect(screen.queryByText("Ethan Marshall")).not.toBeInTheDocument();
+  });
+});
