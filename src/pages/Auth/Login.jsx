@@ -15,8 +15,7 @@ import { checkAuthStatus } from "../../redux/features/authentication/authActions
 import "./Login.css";
 
 const LoginPage = () => {
-  const { t } = useTranslation(["common"]);
-  const { loading } = useSelector((state) => state.auth);
+  const { t } = useTranslation(["auth", "common"]);
 
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
@@ -25,6 +24,7 @@ const LoginPage = () => {
   const [passwordFocus, setPasswordFocus] = useState(false);
 
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -33,8 +33,11 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const loginSchema = z.object({
-    email: z.string().min(1, { message: t("common:EMAIL_REQUIRED") }),
-    password: z.string().min(1, { message: t("common:PASSWORD_REQUIRED") }),
+    email: z
+      .string()
+      .min(1, { message: t("auth:login.email_required") })
+      .email({ message: t("auth:login.email_invalid") }),
+    password: z.string().min(1, { message: t("auth:login.password_required") }),
   });
 
   useEffect(() => {
@@ -43,21 +46,70 @@ const LoginPage = () => {
     }
   }, [user]);
 
-  const handleSignIn = async () => {
-    try {
-      const result = loginSchema.safeParse({
-        email: emailValue,
-        password: passwordValue,
-      });
-      if (!result.success) {
-        const formattedErrors = result.error.format();
-        setErrors({
-          email: formattedErrors.email?._errors[0],
-          password: formattedErrors.password?._errors[0],
-        });
-        return;
-      }
+  const getLoginErrorMessage = (error) => {
+    const errorName = String(error?.name || error?.code || "").toLowerCase();
+    const errorMessage = String(error?.message || "").toLowerCase();
 
+    if (
+      errorName.includes("network") ||
+      errorMessage.includes("network error") ||
+      errorMessage.includes("failed to fetch") ||
+      errorMessage.includes("load failed")
+    ) {
+      return t("auth:shared.network_error");
+    }
+
+    if (
+      errorName.includes("internalerrorexception") ||
+      errorName.includes("service") ||
+      errorMessage.includes("internal error") ||
+      errorMessage.includes("server error") ||
+      errorMessage.includes("status code 500")
+    ) {
+      return t("auth:shared.server_error");
+    }
+
+    if (
+      errorName.includes("toomanyfailedattempts") ||
+      errorName.includes("toomanyrequestsexception") ||
+      errorName.includes("limitexceededexception") ||
+      errorMessage.includes("password attempts exceeded") ||
+      errorMessage.includes("temporarily locked")
+    ) {
+      return t("auth:login.account_locked_30min");
+    }
+
+    if (
+      errorName.includes("notauthorizedexception") ||
+      errorName.includes("usernotfoundexception") ||
+      errorMessage.includes("incorrect username or password") ||
+      errorMessage.includes("incorrect username") ||
+      errorMessage.includes("incorrect password")
+    ) {
+      return t("auth:login.invalid_credentials");
+    }
+
+    return t("auth:shared.server_error");
+  };
+
+  const handleSignIn = async () => {
+    const result = loginSchema.safeParse({
+      email: emailValue,
+      password: passwordValue,
+    });
+    if (!result.success) {
+      const formattedErrors = result.error.format();
+      setErrors({
+        email: formattedErrors.email?._errors[0],
+        password: formattedErrors.password?._errors[0],
+      });
+      return;
+    }
+
+    setErrors({});
+    setIsSubmitting(true);
+
+    try {
       const { isSignedIn, nextStep } = await signIn({
         username: emailValue,
         password: passwordValue,
@@ -81,8 +133,11 @@ const LoginPage = () => {
         }
       }
     } catch (error) {
-      console.log("error", error);
-      setErrors({ root: t("common:INVALID_CREDENTIALS") });
+      console.log("Login error", error);
+      setPasswordValue("");
+      setErrors({ root: getLoginErrorMessage(error) });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -155,18 +210,24 @@ const LoginPage = () => {
           {t("common:FORGOT_PASSWORD")}
         </button>
         <button
-          disabled={loading}
+          disabled={isSubmitting}
           className="my-4 py-2 bg-blue-400 text-white rounded-xl hover:bg-blue-500"
           onClick={handleSignIn}
+          aria-busy={isSubmitting}
         >
           <div className="flex items-center justify-center">
-            <span className={loading ? "mr-2" : ""}>{t("common:LOGIN")}</span>
-            {loading && <LoadingIndicator size="24px" />}
+            <span className={isSubmitting ? "mr-2" : ""}>
+              {t("common:LOGIN")}
+            </span>
+            {isSubmitting && <LoadingIndicator size="24px" />}
           </div>
         </button>
         {errors.root && (
           <p className="text-red-500 text-sm mt-1">{errors.root}</p>
         )}
+        {/* TODO: Session-expired warnings should be shown here only if upstream
+            routes redirect with explicit route state. Current login flow does
+            not reliably receive that signal. */}
 
         {/* Uncommment for Google and Facebook signin is fully functional*/}
         {/* <div className="flex items-center my-4">

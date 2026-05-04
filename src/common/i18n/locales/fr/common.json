@@ -256,6 +256,7 @@
   "INVALID_EMAIL": "E-mail invalide",
   "INVALID_PHONE": "Téléphone invalide",
   "IN_PERSON": "En personne",
+  "IN_THE_NEWS": "Dans les actualités",
   "IS_SAAYAM_NON_PROFIT": "Saayam For All est-il un organisme à but non lucratif",
   "I_HAVE_READ": "J'ai lu et compris le document",
   "I_WANT_TO_DELETE_MY_ACCOUNT": "Je veux supprimer mon compte",
@@ -348,6 +349,7 @@
   "NO_BUILDING_SCHOOLS_HOSPITALS": "Pas de construction d'écoles ou d'hôpitaux",
   "NO_INFRASTRUCTURE_MONEY_DISTRIBUTION": "Pas d'infrastructure ni de distribution d'argent",
   "NO_RESULTS": "Aucun résultat",
+  "NO_COMMENTS_FOUND": "Aucun commentaire trouvé",
   "NUMBER_OF_VOLUNTEERS": "Entrez le nombre de bénévoles requis...",
   "Naveen Sharma": "Naveen Sharma",
   "Necessities": "nécessités de base",
@@ -471,6 +473,8 @@
   "Ramesh Maturu": "Ramesh Maturu",
   "Rao K Bhethanabotla": "Rao K Bhethanabotla",
   "Rashmi Bilaskar": "Rashmi Bilaskar",
+  "Aakash Gangji": "Aakash Gangji",
+  "Lead AI/ML Developer/Engineer": "Développeur/Ingénieur principal en IA/ML",
   "Real help. Real people. Right when you need it.": "Une vraie aide. De vraies personnes. Exactement quand vous en avez besoin.",
   "Receive Assistance": "Recevez l'assistance",
   "Receive help for their requests": "Reçoivent de l'aide pour leurs demandes",
@@ -731,5 +735,8 @@
   "NO_SKILLS_SELECTED": "Aucune compétence sélectionnée pour le moment",
   "REMOVE_SKILL": "Supprimer la compétence",
   "REMOVE_CATEGORY": "Supprimer toutes les compétences de cette catégorie",
-  "SELECT_SKILL_TO_CONTINUE": "Sélectionnez au moins une compétence spécifique pour passer à l'étape suivante"
+  "SELECT_SKILL_TO_CONTINUE": "Sélectionnez au moins une compétence spécifique pour passer à l'étape suivante",
+  "CHANGE_VOLUNTEER": "Changer de Volontaire",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Veuillez spécifier la raison du changement de volontaire",
+  "REASON": "Raison"
 }

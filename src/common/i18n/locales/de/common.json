@@ -214,6 +214,7 @@
   "Ramesh Maturu": "Ramesh Maturu",
   "Rao K Bhethanabotla": "Rao K Bhethanabotla",
   "Rashmi Bilaskar": "Rashmi Bilaskar",
+  "Aakash Gangji": "Aakash Gangji",
   "Rishitha Rapuri": "Rishitha Rapuri",
   "Sateesh Mucharla": "Sateesh Mucharla",
   "Sharadha Venketasubramanian": "Sharadha Venketasubramanian",
@@ -294,6 +295,7 @@
   "LEAD_DEVSECOPS_ENGINEER": "Leitender DevSecOps-Ingenieur",
   "Lead DevSecOps Engineer": "Leitender DevSecOps-Ingenieur",
   "LEAD_USER_EXPERIENCE_DESIGNER": "Leitender UX-Designer",
+  "Lead AI/ML Developer/Engineer": "Leitender KI/ML-Entwickler/Ingenieur",
   "Lead User Experience Designer": "Leitender UX-Designer",
   "LEAD_VOLUNTEER": "Leitender Freiwilliger",
   "LEAD_VOLUNTEER_HELP_TEXT": "Wählen Sie 'Ja', wenn Sie der Haupt-Freiwillige sind, der diese Anfrage koordiniert.",
@@ -368,6 +370,7 @@
   "No Infrastructure or": "Keine Infrastruktur oder",
   "no direct distribution of money.": "keine direkte Geldverteilung.",
   "NO_RESULTS": "Keine Ergebnisse",
+  "NO_COMMENTS_FOUND": "Keine Kommentare gefunden",
   "NUMBER_OF_VOLUNTEERS": "Anzahl der benötigten Freiwilligen eingeben...",
   "OFFER_NECESSARY_SUPPORT": "Notwendige Unterstützung bieten",
   "Offer necessary support to beneficiaries": "Bieten den Begünstigten notwendige Unterstützung",
@@ -732,5 +735,8 @@
   "NO_SKILLS_SELECTED": "No skills selected yet",
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
-  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "CHANGE_VOLUNTEER": "Freiwilligen Ändern",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Bitte geben Sie den Grund für die Änderung des Freiwilligen an",
+  "REASON": "Grund"
 }

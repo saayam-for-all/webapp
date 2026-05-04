@@ -16,18 +16,6 @@ jest.mock("../../../services/requestServices", () => ({
   moreInformationChat: jest.fn(),
 }));
 
-jest.mock("../../../utils/filterHelpers", () => ({
-  getCategoriesFromStorage: jest.fn(() => [
-    {
-      catId: "6",
-      catName: "ELDERLY_COMMUNITY_ASSISTANCE",
-      subCategories: [
-        { catId: "6.5", catName: "ERRANDS_EVENTS_TRANSPORTATION" },
-      ],
-    },
-  ]),
-}));
-
 jest.mock(
   "../MoreInfoChatModal/MoreInfoChatModal",
   () => (props) =>
@@ -45,12 +33,8 @@ const {
 
 const mockRequestData = {
   id: "REQ-001",
-  category: "ERRANDS_EVENTS_TRANSPORTATION",
   subject: "Pick up dry cleaning",
   description: "Need dry cleaning pickup.",
-  location: "",
-  gender: "",
-  age: "",
 };
 
 describe("RequestButton", () => {
@@ -126,7 +110,7 @@ describe("RequestButton", () => {
     });
   });
 
-  it("calls moreInformationChat with resolved category_id", async () => {
+  it("calls moreInformationChat with user_id, req_id, and empty conversation_history", async () => {
     moreInformationChat.mockResolvedValue({
       body: { answer: "Answer" },
     });
@@ -144,12 +128,11 @@ describe("RequestButton", () => {
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
-      expect(moreInformationChat).toHaveBeenCalledWith(
-        expect.objectContaining({
-          category_id: "6.5",
-          subject: "Pick up dry cleaning",
-        }),
-      );
+      expect(moreInformationChat).toHaveBeenCalledWith({
+        user_id: "SID-00-000-000-050",
+        req_id: "REQ-00-000-000-0085",
+        conversation_history: [],
+      });
     });
   });
 

@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "Jenis Organisasi",
   "NON_PROFIT": "Nirlaba",
   "FOR_PROFIT": "Berorientasi Laba",
+  "ORGANIZATION_SIZE": "Ukuran Organisasi",
+  "SELECT_ORGANIZATION_SIZE": "Pilih ukuran organisasi...",
+  "SMALL": "Kecil",
+  "MEDIUM": "Sedang",
+  "LARGE": "Besar",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "Tampilan Dashboard Default",

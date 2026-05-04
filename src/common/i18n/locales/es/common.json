@@ -349,6 +349,7 @@
   "NO_BUILDING_SCHOOLS_HOSPITALS": "No Building Schools Hospitals",
   "NO_INFRASTRUCTURE_MONEY_DISTRIBUTION": "No Infrastructure Money Distribution",
   "NO_RESULTS": "No Results",
+  "NO_COMMENTS_FOUND": "No se encontraron comentarios",
   "NUMBER_OF_VOLUNTEERS": "Ingresa el número de voluntarios requeridos...",
   "Naveen Sharma": "Naveen Sharma",
   "Necessities": "necesidades básicas",
@@ -472,6 +473,8 @@
   "Ramesh Maturu": "Ramesh Maturu",
   "Rao K Bhethanabotla": "Rao K Bhethanabotla",
   "Rashmi Bilaskar": "Rashmi Bilaskar",
+  "Aakash Gangji": "Aakash Gangji",
+  "Lead AI/ML Developer/Engineer": "Desarrollador/Ingeniero Principal de IA/ML",
   "Real help. Real people. Right when you need it.": "Ayuda real. Personas reales. Justo cuando lo necesitas.",
   "Receive Assistance": "Recibe asistencia",
   "Receive help for their requests": "Reciben ayuda para sus solicitudes",
@@ -732,5 +735,8 @@
   "NO_SKILLS_SELECTED": "Aún no se han seleccionado habilidades",
   "REMOVE_SKILL": "Eliminar habilidad",
   "REMOVE_CATEGORY": "Eliminar todas las habilidades de esta categoría",
-  "SELECT_SKILL_TO_CONTINUE": "Seleccione al menos una habilidad específica para pasar al siguiente paso"
+  "SELECT_SKILL_TO_CONTINUE": "Seleccione al menos una habilidad específica para pasar al siguiente paso",
+  "CHANGE_VOLUNTEER": "Cambiar Voluntario",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Por favor especifique la razón del cambio de voluntario",
+  "REASON": "Razón"
 }

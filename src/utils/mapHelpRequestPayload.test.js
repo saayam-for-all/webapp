@@ -8,7 +8,7 @@ const baseArgs = {
     lead_volunteer: "Yes",
     priority: "MEDIUM",
     request_type: "REMOTE",
-    is_self: "yes",
+    request_for: "SELF",
   },
   selectedCategoryId: "1.1",
   requesterId: "user-123",
@@ -63,12 +63,46 @@ describe("mapHelpRequestPayload", () => {
     expect(result.additionalFields).toBeUndefined();
   });
 
-  it("maps is_self OTHER correctly", () => {
+  it("maps request_for SELF correctly", () => {
+    const result = mapHelpRequestPayload(baseArgs);
+    expect(result.requestFor.requestForId).toBe(1);
+    expect(result.guestDetails).toBeUndefined();
+  });
+
+  it("maps request_for OTHER correctly and includes guestDetails", () => {
     const result = mapHelpRequestPayload({
       ...baseArgs,
-      formData: { ...baseArgs.formData, is_self: "no" },
+      formData: {
+        ...baseArgs.formData,
+        request_for: "OTHER",
+        requester_first_name: "Kavita",
+        requester_last_name: "Sharma",
+        email: "kavita.sharma@example.com",
+        phone: "+1-703-555-0198",
+        age: "65",
+        gender: "FEMALE",
+        preferred_language: "Hindi",
+      },
     });
     expect(result.requestFor.requestForId).toBe(2);
+    expect(result.guestDetails).toEqual({
+      reqFname: "Kavita",
+      reqLname: "Sharma",
+      reqEmail: "kavita.sharma@example.com",
+      reqPhone: "+1-703-555-0198",
+      reqAge: 65,
+      reqGender: "FEMALE",
+      reqPrefLang: "Hindi",
+    });
+  });
+
+  it("defaults to SELF when request_for is undefined", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      formData: { ...baseArgs.formData, request_for: undefined },
+    });
+    expect(result.requestFor.requestForId).toBe(1);
+    expect(result.guestDetails).toBeUndefined();
   });
 
   it("maps lead_volunteer No correctly", () => {

@@ -13,6 +13,7 @@ import CommentsSection from "./CommentsSection";
 import HelpingVolunteers from "./HelpingVolunteers";
 import RequestDescription from "./RequestDescription";
 import EmergencyContact from "../EmergencyContact/EmergencyContact";
+import { createOrganizationsPageState } from "../../common/components/BreadCrumbs/breadcrumbUtils";
 
 const RequestDetails = () => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ const RequestDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const [showEmergency, setShowEmergency] = useState(false);
+  const requestId = id || location.state?.id;
 
   useEffect(() => {
     if (isEditing) {
@@ -75,18 +77,15 @@ const RequestDetails = () => {
     },
   ];
 
+  const organizationsNavigationState = createOrganizationsPageState({
+    requestId,
+    requestData,
+    requestLabel: t("REQUEST_DETAILS"),
+    organizationsLabel: t("ORGANIZATIONS"),
+  });
+
   return (
     <div>
-      <div className="w-full px-4 mt-4 mb-4">
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-        >
-          <span className="text-2xl mr-2">&lt;</span>{" "}
-          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
-        </button>
-      </div>
-
       <div className="w-full px-4 mb-4">
         <h1 className="text-2xl font-semibold text-center">
           {t("REQUEST_DETAILS")}
@@ -168,6 +167,7 @@ const RequestDetails = () => {
                 customStyle="bg-blue-400 hover:bg-blue-600 text-white w-[30%] px-6 py-3 rounded-lg flex items-center justify-start space-x-3 lg:text-md"
                 icon="i-volunteer"
                 requestData={requestData}
+                navigationState={organizationsNavigationState}
               />
               <RequestButton
                 onClick={() => setShowEmergency(true)}

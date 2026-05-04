@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "ประเภทองค์กร",
   "NON_PROFIT": "ไม่แสวงหากำไร",
   "FOR_PROFIT": "แสวงหากำไร",
+  "ORGANIZATION_SIZE": "ขนาดองค์กร",
+  "SELECT_ORGANIZATION_SIZE": "เลือกขนาดองค์กร...",
+  "SMALL": "เล็ก",
+  "MEDIUM": "กลาง",
+  "LARGE": "ใหญ่",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "มุมมองแดชบอร์ดเริ่มต้น",

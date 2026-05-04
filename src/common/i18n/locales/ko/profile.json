@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "조직 유형",
   "NON_PROFIT": "비영리",
   "FOR_PROFIT": "영리",
+  "ORGANIZATION_SIZE": "조직 규모",
+  "SELECT_ORGANIZATION_SIZE": "조직 규모 선택...",
+  "SMALL": "소규모",
+  "MEDIUM": "중규모",
+  "LARGE": "대규모",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "기본 대시보드 보기",

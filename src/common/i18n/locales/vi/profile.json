@@ -54,6 +54,11 @@
   "ORGANIZATION_TYPE": "Loại Tổ Chức",
   "NON_PROFIT": "Phi Lợi Nhuận",
   "FOR_PROFIT": "Vì Lợi Nhuận",
+  "ORGANIZATION_SIZE": "Quy Mô Tổ Chức",
+  "SELECT_ORGANIZATION_SIZE": "Chọn quy mô tổ chức...",
+  "SMALL": "Nhỏ",
+  "MEDIUM": "Vừa",
+  "LARGE": "Lớn",
   "URL": "URL",
 
   "DEFAULT DASHBOARD VIEW": "Giao Diện Bảng Điều Khiển Mặc Định",

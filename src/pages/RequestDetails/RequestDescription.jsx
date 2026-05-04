@@ -15,13 +15,31 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./RequestDescription.css";
 
+const findCategoryLabel = (node, targetKey) => {
+  if (!node || !targetKey) return null;
+
+  for (const [key, value] of Object.entries(node)) {
+    if (key === targetKey && value?.LABEL) return value.LABEL;
+
+    if (value?.SUBCATEGORIES) {
+      const found = findCategoryLabel(value.SUBCATEGORIES, targetKey);
+      if (found) return found;
+    }
+  }
+
+  return null;
+};
+
 const RequestDescription = ({ requestData, setIsEditing }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const token = useSelector((state) => state.auth.idToken);
   const navigate = useNavigate();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteReason, setDeleteReason] = useState("");
+  const [changeVolunteerDialogOpen, setChangeVolunteerDialogOpen] =
+    useState(false);
+  const [volunteerChangeReason, setVolunteerChangeReason] = useState("");
 
   const cDate = new Date(requestData.creationDate);
   const formattedDate = cDate.toLocaleDateString("en-US", {
@@ -30,6 +48,17 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
     day: "numeric",
   });
 
+  const lang = i18n.resolvedLanguage || i18n.language || "en";
+  const categoriesBundle = i18n.hasResourceBundle?.(lang, "categories")
+    ? i18n.getResourceBundle(lang, "categories")
+    : i18n.getResourceBundle("en", "categories");
+
+  const categoryLabel =
+    findCategoryLabel(
+      categoriesBundle?.REQUEST_CATEGORIES,
+      requestData?.category,
+    ) || requestData?.category;
+
   const attributes = [
     {
       context: formattedDate,
@@ -37,7 +66,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
       icon: <VscCalendar size={22} />,
     },
     {
-      context: requestData.category,
+      context: categoryLabel,
       type: "Category",
       icon: <TbTriangleSquareCircle size={22} />,
     },
@@ -55,6 +84,19 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
     }
   };
 
+  const handleChangeVolunteer = async () => {
+    try {
+      console.log("Changing volunteer for request:", requestData.id);
+      console.log("Reason:", volunteerChangeReason);
+
+      setChangeVolunteerDialogOpen(false);
+      setVolunteerChangeReason("");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Volunteer change failed:", error);
+    }
+  };
+
   return (
     <>
       <div className="border border-gray-300 rounded-lg p-4">
@@ -63,7 +105,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             {attributes.map((header, index) => (
               <li key={index} className="flex items-center gap-2">
                 {header.icon}
-                {t(header.context)}
+                {header.context}
               </li>
             ))}
 
@@ -82,12 +124,11 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             <div className="flex gap-3 ml-auto">
               <button
                 className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
-                onClick={() => console.log("Change Volunteer clicked")}
+                onClick={() => setChangeVolunteerDialogOpen(true)}
               >
                 {t("Change Volunteer")}
               </button>
 
-              {/* ✅ DELETE BUTTON (UPDATED) */}
               <button
                 className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600"
                 onClick={() => setDeleteDialogOpen(true)}
@@ -110,7 +151,6 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
         </div>
       </div>
 
-      {/* ✅ DELETE DIALOG */}
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
@@ -140,6 +180,42 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
             disabled={!deleteReason.trim()}
           >
             {t("Delete")}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={changeVolunteerDialogOpen}
+        onClose={() => setChangeVolunteerDialogOpen(false)}
+      >
+        <DialogTitle>
+          {t("PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER")}
+        </DialogTitle>
+
+        <DialogContent>
+          <textarea
+            value={volunteerChangeReason}
+            onChange={(e) => setVolunteerChangeReason(e.target.value)}
+            className="border p-2 w-full rounded-lg min-h-[100px]"
+            placeholder={t("REASON")}
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            onClick={() => setChangeVolunteerDialogOpen(false)}
+            variant="outlined"
+          >
+            {t("CANCEL")}
+          </Button>
+
+          <Button
+            onClick={handleChangeVolunteer}
+            color="primary"
+            variant="contained"
+            disabled={!volunteerChangeReason.trim()}
+          >
+            {t("CHANGE_VOLUNTEER")}
           </Button>
         </DialogActions>
       </Dialog>
