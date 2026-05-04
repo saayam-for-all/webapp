@@ -64,7 +64,7 @@ function MetricItem({ config, rawValue, label }) {
 
   return (
     <span
-      className="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+      className="inline-flex w-full min-w-0 items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-center sm:w-auto sm:whitespace-nowrap"
       style={{ backgroundColor: config.bg }}
     >
       <span className="text-sm font-medium" style={{ color: config.color }}>
@@ -121,9 +121,12 @@ const MetricsTicker = () => {
 
   return (
     <div className="w-full py-3">
-      <div className="flex flex-wrap items-center justify-center px-4 gap-2 mx-auto">
+      <div className="mx-auto grid w-full max-w-screen-sm grid-cols-2 gap-2 px-4 sm:flex sm:max-w-none sm:flex-wrap sm:items-center sm:justify-center">
         {METRIC_CONFIGS.map((config, index) => (
-          <span key={config.key} className="flex items-center">
+          <span
+            key={config.key}
+            className="flex w-full min-w-0 items-center sm:w-auto"
+          >
             <MetricItem
               config={config}
               rawValue={metrics[config.key]}
