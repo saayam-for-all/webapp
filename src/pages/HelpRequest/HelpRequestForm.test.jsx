@@ -540,7 +540,13 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
           value: "I need help picking up groceries from the store.",
         },
       });
-      jest.advanceTimersByTime(800);
+    });
+
+    expect(generateSubject).not.toHaveBeenCalled();
+
+    //generateSubject should be called on submit
+    await act(async () => {
+      fireEvent.submit(document.querySelector("form"));
     });
 
     expect(generateSubject).toHaveBeenCalledWith(
@@ -597,7 +603,14 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
           value: "I need help picking up groceries from the store.",
         },
       });
-      jest.advanceTimersByTime(800);
+    });
+
+    //generateSubject should NOT be called while typing
+    expect(generateSubject).not.toHaveBeenCalled();
+
+    //generateSubject should be called on submit
+    await act(async () => {
+      fireEvent.submit(document.querySelector("form"));
     });
 
     expect(generateSubject).toHaveBeenCalled();
@@ -627,7 +640,11 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
           value: "I need help picking up groceries from the store.",
         },
       });
-      jest.advanceTimersByTime(800);
+    });
+
+    //Even on submit, should not overwrite manually typed subject
+    await act(async () => {
+      fireEvent.submit(document.querySelector("form"));
     });
 
     expect(generateSubject).not.toHaveBeenCalled();
