@@ -24,17 +24,27 @@ const counterColorClass = (remaining) => {
   return "bg-gray-400";
 };
 
-const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
+const MoreInfoChatModal = ({
+  show,
+  onClose,
+  requestData,
+  initialResponse,
+  isInitialLoading = false,
+}) => {
   const [messages, setMessages] = useState([]);
   const [remaining, setRemaining] = useState(MAX_QUESTIONS);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Seed initial AI message whenever initialResponse changes / modal opens
+  // Reset chat state on open; seed initial AI message once it arrives.
   useEffect(() => {
-    if (show && initialResponse) {
-      setMessages([{ role: "assistant", content: initialResponse }]);
+    if (show) {
+      setMessages(
+        initialResponse
+          ? [{ role: "assistant", content: initialResponse }]
+          : [],
+      );
       setRemaining(MAX_QUESTIONS);
       setInputText("");
     }
@@ -42,7 +52,7 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
+  }, [messages, isLoading, isInitialLoading]);
 
   if (!show) return null;
 
@@ -161,9 +171,17 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
             </div>
           ))}
 
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-2xl rounded-bl-none text-sm italic">
+          {(isInitialLoading || isLoading) && (
+            <div
+              className="flex justify-start"
+              role="status"
+              aria-live="polite"
+            >
+              <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-2xl rounded-bl-none text-sm italic flex items-center gap-2">
+                <span
+                  className="inline-block w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"
+                  aria-hidden="true"
+                />
                 Thinking…
               </div>
             </div>
@@ -186,24 +204,37 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
               if (e.target.value.length <= 250) setInputText(e.target.value);
             }}
             onKeyDown={handleKeyDown}
-            disabled={remaining === 0 || isLoading}
+            disabled={remaining === 0 || isLoading || isInitialLoading}
             rows={3}
             maxLength={250}
             placeholder={
-              remaining === 0
-                ? "No questions remaining"
-                : "Ask a follow-up question… (max 250 characters)"
+              isInitialLoading
+                ? "Loading initial response…"
+                : remaining === 0
+                  ? "No questions remaining"
+                  : "Ask a follow-up question… (max 250 characters)"
             }
             className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
           />
           <button
             onClick={handleSend}
-            disabled={remaining === 0 || isLoading || !inputText.trim()}
+            disabled={
+              remaining === 0 ||
+              isLoading ||
+              isInitialLoading ||
+              !inputText.trim()
+            }
             className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             Send
           </button>
         </div>
+
+        {/* AI disclaimer */}
+        <p className="px-3 pb-2 text-center text-xs text-gray-500">
+          Responses are AI-generated and may be inaccurate. Please verify
+          important information.
+        </p>
       </div>
     </div>
   );

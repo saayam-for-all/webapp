@@ -206,6 +206,54 @@ describe("MoreInfoChatModal", () => {
     expect(mockOnClose).toHaveBeenCalled();
   });
 
+  it("shows Thinking… spinner and disables input while initial response is loading", () => {
+    render(
+      <MoreInfoChatModal
+        show={true}
+        onClose={mockOnClose}
+        requestData={mockRequestData}
+        initialResponse=""
+        isInitialLoading={true}
+      />,
+    );
+
+    expect(screen.getByText("Thinking…")).toBeInTheDocument();
+    const textarea = screen.getByPlaceholderText("Loading initial response…");
+    expect(textarea).toBeDisabled();
+    expect(screen.getByText("Send")).toBeDisabled();
+  });
+
+  it("hides spinner and renders assistant message once initialResponse arrives", () => {
+    const { rerender } = render(
+      <MoreInfoChatModal
+        show={true}
+        onClose={mockOnClose}
+        requestData={mockRequestData}
+        initialResponse=""
+        isInitialLoading={true}
+      />,
+    );
+
+    expect(screen.getByText("Thinking…")).toBeInTheDocument();
+    expect(screen.queryByText("Here are some resources for you.")).toBeNull();
+
+    rerender(
+      <MoreInfoChatModal
+        show={true}
+        onClose={mockOnClose}
+        requestData={mockRequestData}
+        initialResponse="Here are some resources for you."
+        isInitialLoading={false}
+      />,
+    );
+
+    expect(screen.queryByText("Thinking…")).toBeNull();
+    expect(
+      screen.getByText("Here are some resources for you."),
+    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(PLACEHOLDER)).not.toBeDisabled();
+  });
+
   it("calls moreInformationChat with user_id, req_id, and conversation_history", async () => {
     moreInformationChat.mockResolvedValue({
       body: { answer: "Response." },
