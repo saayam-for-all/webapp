@@ -46,28 +46,22 @@ const VoiceRecordingComponent = ({
   );
 
   const languageDisplay = useMemo(() => {
-    const tag = detectedLanguage;
-    if (!tag) return { tag: "", name: "" };
+    if (!detectedLanguage) return "";
 
-    const base = String(tag).split("-")[0];
-    let name = "";
+    const base = String(detectedLanguage).split("-")[0];
 
     try {
       if (typeof Intl !== "undefined" && Intl.DisplayNames) {
         const dn = new Intl.DisplayNames([navigator.language || "en"], {
           type: "language",
         });
-        name = dn.of(base) || "";
+        return dn.of(base) || base;
       }
     } catch (e) {
-      // no-op
+      // ignore
     }
 
-    if (!name) {
-      name = base; // fallback: show base code
-    }
-
-    return { tag: String(tag), name };
+    return base;
   }, [detectedLanguage]);
 
   const clearTimer = () => {
@@ -371,12 +365,11 @@ const VoiceRecordingComponent = ({
       className="flex items-center gap-3 border border-gray-300 rounded-lg bg-white shadow-sm px-2 py-1"
       aria-label="Voice recording options"
     >
-      {showLanguage && (
+      {showLanguage && detectedLanguage && (
         <div className="flex items-center gap-2 pr-2 border-r border-gray-200">
           <span className="text-xs text-gray-600">Language:</span>
           <span className="text-xs font-medium text-gray-800">
-            {languageDisplay.name || "—"}
-            {languageDisplay.tag ? ` (${languageDisplay.tag})` : ""}
+            {languageDisplay}
           </span>
         </div>
       )}
