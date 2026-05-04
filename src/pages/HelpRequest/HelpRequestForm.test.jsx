@@ -506,6 +506,126 @@ describe("HelpRequestForm — predict categories modal", () => {
 
     expect(screen.queryByText(/Category updated from/)).not.toBeInTheDocument();
   });
+
+  it("shows full hierarchy in category field after AI suggested category is selected", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "I need help with math tutoring." },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Math")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByDisplayValue("4.3.1"));
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Select" }));
+    });
+
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+
+    //Category field should show full hierarchy
+    await waitFor(() => {
+      expect(document.getElementById("category").value).toBe(
+        "Education Career Support > Tutoring > Math",
+      );
+    });
+  });
+
+  it("uses category_number in payload not hierarchy string when submitting", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+      createRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-123" } });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "I need help with math tutoring." },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Math")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByDisplayValue("4.3.1"));
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Select" }));
+    });
+
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+    //Payload should use category_number not hierarchy string
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.selectedCategoryId).toBe("4.3.1");
+    expect(callArgs.selectedCategoryId).not.toBe(
+      "Education Career Support > Tutoring > Math",
+    );
+  });
 });
 
 describe("HelpRequestForm — generateSubject auto-fill", () => {
