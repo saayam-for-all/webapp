@@ -25,6 +25,7 @@ import deAvailability from "./locales/de/availability.json";
 import deIdentity from "./locales/de/identity.json";
 import deProfile from "./locales/de/profile.json";
 import deCollaborator from "./locales/de/collaborator.json";
+import deNews from "./locales/de/news.json";
 import deTerms from "./locales/de/termsAndConditions.json";
 import deMessages from "./locales/de/messages.json";
 import deMetadata from "./locales/de/metadata.json";
@@ -37,6 +38,7 @@ import esAvailability from "./locales/es/availability.json";
 import esIdentity from "./locales/es/identity.json";
 import esProfile from "./locales/es/profile.json";
 import esCollaborator from "./locales/es/collaborator.json";
+import esNews from "./locales/es/news.json";
 import esTerms from "./locales/es/termsAndConditions.json";
 import esMessages from "./locales/es/messages.json";
 import esMetadata from "./locales/es/metadata.json";
@@ -62,6 +64,7 @@ import ruAvailability from "./locales/ru/availability.json";
 import ruIdentity from "./locales/ru/identity.json";
 import ruProfile from "./locales/ru/profile.json";
 import ruCollaborator from "./locales/ru/collaborator.json";
+import ruNews from "./locales/ru/news.json";
 import ruTerms from "./locales/ru/termsAndConditions.json";
 import ruMessages from "./locales/ru/messages.json";
 import ruMetadata from "./locales/ru/metadata.json";
@@ -74,6 +77,7 @@ import hiAvailability from "./locales/hi/availability.json";
 import hiIdentity from "./locales/hi/identity.json";
 import hiProfile from "./locales/hi/profile.json";
 import hiCollaborator from "./locales/hi/collaborator.json";
+import hiNews from "./locales/hi/news.json";
 import hiMessages from "./locales/hi/messages.json";
 import hiMetadata from "./locales/hi/metadata.json";
 
@@ -85,6 +89,7 @@ import teAvailability from "./locales/te/availability.json";
 import teIdentity from "./locales/te/identity.json";
 import teProfile from "./locales/te/profile.json";
 import teCollaborator from "./locales/te/collaborator.json";
+import teNews from "./locales/te/news.json";
 import teMessages from "./locales/te/messages.json";
 import teMetadata from "./locales/te/metadata.json";
 
@@ -96,6 +101,7 @@ import zhAvailability from "./locales/zh/availability.json";
 import zhIdentity from "./locales/zh/identity.json";
 import zhProfile from "./locales/zh/profile.json";
 import zhCollaborator from "./locales/zh/collaborator.json";
+import zhNews from "./locales/zh/news.json";
 import zhMessages from "./locales/zh/messages.json";
 import zhMetadata from "./locales/zh/metadata.json";
 
@@ -107,6 +113,7 @@ import ptAvailability from "./locales/pt/availability.json";
 import ptIdentity from "./locales/pt/identity.json";
 import ptProfile from "./locales/pt/profile.json";
 import ptCollaborator from "./locales/pt/collaborator.json";
+import ptNews from "./locales/pt/news.json";
 import ptMessages from "./locales/pt/messages.json";
 import ptMetadata from "./locales/pt/metadata.json";
 
@@ -118,6 +125,7 @@ import bnAvailability from "./locales/bn/availability.json";
 import bnIdentity from "./locales/bn/identity.json";
 import bnProfile from "./locales/bn/profile.json";
 import bnCollaborator from "./locales/bn/collaborator.json";
+import bnNews from "./locales/bn/news.json";
 import bnMessages from "./locales/bn/messages.json";
 import bnMetadata from "./locales/bn/metadata.json";
 
@@ -269,6 +277,7 @@ i18n
         identity: deIdentity,
         profile: deProfile,
         collaborator: deCollaborator,
+        news: deNews,
         termsAndConditions: deTerms,
         messages: deMessages,
         metadata: deMetadata,
@@ -282,6 +291,7 @@ i18n
         identity: esIdentity,
         profile: esProfile,
         collaborator: esCollaborator,
+        news: esNews,
         termsAndConditions: esTerms,
         messages: esMessages,
         metadata: esMetadata,
@@ -309,6 +319,7 @@ i18n
         identity: ruIdentity,
         profile: ruProfile,
         collaborator: ruCollaborator,
+        news: ruNews,
         termsAndConditions: ruTerms,
         messages: ruMessages,
         metadata: ruMetadata,
@@ -322,6 +333,7 @@ i18n
         identity: hiIdentity,
         profile: hiProfile,
         collaborator: hiCollaborator,
+        news: hiNews,
         messages: hiMessages,
         metadata: hiMetadata,
       },
@@ -334,6 +346,7 @@ i18n
         identity: teIdentity,
         profile: teProfile,
         collaborator: teCollaborator,
+        news: teNews,
         messages: teMessages,
         metadata: teMetadata,
       },
@@ -346,6 +359,7 @@ i18n
         identity: zhIdentity,
         profile: zhProfile,
         collaborator: zhCollaborator,
+        news: zhNews,
         messages: zhMessages,
         metadata: zhMetadata,
       },
@@ -358,6 +372,7 @@ i18n
         identity: ptIdentity,
         profile: ptProfile,
         collaborator: ptCollaborator,
+        news: ptNews,
         messages: ptMessages,
         metadata: ptMetadata,
       },
@@ -370,6 +385,7 @@ i18n
         identity: bnIdentity,
         profile: bnProfile,
         collaborator: bnCollaborator,
+        news: bnNews,
         messages: bnMessages,
         metadata: bnMetadata,
       },
