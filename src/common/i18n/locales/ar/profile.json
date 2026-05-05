@@ -17,6 +17,7 @@
   "EMAIL": "البريد الإلكتروني",
   "EMAIL_VERIFICATION_REQUIRED": "سيكون التحقق من البريد الإلكتروني مطلوباً لهذا التغيير",
   "PHONE_NUMBER": "رقم الهاتف",
+  "YOUR_PHONE_NUMBER": "رقم هاتفك",
   "COUNTRY": "البلد",
   "SELECT_COUNTRY": "اختر بلدك",
   "PROFILE_UPDATE_SUCCESS": "تم تحديث الملف الشخصي بنجاح!",

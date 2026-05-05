@@ -16,6 +16,7 @@
   "EMAIL": "ইমেল",
   "EMAIL_VERIFICATION_REQUIRED": "এই পরিবর্তনের জন্য ইমেল যাচাইকরণের প্রয়োজন হবে",
   "PHONE_NUMBER": "ফোন নম্বর",
+  "YOUR_PHONE_NUMBER": "আপনার ফোন নম্বর",
   "COUNTRY": "দেশ",
   "SELECT_COUNTRY": "আপনার দেশ নির্বাচন করুন",
   "PROFILE_UPDATE_SUCCESS": "প্রোফাইল সফলভাবে আপডেট করা হয়েছে!",
