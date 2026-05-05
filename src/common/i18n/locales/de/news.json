@@ -1,7 +1,39 @@
 {
-  "IN_THE_NEWS": "In den Nachrichten",
+  "TITLE": "Nachrichten: Unsere Geschichten",
+  "SUBTITLE": "Entdecken Sie, wie Saayam For All Schlagzeilen macht und Anerkennung für seine Arbeit zur Stärkung von Gemeinschaften, zur Befähigung von Freiwilligen und zum Aufbau eines inklusiven Unterstützungsnetzwerks gewinnt.",
+  "DESCRIPTION": "Von lokalen Geschichten bis hin zu nationalen Berichten – entdecken Sie, wie unsere Mission über die Plattform hinaus in die Welt hineinwirkt.",
   "READ_MORE": "Mehr lesen",
-  "BACK": "Zurück",
-  "PUBLISHED_ON": "Veröffentlicht am",
-  "VIEW_DETAILS": "Details anzeigen"
+  "JOIN_TITLE": "Möchten Sie uns beitreten?",
+  "JOIN_BODY": "Chatten Sie mit unserer Community und nehmen Sie Kontakt mit verschiedenen gemeinnützigen Organisationen auf!",
+  "JOIN_BUTTON": "Der Community beitreten",
+
+  "STORY_1_TITLE": "Ramesh Maturu in die Georgia Titan 100 Liste 2026 aufgenommen",
+  "STORY_1_DESC": "Pyramid Consulting freut sich bekannt zu geben, dass Präsident und Mitgründer Ramesh Maturu als Georgia Titan 100 2026 ausgezeichnet wurde – seine zweite Auszeichnung nach der Auswahl im Jahr 2024. Das Titan 100 Programm ehrt Georgias Top 100 CEOs und C-Level-Führungskräfte, die außergewöhnliche Führung, Vision und Leidenschaft verkörpern.",
+
+  "STORY_2_TITLE": "Mit Jensen Huang, CEO von NVIDIA",
+  "STORY_2_DESC": "Rao mit Jensen Huang, CEO von NVIDIA, auf der IIT Bay Area Konferenz.",
+
+  "STORY_3_TITLE": "Mit Vishal Sikka, Gründer und CEO von Vianai Systems",
+  "STORY_3_DESC": "Ein aufschlussreicher Austausch mit Vishal Sikka über Führung, zweckgerichtete Innovation und den Aufbau von Organisationen, die langfristige Wirkung erzielen.",
+
+  "STORY_4_TITLE": "Mit Ramesh Maturu und Ramana Yerneni am Strand von Carmel-by-the-Sea, Kalifornien",
+  "STORY_4_DESC": "Ein unvergesslicher Moment in Carmel-by-the-Sea, Kalifornien, der bedeutungsvolle Gespräche und Verbindungen mit Ramesh Maturu und Ramana Yerneni an der Pazifikküste widerspiegelt.",
+
+  "STORY_5_TITLE": "Im Schritt mit der Gemeinschaft: Ein 17-Meilen-Spaziergang in San Ramon",
+  "STORY_5_DESC": "Unser CEO und Sateesh Mucharla nahmen an einem 17-Meilen-Spaziergang durch San Ramon, Kalifornien, teil und setzten sich für Gesundheit, Einheit und öffentlichen Dienst ein.",
+
+  "STORY_6_TITLE": "Mit Dr. Srikar Reddy Koppula, Indischem Konsul in San Francisco, Kalifornien",
+  "STORY_6_DESC": "Ein Moment mit dem indischen Konsularteam bei einer Gemeinschaftsveranstaltung.",
+
+  "STORY_7_TITLE": "Mit Amit Zavery, Präsident, CPO und COO von ServiceNow; Vorstandsmitglied von Broadridge (NYSE:BR)",
+  "STORY_7_DESC": "Interaktion auf der IIT Bay Area Konferenz über Führung, Innovation und gesellschaftliche Wirkung.",
+
+  "STORY_8_TITLE": "Mit Madhusudhan Sai, globalem Humanisten und spirituellem Führer und Präsident der Aria Universität, sowie Anand Kuchibhotla",
+  "STORY_8_DESC": "Ein bedeutungsvolles Treffen, das die Werte des Dienstes, des Mitgefühls und zweckgerichteter Initiativen hervorhebt.",
+
+  "STORY_9_TITLE": "Mit Murali Krishnamurthy, CEO der Sankara Eye Foundation",
+  "STORY_9_DESC": "Im Gespräch mit Murali Krishnamurthy, CEO der Sankara Eye Foundation, über die Stärkung der Zusammenarbeit zur Verbesserung der Gesundheitsversorgung und gesellschaftlichen Wirkung.",
+
+  "STORY_10_TITLE": "Mit US-Vertreter Jimmy Panetta und San José Stadtratsmitglied Domingo Candelas",
+  "STORY_10_DESC": "Ein produktives Gespräch mit US-Vertreter Jimmy Panetta und San José Stadtratsmitglied Domingo Candelas über soziale Wirkung, Gesundheitsversorgung und gemeinsame Bemühungen zur Stärkung lokaler Gemeinschaften."
 }

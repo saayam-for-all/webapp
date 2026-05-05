@@ -45,6 +45,7 @@ const RequestButton = ({
   const [showCooldownDialog, setShowCooldownDialog] = useState(false);
   const [responseContent, setResponseContent] = useState(null);
   const [initialResponse, setInitialResponse] = useState("");
+  const [isInitialLoading, setIsInitialLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
@@ -77,12 +78,23 @@ const RequestButton = ({
           return;
         }
 
-        const aiReply = await moreInformationChat({
-          ...buildPayload(),
-          conversation_history: [],
-        });
-        setInitialResponse(aiReply?.body?.answer ?? "");
+        setInitialResponse("");
+        setIsInitialLoading(true);
         setShowModal(true);
+        try {
+          const aiReply = await moreInformationChat({
+            ...buildPayload(),
+            conversation_history: [],
+          });
+          setInitialResponse(aiReply?.body?.answer ?? "");
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          setInitialResponse(
+            "An error occurred while fetching the information. Please try again.",
+          );
+        } finally {
+          setIsInitialLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
         setResponseContent(
@@ -139,6 +151,7 @@ const RequestButton = ({
           onClose={handleChatClose}
           requestData={requestData}
           initialResponse={initialResponse}
+          isInitialLoading={isInitialLoading}
         />
       )}
 

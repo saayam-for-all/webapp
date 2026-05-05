@@ -63,12 +63,14 @@ const RequestDetails = () => {
       icon: <IoPersonCircle size={26} />,
       isClickable: true,
     },
+
     {
-      context: "John Doe", // Mock name
-      type: "REQUESTER", // Translation key
+      context: "John Doe",
+      type: "CREATOR",
       icon: <IoPersonCircle size={26} />,
-      isClickable: false,
+      isClickable: true,
     },
+
     {
       context: "Ethan Marshall",
       type: "Volunteer",
