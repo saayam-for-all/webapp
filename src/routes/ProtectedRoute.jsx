@@ -10,7 +10,7 @@ import {
 } from "../services/volunteerLocationTracker";
 
 const ProtectedRoute = () => {
-  const { user, loading } = useSelector((state) => state.auth);
+  const { user, loading, authInitialized } = useSelector((state) => state.auth);
   const location = useLocation();
   const userDBid = user?.userDbId || "";
 
@@ -46,13 +46,6 @@ const ProtectedRoute = () => {
 
     window.addEventListener("personal-info-updated", onPersonalInfoUpdated);
 
-    removeListener = () => {
-      window.removeEventListener(
-        "personal-info-updated",
-        onPersonalInfoUpdated,
-      );
-    };
-
     return () => {
       stopVolunteerLocationTracking();
       window.removeEventListener(
@@ -81,7 +74,7 @@ const ProtectedRoute = () => {
   // This prevents the race condition where an OAuth callback lands on
   // /dashboard but gets bounced to "/" because checkAuthStatus() hasn't
   // finished yet.
-  if (loading) {
+  if (loading || !authInitialized) {
     return <LoadingIndicator size="50px" position="center" />;
   }
 

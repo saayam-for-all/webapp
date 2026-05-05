@@ -63,6 +63,7 @@ describe("ProtectedRoute", () => {
   it("renders a loading indicator while auth is initializing", () => {
     renderProtectedRoute({
       loading: true,
+      authInitialized: false,
       user: null,
       success: false,
       error: null,
@@ -74,6 +75,7 @@ describe("ProtectedRoute", () => {
   it("redirects unauthenticated users to the landing page", async () => {
     renderProtectedRoute({
       loading: false,
+      authInitialized: true,
       user: null,
       success: false,
       error: null,
@@ -87,6 +89,7 @@ describe("ProtectedRoute", () => {
   it("renders protected content for authenticated users", async () => {
     renderProtectedRoute({
       loading: false,
+      authInitialized: true,
       user: {
         userId: "user-123",
         email: "test@example.com",
@@ -103,6 +106,7 @@ describe("ProtectedRoute", () => {
   it("starts volunteer tracking only for volunteer users with a database id", async () => {
     renderProtectedRoute({
       loading: false,
+      authInitialized: true,
       user: {
         userId: "user-123",
         userDbId: "SID-00-000-001",
@@ -124,6 +128,7 @@ describe("ProtectedRoute", () => {
   it("does not start volunteer tracking for non-volunteer users", async () => {
     renderProtectedRoute({
       loading: false,
+      authInitialized: true,
       user: {
         userId: "user-123",
         userDbId: "SID-00-000-001",
@@ -139,5 +144,17 @@ describe("ProtectedRoute", () => {
 
     expect(mockStartVolunteerLocationTracking).not.toHaveBeenCalled();
     expect(mockStopVolunteerLocationTracking).toHaveBeenCalled();
+  });
+
+  it("keeps showing a loading state until auth initialization completes", () => {
+    renderProtectedRoute({
+      loading: false,
+      authInitialized: false,
+      user: null,
+      success: false,
+      error: null,
+    });
+
+    expect(screen.getByText("Loading...")).toBeTruthy();
   });
 });
