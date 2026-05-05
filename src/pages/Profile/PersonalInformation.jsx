@@ -94,7 +94,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
   const getCountryCodeFromZoneInfo = useCallback((zoneinfo) => {
     if (!zoneinfo) return "";
-    return countryNameToCode[zoneinfo] || "";
+    if (countryNameToCode[zoneinfo]) return countryNameToCode[zoneinfo];
+    if (zoneinfo.length === 2 && zoneinfo === zoneinfo.toUpperCase())
+      return zoneinfo;
+    return "";
   }, []);
 
   const localizedGenderOptions = useMemo(
@@ -604,6 +607,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                   {errors.country}
                 </p>
               )}
+              <p className="text-xs text-gray-500 mt-1">
+                To change your country, update it in Your Profile.
+              </p>
             </>
           ) : (
             <p className="text-lg text-gray-900">
