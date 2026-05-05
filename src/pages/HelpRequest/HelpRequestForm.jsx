@@ -314,7 +314,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   // Auto-generate subject from description using the genai API (debounced).
   // Skipped in edit mode (preserves saved subject) and when the user has
   // manually typed their own subject.
-  useEffect(() => {
+  /*useEffect(() => {
     if (isEdit) return;
     if (hasUserEditedSubjectRef.current) return;
     if (!formData.description || formData.description.trim().length < 10)
@@ -333,7 +333,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     }, 800);
 
     return () => clearTimeout(timer);
-  }, [formData.description]);
+  }, [formData.description]); */
 
   // handleChange
   const handleChange = (e) => {
@@ -1028,6 +1028,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         severity: "error",
       });
       return;
+    }
+
+    if (
+      !isEdit &&
+      !hasUserEditedSubjectRef.current &&
+      formData.description.trim().length >= 10
+    ) {
+      try {
+        const response = await generateSubject(formData.description);
+        const generatedSubject = response?.body?.subject;
+        if (generatedSubject) {
+          setFormData((prev) => ({ ...prev, subject: generatedSubject }));
+        }
+      } catch (error) {
+        console.error("Error generating subject:", error);
+      }
     }
 
     const submissionData = {
