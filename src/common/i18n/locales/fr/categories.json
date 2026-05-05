@@ -251,7 +251,7 @@
               "DESC": "Assistance pour les examens de la vue et les besoins liés à la vision."
             },
             "CARDIAC_OR_BLOOD_PRESSURE": {
-              "LABEL": "Pression artérielle / pression cardiaque",
+              "LABEL": "Cardiologie / Pression artérielle",
               "DESC": "Soutien en cas de problèmes cardiaques et d'hypertension artérielle."
             },
             "ORTHOPEDIC_OR_PHYSIOTHERAPY": {
