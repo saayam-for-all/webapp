@@ -235,48 +235,48 @@
           "DESC": "协助安排远程问诊或基础医疗信息。",
           "SUBCATEGORIES": {
             "GENERAL_CONSULTATION": {
-              "LABEL": "一般查詢",
-              "DESC": "一般醫療指導和導航。"
+              "LABEL": "一般咨询",
+              "DESC": "一般医疗指导和导航。"
             },
             "ENT(EAR_NOSE_AND_THROAT)": {
               "LABEL": "耳鼻喉科",
-              "DESC": "耳鼻喉疾病的診斷和治療服務。"
+              "DESC": "耳鼻喉疾病的诊断和治疗服务。"
             },
             "DENTAL_OR_ORAL_HEALTH": {
-              "LABEL": "牙齒/口腔健康",
-              "DESC": "牙齒和口腔健康指南。"
+              "LABEL": "牙齿/口腔健康",
+              "DESC": "牙齿和口腔健康指南。"
             },
             "EYE_OR_VISION_CARE": {
-              "LABEL": "眼科/視力保健",
-              "DESC": "提供眼科檢查和視力相關問題的協助。"
+              "LABEL": "眼科/视力保健",
+              "DESC": "提供眼科检查和视力相关问题的协助。"
             },
             "CARDIAC_OR_BLOOD_PRESSURE": {
-              "LABEL": "心率/血壓",
-              "DESC": "支持治療心臟和血壓相關疾病。"
+              "LABEL": "心脏/血压",
+              "DESC": "支持治疗心脏和血压相关疾病。"
             },
             "ORTHOPEDIC_OR_PHYSIOTHERAPY": {
-              "LABEL": "骨科/物理治療",
-              "DESC": "提供骨骼、關節和物理治療的協助。"
+              "LABEL": "骨科/物理治疗",
+              "DESC": "提供骨骼、关节和物理治疗的协助。"
             },
             "SKIN_OR_DERMATOLOGY": {
-              "LABEL": "皮膚科",
-              "DESC": "皮膚病及皮膚病學指南。"
+              "LABEL": "皮肤科",
+              "DESC": "皮肤病及皮肤病学指南。"
             },
             "WOMENS_OR_REPRODUCTIVE_HEALTH": {
               "LABEL": "女性/生殖健康",
-              "DESC": "支持婦女和生殖健康。"
+              "DESC": "支持妇女和生殖健康。"
             },
             "VACCINATIONS_AND_PREVENTIVE_SCREENINGS": {
-              "LABEL": "疫苗接種及預防性篩檢",
-              "DESC": "疫苗和預防保健資訊。"
+              "LABEL": "疫苗接种及预防性筛检",
+              "DESC": "疫苗和预防保健资讯。"
             },
             "PEDIATRICS_OR_CHILD_HEALTH": {
-              "LABEL": "兒科/兒童健康",
-              "DESC": "兒童及嬰兒健康指導。"
+              "LABEL": "儿科/儿童健康",
+              "DESC": "儿童及婴儿健康指导。"
             },
             "OTHER_MEDICAL_CONCERN": {
-              "LABEL": "其他醫療問題",
-              "DESC": "除了以上列出的其他醫療問題之外。"
+              "LABEL": "其他医疗问题",
+              "DESC": "除了以上列出的其他医疗问题之外。"
             }
           }
         },
