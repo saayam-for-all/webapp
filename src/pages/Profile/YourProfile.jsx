@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import CountryList from "react-select-country-list";
-import { resolveCountryIso } from "../../utils/countryUtils";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -100,7 +99,8 @@ function YourProfile({ setHasUnsavedChanges }) {
   useEffect(() => {
     if (!user) return;
 
-    const zoneIso = resolveCountryIso(user.zoneinfo);
+    const zoneIso =
+      getIsoFromCountryLabel(user.zoneinfo || "United States") || "US";
 
     let parsedIso = null;
     if (user.phone_number && user.phone_number.startsWith("+")) {
@@ -130,7 +130,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       email: userEmail,
       phone: digits,
       phoneCountryCode: finalIso,
-      country: resolveCountryIso(user.zoneinfo),
+      country: user.zoneinfo || "",
     });
 
     // keep the ContactUs-style phone component in sync
@@ -205,6 +205,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       if (saveError && saveError.includes("email")) setSaveError("");
       if (showEmailVerificationMessage) setShowEmailVerificationMessage(false);
     } else if (name === "country") {
+      const nextIso = getIsoFromCountryLabel(value);
       setProfileInfo((prev) => ({
         ...prev,
         country: value,
@@ -411,7 +412,8 @@ function YourProfile({ setHasUnsavedChanges }) {
 
   const resetFormData = () => {
     if (user) {
-      const zoneIso = resolveCountryIso(user.zoneinfo);
+      const zoneIso =
+        getIsoFromCountryLabel(user.zoneinfo || "United States") || "US";
 
       let parsedIso = null;
       if (user.phone_number && user.phone_number.startsWith("+")) {
@@ -435,7 +437,7 @@ function YourProfile({ setHasUnsavedChanges }) {
           stripDialOnce(user.phone_number || "", finalIso),
         ),
         phoneCountryCode: finalIso,
-        country: resolveCountryIso(user.zoneinfo),
+        country: user.zoneinfo || "",
       });
 
       // keep shared phone component in sync
@@ -616,17 +618,10 @@ function YourProfile({ setHasUnsavedChanges }) {
             onChange={(e) => handleInputChange("country", e.target.value)}
             className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
           >
-            {countries.map((c) => (
-              <option key={c.value} value={c.value}>
-                {c.label}
-              </option>
-            ))}
+            <option value="United States">United States</option>
           </select>
         ) : (
-          <p className="text-lg text-gray-900">
-            {countries.find((c) => c.value === profileInfo.country)?.label ||
-              profileInfo.country}
-          </p>
+          <p className="text-lg text-gray-900">{profileInfo.country}</p>
         )}
       </div>
 
