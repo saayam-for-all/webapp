@@ -136,6 +136,10 @@ const CommentsSection = ({ comments = [] }) => {
     }
   };
 
+  // TODO: wire to API when available
+  const handleEditComment = (_id) => {};
+  const handleDeleteComment = (_id) => {};
+
   return (
     <div>
       <div className="flex items-center justify-between bg-white p-3 rounded">
@@ -214,10 +218,12 @@ const CommentsSection = ({ comments = [] }) => {
                 const { message, name, date, id } = comment;
                 return (
                   <Comments
-                    key={comment.id}
+                    key={id}
                     message={message}
                     name={name}
                     date={date}
+                    onEdit={() => handleEditComment(id)}
+                    onDelete={() => handleDeleteComment(id)}
                   />
                 );
               })}
