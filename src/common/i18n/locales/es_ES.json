@@ -364,5 +364,16 @@
   "TERMS_CONTACT_TITLE": "18. Contacto",
   "TERMS_CONTACT_CONTENT": "Para cualquier pregunta, contáctenos en 📧 info@SaayamForAll.org o 📍 Saayam For All, 3046 Rosato Ct., San Jose, California 95135.",
   "TERMS_THANK_YOU": "Gracias por ser parte de nuestra misión de ayudar a la humanidad a través de la tecnología, la compasión y el servicio comunitario.",
-  "preferably WhatsApp": "preferiblemente WhatsApp"
+  "preferably WhatsApp": "preferiblemente WhatsApp",
+  "CHANGE_VOLUNTEER": "Cambiar Voluntario",
+  "CHANGE_VOLUNTEER_REASON": "Razón para Cambiar el Voluntario",
+  "CHANGE_VOLUNTEER_REASON_PLACEHOLDER": "Por favor, proporcione una razón para cambiar al voluntario...",
+  "DELETE_REQUEST": "Eliminar Solicitud",
+  "DELETE_REQUEST_REASON": "Razón para Eliminar la Solicitud",
+  "DELETE_REQUEST_REASON_PLACEHOLDER": "Por favor, proporcione una razón para eliminar esta solicitud...",
+  "CONFIRM_DELETE": "Confirmar Eliminación",
+  "NO_COMMENTS_FOUND": "No se encontraron comentarios",
+  "CLEAR_SEARCH": "Borrar Búsqueda",
+  "WRITE_COMMENT": "Escribe un comentario...",
+  "SEARCH_PLACEHOLDER": "Buscar..."
 }

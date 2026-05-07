@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IoClose } from "react-icons/io5";
 import Comments from "./Comments";
 
 /* // Get the current system date
@@ -43,6 +44,11 @@ const CommentsSection = ({ comments }) => {
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
     setCurrentPage(1); // Reset to the first page
+  };
+
+  const handleClearSearch = () => {
+    setSearchText("");
+    setCurrentPage(1);
   };
 
   const handleSortChange = () =>
@@ -143,13 +149,13 @@ const CommentsSection = ({ comments }) => {
           style={{ flexBasis: "50%" }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Comment Input Field */}
-          <input
-            type="text"
+          {/* Comment Textarea Field */}
+          <textarea
+            rows={4}
             value={comment}
             onChange={handleCommentChange}
-            placeholder="Write a comment....."
-            className="flex-1 px-4 py-2 bg-gray-100 outline-none border-2 border-white text-gray-600 placeholder-gray-400 text-sm rounded focus:border-black focus:outline-none"
+            placeholder={t("WRITE_COMMENT")}
+            className="flex-1 px-4 py-2 bg-gray-100 outline-none border-2 border-white text-gray-600 placeholder-gray-400 text-sm rounded focus:border-black focus:outline-none resize-none"
           />
 
           {/* Send Button */}
@@ -173,34 +179,59 @@ const CommentsSection = ({ comments }) => {
       <div onClick={(e) => e.stopPropagation()}>
         <div className="mt-4 bg-gray-100 p-6 shadow-md w-full rounded-lg">
           <div className="flex items-center justify-between bg-white p-3 mb-3 rounded-lg shadow-sm border border-gray-200">
-            <input
-              type="text"
-              value={searchText}
-              onChange={handleSearchChange}
-              placeholder="Search..."
-              className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-1/3 focus:border-black focus:outline-none"
-            />
+            <div className="relative flex-1 mr-4">
+              <input
+                type="text"
+                value={searchText}
+                onChange={handleSearchChange}
+                placeholder={t("SEARCH_PLACEHOLDER")}
+                className="px-4 py-2 bg-gray-100 outline-none border-2 border-white text-sm rounded-md w-full focus:border-black focus:outline-none pr-8"
+              />
+              {searchText && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  aria-label={t("CLEAR_SEARCH")}
+                >
+                  <IoClose size={18} />
+                </button>
+              )}
+            </div>
 
             <button
               onClick={handleSortChange}
-              className="p-2 border border-gray-300 rounded-md"
+              className="p-2 border border-gray-300 rounded-md whitespace-nowrap"
             >
               {t("SORT_BY")}:{" "}
               {sortOrder === "newest" ? t("NEWEST") : t("OLDEST")}
             </button>
           </div>
-          {currentComments.map((comment) => {
-            const { message, name, date, id } = comment;
-            return (
-              <Comments
-                key={comment.id}
-                message={message}
-                name={name}
-                date={date}
-              />
-            );
-          })}
-          {renderPagination()}
+          {filteredComments.length === 0 && searchText ? (
+            <div className="flex flex-col items-center justify-center py-8 gap-4">
+              <p className="text-gray-500 text-sm">{t("NO_COMMENTS_FOUND")}</p>
+              <button
+                onClick={handleClearSearch}
+                className="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-all"
+              >
+                {t("CLEAR_SEARCH")}
+              </button>
+            </div>
+          ) : (
+            <>
+              {currentComments.map((comment) => {
+                const { message, name, date, id } = comment;
+                return (
+                  <Comments
+                    key={comment.id}
+                    message={message}
+                    name={name}
+                    date={date}
+                  />
+                );
+              })}
+              {renderPagination()}
+            </>
+          )}
         </div>
       </div>
     </div>
