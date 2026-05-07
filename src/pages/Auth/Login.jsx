@@ -9,8 +9,8 @@ import { INACTIVITY_TIMEOUT } from "../../common/components/InactivityTimer/Inac
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 import "./Login.css";
+import { FaAmazon, FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF } from "react-icons/fa";
 
 const LoginPage = () => {
   const { t } = useTranslation(["common"]);
@@ -50,11 +50,38 @@ const LoginPage = () => {
     }
   };
 
+  const socialProviders = [
+    {
+      label: "Amazon",
+      icon: <FaAmazon className="mx-2 text-xl text-gray-700" />,
+      onClick: undefined,
+      disabled: true,
+    },
+    {
+      label: t("common:FACEBOOK"),
+      icon: <FaFacebookF className="mx-2 text-xl text-blue-800" />,
+      onClick: handleFacebookLogin,
+      disabled: false,
+    },
+    {
+      label: t("common:GOOGLE"),
+      icon: <FcGoogle className="mx-2 text-xl" />,
+      onClick: handleGoogleLogin,
+      disabled: false,
+    },
+    {
+      label: "LinkedIn",
+      icon: <FaLinkedinIn className="mx-2 text-xl text-[#0A66C2]" />,
+      onClick: undefined,
+      disabled: true,
+    },
+  ];
+
   useEffect(() => {
     if (user) {
       navigate("/dashboard");
     }
-  }, [user]);
+  }, [navigate, user]);
 
   const handleSignIn = async () => {
     try {
@@ -180,22 +207,23 @@ const LoginPage = () => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
-        <div className="flex flex-row items-center">
-          <button
-            className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl"
-            onClick={handleFacebookLogin}
-          >
-            <FaFacebookF className="mx-2 text-xl text-blue-800" />
-            <span>{t("common:FACEBOOK")}</span>
-          </button>
-
-          <button
-            className="ml-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl"
-            onClick={handleGoogleLogin}
-          >
-            <FcGoogle className="mx-2 text-xl" />
-            <span>{t("common:GOOGLE")}</span>
-          </button>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {socialProviders.map((provider) => (
+            <button
+              key={provider.label}
+              type="button"
+              disabled={provider.disabled}
+              onClick={provider.onClick}
+              className={`px-4 py-2 flex items-center justify-center border border-gray-300 rounded-xl ${
+                provider.disabled
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white hover:bg-gray-50"
+              }`}
+            >
+              {provider.icon}
+              <span>{provider.label}</span>
+            </button>
+          ))}
         </div>
 
         <div className="mt-16 flex flex-row justify-center">
