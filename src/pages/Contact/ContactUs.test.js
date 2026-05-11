@@ -101,12 +101,12 @@ describe("ContactUs", () => {
     //   - switches targetHash to CONTACT_REASON_HASHES[reason]
     //   - switches _subject hidden input to the truthy branch
     const listbox = screen.getByRole("listbox");
-    const option = within(listbox).getByText("General Inquiry");
+    const option = within(listbox).getByText("GENERAL_INQUIRY");
     fireEvent.click(option);
 
     // After selection the text may appear in both the trigger and (briefly)
     // the listbox — use getAllByText and just confirm at least one exists
-    expect(screen.getAllByText("General Inquiry").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("GENERAL_INQUIRY").length).toBeGreaterThan(0);
   });
 
   it("toggles FAQ items when clicked", () => {
@@ -134,13 +134,9 @@ describe("ContactUs", () => {
 
     // Verify the response time note is visible on the page
     // This covers the rendering of the note section before the submit button
-    expect(
-      screen.getByText(
-        "We typically respond to your inquiry within 24-48 hours.",
-      ),
-    ).toBeTruthy();
+    expect(screen.getByText("RESPONSE_TIME_NOTICE")).toBeTruthy();
 
     // Verify the "Note:" label is also present
-    expect(screen.getByText("Note:")).toBeTruthy();
+    expect(screen.getByText("NOTE_LABEL")).toBeTruthy();
   });
 });
