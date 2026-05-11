@@ -17,12 +17,13 @@ import HorizontalAd from "#components/Ads/HorizontalAd";
 
 // Map of contact reasons to their respective FormSubmit hash endpoints.
 // Each hash corresponds to a real email alias configured on formsubmit.co.
+
 const CONTACT_REASON_HASHES = {
-  "Volunteering / Internship": "664052b85250d40af3837478d1f4d1a1", // onboarding@saayamforall.org
-  "Timesheet Issues": "ebee724fffe3196c8366aa11068a9939", // timesheets@saayamforall.org
-  "Offer / Relieving / Verification Letter": "6eb39361216482205ba375d24826ae55", // letters@saayamforall.org
-  "Collaboration / Partnership": "a7a345dbfc019be815c726ef1f38a8ba", // marketing@saayamforall.org
-  "General Inquiry": "bfa2648b3a4420ce3800ff9d23a5f96f", // info@saayamforall.org
+  VOLUNTEERING_INTERNSHIP: "664052b85250d40af3837478d1f4d1a1", // onboarding@saayamforall.org
+  TIMESHEET_ISSUES: "ebee724fffe3196c8366aa11068a9939", // timesheets@saayamforall.org
+  OFFER_RELIEVING_LETTER: "6eb39361216482205ba375d24826ae55", // letters@saayamforall.org
+  COLLABORATION_PARTNERSHIP: "a7a345dbfc019be815c726ef1f38a8ba", // marketing@saayamforall.org
+  GENERAL_INQUIRY: "bfa2648b3a4420ce3800ff9d23a5f96f", // info@saayamforall.org
 };
 
 // Fallback hash used until a reason is selected (General Inquiry / info@)
@@ -299,7 +300,7 @@ const ContactUs = () => {
                 name="_subject"
                 value={
                   formData.reason
-                    ? `New Contact Form: ${formData.reason}`
+                    ? `New Contact Form: ${t(formData.reason)}`
                     : "New Contact Form Submission"
                 }
               />
@@ -311,7 +312,7 @@ const ContactUs = () => {
                   className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
                 >
                   <span className="text-red-500 mr-1">*</span>
-                  {t("Reason for Contacting")}
+                  {t("REASON_FOR_CONTACTING")}
                 </label>
                 <FormControl
                   fullWidth
@@ -329,7 +330,7 @@ const ContactUs = () => {
                       if (!selected) {
                         return (
                           <span style={{ color: "#9e9e9e" }}>
-                            {t("Select a reason")}
+                            {t("SELECT_A_REASON")}
                           </span>
                         );
                       }
@@ -379,10 +380,8 @@ const ContactUs = () => {
               {/* Response Time Note */}
               <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded">
                 <p className="text-sm text-blue-800">
-                  <span className="font-semibold">{t("Note:")}</span>{" "}
-                  {t(
-                    "We typically respond to your inquiry within 24-48 hours.",
-                  )}
+                  <span className="font-semibold">{t("NOTE_LABEL")}</span>{" "}
+                  {t("RESPONSE_TIME_NOTICE")}
                 </p>
               </div>
 

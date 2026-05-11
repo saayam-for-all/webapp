@@ -765,5 +765,13 @@
   "CHANGE_VOLUNTEER": "Change Volunteer",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Please specify the reason for change of volunteer",
   "REASON": "Reason",
-  "Reason for Contacting": "Reason for Contacting"
+  "REASON_FOR_CONTACTING": "Reason for Contacting",
+  "SELECT_A_REASON": "Select a reason",
+  "VOLUNTEERING_INTERNSHIP": "Volunteering / Internship",
+  "TIMESHEET_ISSUES": "Timesheet Issues",
+  "OFFER_RELIEVING_LETTER": "Offer / Relieving / Verification Letter",
+  "COLLABORATION_PARTNERSHIP": "Collaboration / Partnership",
+  "GENERAL_INQUIRY": "General Inquiry",
+  "NOTE_LABEL": "Note:",
+  "RESPONSE_TIME_NOTICE": "We typically respond to your inquiry within 24-48 hours."
 }
