@@ -10,6 +10,7 @@
   "CREATE_VOLUNTEER": "v1/volunteer/createNewVolunteer",
   "UPDATE_VOLUNTEER": "v1/volunteer/updateVolunteer",
   "CREATE_HELP_REQUEST": "v1/request/createRequest",
+  "UPDATE_HELP_REQUEST": "v1/request/updateHelpRequest",
   "GET_EMERGENCY_CONTACT": "v1/genai/emergency_number_api",
   "PREDICT_CATEGORIES": "v1/genai/predict_category_api",
   "GENERATE_SUBJECT": "v1/genai/generate_subject_api",

@@ -61,6 +61,7 @@ jest.mock("../../utils/mapHelpRequestPayload", () => ({
 jest.mock("../../services/requestServices", () => ({
   checkProfanity: jest.fn(),
   createRequest: jest.fn(),
+  updateRequest: jest.fn(),
   predictCategories: jest.fn(),
   generateSubject: jest.fn(),
   getCategories: jest.fn(),
@@ -848,6 +849,102 @@ describe("HelpRequestForm — successful submission", () => {
     await waitFor(() => expect(createRequest).toHaveBeenCalled());
 
     // Advance past the 1200ms navigate timeout — covers the falsy requestId branch
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+});
+
+describe("HelpRequestForm — edit mode submission", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({ body: null });
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("calls updateRequest instead of createRequest when isEdit is true", async () => {
+    const {
+      checkProfanity,
+      createRequest,
+      updateRequest,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0009" },
+    });
+    createRequest.mockClear();
+    updateRequest.mockClear();
+
+    renderForm({ isEdit: true });
+
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated description for testing edit flow.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+    expect(createRequest).not.toHaveBeenCalled();
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("passes requestId in payload via mapHelpRequestPayload when editing", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0009" },
+    });
+
+    renderForm({ isEdit: true });
+
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated description for payload test.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    // Verify mapHelpRequestPayload was called with requestId parameter
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs).toHaveProperty("requestId");
+
     await act(async () => {
       jest.advanceTimersByTime(1200);
     });

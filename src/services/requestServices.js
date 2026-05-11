@@ -32,6 +32,11 @@ export const createRequest = async (request) => {
   return response.data;
 };
 
+export const updateRequest = async (request) => {
+  const response = await api.put(endpoints.UPDATE_HELP_REQUEST, request);
+  return response.data;
+};
+
 export const getEmergencyContactInfo = async ({ lat, lng } = {}) => {
   const response = await api.get(endpoints.GET_EMERGENCY_CONTACT, {
     params:

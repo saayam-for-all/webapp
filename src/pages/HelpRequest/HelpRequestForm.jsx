@@ -18,6 +18,7 @@ import {
 import {
   checkProfanity,
   createRequest,
+  updateRequest,
   predictCategories,
   generateSubject,
   getCategories,
@@ -1103,39 +1104,57 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         submissionData.attachments = uploadedFileUrls;
       }
 
-      // Call createRequest with attachments included
-      //const response = await createRequest(submissionData);
+      // Build the API payload
       const payload = mapHelpRequestPayload({
         formData: submissionData,
         selectedCategoryId: selectedCategoryId ?? formData.category,
         requesterId: userDbId,
         enumMaps,
         additionalFields: additionalFieldValues,
+        requestId: isEdit ? id : undefined,
       });
 
-      const response = await createRequest(payload);
-      const requestId = response?.data?.requestId;
+      // Call updateRequest when editing, createRequest when creating
+      let response;
+      if (isEdit) {
+        response = await updateRequest(payload);
+      } else {
+        response = await createRequest(payload);
+      }
+      const responseRequestId = response?.data?.requestId;
 
       setSnackbar({
         open: true,
-        message: "Help Request submitted successfully!",
+        message: isEdit
+          ? "Help Request updated successfully!"
+          : "Help Request submitted successfully!",
         severity: "success",
       });
 
       setTimeout(() => {
-        navigate("/dashboard", {
-          state: {
-            successMessage: requestId
-              ? `New Request #${requestId} submitted successfully!`
-              : "Help Request submitted successfully!",
-          },
-        });
+        if (isEdit && onClose) {
+          onClose();
+        } else {
+          navigate("/dashboard", {
+            state: {
+              successMessage: responseRequestId
+                ? isEdit
+                  ? `Request #${responseRequestId} updated successfully!`
+                  : `New Request #${responseRequestId} submitted successfully!`
+                : isEdit
+                  ? "Help Request updated successfully!"
+                  : "Help Request submitted successfully!",
+            },
+          });
+        }
       }, 1200);
     } catch (error) {
       console.error("Failed to process request:", error);
       setSnackbar({
         open: true,
-        message: "Failed to submit request!",
+        message: isEdit
+          ? "Failed to update request!"
+          : "Failed to submit request!",
         severity: "error",
       });
     } finally {
@@ -1220,8 +1239,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       id="category"
                       value={resolveCategoryLabel(formData.category)}
                       onChange={handleSearchInput}
-                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
-                      onFocus={() => setShowDropdown(true)}
+                      disabled={isEdit}
+                      className={`block w-full appearance-none border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none ${
+                        isEdit
+                          ? "bg-gray-100 cursor-not-allowed opacity-70"
+                          : "bg-white"
+                      }`}
+                      onFocus={() => {
+                        if (!isEdit) setShowDropdown(true);
+                      }}
                       onBlur={(e) => {
                         if (!dropdownRef.current?.contains(e.relatedTarget)) {
                           setShowDropdown(false);

@@ -4,6 +4,7 @@ export const mapHelpRequestPayload = ({
   requesterId,
   enumMaps,
   additionalFields,
+  requestId,
 }) => {
   const payload = {
     requesterId: requesterId,
@@ -35,6 +36,26 @@ export const mapHelpRequestPayload = ({
         enumMaps.requestFor[formData.request_for] ?? enumMaps.requestFor.SELF,
     },
   };
+
+  // Include requestId when updating an existing request
+  if (requestId) {
+    payload.requestId = requestId;
+  }
+
+  // Include location if provided
+  if (formData.location) {
+    payload.requestLocation = formData.location;
+  }
+
+  // Include audio description if provided
+  if (formData.audioRequestDescription) {
+    payload.audioRequestDescription = formData.audioRequestDescription;
+  }
+
+  // Include document link if provided
+  if (formData.requestDocumentLink) {
+    payload.requestDocumentLink = formData.requestDocumentLink;
+  }
 
   // Include guest details when request is for someone else (OTHER)
   const requestForId = payload.requestFor.requestForId;
