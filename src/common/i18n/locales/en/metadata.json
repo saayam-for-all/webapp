@@ -107,7 +107,15 @@
     "SUBJECT_OR_TOPIC": "Subject or Topic",
     "SUPPORTING_FILES_TYPE": "Supporting Files Type",
     "TUTORING_FOCUS": "Tutoring Focus",
-    "TYPE_OF_GUIDANCE": "Type of Guidance"
+    "TYPE_OF_GUIDANCE": "Type of Guidance",
+    "PREFERRED_MEAL_TYPE": "Preferred Meal Type",
+    "DIETARY_RESTRICTIONS": "Dietary Restrictions",
+    "HOUSEHOLD_SIZE": "Household Size",
+    "GROCERY_LIST": "Grocery List",
+    "PAYMENT_METHOD": "Payment Method",
+    "RECIPE_PREFERENCE": "Recipe Preference",
+    "KITCHEN_EQUIPMENT": "Kitchen Equipment",
+    "PREFERRED_LANGUGAE": "Preferred Language"
   },
   "ITEMS": {
     "MEN": "Men",
@@ -442,6 +450,29 @@
     "STRUCTURE_AND_FLOW": "Structure And Flow",
     "TEXTBOOKS": "Textbooks",
     "UNIVERSITY": "University",
-    "WEEKLY": "Weekly"
+    "WEEKLY": "Weekly",
+    "VEGAN": "Vegan",
+    "NON_VEGETARIAN": "Non-Vegetarian",
+    "GLUTEN_FREE": "Gluten Free",
+    "KOSHER_HALAL": "Kosher / Halal",
+    "NUT_FREE": "Nut Free",
+    "LACTOSE_FREE": "Lactose Free",
+    "MORNING_8AM_TO_12PM": "Morning 8 AM to 12 PM",
+    "AFTERNOON_12PM _TO_5PM": "Afternoon 12 PM to 5 PM",
+    "EVENING_5PM_TO_9PM": "Evening 5 PM to 9 PM",
+    "VOLUNTEER_PURCHASE_REIMBURSE": "Volunteer Purchase & Reimburse",
+    "GIFT_CARD_VOUCHER": "Gift Card / Voucher",
+    "ORGANIZATION_SPONSORED": "Organization Sponsored",
+    "FREE_ASSISTANCE": "Free Assistance",
+    "IMMEDIATE_NEXT_24HRS": "Immediate (Next 24 Hrs)",
+    "IMMEDIATE_NEXT_24_HOURS": "Immediate (Next 24 Hours)",
+    "WITHIN_3_DAYS": "Within 3 Days",
+    "HIGH_PROTEIN": "High Protein",
+    "LOW_CARB": "Low Carb",
+    "CULTURALLY_SPECIFIC": "Culturally Specific",
+    "STOVE_OR_COOKTOP": "Stove or Cooktop",
+    "OVEN_OR_MICROWAVE": "Oven or Microwave",
+    "UTENSILS_OR_COOKWARE_SET": "Utensils or Cookware Set",
+    "MIXER_OR_BLENDER": "Mixer or Blender"
   }
 }
