@@ -33,5 +33,14 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "टिप्पण्यः",
-  "VOLUNTEERS": "स्वयंसेवकाः"
+  "VOLUNTEERS": "स्वयंसेवकाः",
+  "REASON_FOR_CONTACTING": "सम्पर्कस्य कारणम्",
+  "SELECT_A_REASON": "एकं कारणं चिनुत",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "कृपया सम्पर्कस्य कारणं चिनुत",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "स्वेच्छासेवा / अभ्यासवृत्तिः",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "कार्यसमयपत्र-विषयाः",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "प्रस्ताव / मुक्तिपत्र / सत्यापनपत्रम्",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "सहयोगः / भागीदारिता",
+  "CONTACT_REASON_GENERAL_INQUIRY": "सामान्यप्रश्नः",
+  "RESPONSE_TIME_NOTE": "वयं सामान्यतः 24-48 घण्टाभ्यन्तरे भवतः प्रश्नस्य उत्तरं ददामः।"
 }

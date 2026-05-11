@@ -739,5 +739,14 @@
   "COMMENTS": "Commentaires",
   "CHANGE_VOLUNTEER": "Changer de Volontaire",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Veuillez spécifier la raison du changement de volontaire",
-  "REASON": "Raison"
+  "REASON": "Raison",
+  "REASON_FOR_CONTACTING": "Motif du contact",
+  "SELECT_A_REASON": "Sélectionner un motif",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "Veuillez sélectionner un motif de contact",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "Bénévolat / Stage",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "Problèmes de feuille de temps",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "Lettre d'offre / Dispense / Vérification",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "Collaboration / Partenariat",
+  "CONTACT_REASON_GENERAL_INQUIRY": "Demande générale",
+  "RESPONSE_TIME_NOTE": "Nous répondons généralement à votre demande dans un délai de 24 à 48 heures."
 }

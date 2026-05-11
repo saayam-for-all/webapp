@@ -33,5 +33,14 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "ମନ୍ତବ୍ୟ",
-  "VOLUNTEERS": "ସ୍ୱେଚ୍ଛାସେବୀ"
+  "VOLUNTEERS": "ସ୍ୱେଚ୍ଛାସେବୀ",
+  "REASON_FOR_CONTACTING": "ଯୋଗାଯୋଗ କରିବାର କାରଣ",
+  "SELECT_A_REASON": "ଏକ କାରଣ ବାଛନ୍ତୁ",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "ଦୟାକରି ଯୋଗାଯୋଗ କରିବାର କାରଣ ବାଛନ୍ତୁ",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "ସ୍ୱେଚ୍ଛାସେବା / ଇଣ୍ଟର୍ନଶିପ",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "ଟାଇମ୍‌ଶିଟ ସମସ୍ୟା",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "ଅଫର / ରିଲିଭିଂ / ଯାଞ୍ଚ ପତ୍ର",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "ସହଯୋଗ / ଅଂଶୀଦାରୀ",
+  "CONTACT_REASON_GENERAL_INQUIRY": "ସାଧାରଣ ଅନୁସନ୍ଧାନ",
+  "RESPONSE_TIME_NOTE": "ଆମେ ସାଧାରଣତଃ 24-48 ଘଣ୍ଟା ମଧ୍ୟରେ ଆପଣଙ୍କ ଅନୁସନ୍ଧାନର ଉତ୍ତର ଦେଉ।"
 }

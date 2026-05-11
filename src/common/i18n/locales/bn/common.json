@@ -740,5 +740,14 @@
   "COMMENTS": "মন্তব্য",
   "CHANGE_VOLUNTEER": "Change Volunteer",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Change Volunteer",
-  "REASON": "Change Volunteer"
+  "REASON": "Change Volunteer",
+  "REASON_FOR_CONTACTING": "যোগাযোগের কারণ",
+  "SELECT_A_REASON": "একটি কারণ নির্বাচন করুন",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "যোগাযোগের কারণ নির্বাচন করুন",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "স্বেচ্ছাসেবা / ইন্টার্নশিপ",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "টাইমশিট সমস্যা",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "অফার / রিলিভিং / যাচাইয়ের চিঠি",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "সহযোগিতা / অংশীদারিত্ব",
+  "CONTACT_REASON_GENERAL_INQUIRY": "সাধারণ অনুসন্ধান",
+  "RESPONSE_TIME_NOTE": "আমরা সাধারণত ২৪-৪৮ ঘণ্টার মধ্যে আপনার অনুসন্ধানের উত্তর দিই।"
 }

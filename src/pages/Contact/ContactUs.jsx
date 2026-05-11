@@ -25,6 +25,16 @@ const CONTACT_REASON_HASHES = {
   "General Inquiry": "bfa2648b3a4420ce3800ff9d23a5f96f", // info@saayamforall.org
 };
 
+// Maps English reason keys to i18n translation keys
+const REASON_TRANSLATION_KEYS = {
+  "Volunteering / Internship": "CONTACT_REASON_VOLUNTEERING_INTERNSHIP",
+  "Timesheet Issues": "CONTACT_REASON_TIMESHEET_ISSUES",
+  "Offer / Relieving / Verification Letter":
+    "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION",
+  "Collaboration / Partnership": "CONTACT_REASON_COLLABORATION_PARTNERSHIP",
+  "General Inquiry": "CONTACT_REASON_GENERAL_INQUIRY",
+};
+
 // Fallback hash used until a reason is selected (General Inquiry / info@)
 const DEFAULT_HASH = "bfa2648b3a4420ce3800ff9d23a5f96f";
 
@@ -108,7 +118,7 @@ const ContactUs = () => {
       newErrors.phone = t("Please enter a valid phone number");
     }
     if (!formData.reason) {
-      newErrors.reason = t("Please select a reason for contacting");
+      newErrors.reason = t("PLEASE_SELECT_REASON_FOR_CONTACTING");
     }
     if (!formData.message) {
       newErrors.message = t("Message is required");
@@ -311,7 +321,7 @@ const ContactUs = () => {
                   className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
                 >
                   <span className="text-red-500 mr-1">*</span>
-                  {t("Reason for Contacting")}
+                  {t("REASON_FOR_CONTACTING")}
                 </label>
                 <FormControl
                   fullWidth
@@ -329,16 +339,16 @@ const ContactUs = () => {
                       if (!selected) {
                         return (
                           <span style={{ color: "#9e9e9e" }}>
-                            {t("Select a reason")}
+                            {t("SELECT_A_REASON")}
                           </span>
                         );
                       }
-                      return t(selected);
+                      return t(REASON_TRANSLATION_KEYS[selected]);
                     }}
                   >
                     {Object.keys(CONTACT_REASON_HASHES).map((reason) => (
                       <MenuItem key={reason} value={reason}>
-                        {t(reason)}
+                        {t(REASON_TRANSLATION_KEYS[reason])}
                       </MenuItem>
                     ))}
                   </Select>
@@ -379,10 +389,8 @@ const ContactUs = () => {
               {/* Response Time Note */}
               <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded">
                 <p className="text-sm text-blue-800">
-                  <span className="font-semibold">{t("Note:")}</span>{" "}
-                  {t(
-                    "We typically respond to your inquiry within 24-48 hours.",
-                  )}
+                  <span className="font-semibold">{t("NOTE")}:</span>{" "}
+                  {t("RESPONSE_TIME_NOTE")}
                 </p>
               </div>
 

@@ -740,5 +740,14 @@
   "COMMENTS": "Kommentare",
   "CHANGE_VOLUNTEER": "Freiwilligen Ändern",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Bitte geben Sie den Grund für die Änderung des Freiwilligen an",
-  "REASON": "Grund"
+  "REASON": "Grund",
+  "REASON_FOR_CONTACTING": "Grund der Kontaktaufnahme",
+  "SELECT_A_REASON": "Einen Grund auswählen",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "Bitte wählen Sie einen Grund für die Kontaktaufnahme",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "Freiwilligendienst / Praktikum",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "Zeiterfassungsprobleme",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "Angebot- / Freistellungs- / Bestätigungsschreiben",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "Zusammenarbeit / Partnerschaft",
+  "CONTACT_REASON_GENERAL_INQUIRY": "Allgemeine Anfrage",
+  "RESPONSE_TIME_NOTE": "Wir antworten in der Regel innerhalb von 24-48 Stunden auf Ihre Anfrage."
 }

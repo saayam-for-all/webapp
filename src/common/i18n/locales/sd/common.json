@@ -33,5 +33,14 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "تبصرا",
-  "VOLUNTEERS": "رضاڪار"
+  "VOLUNTEERS": "رضاڪار",
+  "REASON_FOR_CONTACTING": "رابطي جو سبب",
+  "SELECT_A_REASON": "هڪ سبب چونڊيو",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "مهرباني ڪري رابطي جو سبب چونڊيو",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "رضاڪاري / انٽرن شپ",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "ٽائيم شيٽ مسئلا",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "آفر / رليونگ / تصديق نامو",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "تعاون / شراڪت",
+  "CONTACT_REASON_GENERAL_INQUIRY": "عام استفسار",
+  "RESPONSE_TIME_NOTE": "اسان عام طور تي 24-48 ڪلاڪن اندر توهان جي سوال جو جواب ڏيندا آهيون."
 }

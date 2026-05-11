@@ -516,6 +516,7 @@ i18n
     },
     detection: {
       order: [
+        "querystring",
         "localStorage",
         "navigator",
         "htmlTag",
@@ -523,6 +524,7 @@ i18n
         "path",
         "subdomain",
       ],
+      lookupQuerystring: "lng",
       caches: ["localStorage", "cookie"],
     },
     debug: true,

@@ -400,5 +400,14 @@
   "VOLUNTEERS": "رضاکار",
   "CHANGE_VOLUNTEER": "رضاکار کو تبدیل کریں",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "رضاکار کو تبدیل کرنے کا سبب بتائیں",
-  "REASON": "سبب"
+  "REASON": "سبب",
+  "REASON_FOR_CONTACTING": "رابطے کی وجہ",
+  "SELECT_A_REASON": "ایک وجہ منتخب کریں",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "براہ کرم رابطے کی وجہ منتخب کریں",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "رضاکارانہ / انٹرن شپ",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "ٹائم شیٹ کے مسائل",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "پیشکش / ریلیونگ / تصدیقی خط",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "تعاون / شراکت",
+  "CONTACT_REASON_GENERAL_INQUIRY": "عام پوچھ گچھ",
+  "RESPONSE_TIME_NOTE": "ہم عام طور پر 24-48 گھنٹوں کے اندر آپ کے سوال کا جواب دیتے ہیں۔"
 }

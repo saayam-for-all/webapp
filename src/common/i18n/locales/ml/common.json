@@ -32,5 +32,14 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "അഭിപ്രായങ്ങൾ",
-  "VOLUNTEERS": "സന്നദ്ധപ്രവർത്തകർ"
+  "VOLUNTEERS": "സന്നദ്ധപ്രവർത്തകർ",
+  "REASON_FOR_CONTACTING": "ബന്ധപ്പെടാനുള്ള കാരണം",
+  "SELECT_A_REASON": "ഒരു കാരണം തിരഞ്ഞെടുക്കുക",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "ദയവായി ബന്ധപ്പെടാനുള്ള കാരണം തിരഞ്ഞെടുക്കുക",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "സ്വമേധയ / ഇന്റേൺഷിപ്പ്",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "ടൈംഷീറ്റ് പ്രശ്നങ്ങൾ",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "ഓഫർ / റിലീവിംഗ് / വെരിഫിക്കേഷൻ ലെറ്റർ",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "സഹകരണം / പങ്കാളിത്തം",
+  "CONTACT_REASON_GENERAL_INQUIRY": "പൊതു അന്വേഷണം",
+  "RESPONSE_TIME_NOTE": "ഞങ്ങൾ സാധാരണയായി 24-48 മണിക്കൂറിനുള്ളിൽ നിങ്ങളുടെ അന്വേഷണത്തിന് മറുപടി നൽകുന്നു."
 }

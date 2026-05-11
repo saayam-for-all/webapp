@@ -741,5 +741,14 @@
   "COMMENTS": "टिप्पणियाँ",
   "CHANGE_VOLUNTEER": "स्वयंसेवक बदलें",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "कृपया स्वयंसेवक बदलने का कारण बताएं",
-  "REASON": "कारण"
+  "REASON": "कारण",
+  "REASON_FOR_CONTACTING": "संपर्क करने का कारण",
+  "SELECT_A_REASON": "एक कारण चुनें",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "कृपया संपर्क करने का कारण चुनें",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "स्वयंसेवा / इंटर्नशिप",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "टाइमशीट संबंधी समस्याएं",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "ऑफर / रिलीविंग / सत्यापन पत्र",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "सहयोग / साझेदारी",
+  "CONTACT_REASON_GENERAL_INQUIRY": "सामान्य पूछताछ",
+  "RESPONSE_TIME_NOTE": "हम आमतौर पर 24-48 घंटों के भीतर आपकी पूछताछ का जवाब देते हैं।"
 }

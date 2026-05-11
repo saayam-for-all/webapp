@@ -32,5 +32,14 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "댓글",
-  "VOLUNTEERS": "자원봉사자"
+  "VOLUNTEERS": "자원봉사자",
+  "REASON_FOR_CONTACTING": "문의 이유",
+  "SELECT_A_REASON": "이유를 선택하세요",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "문의 이유를 선택해 주세요",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "자원봉사 / 인턴십",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "근무시간 기록 문제",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "제안서 / 퇴직 / 확인서",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "협업 / 파트너십",
+  "CONTACT_REASON_GENERAL_INQUIRY": "일반 문의",
+  "RESPONSE_TIME_NOTE": "일반적으로 24-48시간 이내에 문의에 답변드립니다."
 }

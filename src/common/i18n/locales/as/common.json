@@ -34,5 +34,14 @@
   "Aakash Gangji": "আকাশ গাংজি",
   "Lead AI/ML Developer/Engineer": "লিড এআই/এমএল ডেভেলপাৰ/ইঞ্জিনিয়াৰ",
   "COMMENTS": "মন্তব্যসমূহ",
-  "VOLUNTEERS": "স্বেচ্ছাসেৱক"
+  "VOLUNTEERS": "স্বেচ্ছাসেৱক",
+  "REASON_FOR_CONTACTING": "যোগাযোগৰ কাৰণ",
+  "SELECT_A_REASON": "এটা কাৰণ বাছক",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "যোগাযোগৰ কাৰণ বাছনি কৰক",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "স্বেচ্ছাসেৱা / ইন্টাৰ্নশ্বিপ",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "টাইমশ্বিট সমস্যা",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "অফাৰ / ৰিলিভিং / যাচাই পত্ৰ",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "সহযোগিতা / অংশীদাৰিত্ব",
+  "CONTACT_REASON_GENERAL_INQUIRY": "সাধাৰণ অনুসন্ধান",
+  "RESPONSE_TIME_NOTE": "আমি সাধাৰণতে ২৪-৪৮ ঘণ্টাৰ ভিতৰত আপোনাৰ প্ৰশ্নৰ উত্তৰ দিওঁ।"
 }

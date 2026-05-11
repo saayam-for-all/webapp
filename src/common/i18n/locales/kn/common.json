@@ -32,5 +32,14 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "ಕಾಮೆಂಟ್‌ಗಳು",
-  "VOLUNTEERS": "ಸ್ವಯಂಸೇವಕರು"
+  "VOLUNTEERS": "ಸ್ವಯಂಸೇವಕರು",
+  "REASON_FOR_CONTACTING": "ಸಂಪರ್ಕಿಸಲು ಕಾರಣ",
+  "SELECT_A_REASON": "ಒಂದು ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "ದಯವಿಟ್ಟು ಸಂಪರ್ಕಿಸಲು ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "ಸ್ವಯಂಸೇವಾ / ಇಂಟರ್ನ್‌ಶಿಪ್",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "ಟೈಮ್‌ಶೀಟ್ ಸಮಸ್ಯೆಗಳು",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "ಆಫರ್ / ರಿಲೀವಿಂಗ್ / ಪರಿಶೀಲನಾ ಪತ್ರ",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "ಸಹಕಾರ / ಪಾಲುದಾರಿಕೆ",
+  "CONTACT_REASON_GENERAL_INQUIRY": "ಸಾಮಾನ್ಯ ವಿಚಾರಣೆ",
+  "RESPONSE_TIME_NOTE": "ನಾವು ಸಾಮಾನ್ಯವಾಗಿ 24-48 ಗಂಟೆಗಳ ಒಳಗೆ ನಿಮ್ಮ ವಿಚಾರಣೆಗೆ ಪ್ರತಿಕ್ರಿಯಿಸುತ್ತೇವೆ."
 }

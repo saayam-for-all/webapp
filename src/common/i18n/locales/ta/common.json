@@ -35,5 +35,14 @@
   "Aakash Gangji": "ஆகாஷ் காங்க்ஜி",
   "Lead AI/ML Developer/Engineer": "முன்னணி AI/ML டெவலப்பர்/எஞ்சினியர்",
   "COMMENTS": "கருத்துகள்",
-  "VOLUNTEERS": "தன்னார்வலர்கள்"
+  "VOLUNTEERS": "தன்னார்வலர்கள்",
+  "REASON_FOR_CONTACTING": "தொடர்பு கொள்ள காரணம்",
+  "SELECT_A_REASON": "ஒரு காரணத்தைத் தேர்ந்தெடுக்கவும்",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "தொடர்பு கொள்வதற்கான காரணத்தைத் தேர்ந்தெடுக்கவும்",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "தன்னார்வலர் / இன்டர்ன்ஷிப்",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "நேர அட்டவணை சிக்கல்கள்",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "சலுகை / நிவாரண / சரிபார்ப்பு கடிதம்",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "ஒத்துழைப்பு / கூட்டு",
+  "CONTACT_REASON_GENERAL_INQUIRY": "பொது விசாரணை",
+  "RESPONSE_TIME_NOTE": "நாங்கள் பொதுவாக 24-48 மணி நேரத்திற்குள் உங்கள் விசாரணைக்கு பதிலளிப்போம்."
 }

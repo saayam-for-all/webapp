@@ -35,5 +35,14 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "ટિપ્પણીઓ",
-  "VOLUNTEERS": "સ્વયંસેવકો"
+  "VOLUNTEERS": "સ્વયંસેવકો",
+  "REASON_FOR_CONTACTING": "સંપર્ક કરવાનું કારણ",
+  "SELECT_A_REASON": "કારણ પસંદ કરો",
+  "PLEASE_SELECT_REASON_FOR_CONTACTING": "સંપર્ક કરવા માટે કારણ પસંદ કરો",
+  "CONTACT_REASON_VOLUNTEERING_INTERNSHIP": "સ્વૈચ્છિક સેવા / ઇન્ટર્નશિપ",
+  "CONTACT_REASON_TIMESHEET_ISSUES": "ટાઇમશીટ સમસ્યાઓ",
+  "CONTACT_REASON_OFFER_RELIEVING_VERIFICATION": "ઑફર / રિલિવિંગ / ચકાસણી પત્ર",
+  "CONTACT_REASON_COLLABORATION_PARTNERSHIP": "સહકાર / ભાગીદારી",
+  "CONTACT_REASON_GENERAL_INQUIRY": "સામાન્ય પૂછપરછ",
+  "RESPONSE_TIME_NOTE": "અમે સામાન્ય રીતે 24-48 કલાકમાં તમારી પૂછપરછનો જવાબ આપીએ છીએ."
 }
