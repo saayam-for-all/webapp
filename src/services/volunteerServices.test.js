@@ -1,5 +1,12 @@
 import api from "./api";
 import {
+  getVolunteerOrgsList,
+  getVolunteerSkills,
+  fetchUserSkills,
+  deleteUserSkills,
+  createVolunteer,
+  updateVolunteer,
+  getVolunteersData,
   uploadProfileImage,
   deleteProfileImage,
   fetchProfileImage,
@@ -12,6 +19,77 @@ jest.mock("./api");
 jest.mock("../utils/fileToBase64", () => ({
   fileToBase64: jest.fn(() => Promise.resolve("data:image/jpeg;base64,abc")),
 }));
+
+describe("volunteerServices volunteer data APIs", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("fetches volunteer organizations", async () => {
+    api.get.mockResolvedValue({ data: { body: ["org"] } });
+
+    await expect(getVolunteerOrgsList()).resolves.toEqual({ body: ["org"] });
+    expect(api.get).toHaveBeenCalledWith("v1/volunteerorgs/organizations-list");
+  });
+
+  it("fetches volunteer skills", async () => {
+    api.get.mockResolvedValue({ data: { body: ["skill"] } });
+
+    await expect(getVolunteerSkills()).resolves.toEqual({ body: ["skill"] });
+    expect(api.get).toHaveBeenCalledWith("v1/volunteer/skills");
+  });
+
+  it("fetches profile skills by user ID", async () => {
+    api.post.mockResolvedValue({ data: { skills: ["0.0.0.0.0"] } });
+
+    await expect(fetchUserSkills("SID-123")).resolves.toEqual({
+      skills: ["0.0.0.0.0"],
+    });
+    expect(api.post).toHaveBeenCalledWith("v1/volunteer/profileSkills", {
+      userId: "SID-123",
+    });
+  });
+
+  it("deletes profile skills with a JSON body", async () => {
+    api.delete.mockResolvedValue({ data: { success: true } });
+
+    await expect(deleteUserSkills("SID-123", ["4.2"])).resolves.toEqual({
+      success: true,
+    });
+    expect(api.delete).toHaveBeenCalledWith("v1/volunteer/profileSkills", {
+      data: { userId: "SID-123", skills: ["4.2"] },
+    });
+  });
+
+  it("creates and updates volunteers", async () => {
+    api.post.mockResolvedValueOnce({ data: { created: true } });
+    api.put.mockResolvedValueOnce({ data: { updated: true } });
+
+    await expect(createVolunteer({ userId: "SID-123" })).resolves.toEqual({
+      created: true,
+    });
+    await expect(updateVolunteer({ userId: "SID-123" })).resolves.toEqual({
+      updated: true,
+    });
+    expect(api.post).toHaveBeenCalledWith("v1/volunteer/createNewVolunteer", {
+      userId: "SID-123",
+    });
+    expect(api.put).toHaveBeenCalledWith("v1/volunteer/updateVolunteer", {
+      userId: "SID-123",
+    });
+  });
+
+  it("normalizes volunteer data responses", async () => {
+    api.get.mockResolvedValueOnce({ data: { body: [{ id: 1 }] } });
+    await expect(getVolunteersData()).resolves.toEqual([{ id: 1 }]);
+
+    api.get.mockResolvedValueOnce({ data: [{ id: 2 }] });
+    await expect(getVolunteersData()).resolves.toEqual([{ id: 2 }]);
+
+    api.get.mockResolvedValueOnce({ data: { body: null } });
+    await expect(getVolunteersData()).resolves.toEqual([]);
+  });
+});
 
 describe("volunteerServices profile image", () => {
   beforeEach(() => {
