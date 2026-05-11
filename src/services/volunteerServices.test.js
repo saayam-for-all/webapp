@@ -5,6 +5,7 @@ import {
   fetchProfileImage,
   signOffUser,
   getUserId,
+  updateUserSkills,
 } from "./volunteerServices";
 
 jest.mock("./api");
@@ -167,6 +168,24 @@ describe("signOffUser", () => {
     await expect(signOffUser("SID-00-000-001")).rejects.toThrow(
       "Network error",
     );
+  });
+});
+
+describe("updateUserSkills", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("sends skill IDs as strings, including dotted category IDs", async () => {
+    api.put.mockResolvedValue({ data: { success: true } });
+
+    const result = await updateUserSkills("SID-123", ["0.0.0.0.0", "4.2"]);
+
+    expect(api.put).toHaveBeenCalledWith("v1/volunteer/profileSkills", {
+      userId: "SID-123",
+      skills: ["0.0.0.0.0", "4.2"],
+    });
+    expect(result).toEqual({ success: true });
   });
 });
 
