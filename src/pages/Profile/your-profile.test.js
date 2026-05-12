@@ -119,7 +119,7 @@ const mockUser = {
   family_name: "Doe",
   email: "john@example.com",
   phone_number: "+12345678901", // good: strips to 2345678901 (10 digits)
-  zoneinfo: "United States",
+  zoneinfo: "US",
 };
 
 const defaultStore = createMockStore({

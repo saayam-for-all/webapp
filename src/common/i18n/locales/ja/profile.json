@@ -17,6 +17,7 @@
   "EMAIL": "メールアドレス",
   "EMAIL_VERIFICATION_REQUIRED": "この変更にはメール確認が必要です",
   "PHONE_NUMBER": "電話番号",
+  "YOUR_PHONE_NUMBER": "電話番号を入力してください",
   "COUNTRY": "国",
   "SELECT_COUNTRY": "国を選択してください",
   "PROFILE_UPDATE_SUCCESS": "プロフィールが正常に更新されました！",

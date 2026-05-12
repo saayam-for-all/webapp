@@ -16,6 +16,7 @@
   "EMAIL": "Электронная почта",
   "EMAIL_VERIFICATION_REQUIRED": "Для этого изменения потребуется подтверждение по электронной почте",
   "PHONE_NUMBER": "Номер телефона",
+  "YOUR_PHONE_NUMBER": "ваш номер телефона",
   "COUNTRY": "Страна",
   "SELECT_COUNTRY": "Выберите вашу страну",
   "PROFILE_UPDATE_SUCCESS": "Профиль успешно обновлен!",

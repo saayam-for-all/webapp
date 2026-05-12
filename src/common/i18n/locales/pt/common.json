@@ -748,5 +748,14 @@
   "COMMENTS": "Comentários",
   "CHANGE_VOLUNTEER": "Alterar Voluntário",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Por favor especifique o motivo da mudança de voluntário",
-  "REASON": "Motivo"
+  "REASON": "Motivo",
+  "REASON_FOR_CONTACTING": "Motivo do contacto",
+  "SELECT_A_REASON": "Selecione um motivo",
+  "VOLUNTEERING_INTERNSHIP": "Voluntariado / Estágio",
+  "TIMESHEET_ISSUES": "Problemas com a folha de horas",
+  "OFFER_RELIEVING_LETTER": "Carta de oferta / rescisão / verificação",
+  "COLLABORATION_PARTNERSHIP": "Colaboração / Parceria",
+  "GENERAL_INQUIRY": "Inquérito geral",
+  "NOTE_LABEL": "Nota:",
+  "RESPONSE_TIME_NOTICE": "Normalmente, respondemos à sua consulta num prazo de 24 a 48 horas."
 }
