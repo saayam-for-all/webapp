@@ -451,7 +451,7 @@
     "TEXTBOOKS": "الكتب المدرسية",
     "UNIVERSITY": "جامعة",
     "WEEKLY": "أسبوعي",
-    "VEGAN": "نباتي",
+    "VEGAN": "نباتي صرف",
     "NON_VEGETARIAN": "غير نباتي",
     "GLUTEN_FREE": "خالي من الغلوتين",
     "KOSHER_HALAL": "كوشير / حلال",
@@ -473,6 +473,6 @@
     "STOVE_OR_COOKTOP": "موقد أو سطح طهي",
     "OVEN_OR_MICROWAVE": "فرن أو ميكروويف",
     "UTENSILS_OR_COOKWARE_SET": "طقم أدوات مائدة أو أواني طهي",
-    "MIXER_OR_BLENDER": "خلاط أو مزيج"
+    "MIXER_OR_BLENDER": "خلاط أو عجانة"
   }
 }
