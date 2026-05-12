@@ -39,7 +39,7 @@ describe("HelpingVolunteers", () => {
 
   it("renders fallback UI for volunteersCount = 0", async () => {
     render(<HelpingVolunteers />);
-    const countInput = screen.getAllByRole("textbox")[0];
+    const countInput = screen.getByRole("spinbutton");
     fireEvent.change(countInput, { target: { value: "0" } });
     fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
     // Should show no volunteers, but still show badge and date
@@ -51,7 +51,7 @@ describe("HelpingVolunteers", () => {
 
   it("renders fallback UI for negative volunteersCount", async () => {
     render(<HelpingVolunteers />);
-    const countInput = screen.getAllByRole("textbox")[0];
+    const countInput = screen.getByRole("spinbutton");
     fireEvent.change(countInput, { target: { value: "-5" } });
     fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
     // Should show no volunteers, but still show badge and date
@@ -230,7 +230,7 @@ describe("HelpingVolunteers", () => {
 
   it("handles min and max volunteers count", async () => {
     render(<HelpingVolunteers />);
-    const countInput = screen.getAllByRole("textbox")[0];
+    const countInput = screen.getByRole("spinbutton");
     fireEvent.change(countInput, { target: { value: "1" } });
     fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
     await waitFor(() => {
@@ -240,8 +240,11 @@ describe("HelpingVolunteers", () => {
     fireEvent.change(countInput, { target: { value: "10" } });
     fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
     await waitFor(() => {
-      expect(screen.getByText("Jane Cooper")).toBeInTheDocument();
-      expect(screen.getByText("John Doe")).toBeInTheDocument();
+      expect(
+        screen.getByText(/Maximum 5 volunteer can be assigned/i),
+      ).toBeInTheDocument();
+      expect(screen.queryByText("Jane Cooper")).not.toBeInTheDocument();
+      expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
     });
   });
 
