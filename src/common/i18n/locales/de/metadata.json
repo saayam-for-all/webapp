@@ -107,7 +107,15 @@
     "SUBJECT_OR_TOPIC": "Betreff oder Thema",
     "SUPPORTING_FILES_TYPE": "Unterstützender Dateityp",
     "TUTORING_FOCUS": "Nachhilfeschwerpunkt",
-    "TYPE_OF_GUIDANCE": "Art der Anleitung"
+    "TYPE_OF_GUIDANCE": "Art der Anleitung",
+    "PREFERRED_MEAL_TYPE": "Bevorzugte Mahlzeitenart",
+    "DIETARY_RESTRICTIONS": "Ernährungseinschränkungen",
+    "HOUSEHOLD_SIZE": "Haushaltsgröße",
+    "GROCERY_LIST": "Einkaufsliste",
+    "PAYMENT_METHOD": "Zahlungsmethode",
+    "RECIPE_PREFERENCE": "Rezeptpräferenz",
+    "KITCHEN_EQUIPMENT": "Küchenausstattung",
+    "PREFERRED_LANGUGAE": "Bevorzugte Sprache"
   },
   "ITEMS": {
     "MEN": "Männer",
@@ -442,6 +450,29 @@
     "STRUCTURE_AND_FLOW": "Struktur und Fluss",
     "TEXTBOOKS": "Lehrbücher",
     "UNIVERSITY": "Universität",
-    "WEEKLY": "Wöchentlich"
+    "WEEKLY": "Wöchentlich",
+    "VEGAN": "Vegan",
+    "NON_VEGETARIAN": "Nicht-vegetarisch",
+    "GLUTEN_FREE": "Glutenfrei",
+    "KOSHER_HALAL": "Koscher / Halal",
+    "NUT_FREE": "Nussfrei",
+    "LACTOSE_FREE": "Laktosefrei",
+    "MORNING_8AM_TO_12PM": "Vormittag: 8 Uhr bis 12 Uhr",
+    "AFTERNOON_12PM _TO_5PM": "Nachmittag: 12:00 bis 17:00 Uhr",
+    "EVENING_5PM_TO_9PM": "Abend: 17:00 bis 21:00 Uhr",
+    "VOLUNTEER_PURCHASE_REIMBURSE": "Kauf und Kostenerstattung für Freiwillige",
+    "GIFT_CARD_VOUCHER": "Geschenkkarte / Gutschein",
+    "ORGANIZATION_SPONSORED": "Von einer Organisation gesponsert",
+    "FREE_ASSISTANCE": "Kostenlose Unterstützung",
+    "IMMEDIATE_NEXT_24HRS": "Sofort (nächste 24 Stunden)",
+    "IMMEDIATE_NEXT_24_HOURS": "Sofort (nächste 24 Stunden)",
+    "WITHIN_3_DAYS": "Innerhalb von 3 Tagen",
+    "HIGH_PROTEIN": "Proteinreich",
+    "LOW_CARB": "Kohlenhydratarm",
+    "CULTURALLY_SPECIFIC": "Kulturspezifisch",
+    "STOVE_OR_COOKTOP": "Herd oder Kochfeld",
+    "OVEN_OR_MICROWAVE": "Backofen oder Mikrowelle",
+    "UTENSILS_OR_COOKWARE_SET": "Küchenhelfer oder Kochgeschirr-Set",
+    "MIXER_OR_BLENDER": "Mixer oder Standmixer"
   }
 }

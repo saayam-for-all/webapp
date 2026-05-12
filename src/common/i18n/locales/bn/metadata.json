@@ -107,7 +107,15 @@
     "SUBJECT_OR_TOPIC": "বিষয় বা বিষয়",
     "SUPPORTING_FILES_TYPE": "সাপোর্টিং ফাইল টাইপ",
     "TUTORING_FOCUS": "টিউটরিং ফোকাস",
-    "TYPE_OF_GUIDANCE": "গাইডেন্সের ধরন"
+    "TYPE_OF_GUIDANCE": "গাইডেন্সের ধরন",
+    "PREFERRED_MEAL_TYPE": "পছন্দসই খাবারের ধরন",
+    "DIETARY_RESTRICTIONS": "খাদ্যতালিকাগত বিধিনিষেধ",
+    "HOUSEHOLD_SIZE": "পরিবারের আকার",
+    "GROCERY_LIST": "বাজারের তালিকা",
+    "PAYMENT_METHOD": "পেমেন্টের পদ্ধতি",
+    "RECIPE_PREFERENCE": "রেসিপি পছন্দ",
+    "KITCHEN_EQUIPMENT": "রান্নাঘরের সরঞ্জাম",
+    "PREFERRED_LANGUGAE": "পছন্দের ভাষা"
   },
   "ITEMS": {
     "MEN": "পুরুষেরা",
@@ -442,6 +450,29 @@
     "STRUCTURE_AND_FLOW": "গঠন এবং প্রবাহ",
     "TEXTBOOKS": "পাঠ্যপুস্তক",
     "UNIVERSITY": "বিশ্ববিদ্যালয়",
-    "WEEKLY": "সাপ্তাহিক"
+    "WEEKLY": "সাপ্তাহিক",
+    "VEGAN": "নিরামিষাশী",
+    "NON_VEGETARIAN": "আমিষভোজী",
+    "GLUTEN_FREE": "গ্লুটেন-মুক্ত",
+    "KOSHER_HALAL": "কোশার / হালাল",
+    "NUT_FREE": "বাদামমুক্ত",
+    "LACTOSE_FREE": "ল্যাকটোজ-মুক্ত",
+    "MORNING_8AM_TO_12PM": "সকাল ৮টা থেকে দুপুর ১২টা",
+    "AFTERNOON_12PM _TO_5PM": "বিকাল ১২টা থেকে ৫টা",
+    "EVENING_5PM_TO_9PM": "সন্ধ্যা ৫টা থেকে রাত ৯টা",
+    "VOLUNTEER_PURCHASE_REIMBURSE": "স্বেচ্ছাসেবকদের ক্রয় ও অর্থ-ফেরত",
+    "GIFT_CARD_VOUCHER": "উপহার কার্ড / ভাউচার",
+    "ORGANIZATION_SPONSORED": "সংস্থা-পৃষ্ঠপোষিত",
+    "FREE_ASSISTANCE": "বিনামূল্যে সহায়তা",
+    "IMMEDIATE_NEXT_24HRS": "তাৎক্ষণিক (আগামী ২৪ ঘণ্টা)",
+    "IMMEDIATE_NEXT_24_HOURS": "তাৎক্ষণিক (আগামী ২৪ ঘণ্টা)",
+    "WITHIN_3_DAYS": "৩ দিনের মধ্যে",
+    "HIGH_PROTEIN": "উচ্চ প্রোটিন",
+    "LOW_CARB": "কম কার্বোহাইড্রেট",
+    "CULTURALLY_SPECIFIC": "সংস্কৃতি-নির্দিষ্ট",
+    "STOVE_OR_COOKTOP": "চুলা বা রান্নার স্টোভ",
+    "OVEN_OR_MICROWAVE": "ওভেন বা মাইক্রোওয়েভ",
+    "UTENSILS_OR_COOKWARE_SET": "রান্নার সরঞ্জাম বা বাসনকোসনের সেট",
+    "MIXER_OR_BLENDER": "মিক্সার বা ব্লেন্ডার"
   }
 }

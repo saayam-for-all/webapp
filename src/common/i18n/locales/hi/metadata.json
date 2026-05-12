@@ -107,7 +107,15 @@
     "SUBJECT_OR_TOPIC": "विषय या विषयवस्तु",
     "SUPPORTING_FILES_TYPE": "सहायक फ़ाइलें प्रकार",
     "TUTORING_FOCUS": "ट्यूटरिंग फोकस",
-    "TYPE_OF_GUIDANCE": "मार्गदर्शन का प्रकार"
+    "TYPE_OF_GUIDANCE": "मार्गदर्शन का प्रकार",
+    "PREFERRED_MEAL_TYPE": "पसंदीदा भोजन का प्रकार",
+    "DIETARY_RESTRICTIONS": "खानपान संबंधी परहेज़",
+    "HOUSEHOLD_SIZE": "परिवार का आकार",
+    "GROCERY_LIST": "घर के सामान की सूची",
+    "PAYMENT_METHOD": "भुगतान विधि",
+    "RECIPE_PREFERENCE": "रेसिपी की पसंद",
+    "KITCHEN_EQUIPMENT": "रसोई की सामग्री",
+    "PREFERRED_LANGUGAE": "पसंदीदा भाषा"
   },
   "ITEMS": {
     "MEN": "पुरुष",
@@ -442,6 +450,29 @@
     "STRUCTURE_AND_FLOW": "संरचना और प्रवाह",
     "TEXTBOOKS": "पाठ्यपुस्तकें",
     "UNIVERSITY": "विश्वविद्यालय",
-    "WEEKLY": "साप्ताहिक"
+    "WEEKLY": "साप्ताहिक",
+    "VEGAN": "वीगन",
+    "NON_VEGETARIAN": "मांसाहारी",
+    "GLUTEN_FREE": "ग्लूटेन मुक्त",
+    "KOSHER_HALAL": "कोशर / हलाल",
+    "NUT_FREE": "मेवा मुक्त",
+    "LACTOSE_FREE": "लैक्टोज़ मुक्त",
+    "MORNING_8AM_TO_12PM": "सुबह 8 बजे से दोपहर 12 बजे तक",
+    "AFTERNOON_12PM _TO_5PM": "दोपहर 12 बजे से शाम 5 बजे तक",
+    "EVENING_5PM_TO_9PM": "शाम 5 बजे से रात 9 बजे तक",
+    "VOLUNTEER_PURCHASE_REIMBURSE": "स्वयंसेवक खरीद और प्रतिपूर्ति",
+    "GIFT_CARD_VOUCHER": "गिफ्ट कार्ड / वाउचर",
+    "ORGANIZATION_SPONSORED": "संगठन द्वारा प्रायोजित",
+    "FREE_ASSISTANCE": "मुफ़्त सहायता",
+    "IMMEDIATE_NEXT_24HRS": "तत्काल (अगले 24 घंटे)",
+    "IMMEDIATE_NEXT_24_HOURS": "तत्काल (अगले 24 घंटे)",
+    "WITHIN_3_DAYS": "3 दिनों के भीतर",
+    "HIGH_PROTEIN": "ज़्यादा प्रोटीन",
+    "LOW_CARB": "कम कार्बोहाइड्रेट वाला",
+    "CULTURALLY_SPECIFIC": "सांस्कृतिक रूप से विशिष्ट",
+    "STOVE_OR_COOKTOP": "चूल्हा या कुकटॉप",
+    "OVEN_OR_MICROWAVE": "ओवन या माइक्रोवेव",
+    "UTENSILS_OR_COOKWARE_SET": "बर्तन या कुकवेयर सेट",
+    "MIXER_OR_BLENDER": "मिक्सर या ब्लेंडर"
   }
 }
