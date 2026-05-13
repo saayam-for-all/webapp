@@ -4,7 +4,7 @@ import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
 import Review from "./steps/Review";
 import Skills from "./steps/Skills";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 
 const PromoteToVolunteer = () => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
@@ -35,18 +36,30 @@ const PromoteToVolunteer = () => {
   const [isUploaded, setIsUploaded] = useState(false);
 
   useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const user = await getCurrentUser(); // Fetch user once
-        setUserId(user.userId);
-        // setUserId("SID-00-000-000-086"); // remove this line.. added to test with aws api
-      } catch (error) {
-        console.error("Error fetching user ID:", error);
-      }
-    };
+    const paramUserId = searchParams.get("userId");
+    const paramStep = searchParams.get("step");
 
-    if (!userId) fetchUserId();
-  }, [userId]);
+    if (paramUserId) {
+      setUserId(paramUserId);
+      if (paramStep) {
+        setCurrentStep(parseInt(paramStep, 10));
+      } else {
+        setCurrentStep(5); // Default to Review
+      }
+    } else {
+      const fetchUserId = async () => {
+        try {
+          const user = await getCurrentUser(); // Fetch user once
+          setUserId(user.userId);
+          // setUserId("SID-00-000-000-086"); // remove this line.. added to test with aws api
+        } catch (error) {
+          console.error("Error fetching user ID:", error);
+        }
+      };
+
+      if (!userId) fetchUserId();
+    }
+  }, [searchParams, userId]);
 
   useEffect(() => {
     if (categories.length === 0) {

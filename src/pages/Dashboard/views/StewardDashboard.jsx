@@ -1,8 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Table from "../../../common/components/DataTable/Table";
+import { getMockVolunteersData } from "../../../services/volunteerServices";
 
 const StewardDashboard = (props) => {
   const [activeTab, setActiveTab] = useState("allRequests");
+  const [volunteerData, setVolunteerData] = useState([]);
+  const [isVolunteerLoading, setIsVolunteerLoading] = useState(false);
+
+  useEffect(() => {
+    if (activeTab === "volunteers") {
+      const fetchVolunteers = async () => {
+        setIsVolunteerLoading(true);
+        try {
+          const data = await getMockVolunteersData();
+          setVolunteerData(data);
+        } catch (error) {
+          console.error("Error fetching volunteers:", error);
+        } finally {
+          setIsVolunteerLoading(false);
+        }
+      };
+      fetchVolunteers();
+    }
+  }, [activeTab]);
+
+  const volunteerHeaders = ["User Id", "Updated Time", "Volunteering Request"];
+
+  const getVolunteerLinkPath = (volunteer, header) => {
+    if (header === "User Id") {
+      return `/profile/${volunteer["User Id"]}`;
+    }
+    if (header === "Volunteering Request") {
+      return `/promote-to-volunteer?userId=${volunteer["User Id"]}&requestId=${volunteer.volunteerRequestId}`;
+    }
+    return null;
+  };
+
+  const volunteerRows = volunteerData.map((v) => ({
+    "User Id": v.userId,
+    "Updated Time": v.updatedAt ? new Date(v.updatedAt).toLocaleString() : "",
+    "Volunteering Request": "Review",
+    volunteerRequestId: v.volunteerRequestId,
+  }));
 
   const {
     headers,
@@ -71,7 +110,24 @@ const StewardDashboard = (props) => {
       )}
 
       {activeTab === "volunteers" && (
-        <div className="requests-section overflow-hidden table-height-fix" />
+        <div className="requests-section overflow-hidden table-height-fix">
+          {!isVolunteerLoading && (
+            <Table
+              headers={volunteerHeaders}
+              rows={volunteerRows}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={() => Math.ceil(volunteerRows.length / rowsPerPage)}
+              totalRows={volunteerRows.length}
+              itemsPerPage={rowsPerPage}
+              sortConfig={sortConfig}
+              requestSort={requestSort}
+              onRowsPerPageChange={onRowsPerPageChange}
+              getLinkPath={getVolunteerLinkPath}
+              getLinkState={(volunteer) => volunteer}
+            />
+          )}
+        </div>
       )}
     </div>
   );

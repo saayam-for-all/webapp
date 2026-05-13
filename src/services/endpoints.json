@@ -4,6 +4,7 @@
   "GET_MANAGED_REQUESTS": "v1/request/mockRequests",
   "CHECK_PROFANITY": "v1/request/checkProfanity",
   "GET_VOLUNTEERS_DATA": "v1/volunteer/getVolunteersData",
+  "MOCK_GET_VOLUNTEERS": "v1/volunteer/mockGetVolunteers",
   "GET_VOLUNTEER_ORGS_LIST": "v1/volunteerorgs/organizations-list",
   "GET_VOLUNTEER_SKILLS": "v1/volunteer/skills",
   "GET_REQUEST_COMMENTS": "v1/request/getComments",
