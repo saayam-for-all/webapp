@@ -28,10 +28,10 @@ const StewardDashboard = (props) => {
 
   const getVolunteerLinkPath = (volunteer, header) => {
     if (header === "User Id") {
-      return `/profile/${volunteer["User Id"]}`;
+      return `/profile`;
     }
     if (header === "Volunteering Request") {
-      return `/promote-to-volunteer?userId=${volunteer["User Id"]}&requestId=${volunteer.volunteerRequestId}`;
+      return `/promote-to-volunteer`;
     }
     return null;
   };
