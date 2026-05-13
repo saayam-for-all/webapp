@@ -34,6 +34,7 @@ const HelpingVolunteers = () => {
     direction: "ascending",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchBy, setSearchBy] = useState("name");
   const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
   const [volunteerCountError, setVolunteerCountError] = useState("");
@@ -167,9 +168,10 @@ const HelpingVolunteers = () => {
       0,
       Math.min(volunteerData.length, volunteersCount),
     );
-    let filteredVolunteers = topN.filter((volunteer) =>
-      volunteer.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    let filteredVolunteers = topN.filter((volunteer) => {
+      const field = (volunteer[searchBy] || "").toLowerCase();
+      return field.includes(searchTerm.toLowerCase());
+    });
 
     if (filter) {
       filteredVolunteers = filteredVolunteers.filter((volunteer) =>
@@ -451,15 +453,32 @@ const HelpingVolunteers = () => {
             </svg>
             {t("REQUEST_VOLUNTEERS")}
           </button>
-          <div className="ml-auto flex items-center space-x-4">
+          <div className="ml-auto flex items-center space-x-2">
             <input
               type="text"
-              placeholder="Enter volunteer name"
+              placeholder={
+                searchBy === "name"
+                  ? "Enter volunteer name"
+                  : searchBy === "email"
+                    ? "Enter email address"
+                    : "Enter phone number"
+              }
               className="p-3 border rounded-md w-64"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center">
-              Find by name
-            </button>
+            <select
+              value={searchBy}
+              onChange={(e) => {
+                setSearchBy(e.target.value);
+                setSearchTerm("");
+              }}
+              className="bg-blue-500 px-4 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 cursor-pointer border-none outline-none"
+            >
+              <option value="name">Find by Name</option>
+              <option value="email">Find by Email</option>
+              <option value="phone">Find by Phone</option>
+            </select>
           </div>
         </div>
 
@@ -473,7 +492,13 @@ const HelpingVolunteers = () => {
               <div className="flex-grow max-w-md">
                 <input
                   type="text"
-                  placeholder="Search by name..."
+                  placeholder={
+                    searchBy === "name"
+                      ? "Search by name..."
+                      : searchBy === "email"
+                        ? "Search by email..."
+                        : "Search by phone..."
+                  }
                   className="p-2 border border-gray-300 rounded-md w-full"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
