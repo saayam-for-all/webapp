@@ -117,7 +117,7 @@ const StewardDashboard = (props) => {
               rows={volunteerRows}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
-              totalPages={() => Math.ceil(volunteerRows.length / rowsPerPage)}
+              totalPages={Math.ceil(volunteerRows.length / rowsPerPage)}
               totalRows={volunteerRows.length}
               itemsPerPage={rowsPerPage}
               sortConfig={sortConfig}

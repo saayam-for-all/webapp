@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { renderWithProviders, MOCK_STATE_LOGGED_IN } from "#utils/test-utils";
-import Dashboard from "./Dashboard";
 
 jest.mock("react-router-dom", () => {
   const searchParams = new URLSearchParams();
@@ -51,6 +50,8 @@ jest.mock("./components/Analytics/KPIAnalytics", () => () => null);
 jest.mock("./components/Analytics/RequestsAnalytics", () => () => null);
 jest.mock("./components/Analytics/VolunteerAnalytics", () => () => null);
 
+import Dashboard from "./Dashboard";
+
 describe("Dashboard", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -63,5 +64,15 @@ describe("Dashboard", () => {
       },
     });
     expect(getByTestId("beneficiary-dashboard")).toBeInTheDocument();
+  });
+
+  it("renders steward dashboard when user has steward role", () => {
+    const { getByTestId } = renderWithProviders(<Dashboard />, {
+      preloadedState: {
+        auth: { user: { userId: "u1", groups: ["Stewards"] }, idToken: "tok" },
+      },
+    });
+
+    expect(getByTestId("steward-dashboard")).toBeInTheDocument();
   });
 });
