@@ -367,6 +367,56 @@ describe("HelpRequestForm — predict categories modal", () => {
     });
   });
 
+  it("shows full hierarchy as label in dialog when hierarchy is returned by API", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+          {
+            category_number: "4.3.3",
+            category_name: "SCIENCE",
+            confidence: 0.8,
+            hierarchy: "Education Career Support > Tutoring > Science",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with math tutoring.",
+      },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    //Dialog should show full hierarchy as label
+    await waitFor(() => {
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Science"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+
   it("shows only General when predictCategories API fails", async () => {
     const {
       checkProfanity,
@@ -538,7 +588,9 @@ describe("HelpRequestForm — predict categories modal", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Math")).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByDisplayValue("4.3.1"));
@@ -595,7 +647,9 @@ describe("HelpRequestForm — predict categories modal", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Math")).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByDisplayValue("4.3.1"));

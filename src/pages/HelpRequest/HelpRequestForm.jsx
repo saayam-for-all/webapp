@@ -2123,7 +2123,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 key={index}
                 value={category.category_number ?? category.name}
                 control={<Radio />}
-                label={category.displayName ?? category.name}
+                label={
+                  category.hierarchy ?? category.displayName ?? category.name
+                }
               />
             ))}
           </RadioGroup>
