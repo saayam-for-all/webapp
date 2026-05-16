@@ -91,7 +91,7 @@ const mapLanguageToCode = (languageName) => {
   return languageMap[languageName] || "en-US"; // Default to English
 };
 
-const HelpRequestForm = ({ isEdit = false, onClose }) => {
+const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -248,9 +248,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
 
   // Restore request for edit
+  // Supports two data sources:
+  //   1. editRequestData prop (passed from RequestDetails modal)
+  //   2. Fallback to URL params + RTK query (route-based edit)
   useEffect(() => {
-    if (id && data) {
-      const requestData = data.body?.find((item) => item.id === id);
+    const requestData =
+      editRequestData ||
+      (id && data ? data.body?.find((item) => item.id === id) : null);
+
+    if (requestData) {
       setFormData({
         category: requestData.category,
         description: requestData.description,
@@ -269,7 +275,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       }
     }
-  }, [data, id]);
+  }, [editRequestData, data, id]);
 
   // Converts API snake_case category names to title-case for display.
   // e.g. "GROCERY_SHOPPING_AND_DELIVERY" → "Grocery Shopping And Delivery"
@@ -1071,7 +1077,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         return;
       }
 
+      // In edit mode, skip the predict-categories modal since category is locked
       if (
+        !isEdit &&
         formData.category === "General" &&
         formData.description.trim() !== "" &&
         !categoryConfirmed
@@ -1111,7 +1119,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         requesterId: userDbId,
         enumMaps,
         additionalFields: additionalFieldValues,
-        requestId: isEdit ? id : undefined,
+        requestId: isEdit
+          ? editRequestData?.requestId || editRequestData?.id || id
+          : undefined,
       });
 
       // Call updateRequest when editing, createRequest when creating

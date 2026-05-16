@@ -116,6 +116,7 @@ const RequestDetails = () => {
                     <HelpRequestForm
                       isEdit={true}
                       onClose={() => setIsEditing(false)}
+                      editRequestData={requestData}
                     />
                   </div>
                 </div>,

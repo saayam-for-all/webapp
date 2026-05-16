@@ -95,7 +95,7 @@ const mockCategories = [
   },
 ];
 
-function renderForm({ isEdit = false } = {}) {
+function renderForm({ isEdit = false, editRequestData } = {}) {
   const store = configureStore({
     reducer: { auth: authReducer, request: requestReducer },
     preloadedState: {
@@ -106,7 +106,11 @@ function renderForm({ isEdit = false } = {}) {
   render(
     <Provider store={store}>
       <NotificationProvider>
-        <HelpRequestForm isEdit={isEdit} onClose={jest.fn()} />
+        <HelpRequestForm
+          isEdit={isEdit}
+          onClose={jest.fn()}
+          editRequestData={editRequestData}
+        />
       </NotificationProvider>
     </Provider>,
   );
@@ -856,6 +860,17 @@ describe("HelpRequestForm — successful submission", () => {
 });
 
 describe("HelpRequestForm — edit mode submission", () => {
+  const mockEditData = {
+    requestId: "REQ-00-000-000-0009",
+    id: "REQ-00-000-000-0009",
+    category: "COLLEGE_APPLICATION_HELP",
+    subject: "Existing Request Subject",
+    description: "Existing request description",
+    priority: "MEDIUM",
+    request_type: "REMOTE",
+    is_self: "yes",
+  };
+
   beforeEach(() => {
     mockT.mockReset();
     mockT.mockImplementation((text) => `mockTranslate(${text})`);
@@ -881,10 +896,9 @@ describe("HelpRequestForm — edit mode submission", () => {
     createRequest.mockClear();
     updateRequest.mockClear();
 
-    renderForm({ isEdit: true });
+    renderForm({ isEdit: true, editRequestData: mockEditData });
 
-    selectSubcategory();
-
+    // Category is pre-populated and locked in edit mode, no need to select
     fireEvent.change(document.getElementById("description"), {
       target: {
         name: "description",
@@ -919,10 +933,9 @@ describe("HelpRequestForm — edit mode submission", () => {
       data: { requestId: "REQ-00-000-000-0009" },
     });
 
-    renderForm({ isEdit: true });
+    renderForm({ isEdit: true, editRequestData: mockEditData });
 
-    selectSubcategory();
-
+    // Category is pre-populated and locked in edit mode, no need to select
     fireEvent.change(document.getElementById("description"), {
       target: {
         name: "description",
@@ -944,6 +957,7 @@ describe("HelpRequestForm — edit mode submission", () => {
         mapHelpRequestPayload.mock.calls.length - 1
       ][0];
     expect(callArgs).toHaveProperty("requestId");
+    expect(callArgs.requestId).toBe("REQ-00-000-000-0009");
 
     await act(async () => {
       jest.advanceTimersByTime(1200);
