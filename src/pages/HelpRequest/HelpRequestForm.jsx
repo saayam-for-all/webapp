@@ -262,7 +262,17 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         description: requestData.description,
         subject: requestData.subject,
         ...requestData,
+        // Map nested API objects to flat form fields expected by mapHelpRequestPayload
+        request_type: requestData.request_type || requestData.requestType?.type,
+        priority: requestData.priority || requestData.requestPriority?.priority,
+        request_for:
+          requestData.request_for || requestData.requestFor?.requestFor,
       });
+
+      // Preserve the original numeric catId for edit mode (category is locked)
+      if (requestData.helpCategory?.catId) {
+        setSelectedCategoryId(requestData.helpCategory.catId);
+      }
 
       // If editing and attachments present in requestData, show them as uploadedFilesInfo
       if (requestData.attachments && Array.isArray(requestData.attachments)) {
@@ -1116,7 +1126,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       const payload = mapHelpRequestPayload({
         formData: submissionData,
         selectedCategoryId: selectedCategoryId ?? formData.category,
-        requesterId: userDbId,
+        requesterId: isEdit
+          ? editRequestData?.requesterId || userDbId
+          : userDbId,
         enumMaps,
         additionalFields: additionalFieldValues,
         requestId: isEdit
