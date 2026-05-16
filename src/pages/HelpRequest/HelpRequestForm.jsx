@@ -97,7 +97,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const { categories, categoriesFetched } = useSelector(
     (state) => state.request,
   );
-  const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
   const [location, setLocation] = useState("");

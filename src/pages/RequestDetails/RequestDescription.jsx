@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { PiWarningDiamondFill } from "react-icons/pi";
 import { TbTriangleSquareCircle } from "react-icons/tb";
 import { VscCalendar } from "react-icons/vsc";
-import { useSelector } from "react-redux";
 import {
   Dialog,
   DialogTitle,
@@ -32,7 +31,6 @@ const findCategoryLabel = (node, targetKey) => {
 
 const RequestDescription = ({ requestData, setIsEditing }) => {
   const { t, i18n } = useTranslation();
-  const token = useSelector((state) => state.auth.idToken);
   const navigate = useNavigate();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);

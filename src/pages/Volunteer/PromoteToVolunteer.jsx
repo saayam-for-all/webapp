@@ -23,7 +23,6 @@ const PromoteToVolunteer = () => {
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
   const [govtIdFile, setGovtIdFile] = useState(null);
-  const token = useSelector((state) => state.auth.idToken);
   const userDbId = useSelector((state) => state.auth?.user?.userDbId);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [categories, setCategories] = useState([]);
