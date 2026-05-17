@@ -12,6 +12,7 @@ import {
   getEnums,
   getCategories,
   getEnvironment,
+  getAppEnv,
   getMetadata,
 } from "../../../services/requestServices";
 
@@ -124,6 +125,30 @@ export const checkAuthStatus = () => async (dispatch) => {
       );
       // Setting default to production if fetch fails
       localStorage.setItem("environment", JSON.stringify("production"));
+    }
+    try {
+      const envResponse = await getAppEnv();
+
+      const envBody =
+        envResponse?.body || envResponse?.data?.body || envResponse;
+
+      localStorage.setItem("appEnvironment", JSON.stringify(envBody));
+
+      // console.log("App Environment stored:", envBody);
+    } catch (envError) {
+      console.warn(
+        "Failed to fetch app environment. Using fallback values.",
+        envError.message,
+      );
+
+      localStorage.setItem(
+        "appEnvironment",
+        JSON.stringify({
+          spatial_interval_ms: 300000,
+          min_distance_meters: 50,
+          notification_interval_ms: 300000,
+        }),
+      );
     }
 
     let userDbId = null;

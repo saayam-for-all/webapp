@@ -37,5 +37,6 @@
   "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis",
   "UPDATE_VOLUNTEER_LOCATION": "v1/spatial/updateVolunteerLocation",
   "ORG_AGGREGATOR_LIST": "v1/ml/orgAggregatorList",
-  "MOCK_ORG_DATA": "v1/ml/mockOrgData"
+  "MOCK_ORG_DATA": "v1/ml/mockOrgData",
+  "GET_APP_ENV": "v1/request/getAppEnv"
 }

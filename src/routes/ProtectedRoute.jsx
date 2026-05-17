@@ -11,9 +11,7 @@ import {
 const ProtectedRoute = () => {
   const authState = useSelector((state) => state.auth);
   const user = authState?.user || null;
-
   const userDBid = user?.userDbId || "";
-
   const location = useLocation();
 
   useEffect(() => {
@@ -39,9 +37,7 @@ const ProtectedRoute = () => {
       return;
     }
 
-    startVolunteerLocationTracking({
-      intervalMs: 5 * 60 * 1000,
-    });
+    startVolunteerLocationTracking();
 
     const onPersonalInfoUpdated = async () => {
       await syncVolunteerLocationNow();
@@ -60,7 +56,7 @@ const ProtectedRoute = () => {
       stopVolunteerLocationTracking();
       if (removeListener) removeListener();
     };
-  }, [authState, user, userDBid, location.pathname]);
+  }, [user, userDBid, location.pathname]);
 
   useEffect(() => {
     const publicPaths = [
