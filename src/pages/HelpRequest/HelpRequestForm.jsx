@@ -101,7 +101,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const groups = useSelector((state) => state.auth.user?.groups);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
   const [location, setLocation] = useState("");
-  const { inputRef, isLoaded, handleOnPlacesChanged } =
+  const { inputRef, suggestions, handleSearchChange, handleSelectSuggestion } =
     usePlacesSearchBox(setLocation);
 
   const [languages, setLanguages] = useState([]);
@@ -340,6 +340,38 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const { id, value } = e.target;
     if (id === "subject") hasUserEditedSubjectRef.current = true;
     setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const getUserLocation = () => {
+    console.log("getUserLocation called");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          // ✅ Using OpenStreetMap Nominatim - FREE, no API key needed
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+            {
+              headers: {
+                "Accept-Language": "en",
+                "User-Agent": "SaayamForAll/1.0",
+              },
+            },
+          );
+          const data = await response.json();
+          if (data.display_name) {
+            setLocation(data.display_name);
+            setFormData((prev) => ({
+              ...prev,
+              location: data.display_name,
+            }));
+          }
+        },
+        (error) => {
+          console.error("Location error:", error);
+        },
+      );
+    }
   };
 
   const closeForm = () => {
@@ -1924,12 +1956,16 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     <select
                       id="requestType"
                       value={formData.request_type || "REMOTE"}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const value = e.target.value;
                         setFormData({
                           ...formData,
-                          request_type: e.target.value,
-                        })
-                      }
+                          request_type: value,
+                        });
+                        if (value === "IN_PERSON") {
+                          getUserLocation();
+                        }
+                      }}
                       className="
                     block w-full appearance-none
                     bg-white border border-gray-300
@@ -1960,22 +1996,44 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       >
                         Location
                       </label>
-                      {isLoaded && (
-                        <StandaloneSearchBox
-                          onLoad={(ref) => (inputRef.current = ref)}
-                          onPlacesChanged={handleOnPlacesChanged}
-                        >
-                          <input
-                            type="text"
-                            id="location"
-                            value={formData.location}
-                            onChange={handleChange}
-                            name="location"
-                            className="border p-2 w-full rounded-lg"
-                            placeholder="Search for location..."
-                          />
-                        </StandaloneSearchBox>
-                      )}
+                      <div className="relative">
+                        <input
+                          type="text"
+                          id="location"
+                          ref={inputRef}
+                          value={location}
+                          onChange={(e) => {
+                            setLocation(e.target.value);
+                            setFormData((prev) => ({
+                              ...prev,
+                              location: e.target.value,
+                            }));
+                            handleSearchChange(e.target.value);
+                          }}
+                          className="border p-2 w-full rounded-lg"
+                          placeholder="Search for location..."
+                        />
+                        {suggestions.length > 0 && (
+                          <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full mt-1 max-h-48 overflow-y-auto shadow-lg">
+                            {suggestions.map((s, i) => (
+                              <li
+                                key={i}
+                                className="px-3 py-2 cursor-pointer hover:bg-blue-50 text-sm"
+                                onClick={() => {
+                                  setLocation(s.display_name);
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    location: s.display_name,
+                                  }));
+                                  handleSelectSuggestion(s.display_name);
+                                }}
+                              >
+                                {s.display_name}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
