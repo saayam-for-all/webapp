@@ -54,6 +54,13 @@ jest.mock("../../services/requestApi", () => ({
   useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
+jest.mock("./location/usePlacesSearchBox", () => () => ({
+  inputRef: { current: null },
+  suggestions: [],
+  handleSearchChange: jest.fn(),
+  handleSelectSuggestion: jest.fn(),
+}));
+
 jest.mock("../../utils/mapHelpRequestPayload", () => ({
   mapHelpRequestPayload: jest.fn().mockReturnValue({}),
 }));
@@ -905,5 +912,117 @@ describe("HelpRequestForm — successful submission", () => {
     await act(async () => {
       jest.advanceTimersByTime(1200);
     });
+  });
+});
+
+describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+
+    //Set enums in localStorage so requestType dropdown has options
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: {
+          IN_PERSON: "IN_PERSON",
+          REMOTE: "REMOTE",
+        },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: 1, OTHER: 2 },
+      }),
+    );
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  it("shows location field when IN_PERSON request type is selected", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+  });
+
+  it("calls geolocation when IN_PERSON is selected", async () => {
+    const mockGetCurrentPosition = jest.fn();
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+  });
+
+  it("auto-populates location field when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "5600 West 133rd Terrace, Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "5600 West 133rd Terrace, Overland Park, Kansas, USA",
+      );
+    });
+  });
+
+  it("does not show location field for REMOTE request type", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(screen.getByRole("combobox", { name: /type/i }), {
+        target: { value: "REMOTE" },
+      });
+    });
+
+    expect(
+      screen.queryByPlaceholderText("Search for location..."),
+    ).not.toBeInTheDocument();
   });
 });
