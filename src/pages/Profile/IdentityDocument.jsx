@@ -7,6 +7,7 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
   const [source, setSource] = useState("device");
+  const [currentIdentityDoc, setCurrentIdentityDoc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -137,33 +138,37 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
   const handleUpload = async () => {
     if (!file) return;
 
-    const timestamp = new Date().toISOString();
-    const formData = new FormData();
-
-    formData.append("file", file);
-    formData.append("timestamp", timestamp);
-
     try {
       setIsLoading(true);
 
-      const response = await fetch("/your-backend-api-endpoint", {
-        method: "POST",
-        body: formData,
+      // simulate upload delay (optional but realistic)
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      const uploadedFileUrl = URL.createObjectURL(file);
+
+      setCurrentIdentityDoc({
+        name: file.name,
+        url: uploadedFileUrl,
       });
 
-      if (response.ok) {
-        console.log(t("UPLOAD_SUCCESS"));
-        setHasUnsavedChanges(false);
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || t("UPLOAD_FAILED"));
-      }
+      console.log(t("UPLOAD_SUCCESS"));
+      setHasUnsavedChanges(false);
     } catch (err) {
       setError(t("UPLOAD_ERROR"));
-      console.error(err);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDownload = () => {
+    if (!currentIdentityDoc?.url) return;
+
+    const link = document.createElement("a");
+    link.href = currentIdentityDoc.url;
+    link.download = currentIdentityDoc.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -171,6 +176,27 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
       <h2 className="text-xl font-semibold mb-4">
         {t("UPLOAD_GOVERNMENT_ID")}
       </h2>
+      {/* Current Identity Document */}
+      {currentIdentityDoc?.url && (
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Current Identity Document
+          </label>
+
+          <div className="flex items-center justify-between border p-2 rounded-md">
+            <span className="text-sm text-gray-700">
+              {currentIdentityDoc.name}
+            </span>
+
+            <button
+              onClick={handleDownload}
+              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+            >
+              Download
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Source Selection Dropdown */}
       <div className="mb-4">
