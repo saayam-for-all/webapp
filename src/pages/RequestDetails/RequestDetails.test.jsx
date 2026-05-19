@@ -44,31 +44,32 @@ jest.mock("../../common/components/BreadCrumbs/breadcrumbUtils", () => ({
 }));
 
 describe("RequestDetails - Tab Translation Tests", () => {
-  it("renders all three tabs with translation keys", () => {
+  it("renders action buttons in the header", () => {
     renderWithProviders(<RequestDetails />, {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(screen.getByText("COMMENTS")).toBeInTheDocument();
-    expect(screen.getByText("VOLUNTEERS")).toBeInTheDocument();
-    expect(screen.getByText("DETAILS")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Change Volunteer" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Delete" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "EDIT" })).toBeInTheDocument();
   });
 
-  it("switches to Volunteers tab when clicked", () => {
+  it("shows attachments pill only on Details tab", () => {
     renderWithProviders(<RequestDetails />, {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    fireEvent.click(screen.getByText("VOLUNTEERS"));
-    expect(screen.getByTestId("helping-volunteers")).toBeInTheDocument();
-  });
+    // Default tab is Comments
+    expect(screen.queryByText("No files")).not.toBeInTheDocument();
 
-  it("switches to Details tab when clicked", () => {
-    renderWithProviders(<RequestDetails />, {
-      preloadedState: MOCK_STATE_LOGGED_IN,
-    });
-
+    // Details tab shows the pill (empty-state)
     fireEvent.click(screen.getByText("DETAILS"));
-    expect(screen.getByTestId("request-description")).toBeInTheDocument();
+    expect(screen.getByText("No files")).toBeInTheDocument();
+
+    // Switching away hides it
+    fireEvent.click(screen.getByText("VOLUNTEERS"));
+    expect(screen.queryByText("No files")).not.toBeInTheDocument();
   });
 });
