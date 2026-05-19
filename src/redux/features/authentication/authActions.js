@@ -32,8 +32,6 @@ import {
   updateUserProfileSuccess,
 } from "./authSlice";
 
-import { clearToken, setToken } from "../../../services/authService";
-
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
   try {
@@ -47,9 +45,6 @@ export const checkAuthStatus = () => async (dispatch) => {
     } = await fetchUserAttributes();
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
-
-    const idToken = userSession.tokens?.idToken?.toString();
-    setToken(idToken);
 
     try {
       const enumsData = await getEnums();
@@ -215,7 +210,6 @@ export const logout = () => async (dispatch) => {
   try {
     returnDefaultLanguage();
     await signOut();
-    clearToken();
     localStorage.removeItem("userDbId");
     dispatch(logoutSuccess());
   } catch (error) {

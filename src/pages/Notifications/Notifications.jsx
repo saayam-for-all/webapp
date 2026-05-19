@@ -12,7 +12,6 @@ export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
   const { t } = useTranslation(["common"]);
   const { user } = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.auth.idToken);
   const { dispatch, state } = useNotifications();
   const notifications = state.notifications;
   const [currentPage, setCurrentPage] = useState(1);

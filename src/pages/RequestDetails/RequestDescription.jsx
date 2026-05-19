@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { PiWarningDiamondFill } from "react-icons/pi";
 import { TbTriangleSquareCircle } from "react-icons/tb";
 import { VscCalendar } from "react-icons/vsc";
-import { useSelector } from "react-redux";
 import {
   Dialog,
   DialogTitle,

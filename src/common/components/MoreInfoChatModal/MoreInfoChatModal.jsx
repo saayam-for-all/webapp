@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Markdown from "react-markdown";
+import { IoMdInformationCircle } from "react-icons/io";
 import { moreInformationChat } from "../../../services/requestServices";
 import i18n from "../../i18n/i18n";
 
@@ -231,10 +232,16 @@ const MoreInfoChatModal = ({
         </div>
 
         {/* AI disclaimer */}
-        <p className="px-3 pb-2 text-center text-xs text-gray-500">
-          Responses are AI-generated and may be inaccurate. Please verify
-          important information.
-        </p>
+        <div
+          className="flex items-start gap-2 mx-3 mb-3 p-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+          role="alert"
+        >
+          <IoMdInformationCircle size={18} className="shrink-0 mt-0.5" />
+          <span>
+            Responses are AI-generated and may be inaccurate. Please verify
+            important information.
+          </span>
+        </div>
       </div>
     </div>
   );
