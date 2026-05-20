@@ -54,11 +54,18 @@ jest.mock("../../services/requestApi", () => ({
   useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
+let mockSuggestions = [];
+let mockHandleSelectSuggestion = jest.fn();
+
 jest.mock("./location/usePlacesSearchBox", () => () => ({
   inputRef: { current: null },
-  suggestions: [],
+  get suggestions() {
+    return mockSuggestions;
+  },
   handleSearchChange: jest.fn(),
-  handleSelectSuggestion: jest.fn(),
+  get handleSelectSuggestion() {
+    return mockHandleSelectSuggestion;
+  },
 }));
 
 jest.mock("../../utils/mapHelpRequestPayload", () => ({
@@ -936,6 +943,7 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
 
   afterEach(() => {
     localStorage.clear();
+    mockSuggestions = [];
   });
 
   it("shows location field when IN_PERSON request type is selected", async () => {
@@ -1054,14 +1062,8 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
 
     expect(document.getElementById("location").value).toBe("Kansas City");
   });
-
   it("shows suggestions and selects one when clicked", async () => {
-    jest.doMock("./location/usePlacesSearchBox", () => () => ({
-      inputRef: { current: null },
-      suggestions: [{ display_name: "Kansas City, Missouri, USA" }],
-      handleSearchChange: jest.fn(),
-      handleSelectSuggestion: jest.fn(),
-    }));
+    mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
 
     renderForm();
     fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
@@ -1073,16 +1075,16 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     });
 
     await waitFor(() => {
-      expect(document.getElementById("location")).toBeInTheDocument();
+      expect(
+        screen.getByText("Kansas City, Missouri, USA"),
+      ).toBeInTheDocument();
     });
 
-    await act(async () => {
-      fireEvent.change(document.getElementById("location"), {
-        target: { value: "Kansas" },
-      });
-    });
+    fireEvent.click(screen.getByText("Kansas City, Missouri, USA"));
 
-    expect(document.getElementById("location").value).toBe("Kansas");
+    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith(
+      "Kansas City, Missouri, USA",
+    );
   });
 
   it("does not show location field for REMOTE request type", async () => {
