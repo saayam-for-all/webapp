@@ -1472,7 +1472,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
                 {/* Dynamic additional fields from metadata */}
                 <DynamicAdditionalFields
-                  catId={formData.category}
+                  catId={selectedCategoryId}
                   onChange={setAdditionalFieldValues}
                 />
 
