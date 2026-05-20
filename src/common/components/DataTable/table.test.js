@@ -162,4 +162,103 @@ describe("Table", () => {
       expect(() => render(<Table {...props} />)).not.toThrow();
     });
   });
+
+  describe("server-side pagination", () => {
+    const manyRows = Array.from({ length: 5 }, (_, i) => ({
+      id: `REQ-${i + 1}`,
+      status: "CREATED",
+      subject: `Subject ${i + 1}`,
+      type: "REMOTE",
+      category: "FOOD_ASSISTANCE",
+      priority: "HIGH",
+    }));
+
+    it("shows all rows without slicing when serverPaginated is true", () => {
+      render(
+        <Table
+          {...defaultProps}
+          rows={manyRows}
+          currentPage={3}
+          itemsPerPage={2}
+          totalPages={10}
+          totalRows={20}
+          serverPaginated={true}
+        />,
+      );
+
+      // All 5 rows should render even though currentPage=3 and itemsPerPage=2
+      // (server already returned the correct page)
+      const cells = screen.getAllByTestId("map-data-one");
+      expect(cells.length).toBe(5 * defaultProps.headers.length);
+    });
+
+    it("slices rows client-side when serverPaginated is false", () => {
+      render(
+        <Table
+          {...defaultProps}
+          rows={manyRows}
+          currentPage={1}
+          itemsPerPage={2}
+          totalPages={3}
+          totalRows={5}
+          serverPaginated={false}
+        />,
+      );
+
+      // Only 2 rows should render (itemsPerPage=2, page 1)
+      const cells = screen.getAllByTestId("map-data-one");
+      expect(cells.length).toBe(2 * defaultProps.headers.length);
+    });
+
+    it("does not auto-reset page to 1 when serverPaginated is true", () => {
+      const mockSetPage = jest.fn();
+      render(
+        <Table
+          {...defaultProps}
+          rows={manyRows}
+          currentPage={3}
+          setCurrentPage={mockSetPage}
+          itemsPerPage={5}
+          totalPages={10}
+          totalRows={50}
+          serverPaginated={true}
+        />,
+      );
+
+      // setCurrentPage(1) should NOT have been called
+      expect(mockSetPage).not.toHaveBeenCalled();
+    });
+
+    it("auto-resets page to 1 when serverPaginated is false and totalRows changes", () => {
+      const mockSetPage = jest.fn();
+      const { rerender } = render(
+        <Table
+          {...defaultProps}
+          rows={manyRows}
+          currentPage={2}
+          setCurrentPage={mockSetPage}
+          itemsPerPage={2}
+          totalPages={3}
+          totalRows={5}
+        />,
+      );
+
+      mockSetPage.mockClear();
+
+      // Re-render with different totalRows to trigger the useEffect
+      rerender(
+        <Table
+          {...defaultProps}
+          rows={manyRows.slice(0, 3)}
+          currentPage={2}
+          setCurrentPage={mockSetPage}
+          itemsPerPage={2}
+          totalPages={2}
+          totalRows={3}
+        />,
+      );
+
+      expect(mockSetPage).toHaveBeenCalledWith(1);
+    });
+  });
 });

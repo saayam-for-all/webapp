@@ -17,6 +17,13 @@ export const getManagedRequests = async () => {
   return response.data;
 };
 
+export const getAllPaginatedRequests = async ({ page = 0, size = 10 } = {}) => {
+  const response = await api.get(endpoints.GET_ALL_REQUESTS, {
+    params: { page, size },
+  });
+  return response.data;
+};
+
 export const getComments = async () => {
   const response = await api.get(endpoints.GET_REQUEST_COMMENTS);
   return response.data;

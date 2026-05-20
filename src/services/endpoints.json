@@ -2,6 +2,7 @@
   "GET_MY_REQUESTS": "v1/request/mockRequests",
   "GET_OTHERS_REQUESTS": "v1/request/mockRequests",
   "GET_MANAGED_REQUESTS": "v1/request/mockRequests",
+  "GET_ALL_REQUESTS": "v1/request/help-requests",
   "CHECK_PROFANITY": "v1/request/checkProfanity",
   "GET_VOLUNTEERS_DATA": "v1/volunteer/getVolunteersData",
   "GET_VOLUNTEER_ORGS_LIST": "v1/volunteerorgs/organizations-list",

@@ -27,6 +27,11 @@ jest.mock("../../services/requestServices", () => ({
   getMyRequests: jest.fn(() => Promise.resolve({ body: [] })),
   getOthersRequests: jest.fn(() => Promise.resolve({ body: [] })),
   getManagedRequests: jest.fn(() => Promise.resolve({ body: [] })),
+  getAllPaginatedRequests: jest.fn(() =>
+    Promise.resolve({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    }),
+  ),
 }));
 
 jest.mock("./views/BeneficiaryDashboard", () => () => (

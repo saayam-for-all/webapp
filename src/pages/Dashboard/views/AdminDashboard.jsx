@@ -22,6 +22,8 @@ const AdminDashboard = (props) => {
     searchFilters,
     analyticsSubtab,
     setAnalyticsSubtab,
+    serverPaginated,
+    serverTotalRows,
   } = props;
 
   return (
@@ -121,13 +123,16 @@ const AdminDashboard = (props) => {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               totalPages={totalPages(filteredData)}
-              totalRows={filteredData.length}
+              totalRows={
+                serverPaginated ? serverTotalRows : filteredData.length
+              }
               itemsPerPage={rowsPerPage}
               sortConfig={sortConfig}
               requestSort={requestSort}
               onRowsPerPageChange={onRowsPerPageChange}
               getLinkPath={getLinkPath}
               getLinkState={getLinkState}
+              serverPaginated={serverPaginated}
             />
           )
         )}
@@ -154,5 +159,7 @@ AdminDashboard.propTypes = {
   searchFilters: PropTypes.node,
   analyticsSubtab: PropTypes.string.isRequired,
   setAnalyticsSubtab: PropTypes.func.isRequired,
+  serverPaginated: PropTypes.bool,
+  serverTotalRows: PropTypes.number,
 };
 export default AdminDashboard;
