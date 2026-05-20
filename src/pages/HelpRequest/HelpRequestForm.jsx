@@ -348,7 +348,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
-          // ✅ Using OpenStreetMap Nominatim - FREE, no API key needed
+          //Using OpenStreetMap Nominatim - FREE, no API key needed
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
             {

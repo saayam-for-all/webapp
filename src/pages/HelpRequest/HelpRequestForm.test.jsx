@@ -1010,6 +1010,51 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     });
   });
 
+  it("handles geolocation error gracefully", async () => {
+    const mockGetCurrentPosition = jest.fn((success, error) => {
+      error(new Error("Location denied"));
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+    expect(document.getElementById("location")).toBeInTheDocument();
+  });
+
+  it("updates location when user types in location input", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("location"), {
+        target: { value: "Kansas City" },
+      });
+    });
+
+    expect(document.getElementById("location").value).toBe("Kansas City");
+  });
+
   it("does not show location field for REMOTE request type", async () => {
     renderForm();
 
