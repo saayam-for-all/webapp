@@ -193,29 +193,6 @@ const RequestDetails = () => {
               <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 capitalize">
                 {requestData.subject}
               </h2>
-
-              <div className="flex items-center gap-3 justify-end flex-wrap">
-                <button
-                  className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
-                  onClick={() => setChangeVolunteerDialogOpen(true)}
-                >
-                  {t("Change Volunteer")}
-                </button>
-
-                <button
-                  className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600"
-                  onClick={() => setDeleteDialogOpen(true)}
-                >
-                  {t("Delete")}
-                </button>
-
-                <button
-                  className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
-                  onClick={() => setIsEditing(true)}
-                >
-                  {t("EDIT")}
-                </button>
-              </div>
             </div>
 
             <div className="flex flex-row gap-5 justify-between">
@@ -305,7 +282,32 @@ const RequestDetails = () => {
                 </div>
               </div>
 
-              <div className="p-4">
+              <div className="relative p-4 pt-16">
+                {/* Orange area actions (only on Details tab) */}
+                {tab === "Details" && (
+                  <div className="absolute top-4 right-4 flex items-center gap-3 flex-wrap">
+                    <button
+                      className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
+                      onClick={() => setChangeVolunteerDialogOpen(true)}
+                    >
+                      {t("Change Volunteer")}
+                    </button>
+
+                    <button
+                      className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600"
+                      onClick={() => setDeleteDialogOpen(true)}
+                    >
+                      {t("Delete")}
+                    </button>
+
+                    <button
+                      className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      {t("EDIT")}
+                    </button>
+                  </div>
+                )}
                 {showEmergency ? (
                   <EmergencyContact embedded />
                 ) : tab === "Comments" ? (
@@ -321,48 +323,51 @@ const RequestDetails = () => {
               </div>
 
               {tab === "Details" && (
-                <div className="px-4 pb-4 flex justify-end">
-                  <div className="flex items-center gap-3">
-                    {audioUrl && (
-                      <a
-                        href={audioUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-2 py-1 hover:bg-gray-50"
-                        title="Download audio"
-                      >
-                        <div className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-500 text-white">
-                          <FaMicrophone size={16} />
-                        </div>
-                        <span className="text-sm text-gray-700 px-1 py-1">
-                          Audio attached
-                        </span>
-                      </a>
-                    )}
+                <div className="px-4 pb-4 pt-4 flex flex-col gap-3">
+                  {/* Bottom-right attachments/audio */}
+                  <div className="flex justify-end">
+                    <div className="flex items-center gap-3">
+                      {audioUrl && (
+                        <a
+                          href={audioUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-2 py-1 hover:bg-gray-50"
+                          title="Download audio"
+                        >
+                          <div className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-500 text-white">
+                            <FaMicrophone size={16} />
+                          </div>
+                          <span className="text-sm text-gray-700 px-1 py-1">
+                            Audio attached
+                          </span>
+                        </a>
+                      )}
 
-                    <div
-                      className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 select-none ${
-                        fileCount > 0
-                          ? "cursor-pointer"
-                          : "opacity-60 cursor-not-allowed"
-                      }`}
-                      onClick={() => {
-                        if (fileCount > 0) setShowAttachmentsDialog(true);
-                      }}
-                      title={
-                        fileCount > 0
-                          ? "View attached files"
-                          : "No files attached"
-                      }
-                    >
-                      <div className="flex items-center justify-center w-9 h-9 rounded-full text-white bg-blue-500">
-                        <FiPaperclip size={18} />
+                      <div
+                        className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 select-none ${
+                          fileCount > 0
+                            ? "cursor-pointer"
+                            : "opacity-60 cursor-not-allowed"
+                        }`}
+                        onClick={() => {
+                          if (fileCount > 0) setShowAttachmentsDialog(true);
+                        }}
+                        title={
+                          fileCount > 0
+                            ? "View attached files"
+                            : "No files attached"
+                        }
+                      >
+                        <div className="flex items-center justify-center w-9 h-9 rounded-full text-white bg-blue-500">
+                          <FiPaperclip size={18} />
+                        </div>
+                        <span className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1">
+                          {fileCount > 0
+                            ? `${fileCount} ${fileCount === 1 ? "file attached" : "files attached"}`
+                            : "No files"}
+                        </span>
                       </div>
-                      <span className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1">
-                        {fileCount > 0
-                          ? `${fileCount} ${fileCount === 1 ? "file attached" : "files attached"}`
-                          : "No files"}
-                      </span>
                     </div>
                   </div>
                 </div>
