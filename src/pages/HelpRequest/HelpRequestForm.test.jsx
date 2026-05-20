@@ -1055,6 +1055,36 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     expect(document.getElementById("location").value).toBe("Kansas City");
   });
 
+  it("shows suggestions and selects one when clicked", async () => {
+    jest.doMock("./location/usePlacesSearchBox", () => () => ({
+      inputRef: { current: null },
+      suggestions: [{ display_name: "Kansas City, Missouri, USA" }],
+      handleSearchChange: jest.fn(),
+      handleSelectSuggestion: jest.fn(),
+    }));
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("location"), {
+        target: { value: "Kansas" },
+      });
+    });
+
+    expect(document.getElementById("location").value).toBe("Kansas");
+  });
+
   it("does not show location field for REMOTE request type", async () => {
     renderForm();
 
