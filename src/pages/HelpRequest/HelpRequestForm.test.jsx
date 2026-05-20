@@ -907,3 +907,55 @@ describe("HelpRequestForm — successful submission", () => {
     });
   });
 });
+
+describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+  });
+
+  it("passes selectedCategoryId to DynamicAdditionalFields not hierarchy string", async () => {
+    const { predictCategories } = require("../../services/requestServices");
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "I need help with math tutoring." },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByDisplayValue("4.3.1"));
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Select" }));
+    });
+    await waitFor(() => {
+      expect(document.getElementById("category").value).toBe(
+        "Education Career Support > Tutoring > Math",
+      );
+    });
+  });
+});
