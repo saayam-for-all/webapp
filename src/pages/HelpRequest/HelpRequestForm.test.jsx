@@ -33,7 +33,7 @@ const mockT = jest.requireMock("react-i18next").useTranslation().t;
 // Component imports useNavigate from "react-router" and useParams from "react-router-dom"
 jest.mock("react-router", () => ({ useNavigate: () => jest.fn() }));
 jest.mock("react-router-dom", () => ({
-  useParams: () => ({}),
+  useParams: jest.fn(() => ({})),
   Link: ({ children }) => children,
   NavLink: ({ children }) => children,
 }));
@@ -50,7 +50,7 @@ jest.mock("./location/usePlacesSearchBox", () => () => ({
 }));
 
 jest.mock("../../services/requestApi", () => ({
-  useGetAllRequestQuery: () => ({ data: undefined, isLoading: false }),
+  useGetAllRequestQuery: jest.fn(() => ({ data: undefined, isLoading: false })),
   useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
@@ -937,6 +937,8 @@ describe("HelpRequestForm — edit mode submission", () => {
     priority: "MEDIUM",
     request_type: "REMOTE",
     is_self: "yes",
+    helpCategory: { catId: "cat-edu" },
+    attachments: ["http://test.com/file1.jpg"],
   };
 
   beforeEach(() => {
@@ -1029,6 +1031,119 @@ describe("HelpRequestForm — edit mode submission", () => {
 
     await act(async () => {
       jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("handles edit mode when onClose is not provided, and uses fallback fields", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0009" },
+    });
+
+    const store = configureStore({
+      reducer: { auth: authReducer, request: requestReducer },
+      preloadedState: {
+        auth: { user: { userId: "mockUser", userDbId: "dbUser123" } },
+        request: { categories: mockCategories, categoriesFetched: true },
+      },
+    });
+
+    const editDataWithoutIds = {
+      ...mockEditData,
+      id: "id-fallback-123",
+    };
+    delete editDataWithoutIds.requestId;
+    delete editDataWithoutIds.requesterId;
+
+    render(
+      <Provider store={store}>
+        <NotificationProvider>
+          <HelpRequestForm isEdit={true} editRequestData={editDataWithoutIds} />
+        </NotificationProvider>
+      </Provider>,
+    );
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated description for fallback test.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.requesterId).toBe("dbUser123");
+    expect(callArgs.requestId).toBe("id-fallback-123");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("restores request in edit mode from URL params and RTK query data", async () => {
+    const { useParams } = require("react-router-dom");
+    const { useGetAllRequestQuery } = require("../../services/requestApi");
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-URL-ID" },
+    });
+
+    useParams.mockReturnValue({ id: "REQ-URL-ID" });
+    useGetAllRequestQuery.mockReturnValue({
+      data: {
+        body: [
+          {
+            id: "REQ-URL-ID",
+            requestId: "REQ-URL-ID",
+            category: "COLLEGE_APPLICATION_HELP",
+            subject: "Route Restored Subject",
+            description: "Route Restored Description",
+            priority: "HIGH",
+            request_type: "REMOTE",
+            is_self: "yes",
+            helpCategory: { catId: "cat-edu" },
+            attachments: ["http://test.com/file1.jpg"],
+          },
+        ],
+      },
+      isLoading: false,
+    });
+
+    renderForm({ isEdit: true });
+
+    await waitFor(() => {
+      expect(document.getElementById("subject").value).toBe(
+        "Route Restored Subject",
+      );
+    });
+
+    // Reset mocks for subsequent tests
+    useParams.mockReturnValue({});
+    useGetAllRequestQuery.mockReturnValue({
+      data: undefined,
+      isLoading: false,
     });
   });
 });

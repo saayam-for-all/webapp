@@ -4,6 +4,7 @@ import {
   moreInformation,
   generateSubject,
   getAllPaginatedRequests,
+  updateRequest,
 } from "./requestServices";
 
 jest.mock("./api");
@@ -11,6 +12,27 @@ jest.mock("./api");
 describe("requestServices", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  describe("updateRequest", () => {
+    it("calls PUT to UPDATE_HELP_REQUEST with payload and returns data", async () => {
+      const mockData = { success: true };
+      api.put.mockResolvedValue({ data: mockData });
+
+      const payload = { id: "123", requestSubject: "Help" };
+      const result = await updateRequest(payload);
+
+      expect(api.put).toHaveBeenCalledWith(
+        "v1/request/updateHelpRequest",
+        payload,
+      );
+      expect(result).toEqual(mockData);
+    });
+
+    it("propagates errors from api", async () => {
+      api.put.mockRejectedValue(new Error("Network error"));
+      await expect(updateRequest({})).rejects.toThrow("Network error");
+    });
   });
 
   describe("moreInformationChat", () => {

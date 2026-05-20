@@ -121,4 +121,22 @@ describe("mapHelpRequestPayload", () => {
 
     expect(result).not.toHaveProperty("additionalFields");
   });
+
+  it("includes audioRequestDescription when provided", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      formData: { ...baseFormData, audioRequestDescription: "audio-uuid" },
+    });
+
+    expect(result.audioRequestDescription).toBe("audio-uuid");
+  });
+
+  it("includes requestDocumentLink when provided", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      formData: { ...baseFormData, requestDocumentLink: "doc-link" },
+    });
+
+    expect(result.requestDocumentLink).toBe("doc-link");
+  });
 });
