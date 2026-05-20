@@ -46,12 +46,8 @@ jest.mock("./views/AdminDashboard", () => (props) => (
     <button onClick={() => props.handleTabChange("myRequests")}>
       Click All Requests
     </button>
-    <button onClick={() => props.handlePageChange(null, 2)}>Change Page</button>
-    <button
-      onClick={() => props.handleRowsPerPageChange({ target: { value: "25" } })}
-    >
-      Change Rows
-    </button>
+    <button onClick={() => props.setCurrentPage(2)}>Change Page</button>
+    <button onClick={() => props.onRowsPerPageChange(25)}>Change Rows</button>
   </div>
 ));
 jest.mock("./views/StewardDashboard", () => () => (
@@ -139,7 +135,7 @@ describe("Dashboard", () => {
     await waitFor(() => {
       expect(getAllPaginatedRequests).toHaveBeenCalledWith({
         page: 0,
-        size: 10,
+        size: 5,
       });
     });
   });
@@ -158,7 +154,7 @@ describe("Dashboard", () => {
     await waitFor(() =>
       expect(getAllPaginatedRequests).toHaveBeenCalledWith({
         page: 0,
-        size: 10,
+        size: 5,
       }),
     );
 
@@ -166,7 +162,7 @@ describe("Dashboard", () => {
     await waitFor(() =>
       expect(getAllPaginatedRequests).toHaveBeenCalledWith({
         page: 1,
-        size: 10,
+        size: 5,
       }),
     );
   });
@@ -185,7 +181,7 @@ describe("Dashboard", () => {
     await waitFor(() =>
       expect(getAllPaginatedRequests).toHaveBeenCalledWith({
         page: 0,
-        size: 10,
+        size: 5,
       }),
     );
 
