@@ -735,5 +735,14 @@
   "REMOVE_SKILL": "删除技能",
   "REMOVE_CATEGORY": "删除此类别的所有技能",
   "SELECT_SKILL_TO_CONTINUE": "选择至少一项特定技能以进入下一步",
-  "COMMENTS": "评论"
+  "COMMENTS": "评论",
+  "REASON_FOR_CONTACTING": "联系原因",
+  "SELECT_A_REASON": "选择原因",
+  "VOLUNTEERING_INTERNSHIP": "志愿服务 / 实习",
+  "TIMESHEET_ISSUES": "工时表问题",
+  "OFFER_RELIEVING_LETTER": "录用 / 离职 / 证明信",
+  "COLLABORATION_PARTNERSHIP": "协作 / 合作伙伴",
+  "GENERAL_INQUIRY": "一般查询",
+  "NOTE_LABEL": "备注：",
+  "RESPONSE_TIME_NOTICE": "我们通常会在 24-48 小时内回复您的询问。"
 }

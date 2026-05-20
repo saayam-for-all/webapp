@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { MdContactPhone } from "react-icons/md";
+import { IoMdInformationCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import { useSelector } from "react-redux";
@@ -160,10 +161,16 @@ const RequestButton = ({
         show={showCooldownDialog}
         onClose={() => setShowCooldownDialog(false)}
       >
-        <p className="text-gray-700">
-          You have reached the question limit. Please try again after 30
-          minutes.
-        </p>
+        <div
+          className="flex items-start gap-2 p-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+          role="alert"
+        >
+          <IoMdInformationCircle size={22} className="shrink-0" />
+          <span>
+            You have reached the question limit. Please try again after 30
+            minutes.
+          </span>
+        </div>
       </Modal>
     </>
   );

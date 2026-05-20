@@ -30,11 +30,6 @@ jest.mock("../../../common/i18n/utils", () => ({
   returnDefaultLanguage: jest.fn(),
 }));
 
-jest.mock("../../../services/authService", () => ({
-  setToken: jest.fn(),
-  clearToken: jest.fn(),
-}));
-
 jest.mock("../help_request/requestActions", () => ({
   loadCategories: jest.fn((categories) => ({
     type: "LOAD_CATEGORIES",

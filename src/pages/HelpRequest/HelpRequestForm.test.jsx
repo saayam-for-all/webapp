@@ -54,6 +54,20 @@ jest.mock("../../services/requestApi", () => ({
   useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
+let mockSuggestions = [];
+let mockHandleSelectSuggestion = jest.fn();
+
+jest.mock("./location/usePlacesSearchBox", () => () => ({
+  inputRef: { current: null },
+  get suggestions() {
+    return mockSuggestions;
+  },
+  handleSearchChange: jest.fn(),
+  get handleSelectSuggestion() {
+    return mockHandleSelectSuggestion;
+  },
+}));
+
 jest.mock("../../utils/mapHelpRequestPayload", () => ({
   mapHelpRequestPayload: jest.fn().mockReturnValue({}),
 }));
@@ -372,6 +386,56 @@ describe("HelpRequestForm — predict categories modal", () => {
     });
   });
 
+  it("shows full hierarchy as label in dialog when hierarchy is returned by API", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+          {
+            category_number: "4.3.3",
+            category_name: "SCIENCE",
+            confidence: 0.8,
+            hierarchy: "Education Career Support > Tutoring > Science",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with math tutoring.",
+      },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    //Dialog should show full hierarchy as label
+    await waitFor(() => {
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Science"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+
   it("shows only General when predictCategories API fails", async () => {
     const {
       checkProfanity,
@@ -543,7 +607,9 @@ describe("HelpRequestForm — predict categories modal", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Math")).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByDisplayValue("4.3.1"));
@@ -600,7 +666,9 @@ describe("HelpRequestForm — predict categories modal", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Math")).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByDisplayValue("4.3.1"));
@@ -961,6 +1029,239 @@ describe("HelpRequestForm — edit mode submission", () => {
 
     await act(async () => {
       jest.advanceTimersByTime(1200);
+    });
+  });
+});
+describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+
+    //Set enums in localStorage so requestType dropdown has options
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: {
+          IN_PERSON: "IN_PERSON",
+          REMOTE: "REMOTE",
+        },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: 1, OTHER: 2 },
+      }),
+    );
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+    mockSuggestions = [];
+  });
+
+  it("shows location field when IN_PERSON request type is selected", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+  });
+
+  it("calls geolocation when IN_PERSON is selected", async () => {
+    const mockGetCurrentPosition = jest.fn();
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+  });
+
+  it("auto-populates location field when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "5600 West 133rd Terrace, Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "5600 West 133rd Terrace, Overland Park, Kansas, USA",
+      );
+    });
+  });
+
+  it("handles geolocation error gracefully", async () => {
+    const mockGetCurrentPosition = jest.fn((success, error) => {
+      error(new Error("Location denied"));
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+    expect(document.getElementById("location")).toBeInTheDocument();
+  });
+
+  it("updates location when user types in location input", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("location"), {
+        target: { value: "Kansas City" },
+      });
+    });
+
+    expect(document.getElementById("location").value).toBe("Kansas City");
+  });
+  it("shows suggestions and selects one when clicked", async () => {
+    mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Kansas City, Missouri, USA"),
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Kansas City, Missouri, USA"));
+
+    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith(
+      "Kansas City, Missouri, USA",
+    );
+  });
+
+  it("does not show location field for REMOTE request type", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(screen.getByRole("combobox", { name: /type/i }), {
+        target: { value: "REMOTE" },
+      });
+    });
+
+    expect(
+      screen.queryByPlaceholderText("Search for location..."),
+    ).not.toBeInTheDocument();
+  });
+});
+
+describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+  });
+
+  it("passes selectedCategoryId to DynamicAdditionalFields not hierarchy string", async () => {
+    const { predictCategories } = require("../../services/requestServices");
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "I need help with math tutoring." },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByDisplayValue("4.3.1"));
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Select" }));
+    });
+    await waitFor(() => {
+      expect(document.getElementById("category").value).toBe(
+        "Education Career Support > Tutoring > Math",
+      );
     });
   });
 });

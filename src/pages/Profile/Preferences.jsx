@@ -63,7 +63,7 @@ const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
 function Preferences({ setHasUnsavedChanges }) {
   const { t, i18n } = useTranslation("profile");
   const dashboardOptions = [
-    { value: "super-admin", label: t("SUPER_ADMIN_DASHBOARD") },
+    { value: "superAdmin", label: t("SUPER_ADMIN_DASHBOARD") },
     { value: "admin", label: t("ADMIN_DASHBOARD") },
     { value: "steward", label: t("STEWARD_DASHBOARD") },
     { value: "volunteer", label: t("VOLUNTEER_DASHBOARD") },

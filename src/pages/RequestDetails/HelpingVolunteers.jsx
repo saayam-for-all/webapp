@@ -5,7 +5,7 @@ import {
   createZoomMeeting,
   storeMeetingDetails,
 } from "../../services/meetingServices";
-import { FaVideo } from "react-icons/fa";
+import { FaVideo, FaTrash } from "react-icons/fa";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
@@ -34,12 +34,13 @@ const HelpingVolunteers = () => {
     direction: "ascending",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchBy, setSearchBy] = useState("name");
   const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
+  const [volunteerCountError, setVolunteerCountError] = useState("");
 
   // Get the current system date
   const systemDate = new Date();
-  const volunteersAssigned = 5;
   const formattedDate = systemDate.toLocaleString("en-US", {
     month: "short",
     day: "numeric",
@@ -167,9 +168,10 @@ const HelpingVolunteers = () => {
       0,
       Math.min(volunteerData.length, volunteersCount),
     );
-    let filteredVolunteers = topN.filter((volunteer) =>
-      volunteer.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    let filteredVolunteers = topN.filter((volunteer) => {
+      const field = (volunteer[searchBy] || "").toLowerCase();
+      return field.includes(searchTerm.toLowerCase());
+    });
 
     if (filter) {
       filteredVolunteers = filteredVolunteers.filter((volunteer) =>
@@ -206,6 +208,8 @@ const HelpingVolunteers = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  const volunteersAssigned = filteredAndSortedVolunteers.length;
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(Number(e.target.value));
@@ -246,15 +250,40 @@ const HelpingVolunteers = () => {
         </div>
       )}
       <div className="flex justify-between items-center px-4 pt-4">
-        <div className="font-bold text-lg">Volunteer Management</div>
-        <button
-          className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
-          disabled={selectedVolunteers.length === 0}
-          onClick={() => setMeetingModalOpen(true)}
-        >
-          <FaVideo className="text-lg" />
-          <span>Zoom Meeting</span>
-        </button>
+        <div className="flex items-center gap-4">
+          <div className="font-bold text-lg">Volunteer Management</div>
+          {volunteerCountError && (
+            <div className="text-red-600 text-sm font-semibold flex items-center gap-1">
+              <span aria-hidden="true">⚠️</span>
+              <span>{volunteerCountError}</span>
+            </div>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <button
+            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
+            disabled={selectedVolunteers.length === 0}
+            onClick={() => setMeetingModalOpen(true)}
+          >
+            <FaVideo className="text-lg" />
+            <span>Zoom Meeting</span>
+          </button>
+          <button
+            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
+            disabled={selectedVolunteers.length === 0}
+            onClick={() => {
+              setVolunteerData((prev) =>
+                prev.filter(
+                  (volunteer) => !selectedVolunteers.includes(volunteer.email),
+                ),
+              );
+              setSelectedVolunteers([]);
+            }}
+          >
+            <FaTrash className="text-lg" />
+            <span>Delete</span>
+          </button>
+        </div>
         {meetingModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fadeIn relative">
@@ -382,18 +411,31 @@ const HelpingVolunteers = () => {
       <div className="bg-gray-100 shadow-md p-1 space-y-4 rounded-b-md">
         <div className="flex items-center space-x-4 p-4 mt-2">
           <input
-            type="text"
+            type="number"
+            min="1"
+            max="5"
             placeholder={t("NUMBER_OF_VOLUNTEERS")}
             className="p-3 border rounded-md w-1/3"
             value={volunteersCount}
             onChange={(e) => {
               setVolunteersCount(e.target.value);
               setChooseVolunteer(false);
+              if (Number(e.target.value) <= 5) {
+                setVolunteerCountError("");
+              }
             }}
           />
           <button
             className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
-            onClick={() => setChooseVolunteer(true)}
+            onClick={() => {
+              const requestedCount = Number(volunteersCount);
+              if (requestedCount > 5) {
+                setVolunteerCountError("Maximum 5 volunteer can be assigned");
+                return;
+              }
+              setVolunteerCountError("");
+              setChooseVolunteer(true);
+            }}
           >
             <svg
               className="w-5 h-5 mr-2"
@@ -411,15 +453,32 @@ const HelpingVolunteers = () => {
             </svg>
             {t("REQUEST_VOLUNTEERS")}
           </button>
-          <div className="ml-auto flex items-center space-x-4">
+          <div className="ml-auto flex items-center space-x-2">
             <input
               type="text"
-              placeholder="Enter volunteer name"
+              placeholder={
+                searchBy === "name"
+                  ? "Enter volunteer name"
+                  : searchBy === "email"
+                    ? "Enter email address"
+                    : "Enter phone number"
+              }
               className="p-3 border rounded-md w-64"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center">
-              Find by name
-            </button>
+            <select
+              value={searchBy}
+              onChange={(e) => {
+                setSearchBy(e.target.value);
+                setSearchTerm("");
+              }}
+              className="bg-blue-500 px-4 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 cursor-pointer border-none outline-none"
+            >
+              <option value="name">Find by Name</option>
+              <option value="email">Find by Email</option>
+              <option value="phone">Find by Phone</option>
+            </select>
           </div>
         </div>
 
@@ -433,7 +492,13 @@ const HelpingVolunteers = () => {
               <div className="flex-grow max-w-md">
                 <input
                   type="text"
-                  placeholder="Search by name..."
+                  placeholder={
+                    searchBy === "name"
+                      ? "Search by name..."
+                      : searchBy === "email"
+                        ? "Search by email..."
+                        : "Search by phone..."
+                  }
                   className="p-2 border border-gray-300 rounded-md w-full"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}

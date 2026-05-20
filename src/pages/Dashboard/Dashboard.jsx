@@ -208,6 +208,22 @@ const Dashboard = ({ userRole }) => {
       return;
     }
 
+    // Preferences tab stores defaultDashboard under "userPreferences" in
+    // localStorage (DB persistence pending). Honor it when the user lands
+    // on /dashboard without an explicit ?view= override.
+    let preferredDashboard = null;
+    try {
+      const saved = JSON.parse(localStorage.getItem("userPreferences"));
+      preferredDashboard = saved?.defaultDashboard || null;
+    } catch {
+      preferredDashboard = null;
+    }
+    if (preferredDashboard && accessible.includes(preferredDashboard)) {
+      setSelectedDashboard(preferredDashboard);
+      localStorage.setItem("lastDashboardSelected", preferredDashboard);
+      return;
+    }
+
     const storedDashboard = localStorage.getItem("lastDashboardSelected");
     if (storedDashboard && accessible.includes(storedDashboard)) {
       setSelectedDashboard(storedDashboard);
