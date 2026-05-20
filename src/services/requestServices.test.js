@@ -3,6 +3,7 @@ import {
   moreInformationChat,
   moreInformation,
   generateSubject,
+  getAllPaginatedRequests,
 } from "./requestServices";
 
 jest.mock("./api");
@@ -82,6 +83,38 @@ describe("requestServices", () => {
         request,
       );
       expect(result).toEqual(mockData);
+    });
+  });
+
+  describe("getAllPaginatedRequests", () => {
+    it("calls GET with default params (page=0, size=10) and returns data", async () => {
+      const mockData = { body: { requests: [{ id: 1 }] } };
+      api.get.mockResolvedValue({ data: mockData });
+
+      const result = await getAllPaginatedRequests();
+
+      expect(api.get).toHaveBeenCalledWith("v1/request/help-requests", {
+        params: { page: 0, size: 10 },
+      });
+      expect(result).toEqual(mockData);
+    });
+
+    it("calls GET with custom page/size params", async () => {
+      const mockData = { body: { requests: [{ id: 2 }] } };
+      api.get.mockResolvedValue({ data: mockData });
+
+      const result = await getAllPaginatedRequests({ page: 3, size: 25 });
+
+      expect(api.get).toHaveBeenCalledWith("v1/request/help-requests", {
+        params: { page: 3, size: 25 },
+      });
+      expect(result).toEqual(mockData);
+    });
+
+    it("propagates errors from api", async () => {
+      api.get.mockRejectedValue(new Error("Network error"));
+
+      await expect(getAllPaginatedRequests()).rejects.toThrow("Network error");
     });
   });
 });
