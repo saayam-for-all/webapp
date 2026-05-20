@@ -18,6 +18,7 @@ import {
 import {
   checkProfanity,
   createRequest,
+  updateRequest,
   predictCategories,
   generateSubject,
   getCategories,
@@ -90,7 +91,7 @@ const mapLanguageToCode = (languageName) => {
   return languageMap[languageName] || "en-US"; // Default to English
 };
 
-const HelpRequestForm = ({ isEdit = false, onClose }) => {
+const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -246,15 +247,31 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
 
   // Restore request for edit
+  // Supports two data sources:
+  //   1. editRequestData prop (passed from RequestDetails modal)
+  //   2. Fallback to URL params + RTK query (route-based edit)
   useEffect(() => {
-    if (id && data) {
-      const requestData = data.body?.find((item) => item.id === id);
+    const requestData =
+      editRequestData ||
+      (id && data ? data.body?.find((item) => item.id === id) : null);
+
+    if (requestData) {
       setFormData({
         category: requestData.category,
         description: requestData.description,
         subject: requestData.subject,
         ...requestData,
+        // Map nested API objects to flat form fields expected by mapHelpRequestPayload
+        request_type: requestData.request_type || requestData.requestType?.type,
+        priority: requestData.priority || requestData.requestPriority?.priority,
+        request_for:
+          requestData.request_for || requestData.requestFor?.requestFor,
       });
+
+      // Preserve the original numeric catId for edit mode (category is locked)
+      if (requestData.helpCategory?.catId) {
+        setSelectedCategoryId(requestData.helpCategory.catId);
+      }
 
       // If editing and attachments present in requestData, show them as uploadedFilesInfo
       if (requestData.attachments && Array.isArray(requestData.attachments)) {
@@ -267,7 +284,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       }
     }
-  }, [data, id]);
+  }, [editRequestData, data, id]);
 
   // Converts API snake_case category names to title-case for display.
   // e.g. "GROCERY_SHOPPING_AND_DELIVERY" → "Grocery Shopping And Delivery"
@@ -1101,7 +1118,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         return;
       }
 
+      // In edit mode, skip the predict-categories modal since category is locked
       if (
+        !isEdit &&
         formData.category === "General" &&
         formData.description.trim() !== "" &&
         !categoryConfirmed
@@ -1134,39 +1153,61 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         submissionData.attachments = uploadedFileUrls;
       }
 
-      // Call createRequest with attachments included
-      //const response = await createRequest(submissionData);
+      // Build the API payload
       const payload = mapHelpRequestPayload({
         formData: submissionData,
         selectedCategoryId: selectedCategoryId ?? formData.category,
-        requesterId: userDbId,
+        requesterId: isEdit
+          ? editRequestData?.requesterId || userDbId
+          : userDbId,
         enumMaps,
         additionalFields: additionalFieldValues,
+        requestId: isEdit
+          ? editRequestData?.requestId || editRequestData?.id || id
+          : undefined,
       });
 
-      const response = await createRequest(payload);
-      const requestId = response?.data?.requestId;
+      // Call updateRequest when editing, createRequest when creating
+      let response;
+      if (isEdit) {
+        response = await updateRequest(payload);
+      } else {
+        response = await createRequest(payload);
+      }
+      const responseRequestId = response?.data?.requestId;
 
       setSnackbar({
         open: true,
-        message: "Help Request submitted successfully!",
+        message: isEdit
+          ? "Help Request updated successfully!"
+          : "Help Request submitted successfully!",
         severity: "success",
       });
 
       setTimeout(() => {
-        navigate("/dashboard", {
-          state: {
-            successMessage: requestId
-              ? `New Request #${requestId} submitted successfully!`
-              : "Help Request submitted successfully!",
-          },
-        });
+        if (isEdit && onClose) {
+          onClose();
+        } else {
+          navigate("/dashboard", {
+            state: {
+              successMessage: responseRequestId
+                ? isEdit
+                  ? `Request #${responseRequestId} updated successfully!`
+                  : `New Request #${responseRequestId} submitted successfully!`
+                : isEdit
+                  ? "Help Request updated successfully!"
+                  : "Help Request submitted successfully!",
+            },
+          });
+        }
       }, 1200);
     } catch (error) {
       console.error("Failed to process request:", error);
       setSnackbar({
         open: true,
-        message: "Failed to submit request!",
+        message: isEdit
+          ? "Failed to update request!"
+          : "Failed to submit request!",
         severity: "error",
       });
     } finally {
@@ -1251,8 +1292,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       id="category"
                       value={resolveCategoryLabel(formData.category)}
                       onChange={handleSearchInput}
-                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
-                      onFocus={() => setShowDropdown(true)}
+                      disabled={isEdit}
+                      className={`block w-full appearance-none border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none ${
+                        isEdit
+                          ? "bg-gray-100 cursor-not-allowed opacity-70"
+                          : "bg-white"
+                      }`}
+                      onFocus={() => {
+                        if (!isEdit) setShowDropdown(true);
+                      }}
                       onBlur={(e) => {
                         if (!dropdownRef.current?.contains(e.relatedTarget)) {
                           setShowDropdown(false);

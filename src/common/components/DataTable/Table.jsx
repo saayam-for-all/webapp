@@ -17,19 +17,25 @@ const Table = ({
   onRowsPerPageChange,
   getLinkPath,
   getLinkState = undefined,
+  serverPaginated = false,
 }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
 
   const paginatedRequests = useMemo(() => {
+    // When server-paginated, rows already contain only the current page's data
+    if (serverPaginated) return rows;
     return rows.slice(
       (currentPage - 1) * itemsPerPage,
       currentPage * itemsPerPage,
     );
-  }, [rows, currentPage, itemsPerPage]);
+  }, [rows, currentPage, itemsPerPage, serverPaginated]);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [totalRows, itemsPerPage, setCurrentPage]);
+    // Don't auto-reset page when server handles pagination
+    if (!serverPaginated) {
+      setCurrentPage(1);
+    }
+  }, [totalRows, itemsPerPage, setCurrentPage, serverPaginated]);
 
   const getSortIndicator = (key) => {
     if (sortConfig.key === key) {
@@ -225,6 +231,7 @@ Table.propTypes = {
   onRowsPerPageChange: PropTypes.func.isRequired,
   getLinkPath: PropTypes.func.isRequired,
   getLinkState: PropTypes.func,
+  serverPaginated: PropTypes.bool,
 };
 
 export default Table;

@@ -18,6 +18,8 @@ const StewardDashboard = (props) => {
     getLinkPath,
     getLinkState,
     searchFilters,
+    serverPaginated,
+    serverTotalRows,
   } = props;
 
   return (
@@ -57,13 +59,16 @@ const StewardDashboard = (props) => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 totalPages={totalPages(filteredData)}
-                totalRows={filteredData.length}
+                totalRows={
+                  serverPaginated ? serverTotalRows : filteredData.length
+                }
                 itemsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={onRowsPerPageChange}
                 getLinkPath={getLinkPath}
                 getLinkState={getLinkState}
+                serverPaginated={serverPaginated}
               />
             )}
           </div>

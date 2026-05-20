@@ -1,131 +1,142 @@
 import { mapHelpRequestPayload } from "./mapHelpRequestPayload";
 
+const baseEnumMaps = {
+  requestPriority: { MEDIUM: 2, HIGH: 1 },
+  requestType: { REMOTE: 1, IN_PERSON: 2 },
+  requestFor: { SELF: 1, OTHER: 2 },
+};
+
+const baseFormData = {
+  subject: "Test Subject",
+  description: "Test Description",
+  is_calamity: false,
+  lead_volunteer: "No",
+  priority: "MEDIUM",
+  request_type: "REMOTE",
+  request_for: "SELF",
+};
+
 const baseArgs = {
-  formData: {
-    subject: "Need food assistance",
-    description: "Help with groceries",
-    is_calamity: false,
-    lead_volunteer: "Yes",
-    priority: "MEDIUM",
-    request_type: "REMOTE",
-    request_for: "SELF",
-  },
-  selectedCategoryId: "1.1",
-  requesterId: "user-123",
-  enumMaps: {
-    requestPriority: { MEDIUM: 2 },
-    requestType: { REMOTE: 1 },
-    requestFor: { SELF: 1, OTHER: 2 },
-  },
+  formData: baseFormData,
+  selectedCategoryId: "1.2.3.4.5",
+  requesterId: "req-123",
+  enumMaps: baseEnumMaps,
 };
 
 describe("mapHelpRequestPayload", () => {
-  it("returns base payload without additionalFields when none provided", () => {
+  it("maps basic payload with all required fields", () => {
     const result = mapHelpRequestPayload(baseArgs);
-    expect(result.requesterId).toBe("user-123");
-    expect(result.requestSubject).toBe("Need food assistance");
-    expect(result.helpCategory.catId).toBe("1.1");
-    expect(result.additionalFields).toBeUndefined();
-  });
 
-  it("includes additionalFields when provided with values", () => {
-    const result = mapHelpRequestPayload({
-      ...baseArgs,
-      additionalFields: { "1.1.A": "VEGETARIAN", "1.1.C": "4" },
-    });
-    expect(result.additionalFields).toEqual({
-      "1.1.A": "VEGETARIAN",
-      "1.1.C": "4",
+    expect(result).toEqual({
+      requesterId: "req-123",
+      requestSubject: "Test Subject",
+      requestDescription: "Test Description",
+      isCalamity: false,
+      isLeadVolunteer: 0,
+      requestPriority: { requestPriorityId: 2 },
+      requestType: { requestTypeId: 1 },
+      helpCategory: { catId: "1.2.3.4.5" },
+      requestFor: { requestForId: 1 },
     });
   });
 
-  it("omits additionalFields when provided as empty object", () => {
-    const result = mapHelpRequestPayload({
-      ...baseArgs,
-      additionalFields: {},
-    });
-    expect(result.additionalFields).toBeUndefined();
+  it("includes requestId when provided (edit mode)", () => {
+    const result = mapHelpRequestPayload({ ...baseArgs, requestId: "rid-456" });
+
+    expect(result.requestId).toBe("rid-456");
   });
 
-  it("omits additionalFields when provided as null", () => {
-    const result = mapHelpRequestPayload({
-      ...baseArgs,
-      additionalFields: null,
-    });
-    expect(result.additionalFields).toBeUndefined();
-  });
-
-  it("omits additionalFields when not provided at all", () => {
-    const result = mapHelpRequestPayload({
-      ...baseArgs,
-      additionalFields: undefined,
-    });
-    expect(result.additionalFields).toBeUndefined();
-  });
-
-  it("maps request_for SELF correctly", () => {
+  it("does not include requestId when not provided (create mode)", () => {
     const result = mapHelpRequestPayload(baseArgs);
-    expect(result.requestFor.requestForId).toBe(1);
-    expect(result.guestDetails).toBeUndefined();
+
+    expect(result).not.toHaveProperty("requestId");
   });
 
-  it("maps request_for OTHER correctly and includes guestDetails", () => {
+  it("includes requestLocation when formData.location is set", () => {
     const result = mapHelpRequestPayload({
       ...baseArgs,
-      formData: {
-        ...baseArgs.formData,
-        request_for: "OTHER",
-        requester_first_name: "Kavita",
-        requester_last_name: "Sharma",
-        email: "kavita.sharma@example.com",
-        phone: "+1-703-555-0198",
-        age: "65",
-        gender: "FEMALE",
-        preferred_language: "Hindi",
-      },
+      formData: { ...baseFormData, location: "New York, NY" },
     });
-    expect(result.requestFor.requestForId).toBe(2);
-    expect(result.guestDetails).toEqual({
-      reqFname: "Kavita",
-      reqLname: "Sharma",
-      reqEmail: "kavita.sharma@example.com",
-      reqPhone: "+1-703-555-0198",
-      reqAge: 65,
-      reqGender: "FEMALE",
-      reqPrefLang: "Hindi",
-    });
+
+    expect(result.requestLocation).toBe("New York, NY");
   });
 
-  it("defaults to SELF when request_for is undefined", () => {
-    const result = mapHelpRequestPayload({
-      ...baseArgs,
-      formData: { ...baseArgs.formData, request_for: undefined },
-    });
-    expect(result.requestFor.requestForId).toBe(1);
-    expect(result.guestDetails).toBeUndefined();
-  });
-
-  it("maps lead_volunteer No correctly", () => {
-    const result = mapHelpRequestPayload({
-      ...baseArgs,
-      formData: { ...baseArgs.formData, lead_volunteer: "No" },
-    });
-    expect(result.isLeadVolunteer).toBe(0);
-  });
-
-  it("maps 'GENERAL_CATEGORY' to '0.0.0.0.0'", () => {
+  it("maps GENERAL_CATEGORY to catId '0.0.0.0.0'", () => {
     const result = mapHelpRequestPayload({
       ...baseArgs,
       selectedCategoryId: "GENERAL_CATEGORY",
     });
+
     expect(result.helpCategory.catId).toBe("0.0.0.0.0");
   });
 
-  it("maps 'General' to '0.0.0.0.0'", () => {
+  it("maps 'General' string to catId '0.0.0.0.0'", () => {
     const result = mapHelpRequestPayload({
       ...baseArgs,
       selectedCategoryId: "General",
     });
+
     expect(result.helpCategory.catId).toBe("0.0.0.0.0");
+  });
+
+  it("includes guestDetails when requestFor is OTHER", () => {
+    const formData = {
+      ...baseFormData,
+      request_for: "OTHER",
+      requester_first_name: "Jane",
+      requester_last_name: "Doe",
+      email: "jane@example.com",
+      phone: "555-1234",
+      age: "30",
+      gender: "Female",
+      preferred_language: "English",
+    };
+
+    const result = mapHelpRequestPayload({ ...baseArgs, formData });
+
+    expect(result.guestDetails).toEqual({
+      reqFname: "Jane",
+      reqLname: "Doe",
+      reqEmail: "jane@example.com",
+      reqPhone: "555-1234",
+      reqAge: 30,
+      reqGender: "Female",
+      reqPrefLang: "English",
+    });
+  });
+
+  it("includes additionalFields when non-empty object provided", () => {
+    const additionalFields = { customField: "value" };
+
+    const result = mapHelpRequestPayload({ ...baseArgs, additionalFields });
+
+    expect(result.additionalFields).toEqual({ customField: "value" });
+  });
+
+  it("does not include additionalFields when empty object provided", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      additionalFields: {},
+    });
+
+    expect(result).not.toHaveProperty("additionalFields");
+  });
+
+  it("includes audioRequestDescription when provided", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      formData: { ...baseFormData, audioRequestDescription: "audio-uuid" },
+    });
+
+    expect(result.audioRequestDescription).toBe("audio-uuid");
+  });
+
+  it("includes requestDocumentLink when provided", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      formData: { ...baseFormData, requestDocumentLink: "doc-link" },
+    });
+
+    expect(result.requestDocumentLink).toBe("doc-link");
   });
 });
