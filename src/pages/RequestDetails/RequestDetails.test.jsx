@@ -44,10 +44,12 @@ jest.mock("../../common/components/BreadCrumbs/breadcrumbUtils", () => ({
 }));
 
 describe("RequestDetails - Tab Translation Tests", () => {
-  it("renders action buttons in the header", () => {
+  it("renders action buttons in the orange area on Details tab", () => {
     renderWithProviders(<RequestDetails />, {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
+
+    fireEvent.click(screen.getByText("DETAILS"));
 
     expect(
       screen.getByRole("button", { name: "Change Volunteer" }),
