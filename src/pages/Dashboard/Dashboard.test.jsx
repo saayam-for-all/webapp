@@ -64,4 +64,47 @@ describe("Dashboard", () => {
     });
     expect(getByTestId("beneficiary-dashboard")).toBeInTheDocument();
   });
+
+  it("applies userPreferences.defaultDashboard when accessible to the user", () => {
+    localStorage.setItem(
+      "userPreferences",
+      JSON.stringify({ defaultDashboard: "steward" }),
+    );
+    const { getByTestId } = renderWithProviders(<Dashboard />, {
+      preloadedState: {
+        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
+      },
+    });
+    // Admin's role-default is admin; preference of steward should override.
+    expect(getByTestId("steward-dashboard")).toBeInTheDocument();
+    expect(localStorage.getItem("lastDashboardSelected")).toBe("steward");
+  });
+
+  it("ignores userPreferences.defaultDashboard when not accessible", () => {
+    localStorage.setItem(
+      "userPreferences",
+      JSON.stringify({ defaultDashboard: "superAdmin" }),
+    );
+    const { getByTestId } = renderWithProviders(<Dashboard />, {
+      preloadedState: {
+        auth: {
+          user: { userId: "u1", groups: ["Beneficiaries"] },
+          idToken: "tok",
+        },
+      },
+    });
+    // Beneficiary cannot access superAdmin; falls back to role default.
+    expect(getByTestId("beneficiary-dashboard")).toBeInTheDocument();
+  });
+
+  it("falls through to role default when userPreferences JSON is malformed", () => {
+    localStorage.setItem("userPreferences", "{not valid json");
+    const { getByTestId } = renderWithProviders(<Dashboard />, {
+      preloadedState: {
+        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
+      },
+    });
+    // Malformed JSON is swallowed by the try/catch; Admin role default wins.
+    expect(getByTestId("admin-dashboard")).toBeInTheDocument();
+  });
 });
