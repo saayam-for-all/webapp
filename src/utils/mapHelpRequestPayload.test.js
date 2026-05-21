@@ -131,6 +131,15 @@ describe("mapHelpRequestPayload", () => {
     expect(result.audioRequestDescription).toBe("audio-uuid");
   });
 
+  it("falls back to SELF when request_for value does not match any enum key", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      formData: { ...baseFormData, request_for: "INVALID_VALUE" },
+    });
+
+    expect(result.requestFor.requestForId).toBe(baseEnumMaps.requestFor.SELF);
+  });
+
   it("includes requestDocumentLink when provided", () => {
     const result = mapHelpRequestPayload({
       ...baseArgs,
