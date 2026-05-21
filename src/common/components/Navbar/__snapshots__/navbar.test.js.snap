@@ -95,7 +95,6 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               aria-label="mockTranslate(DONATE)"
               class="text-black hover:text-gray-600 flex items-center"
               data-mui-internal-clone-element="true"
-              title="mockTranslate(DONATE)"
               type="button"
             >
               <svg
@@ -509,7 +508,6 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             aria-label="mockTranslate(DONATE)"
             class="text-black hover:text-gray-600 flex items-center"
             data-mui-internal-clone-element="true"
-            title="mockTranslate(DONATE)"
             type="button"
           >
             <svg
@@ -919,7 +917,6 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               aria-label="mockTranslate(DONATE)"
               class="text-black hover:text-gray-600 flex items-center"
               data-mui-internal-clone-element="true"
-              title="mockTranslate(DONATE)"
               type="button"
             >
               <svg
@@ -1156,7 +1153,6 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             aria-label="mockTranslate(DONATE)"
             class="text-black hover:text-gray-600 flex items-center"
             data-mui-internal-clone-element="true"
-            title="mockTranslate(DONATE)"
             type="button"
           >
             <svg
