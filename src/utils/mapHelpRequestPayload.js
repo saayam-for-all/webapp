@@ -16,11 +16,17 @@ export const mapHelpRequestPayload = ({
     isLeadVolunteer: formData.lead_volunteer === "Yes" ? 1 : 0,
 
     requestPriority: {
-      requestPriorityId: enumMaps.requestPriority[formData.priority],
+      requestPriorityId:
+        enumMaps.requestPriority[
+          String(formData.priority).toUpperCase().replace(/\s+/g, "_")
+        ],
     },
 
     requestType: {
-      requestTypeId: enumMaps.requestType[formData.request_type],
+      requestTypeId:
+        enumMaps.requestType[
+          String(formData.request_type).toUpperCase().replace(/\s+/g, "_")
+        ],
     },
 
     helpCategory: {
@@ -33,7 +39,9 @@ export const mapHelpRequestPayload = ({
 
     requestFor: {
       requestForId:
-        enumMaps.requestFor[formData.request_for] ?? enumMaps.requestFor.SELF,
+        enumMaps.requestFor[
+          String(formData.request_for).toUpperCase().replace(/\s+/g, "_")
+        ] ?? enumMaps.requestFor.SELF,
     },
   };
 
