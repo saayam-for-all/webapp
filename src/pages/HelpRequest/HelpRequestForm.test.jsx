@@ -1320,6 +1320,23 @@ describe("HelpRequestForm — edit mode submission", () => {
       isLoading: false,
     });
   });
+
+  it("resolves third-level subcategory via resolveCatNameToId", async () => {
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        ...mockEditData,
+        category: "ESSAY_REVIEW",
+        helpCategory: undefined,
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("subject").value).toBe(
+        "Existing Request Subject",
+      );
+    });
+  });
 });
 describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
   beforeEach(() => {
