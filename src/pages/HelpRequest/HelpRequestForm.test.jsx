@@ -107,6 +107,24 @@ const mockCategories = [
       },
     ],
   },
+  {
+    catId: "cat-clothing",
+    catName: "CLOTHING_SUPPORT",
+    subCategories: [
+      {
+        catId: "sub-borrow",
+        catName: "BORROW_CLOTHES",
+        catDesc: "Borrow gently used clothing",
+        subCategories: [
+          {
+            catId: "subsub-essay",
+            catName: "ESSAY_REVIEW",
+            catDesc: "Help reviewing college essays",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 function renderForm({ isEdit = false, editRequestData } = {}) {
@@ -1034,6 +1052,162 @@ describe("HelpRequestForm — edit mode submission", () => {
     });
   });
 
+  it("restores paginated API field names when submitting an edited request", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0328" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-0328",
+        requesterId: "SID-00-000-002-622",
+        subject: "Test",
+        description: "Test",
+        type: "REMOTE",
+        priority: "MEDIUM",
+        requestCategory: "GENERAL_CATEGORY",
+        calamity: false,
+      },
+    });
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated description for paginated API edit flow.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.formData.request_type).toBe("REMOTE");
+    expect(callArgs.formData.priority).toBe("MEDIUM");
+    expect(callArgs.selectedCategoryId).toBe("GENERAL_CATEGORY");
+    expect(callArgs.requestId).toBe("REQ-00-000-000-0328");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("resolves sub-subcategory name to numeric catId on edit", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-SUB-SUB" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-SUB-SUB",
+        requesterId: "SID-123",
+        subject: "Essay help",
+        description: "Need essay review",
+        type: "REMOTE",
+        priority: "MEDIUM",
+        requestCategory: "ESSAY_REVIEW",
+        calamity: false,
+      },
+    });
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "Updated essay review request." },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.selectedCategoryId).toBe("subsub-essay");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("falls back to raw category value when name is not found in categories tree", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-UNKNOWN" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-UNKNOWN",
+        requesterId: "SID-123",
+        subject: "Unknown cat",
+        description: "Some description",
+        type: "REMOTE",
+        priority: "MEDIUM",
+        requestCategory: "TOTALLY_UNKNOWN_CATEGORY",
+        calamity: false,
+      },
+    });
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "Updated unknown category." },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.selectedCategoryId).toBe("TOTALLY_UNKNOWN_CATEGORY");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
   it("handles edit mode when onClose is not provided, and uses fallback fields", async () => {
     const {
       checkProfanity,
@@ -1144,6 +1318,23 @@ describe("HelpRequestForm — edit mode submission", () => {
     useGetAllRequestQuery.mockReturnValue({
       data: undefined,
       isLoading: false,
+    });
+  });
+
+  it("resolves third-level subcategory via resolveCatNameToId", async () => {
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        ...mockEditData,
+        category: "ESSAY_REVIEW",
+        helpCategory: undefined,
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("subject").value).toBe(
+        "Existing Request Subject",
+      );
     });
   });
 });

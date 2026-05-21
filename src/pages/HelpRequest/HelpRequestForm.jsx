@@ -246,6 +246,25 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const [audioUploadResult, setAudioUploadResult] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
 
+  const firstString = (...values) =>
+    values.find((value) => typeof value === "string" && value.trim() !== "");
+
+  const resolveCatNameToId = (catNameOrId) => {
+    if (!catNameOrId || !categories) return catNameOrId;
+    const isNumericId = /^\d+(\.\d+)*$/.test(catNameOrId);
+    if (isNumericId) return catNameOrId;
+    for (const cat of categories) {
+      if (cat.catName === catNameOrId) return cat.catId;
+      for (const sub of cat.subCategories || []) {
+        if (sub.catName === catNameOrId) return sub.catId;
+        for (const subsub of sub.subCategories || []) {
+          if (subsub.catName === catNameOrId) return subsub.catId;
+        }
+      }
+    }
+    return catNameOrId;
+  };
+
   // Restore request for edit
   // Supports two data sources:
   //   1. editRequestData prop (passed from RequestDetails modal)
@@ -256,21 +275,43 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       (id && data ? data.body?.find((item) => item.id === id) : null);
 
     if (requestData) {
+      const rawCategory =
+        requestData.helpCategory?.catId ||
+        requestData.category ||
+        requestData.requestCategory ||
+        "General";
+      const category = resolveCatNameToId(rawCategory);
+
       setFormData({
-        category: requestData.category,
-        description: requestData.description,
-        subject: requestData.subject,
         ...requestData,
-        // Map nested API objects to flat form fields expected by mapHelpRequestPayload
-        request_type: requestData.request_type || requestData.requestType?.type,
-        priority: requestData.priority || requestData.requestPriority?.priority,
+        category,
+        description: requestData.description || requestData.requestDescription,
+        subject: requestData.subject || requestData.requestSubject,
+        is_calamity: requestData.is_calamity ?? requestData.calamity ?? false,
+        // Map paginated API and nested detail API values to flat form fields.
+        request_type: firstString(
+          requestData.request_type,
+          requestData.type,
+          requestData.requestType,
+          requestData.requestType?.type,
+          requestData.requestType?.requestType,
+        ),
+        priority: firstString(
+          requestData.priority,
+          requestData.requestPriority,
+          requestData.requestPriority?.priority,
+        ),
         request_for:
-          requestData.request_for || requestData.requestFor?.requestFor,
+          firstString(
+            requestData.request_for,
+            requestData.requestFor,
+            requestData.requestFor?.requestFor,
+          ) || "SELF",
       });
 
       // Preserve the original numeric catId for edit mode (category is locked)
-      if (requestData.helpCategory?.catId) {
-        setSelectedCategoryId(requestData.helpCategory.catId);
+      if (category) {
+        setSelectedCategoryId(category);
       }
 
       // If editing and attachments present in requestData, show them as uploadedFilesInfo
@@ -1186,7 +1227,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
       setTimeout(() => {
         if (isEdit && onClose) {
-          onClose();
+          onClose(response?.data);
         } else {
           navigate("/dashboard", {
             state: {

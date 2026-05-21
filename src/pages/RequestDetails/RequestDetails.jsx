@@ -61,7 +61,8 @@ const RequestDetails = () => {
     } else {
       getMyRequests()
         .then((res) => {
-          setRequestData(res["body"].filter((req) => req["id"] === id)[0]);
+          const found = res["body"].filter((req) => req["id"] === id)[0];
+          setRequestData(found);
         })
         .catch(() => {});
     }
@@ -181,7 +182,25 @@ const RequestDetails = () => {
                   >
                     <HelpRequestForm
                       isEdit={true}
-                      onClose={() => setIsEditing(false)}
+                      onClose={(updatedData) => {
+                        if (updatedData) {
+                          setRequestData((prev) => ({
+                            ...prev,
+                            ...updatedData,
+                            subject:
+                              updatedData.requestSubject || updatedData.subject,
+                            description:
+                              updatedData.requestDescription ||
+                              updatedData.description,
+                            priority:
+                              updatedData.requestPriority?.priority ||
+                              updatedData.priority,
+                            type:
+                              updatedData.requestType?.type || updatedData.type,
+                          }));
+                        }
+                        setIsEditing(false);
+                      }}
                       editRequestData={requestData}
                     />
                   </div>
