@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, act, waitFor } from "@testing-library/react";
 import { renderWithProviders, MOCK_STATE_LOGGED_IN } from "#utils/test-utils";
 import RequestDetails from "./RequestDetails";
 
@@ -33,9 +33,11 @@ jest.mock("./RequestDescription", () => () => (
 jest.mock("../EmergencyContact/EmergencyContact", () => () => (
   <div data-testid="emergency-contact" />
 ));
-jest.mock("../HelpRequest/HelpRequestForm", () => () => (
-  <div data-testid="help-request-form" />
-));
+let capturedOnClose = null;
+jest.mock("../HelpRequest/HelpRequestForm", () => (props) => {
+  capturedOnClose = props.onClose;
+  return <div data-testid="help-request-form" />;
+});
 jest.mock("../../common/components/RequestButton/RequestButton", () => () => (
   <div data-testid="request-button" />
 ));
@@ -73,5 +75,56 @@ describe("RequestDetails - Tab Translation Tests", () => {
     // Switching away hides it
     fireEvent.click(screen.getByText("VOLUNTEERS"));
     expect(screen.queryByText("No files")).not.toBeInTheDocument();
+  });
+});
+
+describe("RequestDetails - Edit onClose refreshes data", () => {
+  beforeEach(() => {
+    capturedOnClose = null;
+  });
+
+  it("updates displayed subject after onClose receives updated data", async () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(screen.getByText("Test Request")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "EDIT" }));
+
+    expect(screen.getByTestId("help-request-form")).toBeInTheDocument();
+    expect(capturedOnClose).toBeTruthy();
+
+    await act(async () => {
+      capturedOnClose({
+        requestSubject: "Updated Subject",
+        requestDescription: "Updated description",
+        requestPriority: { priority: "HIGH" },
+        requestType: { type: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Updated Subject")).toBeInTheDocument();
+    });
+  });
+
+  it("closes edit modal without updating data when onClose is called with no data", async () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "EDIT" }));
+
+    expect(screen.getByTestId("help-request-form")).toBeInTheDocument();
+
+    await act(async () => {
+      capturedOnClose(undefined);
+    });
+
+    expect(screen.getByText("Test Request")).toBeInTheDocument();
+    expect(screen.queryByTestId("help-request-form")).not.toBeInTheDocument();
   });
 });
