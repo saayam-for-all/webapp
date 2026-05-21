@@ -308,6 +308,13 @@ const RequestDetails = () => {
                   <div className="absolute top-4 right-4 flex items-center gap-3 flex-wrap">
                     <button
                       className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      {t("EDIT")}
+                    </button>
+
+                    <button
+                      className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
                       onClick={() => setChangeVolunteerDialogOpen(true)}
                     >
                       {t("Change Volunteer")}
@@ -318,13 +325,6 @@ const RequestDetails = () => {
                       onClick={() => setDeleteDialogOpen(true)}
                     >
                       {t("Delete")}
-                    </button>
-
-                    <button
-                      className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
-                      onClick={() => setIsEditing(true)}
-                    >
-                      {t("EDIT")}
                     </button>
                   </div>
                 )}
