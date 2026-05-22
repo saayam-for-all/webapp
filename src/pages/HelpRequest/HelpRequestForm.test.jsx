@@ -1570,4 +1570,37 @@ describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
       );
     });
   });
+
+  it("shows additional fields after manual subcategory selection", () => {
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "sub-college",
+          fields: [
+            {
+              fieldId: "sub-college.A",
+              fieldNameKey: "PREFERRED_MEAL_TYPE",
+              fieldType: "list",
+              status: "active",
+              catId: "sub-college",
+              listItems: [
+                {
+                  itemId: "sub-college.A.1",
+                  itemValue: "VEGETARIAN",
+                  itemType: "radiobutton",
+                },
+              ],
+            },
+          ],
+        },
+      ]),
+    );
+
+    renderForm();
+    selectSubcategory();
+
+    expect(screen.getByTestId("radio-sub-college.A.1")).toBeInTheDocument();
+    localStorage.removeItem("metadata");
+  });
 });
