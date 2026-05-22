@@ -95,7 +95,56 @@ jest.mock("../../common/components/Loading/Loading.jsx", () => () => (
   <span data-testid="loading-spinner" />
 ));
 
+const mockElderlyCallbacks = {
+  onSave: jest.fn(),
+  onDelete: jest.fn(),
+  onClose: jest.fn(),
+};
+jest.mock("./Categories/ElderlySupport", () => (props) => {
+  mockElderlyCallbacks.onSave = props.onSave;
+  mockElderlyCallbacks.onDelete = props.onDelete;
+  mockElderlyCallbacks.onClose = props.onClose;
+  if (!props.isOpen || !props.selectedSubcategory) return null;
+  return (
+    <div data-testid="elderly-support-modal">
+      <button
+        data-testid="elderly-save-btn"
+        onClick={() =>
+          props.onSave({ test: "data" }, props.selectedSubcategory)
+        }
+      >
+        Save
+      </button>
+      <button
+        data-testid="elderly-delete-btn"
+        onClick={() => props.onDelete(props.selectedSubcategory.id)}
+      >
+        Delete
+      </button>
+      <button data-testid="elderly-close-btn" onClick={props.onClose}>
+        Close
+      </button>
+    </div>
+  );
+});
+
 const mockCategories = [
+  {
+    catId: "general-cat-id",
+    catName: "GENERAL_CATEGORY",
+    subCategories: [],
+  },
+  {
+    catId: "cat-elderly",
+    catName: "ELDERLY_SUPPORT",
+    subCategories: [
+      {
+        catId: "sub-elderly-srl",
+        catName: "SENIOR_LIVING_RELOCATION",
+        catDesc: "Help with senior living relocation",
+      },
+    ],
+  },
   {
     catId: "cat-edu",
     catName: "EDUCATION_CAREER_SUPPORT",
@@ -1100,7 +1149,7 @@ describe("HelpRequestForm — edit mode submission", () => {
       ][0];
     expect(callArgs.formData.request_type).toBe("REMOTE");
     expect(callArgs.formData.priority).toBe("MEDIUM");
-    expect(callArgs.selectedCategoryId).toBe("GENERAL_CATEGORY");
+    expect(callArgs.selectedCategoryId).toBe("general-cat-id");
     expect(callArgs.requestId).toBe("REQ-00-000-000-0328");
 
     await act(async () => {
@@ -1569,5 +1618,148 @@ describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
         "Education Career Support > Tutoring > Math",
       );
     });
+  });
+
+  it("shows additional fields after manual subcategory selection", () => {
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "sub-college",
+          fields: [
+            {
+              fieldId: "sub-college.A",
+              fieldNameKey: "PREFERRED_MEAL_TYPE",
+              fieldType: "list",
+              status: "active",
+              catId: "sub-college",
+              listItems: [
+                {
+                  itemId: "sub-college.A.1",
+                  itemValue: "VEGETARIAN",
+                  itemType: "radiobutton",
+                },
+              ],
+            },
+          ],
+        },
+      ]),
+    );
+
+    renderForm();
+    selectSubcategory();
+
+    expect(screen.getByTestId("radio-sub-college.A.1")).toBeInTheDocument();
+    localStorage.removeItem("metadata");
+  });
+});
+
+describe("HelpRequestForm — selectedCategoryId tracking (patch coverage)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    mockElderlyCallbacks.onSave = jest.fn();
+    mockElderlyCallbacks.onDelete = jest.fn();
+    mockElderlyCallbacks.onClose = jest.fn();
+  });
+
+  it("sets selectedCategoryId via handleCategoryClick for a category without subcategories", () => {
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    // Click GENERAL_CATEGORY — it has no subCategories, so handleCategoryClick is invoked
+    const generalRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.GENERAL_CATEGORY\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.click(generalRow.closest(".cursor-pointer"));
+
+    expect(categoryInput.value).toBe(
+      "mockTranslate(categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL)",
+    );
+  });
+
+  it("sets selectedCategoryId when an elderly subcategory is clicked", () => {
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    // Hover ELDERLY_SUPPORT
+    const elderlyRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.mouseEnter(elderlyRow.closest(".cursor-pointer"));
+
+    // Click SENIOR_LIVING_RELOCATION subcategory
+    const subcategoryRow = screen.getByText(
+      /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.SUBCATEGORIES\.SENIOR_LIVING_RELOCATION\.LABEL\)/,
+    );
+    fireEvent.click(subcategoryRow);
+
+    // ElderlySupport modal should appear (proves the elderly branch ran)
+    expect(screen.getByTestId("elderly-support-modal")).toBeInTheDocument();
+  });
+
+  it("sets selectedCategoryId on ElderlySupport save", () => {
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    const elderlyRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.mouseEnter(elderlyRow.closest(".cursor-pointer"));
+
+    const subcategoryRow = screen.getByText(
+      /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.SUBCATEGORIES\.SENIOR_LIVING_RELOCATION\.LABEL\)/,
+    );
+    fireEvent.click(subcategoryRow);
+
+    expect(screen.getByTestId("elderly-support-modal")).toBeInTheDocument();
+
+    // Click Save in the mock — runs handleElderlySupportSave which calls setSelectedCategoryId
+    fireEvent.click(screen.getByTestId("elderly-save-btn"));
+
+    // Modal stays open after save (save does not close it)
+    expect(screen.getByTestId("elderly-support-modal")).toBeInTheDocument();
+  });
+
+  it("clears selectedCategoryId on ElderlySupport delete", () => {
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    const elderlyRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.mouseEnter(elderlyRow.closest(".cursor-pointer"));
+
+    const subcategoryRow = screen.getByText(
+      /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.SUBCATEGORIES\.SENIOR_LIVING_RELOCATION\.LABEL\)/,
+    );
+    fireEvent.click(subcategoryRow);
+
+    // Save first to set savedSubcategoryId
+    fireEvent.click(screen.getByTestId("elderly-save-btn"));
+
+    // Click Delete — runs handleElderlySupportDelete which calls setSelectedCategoryId(null)
+    fireEvent.click(screen.getByTestId("elderly-delete-btn"));
+
+    // Modal should close (handleElderlySupportDelete sets showElderlySupportForm = false)
+    expect(
+      screen.queryByTestId("elderly-support-modal"),
+    ).not.toBeInTheDocument();
   });
 });

@@ -774,10 +774,12 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   }, []);
 
   const handleCategoryClick = (categoryKeyOrId) => {
+    const resolvedId = resolveCatNameToId(categoryKeyOrId);
     setFormData({
       ...formData,
       category: categoryKeyOrId,
     });
+    setSelectedCategoryId(resolvedId);
     setShowDropdown(false);
     setHoveredCategory(null);
   };
@@ -810,6 +812,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         ...formData,
         category: subcategoryId,
       });
+      setSelectedCategoryId(subcategoryId);
 
       setSelectedElderlySubcategory({
         id: subcategoryId,
@@ -826,6 +829,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         ...formData,
         category: subcategoryId,
       });
+      setSelectedCategoryId(subcategoryId);
       setShowDropdown(false);
       setHoveredCategory(null);
       setHoveredSubcategory(null);
@@ -860,6 +864,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       ...formData,
       category: subcategory.id,
     });
+    setSelectedCategoryId(subcategory.id);
 
     // Popup modal for subcategory - Close dropdown and modal
     setShowDropdown(false);
@@ -889,6 +894,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         ...formData,
         category: "",
       });
+      setSelectedCategoryId(null);
     }
 
     // Popup modal for subcategory - Hide inline panel
