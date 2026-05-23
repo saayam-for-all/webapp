@@ -1,6 +1,5 @@
 import Rashmi_Bilaskar from "../../../assets/images/Rashmi Bilaskar.jpeg";
 import Sunandha_agarwal from "../../../assets/images/Sunandha_agarwal.jpg";
-import Tejaswi_Vadapalli from "../../../assets/images/Tejaswi_Vadaplli.jpeg";
 import Aakash_Gangji from "../../../assets/images/Aakash_Gangji.jpg";
 
 const ExecutiveTeamData = [
@@ -17,13 +16,6 @@ const ExecutiveTeamData = [
     role: "Director of Engineering",
     linkedin:
       "https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details",
-  },
-
-  {
-    image: Tejaswi_Vadapalli,
-    name: "Tejaswi Vadapalli",
-    role: "Program and Operations Lead",
-    linkedin: "https://www.linkedin.com/in/sritejaswi/",
   },
 
   {
