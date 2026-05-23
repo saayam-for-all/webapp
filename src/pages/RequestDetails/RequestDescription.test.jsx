@@ -125,4 +125,89 @@ describe("RequestDescription", () => {
       expect(screen.getByText("File 2")).toBeInTheDocument();
     });
   });
+  describe("Issue #1456 - Updated Date, Additional Info, Attached Files", () => {
+    it("displays '—' when lastUpdatedAt is not provided", () => {
+      renderWithProviders(
+        <RequestDescription
+          requestData={mockRequestData}
+          setIsEditing={mockSetIsEditing}
+        />,
+      );
+      expect(screen.getByText("—")).toBeInTheDocument();
+    });
+
+    it("displays formatted updated date when lastUpdatedAt is provided", () => {
+      const requestDataWithUpdatedDate = {
+        ...mockRequestData,
+        lastUpdatedAt: "2024-06-15T10:00:00Z",
+      };
+      renderWithProviders(
+        <RequestDescription
+          requestData={requestDataWithUpdatedDate}
+          setIsEditing={mockSetIsEditing}
+        />,
+      );
+      expect(screen.getByText(/June 15, 2024/)).toBeInTheDocument();
+    });
+
+    it("displays placeholder when additionalInfo is empty", () => {
+      renderWithProviders(
+        <RequestDescription
+          requestData={mockRequestData}
+          setIsEditing={mockSetIsEditing}
+        />,
+      );
+      expect(
+        screen.getByText("No additional information available."),
+      ).toBeInTheDocument();
+    });
+
+    it("displays additionalInfo fields when present", () => {
+      const requestDataWithInfo = {
+        ...mockRequestData,
+        additionalInfo: {
+          contact_number: "123-456-7890",
+          preferred_time: "Morning",
+        },
+      };
+      renderWithProviders(
+        <RequestDescription
+          requestData={requestDataWithInfo}
+          setIsEditing={mockSetIsEditing}
+        />,
+      );
+      expect(screen.getByText("contact number")).toBeInTheDocument();
+      expect(screen.getByText("123-456-7890")).toBeInTheDocument();
+      expect(screen.getByText("preferred time")).toBeInTheDocument();
+      expect(screen.getByText("Morning")).toBeInTheDocument();
+    });
+
+    it("displays placeholder when attachments are empty", () => {
+      renderWithProviders(
+        <RequestDescription
+          requestData={mockRequestData}
+          setIsEditing={mockSetIsEditing}
+        />,
+      );
+      expect(screen.getByText("No files attached.")).toBeInTheDocument();
+    });
+
+    it("displays attached files when present", () => {
+      const requestDataWithAttachments = {
+        ...mockRequestData,
+        attachments: [
+          { name: "document.pdf", url: "https://example.com/document.pdf" },
+          { url: "https://example.com/file2.pdf" },
+        ],
+      };
+      renderWithProviders(
+        <RequestDescription
+          requestData={requestDataWithAttachments}
+          setIsEditing={mockSetIsEditing}
+        />,
+      );
+      expect(screen.getByText("document.pdf")).toBeInTheDocument();
+      expect(screen.getByText("File 2")).toBeInTheDocument();
+    });
+  });
 });
