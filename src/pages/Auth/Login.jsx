@@ -49,6 +49,13 @@ const LoginPage = () => {
       console.error("Error redirecting to Facebook:", error);
     }
   };
+  const handleLinkedInLogin = async () => {
+    try {
+      await signInWithRedirect({ provider: { custom: "LinkedIn" } });
+    } catch (error) {
+      console.error("Error starting redirect flow:", error);
+    }
+  };
 
   const socialProviders = [
     {
@@ -72,8 +79,8 @@ const LoginPage = () => {
     {
       label: "LinkedIn",
       icon: <FaLinkedinIn className="mx-2 text-xl text-[#0A66C2]" />,
-      onClick: undefined,
-      disabled: true,
+      onClick: handleLinkedInLogin,
+      disabled: false,
     },
   ];
 
