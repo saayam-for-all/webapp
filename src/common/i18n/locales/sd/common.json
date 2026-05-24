@@ -33,5 +33,9 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "تبصرا",
-  "VOLUNTEERS": "رضاڪار"
+  "VOLUNTEERS": "رضاڪار",
+  "CANCEL": "منسوخ ڪريو",
+  "CHANGE_VOLUNTEER": "رضاڪار بدلايو",
+  "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "رضاڪار بدلائڻ جو سبب ٻڌايو",
+  "REASON": "سبب"
 }
