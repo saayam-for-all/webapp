@@ -86,6 +86,8 @@ describe("Dashboard", () => {
     });
 
     expect(getByTestId("steward-dashboard")).toBeInTheDocument();
+  });
+
   it("applies userPreferences.defaultDashboard when accessible to the user", () => {
     localStorage.setItem(
       "userPreferences",
