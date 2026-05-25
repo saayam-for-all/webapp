@@ -10,6 +10,7 @@ import VolunteerCourse from "./steps/VolunteerCourse";
 import {
   createVolunteer,
   updateVolunteer,
+  updateUserSkills,
 } from "../../services/volunteerServices";
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
@@ -22,7 +23,7 @@ const PromoteToVolunteer = () => {
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
   const [govtIdFile, setGovtIdFile] = useState(null);
-  const token = useSelector((state) => state.auth.idToken);
+  const userDbId = useSelector((state) => state.auth?.user?.userDbId);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [categories, setCategories] = useState([]);
   const [availabilitySlots, setAvailabilitySlots] = useState([
@@ -171,11 +172,16 @@ const PromoteToVolunteer = () => {
             userId: userId,
             skills: extractSkillsFromArray(selectedSkills),
           });
-          // TEMP: persist selected skills locally so Profile → Skills can display them
-          localStorage.setItem(
-            "volunteer_skills",
-            JSON.stringify(selectedSkills),
-          );
+          if (isValidStep && userDbId) {
+            try {
+              const skillsToSave = selectedSkills.map((skill) => String(skill));
+              await updateUserSkills(userDbId, skillsToSave);
+            } catch (skillError) {
+              console.error("Failed to save skills to API:", skillError);
+              setErrorMessage("Failed to save skills. Please try again.");
+              isValidStep = false;
+            }
+          }
           break;
         }
         case 4: {

@@ -1,27 +1,44 @@
-import { useRef } from "react";
-import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-
-const GOOGLE_MAP_LIBRARIES = ["places"];
+import { useRef, useState, useCallback } from "react";
 
 const usePlacesSearchBox = (setLocation) => {
   const inputRef = useRef(null);
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDv7--yEnq84ZN3l03y50O33M4S89Un4U0",
-    libraries: GOOGLE_MAP_LIBRARIES,
-  });
+  const [suggestions, setSuggestions] = useState([]);
+  const debounceTimer = useRef(null);
 
-  const handleOnPlacesChanged = () => {
-    if (inputRef.current) {
-      const places = inputRef.current.getPlaces();
-      if (places.length > 0) {
-        const place = places[0]; // Get the first suggested place
-        setLocation(place.formatted_address);
-      }
+  const handleSearchChange = useCallback(async (value) => {
+    if (value.length < 3) {
+      setSuggestions([]);
+      return;
     }
+
+    // wait 500ms before calling API to avoid rate limiting
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(async () => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(value)}&format=json&limit=5`,
+          {
+            headers: {
+              "Accept-Language": "en",
+              "User-Agent": "SaayamForAll/1.0",
+            },
+          },
+        );
+        const data = await response.json();
+        setSuggestions(data);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+        setSuggestions([]);
+      }
+    }, 500);
+  }, []);
+
+  const handleSelectSuggestion = (displayName) => {
+    setLocation(displayName);
+    setSuggestions([]);
   };
 
-  return { inputRef, isLoaded, handleOnPlacesChanged };
+  return { inputRef, suggestions, handleSearchChange, handleSelectSuggestion };
 };
 
 export default usePlacesSearchBox;

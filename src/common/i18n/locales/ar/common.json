@@ -740,5 +740,14 @@
   "COMMENTS": "تعليقات",
   "CHANGE_VOLUNTEER": "Change Volunteer",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Change Volunteer",
-  "REASON": "Change Volunteer"
+  "REASON": "Change Volunteer",
+  "REASON_FOR_CONTACTING": "سبب الاتصال",
+  "SELECT_A_REASON": "اختر سبباً",
+  "VOLUNTEERING_INTERNSHIP": "التطوع / التدريب",
+  "TIMESHEET_ISSUES": "مشكلات الجدول الزمني",
+  "OFFER_RELIEVING_LETTER": "رسالة عرض / إخلاء طرف / تحقق",
+  "COLLABORATION_PARTNERSHIP": "التعاون / الشراكة",
+  "GENERAL_INQUIRY": "استفسار عام",
+  "NOTE_LABEL": "ملاحظة:",
+  "RESPONSE_TIME_NOTICE": "نرد عادةً على استفسارك في غضون 24-48 ساعة."
 }

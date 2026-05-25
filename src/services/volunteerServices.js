@@ -10,6 +10,41 @@ export const getVolunteerSkills = async () => {
   const response = await api.get(endpoints.GET_VOLUNTEER_SKILLS);
   return response.data;
 };
+
+/**
+ * Fetch user skills by userId
+ * @param {string} userId - The user's database ID (e.g., "SID-00-000-002-10000")
+ * @returns {Promise<Object>} - Returns { userId: string, skills: string[] }
+ */
+export const fetchUserSkills = async (userId) => {
+  const response = await api.post(endpoints.PROFILE_SKILLS, { userId });
+  return response.data;
+};
+
+/**
+ * Update user skills (replaces entire skills list)
+ * @param {string} userId - The user's database ID
+ * @param {string[]} skills - Array of skill IDs (e.g., ["0.0.0.0.0", "4.2"])
+ * @returns {Promise<Object>} - API response
+ */
+export const updateUserSkills = async (userId, skills) => {
+  const response = await api.put(endpoints.PROFILE_SKILLS, { userId, skills });
+  return response.data;
+};
+
+/**
+ * Delete user skills by sending empty list or updated list
+ * Internally uses update logic - skills not in list will be removed
+ * @param {string} userId - The user's database ID
+ * @param {string[]} skills - Remaining skills after deletion
+ * @returns {Promise<Object>} - API response
+ */
+export const deleteUserSkills = async (userId, skills) => {
+  const response = await api.delete(endpoints.PROFILE_SKILLS, {
+    data: { userId, skills },
+  });
+  return response.data;
+};
 export const createVolunteer = async (volunteerData) => {
   const response = await api.post(endpoints.CREATE_VOLUNTEER, volunteerData);
   return response.data;

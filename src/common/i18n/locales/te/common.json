@@ -739,5 +739,14 @@
   "COMMENTS": "వ్యాఖ్యలు",
   "CHANGE_VOLUNTEER": "Change Volunteer",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Change Volunteer",
-  "REASON": "Change Volunteer"
+  "REASON": "Change Volunteer",
+  "REASON_FOR_CONTACTING": "సంప్రదించడానికి కారణం",
+  "SELECT_A_REASON": "కారణాన్ని ఎంచుకోండి",
+  "VOLUNTEERING_INTERNSHIP": "వాలంటీరింగ్ / ఇంటర్న్‌షిప్",
+  "TIMESHEET_ISSUES": "టైమ్‌షీట్ సమస్యలు",
+  "OFFER_RELIEVING_LETTER": "ఆఫర్ / రిలీవింగ్ / వెరిఫికేషన్ లెటర్",
+  "COLLABORATION_PARTNERSHIP": "సహకారం / భాగస్వామ్యం",
+  "GENERAL_INQUIRY": "సాధారణ విచారణ",
+  "NOTE_LABEL": "గమనిక:",
+  "RESPONSE_TIME_NOTICE": "మేము సాధారణంగా 24-48 గంటలలోపు మీ విచారణకు ప్రతిస్పందిస్తాము."
 }

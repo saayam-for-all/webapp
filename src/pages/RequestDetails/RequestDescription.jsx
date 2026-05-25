@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { PiWarningDiamondFill } from "react-icons/pi";
 import { TbTriangleSquareCircle } from "react-icons/tb";
 import { VscCalendar } from "react-icons/vsc";
-import { useSelector } from "react-redux";
 import {
   Dialog,
   DialogTitle,
@@ -30,16 +29,8 @@ const findCategoryLabel = (node, targetKey) => {
   return null;
 };
 
-const RequestDescription = ({ requestData, setIsEditing }) => {
+const RequestDescription = ({ requestData }) => {
   const { t, i18n } = useTranslation();
-  const token = useSelector((state) => state.auth.idToken);
-  const navigate = useNavigate();
-
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deleteReason, setDeleteReason] = useState("");
-  const [changeVolunteerDialogOpen, setChangeVolunteerDialogOpen] =
-    useState(false);
-  const [volunteerChangeReason, setVolunteerChangeReason] = useState("");
 
   const cDate = new Date(requestData.creationDate);
   const formattedDate = cDate.toLocaleDateString("en-US", {
@@ -72,154 +63,34 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
     },
   ];
 
-  const handleDeleteRequest = async () => {
-    try {
-      console.log("Deleting request:", requestData.id);
-      console.log("Reason:", deleteReason);
-
-      setDeleteDialogOpen(false);
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Delete failed:", error);
-    }
-  };
-
-  const handleChangeVolunteer = async () => {
-    try {
-      console.log("Changing volunteer for request:", requestData.id);
-      console.log("Reason:", volunteerChangeReason);
-
-      setChangeVolunteerDialogOpen(false);
-      setVolunteerChangeReason("");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Volunteer change failed:", error);
-    }
-  };
-
   return (
-    <>
-      <div className="border border-gray-300 rounded-lg p-4">
-        <div>
-          <ul className="w-full flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 sm:items-center justify-between">
-            {attributes.map((header, index) => (
-              <li key={index} className="flex items-center gap-2">
-                {header.icon}
-                {header.context}
-              </li>
-            ))}
-
-            <li>
-              <span className="bg-green-200 text-xs px-3 py-1 rounded-full">
-                {t(requestData.status)}
-              </span>
+    <div className="border border-gray-300 rounded-lg p-4">
+      <div>
+        <ul className="w-full flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-10 text-xs text-gray-700 sm:items-center justify-between">
+          {attributes.map((header, index) => (
+            <li key={index} className="flex items-center gap-2">
+              {header.icon}
+              {header.context}
             </li>
+          ))}
 
-            <li className="flex items-center">
-              <PiWarningDiamondFill className="mr-1 text-red-500" />
-              <span className="font-bold">{t(requestData.priority)}</span>
-            </li>
+          <li>
+            <span className="bg-green-200 text-xs px-3 py-1 rounded-full">
+              {t(requestData.status)}
+            </span>
+          </li>
 
-            {/* Buttons */}
-            <div className="flex gap-3 ml-auto">
-              <button
-                className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
-                onClick={() => setChangeVolunteerDialogOpen(true)}
-              >
-                {t("Change Volunteer")}
-              </button>
+          <li className="flex items-center">
+            <PiWarningDiamondFill className="mr-1 text-red-500" />
+            <span className="font-bold">{t(requestData.priority)}</span>
+          </li>
+        </ul>
 
-              <button
-                className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600"
-                onClick={() => setDeleteDialogOpen(true)}
-              >
-                {t("Delete")}
-              </button>
-
-              <button
-                className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
-                onClick={() => setIsEditing(true)}
-              >
-                {t("EDIT")}
-              </button>
-            </div>
-          </ul>
-
-          <div className="w-full m-0">
-            <p className="text-sm p-5">{t(requestData.description)}</p>
-          </div>
+        <div className="w-full m-0">
+          <p className="text-sm p-5">{t(requestData.description)}</p>
         </div>
       </div>
-
-      <Dialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-      >
-        <DialogTitle>{t("Delete")}</DialogTitle>
-
-        <DialogContent>
-          <Typography>{t("Reason")}</Typography>
-
-          <textarea
-            value={deleteReason}
-            onChange={(e) => setDeleteReason(e.target.value)}
-            className="border p-2 w-full mt-3 rounded-lg min-h-[100px]"
-            placeholder={t("Reason")}
-          />
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} variant="outlined">
-            {t("Cancel")}
-          </Button>
-
-          <Button
-            onClick={handleDeleteRequest}
-            color="error"
-            variant="contained"
-            disabled={!deleteReason.trim()}
-          >
-            {t("Delete")}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={changeVolunteerDialogOpen}
-        onClose={() => setChangeVolunteerDialogOpen(false)}
-      >
-        <DialogTitle>
-          {t("PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER")}
-        </DialogTitle>
-
-        <DialogContent>
-          <textarea
-            value={volunteerChangeReason}
-            onChange={(e) => setVolunteerChangeReason(e.target.value)}
-            className="border p-2 w-full rounded-lg min-h-[100px]"
-            placeholder={t("REASON")}
-          />
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            onClick={() => setChangeVolunteerDialogOpen(false)}
-            variant="outlined"
-          >
-            {t("CANCEL")}
-          </Button>
-
-          <Button
-            onClick={handleChangeVolunteer}
-            color="primary"
-            variant="contained"
-            disabled={!volunteerChangeReason.trim()}
-          >
-            {t("CHANGE_VOLUNTEER")}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    </div>
   );
 };
 

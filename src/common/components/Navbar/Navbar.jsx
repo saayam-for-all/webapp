@@ -416,12 +416,12 @@ const Navbar = () => {
 
         {/* Mobile Search (only after login) */}
         {user?.userId && (
-          <div className="flex md:hidden flex-1 mx-2">
+          <div className="flex flex-col md:hidden flex-1 mx-2">
             <TextField
               value={searchText}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
-              placeholder="Search..."
+              placeholder="Ask Saayam"
               size="small"
               fullWidth
               inputProps={{ maxLength: 80 }}
@@ -440,6 +440,12 @@ const Navbar = () => {
                 minWidth: 0,
               }}
             />
+            <p className="text-xs text-gray-500 mt-0.5 pl-4">
+              google with human touch
+              <span title="Trademark pending" className="cursor-help">
+                *
+              </span>
+            </p>
           </div>
         )}
 
@@ -452,7 +458,6 @@ const Navbar = () => {
                 onClick={(e) => handleLinkClick(e, "/donate")}
                 className="text-black hover:text-gray-600 flex items-center"
                 aria-label={t("DONATE")}
-                title={t("DONATE")}
                 type="button"
               >
                 <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
@@ -465,7 +470,6 @@ const Navbar = () => {
                 onClick={(e) => handleLinkClick(e, "/donate")}
                 className="text-black hover:text-gray-600 flex items-center"
                 aria-label={t("DONATE")}
-                title={t("DONATE")}
                 type="button"
               >
                 <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
@@ -478,12 +482,12 @@ const Navbar = () => {
         <div className="hidden md:flex items-center flex-1 ml-4">
           {" "}
           {user?.userId && (
-            <div className="flex items-center w-full max-w-[800px] mr-4">
+            <div className="flex flex-col w-full max-w-[800px] mr-4">
               <TextField
                 value={searchText}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
-                placeholder="Search..."
+                placeholder="Ask Saayam"
                 size="small"
                 fullWidth
                 inputProps={{ maxLength: 80 }}
@@ -502,6 +506,12 @@ const Navbar = () => {
                   minWidth: 0,
                 }}
               />
+              <p className="text-xs text-gray-500 mt-0.5 pl-4">
+                google with human touch
+                <span title="Trademark pending" className="cursor-help">
+                  *
+                </span>
+              </p>
             </div>
           )}
           <div className="flex items-center ml-auto gap-3 lg:gap-6">

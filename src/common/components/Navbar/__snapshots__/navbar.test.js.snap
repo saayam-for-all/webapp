@@ -21,7 +21,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             />
           </div>
           <div
-            class="flex md:hidden flex-1 mx-2"
+            class="flex flex-col md:hidden flex-1 mx-2"
           >
             <div
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1afdik9-MuiFormControl-root-MuiTextField-root"
@@ -55,7 +55,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r0:"
                   maxlength="80"
-                  placeholder="Search..."
+                  placeholder="Ask Saayam"
                   type="text"
                   value=""
                 />
@@ -76,6 +76,17 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 </fieldset>
               </div>
             </div>
+            <p
+              class="text-xs text-gray-500 mt-0.5 pl-4"
+            >
+              google with human touch
+              <span
+                class="cursor-help"
+                title="Trademark pending"
+              >
+                *
+              </span>
+            </p>
           </div>
           <div
             class="flex md:hidden items-center"
@@ -84,7 +95,6 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               aria-label="mockTranslate(DONATE)"
               class="text-black hover:text-gray-600 flex items-center"
               data-mui-internal-clone-element="true"
-              title="mockTranslate(DONATE)"
               type="button"
             >
               <svg
@@ -105,7 +115,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           >
              
             <div
-              class="flex items-center w-full max-w-[800px] mr-4"
+              class="flex flex-col w-full max-w-[800px] mr-4"
             >
               <div
                 class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-fw6ux4-MuiFormControl-root-MuiTextField-root"
@@ -139,7 +149,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r2:"
                     maxlength="80"
-                    placeholder="Search..."
+                    placeholder="Ask Saayam"
                     type="text"
                     value=""
                   />
@@ -160,6 +170,17 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   </fieldset>
                 </div>
               </div>
+              <p
+                class="text-xs text-gray-500 mt-0.5 pl-4"
+              >
+                google with human touch
+                <span
+                  class="cursor-help"
+                  title="Trademark pending"
+                >
+                  *
+                </span>
+              </p>
             </div>
             <div
               class="flex items-center ml-auto gap-3 lg:gap-6"
@@ -413,7 +434,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           />
         </div>
         <div
-          class="flex md:hidden flex-1 mx-2"
+          class="flex flex-col md:hidden flex-1 mx-2"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1afdik9-MuiFormControl-root-MuiTextField-root"
@@ -447,7 +468,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                 id=":r0:"
                 maxlength="80"
-                placeholder="Search..."
+                placeholder="Ask Saayam"
                 type="text"
                 value=""
               />
@@ -468,6 +489,17 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               </fieldset>
             </div>
           </div>
+          <p
+            class="text-xs text-gray-500 mt-0.5 pl-4"
+          >
+            google with human touch
+            <span
+              class="cursor-help"
+              title="Trademark pending"
+            >
+              *
+            </span>
+          </p>
         </div>
         <div
           class="flex md:hidden items-center"
@@ -476,7 +508,6 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             aria-label="mockTranslate(DONATE)"
             class="text-black hover:text-gray-600 flex items-center"
             data-mui-internal-clone-element="true"
-            title="mockTranslate(DONATE)"
             type="button"
           >
             <svg
@@ -497,7 +528,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
         >
            
           <div
-            class="flex items-center w-full max-w-[800px] mr-4"
+            class="flex flex-col w-full max-w-[800px] mr-4"
           >
             <div
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-fw6ux4-MuiFormControl-root-MuiTextField-root"
@@ -531,7 +562,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r2:"
                   maxlength="80"
-                  placeholder="Search..."
+                  placeholder="Ask Saayam"
                   type="text"
                   value=""
                 />
@@ -552,6 +583,17 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 </fieldset>
               </div>
             </div>
+            <p
+              class="text-xs text-gray-500 mt-0.5 pl-4"
+            >
+              google with human touch
+              <span
+                class="cursor-help"
+                title="Trademark pending"
+              >
+                *
+              </span>
+            </p>
           </div>
           <div
             class="flex items-center ml-auto gap-3 lg:gap-6"
@@ -875,7 +917,6 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
               aria-label="mockTranslate(DONATE)"
               class="text-black hover:text-gray-600 flex items-center"
               data-mui-internal-clone-element="true"
-              title="mockTranslate(DONATE)"
               type="button"
             >
               <svg
@@ -1112,7 +1153,6 @@ exports[`Navbar renders correctly when user is logged out 1`] = `
             aria-label="mockTranslate(DONATE)"
             class="text-black hover:text-gray-600 flex items-center"
             data-mui-internal-clone-element="true"
-            title="mockTranslate(DONATE)"
             type="button"
           >
             <svg

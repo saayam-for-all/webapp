@@ -740,5 +740,14 @@
   "COMMENTS": "Комментарии",
   "CHANGE_VOLUNTEER": "Change Volunteer",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Change Volunteer",
-  "REASON": "Change Volunteer"
+  "REASON": "Change Volunteer",
+  "REASON_FOR_CONTACTING": "Причина обращения",
+  "SELECT_A_REASON": "Выберите причину",
+  "VOLUNTEERING_INTERNSHIP": "Волонтерство / Стажировка",
+  "TIMESHEET_ISSUES": "Проблемы с табелем учета рабочего времени",
+  "OFFER_RELIEVING_LETTER": "Письмо о предложении / увольнении / подтверждении",
+  "COLLABORATION_PARTNERSHIP": "Сотрудничество / Партнерство",
+  "GENERAL_INQUIRY": "Общий запрос",
+  "NOTE_LABEL": "Примечание:",
+  "RESPONSE_TIME_NOTICE": "Обычно мы отвечаем на ваш запрос в течение 24–48 часов."
 }

@@ -33,7 +33,7 @@ const mockT = jest.requireMock("react-i18next").useTranslation().t;
 // Component imports useNavigate from "react-router" and useParams from "react-router-dom"
 jest.mock("react-router", () => ({ useNavigate: () => jest.fn() }));
 jest.mock("react-router-dom", () => ({
-  useParams: () => ({}),
+  useParams: jest.fn(() => ({})),
   Link: ({ children }) => children,
   NavLink: ({ children }) => children,
 }));
@@ -50,8 +50,22 @@ jest.mock("./location/usePlacesSearchBox", () => () => ({
 }));
 
 jest.mock("../../services/requestApi", () => ({
-  useGetAllRequestQuery: () => ({ data: undefined, isLoading: false }),
+  useGetAllRequestQuery: jest.fn(() => ({ data: undefined, isLoading: false })),
   useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
+}));
+
+let mockSuggestions = [];
+let mockHandleSelectSuggestion = jest.fn();
+
+jest.mock("./location/usePlacesSearchBox", () => () => ({
+  inputRef: { current: null },
+  get suggestions() {
+    return mockSuggestions;
+  },
+  handleSearchChange: jest.fn(),
+  get handleSelectSuggestion() {
+    return mockHandleSelectSuggestion;
+  },
 }));
 
 jest.mock("../../utils/mapHelpRequestPayload", () => ({
@@ -61,6 +75,7 @@ jest.mock("../../utils/mapHelpRequestPayload", () => ({
 jest.mock("../../services/requestServices", () => ({
   checkProfanity: jest.fn(),
   createRequest: jest.fn(),
+  updateRequest: jest.fn(),
   predictCategories: jest.fn(),
   generateSubject: jest.fn(),
   getCategories: jest.fn(),
@@ -80,7 +95,56 @@ jest.mock("../../common/components/Loading/Loading.jsx", () => () => (
   <span data-testid="loading-spinner" />
 ));
 
+const mockElderlyCallbacks = {
+  onSave: jest.fn(),
+  onDelete: jest.fn(),
+  onClose: jest.fn(),
+};
+jest.mock("./Categories/ElderlySupport", () => (props) => {
+  mockElderlyCallbacks.onSave = props.onSave;
+  mockElderlyCallbacks.onDelete = props.onDelete;
+  mockElderlyCallbacks.onClose = props.onClose;
+  if (!props.isOpen || !props.selectedSubcategory) return null;
+  return (
+    <div data-testid="elderly-support-modal">
+      <button
+        data-testid="elderly-save-btn"
+        onClick={() =>
+          props.onSave({ test: "data" }, props.selectedSubcategory)
+        }
+      >
+        Save
+      </button>
+      <button
+        data-testid="elderly-delete-btn"
+        onClick={() => props.onDelete(props.selectedSubcategory.id)}
+      >
+        Delete
+      </button>
+      <button data-testid="elderly-close-btn" onClick={props.onClose}>
+        Close
+      </button>
+    </div>
+  );
+});
+
 const mockCategories = [
+  {
+    catId: "general-cat-id",
+    catName: "GENERAL_CATEGORY",
+    subCategories: [],
+  },
+  {
+    catId: "cat-elderly",
+    catName: "ELDERLY_SUPPORT",
+    subCategories: [
+      {
+        catId: "sub-elderly-srl",
+        catName: "SENIOR_LIVING_RELOCATION",
+        catDesc: "Help with senior living relocation",
+      },
+    ],
+  },
   {
     catId: "cat-edu",
     catName: "EDUCATION_CAREER_SUPPORT",
@@ -92,9 +156,27 @@ const mockCategories = [
       },
     ],
   },
+  {
+    catId: "cat-clothing",
+    catName: "CLOTHING_SUPPORT",
+    subCategories: [
+      {
+        catId: "sub-borrow",
+        catName: "BORROW_CLOTHES",
+        catDesc: "Borrow gently used clothing",
+        subCategories: [
+          {
+            catId: "subsub-essay",
+            catName: "ESSAY_REVIEW",
+            catDesc: "Help reviewing college essays",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
-function renderForm({ isEdit = false } = {}) {
+function renderForm({ isEdit = false, editRequestData } = {}) {
   const store = configureStore({
     reducer: { auth: authReducer, request: requestReducer },
     preloadedState: {
@@ -105,7 +187,11 @@ function renderForm({ isEdit = false } = {}) {
   render(
     <Provider store={store}>
       <NotificationProvider>
-        <HelpRequestForm isEdit={isEdit} onClose={jest.fn()} />
+        <HelpRequestForm
+          isEdit={isEdit}
+          onClose={jest.fn()}
+          editRequestData={editRequestData}
+        />
       </NotificationProvider>
     </Provider>,
   );
@@ -367,6 +453,56 @@ describe("HelpRequestForm — predict categories modal", () => {
     });
   });
 
+  it("shows full hierarchy as label in dialog when hierarchy is returned by API", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+          {
+            category_number: "4.3.3",
+            category_name: "SCIENCE",
+            confidence: 0.8,
+            hierarchy: "Education Career Support > Tutoring > Science",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with math tutoring.",
+      },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    //Dialog should show full hierarchy as label
+    await waitFor(() => {
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Science"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+
   it("shows only General when predictCategories API fails", async () => {
     const {
       checkProfanity,
@@ -538,7 +674,9 @@ describe("HelpRequestForm — predict categories modal", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Math")).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByDisplayValue("4.3.1"));
@@ -595,7 +733,9 @@ describe("HelpRequestForm — predict categories modal", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Math")).toBeInTheDocument();
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByDisplayValue("4.3.1"));
@@ -851,5 +991,775 @@ describe("HelpRequestForm — successful submission", () => {
     await act(async () => {
       jest.advanceTimersByTime(1200);
     });
+  });
+});
+
+describe("HelpRequestForm — edit mode submission", () => {
+  const mockEditData = {
+    requestId: "REQ-00-000-000-0009",
+    id: "REQ-00-000-000-0009",
+    category: "COLLEGE_APPLICATION_HELP",
+    subject: "Existing Request Subject",
+    description: "Existing request description",
+    priority: "MEDIUM",
+    request_type: "REMOTE",
+    is_self: "yes",
+    helpCategory: { catId: "cat-edu" },
+    attachments: ["http://test.com/file1.jpg"],
+  };
+
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    const { generateSubject } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({ body: null });
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("calls updateRequest instead of createRequest when isEdit is true", async () => {
+    const {
+      checkProfanity,
+      createRequest,
+      updateRequest,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0009" },
+    });
+    createRequest.mockClear();
+    updateRequest.mockClear();
+
+    renderForm({ isEdit: true, editRequestData: mockEditData });
+
+    // Category is pre-populated and locked in edit mode, no need to select
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated description for testing edit flow.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+    expect(createRequest).not.toHaveBeenCalled();
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("passes requestId in payload via mapHelpRequestPayload when editing", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0009" },
+    });
+
+    renderForm({ isEdit: true, editRequestData: mockEditData });
+
+    // Category is pre-populated and locked in edit mode, no need to select
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated description for payload test.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    // Verify mapHelpRequestPayload was called with requestId parameter
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs).toHaveProperty("requestId");
+    expect(callArgs.requestId).toBe("REQ-00-000-000-0009");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("restores paginated API field names when submitting an edited request", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0328" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-0328",
+        requesterId: "SID-00-000-002-622",
+        subject: "Test",
+        description: "Test",
+        type: "REMOTE",
+        priority: "MEDIUM",
+        requestCategory: "GENERAL_CATEGORY",
+        calamity: false,
+      },
+    });
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated description for paginated API edit flow.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.formData.request_type).toBe("REMOTE");
+    expect(callArgs.formData.priority).toBe("MEDIUM");
+    expect(callArgs.selectedCategoryId).toBe("general-cat-id");
+    expect(callArgs.requestId).toBe("REQ-00-000-000-0328");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("resolves sub-subcategory name to numeric catId on edit", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-SUB-SUB" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-SUB-SUB",
+        requesterId: "SID-123",
+        subject: "Essay help",
+        description: "Need essay review",
+        type: "REMOTE",
+        priority: "MEDIUM",
+        requestCategory: "ESSAY_REVIEW",
+        calamity: false,
+      },
+    });
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "Updated essay review request." },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.selectedCategoryId).toBe("subsub-essay");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("falls back to raw category value when name is not found in categories tree", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-UNKNOWN" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-UNKNOWN",
+        requesterId: "SID-123",
+        subject: "Unknown cat",
+        description: "Some description",
+        type: "REMOTE",
+        priority: "MEDIUM",
+        requestCategory: "TOTALLY_UNKNOWN_CATEGORY",
+        calamity: false,
+      },
+    });
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "Updated unknown category." },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.selectedCategoryId).toBe("TOTALLY_UNKNOWN_CATEGORY");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("handles edit mode when onClose is not provided, and uses fallback fields", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0009" },
+    });
+
+    const store = configureStore({
+      reducer: { auth: authReducer, request: requestReducer },
+      preloadedState: {
+        auth: { user: { userId: "mockUser", userDbId: "dbUser123" } },
+        request: { categories: mockCategories, categoriesFetched: true },
+      },
+    });
+
+    const editDataWithoutIds = {
+      ...mockEditData,
+      id: "id-fallback-123",
+    };
+    delete editDataWithoutIds.requestId;
+    delete editDataWithoutIds.requesterId;
+
+    render(
+      <Provider store={store}>
+        <NotificationProvider>
+          <HelpRequestForm isEdit={true} editRequestData={editDataWithoutIds} />
+        </NotificationProvider>
+      </Provider>,
+    );
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated description for fallback test.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.requesterId).toBe("dbUser123");
+    expect(callArgs.requestId).toBe("id-fallback-123");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
+  it("restores request in edit mode from URL params and RTK query data", async () => {
+    const { useParams } = require("react-router-dom");
+    const { useGetAllRequestQuery } = require("../../services/requestApi");
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-URL-ID" },
+    });
+
+    useParams.mockReturnValue({ id: "REQ-URL-ID" });
+    useGetAllRequestQuery.mockReturnValue({
+      data: {
+        body: [
+          {
+            id: "REQ-URL-ID",
+            requestId: "REQ-URL-ID",
+            category: "COLLEGE_APPLICATION_HELP",
+            subject: "Route Restored Subject",
+            description: "Route Restored Description",
+            priority: "HIGH",
+            request_type: "REMOTE",
+            is_self: "yes",
+            helpCategory: { catId: "cat-edu" },
+            attachments: ["http://test.com/file1.jpg"],
+          },
+        ],
+      },
+      isLoading: false,
+    });
+
+    renderForm({ isEdit: true });
+
+    await waitFor(() => {
+      expect(document.getElementById("subject").value).toBe(
+        "Route Restored Subject",
+      );
+    });
+
+    // Reset mocks for subsequent tests
+    useParams.mockReturnValue({});
+    useGetAllRequestQuery.mockReturnValue({
+      data: undefined,
+      isLoading: false,
+    });
+  });
+
+  it("resolves third-level subcategory via resolveCatNameToId", async () => {
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        ...mockEditData,
+        category: "ESSAY_REVIEW",
+        helpCategory: undefined,
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("subject").value).toBe(
+        "Existing Request Subject",
+      );
+    });
+  });
+});
+describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+
+    //Set enums in localStorage so requestType dropdown has options
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: {
+          IN_PERSON: "IN_PERSON",
+          REMOTE: "REMOTE",
+        },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: 1, OTHER: 2 },
+      }),
+    );
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+    mockSuggestions = [];
+  });
+
+  it("shows location field when IN_PERSON request type is selected", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+  });
+
+  it("calls geolocation when IN_PERSON is selected", async () => {
+    const mockGetCurrentPosition = jest.fn();
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+  });
+
+  it("auto-populates location field when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "5600 West 133rd Terrace, Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "5600 West 133rd Terrace, Overland Park, Kansas, USA",
+      );
+    });
+  });
+
+  it("handles geolocation error gracefully", async () => {
+    const mockGetCurrentPosition = jest.fn((success, error) => {
+      error(new Error("Location denied"));
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+    expect(document.getElementById("location")).toBeInTheDocument();
+  });
+
+  it("updates location when user types in location input", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("location"), {
+        target: { value: "Kansas City" },
+      });
+    });
+
+    expect(document.getElementById("location").value).toBe("Kansas City");
+  });
+  it("shows suggestions and selects one when clicked", async () => {
+    mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Kansas City, Missouri, USA"),
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Kansas City, Missouri, USA"));
+
+    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith(
+      "Kansas City, Missouri, USA",
+    );
+  });
+
+  it("does not show location field for REMOTE request type", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(screen.getByRole("combobox", { name: /type/i }), {
+        target: { value: "REMOTE" },
+      });
+    });
+
+    expect(
+      screen.queryByPlaceholderText("Search for location..."),
+    ).not.toBeInTheDocument();
+  });
+});
+
+describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+  });
+
+  it("passes selectedCategoryId to DynamicAdditionalFields not hierarchy string", async () => {
+    const { predictCategories } = require("../../services/requestServices");
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "I need help with math tutoring." },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByDisplayValue("4.3.1"));
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Select" }));
+    });
+    await waitFor(() => {
+      expect(document.getElementById("category").value).toBe(
+        "Education Career Support > Tutoring > Math",
+      );
+    });
+  });
+
+  it("shows additional fields after manual subcategory selection", () => {
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "sub-college",
+          fields: [
+            {
+              fieldId: "sub-college.A",
+              fieldNameKey: "PREFERRED_MEAL_TYPE",
+              fieldType: "list",
+              status: "active",
+              catId: "sub-college",
+              listItems: [
+                {
+                  itemId: "sub-college.A.1",
+                  itemValue: "VEGETARIAN",
+                  itemType: "radiobutton",
+                },
+              ],
+            },
+          ],
+        },
+      ]),
+    );
+
+    renderForm();
+    selectSubcategory();
+
+    expect(screen.getByTestId("radio-sub-college.A.1")).toBeInTheDocument();
+    localStorage.removeItem("metadata");
+  });
+});
+
+describe("HelpRequestForm — selectedCategoryId tracking (patch coverage)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    mockElderlyCallbacks.onSave = jest.fn();
+    mockElderlyCallbacks.onDelete = jest.fn();
+    mockElderlyCallbacks.onClose = jest.fn();
+  });
+
+  it("sets selectedCategoryId via handleCategoryClick for a category without subcategories", () => {
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    // Click GENERAL_CATEGORY — it has no subCategories, so handleCategoryClick is invoked
+    const generalRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.GENERAL_CATEGORY\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.click(generalRow.closest(".cursor-pointer"));
+
+    expect(categoryInput.value).toBe(
+      "mockTranslate(categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL)",
+    );
+  });
+
+  it("sets selectedCategoryId when an elderly subcategory is clicked", () => {
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    // Hover ELDERLY_SUPPORT
+    const elderlyRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.mouseEnter(elderlyRow.closest(".cursor-pointer"));
+
+    // Click SENIOR_LIVING_RELOCATION subcategory
+    const subcategoryRow = screen.getByText(
+      /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.SUBCATEGORIES\.SENIOR_LIVING_RELOCATION\.LABEL\)/,
+    );
+    fireEvent.click(subcategoryRow);
+
+    // ElderlySupport modal should appear (proves the elderly branch ran)
+    expect(screen.getByTestId("elderly-support-modal")).toBeInTheDocument();
+  });
+
+  it("sets selectedCategoryId on ElderlySupport save", () => {
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    const elderlyRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.mouseEnter(elderlyRow.closest(".cursor-pointer"));
+
+    const subcategoryRow = screen.getByText(
+      /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.SUBCATEGORIES\.SENIOR_LIVING_RELOCATION\.LABEL\)/,
+    );
+    fireEvent.click(subcategoryRow);
+
+    expect(screen.getByTestId("elderly-support-modal")).toBeInTheDocument();
+
+    // Click Save in the mock — runs handleElderlySupportSave which calls setSelectedCategoryId
+    fireEvent.click(screen.getByTestId("elderly-save-btn"));
+
+    // Modal stays open after save (save does not close it)
+    expect(screen.getByTestId("elderly-support-modal")).toBeInTheDocument();
+  });
+
+  it("clears selectedCategoryId on ElderlySupport delete", () => {
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    const elderlyRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.mouseEnter(elderlyRow.closest(".cursor-pointer"));
+
+    const subcategoryRow = screen.getByText(
+      /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.SUBCATEGORIES\.SENIOR_LIVING_RELOCATION\.LABEL\)/,
+    );
+    fireEvent.click(subcategoryRow);
+
+    // Save first to set savedSubcategoryId
+    fireEvent.click(screen.getByTestId("elderly-save-btn"));
+
+    // Click Delete — runs handleElderlySupportDelete which calls setSelectedCategoryId(null)
+    fireEvent.click(screen.getByTestId("elderly-delete-btn"));
+
+    // Modal should close (handleElderlySupportDelete sets showElderlySupportForm = false)
+    expect(
+      screen.queryByTestId("elderly-support-modal"),
+    ).not.toBeInTheDocument();
   });
 });

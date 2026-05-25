@@ -45,6 +45,9 @@ const Sitemap = () => {
                   <li>
                     <a href="/our-team">Our Team</a>
                   </li>
+                  <li>
+                    <a href="/news-our-stories">In the News</a>
+                  </li>
                 </ul>
               </div>
             </div>

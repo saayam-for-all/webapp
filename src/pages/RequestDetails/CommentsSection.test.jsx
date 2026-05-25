@@ -180,4 +180,57 @@ describe("CommentsSection", () => {
 
     expect(screen.getByText(/Showing.*1.*to.*10/i)).toBeInTheDocument();
   });
+
+  it("renders edit button for each visible comment", () => {
+    renderWithI18n(<CommentsSection comments={mockComments} />);
+
+    const editButtons = screen.getAllByRole("button", {
+      name: /edit comment/i,
+    });
+    expect(editButtons).toHaveLength(mockComments.length);
+  });
+
+  it("renders delete button for each visible comment", () => {
+    renderWithI18n(<CommentsSection comments={mockComments} />);
+
+    const deleteButtons = screen.getAllByRole("button", {
+      name: /delete comment/i,
+    });
+    expect(deleteButtons).toHaveLength(mockComments.length);
+  });
+
+  it("clicking edit button does not throw", () => {
+    renderWithI18n(<CommentsSection comments={mockComments} />);
+
+    const editButtons = screen.getAllByRole("button", {
+      name: /edit comment/i,
+    });
+    expect(() => fireEvent.click(editButtons[0])).not.toThrow();
+  });
+
+  it("clicking delete button does not throw", () => {
+    renderWithI18n(<CommentsSection comments={mockComments} />);
+
+    const deleteButtons = screen.getAllByRole("button", {
+      name: /delete comment/i,
+    });
+    expect(() => fireEvent.click(deleteButtons[0])).not.toThrow();
+  });
+
+  it("edit and delete buttons only show for paginated comments, not all", () => {
+    const manyComments = Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      name: `User ${i}`,
+      message: `Message ${i}`,
+      date: "2024-01-15T10:00:00Z",
+    }));
+
+    renderWithI18n(<CommentsSection comments={manyComments} />);
+
+    // default rowsPerPage is 5, so only 5 edit/delete buttons should appear
+    const editButtons = screen.getAllByRole("button", {
+      name: /edit comment/i,
+    });
+    expect(editButtons).toHaveLength(5);
+  });
 });

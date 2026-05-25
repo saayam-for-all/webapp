@@ -18,6 +18,7 @@ import {
 import {
   checkProfanity,
   createRequest,
+  updateRequest,
   predictCategories,
   generateSubject,
   getCategories,
@@ -90,18 +91,17 @@ const mapLanguageToCode = (languageName) => {
   return languageMap[languageName] || "en-US"; // Default to English
 };
 
-const HelpRequestForm = ({ isEdit = false, onClose }) => {
+const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories, categoriesFetched } = useSelector(
     (state) => state.request,
   );
-  const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
   const [location, setLocation] = useState("");
-  const { inputRef, isLoaded, handleOnPlacesChanged } =
+  const { inputRef, suggestions, handleSearchChange, handleSelectSuggestion } =
     usePlacesSearchBox(setLocation);
 
   const [languages, setLanguages] = useState([]);
@@ -246,16 +246,73 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [audioUploadResult, setAudioUploadResult] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
 
+  const firstString = (...values) =>
+    values.find((value) => typeof value === "string" && value.trim() !== "");
+
+  const resolveCatNameToId = (catNameOrId) => {
+    if (!catNameOrId || !categories) return catNameOrId;
+    const isNumericId = /^\d+(\.\d+)*$/.test(catNameOrId);
+    if (isNumericId) return catNameOrId;
+    for (const cat of categories) {
+      if (cat.catName === catNameOrId) return cat.catId;
+      for (const sub of cat.subCategories || []) {
+        if (sub.catName === catNameOrId) return sub.catId;
+        for (const subsub of sub.subCategories || []) {
+          if (subsub.catName === catNameOrId) return subsub.catId;
+        }
+      }
+    }
+    return catNameOrId;
+  };
+
   // Restore request for edit
+  // Supports two data sources:
+  //   1. editRequestData prop (passed from RequestDetails modal)
+  //   2. Fallback to URL params + RTK query (route-based edit)
   useEffect(() => {
-    if (id && data) {
-      const requestData = data.body?.find((item) => item.id === id);
+    const requestData =
+      editRequestData ||
+      (id && data ? data.body?.find((item) => item.id === id) : null);
+
+    if (requestData) {
+      const rawCategory =
+        requestData.helpCategory?.catId ||
+        requestData.category ||
+        requestData.requestCategory ||
+        "General";
+      const category = resolveCatNameToId(rawCategory);
+
       setFormData({
-        category: requestData.category,
-        description: requestData.description,
-        subject: requestData.subject,
         ...requestData,
+        category,
+        description: requestData.description || requestData.requestDescription,
+        subject: requestData.subject || requestData.requestSubject,
+        is_calamity: requestData.is_calamity ?? requestData.calamity ?? false,
+        // Map paginated API and nested detail API values to flat form fields.
+        request_type: firstString(
+          requestData.request_type,
+          requestData.type,
+          requestData.requestType,
+          requestData.requestType?.type,
+          requestData.requestType?.requestType,
+        ),
+        priority: firstString(
+          requestData.priority,
+          requestData.requestPriority,
+          requestData.requestPriority?.priority,
+        ),
+        request_for:
+          firstString(
+            requestData.request_for,
+            requestData.requestFor,
+            requestData.requestFor?.requestFor,
+          ) || "SELF",
       });
+
+      // Preserve the original numeric catId for edit mode (category is locked)
+      if (category) {
+        setSelectedCategoryId(category);
+      }
 
       // If editing and attachments present in requestData, show them as uploadedFilesInfo
       if (requestData.attachments && Array.isArray(requestData.attachments)) {
@@ -268,7 +325,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       }
     }
-  }, [data, id]);
+  }, [editRequestData, data, id]);
 
   // Converts API snake_case category names to title-case for display.
   // e.g. "GROCERY_SHOPPING_AND_DELIVERY" → "Grocery Shopping And Delivery"
@@ -340,6 +397,38 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     const { id, value } = e.target;
     if (id === "subject") hasUserEditedSubjectRef.current = true;
     setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const getUserLocation = () => {
+    console.log("getUserLocation called");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          //Using OpenStreetMap Nominatim - FREE, no API key needed
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+            {
+              headers: {
+                "Accept-Language": "en",
+                "User-Agent": "SaayamForAll/1.0",
+              },
+            },
+          );
+          const data = await response.json();
+          if (data.display_name) {
+            setLocation(data.display_name);
+            setFormData((prev) => ({
+              ...prev,
+              location: data.display_name,
+            }));
+          }
+        },
+        (error) => {
+          console.error("Location error:", error);
+        },
+      );
+    }
   };
 
   const closeForm = () => {
@@ -685,10 +774,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   }, []);
 
   const handleCategoryClick = (categoryKeyOrId) => {
+    const resolvedId = resolveCatNameToId(categoryKeyOrId);
     setFormData({
       ...formData,
       category: categoryKeyOrId,
     });
+    setSelectedCategoryId(resolvedId);
     setShowDropdown(false);
     setHoveredCategory(null);
   };
@@ -721,6 +812,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         ...formData,
         category: subcategoryId,
       });
+      setSelectedCategoryId(subcategoryId);
 
       setSelectedElderlySubcategory({
         id: subcategoryId,
@@ -737,6 +829,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         ...formData,
         category: subcategoryId,
       });
+      setSelectedCategoryId(subcategoryId);
       setShowDropdown(false);
       setHoveredCategory(null);
       setHoveredSubcategory(null);
@@ -771,6 +864,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       ...formData,
       category: subcategory.id,
     });
+    setSelectedCategoryId(subcategory.id);
 
     // Popup modal for subcategory - Close dropdown and modal
     setShowDropdown(false);
@@ -800,6 +894,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         ...formData,
         category: "",
       });
+      setSelectedCategoryId(null);
     }
 
     // Popup modal for subcategory - Hide inline panel
@@ -1070,7 +1165,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         return;
       }
 
+      // In edit mode, skip the predict-categories modal since category is locked
       if (
+        !isEdit &&
         formData.category === "General" &&
         formData.description.trim() !== "" &&
         !categoryConfirmed
@@ -1103,118 +1200,61 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         submissionData.attachments = uploadedFileUrls;
       }
 
-      // If user recorded audio, send it to the API
-      if (audioBlob) {
-        try {
-          console.log("=== Sending recorded audio to API on submit ===");
-          console.log("Audio blob type:", audioBlob.type);
-          console.log(
-            "Audio blob size:",
-            (audioBlob.size / 1024).toFixed(2),
-            "KB",
-          );
-
-          // Convert audio blob to base64
-          const audioBase64 = await blobToBase64(audioBlob);
-          console.log("Base64 audio length:", audioBase64.length, "characters");
-
-          // Send to speechDetectV2 API
-          const audioResponse = await speechDetectV2(audioBase64);
-          console.log("Audio API Response:", audioResponse);
-          console.log("Detected Language:", audioResponse.detectedLanguage);
-          console.log("Transcription Text:", audioResponse.transcriptionText);
-
-          // Store the transcription result - always update with the transcribed text
-          // The API returns text in the detected language (e.g., Hindi, English, etc.)
-          if (audioResponse.transcriptionText) {
-            const transcriptionText = audioResponse.transcriptionText.substring(
-              0,
-              500,
-            );
-            console.log(
-              "Setting description with transcribed text:",
-              transcriptionText,
-            );
-            console.log("Detected Language:", audioResponse.detectedLanguage);
-
-            // Update formData with transcription text and detected language
-            setFormData((prev) => ({
-              ...prev,
-              description: transcriptionText,
-              detected_language:
-                audioResponse.detectedLanguage || prev.detected_language || "",
-            }));
-            submissionData.description = transcriptionText;
-            // Store detected language in submission data for translation purposes
-            if (audioResponse.detectedLanguage) {
-              submissionData.detected_language = audioResponse.detectedLanguage;
-            }
-          }
-
-          // Optionally store requestId or other metadata from audio API
-          if (audioResponse.requestId) {
-            console.log(
-              "Audio transcription request ID:",
-              audioResponse.requestId,
-            );
-          }
-
-          if (audioResponse.detectedLanguage) {
-            console.log(
-              "Language detected by API:",
-              audioResponse.detectedLanguage,
-            );
-            console.log(
-              "Detected language stored in formData for translation:",
-              audioResponse.detectedLanguage,
-            );
-          }
-        } catch (audioError) {
-          console.error("Error sending audio on submit:", audioError);
-          // Don't block form submission if audio upload fails
-          // Just log the error and continue
-          setSnackbar({
-            open: true,
-            message:
-              "Warning: Audio transcription failed, but form will still be submitted.",
-            severity: "warning",
-          });
-        }
-      }
-
-      // Call createRequest with attachments included
-      //const response = await createRequest(submissionData);
+      // Build the API payload
       const payload = mapHelpRequestPayload({
         formData: submissionData,
         selectedCategoryId: selectedCategoryId ?? formData.category,
-        requesterId: userDbId,
+        requesterId: isEdit
+          ? editRequestData?.requesterId || userDbId
+          : userDbId,
         enumMaps,
         additionalFields: additionalFieldValues,
+        requestId: isEdit
+          ? editRequestData?.requestId || editRequestData?.id || id
+          : undefined,
       });
 
-      const response = await createRequest(payload);
-      const requestId = response?.data?.requestId;
+      // Call updateRequest when editing, createRequest when creating
+      let response;
+      if (isEdit) {
+        response = await updateRequest(payload);
+      } else {
+        response = await createRequest(payload);
+      }
+      const responseRequestId = response?.data?.requestId;
 
       setSnackbar({
         open: true,
-        message: "Help Request submitted successfully!",
+        message: isEdit
+          ? "Help Request updated successfully!"
+          : "Help Request submitted successfully!",
         severity: "success",
       });
 
       setTimeout(() => {
-        navigate("/dashboard", {
-          state: {
-            successMessage: requestId
-              ? `New Request #${requestId} submitted successfully!`
-              : "Help Request submitted successfully!",
-          },
-        });
+        if (isEdit && onClose) {
+          onClose(response?.data);
+        } else {
+          navigate("/dashboard", {
+            state: {
+              successMessage: responseRequestId
+                ? isEdit
+                  ? `Request #${responseRequestId} updated successfully!`
+                  : `New Request #${responseRequestId} submitted successfully!`
+                : isEdit
+                  ? "Help Request updated successfully!"
+                  : "Help Request submitted successfully!",
+            },
+          });
+        }
       }, 1200);
     } catch (error) {
       console.error("Failed to process request:", error);
       setSnackbar({
         open: true,
-        message: "Failed to submit request!",
+        message: isEdit
+          ? "Failed to update request!"
+          : "Failed to submit request!",
         severity: "error",
       });
     } finally {
@@ -1299,8 +1339,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       id="category"
                       value={resolveCategoryLabel(formData.category)}
                       onChange={handleSearchInput}
-                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
-                      onFocus={() => setShowDropdown(true)}
+                      disabled={isEdit}
+                      className={`block w-full appearance-none border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none ${
+                        isEdit
+                          ? "bg-gray-100 cursor-not-allowed opacity-70"
+                          : "bg-white"
+                      }`}
+                      onFocus={() => {
+                        if (!isEdit) setShowDropdown(true);
+                      }}
                       onBlur={(e) => {
                         if (!dropdownRef.current?.contains(e.relatedTarget)) {
                           setShowDropdown(false);
@@ -1520,7 +1567,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
                 {/* Dynamic additional fields from metadata */}
                 <DynamicAdditionalFields
-                  catId={formData.category}
+                  catId={selectedCategoryId}
                   onChange={setAdditionalFieldValues}
                 />
 
@@ -2003,12 +2050,16 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     <select
                       id="requestType"
                       value={formData.request_type || "REMOTE"}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const value = e.target.value;
                         setFormData({
                           ...formData,
-                          request_type: e.target.value,
-                        })
-                      }
+                          request_type: value,
+                        });
+                        if (value === "IN_PERSON") {
+                          getUserLocation();
+                        }
+                      }}
                       className="
                     block w-full appearance-none
                     bg-white border border-gray-300
@@ -2039,22 +2090,44 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       >
                         Location
                       </label>
-                      {isLoaded && (
-                        <StandaloneSearchBox
-                          onLoad={(ref) => (inputRef.current = ref)}
-                          onPlacesChanged={handleOnPlacesChanged}
-                        >
-                          <input
-                            type="text"
-                            id="location"
-                            value={formData.location}
-                            onChange={handleChange}
-                            name="location"
-                            className="border p-2 w-full rounded-lg"
-                            placeholder="Search for location..."
-                          />
-                        </StandaloneSearchBox>
-                      )}
+                      <div className="relative">
+                        <input
+                          type="text"
+                          id="location"
+                          ref={inputRef}
+                          value={location}
+                          onChange={(e) => {
+                            setLocation(e.target.value);
+                            setFormData((prev) => ({
+                              ...prev,
+                              location: e.target.value,
+                            }));
+                            handleSearchChange(e.target.value);
+                          }}
+                          className="border p-2 w-full rounded-lg"
+                          placeholder="Search for location..."
+                        />
+                        {suggestions.length > 0 && (
+                          <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full mt-1 max-h-48 overflow-y-auto shadow-lg">
+                            {suggestions.map((s, i) => (
+                              <li
+                                key={i}
+                                className="px-3 py-2 cursor-pointer hover:bg-blue-50 text-sm"
+                                onClick={() => {
+                                  setLocation(s.display_name);
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    location: s.display_name,
+                                  }));
+                                  handleSelectSuggestion(s.display_name);
+                                }}
+                              >
+                                {s.display_name}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -2202,7 +2275,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                 key={index}
                 value={category.category_number ?? category.name}
                 control={<Radio />}
-                label={category.displayName ?? category.name}
+                label={
+                  category.hierarchy ?? category.displayName ?? category.name
+                }
               />
             ))}
           </RadioGroup>
