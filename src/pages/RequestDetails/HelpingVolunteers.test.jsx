@@ -276,6 +276,19 @@ describe("HelpingVolunteers", () => {
     expect(screen.getByRole("button", { name: /Zoom Meeting/i })).toBeEnabled();
   });
 
+  it("deletes selected volunteers when Delete is clicked", async () => {
+    render(<HelpingVolunteers />);
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    const deleteButton = screen.getByRole("button", { name: /Delete/i });
+    expect(deleteButton).toBeEnabled();
+    fireEvent.click(deleteButton);
+    await waitFor(() => {
+      expect(screen.queryByText("Jane Cooper")).not.toBeInTheDocument();
+      expect(screen.getByText("John Doe")).toBeInTheDocument();
+    });
+  });
+
   it("opens modal and validates date/time input", async () => {
     render(<HelpingVolunteers />);
     const checkboxes = await screen.findAllByRole("checkbox");
