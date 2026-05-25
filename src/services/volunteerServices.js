@@ -76,6 +76,15 @@ export const getVolunteersData = async () => {
       : [];
 };
 
+export const getMockVolunteersData = async () => {
+  const { data } = await api.get(endpoints.MOCK_GET_VOLUNTEERS);
+  return Array.isArray(data?.body)
+    ? data.body
+    : Array.isArray(data)
+      ? data
+      : [];
+};
+
 /**
  * Upload profile image to S3 via backend (Base64 in JSON).
  * @param {string} userId - userDBId from Redux
