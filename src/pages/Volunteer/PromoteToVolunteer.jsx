@@ -132,7 +132,6 @@ const PromoteToVolunteer = () => {
   };
 
   const handleSaveFile = () => {
-    console.log("Saving government ID file...");
     if (govtIdFile) {
       updateVolunteerData({
         step: 2,
