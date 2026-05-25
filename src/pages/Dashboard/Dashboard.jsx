@@ -26,7 +26,6 @@ import {
   getManagedRequests,
   getMyRequests,
   getOthersRequests,
-  getAllPaginatedRequests,
 } from "../../services/requestServices";
 import {
   getStatusOptions,
@@ -67,14 +66,7 @@ const Dashboard = ({ userRole }) => {
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [data, setData] = useState({});
   const groups = useSelector((state) => state.auth.user?.groups);
-  const [isLoading, setIsLoading] = useState(false);
-  // Server-side pagination metadata (used when fetching from real API)
-  const [serverPagination, setServerPagination] = useState({
-    totalPages: 0,
-    totalRecords: 0,
-    currentServerPage: 0,
-    isServerPaginated: false,
-  });
+  const isLoading = false;
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [accessibleDashboards, setAccessibleDashboards] = useState([]);
   const [selectedDashboard, setSelectedDashboard] = useState("");
@@ -137,53 +129,15 @@ const Dashboard = ({ userRole }) => {
     [],
   );
 
-  const getAllRequests = async (activeTab, page = 0, sizeOverride) => {
-    setIsLoading(true);
+  const getAllRequests = async (activeTab) => {
     try {
-      // Use real paginated API for "All Requests" tab on admin-type dashboards
-      const isAllRequestsTab =
-        activeTab === "myRequests" &&
-        [DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN, DASHBOARDS.STEWARD].includes(
-          selectedDashboard,
-        );
-
-      if (isAllRequestsTab) {
-        const response = await getAllPaginatedRequests({
-          page,
-          size: sizeOverride || rowsPerPage,
-        });
-        // API returns { data: { content: [...], totalPages, totalElements } }
-        const records =
-          response?.data?.content || response?.content || response?.body || [];
-        // Map API field names to what the table/filters expect
-        const normalizedRecords = (Array.isArray(records) ? records : []).map(
-          (r) => ({
-            ...r,
-            id: r.requestId || r.id,
-            category: r.requestCategory || r.category,
-          }),
-        );
-        setData({ body: normalizedRecords });
-        setServerPagination({
-          totalPages: response?.data?.totalPages || response?.totalPages || 1,
-          totalRecords:
-            response?.data?.totalElements || response?.totalElements || 0,
-          currentServerPage: page,
-          isServerPaginated: true,
-        });
-      } else {
-        let requestApi = getMyRequests;
-        if (activeTab === "othersRequests") requestApi = getOthersRequests;
-        else if (activeTab === "managedRequests")
-          requestApi = getManagedRequests;
-        const response = await requestApi();
-        setData(response);
-        setServerPagination((prev) => ({ ...prev, isServerPaginated: false }));
-      }
+      let requestApi = getMyRequests;
+      if (activeTab === "othersRequests") requestApi = getOthersRequests;
+      else if (activeTab === "managedRequests") requestApi = getManagedRequests;
+      const response = await requestApi();
+      setData(response);
     } catch (error) {
       console.error("Error fetching requests:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -208,22 +162,6 @@ const Dashboard = ({ userRole }) => {
       return;
     }
 
-    // Preferences tab stores defaultDashboard under "userPreferences" in
-    // localStorage (DB persistence pending). Honor it when the user lands
-    // on /dashboard without an explicit ?view= override.
-    let preferredDashboard = null;
-    try {
-      const saved = JSON.parse(localStorage.getItem("userPreferences"));
-      preferredDashboard = saved?.defaultDashboard || null;
-    } catch {
-      preferredDashboard = null;
-    }
-    if (preferredDashboard && accessible.includes(preferredDashboard)) {
-      setSelectedDashboard(preferredDashboard);
-      localStorage.setItem("lastDashboardSelected", preferredDashboard);
-      return;
-    }
-
     const storedDashboard = localStorage.getItem("lastDashboardSelected");
     if (storedDashboard && accessible.includes(storedDashboard)) {
       setSelectedDashboard(storedDashboard);
@@ -237,7 +175,7 @@ const Dashboard = ({ userRole }) => {
 
   useEffect(() => {
     getAllRequests(activeTab);
-  }, [activeTab, selectedDashboard]);
+  }, [activeTab]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -760,10 +698,6 @@ const Dashboard = ({ userRole }) => {
   ]);
 
   const totalPages = (filteredData) => {
-    // For server-paginated data, use the server's totalPages
-    if (serverPagination.isServerPaginated) {
-      return serverPagination.totalPages || 1;
-    }
     if (!filteredData || filteredData.length == 0) return 1;
     return Math.ceil(filteredData.length / rowsPerPage);
   };
@@ -921,22 +855,6 @@ const Dashboard = ({ userRole }) => {
   const handleRowsPerPageChange = (rows) => {
     setRowsPerPage(rows);
     setCurrentPage(1);
-    // Re-fetch from server with new page size (pass directly to avoid stale state)
-    if (serverPagination.isServerPaginated) {
-      getAllRequests(activeTab, 0, rows);
-    }
-  };
-
-  // Handle page change — for server-paginated mode, fetch the new page from API
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    if (
-      serverPagination.isServerPaginated &&
-      newPage - 1 !== serverPagination.currentServerPage
-    ) {
-      // API uses 0-indexed pages, UI uses 1-indexed
-      getAllRequests(activeTab, newPage - 1);
-    }
   };
 
   // Count selected categories (for badge display)
@@ -1450,7 +1368,7 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={handlePageChange}
+                setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
@@ -1467,8 +1385,6 @@ const Dashboard = ({ userRole }) => {
                 }
                 analyticsSubtab={analyticsSubtab}
                 setAnalyticsSubtab={setAnalyticsSubtab}
-                serverPaginated={serverPagination.isServerPaginated}
-                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 
@@ -1480,7 +1396,7 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={handlePageChange}
+                setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
@@ -1497,8 +1413,6 @@ const Dashboard = ({ userRole }) => {
                 }
                 analyticsSubtab={analyticsSubtab}
                 setAnalyticsSubtab={setAnalyticsSubtab}
-                serverPaginated={serverPagination.isServerPaginated}
-                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 
@@ -1508,7 +1422,7 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={handlePageChange}
+                setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
@@ -1521,8 +1435,6 @@ const Dashboard = ({ userRole }) => {
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
-                serverPaginated={serverPagination.isServerPaginated}
-                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 
