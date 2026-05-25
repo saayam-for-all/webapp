@@ -1,12 +1,7 @@
 import { useState, useRef } from "react";
 import React from "react"; //added for testing
 
-const VolunteerCourse = ({
-  selectedFile,
-  setSelectedFile,
-  setIsUploaded,
-  onSaveFile,
-}) => {
+const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
@@ -231,13 +226,6 @@ const VolunteerCourse = ({
             Remove
           </button>
         )}
-        <button
-          onClick={onSaveFile}
-          disabled={!selectedFile}
-          className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
-        >
-          Save
-        </button>
       </div>
     </div>
   );

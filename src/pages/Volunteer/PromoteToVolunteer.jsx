@@ -88,7 +88,6 @@ const PromoteToVolunteer = () => {
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
             setIsUploaded={setIsUploaded}
-            onSaveFile={handleSaveFile}
           />
         );
       case 3:
@@ -133,6 +132,7 @@ const PromoteToVolunteer = () => {
   };
 
   const handleSaveFile = () => {
+    console.log("Saving government ID file...");
     if (govtIdFile) {
       updateVolunteerData({
         step: 2,
@@ -158,6 +158,7 @@ const PromoteToVolunteer = () => {
           break;
         case 2:
           // isValidStep = govtIdFile && govtIdFile.name !== "";
+          handleSaveFile();
           isValidStep = govtIdFile;
           updateVolunteerData({
             step: currentStep,
