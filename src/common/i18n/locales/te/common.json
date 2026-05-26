@@ -748,5 +748,8 @@
   "COLLABORATION_PARTNERSHIP": "సహకారం / భాగస్వామ్యం",
   "GENERAL_INQUIRY": "సాధారణ విచారణ",
   "NOTE_LABEL": "గమనిక:",
-  "RESPONSE_TIME_NOTICE": "మేము సాధారణంగా 24-48 గంటలలోపు మీ విచారణకు ప్రతిస్పందిస్తాము."
+  "RESPONSE_TIME_NOTICE": "మేము సాధారణంగా 24-48 గంటలలోపు మీ విచారణకు ప్రతిస్పందిస్తాము.",
+  "ENTER_VOLUNTEER_NAME": "వాలంటీర్ పేరు నమోదు చేయండి",
+  "FIND_BY_NAME": "పేరుతో వెతకండి",
+  "SEARCH_BY_NAME": "పేరుతో వెతకండి..."
 }

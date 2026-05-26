@@ -749,5 +749,8 @@
   "COLLABORATION_PARTNERSHIP": "Zusammenarbeit / Partnerschaft",
   "GENERAL_INQUIRY": "Allgemeine Anfrage",
   "NOTE_LABEL": "Hinweis:",
-  "RESPONSE_TIME_NOTICE": "Wir antworten in der Regel innerhalb von 24–48 Stunden auf Ihre Anfrage."
+  "RESPONSE_TIME_NOTICE": "Wir antworten in der Regel innerhalb von 24–48 Stunden auf Ihre Anfrage.",
+  "ENTER_VOLUNTEER_NAME": "Freiwilligennamen eingeben",
+  "FIND_BY_NAME": "Nach Name suchen",
+  "SEARCH_BY_NAME": "Nach Name suchen..."
 }

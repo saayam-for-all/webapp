@@ -748,5 +748,8 @@
   "COLLABORATION_PARTNERSHIP": "Collaboration / Partenariat",
   "GENERAL_INQUIRY": "Demande générale",
   "NOTE_LABEL": "Remarque :",
-  "RESPONSE_TIME_NOTICE": "Nous répondons généralement à votre demande dans un délai de 24 à 48 heures."
+  "RESPONSE_TIME_NOTICE": "Nous répondons généralement à votre demande dans un délai de 24 à 48 heures.",
+  "ENTER_VOLUNTEER_NAME": "Entrer le nom du bénévole",
+  "FIND_BY_NAME": "Rechercher par nom",
+  "SEARCH_BY_NAME": "Rechercher par nom..."
 }

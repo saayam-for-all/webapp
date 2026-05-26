@@ -33,5 +33,8 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "تبصرا",
-  "VOLUNTEERS": "رضاڪار"
+  "VOLUNTEERS": "رضاڪار",
+  "ENTER_VOLUNTEER_NAME": "رضاڪار جو نالو داخل ڪريو",
+  "FIND_BY_NAME": "نالي سان ڳوليو",
+  "SEARCH_BY_NAME": "نالي سان ڳوليو..."
 }

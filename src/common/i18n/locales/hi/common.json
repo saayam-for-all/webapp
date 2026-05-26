@@ -750,5 +750,8 @@
   "COLLABORATION_PARTNERSHIP": "सहयोग / साझेदारी",
   "GENERAL_INQUIRY": "सामान्य पूछताछ",
   "NOTE_LABEL": "नोट:",
-  "RESPONSE_TIME_NOTICE": "हम आम तौर पर 24-48 घंटों के भीतर आपकी पूछताछ का उत्तर देते हैं।"
+  "RESPONSE_TIME_NOTICE": "हम आम तौर पर 24-48 घंटों के भीतर आपकी पूछताछ का उत्तर देते हैं।",
+  "ENTER_VOLUNTEER_NAME": "स्वयंसेवक का नाम दर्ज करें",
+  "FIND_BY_NAME": "नाम से खोजें",
+  "SEARCH_BY_NAME": "नाम से खोजें..."
 }

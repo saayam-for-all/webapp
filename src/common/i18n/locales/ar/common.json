@@ -749,5 +749,8 @@
   "COLLABORATION_PARTNERSHIP": "التعاون / الشراكة",
   "GENERAL_INQUIRY": "استفسار عام",
   "NOTE_LABEL": "ملاحظة:",
-  "RESPONSE_TIME_NOTICE": "نرد عادةً على استفسارك في غضون 24-48 ساعة."
+  "RESPONSE_TIME_NOTICE": "نرد عادةً على استفسارك في غضون 24-48 ساعة.",
+  "ENTER_VOLUNTEER_NAME": "أدخل اسم المتطوع",
+  "FIND_BY_NAME": "البحث بالاسم",
+  "SEARCH_BY_NAME": "البحث بالاسم..."
 }
