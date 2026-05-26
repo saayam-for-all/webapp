@@ -751,5 +751,9 @@
   "RESPONSE_TIME_NOTICE": "Nous répondons généralement à votre demande dans un délai de 24 à 48 heures.",
   "ENTER_VOLUNTEER_NAME": "Entrer le nom du bénévole",
   "FIND_BY_NAME": "Rechercher par nom",
-  "SEARCH_BY_NAME": "Rechercher par nom..."
+  "SEARCH_BY_NAME": "Rechercher par nom...",
+  "FIND_BY_EMAIL": "Rechercher par e-mail",
+  "FIND_BY_PHONE": "Rechercher par téléphone",
+  "ENTER_VOLUNTEER_EMAIL": "Entrer l'e-mail du bénévole",
+  "ENTER_VOLUNTEER_PHONE": "Entrer le téléphone du bénévole"
 }

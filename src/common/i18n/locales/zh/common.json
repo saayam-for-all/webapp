@@ -747,5 +747,9 @@
   "RESPONSE_TIME_NOTICE": "我们通常会在 24-48 小时内回复您的询问。",
   "ENTER_VOLUNTEER_NAME": "输入志愿者姓名",
   "FIND_BY_NAME": "按姓名查找",
-  "SEARCH_BY_NAME": "按姓名搜索..."
+  "SEARCH_BY_NAME": "按姓名搜索...",
+  "FIND_BY_EMAIL": "按电子邮件查找",
+  "FIND_BY_PHONE": "按电话查找",
+  "ENTER_VOLUNTEER_EMAIL": "输入志愿者电子邮件",
+  "ENTER_VOLUNTEER_PHONE": "输入志愿者电话"
 }

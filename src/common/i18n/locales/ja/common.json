@@ -36,5 +36,9 @@
   "VOLUNTEERS": "ボランティア",
   "ENTER_VOLUNTEER_NAME": "ボランティア名を入力",
   "FIND_BY_NAME": "名前で検索",
-  "SEARCH_BY_NAME": "名前で検索..."
+  "SEARCH_BY_NAME": "名前で検索...",
+  "FIND_BY_EMAIL": "メールで検索",
+  "FIND_BY_PHONE": "電話番号で検索",
+  "ENTER_VOLUNTEER_EMAIL": "ボランティアのメールアドレスを入力",
+  "ENTER_VOLUNTEER_PHONE": "ボランティアの電話番号を入力"
 }

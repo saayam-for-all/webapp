@@ -36,5 +36,9 @@
   "VOLUNTEERS": "رضاڪار",
   "ENTER_VOLUNTEER_NAME": "رضاڪار جو نالو داخل ڪريو",
   "FIND_BY_NAME": "نالي سان ڳوليو",
-  "SEARCH_BY_NAME": "نالي سان ڳوليو..."
+  "SEARCH_BY_NAME": "نالي سان ڳوليو...",
+  "FIND_BY_EMAIL": "اي ميل سان ڳوليو",
+  "FIND_BY_PHONE": "فون سان ڳوليو",
+  "ENTER_VOLUNTEER_EMAIL": "رضاڪار جو اي ميل داخل ڪريو",
+  "ENTER_VOLUNTEER_PHONE": "رضاڪار جو فون داخل ڪريو"
 }

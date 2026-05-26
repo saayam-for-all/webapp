@@ -36,5 +36,9 @@
   "VOLUNTEERS": "ਵਲੰਟੀਅਰ",
   "ENTER_VOLUNTEER_NAME": "ਵਲੰਟੀਅਰ ਦਾ ਨਾਮ ਦਰਜ ਕਰੋ",
   "FIND_BY_NAME": "ਨਾਮ ਦੁਆਰਾ ਲੱਭੋ",
-  "SEARCH_BY_NAME": "ਨਾਮ ਦੁਆਰਾ ਖੋਜੋ..."
+  "SEARCH_BY_NAME": "ਨਾਮ ਦੁਆਰਾ ਖੋਜੋ...",
+  "FIND_BY_EMAIL": "ਈਮੇਲ ਦੁਆਰਾ ਲੱਭੋ",
+  "FIND_BY_PHONE": "ਫ਼ੋਨ ਦੁਆਰਾ ਲੱਭੋ",
+  "ENTER_VOLUNTEER_EMAIL": "ਵਲੰਟੀਅਰ ਦੀ ਈਮੇਲ ਦਰਜ ਕਰੋ",
+  "ENTER_VOLUNTEER_PHONE": "ਵਲੰਟੀਅਰ ਦਾ ਫ਼ੋਨ ਦਰਜ ਕਰੋ"
 }

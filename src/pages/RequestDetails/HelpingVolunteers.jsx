@@ -34,6 +34,7 @@ const HelpingVolunteers = () => {
     direction: "ascending",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchBy, setSearchBy] = useState("name");
   const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
   const [volunteerCountError, setVolunteerCountError] = useState("");
@@ -456,12 +457,24 @@ const HelpingVolunteers = () => {
           <div className="ml-auto flex items-center space-x-4">
             <input
               type="text"
-              placeholder={t("ENTER_VOLUNTEER_NAME")}
+              placeholder={
+                searchBy === "email"
+                  ? t("ENTER_VOLUNTEER_EMAIL")
+                  : searchBy === "phone"
+                    ? t("ENTER_VOLUNTEER_PHONE")
+                    : t("ENTER_VOLUNTEER_NAME")
+              }
               className="p-3 border rounded-md w-64"
             />
-            <button className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center">
-              {t("FIND_BY_NAME")}
-            </button>
+            <select
+              value={searchBy}
+              onChange={(e) => setSearchBy(e.target.value)}
+              className="bg-blue-500 px-4 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 cursor-pointer"
+            >
+              <option value="name">{t("FIND_BY_NAME")}</option>
+              <option value="email">{t("FIND_BY_EMAIL")}</option>
+              <option value="phone">{t("FIND_BY_PHONE")}</option>
+            </select>
           </div>
         </div>
 

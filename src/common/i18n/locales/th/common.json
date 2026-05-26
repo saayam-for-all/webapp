@@ -36,5 +36,9 @@
   "VOLUNTEERS": "อาสาสมัคร",
   "ENTER_VOLUNTEER_NAME": "ป้อนชื่ออาสาสมัคร",
   "FIND_BY_NAME": "ค้นหาด้วยชื่อ",
-  "SEARCH_BY_NAME": "ค้นหาด้วยชื่อ..."
+  "SEARCH_BY_NAME": "ค้นหาด้วยชื่อ...",
+  "FIND_BY_EMAIL": "ค้นหาด้วยอีเมล",
+  "FIND_BY_PHONE": "ค้นหาด้วยเบอร์โทร",
+  "ENTER_VOLUNTEER_EMAIL": "ป้อนอีเมลอาสาสมัคร",
+  "ENTER_VOLUNTEER_PHONE": "ป้อนเบอร์โทรอาสาสมัคร"
 }
