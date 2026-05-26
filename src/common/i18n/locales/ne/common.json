@@ -35,5 +35,9 @@
   "VOLUNTEERS": "स्वयंसेवकहरू",
   "ENTER_VOLUNTEER_NAME": "स्वयंसेवकको नाम प्रविष्ट गर्नुहोस्",
   "FIND_BY_NAME": "नामले खोज्नुहोस्",
-  "SEARCH_BY_NAME": "नामले खोज्नुहोस्..."
+  "SEARCH_BY_NAME": "नामले खोज्नुहोस्...",
+  "FIND_BY_EMAIL": "ईमेलले खोज्नुहोस्",
+  "FIND_BY_PHONE": "फोनले खोज्नुहोस्",
+  "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकको ईमेल प्रविष्ट गर्नुहोस्",
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकको फोन प्रविष्ट गर्नुहोस्"
 }

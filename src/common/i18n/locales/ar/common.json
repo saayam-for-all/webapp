@@ -752,5 +752,9 @@
   "RESPONSE_TIME_NOTICE": "نرد عادةً على استفسارك في غضون 24-48 ساعة.",
   "ENTER_VOLUNTEER_NAME": "أدخل اسم المتطوع",
   "FIND_BY_NAME": "البحث بالاسم",
-  "SEARCH_BY_NAME": "البحث بالاسم..."
+  "SEARCH_BY_NAME": "البحث بالاسم...",
+  "FIND_BY_EMAIL": "البحث بالبريد الإلكتروني",
+  "FIND_BY_PHONE": "البحث بالهاتف",
+  "ENTER_VOLUNTEER_EMAIL": "أدخل بريد المتطوع الإلكتروني",
+  "ENTER_VOLUNTEER_PHONE": "أدخل هاتف المتطوع"
 }

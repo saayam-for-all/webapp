@@ -760,5 +760,9 @@
   "RESPONSE_TIME_NOTICE": "Normalmente, respondemos à sua consulta num prazo de 24 a 48 horas.",
   "ENTER_VOLUNTEER_NAME": "Inserir nome do voluntário",
   "FIND_BY_NAME": "Buscar por nome",
-  "SEARCH_BY_NAME": "Buscar por nome..."
+  "SEARCH_BY_NAME": "Buscar por nome...",
+  "FIND_BY_EMAIL": "Buscar por e-mail",
+  "FIND_BY_PHONE": "Buscar por telefone",
+  "ENTER_VOLUNTEER_EMAIL": "Inserir e-mail do voluntário",
+  "ENTER_VOLUNTEER_PHONE": "Inserir telefone do voluntário"
 }

@@ -35,5 +35,9 @@
   "VOLUNTEERS": "Mga Boluntaryo",
   "ENTER_VOLUNTEER_NAME": "Ilagay ang pangalan ng boluntaryo",
   "FIND_BY_NAME": "Hanapin sa pangalan",
-  "SEARCH_BY_NAME": "Maghanap sa pangalan..."
+  "SEARCH_BY_NAME": "Maghanap sa pangalan...",
+  "FIND_BY_EMAIL": "Hanapin sa email",
+  "FIND_BY_PHONE": "Hanapin sa telepono",
+  "ENTER_VOLUNTEER_EMAIL": "Ilagay ang email ng boluntaryo",
+  "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo"
 }

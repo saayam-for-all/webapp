@@ -35,5 +35,9 @@
   "VOLUNTEERS": "Sukarelawan",
   "ENTER_VOLUNTEER_NAME": "Masukkan nama sukarelawan",
   "FIND_BY_NAME": "Cari berdasarkan nama",
-  "SEARCH_BY_NAME": "Cari berdasarkan nama..."
+  "SEARCH_BY_NAME": "Cari berdasarkan nama...",
+  "FIND_BY_EMAIL": "Cari berdasarkan email",
+  "FIND_BY_PHONE": "Cari berdasarkan telepon",
+  "ENTER_VOLUNTEER_EMAIL": "Masukkan email sukarelawan",
+  "ENTER_VOLUNTEER_PHONE": "Masukkan telepon sukarelawan"
 }

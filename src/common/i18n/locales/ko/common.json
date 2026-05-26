@@ -35,5 +35,9 @@
   "VOLUNTEERS": "자원봉사자",
   "ENTER_VOLUNTEER_NAME": "자원봉사자 이름 입력",
   "FIND_BY_NAME": "이름으로 찾기",
-  "SEARCH_BY_NAME": "이름으로 검색..."
+  "SEARCH_BY_NAME": "이름으로 검색...",
+  "FIND_BY_EMAIL": "이메일로 찾기",
+  "FIND_BY_PHONE": "전화번호로 찾기",
+  "ENTER_VOLUNTEER_EMAIL": "자원봉사자 이메일 입력",
+  "ENTER_VOLUNTEER_PHONE": "자원봉사자 전화번호 입력"
 }
