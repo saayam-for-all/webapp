@@ -357,4 +357,74 @@ describe("HelpingVolunteers", () => {
     fireEvent.click(screen.getByText("Sort by: Newest"));
     // No crash = pass
   });
+
+  it("renders the search-by dropdown with Name, Email, and Phone options", async () => {
+    render(<HelpingVolunteers />);
+    await screen.findByText("Jane Cooper");
+
+    expect(
+      screen.getByDisplayValue("mockTranslate(FIND_BY_NAME)"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("option", { name: "mockTranslate(FIND_BY_NAME)" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("option", { name: "mockTranslate(FIND_BY_EMAIL)" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("option", { name: "mockTranslate(FIND_BY_PHONE)" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows Enter volunteer name placeholder by default", async () => {
+    render(<HelpingVolunteers />);
+    await screen.findByText("Jane Cooper");
+
+    expect(
+      screen.getByPlaceholderText("mockTranslate(ENTER_VOLUNTEER_NAME)"),
+    ).toBeInTheDocument();
+  });
+
+  it("changes placeholder to Enter volunteer email when Email is selected", async () => {
+    render(<HelpingVolunteers />);
+    await screen.findByText("Jane Cooper");
+
+    const searchBySelect = screen.getByDisplayValue(
+      "mockTranslate(FIND_BY_NAME)",
+    );
+    fireEvent.change(searchBySelect, { target: { value: "email" } });
+
+    expect(
+      screen.getByPlaceholderText("mockTranslate(ENTER_VOLUNTEER_EMAIL)"),
+    ).toBeInTheDocument();
+  });
+
+  it("changes placeholder to Enter volunteer phone when Phone is selected", async () => {
+    render(<HelpingVolunteers />);
+    await screen.findByText("Jane Cooper");
+
+    const searchBySelect = screen.getByDisplayValue(
+      "mockTranslate(FIND_BY_NAME)",
+    );
+    fireEvent.change(searchBySelect, { target: { value: "phone" } });
+
+    expect(
+      screen.getByPlaceholderText("mockTranslate(ENTER_VOLUNTEER_PHONE)"),
+    ).toBeInTheDocument();
+  });
+
+  it("restores Enter volunteer name placeholder when Name is reselected", async () => {
+    render(<HelpingVolunteers />);
+    await screen.findByText("Jane Cooper");
+
+    const searchBySelect = screen.getByDisplayValue(
+      "mockTranslate(FIND_BY_NAME)",
+    );
+    fireEvent.change(searchBySelect, { target: { value: "email" } });
+    fireEvent.change(searchBySelect, { target: { value: "name" } });
+
+    expect(
+      screen.getByPlaceholderText("mockTranslate(ENTER_VOLUNTEER_NAME)"),
+    ).toBeInTheDocument();
+  });
 });
