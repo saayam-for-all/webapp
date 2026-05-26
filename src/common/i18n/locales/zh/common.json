@@ -744,5 +744,8 @@
   "COLLABORATION_PARTNERSHIP": "协作 / 合作伙伴",
   "GENERAL_INQUIRY": "一般查询",
   "NOTE_LABEL": "备注：",
-  "RESPONSE_TIME_NOTICE": "我们通常会在 24-48 小时内回复您的询问。"
+  "RESPONSE_TIME_NOTICE": "我们通常会在 24-48 小时内回复您的询问。",
+  "ENTER_VOLUNTEER_NAME": "输入志愿者姓名",
+  "FIND_BY_NAME": "按姓名查找",
+  "SEARCH_BY_NAME": "按姓名搜索..."
 }

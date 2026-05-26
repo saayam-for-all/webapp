@@ -749,5 +749,8 @@
   "COLLABORATION_PARTNERSHIP": "Colaboración / Asociación",
   "GENERAL_INQUIRY": "Consulta general",
   "NOTE_LABEL": "Nota:",
-  "RESPONSE_TIME_NOTICE": "Normalmente respondemos a su consulta en un plazo de 24 a 48 horas."
+  "RESPONSE_TIME_NOTICE": "Normalmente respondemos a su consulta en un plazo de 24 a 48 horas.",
+  "ENTER_VOLUNTEER_NAME": "Ingresar nombre del voluntario",
+  "FIND_BY_NAME": "Buscar por nombre",
+  "SEARCH_BY_NAME": "Buscar por nombre..."
 }
