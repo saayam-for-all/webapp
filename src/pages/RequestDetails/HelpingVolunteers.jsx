@@ -5,7 +5,7 @@ import {
   createZoomMeeting,
   storeMeetingDetails,
 } from "../../services/meetingServices";
-import { FaVideo, FaTrash } from "react-icons/fa";
+import { FaVideo } from "react-icons/fa";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
@@ -70,67 +70,6 @@ const HelpingVolunteers = () => {
     };
     fetchVolunteers();
   }, []);
-
-  // Dummy volunteer data with added date field
-  // const volunteerData = useMemo(
-  //   () => [
-  //     {
-  //       name: "Jane Cooper",
-  //       cause: "Cooking",
-  //       phone: "(225) 555-0118",
-  //       email: "jane@microsoft.com",
-  //       location: "Boston, USA",
-  //       rating: "★★★★★",
-  //       dateAdded: "2023-10-01",
-  //     },
-  //     {
-  //       name: "Floyd Miles",
-  //       cause: "Banking",
-  //       phone: "(205) 555-0100",
-  //       email: "floyd@yahoo.com",
-  //       location: "New York, USA",
-  //       rating: "★★★☆☆",
-  //       dateAdded: "2023-09-25",
-  //     },
-  //     {
-  //       name: "Ronald Richards",
-  //       cause: "Medical",
-  //       phone: "(302) 555-0107",
-  //       email: "ronald@adobe.com",
-  //       location: "Brasilia, Brazil",
-  //       rating: "★★★★☆",
-  //       dateAdded: "2023-10-05",
-  //     },
-  //     {
-  //       name: "Marvin McKinney",
-  //       cause: "College admission",
-  //       phone: "(252) 555-0126",
-  //       email: "marvin@tesla.com",
-  //       location: "Delhi, India",
-  //       rating: "★★★★★",
-  //       dateAdded: "2023-09-30",
-  //     },
-  //     {
-  //       name: "Jerome Bell",
-  //       cause: "Housing",
-  //       phone: "(629) 555-0129",
-  //       email: "jerome@google.com",
-  //       location: "Texas, USA",
-  //       rating: "★★★☆☆",
-  //       dateAdded: "2023-10-10",
-  //     },
-  //     {
-  //       name: "Kathryn Murphy",
-  //       cause: "Cooking",
-  //       phone: "(406) 555-0120",
-  //       email: "kathryn@microsoft.com",
-  //       location: "Chicago, USA",
-  //       rating: "★★☆☆☆",
-  //       dateAdded: "2023-10-08",
-  //     },
-  //   ],
-  //   [],
-  // );
 
   // Columns for the table
   const headers = [
@@ -270,7 +209,7 @@ const HelpingVolunteers = () => {
             <span>Zoom Meeting</span>
           </button>
           <button
-            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
+            className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
             disabled={selectedVolunteers.length === 0}
             onClick={() => {
               setVolunteerData((prev) =>
@@ -281,8 +220,7 @@ const HelpingVolunteers = () => {
               setSelectedVolunteers([]);
             }}
           >
-            <FaTrash className="text-lg" />
-            <span>Delete</span>
+            {t("Delete")}
           </button>
         </div>
         {meetingModalOpen && (
