@@ -1215,6 +1215,24 @@ describe("HelpRequestForm — edit mode submission", () => {
     });
   });
 
+  it("restores catId field when reqCatId is absent on edit", () => {
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-CATID-ONLY",
+        requesterId: "SID-00-000-002-622",
+        subject: "Test catId fallback",
+        catId: "5.4",
+        description: "Some desc",
+        type: "REMOTE",
+        priority: "MEDIUM",
+        calamity: false,
+      },
+    });
+
+    expect(document.getElementById("description").value).toBe("Some desc");
+  });
+
   it("resolves sub-subcategory name to numeric catId on edit", async () => {
     const {
       checkProfanity,
