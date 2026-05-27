@@ -161,6 +161,8 @@ const Dashboard = ({ userRole }) => {
             ...r,
             id: r.requestId || r.id,
             category: r.requestCategory || r.category,
+            description: r.reqDesc || r.description,
+            catId: r.reqCatId || r.catId,
           }),
         );
         setData({ body: normalizedRecords });

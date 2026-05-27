@@ -40,15 +40,19 @@ jest.mock("./views/BeneficiaryDashboard", () => () => (
 jest.mock("./views/VolunteerDashboard", () => () => (
   <div data-testid="volunteer-dashboard" />
 ));
-jest.mock("./views/AdminDashboard", () => (props) => (
-  <div data-testid="admin-dashboard">
-    <button onClick={() => props.handleTabChange("myRequests")}>
-      Click All Requests
-    </button>
-    <button onClick={() => props.setCurrentPage(2)}>Change Page</button>
-    <button onClick={() => props.onRowsPerPageChange(25)}>Change Rows</button>
-  </div>
-));
+let lastAdminDashboardProps = null;
+jest.mock("./views/AdminDashboard", () => (props) => {
+  lastAdminDashboardProps = props;
+  return (
+    <div data-testid="admin-dashboard">
+      <button onClick={() => props.handleTabChange("myRequests")}>
+        Click All Requests
+      </button>
+      <button onClick={() => props.setCurrentPage(2)}>Change Page</button>
+      <button onClick={() => props.onRowsPerPageChange(25)}>Change Rows</button>
+    </div>
+  );
+});
 jest.mock("./views/StewardDashboard", () => () => (
   <div data-testid="steward-dashboard" />
 ));
@@ -67,6 +71,7 @@ import Dashboard from "./Dashboard";
 describe("Dashboard", () => {
   beforeEach(() => {
     localStorage.clear();
+    lastAdminDashboardProps = null;
   });
 
   it("renders beneficiary dashboard by default when user has no groups", () => {
@@ -129,6 +134,56 @@ describe("Dashboard", () => {
     });
     // Malformed JSON is swallowed by the try/catch; Admin role default wins.
     expect(getByTestId("admin-dashboard")).toBeInTheDocument();
+  });
+
+  it("maps reqDesc and reqCatId from paginated help-requests response", async () => {
+    const {
+      getAllPaginatedRequests,
+    } = require("../../services/requestServices");
+
+    const paginatedRow = {
+      requestId: "REQ-00-000-000-0360",
+      requesterId: "SID-00-000-003-016",
+      status: "MATCHING_VOLUNTEER",
+      requestCategory: "MEAL_PREP_BASIC",
+      reqCatId: "1.3.1",
+      reqDesc: "High protein vegetarian meals",
+      type: "REMOTE",
+      priority: "MEDIUM",
+      calamity: false,
+      updatedDate: "2026-05-24T17:17:45.999808Z",
+    };
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: {
+        content: [paginatedRow],
+        totalPages: 1,
+        totalElements: 1,
+      },
+    });
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: {
+        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
+      },
+    });
+
+    fireEvent.click(getByText("Click All Requests"));
+
+    await waitFor(() => {
+      const row = lastAdminDashboardProps?.filteredData?.find(
+        (r) => r.id === "REQ-00-000-000-0360",
+      );
+      expect(row).toMatchObject({
+        description: "High protein vegetarian meals",
+        catId: "1.3.1",
+        requesterId: "SID-00-000-003-016",
+      });
+    });
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
   });
 
   it("calls getAllPaginatedRequests when Admin switches to All Requests tab", async () => {

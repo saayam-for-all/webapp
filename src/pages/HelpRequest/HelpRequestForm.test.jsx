@@ -1157,6 +1157,64 @@ describe("HelpRequestForm — edit mode submission", () => {
     });
   });
 
+  it("restores reqDesc and reqCatId from paginated help-requests API on edit", async () => {
+    const {
+      checkProfanity,
+      updateRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    updateRequest.mockResolvedValue({
+      data: { requestId: "REQ-00-000-000-0360" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-0360",
+        requesterId: "SID-00-000-002-622",
+        subject: "Meal Prep help",
+        type: "REMOTE",
+        priority: "MEDIUM",
+        reqCatId: "1.3.1",
+        reqDesc: "Looking for high protein vegetarian meals",
+        calamity: false,
+      },
+    });
+
+    expect(document.getElementById("description").value).toBe(
+      "Looking for high protein vegetarian meals",
+    );
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Updated meal prep description.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SAVE)" }),
+      );
+    });
+
+    await waitFor(() => expect(updateRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+    expect(callArgs.selectedCategoryId).toBe("1.3.1");
+    expect(callArgs.requesterId).toBe("SID-00-000-002-622");
+
+    await act(async () => {
+      jest.advanceTimersByTime(1200);
+    });
+  });
+
   it("resolves sub-subcategory name to numeric catId on edit", async () => {
     const {
       checkProfanity,
