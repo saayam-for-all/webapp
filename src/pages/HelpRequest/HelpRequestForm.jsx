@@ -277,6 +277,8 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     if (requestData) {
       const rawCategory =
         requestData.helpCategory?.catId ||
+        requestData.catId ||
+        requestData.reqCatId ||
         requestData.category ||
         requestData.requestCategory ||
         "General";
@@ -285,7 +287,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       setFormData({
         ...requestData,
         category,
-        description: requestData.description || requestData.requestDescription,
+        description:
+          requestData.description ||
+          requestData.reqDesc ||
+          requestData.requestDescription,
         subject: requestData.subject || requestData.requestSubject,
         is_calamity: requestData.is_calamity ?? requestData.calamity ?? false,
         // Map paginated API and nested detail API values to flat form fields.
