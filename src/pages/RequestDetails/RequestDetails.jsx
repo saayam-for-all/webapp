@@ -88,9 +88,9 @@ const RequestDetails = () => {
     },
     {
       context: "Ethan Marshall",
-      type: "Volunteer",
+      type: "LEAD_VOLUNTEER",
       icon: <RiUserStarLine size={22} />,
-      isClickable: false,
+      isClickable: true,
     },
   ];
 
