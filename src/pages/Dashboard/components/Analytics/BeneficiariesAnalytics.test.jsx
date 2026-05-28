@@ -13,15 +13,27 @@ jest.mock("recharts", () => ({
   XAxis: () => null,
   YAxis: () => null,
   CartesianGrid: () => null,
-  Tooltip: () => null,
+  Tooltip: ({ formatter }) => {
+    if (formatter) formatter(5);
+    return null;
+  },
   Legend: () => null,
   ResponsiveContainer: ({ children }) => <div>{children}</div>,
 }));
 
 jest.mock("react-simple-maps", () => ({
   ComposableMap: ({ children }) => <div>{children}</div>,
-  Geographies: ({ children }) => children({ geographies: [] }),
-  Geography: () => null,
+  Geographies: ({ children }) =>
+    children({
+      geographies: [{ rsmKey: "geo-1", properties: { name: "Afghanistan" } }],
+    }),
+  Geography: ({ onMouseEnter, onMouseLeave }) => (
+    <div
+      data-testid="geography"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    />
+  ),
   ZoomableGroup: ({ children }) => <div>{children}</div>,
 }));
 
@@ -89,7 +101,7 @@ describe("BeneficiariesAnalytics", () => {
     render(<BeneficiariesAnalytics />);
     await waitFor(() => screen.getByText("Daily"));
     fireEvent.click(screen.getByText("Daily"));
-    expect(screen.getByText("Daily")).toHaveClass("bg-purple-500");
+    expect(screen.getByText("Daily")).toHaveClass("bg-blue-500");
   });
 
   it("activates Weekly button when clicked and aggregates data", async () => {
@@ -97,8 +109,26 @@ describe("BeneficiariesAnalytics", () => {
     render(<BeneficiariesAnalytics />);
     await waitFor(() => screen.getByText("Weekly"));
     fireEvent.click(screen.getByText("Weekly"));
-    expect(screen.getByText("Weekly")).toHaveClass("bg-purple-500");
+    expect(screen.getByText("Weekly")).toHaveClass("bg-blue-500");
     expect(screen.getByTestId("line-chart")).toBeInTheDocument();
+  });
+
+  it("auto-fetches when both custom dates are filled", async () => {
+    getBeneficiariesTrendAnalysis.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => screen.getByText("Custom"));
+    fireEvent.click(screen.getByText("Custom"));
+    const inputs = document.querySelectorAll('input[type="date"]');
+    fireEvent.change(inputs[0], { target: { value: "2026-05-01" } });
+    fireEvent.change(inputs[1], { target: { value: "2026-05-31" } });
+    await waitFor(() => {
+      expect(getBeneficiariesTrendAnalysis).toHaveBeenCalledWith(
+        expect.objectContaining({
+          beneficiaries_start_date: "2026-05-01",
+          beneficiaries_end_date: "2026-05-31",
+        }),
+      );
+    });
   });
 
   it("shows fallback warning when API call fails", async () => {
@@ -120,12 +150,24 @@ describe("BeneficiariesAnalytics", () => {
     });
   });
 
-  it("toggles country view to map when Map button is clicked", async () => {
+  it("toggles country view between map and bar", async () => {
     getBeneficiariesTrendAnalysis.mockResolvedValue(MOCK_API_RESPONSE);
     render(<BeneficiariesAnalytics />);
     await waitFor(() => screen.getAllByText("Map"));
     fireEvent.click(screen.getAllByText("Map")[0]);
     expect(screen.getAllByText("Map")[0]).toHaveClass("bg-blue-500");
+    fireEvent.click(screen.getAllByText("Bar")[0]);
+    expect(screen.getAllByText("Bar")[0]).toHaveClass("bg-blue-500");
+  });
+
+  it("fires geography mouseEnter and mouseLeave handlers in map view", async () => {
+    getBeneficiariesTrendAnalysis.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => screen.getAllByText("Map"));
+    fireEvent.click(screen.getAllByText("Map")[0]);
+    const geo = await waitFor(() => screen.getByTestId("geography"));
+    fireEvent.mouseEnter(geo);
+    fireEvent.mouseLeave(geo);
   });
 
   it("toggles Top 10 Only checkbox in country bar chart", async () => {
