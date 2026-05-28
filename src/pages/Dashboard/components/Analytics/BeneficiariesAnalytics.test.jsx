@@ -127,4 +127,14 @@ describe("BeneficiariesAnalytics", () => {
     fireEvent.click(screen.getAllByText("Map")[0]);
     expect(screen.getAllByText("Map")[0]).toHaveClass("bg-blue-500");
   });
+
+  it("toggles Top 10 Only checkbox in country bar chart", async () => {
+    getBeneficiariesTrendAnalysis.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => screen.getByLabelText(/top 10 only/i));
+    const checkbox = screen.getByLabelText(/top 10 only/i);
+    expect(checkbox).toBeChecked();
+    fireEvent.click(checkbox);
+    expect(checkbox).not.toBeChecked();
+  });
 });
