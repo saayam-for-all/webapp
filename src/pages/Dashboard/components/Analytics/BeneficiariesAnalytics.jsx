@@ -48,7 +48,10 @@ const normalizeItems = (arr) =>
 
 // Format country name from UPPER_CASE_WITH_UNDERSCORES → Title Case
 const formatCountryName = (name) =>
-  name.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  name
+    .toLowerCase()
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 
 /**
  * BeneficiariesAnalytics Component
