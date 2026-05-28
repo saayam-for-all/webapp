@@ -32,11 +32,13 @@ const getRelativeDate = (daysOffset = 0) => {
   return d.toISOString().split("T")[0];
 };
 
-// Map granularity toggle to the corresponding API response key
+// Map time range selection to the corresponding API response key
 const BENEFICIARY_TREND_KEYS = {
   daily: "7 days beneficiaries",
   weekly: "1 month beneficiaries", // aggregated client-side into weekly buckets
   monthly: "1 year beneficiaries",
+  all: "1 year beneficiaries",
+  custom: "Custom date range beneficiaries",
 };
 
 // Normalize API items { Date, Count } → { date, count }
@@ -57,15 +59,27 @@ const formatCountryName = (name) =>
  * BeneficiariesAnalytics Component
  *
  * Displays:
- * 1. Beneficiary Growth Trend (Line Chart) - Daily / Weekly / Monthly view
- *    - Daily  → last 7 days  ("7 days beneficiaries")
- *    - Weekly → last month daily data aggregated into weekly buckets ("1 month beneficiaries")
+ * 1. Beneficiary Growth Trend (Line Chart) - time range selector with Daily / Weekly / Monthly / All / Custom
+ *    - Daily   → last 7 days  ("7 days beneficiaries")
+ *    - Weekly  → last month daily data aggregated into weekly buckets ("1 month beneficiaries")
  *    - Monthly → last year monthly data ("1 year beneficiaries")
+ *    - All     → same as Monthly (full year dataset)
+ *    - Custom  → re-fetches with user-supplied date range ("Custom date range beneficiaries")
  * 2. Beneficiaries by Country (Bar Chart with Top 10 Panel) - Geographic distribution
  */
 const BeneficiariesAnalytics = () => {
-  // Granularity toggle for the line chart: daily, weekly, monthly
-  const [granularity, setGranularity] = useState("monthly");
+  // Time range states
+  const [timeRange, setTimeRange] = useState("monthly"); // daily, weekly, monthly, all, custom
+  const [customStartDate, setCustomStartDate] = useState("");
+  const [customEndDate, setCustomEndDate] = useState("");
+
+  // fetchParams drives the useEffect; changes on mount or when custom dates are both filled
+  const [fetchParams, setFetchParams] = useState({
+    beneficiaries_start_date: getRelativeDate(-30),
+    beneficiaries_end_date: getRelativeDate(0),
+    help_requests_start_date: getRelativeDate(-60),
+    help_requests_end_date: getRelativeDate(0),
+  });
 
   const [showTop10Only, setShowTop10Only] = useState(true);
   const [geoViewType, setGeoViewType] = useState("bar"); // bar or map
@@ -74,19 +88,13 @@ const BeneficiariesAnalytics = () => {
   const [apiLoading, setApiLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
 
-  // Fetch data from API on mount
+  // Fetch data from API on mount and whenever fetchParams changes
   useEffect(() => {
     let cancelled = false;
     const fetchData = async () => {
       try {
         setApiLoading(true);
-        const payload = {
-          beneficiaries_start_date: getRelativeDate(-30),
-          beneficiaries_end_date: getRelativeDate(0),
-          help_requests_start_date: getRelativeDate(-60),
-          help_requests_end_date: getRelativeDate(0),
-        };
-        const response = await getBeneficiariesTrendAnalysis(payload);
+        const response = await getBeneficiariesTrendAnalysis(fetchParams);
         console.log("Beneficiaries API response:", response);
         if (!cancelled) {
           setApiData(response);
@@ -103,7 +111,19 @@ const BeneficiariesAnalytics = () => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [fetchParams]);
+
+  // Auto re-fetch when both custom dates are filled
+  useEffect(() => {
+    if (timeRange === "custom" && customStartDate && customEndDate) {
+      setFetchParams({
+        beneficiaries_start_date: customStartDate,
+        beneficiaries_end_date: customEndDate,
+        help_requests_start_date: customStartDate,
+        help_requests_end_date: customEndDate,
+      });
+    }
+  }, [customStartDate, customEndDate, timeRange]);
 
   // Format month for display
   const formatMonthLabel = (monthStr) => {
@@ -115,12 +135,13 @@ const BeneficiariesAnalytics = () => {
     });
   };
 
-  // Format a date string for display based on current granularity
-  const formatLabel = (dateStr, gran) => {
+  // Format a date string for display based on current time range
+  const formatLabel = (dateStr, range) => {
     if (!dateStr) return "";
-    if (gran === "monthly") return formatMonthLabel(dateStr.substring(0, 7));
-    if (gran === "weekly") return dateStr; // already "YYYY-Www" from aggregation
-    // daily
+    if (range === "monthly" || range === "all")
+      return formatMonthLabel(dateStr.substring(0, 7));
+    if (range === "weekly") return dateStr; // already "YYYY-Www" from aggregation
+    // daily and custom — show "May 22" style
     const d = new Date(dateStr + "T00:00:00");
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
@@ -147,15 +168,14 @@ const BeneficiariesAnalytics = () => {
       const body = apiData.body ?? apiData;
 
       // Check common response shapes
-      const key = BENEFICIARY_TREND_KEYS[granularity];
+      const key = BENEFICIARY_TREND_KEYS[timeRange];
       const raw = normalizeItems(body[key]);
 
       if (raw.length > 0) {
         // Weekly view: aggregate the daily "1 month" data into weekly buckets
-        const aggregated =
-          granularity === "weekly" ? aggregateWeekly(raw) : raw;
+        const aggregated = timeRange === "weekly" ? aggregateWeekly(raw) : raw;
         return aggregated.map((item) => ({
-          label: formatLabel(item.date, granularity),
+          label: formatLabel(item.date, timeRange),
           count: item.count,
         }));
       }
@@ -166,7 +186,7 @@ const BeneficiariesAnalytics = () => {
       label: formatMonthLabel(item.month),
       count: item.newBeneficiaries,
     }));
-  }, [apiData, granularity]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [apiData, timeRange]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Extract country data from API response, fallback to mock data
   const beneficiariesByCountryData = useMemo(() => {
@@ -233,31 +253,51 @@ const BeneficiariesAnalytics = () => {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Chart 1: Beneficiary Trend Line Chart with granularity toggle */}
-      <ChartContainer
-        title="Beneficiary Growth Trend"
-        description="New beneficiaries over time — switch between daily, weekly, and monthly views"
-      >
-        {/* Granularity toggle: Daily / Weekly / Monthly */}
-        <div className="flex gap-1 mb-3">
-          {["daily", "weekly", "monthly"].map((g) => (
+    <div className="grid grid-cols-2 gap-4">
+      {/* Chart 1: Beneficiary Growth Trend with Time Range Selector */}
+      <ChartContainer title="Beneficiary Growth Trend" description="">
+        {/* Time Range Selector */}
+        <div className="flex gap-1.5 mb-2 flex-wrap items-center">
+          {[
+            { id: "daily", label: "Daily" },
+            { id: "weekly", label: "Weekly" },
+            { id: "monthly", label: "Monthly" },
+            { id: "all", label: "All" },
+            { id: "custom", label: "Custom" },
+          ].map(({ id, label }) => (
             <button
-              key={g}
-              onClick={() => setGranularity(g)}
-              className={`px-3 py-1 text-xs rounded capitalize ${
-                granularity === g
-                  ? "bg-purple-500 text-white"
+              key={id}
+              onClick={() => setTimeRange(id)}
+              className={`px-2 py-0.5 text-xs rounded ${
+                timeRange === id
+                  ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              {g.charAt(0).toUpperCase() + g.slice(1)}
+              {label}
             </button>
           ))}
+          {timeRange === "custom" && (
+            <>
+              <input
+                type="date"
+                value={customStartDate}
+                onChange={(e) => setCustomStartDate(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+              <span className="text-xs text-gray-500">→</span>
+              <input
+                type="date"
+                value={customEndDate}
+                onChange={(e) => setCustomEndDate(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+            </>
+          )}
         </div>
 
         {apiError && (
-          <div className="mb-3 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
+          <div className="mb-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
             Could not load live data from API. Showing fallback data.
           </div>
         )}
@@ -267,7 +307,7 @@ const BeneficiariesAnalytics = () => {
             Loading beneficiaries data…
           </div>
         ) : (
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={210}>
             <LineChart
               data={chartData}
               margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
