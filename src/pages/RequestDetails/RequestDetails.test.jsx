@@ -76,6 +76,17 @@ describe("RequestDetails - Tab Translation Tests", () => {
     fireEvent.click(screen.getByText("VOLUNTEERS"));
     expect(screen.queryByText("No files")).not.toBeInTheDocument();
   });
+
+  it("renders lead volunteer as clickable with LEAD_VOLUNTEER label", async () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(
+      await screen.findByRole("button", { name: "Ethan Marshall" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("LEAD_VOLUNTEER")).toBeInTheDocument();
+  });
 });
 
 describe("RequestDetails - Edit onClose refreshes data", () => {
