@@ -2,8 +2,8 @@ import api from "./api";
 // import axios from "axios";
 import endpoints from "./endpoints.json";
 
-export const getMyRequests = async () => {
-  const response = await api.get(endpoints.GET_MY_REQUESTS);
+export const getMyRequests = async (request) => {
+  const response = await api.post(endpoints.GET_MY_REQUESTS, request);
   return response.data;
 };
 

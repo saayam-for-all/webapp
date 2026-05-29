@@ -125,26 +125,27 @@ export const checkAuthStatus = () => async (dispatch) => {
       // Setting default to production if fetch fails
       localStorage.setItem("environment", JSON.stringify("production"));
     }
-
     let userDbId = null;
+
     try {
-      const result = await getUserId(email);
+      const response = await getUserId(email);
+
+      console.log("getUserId response:", response);
+
       userDbId =
-        result?.data?.user_id || result?.data?.id || result?.id || null;
-      if (userDbId && typeof userDbId === "string") {
+        response?.data?.user_id ||
+        response?.data?.id ||
+        response?.data?.userDbId ||
+        response?.user_id ||
+        response?.id ||
+        response?.userDbId ||
+        null;
+
+      if (userDbId) {
         localStorage.setItem("userDbId", userDbId);
-      } else {
-        console.warn(
-          "getUserId returned successfully but no id found in response:",
-          JSON.stringify(result),
-        );
-        userDbId = null;
       }
     } catch (dbError) {
-      console.warn(
-        "Database lookup failed, continuing without databaseId:",
-        dbError.message,
-      );
+      console.warn("Database lookup failed:", dbError.message);
     }
 
     const user = {

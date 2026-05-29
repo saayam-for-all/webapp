@@ -12,6 +12,7 @@ const BeneficiaryDashboard = (props) => {
     currentPage,
     setCurrentPage,
     totalPages,
+    totalRows,
     rowsPerPage,
     sortConfig,
     requestSort,
@@ -68,7 +69,7 @@ const BeneficiaryDashboard = (props) => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             totalPages={totalPages(filteredData)}
-            totalRows={filteredData.length}
+            totalRows={totalRows}
             itemsPerPage={rowsPerPage}
             sortConfig={sortConfig}
             requestSort={requestSort}

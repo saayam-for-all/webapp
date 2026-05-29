@@ -5,6 +5,7 @@ export const mapHelpRequestPayload = ({
   enumMaps,
   additionalFields,
 }) => {
+  console.log("requesterId value:", requesterId);
   const payload = {
     requesterId: requesterId,
     requestSubject: formData.subject,

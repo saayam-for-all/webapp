@@ -21,15 +21,12 @@ const Table = ({
   const { t, i18n } = useTranslation(["common", "categories"]);
 
   const paginatedRequests = useMemo(() => {
-    return rows.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage,
-    );
-  }, [rows, currentPage, itemsPerPage]);
+    return rows;
+  }, [rows]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [totalRows, itemsPerPage, setCurrentPage]);
+  //useEffect(() => {
+  //setCurrentPage(1);
+  //}, [totalRows, itemsPerPage, setCurrentPage]);
 
   const getSortIndicator = (key) => {
     if (sortConfig.key === key) {
@@ -66,7 +63,11 @@ const Table = ({
     return value;
   };
 
-  const dataKeyMap = { requestId: "id", beneficiaryId: "userId" };
+  const dataKeyMap = {
+    requestId: "requestId",
+    beneficiaryId: "userId",
+    category: "requestCategory",
+  };
   const resolveKey = (header) => dataKeyMap[header] || header;
 
   const headerLabelMap = {
@@ -98,8 +99,8 @@ const Table = ({
 
   const getCellValue = (row, header) => {
     if (header === "requestId") return row[resolveKey(header)];
-    if (header === "category") return getCategoryLabel(row[header]);
-    return formatDateTime(row[header], header);
+    if (header === "category") return getCategoryLabel(row[resolveKey(header)]);
+    return formatDateTime(row[resolveKey(header)], header);
   };
 
   const shouldLinkCell = (header) => header === "requestId" || header === "id";
