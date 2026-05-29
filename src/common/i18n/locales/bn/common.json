@@ -749,5 +749,12 @@
   "COLLABORATION_PARTNERSHIP": "সহযোগিতা / অংশীদারিত্ব",
   "GENERAL_INQUIRY": "সাধারণ অনুসন্ধান",
   "NOTE_LABEL": "দ্রষ্টব্য:",
-  "RESPONSE_TIME_NOTICE": "আমরা সাধারণত ২৪-৪৮ ঘণ্টার মধ্যে আপনার অনুসন্ধানের উত্তর দিই।"
+  "RESPONSE_TIME_NOTICE": "আমরা সাধারণত ২৪-৪৮ ঘণ্টার মধ্যে আপনার অনুসন্ধানের উত্তর দিই।",
+  "ENTER_VOLUNTEER_NAME": "স্বেচ্ছাসেবকের নাম লিখুন",
+  "FIND_BY_NAME": "নাম দিয়ে খুঁজুন",
+  "SEARCH_BY_NAME": "নাম দিয়ে অনুসন্ধান করুন...",
+  "FIND_BY_EMAIL": "ইমেইল দিয়ে খুঁজুন",
+  "FIND_BY_PHONE": "ফোন দিয়ে খুঁজুন",
+  "ENTER_VOLUNTEER_EMAIL": "স্বেচ্ছাসেবকের ইমেইল লিখুন",
+  "ENTER_VOLUNTEER_PHONE": "স্বেচ্ছাসেবকের ফোন লিখুন"
 }

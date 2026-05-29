@@ -22,6 +22,8 @@ const SuperAdminDashboard = (props) => {
     searchFilters,
     analyticsSubtab,
     setAnalyticsSubtab,
+    serverPaginated,
+    serverTotalRows,
   } = props;
 
   return (
@@ -121,13 +123,16 @@ const SuperAdminDashboard = (props) => {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               totalPages={totalPages(filteredData)}
-              totalRows={filteredData.length}
+              totalRows={
+                serverPaginated ? serverTotalRows : filteredData.length
+              }
               itemsPerPage={rowsPerPage}
               sortConfig={sortConfig}
               requestSort={requestSort}
               onRowsPerPageChange={onRowsPerPageChange}
               getLinkPath={getLinkPath}
               getLinkState={getLinkState}
+              serverPaginated={serverPaginated}
             />
           )
         )}
@@ -154,6 +159,8 @@ SuperAdminDashboard.propTypes = {
   searchFilters: PropTypes.node,
   analyticsSubtab: PropTypes.string,
   setAnalyticsSubtab: PropTypes.func,
+  serverPaginated: PropTypes.bool,
+  serverTotalRows: PropTypes.number,
 };
 
 export default SuperAdminDashboard;

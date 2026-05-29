@@ -26,6 +26,7 @@ import {
   getManagedRequests,
   getMyRequests,
   getOthersRequests,
+  getAllPaginatedRequests,
 } from "../../services/requestServices";
 import {
   getStatusOptions,
@@ -916,6 +917,22 @@ const Dashboard = ({ userRole }) => {
   const handleRowsPerPageChange = (rows) => {
     setRowsPerPage(rows);
     setCurrentPage(1);
+    // Re-fetch from server with new page size (pass directly to avoid stale state)
+    if (serverPagination.isServerPaginated) {
+      getAllRequests(activeTab, 0, rows);
+    }
+  };
+
+  // Handle page change — for server-paginated mode, fetch the new page from API
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    if (
+      serverPagination.isServerPaginated &&
+      newPage - 1 !== serverPagination.currentServerPage
+    ) {
+      // API uses 0-indexed pages, UI uses 1-indexed
+      getAllRequests(activeTab, newPage - 1);
+    }
   };
 
   // Count selected categories (for badge display)
@@ -1429,7 +1446,7 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                setCurrentPage={handlePageChange}
                 totalPages={totalPages}
                 totalRows={totalRows()}
                 rowsPerPage={rowsPerPage}
@@ -1447,6 +1464,8 @@ const Dashboard = ({ userRole }) => {
                 }
                 analyticsSubtab={analyticsSubtab}
                 setAnalyticsSubtab={setAnalyticsSubtab}
+                serverPaginated={serverPagination.isServerPaginated}
+                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 
@@ -1458,7 +1477,7 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                setCurrentPage={handlePageChange}
                 totalPages={totalPages}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
@@ -1475,6 +1494,8 @@ const Dashboard = ({ userRole }) => {
                 }
                 analyticsSubtab={analyticsSubtab}
                 setAnalyticsSubtab={setAnalyticsSubtab}
+                serverPaginated={serverPagination.isServerPaginated}
+                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 
@@ -1484,7 +1505,7 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                setCurrentPage={handlePageChange}
                 totalPages={totalPages}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
@@ -1497,6 +1518,8 @@ const Dashboard = ({ userRole }) => {
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
+                serverPaginated={serverPagination.isServerPaginated}
+                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 

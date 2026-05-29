@@ -35,5 +35,12 @@
   "Aakash Gangji": "ஆகாஷ் காங்க்ஜி",
   "Lead AI/ML Developer/Engineer": "முன்னணி AI/ML டெவலப்பர்/எஞ்சினியர்",
   "COMMENTS": "கருத்துகள்",
-  "VOLUNTEERS": "தன்னார்வலர்கள்"
+  "VOLUNTEERS": "தன்னார்வலர்கள்",
+  "ENTER_VOLUNTEER_NAME": "தன்னார்வலர் பெயரை உள்ளிடுக",
+  "FIND_BY_NAME": "பெயரால் தேடுக",
+  "SEARCH_BY_NAME": "பெயரால் தேடுக...",
+  "FIND_BY_EMAIL": "மின்னஞ்சலால் தேடுக",
+  "FIND_BY_PHONE": "தொலைபேசியால் தேடுக",
+  "ENTER_VOLUNTEER_EMAIL": "தன்னார்வலர் மின்னஞ்சலை உள்ளிடுக",
+  "ENTER_VOLUNTEER_PHONE": "தன்னார்வலர் தொலைபேசியை உள்ளிடுக"
 }

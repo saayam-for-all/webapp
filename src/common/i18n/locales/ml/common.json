@@ -32,5 +32,12 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "അഭിപ്രായങ്ങൾ",
-  "VOLUNTEERS": "സന്നദ്ധപ്രവർത്തകർ"
+  "VOLUNTEERS": "സന്നദ്ധപ്രവർത്തകർ",
+  "ENTER_VOLUNTEER_NAME": "സന്നദ്ധസേവകന്റെ പേര് നൽകുക",
+  "FIND_BY_NAME": "പേര് ഉപയോഗിച്ച് കണ്ടെത്തുക",
+  "SEARCH_BY_NAME": "പേര് ഉപയോഗിച്ച് തിരയുക...",
+  "FIND_BY_EMAIL": "ഇമെയിൽ ഉപയോഗിച്ച് കണ്ടെത്തുക",
+  "FIND_BY_PHONE": "ഫോൺ ഉപയോഗിച്ച് കണ്ടെത്തുക",
+  "ENTER_VOLUNTEER_EMAIL": "സന്നദ്ധസേവകന്റെ ഇമെയിൽ നൽകുക",
+  "ENTER_VOLUNTEER_PHONE": "സന്നദ്ധസേവകന്റെ ഫോൺ നൽകുക"
 }

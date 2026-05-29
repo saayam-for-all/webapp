@@ -458,7 +458,6 @@ const Navbar = () => {
                 onClick={(e) => handleLinkClick(e, "/donate")}
                 className="text-black hover:text-gray-600 flex items-center"
                 aria-label={t("DONATE")}
-                title={t("DONATE")}
                 type="button"
               >
                 <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
@@ -471,7 +470,6 @@ const Navbar = () => {
                 onClick={(e) => handleLinkClick(e, "/donate")}
                 className="text-black hover:text-gray-600 flex items-center"
                 aria-label={t("DONATE")}
-                title={t("DONATE")}
                 type="button"
               >
                 <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />

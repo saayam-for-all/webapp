@@ -17,6 +17,7 @@ const Table = ({
   onRowsPerPageChange,
   getLinkPath,
   getLinkState = undefined,
+  serverPaginated = false,
 }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
 
@@ -226,6 +227,7 @@ Table.propTypes = {
   onRowsPerPageChange: PropTypes.func.isRequired,
   getLinkPath: PropTypes.func.isRequired,
   getLinkState: PropTypes.func,
+  serverPaginated: PropTypes.bool,
 };
 
 export default Table;

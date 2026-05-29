@@ -409,5 +409,12 @@
   "COLLABORATION_PARTNERSHIP": "تعاون / شراکت داری",
   "GENERAL_INQUIRY": "عام انکوائری",
   "NOTE_LABEL": "نوٹ:",
-  "RESPONSE_TIME_NOTICE": "ہم عام طور پر 24-48 گھنٹوں کے اندر آپ کی انکوائری کا جواب دیتے ہیں۔"
+  "RESPONSE_TIME_NOTICE": "ہم عام طور پر 24-48 گھنٹوں کے اندر آپ کی انکوائری کا جواب دیتے ہیں۔",
+  "ENTER_VOLUNTEER_NAME": "رضاکار کا نام درج کریں",
+  "FIND_BY_NAME": "نام سے تلاش کریں",
+  "SEARCH_BY_NAME": "نام سے تلاش کریں...",
+  "FIND_BY_EMAIL": "ای میل سے تلاش کریں",
+  "FIND_BY_PHONE": "فون سے تلاش کریں",
+  "ENTER_VOLUNTEER_EMAIL": "رضاکار کا ای میل درج کریں",
+  "ENTER_VOLUNTEER_PHONE": "رضاکار کا فون درج کریں"
 }

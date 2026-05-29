@@ -32,5 +32,12 @@
   "REMOVE_CATEGORY": "Remove all skills from this category",
   "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
   "COMMENTS": "ಕಾಮೆಂಟ್‌ಗಳು",
-  "VOLUNTEERS": "ಸ್ವಯಂಸೇವಕರು"
+  "VOLUNTEERS": "ಸ್ವಯಂಸೇವಕರು",
+  "ENTER_VOLUNTEER_NAME": "ಸ್ವಯಂಸೇವಕರ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+  "FIND_BY_NAME": "ಹೆಸರಿನಿಂದ ಹುಡುಕಿ",
+  "SEARCH_BY_NAME": "ಹೆಸರಿನಿಂದ ಹುಡುಕಿ...",
+  "FIND_BY_EMAIL": "ಇಮೇಲ್‌ನಿಂದ ಹುಡುಕಿ",
+  "FIND_BY_PHONE": "ಫೋನ್‌ನಿಂದ ಹುಡುಕಿ",
+  "ENTER_VOLUNTEER_EMAIL": "ಸ್ವಯಂಸೇವಕರ ಇಮೇಲ್ ನಮೂದಿಸಿ",
+  "ENTER_VOLUNTEER_PHONE": "ಸ್ವಯಂಸೇವಕರ ಫೋನ್ ನಮೂದಿಸಿ"
 }

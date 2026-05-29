@@ -749,5 +749,12 @@
   "COLLABORATION_PARTNERSHIP": "Сотрудничество / Партнерство",
   "GENERAL_INQUIRY": "Общий запрос",
   "NOTE_LABEL": "Примечание:",
-  "RESPONSE_TIME_NOTICE": "Обычно мы отвечаем на ваш запрос в течение 24–48 часов."
+  "RESPONSE_TIME_NOTICE": "Обычно мы отвечаем на ваш запрос в течение 24–48 часов.",
+  "ENTER_VOLUNTEER_NAME": "Введите имя волонтёра",
+  "FIND_BY_NAME": "Найти по имени",
+  "SEARCH_BY_NAME": "Поиск по имени...",
+  "FIND_BY_EMAIL": "Найти по email",
+  "FIND_BY_PHONE": "Найти по телефону",
+  "ENTER_VOLUNTEER_EMAIL": "Введите email волонтёра",
+  "ENTER_VOLUNTEER_PHONE": "Введите телефон волонтёра"
 }

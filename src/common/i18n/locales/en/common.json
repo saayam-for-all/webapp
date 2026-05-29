@@ -773,5 +773,12 @@
   "COLLABORATION_PARTNERSHIP": "Collaboration / Partnership",
   "GENERAL_INQUIRY": "General Inquiry",
   "NOTE_LABEL": "Note:",
-  "RESPONSE_TIME_NOTICE": "We typically respond to your inquiry within 24-48 hours."
+  "RESPONSE_TIME_NOTICE": "We typically respond to your inquiry within 24-48 hours.",
+  "ENTER_VOLUNTEER_NAME": "Enter volunteer name",
+  "FIND_BY_NAME": "Find by Name",
+  "SEARCH_BY_NAME": "Search by name...",
+  "FIND_BY_EMAIL": "Find by Email",
+  "FIND_BY_PHONE": "Find by Phone",
+  "ENTER_VOLUNTEER_EMAIL": "Enter volunteer email",
+  "ENTER_VOLUNTEER_PHONE": "Enter volunteer phone"
 }

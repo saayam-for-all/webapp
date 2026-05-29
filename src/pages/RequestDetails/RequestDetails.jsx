@@ -61,7 +61,8 @@ const RequestDetails = () => {
     } else {
       getMyRequests()
         .then((res) => {
-          setRequestData(res["body"].filter((req) => req["id"] === id)[0]);
+          const found = res["body"].filter((req) => req["id"] === id)[0];
+          setRequestData(found);
         })
         .catch(() => {});
     }
@@ -181,7 +182,26 @@ const RequestDetails = () => {
                   >
                     <HelpRequestForm
                       isEdit={true}
-                      onClose={() => setIsEditing(false)}
+                      onClose={(updatedData) => {
+                        if (updatedData) {
+                          setRequestData((prev) => ({
+                            ...prev,
+                            ...updatedData,
+                            subject:
+                              updatedData.requestSubject || updatedData.subject,
+                            description:
+                              updatedData.requestDescription ||
+                              updatedData.description,
+                            priority:
+                              updatedData.requestPriority?.priority ||
+                              updatedData.priority,
+                            type:
+                              updatedData.requestType?.type || updatedData.type,
+                          }));
+                        }
+                        setIsEditing(false);
+                      }}
+                      editRequestData={requestData}
                     />
                   </div>
                 </div>,
@@ -288,6 +308,13 @@ const RequestDetails = () => {
                   <div className="absolute top-4 right-4 flex items-center gap-3 flex-wrap">
                     <button
                       className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      {t("EDIT")}
+                    </button>
+
+                    <button
+                      className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
                       onClick={() => setChangeVolunteerDialogOpen(true)}
                     >
                       {t("Change Volunteer")}
@@ -298,13 +325,6 @@ const RequestDetails = () => {
                       onClick={() => setDeleteDialogOpen(true)}
                     >
                       {t("Delete")}
-                    </button>
-
-                    <button
-                      className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
-                      onClick={() => setIsEditing(true)}
-                    >
-                      {t("EDIT")}
                     </button>
                   </div>
                 )}

@@ -9,6 +9,10 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
   const [source, setSource] = useState("device");
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const currentIdentityDoc = {
+    name: "identity_doc.pdf",
+    url: "/mock/passport_mock.pdf",
+  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -166,11 +170,35 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
     }
   };
 
+  const handleDownload = () => {
+    window.open(currentIdentityDoc.url, "_blank");
+  };
+
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">
         {t("UPLOAD_GOVERNMENT_ID")}
       </h2>
+
+      {/* Current Identity Document */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Current Identity Document
+        </label>
+
+        <div className="flex items-center justify-between border p-2 rounded-md">
+          <span className="text-xs text-gray-600">
+            {currentIdentityDoc.name}
+          </span>
+
+          <button
+            onClick={handleDownload}
+            className="text-blue-600 hover:text-blue-800"
+          >
+            ⬇️
+          </button>
+        </div>
+      </div>
 
       {/* Source Selection Dropdown */}
       <div className="mb-4">

@@ -4,6 +4,7 @@ export const mapHelpRequestPayload = ({
   requesterId,
   enumMaps,
   additionalFields,
+  requestId,
 }) => {
   console.log("requesterId value:", requesterId);
   const payload = {
@@ -16,11 +17,17 @@ export const mapHelpRequestPayload = ({
     isLeadVolunteer: formData.lead_volunteer === "Yes" ? 1 : 0,
 
     requestPriority: {
-      requestPriorityId: enumMaps.requestPriority[formData.priority],
+      requestPriorityId:
+        enumMaps.requestPriority[
+          String(formData.priority).toUpperCase().replace(/\s+/g, "_")
+        ],
     },
 
     requestType: {
-      requestTypeId: enumMaps.requestType[formData.request_type],
+      requestTypeId:
+        enumMaps.requestType[
+          String(formData.request_type).toUpperCase().replace(/\s+/g, "_")
+        ],
     },
 
     helpCategory: {
@@ -33,9 +40,31 @@ export const mapHelpRequestPayload = ({
 
     requestFor: {
       requestForId:
-        enumMaps.requestFor[formData.request_for] ?? enumMaps.requestFor.SELF,
+        enumMaps.requestFor[
+          String(formData.request_for).toUpperCase().replace(/\s+/g, "_")
+        ] ?? enumMaps.requestFor.SELF,
     },
   };
+
+  // Include requestId when updating an existing request
+  if (requestId) {
+    payload.requestId = requestId;
+  }
+
+  // Include location if provided
+  if (formData.location) {
+    payload.requestLocation = formData.location;
+  }
+
+  // Include audio description if provided
+  if (formData.audioRequestDescription) {
+    payload.audioRequestDescription = formData.audioRequestDescription;
+  }
+
+  // Include document link if provided
+  if (formData.requestDocumentLink) {
+    payload.requestDocumentLink = formData.requestDocumentLink;
+  }
 
   // Include guest details when request is for someone else (OTHER)
   const requestForId = payload.requestFor.requestForId;
