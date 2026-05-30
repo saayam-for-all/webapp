@@ -6,6 +6,7 @@ import {
   storeMeetingDetails,
 } from "../../services/meetingServices";
 import { FaVideo } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
@@ -527,15 +528,56 @@ const HelpingVolunteers = () => {
                       }
                       className="px-4 py-2 border-b-2 border-gray-200 text-left cursor-pointer"
                     >
-                      {header.label}
-                      {header.key !== "select" &&
-                        sortConfig.key === header.key && (
-                          <span>
-                            {sortConfig.direction === "ascending"
-                              ? " 🔼"
-                              : " 🔽"}
-                          </span>
-                        )}
+                      {header.key === "select" ? (
+                        <div
+                          className="flex items-center gap-2"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <input
+                            type="checkbox"
+                            className="cursor-pointer"
+                            checked={
+                              paginatedData.length > 0 &&
+                              paginatedData.every((v) =>
+                                selectedVolunteers.includes(v.email),
+                              )
+                            }
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                // Add all currently visible paginated volunteers to the selected list
+                                const visibleEmails = paginatedData.map(
+                                  (v) => v.email,
+                                );
+                                setSelectedVolunteers((prev) => [
+                                  ...new Set([...prev, ...visibleEmails]),
+                                ]);
+                              } else {
+                                // Remove only the currently visible paginated volunteers from selection
+                                const visibleEmails = paginatedData.map(
+                                  (v) => v.email,
+                                );
+                                setSelectedVolunteers((prev) =>
+                                  prev.filter(
+                                    (email) => !visibleEmails.includes(email),
+                                  ),
+                                );
+                              }
+                            }}
+                          />
+                          <span>{header.label}</span>
+                        </div>
+                      ) : (
+                        <>
+                          {header.label}
+                          {sortConfig.key === header.key && (
+                            <span>
+                              {sortConfig.direction === "ascending"
+                                ? " 🔼"
+                                : " 🔽"}
+                            </span>
+                          )}
+                        </>
+                      )}
                     </th>
                   ))}
                 </tr>
@@ -552,7 +594,14 @@ const HelpingVolunteers = () => {
                           onChange={() => handleCheckboxChange(volunteer.email)}
                         />
                       </td>
-                      <td className="px-4 py-2 border-b">{volunteer.name}</td>
+                      <td className="px-4 py-2 border-b">
+                        <Link
+                          to="/profile"
+                          className="text-blue-600 hover:underline font-medium"
+                        >
+                          {volunteer.name}
+                        </Link>
+                      </td>
                       <td className="px-4 py-2 border-b">{volunteer.cause}</td>
                       <td className="px-4 py-2 border-b">{volunteer.phone}</td>
                       <td className="px-4 py-2 border-b">{volunteer.email}</td>
