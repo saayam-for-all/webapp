@@ -421,7 +421,7 @@ const Navbar = () => {
               value={searchText}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
-              placeholder="Ask Saayam"
+              placeholder="Ask for Saayam"
               size="small"
               fullWidth
               inputProps={{ maxLength: 80 }}
@@ -487,7 +487,7 @@ const Navbar = () => {
                 value={searchText}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
-                placeholder="Ask Saayam"
+                placeholder="Ask for Saayam"
                 size="small"
                 fullWidth
                 inputProps={{ maxLength: 80 }}
