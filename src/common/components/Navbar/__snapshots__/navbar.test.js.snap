@@ -55,7 +55,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r0:"
                   maxlength="80"
-                  placeholder="Ask Saayam"
+                  placeholder="Ask for Saayam"
                   type="text"
                   value=""
                 />
@@ -149,7 +149,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r2:"
                     maxlength="80"
-                    placeholder="Ask Saayam"
+                    placeholder="Ask for Saayam"
                     type="text"
                     value=""
                   />
