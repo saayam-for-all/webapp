@@ -127,12 +127,7 @@ describe("RequestDescription", () => {
   });
   describe("Issue #1456 - Updated Date, Additional Info, Attached Files", () => {
     it("displays '—' when lastUpdatedAt is not provided", () => {
-      renderWithProviders(
-        <RequestDescription
-          requestData={mockRequestData}
-          setIsEditing={mockSetIsEditing}
-        />,
-      );
+      renderWithProviders(<RequestDescription requestData={mockRequestData} />);
       expect(screen.getByText("—")).toBeInTheDocument();
     });
 
@@ -142,21 +137,13 @@ describe("RequestDescription", () => {
         lastUpdatedAt: "2024-06-15T10:00:00Z",
       };
       renderWithProviders(
-        <RequestDescription
-          requestData={requestDataWithUpdatedDate}
-          setIsEditing={mockSetIsEditing}
-        />,
+        <RequestDescription requestData={requestDataWithUpdatedDate} />,
       );
       expect(screen.getByText(/June 15, 2024/)).toBeInTheDocument();
     });
 
     it("displays placeholder when additionalInfo is empty", () => {
-      renderWithProviders(
-        <RequestDescription
-          requestData={mockRequestData}
-          setIsEditing={mockSetIsEditing}
-        />,
-      );
+      renderWithProviders(<RequestDescription requestData={mockRequestData} />);
       expect(
         screen.getByText("No additional information available."),
       ).toBeInTheDocument();
@@ -171,10 +158,7 @@ describe("RequestDescription", () => {
         },
       };
       renderWithProviders(
-        <RequestDescription
-          requestData={requestDataWithInfo}
-          setIsEditing={mockSetIsEditing}
-        />,
+        <RequestDescription requestData={requestDataWithInfo} />,
       );
       expect(screen.getByText("contact number")).toBeInTheDocument();
       expect(screen.getByText("123-456-7890")).toBeInTheDocument();
@@ -183,12 +167,7 @@ describe("RequestDescription", () => {
     });
 
     it("displays placeholder when attachments are empty", () => {
-      renderWithProviders(
-        <RequestDescription
-          requestData={mockRequestData}
-          setIsEditing={mockSetIsEditing}
-        />,
-      );
+      renderWithProviders(<RequestDescription requestData={mockRequestData} />);
       expect(screen.getByText("No files attached.")).toBeInTheDocument();
     });
 
@@ -201,10 +180,7 @@ describe("RequestDescription", () => {
         ],
       };
       renderWithProviders(
-        <RequestDescription
-          requestData={requestDataWithAttachments}
-          setIsEditing={mockSetIsEditing}
-        />,
+        <RequestDescription requestData={requestDataWithAttachments} />,
       );
       expect(screen.getByText("document.pdf")).toBeInTheDocument();
       expect(screen.getByText("File 2")).toBeInTheDocument();
