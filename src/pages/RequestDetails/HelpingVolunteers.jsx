@@ -6,6 +6,7 @@ import {
   storeMeetingDetails,
 } from "../../services/meetingServices";
 import { FaVideo } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ const HelpingVolunteers = () => {
   const [meetingDate, setMeetingDate] = useState("");
   const [meetingTime, setMeetingTime] = useState("");
   const [meetingLoading, setMeetingLoading] = useState(false);
+  const [selectAll, setSelectAll] = useState(false);
   const [meetingError, setMeetingError] = useState("");
   const [meetingSuccess, setMeetingSuccess] = useState("");
 
@@ -91,6 +93,14 @@ const HelpingVolunteers = () => {
       prev.includes(email) ? prev.filter((e) => e !== email) : [...prev, email],
     );
   };
+  const handleSelectAll = (checked) => {
+    if (checked) {
+      const emails = paginatedData.map((v) => v.email);
+      setSelectedVolunteers(emails);
+    } else {
+      setSelectedVolunteers([]);
+    }
+  };
 
   // Sorting function based on dropdown selection and column clicks
   const requestSort = (key) => {
@@ -148,6 +158,14 @@ const HelpingVolunteers = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+  useEffect(() => {
+    if (paginatedData.length > 0) {
+      const allSelected = paginatedData.every((v) =>
+        selectedVolunteers.includes(v.email),
+      );
+      setSelectAll(allSelected);
+    }
+  }, [selectedVolunteers, paginatedData]);
 
   const volunteersAssigned = filteredAndSortedVolunteers.length;
 
@@ -520,15 +538,27 @@ const HelpingVolunteers = () => {
                       }
                       className="px-4 py-2 border-b-2 border-gray-200 text-left cursor-pointer"
                     >
-                      {header.label}
-                      {header.key !== "select" &&
-                        sortConfig.key === header.key && (
-                          <span>
-                            {sortConfig.direction === "ascending"
-                              ? " 🔼"
-                              : " 🔽"}
-                          </span>
-                        )}
+                      {header.key === "select" ? (
+                        <input
+                          type="checkbox"
+                          checked={selectAll}
+                          onChange={(e) => {
+                            setSelectAll(e.target.checked);
+                            handleSelectAll(e.target.checked);
+                          }}
+                        />
+                      ) : (
+                        <>
+                          {header.label}
+                          {sortConfig.key === header.key && (
+                            <span>
+                              {sortConfig.direction === "ascending"
+                                ? " 🔼"
+                                : " 🔽"}
+                            </span>
+                          )}
+                        </>
+                      )}
                     </th>
                   ))}
                 </tr>
@@ -542,10 +572,19 @@ const HelpingVolunteers = () => {
                         <input
                           type="checkbox"
                           checked={selectedVolunteers.includes(volunteer.email)}
-                          onChange={() => handleCheckboxChange(volunteer.email)}
+                          onChange={() => {
+                            handleCheckboxChange(volunteer.id);
+                          }}
                         />
                       </td>
-                      <td className="px-4 py-2 border-b">{volunteer.name}</td>
+                      <td className="px-4 py-2 border-b">
+                        <Link
+                          to={`/profile`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {volunteer.name}
+                        </Link>
+                      </td>
                       <td className="px-4 py-2 border-b">{volunteer.cause}</td>
                       <td className="px-4 py-2 border-b">{volunteer.phone}</td>
                       <td className="px-4 py-2 border-b">{volunteer.email}</td>

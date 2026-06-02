@@ -1,7 +1,36 @@
 import "@testing-library/jest-dom";
+
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+
 import HelpingVolunteers from "./HelpingVolunteers";
-import * as meetingServices from "../../services/meetingServices";
+
+import { getVolunteersData } from "../../services/volunteerServices";
+
+const mockVolunteers = [
+  {
+    name: "Jane Cooper",
+    cause: "Cooking",
+    phone: "123",
+    email: "jane@example.com",
+    location: "Boston",
+    rating: "★★★★★",
+    dateAdded: "2023-10-01",
+  },
+  {
+    name: "John Doe",
+    cause: "Medical",
+    phone: "456",
+    email: "john@example.com",
+    location: "NYC",
+    rating: "★★★☆☆",
+    dateAdded: "2023-10-02",
+  },
+];
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  getVolunteersData.mockResolvedValue(mockVolunteers);
+});
 
 jest.mock("../../services/meetingServices");
 jest.mock("../../services/volunteerServices", () => ({
@@ -29,6 +58,13 @@ jest.mock("../../services/volunteerServices", () => ({
   ),
 }));
 
+// Helper: renders and waits for volunteers to load, then returns all checkboxes
+async function renderAndGetCheckboxes() {
+  render(<HelpingVolunteers />);
+  await screen.findByText("Jane Cooper"); // wait for async data to load
+  return screen.getAllByRole("checkbox"); // now all checkboxes (header + rows) are present
+}
+
 describe("HelpingVolunteers", () => {
   it("shows loading spinner when fetching volunteers", async () => {
     const { getVolunteersData } = require("../../services/volunteerServices");
@@ -42,7 +78,6 @@ describe("HelpingVolunteers", () => {
     const countInput = screen.getByRole("spinbutton");
     fireEvent.change(countInput, { target: { value: "0" } });
     fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
-    // Should show no volunteers, but still show badge and date
     expect(screen.getAllByText(/Volunteers/).length).toBeGreaterThan(0);
     expect(screen.getByText(/Assigned/)).toBeInTheDocument();
     const dateRegex = /\w{3} \d{1,2}, \d{4}, \d{1,2}:\d{2} (AM|PM)/;
@@ -54,19 +89,18 @@ describe("HelpingVolunteers", () => {
     const countInput = screen.getByRole("spinbutton");
     fireEvent.change(countInput, { target: { value: "-5" } });
     fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
-    // Should show no volunteers, but still show badge and date
     expect(screen.getAllByText(/Volunteers/).length).toBeGreaterThan(0);
     expect(screen.getByText(/Assigned/)).toBeInTheDocument();
     const dateRegex = /\w{3} \d{1,2}, \d{4}, \d{1,2}:\d{2} (AM|PM)/;
     expect(screen.getByText(dateRegex)).toBeInTheDocument();
   });
+
   it("shows error if volunteers API fails", async () => {
     const { getVolunteersData } = require("../../services/volunteerServices");
     getVolunteersData.mockImplementationOnce(() =>
       Promise.reject(new Error("API error")),
     );
     render(<HelpingVolunteers />);
-    // Wait for error state to be set
     await waitFor(() => {
       expect(
         screen.getByText(/API error|Failed to fetch volunteers/i),
@@ -75,14 +109,13 @@ describe("HelpingVolunteers", () => {
   });
 
   it("shows TODO message when Confirm is clicked with valid inputs", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
-    fireEvent.change(screen.getByLabelText(/Date/i), {
+    fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
       target: { value: "2026-03-20" },
     });
-    fireEvent.change(screen.getByLabelText(/Time/i), {
+    fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
       target: { value: "12:00" },
     });
     const confirmBtn = await screen.findByRole("button", { name: /Confirm/i });
@@ -99,9 +132,8 @@ describe("HelpingVolunteers", () => {
 
   it("shows and hides meeting TODO message", async () => {
     jest.useFakeTimers();
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
     const dateInputs = screen.getAllByLabelText(/Date/i);
     dateInputs.forEach((input) => {
@@ -117,7 +149,6 @@ describe("HelpingVolunteers", () => {
         screen.getByText(/TODO: Need to integrate with backend/i),
       ).toBeInTheDocument(),
     );
-    // Fast-forward timers to auto-hide message
     jest.advanceTimersByTime(2000);
     await waitFor(() =>
       expect(
@@ -128,57 +159,46 @@ describe("HelpingVolunteers", () => {
   });
 
   it("resets modal state when Cancel button is clicked", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
-    // Fill date/time
     fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
       target: { value: "2026-03-10" },
     });
     fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
       target: { value: "12:00" },
     });
-    // Click Cancel
     fireEvent.click(screen.getByRole("button", { name: /Cancel/i }));
-    // Modal should close and inputs reset
     expect(
       screen.queryByText(/Schedule Zoom Meeting/i),
     ).not.toBeInTheDocument();
-    // Reopen modal to check reset
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
     expect(screen.getAllByLabelText(/Date/i)[0].value).toBe("");
     expect(screen.getAllByLabelText(/Time/i)[0].value).toBe("");
   });
 
   it("resets modal state when close (×) button is clicked", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
-    // Fill date/time
     fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
       target: { value: "2026-03-10" },
     });
     fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
       target: { value: "12:00" },
     });
-    // Click close (×) button
     fireEvent.click(screen.getByLabelText("Close"));
-    // Modal should close and inputs reset
     expect(
       screen.queryByText(/Schedule Zoom Meeting/i),
     ).not.toBeInTheDocument();
-    // Reopen modal to check reset
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
     expect(screen.getAllByLabelText(/Date/i)[0].value).toBe("");
     expect(screen.getAllByLabelText(/Time/i)[0].value).toBe("");
   });
 
   it("shows TODO message when meeting is confirmed", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
     fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
       target: { value: "2026-03-20" },
@@ -196,6 +216,7 @@ describe("HelpingVolunteers", () => {
       ).not.toBeInTheDocument();
     });
   });
+
   it("searches volunteers by name", async () => {
     render(<HelpingVolunteers />);
     expect(await screen.findByText("Jane Cooper")).toBeInTheDocument();
@@ -221,13 +242,10 @@ describe("HelpingVolunteers", () => {
   });
 
   it("renders with zero volunteers", async () => {
-    jest.mock("../../services/volunteerServices", () => ({
-      getVolunteersData: jest.fn(() => Promise.resolve([])),
-    }));
+    getVolunteersData.mockResolvedValueOnce([]);
     render(<HelpingVolunteers />);
     expect(screen.queryByText("Jane Cooper")).not.toBeInTheDocument();
     expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
-    // There are multiple elements with "Volunteers" (title and badge), so use getAllByText
     expect(screen.getAllByText(/Volunteers/).length).toBeGreaterThan(0);
   });
 
@@ -255,10 +273,10 @@ describe("HelpingVolunteers", () => {
     render(<HelpingVolunteers />);
     expect(await screen.findByText(/Assigned/)).toBeInTheDocument();
     expect(screen.getByText(/Volunteers Requested/)).toBeInTheDocument();
-    // Date format: Apr 1, 2026, ...
     const dateRegex = /\w{3} \d{1,2}, \d{4}, \d{1,2}:\d{2} (AM|PM)/;
     expect(screen.getByText(dateRegex)).toBeInTheDocument();
   });
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -273,16 +291,14 @@ describe("HelpingVolunteers", () => {
   });
 
   it("enables Zoom Meeting button when a volunteer is selected", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     expect(screen.getByRole("button", { name: /Zoom Meeting/i })).toBeEnabled();
   });
 
   it("opens modal and validates date/time input", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
     expect(screen.getByText(/Schedule Zoom Meeting/i)).toBeInTheDocument();
     fireEvent.click(screen.getByText(/Confirm/i));
@@ -292,14 +308,13 @@ describe("HelpingVolunteers", () => {
   });
 
   it("calls meeting creation and shows success", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
-    fireEvent.change(screen.getByLabelText(/Date/i), {
+    fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
       target: { value: "2026-03-20" },
     });
-    fireEvent.change(screen.getByLabelText(/Time/i), {
+    fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
       target: { value: "12:00" },
     });
     fireEvent.click(screen.getByText(/Confirm/i));
@@ -311,14 +326,13 @@ describe("HelpingVolunteers", () => {
   });
 
   it("shows error if meeting creation fails", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
-    fireEvent.change(screen.getByLabelText(/Date/i), {
+    fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
       target: { value: "2026-03-20" },
     });
-    fireEvent.change(screen.getByLabelText(/Time/i), {
+    fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
       target: { value: "12:00" },
     });
     fireEvent.click(screen.getByText(/Confirm/i));
@@ -328,14 +342,13 @@ describe("HelpingVolunteers", () => {
   });
 
   it("closes modal and resets state on cancel", async () => {
-    render(<HelpingVolunteers />);
-    const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
+    const checkboxes = await renderAndGetCheckboxes();
+    fireEvent.click(checkboxes[1]); // index 1 = first volunteer row checkbox
     fireEvent.click(screen.getByRole("button", { name: /Zoom Meeting/i }));
-    fireEvent.change(screen.getByLabelText(/Date/i), {
+    fireEvent.change(screen.getAllByLabelText(/Date/i)[0], {
       target: { value: "2026-03-10" },
     });
-    fireEvent.change(screen.getByLabelText(/Time/i), {
+    fireEvent.change(screen.getAllByLabelText(/Time/i)[0], {
       target: { value: "12:00" },
     });
     fireEvent.click(screen.getByText(/Cancel/i));
@@ -355,7 +368,6 @@ describe("HelpingVolunteers", () => {
     fireEvent.click(screen.getByText("Sort by: Name"));
     fireEvent.click(screen.getByText("Sort by: Oldest"));
     fireEvent.click(screen.getByText("Sort by: Newest"));
-    // No crash = pass
   });
 
   it("renders the search-by dropdown with Name, Email, and Phone options", async () => {
