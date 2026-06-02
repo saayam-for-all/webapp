@@ -88,7 +88,6 @@ const PromoteToVolunteer = () => {
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
             setIsUploaded={setIsUploaded}
-            onSaveFile={handleSaveFile}
           />
         );
       case 3:
@@ -158,6 +157,7 @@ const PromoteToVolunteer = () => {
           break;
         case 2:
           // isValidStep = govtIdFile && govtIdFile.name !== "";
+          handleSaveFile();
           isValidStep = govtIdFile;
           updateVolunteerData({
             step: currentStep,
