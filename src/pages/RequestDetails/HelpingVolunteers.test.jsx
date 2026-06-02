@@ -50,7 +50,9 @@ jest.mock("../../services/volunteerServices", () => ({
 beforeEach(() => {
   jest.clearAllMocks();
 
-  getVolunteersData.mockResolvedValue(mockVolunteers);
+  getVolunteersData.mockResolvedValue(
+    mockVolunteers,
+  );
 });
 
 async function setup() {
@@ -154,6 +156,41 @@ describe("HelpingVolunteers", () => {
     ).toBeInTheDocument();
   });
 
+  it("request volunteers resets validation error for valid input", async () => {
+    await setup();
+
+    const input =
+      screen.getByRole("spinbutton");
+
+    fireEvent.change(input, {
+      target: { value: "10" },
+    });
+
+    fireEvent.click(
+      screen.getByText(/REQUEST_VOLUNTEERS/i),
+    );
+
+    expect(
+      screen.getByText(
+        /Maximum 5 volunteer can be assigned/i,
+      ),
+    ).toBeInTheDocument();
+
+    fireEvent.change(input, {
+      target: { value: "2" },
+    });
+
+    fireEvent.click(
+      screen.getByText(/REQUEST_VOLUNTEERS/i),
+    );
+
+    expect(
+      screen.queryByText(
+        /Maximum 5 volunteer can be assigned/i,
+      ),
+    ).not.toBeInTheDocument();
+  });
+
   it("selects volunteer checkbox", async () => {
     await setup();
 
@@ -250,13 +287,14 @@ describe("HelpingVolunteers", () => {
     );
   });
 
-  it("sort headers are clickable", async () => {
+  it("clicking Name header triggers sorting", async () => {
     await setup();
 
-    fireEvent.click(screen.getByText("Name"));
+    const nameHeader =
+      screen.getByText("Name");
 
-    expect(
-      screen.getByText("Name"),
-    ).toBeInTheDocument();
+    fireEvent.click(nameHeader);
+
+    expect(nameHeader).toBeInTheDocument();
   });
 });
