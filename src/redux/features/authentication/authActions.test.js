@@ -35,11 +35,9 @@ jest.mock("../../../services/authService", () => ({
   clearToken: jest.fn(),
 }));
 
-jest.mock("../help_request/requestActions", () => ({
-  loadCategories: jest.fn((categories) => ({
-    type: "LOAD_CATEGORIES",
-    payload: categories,
-  })),
+jest.mock("../../../utils/linkedInAuth", () => ({
+  ...jest.requireActual("../../../utils/linkedInAuth"),
+  redirectToLinkedInLogout: jest.fn(),
 }));
 
 // Mock localStorage
@@ -51,11 +49,29 @@ const localStorageMock = {
 };
 Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
+const sessionStorageMock = {
+  store: {},
+  getItem: jest.fn((key) => sessionStorageMock.store[key] ?? null),
+  setItem: jest.fn((key, value) => {
+    sessionStorageMock.store[key] = value;
+  }),
+  removeItem: jest.fn((key) => {
+    delete sessionStorageMock.store[key];
+  }),
+  clear: jest.fn(() => {
+    sessionStorageMock.store = {};
+  }),
+};
+Object.defineProperty(window, "sessionStorage", { value: sessionStorageMock });
+
+const { redirectToLinkedInLogout } = require("../../../utils/linkedInAuth");
+
 describe("authActions", () => {
   let dispatch;
 
   beforeEach(() => {
     jest.clearAllMocks();
+    sessionStorageMock.clear();
     dispatch = jest.fn();
   });
 
@@ -216,6 +232,24 @@ describe("authActions", () => {
       await logout()(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(loginFailure("Logout failed"));
+    });
+
+    it("redirects to LinkedIn logout after Cognito sign-out for LinkedIn users", async () => {
+      const { signOut } = require("aws-amplify/auth");
+      sessionStorageMock.store.authProvider = "LinkedIn";
+
+      await logout()(dispatch);
+
+      expect(signOut).toHaveBeenCalledWith({ global: true });
+      expect(dispatch).toHaveBeenCalledWith(logoutSuccess());
+      expect(redirectToLinkedInLogout).toHaveBeenCalled();
+      expect(sessionStorageMock.store.authProvider).toBeUndefined();
+    });
+
+    it("does not redirect to LinkedIn logout for email/password users", async () => {
+      await logout()(dispatch);
+
+      expect(redirectToLinkedInLogout).not.toHaveBeenCalled();
     });
   });
 });

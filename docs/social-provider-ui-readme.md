@@ -85,3 +85,12 @@ const handleLinkedInLogin = async () => {
 - No `App.jsx` changes should be required if Amazon and LinkedIn are wired through the same Cognito hosted UI redirect flow already used by Google and Facebook.
 - If Cognito exposes provider names with different casing than `Amazon` or `LinkedIn`, use the exact provider name expected by `signInWithRedirect`.
 - After enabling either provider, test both the success path and the failure path from the hosted UI redirect back into `/dashboard`.
+
+## LinkedIn federated logout (two-step)
+
+LinkedIn users must be signed out of both Cognito and LinkedIn. Otherwise the next login attempt can silently reuse the LinkedIn session.
+
+1. On login, `checkAuthStatus` stores the Cognito `identities` provider in `sessionStorage` (`authProvider`).
+2. On logout, the app calls Cognito `signOut({ global: true })`, clears local auth state, then redirects LinkedIn users to LinkedIn's logout URL via `src/utils/linkedInAuth.js`.
+3. Optional: set `VITE_LINKEDIN_CLIENT_ID` in the environment so logout uses LinkedIn's OIDC logout endpoint with a return URL to `/login`. Without it, the app falls back to `https://www.linkedin.com/m/logout/`.
+4. Test: sign in with LinkedIn → logout → sign in again → LinkedIn should prompt for account selection or credentials, not auto-login.

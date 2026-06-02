@@ -33,6 +33,14 @@ import {
 } from "./authSlice";
 
 import { clearToken, setToken } from "../../../services/authService";
+import {
+  clearPersistedAuthProvider,
+  getPersistedAuthProvider,
+  isLinkedInAuthProvider,
+  parseAuthProviderFromAttributes,
+  persistAuthProvider,
+  redirectToLinkedInLogout,
+} from "../../../utils/linkedInAuth";
 
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
@@ -48,15 +56,12 @@ export const checkAuthStatus = () => async (dispatch) => {
     } = await fetchUserAttributes();*/
     }
     const attributes = await fetchUserAttributes();
+    const authProvider = parseAuthProviderFromAttributes(attributes);
+    persistAuthProvider(authProvider);
     // Log attributes for debugging social login differences (Google vs Facebook)
     console.log("User id:", userId);
     console.log("User Attributes:", attributes);
-    console.log(
-      "Auth provider:",
-      attributes.identities
-        ? (JSON.parse(attributes.identities)?.[0]?.providerName ?? "unknown")
-        : "Cognito (email/password)",
-    );
+    console.log("Auth provider:", authProvider ?? "Cognito (email/password)");
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
 
@@ -220,13 +225,33 @@ export const updateUserProfile = (userData) => async (dispatch) => {
   }
 };
 
+const resolveAuthProviderForLogout = async () => {
+  const persistedProvider = getPersistedAuthProvider();
+  if (persistedProvider) return persistedProvider;
+
+  try {
+    const attributes = await fetchUserAttributes();
+    return parseAuthProviderFromAttributes(attributes);
+  } catch {
+    return null;
+  }
+};
+
 export const logout = () => async (dispatch) => {
   try {
+    const authProvider = await resolveAuthProviderForLogout();
+    const shouldLogoutFromLinkedIn = isLinkedInAuthProvider(authProvider);
+
     returnDefaultLanguage();
-    await signOut();
+    await signOut({ global: shouldLogoutFromLinkedIn });
     clearToken();
     localStorage.removeItem("userDbId");
+    clearPersistedAuthProvider();
     dispatch(logoutSuccess());
+
+    if (shouldLogoutFromLinkedIn) {
+      redirectToLinkedInLogout();
+    }
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
