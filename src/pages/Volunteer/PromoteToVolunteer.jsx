@@ -4,7 +4,7 @@ import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
 import Review from "./steps/Review";
 import Skills from "./steps/Skills";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
@@ -19,7 +19,9 @@ import { useTranslation } from "react-i18next";
 
 const PromoteToVolunteer = () => {
   const { t } = useTranslation();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [searchParams] = useSearchParams();
+  const stepParam = parseInt(searchParams.get("step")) || 1;
+  const [currentStep, setCurrentStep] = useState(stepParam);
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
   const [govtIdFile, setGovtIdFile] = useState(null);
