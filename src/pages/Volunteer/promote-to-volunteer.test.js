@@ -10,6 +10,15 @@ jest.mock("aws-amplify/auth", () => ({
   getCurrentUser: jest.fn(() => Promise.resolve({ userId: "mockUser123" })),
 }));
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useSearchParams: () => {
+    const params = new URLSearchParams();
+    return [params, jest.fn()];
+  },
+  useNavigate: () => jest.fn(),
+}));
+
 jest.mock("../../services/volunteerServices", () => ({
   getVolunteerSkills: jest.fn(() =>
     Promise.resolve({ message: "Mocked API Response" }),
