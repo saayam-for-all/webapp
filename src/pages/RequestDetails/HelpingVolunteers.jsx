@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getVolunteersData } from "../../services/volunteerServices";
 import {
@@ -9,7 +10,6 @@ import { FaVideo } from "react-icons/fa";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
-  // Modal state for Zoom meeting scheduling
   const [meetingModalOpen, setMeetingModalOpen] = useState(false);
   const [meetingDate, setMeetingDate] = useState("");
   const [meetingTime, setMeetingTime] = useState("");
@@ -17,13 +17,13 @@ const HelpingVolunteers = () => {
   const [meetingError, setMeetingError] = useState("");
   const [meetingSuccess, setMeetingSuccess] = useState("");
 
-  // Auto-hide meeting success message after 2 seconds
   useEffect(() => {
     if (meetingSuccess) {
       const timer = setTimeout(() => setMeetingSuccess(""), 2000);
       return () => clearTimeout(timer);
     }
   }, [meetingSuccess]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [chooseVolunteer, setChooseVolunteer] = useState(true);
   const [volunteersCount, setVolunteersCount] = useState(2);
@@ -35,11 +35,10 @@ const HelpingVolunteers = () => {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [searchBy, setSearchBy] = useState("name");
-  const [filter, setFilter] = useState(""); // State for filter functionality
-  const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
+  const [filter, setFilter] = useState("");
+  const [sortBy, setSortBy] = useState("Newest");
   const [volunteerCountError, setVolunteerCountError] = useState("");
 
-  // Get the current system date
   const systemDate = new Date();
   const formattedDate = systemDate.toLocaleString("en-US", {
     month: "short",
@@ -49,8 +48,6 @@ const HelpingVolunteers = () => {
     minute: "numeric",
     hour12: true,
   });
-
-  // api integrated code
 
   const [volunteerData, setVolunteerData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,7 +68,6 @@ const HelpingVolunteers = () => {
     fetchVolunteers();
   }, []);
 
-  // Columns for the table
   const headers = [
     { key: "select", label: "Select" },
     { key: "name", label: "Name" },
@@ -82,17 +78,28 @@ const HelpingVolunteers = () => {
     { key: "rating", label: "Rating" },
   ];
 
-  // State for selected volunteers
   const [selectedVolunteers, setSelectedVolunteers] = useState([]);
 
-  // Handle checkbox change
   const handleCheckboxChange = (email) => {
     setSelectedVolunteers((prev) =>
       prev.includes(email) ? prev.filter((e) => e !== email) : [...prev, email],
     );
   };
 
-  // Sorting function based on dropdown selection and column clicks
+  const handleSelectAllChange = (e) => {
+    if (e.target.checked) {
+      const newSelections = paginatedData
+        .map((v) => v.email)
+        .filter((email) => !selectedVolunteers.includes(email));
+      setSelectedVolunteers((prev) => [...prev, ...newSelections]);
+    } else {
+      const pageEmails = paginatedData.map((v) => v.email);
+      setSelectedVolunteers((prev) =>
+        prev.filter((email) => !pageEmails.includes(email)),
+      );
+    }
+  };
+
   const requestSort = (key) => {
     let direction = "ascending";
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
@@ -101,7 +108,6 @@ const HelpingVolunteers = () => {
     setSortConfig({ key, direction });
   };
 
-  // Sorting and filtering logic
   const filteredAndSortedVolunteers = useMemo(() => {
     let topN = volunteerData.slice(
       0,
@@ -143,7 +149,6 @@ const HelpingVolunteers = () => {
   const totalRows = filteredAndSortedVolunteers.length;
   const totalPages = Math.ceil(totalRows / itemsPerPage);
 
-  // Pagination Logic
   const paginatedData = filteredAndSortedVolunteers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
@@ -151,9 +156,13 @@ const HelpingVolunteers = () => {
 
   const volunteersAssigned = filteredAndSortedVolunteers.length;
 
+  const isAllPageSelected =
+    paginatedData.length > 0 &&
+    paginatedData.every((v) => selectedVolunteers.includes(v.email));
+
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1); // Reset to page 1 when items per page changes
+    setCurrentPage(1);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -309,7 +318,6 @@ const HelpingVolunteers = () => {
                       return;
                     }
                     setMeetingError("");
-                    // TODO: Need to integrate with backend
                     setMeetingSuccess("TODO: Need to integrate with backend");
                   }}
                   disabled={meetingLoading}
@@ -419,10 +427,7 @@ const HelpingVolunteers = () => {
         <div className="mt-6 bg-white p-6 shadow-lg">
           <div className="flex flex-wrap items-center gap-4 justify-between mb-4">
             <div className="flex flex-row gap-4 items-center w-1/3">
-              {/* Volunteers Title */}
               <div className="font-bold text-xl">Volunteers</div>
-
-              {/* Search Input */}
               <div className="flex-grow max-w-md">
                 <input
                   type="text"
@@ -435,7 +440,6 @@ const HelpingVolunteers = () => {
             </div>
 
             <div className="flex flex-row gap-2">
-              {/* Sort By Dropdown */}
               <div>
                 <select
                   value={sortBy}
@@ -467,7 +471,6 @@ const HelpingVolunteers = () => {
                 </select>
               </div>
 
-              {/* Filter By Dropdown */}
               <div>
                 <label
                   htmlFor="filter-causes"
@@ -496,7 +499,6 @@ const HelpingVolunteers = () => {
             <div className="flex justify-between w-full mb-4">
               <div className="text-md text-gray-500 font-bold flex flex-row gap-4 items-center">
                 {`${volunteersCount} Volunteers Requested`}
-                {/* Badge with number */}
                 <div className="bg-blue-500 text-white text-sm font-semibold px-2 py-1 rounded-full">
                   {`${volunteersAssigned} Assigned`}
                 </div>
@@ -505,7 +507,6 @@ const HelpingVolunteers = () => {
             </div>
           )}
 
-          {/* Table inside a scrollable container */}
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
@@ -520,15 +521,25 @@ const HelpingVolunteers = () => {
                       }
                       className="px-4 py-2 border-b-2 border-gray-200 text-left cursor-pointer"
                     >
-                      {header.label}
-                      {header.key !== "select" &&
-                        sortConfig.key === header.key && (
-                          <span>
-                            {sortConfig.direction === "ascending"
-                              ? " 🔼"
-                              : " 🔽"}
-                          </span>
-                        )}
+                      {header.key === "select" ? (
+                        <input
+                          type="checkbox"
+                          checked={isAllPageSelected}
+                          onChange={handleSelectAllChange}
+                          aria-label="Select all volunteers on this page"
+                        />
+                      ) : (
+                        <>
+                          {header.label}
+                          {sortConfig.key === header.key && (
+                            <span>
+                              {sortConfig.direction === "ascending"
+                                ? " 🔼"
+                                : " 🔽"}
+                            </span>
+                          )}
+                        </>
+                      )}
                     </th>
                   ))}
                 </tr>
@@ -545,7 +556,14 @@ const HelpingVolunteers = () => {
                           onChange={() => handleCheckboxChange(volunteer.email)}
                         />
                       </td>
-                      <td className="px-4 py-2 border-b">{volunteer.name}</td>
+                      <td className="px-4 py-2 border-b">
+                        <Link
+                          to="/profile"
+                          className="text-blue-600 hover:underline"
+                        >
+                          {volunteer.name}
+                        </Link>
+                      </td>
                       <td className="px-4 py-2 border-b">{volunteer.cause}</td>
                       <td className="px-4 py-2 border-b">{volunteer.phone}</td>
                       <td className="px-4 py-2 border-b">{volunteer.email}</td>
@@ -559,7 +577,6 @@ const HelpingVolunteers = () => {
             </table>
           </div>
 
-          {/* Pagination */}
           {chooseVolunteer && (
             <div className="flex justify-between items-center mt-4">
               <div className="text-sm text-gray-600">
@@ -567,7 +584,6 @@ const HelpingVolunteers = () => {
                 {Math.min(itemsPerPage * currentPage, totalRows)} of {totalRows}{" "}
                 entries
               </div>
-              {/* Items Per Page Selector */}
               <div>
                 <label htmlFor="itemsPerPage" className="mr-2">
                   Rows per view:
@@ -596,7 +612,6 @@ const HelpingVolunteers = () => {
                   Previous
                 </button>
 
-                {/* Page Numbers */}
                 {paginationButtons}
 
                 <button
