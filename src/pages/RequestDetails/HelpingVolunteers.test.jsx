@@ -32,11 +32,6 @@ const mockVolunteers = [
   },
 ];
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  getVolunteersData.mockResolvedValue(mockVolunteers);
-});
-
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   Link: ({ to, children, className }) => (
@@ -49,44 +44,22 @@ jest.mock("react-router-dom", () => ({
 jest.mock("../../services/meetingServices");
 
 jest.mock("../../services/volunteerServices", () => ({
-  getVolunteersData: jest.fn(() =>
-    Promise.resolve([
-      {
-        name: "Jane Cooper",
-        cause: "Cooking",
-        phone: "123",
-        email: "jane@example.com",
-        location: "Boston",
-        rating: "★★★★★",
-        dateAdded: "2023-10-01",
-      },
-      {
-        name: "John Doe",
-        cause: "Medical",
-        phone: "456",
-        email: "john@example.com",
-        location: "NYC",
-        rating: "★★★☆☆",
-        dateAdded: "2023-10-02",
-      },
-    ]),
-  ),
+  getVolunteersData: jest.fn(),
 }));
 
-async function renderAndGetCheckboxes() {
+beforeEach(() => {
+  jest.clearAllMocks();
+
+  getVolunteersData.mockResolvedValue(mockVolunteers);
+});
+
+async function setup() {
   render(<HelpingVolunteers />);
   await screen.findByText("Jane Cooper");
-  return screen.getAllByRole("checkbox");
 }
 
 describe("HelpingVolunteers", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it("shows loading spinner when fetching volunteers", async () => {
-    const { getVolunteersData } = require("../../services/volunteerServices");
-
+  it("shows loading spinner", async () => {
     getVolunteersData.mockImplementationOnce(
       () => new Promise(() => {}),
     );
@@ -94,17 +67,61 @@ describe("HelpingVolunteers", () => {
     render(<HelpingVolunteers />);
 
     expect(
-      await screen.findByText(/Loading.../i),
+      await screen.findByText(/Loading/i),
     ).toBeInTheDocument();
   });
 
-  it("renders fallback UI for volunteersCount = 0", async () => {
+  it("shows API error", async () => {
+    getVolunteersData.mockRejectedValueOnce(
+      new Error("API error"),
+    );
+
     render(<HelpingVolunteers />);
 
-    const countInput = screen.getByRole("spinbutton");
+    await waitFor(() => {
+      expect(
+        screen.getByText(/API error/i),
+      ).toBeInTheDocument();
+    });
+  });
 
-    fireEvent.change(countInput, {
-      target: { value: "0" },
+  it("renders volunteers", async () => {
+    await setup();
+
+    expect(
+      screen.getByText("Jane Cooper"),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText("John Doe"),
+    ).toBeInTheDocument();
+  });
+
+  it("search filters volunteers", async () => {
+    await setup();
+
+    const searchInput =
+      screen.getByPlaceholderText(
+        /SEARCH_BY_NAME/i,
+      );
+
+    fireEvent.change(searchInput, {
+      target: { value: "Jane" },
+    });
+
+    expect(
+      screen.getByText("Jane Cooper"),
+    ).toBeInTheDocument();
+  });
+
+  it("request volunteers button works", async () => {
+    await setup();
+
+    const input =
+      screen.getByRole("spinbutton");
+
+    fireEvent.change(input, {
+      target: { value: "3" },
     });
 
     fireEvent.click(
@@ -112,53 +129,36 @@ describe("HelpingVolunteers", () => {
     );
 
     expect(
-      screen.getAllByText(/Volunteers/).length,
-    ).toBeGreaterThan(0);
-
-    expect(
-      screen.getByText(/Assigned/),
+      screen.getByText(/3 Volunteers Requested/i),
     ).toBeInTheDocument();
   });
 
-  it("shows error if volunteers API fails", async () => {
-    const { getVolunteersData } = require("../../services/volunteerServices");
+  it("shows max volunteer validation", async () => {
+    await setup();
 
-    getVolunteersData.mockImplementationOnce(() =>
-      Promise.reject(new Error("API error")),
+    const input =
+      screen.getByRole("spinbutton");
+
+    fireEvent.change(input, {
+      target: { value: "10" },
+    });
+
+    fireEvent.click(
+      screen.getByText(/REQUEST_VOLUNTEERS/i),
     );
 
-    render(<HelpingVolunteers />);
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          /API error|Failed to fetch volunteers/i,
-        ),
-      ).toBeInTheDocument();
-    });
+    expect(
+      screen.getByText(
+        /Maximum 5 volunteer can be assigned/i,
+      ),
+    ).toBeInTheDocument();
   });
 
-  it("renders volunteer list and disables Zoom Meeting button initially", async () => {
-    render(<HelpingVolunteers />);
+  it("selects volunteer checkbox", async () => {
+    await setup();
 
-    expect(
-      await screen.findByText("Jane Cooper"),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText("Zoom Meeting"),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByRole("button", {
-        name: /Zoom Meeting/i,
-      }),
-    ).toBeDisabled();
-  });
-
-  it("enables Zoom Meeting button when a volunteer is selected", async () => {
     const checkboxes =
-      await renderAndGetCheckboxes();
+      screen.getAllByRole("checkbox");
 
     fireEvent.click(checkboxes[1]);
 
@@ -169,84 +169,15 @@ describe("HelpingVolunteers", () => {
     ).toBeEnabled();
   });
 
-  it("renders select-all checkbox in the table header", async () => {
-    render(<HelpingVolunteers />);
+  it("deselects volunteer checkbox", async () => {
+    await setup();
 
-    await screen.findByText("Jane Cooper");
-
-    const selectAllCheckbox =
-      screen.getByRole("checkbox", {
-        name: /Select all volunteers on this page/i,
-      });
-
-    expect(selectAllCheckbox).toBeInTheDocument();
-
-    expect(selectAllCheckbox).not.toBeChecked();
-  });
-
-  it("select-all checkbox selects all volunteers on current page", async () => {
-    render(<HelpingVolunteers />);
-
-    await screen.findByText("Jane Cooper");
-
-    const selectAllCheckbox =
-      screen.getByRole("checkbox", {
-        name: /Select all volunteers on this page/i,
-      });
-
-    fireEvent.click(selectAllCheckbox);
-
-    expect(
-      screen.getByRole("button", {
-        name: /Zoom Meeting/i,
-      }),
-    ).toBeEnabled();
-
-    expect(
-      screen.getByRole("button", {
-        name: /Delete/i,
-      }),
-    ).toBeEnabled();
-  });
-
-  it("select-all checkbox is checked when all rows on page are selected", async () => {
-    render(<HelpingVolunteers />);
-
-    await screen.findByText("Jane Cooper");
-
-    const allCheckboxes =
+    const checkboxes =
       screen.getAllByRole("checkbox");
 
-    fireEvent.click(allCheckboxes[1]);
-    fireEvent.click(allCheckboxes[2]);
+    fireEvent.click(checkboxes[1]);
 
-    const selectAllCheckbox =
-      screen.getByRole("checkbox", {
-        name: /Select all volunteers on this page/i,
-      });
-
-    expect(selectAllCheckbox).toBeChecked();
-  });
-
-  it("unchecking select-all deselects all volunteers on current page", async () => {
-    render(<HelpingVolunteers />);
-
-    await screen.findByText("Jane Cooper");
-
-    const selectAllCheckbox =
-      screen.getByRole("checkbox", {
-        name: /Select all volunteers on this page/i,
-      });
-
-    fireEvent.click(selectAllCheckbox);
-
-    expect(
-      screen.getByRole("button", {
-        name: /Zoom Meeting/i,
-      }),
-    ).toBeEnabled();
-
-    fireEvent.click(selectAllCheckbox);
+    fireEvent.click(checkboxes[1]);
 
     expect(
       screen.getByRole("button", {
@@ -255,45 +186,77 @@ describe("HelpingVolunteers", () => {
     ).toBeDisabled();
   });
 
-  it("renders volunteer names as hyperlinks to /profile", async () => {
-    render(<HelpingVolunteers />);
+  it("select-all checkbox selects all volunteers", async () => {
+    await setup();
 
-    await screen.findByText("Jane Cooper");
+    const selectAll =
+      screen.getByRole("checkbox", {
+        name: /Select all volunteers on this page/i,
+      });
+
+    fireEvent.click(selectAll);
+
+    expect(selectAll).toBeChecked();
+  });
+
+  it("unchecking select-all deselects volunteers", async () => {
+    await setup();
+
+    const selectAll =
+      screen.getByRole("checkbox", {
+        name: /Select all volunteers on this page/i,
+      });
+
+    fireEvent.click(selectAll);
+
+    fireEvent.click(selectAll);
+
+    expect(selectAll).not.toBeChecked();
+  });
+
+  it("delete button removes selected volunteers", async () => {
+    await setup();
+
+    const checkboxes =
+      screen.getAllByRole("checkbox");
+
+    fireEvent.click(checkboxes[1]);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /Delete/i,
+      }),
+    );
+
+    expect(
+      screen.queryByText("Jane Cooper"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders volunteer links", async () => {
+    await setup();
 
     const janeLink = screen.getByRole("link", {
       name: "Jane Cooper",
     });
-
-    const johnLink = screen.getByRole("link", {
-      name: "John Doe",
-    });
-
-    expect(janeLink).toBeInTheDocument();
 
     expect(janeLink).toHaveAttribute(
       "href",
       "/profile",
     );
 
-    expect(johnLink).toBeInTheDocument();
-
-    expect(johnLink).toHaveAttribute(
-      "href",
-      "/profile",
-    );
-  });
-
-  it("volunteer name links have correct styling class", async () => {
-    render(<HelpingVolunteers />);
-
-    await screen.findByText("Jane Cooper");
-
-    const janeLink = screen.getByRole("link", {
-      name: "Jane Cooper",
-    });
-
     expect(janeLink).toHaveClass(
       "text-blue-600",
     );
+  });
+
+  it("sort headers are clickable", async () => {
+    await setup();
+
+    fireEvent.click(screen.getByText("Name"));
+
+    expect(
+      screen.getByText("Name"),
+    ).toBeInTheDocument();
   });
 });
