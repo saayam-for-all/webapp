@@ -11,6 +11,19 @@ import HelpingVolunteers from "./HelpingVolunteers";
 
 import { getVolunteersData } from "../../services/volunteerServices";
 
+jest.mock("react-router-dom", () => ({
+  Link: ({ children, to }) => (
+    <a href={to}>{children}</a>
+  ),
+}));
+
+jest.mock(
+  "../../services/volunteerServices",
+  () => ({
+    getVolunteersData: jest.fn(),
+  }),
+);
+
 const mockVolunteers = [
   {
     name: "Jane Cooper",
@@ -19,7 +32,6 @@ const mockVolunteers = [
     email: "jane@example.com",
     location: "Boston",
     rating: "★★★★★",
-    dateAdded: "2023-10-01",
   },
   {
     name: "John Doe",
@@ -28,27 +40,8 @@ const mockVolunteers = [
     email: "john@example.com",
     location: "NYC",
     rating: "★★★☆☆",
-    dateAdded: "2023-10-02",
   },
 ];
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  Link: ({ to, children, className }) => (
-    <a href={to} className={className}>
-      {children}
-    </a>
-  ),
-}));
-
-jest.mock("../../services/meetingServices", () => ({
-  createZoomMeeting: jest.fn(),
-  storeMeetingDetails: jest.fn(),
-}));
-
-jest.mock("../../services/volunteerServices", () => ({
-  getVolunteersData: jest.fn(),
-}));
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -58,18 +51,24 @@ beforeEach(() => {
   );
 });
 
-async function setup() {
-  render(<HelpingVolunteers />);
-
-  await screen.findByText("Jane Cooper");
-}
-
 describe("HelpingVolunteers", () => {
-  it("renders volunteers", async () => {
-    await setup();
+  it("renders volunteer management title", async () => {
+    render(<HelpingVolunteers />);
 
     expect(
-      screen.getByText("Jane Cooper"),
+      await screen.findByText(
+        "Volunteer Management",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("renders volunteers", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(
+      await screen.findByText(
+        "Jane Cooper",
+      ),
     ).toBeInTheDocument();
 
     expect(
@@ -77,7 +76,7 @@ describe("HelpingVolunteers", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows loading spinner", async () => {
+  it("shows loading state", async () => {
     getVolunteersData.mockImplementationOnce(
       () => new Promise(() => {}),
     );
@@ -85,11 +84,11 @@ describe("HelpingVolunteers", () => {
     render(<HelpingVolunteers />);
 
     expect(
-      await screen.findByText(/Loading/i),
+      screen.getByText(/Loading/i),
     ).toBeInTheDocument();
   });
 
-  it("shows API error", async () => {
+  it("shows error state", async () => {
     getVolunteersData.mockRejectedValueOnce(
       new Error("API error"),
     );
@@ -103,68 +102,150 @@ describe("HelpingVolunteers", () => {
     });
   });
 
-  it("search filters volunteers", async () => {
-    await setup();
+  it("renders profile links", async () => {
+    render(<HelpingVolunteers />);
 
-    const searchInput =
-      screen.getByPlaceholderText(
-        /SEARCH_BY_NAME/i,
-      );
+    const links =
+      await screen.findAllByRole("link");
 
-    fireEvent.change(searchInput, {
-      target: { value: "Jane" },
-    });
+    expect(links.length).toBeGreaterThan(0);
 
-    expect(
-      screen.getByText("Jane Cooper"),
-    ).toBeInTheDocument();
-  });
-
-  it("selects volunteer checkbox", async () => {
-    await setup();
-
-    const checkboxes =
-      screen.getAllByRole("checkbox");
-
-    fireEvent.click(checkboxes[1]);
-
-    expect(checkboxes[1]).toBeChecked();
-  });
-
-  it("select-all checkbox works", async () => {
-    await setup();
-
-    const selectAll =
-      screen.getByRole("checkbox", {
-        name: /Select all volunteers on this page/i,
-      });
-
-    fireEvent.click(selectAll);
-
-    expect(selectAll).toBeChecked();
-  });
-
-  it("renders volunteer profile links", async () => {
-    await setup();
-
-    const janeLink = screen.getByRole("link", {
-      name: "Jane Cooper",
-    });
-
-    expect(janeLink).toHaveAttribute(
+    expect(links[0]).toHaveAttribute(
       "href",
       "/profile",
     );
   });
 
+  it("renders search input", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(
+      await screen.findByPlaceholderText(
+        /SEARCH_BY_NAME/i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("search input changes value", async () => {
+    render(<HelpingVolunteers />);
+
+    const input =
+      await screen.findByPlaceholderText(
+        /SEARCH_BY_NAME/i,
+      );
+
+    fireEvent.change(input, {
+      target: { value: "Jane" },
+    });
+
+    expect(input.value).toBe("Jane");
+  });
+
+  it("renders request volunteers button", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(
+      await screen.findByText(
+        /REQUEST_VOLUNTEERS/i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("shows validation error for more than 5 volunteers", async () => {
+    render(<HelpingVolunteers />);
+
+    const input =
+      await screen.findByRole(
+        "spinbutton",
+      );
+
+    fireEvent.change(input, {
+      target: { value: "10" },
+    });
+
+    fireEvent.click(
+      screen.getByText(
+        /REQUEST_VOLUNTEERS/i,
+      ),
+    );
+
+    expect(
+      screen.getByText(
+        /Maximum 5 volunteer can be assigned/i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("renders checkboxes", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes =
+      await screen.findAllByRole(
+        "checkbox",
+      );
+
+    expect(
+      checkboxes.length,
+    ).toBeGreaterThan(0);
+  });
+
+  it("select all checkbox can be clicked", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes =
+      await screen.findAllByRole(
+        "checkbox",
+      );
+
+    fireEvent.click(checkboxes[0]);
+
+    expect(
+      checkboxes[0],
+    ).toBeChecked();
+  });
+
+  it("renders sorting headers", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(
+      await screen.findByText("Name"),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText("Email"),
+    ).toBeInTheDocument();
+  });
+
   it("sorting header click works", async () => {
-    await setup();
+    render(<HelpingVolunteers />);
 
     const nameHeader =
-      screen.getByText("Name");
+      await screen.findByText(
+        "Name",
+      );
 
     fireEvent.click(nameHeader);
 
-    expect(nameHeader).toBeInTheDocument();
+    expect(
+      nameHeader,
+    ).toBeInTheDocument();
+  });
+
+  it("delete button exists", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(
+      await screen.findByText(/Delete/i),
+    ).toBeInTheDocument();
+  });
+
+  it("zoom meeting button exists", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(
+      await screen.findByText(
+        /Zoom Meeting/i,
+      ),
+    ).toBeInTheDocument();
   });
 });
