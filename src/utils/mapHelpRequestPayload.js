@@ -6,7 +6,6 @@ export const mapHelpRequestPayload = ({
   additionalFields,
   requestId,
 }) => {
-  console.log("requesterId value:", requesterId);
   const payload = {
     requesterId: requesterId,
     requestSubject: formData.subject,

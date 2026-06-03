@@ -22,8 +22,15 @@ const Table = ({
   const { t, i18n } = useTranslation(["common", "categories"]);
 
   const paginatedRequests = useMemo(() => {
-    return rows;
-  }, [rows]);
+    if (serverPaginated) {
+      return rows;
+    }
+
+    return rows.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage,
+    );
+  }, [rows, currentPage, itemsPerPage, serverPaginated]);
 
   //useEffect(() => {
   //setCurrentPage(1);

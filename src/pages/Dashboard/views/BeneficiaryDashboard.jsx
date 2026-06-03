@@ -76,6 +76,7 @@ const BeneficiaryDashboard = (props) => {
             onRowsPerPageChange={onRowsPerPageChange}
             getLinkPath={getLinkPath}
             getLinkState={getLinkState}
+            serverPaginated={activeTab === "myRequests"}
           />
         )}
       </div>

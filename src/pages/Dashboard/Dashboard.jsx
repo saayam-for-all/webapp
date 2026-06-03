@@ -40,7 +40,6 @@ import {
 import "./Dashboard.css";
 
 const Dashboard = ({ userRole }) => {
-  console.log("Dashboard component rendered");
   const { t } = useTranslation();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -73,7 +72,6 @@ const Dashboard = ({ userRole }) => {
     localStorage.getItem("userDbId");
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log("userDbId:", userDbId);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [accessibleDashboards, setAccessibleDashboards] = useState([]);
   const [selectedDashboard, setSelectedDashboard] = useState("");
@@ -136,9 +134,45 @@ const Dashboard = ({ userRole }) => {
     [],
   );
 
-  const getAllRequests = async (tab) => {
+  const getAllRequests = async (tab, page = currentPage - 1, sizeOverride) => {
     try {
       setIsLoading(true);
+
+      const isAllRequestsTab =
+        tab === "myRequests" &&
+        [DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN, DASHBOARDS.STEWARD].includes(
+          selectedDashboard,
+        );
+
+      if (isAllRequestsTab) {
+        const response = await getAllPaginatedRequests({
+          page,
+          size: sizeOverride || rowsPerPage,
+        });
+
+        const records =
+          response?.data?.content || response?.content || response?.body || [];
+
+        const normalizedRecords = (Array.isArray(records) ? records : []).map(
+          (r) => ({
+            ...r,
+            id: r.requestId || r.id,
+            category: r.requestCategory || r.category,
+            description: r.reqDesc || r.description,
+            catId: r.reqCatId || r.catId,
+          }),
+        );
+
+        setData({
+          ...response,
+          data: {
+            ...(response?.data || {}),
+            content: normalizedRecords,
+          },
+        });
+
+        return;
+      }
 
       let response;
 
@@ -153,8 +187,6 @@ const Dashboard = ({ userRole }) => {
       } else if (tab === "managedRequests") {
         response = await getManagedRequests();
       }
-      console.log("Dashboard response:", response);
-      console.log("totalElements:", response?.data?.totalElements);
 
       setData(response || { content: [], body: [], totalPages: 1 });
     } catch (error) {
@@ -1562,6 +1594,7 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
+                serverPaginated={activeTab === "myRequests"}
                 getLinkPath={(request, header) =>
                   header === "requestId" || header === "id"
                     ? `/request/${request[resolveKey(header)]}`
