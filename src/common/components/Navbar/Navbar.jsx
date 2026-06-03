@@ -697,6 +697,7 @@ const Navbar = () => {
             <button
               onClick={(e) => handleDrawerClick(e, "/contact")}
               className="text-black flex items-center hover:text-blue-600"
+              data-testid = "go-to-contact"
             >
               <ContactMailOutlinedIcon className="mr-2" /> {t("CONTACT")}
             </button>
