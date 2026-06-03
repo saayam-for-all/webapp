@@ -41,10 +41,12 @@ const defaultProps = {
   headers: ["requestId", "status", "subject", "type", "category", "priority"],
   rows: [
     {
+      requestId: "REQ-001",
       id: "REQ-001",
       status: "CREATED",
       subject: "Test subject",
       type: "IN_PERSON",
+      requestCategory: "FOOD_ASSISTANCE",
       category: "FOOD_ASSISTANCE",
       priority: "HIGH",
     },
@@ -119,7 +121,13 @@ describe("Table", () => {
     it("translates a nested subcategory code", () => {
       const props = {
         ...defaultProps,
-        rows: [{ ...defaultProps.rows[0], category: "BUY_THINGS" }],
+        rows: [
+          {
+            ...defaultProps.rows[0],
+            requestCategory: "BUY_THINGS",
+            category: "BUY_THINGS",
+          },
+        ],
       };
       render(<Table {...props} />);
 
@@ -129,7 +137,13 @@ describe("Table", () => {
     it("falls back to raw code when category is not found in bundle", () => {
       const props = {
         ...defaultProps,
-        rows: [{ ...defaultProps.rows[0], category: "UNKNOWN_CATEGORY" }],
+        rows: [
+          {
+            ...defaultProps.rows[0],
+            requestCategory: "UNKNOWN_CATEGORY",
+            category: "UNKNOWN_CATEGORY",
+          },
+        ],
       };
       render(<Table {...props} />);
 
@@ -148,7 +162,13 @@ describe("Table", () => {
         });
       const props = {
         ...defaultProps,
-        rows: [{ ...defaultProps.rows[0], category: "FOOD_ASSISTANCE" }],
+        rows: [
+          {
+            ...defaultProps.rows[0],
+            requestCategory: "FOOD_ASSISTANCE",
+            category: "FOOD_ASSISTANCE",
+          },
+        ],
       };
       render(<Table {...props} />);
       expect(screen.getByText("FOOD_ASSISTANCE")).toBeInTheDocument();
@@ -165,10 +185,12 @@ describe("Table", () => {
 
   describe("server-side pagination", () => {
     const manyRows = Array.from({ length: 5 }, (_, i) => ({
+      requestId: `REQ-${i + 1}`,
       id: `REQ-${i + 1}`,
       status: "CREATED",
       subject: `Subject ${i + 1}`,
       type: "REMOTE",
+      requestCategory: "FOOD_ASSISTANCE",
       category: "FOOD_ASSISTANCE",
       priority: "HIGH",
     }));
@@ -229,7 +251,7 @@ describe("Table", () => {
       expect(mockSetPage).not.toHaveBeenCalled();
     });
 
-    it("auto-resets page to 1 when serverPaginated is false and totalRows changes", () => {
+    it("does not auto-reset page when totalRows changes (client pagination)", () => {
       const mockSetPage = jest.fn();
       const { rerender } = render(
         <Table
@@ -245,7 +267,6 @@ describe("Table", () => {
 
       mockSetPage.mockClear();
 
-      // Re-render with different totalRows to trigger the useEffect
       rerender(
         <Table
           {...defaultProps}
@@ -258,7 +279,54 @@ describe("Table", () => {
         />,
       );
 
-      expect(mockSetPage).toHaveBeenCalledWith(1);
+      expect(mockSetPage).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("API field mapping", () => {
+    it("reads category from requestCategory when category header is used", () => {
+      render(
+        <Table
+          {...defaultProps}
+          rows={[
+            {
+              requestId: "REQ-API",
+              requestCategory: "FOOD_ASSISTANCE",
+            },
+          ]}
+        />,
+      );
+
+      expect(screen.getByText("Food Assistance")).toBeInTheDocument();
+    });
+
+    it("formats creationDate values for display", () => {
+      render(
+        <Table
+          {...defaultProps}
+          headers={["requestId", "creationDate"]}
+          rows={[
+            {
+              requestId: "REQ-DATE",
+              creationDate: "2026-05-24T17:17:45.999Z",
+            },
+          ]}
+        />,
+      );
+
+      expect(screen.getByText(/05\/24\/2026/)).toBeInTheDocument();
+    });
+
+    it("renders requestId from requestId field", () => {
+      render(
+        <Table
+          {...defaultProps}
+          headers={["requestId", "status"]}
+          rows={[{ requestId: "REQ-99-001", status: "CREATED" }]}
+        />,
+      );
+
+      expect(screen.getByText("REQ-99-001")).toBeInTheDocument();
     });
   });
 });

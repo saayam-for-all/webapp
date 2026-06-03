@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Table from "../../../common/components/DataTable/Table";
+import LoadingIndicator from "../../../common/components/Loading/Loading";
 
 const VolunteerDashboard = (props) => {
   const {
@@ -40,7 +41,11 @@ const VolunteerDashboard = (props) => {
       {searchFilters}
 
       <div className="requests-section overflow-hidden table-height-fix">
-        {!isLoading && (
+        {isLoading ? (
+          <div className="flex justify-center py-10">
+            <LoadingIndicator size="50px" position="beside" />
+          </div>
+        ) : (
           <Table
             headers={headers}
             rows={filteredData}
