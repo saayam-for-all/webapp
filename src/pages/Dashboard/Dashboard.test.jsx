@@ -39,6 +39,9 @@ jest.mock("./views/BeneficiaryDashboard", () => (props) => {
   lastBeneficiaryDashboardProps = props;
   return (
     <div data-testid="beneficiary-dashboard">
+      <button onClick={() => props.handleTabChange("othersRequests")}>
+        Others Requests
+      </button>
       <button onClick={() => props.onRowsPerPageChange?.(20)}>
         Change Beneficiary Rows
       </button>
@@ -590,6 +593,36 @@ describe("Dashboard", () => {
         category: "Category Body",
         description: "From body",
       });
+    });
+  });
+
+  it("calls getOthersRequests when Beneficiary switches to Others Requests tab", async () => {
+    const {
+      getOthersRequests,
+      getMyRequests,
+    } = require("../../services/requestServices");
+    getOthersRequests.mockResolvedValue({
+      body: [{ requestId: "REQ-OTHER-1", subject: "For someone else" }],
+    });
+    getMyRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => expect(getMyRequests).toHaveBeenCalled());
+
+    fireEvent.click(getByText("Others Requests"));
+
+    await waitFor(() => {
+      expect(getOthersRequests).toHaveBeenCalled();
+      expect(
+        lastBeneficiaryDashboardProps?.filteredData?.find(
+          (r) => r.requestId === "REQ-OTHER-1" || r.id === "REQ-OTHER-1",
+        ),
+      ).toBeDefined();
     });
   });
 
