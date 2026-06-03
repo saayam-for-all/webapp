@@ -34,12 +34,31 @@ jest.mock("../../services/requestServices", () => ({
   ),
 }));
 
-jest.mock("./views/BeneficiaryDashboard", () => () => (
-  <div data-testid="beneficiary-dashboard" />
-));
-jest.mock("./views/VolunteerDashboard", () => () => (
-  <div data-testid="volunteer-dashboard" />
-));
+let lastBeneficiaryDashboardProps = null;
+jest.mock("./views/BeneficiaryDashboard", () => (props) => {
+  lastBeneficiaryDashboardProps = props;
+  return (
+    <div data-testid="beneficiary-dashboard">
+      <button onClick={() => props.onRowsPerPageChange?.(20)}>
+        Change Beneficiary Rows
+      </button>
+    </div>
+  );
+});
+let lastVolunteerDashboardProps = null;
+jest.mock("./views/VolunteerDashboard", () => (props) => {
+  lastVolunteerDashboardProps = props;
+  return (
+    <div data-testid="volunteer-dashboard">
+      <button onClick={() => props.handleTabChange("othersRequests")}>
+        Others Requests
+      </button>
+      <button onClick={() => props.handleTabChange("managedRequests")}>
+        Managed Requests
+      </button>
+    </div>
+  );
+});
 let lastAdminDashboardProps = null;
 jest.mock("./views/AdminDashboard", () => (props) => {
   lastAdminDashboardProps = props;
@@ -68,10 +87,45 @@ jest.mock("./components/Analytics/VolunteerAnalytics", () => () => null);
 
 import Dashboard from "./Dashboard";
 
+const adminAuthState = {
+  auth: {
+    user: {
+      userId: "u1",
+      userDbId: "SID-00-000-003-016",
+      groups: ["Admins"],
+    },
+    idToken: "tok",
+  },
+};
+
+const beneficiaryAuthState = {
+  auth: {
+    user: {
+      userId: "u1",
+      userDbId: "SID-00-000-003-016",
+      groups: [],
+    },
+    idToken: "tok",
+  },
+};
+
+const volunteerAuthState = {
+  auth: {
+    user: {
+      userId: "u1",
+      userDbId: "SID-00-000-003-016",
+      groups: ["Volunteers"],
+    },
+    idToken: "tok",
+  },
+};
+
 describe("Dashboard", () => {
   beforeEach(() => {
     localStorage.clear();
     lastAdminDashboardProps = null;
+    lastBeneficiaryDashboardProps = null;
+    lastVolunteerDashboardProps = null;
   });
 
   it("renders beneficiary dashboard by default when user has no groups", () => {
@@ -163,9 +217,7 @@ describe("Dashboard", () => {
     });
 
     const { getByText } = renderWithProviders(<Dashboard />, {
-      preloadedState: {
-        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
-      },
+      preloadedState: adminAuthState,
     });
 
     fireEvent.click(getByText("Click All Requests"));
@@ -191,9 +243,7 @@ describe("Dashboard", () => {
       getAllPaginatedRequests,
     } = require("../../services/requestServices");
     const { getByText } = renderWithProviders(<Dashboard />, {
-      preloadedState: {
-        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
-      },
+      preloadedState: adminAuthState,
     });
 
     fireEvent.click(getByText("Click All Requests"));
@@ -211,9 +261,7 @@ describe("Dashboard", () => {
       getAllPaginatedRequests,
     } = require("../../services/requestServices");
     const { getByText } = renderWithProviders(<Dashboard />, {
-      preloadedState: {
-        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
-      },
+      preloadedState: adminAuthState,
     });
 
     fireEvent.click(getByText("Click All Requests"));
@@ -238,9 +286,7 @@ describe("Dashboard", () => {
       getAllPaginatedRequests,
     } = require("../../services/requestServices");
     const { getByText } = renderWithProviders(<Dashboard />, {
-      preloadedState: {
-        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
-      },
+      preloadedState: adminAuthState,
     });
 
     fireEvent.click(getByText("Click All Requests"));
@@ -270,9 +316,7 @@ describe("Dashboard", () => {
     getAllPaginatedRequests.mockRejectedValueOnce(new Error("API Error"));
 
     const { getByText } = renderWithProviders(<Dashboard />, {
-      preloadedState: {
-        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
-      },
+      preloadedState: adminAuthState,
     });
 
     fireEvent.click(getByText("Click All Requests"));
@@ -300,9 +344,7 @@ describe("Dashboard", () => {
     });
 
     const { getByText } = renderWithProviders(<Dashboard />, {
-      preloadedState: {
-        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
-      },
+      preloadedState: adminAuthState,
     });
 
     fireEvent.click(getByText("Click All Requests"));
@@ -331,9 +373,7 @@ describe("Dashboard", () => {
       getAllPaginatedRequests,
     } = require("../../services/requestServices");
     const { getByText } = renderWithProviders(<Dashboard />, {
-      preloadedState: {
-        auth: { user: { userId: "u1", groups: ["Admins"] }, idToken: "tok" },
-      },
+      preloadedState: adminAuthState,
     });
 
     fireEvent.click(getByText("Click All Requests"));
@@ -359,5 +399,246 @@ describe("Dashboard", () => {
     // Since page index 1 is already active, expect no new API calls
     await new Promise((resolve) => setTimeout(resolve, 100));
     expect(getAllPaginatedRequests).not.toHaveBeenCalled();
+  });
+
+  it("exposes server pagination props to Admin after All Requests fetch", async () => {
+    const {
+      getAllPaginatedRequests,
+    } = require("../../services/requestServices");
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: {
+        content: [{ requestId: "REQ-1", requestCategory: "FOOD_ASSISTANCE" }],
+        totalPages: 4,
+        totalElements: 32,
+      },
+    });
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: adminAuthState,
+    });
+
+    fireEvent.click(getByText("Click All Requests"));
+
+    await waitFor(() => {
+      expect(lastAdminDashboardProps?.serverPaginated).toBe(true);
+      expect(lastAdminDashboardProps?.serverTotalRows).toBe(32);
+    });
+  });
+
+  it("calls getMyRequests for Beneficiary My Requests with userId, page, and size", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+
+    getMyRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+
+    renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => {
+      expect(getMyRequests).toHaveBeenCalledWith({
+        userId: "SID-00-000-003-016",
+        page: 0,
+        size: 5,
+      });
+    });
+  });
+
+  it("maps reqDesc and reqCatId from getMyRequests response for Beneficiary", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+
+    getMyRequests.mockResolvedValue({
+      data: {
+        content: [
+          {
+            requestId: "REQ-00-000-000-0999",
+            requestCategory: "MEAL_PREP_BASIC",
+            reqCatId: "1.3.1",
+            reqDesc: "Need meal prep help",
+          },
+        ],
+        totalPages: 1,
+        totalElements: 1,
+      },
+    });
+
+    renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => {
+      const row = lastBeneficiaryDashboardProps?.filteredData?.find(
+        (r) => r.id === "REQ-00-000-000-0999",
+      );
+      expect(row).toMatchObject({
+        category: "MEAL_PREP_BASIC",
+        description: "Need meal prep help",
+        catId: "1.3.1",
+      });
+    });
+  });
+
+  it("calls getMyRequests with updated size when Beneficiary rows per page changes", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+
+    getMyRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() =>
+      expect(getMyRequests).toHaveBeenCalledWith({
+        userId: "SID-00-000-003-016",
+        page: 0,
+        size: 5,
+      }),
+    );
+
+    fireEvent.click(getByText("Change Beneficiary Rows"));
+
+    await waitFor(() =>
+      expect(getMyRequests).toHaveBeenCalledWith({
+        userId: "SID-00-000-003-016",
+        page: 0,
+        size: 20,
+      }),
+    );
+  });
+
+  it("handles getMyRequests API error and logs it to console", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    getMyRequests.mockRejectedValueOnce(new Error("My Requests API Error"));
+
+    renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Error fetching requests:",
+        expect.any(Error),
+      );
+    });
+    consoleErrorSpy.mockRestore();
+  });
+
+  it("normalizes getMyRequests records from top-level content", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+
+    getMyRequests.mockResolvedValue({
+      content: [
+        {
+          requestId: "REQ-CONTENT",
+          requestCategory: "Category Content",
+          reqDesc: "From content",
+        },
+      ],
+      totalPages: 2,
+      totalElements: 10,
+    });
+
+    renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => {
+      expect(
+        lastBeneficiaryDashboardProps?.filteredData?.find(
+          (r) => r.id === "REQ-CONTENT",
+        ),
+      ).toMatchObject({
+        category: "Category Content",
+        description: "From content",
+      });
+    });
+  });
+
+  it("normalizes getMyRequests records from top-level body", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+
+    getMyRequests.mockResolvedValue({
+      body: [
+        {
+          id: "REQ-BODY",
+          category: "Category Body",
+          description: "From body",
+        },
+      ],
+      totalPages: 1,
+      totalElements: 1,
+    });
+
+    renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => {
+      expect(
+        lastBeneficiaryDashboardProps?.filteredData?.find(
+          (r) => r.id === "REQ-BODY",
+        ),
+      ).toMatchObject({
+        category: "Category Body",
+        description: "From body",
+      });
+    });
+  });
+
+  it("calls getOthersRequests when Volunteer switches to Others Requests tab", async () => {
+    const { getOthersRequests } = require("../../services/requestServices");
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: volunteerAuthState,
+    });
+
+    fireEvent.click(getByText("Others Requests"));
+
+    await waitFor(() => {
+      expect(getOthersRequests).toHaveBeenCalled();
+    });
+  });
+
+  it("calls getManagedRequests when Volunteer switches to Managed Requests tab", async () => {
+    const { getManagedRequests } = require("../../services/requestServices");
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: volunteerAuthState,
+    });
+
+    fireEvent.click(getByText("Managed Requests"));
+
+    await waitFor(() => {
+      expect(getManagedRequests).toHaveBeenCalled();
+    });
+  });
+
+  it("uses userDbId from localStorage when not in redux state", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+    localStorage.setItem("userDbId", "SID-FROM-STORAGE");
+
+    getMyRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+
+    renderWithProviders(<Dashboard />, {
+      preloadedState: {
+        auth: { user: { userId: "u1", groups: [] }, idToken: "tok" },
+      },
+    });
+
+    await waitFor(() => {
+      expect(getMyRequests).toHaveBeenCalledWith(
+        expect.objectContaining({ userId: "SID-FROM-STORAGE" }),
+      );
+    });
   });
 });

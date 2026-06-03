@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Table from "../../../common/components/DataTable/Table";
+import LoadingIndicator from "../../../common/components/Loading/Loading";
 import { getMockVolunteersData } from "../../../services/volunteerServices";
 
 const StewardDashboard = (props) => {
@@ -91,7 +92,11 @@ const StewardDashboard = (props) => {
           {searchFilters}
 
           <div className="requests-section overflow-hidden table-height-fix">
-            {!isLoading && (
+            {isLoading ? (
+              <div className="flex justify-center py-10">
+                <LoadingIndicator size="50px" position="beside" />
+              </div>
+            ) : (
               <Table
                 headers={headers}
                 rows={filteredData}
@@ -116,7 +121,11 @@ const StewardDashboard = (props) => {
 
       {activeTab === "volunteers" && (
         <div className="requests-section overflow-hidden table-height-fix">
-          {!isVolunteerLoading && (
+          {isVolunteerLoading ? (
+            <div className="flex justify-center py-10">
+              <LoadingIndicator size="50px" position="beside" />
+            </div>
+          ) : (
             <Table
               headers={volunteerHeaders}
               rows={volunteerRows}

@@ -1,4 +1,5 @@
 import Table from "../../../common/components/DataTable/Table";
+import LoadingIndicator from "../../../common/components/Loading/Loading";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
@@ -62,7 +63,11 @@ const BeneficiaryDashboard = (props) => {
       {searchFilters}
 
       <div className="requests-section overflow-hidden table-height-fix">
-        {!isLoading && (
+        {isLoading ? (
+          <div className="flex justify-center py-10">
+            <LoadingIndicator size="50px" position="beside" />
+          </div>
+        ) : (
           <Table
             headers={headers}
             rows={filteredData}

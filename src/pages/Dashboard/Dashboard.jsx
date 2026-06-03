@@ -71,6 +71,12 @@ const Dashboard = ({ userRole }) => {
     useSelector((state) => state.auth.user?.userDbId) ||
     localStorage.getItem("userDbId");
   const [isLoading, setIsLoading] = useState(false);
+  const [serverPagination, setServerPagination] = useState({
+    totalPages: 0,
+    totalRecords: 0,
+    currentServerPage: 0,
+    isServerPaginated: false,
+  });
 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [accessibleDashboards, setAccessibleDashboards] = useState([]);
@@ -134,6 +140,15 @@ const Dashboard = ({ userRole }) => {
     [],
   );
 
+  const normalizeHelpRequestRecords = (records) =>
+    (Array.isArray(records) ? records : []).map((r) => ({
+      ...r,
+      id: r.requestId || r.id,
+      category: r.requestCategory || r.category,
+      description: r.reqDesc || r.description,
+      catId: r.reqCatId || r.catId,
+    }));
+
   const getAllRequests = async (tab, page = currentPage - 1, sizeOverride) => {
     try {
       setIsLoading(true);
@@ -152,16 +167,7 @@ const Dashboard = ({ userRole }) => {
 
         const records =
           response?.data?.content || response?.content || response?.body || [];
-
-        const normalizedRecords = (Array.isArray(records) ? records : []).map(
-          (r) => ({
-            ...r,
-            id: r.requestId || r.id,
-            category: r.requestCategory || r.category,
-            description: r.reqDesc || r.description,
-            catId: r.reqCatId || r.catId,
-          }),
-        );
+        const normalizedRecords = normalizeHelpRequestRecords(records);
 
         setData({
           ...response,
@@ -169,6 +175,13 @@ const Dashboard = ({ userRole }) => {
             ...(response?.data || {}),
             content: normalizedRecords,
           },
+        });
+        setServerPagination({
+          totalPages: response?.data?.totalPages || response?.totalPages || 1,
+          totalRecords:
+            response?.data?.totalElements || response?.totalElements || 0,
+          currentServerPage: page,
+          isServerPaginated: true,
         });
 
         return;
@@ -179,9 +192,29 @@ const Dashboard = ({ userRole }) => {
       if (tab === "myRequests") {
         response = await getMyRequests({
           userId: userDbId,
-          page: currentPage - 1,
-          size: rowsPerPage,
+          page,
+          size: sizeOverride || rowsPerPage,
         });
+
+        const records =
+          response?.data?.content || response?.content || response?.body || [];
+        const normalizedRecords = normalizeHelpRequestRecords(records);
+
+        setData({
+          ...response,
+          data: {
+            ...(response?.data || {}),
+            content: normalizedRecords,
+          },
+        });
+        setServerPagination({
+          totalPages: response?.data?.totalPages || response?.totalPages || 1,
+          totalRecords:
+            response?.data?.totalElements || response?.totalElements || 0,
+          currentServerPage: page,
+          isServerPaginated: true,
+        });
+        return;
       } else if (tab === "othersRequests") {
         response = await getOthersRequests();
       } else if (tab === "managedRequests") {
@@ -189,6 +222,7 @@ const Dashboard = ({ userRole }) => {
       }
 
       setData(response || { content: [], body: [], totalPages: 1 });
+      setServerPagination((prev) => ({ ...prev, isServerPaginated: false }));
     } catch (error) {
       console.error("Error fetching requests:", error);
     } finally {
