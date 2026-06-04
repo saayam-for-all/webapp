@@ -7,30 +7,30 @@ import {
   MenuItem,
   FormControl,
   Select,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import HorizontalAd from "#components/Ads/HorizontalAd";
+import { sendContactEmail } from "../../services/contactServices";
 
-// Map of contact reasons to their respective FormSubmit hash endpoints.
-// Each hash corresponds to a real email alias configured on formsubmit.co.
-
-const CONTACT_REASON_HASHES = {
-  VOLUNTEERING_INTERNSHIP: "664052b85250d40af3837478d1f4d1a1", // onboarding@saayamforall.org
-  TIMESHEET_ISSUES: "ebee724fffe3196c8366aa11068a9939", // timesheets@saayamforall.org
-  OFFER_RELIEVING_LETTER: "6eb39361216482205ba375d24826ae55", // letters@saayamforall.org
-  COLLABORATION_PARTNERSHIP: "a7a345dbfc019be815c726ef1f38a8ba", // marketing@saayamforall.org
-  GENERAL_INQUIRY: "bfa2648b3a4420ce3800ff9d23a5f96f", // info@saayamforall.org
-};
-
-// Fallback hash used until a reason is selected (General Inquiry / info@)
-const DEFAULT_HASH = "bfa2648b3a4420ce3800ff9d23a5f96f";
+// Contact reasons - Lambda will route emails based on the reason
+const CONTACT_REASONS = [
+  "VOLUNTEERING_INTERNSHIP",
+  "TIMESHEET_ISSUES",
+  "OFFER_RELIEVING_LETTER",
+  "COLLABORATION_PARTNERSHIP",
+  "GENERAL_INQUIRY",
+];
 
 const ContactUs = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -39,10 +39,9 @@ const ContactUs = () => {
     reason: "",
   });
 
-  const formRef = useRef(null);
-
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [openFAQIndex, setOpenFAQIndex] = useState(null);
   const [phone, setPhone] = useState("");
   const [countryCode, setCountryCode] = useState("US");
@@ -80,7 +79,7 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
     const nameRegex = /^[A-Za-z\s]+$/;
@@ -116,20 +115,36 @@ const ContactUs = () => {
     }
     setErrors(newErrors);
     setPhoneError(newErrors.phone || "");
+    setSubmitError("");
+
     if (Object.keys(newErrors).length === 0) {
-      setSubmitted(true);
-      formRef.current?.submit();
+      setIsSubmitting(true);
+      try {
+        await sendContactEmail({
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          email: formData.email.trim(),
+          phone: fullPhoneNumber,
+          message: formData.message,
+          reason: formData.reason,
+        });
+        navigate("/thanks");
+      } catch (error) {
+        console.error("Contact form submission failed:", error);
+        setSubmitError(
+          t(
+            "Failed to submit form. Please try again or contact us directly at hr@saayamforall.org",
+          ),
+        );
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // Determine the target hash based on selected reason
-  const targetHash = formData.reason
-    ? CONTACT_REASON_HASHES[formData.reason]
-    : DEFAULT_HASH;
 
   return (
     <>
@@ -177,9 +192,6 @@ const ContactUs = () => {
             <Box
               component="form"
               onSubmit={handleSubmit}
-              ref={formRef}
-              action={`https://formsubmit.co/${targetHash}`}
-              method="POST"
               className="w-full max-w-2xl bg-white p-6 rounded-3xl shadow-md"
             >
               <h1 className="text-2xl font-bold mb-1">{t("Get In Touch")}</h1>
@@ -281,30 +293,6 @@ const ContactUs = () => {
                 />
               </div>
 
-              <input
-                type="hidden"
-                name="phone"
-                value={
-                  PHONECODESEN[countryCode]
-                    ? `${PHONECODESEN[countryCode]["secondary"]}${phone}`
-                    : phone
-                }
-              />
-              <input
-                type="hidden"
-                name="_next"
-                value={`${window.location.origin}/thanks`}
-              />
-              <input
-                type="hidden"
-                name="_subject"
-                value={
-                  formData.reason
-                    ? `New Contact Form: ${t(formData.reason)}`
-                    : "New Contact Form Submission"
-                }
-              />
-
               {/* Reason for contacting drop down */}
               <div className="mb-4">
                 <label
@@ -337,7 +325,7 @@ const ContactUs = () => {
                       return t(selected);
                     }}
                   >
-                    {Object.keys(CONTACT_REASON_HASHES).map((reason) => (
+                    {CONTACT_REASONS.map((reason) => (
                       <MenuItem key={reason} value={reason}>
                         {t(reason)}
                       </MenuItem>
@@ -385,12 +373,20 @@ const ContactUs = () => {
                 </p>
               </div>
 
+              {/* Error Alert */}
+              {submitError && (
+                <Alert severity="error" className="mb-4">
+                  {submitError}
+                </Alert>
+              )}
+
               {/* Submit */}
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 fullWidth
+                disabled={isSubmitting}
                 className="mt-4 rounded-[24px]"
                 style={{
                   borderRadius: "24px",
@@ -398,7 +394,11 @@ const ContactUs = () => {
                   fontWeight: "bold",
                 }}
               >
-                {t("Submit")}
+                {isSubmitting ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  t("Submit")
+                )}
               </Button>
 
               <p className="text-sm text-gray-500 mt-4 text-center">
