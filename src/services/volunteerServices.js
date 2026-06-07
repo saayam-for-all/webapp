@@ -1,6 +1,8 @@
 import api from "./api";
 import endpoints from "./endpoints.json";
-import { fileToBase64 } from "../utils/fileToBase64";
+import { ACCEPTED_IMAGE_TYPES, fileToBase64 } from "../utils/fileToBase64";
+
+const MAX_PROFILE_IMAGE_SIZE = 5_000_000;
 
 export const getVolunteerOrgsList = async () => {
   const response = await api.get(endpoints.GET_VOLUNTEER_ORGS_LIST);
@@ -93,6 +95,13 @@ export const getMockVolunteersData = async () => {
  */
 export const uploadProfileImage = async (userId, file) => {
   if (!userId) throw new Error("User ID is required");
+  if (!file || !(file instanceof File)) throw new Error("Invalid file");
+  if (!ACCEPTED_IMAGE_TYPES.includes((file.type || "").toLowerCase())) {
+    throw new Error("Only JPG and PNG formats are accepted.");
+  }
+  if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+    throw new Error("File size must be 5 MB or less.");
+  }
   const base64 = await fileToBase64(file);
   const contentType = file.type === "image/png" ? "image/png" : "image/jpeg";
   await api.post(endpoints.UPLOAD_PROFILE_IMAGE, {

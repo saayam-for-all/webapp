@@ -4,6 +4,7 @@ import {
   moreInformation,
   generateSubject,
   getAllPaginatedRequests,
+  getMyRequests,
   updateRequest,
 } from "./requestServices";
 
@@ -105,6 +106,32 @@ describe("requestServices", () => {
         request,
       );
       expect(result).toEqual(mockData);
+    });
+  });
+
+  describe("getMyRequests", () => {
+    it("calls POST to help-requests with userId, page, and size", async () => {
+      const mockData = {
+        data: { content: [{ requestId: "REQ-1" }], totalPages: 1 },
+      };
+      api.post.mockResolvedValue({ data: mockData });
+
+      const payload = { userId: "SID-00-000-003-016", page: 0, size: 10 };
+      const result = await getMyRequests(payload);
+
+      expect(api.post).toHaveBeenCalledWith(
+        "v1/request/help-requests",
+        payload,
+      );
+      expect(result).toEqual(mockData);
+    });
+
+    it("propagates errors from api", async () => {
+      api.post.mockRejectedValue(new Error("Network error"));
+
+      await expect(
+        getMyRequests({ userId: "SID-1", page: 0, size: 5 }),
+      ).rejects.toThrow("Network error");
     });
   });
 

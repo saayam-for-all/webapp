@@ -6,6 +6,9 @@ import { renderWithProviders } from "#utils/test-utils.jsx";
 jest.mock("../../../services/volunteerServices", () => ({
   getMockVolunteersData: jest.fn(),
 }));
+jest.mock("../../../common/components/Loading/Loading", () => () => (
+  <div data-testid="loading-indicator" />
+));
 
 const mockProps = {
   headers: ["Request ID", "Status", "Date"],
@@ -125,6 +128,43 @@ describe("StewardDashboard Component", () => {
 
     // Initially, volunteers tab should not show table until clicked
     expect(screen.queryByText("SID-00-000-000-001")).not.toBeInTheDocument();
+  });
+
+  it("renders loading indicator while volunteers data is fetching", async () => {
+    const {
+      getMockVolunteersData,
+    } = require("../../../services/volunteerServices");
+    let resolveVolunteers;
+    getMockVolunteersData.mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveVolunteers = resolve;
+        }),
+    );
+
+    renderWithProviders(<StewardDashboard {...mockProps} />);
+    fireEvent.click(screen.getByText("Volunteers"));
+
+    expect(screen.getByTestId("loading-indicator")).toBeInTheDocument();
+    expect(screen.queryByTestId("mock-table")).not.toBeInTheDocument();
+
+    resolveVolunteers([
+      {
+        userId: "SID-00-000-000-001",
+        updatedAt: "2024-01-01T10:00:00Z",
+        volunteerRequestId: "req_123",
+      },
+    ]);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("loading-indicator")).not.toBeInTheDocument();
+      expect(screen.getByText("SID-00-000-000-001")).toBeInTheDocument();
+    });
+  });
+
+  it("renders loading indicator when isLoading is true on All Requests", () => {
+    renderWithProviders(<StewardDashboard {...mockProps} isLoading={true} />);
+    expect(screen.getByTestId("loading-indicator")).toBeInTheDocument();
   });
 
   it("formats updated time correctly", async () => {
