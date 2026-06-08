@@ -1,5 +1,6 @@
 import { publicApi } from "./api";
 import endpoints from "./endpoints.json";
+import axios from "axios";
 
 /**
  * Send contact form email via Lambda (no authentication required)
@@ -31,6 +32,6 @@ export const sendContactEmail = async ({
     recaptchaToken,
   };
 
-  const response = await publicApi.post(endpoints.SEND_CONTACT_EMAIL, payload);
+  const response = await axios.post(endpoints.SEND_CONTACT_EMAIL, payload);
   return response.data;
 };
