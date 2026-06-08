@@ -353,7 +353,7 @@ const KPIAnalytics = () => {
       {/* Chart 2: Average Resolution Time by Category with SLA Lines */}
       <ChartContainer
         title="Average Resolution Time by Category"
-        description={`SLA Target: ${SLA_TARGET / 24} days | Warning: ${SLA_WARNING / 24} days | Color coding: Green (within SLA), Yellow (approaching SLA), Red (exceeded SLA)`}
+        description={`SLA Target: ${SLA_TARGET / 24} days |Warning: ${(SLA_WARNING / 24).toFixed(2)} days | Color coding: Green (within SLA), Yellow (approaching SLA), Red (exceeded SLA)`}
       >
         {resolutionData.length === 0 ? (
           <div className="flex items-center justify-center h-48 text-gray-400 text-sm">
