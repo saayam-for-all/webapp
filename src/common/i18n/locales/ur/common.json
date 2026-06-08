@@ -416,5 +416,7 @@
   "FIND_BY_EMAIL": "ای میل سے تلاش کریں",
   "FIND_BY_PHONE": "فون سے تلاش کریں",
   "ENTER_VOLUNTEER_EMAIL": "رضاکار کا ای میل درج کریں",
-  "ENTER_VOLUNTEER_PHONE": "رضاکار کا فون درج کریں"
+  "ENTER_VOLUNTEER_PHONE": "رضاکار کا فون درج کریں",
+  "SEARCH_PLACEHOLDER": "Saayam سے مدد مانگیں",
+  "SEARCH_TAGLINE": "انسانی لمس کے ساتھ گوگل*"
 }

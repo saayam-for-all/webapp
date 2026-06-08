@@ -491,7 +491,7 @@
   "SCAN_ON_DONATE": "మీరు స్కాన్ చేయవచ్చు లేదా డొనేట్ పై క్లిక్ చేయవచ్చు",
   "SCAN_QR_CODE": "విరాళం చేయడానికి QR కోడ్‌ను స్కాన్ చేయండి",
   "SEARCH": "వెతకండి",
-  "SEARCH_PLACEHOLDER": "వెతకండి...",
+  "SEARCH_PLACEHOLDER": "Saayam సహాయం అడగండి",
   "SECOND LANGUAGE PREFERENCE": "రెండవ భాష ప్రాధాన్యత",
   "SECONDARY PHONE": "సెకండరీ ఫోన్",
   "SECONDARY_EMAIL": "ద్వితీయ ఇమెయిల్",
@@ -755,5 +755,6 @@
   "FIND_BY_EMAIL": "ఇమెయిల్‌తో వెతకండి",
   "FIND_BY_PHONE": "ఫోన్‌తో వెతకండి",
   "ENTER_VOLUNTEER_EMAIL": "వాలంటీర్ ఇమెయిల్ నమోదు చేయండి",
-  "ENTER_VOLUNTEER_PHONE": "వాలంటీర్ ఫోన్ నమోదు చేయండి"
+  "ENTER_VOLUNTEER_PHONE": "వాలంటీర్ ఫోన్ నమోదు చేయండి",
+  "SEARCH_TAGLINE": "మానవ స్పర్శతో గూగుల్*"
 }

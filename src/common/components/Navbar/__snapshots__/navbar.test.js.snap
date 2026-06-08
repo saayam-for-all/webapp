@@ -55,7 +55,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r0:"
                   maxlength="80"
-                  placeholder="Ask for Saayam"
+                  placeholder="mockTranslate(SEARCH_PLACEHOLDER)"
                   type="text"
                   value=""
                 />
@@ -79,13 +79,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             <p
               class="text-xs text-gray-500 mt-0.5 pl-4"
             >
-              google with human touch
-              <span
-                class="cursor-help"
-                title="Trademark pending"
-              >
-                *
-              </span>
+              mockTranslate(SEARCH_TAGLINE)
             </p>
           </div>
           <div
@@ -149,7 +143,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r2:"
                     maxlength="80"
-                    placeholder="Ask for Saayam"
+                    placeholder="mockTranslate(SEARCH_PLACEHOLDER)"
                     type="text"
                     value=""
                   />
@@ -173,13 +167,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               <p
                 class="text-xs text-gray-500 mt-0.5 pl-4"
               >
-                google with human touch
-                <span
-                  class="cursor-help"
-                  title="Trademark pending"
-                >
-                  *
-                </span>
+                mockTranslate(SEARCH_TAGLINE)
               </p>
             </div>
             <div
@@ -468,7 +456,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                 id=":r0:"
                 maxlength="80"
-                placeholder="Ask for Saayam"
+                placeholder="mockTranslate(SEARCH_PLACEHOLDER)"
                 type="text"
                 value=""
               />
@@ -492,13 +480,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           <p
             class="text-xs text-gray-500 mt-0.5 pl-4"
           >
-            google with human touch
-            <span
-              class="cursor-help"
-              title="Trademark pending"
-            >
-              *
-            </span>
+            mockTranslate(SEARCH_TAGLINE)
           </p>
         </div>
         <div
@@ -562,7 +544,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r2:"
                   maxlength="80"
-                  placeholder="Ask for Saayam"
+                  placeholder="mockTranslate(SEARCH_PLACEHOLDER)"
                   type="text"
                   value=""
                 />
@@ -586,13 +568,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             <p
               class="text-xs text-gray-500 mt-0.5 pl-4"
             >
-              google with human touch
-              <span
-                class="cursor-help"
-                title="Trademark pending"
-              >
-                *
-              </span>
+              mockTranslate(SEARCH_TAGLINE)
             </p>
           </div>
           <div

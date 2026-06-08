@@ -421,7 +421,7 @@ const Navbar = () => {
               value={searchText}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
-              placeholder="Ask for Saayam"
+              placeholder={t("SEARCH_PLACEHOLDER")}
               size="small"
               fullWidth
               inputProps={{ maxLength: 80 }}
@@ -441,10 +441,7 @@ const Navbar = () => {
               }}
             />
             <p className="text-xs text-gray-500 mt-0.5 pl-4">
-              google with human touch
-              <span title="Trademark pending" className="cursor-help">
-                *
-              </span>
+              {t("SEARCH_TAGLINE")}
             </p>
           </div>
         )}
@@ -487,7 +484,7 @@ const Navbar = () => {
                 value={searchText}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
-                placeholder="Ask for Saayam"
+                placeholder={t("SEARCH_PLACEHOLDER")}
                 size="small"
                 fullWidth
                 inputProps={{ maxLength: 80 }}
@@ -507,10 +504,7 @@ const Navbar = () => {
                 }}
               />
               <p className="text-xs text-gray-500 mt-0.5 pl-4">
-                google with human touch
-                <span title="Trademark pending" className="cursor-help">
-                  *
-                </span>
+                {t("SEARCH_TAGLINE")}
               </p>
             </div>
           )}

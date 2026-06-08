@@ -493,7 +493,7 @@
   "SCAN_ON_DONATE": "আপনি স্ক্যান করতে পারেন অথবা Donate এ ক্লিক করতে পারেন।",
   "SCAN_QR_CODE": "দান করতে QR কোড স্ক্যান করুন",
   "SEARCH": "অনুসন্ধান",
-  "SEARCH_PLACEHOLDER": "অনুসন্ধান প্লেসহোল্ডার",
+  "SEARCH_PLACEHOLDER": "Saayam-এর কাছে সাহায্য চান",
   "SECOND LANGUAGE PREFERENCE": "দ্বিতীয় ভাষা পছন্দ",
   "SECONDARY PHONE": "মাধ্যমিক ফোন",
   "SECONDARY_EMAIL": "সেকেন্ডারি ইমেল",
@@ -756,5 +756,6 @@
   "FIND_BY_EMAIL": "ইমেইল দিয়ে খুঁজুন",
   "FIND_BY_PHONE": "ফোন দিয়ে খুঁজুন",
   "ENTER_VOLUNTEER_EMAIL": "স্বেচ্ছাসেবকের ইমেইল লিখুন",
-  "ENTER_VOLUNTEER_PHONE": "স্বেচ্ছাসেবকের ফোন লিখুন"
+  "ENTER_VOLUNTEER_PHONE": "স্বেচ্ছাসেবকের ফোন লিখুন",
+  "SEARCH_TAGLINE": "মানবিক স্পর্শ সহ গুগল*"
 }

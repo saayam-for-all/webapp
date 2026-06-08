@@ -513,7 +513,7 @@
   "SCAN_ON_DONATE": "You can scan or click on Donate",
   "SCAN_QR_CODE": "Scan QR Code to Donate",
   "SEARCH": "SEARCH",
-  "SEARCH_PLACEHOLDER": "Search Placeholder",
+  "SEARCH_PLACEHOLDER": "Ask for Saayam",
   "SECOND LANGUAGE PREFERENCE": "Second Language Preference",
   "SECONDARY PHONE": "Secondary Phone",
   "SECONDARY_EMAIL": "Secondary Email",
@@ -784,5 +784,6 @@
   "FIND_BY_EMAIL": "Find by Email",
   "FIND_BY_PHONE": "Find by Phone",
   "ENTER_VOLUNTEER_EMAIL": "Enter volunteer email",
-  "ENTER_VOLUNTEER_PHONE": "Enter volunteer phone"
+  "ENTER_VOLUNTEER_PHONE": "Enter volunteer phone",
+  "SEARCH_TAGLINE": "google with human touch*"
 }

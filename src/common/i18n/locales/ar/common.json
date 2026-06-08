@@ -508,7 +508,7 @@
   "SCAN_ON_DONATE": "يمكنك المسح الضوئي أو النقر على التبرع",
   "SCAN_QR_CODE": "امسح رمز QR للتبرع",
   "SEARCH": "بحث",
-  "SEARCH_PLACEHOLDER": "ابحث هنا…",
+  "SEARCH_PLACEHOLDER": "اطلب المساعدة من Saayam",
   "SECOND LANGUAGE PREFERENCE": "تفضيل اللغة الثانية",
   "SECOND_LANGUAGE_PREFERENCE": "تفضيل اللغة الثانية",
   "SECONDARY PHONE": "هاتف إضافي",
@@ -756,5 +756,6 @@
   "FIND_BY_EMAIL": "البحث بالبريد الإلكتروني",
   "FIND_BY_PHONE": "البحث بالهاتف",
   "ENTER_VOLUNTEER_EMAIL": "أدخل بريد المتطوع الإلكتروني",
-  "ENTER_VOLUNTEER_PHONE": "أدخل هاتف المتطوع"
+  "ENTER_VOLUNTEER_PHONE": "أدخل هاتف المتطوع",
+  "SEARCH_TAGLINE": "جوجل بلمسة إنسانية*"
 }
