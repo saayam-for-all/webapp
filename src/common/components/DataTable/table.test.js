@@ -100,7 +100,7 @@ describe("Table", () => {
       expect(screen.getByText(/^STATUS/)).toBeInTheDocument();
       expect(screen.getByText(/^SUBJECT/)).toBeInTheDocument();
       expect(screen.getByText(/^TYPE/)).toBeInTheDocument();
-      expect(screen.getByText(/^REQUEST_CATEGORY/)).toBeInTheDocument();
+      expect(screen.getByText(/^CATEGORY/)).toBeInTheDocument();
       expect(screen.getByText(/^PRIORITY/)).toBeInTheDocument();
     });
 
