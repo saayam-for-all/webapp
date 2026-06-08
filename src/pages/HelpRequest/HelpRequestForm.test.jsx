@@ -1839,3 +1839,83 @@ describe("HelpRequestForm — selectedCategoryId tracking (patch coverage)", () 
     ).not.toBeInTheDocument();
   });
 });
+
+describe("HelpRequestForm — preferred language auto-set from profile (#1547)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: { IN_PERSON: "IN_PERSON", REMOTE: "REMOTE" },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: "SELF", OTHER: "OTHER" },
+      }),
+    );
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+    mockSuggestions = [];
+  });
+
+  it("auto-sets preferred_language from profile when For Self is switched to OTHER", async () => {
+    localStorage.setItem(
+      "userPreferences",
+      JSON.stringify({ languagePreference1: "Hindi" }),
+    );
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("preferred_language").value).toBe("Hindi");
+    });
+  });
+
+  it("does not override preferred_language when switching to OTHER with no profile language set", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("preferred_language")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("preferred_language"), {
+        target: { value: "Spanish" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "SELF" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("preferred_language").value).toBe(
+        "Spanish",
+      );
+    });
+  });
+});
