@@ -68,11 +68,11 @@ const PromoteToVolunteer = () => {
   }, []);
 
   const steps = [
-    "Terms & Conditions",
-    "Identification",
-    "Skills",
-    "Availability",
-    "Review",
+    t("TERMS_AND_CONDITIONS"),
+    t("IDENTIFICATION"),
+    t("SKILLS"),
+    t("AVAILABILITY"),
+    t("REVIEW"),
   ];
 
   const displayStep = (step) => {
@@ -230,7 +230,7 @@ const PromoteToVolunteer = () => {
       {/* FIXED STEPPER WRAPPER */}
       <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
         <h1 className="text-3xl font-bold text-center mb-8">
-          {t("Become a Volunteer") || "Become a Volunteer"}
+          {t("BECOME_VOLUNTEER")}
         </h1>
         <Stepper steps={steps} currentStep={currentStep} />
         {/* FIXED CONTENT WRAPPER */}
