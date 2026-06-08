@@ -22,6 +22,40 @@ import { getKpiAnalytics } from "../../../../services/analyticsServices";
  * 1. Request Status Distribution (Donut Chart with center metrics and table view)
  * 2. Average Resolution Time by Category (Horizontal Bar Chart with SLA target lines and color grading)
  */
+export const renderTooltip =
+  (SLA_TARGET, SLA_WARNING) =>
+  ({ active, payload }) => {
+    if (active && payload && payload[0]) {
+      const data = payload[0].payload;
+      const status =
+        data.avgHours > SLA_TARGET
+          ? "Exceeded SLA"
+          : data.avgHours > SLA_WARNING
+            ? "Approaching SLA"
+            : "Within SLA";
+      return (
+        <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm">
+          <p className="font-semibold text-gray-800">{data.category}</p>
+          <p className="text-sm text-gray-600">
+            Avg: {data.avgHours} hours ({data.avgDays} days)
+          </p>
+          <p
+            className={`text-sm font-semibold ${
+              data.avgHours > SLA_TARGET
+                ? "text-red-600"
+                : data.avgHours > SLA_WARNING
+                  ? "text-yellow-600"
+                  : "text-green-600"
+            }`}
+          >
+            {status}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
 const KPIAnalytics = () => {
   const [showStatusTable, setShowStatusTable] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState(null);
@@ -115,38 +149,6 @@ const KPIAnalytics = () => {
       </g>
     );
   }; */
-
-  const renderTooltip = ({ active, payload }) => {
-    if (active && payload && payload[0]) {
-      const data = payload[0].payload;
-      const status =
-        data.avgHours > SLA_TARGET
-          ? "Exceeded SLA"
-          : data.avgHours > SLA_WARNING
-            ? "Approaching SLA"
-            : "Within SLA";
-      return (
-        <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm">
-          <p className="font-semibold text-gray-800">{data.category}</p>
-          <p className="text-sm text-gray-600">
-            Avg: {data.avgHours} hours ({data.avgDays} days)
-          </p>
-          <p
-            className={`text-sm font-semibold ${
-              data.avgHours > SLA_TARGET
-                ? "text-red-600"
-                : data.avgHours > SLA_WARNING
-                  ? "text-yellow-600"
-                  : "text-green-600"
-            }`}
-          >
-            {status}
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   if (loading) {
     return (
@@ -379,7 +381,7 @@ const KPIAnalytics = () => {
                 width={100}
               />
               <Tooltip
-                content={renderTooltip}
+                content={renderTooltip(SLA_TARGET, SLA_WARNING)}
                 /*content={({ active, payload }) => {
                   if (active && payload && payload[0]) {
                     const data = payload[0].payload;

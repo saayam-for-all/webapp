@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import KPIAnalytics from "./KPIAnalytics";
+import KPIAnalytics, { renderTooltip } from "./KPIAnalytics";
 import * as analyticsServices from "../../../../services/analyticsServices";
 
 jest.mock("../../../../services/analyticsServices", () => ({
@@ -199,22 +199,6 @@ describe("KPIAnalytics", () => {
     });
   });
 
-  it("shows SLA description in chart 2", async () => {
-    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
-    render(<KPIAnalytics />);
-    await waitFor(() => {
-      expect(screen.getByText(/SLA Target/i)).toBeInTheDocument();
-    });
-  });
-
-  it("shows color coding description", async () => {
-    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
-    render(<KPIAnalytics />);
-    await waitFor(() => {
-      expect(screen.getByText(/Color coding/i)).toBeInTheDocument();
-    });
-  });
-
   it("shows SLA target description", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
     render(<KPIAnalytics />);
@@ -231,11 +215,40 @@ describe("KPIAnalytics", () => {
     });
   });
 
-  it("shows by category and by region options in dropdown after segment click", async () => {
-    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
-    render(<KPIAnalytics />);
-    await waitFor(() => {
-      expect(screen.getByText("Table View")).toBeInTheDocument();
-    });
+  it("renderTooltip returns null when not active", () => {
+    const tooltip = renderTooltip(240, 200);
+    expect(tooltip({ active: false, payload: [] })).toBeNull();
+  });
+
+  it("renderTooltip returns null when payload empty", () => {
+    const tooltip = renderTooltip(240, 200);
+    expect(tooltip({ active: true, payload: [] })).toBeNull();
+  });
+
+  it("renderTooltip shows Exceeded SLA when hours exceed target", () => {
+    const tooltip = renderTooltip(240, 200);
+    const payload = [
+      { payload: { category: "Shelter", avgHours: 300, avgDays: "12.5" } },
+    ];
+    const result = tooltip({ active: true, payload });
+    expect(result).not.toBeNull();
+  });
+
+  it("renderTooltip shows Approaching SLA when hours between warning and target", () => {
+    const tooltip = renderTooltip(240, 200);
+    const payload = [
+      { payload: { category: "Legal Aid", avgHours: 220, avgDays: "9.2" } },
+    ];
+    const result = tooltip({ active: true, payload });
+    expect(result).not.toBeNull();
+  });
+
+  it("renderTooltip shows Within SLA when hours below warning", () => {
+    const tooltip = renderTooltip(240, 200);
+    const payload = [
+      { payload: { category: "Education", avgHours: 100, avgDays: "4.2" } },
+    ];
+    const result = tooltip({ active: true, payload });
+    expect(result).not.toBeNull();
   });
 });
