@@ -493,7 +493,7 @@
   "SCAN_ON_DONATE": "Vous pouvez scanner ou cliquer sur Faire un don",
   "SCAN_QR_CODE": "Scannez le code QR pour faire un don",
   "SEARCH": "RECHERCHER",
-  "SEARCH_PLACEHOLDER": "Espace réservé de recherche",
+  "SEARCH_PLACEHOLDER": "Demandez à Saayam",
   "SECOND LANGUAGE PREFERENCE": "Deuxième langue préférée",
   "SECONDARY PHONE": "Téléphone secondaire",
   "SECONDARY_EMAIL": "E-mail secondaire",
@@ -755,5 +755,6 @@
   "FIND_BY_EMAIL": "Rechercher par e-mail",
   "FIND_BY_PHONE": "Rechercher par téléphone",
   "ENTER_VOLUNTEER_EMAIL": "Entrer l'e-mail du bénévole",
-  "ENTER_VOLUNTEER_PHONE": "Entrer le téléphone du bénévole"
+  "ENTER_VOLUNTEER_PHONE": "Entrer le téléphone du bénévole",
+  "SEARCH_TAGLINE": "google avec une touche humaine*"
 }

@@ -506,7 +506,7 @@
   "SCAN_ON_DONATE": "Sie können scannen oder auf Spenden klicken",
   "SCAN_QR_CODE": "QR-Code scannen, um zu spenden",
   "SEARCH": "SUCHEN",
-  "SEARCH_PLACEHOLDER": "Suchplatzhalter",
+  "SEARCH_PLACEHOLDER": "Frag Saayam um Hilfe",
   "SECOND LANGUAGE PREFERENCE": "Zweite Sprachpräferenz",
   "SECONDARY PHONE": "Zweittelefon",
   "SECONDARY_EMAIL": "Sekundäre E-Mail",
@@ -756,5 +756,6 @@
   "FIND_BY_EMAIL": "Nach E-Mail suchen",
   "FIND_BY_PHONE": "Nach Telefon suchen",
   "ENTER_VOLUNTEER_EMAIL": "Freiwilligen-E-Mail eingeben",
-  "ENTER_VOLUNTEER_PHONE": "Freiwilligentelefon eingeben"
+  "ENTER_VOLUNTEER_PHONE": "Freiwilligentelefon eingeben",
+  "SEARCH_TAGLINE": "google mit menschlichem Touch*"
 }
