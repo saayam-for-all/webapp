@@ -10,6 +10,7 @@ import endpoints from "./endpoints.json";
  * @param {string} data.phone - Phone number
  * @param {string} data.message - Message content
  * @param {string} data.reason - Reason for contacting
+ * @param {string} data.recaptchaToken - reCAPTCHA v3 token for verification
  * @returns {Promise} - API response
  */
 export const sendContactEmail = async ({
@@ -19,6 +20,7 @@ export const sendContactEmail = async ({
   phone,
   message,
   reason,
+  recaptchaToken,
 }) => {
   const payload = {
     email,
@@ -26,9 +28,8 @@ export const sendContactEmail = async ({
     phone,
     message,
     reason,
+    recaptchaToken,
   };
-
-  console.log(payload);
 
   const response = await publicApi.post(endpoints.SEND_CONTACT_EMAIL, payload);
   return response.data;

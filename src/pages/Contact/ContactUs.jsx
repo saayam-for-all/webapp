@@ -13,13 +13,14 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import HorizontalAd from "#components/Ads/HorizontalAd";
 import { sendContactEmail } from "../../services/contactServices";
 
-// Contact reasons - Lambda will route emails based on the reason
+// Contact reasons - displayed in the dropdown
 const CONTACT_REASONS = [
   "VOLUNTEERING_INTERNSHIP",
   "TIMESHEET_ISSUES",
@@ -28,9 +29,20 @@ const CONTACT_REASONS = [
   "GENERAL_INQUIRY",
 ];
 
+// Maps frontend reason values to Lambda's RECIPIENT_MAP keys
+const REASON_MAP = {
+  VOLUNTEERING_INTERNSHIP: "Volunteer",
+  TIMESHEET_ISSUES: "Timesheet",
+  OFFER_RELIEVING_LETTER: "Letters",
+  COLLABORATION_PARTNERSHIP: "Collaboration",
+  GENERAL_INQUIRY: "General",
+};
+
 const ContactUs = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -87,6 +99,7 @@ const ContactUs = () => {
     const fullPhoneNumber =
       PHONECODESEN[countryCode] &&
       `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+
     if (!formData.firstName.trim()) {
       newErrors.firstName = t("First Name is required");
     } else if (!nameRegex.test(formData.firstName.trim())) {
@@ -113,6 +126,7 @@ const ContactUs = () => {
     if (!formData.message) {
       newErrors.message = t("Message is required");
     }
+
     setErrors(newErrors);
     setPhoneError(newErrors.phone || "");
     setSubmitError("");
@@ -120,14 +134,26 @@ const ContactUs = () => {
     if (Object.keys(newErrors).length === 0) {
       setIsSubmitting(true);
       try {
+        if (!executeRecaptcha) {
+          setSubmitError(
+            t("reCAPTCHA not ready. Please refresh the page and try again."),
+          );
+          setIsSubmitting(false);
+          return;
+        }
+
+        const recaptchaToken = await executeRecaptcha("contact_form_submit");
+
         await sendContactEmail({
           firstName: formData.firstName.trim(),
           lastName: formData.lastName.trim(),
           email: formData.email.trim(),
           phone: fullPhoneNumber,
+          reason: REASON_MAP[formData.reason], // mapped to Lambda's expected values
           message: formData.message,
-          reason: formData.reason,
+          recaptchaToken: recaptchaToken, // explicit key
         });
+
         navigate("/thanks");
       } catch (error) {
         console.error("Contact form submission failed:", error);
@@ -410,6 +436,29 @@ const ContactUs = () => {
                   {t("terms and conditions")}
                 </a>
                 .
+              </p>
+
+              {/* reCAPTCHA Privacy Notice (required by Google) */}
+              <p className="text-xs text-gray-400 mt-3 text-center leading-relaxed">
+                {t("This site is protected by reCAPTCHA and the Google")}{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {t("Privacy Policy")}
+                </a>{" "}
+                {t("and")}{" "}
+                <a
+                  href="https://policies.google.com/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {t("Terms of Service")}
+                </a>{" "}
+                {t("apply")}.
               </p>
             </Box>
           </div>
