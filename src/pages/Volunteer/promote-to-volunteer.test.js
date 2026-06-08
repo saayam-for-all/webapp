@@ -39,9 +39,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
   });
 
   it("renders the Become a Volunteer title", () => {
@@ -49,9 +47,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText(/mockTranslate\(BECOME_VOLUNTEER\)/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Become a Volunteer/i)).toBeInTheDocument();
   });
 
   it("renders Volunteer Course on step 2", async () => {
@@ -66,9 +62,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -113,9 +107,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(AVAILABILITY)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Availability")).toBeInTheDocument();
     });
   });
 
@@ -124,7 +116,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(screen.getByText("mockTranslate(REVIEW)")).toBeInTheDocument();
+    expect(screen.getByText("Review")).toBeInTheDocument();
   });
 
   it("does not proceed without acknowledging terms on step 1", () => {
@@ -149,9 +141,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -161,9 +151,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Verify terms and conditions are on the page
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
 
     // Next button should be disabled on step 1 without acknowledgment
     const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -183,9 +171,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -283,9 +269,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
     });
   });
 
@@ -302,9 +286,7 @@ describe("PromoteToVolunteer Component", () => {
     // Navigate through all steps
     fireEvent.click(nextButton);
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -361,18 +343,14 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     const backButton = screen.getByText(/mockTranslate\(common:BACK\)/);
     fireEvent.click(backButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
     });
   });
 
@@ -388,9 +366,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -428,15 +404,11 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Verify identification step is displayed
-    expect(
-      screen.getByText("mockTranslate(IDENTIFICATION)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Identification")).toBeInTheDocument();
   });
 
   it("handles empty categories in localStorage gracefully", () => {
@@ -446,9 +418,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
   });
 
   it("back button is disabled on step 1", () => {
@@ -457,9 +427,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Verify component renders and we're on step 1
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
 
     // The StepperControl should be present
     const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -472,15 +440,11 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // All step labels should be visible in stepper
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("mockTranslate(IDENTIFICATION)"),
-    ).toBeInTheDocument();
-    expect(screen.getByText("mockTranslate(SKILLS)")).toBeInTheDocument();
-    expect(screen.getByText("mockTranslate(AVAILABILITY)")).toBeInTheDocument();
-    expect(screen.getByText("mockTranslate(REVIEW)")).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
+    expect(screen.getByText("Identification")).toBeInTheDocument();
+    expect(screen.getByText("Skills")).toBeInTheDocument();
+    expect(screen.getByText("Availability")).toBeInTheDocument();
+    expect(screen.getByText("Review")).toBeInTheDocument();
   });
 
   it("disables next button when moving through steps without fulfilling conditions", async () => {
@@ -499,9 +463,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Step 2: button should be disabled without file upload
@@ -514,7 +476,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const title = screen.getByText(/mockTranslate\(BECOME_VOLUNTEER\)/);
+    const title = screen.getByText(/Become a Volunteer/i);
     expect(title).toBeInTheDocument();
     expect(title.tagName).toBe("H1");
   });
@@ -532,9 +494,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Go back to step 1
@@ -542,9 +502,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(backButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
     });
 
     // Navigate forward again
@@ -553,9 +511,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -571,9 +527,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
     // Component should initialize without errors
   });
 
@@ -600,9 +554,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -638,9 +590,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
   });
 
   it("navigates back from step 3 without issues", async () => {
@@ -655,9 +605,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -677,9 +625,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(backButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -695,9 +641,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -711,9 +655,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(AVAILABILITY)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Availability")).toBeInTheDocument();
     });
 
     const backButton = screen.getByText(/mockTranslate\(common:BACK\)/);
@@ -736,9 +678,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -770,9 +710,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -788,9 +726,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -805,9 +741,7 @@ describe("PromoteToVolunteer Component", () => {
 
     // Verify Availability step is rendered
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(AVAILABILITY)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Availability")).toBeInTheDocument();
     });
   });
 
@@ -823,9 +757,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Continue through all steps to reach Review
@@ -856,9 +788,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -886,9 +816,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
     });
 
     // Component should still be functional without userId
@@ -911,9 +839,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // On step 2, try to advance without file (should be disabled)
@@ -928,9 +854,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
   });
 
   it("disables next button on step 3 until skills are selected", async () => {
@@ -951,9 +875,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -986,9 +908,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -1002,9 +922,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(AVAILABILITY)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Availability")).toBeInTheDocument();
     });
 
     // Next button should be disabled without valid availability
@@ -1050,15 +968,11 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Component should have updated volunteer data internally
-    expect(
-      screen.getByText("mockTranslate(IDENTIFICATION)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Identification")).toBeInTheDocument();
   });
 
   it("back button is enabled on step 2", async () => {
@@ -1073,9 +987,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     const backButton = screen.getByText(/mockTranslate\(common:BACK\)/);
@@ -1099,7 +1011,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     const title = screen.getByRole("heading", { level: 1 });
-    expect(title).toHaveTextContent("mockTranslate(BECOME_VOLUNTEER)");
+    expect(title).toHaveTextContent("Become a Volunteer");
   });
 
   it("error message appears in red text when file not uploaded", async () => {
@@ -1114,9 +1026,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Next button should be disabled since file is not uploaded
@@ -1129,9 +1039,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
 
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
@@ -1141,9 +1049,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -1159,9 +1065,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -1180,9 +1084,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -1211,9 +1113,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -1227,9 +1127,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(AVAILABILITY)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Availability")).toBeInTheDocument();
     });
   });
 
@@ -1238,9 +1136,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
   });
 
   it("isAcknowledged state updates when checkbox is toggled", async () => {
@@ -1275,9 +1171,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Error message should not be visible when moving to a new step
@@ -1299,9 +1193,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Go back
@@ -1309,9 +1201,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(backButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
     });
 
     // Checkbox should still be checked
@@ -1321,9 +1211,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -1340,9 +1228,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Navigate back to step 1
@@ -1350,9 +1236,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(backButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
     });
   });
 
@@ -1362,11 +1246,11 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     const steps = [
-      "mockTranslate(TERMS_AND_CONDITIONS)",
-      "mockTranslate(IDENTIFICATION)",
-      "mockTranslate(SKILLS)",
-      "mockTranslate(AVAILABILITY)",
-      "mockTranslate(REVIEW)",
+      "Terms & Conditions",
+      "Identification",
+      "Skills",
+      "Availability",
+      "Review",
     ];
 
     steps.forEach((step) => {
@@ -1386,9 +1270,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -1402,9 +1284,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(AVAILABILITY)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Availability")).toBeInTheDocument();
     });
   });
 
@@ -1419,9 +1299,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    expect(
-      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
   });
 
   it("handles transition from step 2 to step 3 with file upload", async () => {
@@ -1436,9 +1314,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -1459,9 +1335,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
@@ -1475,13 +1349,11 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(AVAILABILITY)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Availability")).toBeInTheDocument();
     });
 
     // Availability component should be rendered
-    expect(screen.getByText("mockTranslate(AVAILABILITY)")).toBeInTheDocument();
+    expect(screen.getByText("Availability")).toBeInTheDocument();
   });
 
   it("renders content wrapper with correct structure", () => {
@@ -1506,9 +1378,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
   });
 
@@ -1524,18 +1394,14 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     const backButton = screen.getByText(/mockTranslate\(common:BACK\)/);
     fireEvent.click(backButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
     });
   });
 
@@ -1553,9 +1419,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("mockTranslate(IDENTIFICATION)"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Identification")).toBeInTheDocument();
     });
 
     // Continue to other steps...

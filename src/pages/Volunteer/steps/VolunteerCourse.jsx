@@ -1,28 +1,27 @@
 import { useState, useRef } from "react";
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from "react"; //added for testing
 
 const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
-  const { t } = useTranslation("identity");
-
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
   const [source, setSource] = useState("device");
   const [isLoading, setIsLoading] = useState(false);
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef(null); // Reference to the file input
 
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
     setSelectedFile(uploadedFile);
 
     if (uploadedFile) {
+      // Debug: Log file information
       console.log("File name:", uploadedFile.name);
       console.log("File type:", uploadedFile.type);
       console.log("File size:", uploadedFile.size);
 
+      // Validate file size (2MB = 2 * 1024 * 1024 bytes)
       if (uploadedFile.size > 2 * 1024 * 1024) {
-        setError(t("FILE_SIZE_ERROR"));
+        setError("File size should not exceed 2MB");
         setFile(null);
         setPreview("");
         setIsUploaded(false);
@@ -30,6 +29,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
         return;
       }
 
+      // Validate file type
       const allowedTypes = [
         "image/jpg",
         "image/jpeg",
@@ -43,6 +43,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
         allowedTypes.includes(uploadedFile.type),
       );
 
+      // Check MIME type first, then fallback to file extension
       const isValidMimeType = allowedTypes.includes(uploadedFile.type);
       const fileExtension = uploadedFile.name
         .toLowerCase()
@@ -54,10 +55,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
 
       if (!isValidMimeType && !isValidExtension) {
         setError(
-          t("FILE_TYPE_ERROR", {
-            fileType: uploadedFile.type,
-            extension: fileExtension,
-          }),
+          `Only JPEG, JPG, PNG, and PDF files are allowed. File type detected: ${uploadedFile.type}, extension: ${fileExtension}`,
         );
         setFile(null);
         setPreview("");
@@ -88,8 +86,8 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
     window.gapi.load("picker", () => {
       const picker = new window.google.picker.PickerBuilder()
         .addView(window.google.picker.ViewId.DOCS)
-        .setOAuthToken("YOUR_GOOGLE_OAUTH_TOKEN")
-        .setDeveloperKey("YOUR_DEVELOPER_KEY")
+        .setOAuthToken("YOUR_GOOGLE_OAUTH_TOKEN") // Provide OAuth token
+        .setDeveloperKey("YOUR_DEVELOPER_KEY") // Provide your Developer Key
         .setCallback((data) => {
           if (data.action === window.google.picker.Action.PICKED) {
             const fileId = data.docs[0].id;
@@ -126,21 +124,21 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
     setError("");
     setIsUploaded(false);
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = ""; // Reset the file input
     }
   };
 
   const handleUpload = async () => {
     if (!file) return;
 
-    const timestamp = new Date().toISOString();
+    const timestamp = new Date().toISOString(); // Get the current timestamp
     const formData = new FormData();
 
     formData.append("file", file);
     formData.append("timestamp", timestamp);
 
     try {
-      setIsLoading(true);
+      setIsLoading(true); // Show loading state if needed
 
       const response = await fetch("/your-backend-api-endpoint", {
         method: "POST",
@@ -148,24 +146,24 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
       });
 
       if (response.ok) {
+        // Handle successful response
         console.log("File uploaded successfully");
       } else {
+        // Handle errors
         const errorData = await response.json();
-        setError(errorData.message || t("UPLOAD_FAILED"));
+        setError(errorData.message || "File upload failed");
       }
     } catch (err) {
-      setError(t("UPLOAD_ERROR"));
+      setError("An error occurred during file upload");
       console.error(err);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Hide loading state
     }
   };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">
-        {t("UPLOAD_GOVERNMENT_ID")}
-      </h2>
+      <h2 className="text-xl font-semibold mb-4">Upload Government ID</h2>
 
       {/* Source Selection Dropdown */}
       <div className="mb-4">
@@ -173,7 +171,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
           htmlFor="source"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          {t("SELECT_SOURCE")}
+          Select Source
         </label>
         <select
           id="source"
@@ -181,9 +179,9 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
           value={source}
           onChange={handleSourceChange}
         >
-          <option value="device">{t("DEVICE")}</option>
-          <option value="drive">{t("GOOGLE_DRIVE")}</option>
-          <option value="dropbox">{t("DROPBOX")}</option>
+          <option value="device">Device</option>
+          <option value="drive">Google Drive</option>
+          <option value="dropbox">Dropbox</option>
         </select>
       </div>
 
@@ -191,17 +189,17 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
       {source === "device" && (
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            {t("UPLOAD_FILE")}
+            Upload File
           </label>
           <input
             type="file"
             accept=".jpeg,.jpg,.png,.pdf"
             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
             onChange={handleFileChange}
-            ref={fileInputRef}
+            ref={fileInputRef} // Reference the input
           />
           <p className="mt-1 text-sm text-gray-500">
-            {t("FILE_TYPE_REQUIREMENT")}
+            Only JPEG, JPG, PNG, or PDF files. Max size: 2MB.
           </p>
         </div>
       )}
@@ -210,7 +208,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
       {selectedFile && (
         <div className="mb-4">
           <p className="text-sm font-medium text-gray-700">
-            {t("FILE")}: {selectedFile.name}
+            File: {selectedFile.name}
           </p>
         </div>
       )}
@@ -225,7 +223,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
             onClick={handleRemoveFile}
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
           >
-            {t("REMOVE")}
+            Remove
           </button>
         )}
       </div>
