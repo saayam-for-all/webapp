@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import KPIAnalytics from "./KPIAnalytics";
 import * as analyticsServices from "../../../../services/analyticsServices";
 
@@ -77,6 +77,46 @@ describe("KPIAnalytics", () => {
     await waitFor(() => {
       expect(
         screen.getByText("No resolution data available"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("renders Table View button", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(screen.getByText("Table View")).toBeInTheDocument();
+    });
+  });
+
+  it("switches to table view when Table View button is clicked", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      fireEvent.click(screen.getByText("Table View"));
+      expect(screen.getByText("Chart View")).toBeInTheDocument();
+    });
+  });
+
+  it("renders status items in table view", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      fireEvent.click(screen.getByText("Table View"));
+      expect(screen.getByText("CREATED")).toBeInTheDocument();
+      expect(screen.getByText("RESOLVED")).toBeInTheDocument();
+    });
+  });
+
+  it("uses default SLA values when sla is not in response", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue({
+      ...mockData,
+      sla: null,
+    });
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(
+        screen.getByText("Average Resolution Time by Category"),
       ).toBeInTheDocument();
     });
   });
