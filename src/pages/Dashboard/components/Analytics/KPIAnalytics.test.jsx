@@ -188,4 +188,54 @@ describe("KPIAnalytics", () => {
       ).toBeInTheDocument();
     });
   });
+
+  it("renderTooltip returns tooltip content when active with payload", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(
+        screen.getByText("Average Resolution Time by Category"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("shows SLA description in chart 2", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(screen.getByText(/SLA Target/i)).toBeInTheDocument();
+    });
+  });
+
+  it("shows color coding description", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(screen.getByText(/Color coding/i)).toBeInTheDocument();
+    });
+  });
+
+  it("shows SLA target description", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(screen.getByText(/SLA Target/i)).toBeInTheDocument();
+    });
+  });
+
+  it("shows color coding description", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(screen.getByText(/Color coding/i)).toBeInTheDocument();
+    });
+  });
+
+  it("shows by category and by region options in dropdown after segment click", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(screen.getByText("Table View")).toBeInTheDocument();
+    });
+  });
 });

@@ -116,6 +116,38 @@ const KPIAnalytics = () => {
     );
   }; */
 
+  const renderTooltip = ({ active, payload }) => {
+    if (active && payload && payload[0]) {
+      const data = payload[0].payload;
+      const status =
+        data.avgHours > SLA_TARGET
+          ? "Exceeded SLA"
+          : data.avgHours > SLA_WARNING
+            ? "Approaching SLA"
+            : "Within SLA";
+      return (
+        <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm">
+          <p className="font-semibold text-gray-800">{data.category}</p>
+          <p className="text-sm text-gray-600">
+            Avg: {data.avgHours} hours ({data.avgDays} days)
+          </p>
+          <p
+            className={`text-sm font-semibold ${
+              data.avgHours > SLA_TARGET
+                ? "text-red-600"
+                : data.avgHours > SLA_WARNING
+                  ? "text-yellow-600"
+                  : "text-green-600"
+            }`}
+          >
+            {status}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-48 gap-3 text-gray-500">
@@ -347,7 +379,8 @@ const KPIAnalytics = () => {
                 width={100}
               />
               <Tooltip
-                content={({ active, payload }) => {
+                content={renderTooltip}
+                /*content={({ active, payload }) => {
                   if (active && payload && payload[0]) {
                     const data = payload[0].payload;
                     const status =
@@ -379,8 +412,9 @@ const KPIAnalytics = () => {
                     );
                   }
                   return null;
-                }}
+                }} */
               />
+
               <Legend />
               {/* SLA Target Line */}
               <ReferenceLine
