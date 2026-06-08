@@ -432,7 +432,7 @@
 
 @media (max-width: 900px) {
   .donate-image-overlay-bg {
-    height: 60vh;
+    height: 70vh;
     min-height: 400px;
     max-height: 600px;
     width: 100%;
@@ -569,12 +569,14 @@ body {
   .donate-bg-image {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    display: block;
     object-position: center;
     position: absolute;
+    inset: 0;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 0;
     filter: brightness(0.9);
   }
 
