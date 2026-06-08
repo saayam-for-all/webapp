@@ -319,11 +319,11 @@ const Dashboard = ({ userRole }) => {
     const baseHeaders = [
       "requestId",
       "subject",
+      "category",
+      "status",
+      "priority",
       "updatedDate",
       "creationDate",
-      "type",
-      "category",
-      "priority",
       "calamity",
     ];
     const headersWithUserId =
@@ -340,10 +340,7 @@ const Dashboard = ({ userRole }) => {
             "calamity",
           ]
         : baseHeaders;
-    const isAllSelected = Object.values(statusFilter).every(Boolean);
-    return isAllSelected
-      ? ["requestId", "status", ...headersWithUserId.slice(1)]
-      : headersWithUserId;
+    return headersWithUserId;
   }, [statusFilter, activeTab]);
 
   const sortedRequests = (requests) => {
