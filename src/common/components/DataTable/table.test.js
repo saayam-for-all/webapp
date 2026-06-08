@@ -97,11 +97,14 @@ describe("Table", () => {
     it("uses translated labels for mapped headers", () => {
       render(<Table {...defaultProps} />);
 
-      expect(screen.getByText(/^STATUS/)).toBeInTheDocument();
-      expect(screen.getByText(/^SUBJECT/)).toBeInTheDocument();
-      expect(screen.getByText(/^TYPE/)).toBeInTheDocument();
-      expect(screen.getByText(/^CATEGORY/)).toBeInTheDocument();
-      expect(screen.getByText(/^PRIORITY/)).toBeInTheDocument();
+      expect(screen.getByText(/REQUEST ID/i)).toBeInTheDocument();
+      expect(screen.getByText(/SUBJECT/i)).toBeInTheDocument();
+      expect(screen.getByText(/CATEGORY/i)).toBeInTheDocument();
+      expect(screen.getByText(/STATUS/i)).toBeInTheDocument();
+      expect(screen.getByText(/PRIORITY/i)).toBeInTheDocument();
+      expect(screen.getByText(/LAST UPDATED/i)).toBeInTheDocument();
+      expect(screen.getByText(/CREATED/i)).toBeInTheDocument();
+      expect(screen.getByText(/CALAMITY/i)).toBeInTheDocument();
     });
 
     it("falls back to camelCase transform for unmapped headers", () => {
