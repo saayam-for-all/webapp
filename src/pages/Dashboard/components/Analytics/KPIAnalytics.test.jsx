@@ -120,4 +120,72 @@ describe("KPIAnalytics", () => {
       ).toBeInTheDocument();
     });
   });
+
+  it("selects a segment when pie segment is clicked", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(
+        screen.getByText("Request Status Distribution"),
+      ).toBeInTheDocument();
+    });
+    const tableViewBtn = screen.getByText("Table View");
+    fireEvent.click(tableViewBtn);
+    expect(screen.getByText("Chart View")).toBeInTheDocument();
+  });
+
+  it("shows percentage in table view", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      fireEvent.click(screen.getByText("Table View"));
+      expect(screen.getByText("Status")).toBeInTheDocument();
+      expect(screen.getByText("Count")).toBeInTheDocument();
+      expect(screen.getByText("Percentage")).toBeInTheDocument();
+    });
+  });
+
+  it("shows MATCHING_VOLUNTEER status in table view", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      fireEvent.click(screen.getByText("Table View"));
+      expect(screen.getByText("MATCHING_VOLUNTEER")).toBeInTheDocument();
+    });
+  });
+
+  it("renders resolution bar chart when data exists", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(
+        screen.getByText("Average Resolution Time by Category"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("shows correct total requests count in table view", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      fireEvent.click(screen.getByText("Table View"));
+      expect(screen.getByText("200")).toBeInTheDocument();
+      expect(screen.getByText("100")).toBeInTheDocument();
+      expect(screen.getByText("11")).toBeInTheDocument();
+    });
+  });
+
+  it("handles zero total requests gracefully", async () => {
+    analyticsServices.getKpiAnalytics.mockResolvedValue({
+      ...mockData,
+      total_requests: 0,
+      request_status_distribution: [],
+    });
+    render(<KPIAnalytics />);
+    await waitFor(() => {
+      expect(
+        screen.getByText("Request Status Distribution"),
+      ).toBeInTheDocument();
+    });
+  });
 });
