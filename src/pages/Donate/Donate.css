@@ -307,7 +307,7 @@
 .donate-image-overlay-bg {
   position: relative;
   width: 100%;
-  height: 70vh;
+  height: 100vh;
   min-height: 500px;
   max-height: 700px;
   overflow: hidden;
@@ -432,7 +432,7 @@
 
 @media (max-width: 900px) {
   .donate-image-overlay-bg {
-    height: 70vh;
+    height: 100vh;
     min-height: 400px;
     max-height: 600px;
     width: 100%;
@@ -567,17 +567,14 @@ body {
   }
 
   .donate-bg-image {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
     object-position: center;
-    position: absolute;
-    inset: 0;
-    top: 0;
-    left: 0;
+    display: block;
     z-index: 0;
-    filter: brightness(0.9);
   }
 
   .donate-card-overlay {
