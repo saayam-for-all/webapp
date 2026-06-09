@@ -82,8 +82,12 @@ const Table = ({
     status: t("STATUS"),
     subject: t("SUBJECT"),
     type: t("TYPE"),
-    category: t("REQUEST_CATEGORY"),
+    category: t("Category"),
     priority: t("PRIORITY"),
+    requestId: t("Request ID"),
+    updatedDate: t("Last Updated"),
+    creationDate: t("Created"),
+    calamity: t("Calamity"),
   };
 
   const getCategoryLabel = (code) => {

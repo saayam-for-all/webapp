@@ -38,7 +38,16 @@ jest.mock("react-i18next", () => ({
 }));
 
 const defaultProps = {
-  headers: ["requestId", "status", "subject", "type", "category", "priority"],
+  headers: [
+    "requestId",
+    "subject",
+    "category",
+    "status",
+    "priority",
+    "updatedDate",
+    "creationDate",
+    "calamity",
+  ],
   rows: [
     {
       requestId: "REQ-001",
@@ -49,6 +58,9 @@ const defaultProps = {
       requestCategory: "FOOD_ASSISTANCE",
       category: "FOOD_ASSISTANCE",
       priority: "HIGH",
+      updatedDate: "2026-05-25T17:17:45.999Z",
+      creationDate: "2026-05-24T17:17:45.999Z",
+      calamity: "No",
     },
   ],
   currentPage: 1,
@@ -97,11 +109,14 @@ describe("Table", () => {
     it("uses translated labels for mapped headers", () => {
       render(<Table {...defaultProps} />);
 
-      expect(screen.getByText(/^STATUS/)).toBeInTheDocument();
-      expect(screen.getByText(/^SUBJECT/)).toBeInTheDocument();
-      expect(screen.getByText(/^TYPE/)).toBeInTheDocument();
-      expect(screen.getByText(/^REQUEST_CATEGORY/)).toBeInTheDocument();
-      expect(screen.getByText(/^PRIORITY/)).toBeInTheDocument();
+      expect(screen.getAllByText(/REQUEST ID/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/SUBJECT/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/CATEGORY/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/STATUS/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/PRIORITY/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/LAST UPDATED/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/CREATED/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/CALAMITY/i).length).toBeGreaterThan(0);
     });
 
     it("falls back to camelCase transform for unmapped headers", () => {
