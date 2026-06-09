@@ -38,7 +38,16 @@ jest.mock("react-i18next", () => ({
 }));
 
 const defaultProps = {
-  headers: ["requestId", "status", "subject", "type", "category", "priority"],
+  headers: [
+    "requestId",
+    "subject",
+    "category",
+    "status",
+    "priority",
+    "updatedDate",
+    "creationDate",
+    "calamity",
+  ],
   rows: [
     {
       requestId: "REQ-001",
@@ -49,6 +58,9 @@ const defaultProps = {
       requestCategory: "FOOD_ASSISTANCE",
       category: "FOOD_ASSISTANCE",
       priority: "HIGH",
+      updatedDate: "2026-05-25T17:17:45.999Z",
+      creationDate: "2026-05-24T17:17:45.999Z",
+      calamity: "No",
     },
   ],
   currentPage: 1,
