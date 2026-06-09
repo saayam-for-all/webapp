@@ -7,6 +7,7 @@ import axios from "axios";
  * @param {Object} data - Form data
  * @param {string} data.firstName - First name
  * @param {string} data.lastName - Last name
+ * @param {string} data.middleName - Honeypot field (should be empty for real users)
  * @param {string} data.email - Email address
  * @param {string} data.phone - Phone number
  * @param {string} data.message - Message content
@@ -17,6 +18,7 @@ import axios from "axios";
 export const sendContactEmail = async ({
   firstName,
   lastName,
+  middleName,
   email,
   phone,
   message,
@@ -26,6 +28,7 @@ export const sendContactEmail = async ({
   const payload = {
     email,
     name: `${firstName} ${lastName}`,
+    middleName,
     phone,
     message,
     reason,

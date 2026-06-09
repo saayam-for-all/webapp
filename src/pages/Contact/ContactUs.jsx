@@ -46,6 +46,7 @@ const ContactUs = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    middleName: "", // honeypot field
     email: "",
     message: "",
     reason: "",
@@ -93,6 +94,13 @@ const ContactUs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Honeypot: if middleName is filled, silently reject (bot detected)
+    if (formData.middleName) {
+      navigate("/thanks");
+      return;
+    }
+
     const newErrors = {};
     const nameRegex = /^[A-Za-z\s]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -147,11 +155,12 @@ const ContactUs = () => {
         await sendContactEmail({
           firstName: formData.firstName.trim(),
           lastName: formData.lastName.trim(),
+          middleName: formData.middleName, // honeypot — Lambda validates
           email: formData.email.trim(),
           phone: fullPhoneNumber,
-          reason: REASON_MAP[formData.reason], // mapped to Lambda's expected values
+          reason: REASON_MAP[formData.reason],
           message: formData.message,
-          recaptchaToken: recaptchaToken, // explicit key
+          recaptchaToken: recaptchaToken,
         });
 
         navigate("/thanks");
@@ -270,6 +279,27 @@ const ContactUs = () => {
                   required
                   error={!!errors.lastName}
                   helperText={errors.lastName}
+                />
+              </div>
+
+              {/* Honeypot field — hidden from real users */}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  opacity: 0,
+                  height: 0,
+                  overflow: "hidden",
+                }}
+              >
+                <label htmlFor="middleName">Middle Name</label>
+                <TextField
+                  id="middleName"
+                  name="middleName"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.middleName}
+                  onChange={handleChange}
                 />
               </div>
 
