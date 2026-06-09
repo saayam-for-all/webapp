@@ -279,10 +279,10 @@ const Dashboard = ({ userRole }) => {
   }, [groups, searchParams]);
 
   useEffect(() => {
-    if (userDbId && activeTab) {
+    if (selectedDashboard && activeTab) {
       getAllRequests(activeTab);
     }
-  }, [activeTab, currentPage, rowsPerPage, userDbId]);
+  }, [activeTab, currentPage, rowsPerPage, userDbId, selectedDashboard]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -1109,6 +1109,14 @@ const Dashboard = ({ userRole }) => {
 
   useEffect(() => {
     if (selectedDashboard && dashboardDefaultTab[selectedDashboard]) {
+      setData({});
+      setCurrentPage(1);
+      setStatusFilter({});
+      setCategoryFilter({});
+      setTypeFilter({});
+      setPriorityFilter({});
+      setCalamityFilter({});
+      setVolunteerTypeFilter({});
       setActiveTab(dashboardDefaultTab[selectedDashboard]);
     }
   }, [selectedDashboard]);
