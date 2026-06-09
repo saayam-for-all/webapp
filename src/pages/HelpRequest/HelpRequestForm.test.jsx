@@ -1839,3 +1839,276 @@ describe("HelpRequestForm — selectedCategoryId tracking (patch coverage)", () 
     ).not.toBeInTheDocument();
   });
 });
+
+describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (issue #1565)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+
+    const {
+      checkProfanity,
+      predictCategories,
+      createRequest,
+      generateSubject,
+    } = require("../../services/requestServices");
+    checkProfanity.mockReset();
+    predictCategories.mockReset();
+    createRequest.mockReset();
+    generateSubject.mockReset();
+  });
+
+  it("shows predict categories modal when General is selected via dropdown click (catName GENERAL_CATEGORY)", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+      generateSubject,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    generateSubject.mockResolvedValue({ body: null });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "1.2",
+            category_name: "GROCERY_SHOPPING_AND_DELIVERY",
+            confidence: 0.95,
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    // First select a non-General subcategory to simulate the bug scenario
+    const categoryInput = selectSubcategory();
+
+    // Now click General from the dropdown — this sets formData.category to "GENERAL_CATEGORY"
+    fireEvent.focus(categoryInput);
+
+    const generalRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.GENERAL_CATEGORY\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.click(generalRow.closest(".cursor-pointer"));
+
+    // Verify category is set to GENERAL_CATEGORY's resolved label
+    expect(categoryInput.value).toBe(
+      "mockTranslate(categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL)",
+    );
+
+    // Type a description
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help picking up groceries from the store.",
+      },
+    });
+
+    // Click Submit — should trigger predict categories even though category is GENERAL_CATEGORY (not "General")
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(predictCategories).toHaveBeenCalledTimes(1);
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Grocery Shopping And Delivery"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+
+  it("shows predict categories modal when switching back to General after selecting a specific subcategory", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+      generateSubject,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    generateSubject.mockResolvedValue({ body: null });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "4.3.1",
+            category_name: "MATH",
+            confidence: 0.95,
+            hierarchy: "Education Career Support > Tutoring > Math",
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    // Step 1: Select a non-General subcategory
+    selectSubcategory();
+
+    // Step 2: Switch back to General by clicking GENERAL_CATEGORY from dropdown
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    const generalRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.GENERAL_CATEGORY\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.click(generalRow.closest(".cursor-pointer"));
+
+    // Step 3: Fill description
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with math tutoring for my child.",
+      },
+    });
+
+    // Step 4: Click Submit — predict API should now fire (the bug was that it didn't)
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(predictCategories).toHaveBeenCalledTimes(1);
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Education Career Support > Tutoring > Math"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+
+  it("does not call predictCategories when user submits without description after switching to General", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+
+    renderForm();
+
+    // Select a non-General subcategory first
+    selectSubcategory();
+
+    // Switch back to General via dropdown click
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    const generalRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.GENERAL_CATEGORY\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.click(generalRow.closest(".cursor-pointer"));
+
+    // Do NOT fill description — keep it empty
+
+    // Click Submit — should fail validation before reaching predict
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(predictCategories).not.toHaveBeenCalled();
+    });
+  });
+
+  it("resets categoryConfirmed on manual category change, re-triggering prediction after prior confirmation", async () => {
+    const {
+      checkProfanity,
+      predictCategories,
+      generateSubject,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    generateSubject.mockResolvedValue({ body: null });
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "1.2",
+            category_name: "GROCERY_SHOPPING_AND_DELIVERY",
+            confidence: 0.95,
+          },
+        ],
+      },
+    });
+
+    renderForm();
+
+    // Step 1: Submit with General category — predict modal appears
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help picking up groceries.",
+      },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+
+    // Step 2: Confirm selection without changing category → categoryConfirmed = true
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Select" }));
+    });
+
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+
+    // Step 3: Manually pick a subcategory via dropdown → should reset categoryConfirmed
+    const categoryInput = selectSubcategory();
+
+    // Step 4: Switch back to General via dropdown click
+    fireEvent.focus(categoryInput);
+    const generalRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.GENERAL_CATEGORY\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.click(generalRow.closest(".cursor-pointer"));
+
+    // Step 5: Fill a new description and submit again
+    predictCategories.mockReset();
+    predictCategories.mockResolvedValue({
+      body: {
+        categories: [
+          {
+            category_number: "2.1",
+            category_name: "MEDICAL_ASSISTANCE",
+            confidence: 0.9,
+          },
+        ],
+      },
+    });
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need medical assistance for my elderly parent.",
+      },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    // Should trigger prediction again because categoryConfirmed was reset
+    await waitFor(() => {
+      expect(predictCategories).toHaveBeenCalledTimes(1);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Medical Assistance")).toBeInTheDocument();
+      expect(screen.getByText("General")).toBeInTheDocument();
+    });
+  });
+});
