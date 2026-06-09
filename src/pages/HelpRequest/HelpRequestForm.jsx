@@ -342,7 +342,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
   // Fetch predicted categories when category is "General" and description is filled
   const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return;
     if (!formData.description) return;
 
     try {
@@ -723,6 +722,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       ...formData,
       category: searchTerm,
     });
+    setCategoryConfirmed(false);
 
     const resolvedLabel = (cat) =>
       t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
@@ -787,6 +787,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     setSelectedCategoryId(resolvedId);
     setShowDropdown(false);
     setHoveredCategory(null);
+    setCategoryConfirmed(false);
   };
 
   // Popup modal for subcategory - Handle subcategory click, check if Elderly Support
@@ -818,6 +819,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         category: subcategoryId,
       });
       setSelectedCategoryId(subcategoryId);
+      setCategoryConfirmed(false);
 
       setSelectedElderlySubcategory({
         id: subcategoryId,
@@ -835,6 +837,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         category: subcategoryId,
       });
       setSelectedCategoryId(subcategoryId);
+      setCategoryConfirmed(false);
       setShowDropdown(false);
       setHoveredCategory(null);
       setHoveredSubcategory(null);
@@ -870,6 +873,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       category: subcategory.id,
     });
     setSelectedCategoryId(subcategory.id);
+    setCategoryConfirmed(false);
 
     // Popup modal for subcategory - Close dropdown and modal
     setShowDropdown(false);
@@ -900,6 +904,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         category: "",
       });
       setSelectedCategoryId(null);
+      setCategoryConfirmed(false);
     }
 
     // Popup modal for subcategory - Hide inline panel
@@ -1173,7 +1178,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       // In edit mode, skip the predict-categories modal since category is locked
       if (
         !isEdit &&
-        formData.category === "General" &&
+        (formData.category === "General" ||
+          resolveCatNameToId(formData.category) ===
+            resolveCatNameToId("GENERAL_CATEGORY")) &&
         formData.description.trim() !== "" &&
         !categoryConfirmed
       ) {
