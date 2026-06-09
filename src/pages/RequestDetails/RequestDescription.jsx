@@ -30,15 +30,21 @@ const RequestDescription = ({ requestData }) => {
   const { t, i18n } = useTranslation();
 
   const cDate = new Date(requestData.creationDate);
+
+  const updatedDateValue =
+    requestData.lastUpdatedAt ||
+    requestData.updatedAt ||
+    requestData.updatedDate ||
+    requestData.lastUpdatedDate;
+
   const formattedDate = cDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 
-  // Updated Date - issue #1456
-  const formattedUpdatedDate = requestData.lastUpdatedAt
-    ? new Date(requestData.lastUpdatedAt).toLocaleDateString("en-US", {
+  const formattedUpdatedDate = updatedDateValue
+    ? new Date(updatedDateValue).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -60,7 +66,6 @@ const RequestDescription = ({ requestData }) => {
     <div className="border border-gray-300 rounded-lg p-4">
       <div>
         <ul className="w-full flex flex-col sm:flex-row items-start flex-wrap md:gap-2 lg:gap-6 text-xs text-gray-700 sm:items-center justify-between">
-
           {/* Creation Date with tooltip - issue #1456 */}
           <li className="flex items-center gap-2 group relative">
             <VscCalendar size={22} />
@@ -124,17 +129,19 @@ const RequestDescription = ({ requestData }) => {
           {requestData.additionalInfo &&
           Object.keys(requestData.additionalInfo).length > 0 ? (
             <div className="space-y-1 mb-4">
-              {Object.entries(requestData.additionalInfo).map(([key, value]) => (
-                <div
-                  key={key}
-                  className="flex justify-between items-center text-sm py-1 border-b border-gray-100"
-                >
-                  <span className="text-gray-500 capitalize">
-                    {key.replace(/_/g, " ")}
-                  </span>
-                  <span className="text-gray-800">{String(value)}</span>
-                </div>
-              ))}
+              {Object.entries(requestData.additionalInfo).map(
+                ([key, value]) => (
+                  <div
+                    key={key}
+                    className="flex justify-between items-center text-sm py-1 border-b border-gray-100"
+                  >
+                    <span className="text-gray-500 capitalize">
+                      {key.replace(/_/g, " ")}
+                    </span>
+                    <span className="text-gray-800">{String(value)}</span>
+                  </div>
+                ),
+              )}
             </div>
           ) : (
             <p className="text-xs text-gray-400 italic mb-4">
@@ -161,9 +168,7 @@ const RequestDescription = ({ requestData }) => {
               ))}
             </ul>
           ) : (
-            <p className="text-xs text-gray-400 italic">
-              No files attached.
-            </p>
+            <p className="text-xs text-gray-400 italic">No files attached.</p>
           )}
         </div>
       </div>
