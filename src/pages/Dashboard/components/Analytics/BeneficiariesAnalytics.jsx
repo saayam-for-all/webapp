@@ -32,13 +32,17 @@ const getRelativeDate = (daysOffset = 0) => {
   return d.toISOString().split("T")[0];
 };
 
-// Map time range selection to the corresponding API response key
+// Earliest date requested for the "All" range so the API returns the full history
+const ALL_TIME_START_DATE = "2000-01-01";
+
+// Map each fixed time range to its dedicated API response key.
+// "All" is built separately (see buildAllTimeMonthly) so it isn't limited to a
+// single key's window.
 const BENEFICIARY_TREND_KEYS = {
-  daily: "7 days beneficiaries",
-  weekly: "1 month beneficiaries", // aggregated client-side into weekly buckets
-  monthly: "1 year beneficiaries",
-  all: "1 year beneficiaries",
-  custom: "Custom date range beneficiaries",
+  "7d": "7 days beneficiaries", // daily points for the last 7 days
+  "30d": "1 month beneficiaries", // daily points for the last 30 days
+  "1yr": "1 year beneficiaries", // monthly points for the last year
+  custom: "Custom date range beneficiaries", // daily points for the requested range
 };
 
 // Normalize API items { Date, Count } → { date, count }
@@ -47,6 +51,39 @@ const normalizeItems = (arr) =>
     date: (item.Date ?? "").split("T")[0],
     count: item.Count ?? 0,
   }));
+
+// Aggregate a flat array of { date, count } items into monthly buckets
+const aggregateMonthly = (items) => {
+  const map = {};
+  items.forEach((item) => {
+    const monthKey = item.date.substring(0, 7); // YYYY-MM
+    if (!map[monthKey]) map[monthKey] = { date: `${monthKey}-01`, count: 0 };
+    map[monthKey].count += item.count;
+  });
+  return Object.values(map).sort((a, b) => a.date.localeCompare(b.date));
+};
+
+// Build the full end-to-end monthly series for the "All" view.
+// Rather than trusting a single key, we union every trend dataset the API
+// returns: the wide custom-range daily data (rolled up to months) covers the
+// full span, and the precomputed monthly buckets are overlaid on top. This way
+// "All" reaches as far back as any key in the response, not just one year.
+const buildAllTimeMonthly = (body) => {
+  const monthly = {};
+  // Base: wide custom-range daily data aggregated to monthly (widest span)
+  aggregateMonthly(
+    normalizeItems(body["Custom date range beneficiaries"]),
+  ).forEach((m) => {
+    monthly[m.date] = m.count;
+  });
+  // Overlay: backend's own monthly buckets for the most recent year
+  normalizeItems(body["1 year beneficiaries"]).forEach((m) => {
+    monthly[`${m.date.substring(0, 7)}-01`] = m.count;
+  });
+  return Object.entries(monthly)
+    .map(([date, count]) => ({ date, count }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+};
 
 // Format country name from UPPER_CASE_WITH_UNDERSCORES → Title Case
 const formatCountryName = (name) =>
@@ -59,25 +96,29 @@ const formatCountryName = (name) =>
  * BeneficiariesAnalytics Component
  *
  * Displays:
- * 1. Beneficiary Growth Trend (Line Chart) - time range selector with Daily / Weekly / Monthly / All / Custom
- *    - Daily   → last 7 days  ("7 days beneficiaries")
- *    - Weekly  → last month daily data aggregated into weekly buckets ("1 month beneficiaries")
- *    - Monthly → last year monthly data ("1 year beneficiaries")
- *    - All     → same as Monthly (full year dataset)
- *    - Custom  → re-fetches with user-supplied date range ("Custom date range beneficiaries")
+ * 1. Beneficiary Growth Trend (Line Chart) - time range selector with 7D / 30D / 1Y / All / Custom
+ *    - 7D     → last 7 days, daily points  ("7 days beneficiaries")
+ *    - 30D    → last 30 days, daily points ("1 month beneficiaries")
+ *    - 1Y     → last year, monthly points  ("1 year beneficiaries")
+ *    - All    → full available history: union of every trend key, fetched with a
+ *               wide date range and shown as monthly points (see buildAllTimeMonthly)
+ *    - Custom → re-fetches with user-supplied date range, daily points ("Custom date range beneficiaries")
  * 2. Beneficiaries by Country (Bar Chart with Top 10 Panel) - Geographic distribution
  */
 const BeneficiariesAnalytics = () => {
   // Time range states
-  const [timeRange, setTimeRange] = useState("monthly"); // daily, weekly, monthly, all, custom
+  const [timeRange, setTimeRange] = useState("all"); // 7d, 30d, 1yr, all, custom
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
 
-  // fetchParams drives the useEffect; changes on mount or when custom dates are both filled
+  // fetchParams drives the fetch useEffect. Defaults to the full-history range
+  // since the initial time range is "All"; changes when "All" or a custom range
+  // is selected. The 7D / 30D / 1Y datasets are always present in the response,
+  // so switching to those reads from the already-loaded data without a re-fetch.
   const [fetchParams, setFetchParams] = useState({
-    beneficiaries_start_date: getRelativeDate(-30),
+    beneficiaries_start_date: ALL_TIME_START_DATE,
     beneficiaries_end_date: getRelativeDate(0),
-    help_requests_start_date: getRelativeDate(-60),
+    help_requests_start_date: ALL_TIME_START_DATE,
     help_requests_end_date: getRelativeDate(0),
   });
 
@@ -113,9 +154,22 @@ const BeneficiariesAnalytics = () => {
     };
   }, [fetchParams]);
 
-  // Auto re-fetch when both custom dates are filled
+  // Update the fetched range when "All" or a complete custom range is selected.
+  // The functional updater returns the previous params unchanged when the range
+  // already matches, so React bails out and we avoid a redundant re-fetch.
   useEffect(() => {
-    if (timeRange === "custom" && customStartDate && customEndDate) {
+    if (timeRange === "all") {
+      setFetchParams((prev) =>
+        prev.beneficiaries_start_date === ALL_TIME_START_DATE
+          ? prev
+          : {
+              beneficiaries_start_date: ALL_TIME_START_DATE,
+              beneficiaries_end_date: getRelativeDate(0),
+              help_requests_start_date: ALL_TIME_START_DATE,
+              help_requests_end_date: getRelativeDate(0),
+            },
+      );
+    } else if (timeRange === "custom" && customStartDate && customEndDate) {
       setFetchParams({
         beneficiaries_start_date: customStartDate,
         beneficiaries_end_date: customEndDate,
@@ -138,28 +192,12 @@ const BeneficiariesAnalytics = () => {
   // Format a date string for display based on current time range
   const formatLabel = (dateStr, range) => {
     if (!dateStr) return "";
-    if (range === "monthly" || range === "all")
+    // 1Y and All show monthly points → "Jan 2026" style
+    if (range === "1yr" || range === "all")
       return formatMonthLabel(dateStr.substring(0, 7));
-    if (range === "weekly") return dateStr; // already "YYYY-Www" from aggregation
-    // daily and custom — show "May 22" style
+    // 7D, 30D and Custom show daily points → "May 22" style
     const d = new Date(dateStr + "T00:00:00");
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  };
-
-  // Aggregate a flat array of { date, count } items into weekly buckets
-  const aggregateWeekly = (items) => {
-    const map = {};
-    items.forEach((item) => {
-      const d = new Date(item.date + "T00:00:00");
-      const startOfYear = new Date(d.getFullYear(), 0, 1);
-      const weekNum = Math.ceil(
-        ((d - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7,
-      );
-      const key = `${d.getFullYear()}-W${String(weekNum).padStart(2, "0")}`;
-      if (!map[key]) map[key] = { date: key, count: 0 };
-      map[key].count += item.count;
-    });
-    return Object.values(map).sort((a, b) => a.date.localeCompare(b.date));
   };
 
   // Extract growth data from API response, fallback to mock data
@@ -167,14 +205,15 @@ const BeneficiariesAnalytics = () => {
     if (apiData) {
       const body = apiData.body ?? apiData;
 
-      // Check common response shapes
-      const key = BENEFICIARY_TREND_KEYS[timeRange];
-      const raw = normalizeItems(body[key]);
+      // "All" unions every trend key into one end-to-end monthly series; the
+      // fixed ranges read their dedicated key as-is.
+      const points =
+        timeRange === "all"
+          ? buildAllTimeMonthly(body)
+          : normalizeItems(body[BENEFICIARY_TREND_KEYS[timeRange]]);
 
-      if (raw.length > 0) {
-        // Weekly view: aggregate the daily "1 month" data into weekly buckets
-        const aggregated = timeRange === "weekly" ? aggregateWeekly(raw) : raw;
-        return aggregated.map((item) => ({
+      if (points.length > 0) {
+        return points.map((item) => ({
           label: formatLabel(item.date, timeRange),
           count: item.count,
         }));
@@ -259,9 +298,9 @@ const BeneficiariesAnalytics = () => {
         {/* Time Range Selector */}
         <div className="flex gap-1.5 mb-2 flex-wrap items-center">
           {[
-            { id: "daily", label: "Daily" },
-            { id: "weekly", label: "Weekly" },
-            { id: "monthly", label: "Monthly" },
+            { id: "7d", label: "7D" },
+            { id: "30d", label: "30D" },
+            { id: "1yr", label: "1Y" },
             { id: "all", label: "All" },
             { id: "custom", label: "Custom" },
           ].map(({ id, label }) => (
