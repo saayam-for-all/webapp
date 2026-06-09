@@ -1838,6 +1838,66 @@ describe("HelpRequestForm — selectedCategoryId tracking (patch coverage)", () 
       screen.queryByTestId("elderly-support-modal"),
     ).not.toBeInTheDocument();
   });
+
+  it("shows warning when trying to select a different elderly subcategory while one is already saved", () => {
+    // Add a second elderly subcategory before rendering
+    const elderlyCat = mockCategories.find(
+      (c) => c.catName === "ELDERLY_SUPPORT",
+    );
+    const originalSubs = [...elderlyCat.subCategories];
+    elderlyCat.subCategories = [
+      ...originalSubs,
+      {
+        catId: "sub-elderly-meal",
+        catName: "MEAL_DELIVERY",
+        catDesc: "Help with meal delivery",
+      },
+    ];
+
+    renderForm();
+
+    const categoryInput = document.getElementById("category");
+    fireEvent.focus(categoryInput);
+
+    const elderlyRow = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.mouseEnter(elderlyRow.closest(".cursor-pointer"));
+
+    // Click first elderly subcategory and save it
+    const firstSubRow = screen.getByText(
+      /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.SUBCATEGORIES\.SENIOR_LIVING_RELOCATION\.LABEL\)/,
+    );
+    fireEvent.click(firstSubRow);
+    expect(screen.getByTestId("elderly-support-modal")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("elderly-save-btn"));
+
+    // Close the modal and reopen dropdown to try a different subcategory
+    fireEvent.click(screen.getByTestId("elderly-close-btn"));
+    fireEvent.focus(categoryInput);
+
+    const elderlyRow2 = screen
+      .getAllByText(
+        /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.LABEL\)/,
+      )
+      .find((el) => el.closest(".cursor-pointer"));
+    fireEvent.mouseEnter(elderlyRow2.closest(".cursor-pointer"));
+
+    const secondSubRow = screen.getByText(
+      /mockTranslate\(categories:REQUEST_CATEGORIES\.ELDERLY_SUPPORT\.SUBCATEGORIES\.MEAL_DELIVERY\.LABEL\)/,
+    );
+    fireEvent.click(secondSubRow);
+
+    // Warning snackbar should appear
+    expect(
+      screen.getByText(/Only one subcategory can be saved per request/),
+    ).toBeInTheDocument();
+
+    // Restore original subcategories
+    elderlyCat.subCategories = originalSubs;
+  });
 });
 
 describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (issue #1565)", () => {

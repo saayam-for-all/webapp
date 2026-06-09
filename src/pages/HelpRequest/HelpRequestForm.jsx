@@ -342,12 +342,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
   // Fetch predicted categories when category is "General" and description is filled
   const fetchPredictedCategories = async () => {
-    if (
-      formData.category !== "General" &&
-      resolveCatNameToId(formData.category) !==
-        resolveCatNameToId("GENERAL_CATEGORY")
-    )
-      return;
     if (!formData.description) return;
 
     try {
