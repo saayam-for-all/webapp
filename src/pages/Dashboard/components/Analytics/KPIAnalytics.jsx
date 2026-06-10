@@ -120,6 +120,7 @@ const KPIAnalytics = () => {
   const STATUS_COLORS = {
     CREATED: "#3b82f6", // Blue
     IN_PROGRESS: "#f59e0b", // Orange
+    MATCHING_VOLUNTEER: "#8b5cf6", // Purple
     RESOLVED: "#10b981", // Green
   };
 
