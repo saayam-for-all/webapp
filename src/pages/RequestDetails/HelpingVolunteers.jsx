@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FaVideo } from "react-icons/fa";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
@@ -13,10 +14,9 @@ const HelpingVolunteers = () => {
     direction: "ascending",
   });
   const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState(""); // State for filter functionality
-  const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
+  const [filter, setFilter] = useState("");
+  const [sortBy, setSortBy] = useState("Newest");
 
-  // Get the current system date
   const systemDate = new Date();
   const volunteersAssigned = 5;
   const formattedDate = systemDate.toLocaleString("en-US", {
@@ -28,7 +28,6 @@ const HelpingVolunteers = () => {
     hour12: true,
   });
 
-  // Dummy volunteer data with added date field
   const volunteerData = useMemo(
     () => [
       {
@@ -89,7 +88,6 @@ const HelpingVolunteers = () => {
     [],
   );
 
-  // Columns for the table
   const headers = [
     { key: "name", label: "Name" },
     { key: "cause", label: "Cause" },
@@ -99,7 +97,6 @@ const HelpingVolunteers = () => {
     { key: "rating", label: "Rating" },
   ];
 
-  // Sorting function based on dropdown selection and column clicks
   const requestSort = (key) => {
     let direction = "ascending";
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
@@ -108,7 +105,6 @@ const HelpingVolunteers = () => {
     setSortConfig({ key, direction });
   };
 
-  // Sorting and filtering logic
   const filteredAndSortedVolunteers = useMemo(() => {
     let topN = volunteerData.slice(
       0,
@@ -132,12 +128,10 @@ const HelpingVolunteers = () => {
           ? dateA - dateB
           : dateB - dateA;
       } else {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
+        if (a[sortConfig.key] < b[sortConfig.key])
           return sortConfig.direction === "ascending" ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
+        if (a[sortConfig.key] > b[sortConfig.key])
           return sortConfig.direction === "ascending" ? 1 : -1;
-        }
         return 0;
       }
     });
@@ -148,7 +142,6 @@ const HelpingVolunteers = () => {
   const totalRows = filteredAndSortedVolunteers.length;
   const totalPages = Math.ceil(totalRows / itemsPerPage);
 
-  // Pagination Logic
   const paginatedData = filteredAndSortedVolunteers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
@@ -156,7 +149,7 @@ const HelpingVolunteers = () => {
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1); // Reset to page 1 when items per page changes
+    setCurrentPage(1);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -218,11 +211,9 @@ const HelpingVolunteers = () => {
 
         <div className="mt-6 bg-white p-6 shadow-lg">
           <div className="flex flex-wrap items-center gap-4 justify-between mb-4">
+            {/* Left: Title + Search */}
             <div className="flex flex-row gap-4 items-center w-1/3">
-              {/* Volunteers Title */}
               <div className="font-bold text-xl">Volunteers</div>
-
-              {/* Search Input */}
               <div className="flex-grow max-w-md">
                 <input
                   type="text"
@@ -234,54 +225,76 @@ const HelpingVolunteers = () => {
               </div>
             </div>
 
-            <div className="flex flex-row gap-2">
+            {/* Right: Sort + Filter + Zoom + Delete */}
+            <div className="flex flex-row gap-2 items-center">
               {/* Sort By Dropdown */}
-              <div>
-                <select
-                  value={sortBy}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setSortBy(value);
-                    if (value === "Newest") {
-                      setSortConfig({
-                        key: "dateAdded",
-                        direction: "descending",
-                      });
-                    } else if (value === "Oldest") {
-                      setSortConfig({
-                        key: "dateAdded",
-                        direction: "ascending",
-                      });
-                    } else if (value === "Name") {
-                      setSortConfig({
-                        key: "name",
-                        direction: "ascending",
-                      });
-                    }
-                  }}
-                  className="p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="Newest">Sort by: Newest</option>
-                  <option value="Oldest">Sort by: Oldest</option>
-                  <option value="Name">Sort by: Name</option>
-                </select>
-              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSortBy(value);
+                  if (value === "Newest") {
+                    setSortConfig({
+                      key: "dateAdded",
+                      direction: "descending",
+                    });
+                  } else if (value === "Oldest") {
+                    setSortConfig({ key: "dateAdded", direction: "ascending" });
+                  } else if (value === "Name") {
+                    setSortConfig({ key: "name", direction: "ascending" });
+                  }
+                }}
+                className="p-2 border border-gray-300 rounded-md"
+              >
+                <option value="Newest">Sort by: Newest</option>
+                <option value="Oldest">Sort by: Oldest</option>
+                <option value="Name">Sort by: Name</option>
+              </select>
 
               {/* Filter By Dropdown */}
-              <div>
-                <select
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md"
+              <select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                className="p-2 border border-gray-300 rounded-md"
+              >
+                <option value="">Filter by: All Causes</option>
+                <option value="Cooking">Cooking</option>
+                <option value="Banking">Banking</option>
+                <option value="Medical">Medical</option>
+                <option value="College admission">College admission</option>
+                <option value="Housing">Housing</option>
+              </select>
+
+              {/* Zoom Button */}
+              <button
+                className="px-3 py-2 bg-violet-300 hover:bg-violet-400 text-white rounded-md flex items-center gap-2"
+                title="Zoom"
+                onClick={() => {}}
+              >
+                <FaVideo size={16} />
+                <span>Zoom meeting</span>
+              </button>
+
+              {/* Delete Button */}
+              <button
+                className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md flex items-center gap-2"
+                title="Delete"
+                onClick={() => {}}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
                 >
-                  <option value="">Filter by: All Causes</option>
-                  <option value="Cooking">Cooking</option>
-                  <option value="Banking">Banking</option>
-                  <option value="Medical">Medical</option>
-                  <option value="College admission">College admission</option>
-                  <option value="Housing">Housing</option>
-                </select>
-              </div>
+                  <path
+                    fillRule="evenodd"
+                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>Delete</span>
+              </button>
             </div>
           </div>
 
@@ -289,7 +302,6 @@ const HelpingVolunteers = () => {
             <div className="flex justify-between w-full mb-4">
               <div className="text-md text-gray-500 font-bold flex flex-row gap-4 items-center">
                 {`${volunteersCount} Volunteers Requested`}
-                {/* Badge with number */}
                 <div className="bg-blue-500 text-white text-sm font-semibold px-2 py-1 rounded-full">
                   {`${volunteersAssigned} Assigned`}
                 </div>
@@ -298,7 +310,6 @@ const HelpingVolunteers = () => {
             </div>
           )}
 
-          {/* Table inside a scrollable container */}
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
@@ -319,7 +330,6 @@ const HelpingVolunteers = () => {
                   ))}
                 </tr>
               </thead>
-
               <tbody>
                 {chooseVolunteer &&
                   paginatedData.map((volunteer, index) => (
@@ -338,7 +348,6 @@ const HelpingVolunteers = () => {
             </table>
           </div>
 
-          {/* Pagination */}
           {chooseVolunteer && (
             <div className="flex justify-between items-center mt-4">
               <div className="text-sm text-gray-600">
@@ -346,7 +355,6 @@ const HelpingVolunteers = () => {
                 {Math.min(itemsPerPage * currentPage, totalRows)} of {totalRows}{" "}
                 entries
               </div>
-              {/* Items Per Page Selector */}
               <div>
                 <label htmlFor="itemsPerPage" className="mr-2">
                   Rows per view:
@@ -364,9 +372,7 @@ const HelpingVolunteers = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <button
-                  className={`bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 ${
-                    currentPage === 1 ? "invisible" : ""
-                  }`}
+                  className={`bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 ${currentPage === 1 ? "invisible" : ""}`}
                   onClick={() =>
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
                   }
@@ -374,14 +380,9 @@ const HelpingVolunteers = () => {
                 >
                   Previous
                 </button>
-
-                {/* Page Numbers */}
                 {paginationButtons}
-
                 <button
-                  className={`bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 ${
-                    currentPage === totalPages ? "invisible" : ""
-                  }`}
+                  className={`bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 ${currentPage === totalPages ? "invisible" : ""}`}
                   onClick={() =>
                     setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                   }
