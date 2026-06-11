@@ -212,7 +212,7 @@ const KPIAnalytics = () => {
 
         {!showStatusTable ? (
           <>
-            <ResponsiveContainer width="100%" height={220}>
+            <ResponsiveContainer width="100%" height={280}>
               <PieChart>
                 <Pie
                   data={statusData}
@@ -220,7 +220,7 @@ const KPIAnalytics = () => {
                   cy="50%"
                   innerRadius={80}
                   outerRadius={120}
-                  paddingAngle={5}
+                  paddingAngle={0}
                   dataKey="value"
                   onClick={handleSegmentClick}
                   cursor="pointer"
