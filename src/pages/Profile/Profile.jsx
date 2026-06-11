@@ -220,22 +220,31 @@ function Profile() {
       setPhotoLoading(true);
       setPhotoLoadError(null);
       try {
+        const savedPreviewPhoto = tempProfilePhoto;
         await uploadProfileImage(userDbId, pendingFileRef.current);
-        const blob = await fetchProfileImage(userDbId);
-        if (blob) {
-          if (profileImageObjectUrlRef.current) {
-            URL.revokeObjectURL(profileImageObjectUrlRef.current);
+
+        setProfilePhoto(savedPreviewPhoto);
+        setTempProfilePhoto(savedPreviewPhoto);
+        localStorage.setItem("profilePhoto", savedPreviewPhoto);
+
+        try {
+          const blob = await fetchProfileImage(userDbId);
+          if (blob) {
+            if (profileImageObjectUrlRef.current) {
+              URL.revokeObjectURL(profileImageObjectUrlRef.current);
+            }
+            const url = URL.createObjectURL(blob);
+            profileImageObjectUrlRef.current = url;
+            setProfilePhoto(url);
+            setTempProfilePhoto(url);
+            const dataUrl = await blobToDataUrl(blob);
+            localStorage.setItem("profilePhoto", dataUrl);
           }
-          const url = URL.createObjectURL(blob);
-          profileImageObjectUrlRef.current = url;
-          setProfilePhoto(url);
-          setTempProfilePhoto(url);
-          const dataUrl = await blobToDataUrl(blob);
-          localStorage.setItem("profilePhoto", dataUrl);
-        } else {
-          setProfilePhoto(DEFAULT_PROFILE_ICON);
-          setTempProfilePhoto(DEFAULT_PROFILE_ICON);
-          localStorage.removeItem("profilePhoto");
+        } catch (refreshError) {
+          console.warn(
+            "Profile photo uploaded, but refreshing the saved image failed.",
+            refreshError,
+          );
         }
         window.dispatchEvent(new Event("profile-photo-updated"));
       } catch (err) {
