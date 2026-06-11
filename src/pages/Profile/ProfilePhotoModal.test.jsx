@@ -232,6 +232,65 @@ describe("Profile photo modal", () => {
     );
   });
 
+  it("treats upload as successful when post-upload refresh fails", async () => {
+    const consoleWarn = jest
+      .spyOn(console, "warn")
+      .mockImplementation(() => {});
+    fetchProfileImage
+      .mockResolvedValueOnce(null)
+      .mockRejectedValueOnce(new Error("refresh failed"));
+    await openPhotoModal();
+    const file = makeFile("photo.jpg", "image/jpeg");
+    chooseFile(file);
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: /save/i })).toBeEnabled(),
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /save/i }));
+
+    await waitFor(() =>
+      expect(uploadProfileImage).toHaveBeenCalledWith("SID-123", file),
+    );
+    await waitFor(() =>
+      expect(screen.queryByText("PROFILE_PHOTO")).not.toBeInTheDocument(),
+    );
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.getByAltText("Open profile photo")).toHaveAttribute(
+      "src",
+      "data:image/jpeg;base64,preview",
+    );
+    expect(localStorage.getItem("profilePhoto")).toBe(
+      "data:image/jpeg;base64,preview",
+    );
+    expect(consoleWarn).toHaveBeenCalledWith(
+      "Profile photo uploaded, but refreshing the saved image failed.",
+      expect.any(Error),
+    );
+
+    consoleWarn.mockRestore();
+  });
+
+  it("saves a valid PNG upload", async () => {
+    fetchProfileImage
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(new Blob(["binary"], { type: "image/png" }));
+    await openPhotoModal();
+    const file = makeFile("photo.png", "image/png");
+    chooseFile(file);
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: /save/i })).toBeEnabled(),
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /save/i }));
+
+    await waitFor(() =>
+      expect(uploadProfileImage).toHaveBeenCalledWith("SID-123", file),
+    );
+    await waitFor(() =>
+      expect(screen.queryByText("PROFILE_PHOTO")).not.toBeInTheDocument(),
+    );
+  });
+
   it("preserves the pending upload after a failure and allows retry", async () => {
     uploadProfileImage
       .mockRejectedValueOnce(new Error("Upload failed"))
