@@ -451,25 +451,27 @@ const RequestDetails = () => {
                 <textarea
                   value={deleteReason}
                   onChange={(e) => setDeleteReason(e.target.value)}
-                  className="border p-2 w-full mt-3 rounded-lg min-h-[100px]"
+                  className="border p-3 w-full mt-3 rounded-lg min-h-[160px] resize-y"
                   placeholder={t("Reason")}
                 />
               </DialogContent>
               <DialogActions>
-                <Button
+                <button
+                  className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
                   onClick={() => setDeleteDialogOpen(false)}
-                  variant="outlined"
+                  variant="contained"
                 >
-                  {t("Cancel")}
-                </Button>
-                <Button
+                  {t("CANCEL")}
+                </button>
+                <button
                   onClick={handleDeleteRequest}
+                  className="bg-gray-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
                   color="error"
                   variant="contained"
                   disabled={!deleteReason.trim()}
                 >
-                  {t("Delete")}
-                </Button>
+                  {t("DELETE")}
+                </button>
               </DialogActions>
             </Dialog>
 
@@ -490,20 +492,22 @@ const RequestDetails = () => {
                 />
               </DialogContent>
               <DialogActions>
-                <Button
+                <button
                   onClick={() => setChangeVolunteerDialogOpen(false)}
-                  variant="outlined"
+                  variant="contained"
+                  className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
                 >
                   {t("CANCEL")}
-                </Button>
-                <Button
+                </button>
+                <button
                   onClick={handleChangeVolunteer}
+                  className="bg-gray-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
                   color="primary"
                   variant="contained"
                   disabled={!volunteerChangeReason.trim()}
                 >
                   {t("CHANGE_VOLUNTEER")}
-                </Button>
+                </button>
               </DialogActions>
             </Dialog>
           </div>
