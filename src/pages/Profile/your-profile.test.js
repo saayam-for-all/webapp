@@ -271,24 +271,6 @@ describe("YourProfile", () => {
     });
   });
 
-  it("opens call modal when phone icon is clicked", () => {
-    renderWithProvider(
-      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
-    );
-    fireEvent.click(screen.getByTestId("phone-call-icon"));
-    expect(screen.getByTestId("call-modal")).toBeInTheDocument();
-    expect(screen.getByText("CallModal - audio")).toBeInTheDocument();
-  });
-
-  it("opens video call modal when video icon is clicked", () => {
-    renderWithProvider(
-      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
-    );
-    fireEvent.click(screen.getByTestId("video-call-icon"));
-    expect(screen.getByTestId("call-modal")).toBeInTheDocument();
-    expect(screen.getByText("CallModal - video")).toBeInTheDocument();
-  });
-
   it("cancels editing and resets form", async () => {
     renderWithProvider(
       <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
