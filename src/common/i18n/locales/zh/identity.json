@@ -10,9 +10,9 @@
   "UPLOAD": "上传",
   "UPLOADING": "上传中...",
   "REMOVE": "删除",
-  "FILE_SIZE_ERROR": "文件大小不应超过2MB",
+  "FILE_SIZE_ERROR": "文件大小不应超过5MB",
   "FILE_TYPE_ERROR": "仅允许 JPEG、JPG、PNG 和 PDF 文件。检测到的文件类型：{{fileType}}，扩展名：{{extension}}",
-  "FILE_TYPE_REQUIREMENT": "仅限 JPEG、JPG、PNG 或 PDF 文件。最大大小：2MB。",
+  "FILE_TYPE_REQUIREMENT": "仅限 JPEG、JPG、PNG 或 PDF 文件。最大大小：5MB。",
   "UPLOAD_SUCCESS": "文件上传成功",
   "UPLOAD_FAILED": "文件上传失败",
   "UPLOAD_ERROR": "文件上传过程中发生错误"

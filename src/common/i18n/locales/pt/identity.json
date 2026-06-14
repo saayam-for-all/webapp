@@ -10,9 +10,9 @@
   "UPLOAD": "Carregar",
   "UPLOADING": "Carregando...",
   "REMOVE": "Remover",
-  "FILE_SIZE_ERROR": "O tamanho do arquivo não deve exceder 2MB",
+  "FILE_SIZE_ERROR": "O tamanho do arquivo não deve exceder 5MB",
   "FILE_TYPE_ERROR": "Apenas arquivos JPEG, JPG, PNG e PDF são permitidos. Tipo de arquivo detectado: {{fileType}}, extensão: {{extension}}",
-  "FILE_TYPE_REQUIREMENT": "Apenas arquivos JPEG, JPG, PNG ou PDF. Tamanho máximo: 2MB.",
+  "FILE_TYPE_REQUIREMENT": "Apenas arquivos JPEG, JPG, PNG ou PDF. Tamanho máximo: 5MB.",
   "UPLOAD_SUCCESS": "Arquivo carregado com sucesso",
   "UPLOAD_FAILED": "Falha ao carregar arquivo",
   "UPLOAD_ERROR": "Ocorreu um erro durante o carregamento do arquivo"

@@ -10,9 +10,9 @@
   "UPLOAD": "アップロード",
   "UPLOADING": "アップロード中...",
   "REMOVE": "削除",
-  "FILE_SIZE_ERROR": "ファイルサイズは2MBを超えないようにしてください",
+  "FILE_SIZE_ERROR": "ファイルサイズは5MBを超えないようにしてください",
   "FILE_TYPE_ERROR": "JPEG、JPG、PNG、PDFファイルのみが許可されています。検出されたファイルタイプ: {{fileType}}、拡張子: {{extension}}",
-  "FILE_TYPE_REQUIREMENT": "JPEG、JPG、PNG、またはPDFファイルのみ。最大サイズ: 2MB。",
+  "FILE_TYPE_REQUIREMENT": "JPEG、JPG、PNG、またはPDFファイルのみ。最大サイズ: 5MB。",
   "UPLOAD_SUCCESS": "ファイルが正常にアップロードされました",
   "UPLOAD_FAILED": "ファイルのアップロードに失敗しました",
   "UPLOAD_ERROR": "ファイルのアップロード中にエラーが発生しました"
