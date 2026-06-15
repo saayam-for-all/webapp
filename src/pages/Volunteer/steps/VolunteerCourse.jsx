@@ -21,7 +21,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
       console.log("File type:", uploadedFile.type);
       console.log("File size:", uploadedFile.size);
 
-      if (uploadedFile.size > 2 * 1024 * 1024) {
+      if (uploadedFile.size > 5 * 1024 * 1024) {
         setError(t("FILE_SIZE_ERROR"));
         setFile(null);
         setPreview("");
