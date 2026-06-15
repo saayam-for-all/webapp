@@ -1130,6 +1130,11 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       return;
     }
 
+    // Capture the resolved subject in a local variable so it is available
+    // synchronously for both submissionData and checkProfanity regardless of
+    // whether React has flushed the setFormData state update yet.
+    let resolvedSubject = formData.subject;
+
     if (
       !isEdit &&
       !hasUserEditedSubjectRef.current &&
@@ -1139,6 +1144,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         const response = await generateSubject(formData.description);
         const generatedSubject = response?.body?.subject;
         if (generatedSubject) {
+          resolvedSubject = generatedSubject;
           setFormData((prev) => ({ ...prev, subject: generatedSubject }));
         }
       } catch (error) {
@@ -1146,15 +1152,23 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       }
     }
 
+    // Fallback: if the API failed or returned nothing and the user left the
+    // subject blank, derive a subject from the description so it is never null.
+    if (!resolvedSubject || resolvedSubject.trim() === "") {
+      resolvedSubject = formData.description.trim().slice(0, 70);
+      setFormData((prev) => ({ ...prev, subject: resolvedSubject }));
+    }
+
     const submissionData = {
       ...formData,
+      subject: resolvedSubject,
       location,
     };
 
     setIsSubmitting(true);
     try {
       const res = await checkProfanity({
-        subject: formData.subject,
+        subject: resolvedSubject,
         description: formData.description,
       });
 
