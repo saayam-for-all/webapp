@@ -24,7 +24,9 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
     console.log("File size:", selectedFile.size);
 
     // Validate file size (2MB)
-    if (selectedFile.size > 2 * 1024 * 1024) {
+    console.log("Selected file size:", selectedFile.size);
+    console.log("5MB limit:", 5 * 1024 * 1024);
+    if (selectedFile.size > 5 * 1024 * 1024) {
       setError(t("FILE_SIZE_ERROR"));
       setFile(null);
       setPreview("");
