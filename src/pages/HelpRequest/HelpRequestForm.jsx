@@ -39,6 +39,11 @@ import {
   Radio,
   FormControlLabel,
 } from "@mui/material";
+import {
+  SUBJECT_GENERATION_POLL_INTERVAL_MS,
+  SUBJECT_GENERATION_WAIT_TIMEOUT_MS,
+  waitForGeneratedSubject,
+} from "./waitForGeneratedSubject";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -102,6 +107,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     description: "",
     priority: "MEDIUM",
   });
+  const formDataRef = useRef(formData);
+
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
 
   // useEffect(() => {
   //   if (
@@ -125,14 +135,14 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   };
 
   // Fetch predicted categories when category is "General" and debounced values change
-  const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return; // Only call the API if category is "General"
-    if (!formData.subject || !formData.description) return; // Skip if no relevant data
+  const fetchPredictedCategories = async (requestFormData = formData) => {
+    if (requestFormData.category !== "General") return; // Only call the API if category is "General"
+    if (!requestFormData.subject || !requestFormData.description) return; // Skip if no relevant data
 
     try {
       const requestBody = {
-        subject: formData.subject,
-        description: formData.description,
+        subject: requestFormData.subject,
+        description: requestFormData.description,
       };
 
       const response = await predictCategories(requestBody);
@@ -160,15 +170,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const submissionData = {
-      ...formData,
-      location,
-    };
-
     try {
       const res = await checkProfanity({
-        subject: formData.subject,
-        description: formData.description,
+        subject: formDataRef.current.subject,
+        description: formDataRef.current.description,
       });
 
       if (res.contains_profanity) {
@@ -206,12 +211,41 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       // );
       else {
         if (
-          formData.category === "General" &&
-          formData.subject.trim() !== "" &&
-          formData.description.trim() !== "" &&
+          formDataRef.current.category === "General" &&
+          formDataRef.current.description.trim() !== "" &&
+          formDataRef.current.subject.trim() === ""
+        ) {
+          const isSubjectReady = await waitForGeneratedSubject(
+            () => formDataRef.current.subject,
+            {
+              timeoutMs: SUBJECT_GENERATION_WAIT_TIMEOUT_MS,
+              pollIntervalMs: SUBJECT_GENERATION_POLL_INTERVAL_MS,
+            },
+          );
+
+          if (!isSubjectReady) {
+            setSnackbar({
+              open: true,
+              message:
+                "Subject is still being generated. Please wait and try submitting again.",
+              severity: "warning",
+            });
+            return;
+          }
+        }
+
+        const submissionData = {
+          ...formDataRef.current,
+          location,
+        };
+
+        if (
+          submissionData.category === "General" &&
+          submissionData.subject.trim() !== "" &&
+          submissionData.description.trim() !== "" &&
           !categoryConfirmed
         ) {
-          await fetchPredictedCategories();
+          await fetchPredictedCategories(submissionData);
           setShowModal(true);
           return; // Don’t submit yet
         }
