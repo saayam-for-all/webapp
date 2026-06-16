@@ -95,12 +95,6 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Honeypot: if middleName is filled, silently reject (bot detected)
-    if (formData.middleName) {
-      navigate("/thanks");
-      return;
-    }
-
     const newErrors = {};
     const nameRegex = /^[A-Za-z\s]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
