@@ -199,30 +199,6 @@ const HelpingVolunteers = () => {
             </div>
           )}
         </div>
-        <div className="flex gap-2">
-          <button
-            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
-            disabled={selectedVolunteers.length === 0}
-            onClick={() => setMeetingModalOpen(true)}
-          >
-            <FaVideo className="text-lg" />
-            <span>Zoom Meeting</span>
-          </button>
-          <button
-            className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
-            disabled={selectedVolunteers.length === 0}
-            onClick={() => {
-              setVolunteerData((prev) =>
-                prev.filter(
-                  (volunteer) => !selectedVolunteers.includes(volunteer.email),
-                ),
-              );
-              setSelectedVolunteers([]);
-            }}
-          >
-            {t("Delete")}
-          </button>
-        </div>
         {meetingModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fadeIn relative">
@@ -418,10 +394,9 @@ const HelpingVolunteers = () => {
 
         <div className="mt-6 bg-white p-6 shadow-lg">
           <div className="flex flex-wrap items-center gap-4 justify-between mb-4">
-            <div className="flex flex-row gap-4 items-center w-1/3">
+            <div className="flex flex-row gap-4 items-center">
               {/* Volunteers Title */}
               <div className="font-bold text-xl">Volunteers</div>
-
               {/* Search Input */}
               <div className="flex-grow max-w-md">
                 <input
@@ -432,63 +407,59 @@ const HelpingVolunteers = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
+              {/* Sort By Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSortBy(value);
+                  if (value === "Newest") {
+                    setSortConfig({
+                      key: "dateAdded",
+                      direction: "descending",
+                    });
+                  } else if (value === "Oldest") {
+                    setSortConfig({ key: "dateAdded", direction: "ascending" });
+                  } else if (value === "Name") {
+                    setSortConfig({ key: "name", direction: "ascending" });
+                  }
+                }}
+                className="p-2 border border-gray-300 rounded-md"
+              >
+                <option value="Newest">Sort by: Newest</option>
+                <option value="Oldest">Sort by: Oldest</option>
+                <option value="Name">Sort by: Name</option>
+              </select>
             </div>
 
-            <div className="flex flex-row gap-2">
-              {/* Sort By Dropdown */}
-              <div>
-                <select
-                  value={sortBy}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setSortBy(value);
-                    if (value === "Newest") {
-                      setSortConfig({
-                        key: "dateAdded",
-                        direction: "descending",
-                      });
-                    } else if (value === "Oldest") {
-                      setSortConfig({
-                        key: "dateAdded",
-                        direction: "ascending",
-                      });
-                    } else if (value === "Name") {
-                      setSortConfig({
-                        key: "name",
-                        direction: "ascending",
-                      });
-                    }
-                  }}
-                  className="p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="Newest">Sort by: Newest</option>
-                  <option value="Oldest">Sort by: Oldest</option>
-                  <option value="Name">Sort by: Name</option>
-                </select>
-              </div>
+            {/* Right: Zoom + Delete */}
+            <div className="flex flex-row gap-2 items-center">
+              {/* Zoom Meeting Button */}
+              <button
+                className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
+                disabled={selectedVolunteers.length === 0}
+                onClick={() => setMeetingModalOpen(true)}
+              >
+                <FaVideo className="text-lg" />
+                <span>Zoom Meeting</span>
+              </button>
 
-              {/* Filter By Dropdown */}
-              <div>
-                <label
-                  htmlFor="filter-causes"
-                  className="mr-2 font-semibold text-gray-700"
-                >
-                  Filter by: All Causes
-                </label>
-                <select
-                  id="filter-causes"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="">Filter by: All Causes</option>
-                  <option value="Cooking">Cooking</option>
-                  <option value="Banking">Banking</option>
-                  <option value="Medical">Medical</option>
-                  <option value="College admission">College admission</option>
-                  <option value="Housing">Housing</option>
-                </select>
-              </div>
+              {/* Delete Button */}
+              <button
+                className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
+                disabled={selectedVolunteers.length === 0}
+                onClick={() => {
+                  setVolunteerData((prev) =>
+                    prev.filter(
+                      (volunteer) =>
+                        !selectedVolunteers.includes(volunteer.email),
+                    ),
+                  );
+                  setSelectedVolunteers([]);
+                }}
+              >
+                {t("Delete")}
+              </button>
             </div>
           </div>
 
