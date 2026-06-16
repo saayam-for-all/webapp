@@ -37,7 +37,6 @@ const HelpingVolunteers = () => {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [searchBy, setSearchBy] = useState("name");
-  const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
   const [volunteerCountError, setVolunteerCountError] = useState("");
 
@@ -123,12 +122,6 @@ const HelpingVolunteers = () => {
         .includes(searchTerm.toLowerCase());
     });
 
-    if (filter) {
-      filteredVolunteers = filteredVolunteers.filter((volunteer) =>
-        volunteer.cause.toLowerCase().includes(filter.toLowerCase()),
-      );
-    }
-
     filteredVolunteers.sort((a, b) => {
       if (sortConfig.key === "dateAdded") {
         const dateA = new Date(a.dateAdded);
@@ -148,7 +141,7 @@ const HelpingVolunteers = () => {
     });
 
     return filteredVolunteers;
-  }, [volunteerData, searchTerm, filter, sortConfig, volunteersCount]);
+  }, [volunteerData, searchTerm, sortConfig, volunteersCount]);
 
   const totalRows = filteredAndSortedVolunteers.length;
   const totalPages = Math.ceil(totalRows / itemsPerPage);
@@ -411,13 +404,13 @@ const HelpingVolunteers = () => {
         </div>
 
         <div className="mt-6 bg-white p-6 shadow-lg">
-          <div className="flex flex-wrap items-center gap-4 justify-between mb-4">
-            <div className="flex flex-row gap-4 items-center w-1/3">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <div className="flex flex-row gap-4 items-center">
               {/* Volunteers Title */}
               <div className="font-bold text-xl">Volunteers</div>
 
               {/* Search Input */}
-              <div className="flex-grow max-w-md">
+              <div className="w-64">
                 <input
                   type="text"
                   placeholder={t("SEARCH_BY_NAME")}
@@ -426,64 +419,39 @@ const HelpingVolunteers = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
+
+              {/* Sort By Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSortBy(value);
+                  if (value === "Newest") {
+                    setSortConfig({
+                      key: "dateAdded",
+                      direction: "descending",
+                    });
+                  } else if (value === "Oldest") {
+                    setSortConfig({
+                      key: "dateAdded",
+                      direction: "ascending",
+                    });
+                  } else if (value === "Name") {
+                    setSortConfig({
+                      key: "name",
+                      direction: "ascending",
+                    });
+                  }
+                }}
+                className="h-10 px-3 border border-gray-300 rounded-md"
+              >
+                <option value="Newest">Sort by: Newest</option>
+                <option value="Oldest">Sort by: Oldest</option>
+                <option value="Name">Sort by: Name</option>
+              </select>
             </div>
 
-            <div className="flex flex-row gap-2 items-center">
-              {/* Sort By Dropdown */}
-              <div>
-                <select
-                  value={sortBy}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setSortBy(value);
-                    if (value === "Newest") {
-                      setSortConfig({
-                        key: "dateAdded",
-                        direction: "descending",
-                      });
-                    } else if (value === "Oldest") {
-                      setSortConfig({
-                        key: "dateAdded",
-                        direction: "ascending",
-                      });
-                    } else if (value === "Name") {
-                      setSortConfig({
-                        key: "name",
-                        direction: "ascending",
-                      });
-                    }
-                  }}
-                  className="p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="Newest">Sort by: Newest</option>
-                  <option value="Oldest">Sort by: Oldest</option>
-                  <option value="Name">Sort by: Name</option>
-                </select>
-              </div>
-
-              {/* Filter By Dropdown */}
-              <div>
-                <label
-                  htmlFor="filter-causes"
-                  className="mr-2 font-semibold text-gray-700"
-                >
-                  Filter by: All Causes
-                </label>
-                <select
-                  id="filter-causes"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="">Filter by: All Causes</option>
-                  <option value="Cooking">Cooking</option>
-                  <option value="Banking">Banking</option>
-                  <option value="Medical">Medical</option>
-                  <option value="College admission">College admission</option>
-                  <option value="Housing">Housing</option>
-                </select>
-              </div>
-
+            <div className="flex flex-row gap-2 items-center ml-auto">
               <button
                 className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
                 disabled={selectedVolunteers.length === 0}
