@@ -21,7 +21,9 @@ jest.mock("react", () => ({
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useMatches: () => [{ pathname: "/", params: {} }],
+  useMatches: () => [
+    { pathname: "/dashboard", params: {}, handle: { leaveAdSpace: true } },
+  ],
   Outlet: () => <div>Outlet</div>,
 }));
 

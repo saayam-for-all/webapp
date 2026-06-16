@@ -100,6 +100,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   );
   const groups = useSelector((state) => state.auth.user?.groups);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
+  const user = useSelector((state) => state.auth.user);
   const [location, setLocation] = useState("");
   const { inputRef, suggestions, handleSearchChange, handleSelectSuggestion } =
     usePlacesSearchBox(setLocation);
@@ -194,7 +195,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     gender: "Select",
     lead_volunteer: "Ethan Marshall",
     is_calamity: false,
-    preferred_language: "",
+    preferred_language: (() => {
+      const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
+      return saved.languagePreference1 || "";
+    })(),
     category: "General",
     request_type: "REMOTE",
     location: "",
@@ -342,7 +346,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
   // Fetch predicted categories when category is "General" and description is filled
   const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return;
     if (!formData.description) return;
 
     try {
@@ -723,6 +726,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       ...formData,
       category: searchTerm,
     });
+    setCategoryConfirmed(false);
 
     const resolvedLabel = (cat) =>
       t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
@@ -787,6 +791,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     setSelectedCategoryId(resolvedId);
     setShowDropdown(false);
     setHoveredCategory(null);
+    setCategoryConfirmed(false);
   };
 
   // Popup modal for subcategory - Handle subcategory click, check if Elderly Support
@@ -818,6 +823,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         category: subcategoryId,
       });
       setSelectedCategoryId(subcategoryId);
+      setCategoryConfirmed(false);
 
       setSelectedElderlySubcategory({
         id: subcategoryId,
@@ -835,6 +841,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         category: subcategoryId,
       });
       setSelectedCategoryId(subcategoryId);
+      setCategoryConfirmed(false);
       setShowDropdown(false);
       setHoveredCategory(null);
       setHoveredSubcategory(null);
@@ -870,6 +877,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       category: subcategory.id,
     });
     setSelectedCategoryId(subcategory.id);
+    setCategoryConfirmed(false);
 
     // Popup modal for subcategory - Close dropdown and modal
     setShowDropdown(false);
@@ -900,6 +908,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         category: "",
       });
       setSelectedCategoryId(null);
+      setCategoryConfirmed(false);
     }
 
     // Popup modal for subcategory - Hide inline panel
@@ -1173,7 +1182,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       // In edit mode, skip the predict-categories modal since category is locked
       if (
         !isEdit &&
-        formData.category === "General" &&
+        (formData.category === "General" ||
+          resolveCatNameToId(formData.category) ===
+            resolveCatNameToId("GENERAL_CATEGORY")) &&
         formData.description.trim() !== "" &&
         !categoryConfirmed
       ) {
@@ -1811,8 +1822,24 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                       className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                       onChange={(e) => {
                         const selected = e.target.value;
-                        setFormData({ ...formData, request_for: selected });
-                        setSelfFlag(selected === enums?.requestFor?.[0]); // "SELF" means true, "OTHER" means false
+                        const isOther = selected !== enums?.requestFor?.[0]; // not SELF = OTHER
+                        const savedPrefs = JSON.parse(
+                          localStorage.getItem("userPreferences") || "{}",
+                        );
+                        const profileLang =
+                          savedPrefs.languagePreference1 ||
+                          user?.["custom:pref_first_language"] ||
+                          user?.first_language_preference ||
+                          "";
+                        setFormData({
+                          ...formData,
+                          request_for: selected,
+                          preferred_language:
+                            isOther && profileLang
+                              ? profileLang
+                              : formData.preferred_language,
+                        });
+                        setSelfFlag(!isOther); // "SELF" means true, "OTHER" means false
                       }}
                     >
                       {enums?.requestFor &&

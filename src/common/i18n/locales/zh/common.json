@@ -496,7 +496,7 @@
   "SCAN_ON_DONATE": "您可以扫描或点击捐赠",
   "SCAN_QR_CODE": "Scan QR Code to Donate",
   "SEARCH": "SEARCH",
-  "SEARCH_PLACEHOLDER": "Search Placeholder",
+  "SEARCH_PLACEHOLDER": "向 Saayam 寻求帮助",
   "SECOND_LANGUAGE_PREFERENCE": "第二语言偏好",
   "SECONDARY_PHONE": "辅助电话",
   "SECONDARY_EMAIL": "次要电子邮件",
@@ -751,5 +751,6 @@
   "FIND_BY_EMAIL": "按电子邮件查找",
   "FIND_BY_PHONE": "按电话查找",
   "ENTER_VOLUNTEER_EMAIL": "输入志愿者电子邮件",
-  "ENTER_VOLUNTEER_PHONE": "输入志愿者电话"
+  "ENTER_VOLUNTEER_PHONE": "输入志愿者电话",
+  "SEARCH_TAGLINE": "有人情味的谷歌*"
 }

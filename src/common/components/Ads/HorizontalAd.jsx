@@ -1,7 +1,11 @@
 import { useEffect } from "react";
+import useShowAds from "../../../hooks/useShowAds";
 
 const HorizontalAd = () => {
+  const showAds = useShowAds();
+
   useEffect(() => {
+    if (!showAds) return;
     try {
       if (window.location.hostname === "saayamforall.org") {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -9,7 +13,9 @@ const HorizontalAd = () => {
     } catch (e) {
       console.error("Adsense error", e);
     }
-  }, []);
+  }, [showAds]);
+
+  if (!showAds) return null;
 
   return (
     <ins

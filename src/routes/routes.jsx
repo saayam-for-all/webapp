@@ -34,22 +34,27 @@ const routes = [
   {
     path: "",
     element: <LandingPage />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "our-team",
     element: <Directors />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "donate",
     element: <Donate />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "how-we-operate",
     element: <HowWeOperate />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "collaborators",
     element: <Collaborators />,
+    handle: { leaveAdSpace: true },
   },
   // {
   //   path: "mission",
@@ -62,10 +67,12 @@ const routes = [
   {
     path: "contact",
     element: <ContactUs />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "emergency-contact",
     element: <EmergencyContact />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "thanks",
@@ -74,26 +81,32 @@ const routes = [
   {
     path: "sitemap",
     element: <Sitemap />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "terms-and-conditions",
     element: <TermsAndConditions />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "privacy-policy",
     element: <PrivacyPolicy />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "news-our-stories",
     element: <NewsOurStories />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "notifications",
     element: <Notifications />,
+    handle: { leaveAdSpace: true },
   },
   {
     path: "our-mission",
     element: <OurMission />,
+    handle: { leaveAdSpace: true },
   },
   {
     element: <ProtectedRoute />, // Parent wrapper for protected routes
@@ -158,6 +171,7 @@ const routes = [
   {
     path: "benevity",
     element: <BenevityInfo />,
+    handle: { leaveAdSpace: true },
   },
 ];
 

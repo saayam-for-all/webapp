@@ -494,7 +494,7 @@
   "SCAN_ON_DONATE": "Вы можете отсканировать или нажать на Пожертвовать",
   "SCAN_QR_CODE": "Scan QR Code to Donate",
   "SEARCH": "SEARCH",
-  "SEARCH_PLACEHOLDER": "Search Placeholder",
+  "SEARCH_PLACEHOLDER": "Попросите помощи у Saayam",
   "SECOND LANGUAGE PREFERENCE": "Second Language Preference",
   "SECONDARY PHONE": "Дополнительный телефон",
   "SECONDARY_EMAIL": "Дополнительный адрес электронной почты",
@@ -756,5 +756,6 @@
   "FIND_BY_EMAIL": "Найти по email",
   "FIND_BY_PHONE": "Найти по телефону",
   "ENTER_VOLUNTEER_EMAIL": "Введите email волонтёра",
-  "ENTER_VOLUNTEER_PHONE": "Введите телефон волонтёра"
+  "ENTER_VOLUNTEER_PHONE": "Введите телефон волонтёра",
+  "SEARCH_TAGLINE": "гугл с человеческим прикосновением*"
 }

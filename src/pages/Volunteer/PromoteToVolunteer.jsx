@@ -4,7 +4,7 @@ import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
 import Review from "./steps/Review";
 import Skills from "./steps/Skills";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
@@ -19,7 +19,9 @@ import { useTranslation } from "react-i18next";
 
 const PromoteToVolunteer = () => {
   const { t } = useTranslation();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [searchParams] = useSearchParams();
+  const stepParam = parseInt(searchParams.get("step")) || 1;
+  const [currentStep, setCurrentStep] = useState(stepParam);
   const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(false);
   const [govtIdFile, setGovtIdFile] = useState(null);
@@ -66,11 +68,11 @@ const PromoteToVolunteer = () => {
   }, []);
 
   const steps = [
-    "Terms & Conditions",
-    "Identification",
-    "Skills",
-    "Availability",
-    "Review",
+    t("TERMS_AND_CONDITIONS"),
+    t("IDENTIFICATION"),
+    t("SKILLS"),
+    t("AVAILABILITY"),
+    t("REVIEW"),
   ];
 
   const displayStep = (step) => {
@@ -88,7 +90,6 @@ const PromoteToVolunteer = () => {
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
             setIsUploaded={setIsUploaded}
-            onSaveFile={handleSaveFile}
           />
         );
       case 3:
@@ -158,6 +159,7 @@ const PromoteToVolunteer = () => {
           break;
         case 2:
           // isValidStep = govtIdFile && govtIdFile.name !== "";
+          handleSaveFile();
           isValidStep = govtIdFile;
           updateVolunteerData({
             step: currentStep,
@@ -228,7 +230,7 @@ const PromoteToVolunteer = () => {
       {/* FIXED STEPPER WRAPPER */}
       <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
         <h1 className="text-3xl font-bold text-center mb-8">
-          {t("Become a Volunteer") || "Become a Volunteer"}
+          {t("BECOME_VOLUNTEER")}
         </h1>
         <Stepper steps={steps} currentStep={currentStep} />
         {/* FIXED CONTENT WRAPPER */}

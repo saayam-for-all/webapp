@@ -17,6 +17,7 @@ import {
 
 jest.mock("./api");
 jest.mock("../utils/fileToBase64", () => ({
+  ACCEPTED_IMAGE_TYPES: ["image/jpeg", "image/png"],
   fileToBase64: jest.fn(() => Promise.resolve("data:image/jpeg;base64,abc")),
 }));
 
@@ -125,6 +126,26 @@ describe("volunteerServices profile image", () => {
         ),
       ).rejects.toThrow("User ID is required");
     });
+
+    it("throws when profile image type is unsupported", async () => {
+      await expect(
+        uploadProfileImage(
+          "SID-123",
+          new File(["x"], "a.gif", { type: "image/gif" }),
+        ),
+      ).rejects.toThrow("Only JPG and PNG formats are accepted.");
+      expect(api.post).not.toHaveBeenCalled();
+    });
+
+    it("throws when profile image is larger than 5 MB", async () => {
+      const file = new File(["x"], "a.jpg", { type: "image/jpeg" });
+      Object.defineProperty(file, "size", { value: 5_000_001 });
+
+      await expect(uploadProfileImage("SID-123", file)).rejects.toThrow(
+        "File size must be 5 MB or less.",
+      );
+      expect(api.post).not.toHaveBeenCalled();
+    });
   });
 
   describe("deleteProfileImage", () => {
@@ -231,7 +252,7 @@ describe("signOffUser", () => {
       saayamCode: "SAAAYAM-1205",
       message: "User deleted",
       data: { userId: "SID-00-000-002-558" },
-      timestamp: 1770661776.66827198,
+      timestamp: Number("1770661776.66827198"),
     };
     api.request.mockResolvedValue({ data: responseData });
 

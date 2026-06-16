@@ -494,7 +494,7 @@
   "SCAN_ON_DONATE": "आप स्कैन कर सकते हैं या दान पर क्लिक कर सकते हैं",
   "SCAN_QR_CODE": "Scan QR Code to Donate",
   "SEARCH": "SEARCH",
-  "SEARCH_PLACEHOLDER": "Search Placeholder",
+  "SEARCH_PLACEHOLDER": "Saayam से मदद माँगें",
   "SECOND LANGUAGE PREFERENCE": "दूसरी भाषा प्राथमिकता",
   "SECONDARY PHONE": "द्वितीयक फ़ोन",
   "SECONDARY_EMAIL": "द्वितीयक ईमेल",
@@ -757,5 +757,6 @@
   "FIND_BY_EMAIL": "ईमेल से खोजें",
   "FIND_BY_PHONE": "फ़ोन से खोजें",
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवक का ईमेल दर्ज करें",
-  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवक का फ़ोन दर्ज करें"
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवक का फ़ोन दर्ज करें",
+  "SEARCH_TAGLINE": "मानवीय स्पर्श के साथ गूगल*"
 }

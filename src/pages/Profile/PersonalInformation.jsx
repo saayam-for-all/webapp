@@ -607,9 +607,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                   {errors.country}
                 </p>
               )}
-              <p className="text-xs text-gray-500 mt-1">
-                To change your country, update it in Your Profile.
-              </p>
             </>
           ) : (
             <p className="text-lg text-gray-900">

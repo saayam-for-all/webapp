@@ -501,7 +501,7 @@
   "SCAN_ON_DONATE": "Você pode escanear ou clicar em doar",
   "SCAN_QR_CODE": "Escanear Código QR para Doar",
   "SEARCH": "PESQUISAR",
-  "SEARCH_PLACEHOLDER": "Placeholder de Pesquisa",
+  "SEARCH_PLACEHOLDER": "Peça ajuda ao Saayam",
   "SECOND LANGUAGE PREFERENCE": "Segunda preferência de idioma",
   "SECONDARY PHONE": "Telefone secundário",
   "SECONDARY_EMAIL": "E-mail secundário",
@@ -764,5 +764,6 @@
   "FIND_BY_EMAIL": "Buscar por e-mail",
   "FIND_BY_PHONE": "Buscar por telefone",
   "ENTER_VOLUNTEER_EMAIL": "Inserir e-mail do voluntário",
-  "ENTER_VOLUNTEER_PHONE": "Inserir telefone do voluntário"
+  "ENTER_VOLUNTEER_PHONE": "Inserir telefone do voluntário",
+  "SEARCH_TAGLINE": "google com toque humano*"
 }

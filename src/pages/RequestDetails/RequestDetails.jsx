@@ -88,9 +88,9 @@ const RequestDetails = () => {
     },
     {
       context: "Ethan Marshall",
-      type: "Volunteer",
+      type: "LEAD_VOLUNTEER",
       icon: <RiUserStarLine size={22} />,
-      isClickable: false,
+      isClickable: true,
     },
   ];
 
@@ -239,7 +239,7 @@ const RequestDetails = () => {
                   ) : (
                     <span>{header.context}</span>
                   )}
-                  <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {t(header.type)}
                   </div>
                 </li>

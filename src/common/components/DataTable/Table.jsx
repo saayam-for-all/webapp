@@ -22,20 +22,19 @@ const Table = ({
   const { t, i18n } = useTranslation(["common", "categories"]);
 
   const paginatedRequests = useMemo(() => {
-    // When server-paginated, rows already contain only the current page's data
-    if (serverPaginated) return rows;
+    if (serverPaginated) {
+      return rows;
+    }
+
     return rows.slice(
       (currentPage - 1) * itemsPerPage,
       currentPage * itemsPerPage,
     );
   }, [rows, currentPage, itemsPerPage, serverPaginated]);
 
-  useEffect(() => {
-    // Don't auto-reset page when server handles pagination
-    if (!serverPaginated) {
-      setCurrentPage(1);
-    }
-  }, [totalRows, itemsPerPage, setCurrentPage, serverPaginated]);
+  //useEffect(() => {
+  //setCurrentPage(1);
+  //}, [totalRows, itemsPerPage, setCurrentPage]);
 
   const getSortIndicator = (key) => {
     if (sortConfig.key === key) {
@@ -72,15 +71,23 @@ const Table = ({
     return value;
   };
 
-  const dataKeyMap = { requestId: "id", beneficiaryId: "userId" };
+  const dataKeyMap = {
+    requestId: "requestId",
+    beneficiaryId: "userId",
+    category: "requestCategory",
+  };
   const resolveKey = (header) => dataKeyMap[header] || header;
 
   const headerLabelMap = {
     status: t("STATUS"),
     subject: t("SUBJECT"),
     type: t("TYPE"),
-    category: t("REQUEST_CATEGORY"),
+    category: t("Category"),
     priority: t("PRIORITY"),
+    requestId: t("Request ID"),
+    updatedDate: t("Last Updated"),
+    creationDate: t("Created"),
+    calamity: t("Calamity"),
   };
 
   const getCategoryLabel = (code) => {
@@ -104,8 +111,8 @@ const Table = ({
 
   const getCellValue = (row, header) => {
     if (header === "requestId") return row[resolveKey(header)];
-    if (header === "category") return getCategoryLabel(row[header]);
-    return formatDateTime(row[header], header);
+    if (header === "category") return getCategoryLabel(row[resolveKey(header)]);
+    return formatDateTime(row[resolveKey(header)], header);
   };
 
   const shouldLinkCell = (header) => header === "requestId" || header === "id";
