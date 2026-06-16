@@ -100,6 +100,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   );
   const groups = useSelector((state) => state.auth.user?.groups);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
+  const user = useSelector((state) => state.auth.user);
   const [location, setLocation] = useState("");
   const { inputRef, suggestions, handleSearchChange, handleSelectSuggestion } =
     usePlacesSearchBox(setLocation);
@@ -194,7 +195,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     gender: "Select",
     lead_volunteer: "Ethan Marshall",
     is_calamity: false,
-    preferred_language: "",
+    preferred_language: (() => {
+      const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
+      return saved.languagePreference1 || "";
+    })(),
     category: "General",
     request_type: "REMOTE",
     location: "",
@@ -1818,8 +1822,24 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                       className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                       onChange={(e) => {
                         const selected = e.target.value;
-                        setFormData({ ...formData, request_for: selected });
-                        setSelfFlag(selected === enums?.requestFor?.[0]); // "SELF" means true, "OTHER" means false
+                        const isOther = selected !== enums?.requestFor?.[0]; // not SELF = OTHER
+                        const savedPrefs = JSON.parse(
+                          localStorage.getItem("userPreferences") || "{}",
+                        );
+                        const profileLang =
+                          savedPrefs.languagePreference1 ||
+                          user?.["custom:pref_first_language"] ||
+                          user?.first_language_preference ||
+                          "";
+                        setFormData({
+                          ...formData,
+                          request_for: selected,
+                          preferred_language:
+                            isOther && profileLang
+                              ? profileLang
+                              : formData.preferred_language,
+                        });
+                        setSelfFlag(!isOther); // "SELF" means true, "OTHER" means false
                       }}
                     >
                       {enums?.requestFor &&
