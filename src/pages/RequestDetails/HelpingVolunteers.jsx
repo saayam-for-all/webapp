@@ -217,30 +217,7 @@ const HelpingVolunteers = () => {
             </div>
           )}
         </div>
-        <div className="flex gap-2">
-          <button
-            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
-            disabled={selectedVolunteers.length === 0}
-            onClick={() => setMeetingModalOpen(true)}
-          >
-            <FaVideo className="text-lg" />
-            <span>Zoom Meeting</span>
-          </button>
-          <button
-            className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
-            disabled={selectedVolunteers.length === 0}
-            onClick={() => {
-              setVolunteerData((prev) =>
-                prev.filter(
-                  (volunteer) => !selectedVolunteers.includes(volunteer.email),
-                ),
-              );
-              setSelectedVolunteers([]);
-            }}
-          >
-            {t("Delete")}
-          </button>
-        </div>
+
         {meetingModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fadeIn relative">
@@ -452,7 +429,7 @@ const HelpingVolunteers = () => {
               </div>
             </div>
 
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 items-center">
               {/* Sort By Dropdown */}
               <div>
                 <select
@@ -484,7 +461,6 @@ const HelpingVolunteers = () => {
                   <option value="Name">Sort by: Name</option>
                 </select>
               </div>
-
               {/* Filter By Dropdown */}
               <div>
                 <label
@@ -507,6 +483,31 @@ const HelpingVolunteers = () => {
                   <option value="Housing">Housing</option>
                 </select>
               </div>
+              {/* Zoom Meeting Button */}
+              <button
+                className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
+                disabled={selectedVolunteers.length === 0}
+                onClick={() => setMeetingModalOpen(true)}
+              >
+                <FaVideo className="text-lg" />
+                <span>Zoom Meeting</span>
+              </button>
+              {/* Delete Button */}
+              <button
+                className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
+                disabled={selectedVolunteers.length === 0}
+                onClick={() => {
+                  setVolunteerData((prev) =>
+                    prev.filter(
+                      (volunteer) =>
+                        !selectedVolunteers.includes(volunteer.email),
+                    ),
+                  );
+                  setSelectedVolunteers([]);
+                }}
+              >
+                {t("Delete")}
+              </button>
             </div>
           </div>
 
