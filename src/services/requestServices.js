@@ -1,16 +1,30 @@
 import api from "./api";
 import endpoints from "./endpoints.json";
 
-export const getMyRequests = async () => {
-  const response = await api.get(endpoints.GET_MY_REQUESTS);
+export const getMyRequests = async (page = 1, limit = 50) => {
+  const response = await api.get(
+    `${endpoints.GET_MY_REQUESTS}?page=${page}&limit=${limit}`,
+  );
   return response.data;
 };
-export const getOthersRequests = async () => {
-  const response = await api.get(endpoints.GET_OTHERS_REQUESTS);
+export const getOthersRequests = async (page = 1, limit = 50) => {
+  const response = await api.get(
+    `${endpoints.GET_OTHERS_REQUESTS}?page=${page}&limit=${limit}`,
+  );
   return response.data;
 };
-export const getManagedRequests = async () => {
-  const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
+export const getManagedRequests = async (page = 1, limit = 50) => {
+  const response = await api.get(
+    `${endpoints.GET_MANAGED_REQUESTS}?page=${page}&limit=${limit}`,
+  );
+  return response.data;
+};
+
+// New function to get all requests for admin/steward roles with pagination
+export const getAllRequests = async (page = 1, limit = 50) => {
+  const response = await api.get(
+    `${endpoints.GET_MY_REQUESTS}?page=${page}&limit=${limit}&all=true`,
+  );
   return response.data;
 };
 export const getComments = async () => {

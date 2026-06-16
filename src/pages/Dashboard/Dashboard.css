@@ -1,3 +1,24 @@
 .table-height-fix {
   height: calc(100vh - 21em);
 }
+
+/* Fix dropdown z-index and positioning issues */
+.dropdown-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 9999;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  min-width: 8rem;
+  max-width: 20rem;
+}
