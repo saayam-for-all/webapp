@@ -39,7 +39,11 @@ import {
   Radio,
   FormControlLabel,
 } from "@mui/material";
-import { waitForGeneratedSubject } from "./waitForGeneratedSubject";
+import {
+  SUBJECT_GENERATION_POLL_INTERVAL_MS,
+  SUBJECT_GENERATION_WAIT_TIMEOUT_MS,
+  waitForGeneratedSubject,
+} from "./waitForGeneratedSubject";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -207,11 +211,16 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       // );
       else {
         if (
+          formDataRef.current.category === "General" &&
           formDataRef.current.description.trim() !== "" &&
           formDataRef.current.subject.trim() === ""
         ) {
           const isSubjectReady = await waitForGeneratedSubject(
             () => formDataRef.current.subject,
+            {
+              timeoutMs: SUBJECT_GENERATION_WAIT_TIMEOUT_MS,
+              pollIntervalMs: SUBJECT_GENERATION_POLL_INTERVAL_MS,
+            },
           );
 
           if (!isSubjectReady) {
