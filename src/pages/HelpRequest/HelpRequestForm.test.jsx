@@ -850,11 +850,96 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
     expect(generateSubject).not.toHaveBeenCalled();
   });
 
-  it("logs error and leaves subject empty when generateSubject API fails", async () => {
+  it("falls back to description (first 70 chars) as subject when generateSubject API fails", async () => {
     const { generateSubject } = require("../../services/requestServices");
+    const {
+      checkProfanity,
+      createRequest,
+    } = require("../../services/requestServices");
     generateSubject.mockRejectedValue(new Error("API error"));
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-FALLBACK" } });
 
     renderForm();
+
+    // Select a non-General category to bypass the predict-categories modal
+    selectSubcategory();
+
+    const description = "I need help picking up groceries from the store.";
+    await act(async () => {
+      fireEvent.change(document.getElementById("description"), {
+        target: { name: "description", value: description },
+      });
+    });
+
+    // generateSubject should NOT be called while typing
+    expect(generateSubject).not.toHaveBeenCalled();
+
+    // generateSubject is called on submit, fails, then fallback kicks in
+    await act(async () => {
+      fireEvent.submit(document.querySelector("form"));
+    });
+
+    expect(generateSubject).toHaveBeenCalled();
+
+    // Subject field should be populated with the first 70 chars of description
+    await waitFor(() => {
+      expect(document.getElementById("subject").value).toBe(
+        description.slice(0, 70),
+      );
+    });
+
+    // The request should still be submitted (not blocked by blank subject)
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+  });
+
+  it("falls back to description when generateSubject returns empty body", async () => {
+    const { generateSubject } = require("../../services/requestServices");
+    const {
+      checkProfanity,
+      createRequest,
+    } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({ body: null });
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-NOBODY" } });
+
+    renderForm();
+
+    selectSubcategory();
+
+    const description = "Help me with my apartment lease review please.";
+    await act(async () => {
+      fireEvent.change(document.getElementById("description"), {
+        target: { name: "description", value: description },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.submit(document.querySelector("form"));
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("subject").value).toBe(
+        description.slice(0, 70),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+  });
+
+  it("passes resolved subject (not stale formData.subject) to checkProfanity", async () => {
+    const {
+      generateSubject,
+      checkProfanity,
+    } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({
+      body: { subject: "AI Generated Subject", max_length: 70 },
+    });
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+
+    renderForm();
+
+    selectSubcategory();
 
     await act(async () => {
       fireEvent.change(document.getElementById("description"), {
@@ -865,16 +950,16 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
       });
     });
 
-    //generateSubject should NOT be called while typing
-    expect(generateSubject).not.toHaveBeenCalled();
-
-    //generateSubject should be called on submit
     await act(async () => {
       fireEvent.submit(document.querySelector("form"));
     });
 
-    expect(generateSubject).toHaveBeenCalled();
-    expect(document.getElementById("subject").value).toBe("");
+    await waitFor(() => expect(checkProfanity).toHaveBeenCalled());
+
+    // checkProfanity must receive the AI-generated subject, not the original ""
+    expect(checkProfanity).toHaveBeenCalledWith(
+      expect.objectContaining({ subject: "AI Generated Subject" }),
+    );
   });
 
   it("does not overwrite subject the user has manually typed", async () => {
