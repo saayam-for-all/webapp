@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 const LABEL_WORD_OVERRIDES = {
@@ -33,6 +33,8 @@ const toTitleCase = (str) =>
     })
     .join(" ");
 
+const EMPTY_FIELD_VALUES = {};
+
 /**
  * DynamicAdditionalFields
  *
@@ -41,12 +43,15 @@ const toTitleCase = (str) =>
  *
  * Props:
  *   catId        – currently selected category ID (e.g. "1.1", "6.4")
- *   onChange      – callback receiving { [fieldId]: value } on every change
- *   initialValues – optional pre-filled values (for edit mode)
+ *   value        – current field values owned by the parent form
+ *   onChange     – callback receiving { [fieldId]: value } on every change
  */
-const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
+const DynamicAdditionalFields = ({
+  catId,
+  value = EMPTY_FIELD_VALUES,
+  onChange,
+}) => {
   const { t } = useTranslation("metadata");
-  const [fieldValues, setFieldValues] = useState({});
 
   // ── Resolve metadata for the current catId ──────────────────────────
   const metadataFields = useMemo(() => {
@@ -73,48 +78,44 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
     }
   }, [catId]);
 
-  // ── Reset field values when catId changes ───────────────────────────
-  useEffect(() => {
-    if (initialValues) {
-      setFieldValues(initialValues);
-    } else {
-      setFieldValues({});
-    }
-  }, [catId]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // ── Propagate changes to parent ─────────────────────────────────────
-  useEffect(() => {
-    if (metadataFields.length > 0) {
-      onChange(fieldValues);
-    }
-  }, [fieldValues]); // eslint-disable-line react-hooks/exhaustive-deps
-
   // ── Nothing to render ───────────────────────────────────────────────
   if (metadataFields.length === 0) return null;
 
   // ── Helpers ─────────────────────────────────────────────────────────
-  const updateField = (fieldId, value) => {
-    setFieldValues((prev) => ({ ...prev, [fieldId]: value }));
+  const updateField = (fieldId, nextValue) => {
+    onChange({ ...value, [fieldId]: nextValue });
   };
 
   const toggleCheckbox = (fieldId, itemValue) => {
-    setFieldValues((prev) => {
-      const current = Array.isArray(prev[fieldId]) ? prev[fieldId] : [];
-      const next = current.includes(itemValue)
-        ? current.filter((v) => v !== itemValue)
-        : [...current, itemValue];
-      return { ...prev, [fieldId]: next };
+    const current = Array.isArray(value[fieldId]) ? value[fieldId] : [];
+    const next = current.includes(itemValue)
+      ? current.filter((v) => v !== itemValue)
+      : [...current, itemValue];
+    onChange({ ...value, [fieldId]: next });
+  };
+
+  const updateListItemValue = (fieldId, itemId, nextValue) => {
+    const current =
+      value[fieldId] !== null &&
+      typeof value[fieldId] === "object" &&
+      !Array.isArray(value[fieldId])
+        ? value[fieldId]
+        : {};
+    onChange({
+      ...value,
+      [fieldId]: { ...current, [itemId]: nextValue },
     });
   };
 
-  const updateListItemValue = (fieldId, itemId, value) => {
-    setFieldValues((prev) => {
-      const current =
-        typeof prev[fieldId] === "object" && !Array.isArray(prev[fieldId])
-          ? prev[fieldId]
-          : {};
-      return { ...prev, [fieldId]: { ...current, [itemId]: value } };
-    });
+  const getFieldValue = (fieldId) => value[fieldId] ?? "";
+
+  const getNestedFieldValue = (fieldId, itemId) => {
+    const current = value[fieldId];
+    return current !== null &&
+      typeof current === "object" &&
+      !Array.isArray(current)
+      ? (current[itemId] ?? "")
+      : "";
   };
 
   const translateMetadataLabel = (key, fallback) => {
@@ -142,8 +143,8 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
               name={fieldId}
               value={item.itemId}
               checked={
-                Array.isArray(fieldValues[fieldId]) &&
-                fieldValues[fieldId].includes(item.itemId)
+                Array.isArray(value[fieldId]) &&
+                value[fieldId].includes(item.itemId)
               }
               onChange={() => updateField(fieldId, [item.itemId])}
               className="rounded"
@@ -158,8 +159,8 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
           <label key={key} className="flex items-center space-x-2">
             <input
               type="checkbox"
-              checked={(Array.isArray(fieldValues[fieldId])
-                ? fieldValues[fieldId]
+              checked={(Array.isArray(value[fieldId])
+                ? value[fieldId]
                 : []
               ).includes(item.itemId)}
               onChange={() => toggleCheckbox(fieldId, item.itemId)}
@@ -178,12 +179,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             </span>
             <input
               type="text"
-              value={
-                (typeof fieldValues[fieldId] === "object" &&
-                  !Array.isArray(fieldValues[fieldId]) &&
-                  fieldValues[fieldId]?.[item.itemId]) ||
-                ""
-              }
+              value={getNestedFieldValue(fieldId, item.itemId)}
               onChange={(e) =>
                 updateListItemValue(fieldId, item.itemId, e.target.value)
               }
@@ -201,12 +197,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             </span>
             <input
               type="number"
-              value={
-                (typeof fieldValues[fieldId] === "object" &&
-                  !Array.isArray(fieldValues[fieldId]) &&
-                  fieldValues[fieldId]?.[item.itemId]) ||
-                ""
-              }
+              value={getNestedFieldValue(fieldId, item.itemId)}
               onChange={(e) =>
                 updateListItemValue(fieldId, item.itemId, e.target.value)
               }
@@ -228,12 +219,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
                 type="number"
                 min="0"
                 step="0.01"
-                value={
-                  (typeof fieldValues[fieldId] === "object" &&
-                    !Array.isArray(fieldValues[fieldId]) &&
-                    fieldValues[fieldId]?.[item.itemId]) ||
-                  ""
-                }
+                value={getNestedFieldValue(fieldId, item.itemId)}
                 onChange={(e) =>
                   updateListItemValue(fieldId, item.itemId, e.target.value)
                 }
@@ -252,12 +238,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             </span>
             <input
               type="date"
-              value={
-                (typeof fieldValues[fieldId] === "object" &&
-                  !Array.isArray(fieldValues[fieldId]) &&
-                  fieldValues[fieldId]?.[`${item.itemId}_date`]) ||
-                ""
-              }
+              value={getNestedFieldValue(fieldId, `${item.itemId}_date`)}
               onChange={(e) =>
                 updateListItemValue(
                   fieldId,
@@ -270,12 +251,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             />
             <input
               type="time"
-              value={
-                (typeof fieldValues[fieldId] === "object" &&
-                  !Array.isArray(fieldValues[fieldId]) &&
-                  fieldValues[fieldId]?.[`${item.itemId}_time`]) ||
-                ""
-              }
+              value={getNestedFieldValue(fieldId, `${item.itemId}_time`)}
               onChange={(e) =>
                 updateListItemValue(
                   fieldId,
@@ -309,7 +285,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             </label>
             <input
               type="text"
-              value={fieldValues[fieldId] || ""}
+              value={getFieldValue(fieldId)}
               onChange={(e) => updateField(fieldId, e.target.value)}
               className="w-full rounded-lg border border-gray-300 py-2 px-3"
               data-testid={`field-${fieldId}`}
@@ -328,7 +304,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             <input
               type="number"
               min="0"
-              value={fieldValues[fieldId] || ""}
+              value={getFieldValue(fieldId)}
               onChange={(e) => updateField(fieldId, e.target.value)}
               className="w-full rounded-lg border border-gray-300 py-2 px-3"
               data-testid={`field-${fieldId}`}
@@ -342,7 +318,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
           <div key={fieldId} className="mt-3 flex items-center space-x-2">
             <input
               type="checkbox"
-              checked={fieldValues[fieldId] === "true"}
+              checked={value[fieldId] === "true"}
               onChange={(e) =>
                 updateField(fieldId, e.target.checked ? "true" : "false")
               }
@@ -363,11 +339,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             <div className="flex gap-2">
               <input
                 type="date"
-                value={
-                  (fieldValues[fieldId] &&
-                    fieldValues[fieldId][`${fieldId}_date`]) ||
-                  ""
-                }
+                value={getNestedFieldValue(fieldId, `${fieldId}_date`)}
                 onChange={(e) =>
                   updateListItemValue(
                     fieldId,
@@ -380,11 +352,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
               />
               <input
                 type="time"
-                value={
-                  (fieldValues[fieldId] &&
-                    fieldValues[fieldId][`${fieldId}_time`]) ||
-                  ""
-                }
+                value={getNestedFieldValue(fieldId, `${fieldId}_time`)}
                 onChange={(e) =>
                   updateListItemValue(
                     fieldId,
@@ -408,7 +376,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             </label>
             <input
               type="time"
-              value={fieldValues[fieldId] || ""}
+              value={getFieldValue(fieldId)}
               onChange={(e) => updateField(fieldId, e.target.value)}
               className="rounded-lg border border-gray-300 py-2 px-3"
               data-testid={`field-${fieldId}`}
@@ -429,7 +397,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
                 type="number"
                 min="0"
                 step="0.01"
-                value={fieldValues[fieldId] || ""}
+                value={getFieldValue(fieldId)}
                 onChange={(e) => updateField(fieldId, e.target.value)}
                 className="w-full rounded-lg border border-gray-300 py-2 px-3"
                 data-testid={`field-${fieldId}`}
