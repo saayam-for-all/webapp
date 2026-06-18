@@ -291,6 +291,25 @@ const sampleMetadata = [
     ],
   },
   {
+    catId: "unknown-list-item",
+    fields: [
+      {
+        fieldId: "uli.A",
+        fieldNameKey: "UNKNOWN_LIST_ITEM",
+        fieldType: "list",
+        status: "active",
+        catId: "unknown-list-item",
+        listItems: [
+          {
+            itemId: "uli.A.1",
+            itemValue: "UNSUPPORTED_OPTION",
+            itemType: "unsupportedType",
+          },
+        ],
+      },
+    ],
+  },
+  {
     catId: "unknown-type",
     fields: [
       {
@@ -766,6 +785,16 @@ describe("DynamicAdditionalFields", () => {
     expect(screen.getByTestId("text-ml.A.2")).toBeInTheDocument();
   });
 
+  it("skips unsupported list item types", () => {
+    const onChange = jest.fn();
+    render(
+      <DynamicAdditionalFields catId="unknown-list-item" onChange={onChange} />,
+    );
+
+    expect(screen.getByText("Unknown List Item")).toBeInTheDocument();
+    expect(screen.queryByText("Unsupported Option")).not.toBeInTheDocument();
+  });
+
   // ── Unknown field type ──────────────────────────────────────────────
 
   it("renders the wrapper but skips unknown field types", () => {
@@ -789,6 +818,25 @@ describe("DynamicAdditionalFields", () => {
       />,
     );
     expect(screen.getByTestId("radio-1.1.A.2")).toBeChecked();
+  });
+
+  it("preserves controlled zero values", () => {
+    const onChange = jest.fn();
+    render(
+      <DynamicAdditionalFields
+        catId="3.6"
+        onChange={onChange}
+        value={{
+          "3.6.D": 0,
+          "3.6.J": {
+            "3.6.J.1": 0,
+          },
+        }}
+      />,
+    );
+
+    expect(screen.getByTestId("field-3.6.D")).toHaveValue(0);
+    expect(screen.getByTestId("int-3.6.J.1")).toHaveValue(0);
   });
 
   // ── Sub-sub-category fallback ────────────────────────────────────────
