@@ -1737,7 +1737,11 @@ describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
   });
 
   it("passes selectedCategoryId to DynamicAdditionalFields not hierarchy string", async () => {
-    const { predictCategories } = require("../../services/requestServices");
+    const {
+      checkProfanity,
+      predictCategories,
+    } = require("../../services/requestServices");
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -1811,6 +1815,54 @@ describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
     selectSubcategory();
 
     expect(screen.getByTestId("radio-sub-college.A.1")).toBeInTheDocument();
+    localStorage.removeItem("metadata");
+  });
+
+  it("preserves selected additional info values when switching tabs", () => {
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "sub-college",
+          fields: [
+            {
+              fieldId: "sub-college.A",
+              fieldNameKey: "PREFERRED_MEAL_TYPE",
+              fieldType: "list",
+              status: "active",
+              catId: "sub-college",
+              listItems: [
+                {
+                  itemId: "sub-college.A.1",
+                  itemValue: "VEGETARIAN",
+                  itemType: "radiobutton",
+                },
+                {
+                  itemId: "sub-college.A.2",
+                  itemValue: "VEGAN",
+                  itemType: "radiobutton",
+                },
+              ],
+            },
+          ],
+        },
+      ]),
+    );
+
+    renderForm();
+    selectSubcategory();
+
+    fireEvent.click(screen.getByTestId("radio-sub-college.A.1"));
+    expect(screen.getByTestId("radio-sub-college.A.1")).toBeChecked();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+    expect(
+      screen.queryByTestId("radio-sub-college.A.1"),
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("mockTranslate(DESCRIPTION)"));
+    expect(screen.getByTestId("radio-sub-college.A.1")).toBeChecked();
+
     localStorage.removeItem("metadata");
   });
 });

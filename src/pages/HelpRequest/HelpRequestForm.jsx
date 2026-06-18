@@ -782,8 +782,19 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     };
   }, []);
 
+  const resetAdditionalFields = () => {
+    setAdditionalFieldValues({});
+  };
+
+  const resetAdditionalFieldsForCategoryChange = (nextCategoryId) => {
+    if (nextCategoryId !== selectedCategoryId) {
+      resetAdditionalFields();
+    }
+  };
+
   const handleCategoryClick = (categoryKeyOrId) => {
     const resolvedId = resolveCatNameToId(categoryKeyOrId);
+    resetAdditionalFieldsForCategoryChange(resolvedId);
     setFormData({
       ...formData,
       category: categoryKeyOrId,
@@ -818,6 +829,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       }
 
       // set the category input immediately so the category field shows the selected subcategory
+      resetAdditionalFieldsForCategoryChange(subcategoryId);
       setFormData({
         ...formData,
         category: subcategoryId,
@@ -836,6 +848,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       return;
     } else {
       // Popup modal for subcategory - For other categories, proceed normally
+      resetAdditionalFieldsForCategoryChange(subcategoryId);
       setFormData({
         ...formData,
         category: subcategoryId,
@@ -876,6 +889,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       ...formData,
       category: subcategory.id,
     });
+    resetAdditionalFieldsForCategoryChange(subcategory.id);
     setSelectedCategoryId(subcategory.id);
     setCategoryConfirmed(false);
 
@@ -907,6 +921,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         ...formData,
         category: "",
       });
+      resetAdditionalFields();
       setSelectedCategoryId(null);
       setCategoryConfirmed(false);
     }
@@ -930,10 +945,12 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     const matched = suggestedCategories.find(
       (c) => (c.category_number ?? c.name) === newCategory,
     );
+    const nextCategoryId = matched?.category_number ?? newCategory;
     const newCategoryDisplay =
       matched?.hierarchy ?? matched?.displayName ?? newCategory;
     setFormData({ ...formData, category: newCategoryDisplay });
-    setSelectedCategoryId(matched?.category_number ?? newCategory);
+    resetAdditionalFieldsForCategoryChange(nextCategoryId);
+    setSelectedCategoryId(nextCategoryId);
     setCategoryConfirmed(true); // unlock submission
     setShowModal(false);
 
@@ -1598,6 +1615,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                 {/* Dynamic additional fields from metadata */}
                 <DynamicAdditionalFields
                   catId={selectedCategoryId}
+                  value={additionalFieldValues}
                   onChange={setAdditionalFieldValues}
                 />
 

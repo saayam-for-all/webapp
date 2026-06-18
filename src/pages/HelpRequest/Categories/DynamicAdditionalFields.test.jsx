@@ -291,6 +291,25 @@ const sampleMetadata = [
     ],
   },
   {
+    catId: "unknown-list-item",
+    fields: [
+      {
+        fieldId: "uli.A",
+        fieldNameKey: "UNKNOWN_LIST_ITEM",
+        fieldType: "list",
+        status: "active",
+        catId: "unknown-list-item",
+        listItems: [
+          {
+            itemId: "uli.A.1",
+            itemValue: "UNSUPPORTED_OPTION",
+            itemType: "unsupportedType",
+          },
+        ],
+      },
+    ],
+  },
+  {
     catId: "unknown-type",
     fields: [
       {
@@ -420,9 +439,20 @@ describe("DynamicAdditionalFields", () => {
 
   it("calls onChange correctly when checkbox is toggled off", () => {
     const onChange = jest.fn();
-    render(<DynamicAdditionalFields catId="1.1" onChange={onChange} />);
+    const { rerender } = render(
+      <DynamicAdditionalFields catId="1.1" onChange={onChange} />,
+    );
     // Toggle on
     fireEvent.click(screen.getByTestId("checkbox-1.1.B.1"));
+    const firstCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
+    rerender(
+      <DynamicAdditionalFields
+        catId="1.1"
+        value={firstCall}
+        onChange={onChange}
+      />,
+    );
+
     // Toggle off
     fireEvent.click(screen.getByTestId("checkbox-1.1.B.1"));
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
@@ -521,13 +551,13 @@ describe("DynamicAdditionalFields", () => {
     expect(lastCall["3.7.B"]["3.7.B_time"]).toBe("14:30");
   });
 
-  it("renders date&time fields with initial values", () => {
+  it("renders date&time fields with controlled values", () => {
     const onChange = jest.fn();
     render(
       <DynamicAdditionalFields
         catId="3.7"
         onChange={onChange}
-        initialValues={{
+        value={{
           "3.7.B": {
             "3.7.B_date": "2026-03-15",
             "3.7.B_time": "14:30",
@@ -553,10 +583,20 @@ describe("DynamicAdditionalFields", () => {
 
   it("calls onChange when standalone checkbox is toggled", () => {
     const onChange = jest.fn();
-    render(<DynamicAdditionalFields catId="3.7" onChange={onChange} />);
+    const { rerender } = render(
+      <DynamicAdditionalFields catId="3.7" onChange={onChange} />,
+    );
     fireEvent.click(screen.getByTestId("field-3.7.D"));
     const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
     expect(lastCall["3.7.D"]).toBe("true");
+
+    rerender(
+      <DynamicAdditionalFields
+        catId="3.7"
+        value={lastCall}
+        onChange={onChange}
+      />,
+    );
 
     // Click again to uncheck and verify "false" is sent
     fireEvent.click(screen.getByTestId("field-3.7.D"));
@@ -564,13 +604,13 @@ describe("DynamicAdditionalFields", () => {
     expect(secondCall["3.7.D"]).toBe("false");
   });
 
-  it("renders standalone checkbox with initial 'true' value", () => {
+  it("renders standalone checkbox with controlled 'true' value", () => {
     const onChange = jest.fn();
     render(
       <DynamicAdditionalFields
         catId="3.7"
         onChange={onChange}
-        initialValues={{
+        value={{
           "3.7.D": "true",
         }}
       />,
@@ -578,13 +618,13 @@ describe("DynamicAdditionalFields", () => {
     expect(screen.getByTestId("field-3.7.D")).toBeChecked();
   });
 
-  it("renders standalone checkbox with initial 'false' value", () => {
+  it("renders standalone checkbox with controlled 'false' value", () => {
     const onChange = jest.fn();
     render(
       <DynamicAdditionalFields
         catId="3.7"
         onChange={onChange}
-        initialValues={{
+        value={{
           "3.7.D": "false",
         }}
       />,
@@ -745,6 +785,16 @@ describe("DynamicAdditionalFields", () => {
     expect(screen.getByTestId("text-ml.A.2")).toBeInTheDocument();
   });
 
+  it("skips unsupported list item types", () => {
+    const onChange = jest.fn();
+    render(
+      <DynamicAdditionalFields catId="unknown-list-item" onChange={onChange} />,
+    );
+
+    expect(screen.getByText("Unknown List Item")).toBeInTheDocument();
+    expect(screen.queryByText("Unsupported Option")).not.toBeInTheDocument();
+  });
+
   // ── Unknown field type ──────────────────────────────────────────────
 
   it("renders the wrapper but skips unknown field types", () => {
@@ -756,18 +806,37 @@ describe("DynamicAdditionalFields", () => {
     expect(screen.queryByText("Unknown")).not.toBeInTheDocument();
   });
 
-  // ── initialValues prop ──────────────────────────────────────────────
+  // ── Controlled value prop ───────────────────────────────────────────
 
-  it("uses initialValues when provided", () => {
+  it("uses controlled value when provided", () => {
     const onChange = jest.fn();
     render(
       <DynamicAdditionalFields
         catId="1.1"
         onChange={onChange}
-        initialValues={{ "1.1.A": ["1.1.A.2"] }}
+        value={{ "1.1.A": ["1.1.A.2"] }}
       />,
     );
     expect(screen.getByTestId("radio-1.1.A.2")).toBeChecked();
+  });
+
+  it("preserves controlled zero values", () => {
+    const onChange = jest.fn();
+    render(
+      <DynamicAdditionalFields
+        catId="3.6"
+        onChange={onChange}
+        value={{
+          "3.6.D": 0,
+          "3.6.J": {
+            "3.6.J.1": 0,
+          },
+        }}
+      />,
+    );
+
+    expect(screen.getByTestId("field-3.6.D")).toHaveValue(0);
+    expect(screen.getByTestId("int-3.6.J.1")).toHaveValue(0);
   });
 
   // ── Sub-sub-category fallback ────────────────────────────────────────
