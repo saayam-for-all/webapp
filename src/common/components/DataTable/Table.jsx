@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Pagination from "../Pagination/Pagination";
 
 const Table = ({
@@ -16,7 +17,12 @@ const Table = ({
   getLinkPath,
   getLinkState = undefined,
 }) => {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const getTranslatedStatus = (status) =>
+    t(`REQUEST_STATUS_${status}`, {
+      defaultValue: status?.replaceAll("_", " ") || "",
+    });
   const paginatedRequests = useMemo(() => {
     return rows.slice(
       (currentPage - 1) * itemsPerPage,
@@ -82,6 +88,8 @@ const Table = ({
                       >
                         {request[header]}
                       </Link>
+                    ) : header === "status" ? (
+                      getTranslatedStatus(request[header])
                     ) : (
                       request[header]
                     )}

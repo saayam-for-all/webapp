@@ -38,6 +38,14 @@ const Dashboard = ({ userRole }) => {
   const [statusFilter, setStatusFilter] = useState({
     Open: true,
     Closed: false,
+    CREATED: true,
+    MATCHING_VOLUNTEER: true,
+    IN_PROGRESS: true,
+    RESOLVED: true,
+    CANCELLED: true,
+    DELETED: true,
+    RATED_BY_REQUESTER: true,
+    RATED_BY_VOLUNTEER: true,
   });
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -98,6 +106,14 @@ const Dashboard = ({ userRole }) => {
     setStatusFilter({
       Open: true,
       Closed: false,
+      CREATED: true,
+      MATCHING_VOLUNTEER: true,
+      IN_PROGRESS: true,
+      RESOLVED: true,
+      CANCELLED: true,
+      DELETED: true,
+      RATED_BY_REQUESTER: true,
+      RATED_BY_VOLUNTEER: true,
     });
     setCategoryFilter(allCategories);
   };
@@ -328,7 +344,7 @@ const Dashboard = ({ userRole }) => {
               tabIndex={0}
             >
               <button className="py-2 px-4 p-2 font-light text-gray-600">
-                {t("Status")}
+                {t("STATUS")}
               </button>
               <IoIosArrowDown className="m-2" />
             </div>
@@ -341,7 +357,9 @@ const Dashboard = ({ userRole }) => {
                       checked={statusFilter[status]}
                       onChange={() => handleStatusChange(status)}
                     />
-                    {status}
+                    {t(`REQUEST_STATUS_${status}`, {
+                      defaultValue: status?.replaceAll("_", " ") || "",
+                    })}
                   </label>
                 ))}
               </div>

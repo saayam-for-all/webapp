@@ -7,5 +7,13 @@
   "MISSION": "مشن",
   "VISION": "اولین مقصد",
   "CONTACT": "رابطہ کریں۔",
-  "DASHBOARD": "ڈیش بورڈ"
+  "DASHBOARD": "ڈیش بورڈ",
+  "REQUEST_STATUS_CREATED": "بنایا گیا",
+  "REQUEST_STATUS_MATCHING_VOLUNTEER": "رضاکار ملایا جا رہا ہے",
+  "REQUEST_STATUS_IN_PROGRESS": "جاری ہے",
+  "REQUEST_STATUS_RESOLVED": "حل ہو گیا",
+  "REQUEST_STATUS_CANCELLED": "منسوخ کر دیا گیا",
+  "REQUEST_STATUS_DELETED": "حذف کر دیا گیا",
+  "REQUEST_STATUS_RATED_BY_REQUESTER": "درخواست گزار کی طرف سے درجہ بندی کی گئی",
+  "REQUEST_STATUS_RATED_BY_VOLUNTEER": "رضاکار کی طرف سے درجہ بندی کی گئی"
 }
