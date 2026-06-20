@@ -357,7 +357,7 @@ const Dashboard = ({ userRole }) => {
                       checked={statusFilter[status]}
                       onChange={() => handleStatusChange(status)}
                     />
-                    {t(`REQUEST_STATUS_${status}`, {
+                    {t(status, {
                       defaultValue: status?.replaceAll("_", " ") || "",
                     })}
                   </label>

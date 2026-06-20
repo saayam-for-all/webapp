@@ -56,7 +56,7 @@ const RequestDescription = ({ requestData, setIsEditing }) => {
               ))}
             <li>
               <span className="bg-green-200 text-black-800 text-xs md:text-sm px-3 py-1 rounded-full items-center flex">
-                {t(`REQUEST_STATUS_${requestData.status}`, {
+                {t(requestData.status, {
                   defaultValue: requestData.status?.replaceAll("_", " ") || "",
                 })}
               </span>

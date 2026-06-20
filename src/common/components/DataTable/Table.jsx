@@ -20,7 +20,7 @@ const Table = ({
   const { t } = useTranslation();
 
   const getTranslatedStatus = (status) =>
-    t(`REQUEST_STATUS_${status}`, {
+    t(status, {
       defaultValue: status?.replaceAll("_", " ") || "",
     });
   const paginatedRequests = useMemo(() => {

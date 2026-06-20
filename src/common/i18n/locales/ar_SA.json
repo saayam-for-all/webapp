@@ -8,12 +8,12 @@
   "VISION": "رؤية",
   "CONTACT": "اتصال",
   "DASHBOARD": "لوحة القيادة",
-  "REQUEST_STATUS_CREATED": "تم الإنشاء",
-  "REQUEST_STATUS_MATCHING_VOLUNTEER": "جاري مطابقة المتطوع",
-  "REQUEST_STATUS_IN_PROGRESS": "قيد التنفيذ",
-  "REQUEST_STATUS_RESOLVED": "تم الحل",
-  "REQUEST_STATUS_CANCELLED": "تم الإلغاء",
-  "REQUEST_STATUS_DELETED": "تم الحذف",
-  "REQUEST_STATUS_RATED_BY_REQUESTER": "تم التقييم بواسطة مقدم الطلب",
-  "REQUEST_STATUS_RATED_BY_VOLUNTEER": "تم التقييم بواسطة المتطوع"
+  "CREATED": "تم الإنشاء",
+  "MATCHING_VOLUNTEER": "جاري مطابقة المتطوع",
+  "IN_PROGRESS": "قيد التنفيذ",
+  "RESOLVED": "تم الحل",
+  "CANCELLED": "تم الإلغاء",
+  "DELETED": "تم الحذف",
+  "RATED_BY_REQUESTER": "تم التقييم بواسطة مقدم الطلب",
+  "RATED_BY_VOLUNTEER": "تم التقييم بواسطة المتطوع"
 }
