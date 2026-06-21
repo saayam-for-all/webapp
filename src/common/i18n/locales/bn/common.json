@@ -757,5 +757,13 @@
   "FIND_BY_PHONE": "ফোন দিয়ে খুঁজুন",
   "ENTER_VOLUNTEER_EMAIL": "স্বেচ্ছাসেবকের ইমেইল লিখুন",
   "ENTER_VOLUNTEER_PHONE": "স্বেচ্ছাসেবকের ফোন লিখুন",
-  "SEARCH_TAGLINE": "মানবিক স্পর্শ সহ গুগল*"
+  "SEARCH_TAGLINE": "মানবিক স্পর্শ সহ গুগল*",
+  "CREATED": "তৈরি হয়েছে",
+  "MATCHING_VOLUNTEER": "স্বেচ্ছাসেবক মিলানো হচ্ছে",
+  "IN_PROGRESS": "চলমান",
+  "RESOLVED": "সমাধান হয়েছে",
+  "CANCELLED": "বাতিল হয়েছে",
+  "DELETED": "মুছে ফেলা হয়েছে",
+  "RATED_BY_REQUESTER": "অনুরোধকারীর দ্বারা রেট করা হয়েছে",
+  "RATED_BY_VOLUNTEER": "স্বেচ্ছাসেবকের দ্বারা রেট করা হয়েছে"
 }

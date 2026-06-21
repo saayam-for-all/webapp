@@ -418,5 +418,13 @@
   "ENTER_VOLUNTEER_EMAIL": "رضاکار کا ای میل درج کریں",
   "ENTER_VOLUNTEER_PHONE": "رضاکار کا فون درج کریں",
   "SEARCH_PLACEHOLDER": "Saayam سے مدد مانگیں",
-  "SEARCH_TAGLINE": "انسانی لمس کے ساتھ گوگل*"
+  "SEARCH_TAGLINE": "انسانی لمس کے ساتھ گوگل*",
+  "CREATED": "بنایا گیا",
+  "MATCHING_VOLUNTEER": "رضاکار ملایا جا رہا ہے",
+  "IN_PROGRESS": "جاری ہے",
+  "RESOLVED": "حل ہو گیا",
+  "CANCELLED": "منسوخ کر دیا گیا",
+  "DELETED": "حذف کر دیا گیا",
+  "RATED_BY_REQUESTER": "درخواست گزار کی طرف سے درجہ بندی کی گئی",
+  "RATED_BY_VOLUNTEER": "رضاکار کی طرف سے درجہ بندی کی گئی"
 }
