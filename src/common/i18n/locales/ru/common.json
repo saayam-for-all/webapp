@@ -757,5 +757,13 @@
   "FIND_BY_PHONE": "Найти по телефону",
   "ENTER_VOLUNTEER_EMAIL": "Введите email волонтёра",
   "ENTER_VOLUNTEER_PHONE": "Введите телефон волонтёра",
-  "SEARCH_TAGLINE": "гугл с человеческим прикосновением*"
+  "SEARCH_TAGLINE": "гугл с человеческим прикосновением*",
+  "CREATED": "Создано",
+  "MATCHING_VOLUNTEER": "Подбирается волонтёр",
+  "IN_PROGRESS": "В процессе",
+  "RESOLVED": "Решено",
+  "CANCELLED": "Отменено",
+  "DELETED": "Удалено",
+  "RATED_BY_REQUESTER": "Оценено заявителем",
+  "RATED_BY_VOLUNTEER": "Оценено волонтёром"
 }

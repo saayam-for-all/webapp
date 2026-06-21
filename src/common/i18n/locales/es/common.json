@@ -757,5 +757,13 @@
   "FIND_BY_PHONE": "Buscar por teléfono",
   "ENTER_VOLUNTEER_EMAIL": "Ingresar correo electrónico del voluntario",
   "ENTER_VOLUNTEER_PHONE": "Ingresar teléfono del voluntario",
-  "SEARCH_TAGLINE": "google con toque humano*"
+  "SEARCH_TAGLINE": "google con toque humano*",
+  "CREATED": "Creado",
+  "MATCHING_VOLUNTEER": "Asignando voluntario",
+  "IN_PROGRESS": "En progreso",
+  "RESOLVED": "Resuelto",
+  "CANCELLED": "Cancelado",
+  "DELETED": "Eliminado",
+  "RATED_BY_REQUESTER": "Valorado por el solicitante",
+  "RATED_BY_VOLUNTEER": "Valorado por el voluntario"
 }

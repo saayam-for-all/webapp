@@ -757,5 +757,13 @@
   "FIND_BY_PHONE": "Nach Telefon suchen",
   "ENTER_VOLUNTEER_EMAIL": "Freiwilligen-E-Mail eingeben",
   "ENTER_VOLUNTEER_PHONE": "Freiwilligentelefon eingeben",
-  "SEARCH_TAGLINE": "google mit menschlichem Touch*"
+  "SEARCH_TAGLINE": "google mit menschlichem Touch*",
+  "CREATED": "Erstellt",
+  "MATCHING_VOLUNTEER": "Freiwilliger wird zugeordnet",
+  "IN_PROGRESS": "In Bearbeitung",
+  "RESOLVED": "Gelöst",
+  "CANCELLED": "Storniert",
+  "DELETED": "Gelöscht",
+  "RATED_BY_REQUESTER": "Vom Anfragenden bewertet",
+  "RATED_BY_VOLUNTEER": "Vom Freiwilligen bewertet"
 }

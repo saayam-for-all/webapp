@@ -756,5 +756,13 @@
   "FIND_BY_PHONE": "Rechercher par téléphone",
   "ENTER_VOLUNTEER_EMAIL": "Entrer l'e-mail du bénévole",
   "ENTER_VOLUNTEER_PHONE": "Entrer le téléphone du bénévole",
-  "SEARCH_TAGLINE": "google avec une touche humaine*"
+  "SEARCH_TAGLINE": "google avec une touche humaine*",
+  "CREATED": "Créé",
+  "MATCHING_VOLUNTEER": "Mise en relation avec un bénévole",
+  "IN_PROGRESS": "En cours",
+  "RESOLVED": "Résolu",
+  "CANCELLED": "Annulé",
+  "DELETED": "Supprimé",
+  "RATED_BY_REQUESTER": "Évalué par le demandeur",
+  "RATED_BY_VOLUNTEER": "Évalué par le bénévole"
 }
