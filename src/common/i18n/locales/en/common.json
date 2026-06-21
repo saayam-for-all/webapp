@@ -785,5 +785,13 @@
   "FIND_BY_PHONE": "Find by Phone",
   "ENTER_VOLUNTEER_EMAIL": "Enter volunteer email",
   "ENTER_VOLUNTEER_PHONE": "Enter volunteer phone",
-  "SEARCH_TAGLINE": "google with human touch*"
+  "SEARCH_TAGLINE": "google with human touch*",
+  "CREATED": "Created",
+  "MATCHING_VOLUNTEER": "Matching Volunteer",
+  "IN_PROGRESS": "In Progress",
+  "RESOLVED": "Resolved",
+  "CANCELLED": "Cancelled",
+  "DELETED": "Deleted",
+  "RATED_BY_REQUESTER": "Rated by Requester",
+  "RATED_BY_VOLUNTEER": "Rated by Volunteer"
 }
