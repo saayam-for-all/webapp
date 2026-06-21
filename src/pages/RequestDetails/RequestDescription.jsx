@@ -29,16 +29,28 @@ const findCategoryLabel = (node, targetKey) => {
 const RequestDescription = ({ requestData }) => {
   const { t, i18n } = useTranslation();
 
-  const cDate = new Date(requestData.creationDate);
-  const formattedDate = cDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const creationDateValue =
+    requestData?.creationDate ||
+    requestData?.createdDate ||
+    requestData?.createdAt;
 
-  // Updated Date - issue #1456
-  const formattedUpdatedDate = requestData.lastUpdatedAt
-    ? new Date(requestData.lastUpdatedAt).toLocaleDateString("en-US", {
+  const formattedDate = creationDateValue
+    ? new Date(creationDateValue).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "—";
+
+  const updatedDateValue =
+    requestData?.lastUpdatedAt ||
+    requestData?.updatedDate ||
+    requestData?.updatedAt ||
+    requestData?.lastUpdated ||
+    requestData?.modifiedDate;
+
+  const formattedUpdatedDate = updatedDateValue
+    ? new Date(updatedDateValue).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -71,7 +83,6 @@ const RequestDescription = ({ requestData }) => {
             </div>
           </li>
 
-          {/* Updated Date - issue #1456 */}
           <li className="flex items-center gap-2 group relative">
             <VscCalendar size={22} />
             <span className="cursor-help border-b border-dashed border-gray-400">
@@ -81,7 +92,6 @@ const RequestDescription = ({ requestData }) => {
               {t("UPDATED_DATE")}
             </div>
           </li>
-
           {/* Category */}
           <li className="flex items-center gap-2">
             <TbTriangleSquareCircle size={22} />
