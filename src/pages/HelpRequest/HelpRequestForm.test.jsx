@@ -56,17 +56,21 @@ jest.mock("../../services/requestApi", () => ({
 
 let mockSuggestions = [];
 let mockHandleSelectSuggestion = jest.fn();
+let capturedSetCoordinates = null;
 
-jest.mock("./location/usePlacesSearchBox", () => () => ({
-  inputRef: { current: null },
-  get suggestions() {
-    return mockSuggestions;
-  },
-  handleSearchChange: jest.fn(),
-  get handleSelectSuggestion() {
-    return mockHandleSelectSuggestion;
-  },
-}));
+jest.mock("./location/usePlacesSearchBox", () => (setLocation, setCoords) => {
+  capturedSetCoordinates = setCoords;
+  return {
+    inputRef: { current: null },
+    get suggestions() {
+      return mockSuggestions;
+    },
+    handleSearchChange: jest.fn(),
+    get handleSelectSuggestion() {
+      return mockHandleSelectSuggestion;
+    },
+  };
+});
 
 jest.mock("../../utils/mapHelpRequestPayload", () => ({
   mapHelpRequestPayload: jest.fn().mockReturnValue({}),
@@ -1791,6 +1795,31 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
       lat: "39.0997",
       lon: "-94.5786",
     });
+  });
+
+  it("updates formData with coordinates when setCoordinates callback is called", async () => {
+    capturedSetCoordinates = null;
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    expect(capturedSetCoordinates).not.toBeNull();
+
+    await act(async () => {
+      capturedSetCoordinates({ latitude: 38.886491, longitude: -94.649869 });
+    });
+
+    expect(document.getElementById("location")).toBeInTheDocument();
   });
 
   it("does not show location field for REMOTE request type", async () => {
