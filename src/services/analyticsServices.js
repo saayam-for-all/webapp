@@ -14,3 +14,8 @@ export const getKpiAnalytics = async () => {
   const response = await api.get(endpoints.GET_KPI_ANALYTICS);
   return response.data;
 };
+
+export const getRequestsTrendAnalysis = async (payload) => {
+  const response = await api.post(endpoints.REQUESTS_TREND_ANALYSIS, payload);
+  return response.data;
+};
