@@ -52,7 +52,14 @@ export const mapHelpRequestPayload = ({
 
   // Include location if provided
   if (formData.location) {
-    payload.requestLocation = formData.location;
+    if (formData.locationCoordinates) {
+      payload.requestLocation = {
+        latitude: formData.locationCoordinates.latitude,
+        longitude: formData.locationCoordinates.longitude,
+      };
+    } else {
+      payload.requestLocation = formData.location;
+    }
   }
 
   // Include audio description if provided

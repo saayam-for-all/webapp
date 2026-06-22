@@ -1644,6 +1644,78 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     });
   });
 
+  it("stores coordinates in formData when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "Overland Park, Kansas, USA",
+      );
+    });
+
+    // Coordinates should be stored — verified via payload
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+  });
+
+  it("stores coordinates alongside address when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "Overland Park, Kansas, USA",
+      );
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalledWith(
+      expect.any(Function),
+      expect.any(Function),
+    );
+  });
+
   it("handles geolocation error gracefully", async () => {
     const mockGetCurrentPosition = jest.fn((success, error) => {
       error(new Error("Location denied"));

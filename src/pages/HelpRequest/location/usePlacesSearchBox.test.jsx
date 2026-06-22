@@ -62,15 +62,26 @@ describe("usePlacesSearchBox", () => {
     expect(result.current.suggestions).toEqual([]);
   });
 
-  it("sets location and clears suggestions when suggestion is selected", () => {
+  it("sets location and coordinates and clears suggestions when suggestion is selected", () => {
     const setLocation = jest.fn();
-    const { result } = renderHook(() => usePlacesSearchBox(setLocation));
+    const setCoordinates = jest.fn();
+    const { result } = renderHook(() =>
+      usePlacesSearchBox(setLocation, setCoordinates),
+    );
 
     act(() => {
-      result.current.handleSelectSuggestion("Kansas City, Missouri, USA");
+      result.current.handleSelectSuggestion({
+        display_name: "Kansas City, Missouri, USA",
+        lat: "39.0997",
+        lon: "-94.5786",
+      });
     });
 
     expect(setLocation).toHaveBeenCalledWith("Kansas City, Missouri, USA");
+    expect(setCoordinates).toHaveBeenCalledWith({
+      latitude: 39.0997,
+      longitude: -94.5786,
+    });
     expect(result.current.suggestions).toEqual([]);
   });
 
