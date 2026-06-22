@@ -436,6 +436,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
               locationCoordinates: { latitude, longitude },
             }));
           }
+          console.log("Coordinates stored:", { latitude, longitude });
         },
         (error) => {
           console.error("Location error:", error);
@@ -2188,7 +2189,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                                     ...prev,
                                     location: s.display_name,
                                   }));
-                                  handleSelectSuggestion(s.display_name);
+                                  handleSelectSuggestion(s);
                                 }}
                               >
                                 {s.display_name}

@@ -33,6 +33,10 @@ const usePlacesSearchBox = (setLocation, setCoordinates) => {
   }, []);
 
   const handleSelectSuggestion = (suggestion) => {
+    console.log("Suggestion coordinates:", {
+      latitude: parseFloat(suggestion.lat),
+      longitude: parseFloat(suggestion.lon),
+    });
     setLocation(suggestion.display_name);
     if (setCoordinates) {
       setCoordinates({
