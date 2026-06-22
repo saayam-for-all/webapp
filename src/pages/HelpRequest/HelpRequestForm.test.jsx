@@ -1761,7 +1761,13 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     expect(document.getElementById("location").value).toBe("Kansas City");
   });
   it("shows suggestions and selects one when clicked", async () => {
-    mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
+    mockSuggestions = [
+      {
+        display_name: "Kansas City, Missouri, USA",
+        lat: "39.0997",
+        lon: "-94.5786",
+      },
+    ];
 
     renderForm();
     fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
@@ -1780,9 +1786,11 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
 
     fireEvent.click(screen.getByText("Kansas City, Missouri, USA"));
 
-    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith(
-      "Kansas City, Missouri, USA",
-    );
+    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith({
+      display_name: "Kansas City, Missouri, USA",
+      lat: "39.0997",
+      lon: "-94.5786",
+    });
   });
 
   it("does not show location field for REMOTE request type", async () => {
