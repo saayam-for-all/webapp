@@ -114,7 +114,7 @@ const ContactUs = () => {
               )}
             </p>
             <p className="text-[#807D7D] text-base mb-10">
-              hr@saayamforall.org
+              info@saayamforall.org
             </p>
 
             <h1 className="text-2xl font-bold mb-4">{t("FAQ's")}</h1>
