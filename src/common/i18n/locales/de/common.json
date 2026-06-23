@@ -758,7 +758,7 @@
   "ENTER_VOLUNTEER_EMAIL": "Freiwilligen-E-Mail eingeben",
   "ENTER_VOLUNTEER_PHONE": "Freiwilligentelefon eingeben",
   "SEARCH_TAGLINE": "google mit menschlichem Touch*",
-  "TERMS": {
+"TERMS": {
     "TITLE": "Bedingungen anerkennen",
     "SUBTITLE": "Bitte lesen Sie das folgende Dokument sorgfältig durch und bestätigen Sie, dass Sie dessen Inhalt verstanden haben.",
     "HEADER": "Freiwilligenvereinbarung",
@@ -805,5 +805,13 @@
     "SECTION_19_CONTENT": "Sollte eine Bestimmung dieser Bedingungen für ungültig oder undurchsetzbar befunden werden, bleiben die übrigen Bestimmungen in vollem Umfang in Kraft.",
     "SECTION_20_CONTENT": "Bei Fragen oder Bedenken bezüglich dieser Bedingungen wenden Sie sich bitte an: E-Mail: info@saayamforall.org",
     "SECTION_21_CONTENT": "Für Freiwilligentätigkeiten, die eine persönliche Unterstützung erfordern, kann die Plattform Standortinformationen verwenden, um Freiwillige zu identifizieren und mit nahe gelegenen Anfragen abzugleichen. Durch die Aktivierung von Standortdiensten oder die Bereitstellung von Standortinformationen stimmen Freiwillige dieser Nutzung zum Zwecke des Abgleichs und der Koordinierung von Freiwilligenanfragen zu. Das Deaktivieren des Standortzugriffs kann die Teilnahme an standortbasierten Freiwilligentätigkeiten einschränken."
-  }
+  },
+  "CREATED": "Erstellt",
+  "MATCHING_VOLUNTEER": "Freiwilliger wird zugeordnet",
+  "IN_PROGRESS": "In Bearbeitung",
+  "RESOLVED": "Gelöst",
+  "CANCELLED": "Storniert",
+  "DELETED": "Gelöscht",
+  "RATED_BY_REQUESTER": "Vom Anfragenden bewertet",
+  "RATED_BY_VOLUNTEER": "Vom Freiwilligen bewertet"
 }

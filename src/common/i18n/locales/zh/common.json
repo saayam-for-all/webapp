@@ -753,7 +753,7 @@
   "ENTER_VOLUNTEER_EMAIL": "输入志愿者电子邮件",
   "ENTER_VOLUNTEER_PHONE": "输入志愿者电话",
   "SEARCH_TAGLINE": "有人情味的谷歌*",
-  "TERMS": {
+"TERMS": {
     "TITLE": "审查并确认条款",
     "SUBTITLE": "请仔细阅读以下文档，并确认您已理解其内容。",
     "HEADER": "志愿者协议",
@@ -800,5 +800,13 @@
     "SECTION_19_CONTENT": "如果本条款的任何条款被发现无效或不可执行，其余条款将继续完全有效。",
     "SECTION_20_CONTENT": "有关这些条款的问题或疑虑，请联系：电子邮件：info@saayamforall.org",
     "SECTION_21_CONTENT": "对于涉及面对面协助的志愿者机会，平台可能会使用位置信息来识别并将志愿者与附近的请求进行匹配。通过启用定位服务或提供位置信息，志愿者同意将此类信息用于志愿者请求匹配和协调。禁用定位访问可能会限制参与基于地理位置的志愿者机会。"
-  }
+  },
+  "CREATED": "已创建",
+  "MATCHING_VOLUNTEER": "正在匹配志愿者",
+  "IN_PROGRESS": "进行中",
+  "RESOLVED": "已解决",
+  "CANCELLED": "已取消",
+  "DELETED": "已删除",
+  "RATED_BY_REQUESTER": "请求者已评分",
+  "RATED_BY_VOLUNTEER": "志愿者已评分"
 }

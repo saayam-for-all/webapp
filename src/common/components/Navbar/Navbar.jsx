@@ -105,6 +105,12 @@ const Navbar = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (!user?.userId) {
+      setSearchText("");
+    }
+  }, [user?.userId]);
+
+  useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
     if (savedProfilePhoto) setProfileIcon(savedProfilePhoto);
   }, []);
@@ -353,6 +359,7 @@ const Navbar = () => {
   };
 
   const handleSignOut = () => {
+    setSearchText("");
     dispatch(logout());
     setIsLogoutModalOpen(false);
     navigate("/login");
@@ -418,6 +425,8 @@ const Navbar = () => {
         {user?.userId && (
           <div className="flex flex-col md:hidden flex-1 mx-2">
             <TextField
+              name="navbar-search"
+              autoComplete="off"
               value={searchText}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
@@ -481,6 +490,8 @@ const Navbar = () => {
           {user?.userId && (
             <div className="flex flex-col w-full max-w-[800px] mr-4">
               <TextField
+                name="navbar-search"
+                autoComplete="off"
                 value={searchText}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}

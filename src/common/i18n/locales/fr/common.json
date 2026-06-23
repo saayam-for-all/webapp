@@ -757,7 +757,7 @@
   "ENTER_VOLUNTEER_EMAIL": "Entrer l'e-mail du bénévole",
   "ENTER_VOLUNTEER_PHONE": "Entrer le téléphone du bénévole",
   "SEARCH_TAGLINE": "google avec une touche humaine*",
-  "TERMS": {
+"TERMS": {
     "TITLE": "Revoir et accepter les conditions",
     "SUBTITLE": "Veuillez lire attentivement le document suivant et confirmer que vous en avez compris le contenu.",
     "HEADER": "Accord de bénévolat",
@@ -804,5 +804,13 @@
     "SECTION_19_CONTENT": "Si une disposition de ces Conditions est jugée invalide ou inapplicable, les dispositions restantes resteront pleinement en vigueur.",
     "SECTION_20_CONTENT": "Pour toute question ou préoccupation concernant ces Conditions, veuillez contacter : E-mail : info@saayamforall.org",
     "SECTION_21_CONTENT": "Pour les opportunités de bénévolat impliquant une aide en personne, la Plateforme peut utiliser les informations de localisation pour identifier et faire correspondre les bénévoles avec les demandes à proximité. En activant les services de localisation ou en fournissant des informations de localisation, les bénévoles consentent à une telle utilisation à des fins de mise en correspondance et de coordination des demandes de bénévoles. La désactivation de l'accès à la localisation peut limiter la participation à des opportunités de bénévolat basées sur la localisation."
-  }
+  },
+  "CREATED": "Créé",
+  "MATCHING_VOLUNTEER": "Mise en relation avec un bénévole",
+  "IN_PROGRESS": "En cours",
+  "RESOLVED": "Résolu",
+  "CANCELLED": "Annulé",
+  "DELETED": "Supprimé",
+  "RATED_BY_REQUESTER": "Évalué par le demandeur",
+  "RATED_BY_VOLUNTEER": "Évalué par le bénévole"
 }

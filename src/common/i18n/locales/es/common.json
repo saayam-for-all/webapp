@@ -758,7 +758,7 @@
   "ENTER_VOLUNTEER_EMAIL": "Ingresar correo electrónico del voluntario",
   "ENTER_VOLUNTEER_PHONE": "Ingresar teléfono del voluntario",
   "SEARCH_TAGLINE": "google con toque humano*",
-  "TERMS": {
+"TERMS": {
     "TITLE": "Revisar y aceptar los términos",
     "SUBTITLE": "Por favor, lea el siguiente documento atentamente y confirme que ha entendido su contenido.",
     "HEADER": "Acuerdo de voluntariado",
@@ -805,5 +805,13 @@
     "SECTION_19_CONTENT": "Si alguna disposición de estos Términos resulta ser inválida o inaplicable, las disposiciones restantes permanecerán en pleno vigor y efecto.",
     "SECTION_20_CONTENT": "Para preguntas o inquietudes con respecto a estos Términos, comuníquese con: Correo electrónico: info@saayamforall.org",
     "SECTION_21_CONTENT": "Para oportunidades de voluntariado que impliquen asistencia en persona, la Plataforma puede utilizar la información de ubicación para identificar y emparejar a los voluntarios con las solicitudes cercanas. Al habilitar los servicios de ubicación o proporcionar información de ubicación, los voluntarios dan su consentimiento para dicho uso con fines de emparejamiento y coordinación de solicitudes de voluntarios. Deshabilitar el acceso a la ubicación puede limitar la participación en oportunidades de voluntariado basadas en la ubicación."
-  }
+  },
+  "CREATED": "Creado",
+  "MATCHING_VOLUNTEER": "Asignando voluntario",
+  "IN_PROGRESS": "En progreso",
+  "RESOLVED": "Resuelto",
+  "CANCELLED": "Cancelado",
+  "DELETED": "Eliminado",
+  "RATED_BY_REQUESTER": "Valorado por el solicitante",
+  "RATED_BY_VOLUNTEER": "Valorado por el voluntario"
 }

@@ -786,7 +786,7 @@
   "ENTER_VOLUNTEER_EMAIL": "Enter volunteer email",
   "ENTER_VOLUNTEER_PHONE": "Enter volunteer phone",
   "SEARCH_TAGLINE": "google with human touch*",
-  "TERMS": {
+"TERMS": {
     "TITLE": "Review & Acknowledge Terms",
     "SUBTITLE": "Please read the following document carefully and acknowledge that you have understood its contents.",
     "HEADER": "Volunteer Agreement",
@@ -833,5 +833,13 @@
     "SECTION_20_CONTENT": "For questions or concerns regarding these Terms, please contact: Email: info@saayamforall.org",
     "SECTION_21_TITLE": "Location Permissions",
     "SECTION_21_CONTENT": "For volunteer opportunities involving in-person assistance, the Platform may use location information to identify and match volunteers with nearby requests. By enabling location services or providing location information, volunteers consent to such use for volunteer-request matching and coordination purposes. Disabling location access may limit participation in location-based volunteer opportunities."
-  }
+  },
+  "CREATED": "Created",
+  "MATCHING_VOLUNTEER": "Matching Volunteer",
+  "IN_PROGRESS": "In Progress",
+  "RESOLVED": "Resolved",
+  "CANCELLED": "Cancelled",
+  "DELETED": "Deleted",
+  "RATED_BY_REQUESTER": "Rated by Requester",
+  "RATED_BY_VOLUNTEER": "Rated by Volunteer"
 }
