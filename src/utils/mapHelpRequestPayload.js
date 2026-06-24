@@ -53,10 +53,7 @@ export const mapHelpRequestPayload = ({
   // Include location if provided
   if (formData.location) {
     if (formData.locationCoordinates) {
-      payload.requestLocation = {
-        latitude: formData.locationCoordinates.latitude,
-        longitude: formData.locationCoordinates.longitude,
-      };
+      payload.requestLocation = `latitude:${formData.locationCoordinates.latitude},longitude:${formData.locationCoordinates.longitude}`;
     } else {
       payload.requestLocation = formData.location;
     }
