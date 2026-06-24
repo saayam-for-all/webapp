@@ -759,11 +759,11 @@
   "ENTER_VOLUNTEER_PHONE": "أدخل هاتف المتطوع",
   "SEARCH_TAGLINE": "جوجل بلمسة إنسانية*",
   "CREATED": "تم الإنشاء",
-  "MATCHING_VOLUNTEER": "جاري مطابقة المتطوع",
+  "MATCHING_VOLUNTEER": "قيد المطابقة",
   "IN_PROGRESS": "قيد التنفيذ",
   "RESOLVED": "تم الحل",
-  "CANCELLED": "تم الإلغاء",
-  "DELETED": "تم الحذف",
-  "RATED_BY_REQUESTER": "تم التقييم بواسطة مقدم الطلب",
-  "RATED_BY_VOLUNTEER": "تم التقييم بواسطة المتطوع"
+  "CANCELLED": "ملغي",
+  "DELETED": "محذوف",
+  "RATED_BY_REQUESTER": "تقييم الطالب",
+  "RATED_BY_VOLUNTEER": "تقييم المتطوع"
 }

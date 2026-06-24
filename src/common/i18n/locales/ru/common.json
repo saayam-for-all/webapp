@@ -759,11 +759,11 @@
   "ENTER_VOLUNTEER_PHONE": "Введите телефон волонтёра",
   "SEARCH_TAGLINE": "гугл с человеческим прикосновением*",
   "CREATED": "Создано",
-  "MATCHING_VOLUNTEER": "Подбирается волонтёр",
-  "IN_PROGRESS": "В процессе",
+  "MATCHING_VOLUNTEER": "Подбор",
+  "IN_PROGRESS": "В работе",
   "RESOLVED": "Решено",
   "CANCELLED": "Отменено",
   "DELETED": "Удалено",
-  "RATED_BY_REQUESTER": "Оценено заявителем",
-  "RATED_BY_VOLUNTEER": "Оценено волонтёром"
+  "RATED_BY_REQUESTER": "Заявитель оценил",
+  "RATED_BY_VOLUNTEER": "Волонтёр оценил"
 }

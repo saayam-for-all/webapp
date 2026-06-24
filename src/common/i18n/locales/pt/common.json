@@ -767,11 +767,11 @@
   "ENTER_VOLUNTEER_PHONE": "Inserir telefone do voluntário",
   "SEARCH_TAGLINE": "google com toque humano*",
   "CREATED": "Criado",
-  "MATCHING_VOLUNTEER": "A associar voluntário",
+  "MATCHING_VOLUNTEER": "A associar",
   "IN_PROGRESS": "Em progresso",
   "RESOLVED": "Resolvido",
   "CANCELLED": "Cancelado",
   "DELETED": "Eliminado",
-  "RATED_BY_REQUESTER": "Avaliado pelo requerente",
-  "RATED_BY_VOLUNTEER": "Avaliado pelo voluntário"
+  "RATED_BY_REQUESTER": "Requerente avaliou",
+  "RATED_BY_VOLUNTEER": "Voluntário avaliou"
 }

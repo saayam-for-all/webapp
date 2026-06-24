@@ -760,11 +760,11 @@
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवक का फ़ोन दर्ज करें",
   "SEARCH_TAGLINE": "मानवीय स्पर्श के साथ गूगल*",
   "CREATED": "बनाया गया",
-  "MATCHING_VOLUNTEER": "स्वयंसेवक मिलान हो रहा है",
+  "MATCHING_VOLUNTEER": "मिलान जारी",
   "IN_PROGRESS": "प्रगति में",
-  "RESOLVED": "समाधान हो गया",
-  "CANCELLED": "रद्द किया गया",
+  "RESOLVED": "समाधान",
+  "CANCELLED": "रद्द",
   "DELETED": "हटाया गया",
-  "RATED_BY_REQUESTER": "अनुरोधकर्ता द्वारा रेट किया गया",
-  "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया"
+  "RATED_BY_REQUESTER": "अनुरोधकर्ता रेटेड",
+  "RATED_BY_VOLUNTEER": "स्वयंसेवक रेटेड"
 }
