@@ -16,6 +16,7 @@ import enTerms from "./locales/en/termsAndConditions.json";
 import enPrivacy from "./locales/en/privacyPolicy.json";
 import enMessages from "./locales/en/messages.json";
 import enMetadata from "./locales/en/metadata.json";
+import enTermsVolunteer from "./locales/en/terms.json";
 
 import deCommon from "./locales/de/common.json";
 import deAuth from "./locales/de/auth.json";
@@ -29,6 +30,7 @@ import deNews from "./locales/de/news.json";
 import deTerms from "./locales/de/termsAndConditions.json";
 import deMessages from "./locales/de/messages.json";
 import deMetadata from "./locales/de/metadata.json";
+import deTermsVolunteer from "./locales/de/terms.json";
 
 import esCommon from "./locales/es/common.json";
 import esAuth from "./locales/es/auth.json";
@@ -42,6 +44,7 @@ import esNews from "./locales/es/news.json";
 import esTerms from "./locales/es/termsAndConditions.json";
 import esMessages from "./locales/es/messages.json";
 import esMetadata from "./locales/es/metadata.json";
+import esTermsVolunteer from "./locales/es/terms.json";
 
 import frCommon from "./locales/fr/common.json";
 import frAuth from "./locales/fr/auth.json";
@@ -55,6 +58,7 @@ import frNews from "./locales/fr/news.json";
 import frTerms from "./locales/fr/termsAndConditions.json";
 import frMessages from "./locales/fr/messages.json";
 import frMetadata from "./locales/fr/metadata.json";
+import frTermsVolunteer from "./locales/fr/terms.json";
 
 import ruCommon from "./locales/ru/common.json";
 import ruAuth from "./locales/ru/auth.json";
@@ -68,6 +72,7 @@ import ruNews from "./locales/ru/news.json";
 import ruTerms from "./locales/ru/termsAndConditions.json";
 import ruMessages from "./locales/ru/messages.json";
 import ruMetadata from "./locales/ru/metadata.json";
+import ruTermsVolunteer from "./locales/ru/terms.json";
 
 import hiCommon from "./locales/hi/common.json";
 import hiAuth from "./locales/hi/auth.json";
@@ -80,6 +85,7 @@ import hiCollaborator from "./locales/hi/collaborator.json";
 import hiNews from "./locales/hi/news.json";
 import hiMessages from "./locales/hi/messages.json";
 import hiMetadata from "./locales/hi/metadata.json";
+import hiTermsVolunteer from "./locales/hi/terms.json";
 
 import teCommon from "./locales/te/common.json";
 import teAuth from "./locales/te/auth.json";
@@ -92,6 +98,7 @@ import teCollaborator from "./locales/te/collaborator.json";
 import teNews from "./locales/te/news.json";
 import teMessages from "./locales/te/messages.json";
 import teMetadata from "./locales/te/metadata.json";
+import teTermsVolunteer from "./locales/te/terms.json";
 
 import zhCommon from "./locales/zh/common.json";
 import zhAuth from "./locales/zh/auth.json";
@@ -104,6 +111,7 @@ import zhCollaborator from "./locales/zh/collaborator.json";
 import zhNews from "./locales/zh/news.json";
 import zhMessages from "./locales/zh/messages.json";
 import zhMetadata from "./locales/zh/metadata.json";
+import zhTermsVolunteer from "./locales/zh/terms.json";
 
 import ptCommon from "./locales/pt/common.json";
 import ptAuth from "./locales/pt/auth.json";
@@ -116,6 +124,7 @@ import ptCollaborator from "./locales/pt/collaborator.json";
 import ptNews from "./locales/pt/news.json";
 import ptMessages from "./locales/pt/messages.json";
 import ptMetadata from "./locales/pt/metadata.json";
+import ptTermsVolunteer from "./locales/pt/terms.json";
 
 import bnCommon from "./locales/bn/common.json";
 import bnAuth from "./locales/bn/auth.json";
@@ -128,6 +137,7 @@ import bnCollaborator from "./locales/bn/collaborator.json";
 import bnNews from "./locales/bn/news.json";
 import bnMessages from "./locales/bn/messages.json";
 import bnMetadata from "./locales/bn/metadata.json";
+import bnTermsVolunteer from "./locales/bn/terms.json";
 
 import arCommon from "./locales/ar/common.json";
 import arAuth from "./locales/ar/auth.json";
@@ -139,6 +149,7 @@ import arProfile from "./locales/ar/profile.json";
 import arPreferences from "./locales/ar/preferences.json";
 import arCollaborator from "./locales/ar/collaborator.json";
 import arMetadata from "./locales/ar/metadata.json";
+import arTermsVolunteer from "./locales/ar/terms.json";
 
 import asCommon from "./locales/as/common.json";
 import asAuth from "./locales/as/auth.json";
@@ -226,6 +237,7 @@ import urProfile from "./locales/ur/profile.json";
 import urPreferences from "./locales/ur/preferences.json";
 import urCollaborator from "./locales/ur/collaborator.json";
 import urMetadata from "./locales/ur/metadata.json";
+import urTermsVolunteer from "./locales/ur/terms.json";
 
 import viCommon from "./locales/vi/common.json";
 import viAuth from "./locales/vi/auth.json";
@@ -251,6 +263,7 @@ i18n
       "privacyPolicy",
       "messages",
       "metadata",
+      "terms",
     ],
     resources: {
       en: {
@@ -267,6 +280,7 @@ i18n
         privacyPolicy: enPrivacy,
         messages: enMessages,
         metadata: enMetadata,
+        terms: enTermsVolunteer,
       },
       de: {
         common: deCommon,
@@ -281,6 +295,7 @@ i18n
         termsAndConditions: deTerms,
         messages: deMessages,
         metadata: deMetadata,
+        terms: deTermsVolunteer,
       },
       es: {
         common: esCommon,
@@ -295,6 +310,7 @@ i18n
         termsAndConditions: esTerms,
         messages: esMessages,
         metadata: esMetadata,
+        terms: esTermsVolunteer,
       },
       fr: {
         common: frCommon,
@@ -309,6 +325,7 @@ i18n
         termsAndConditions: frTerms,
         messages: frMessages,
         metadata: frMetadata,
+        terms: frTermsVolunteer,
       },
       ru: {
         common: ruCommon,
@@ -323,6 +340,7 @@ i18n
         termsAndConditions: ruTerms,
         messages: ruMessages,
         metadata: ruMetadata,
+        terms: ruTermsVolunteer,
       },
       hi: {
         common: hiCommon,
@@ -336,6 +354,7 @@ i18n
         news: hiNews,
         messages: hiMessages,
         metadata: hiMetadata,
+        terms: hiTermsVolunteer,
       },
       te: {
         common: teCommon,
@@ -349,6 +368,7 @@ i18n
         news: teNews,
         messages: teMessages,
         metadata: teMetadata,
+        terms: teTermsVolunteer,
       },
       zh: {
         common: zhCommon,
@@ -362,6 +382,7 @@ i18n
         news: zhNews,
         messages: zhMessages,
         metadata: zhMetadata,
+        terms: zhTermsVolunteer,
       },
       pt: {
         common: ptCommon,
@@ -375,6 +396,7 @@ i18n
         news: ptNews,
         messages: ptMessages,
         metadata: ptMetadata,
+        terms: ptTermsVolunteer,
       },
       bn: {
         common: bnCommon,
@@ -388,6 +410,7 @@ i18n
         news: bnNews,
         messages: bnMessages,
         metadata: bnMetadata,
+        terms: bnTermsVolunteer,
       },
       ar: {
         common: arCommon,
@@ -400,6 +423,7 @@ i18n
         preferences: arPreferences,
         collaborator: arCollaborator,
         metadata: arMetadata,
+        terms: arTermsVolunteer,
       },
       as: {
         common: asCommon,
@@ -507,6 +531,7 @@ i18n
         preferences: urPreferences,
         collaborator: urCollaborator,
         metadata: urMetadata,
+        terms: urTermsVolunteer,
       },
       vi: {
         common: viCommon,

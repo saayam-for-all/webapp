@@ -62,7 +62,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -80,11 +80,11 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -102,11 +102,11 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -132,7 +132,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -144,7 +144,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     expect(nextButton).not.toBeDisabled();
     fireEvent.click(nextButton);
 
@@ -166,7 +166,7 @@ describe("PromoteToVolunteer Component", () => {
     ).toBeInTheDocument();
 
     // Next button should be disabled on step 1 without acknowledgment
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -178,7 +178,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     expect(nextButton).not.toBeDisabled();
     fireEvent.click(nextButton);
 
@@ -195,7 +195,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     expect(
-      screen.getByText(/mockTranslate\(common:NEXT\)/),
+      screen.getByTestId("next-button"),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/mockTranslate\(common:BACK\)/),
@@ -210,11 +210,11 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
       expect(nextButton).toBeDisabled();
     });
   });
@@ -227,18 +227,18 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
       expect(nextButton).toBeDisabled();
     });
   });
@@ -251,24 +251,24 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
       expect(nextButton).toBeDisabled();
     });
   });
@@ -297,7 +297,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
 
     // Navigate through all steps
     fireEvent.click(nextButton);
@@ -307,11 +307,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     // This will try to advance but may be blocked by validation
@@ -329,11 +329,11 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -345,7 +345,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Next button should be disabled until skills are selected
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -357,7 +357,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -384,7 +384,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -393,7 +393,7 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -402,7 +402,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
 
     // Initially disabled when terms not acknowledged
     expect(nextButton).toBeDisabled();
@@ -424,7 +424,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -462,7 +462,7 @@ describe("PromoteToVolunteer Component", () => {
     ).toBeInTheDocument();
 
     // The StepperControl should be present
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeInTheDocument();
   });
 
@@ -488,7 +488,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
 
     // Step 1: button disabled without acknowledgement
     expect(nextButton).toBeDisabled();
@@ -505,7 +505,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Step 2: button should be disabled without file upload
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -528,7 +528,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -549,7 +549,7 @@ describe("PromoteToVolunteer Component", () => {
 
     // Navigate forward again
     fireEvent.click(checkbox);
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -596,7 +596,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -611,7 +611,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
 
     // Verify button is disabled on step 1 when terms not acknowledged
     expect(nextButton).toBeDisabled();
@@ -624,7 +624,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // StepperControl should be present on steps 1-4, but not on step 5 (Review)
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     const backButton = screen.getByText(/mockTranslate\(common:BACK\)/);
 
     expect(nextButton).toBeInTheDocument();
@@ -651,7 +651,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -660,11 +660,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -691,7 +691,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -700,11 +700,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -732,7 +732,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -747,7 +747,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
 
     const backButton = screen.getByText(/mockTranslate\(common:BACK\)/);
@@ -763,7 +763,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     expect(nextButton).not.toBeDisabled();
 
     // Error message should be cleared when valid
@@ -784,7 +784,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -793,11 +793,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -819,7 +819,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -830,7 +830,7 @@ describe("PromoteToVolunteer Component", () => {
 
     // Continue through all steps to reach Review
     for (let i = 0; i < 3; i++) {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
       fireEvent.click(nextButton);
 
       await waitFor(() => {
@@ -852,7 +852,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -861,11 +861,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -902,7 +902,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Try to advance from step 1 without acknowledging
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
 
     // Acknowledge and advance
@@ -917,7 +917,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // On step 2, try to advance without file (should be disabled)
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -947,7 +947,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -956,11 +956,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -970,7 +970,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Next button should be disabled without skill selection
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -982,7 +982,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -991,11 +991,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -1008,7 +1008,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Next button should be disabled without valid availability
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -1017,7 +1017,7 @@ describe("PromoteToVolunteer Component", () => {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
 
     // Try to click next without acknowledging terms
     expect(nextButton).toBeDisabled();
@@ -1030,7 +1030,7 @@ describe("PromoteToVolunteer Component", () => {
 
     // Check StepperControl is present
     expect(
-      screen.getByText(/mockTranslate\(common:NEXT\)/),
+      screen.getByTestId("next-button"),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/mockTranslate\(common:BACK\)/),
@@ -1046,7 +1046,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1069,7 +1069,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1110,7 +1110,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1120,7 +1120,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Next button should be disabled since file is not uploaded
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
   });
 
@@ -1136,7 +1136,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     expect(nextButton).not.toBeDisabled();
     fireEvent.click(nextButton);
 
@@ -1155,7 +1155,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1176,7 +1176,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1185,11 +1185,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -1207,7 +1207,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1216,11 +1216,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -1257,7 +1257,7 @@ describe("PromoteToVolunteer Component", () => {
     fireEvent.click(checkbox);
 
     // Next button should be enabled after checking
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     await waitFor(() => {
       expect(nextButton).not.toBeDisabled();
     });
@@ -1271,7 +1271,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1295,7 +1295,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1336,7 +1336,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1382,7 +1382,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1391,11 +1391,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -1432,7 +1432,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1441,7 +1441,7 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
 
     // File upload required - button should be disabled
     expect(nextButton).toBeDisabled();
@@ -1455,7 +1455,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1464,11 +1464,11 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+      nextButton = screen.getByTestId("next-button");
     });
 
     fireEvent.click(nextButton);
@@ -1502,7 +1502,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    const nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1520,7 +1520,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
     await waitFor(() => {
@@ -1547,7 +1547,7 @@ describe("PromoteToVolunteer Component", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    let nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    let nextButton = screen.getByTestId("next-button");
 
     // Navigate through steps
     fireEvent.click(nextButton);
@@ -1559,7 +1559,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // Continue to other steps...
-    nextButton = screen.getByText(/mockTranslate\(common:NEXT\)/);
+    nextButton = screen.getByTestId("next-button");
 
     // Button should still be present on step 2
     expect(nextButton).toBeInTheDocument();
