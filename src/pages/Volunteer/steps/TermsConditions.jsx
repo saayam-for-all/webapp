@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('terms');
   const [isCheckboxEnabled, setIsCheckboxEnabled] = useState(false);
   const scrollBoxRef = useRef(null);
 
@@ -42,20 +42,21 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
     if (num === 7) {
       return (
         <Trans
-          i18nKey="TERMS.SECTION_7_CONTENT"
+          i18nKey="SECTION_7_CONTENT"
+          ns="terms"
           components={{
             1: <Link className="text-blue-600 underline font-medium" to="/privacy-policy" />,
           }}
         />
       );
     }
-    return t(`TERMS.SECTION_${num}_CONTENT`);
+    return t(`SECTION_${num}_CONTENT`);
   };
 
   return (
     <div className="document-acknowledgment p-6">
-      <h2 className="text-2xl font-bold mb-4">{t("TERMS.TITLE")}</h2>
-      <p className="mb-4 text-gray-600">{t("TERMS.SUBTITLE")}</p>
+      <h2 className="text-2xl font-bold mb-4">{t("TITLE")}</h2>
+      <p className="mb-4 text-gray-600">{t("SUBTITLE")}</p>
 
       <div
         ref={scrollBoxRef}
@@ -63,13 +64,13 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
         style={{ height: "350px", overflowY: "auto" }}
       >
         <h3 className="font-bold text-lg mb-4 text-slate-950 border-b pb-2">
-          {t("TERMS.HEADER")}
+          {t("HEADER")}
         </h3>
         <div>
           {sectionsList.map((num) => (
             <div key={num} className="mb-6">
               <h4 className="font-bold text-base mb-2 text-slate-800">
-                {num}. {t(`TERMS.SECTION_${num}_TITLE`)}
+                {num}. {t(`SECTION_${num}_TITLE`)}
               </h4>
               <p className="text-slate-600 leading-relaxed text-sm">
                 {renderSectionContent(num)}
@@ -80,10 +81,10 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
           {/* Standardized Section 21 Implementation */}
           <div className="mb-6" id="terms-section-21">
             <h4 className="font-bold text-base mb-2 text-slate-800">
-              21. {t("TERMS.SECTION_21_TITLE")}
+              21. {t("SECTION_21_TITLE")}
             </h4>
             <p className="text-slate-600 leading-relaxed text-sm">
-              {t("TERMS.SECTION_21_CONTENT")}
+              {t("SECTION_21_CONTENT")}
             </p>
           </div>
         </div>
@@ -99,7 +100,7 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
           disabled={!isCheckboxEnabled}
         />
         <label htmlFor="acknowledge" className="text-slate-700 font-medium select-none cursor-pointer disabled:text-gray-400">
-          {t("TERMS.CHECKBOX_LABEL")}
+          {t("CHECKBOX_LABEL")}
         </label>
       </div>
     </div>
