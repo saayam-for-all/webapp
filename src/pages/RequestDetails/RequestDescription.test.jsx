@@ -5,7 +5,7 @@ import RequestDescription from "./RequestDescription";
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => key,
+    t: (key, fallback) => fallback || key,
     i18n: {
       resolvedLanguage: "en",
       language: "en",
