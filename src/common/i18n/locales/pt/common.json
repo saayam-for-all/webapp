@@ -773,5 +773,6 @@
   "CANCELLED": "Cancelado",
   "DELETED": "Eliminado",
   "RATED_BY_REQUESTER": "Avaliado pelo requerente",
-  "RATED_BY_VOLUNTEER": "Avaliado pelo voluntário"
+  "RATED_BY_VOLUNTEER": "Avaliado pelo voluntário",
+  "DELETE": "Eliminar"
 }

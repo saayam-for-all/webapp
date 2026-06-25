@@ -41,5 +41,6 @@
   "FIND_BY_EMAIL": "ईमेलेन अन्वेषयतु",
   "FIND_BY_PHONE": "फोनेन अन्वेषयतु",
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकस्य ईमेल प्रविष्टं करोतु",
-  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकस्य फोन प्रविष्टं करोतु"
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकस्य फोन प्रविष्टं करोतु",
+  "DELETE": "Delete"
 }

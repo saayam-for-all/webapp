@@ -40,5 +40,6 @@
   "FIND_BY_EMAIL": "Hanapin ayon sa email",
   "FIND_BY_PHONE": "Hanapin ayon sa telepono",
   "ENTER_VOLUNTEER_EMAIL": "Ilagay ang email ng boluntaryo",
-  "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo"
+  "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo",
+  "DELETE": "Delete"
 }

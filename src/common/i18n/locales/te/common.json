@@ -764,5 +764,6 @@
   "CANCELLED": "రద్దు చేయబడింది",
   "DELETED": "తొలగించబడింది",
   "RATED_BY_REQUESTER": "అభ్యర్థి రేటింగ్ ఇచ్చారు",
-  "RATED_BY_VOLUNTEER": "వాలంటీర్ రేటింగ్ ఇచ్చారు"
+  "RATED_BY_VOLUNTEER": "వాలంటీర్ రేటింగ్ ఇచ్చారు",
+  "DELETE": "తొలగించు"
 }

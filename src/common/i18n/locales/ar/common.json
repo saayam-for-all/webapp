@@ -765,5 +765,6 @@
   "CANCELLED": "تم الإلغاء",
   "DELETED": "تم الحذف",
   "RATED_BY_REQUESTER": "تم التقييم بواسطة مقدم الطلب",
-  "RATED_BY_VOLUNTEER": "تم التقييم بواسطة المتطوع"
+  "RATED_BY_VOLUNTEER": "تم التقييم بواسطة المتطوع",
+  "DELETE": "حذف"
 }

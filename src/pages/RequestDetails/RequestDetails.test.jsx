@@ -56,9 +56,7 @@ describe("RequestDetails - Tab Translation Tests", () => {
     expect(
       screen.getByRole("button", { name: "CHANGE_VOLUNTEER" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "profile:DELETE" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "DELETE" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "EDIT" })).toBeInTheDocument();
   });
 

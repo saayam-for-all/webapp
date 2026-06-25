@@ -40,5 +40,6 @@
   "FIND_BY_EMAIL": "Tìm theo email",
   "FIND_BY_PHONE": "Tìm theo số điện thoại",
   "ENTER_VOLUNTEER_EMAIL": "Nhập email tình nguyện viên",
-  "ENTER_VOLUNTEER_PHONE": "Nhập số điện thoại tình nguyện viên"
+  "ENTER_VOLUNTEER_PHONE": "Nhập số điện thoại tình nguyện viên",
+  "DELETE": "Delete"
 }

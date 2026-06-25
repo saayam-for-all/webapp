@@ -765,5 +765,6 @@
   "CANCELLED": "Storniert",
   "DELETED": "Gelöscht",
   "RATED_BY_REQUESTER": "Vom Anfragenden bewertet",
-  "RATED_BY_VOLUNTEER": "Vom Freiwilligen bewertet"
+  "RATED_BY_VOLUNTEER": "Vom Freiwilligen bewertet",
+  "DELETE": "Löschen"
 }

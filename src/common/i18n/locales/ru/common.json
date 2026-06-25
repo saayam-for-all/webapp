@@ -765,5 +765,6 @@
   "CANCELLED": "Отменено",
   "DELETED": "Удалено",
   "RATED_BY_REQUESTER": "Оценено заявителем",
-  "RATED_BY_VOLUNTEER": "Оценено волонтёром"
+  "RATED_BY_VOLUNTEER": "Оценено волонтёром",
+  "DELETE": "Удалить"
 }

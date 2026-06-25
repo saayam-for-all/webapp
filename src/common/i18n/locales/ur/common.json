@@ -426,5 +426,6 @@
   "CANCELLED": "منسوخ کر دیا گیا",
   "DELETED": "حذف کر دیا گیا",
   "RATED_BY_REQUESTER": "درخواست گزار کی طرف سے درجہ بندی کی گئی",
-  "RATED_BY_VOLUNTEER": "رضاکار کی طرف سے درجہ بندی کی گئی"
+  "RATED_BY_VOLUNTEER": "رضاکار کی طرف سے درجہ بندی کی گئی",
+  "DELETE": "Delete"
 }

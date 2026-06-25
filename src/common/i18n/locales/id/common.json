@@ -40,5 +40,6 @@
   "FIND_BY_EMAIL": "Cari berdasarkan email",
   "FIND_BY_PHONE": "Cari berdasarkan telepon",
   "ENTER_VOLUNTEER_EMAIL": "Masukkan email sukarelawan",
-  "ENTER_VOLUNTEER_PHONE": "Masukkan telepon sukarelawan"
+  "ENTER_VOLUNTEER_PHONE": "Masukkan telepon sukarelawan",
+  "DELETE": "Delete"
 }

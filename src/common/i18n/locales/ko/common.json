@@ -40,5 +40,6 @@
   "FIND_BY_EMAIL": "이메일로 찾기",
   "FIND_BY_PHONE": "전화번호로 찾기",
   "ENTER_VOLUNTEER_EMAIL": "자원봉사자 이메일 입력",
-  "ENTER_VOLUNTEER_PHONE": "자원봉사자 전화번호 입력"
+  "ENTER_VOLUNTEER_PHONE": "자원봉사자 전화번호 입력",
+  "DELETE": "삭제"
 }

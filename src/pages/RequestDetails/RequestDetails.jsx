@@ -324,7 +324,7 @@ const RequestDetails = () => {
                       className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600"
                       onClick={() => setDeleteDialogOpen(true)}
                     >
-                      {t("profile:DELETE")}
+                      {t("DELETE")}
                     </button>
                   </div>
                 )}
@@ -445,7 +445,7 @@ const RequestDetails = () => {
               open={deleteDialogOpen}
               onClose={() => setDeleteDialogOpen(false)}
             >
-              <DialogTitle>{t("profile:DELETE")}</DialogTitle>
+              <DialogTitle>{t("DELETE")}</DialogTitle>
               <DialogContent>
                 <Typography>{t("REASON")}</Typography>
                 <textarea
@@ -468,7 +468,7 @@ const RequestDetails = () => {
                   variant="contained"
                   disabled={!deleteReason.trim()}
                 >
-                  {t("profile:DELETE")}
+                  {t("DELETE")}
                 </Button>
               </DialogActions>
             </Dialog>

@@ -41,5 +41,6 @@
   "FIND_BY_EMAIL": "メールで検索",
   "FIND_BY_PHONE": "電話番号で検索",
   "ENTER_VOLUNTEER_EMAIL": "ボランティアのメールアドレスを入力",
-  "ENTER_VOLUNTEER_PHONE": "ボランティアの電話番号を入力"
+  "ENTER_VOLUNTEER_PHONE": "ボランティアの電話番号を入力",
+  "DELETE": "削除"
 }

@@ -766,5 +766,6 @@
   "CANCELLED": "रद्द किया गया",
   "DELETED": "हटाया गया",
   "RATED_BY_REQUESTER": "अनुरोधकर्ता द्वारा रेट किया गया",
-  "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया"
+  "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया",
+  "DELETE": "हटाएं"
 }
