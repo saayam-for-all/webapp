@@ -102,8 +102,12 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
   const user = useSelector((state) => state.auth.user);
   const [location, setLocation] = useState("");
+  const [locationCoordinates, setLocationCoordinates] = useState(null);
   const { inputRef, suggestions, handleSearchChange, handleSelectSuggestion } =
-    usePlacesSearchBox(setLocation);
+    usePlacesSearchBox(setLocation, (coords) => {
+      setLocationCoordinates(coords);
+      setFormData((prev) => ({ ...prev, locationCoordinates: coords }));
+    });
 
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -429,8 +433,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
             setFormData((prev) => ({
               ...prev,
               location: data.display_name,
+              locationCoordinates: { latitude, longitude },
             }));
           }
+          console.log("Coordinates stored:", { latitude, longitude });
         },
         (error) => {
           console.error("Location error:", error);
@@ -2183,7 +2189,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                                     ...prev,
                                     location: s.display_name,
                                   }));
-                                  handleSelectSuggestion(s.display_name);
+                                  handleSelectSuggestion(s);
                                 }}
                               >
                                 {s.display_name}
