@@ -738,6 +738,7 @@
   "SELECT_SKILL_TO_CONTINUE": "Sélectionnez au moins une compétence spécifique pour passer à l'étape suivante",
   "COMMENTS": "Commentaires",
   "CHANGE_VOLUNTEER": "Changer de Volontaire",
+  "DELETE": "Supprimer",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "Veuillez spécifier la raison du changement de volontaire",
   "REASON": "Raison",
   "REASON_FOR_CONTACTING": "Motif du contact",
