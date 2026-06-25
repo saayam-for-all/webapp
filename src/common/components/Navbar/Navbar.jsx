@@ -337,6 +337,7 @@ const Navbar = () => {
           {/* About Us Dropdown */}
           <div className="relative">
             <button
+            data-testid="aboutUsButton"
               onClick={handleAUMenuClick}
               className="text-black flex items-center hover:text-gray-600 text-base"
             >
@@ -453,6 +454,7 @@ const Navbar = () => {
             <div className="flex items-center">
               <IconButton color="inherit" edge="end">
                 <img
+                data-testid="loginButton"
                   src={profileIcon}
                   alt="Profile Icon"
                   className="w-8 h-8 rounded-full cursor-pointer"

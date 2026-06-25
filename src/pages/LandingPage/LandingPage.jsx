@@ -67,8 +67,9 @@ export default function Home() {
           <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]">
             {t("Need help? Here to help?")}
           </h1>
-          <div className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
-            {t(
+          <div data-testid = "subHeadingButton" className="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center">
+            {t
+            (
               "At Saayam for All, your support can make a real difference today.",
             )}
           </div>
