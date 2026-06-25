@@ -317,14 +317,14 @@ const RequestDetails = () => {
                       className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
                       onClick={() => setChangeVolunteerDialogOpen(true)}
                     >
-                      {t("Change Volunteer")}
+                      {t("CHANGE_VOLUNTEER")}
                     </button>
 
                     <button
                       className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600"
                       onClick={() => setDeleteDialogOpen(true)}
                     >
-                      {t("Delete")}
+                      {t("profile:DELETE")}
                     </button>
                   </div>
                 )}
@@ -445,14 +445,14 @@ const RequestDetails = () => {
               open={deleteDialogOpen}
               onClose={() => setDeleteDialogOpen(false)}
             >
-              <DialogTitle>{t("Delete")}</DialogTitle>
+              <DialogTitle>{t("profile:DELETE")}</DialogTitle>
               <DialogContent>
-                <Typography>{t("Reason")}</Typography>
+                <Typography>{t("REASON")}</Typography>
                 <textarea
                   value={deleteReason}
                   onChange={(e) => setDeleteReason(e.target.value)}
                   className="border p-2 w-full mt-3 rounded-lg min-h-[100px]"
-                  placeholder={t("Reason")}
+                  placeholder={t("REASON")}
                 />
               </DialogContent>
               <DialogActions>
@@ -460,7 +460,7 @@ const RequestDetails = () => {
                   onClick={() => setDeleteDialogOpen(false)}
                   variant="outlined"
                 >
-                  {t("Cancel")}
+                  {t("CANCEL")}
                 </Button>
                 <Button
                   onClick={handleDeleteRequest}
@@ -468,7 +468,7 @@ const RequestDetails = () => {
                   variant="contained"
                   disabled={!deleteReason.trim()}
                 >
-                  {t("Delete")}
+                  {t("profile:DELETE")}
                 </Button>
               </DialogActions>
             </Dialog>
