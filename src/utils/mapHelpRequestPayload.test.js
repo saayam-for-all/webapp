@@ -62,7 +62,7 @@ describe("mapHelpRequestPayload", () => {
       },
     });
 
-    expect(result.requestLocation).toBe("latitude:40.7128,longitude:-74.006");
+    expect(result.requestLocation).toBe("longitude:-74.006,latitude:40.7128");
   });
 
   it("includes requestLocation as string when no locationCoordinates provided", () => {
