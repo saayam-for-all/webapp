@@ -66,7 +66,6 @@ const SignUp = () => {
   const [errors, setErrors] = useState({});
   const [showPasswordValidation, setShowPasswordValidation] = useState(false);
   const [phoneError, setPhoneError] = useState("");
-  const [phoneEmptyError, setPhoneEmptyError] = useState("");
 
   const hasNumber = /\d/.test(passwordValue);
   const hasUppercase = /[A-Z]/.test(passwordValue);
@@ -80,6 +79,15 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  // Clear a single field error as soon as the user edits that field
+  const clearError = (field) =>
+    setErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+
   //name, email and phone number validation functions
   const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -91,7 +99,6 @@ const SignUp = () => {
   const handleSignUp = async () => {
     try {
       setErrors({});
-      setPhoneEmptyError("");
       // Always run Zod schema validation
       const result = signUpSchema.safeParse({
         firstName,
@@ -105,10 +112,12 @@ const SignUp = () => {
       if (!firstName) newErrors.firstName = "First name is required";
       if (!lastName) newErrors.lastName = "Last name is required";
       if (!emailValue) newErrors.email = "Email is required";
-      if (!phone) setPhoneEmptyError("Phone number is required");
+      if (!phone) setPhoneError("Phone number is required");
       if (!passwordValue) newErrors.password = "Password is required";
       if (!confirmPasswordValue)
         newErrors.confirmPassword = "Confirm password is required";
+      if (!acceptedTOS)
+        newErrors.tos = "You must accept the Terms and Conditions";
       // Zod schema errors (only if field is not empty)
       if (!result.success) {
         const formattedErrors = result.error.format();
@@ -133,6 +142,7 @@ const SignUp = () => {
       if (
         Object.keys(newErrors).length > 0 ||
         !phone ||
+        !acceptedTOS ||
         (phone && !isValidPhoneNumber(fullPhoneNumber))
       ) {
         setErrors(newErrors);
@@ -169,6 +179,10 @@ const SignUp = () => {
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
 
+        <p className="mb-2 text-sm text-gray-600">
+          <span className="text-red-500">*</span> All fields are mandatory
+        </p>
+
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
           <div className="flex-1">
@@ -176,7 +190,10 @@ const SignUp = () => {
             <input
               id="firstName"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+                clearError("firstName");
+              }}
               placeholder={t("FIRST_NAME")}
               type="text"
               className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
@@ -193,7 +210,10 @@ const SignUp = () => {
             <input
               id="lastName"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => {
+                setLastName(e.target.value);
+                clearError("lastName");
+              }}
               placeholder={t("LAST_NAME")}
               type="text"
               className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
@@ -211,7 +231,10 @@ const SignUp = () => {
           <input
             id="email"
             value={emailValue}
-            onChange={(e) => setEmailValue(e.target.value)}
+            onChange={(e) => {
+              setEmailValue(e.target.value);
+              clearError("email");
+            }}
             placeholder={t("EMAIL")}
             type="text"
             className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
@@ -230,7 +253,7 @@ const SignUp = () => {
             countryCode={countryCode}
             setCountryCode={setCountryCode}
             setError={setPhoneError}
-            error={phoneError || phoneEmptyError}
+            error={phoneError}
             label={t("PHONE_NUMBER")}
             required={true}
             t={t}
@@ -274,6 +297,7 @@ const SignUp = () => {
               onChange={(e) => {
                 setPasswordValue(e.target.value);
                 setShowPasswordValidation(true);
+                clearError("password");
               }}
               onFocus={() => {
                 setPasswordFocus(true);
@@ -287,41 +311,47 @@ const SignUp = () => {
             </button>
           </div>
 
+          {/* Required message when blank */}
+          {errors.password && !passwordValue && (
+            <p className="text-sm text-red-500 mt-1">{errors.password}</p>
+          )}
+
           {/* Password validation */}
-          {((showPasswordValidation && !allRequirementsMet) ||
-            errors.password) && (
-            <div
-              className={`flex flex-col items-start absolute left-full top-0
+          {passwordValue &&
+            ((showPasswordValidation && !allRequirementsMet) ||
+              errors.password) && (
+              <div
+                className={`flex flex-col items-start absolute left-full top-0
                ml-2 w-[clamp(200px,25vw,300px)] border border-gray-300 bg-white p-2
                rounded shadow z-[1000] whitespace-normal break-words`}
-            >
-              <p
-                className={`${hasMinLength ? "text-sm text-green-500" : "text-sm text-red-500"}`}
               >
-                Password must contain at least 8 characters.
-              </p>
-              <p
-                className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-              >
-                Password must contain at least 1 number.
-              </p>
-              <p
-                className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-              >
-                Password must contain at least 1 special character.
-              </p>
-              <p
-                className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-              >
-                Password must contain at least 1 uppercase letter.
-              </p>
-              <p
-                className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
-              >
-                Password must contain at least 1 lowercase letter.
-              </p>
-            </div>
-          )}
+                <p
+                  className={`${hasMinLength ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+                >
+                  Password must contain at least 8 characters.
+                </p>
+                <p
+                  className={`${hasNumber ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+                >
+                  Password must contain at least 1 number.
+                </p>
+                <p
+                  className={`${hasSpecialChar ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+                >
+                  Password must contain at least 1 special character.
+                </p>
+                <p
+                  className={`${hasUppercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+                >
+                  Password must contain at least 1 uppercase letter.
+                </p>
+                <p
+                  className={`${hasLowercase ? "text-sm text-green-500" : "text-sm text-red-500"}`}
+                >
+                  Password must contain at least 1 lowercase letter.
+                </p>
+              </div>
+            )}
         </div>
 
         {/* Confirm Password */}
@@ -341,7 +371,11 @@ const SignUp = () => {
               placeholder={t("CONFIRM_PASSWORD")}
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
-              onChange={(e) => setConfirmPasswordValue(e.target.value)}
+              onChange={(e) => {
+                setConfirmPasswordValue(e.target.value);
+                setPasswordsMatch(true);
+                clearError("confirmPassword");
+              }}
               onFocus={() => setConfirmPasswordFocus(true)}
               onBlur={() => setConfirmPasswordFocus(false)}
               className="mr-auto w-full outline-none"
@@ -371,7 +405,10 @@ const SignUp = () => {
             type="checkbox"
             className="w-3.2 h-3.2"
             checked={acceptedTOS}
-            onChange={(e) => setAcceptedTOS(e.target.checked)}
+            onChange={(e) => {
+              setAcceptedTOS(e.target.checked);
+              if (e.target.checked) clearError("tos");
+            }}
           />
           <label className="my-2 text-gray-700">
             {t("TOS_AGREEMENT")}{" "}
@@ -385,12 +422,15 @@ const SignUp = () => {
             .
           </label>
         </div>
+        {errors.tos && (
+          <p className="mb-2 text-sm text-red-500">{errors.tos}</p>
+        )}
         <button
-          className={`my-4 py-2 rounded-xl text-white 
-    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
+          type="button"
+          className={`my-4 py-2 rounded-xl text-white
+    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50"}
   `}
           onClick={handleSignUp}
-          disabled={!acceptedTOS}
         >
           Sign up
         </button>
