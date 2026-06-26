@@ -70,10 +70,6 @@ const VoluntaryOrganizations = () => {
       const payload = {
         request_id,
         beneficiary_id,
-        category: requestData?.category || "",
-        subject: requestData?.subject || "",
-        description: requestData?.description || "",
-        location: personalInfo?.city || localStorage.getItem("city") || "",
       };
 
       console.log("Org API payload:", payload);

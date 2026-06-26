@@ -166,9 +166,6 @@ describe("VoluntaryOrganizations", () => {
       expect.objectContaining({
         request_id: "REQ-00-000-000-0001",
         beneficiary_id: "SID-00-000-000-001",
-        category: "Medical",
-        subject: "Need help",
-        description: "Test description",
       }),
     );
   });
@@ -203,19 +200,6 @@ describe("VoluntaryOrganizations", () => {
     const call = getOrganizations.mock.calls[0][0];
     // beneficiary_id should be requestData.userId ("SID-00-000-000-001") since mock location has it
     expect(call.beneficiary_id).toBeTruthy();
-  });
-
-  // 9. Uses city from personalInfo in localStorage
-  it("uses city from personalInfo localStorage in payload", async () => {
-    localStorage.setItem("personalInfo", JSON.stringify({ city: "San Jose" }));
-    getOrganizations.mockResolvedValue([]);
-    renderWithProviders(<VoluntaryOrganizations />, {
-      preloadedState: MOCK_STATE,
-    });
-    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    expect(getOrganizations).toHaveBeenCalledWith(
-      expect.objectContaining({ location: "San Jose" }),
-    );
   });
 
   // 10. Search filters org list
