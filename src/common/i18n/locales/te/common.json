@@ -759,11 +759,11 @@
   "ENTER_VOLUNTEER_PHONE": "వాలంటీర్ ఫోన్ నమోదు చేయండి",
   "SEARCH_TAGLINE": "మానవ స్పర్శతో గూగుల్*",
   "CREATED": "సృష్టించబడింది",
-  "MATCHING_VOLUNTEER": "వాలంటీర్‌ను సరిపోలుస్తున్నారు",
-  "IN_PROGRESS": "ప్రగతిలో ఉంది",
-  "RESOLVED": "పరిష్కరించబడింది",
-  "CANCELLED": "రద్దు చేయబడింది",
+  "MATCHING_VOLUNTEER": "మ్యాచింగ్",
+  "IN_PROGRESS": "ప్రగతిలో",
+  "RESOLVED": "పరిష్కారం",
+  "CANCELLED": "రద్దు",
   "DELETED": "తొలగించబడింది",
-  "RATED_BY_REQUESTER": "అభ్యర్థి రేటింగ్ ఇచ్చారు",
-  "RATED_BY_VOLUNTEER": "వాలంటీర్ రేటింగ్ ఇచ్చారు"
+  "RATED_BY_REQUESTER": "అభ్యర్థి రేటింగ్",
+  "RATED_BY_VOLUNTEER": "వాలంటీర్ రేటింగ్"
 }

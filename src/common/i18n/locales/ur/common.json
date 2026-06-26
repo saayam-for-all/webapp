@@ -421,11 +421,11 @@
   "SEARCH_PLACEHOLDER": "Saayam سے مدد مانگیں",
   "SEARCH_TAGLINE": "انسانی لمس کے ساتھ گوگل*",
   "CREATED": "بنایا گیا",
-  "MATCHING_VOLUNTEER": "رضاکار ملایا جا رہا ہے",
-  "IN_PROGRESS": "جاری ہے",
-  "RESOLVED": "حل ہو گیا",
-  "CANCELLED": "منسوخ کر دیا گیا",
-  "DELETED": "حذف کر دیا گیا",
-  "RATED_BY_REQUESTER": "درخواست گزار کی طرف سے درجہ بندی کی گئی",
-  "RATED_BY_VOLUNTEER": "رضاکار کی طرف سے درجہ بندی کی گئی"
+  "MATCHING_VOLUNTEER": "ملاپ جاری",
+  "IN_PROGRESS": "جاری",
+  "RESOLVED": "حل شدہ",
+  "CANCELLED": "منسوخ",
+  "DELETED": "حذف شدہ",
+  "RATED_BY_REQUESTER": "درخواست گزار ریٹڈ",
+  "RATED_BY_VOLUNTEER": "رضاکار ریٹڈ"
 }

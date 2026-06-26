@@ -759,11 +759,11 @@
   "ENTER_VOLUNTEER_PHONE": "Entrer le téléphone du bénévole",
   "SEARCH_TAGLINE": "google avec une touche humaine*",
   "CREATED": "Créé",
-  "MATCHING_VOLUNTEER": "Mise en relation avec un bénévole",
+  "MATCHING_VOLUNTEER": "Association",
   "IN_PROGRESS": "En cours",
   "RESOLVED": "Résolu",
   "CANCELLED": "Annulé",
   "DELETED": "Supprimé",
-  "RATED_BY_REQUESTER": "Évalué par le demandeur",
-  "RATED_BY_VOLUNTEER": "Évalué par le bénévole"
+  "RATED_BY_REQUESTER": "Demandeur noté",
+  "RATED_BY_VOLUNTEER": "Bénévole noté"
 }
