@@ -1,6 +1,7 @@
 import api from "./api";
 import {
   getBeneficiariesTrendAnalysis,
+  getRequestsApplicationAnalytics,
   getKpiAnalytics,
 } from "./analyticsServices";
 
@@ -43,6 +44,40 @@ describe("analyticsServices", () => {
       await expect(getBeneficiariesTrendAnalysis(payload)).rejects.toThrow(
         "Network error",
       );
+    });
+
+    describe("getRequestsApplicationAnalytics", () => {
+      const payload = {
+        start_date: "2026-05-01",
+        end_date: "2026-05-31",
+        group_by: "day",
+      };
+
+      it("calls POST to REQUEST_APPLICATION_ANALYTICS with payload and returns data", async () => {
+        const mockData = {
+          statusCode: 200,
+          body: {
+            request_volume_7_days: [{ date: "2026-06-24T00:00:00", count: 6 }],
+          },
+        };
+        api.post.mockResolvedValue({ data: mockData });
+
+        const result = await getRequestsApplicationAnalytics(payload);
+
+        expect(api.post).toHaveBeenCalledWith(
+          "v1/ml/requestApplicationAnalytics",
+          payload,
+        );
+        expect(result).toEqual(mockData);
+      });
+
+      it("propagates errors from api", async () => {
+        api.post.mockRejectedValue(new Error("Network error"));
+
+        await expect(getRequestsApplicationAnalytics(payload)).rejects.toThrow(
+          "Network error",
+        );
+      });
     });
 
     describe("getKpiAnalytics", () => {
