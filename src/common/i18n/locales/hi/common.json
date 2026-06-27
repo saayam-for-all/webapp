@@ -516,7 +516,7 @@
   "SIGN_IN_TO_CONTINUE": "Sign In To Continue",
   "SIGN_OFF": "Sign Off",
   "SITE_MAP": "साइट मैप",
-  "SKILLS": "Skills",
+  "SKILLS": "कौशल",
   "SKIP_TO_CONTENT": "Skip To Content",
   "SOMETHING_WENT_WRONG": "Something Went Wrong",
   "SORT_BY": "इसके अनुसार क्रमबद्ध करें",
@@ -766,5 +766,16 @@
   "CANCELLED": "रद्द किया गया",
   "DELETED": "हटाया गया",
   "RATED_BY_REQUESTER": "अनुरोधकर्ता द्वारा रेट किया गया",
-  "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया"
+  "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया",
+  "IDENTIFICATION": "पहचान",
+  "AVAILABILITY": "उपलब्धता",
+  "COMPLETE_REQUIRED_FIELDS": "कृपया आगे बढ़ने से पहले सभी आवश्यक फ़ील्ड भरें।",
+  "FAILED_TO_SAVE_SKILLS": "कौशल सहेजने में विफल। कृपया पुन: प्रयास करें।",
+  "CHOOSE_FILE": "फ़ाइल चुनें",
+  "NO_FILE_CHOSEN": "कोई फ़ाइल नहीं चुनी गई",
+  "STEP_NUMBER_1": "१",
+  "STEP_NUMBER_2": "२",
+  "STEP_NUMBER_3": "३",
+  "STEP_NUMBER_4": "४",
+  "STEP_NUMBER_5": "५"
 }

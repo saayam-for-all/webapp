@@ -516,7 +516,7 @@
   "SIGN_IN_TO_CONTINUE": "Sign In To Continue",
   "SIGN_OFF": "Cerrar Sesión",
   "SITE_MAP": "Mapa del sitio",
-  "SKILLS": "Skills",
+  "SKILLS": "Habilidades",
   "SKIP_TO_CONTENT": "Skip To Content",
   "SOMETHING_WENT_WRONG": "Something Went Wrong",
   "SORT_BY": "Ordenar por",
@@ -765,5 +765,16 @@
   "CANCELLED": "Cancelado",
   "DELETED": "Eliminado",
   "RATED_BY_REQUESTER": "Valorado por el solicitante",
-  "RATED_BY_VOLUNTEER": "Valorado por el voluntario"
+  "RATED_BY_VOLUNTEER": "Valorado por el voluntario",
+  "IDENTIFICATION": "Identificación",
+  "AVAILABILITY": "Disponibilidad",
+  "COMPLETE_REQUIRED_FIELDS": "Por favor, complete todos los campos requeridos antes de continuar.",
+  "FAILED_TO_SAVE_SKILLS": "Error al guardar las habilidades. Por favor, inténtelo de nuevo.",
+  "CHOOSE_FILE": "Seleccionar archivo",
+  "NO_FILE_CHOSEN": "Ningún archivo seleccionado",
+  "STEP_NUMBER_1": "1",
+  "STEP_NUMBER_2": "2",
+  "STEP_NUMBER_3": "3",
+  "STEP_NUMBER_4": "4",
+  "STEP_NUMBER_5": "5"
 }

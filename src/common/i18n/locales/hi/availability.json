@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "समय स्लॉट हटाएं",
   "ADD_TIME_SLOT": "समय स्लॉट जोड़ें",
   "VACATION_MODE_ACTIVE": "छुट्टी मोड सक्रिय",
-  "NO_AVAILABILITY_SLOTS": "कोई उपलब्धता स्लॉट कॉन्फ़िगर नहीं किया गया"
+  "NO_AVAILABILITY_SLOTS": "कोई उपलब्धता स्लॉट कॉन्फ़िगर नहीं किया गया",
+  "REQUIRED": "आवश्यक",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "समाप्ति का समय प्रारंभ समय के बाद होना चाहिए",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "कृपया स्वयंसेवा के लिए अपने उपलब्ध समय स्लॉट प्रदान करें",
+  "ADD": "जोड़ें",
+  "REMOVE_ROW": "पंक्ति हटाएं"
 }

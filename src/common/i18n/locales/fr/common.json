@@ -764,5 +764,18 @@
   "CANCELLED": "Annulé",
   "DELETED": "Supprimé",
   "RATED_BY_REQUESTER": "Évalué par le demandeur",
-  "RATED_BY_VOLUNTEER": "Évalué par le bénévole"
+  "RATED_BY_VOLUNTEER": "Évalué par le bénévole",
+  "IDENTIFICATION": "Identification",
+  "AVAILABILITY": "Disponibilité",
+  "COMPLETE_REQUIRED_FIELDS": "Veuillez remplir tous les champs obligatoires avant de continuer.",
+  "FAILED_TO_SAVE_SKILLS": "Échec de l'enregistrement des compétences. Veuillez réessayer.",
+  "TOOLTIP_ACCEPT_TERMS": "Veuillez accepter les conditions générales",
+  "TOOLTIP_UPLOAD_GOVT_ID": "Veuillez télécharger une pièce d'identité",
+  "CHOOSE_FILE": "Choisir un fichier",
+  "NO_FILE_CHOSEN": "Aucun fichier choisi",
+  "STEP_NUMBER_1": "1",
+  "STEP_NUMBER_2": "2",
+  "STEP_NUMBER_3": "3",
+  "STEP_NUMBER_4": "4",
+  "STEP_NUMBER_5": "5"
 }

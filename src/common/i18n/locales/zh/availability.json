@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "删除时间段",
   "ADD_TIME_SLOT": "添加时间段",
   "VACATION_MODE_ACTIVE": "假期模式已激活",
-  "NO_AVAILABILITY_SLOTS": "未配置可用时间段"
+  "NO_AVAILABILITY_SLOTS": "未配置可用时间段",
+  "REQUIRED": "必填",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "结束时间必须晚于开始时间",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "请提供您的志愿服务可用时间段",
+  "ADD": "添加",
+  "REMOVE_ROW": "删除行"
 }

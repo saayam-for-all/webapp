@@ -514,7 +514,7 @@
   "SIGN_IN_TO_CONTINUE": "Sign In To Continue",
   "SIGN_OFF": "Sign Off",
   "SITE_MAP": "网站地图",
-  "SKILLS": "Skills",
+  "SKILLS": "技能",
   "SKIP_TO_CONTENT": "Skip To Content",
   "SOMETHING_WENT_WRONG": "Something Went Wrong",
   "SORT_BY": "排序方式",
@@ -760,5 +760,16 @@
   "CANCELLED": "已取消",
   "DELETED": "已删除",
   "RATED_BY_REQUESTER": "请求者已评分",
-  "RATED_BY_VOLUNTEER": "志愿者已评分"
+  "RATED_BY_VOLUNTEER": "志愿者已评分",
+  "IDENTIFICATION": "身份验证",
+  "AVAILABILITY": "可用性",
+  "COMPLETE_REQUIRED_FIELDS": "请在继续之前填写所有必填字段。",
+  "FAILED_TO_SAVE_SKILLS": "未能保存技能。请重试。",
+  "CHOOSE_FILE": "选择文件",
+  "NO_FILE_CHOSEN": "未选择任何文件",
+  "STEP_NUMBER_1": "1",
+  "STEP_NUMBER_2": "2",
+  "STEP_NUMBER_3": "3",
+  "STEP_NUMBER_4": "4",
+  "STEP_NUMBER_5": "5"
 }

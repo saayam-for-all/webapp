@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "Удалить временной слот",
   "ADD_TIME_SLOT": "Добавить временной слот",
   "VACATION_MODE_ACTIVE": "Режим отпуска активен",
-  "NO_AVAILABILITY_SLOTS": "Нет настроенных слотов доступности"
+  "NO_AVAILABILITY_SLOTS": "Нет настроенных слотов доступности",
+  "REQUIRED": "Обязательно",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "Время окончания должно быть позже времени начала",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "Пожалуйста, укажите доступные временные интервалы для волонтерства",
+  "ADD": "Добавить",
+  "REMOVE_ROW": "Удалить строку"
 }

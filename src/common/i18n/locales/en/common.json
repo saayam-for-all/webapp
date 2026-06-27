@@ -793,5 +793,16 @@
   "CANCELLED": "Cancelled",
   "DELETED": "Deleted",
   "RATED_BY_REQUESTER": "Rated by Requester",
-  "RATED_BY_VOLUNTEER": "Rated by Volunteer"
+  "RATED_BY_VOLUNTEER": "Rated by Volunteer",
+  "IDENTIFICATION": "Identification",
+  "AVAILABILITY": "Availability",
+  "COMPLETE_REQUIRED_FIELDS": "Please complete all required fields before proceeding.",
+  "FAILED_TO_SAVE_SKILLS": "Failed to save skills. Please try again.",
+  "CHOOSE_FILE": "Choose File",
+  "NO_FILE_CHOSEN": "No file chosen",
+  "STEP_NUMBER_1": "1",
+  "STEP_NUMBER_2": "2",
+  "STEP_NUMBER_3": "3",
+  "STEP_NUMBER_4": "4",
+  "STEP_NUMBER_5": "5"
 }
