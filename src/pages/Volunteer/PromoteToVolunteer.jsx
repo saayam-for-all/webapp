@@ -180,7 +180,7 @@ const PromoteToVolunteer = () => {
               await updateUserSkills(userDbId, skillsToSave);
             } catch (skillError) {
               console.error("Failed to save skills to API:", skillError);
-              setErrorMessage("Failed to save skills. Please try again.");
+              setErrorMessage(t("FAILED_TO_SAVE_SKILLS"));
               isValidStep = false;
             }
           }
@@ -207,13 +207,13 @@ const PromoteToVolunteer = () => {
         default:
           isValidStep = false;
       }
-
+ 
       if (isValidStep) {
         setErrorMessage("");
         newStep++;
       } else {
         setErrorMessage(
-          "Please complete all required fields before proceeding.",
+          t("COMPLETE_REQUIRED_FIELDS"),
         );
       }
     } else if (direction === "prev") {

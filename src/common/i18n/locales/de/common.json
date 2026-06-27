@@ -736,7 +736,7 @@
   "NO_SKILLS_SELECTED": "No skills selected yet",
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
-  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "SELECT_SKILL_TO_CONTINUE": "Wählen Sie mindestens eine bestimmte Fähigkeit aus, um zum nächsten Schritt zu gelangen",
   "COMMENTS": "Kommentare",
   "CHANGE_VOLUNTEER": "Freiwilligen Ändern",
   "DELETE": "Löschen",
@@ -766,5 +766,16 @@
   "CANCELLED": "Storniert",
   "DELETED": "Gelöscht",
   "RATED_BY_REQUESTER": "Vom Anfragenden bewertet",
-  "RATED_BY_VOLUNTEER": "Vom Freiwilligen bewertet"
+  "RATED_BY_VOLUNTEER": "Vom Freiwilligen bewertet",
+  "IDENTIFICATION": "Identifikation",
+  "AVAILABILITY": "Verfügbarkeit",
+  "COMPLETE_REQUIRED_FIELDS": "Bitte füllen Sie alle erforderlichen Felder aus, bevor Sie fortfahren.",
+  "FAILED_TO_SAVE_SKILLS": "Fehler beim Speichern der Fähigkeiten. Bitte versuchen Sie es erneut.",
+  "CHOOSE_FILE": "Datei auswählen",
+  "NO_FILE_CHOSEN": "Keine Datei ausgewählt",
+  "STEP_NUMBER_1": "1",
+  "STEP_NUMBER_2": "2",
+  "STEP_NUMBER_3": "3",
+  "STEP_NUMBER_4": "4",
+  "STEP_NUMBER_5": "5"
 }
