@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { TimePicker } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
+import { useTranslation } from "react-i18next";
 
 const getDefaultSlot = () => ({
   id: Date.now() + Math.random(),
@@ -21,6 +22,7 @@ const TimeInputComponent = ({
   onRemove,
   errors,
 }) => {
+  const { t } = useTranslation("availability");
   const days = [
     "Everyday",
     "Monday",
@@ -42,7 +44,7 @@ const TimeInputComponent = ({
       >
         {days.map((d) => (
           <option key={d} value={d}>
-            {d}
+            {t(d.toUpperCase())}
           </option>
         ))}
       </select>
@@ -61,7 +63,7 @@ const TimeInputComponent = ({
           cleanable={false}
         />
         {errors?.startTime && (
-          <div className="text-xs text-red-500">Required</div>
+          <div className="text-xs text-red-500">{t("REQUIRED")}</div>
         )}
       </div>
 
@@ -93,11 +95,11 @@ const TimeInputComponent = ({
           }}
         />
         {errors?.endTime && (
-          <div className="text-xs text-red-500">Required</div>
+          <div className="text-xs text-red-500">{t("REQUIRED")}</div>
         )}
         {endTime && startTime && endTime <= startTime && (
           <div className="text-xs text-red-500">
-            End time must be after start time
+            {t("END_TIME_MUST_BE_AFTER_START_TIME")}
           </div>
         )}
       </div>
@@ -109,8 +111,8 @@ const TimeInputComponent = ({
                border border-red-500 rounded-full hover:bg-red-100 p-1 shrink-0"
           onClick={() => onRemove(index)}
           type="button"
-          aria-label="Remove row"
-          title="Remove row"
+          aria-label={t("REMOVE_ROW")}
+          title={t("REMOVE_ROW")}
         >
           <svg
             className="w-3 h-3"
@@ -150,6 +152,8 @@ TimeInputComponent.propTypes = {
 
 // ======= LIST COMPONENT =======
 const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
+  const { t } = useTranslation("availability");
+
   const handleDayChange = (index, newDay) => {
     setSlots((s) =>
       s.map((slot, i) => (i === index ? { ...slot, dayOfWeek: newDay } : slot)),
@@ -224,7 +228,7 @@ const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
             d="M391.5,214.5H297v-93.9c0-4-3.2-7.2-7.2-7.2h-68.1c-4,0-7.2,3.2-7.2,7.2v93.9h-93.9c-4,0-7.2,3.2-7.2,7.2v69.2c0,4,3.2,7.2,7.2,7.2h93.9v93.4c0,4,3.2,7.2,7.2,7.2h68.1c4,0,7.2-3.2,7.2-7.2v-93.4h94.5c4,0,7.2-3.2,7.2-7.2v-69.2C398.7,217.7,395.4,214.5,391.5,214.5z"
           ></path>
         </svg>
-        Add
+        {t("ADD")}
       </button>
     </div>
   );
@@ -232,12 +236,13 @@ const TimeInputList = ({ slots, setSlots, errors, setErrors }) => {
 
 // ======= MAIN COMPONENT =======
 const Availability = ({ availabilitySlots, setAvailabilitySlots }) => {
+  const { t } = useTranslation("availability");
   const [errors, setErrors] = useState([{ startTime: false, endTime: false }]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <p className="font-bold text-xl mb-4 text-center">
-        Please Provide Your Available Time Slots for Volunteering
+        {t("PLEASE_PROVIDE_AVAILABILITY_SLOTS")}
       </p>
 
       <TimeInputList
