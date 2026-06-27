@@ -112,7 +112,10 @@ const RequestDescription = ({ requestData }) => {
           <li className="flex items-center group relative">
             <PiWarningDiamondFill className="mr-1 text-red-500" />
             <span className="font-bold cursor-help">
-              {t(requestData.priority)}
+              {t(
+                `enums:requestPriority.${requestData.priority}`,
+                requestData.priority,
+              )}
             </span>
             <div className="absolute top-6 left-0 z-10 px-3 py-1 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
               {t("PRIORITY")}

@@ -40,5 +40,7 @@
   "FIND_BY_EMAIL": "ഇമെയിൽ ഉപയോഗിച്ച് കണ്ടെത്തുക",
   "FIND_BY_PHONE": "ഫോൺ ഉപയോഗിച്ച് കണ്ടെത്തുക",
   "ENTER_VOLUNTEER_EMAIL": "സന്നദ്ധസേവകന്റെ ഇമെയിൽ നൽകുക",
-  "ENTER_VOLUNTEER_PHONE": "സന്നദ്ധസേവകന്റെ ഫോൺ നൽകുക"
+  "ENTER_VOLUNTEER_PHONE": "സന്നദ്ധസേവകന്റെ ഫോൺ നൽകുക",
+  "CHANGE_VOLUNTEER": "സന്നദ്ധസേവകനെ മാറ്റുക",
+  "DELETE": "ഒഴിവാക്കുക"
 }

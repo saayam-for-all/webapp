@@ -43,5 +43,7 @@
   "FIND_BY_EMAIL": "ઇમેઇલ દ્વારા શોધો",
   "FIND_BY_PHONE": "ફોન દ્વારા શોધો",
   "ENTER_VOLUNTEER_EMAIL": "સ્વયંસેવકની ઇમેઇલ દાખલ કરો",
-  "ENTER_VOLUNTEER_PHONE": "સ્વયંસેવકનો ફોન દાખલ કરો"
+  "ENTER_VOLUNTEER_PHONE": "સ્વયંસેવકનો ફોન દાખલ કરો",
+  "CHANGE_VOLUNTEER": "સ્વયંસેવક બદલો",
+  "DELETE": "કાઢી નાખો"
 }

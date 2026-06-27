@@ -40,5 +40,7 @@
   "FIND_BY_EMAIL": "ईमेलसँ खोजू",
   "FIND_BY_PHONE": "फोनसँ खोजू",
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकक ईमेल दर्ज करू",
-  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकक फोन दर्ज करू"
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकक फोन दर्ज करू",
+  "CHANGE_VOLUNTEER": "स्वयंसेवक बदलू",
+  "DELETE": "हटाऊ"
 }

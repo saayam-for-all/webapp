@@ -740,6 +740,7 @@
   "SELECT_SKILL_TO_CONTINUE": "अगले चरण पर जाने के लिए कम से कम एक विशिष्ट कौशल चुनें",
   "COMMENTS": "टिप्पणियाँ",
   "CHANGE_VOLUNTEER": "स्वयंसेवक बदलें",
+  "DELETE": "हटाएं",
   "PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER": "कृपया स्वयंसेवक बदलने का कारण बताएं",
   "REASON": "कारण",
   "REASON_FOR_CONTACTING": "संपर्क करने का कारण",

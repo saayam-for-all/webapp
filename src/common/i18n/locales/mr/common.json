@@ -41,5 +41,7 @@
   "FIND_BY_PHONE": "फोनने शोधा",
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकाचा ईमेल प्रविष्ट करा",
   "LEAD_VOLUNTEER": "मुख्य स्वयंसेवक",
-  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकाचा फोन प्रविष्ट करा"
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकाचा फोन प्रविष्ट करा",
+  "CHANGE_VOLUNTEER": "स्वयंसेवक बदला",
+  "DELETE": "हटवा"
 }

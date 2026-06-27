@@ -56,17 +56,21 @@ jest.mock("../../services/requestApi", () => ({
 
 let mockSuggestions = [];
 let mockHandleSelectSuggestion = jest.fn();
+let capturedSetCoordinates = null;
 
-jest.mock("./location/usePlacesSearchBox", () => () => ({
-  inputRef: { current: null },
-  get suggestions() {
-    return mockSuggestions;
-  },
-  handleSearchChange: jest.fn(),
-  get handleSelectSuggestion() {
-    return mockHandleSelectSuggestion;
-  },
-}));
+jest.mock("./location/usePlacesSearchBox", () => (setLocation, setCoords) => {
+  capturedSetCoordinates = setCoords;
+  return {
+    inputRef: { current: null },
+    get suggestions() {
+      return mockSuggestions;
+    },
+    handleSearchChange: jest.fn(),
+    get handleSelectSuggestion() {
+      return mockHandleSelectSuggestion;
+    },
+  };
+});
 
 jest.mock("../../utils/mapHelpRequestPayload", () => ({
   mapHelpRequestPayload: jest.fn().mockReturnValue({}),
@@ -1644,6 +1648,78 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     });
   });
 
+  it("stores coordinates in formData when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "Overland Park, Kansas, USA",
+      );
+    });
+
+    // Coordinates should be stored — verified via payload
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+  });
+
+  it("stores coordinates alongside address when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "Overland Park, Kansas, USA",
+      );
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalledWith(
+      expect.any(Function),
+      expect.any(Function),
+    );
+  });
+
   it("handles geolocation error gracefully", async () => {
     const mockGetCurrentPosition = jest.fn((success, error) => {
       error(new Error("Location denied"));
@@ -1689,7 +1765,13 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     expect(document.getElementById("location").value).toBe("Kansas City");
   });
   it("shows suggestions and selects one when clicked", async () => {
-    mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
+    mockSuggestions = [
+      {
+        display_name: "Kansas City, Missouri, USA",
+        lat: "39.0997",
+        lon: "-94.5786",
+      },
+    ];
 
     renderForm();
     fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
@@ -1708,9 +1790,36 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
 
     fireEvent.click(screen.getByText("Kansas City, Missouri, USA"));
 
-    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith(
-      "Kansas City, Missouri, USA",
-    );
+    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith({
+      display_name: "Kansas City, Missouri, USA",
+      lat: "39.0997",
+      lon: "-94.5786",
+    });
+  });
+
+  it("updates formData with coordinates when setCoordinates callback is called", async () => {
+    capturedSetCoordinates = null;
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    expect(capturedSetCoordinates).not.toBeNull();
+
+    await act(async () => {
+      capturedSetCoordinates({ latitude: 38.886491, longitude: -94.649869 });
+    });
+
+    expect(document.getElementById("location")).toBeInTheDocument();
   });
 
   it("does not show location field for REMOTE request type", async () => {

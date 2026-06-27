@@ -41,5 +41,7 @@
   "FIND_BY_EMAIL": "ค้นหาด้วยอีเมล",
   "FIND_BY_PHONE": "ค้นหาด้วยเบอร์โทร",
   "ENTER_VOLUNTEER_EMAIL": "ป้อนอีเมลอาสาสมัคร",
-  "ENTER_VOLUNTEER_PHONE": "ป้อนเบอร์โทรอาสาสมัคร"
+  "ENTER_VOLUNTEER_PHONE": "ป้อนเบอร์โทรอาสาสมัคร",
+  "CHANGE_VOLUNTEER": "เปลี่ยนอาสาสมัคร",
+  "DELETE": "ลบ"
 }

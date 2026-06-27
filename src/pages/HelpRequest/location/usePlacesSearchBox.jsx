@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback } from "react";
 
-const usePlacesSearchBox = (setLocation) => {
+const usePlacesSearchBox = (setLocation, setCoordinates) => {
   const inputRef = useRef(null);
   const [suggestions, setSuggestions] = useState([]);
   const debounceTimer = useRef(null);
@@ -11,7 +11,6 @@ const usePlacesSearchBox = (setLocation) => {
       return;
     }
 
-    // wait 500ms before calling API to avoid rate limiting
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     debounceTimer.current = setTimeout(async () => {
       try {
@@ -33,8 +32,18 @@ const usePlacesSearchBox = (setLocation) => {
     }, 500);
   }, []);
 
-  const handleSelectSuggestion = (displayName) => {
-    setLocation(displayName);
+  const handleSelectSuggestion = (suggestion) => {
+    console.log("Suggestion coordinates:", {
+      latitude: parseFloat(suggestion.lat),
+      longitude: parseFloat(suggestion.lon),
+    });
+    setLocation(suggestion.display_name);
+    if (setCoordinates) {
+      setCoordinates({
+        latitude: parseFloat(suggestion.lat),
+        longitude: parseFloat(suggestion.lon),
+      });
+    }
     setSuggestions([]);
   };
 

@@ -52,7 +52,20 @@ describe("mapHelpRequestPayload", () => {
     expect(result).not.toHaveProperty("requestId");
   });
 
-  it("includes requestLocation when formData.location is set", () => {
+  it("includes requestLocation as coordinates when locationCoordinates provided", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      formData: {
+        ...baseFormData,
+        location: "New York, NY",
+        locationCoordinates: { latitude: 40.7128, longitude: -74.006 },
+      },
+    });
+
+    expect(result.requestLocation).toBe("longitude:-74.006,latitude:40.7128");
+  });
+
+  it("includes requestLocation as string when no locationCoordinates provided", () => {
     const result = mapHelpRequestPayload({
       ...baseArgs,
       formData: { ...baseFormData, location: "New York, NY" },
