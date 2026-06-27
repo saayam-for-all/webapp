@@ -32,6 +32,7 @@ describe("PromoteToVolunteer Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    window.URL.createObjectURL = jest.fn(() => "mock-url");
   });
 
   it("renders Terms & Conditions on step 1", () => {
@@ -1543,25 +1544,138 @@ describe("PromoteToVolunteer Component", () => {
     renderWithProviders(<PromoteToVolunteer />, {
       preloadedState: MOCK_STATE_LOGGED_IN,
     });
-
+ 
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
-
+ 
     let nextButton = screen.getByTestId("next-button");
-
+ 
     // Navigate through steps
     fireEvent.click(nextButton);
-
+ 
     await waitFor(() => {
       expect(
         screen.getByText("mockTranslate(IDENTIFICATION)"),
       ).toBeInTheDocument();
     });
-
+ 
     // Continue to other steps...
     nextButton = screen.getByTestId("next-button");
-
+ 
     // Button should still be present on step 2
     expect(nextButton).toBeInTheDocument();
+  });
+ 
+  it("covers VolunteerCourse custom file input interactions and size/type validation", async () => {
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+ 
+    // Step 1: Acknowledge terms
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+    let nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+ 
+    // Step 2: Identification
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(IDENTIFICATION)")).toBeInTheDocument();
+    });
+ 
+    const fileInput = document.querySelector('input[type="file"]');
+    expect(fileInput).toBeInTheDocument();
+ 
+    // 1. Click choose file button to trigger proxy click
+    const chooseButton = screen.getByText("mockTranslate(CHOOSE_FILE)");
+    const clickSpy = jest.spyOn(fileInput, "click").mockImplementation(() => {});
+    fireEvent.click(chooseButton);
+    expect(clickSpy).toHaveBeenCalled();
+    clickSpy.mockRestore();
+ 
+    // 2. Select file that is too large (> 5MB)
+    const largeFile = new File(["a".repeat(6 * 1024 * 1024)], "large.png", { type: "image/png" });
+    fireEvent.change(fileInput, { target: { files: [largeFile] } });
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(FILE_SIZE_ERROR)")).toBeInTheDocument();
+    });
+ 
+    // 3. Select invalid file type
+    const invalidFile = new File(["dummy"], "dummy.txt", { type: "text/plain" });
+    fireEvent.change(fileInput, { target: { files: [invalidFile] } });
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(FILE_TYPE_REQUIREMENT)")).toBeInTheDocument();
+    });
+ 
+    // 4. Select valid file
+    const validFile = new File(["valid"], "valid.png", { type: "image/png" });
+    fireEvent.change(fileInput, { target: { files: [validFile] } });
+    await waitFor(() => {
+      expect(screen.getByText("valid.png")).toBeInTheDocument();
+    });
+  });
+ 
+  it("handles step 3 validation errors and API save failures", async () => {
+    const { updateUserSkills } = require("../../services/volunteerServices");
+    updateUserSkills.mockRejectedValueOnce(new Error("API Error"));
+ 
+    const mockCategories = [
+      {
+        catId: "1",
+        catName: "TEACHING",
+        subCategories: []
+      }
+    ];
+    localStorage.setItem("categories", JSON.stringify(mockCategories));
+ 
+    const preloadedState = {
+      auth: {
+        user: {
+          userId: "mockUser",
+          userDbId: "SID-123"
+        },
+        idToken: "mockToken"
+      }
+    };
+
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState,
+    });
+ 
+    // Step 1
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+    let nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+ 
+    // Step 2: Upload file
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(IDENTIFICATION)")).toBeInTheDocument();
+    });
+    const fileInput = document.querySelector('input[type="file"]');
+    const validFile = new File(["valid"], "valid.png", { type: "image/png" });
+    fireEvent.change(fileInput, { target: { files: [validFile] } });
+ 
+    await waitFor(() => {
+      expect(screen.getByText("valid.png")).toBeInTheDocument();
+    });
+ 
+    nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+ 
+    // Step 3: Skills
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(SKILLS)")).toBeInTheDocument();
+    });
+ 
+    // Select skill "TEACHING" to enable the next button
+    const skillOptions = screen.getAllByText("mockTranslate(categories:REQUEST_CATEGORIES.TEACHING.LABEL)");
+    fireEvent.click(skillOptions[0]);
+ 
+    // Click next, API rejects, should show error
+    nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(COMPLETE_REQUIRED_FIELDS)")).toBeInTheDocument();
+    });
   });
 });
