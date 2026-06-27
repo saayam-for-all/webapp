@@ -168,7 +168,10 @@ const SignUp = () => {
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
-
+        <p className="mb-3 text-sm text-gray-600">
+          <span className="text-red-500 font-semibold">*</span> All fields are
+          mandatory
+        </p>
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
           <div className="flex-1">
