@@ -211,7 +211,10 @@ const RequestDetails = () => {
             {/* Header row: subject (left) + ACTION BUTTONS (top-right) */}
             <div className="flex flex-row justify-between md:items-center gap-4">
               <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 capitalize">
-                {requestData.subject}
+                {requestData.subject}{" "}
+                <span className="text-gray-500 text-base font-normal">
+                  ({requestId})
+                </span>
               </h2>
             </div>
 
