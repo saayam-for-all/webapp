@@ -551,7 +551,7 @@ const HelpingVolunteers = () => {
                           type="checkbox"
                           checked={selectedVolunteers.includes(volunteer.email)}
                           onChange={() => {
-                            handleCheckboxChange(volunteer.id);
+                            handleCheckboxChange(volunteer.email);
                           }}
                         />
                       </td>
