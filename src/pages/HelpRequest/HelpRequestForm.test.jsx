@@ -1109,6 +1109,18 @@ describe("HelpRequestForm — successful submission", () => {
 
     expect(onClose).toHaveBeenCalledWith(undefined);
   });
+
+  it("does not call onClose when Cancel is clicked in create mode", () => {
+    const onClose = jest.fn();
+
+    renderForm({ isEdit: false, onClose });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(CANCEL)" }),
+    );
+
+    expect(onClose).not.toHaveBeenCalled();
+  });
 });
 
 describe("HelpRequestForm — edit mode submission", () => {
