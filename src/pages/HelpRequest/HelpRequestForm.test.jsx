@@ -180,7 +180,11 @@ const mockCategories = [
   },
 ];
 
-function renderForm({ isEdit = false, editRequestData } = {}) {
+function renderForm({
+  isEdit = false,
+  editRequestData,
+  onClose = jest.fn(),
+} = {}) {
   const store = configureStore({
     reducer: { auth: authReducer, request: requestReducer },
     preloadedState: {
@@ -193,7 +197,7 @@ function renderForm({ isEdit = false, editRequestData } = {}) {
       <NotificationProvider>
         <HelpRequestForm
           isEdit={isEdit}
-          onClose={jest.fn()}
+          onClose={onClose}
           editRequestData={editRequestData}
         />
       </NotificationProvider>
@@ -1080,6 +1084,30 @@ describe("HelpRequestForm — successful submission", () => {
     await act(async () => {
       jest.advanceTimersByTime(1200);
     });
+  });
+
+  it("calls onClose(undefined) when Cancel is clicked in edit mode", async () => {
+    const onClose = jest.fn();
+    const mockEditData = {
+      requestId: "REQ-00-000-000-0009",
+      id: "REQ-00-000-000-0009",
+      category: "COLLEGE_APPLICATION_HELP",
+      subject: "Existing Request Subject",
+      description: "Existing request description",
+      priority: "MEDIUM",
+      request_type: "REMOTE",
+      is_self: "yes",
+      helpCategory: { catId: "cat-edu" },
+      attachments: ["http://test.com/file1.jpg"],
+    };
+
+    renderForm({ isEdit: true, editRequestData: mockEditData, onClose });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(CANCEL)" }),
+    );
+
+    expect(onClose).toHaveBeenCalledWith(undefined);
   });
 });
 
