@@ -231,6 +231,37 @@ describe("HelpingVolunteers", () => {
     );
   });
 
+  it("shows error message when meeting creation fails", async () => {
+    const { createZoomMeeting } = require("../../services/meetingServices");
+    createZoomMeeting.mockRejectedValueOnce({
+      response: { data: { message: "Failed to create meeting" } },
+    });
+
+    render(<HelpingVolunteers />);
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByText(/Zoom Meeting/i));
+
+    fireEvent.change(screen.getByLabelText("Date"), {
+      target: { value: "2030-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Time"), {
+      target: { value: "10:30" },
+    });
+
+    fireEvent.click(screen.getByText(/^Confirm$/i));
+
+    await waitFor(
+      () => {
+        expect(
+          screen.getByText(/Failed to create meeting/i),
+        ).toBeInTheDocument();
+      },
+      { timeout: 3000 },
+    );
+  });
+
   it("closes the modal with the cancel button", async () => {
     render(<HelpingVolunteers />);
 
