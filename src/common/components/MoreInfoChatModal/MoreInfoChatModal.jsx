@@ -13,9 +13,9 @@ async function translateText(text /*, targetLang */) {
 }
 
 // TODO: replace hardcoded defaults with dynamic user_id and req_id
-const buildPayload = () => ({
-  user_id: "SID-00-000-000-050",
-  req_id: "REQ-00-000-000-0085",
+const buildPayload = (requestData) => ({
+  user_id: requestData?.userId || requestData?.user_id,
+  req_id: requestData?.requestId || requestData?.req_id || requestData?.id,
 });
 
 const counterColorClass = (remaining) => {
@@ -76,7 +76,7 @@ const MoreInfoChatModal = ({
 
     try {
       const payload = {
-        ...buildPayload(),
+        ...buildPayload(requestData),
         conversation_history: nextMessages,
       };
       const rawReply = await moreInformationChat(payload);

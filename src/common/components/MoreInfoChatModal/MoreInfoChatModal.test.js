@@ -27,6 +27,8 @@ const { moreInformationChat } = require("../../../services/requestServices");
 
 const mockRequestData = {
   id: "REQ-001",
+  requestId: "REQ-00-000-000-0085",
+  userId: "SID-00-000-000-050",
   subject: "Pick up dry cleaning",
   description: "Need someone to pick up my dry cleaning.",
 };
@@ -267,8 +269,8 @@ describe("MoreInfoChatModal", () => {
     await waitFor(() => {
       expect(moreInformationChat).toHaveBeenCalledWith(
         expect.objectContaining({
-          user_id: "SID-00-000-000-050",
-          req_id: "REQ-00-000-000-0085",
+          user_id: mockRequestData.userId,
+          req_id: mockRequestData.requestId,
           conversation_history: expect.arrayContaining([
             expect.objectContaining({ role: "assistant" }),
             expect.objectContaining({ role: "user", content: "My question" }),
