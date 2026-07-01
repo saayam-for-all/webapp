@@ -2316,7 +2316,13 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
               {isSubmitting && <LoadingIndicator size="24px" />}
             </button>
             <button
-              onClick={isEdit ? onClose : closeForm}
+              onClick={() => {
+                if (isEdit) {
+                  onClose?.(undefined);
+                  return;
+                }
+                closeForm();
+              }}
               type="button"
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
             >
