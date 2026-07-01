@@ -7,11 +7,19 @@ import HelpingVolunteers from "./HelpingVolunteers";
 import { getVolunteersData } from "../../services/volunteerServices";
 
 jest.mock("react-router-dom", () => ({
+  // eslint-disable-next-line react/prop-types
   Link: ({ children, to }) => <a href={to}>{children}</a>,
 }));
 
 jest.mock("../../services/volunteerServices", () => ({
   getVolunteersData: jest.fn(),
+}));
+
+jest.mock("../../services/meetingServices", () => ({
+  createZoomMeeting: jest
+    .fn()
+    .mockResolvedValue({ message: "Zoom meeting created successfully!" }),
+  storeMeetingDetails: jest.fn().mockResolvedValue({}),
 }));
 
 const mockVolunteers = [
@@ -176,8 +184,6 @@ describe("HelpingVolunteers", () => {
     render(<HelpingVolunteers />);
 
     const checkboxes = await screen.findAllByRole("checkbox");
-    // The first checkbox is "select all" and selects volunteers by email,
-    // which enables the Zoom Meeting button.
     fireEvent.click(checkboxes[0]);
 
     fireEvent.click(screen.getByText(/Zoom Meeting/i));
@@ -199,7 +205,7 @@ describe("HelpingVolunteers", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows success message and auto-hides it after confirming with date and time", async () => {
+  it("shows loading state after confirming with date and time", async () => {
     render(<HelpingVolunteers />);
 
     const checkboxes = await screen.findAllByRole("checkbox");
@@ -215,16 +221,12 @@ describe("HelpingVolunteers", () => {
 
     fireEvent.click(screen.getByText(/^Confirm$/i));
 
-    expect(
-      screen.getByText(/Need to integrate with backend/i),
-    ).toBeInTheDocument();
+    // Button should show "Scheduling..." while the API call is in progress
+    expect(screen.getByText(/Scheduling/i)).toBeInTheDocument();
 
-    // The success message auto-hides after 2 seconds.
+    // Wait for the loading state to resolve
     await waitFor(
-      () =>
-        expect(
-          screen.queryByText(/Need to integrate with backend/i),
-        ).not.toBeInTheDocument(),
+      () => expect(screen.queryByText(/Scheduling/i)).not.toBeInTheDocument(),
       { timeout: 3000 },
     );
   });
@@ -265,7 +267,7 @@ describe("HelpingVolunteers", () => {
     expect(await screen.findByText("Jane Cooper")).toBeInTheDocument();
 
     const checkboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]); // select all
+    fireEvent.click(checkboxes[0]);
 
     fireEvent.click(screen.getByText(/Delete/i));
 
@@ -334,12 +336,9 @@ describe("HelpingVolunteers", () => {
   it("toggles an individual row checkbox", async () => {
     render(<HelpingVolunteers />);
 
-    // Wait for the volunteer rows to render before grabbing checkboxes,
-    // otherwise only the header "select all" checkbox is present.
     await screen.findByText("Jane Cooper");
 
     const checkboxes = screen.getAllByRole("checkbox");
-    // checkboxes[0] is "select all"; the rest are per-row checkboxes.
     const rowCheckbox = checkboxes[1];
 
     fireEvent.click(rowCheckbox);
