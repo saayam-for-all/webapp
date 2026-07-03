@@ -1,21 +1,20 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import authReducer from "../redux/features/authentication/authSlice";
 import ProtectedRoute from "./ProtectedRoute";
 
-const mockNavigateFn = jest.fn();
-
+// Override the project-wide manual mock in __mocks__/react-router-dom.jsx,
+// which lacks MemoryRouter/Routes/Route needed by these tests.
 jest.mock("react-router-dom", () => ({
-  Navigate: ({ to }) => <div data-testid="navigate" data-to={to} />,
-  Outlet: () => <div data-testid="outlet" />,
-  useLocation: () => ({ pathname: "/dashboard" }),
+  ...jest.requireActual("react-router-dom"),
 }));
 
 jest.mock("../common/components/InactivityTimer/InactivityTimer", () => ({
   __esModule: true,
-  default: ({ children }) => <>{children}</>,
+  default: ({ children }) => <div data-testid="timer">{children}</div>,
 }));
 
 jest.mock("../common/components/Loader/MainLoader", () => ({
@@ -23,56 +22,159 @@ jest.mock("../common/components/Loader/MainLoader", () => ({
   default: () => <div data-testid="main-loader" />,
 }));
 
+const mockStartVolunteerLocationTracking = jest.fn();
+const mockStopVolunteerLocationTracking = jest.fn();
+const mockSyncVolunteerLocationNow = jest.fn();
+
 jest.mock("../services/volunteerLocationTracker", () => ({
-  startVolunteerLocationTracking: jest.fn(),
-  stopVolunteerLocationTracking: jest.fn(),
-  syncVolunteerLocationNow: jest.fn(),
+  startVolunteerLocationTracking: (...args) =>
+    mockStartVolunteerLocationTracking(...args),
+  stopVolunteerLocationTracking: (...args) =>
+    mockStopVolunteerLocationTracking(...args),
+  syncVolunteerLocationNow: (...args) => mockSyncVolunteerLocationNow(...args),
 }));
 
-const renderWithStore = (preloadedState) => {
+const renderProtectedRoute = (authState, initialEntries = ["/dashboard"]) => {
   const store = configureStore({
-    reducer: { auth: authReducer },
-    preloadedState,
+    reducer: {
+      auth: authReducer,
+    },
+    preloadedState: {
+      auth: authState,
+    },
   });
+
   return render(
     <Provider store={store}>
-      <ProtectedRoute />
+      <MemoryRouter initialEntries={initialEntries}>
+        <Routes>
+          <Route path="/" element={<div>Landing</div>} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<div>Dashboard</div>} />
+          </Route>
+        </Routes>
+      </MemoryRouter>
     </Provider>,
   );
 };
 
 describe("ProtectedRoute", () => {
   beforeEach(() => {
-    mockNavigateFn.mockClear();
+    jest.clearAllMocks();
   });
 
-  it("shows loader while auth check is in progress (loading: true)", () => {
-    renderWithStore({ auth: { loading: true, user: null } });
+  it("renders a loading indicator while auth is initializing", () => {
+    renderProtectedRoute({
+      loading: true,
+      authInitialized: false,
+      user: null,
+      success: false,
+      error: null,
+    });
+
     expect(screen.getByTestId("main-loader")).toBeInTheDocument();
-    expect(screen.queryByTestId("navigate")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("outlet")).not.toBeInTheDocument();
+    expect(screen.queryByText("Landing")).not.toBeInTheDocument();
+    expect(screen.queryByText("Dashboard")).not.toBeInTheDocument();
   });
 
-  it("redirects to / when auth resolves with no user", () => {
-    renderWithStore({ auth: { loading: false, user: null } });
-    const nav = screen.getByTestId("navigate");
-    expect(nav).toBeInTheDocument();
-    expect(nav).toHaveAttribute("data-to", "/");
+  it("shows the loader while auth check is in progress even after initialization", () => {
+    renderProtectedRoute({
+      loading: true,
+      authInitialized: true,
+      user: null,
+      success: false,
+      error: null,
+    });
+
+    expect(screen.getByTestId("main-loader")).toBeInTheDocument();
+    expect(screen.queryByText("Landing")).not.toBeInTheDocument();
+  });
+
+  it("redirects unauthenticated users to the landing page", async () => {
+    renderProtectedRoute({
+      loading: false,
+      authInitialized: true,
+      user: null,
+      success: false,
+      error: null,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Landing")).toBeInTheDocument();
+    });
     expect(screen.queryByTestId("main-loader")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("outlet")).not.toBeInTheDocument();
   });
 
-  it("renders protected content when auth resolves with a user", () => {
-    const mockUser = { userId: "u1", email: "test@example.com", groups: [] };
-    renderWithStore({ auth: { loading: false, user: mockUser } });
-    expect(screen.getByTestId("outlet")).toBeInTheDocument();
+  it("renders protected content for authenticated users", async () => {
+    renderProtectedRoute({
+      loading: false,
+      authInitialized: true,
+      user: {
+        userId: "user-123",
+        email: "test@example.com",
+      },
+      success: false,
+      error: null,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    });
     expect(screen.queryByTestId("main-loader")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("navigate")).not.toBeInTheDocument();
   });
 
-  it("does not redirect to / during loading even with no user (prevents premature redirect on /dashboard)", () => {
-    renderWithStore({ auth: { loading: true, user: null } });
-    expect(screen.queryByTestId("navigate")).not.toBeInTheDocument();
+  it("starts volunteer tracking only for volunteer users with a database id", async () => {
+    renderProtectedRoute({
+      loading: false,
+      authInitialized: true,
+      user: {
+        userId: "user-123",
+        userDbId: "SID-00-000-001",
+        groups: ["Volunteer"],
+      },
+      success: false,
+      error: null,
+    });
+
+    await waitFor(() => {
+      expect(mockStartVolunteerLocationTracking).toHaveBeenCalledWith({
+        intervalMs: 5 * 60 * 1000,
+      });
+    });
+
+    expect(mockStopVolunteerLocationTracking).not.toHaveBeenCalled();
+  });
+
+  it("does not start volunteer tracking for non-volunteer users", async () => {
+    renderProtectedRoute({
+      loading: false,
+      authInitialized: true,
+      user: {
+        userId: "user-123",
+        userDbId: "SID-00-000-001",
+        groups: ["Users"],
+      },
+      success: false,
+      error: null,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    });
+
+    expect(mockStartVolunteerLocationTracking).not.toHaveBeenCalled();
+    expect(mockStopVolunteerLocationTracking).toHaveBeenCalled();
+  });
+
+  it("keeps showing a loading state until auth initialization completes", () => {
+    renderProtectedRoute({
+      loading: false,
+      authInitialized: false,
+      user: null,
+      success: false,
+      error: null,
+    });
+
     expect(screen.getByTestId("main-loader")).toBeInTheDocument();
   });
 });

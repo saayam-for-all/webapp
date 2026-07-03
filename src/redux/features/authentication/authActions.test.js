@@ -160,6 +160,30 @@ describe("authActions", () => {
 
       expect(dispatch).toHaveBeenCalledWith(loginRequest());
     });
+
+    it("dispatches loginSuccess with the auth fields consumed by the app", async () => {
+      const { getUserId } = require("../../../services/volunteerServices");
+      getUserId.mockResolvedValue({ data: { user_id: "SID-00-000-001" } });
+
+      await checkAuthStatus()(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        loginSuccess({
+          user: expect.objectContaining({
+            userId: "user-123",
+            email: "test@example.com",
+            family_name: "Doe",
+            given_name: "John",
+            phone_number: "+1234567890",
+            "custom:Country": "US",
+            attributes: mockUserAttributes,
+            groups: ["users"],
+            cognitoGroups: ["users"],
+            userDbId: "SID-00-000-001",
+          }),
+        }),
+      );
+    });
   });
 
   describe("logout", () => {

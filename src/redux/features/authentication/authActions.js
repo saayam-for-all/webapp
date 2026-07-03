@@ -36,13 +36,25 @@ export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
   try {
     const { userId } = await getCurrentUser();
-    const {
+    {
+      /*const {
       email,
       family_name,
       given_name,
       phone_number,
       ["custom:Country"]: zoneinfo,
-    } = await fetchUserAttributes();
+    } = await fetchUserAttributes();*/
+    }
+    const attributes = await fetchUserAttributes();
+    // Log attributes for debugging social login differences (Google vs Facebook)
+    console.log("User id:", userId);
+    console.log("User Attributes:", attributes);
+    console.log(
+      "Auth provider:",
+      attributes.identities
+        ? (JSON.parse(attributes.identities)?.[0]?.providerName ?? "unknown")
+        : "Cognito (email/password)",
+    );
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
 
@@ -127,35 +139,32 @@ export const checkAuthStatus = () => async (dispatch) => {
     }
 
     let userDbId = null;
-    try {
-      const result = await getUserId(email);
-      userDbId =
-        result?.data?.user_id || result?.data?.id || result?.id || null;
-      if (userDbId && typeof userDbId === "string") {
-        localStorage.setItem("userDbId", userDbId);
-      } else {
+    if (attributes.email) {
+      try {
+        const result = await getUserId(attributes.email);
+        userDbId = result?.data?.user_id || result?.data?.id || null;
+        if (userDbId) {
+          localStorage.setItem("userDbId", userDbId);
+        }
+      } catch (dbError) {
         console.warn(
-          "getUserId returned successfully but no id found in response:",
-          JSON.stringify(result),
+          "Database lookup failed, continuing without databaseId:",
+          dbError.message,
         );
-        userDbId = null;
       }
-    } catch (dbError) {
+    } else {
       console.warn(
-        "Database lookup failed, continuing without databaseId:",
-        dbError.message,
+        "No email attribute returned from auth provider. Skipping DB user lookup.",
       );
     }
 
     const user = {
       userId,
-      email,
-      family_name,
-      given_name,
-      phone_number,
-      zoneinfo,
+      ...attributes,
+      attributes,
       groups,
       userDbId,
+      cognitoGroups: groups,
     };
     dispatch(
       loginSuccess({

@@ -11,36 +11,34 @@ import {
 } from "../services/volunteerLocationTracker";
 
 const ProtectedRoute = () => {
-  const authState = useSelector((state) => state.auth);
-  const user = authState?.user || null;
-
-  const loading = authState?.loading ?? false;
-
+  const {
+    user = null,
+    loading = false,
+    authInitialized = false,
+  } = useSelector((state) => state.auth || {});
+  const location = useLocation();
   const userDBid = user?.userDbId || "";
 
-  const location = useLocation();
+  const rawGroups =
+    user?.groups ??
+    user?.group ??
+    user?.cognitoGroups ??
+    user?.["cognito:groups"] ??
+    [];
+
+  const normalizedGroups = Array.isArray(rawGroups)
+    ? rawGroups
+    : [rawGroups].filter(Boolean);
+  const isVolunteer =
+    normalizedGroups.includes("Volunteers") ||
+    normalizedGroups.includes("Volunteer");
 
   useEffect(() => {
-    let removeListener = null;
-
-    const rawGroups =
-      user?.groups ??
-      user?.group ??
-      user?.cognitoGroups ??
-      user?.["cognito:groups"] ??
-      [];
-
-    const normalizedGroups = Array.isArray(rawGroups)
-      ? rawGroups
-      : [rawGroups].filter(Boolean);
-
-    const isVolunteer =
-      normalizedGroups.includes("Volunteers") ||
-      normalizedGroups.includes("Volunteer");
+    if (loading) return undefined;
 
     if (!user || !userDBid || !isVolunteer) {
       stopVolunteerLocationTracking();
-      return;
+      return undefined;
     }
 
     startVolunteerLocationTracking({
@@ -53,18 +51,14 @@ const ProtectedRoute = () => {
 
     window.addEventListener("personal-info-updated", onPersonalInfoUpdated);
 
-    removeListener = () => {
+    return () => {
+      stopVolunteerLocationTracking();
       window.removeEventListener(
         "personal-info-updated",
         onPersonalInfoUpdated,
       );
     };
-
-    return () => {
-      stopVolunteerLocationTracking();
-      if (removeListener) removeListener();
-    };
-  }, [authState, user, userDBid, location.pathname]);
+  }, [isVolunteer, loading, user, userDBid]);
 
   useEffect(() => {
     const publicPaths = [
@@ -81,7 +75,13 @@ const ProtectedRoute = () => {
     }
   }, [location.pathname]);
 
-  if (loading) return <MainLoader />;
+  // Wait for auth initialization to complete before redirecting.
+  // This prevents the race condition where an OAuth callback lands on
+  // /dashboard but gets bounced to "/" because checkAuthStatus() hasn't
+  // finished yet.
+  if (loading || !authInitialized) {
+    return <MainLoader size="50px" position="center" />;
+  }
 
   if (!user) return <Navigate to="/" replace />;
 
