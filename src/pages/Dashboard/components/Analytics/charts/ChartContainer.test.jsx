@@ -25,9 +25,9 @@ describe("ChartContainer", () => {
 
     fireEvent.click(screen.getByLabelText("Expand chart"));
 
-    expect(screen.getByText("Expanded Title")).toBeInTheDocument();
-    expect(screen.getByText("Expanded Description")).toBeInTheDocument();
-    expect(screen.getByText("Modal Content")).toBeInTheDocument();
+    expect(screen.getAllByText("Expanded Title")).toHaveLength(2);
+    expect(screen.getAllByText("Expanded Description")).toHaveLength(2);
+    expect(screen.getAllByText("Modal Content")).toHaveLength(2);
 
     fireEvent.click(screen.getByLabelText("Close expanded chart"));
 
