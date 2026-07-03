@@ -1,14 +1,39 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+
+const LABEL_WORD_OVERRIDES = {
+  xs: "XS",
+  s: "S",
+  m: "M",
+  l: "L",
+  xl: "XL",
+  xxl: "XXL",
+  xxxl: "XXXL",
+  "2xl": "2XL",
+  "3xl": "3XL",
+};
 
 /**
- * Convert UPPER_SNAKE_CASE keys to Title Case labels.
- * e.g. "PREFERRED_MEAL_TYPE" → "Preferred Meal Type"
+ * Convert metadata keys to readable labels while preserving encoded ranges
+ * and clothing-size acronyms.
+ * e.g. "PREFERRED_MEAL_TYPE" -> "Preferred Meal Type"
+ * e.g. "CHILD_3_12" -> "Child 3-12", "XXL" -> "XXL"
  */
 const toTitleCase = (str) =>
-  str
+  String(str)
+    .replace(/(\d)[_\s]+(\d)/g, "$1-$2")
     .replace(/_/g, " ")
     .toLowerCase()
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => {
+      const override = LABEL_WORD_OVERRIDES[word];
+      if (override) return override;
+      return word.replace(/\b\w/g, (c) => c.toUpperCase());
+    })
+    .join(" ");
+
+const EMPTY_FIELD_VALUES = {};
 
 /**
  * DynamicAdditionalFields
@@ -18,11 +43,15 @@ const toTitleCase = (str) =>
  *
  * Props:
  *   catId        – currently selected category ID (e.g. "1.1", "6.4")
- *   onChange      – callback receiving { [fieldId]: value } on every change
- *   initialValues – optional pre-filled values (for edit mode)
+ *   value        – current field values owned by the parent form
+ *   onChange     – callback receiving { [fieldId]: value } on every change
  */
-const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
-  const [fieldValues, setFieldValues] = useState({});
+const DynamicAdditionalFields = ({
+  catId,
+  value = EMPTY_FIELD_VALUES,
+  onChange,
+}) => {
+  const { t } = useTranslation("metadata");
 
   // ── Resolve metadata for the current catId ──────────────────────────
   const metadataFields = useMemo(() => {
@@ -49,49 +78,56 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
     }
   }, [catId]);
 
-  // ── Reset field values when catId changes ───────────────────────────
-  useEffect(() => {
-    if (initialValues) {
-      setFieldValues(initialValues);
-    } else {
-      setFieldValues({});
-    }
-  }, [catId]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // ── Propagate changes to parent ─────────────────────────────────────
-  useEffect(() => {
-    if (metadataFields.length > 0) {
-      onChange(fieldValues);
-    }
-  }, [fieldValues]); // eslint-disable-line react-hooks/exhaustive-deps
-
   // ── Nothing to render ───────────────────────────────────────────────
   if (metadataFields.length === 0) return null;
 
   // ── Helpers ─────────────────────────────────────────────────────────
-  const updateField = (fieldId, value) => {
-    setFieldValues((prev) => ({ ...prev, [fieldId]: value }));
+  const updateField = (fieldId, nextValue) => {
+    onChange({ ...value, [fieldId]: nextValue });
   };
 
   const toggleCheckbox = (fieldId, itemValue) => {
-    setFieldValues((prev) => {
-      const current = Array.isArray(prev[fieldId]) ? prev[fieldId] : [];
-      const next = current.includes(itemValue)
-        ? current.filter((v) => v !== itemValue)
-        : [...current, itemValue];
-      return { ...prev, [fieldId]: next };
+    const current = Array.isArray(value[fieldId]) ? value[fieldId] : [];
+    const next = current.includes(itemValue)
+      ? current.filter((v) => v !== itemValue)
+      : [...current, itemValue];
+    onChange({ ...value, [fieldId]: next });
+  };
+
+  const updateListItemValue = (fieldId, itemId, nextValue) => {
+    const current =
+      value[fieldId] !== null &&
+      typeof value[fieldId] === "object" &&
+      !Array.isArray(value[fieldId])
+        ? value[fieldId]
+        : {};
+    onChange({
+      ...value,
+      [fieldId]: { ...current, [itemId]: nextValue },
     });
   };
 
-  const updateListItemValue = (fieldId, itemId, value) => {
-    setFieldValues((prev) => {
-      const current =
-        typeof prev[fieldId] === "object" && !Array.isArray(prev[fieldId])
-          ? prev[fieldId]
-          : {};
-      return { ...prev, [fieldId]: { ...current, [itemId]: value } };
-    });
+  const getFieldValue = (fieldId) => value[fieldId] ?? "";
+
+  const getNestedFieldValue = (fieldId, itemId) => {
+    const current = value[fieldId];
+    return current !== null &&
+      typeof current === "object" &&
+      !Array.isArray(current)
+      ? (current[itemId] ?? "")
+      : "";
   };
+
+  const translateMetadataLabel = (key, fallback) => {
+    const translated = t(key, { defaultValue: fallback });
+    return translated === key ? fallback : translated;
+  };
+
+  const getFieldLabel = (fieldNameKey) =>
+    translateMetadataLabel(`FIELDS.${fieldNameKey}`, toTitleCase(fieldNameKey));
+
+  const getItemLabel = (itemValue) =>
+    translateMetadataLabel(`ITEMS.${itemValue}`, toTitleCase(itemValue));
 
   // ── Render a single list item based on its itemType ─────────────────
   const renderListItem = (field, item) => {
@@ -107,14 +143,14 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
               name={fieldId}
               value={item.itemId}
               checked={
-                Array.isArray(fieldValues[fieldId]) &&
-                fieldValues[fieldId].includes(item.itemId)
+                Array.isArray(value[fieldId]) &&
+                value[fieldId].includes(item.itemId)
               }
               onChange={() => updateField(fieldId, [item.itemId])}
               className="rounded"
               data-testid={`radio-${key}`}
             />
-            <span className="text-sm">{toTitleCase(item.itemValue)}</span>
+            <span className="text-sm">{getItemLabel(item.itemValue)}</span>
           </label>
         );
 
@@ -123,15 +159,15 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
           <label key={key} className="flex items-center space-x-2">
             <input
               type="checkbox"
-              checked={(Array.isArray(fieldValues[fieldId])
-                ? fieldValues[fieldId]
+              checked={(Array.isArray(value[fieldId])
+                ? value[fieldId]
                 : []
               ).includes(item.itemId)}
               onChange={() => toggleCheckbox(fieldId, item.itemId)}
               className="rounded"
               data-testid={`checkbox-${key}`}
             />
-            <span className="text-sm">{toTitleCase(item.itemValue)}</span>
+            <span className="text-sm">{getItemLabel(item.itemValue)}</span>
           </label>
         );
 
@@ -139,16 +175,11 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
         return (
           <div key={key} className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-600 min-w-[120px]">
-              {toTitleCase(item.itemValue)}
+              {getItemLabel(item.itemValue)}
             </span>
             <input
               type="text"
-              value={
-                (typeof fieldValues[fieldId] === "object" &&
-                  !Array.isArray(fieldValues[fieldId]) &&
-                  fieldValues[fieldId]?.[item.itemId]) ||
-                ""
-              }
+              value={getNestedFieldValue(fieldId, item.itemId)}
               onChange={(e) =>
                 updateListItemValue(fieldId, item.itemId, e.target.value)
               }
@@ -162,16 +193,11 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
         return (
           <div key={key} className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-600 min-w-[120px]">
-              {toTitleCase(item.itemValue)}
+              {getItemLabel(item.itemValue)}
             </span>
             <input
               type="number"
-              value={
-                (typeof fieldValues[fieldId] === "object" &&
-                  !Array.isArray(fieldValues[fieldId]) &&
-                  fieldValues[fieldId]?.[item.itemId]) ||
-                ""
-              }
+              value={getNestedFieldValue(fieldId, item.itemId)}
               onChange={(e) =>
                 updateListItemValue(fieldId, item.itemId, e.target.value)
               }
@@ -185,7 +211,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
         return (
           <div key={key} className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-600 min-w-[120px]">
-              {toTitleCase(item.itemValue)}
+              {getItemLabel(item.itemValue)}
             </span>
             <div className="flex items-center">
               <span className="text-sm text-gray-500 mr-1">$</span>
@@ -193,12 +219,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
                 type="number"
                 min="0"
                 step="0.01"
-                value={
-                  (typeof fieldValues[fieldId] === "object" &&
-                    !Array.isArray(fieldValues[fieldId]) &&
-                    fieldValues[fieldId]?.[item.itemId]) ||
-                  ""
-                }
+                value={getNestedFieldValue(fieldId, item.itemId)}
                 onChange={(e) =>
                   updateListItemValue(fieldId, item.itemId, e.target.value)
                 }
@@ -213,16 +234,11 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
         return (
           <div key={key} className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-medium text-gray-600 min-w-[120px]">
-              {toTitleCase(item.itemValue)}
+              {getItemLabel(item.itemValue)}
             </span>
             <input
               type="date"
-              value={
-                (typeof fieldValues[fieldId] === "object" &&
-                  !Array.isArray(fieldValues[fieldId]) &&
-                  fieldValues[fieldId]?.[`${item.itemId}_date`]) ||
-                ""
-              }
+              value={getNestedFieldValue(fieldId, `${item.itemId}_date`)}
               onChange={(e) =>
                 updateListItemValue(
                   fieldId,
@@ -235,12 +251,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             />
             <input
               type="time"
-              value={
-                (typeof fieldValues[fieldId] === "object" &&
-                  !Array.isArray(fieldValues[fieldId]) &&
-                  fieldValues[fieldId]?.[`${item.itemId}_time`]) ||
-                ""
-              }
+              value={getNestedFieldValue(fieldId, `${item.itemId}_time`)}
               onChange={(e) =>
                 updateListItemValue(
                   fieldId,
@@ -262,7 +273,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
   // ── Render a top-level field ─────────────────────────────────────────
   const renderField = (field) => {
     const { fieldId, fieldNameKey, fieldType, listItems } = field;
-    const label = toTitleCase(fieldNameKey);
+    const label = getFieldLabel(fieldNameKey);
 
     switch (fieldType) {
       // Simple text input
@@ -274,7 +285,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             </label>
             <input
               type="text"
-              value={fieldValues[fieldId] || ""}
+              value={getFieldValue(fieldId)}
               onChange={(e) => updateField(fieldId, e.target.value)}
               className="w-full rounded-lg border border-gray-300 py-2 px-3"
               data-testid={`field-${fieldId}`}
@@ -293,7 +304,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             <input
               type="number"
               min="0"
-              value={fieldValues[fieldId] || ""}
+              value={getFieldValue(fieldId)}
               onChange={(e) => updateField(fieldId, e.target.value)}
               className="w-full rounded-lg border border-gray-300 py-2 px-3"
               data-testid={`field-${fieldId}`}
@@ -307,7 +318,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
           <div key={fieldId} className="mt-3 flex items-center space-x-2">
             <input
               type="checkbox"
-              checked={fieldValues[fieldId] === "true"}
+              checked={value[fieldId] === "true"}
               onChange={(e) =>
                 updateField(fieldId, e.target.checked ? "true" : "false")
               }
@@ -328,11 +339,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             <div className="flex gap-2">
               <input
                 type="date"
-                value={
-                  (fieldValues[fieldId] &&
-                    fieldValues[fieldId][`${fieldId}_date`]) ||
-                  ""
-                }
+                value={getNestedFieldValue(fieldId, `${fieldId}_date`)}
                 onChange={(e) =>
                   updateListItemValue(
                     fieldId,
@@ -345,11 +352,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
               />
               <input
                 type="time"
-                value={
-                  (fieldValues[fieldId] &&
-                    fieldValues[fieldId][`${fieldId}_time`]) ||
-                  ""
-                }
+                value={getNestedFieldValue(fieldId, `${fieldId}_time`)}
                 onChange={(e) =>
                   updateListItemValue(
                     fieldId,
@@ -373,7 +376,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
             </label>
             <input
               type="time"
-              value={fieldValues[fieldId] || ""}
+              value={getFieldValue(fieldId)}
               onChange={(e) => updateField(fieldId, e.target.value)}
               className="rounded-lg border border-gray-300 py-2 px-3"
               data-testid={`field-${fieldId}`}
@@ -394,7 +397,7 @@ const DynamicAdditionalFields = ({ catId, onChange, initialValues = null }) => {
                 type="number"
                 min="0"
                 step="0.01"
-                value={fieldValues[fieldId] || ""}
+                value={getFieldValue(fieldId)}
                 onChange={(e) => updateField(fieldId, e.target.value)}
                 className="w-full rounded-lg border border-gray-300 py-2 px-3"
                 data-testid={`field-${fieldId}`}

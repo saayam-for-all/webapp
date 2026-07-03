@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { MdContactPhone } from "react-icons/md";
+import { IoMdInformationCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import { useSelector } from "react-redux";
@@ -9,13 +10,14 @@ import {
   getEmergencyContactInfo,
   moreInformationChat,
 } from "../../../services/requestServices";
-import { getCategoriesFromStorage } from "../../../utils/filterHelpers";
 import MoreInfoChatModal from "../MoreInfoChatModal/MoreInfoChatModal";
 
 const COOLDOWN_MS = 30 * 60 * 1000;
 
 const getCooldownKey = (data) =>
-  `moreInfoCooldown_${data?.id ?? data?.subject ?? "default"}`;
+  `moreInfoCooldown_${
+    data?.requestId || data?.req_id || data?.id || data?.subject || "default"
+  }`;
 
 const isCoolingDown = (data) => {
   const raw = localStorage.getItem(getCooldownKey(data));
@@ -26,28 +28,9 @@ const isCoolingDown = (data) => {
   return false;
 };
 
-const findCatId = (catName) => {
-  const categories = getCategoriesFromStorage() || [];
-  const search = (list) => {
-    for (const cat of list) {
-      if (cat.catName === catName) return cat.catId;
-      if (cat.subCategories) {
-        const found = search(cat.subCategories);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
-  return search(categories) ?? catName;
-};
-
-const buildPayload = (requestData) => ({
-  category_id: findCatId(requestData.category ?? ""),
-  subject: requestData.subject ?? "",
-  description: requestData.description ?? "",
-  location: requestData.location ?? "",
-  gender: requestData.gender ?? "",
-  age: requestData.age ?? "",
+const buildPayload = (requestData, loggedInUserId) => ({
+  user_id: requestData?.userId || requestData?.user_id || loggedInUserId,
+  req_id: requestData?.requestId || requestData?.req_id || requestData?.id,
 });
 
 const RequestButton = ({
@@ -57,12 +40,14 @@ const RequestButton = ({
   customStyle,
   icon,
   requestData = {},
+  navigationState,
   onClick,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [showCooldownDialog, setShowCooldownDialog] = useState(false);
   const [responseContent, setResponseContent] = useState(null);
   const [initialResponse, setInitialResponse] = useState("");
+  const [isInitialLoading, setIsInitialLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
@@ -95,9 +80,23 @@ const RequestButton = ({
           return;
         }
 
-        const aiReply = await moreInformationChat(buildPayload(requestData));
-        setInitialResponse(aiReply?.body?.answer ?? "");
+        setInitialResponse("");
+        setIsInitialLoading(true);
         setShowModal(true);
+        try {
+          const aiReply = await moreInformationChat({
+            ...buildPayload(requestData, user?.userDbId),
+            conversation_history: [],
+          });
+          setInitialResponse(aiReply?.body?.answer ?? "");
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          setInitialResponse(
+            "An error occurred while fetching the information. Please try again.",
+          );
+        } finally {
+          setIsInitialLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
         setResponseContent(
@@ -106,7 +105,7 @@ const RequestButton = ({
         setShowModal(true);
       }
     } else {
-      navigate(link, { state: requestData });
+      navigate(link, { state: navigationState ?? requestData });
     }
   };
 
@@ -154,6 +153,7 @@ const RequestButton = ({
           onClose={handleChatClose}
           requestData={requestData}
           initialResponse={initialResponse}
+          isInitialLoading={isInitialLoading}
         />
       )}
 
@@ -162,10 +162,16 @@ const RequestButton = ({
         show={showCooldownDialog}
         onClose={() => setShowCooldownDialog(false)}
       >
-        <p className="text-gray-700">
-          You have reached the question limit. Please try again after 30
-          minutes.
-        </p>
+        <div
+          className="flex items-start gap-2 p-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+          role="alert"
+        >
+          <IoMdInformationCircle size={22} className="shrink-0" />
+          <span>
+            You have reached the question limit. Please try again after 30
+            minutes.
+          </span>
+        </div>
       </Modal>
     </>
   );

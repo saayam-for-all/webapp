@@ -1,4 +1,5 @@
 import Table from "../../../common/components/DataTable/Table";
+import LoadingIndicator from "../../../common/components/Loading/Loading";
 import PropTypes from "prop-types";
 import ApplicationAnalytics from "../components/Analytics/ApplicationAnalytics";
 import GoogleAnalytics from "../components/Analytics/GoogleAnalytics";
@@ -22,6 +23,8 @@ const SuperAdminDashboard = (props) => {
     searchFilters,
     analyticsSubtab,
     setAnalyticsSubtab,
+    serverPaginated,
+    serverTotalRows,
   } = props;
 
   return (
@@ -113,23 +116,26 @@ const SuperAdminDashboard = (props) => {
             )}
             {analyticsSubtab === "Google Analytics" && <GoogleAnalytics />}
           </div>
+        ) : isLoading ? (
+          <div className="flex justify-center py-10">
+            <LoadingIndicator size="50px" position="beside" />
+          </div>
         ) : (
-          !isLoading && (
-            <Table
-              headers={headers}
-              rows={filteredData}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages(filteredData)}
-              totalRows={filteredData.length}
-              itemsPerPage={rowsPerPage}
-              sortConfig={sortConfig}
-              requestSort={requestSort}
-              onRowsPerPageChange={onRowsPerPageChange}
-              getLinkPath={getLinkPath}
-              getLinkState={getLinkState}
-            />
-          )
+          <Table
+            headers={headers}
+            rows={filteredData}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages(filteredData)}
+            totalRows={serverPaginated ? serverTotalRows : filteredData.length}
+            itemsPerPage={rowsPerPage}
+            sortConfig={sortConfig}
+            requestSort={requestSort}
+            onRowsPerPageChange={onRowsPerPageChange}
+            getLinkPath={getLinkPath}
+            getLinkState={getLinkState}
+            serverPaginated={serverPaginated}
+          />
         )}
       </div>
     </div>
@@ -154,6 +160,8 @@ SuperAdminDashboard.propTypes = {
   searchFilters: PropTypes.node,
   analyticsSubtab: PropTypes.string,
   setAnalyticsSubtab: PropTypes.func,
+  serverPaginated: PropTypes.bool,
+  serverTotalRows: PropTypes.number,
 };
 
 export default SuperAdminDashboard;

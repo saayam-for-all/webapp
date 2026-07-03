@@ -36,16 +36,6 @@ const OrganizationDetails = () => {
 
   return (
     <div>
-      {/* Back button */}
-      <div className="w-full px-4 mt-4 mb-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-        >
-          <span className="text-2xl mr-2">&lt;</span> {t("BACK") || "Back"}
-        </button>
-      </div>
-
       <div className="flex justify-center items-center min-h-screen">
         <div className="w-full max-w-5xl p-12 bg-white rounded-lg shadow-lg mx-4 lg:mx-auto">
           {/* Organization Name and Category */}

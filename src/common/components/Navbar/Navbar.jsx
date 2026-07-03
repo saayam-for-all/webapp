@@ -105,6 +105,12 @@ const Navbar = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (!user?.userId) {
+      setSearchText("");
+    }
+  }, [user?.userId]);
+
+  useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
     if (savedProfilePhoto) setProfileIcon(savedProfilePhoto);
   }, []);
@@ -353,6 +359,7 @@ const Navbar = () => {
   };
 
   const handleSignOut = () => {
+    setSearchText("");
     dispatch(logout());
     setIsLogoutModalOpen(false);
     navigate("/login");
@@ -416,12 +423,14 @@ const Navbar = () => {
 
         {/* Mobile Search (only after login) */}
         {user?.userId && (
-          <div className="flex md:hidden flex-1 mx-2">
+          <div className="flex flex-col md:hidden flex-1 mx-2">
             <TextField
+              name="navbar-search"
+              autoComplete="off"
               value={searchText}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
-              placeholder="Search..."
+              placeholder={t("SEARCH_PLACEHOLDER")}
               size="small"
               fullWidth
               inputProps={{ maxLength: 80 }}
@@ -440,6 +449,9 @@ const Navbar = () => {
                 minWidth: 0,
               }}
             />
+            <p className="text-xs text-gray-500 mt-0.5 pl-4">
+              {t("SEARCH_TAGLINE")}
+            </p>
           </div>
         )}
 
@@ -447,25 +459,28 @@ const Navbar = () => {
         <div className="flex md:hidden items-center">
           {user?.userId ? (
             // ✅ After login: icon-only
-            <button
-              onClick={(e) => handleLinkClick(e, "/donate")}
-              className="bg-blue-500 text-white h-10 w-10 rounded-full hover:bg-blue-600 flex items-center justify-center"
-              aria-label={t("DONATE")}
-              title={t("DONATE")}
-              type="button"
-            >
-              <VolunteerActivismOutlinedIcon fontSize="small" />
-            </button>
+            <ModernTooltip title={t("DONATE")}>
+              <button
+                onClick={(e) => handleLinkClick(e, "/donate")}
+                className="text-black hover:text-gray-600 flex items-center"
+                aria-label={t("DONATE")}
+                type="button"
+              >
+                <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
+              </button>
+            </ModernTooltip>
           ) : (
             // ✅ Before login: full Donate button (keep your original)
-            <button
-              onClick={(e) => handleLinkClick(e, "/donate")}
-              className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm"
-              type="button"
-            >
-              <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
-              {t("DONATE")}
-            </button>
+            <ModernTooltip title={t("DONATE")}>
+              <button
+                onClick={(e) => handleLinkClick(e, "/donate")}
+                className="text-black hover:text-gray-600 flex items-center"
+                aria-label={t("DONATE")}
+                type="button"
+              >
+                <VolunteerActivismOutlinedIcon sx={{ fontSize: 28 }} />
+              </button>
+            </ModernTooltip>
           )}
         </div>
 
@@ -473,12 +488,14 @@ const Navbar = () => {
         <div className="hidden md:flex items-center flex-1 ml-4">
           {" "}
           {user?.userId && (
-            <div className="flex items-center w-full max-w-[800px] mr-4">
+            <div className="flex flex-col w-full max-w-[800px] mr-4">
               <TextField
+                name="navbar-search"
+                autoComplete="off"
                 value={searchText}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
-                placeholder="Search..."
+                placeholder={t("SEARCH_PLACEHOLDER")}
                 size="small"
                 fullWidth
                 inputProps={{ maxLength: 80 }}
@@ -497,6 +514,9 @@ const Navbar = () => {
                   minWidth: 0,
                 }}
               />
+              <p className="text-xs text-gray-500 mt-0.5 pl-4">
+                {t("SEARCH_TAGLINE")}
+              </p>
             </div>
           )}
           <div className="flex items-center ml-auto gap-3 lg:gap-6">
@@ -581,7 +601,7 @@ const Navbar = () => {
                   <MenuItem
                     onClick={(e) => handleLinkClick(e, "/news-our-stories")}
                   >
-                    <ArticleIcon className="mr-2" /> {t("In The News")}
+                    <ArticleIcon className="mr-2" /> {t("IN_THE_NEWS")}
                   </MenuItem>
                 </Menu>
               )}
@@ -654,13 +674,15 @@ const Navbar = () => {
               </div>
             )}
             <div className="relative">
-              <button
-                onClick={(e) => handleLinkClick(e, "/donate")}
-                className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 flex items-center text-sm md:-ml-2"
-              >
-                <VolunteerActivismOutlinedIcon className="mr-2 text-base" />
-                {t("DONATE")}
-              </button>
+              <ModernTooltip title={t("DONATE")} arrow>
+                <button
+                  onClick={(e) => handleLinkClick(e, "/donate")}
+                  className="text-black hover:text-gray-600 flex items-center"
+                  aria-label={t("DONATE")}
+                >
+                  <VolunteerActivismOutlinedIcon sx={{ fontSize: 38 }} />
+                </button>
+              </ModernTooltip>
             </div>
           </div>
         </div>
@@ -885,7 +907,7 @@ const Navbar = () => {
                   <MenuItem
                     onClick={(e) => handleDrawerClick(e, "/news-our-stories")}
                   >
-                    <ArticleIcon className="mr-2" /> {t("In the news")}
+                    <ArticleIcon className="mr-2" /> {t("IN_THE_NEWS")}
                   </MenuItem>
                 }
               </Menu>

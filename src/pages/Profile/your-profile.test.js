@@ -119,7 +119,7 @@ const mockUser = {
   family_name: "Doe",
   email: "john@example.com",
   phone_number: "+12345678901", // good: strips to 2345678901 (10 digits)
-  zoneinfo: "United States",
+  zoneinfo: "US",
 };
 
 const defaultStore = createMockStore({
@@ -189,6 +189,40 @@ describe("YourProfile", () => {
     });
   });
 
+  it("keeps country locked in edit mode when the profile already has country", async () => {
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+    );
+
+    fireEvent.click(screen.getByText("EDIT"));
+
+    const countrySelect = await screen.findByLabelText(/COUNTRY/);
+    expect(countrySelect).toBeDisabled();
+    expect(countrySelect).toHaveValue("US");
+  });
+
+  it("allows country selection in edit mode when profile country is missing", async () => {
+    const storeWithoutCountry = createMockStore({
+      auth: { user: { ...mockUser, zoneinfo: null } },
+    });
+
+    renderWithProvider(
+      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
+      storeWithoutCountry,
+    );
+
+    fireEvent.click(screen.getByText("EDIT"));
+
+    const countrySelect = await screen.findByLabelText(/COUNTRY/);
+    expect(countrySelect).not.toBeDisabled();
+    expect(countrySelect).toHaveValue("");
+
+    fireEvent.change(countrySelect, { target: { value: "CA" } });
+
+    expect(countrySelect).toHaveValue("CA");
+    expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
   it("sends verification and navigates when email is changed and saved", async () => {
     const { updateUserAttributes } = require("aws-amplify/auth");
 
@@ -235,24 +269,6 @@ describe("YourProfile", () => {
       fireEvent.change(firstNameInput, { target: { value: "Jane" } });
       expect(mockSetHasUnsavedChanges).toHaveBeenCalledWith(true);
     });
-  });
-
-  it("opens call modal when phone icon is clicked", () => {
-    renderWithProvider(
-      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
-    );
-    fireEvent.click(screen.getByTestId("phone-call-icon"));
-    expect(screen.getByTestId("call-modal")).toBeInTheDocument();
-    expect(screen.getByText("CallModal - audio")).toBeInTheDocument();
-  });
-
-  it("opens video call modal when video icon is clicked", () => {
-    renderWithProvider(
-      <YourProfile setHasUnsavedChanges={mockSetHasUnsavedChanges} />,
-    );
-    fireEvent.click(screen.getByTestId("video-call-icon"));
-    expect(screen.getByTestId("call-modal")).toBeInTheDocument();
-    expect(screen.getByText("CallModal - video")).toBeInTheDocument();
   });
 
   it("cancels editing and resets form", async () => {

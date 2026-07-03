@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import {
+  LineChart,
+  Line,
   BarChart,
   Bar,
   XAxis,
@@ -8,8 +10,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ComposedChart,
-  Line,
 } from "recharts";
 import {
   ComposableMap,
@@ -19,49 +19,214 @@ import {
 } from "react-simple-maps";
 import ChartContainer from "./charts/ChartContainer";
 import { getBeneficiariesTrendAnalysis } from "../../../../services/analyticsServices";
+import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
 import beneficiariesGrowthDataFallback from "../../../../data/analytics/beneficiaries_growth_monthly.json";
 import beneficiariesByCountryDataFallback from "../../../../data/analytics/beneficiaries_by_country_monthly.json";
 
 // World map GeoJSON URL
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
+// Trend response keys returned by the API.
+// 7D / 30D / 1Y / All are all pre-computed windows returned by the default {} payload.
+// Custom is populated only when a custom date range payload is sent.
+const BENEFICIARY_TREND_KEYS = {
+  "7d": "Beneficiaries count 7 days",
+  "30d": "Beneficiaries count 30 days",
+  "1yr": "Beneficiaries count 1 year",
+  all: "Beneficiaries count all",
+  custom: "Beneficiaries count custom date range",
+};
+
+// Country response keys — each value is an object keyed by ISO alpha-3 country code,
+// with an array of { Date, Count } entries (plus a trailing { "Total Count": N } summary).
+const COUNTRY_DATA_KEYS = {
+  "7d": "Beneficiaries count by country 7 days",
+  "30d": "Beneficiaries count by country 30 days",
+  "1yr": "Beneficiaries count by country 1 year",
+  all: "Beneficiaries count by country all",
+  custom: "Beneficiaries count by country custom date range",
+};
+
+// Build a fetch payload for the given time range and optional date/group_by params.
+// 7D / 30D / 1Y / All send {} — the API returns all four pre-computed windows at once.
+// Custom sends an explicit date range with a group_by granularity (day or month).
+// Returns null when custom range is selected but dates aren't filled yet.
+const buildFetchParams = (range, start, end, groupBy) => {
+  if (range === "7d" || range === "30d" || range === "1yr" || range === "all")
+    return {};
+  if (range === "custom" && start && end) {
+    return {
+      custom_start_date: start,
+      custom_end_date: end,
+      custom_group_by: groupBy,
+    };
+  }
+  return null;
+};
+
+// Normalize API items { Date, Count } → { date, count }
+const normalizeItems = (arr) =>
+  (arr ?? []).map((item) => ({
+    date: (item.Date ?? "").split("T")[0],
+    count: item.Count ?? 0,
+  }));
+
+// Aggregate the per-country object returned by the API into a flat array.
+// Input:  { "AFG": [{Date, Count}, ..., {"Total Count": N}], "USA": [...] }
+// Output: [{ month, country, beneficiaryCount }, ...]
+// The API appends a {"Total Count": N} summary entry to each country array;
+// we use that directly when present, otherwise sum the date-bearing entries.
+const parseCountryData = (countryObj) => {
+  if (
+    !countryObj ||
+    typeof countryObj !== "object" ||
+    Array.isArray(countryObj)
+  )
+    return [];
+  return Object.entries(countryObj).map(([code, entries]) => {
+    if (!Array.isArray(entries))
+      return { month: "", country: isoAlpha3ToName(code), beneficiaryCount: 0 };
+    const summary = entries.find((e) => "Total Count" in e);
+    const total = summary
+      ? summary["Total Count"]
+      : entries
+          .filter((e) => "Date" in e)
+          .reduce((sum, e) => sum + (e.Count ?? 0), 0);
+    return {
+      month: "",
+      country: isoAlpha3ToName(code),
+      beneficiaryCount: total,
+    };
+  });
+};
+
 /**
  * BeneficiariesAnalytics Component
  *
  * Displays:
- * 1. Beneficiary Growth Trend (Area Chart with Cumulative Line Overlay) - Dual Y-axis showing new and total beneficiaries
- * 2. Beneficiaries by Country (Bar Chart with Top 10 Panel) - Geographic distribution
+ * 1. Beneficiary Growth Trend (Line Chart) - time range selector with 7D / 30D / 1Y / All / Custom
+ *    - 7D     → last 7 days, daily points   ("Beneficiaries count 7 days")
+ *    - 30D    → last 30 days, daily points  ("Beneficiaries count 30 days")
+ *    - 1Y     → last year, daily points     ("Beneficiaries count 1 year")
+ *    - All    → full history, monthly       ("Beneficiaries count all")
+ *    - Custom → user-supplied date range + day/month group_by
+ *    7D / 30D / 1Y / All all use the {} payload; the API returns all four windows at once.
+ *    Custom sends { custom_start_date, custom_end_date, custom_group_by }.
+ * 2. Beneficiaries by Country (Bar Chart / Map) - with independent time range selector
+ *    Country data ("Beneficiaries count by country <period>") is re-used from the trend
+ *    response unless the country time range requires a different API payload.
  */
 const BeneficiariesAnalytics = () => {
-  const [statusFilter, setStatusFilter] = useState("all"); // all, active, inactive
+  // Trend time range states
+  const [timeRange, setTimeRange] = useState("all"); // 7d, 30d, 1yr, all, custom
+  const [customStartDate, setCustomStartDate] = useState("");
+  const [customEndDate, setCustomEndDate] = useState("");
+  const [customGroupBy, setCustomGroupBy] = useState("day"); // day or month (week not supported by API)
+
+  // Country time range states (independent of trend)
+  const [countryTimeRange, setCountryTimeRange] = useState("all");
+  const [countryCustomStart, setCountryCustomStart] = useState("");
+  const [countryCustomEnd, setCountryCustomEnd] = useState("");
+
   const [showTop10Only, setShowTop10Only] = useState(true);
   const [geoViewType, setGeoViewType] = useState("bar"); // bar or map
   const [hoveredCountry, setHoveredCountry] = useState(null);
+
+  // Trend API state
   const [apiData, setApiData] = useState(null);
   const [apiLoading, setApiLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
 
-  // Fetch data from API on mount
+  // Country API state — populated only when the country time range differs from the
+  // trend time range; otherwise the trend apiData is reused to avoid a duplicate call.
+  const [countryApiData, setCountryApiData] = useState(null);
+  const [countryApiLoading, setCountryApiLoading] = useState(false);
+
+  // fetchParams drives the trend fetch effect. Initialized to the "All" params
+  // because the default timeRange is "all".
+  const [fetchParams, setFetchParams] = useState(() =>
+    buildFetchParams("all", "", "", ""),
+  );
+
+  // Update fetchParams whenever the trend time range or custom inputs change.
+  // The functional updater bails out when the serialized params haven't changed,
+  // preventing a redundant API call (e.g. when toggling between 7D/30D/1Y).
   useEffect(() => {
+    const params = buildFetchParams(
+      timeRange,
+      customStartDate,
+      customEndDate,
+      customGroupBy,
+    );
+    if (params !== null) {
+      setFetchParams((prev) =>
+        JSON.stringify(prev) === JSON.stringify(params) ? prev : params,
+      );
+    }
+  }, [timeRange, customStartDate, customEndDate, customGroupBy]);
+
+  // Fetch trend data whenever fetchParams changes
+  useEffect(() => {
+    let cancelled = false;
     const fetchData = async () => {
       try {
         setApiLoading(true);
-        const response = await getBeneficiariesTrendAnalysis();
+        const response = await getBeneficiariesTrendAnalysis(fetchParams);
         console.log("Beneficiaries API response:", response);
-        setApiData(response);
-        setApiError(null);
+        if (!cancelled) {
+          setApiData(response);
+          setApiError(null);
+        }
       } catch (error) {
         console.error("Failed to fetch beneficiaries analytics:", error);
-        setApiError(error);
+        if (!cancelled) setApiError(error);
       } finally {
-        setApiLoading(false);
+        if (!cancelled) setApiLoading(false);
       }
     };
     fetchData();
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [fetchParams]);
 
-  // Format month for display
-  const formatMonth = (monthStr) => {
+  // Fetch country data separately when its time range differs from the trend range.
+  // If the derived params match the trend params we already have, clear countryApiData
+  // so the trend apiData is reused instead.
+  useEffect(() => {
+    const params = buildFetchParams(
+      countryTimeRange,
+      countryCustomStart,
+      countryCustomEnd,
+      "month",
+    );
+    if (!params) return;
+
+    if (JSON.stringify(params) === JSON.stringify(fetchParams)) {
+      setCountryApiData(null);
+      return;
+    }
+
+    let cancelled = false;
+    const fetchData = async () => {
+      try {
+        setCountryApiLoading(true);
+        const response = await getBeneficiariesTrendAnalysis(params);
+        if (!cancelled) setCountryApiData(response);
+      } catch {
+        if (!cancelled) setCountryApiData(null);
+      } finally {
+        if (!cancelled) setCountryApiLoading(false);
+      }
+    };
+    fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, [countryTimeRange, countryCustomStart, countryCustomEnd, fetchParams]);
+
+  // Format month for display (e.g., "2025-01" → "Jan 2025")
+  const formatMonthLabel = (monthStr) => {
     const [year, month] = monthStr.split("-");
     const date = new Date(parseInt(year), parseInt(month) - 1);
     return date.toLocaleDateString("en-US", {
@@ -70,88 +235,54 @@ const BeneficiariesAnalytics = () => {
     });
   };
 
-  // Extract growth data from API response, fallback to mock data
-  const beneficiariesGrowthData = useMemo(() => {
-    if (!apiData) return beneficiariesGrowthDataFallback;
+  // Format a date string for display.
+  // "All" returns pre-aggregated monthly data; Custom with group_by "month" also
+  // shows month labels. Everything else (7D / 30D / 1Y / custom day) shows a short date.
+  const formatLabel = (dateStr, range, groupBy) => {
+    if (!dateStr) return "";
+    const monthly =
+      range === "all" || (range === "custom" && groupBy === "month");
+    if (monthly) return formatMonthLabel(dateStr.substring(0, 7));
+    const d = new Date(dateStr + "T00:00:00");
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  };
 
-    // The API returns data for different time ranges.
-    // Try to extract the monthly beneficiaries trend data from the response.
-    // Adapt based on the actual API response structure.
-    const body = apiData.body || apiData;
-
-    // Check if the response has a beneficiaries trend array directly
-    if (Array.isArray(body)) {
-      // If it's already an array of { month, newBeneficiaries } or similar
-      return body;
+  // Extract growth data from API response, fallback to static data
+  const chartData = useMemo(() => {
+    if (apiData) {
+      const body = apiData.body ?? apiData;
+      const points = normalizeItems(body[BENEFICIARY_TREND_KEYS[timeRange]]);
+      if (points.length > 0) {
+        return points.map((item) => ({
+          label: formatLabel(item.date, timeRange, customGroupBy),
+          count: item.count,
+        }));
+      }
     }
 
-    // Check common response shapes
-    const trendData =
-      body.beneficiaries_trend ||
-      body.beneficiariesTrend ||
-      body.monthly ||
-      body["1_year"] ||
-      body["1year"] ||
-      body.beneficiaries;
+    // Fallback: use static monthly data
+    return beneficiariesGrowthDataFallback.map((item) => ({
+      label: formatMonthLabel(item.month),
+      count: item.newBeneficiaries,
+    }));
+  }, [apiData, timeRange, customGroupBy]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (Array.isArray(trendData) && trendData.length > 0) {
-      // Map API fields to what the component expects
-      return trendData.map((item) => ({
-        month: item.month || item.date || item.period,
-        newBeneficiaries:
-          item.newBeneficiaries ??
-          item.new_beneficiaries ??
-          item.count ??
-          item.value ??
-          0,
-      }));
-    }
+  // Country data source: use the dedicated country fetch when available, otherwise
+  // fall back to the trend apiData (which includes country data for 7D/30D/1Y).
+  const effectiveCountrySource = countryApiData ?? apiData;
 
-    return beneficiariesGrowthDataFallback;
-  }, [apiData]);
-
-  // Extract country data from API response, fallback to mock data
+  // Extract country data for the selected country time range, fallback to static data.
+  // The API returns country data as an object keyed by ISO alpha-3 code; parseCountryData
+  // sums all date entries per country into a single beneficiaryCount.
   const beneficiariesByCountryData = useMemo(() => {
-    if (!apiData) return beneficiariesByCountryDataFallback;
-
-    const body = apiData.body || apiData;
-
-    const countryData =
-      body.country ||
-      body.countries ||
-      body.beneficiaries_by_country ||
-      body.beneficiariesByCountry ||
-      body.country_data;
-
-    if (Array.isArray(countryData) && countryData.length > 0) {
-      return countryData.map((item) => ({
-        month: item.month || item.date || item.period,
-        country: item.country || item.country_name || item.region,
-        beneficiaryCount:
-          item.beneficiaryCount ??
-          item.beneficiary_count ??
-          item.count ??
-          item.value ??
-          0,
-      }));
+    if (effectiveCountrySource) {
+      const body = effectiveCountrySource.body ?? effectiveCountrySource;
+      const countryKey = COUNTRY_DATA_KEYS[countryTimeRange];
+      const parsed = parseCountryData(body[countryKey]);
+      if (parsed.length > 0) return parsed;
     }
-
     return beneficiariesByCountryDataFallback;
-  }, [apiData]);
-
-  // Process growth data with cumulative totals for dual Y-axis
-  const growthData = useMemo(() => {
-    let cumulativeTotal = 0;
-
-    return beneficiariesGrowthData.map((item) => {
-      cumulativeTotal += item.newBeneficiaries;
-      return {
-        ...item,
-        monthFormatted: formatMonth(item.month),
-        cumulativeTotal,
-      };
-    });
-  }, [beneficiariesGrowthData]);
+  }, [effectiveCountrySource, countryTimeRange]);
 
   // Process country data - aggregate totals by country with top 10 option
   const processCountryData = useMemo(() => {
@@ -198,123 +329,103 @@ const BeneficiariesAnalytics = () => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
 
-  if (apiLoading) {
-    return (
-      <div className="grid grid-cols-2 gap-4">
-        <ChartContainer title="Beneficiary Growth Trend" description="">
-          <div className="flex items-center justify-center h-64 text-gray-500">
-            Loading beneficiaries data...
-          </div>
-        </ChartContainer>
-        <ChartContainer title="Beneficiaries by Country" description="">
-          <div className="flex items-center justify-center h-64 text-gray-500">
-            Loading beneficiaries data...
-          </div>
-        </ChartContainer>
-      </div>
-    );
-  }
-
   return (
     <div className="grid grid-cols-2 gap-4">
-      {apiError && (
-        <div className="col-span-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
-          Could not load live data from API. Showing fallback data.
-        </div>
-      )}
-      {/* Chart 1: Beneficiary Growth with Cumulative Overlay (Dual Y-Axis) */}
-      <ChartContainer
-        title="Beneficiary Growth Trend"
-        description="Monthly new beneficiaries (bars) and cumulative total (line) with dual Y-axis"
-      >
-        {/* Status filter */}
-        <div className="mb-2 flex gap-2 items-center">
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
-          >
-            <option value="all">All Beneficiaries</option>
-            <option value="active">Active Only</option>
-            <option value="inactive">Inactive Only</option>
-          </select>
+      {/* Chart 1: Beneficiary Growth Trend with Time Range Selector */}
+      <ChartContainer title="Beneficiary Growth Trend" description="">
+        {/* Time Range Selector */}
+        <div className="flex gap-1.5 mb-2 flex-wrap items-center">
+          {[
+            { id: "7d", label: "7D" },
+            { id: "30d", label: "30D" },
+            { id: "1yr", label: "1Y" },
+            { id: "all", label: "All" },
+            { id: "custom", label: "Custom" },
+          ].map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => setTimeRange(id)}
+              className={`px-2 py-0.5 text-xs rounded ${
+                timeRange === id
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+          {timeRange === "custom" && (
+            <>
+              <input
+                type="date"
+                value={customStartDate}
+                onChange={(e) => setCustomStartDate(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+              <span className="text-xs text-gray-500">→</span>
+              <input
+                type="date"
+                value={customEndDate}
+                onChange={(e) => setCustomEndDate(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+              <select
+                value={customGroupBy}
+                onChange={(e) => setCustomGroupBy(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs bg-white"
+              >
+                <option value="day">Day</option>
+                <option value="month">Month</option>
+              </select>
+            </>
+          )}
         </div>
 
-        <ResponsiveContainer width="100%" height={220}>
-          <ComposedChart data={growthData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis
-              dataKey="monthFormatted"
-              tick={{ fontSize: 12 }}
-              stroke="#6b7280"
-            />
-            <YAxis
-              yAxisId="left"
-              tick={{ fontSize: 12 }}
-              stroke="#8b5cf6"
-              label={{
-                value: "New Beneficiaries",
-                angle: -90,
-                position: "insideLeft",
-                style: { fontSize: 12 },
-              }}
-            />
-            <YAxis
-              yAxisId="right"
-              orientation="right"
-              tick={{ fontSize: 12 }}
-              stroke="#10b981"
-              label={{
-                value: "Cumulative Total",
-                angle: 90,
-                position: "insideRight",
-                style: { fontSize: 12 },
-              }}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "0.375rem",
-              }}
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  return (
-                    <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm">
-                      <p className="font-semibold text-gray-800">
-                        {payload[0].payload.monthFormatted}
-                      </p>
-                      <p className="text-sm text-purple-600">
-                        New: {payload[0].payload.newBeneficiaries}
-                      </p>
-                      <p className="text-sm text-green-600">
-                        Total: {payload[0].payload.cumulativeTotal}
-                      </p>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-            <Legend />
-            <Bar
-              yAxisId="left"
-              dataKey="newBeneficiaries"
-              fill="#8b5cf6"
-              name="New Beneficiaries"
-              radius={[4, 4, 0, 0]}
-            />
-            <Line
-              yAxisId="right"
-              type="monotone"
-              dataKey="cumulativeTotal"
-              stroke="#10b981"
-              strokeWidth={3}
-              dot={{ fill: "#10b981", r: 4 }}
-              name="Cumulative Total"
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
+        {apiError && (
+          <div className="mb-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
+            Could not load live data from API. Showing fallback data.
+          </div>
+        )}
+
+        {apiLoading ? (
+          <div className="flex items-center justify-center h-64 text-gray-500">
+            Loading beneficiaries data…
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={210}>
+            <LineChart
+              data={chartData}
+              margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis
+                dataKey="label"
+                tick={{ fontSize: 11 }}
+                stroke="#6b7280"
+                interval="preserveStartEnd"
+              />
+              <YAxis tick={{ fontSize: 11 }} stroke="#6b7280" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.375rem",
+                }}
+                formatter={(value) => [value, "Beneficiaries"]}
+              />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="count"
+                stroke="#8b5cf6"
+                strokeWidth={2}
+                dot={{ fill: "#8b5cf6", r: 3 }}
+                activeDot={{ r: 5 }}
+                name="Beneficiaries"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </ChartContainer>
 
       {/* Chart 2: Beneficiaries by Country with Top 10 Panel */}
@@ -322,6 +433,47 @@ const BeneficiariesAnalytics = () => {
         title="Beneficiaries by Country"
         description="Geographic distribution of beneficiaries"
       >
+        {/* Country Time Range Selector */}
+        <div className="flex gap-1.5 mb-2 flex-wrap items-center">
+          <span className="text-xs text-gray-500 font-medium">Period:</span>
+          {[
+            { id: "all", label: "All" },
+            { id: "7d", label: "7D" },
+            { id: "30d", label: "30D" },
+            { id: "1yr", label: "1Y" },
+            { id: "custom", label: "Custom" },
+          ].map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => setCountryTimeRange(id)}
+              className={`px-2 py-0.5 text-xs rounded ${
+                countryTimeRange === id
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+          {countryTimeRange === "custom" && (
+            <>
+              <input
+                type="date"
+                value={countryCustomStart}
+                onChange={(e) => setCountryCustomStart(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+              <span className="text-xs text-gray-500">→</span>
+              <input
+                type="date"
+                value={countryCustomEnd}
+                onChange={(e) => setCountryCustomEnd(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+            </>
+          )}
+        </div>
+
         <div className="mb-2 flex gap-2 items-center flex-wrap">
           <div className="flex gap-1">
             <button
@@ -355,6 +507,9 @@ const BeneficiariesAnalytics = () => {
               />
               Top 10 Only
             </label>
+          )}
+          {countryApiLoading && (
+            <span className="text-xs text-gray-400 italic">Updating…</span>
           )}
         </div>
 

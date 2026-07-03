@@ -8,13 +8,11 @@ import bottomFour from "../../assets/landingPageImages/bottomFour.jpg";
 import bottomOne from "../../assets/landingPageImages/bottomOne.jpg";
 import bottomThree from "../../assets/landingPageImages/bottomThree.jpg";
 import bottomTwo from "../../assets/landingPageImages/bottomTwo.jpg";
-import collabFive from "../../assets/landingPageImages/collab_five.jpg";
-import collabFour from "../../assets/landingPageImages/collab_four.jpg";
-import collabOne from "../../assets/landingPageImages/collab_one.jpg";
-import collabSeven from "../../assets/landingPageImages/collab_seven.jpg";
-import collabSix from "../../assets/landingPageImages/collab_six.jpg";
-import collabThree from "../../assets/landingPageImages/collab_three.jpg";
-import collabTwo from "../../assets/landingPageImages/collab_two.jpg";
+import tbi4lifeLogo from "../../assets/Homepage_logos/tbi4life.jpg";
+import annapoornaLogo from "../../assets/Homepage_logos/Annapoorna.png";
+import drivenScholarsLogo from "../../assets/Homepage_logos/DrivenScholar.png";
+import southPortlandLogo from "../../assets/Homepage_logos/SouthPortland.png";
+import idealistLogo from "../../assets/Collab_logos/idealist.jpeg";
 import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
@@ -70,45 +68,45 @@ export default function Home() {
         </div>
         <MetricsTicker />
       </div>
-      <div className="w-full flex flex-row justify-center mt-8">
-        <div className="w-[22%] h-[50%] flex flex-col justify-center items-center">
+      <div className="w-full flex flex-row justify-center mt-8 gap-2 md:gap-0 px-2 md:px-0">
+        <div className="w-1/3 md:w-[22%] flex flex-col justify-center items-center">
           <img
             src={bannerImageOne}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             alt={t("SARVE_JANA_SUKHINO_BHAVANTU_ALT")}
           />
-          <h3 className="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center">
+          <h3 className="font-bold text-sm md:text-xl lg:text-2xl md:tracking-wide m-[10px] text-center leading-tight">
             {t("Sarve jana sukhino bhavantu")}
           </h3>
-          <div className="text-xs md:text-sm md:text-lg text-gray-600 text-center">
+          <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight">
             {t("May all live happily.")}
           </div>
         </div>
-        <div className="w-[33%] h-full flex flex-col justify-center items-center">
+        <div className="w-1/3 md:w-[33%] flex flex-col justify-center items-center">
           <img
             src={bannerImageTwo}
-            className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+            className="aspect-square w-[90%] object-cover object-center rounded-[10px] md:mt-[15%]"
             alt={t("JNANAM_VARDHATI_SANCHAYAT_ALT")}
           />
-          <h3 className="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
+          <h3 className="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight">
             {t("jñānam vardhati sanchayāt")}
           </h3>
-          <div className="text-xs md:text-sm  md:text-lg text-gray-600 text-center">
+          <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight px-1 md:px-0">
             {t(
               "Sharing knowledge expands one's own understanding and the knowledge of others.",
             )}
           </div>
         </div>
-        <div className="w-[22%] h-full flex flex-col justify-center items-center">
+        <div className="w-1/3 md:w-[22%] flex flex-col justify-center items-center">
           <img
             src={bannerImageThree}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             alt={t("MANAVA_SEVAYE_MADHAVA_SEVA_ALT")}
           />
-          <h3 className="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
+          <h3 className="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight">
             {t("Manava sevaye Madhava seva")}
           </h3>
-          <div className="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3">
+          <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight">
             {t("Service to mankind is Service to God.")}
           </div>
         </div>
@@ -117,7 +115,7 @@ export default function Home() {
       <Carousel />
       <HorizontalAd />
       <div className="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]">
-        <h3 className="font-bold text-3xl md:text-4xl md:mb-[40px]">
+        <h3 className="font-bold text-3xl md:text-4xl">
           {t("Our Collaborators")}
         </h3>
 
@@ -125,22 +123,18 @@ export default function Home() {
         <div className="w-full flex flex-row overflow-hidden">
           <div className="scroll imgBox">
             <div>
-              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
-              <img src={collabTwo}></img>
-              <img src={collabThree} className="w-[200px]"></img>
-              <img src={collabFour}></img>
-              <img src={collabFive}></img>
-              <img src={collabSix} className="w-[200px]"></img>
-              <img src={collabSeven} className="w-[125px]"></img>
+              <img src={tbi4lifeLogo} className="w-[100px] ml-[50px]"></img>
+              <img src={annapoornaLogo}></img>
+              <img src={drivenScholarsLogo} className="w-[140px]"></img>
+              <img src={southPortlandLogo}></img>
+              <img src={idealistLogo}></img>
             </div>
             <div>
-              <img src={collabOne} className="w-[150px] ml-[75px]"></img>
-              <img src={collabTwo}></img>
-              <img src={collabThree} className="w-[200px]"></img>
-              <img src={collabFour}></img>
-              <img src={collabFive}></img>
-              <img src={collabSix} className="w-[200px]"></img>
-              <img src={collabSeven} className="w-[125px]"></img>
+              <img src={tbi4lifeLogo} className="w-[100px] ml-[50px]"></img>
+              <img src={annapoornaLogo}></img>
+              <img src={drivenScholarsLogo} className="w-[140px]"></img>
+              <img src={southPortlandLogo}></img>
+              <img src={idealistLogo}></img>
             </div>
           </div>
         </div>

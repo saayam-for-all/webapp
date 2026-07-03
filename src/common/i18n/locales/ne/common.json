@@ -1,4 +1,4 @@
-﻿{
+{
   "ABOUT": "हाम्रोबारे",
   "DONATE": "दान गर्नुहोस्",
   "LOGIN": "लग - इन",
@@ -11,6 +11,7 @@
   "DASHBOARD": "ड्यासबोर्ड",
   "ALL": "सबै",
   "VOLUNTEER_MATCH": "स्वयंसेवक मिलान",
+  "LEAD_VOLUNTEER": "प्रमुख स्वयंसेवक",
   "HELP_REQUEST_BUTTON": "मद्दतको अनुरोध",
   "NEW_MATCH_REQUEST": "नयाँ मिलान अनुरोध",
   "ACCEPT": "स्वीकार गर्नुहोस्",
@@ -30,5 +31,16 @@
   "NO_SKILLS_SELECTED": "No skills selected yet",
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
-  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "COMMENTS": "टिप्पणीहरू",
+  "VOLUNTEERS": "स्वयंसेवकहरू",
+  "ENTER_VOLUNTEER_NAME": "स्वयंसेवकको नाम प्रविष्ट गर्नुहोस्",
+  "FIND_BY_NAME": "नामले खोज्नुहोस्",
+  "SEARCH_BY_NAME": "नामले खोज्नुहोस्...",
+  "FIND_BY_EMAIL": "ईमेलले खोज्नुहोस्",
+  "FIND_BY_PHONE": "फोनले खोज्नुहोस्",
+  "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकको ईमेल प्रविष्ट गर्नुहोस्",
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकको फोन प्रविष्ट गर्नुहोस्",
+  "CHANGE_VOLUNTEER": "स्वयंसेवक परिवर्तन गर्नुहोस्",
+  "DELETE": "हटाउनुहोस्"
 }

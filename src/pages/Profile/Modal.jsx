@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { FaCamera, FaSave, FaTimes, FaTrashAlt } from "react-icons/fa";
 
@@ -10,6 +10,7 @@ function Modal({
   handleCancelClick,
   handleDeleteClick,
   isSaving = false,
+  canSave = false,
 }) {
   const { t } = useTranslation("profile");
 
@@ -71,10 +72,18 @@ function Modal({
         <div className="flex justify-center space-x-6 mt-4">
           <button
             onClick={handleSaveClick}
-            disabled={isSaving}
+            disabled={!canSave || isSaving}
             className="flex items-center space-x-2 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <FaSave />
+            {isSaving ? (
+              <span
+                className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+                role="status"
+                aria-label={t("SAVING") || "Saving..."}
+              />
+            ) : (
+              <FaSave />
+            )}
             <span>
               {isSaving ? t("SAVING") || "Saving..." : t("SAVE") || "Save"}
             </span>
@@ -98,5 +107,19 @@ function Modal({
     </div>
   );
 }
+
+Modal.propTypes = {
+  profilePhoto: PropTypes.string,
+  uploadMessage: PropTypes.shape({
+    type: PropTypes.string,
+    text: PropTypes.string,
+  }),
+  handlePhotoChange: PropTypes.func.isRequired,
+  handleSaveClick: PropTypes.func.isRequired,
+  handleCancelClick: PropTypes.func.isRequired,
+  handleDeleteClick: PropTypes.func.isRequired,
+  isSaving: PropTypes.bool,
+  canSave: PropTypes.bool,
+};
 
 export default Modal;

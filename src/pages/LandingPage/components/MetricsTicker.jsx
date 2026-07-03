@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-//const METRICS_S3_URL = import.meta.env.VITE_METRICS_S3_URL || "";
-const METRICS_S3_URL = "https://test.help-for-everyone.org/api/stats";
+const METRICS_S3_URL = import.meta.env.VITE_METRICS_CDN_URL || "";
 const METRIC_CONFIGS = [
   {
     key: "total_requests",
@@ -65,7 +64,7 @@ function MetricItem({ config, rawValue, label }) {
 
   return (
     <span
-      className="inline-flex items-baseline gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-full"
+      className="inline-flex w-full min-w-0 items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-center sm:w-auto sm:whitespace-nowrap"
       style={{ backgroundColor: config.bg }}
     >
       <span className="text-sm font-medium" style={{ color: config.color }}>
@@ -116,29 +115,30 @@ const MetricsTicker = () => {
     };
 
     fetchStats();
-    const interval = setInterval(fetchStats, 30000); // Poll every 30s
+    const interval = setInterval(fetchStats, 4 * 60 * 60 * 1000); // Poll every 4 hours
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="w-full py-3">
-      <div className="overflow-x-auto">
-        <div className="flex items-center justify-center px-4 min-w-max mx-auto">
-          {METRIC_CONFIGS.map((config, index) => (
-            <span key={config.key} className="flex items-center">
-              <MetricItem
-                config={config}
-                rawValue={metrics[config.key]}
-                label={t(config.labelKey)}
-              />
-              {index < METRIC_CONFIGS.length - 1 && (
-                <span className="mx-4 text-gray-300 select-none font-light">
-                  |
-                </span>
-              )}
-            </span>
-          ))}
-        </div>
+      <div className="mx-auto grid w-full max-w-screen-sm grid-cols-2 gap-2 px-4 sm:flex sm:max-w-none sm:flex-wrap sm:items-center sm:justify-center">
+        {METRIC_CONFIGS.map((config, index) => (
+          <span
+            key={config.key}
+            className="flex w-full min-w-0 items-center sm:w-auto"
+          >
+            <MetricItem
+              config={config}
+              rawValue={metrics[config.key]}
+              label={t(config.labelKey)}
+            />
+            {index < METRIC_CONFIGS.length - 1 && (
+              <span className="mx-4 text-gray-300 select-none font-light hidden sm:inline">
+                |
+              </span>
+            )}
+          </span>
+        ))}
       </div>
     </div>
   );

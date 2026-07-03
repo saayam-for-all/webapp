@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import InactivityLogoutTimer from "../common/components/InactivityTimer/InactivityTimer";
-import LoadingIndicator from "../common/components/Loading/Loading";
+import MainLoader from "../common/components/Loader/MainLoader";
+
 import {
   startVolunteerLocationTracking,
   stopVolunteerLocationTracking,
@@ -10,7 +11,11 @@ import {
 } from "../services/volunteerLocationTracker";
 
 const ProtectedRoute = () => {
-  const { user, loading, authInitialized } = useSelector((state) => state.auth);
+  const {
+    user = null,
+    loading = false,
+    authInitialized = false,
+  } = useSelector((state) => state.auth || {});
   const location = useLocation();
   const userDBid = user?.userDbId || "";
 
@@ -75,7 +80,7 @@ const ProtectedRoute = () => {
   // /dashboard but gets bounced to "/" because checkAuthStatus() hasn't
   // finished yet.
   if (loading || !authInitialized) {
-    return <LoadingIndicator size="50px" position="center" />;
+    return <MainLoader size="50px" position="center" />;
   }
 
   if (!user) return <Navigate to="/" replace />;

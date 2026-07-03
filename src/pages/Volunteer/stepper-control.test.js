@@ -23,7 +23,7 @@ describe("StepperControl", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it("renders Back and Next buttons", () => {
+  it("renders Back and Next buttons on step 1", () => {
     render(<StepperControl {...defaultProps} />);
     expect(
       screen.getByText(/mockTranslate\(common:BACK\)/),

@@ -31,6 +31,12 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
 
   const [errors, setErrors] = useState({});
 
+  const organizationSizeOptions = [
+    { value: "Small", label: t("SMALL") },
+    { value: "Medium", label: t("MEDIUM") },
+    { value: "Large", label: t("LARGE") },
+  ];
+
   const [organizationInfo, setOrganizationInfo] = useState({
     organizationName: "",
     phoneNumber: "",
@@ -43,6 +49,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
     state: "",
     zipCode: "",
     organizationType: t("NON_PROFIT"),
+    organizationSize: "",
     helpCategories: [],
   });
   const phoneCodeOptions = getPhoneCodeslist(PHONECODESEN);
@@ -348,7 +355,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
         <div>
           <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
             {t("ORGANIZATION_TYPE")}
@@ -395,6 +402,50 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
           ) : (
             <p className="text-lg text-gray-900">
               {organizationInfo.organizationType}
+            </p>
+          )}
+        </div>
+        <div>
+          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <div className="flex items-center gap-2">
+              <span>{t("ORGANIZATION_SIZE")}</span>
+              {/* Tooltip Icon and Content */}
+              <div className="relative group cursor-pointer">
+                <div className="w-4 h-4 flex items-center justify-center rounded-full bg-gray-400 text-white text-xs font-bold">
+                  ?
+                </div>
+                <div className="absolute left-5 top-0 w-56 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 pointer-events-none">
+                  <div className="font-medium">
+                    {t("TYPICAL_ORGANIZATION_SIZE")}
+                  </div>
+                  <div>{t("ORG_SIZE_SMALL")}</div>
+                  <div>{t("ORG_SIZE_MEDIUM")}</div>
+                  <div>{t("ORG_SIZE_LARGE")}</div>
+                </div>
+              </div>
+            </div>
+          </label>
+          {isEditing ? (
+            <Select
+              value={organizationSizeOptions.find(
+                (option) => option.value === organizationInfo.organizationSize,
+              )}
+              options={organizationSizeOptions}
+              onChange={(selectedOption) =>
+                handleInputChange(
+                  "organizationSize",
+                  selectedOption?.value || "",
+                )
+              }
+              isClearable
+              className="w-full"
+              placeholder={t("SELECT_ORGANIZATION_SIZE")}
+            />
+          ) : (
+            <p className="text-lg text-gray-900">
+              {organizationSizeOptions.find(
+                (opt) => opt.value === organizationInfo.organizationSize,
+              )?.label || ""}
             </p>
           )}
         </div>
@@ -821,6 +872,7 @@ function OrganizationDetails({ setHasUnsavedChanges }) {
                     state: "",
                     zipCode: "",
                     organizationType: t("NON_PROFIT"),
+                    organizationSize: "",
                     helpCategories: [],
                   });
                 } else {

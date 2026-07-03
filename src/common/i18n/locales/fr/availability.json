@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "Supprimer le créneau horaire",
   "ADD_TIME_SLOT": "Ajouter un créneau horaire",
   "VACATION_MODE_ACTIVE": "Mode vacances actif",
-  "NO_AVAILABILITY_SLOTS": "Aucun créneau de disponibilité configuré"
+  "NO_AVAILABILITY_SLOTS": "Aucun créneau de disponibilité configuré",
+  "REQUIRED": "Requis",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "L'heure de fin doit être postérieure à l'heure de début",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "Veuillez indiquer vos plages horaires disponibles pour le bénévolat",
+  "ADD": "Ajouter",
+  "REMOVE_ROW": "Supprimer la ligne"
 }

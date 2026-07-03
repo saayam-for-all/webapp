@@ -25,5 +25,10 @@
   "Remove Time Slot": "إزالة فترة زمنية",
   "Add Time Slot": "إضافة فترة زمنية",
   "VACATION_MODE_ACTIVE": "وضع الإجازة نشط",
-  "NO AVAILABILITY SLOTS": "لم يتم تكوين فترات التوافر"
+  "NO AVAILABILITY SLOTS": "لم يتم تكوين فترات التوافر",
+  "REQUIRED": "مطلوب",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "يجب أن يكون وقت النهاية بعد وقت البدء",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "يرجى تقديم فترات الوقت المتاحة للتطوع",
+  "ADD": "إضافة",
+  "REMOVE_ROW": "حذف الصف"
 }

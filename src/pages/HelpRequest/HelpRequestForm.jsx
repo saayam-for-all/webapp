@@ -18,7 +18,9 @@ import {
 import {
   checkProfanity,
   createRequest,
+  updateRequest,
   predictCategories,
+  generateSubject,
   getCategories,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
@@ -89,19 +91,23 @@ const mapLanguageToCode = (languageName) => {
   return languageMap[languageName] || "en-US"; // Default to English
 };
 
-const HelpRequestForm = ({ isEdit = false, onClose }) => {
+const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories, categoriesFetched } = useSelector(
     (state) => state.request,
   );
-  const token = useSelector((state) => state.auth.idToken);
   const groups = useSelector((state) => state.auth.user?.groups);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
+  const user = useSelector((state) => state.auth.user);
   const [location, setLocation] = useState("");
-  const { inputRef, isLoaded, handleOnPlacesChanged } =
-    usePlacesSearchBox(setLocation);
+  const [locationCoordinates, setLocationCoordinates] = useState(null);
+  const { inputRef, suggestions, handleSearchChange, handleSelectSuggestion } =
+    usePlacesSearchBox(setLocation, (coords) => {
+      setLocationCoordinates(coords);
+      setFormData((prev) => ({ ...prev, locationCoordinates: coords }));
+    });
 
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -113,6 +119,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [categoryConfirmed, setCategoryConfirmed] = useState(false);
   const [enums, setEnums] = useState(null);
   // Popup modal for subcategory - State for Elderly Support inline form
@@ -177,8 +184,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
   const inputref = useRef(null);
   const dropdownRef = useRef(null);
-
   const fileInputRef = useRef(null);
+  // Tracks whether the user has manually edited the subject field.
+  // When true, auto-generation from description is suppressed.
+  const hasUserEditedSubjectRef = useRef(false);
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -190,7 +199,10 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     gender: "Select",
     lead_volunteer: "Ethan Marshall",
     is_calamity: false,
-    preferred_language: "",
+    preferred_language: (() => {
+      const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
+      return saved.languagePreference1 || "";
+    })(),
     category: "General",
     request_type: "REMOTE",
     location: "",
@@ -242,16 +254,78 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const [audioUploadResult, setAudioUploadResult] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null); // Store audio blob for submission
 
+  const firstString = (...values) =>
+    values.find((value) => typeof value === "string" && value.trim() !== "");
+
+  const resolveCatNameToId = (catNameOrId) => {
+    if (!catNameOrId || !categories) return catNameOrId;
+    const isNumericId = /^\d+(\.\d+)*$/.test(catNameOrId);
+    if (isNumericId) return catNameOrId;
+    for (const cat of categories) {
+      if (cat.catName === catNameOrId) return cat.catId;
+      for (const sub of cat.subCategories || []) {
+        if (sub.catName === catNameOrId) return sub.catId;
+        for (const subsub of sub.subCategories || []) {
+          if (subsub.catName === catNameOrId) return subsub.catId;
+        }
+      }
+    }
+    return catNameOrId;
+  };
+
   // Restore request for edit
+  // Supports two data sources:
+  //   1. editRequestData prop (passed from RequestDetails modal)
+  //   2. Fallback to URL params + RTK query (route-based edit)
   useEffect(() => {
-    if (id && data) {
-      const requestData = data.body?.find((item) => item.id === id);
+    const requestData =
+      editRequestData ||
+      (id && data ? data.body?.find((item) => item.id === id) : null);
+
+    if (requestData) {
+      const rawCategory =
+        requestData.helpCategory?.catId ||
+        requestData.catId ||
+        requestData.reqCatId ||
+        requestData.category ||
+        requestData.requestCategory ||
+        "General";
+      const category = resolveCatNameToId(rawCategory);
+
       setFormData({
-        category: requestData.category,
-        description: requestData.description,
-        subject: requestData.subject,
         ...requestData,
+        category,
+        description:
+          requestData.description ||
+          requestData.reqDesc ||
+          requestData.requestDescription,
+        subject: requestData.subject || requestData.requestSubject,
+        is_calamity: requestData.is_calamity ?? requestData.calamity ?? false,
+        // Map paginated API and nested detail API values to flat form fields.
+        request_type: firstString(
+          requestData.request_type,
+          requestData.type,
+          requestData.requestType,
+          requestData.requestType?.type,
+          requestData.requestType?.requestType,
+        ),
+        priority: firstString(
+          requestData.priority,
+          requestData.requestPriority,
+          requestData.requestPriority?.priority,
+        ),
+        request_for:
+          firstString(
+            requestData.request_for,
+            requestData.requestFor,
+            requestData.requestFor?.requestFor,
+          ) || "SELF",
       });
+
+      // Preserve the original numeric catId for edit mode (category is locked)
+      if (category) {
+        setSelectedCategoryId(category);
+      }
 
       // If editing and attachments present in requestData, show them as uploadedFilesInfo
       if (requestData.attachments && Array.isArray(requestData.attachments)) {
@@ -264,45 +338,111 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         );
       }
     }
-  }, [data, id]);
+  }, [editRequestData, data, id]);
 
-  // Fetch predicted categories when category is "General" and debounced values change
+  // Converts API snake_case category names to title-case for display.
+  // e.g. "GROCERY_SHOPPING_AND_DELIVERY" → "Grocery Shopping And Delivery"
+  const formatApiCategoryName = (name) =>
+    name
+      .toLowerCase()
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+
+  // Fetch predicted categories when category is "General" and description is filled
   const fetchPredictedCategories = async () => {
-    if (formData.category !== "General") return; // Only call the API if category is "General"
-    if (!formData.subject || !formData.description) return; // Skip if no relevant data
+    if (!formData.description) return;
 
     try {
-      const requestBody = {
-        subject: formData.subject,
+      const response = await predictCategories({
         description: formData.description,
-      };
+      });
 
-      const response = await predictCategories(requestBody);
-      console.log("API Response:", response);
-      const formattedCategories = (response || []).map((category) => ({
-        id: category.toLowerCase(),
-        name: category,
+      const rawCategories = response?.body?.categories ?? [];
+      const formattedCategories = rawCategories.map((cat) => ({
+        id: cat.category_name,
+        name: cat.category_name,
+        category_number: cat.category_number,
+        displayName: formatApiCategoryName(cat.category_name),
+        hierarchy: cat.hierarchy,
+        confidence: cat.confidence,
       }));
 
-      if (formattedCategories.length > 0) {
-        const categoriesWithGeneral = [
-          { id: "general", name: "General" },
-          ...formattedCategories,
-        ];
-
-        setSuggestedCategories(categoriesWithGeneral);
-      } else {
-        setSuggestedCategories([{ id: "general", name: "General" }]);
-      }
+      const categoriesWithGeneral = [
+        { id: "general", name: "General", displayName: "General" },
+        ...formattedCategories,
+      ];
+      setSuggestedCategories(categoriesWithGeneral);
     } catch (error) {
       console.error("Error fetching predicted categories:", error);
+      setSuggestedCategories([
+        { id: "general", name: "General", displayName: "General" },
+      ]);
     }
   };
+
+  // Auto-generate subject from description using the genai API (debounced).
+  // Skipped in edit mode (preserves saved subject) and when the user has
+  // manually typed their own subject.
+  /*useEffect(() => {
+    if (isEdit) return;
+    if (hasUserEditedSubjectRef.current) return;
+    if (!formData.description || formData.description.trim().length < 10)
+      return;
+
+    const timer = setTimeout(async () => {
+      try {
+        const response = await generateSubject(formData.description);
+        const generatedSubject = response?.body?.subject;
+        if (generatedSubject) {
+          setFormData((prev) => ({ ...prev, subject: generatedSubject }));
+        }
+      } catch (error) {
+        console.error("Error generating subject:", error);
+      }
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [formData.description]); */
 
   // handleChange
   const handleChange = (e) => {
     const { id, value } = e.target;
+    if (id === "subject") hasUserEditedSubjectRef.current = true;
     setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const getUserLocation = () => {
+    console.log("getUserLocation called");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          //Using OpenStreetMap Nominatim - FREE, no API key needed
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+            {
+              headers: {
+                "Accept-Language": "en",
+                "User-Agent": "SaayamForAll/1.0",
+              },
+            },
+          );
+          const data = await response.json();
+          if (data.display_name) {
+            setLocation(data.display_name);
+            setFormData((prev) => ({
+              ...prev,
+              location: data.display_name,
+              locationCoordinates: { latitude, longitude },
+            }));
+          }
+          console.log("Coordinates stored:", { latitude, longitude });
+        },
+        (error) => {
+          console.error("Location error:", error);
+        },
+      );
+    }
   };
 
   const closeForm = () => {
@@ -396,10 +536,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         try {
           const categoriesData = await getCategories(); // Direct API call like checkProfanity and predictCategories
 
-          // Store the API response directly in Redux as-is
-          // No complex mappings needed - API keys now match i18n keys exactly
-          console.log("Categories API response:", categoriesData);
-
           // Extract categories array from API response
           let categoriesArray;
           if (Array.isArray(categoriesData)) {
@@ -410,8 +546,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
           ) {
             categoriesArray = categoriesData.categories;
           } else if (categoriesData && typeof categoriesData === "object") {
-            // Log the structure to understand the API format
-            console.log("API response structure:", Object.keys(categoriesData));
             throw new Error(
               "Invalid API response format - expected array or object with categories array",
             );
@@ -430,12 +564,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
               !cat.catId.toLowerCase().includes("cat_id"),
           );
 
-          console.log(
-            "Filtered categories:",
-            validCategories.length,
-            "out of",
-            categoriesArray.length,
-          );
           // Store in localStorage for future use
           localStorage.setItem("categories", JSON.stringify(validCategories));
           dispatch(loadCategories(validCategories));
@@ -604,6 +732,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       ...formData,
       category: searchTerm,
     });
+    setCategoryConfirmed(false);
 
     const resolvedLabel = (cat) =>
       t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
@@ -659,13 +788,27 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     };
   }, []);
 
+  const resetAdditionalFields = () => {
+    setAdditionalFieldValues({});
+  };
+
+  const resetAdditionalFieldsForCategoryChange = (nextCategoryId) => {
+    if (nextCategoryId !== selectedCategoryId) {
+      resetAdditionalFields();
+    }
+  };
+
   const handleCategoryClick = (categoryKeyOrId) => {
+    const resolvedId = resolveCatNameToId(categoryKeyOrId);
+    resetAdditionalFieldsForCategoryChange(resolvedId);
     setFormData({
       ...formData,
       category: categoryKeyOrId,
     });
+    setSelectedCategoryId(resolvedId);
     setShowDropdown(false);
     setHoveredCategory(null);
+    setCategoryConfirmed(false);
   };
 
   // Popup modal for subcategory - Handle subcategory click, check if Elderly Support
@@ -692,10 +835,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       }
 
       // set the category input immediately so the category field shows the selected subcategory
+      resetAdditionalFieldsForCategoryChange(subcategoryId);
       setFormData({
         ...formData,
         category: subcategoryId,
       });
+      setSelectedCategoryId(subcategoryId);
+      setCategoryConfirmed(false);
 
       setSelectedElderlySubcategory({
         id: subcategoryId,
@@ -708,10 +854,13 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       return;
     } else {
       // Popup modal for subcategory - For other categories, proceed normally
+      resetAdditionalFieldsForCategoryChange(subcategoryId);
       setFormData({
         ...formData,
         category: subcategoryId,
       });
+      setSelectedCategoryId(subcategoryId);
+      setCategoryConfirmed(false);
       setShowDropdown(false);
       setHoveredCategory(null);
       setHoveredSubcategory(null);
@@ -746,6 +895,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       ...formData,
       category: subcategory.id,
     });
+    resetAdditionalFieldsForCategoryChange(subcategory.id);
+    setSelectedCategoryId(subcategory.id);
+    setCategoryConfirmed(false);
 
     // Popup modal for subcategory - Close dropdown and modal
     setShowDropdown(false);
@@ -775,6 +927,9 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         ...formData,
         category: "",
       });
+      resetAdditionalFields();
+      setSelectedCategoryId(null);
+      setCategoryConfirmed(false);
     }
 
     // Popup modal for subcategory - Hide inline panel
@@ -793,14 +948,22 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
   const handleConfirmCategorySelection = () => {
     const oldCategory = "General";
     const newCategory = formData.category;
-
+    const matched = suggestedCategories.find(
+      (c) => (c.category_number ?? c.name) === newCategory,
+    );
+    const nextCategoryId = matched?.category_number ?? newCategory;
+    const newCategoryDisplay =
+      matched?.hierarchy ?? matched?.displayName ?? newCategory;
+    setFormData({ ...formData, category: newCategoryDisplay });
+    resetAdditionalFieldsForCategoryChange(nextCategoryId);
+    setSelectedCategoryId(nextCategoryId);
     setCategoryConfirmed(true); // unlock submission
     setShowModal(false);
 
-    if (oldCategory !== newCategory) {
+    if (oldCategory !== newCategoryDisplay) {
       setSnackbar({
         open: true,
-        message: `Category updated from \"${oldCategory}\" to \"${newCategory}\". Click Submit to continue.`,
+        message: `Category updated from \"${oldCategory}\" to \"${newCategoryDisplay}\". Click Submit to continue.`,
         severity: "info",
       });
     }
@@ -989,15 +1152,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
     e.preventDefault();
 
     // Validate required fields from Description tab (mandatory tab)
-    if (!formData.subject || formData.subject.trim() === "") {
-      setSnackbar({
-        open: true,
-        message: "Subject is required. Please fill out the Description tab.",
-        severity: "error",
-      });
-      return;
-    }
-
     if (!formData.description || formData.description.trim() === "") {
       setSnackbar({
         open: true,
@@ -1008,15 +1162,45 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       return;
     }
 
+    // Capture the resolved subject in a local variable so it is available
+    // synchronously for both submissionData and checkProfanity regardless of
+    // whether React has flushed the setFormData state update yet.
+    let resolvedSubject = formData.subject;
+
+    if (
+      !isEdit &&
+      !hasUserEditedSubjectRef.current &&
+      formData.description.trim().length >= 10
+    ) {
+      try {
+        const response = await generateSubject(formData.description);
+        const generatedSubject = response?.body?.subject;
+        if (generatedSubject) {
+          resolvedSubject = generatedSubject;
+          setFormData((prev) => ({ ...prev, subject: generatedSubject }));
+        }
+      } catch (error) {
+        console.error("Error generating subject:", error);
+      }
+    }
+
+    // Fallback: if the API failed or returned nothing and the user left the
+    // subject blank, derive a subject from the description so it is never null.
+    if (!resolvedSubject || resolvedSubject.trim() === "") {
+      resolvedSubject = formData.description.trim().slice(0, 70);
+      setFormData((prev) => ({ ...prev, subject: resolvedSubject }));
+    }
+
     const submissionData = {
       ...formData,
+      subject: resolvedSubject,
       location,
     };
 
     setIsSubmitting(true);
     try {
       const res = await checkProfanity({
-        subject: formData.subject,
+        subject: resolvedSubject,
         description: formData.description,
       });
 
@@ -1032,9 +1216,12 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         return;
       }
 
+      // In edit mode, skip the predict-categories modal since category is locked
       if (
-        formData.category === "General" &&
-        formData.subject.trim() !== "" &&
+        !isEdit &&
+        (formData.category === "General" ||
+          resolveCatNameToId(formData.category) ===
+            resolveCatNameToId("GENERAL_CATEGORY")) &&
         formData.description.trim() !== "" &&
         !categoryConfirmed
       ) {
@@ -1066,117 +1253,61 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
         submissionData.attachments = uploadedFileUrls;
       }
 
-      // If user recorded audio, send it to the API
-      if (audioBlob) {
-        try {
-          console.log("=== Sending recorded audio to API on submit ===");
-          console.log("Audio blob type:", audioBlob.type);
-          console.log(
-            "Audio blob size:",
-            (audioBlob.size / 1024).toFixed(2),
-            "KB",
-          );
-
-          // Convert audio blob to base64
-          const audioBase64 = await blobToBase64(audioBlob);
-          console.log("Base64 audio length:", audioBase64.length, "characters");
-
-          // Send to speechDetectV2 API
-          const audioResponse = await speechDetectV2(audioBase64);
-          console.log("Audio API Response:", audioResponse);
-          console.log("Detected Language:", audioResponse.detectedLanguage);
-          console.log("Transcription Text:", audioResponse.transcriptionText);
-
-          // Store the transcription result - always update with the transcribed text
-          // The API returns text in the detected language (e.g., Hindi, English, etc.)
-          if (audioResponse.transcriptionText) {
-            const transcriptionText = audioResponse.transcriptionText.substring(
-              0,
-              500,
-            );
-            console.log(
-              "Setting description with transcribed text:",
-              transcriptionText,
-            );
-            console.log("Detected Language:", audioResponse.detectedLanguage);
-
-            // Update formData with transcription text and detected language
-            setFormData((prev) => ({
-              ...prev,
-              description: transcriptionText,
-              detected_language:
-                audioResponse.detectedLanguage || prev.detected_language || "",
-            }));
-            submissionData.description = transcriptionText;
-            // Store detected language in submission data for translation purposes
-            if (audioResponse.detectedLanguage) {
-              submissionData.detected_language = audioResponse.detectedLanguage;
-            }
-          }
-
-          // Optionally store requestId or other metadata from audio API
-          if (audioResponse.requestId) {
-            console.log(
-              "Audio transcription request ID:",
-              audioResponse.requestId,
-            );
-          }
-
-          if (audioResponse.detectedLanguage) {
-            console.log(
-              "Language detected by API:",
-              audioResponse.detectedLanguage,
-            );
-            console.log(
-              "Detected language stored in formData for translation:",
-              audioResponse.detectedLanguage,
-            );
-          }
-        } catch (audioError) {
-          console.error("Error sending audio on submit:", audioError);
-          // Don't block form submission if audio upload fails
-          // Just log the error and continue
-          setSnackbar({
-            open: true,
-            message:
-              "Warning: Audio transcription failed, but form will still be submitted.",
-            severity: "warning",
-          });
-        }
-      }
-
-      // Call createRequest with attachments included
-      //const response = await createRequest(submissionData);
+      // Build the API payload
       const payload = mapHelpRequestPayload({
         formData: submissionData,
-        selectedCategoryId: formData.category,
-        requesterId: userDbId,
+        selectedCategoryId: selectedCategoryId ?? formData.category,
+        requesterId: isEdit
+          ? editRequestData?.requesterId || userDbId
+          : userDbId,
         enumMaps,
         additionalFields: additionalFieldValues,
+        requestId: isEdit
+          ? editRequestData?.requestId || editRequestData?.id || id
+          : undefined,
       });
 
-      const respone = await createRequest(payload);
+      // Call updateRequest when editing, createRequest when creating
+      let response;
+      if (isEdit) {
+        response = await updateRequest(payload);
+      } else {
+        response = await createRequest(payload);
+      }
+      const responseRequestId = response?.data?.requestId;
 
-      // success flow (mimic original)
       setSnackbar({
         open: true,
-        message: "Help Request submitted successfully!",
+        message: isEdit
+          ? "Help Request updated successfully!"
+          : "Help Request submitted successfully!",
         severity: "success",
       });
 
       setTimeout(() => {
-        navigate("/dashboard", {
-          state: {
-            successMessage:
-              "New Request #REQ-00-000-000-00011 submitted successfully!",
-          },
-        });
+        if (isEdit && onClose) {
+          onClose(response?.data);
+        } else {
+          navigate("/dashboard", {
+            state: {
+              successMessage: responseRequestId
+                ? isEdit
+                  ? `Request #${responseRequestId} updated successfully!`
+                  : `New Request #${responseRequestId} submitted successfully!`
+                : isEdit
+                  ? "Help Request updated successfully!"
+                  : "Help Request submitted successfully!",
+            },
+          });
+        }
       }, 1200);
     } catch (error) {
       console.error("Failed to process request:", error);
       setSnackbar({
         open: true,
-        message: "Failed to submit request!",
+        message: isEdit
+          ? "Failed to update request!"
+          : "Failed to submit request!",
         severity: "error",
       });
     } finally {
@@ -1206,16 +1337,6 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
       </Snackbar>
 
       <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
-        <div className="w-full max-w-2xl mx-auto px-4 mt-4 flex items-center justify-between">
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-          >
-            <span className="text-2xl mr-2">&lt;</span>{" "}
-            {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
-          </button>
-        </div>
-
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 text-center">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
@@ -1271,8 +1392,15 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       id="category"
                       value={resolveCategoryLabel(formData.category)}
                       onChange={handleSearchInput}
-                      className="block w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none"
-                      onFocus={() => setShowDropdown(true)}
+                      disabled={isEdit}
+                      className={`block w-full appearance-none border border-gray-300 rounded-lg py-2 px-3 pr-8 text-gray-700 focus:outline-none ${
+                        isEdit
+                          ? "bg-gray-100 cursor-not-allowed opacity-70"
+                          : "bg-white"
+                      }`}
+                      onFocus={() => {
+                        if (!isEdit) setShowDropdown(true);
+                      }}
                       onBlur={(e) => {
                         if (!dropdownRef.current?.contains(e.relatedTarget)) {
                           setShowDropdown(false);
@@ -1492,7 +1620,8 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
 
                 {/* Dynamic additional fields from metadata */}
                 <DynamicAdditionalFields
-                  catId={formData.category}
+                  catId={selectedCategoryId}
+                  value={additionalFieldValues}
                   onChange={setAdditionalFieldValues}
                 />
 
@@ -1501,9 +1630,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     htmlFor="subject"
                     className="block text-gray-700 font-medium mb-2"
                   >
-                    {t("SUBJECT")}
-                    <span className="text-red-500 m-1">*</span>(
-                    {t("MAX_CHARACTERS", { count: 70 })})
+                    {t("SUBJECT")}({t("MAX_CHARACTERS", { count: 70 })})
                   </label>
                   <input
                     type="text"
@@ -1568,6 +1695,7 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                         }}
                         maxFileSizeMB={10}
                         descriptionLimit={500}
+                        maxRecordingSeconds={55}
                       />
 
                       {/* FILE ICON + COUNT COMBINED (Right-Aligned Box with Tooltip) */}
@@ -1732,8 +1860,24 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
                       onChange={(e) => {
                         const selected = e.target.value;
-                        setFormData({ ...formData, request_for: selected });
-                        setSelfFlag(selected === enums?.requestFor?.[0]); // "SELF" means true, "OTHER" means false
+                        const isOther = selected !== enums?.requestFor?.[0]; // not SELF = OTHER
+                        const savedPrefs = JSON.parse(
+                          localStorage.getItem("userPreferences") || "{}",
+                        );
+                        const profileLang =
+                          savedPrefs.languagePreference1 ||
+                          user?.["custom:pref_first_language"] ||
+                          user?.first_language_preference ||
+                          "";
+                        setFormData({
+                          ...formData,
+                          request_for: selected,
+                          preferred_language:
+                            isOther && profileLang
+                              ? profileLang
+                              : formData.preferred_language,
+                        });
+                        setSelfFlag(!isOther); // "SELF" means true, "OTHER" means false
                       }}
                     >
                       {enums?.requestFor &&
@@ -1976,12 +2120,16 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                     <select
                       id="requestType"
                       value={formData.request_type || "REMOTE"}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const value = e.target.value;
                         setFormData({
                           ...formData,
-                          request_type: e.target.value,
-                        })
-                      }
+                          request_type: value,
+                        });
+                        if (value === "IN_PERSON") {
+                          getUserLocation();
+                        }
+                      }}
                       className="
                     block w-full appearance-none
                     bg-white border border-gray-300
@@ -2012,22 +2160,44 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
                       >
                         Location
                       </label>
-                      {isLoaded && (
-                        <StandaloneSearchBox
-                          onLoad={(ref) => (inputRef.current = ref)}
-                          onPlacesChanged={handleOnPlacesChanged}
-                        >
-                          <input
-                            type="text"
-                            id="location"
-                            value={formData.location}
-                            onChange={handleChange}
-                            name="location"
-                            className="border p-2 w-full rounded-lg"
-                            placeholder="Search for location..."
-                          />
-                        </StandaloneSearchBox>
-                      )}
+                      <div className="relative">
+                        <input
+                          type="text"
+                          id="location"
+                          ref={inputRef}
+                          value={location}
+                          onChange={(e) => {
+                            setLocation(e.target.value);
+                            setFormData((prev) => ({
+                              ...prev,
+                              location: e.target.value,
+                            }));
+                            handleSearchChange(e.target.value);
+                          }}
+                          className="border p-2 w-full rounded-lg"
+                          placeholder="Search for location..."
+                        />
+                        {suggestions.length > 0 && (
+                          <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full mt-1 max-h-48 overflow-y-auto shadow-lg">
+                            {suggestions.map((s, i) => (
+                              <li
+                                key={i}
+                                className="px-3 py-2 cursor-pointer hover:bg-blue-50 text-sm"
+                                onClick={() => {
+                                  setLocation(s.display_name);
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    location: s.display_name,
+                                  }));
+                                  handleSelectSuggestion(s);
+                                }}
+                              >
+                                {s.display_name}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -2173,9 +2343,11 @@ const HelpRequestForm = ({ isEdit = false, onClose }) => {
             {suggestedCategories.map((category, index) => (
               <FormControlLabel
                 key={index}
-                value={category.name}
+                value={category.category_number ?? category.name}
                 control={<Radio />}
-                label={category.name}
+                label={
+                  category.hierarchy ?? category.displayName ?? category.name
+                }
               />
             ))}
           </RadioGroup>

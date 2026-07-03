@@ -421,7 +421,7 @@ exports[`Directors renders correctly 1`] = `
                   class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
                 >
                   <img
-                    alt="Tejaswi Vadapalli"
+                    alt="Aakash Gangji"
                     class="w-full h-full object-cover"
                     src=""
                   />
@@ -431,17 +431,17 @@ exports[`Directors renders correctly 1`] = `
                 >
                   <a
                     class="text-black hover:underline"
-                    href="https://www.linkedin.com/in/sritejaswi/"
+                    href="https://www.linkedin.com/in/aakashgangji/"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    mockTranslate(Tejaswi Vadapalli)
+                    mockTranslate(Aakash Gangji)
                   </a>
                 </div>
                 <div
                   class="text-sm text-gray-500 mt-1 text-left pl-1"
                 >
-                  mockTranslate(Program and Operations Lead)
+                  mockTranslate(Lead AI/ML Developer/Engineer)
                 </div>
               </div>
             </div>
@@ -867,7 +867,7 @@ exports[`Directors renders correctly 1`] = `
                 class="w-[200px] h-[240px] overflow-hidden rounded-lg mx-auto"
               >
                 <img
-                  alt="Tejaswi Vadapalli"
+                  alt="Aakash Gangji"
                   class="w-full h-full object-cover"
                   src=""
                 />
@@ -877,17 +877,17 @@ exports[`Directors renders correctly 1`] = `
               >
                 <a
                   class="text-black hover:underline"
-                  href="https://www.linkedin.com/in/sritejaswi/"
+                  href="https://www.linkedin.com/in/aakashgangji/"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  mockTranslate(Tejaswi Vadapalli)
+                  mockTranslate(Aakash Gangji)
                 </a>
               </div>
               <div
                 class="text-sm text-gray-500 mt-1 text-left pl-1"
               >
-                mockTranslate(Program and Operations Lead)
+                mockTranslate(Lead AI/ML Developer/Engineer)
               </div>
             </div>
           </div>

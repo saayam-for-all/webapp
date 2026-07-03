@@ -27,6 +27,7 @@ import {
   getManagedRequests,
   getMyRequests,
   getOthersRequests,
+  getAllPaginatedRequests,
 } from "../../services/requestServices";
 import {
   getStatusOptions,
@@ -67,7 +68,17 @@ const Dashboard = ({ userRole }) => {
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [data, setData] = useState({});
   const groups = useSelector((state) => state.auth.user?.groups);
-  const isLoading = false;
+  const userDbId =
+    useSelector((state) => state.auth.user?.userDbId) ||
+    localStorage.getItem("userDbId");
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverPagination, setServerPagination] = useState({
+    totalPages: 0,
+    totalRecords: 0,
+    currentServerPage: 0,
+    isServerPaginated: false,
+  });
+
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [accessibleDashboards, setAccessibleDashboards] = useState([]);
   const [selectedDashboard, setSelectedDashboard] = useState("");
@@ -130,15 +141,93 @@ const Dashboard = ({ userRole }) => {
     [],
   );
 
-  const getAllRequests = async (activeTab) => {
+  const normalizeHelpRequestRecords = (records) =>
+    (Array.isArray(records) ? records : []).map((r) => ({
+      ...r,
+      id: r.requestId || r.id,
+      category: r.requestCategory || r.category,
+      description: r.reqDesc || r.description,
+      catId: r.reqCatId || r.catId,
+    }));
+
+  const getAllRequests = async (tab, page = currentPage - 1, sizeOverride) => {
     try {
-      let requestApi = getMyRequests;
-      if (activeTab === "othersRequests") requestApi = getOthersRequests;
-      else if (activeTab === "managedRequests") requestApi = getManagedRequests;
-      const response = await requestApi();
-      setData(response);
+      setIsLoading(true);
+
+      const isAllRequestsTab =
+        tab === "myRequests" &&
+        [DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN, DASHBOARDS.STEWARD].includes(
+          selectedDashboard,
+        );
+
+      if (isAllRequestsTab) {
+        const response = await getAllPaginatedRequests({
+          page,
+          size: sizeOverride || rowsPerPage,
+        });
+
+        const records =
+          response?.data?.content || response?.content || response?.body || [];
+        const normalizedRecords = normalizeHelpRequestRecords(records);
+
+        setData({
+          ...response,
+          data: {
+            ...(response?.data || {}),
+            content: normalizedRecords,
+          },
+        });
+        setServerPagination({
+          totalPages: response?.data?.totalPages || response?.totalPages || 1,
+          totalRecords:
+            response?.data?.totalElements || response?.totalElements || 0,
+          currentServerPage: page,
+          isServerPaginated: true,
+        });
+
+        return;
+      }
+
+      let response;
+
+      if (tab === "myRequests") {
+        response = await getMyRequests({
+          userId: userDbId,
+          page,
+          size: sizeOverride || rowsPerPage,
+        });
+
+        const records =
+          response?.data?.content || response?.content || response?.body || [];
+        const normalizedRecords = normalizeHelpRequestRecords(records);
+
+        setData({
+          ...response,
+          data: {
+            ...(response?.data || {}),
+            content: normalizedRecords,
+          },
+        });
+        setServerPagination({
+          totalPages: response?.data?.totalPages || response?.totalPages || 1,
+          totalRecords:
+            response?.data?.totalElements || response?.totalElements || 0,
+          currentServerPage: page,
+          isServerPaginated: true,
+        });
+        return;
+      } else if (tab === "othersRequests") {
+        response = await getOthersRequests();
+      } else if (tab === "managedRequests") {
+        response = await getManagedRequests();
+      }
+
+      setData(response || { content: [], body: [], totalPages: 1 });
+      setServerPagination((prev) => ({ ...prev, isServerPaginated: false }));
     } catch (error) {
       console.error("Error fetching requests:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -163,6 +252,22 @@ const Dashboard = ({ userRole }) => {
       return;
     }
 
+    // Preferences tab stores defaultDashboard under "userPreferences" in
+    // localStorage (DB persistence pending). Honor it when the user lands
+    // on /dashboard without an explicit ?view= override.
+    let preferredDashboard = null;
+    try {
+      const saved = JSON.parse(localStorage.getItem("userPreferences"));
+      preferredDashboard = saved?.defaultDashboard || null;
+    } catch {
+      preferredDashboard = null;
+    }
+    if (preferredDashboard && accessible.includes(preferredDashboard)) {
+      setSelectedDashboard(preferredDashboard);
+      localStorage.setItem("lastDashboardSelected", preferredDashboard);
+      return;
+    }
+
     const storedDashboard = localStorage.getItem("lastDashboardSelected");
     if (storedDashboard && accessible.includes(storedDashboard)) {
       setSelectedDashboard(storedDashboard);
@@ -175,18 +280,19 @@ const Dashboard = ({ userRole }) => {
   }, [groups, searchParams]);
 
   useEffect(() => {
-    getAllRequests(activeTab);
-  }, [activeTab]);
+    if (selectedDashboard && activeTab) {
+      getAllRequests(activeTab);
+    }
+  }, [activeTab, currentPage, rowsPerPage, userDbId, selectedDashboard]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    if (tab === "analytics") setAnalyticsSubtab("Infrastructure");
     setCurrentPage(1);
     setStatusFilter({});
-    // DON'T reset category filter when changing tabs
-    // This was causing issues where API categories didn't match data categories
-    // Keep the existing filter state or leave it empty to show all data
   };
+  // DON'T reset category filter when changing tabs
+  // This was causing issues where API categories didn't match data categories
+  // Keep the existing filter state or leave it empty to show all data
 
   const handleDashboardChange = (newDashboard) => {
     const validation = validateDashboardAccess(groups, newDashboard);
@@ -204,8 +310,9 @@ const Dashboard = ({ userRole }) => {
   };
 
   const dataKeyMap = {
-    requestId: "id",
+    requestId: "requestId",
     beneficiaryId: "userId",
+    category: "requestCategory",
   };
   const resolveKey = (header) => dataKeyMap[header] || header;
 
@@ -213,11 +320,11 @@ const Dashboard = ({ userRole }) => {
     const baseHeaders = [
       "requestId",
       "subject",
+      "category",
+      "status",
+      "priority",
       "updatedDate",
       "creationDate",
-      "type",
-      "category",
-      "priority",
       "calamity",
     ];
     const headersWithUserId =
@@ -234,8 +341,7 @@ const Dashboard = ({ userRole }) => {
             "calamity",
           ]
         : baseHeaders;
-    const isAllSelected = Object.values(statusFilter).every(Boolean);
-    return isAllSelected ? ["status", ...headersWithUserId] : headersWithUserId;
+    return headersWithUserId;
   }, [statusFilter, activeTab]);
 
   const sortedRequests = (requests) => {
@@ -254,8 +360,18 @@ const Dashboard = ({ userRole }) => {
     return sortableRequests;
   };
 
+  const getRequestRows = (data) => {
+    return data?.data?.content || data?.content || data?.body || [];
+  };
+
   const sortedData = useMemo(() => {
-    return sortedRequests(data?.body || []);
+    const requests = getRequestRows(data);
+
+    if (!sortConfig) {
+      return requests;
+    }
+
+    return sortedRequests(requests);
   }, [data, sortConfig]);
 
   const statusOptions = useMemo(() => {
@@ -272,7 +388,11 @@ const Dashboard = ({ userRole }) => {
 
     // Also get statuses from current data for backward compatibility
     const dataStatuses = [
-      ...new Set((data?.body || []).map((r) => r.status).filter(Boolean)),
+      ...new Set(
+        getRequestRows(data)
+          .map((r) => r.status)
+          .filter(Boolean),
+      ),
     ];
 
     // Add any data statuses not in enums
@@ -296,7 +416,9 @@ const Dashboard = ({ userRole }) => {
 
     // Get all category names from actual data
     const dataCategoryNames = new Set(
-      (data?.body || []).map((r) => r.category).filter(Boolean),
+      getRequestRows(data)
+        .map((r) => r.category)
+        .filter(Boolean),
     );
 
     if (categories && Array.isArray(categories) && dataCategoryNames.size > 0) {
@@ -352,7 +474,9 @@ const Dashboard = ({ userRole }) => {
 
     // Fallback: use categories from actual data
     const backendValues = new Set(
-      (data?.body || []).map((r) => r.category).filter(Boolean),
+      getRequestRows(data)
+        .map((r) => r.category)
+        .filter(Boolean),
     );
     const combined = Array.from(backendValues);
     return combined.sort().map((cat) => ({
@@ -696,9 +820,12 @@ const Dashboard = ({ userRole }) => {
     categoryOptions,
   ]);
 
-  const totalPages = (filteredData) => {
-    if (!filteredData || filteredData.length == 0) return 1;
-    return Math.ceil(filteredData.length / rowsPerPage);
+  const totalPages = () => {
+    return data?.data?.totalPages || data?.totalPages || 1;
+  };
+
+  const totalRows = () => {
+    return data?.data?.totalElements || 0;
   };
 
   const handleSearchChange = (event) => {
@@ -709,7 +836,7 @@ const Dashboard = ({ userRole }) => {
   const requestSort = (key) => {
     const resolved = resolveKey(key);
     let direction = "ascending";
-    if (sortConfig.key === resolved && sortConfig.direction === "ascending") {
+    if (sortConfig?.key === resolved && sortConfig.direction === "ascending") {
       direction = "descending";
     }
     setSortConfig({ key: resolved, direction });
@@ -854,6 +981,22 @@ const Dashboard = ({ userRole }) => {
   const handleRowsPerPageChange = (rows) => {
     setRowsPerPage(rows);
     setCurrentPage(1);
+    // Re-fetch from server with new page size (pass directly to avoid stale state)
+    if (serverPagination.isServerPaginated) {
+      getAllRequests(activeTab, 0, rows);
+    }
+  };
+
+  // Handle page change — for server-paginated mode, fetch the new page from API
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    if (
+      serverPagination.isServerPaginated &&
+      newPage - 1 !== serverPagination.currentServerPage
+    ) {
+      // API uses 0-indexed pages, UI uses 1-indexed
+      getAllRequests(activeTab, newPage - 1);
+    }
   };
 
   // Count selected categories (for badge display)
@@ -967,6 +1110,14 @@ const Dashboard = ({ userRole }) => {
 
   useEffect(() => {
     if (selectedDashboard && dashboardDefaultTab[selectedDashboard]) {
+      setData({});
+      setCurrentPage(1);
+      setStatusFilter({});
+      setCategoryFilter({});
+      setTypeFilter({});
+      setPriorityFilter({});
+      setCalamityFilter({});
+      setVolunteerTypeFilter({});
       setActiveTab(dashboardDefaultTab[selectedDashboard]);
     }
   }, [selectedDashboard]);
@@ -1367,8 +1518,9 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                setCurrentPage={handlePageChange}
                 totalPages={totalPages}
+                totalRows={totalRows()}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
                 requestSort={requestSort}
@@ -1384,6 +1536,8 @@ const Dashboard = ({ userRole }) => {
                 }
                 analyticsSubtab={analyticsSubtab}
                 setAnalyticsSubtab={setAnalyticsSubtab}
+                serverPaginated={serverPagination.isServerPaginated}
+                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 
@@ -1395,7 +1549,7 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                setCurrentPage={handlePageChange}
                 totalPages={totalPages}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
@@ -1412,6 +1566,8 @@ const Dashboard = ({ userRole }) => {
                 }
                 analyticsSubtab={analyticsSubtab}
                 setAnalyticsSubtab={setAnalyticsSubtab}
+                serverPaginated={serverPagination.isServerPaginated}
+                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 
@@ -1421,7 +1577,7 @@ const Dashboard = ({ userRole }) => {
                 filteredData={filteredData}
                 isLoading={isLoading}
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                setCurrentPage={handlePageChange}
                 totalPages={totalPages}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
@@ -1434,6 +1590,8 @@ const Dashboard = ({ userRole }) => {
                 }
                 getLinkState={(request) => request}
                 searchFilters={dashboardSearchFilters}
+                serverPaginated={serverPagination.isServerPaginated}
+                serverTotalRows={serverPagination.totalRecords}
               />
             )}
 
@@ -1471,10 +1629,12 @@ const Dashboard = ({ userRole }) => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
+                totalRows={totalRows()}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
+                serverPaginated={activeTab === "myRequests"}
                 getLinkPath={(request, header) =>
                   header === "requestId" || header === "id"
                     ? `/request/${request[resolveKey(header)]}`

@@ -1,6 +1,8 @@
 import api from "./api";
 import endpoints from "./endpoints.json";
-import { fileToBase64 } from "../utils/fileToBase64";
+import { ACCEPTED_IMAGE_TYPES, fileToBase64 } from "../utils/fileToBase64";
+
+const MAX_PROFILE_IMAGE_SIZE = 5_000_000;
 
 export const getVolunteerOrgsList = async () => {
   const response = await api.get(endpoints.GET_VOLUNTEER_ORGS_LIST);
@@ -8,6 +10,41 @@ export const getVolunteerOrgsList = async () => {
 };
 export const getVolunteerSkills = async () => {
   const response = await api.get(endpoints.GET_VOLUNTEER_SKILLS);
+  return response.data;
+};
+
+/**
+ * Fetch user skills by userId
+ * @param {string} userId - The user's database ID (e.g., "SID-00-000-002-10000")
+ * @returns {Promise<Object>} - Returns { userId: string, skills: string[] }
+ */
+export const fetchUserSkills = async (userId) => {
+  const response = await api.post(endpoints.PROFILE_SKILLS, { userId });
+  return response.data;
+};
+
+/**
+ * Update user skills (replaces entire skills list)
+ * @param {string} userId - The user's database ID
+ * @param {string[]} skills - Array of skill IDs (e.g., ["0.0.0.0.0", "4.2"])
+ * @returns {Promise<Object>} - API response
+ */
+export const updateUserSkills = async (userId, skills) => {
+  const response = await api.put(endpoints.PROFILE_SKILLS, { userId, skills });
+  return response.data;
+};
+
+/**
+ * Delete user skills by sending empty list or updated list
+ * Internally uses update logic - skills not in list will be removed
+ * @param {string} userId - The user's database ID
+ * @param {string[]} skills - Remaining skills after deletion
+ * @returns {Promise<Object>} - API response
+ */
+export const deleteUserSkills = async (userId, skills) => {
+  const response = await api.delete(endpoints.PROFILE_SKILLS, {
+    data: { userId, skills },
+  });
   return response.data;
 };
 export const createVolunteer = async (volunteerData) => {
@@ -41,6 +78,15 @@ export const getVolunteersData = async () => {
       : [];
 };
 
+export const getMockVolunteersData = async () => {
+  const { data } = await api.get(endpoints.MOCK_GET_VOLUNTEERS);
+  return Array.isArray(data?.body)
+    ? data.body
+    : Array.isArray(data)
+      ? data
+      : [];
+};
+
 /**
  * Upload profile image to S3 via backend (Base64 in JSON).
  * @param {string} userId - userDBId from Redux
@@ -49,6 +95,13 @@ export const getVolunteersData = async () => {
  */
 export const uploadProfileImage = async (userId, file) => {
   if (!userId) throw new Error("User ID is required");
+  if (!file || !(file instanceof File)) throw new Error("Invalid file");
+  if (!ACCEPTED_IMAGE_TYPES.includes((file.type || "").toLowerCase())) {
+    throw new Error("Only JPG and PNG formats are accepted.");
+  }
+  if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+    throw new Error("File size must be 5 MB or less.");
+  }
   const base64 = await fileToBase64(file);
   const contentType = file.type === "image/png" ? "image/png" : "image/jpeg";
   await api.post(endpoints.UPLOAD_PROFILE_IMAGE, {

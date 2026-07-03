@@ -1,16 +1,96 @@
 import api from "./api";
 import {
+  getVolunteerOrgsList,
+  getVolunteerSkills,
+  fetchUserSkills,
+  deleteUserSkills,
+  createVolunteer,
+  updateVolunteer,
+  getVolunteersData,
   uploadProfileImage,
   deleteProfileImage,
   fetchProfileImage,
   signOffUser,
   getUserId,
+  updateUserSkills,
 } from "./volunteerServices";
 
 jest.mock("./api");
 jest.mock("../utils/fileToBase64", () => ({
+  ACCEPTED_IMAGE_TYPES: ["image/jpeg", "image/png"],
   fileToBase64: jest.fn(() => Promise.resolve("data:image/jpeg;base64,abc")),
 }));
+
+describe("volunteerServices volunteer data APIs", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("fetches volunteer organizations", async () => {
+    api.get.mockResolvedValue({ data: { body: ["org"] } });
+
+    await expect(getVolunteerOrgsList()).resolves.toEqual({ body: ["org"] });
+    expect(api.get).toHaveBeenCalledWith("v1/volunteerorgs/organizations-list");
+  });
+
+  it("fetches volunteer skills", async () => {
+    api.get.mockResolvedValue({ data: { body: ["skill"] } });
+
+    await expect(getVolunteerSkills()).resolves.toEqual({ body: ["skill"] });
+    expect(api.get).toHaveBeenCalledWith("v1/volunteer/skills");
+  });
+
+  it("fetches profile skills by user ID", async () => {
+    api.post.mockResolvedValue({ data: { skills: ["0.0.0.0.0"] } });
+
+    await expect(fetchUserSkills("SID-123")).resolves.toEqual({
+      skills: ["0.0.0.0.0"],
+    });
+    expect(api.post).toHaveBeenCalledWith("v1/volunteer/profileSkills", {
+      userId: "SID-123",
+    });
+  });
+
+  it("deletes profile skills with a JSON body", async () => {
+    api.delete.mockResolvedValue({ data: { success: true } });
+
+    await expect(deleteUserSkills("SID-123", ["4.2"])).resolves.toEqual({
+      success: true,
+    });
+    expect(api.delete).toHaveBeenCalledWith("v1/volunteer/profileSkills", {
+      data: { userId: "SID-123", skills: ["4.2"] },
+    });
+  });
+
+  it("creates and updates volunteers", async () => {
+    api.post.mockResolvedValueOnce({ data: { created: true } });
+    api.put.mockResolvedValueOnce({ data: { updated: true } });
+
+    await expect(createVolunteer({ userId: "SID-123" })).resolves.toEqual({
+      created: true,
+    });
+    await expect(updateVolunteer({ userId: "SID-123" })).resolves.toEqual({
+      updated: true,
+    });
+    expect(api.post).toHaveBeenCalledWith("v1/volunteer/createNewVolunteer", {
+      userId: "SID-123",
+    });
+    expect(api.put).toHaveBeenCalledWith("v1/volunteer/updateVolunteer", {
+      userId: "SID-123",
+    });
+  });
+
+  it("normalizes volunteer data responses", async () => {
+    api.get.mockResolvedValueOnce({ data: { body: [{ id: 1 }] } });
+    await expect(getVolunteersData()).resolves.toEqual([{ id: 1 }]);
+
+    api.get.mockResolvedValueOnce({ data: [{ id: 2 }] });
+    await expect(getVolunteersData()).resolves.toEqual([{ id: 2 }]);
+
+    api.get.mockResolvedValueOnce({ data: { body: null } });
+    await expect(getVolunteersData()).resolves.toEqual([]);
+  });
+});
 
 describe("volunteerServices profile image", () => {
   beforeEach(() => {
@@ -45,6 +125,26 @@ describe("volunteerServices profile image", () => {
           new File(["x"], "a.jpg", { type: "image/jpeg" }),
         ),
       ).rejects.toThrow("User ID is required");
+    });
+
+    it("throws when profile image type is unsupported", async () => {
+      await expect(
+        uploadProfileImage(
+          "SID-123",
+          new File(["x"], "a.gif", { type: "image/gif" }),
+        ),
+      ).rejects.toThrow("Only JPG and PNG formats are accepted.");
+      expect(api.post).not.toHaveBeenCalled();
+    });
+
+    it("throws when profile image is larger than 5 MB", async () => {
+      const file = new File(["x"], "a.jpg", { type: "image/jpeg" });
+      Object.defineProperty(file, "size", { value: 5_000_001 });
+
+      await expect(uploadProfileImage("SID-123", file)).rejects.toThrow(
+        "File size must be 5 MB or less.",
+      );
+      expect(api.post).not.toHaveBeenCalled();
     });
   });
 
@@ -152,7 +252,7 @@ describe("signOffUser", () => {
       saayamCode: "SAAAYAM-1205",
       message: "User deleted",
       data: { userId: "SID-00-000-002-558" },
-      timestamp: 1770661776.66827198,
+      timestamp: Number("1770661776.66827198"),
     };
     api.request.mockResolvedValue({ data: responseData });
 
@@ -167,6 +267,24 @@ describe("signOffUser", () => {
     await expect(signOffUser("SID-00-000-001")).rejects.toThrow(
       "Network error",
     );
+  });
+});
+
+describe("updateUserSkills", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("sends skill IDs as strings, including dotted category IDs", async () => {
+    api.put.mockResolvedValue({ data: { success: true } });
+
+    const result = await updateUserSkills("SID-123", ["0.0.0.0.0", "4.2"]);
+
+    expect(api.put).toHaveBeenCalledWith("v1/volunteer/profileSkills", {
+      userId: "SID-123",
+      skills: ["0.0.0.0.0", "4.2"],
+    });
+    expect(result).toEqual({ success: true });
   });
 });
 

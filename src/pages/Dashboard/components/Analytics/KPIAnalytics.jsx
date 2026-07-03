@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -14,9 +14,7 @@ import {
   ReferenceLine,
 } from "recharts";
 import ChartContainer from "./charts/ChartContainer";
-import resolutionTimeData from "../../../../data/analytics/kpi_resolution_time_monthly.json";
-import statusDistributionData from "../../../../data/analytics/request_status_distribution_monthly.json";
-
+import { getKpiAnalytics } from "../../../../services/analyticsServices";
 /**
  * KPIAnalytics Component
  *
@@ -24,85 +22,85 @@ import statusDistributionData from "../../../../data/analytics/request_status_di
  * 1. Request Status Distribution (Donut Chart with center metrics and table view)
  * 2. Average Resolution Time by Category (Horizontal Bar Chart with SLA target lines and color grading)
  */
+export const renderTooltip =
+  (SLA_TARGET, SLA_WARNING) =>
+  ({ active, payload }) => {
+    if (active && payload && payload[0]) {
+      const data = payload[0].payload;
+      const status =
+        data.avgHours > SLA_TARGET
+          ? "Exceeded SLA"
+          : data.avgHours > SLA_WARNING
+            ? "Approaching SLA"
+            : "Within SLA";
+      return (
+        <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm">
+          <p className="font-semibold text-gray-800">{data.category}</p>
+          <p className="text-sm text-gray-600">
+            Avg: {data.avgHours} hours ({data.avgDays} days)
+          </p>
+          <p
+            className={`text-sm font-semibold ${
+              data.avgHours > SLA_TARGET
+                ? "text-red-600"
+                : data.avgHours > SLA_WARNING
+                  ? "text-yellow-600"
+                  : "text-green-600"
+            }`}
+          >
+            {status}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
 const KPIAnalytics = () => {
   const [showStatusTable, setShowStatusTable] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState(null);
   const [breakdownView, setBreakdownView] = useState("category"); // category or region
-  // Process resolution time data - calculate average by category
-  const processResolutionData = () => {
-    const categoryTotals = {};
-    const categoryCounts = {};
+  const [kpiData, setKpiData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    resolutionTimeData.forEach((item) => {
-      if (!categoryTotals[item.category]) {
-        categoryTotals[item.category] = 0;
-        categoryCounts[item.category] = 0;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await getKpiAnalytics();
+        setKpiData(data);
+      } catch (err) {
+        setError("Failed to load KPI data. Please try again.");
+      } finally {
+        setLoading(false);
       }
-      categoryTotals[item.category] += item.avgResolutionHours;
-      categoryCounts[item.category]++;
-    });
+    };
+    fetchData();
+  }, []);
+  const SLA_TARGET = kpiData?.sla?.target_hours ?? 240;
+  const SLA_WARNING = kpiData?.sla?.warning_hours ?? 200;
 
-    return Object.entries(categoryTotals)
-      .map(([category, total]) => ({
-        category,
-        avgHours: Math.round(total / categoryCounts[category]),
-        avgDays: (total / categoryCounts[category] / 24).toFixed(1),
+  const resolutionData = useMemo(() => {
+    if (!kpiData?.average_resolution_time_by_category) return [];
+    return kpiData.average_resolution_time_by_category
+      .map((item) => ({
+        category: item.category,
+        avgHours: item.avg_hours,
+        avgDays: (item.avg_hours / 24).toFixed(1),
       }))
       .sort((a, b) => b.avgHours - a.avgHours);
-  };
+  }, [kpiData]);
 
-  // Process status distribution - aggregate totals
-  const processStatusData = () => {
-    const statusTotals = {};
-
-    statusDistributionData.forEach((item) => {
-      if (!statusTotals[item.status]) {
-        statusTotals[item.status] = 0;
-      }
-      statusTotals[item.status] += item.requestCount;
-    });
-
-    return Object.entries(statusTotals).map(([name, value]) => ({
-      name,
-      value,
+  const statusData = useMemo(() => {
+    if (!kpiData?.request_status_distribution) return [];
+    return kpiData.request_status_distribution.map((item) => ({
+      name: item.status,
+      value: item.count,
     }));
-  };
+  }, [kpiData]);
 
-  const resolutionData = processResolutionData();
-  const statusData = processStatusData();
-
-  // Process breakdown data when a segment is clicked
-  const getBreakdownData = useMemo(() => {
-    if (!selectedSegment) return null;
-
-    const filtered = statusDistributionData.filter(
-      (item) => item.status === selectedSegment,
-    );
-
-    if (breakdownView === "category") {
-      // Group by category (note: using month as proxy since actual category data isn't in JSON)
-      const categoryMap = {};
-      filtered.forEach((item) => {
-        const key = item.month; // Placeholder - actual implementation would use req_cat_id
-        if (!categoryMap[key]) {
-          categoryMap[key] = 0;
-        }
-        categoryMap[key] += item.requestCount;
-      });
-      return Object.entries(categoryMap).map(([name, count]) => ({
-        name,
-        count,
-      }));
-    } else {
-      // Region breakdown would require geographic data
-      return [
-        {
-          name: "Breakdown by region requires geographic data",
-          count: 0,
-        },
-      ];
-    }
-  }, [selectedSegment, breakdownView]);
+  const totalRequests = kpiData?.total_requests ?? 0;
 
   // Handle segment click
   const handleSegmentClick = (data) => {
@@ -110,10 +108,6 @@ const KPIAnalytics = () => {
       setSelectedSegment(data.name);
     }
   };
-
-  // SLA thresholds (in hours)
-  const SLA_TARGET = 240; // 10 days
-  const SLA_WARNING = 200; // 8.3 days
 
   // Color mapping for resolution time based on SLA
   const getResolutionColor = (avgHours) => {
@@ -126,16 +120,12 @@ const KPIAnalytics = () => {
   const STATUS_COLORS = {
     CREATED: "#3b82f6", // Blue
     IN_PROGRESS: "#f59e0b", // Orange
+    MATCHING_VOLUNTEER: "#8b5cf6", // Purple
     RESOLVED: "#10b981", // Green
   };
 
-  // Calculate total requests for center metric
-  const totalRequests = useMemo(() => {
-    return statusData.reduce((sum, item) => sum + item.value, 0);
-  }, [statusData]);
-
   // Custom label for donut center
-  const renderCenterLabel = ({ viewBox }) => {
+  /* const renderCenterLabel = ({ viewBox }) => {
     const { cx, cy } = viewBox;
     return (
       <g>
@@ -159,7 +149,24 @@ const KPIAnalytics = () => {
         </text>
       </g>
     );
-  };
+  }; */
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-48 gap-3 text-gray-500">
+        <div className="w-8 h-8 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+        <p className="text-sm">Loading KPI data...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-32 text-red-500 text-sm">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -205,7 +212,7 @@ const KPIAnalytics = () => {
 
         {!showStatusTable ? (
           <>
-            <ResponsiveContainer width="100%" height={220}>
+            <ResponsiveContainer width="100%" height={280}>
               <PieChart>
                 <Pie
                   data={statusData}
@@ -213,7 +220,7 @@ const KPIAnalytics = () => {
                   cy="50%"
                   innerRadius={80}
                   outerRadius={120}
-                  paddingAngle={5}
+                  paddingAngle={0}
                   dataKey="value"
                   onClick={handleSegmentClick}
                   cursor="pointer"
@@ -347,98 +354,106 @@ const KPIAnalytics = () => {
       {/* Chart 2: Average Resolution Time by Category with SLA Lines */}
       <ChartContainer
         title="Average Resolution Time by Category"
-        description={`SLA Target: ${SLA_TARGET / 24} days | Warning: ${SLA_WARNING / 24} days | Color coding: Green (within SLA), Yellow (approaching SLA), Red (exceeded SLA)`}
+        description={`SLA Target: ${SLA_TARGET / 24} days |Warning: ${(SLA_WARNING / 24).toFixed(2)} days | Color coding: Green (within SLA), Yellow (approaching SLA), Red (exceeded SLA)`}
       >
-        <ResponsiveContainer width="100%" height={220}>
-          <BarChart
-            data={resolutionData}
-            layout="vertical"
-            margin={{ left: 20 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis
-              type="number"
-              tick={{ fontSize: 12 }}
-              stroke="#6b7280"
-              label={{ value: "Hours", position: "insideBottom", offset: -5 }}
-            />
-            <YAxis
-              dataKey="category"
-              type="category"
-              tick={{ fontSize: 12 }}
-              stroke="#6b7280"
-              width={100}
-            />
-            <Tooltip
-              content={({ active, payload }) => {
-                if (active && payload && payload[0]) {
-                  const data = payload[0].payload;
-                  const status =
-                    data.avgHours > SLA_TARGET
-                      ? "Exceeded SLA"
-                      : data.avgHours > SLA_WARNING
-                        ? "Approaching SLA"
-                        : "Within SLA";
-                  return (
-                    <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm">
-                      <p className="font-semibold text-gray-800">
-                        {data.category}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Avg: {data.avgHours} hours ({data.avgDays} days)
-                      </p>
-                      <p
-                        className={`text-sm font-semibold ${
-                          data.avgHours > SLA_TARGET
-                            ? "text-red-600"
-                            : data.avgHours > SLA_WARNING
-                              ? "text-yellow-600"
-                              : "text-green-600"
-                        }`}
-                      >
-                        {status}
-                      </p>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-            <Legend />
-            {/* SLA Target Line */}
-            <ReferenceLine
-              x={SLA_TARGET}
-              stroke="#ef4444"
-              strokeDasharray="3 3"
-              label={{
-                value: "SLA Target",
-                position: "top",
-                fill: "#ef4444",
-                fontSize: 12,
-              }}
-            />
-            {/* SLA Warning Line */}
-            <ReferenceLine
-              x={SLA_WARNING}
-              stroke="#f59e0b"
-              strokeDasharray="3 3"
-              label={{
-                value: "Warning",
-                position: "top",
-                fill: "#f59e0b",
-                fontSize: 12,
-              }}
-            />
-            <Bar dataKey="avgHours" radius={[0, 4, 4, 0]} name="Avg Hours">
-              {resolutionData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={getResolutionColor(entry.avgHours)}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        {resolutionData.length === 0 ? (
+          <div className="flex items-center justify-center h-48 text-gray-400 text-sm">
+            No resolution data available
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart
+              data={resolutionData}
+              layout="vertical"
+              margin={{ left: 20 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis
+                type="number"
+                tick={{ fontSize: 12 }}
+                stroke="#6b7280"
+                label={{ value: "Hours", position: "insideBottom", offset: -5 }}
+              />
+              <YAxis
+                dataKey="category"
+                type="category"
+                tick={{ fontSize: 12 }}
+                stroke="#6b7280"
+                width={100}
+              />
+              <Tooltip
+                content={renderTooltip(SLA_TARGET, SLA_WARNING)}
+                /*content={({ active, payload }) => {
+                  if (active && payload && payload[0]) {
+                    const data = payload[0].payload;
+                    const status =
+                      data.avgHours > SLA_TARGET
+                        ? "Exceeded SLA"
+                        : data.avgHours > SLA_WARNING
+                          ? "Approaching SLA"
+                          : "Within SLA";
+                    return (
+                      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm">
+                        <p className="font-semibold text-gray-800">
+                          {data.category}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          Avg: {data.avgHours} hours ({data.avgDays} days)
+                        </p>
+                        <p
+                          className={`text-sm font-semibold ${
+                            data.avgHours > SLA_TARGET
+                              ? "text-red-600"
+                              : data.avgHours > SLA_WARNING
+                                ? "text-yellow-600"
+                                : "text-green-600"
+                          }`}
+                        >
+                          {status}
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }} */
+              />
+
+              <Legend />
+              {/* SLA Target Line */}
+              <ReferenceLine
+                x={SLA_TARGET}
+                stroke="#ef4444"
+                strokeDasharray="3 3"
+                label={{
+                  value: "SLA Target",
+                  position: "top",
+                  fill: "#ef4444",
+                  fontSize: 12,
+                }}
+              />
+              {/* SLA Warning Line */}
+              <ReferenceLine
+                x={SLA_WARNING}
+                stroke="#f59e0b"
+                strokeDasharray="3 3"
+                label={{
+                  value: "Warning",
+                  position: "top",
+                  fill: "#f59e0b",
+                  fontSize: 12,
+                }}
+              />
+              <Bar dataKey="avgHours" radius={[0, 4, 4, 0]} name="Avg Hours">
+                {resolutionData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={getResolutionColor(entry.avgHours)}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </ChartContainer>
     </div>
   );

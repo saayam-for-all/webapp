@@ -9,14 +9,17 @@ import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
 import { NotificationProvider } from "../context/NotificationContext";
 import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
 import Breadcrumbs from "#components/BreadCrumbs/BreadCrumbs";
+import useShowAds from "../hooks/useShowAds";
 
 const Layout = () => {
   const location = useLocation();
+  const showAds = useShowAds();
 
   const hideBreadcrumbRoutes = ["/", "/home", "/login"];
   const shouldHideBreadcrumbs = hideBreadcrumbRoutes.includes(
     location.pathname.toLowerCase(),
   );
+  const isDonateRoute = location.pathname.toLowerCase() === "/donate";
 
   return (
     <div className="flex flex-col h-screen">
@@ -28,19 +31,21 @@ const Layout = () => {
         </header>
 
         <div className="flex flex-1">
-          <aside className="left-ads-panel flex-1 ">
-            <LeftAds />
+          <aside className="left-ads-panel flex-1">
+            {showAds && <LeftAds />}
           </aside>
 
-          <main className="flex-[6] overflow-auto">
+          <main
+            className={`flex-[6] ${isDonateRoute ? "overflow-visible" : "overflow-auto"}`}
+          >
             {!shouldHideBreadcrumbs && <Breadcrumbs />}
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
           </main>
 
-          <aside className="right-ads-panel flex-1 ">
-            <RightAds />
+          <aside className="right-ads-panel flex-1">
+            {showAds && <RightAds />}
           </aside>
         </div>
 

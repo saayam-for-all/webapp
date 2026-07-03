@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import CountryList from "react-select-country-list";
+import { resolveCountryIso } from "../../utils/countryUtils";
 import { FiPhoneCall, FiVideo } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -35,6 +36,7 @@ function YourProfile({ setHasUnsavedChanges }) {
   const firstNameRef = useRef(null);
   const countries = CountryList().getData();
   const user = useSelector((state) => state.auth.user);
+  const canEditProfileCountry = !String(user?.zoneinfo || "").trim();
 
   const [nameErrors, setNameErrors] = useState({ firstName: "", lastName: "" });
   const [emailError, setEmailError] = useState("");
@@ -56,11 +58,9 @@ function YourProfile({ setHasUnsavedChanges }) {
   const [countryCode, setCountryCode] = useState("US"); // ISO
 
   // ---------------- helpers ----------------
-  const getIsoFromCountryLabel = (label) => {
-    const match = Object.entries(PHONECODESEN).find(
-      ([, data]) => data.primary === label,
-    );
-    return match ? match[0] : null;
+  const getProfileCountryIso = (zoneinfo) => {
+    if (!String(zoneinfo || "").trim()) return "";
+    return resolveCountryIso(zoneinfo);
   };
 
   // Prefer zoneinfo ISO when dial code collides (fallback if parsing fails)
@@ -99,8 +99,7 @@ function YourProfile({ setHasUnsavedChanges }) {
   useEffect(() => {
     if (!user) return;
 
-    const zoneIso =
-      getIsoFromCountryLabel(user.zoneinfo || "United States") || "US";
+    const zoneIso = resolveCountryIso(user.zoneinfo);
 
     let parsedIso = null;
     if (user.phone_number && user.phone_number.startsWith("+")) {
@@ -130,7 +129,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       email: userEmail,
       phone: digits,
       phoneCountryCode: finalIso,
-      country: user.zoneinfo || "",
+      country: getProfileCountryIso(user.zoneinfo),
     });
 
     // keep the ContactUs-style phone component in sync
@@ -205,7 +204,6 @@ function YourProfile({ setHasUnsavedChanges }) {
       if (saveError && saveError.includes("email")) setSaveError("");
       if (showEmailVerificationMessage) setShowEmailVerificationMessage(false);
     } else if (name === "country") {
-      const nextIso = getIsoFromCountryLabel(value);
       setProfileInfo((prev) => ({
         ...prev,
         country: value,
@@ -265,6 +263,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       if (!profileInfo.email.trim()) throw new Error("Email is required");
       if (!validateEmail(profileInfo.email, true))
         throw new Error("Please enter a valid email address");
+      if (!profileInfo.country) throw new Error("Country is required");
 
       // ✅ ContactUs-style validation + strict region check
       const dial = PHONECODESEN[countryCode]?.secondary || "";
@@ -412,8 +411,7 @@ function YourProfile({ setHasUnsavedChanges }) {
 
   const resetFormData = () => {
     if (user) {
-      const zoneIso =
-        getIsoFromCountryLabel(user.zoneinfo || "United States") || "US";
+      const zoneIso = resolveCountryIso(user.zoneinfo);
 
       let parsedIso = null;
       if (user.phone_number && user.phone_number.startsWith("+")) {
@@ -437,7 +435,7 @@ function YourProfile({ setHasUnsavedChanges }) {
           stripDialOnce(user.phone_number || "", finalIso),
         ),
         phoneCountryCode: finalIso,
-        country: user.zoneinfo || "",
+        country: getProfileCountryIso(user.zoneinfo),
       });
 
       // keep shared phone component in sync
@@ -538,6 +536,7 @@ function YourProfile({ setHasUnsavedChanges }) {
       {/* Phone Number */}
       <div className="mb-6">
         <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          {isEditing && <span className="text-red-500 mr-1">*</span>}
           {t("PHONE_NUMBER")}
         </label>
         <div className="flex items-center gap-2">
@@ -573,24 +572,6 @@ function YourProfile({ setHasUnsavedChanges }) {
                 <span>{profileInfo.phone}</span>
               </p>
 
-              <button
-                type="button"
-                data-testid="phone-call-icon"
-                className="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
-                onClick={() => handleCallInitiation("audio")}
-              >
-                <FiPhoneCall size={22} />
-              </button>
-
-              <button
-                type="button"
-                data-testid="video-call-icon"
-                className="text-gray-500 cursor-pointer hover:text-gray-700 ml-3"
-                onClick={() => handleCallInitiation("video")}
-              >
-                <FiVideo size={22} />
-              </button>
-
               {profileInfo.phone && (
                 <FaWhatsapp
                   size={22}
@@ -607,20 +588,42 @@ function YourProfile({ setHasUnsavedChanges }) {
 
       {/* Country */}
       <div className="mb-6">
-        <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
-          {isEditing && <span className="text-red-500 mr-1">*</span>}
+        <label
+          htmlFor="profile-country"
+          className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          {isEditing && canEditProfileCountry && (
+            <span className="text-red-500 mr-1">*</span>
+          )}
           {t("COUNTRY")}
         </label>
         {isEditing ? (
           <select
+            id="profile-country"
+            name="country"
             value={profileInfo.country}
             onChange={(e) => handleInputChange("country", e.target.value)}
-            className="block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 focus:outline-none"
+            disabled={!canEditProfileCountry}
+            className={`block w-full border border-gray-200 rounded py-3 px-4 focus:outline-none ${
+              canEditProfileCountry
+                ? "bg-white text-gray-700"
+                : "bg-gray-100 text-gray-500 cursor-not-allowed"
+            }`}
           >
-            <option value="United States">United States</option>
+            {canEditProfileCountry && (
+              <option value="">{t("SELECT_COUNTRY")}</option>
+            )}
+            {countries.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
           </select>
         ) : (
-          <p className="text-lg text-gray-900">{profileInfo.country}</p>
+          <p className="text-lg text-gray-900">
+            {countries.find((c) => c.value === profileInfo.country)?.label ||
+              profileInfo.country}
+          </p>
         )}
       </div>
 

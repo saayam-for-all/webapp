@@ -5,6 +5,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import CountryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import "./Login.css";
@@ -50,7 +51,8 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [country, setCountry] = useState("United States");
+  const countries = CountryList().getData();
+  const [country, setCountry] = useState("US");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [acceptedTOS, setAcceptedTOS] = useState(false);
@@ -166,7 +168,10 @@ const SignUp = () => {
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
-
+        <p className="mb-3 text-sm text-gray-600">
+          <span className="text-red-500 font-semibold">*</span> All fields are
+          mandatory
+        </p>
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
           <div className="flex-1">
@@ -241,19 +246,14 @@ const SignUp = () => {
           <select
             id="country"
             value={country}
-            disabled={true}
             onChange={(e) => setCountry(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-xl"
           >
-            {/**
-            <option value="">Select your country</option>
-            {countries.map((option) => (
-              <option key={option.value} value={option.label}>
-                {option.label}
+            {countries.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
               </option>
             ))}
-             */}
-            <option value="United States">{t("UNITED_STATES")}</option>
           </select>
         </div>
 

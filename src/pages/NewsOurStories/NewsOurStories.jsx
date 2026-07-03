@@ -189,7 +189,7 @@ export default function NewsOurStories() {
               </div>
 
               <div className="news-card-body">
-                <div className="news-date">{story.date}</div>
+                {/* <div className="news-date">{story.date}</div> */}
 
                 <h2 className="news-title">
                   {renderLinkedTitle(t(story.title), story.titleLinks)}

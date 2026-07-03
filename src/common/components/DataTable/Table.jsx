@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import Pagination from "../Pagination/Pagination";
 
 const Table = ({
@@ -16,17 +17,24 @@ const Table = ({
   onRowsPerPageChange,
   getLinkPath,
   getLinkState = undefined,
+  serverPaginated = false,
 }) => {
+  const { t, i18n } = useTranslation(["common", "categories"]);
+
   const paginatedRequests = useMemo(() => {
+    if (serverPaginated) {
+      return rows;
+    }
+
     return rows.slice(
       (currentPage - 1) * itemsPerPage,
       currentPage * itemsPerPage,
     );
-  }, [rows, currentPage, itemsPerPage]);
+  }, [rows, currentPage, itemsPerPage, serverPaginated]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [totalRows, itemsPerPage, setCurrentPage]);
+  //useEffect(() => {
+  //setCurrentPage(1);
+  //}, [totalRows, itemsPerPage, setCurrentPage]);
 
   const getSortIndicator = (key) => {
     if (sortConfig.key === key) {
@@ -63,12 +71,48 @@ const Table = ({
     return value;
   };
 
-  const dataKeyMap = { requestId: "id", beneficiaryId: "userId" };
+  const dataKeyMap = {
+    requestId: "requestId",
+    beneficiaryId: "userId",
+    category: "requestCategory",
+  };
   const resolveKey = (header) => dataKeyMap[header] || header;
+
+  const headerLabelMap = {
+    status: t("STATUS"),
+    subject: t("SUBJECT"),
+    type: t("TYPE"),
+    category: t("Category"),
+    priority: t("PRIORITY"),
+    requestId: t("Request ID"),
+    updatedDate: t("Last Updated"),
+    creationDate: t("Created"),
+    calamity: t("Calamity"),
+  };
+
+  const getCategoryLabel = (code) => {
+    if (!code) return code;
+    const bundle =
+      i18n.getResourceBundle(i18n.language, "categories") ||
+      i18n.getResourceBundle("en", "categories");
+    if (!bundle?.REQUEST_CATEGORIES) return code;
+    const search = (obj, target) => {
+      for (const key in obj) {
+        if (key === target && obj[key].LABEL) return obj[key].LABEL;
+        if (obj[key].SUBCATEGORIES) {
+          const found = search(obj[key].SUBCATEGORIES, target);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    return search(bundle.REQUEST_CATEGORIES, code) || code;
+  };
 
   const getCellValue = (row, header) => {
     if (header === "requestId") return row[resolveKey(header)];
-    return formatDateTime(row[header], header);
+    if (header === "category") return getCategoryLabel(row[resolveKey(header)]);
+    return formatDateTime(row[resolveKey(header)], header);
   };
 
   const shouldLinkCell = (header) => header === "requestId" || header === "id";
@@ -92,11 +136,12 @@ const Table = ({
                     type="button"
                     onClick={() => requestSort(resolveKey(key))}
                   >
-                    {key.charAt(0).toUpperCase() +
-                      key
-                        .slice(1)
-                        .replace(/([A-Z])/g, " $1")
-                        .trim()}
+                    {headerLabelMap[key] ||
+                      key.charAt(0).toUpperCase() +
+                        key
+                          .slice(1)
+                          .replace(/([A-Z])/g, " $1")
+                          .trim()}
                     {getSortIndicator(resolveKey(key))}
                   </button>
                 </th>
@@ -193,6 +238,7 @@ Table.propTypes = {
   onRowsPerPageChange: PropTypes.func.isRequired,
   getLinkPath: PropTypes.func.isRequired,
   getLinkState: PropTypes.func,
+  serverPaginated: PropTypes.bool,
 };
 
 export default Table;

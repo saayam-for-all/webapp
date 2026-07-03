@@ -1,4 +1,4 @@
-﻿{
+{
   "ABOUT": "เกี่ยวกับเรา",
   "DONATE": "บริจาค",
   "LOGIN": "เข้าสู่ระบบ",
@@ -11,6 +11,7 @@
   "DASHBOARD": "แดชบอร์ด",
   "ALL": "ทั้งหมด",
   "VOLUNTEER_MATCH": "จับคู่อาสาสมัคร",
+  "LEAD_VOLUNTEER": "อาสาสมัครหลัก",
   "HELP_REQUEST_BUTTON": "คำขอความช่วยเหลือ",
   "NEW_MATCH_REQUEST": "คำขอจับคู่ใหม่",
   "ACCEPT": "ยอมรับ",
@@ -31,5 +32,16 @@
   "NO_SKILLS_SELECTED": "No skills selected yet",
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
-  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "COMMENTS": "ความคิดเห็น",
+  "VOLUNTEERS": "อาสาสมัคร",
+  "ENTER_VOLUNTEER_NAME": "ป้อนชื่ออาสาสมัคร",
+  "FIND_BY_NAME": "ค้นหาด้วยชื่อ",
+  "SEARCH_BY_NAME": "ค้นหาด้วยชื่อ...",
+  "FIND_BY_EMAIL": "ค้นหาด้วยอีเมล",
+  "FIND_BY_PHONE": "ค้นหาด้วยเบอร์โทร",
+  "ENTER_VOLUNTEER_EMAIL": "ป้อนอีเมลอาสาสมัคร",
+  "ENTER_VOLUNTEER_PHONE": "ป้อนเบอร์โทรอาสาสมัคร",
+  "CHANGE_VOLUNTEER": "เปลี่ยนอาสาสมัคร",
+  "DELETE": "ลบ"
 }

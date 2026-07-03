@@ -1,3 +1,4 @@
+import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -5,6 +6,8 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import authReducer from "../redux/features/authentication/authSlice";
 import ProtectedRoute from "./ProtectedRoute";
 
+// Override the project-wide manual mock in __mocks__/react-router-dom.jsx,
+// which lacks MemoryRouter/Routes/Route needed by these tests.
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
 }));
@@ -14,9 +17,9 @@ jest.mock("../common/components/InactivityTimer/InactivityTimer", () => ({
   default: ({ children }) => <div data-testid="timer">{children}</div>,
 }));
 
-jest.mock("../common/components/Loading/Loading", () => ({
+jest.mock("../common/components/Loader/MainLoader", () => ({
   __esModule: true,
-  default: () => <div>Loading...</div>,
+  default: () => <div data-testid="main-loader" />,
 }));
 
 const mockStartVolunteerLocationTracking = jest.fn();
@@ -69,7 +72,22 @@ describe("ProtectedRoute", () => {
       error: null,
     });
 
-    expect(screen.getByText("Loading...")).toBeTruthy();
+    expect(screen.getByTestId("main-loader")).toBeInTheDocument();
+    expect(screen.queryByText("Landing")).not.toBeInTheDocument();
+    expect(screen.queryByText("Dashboard")).not.toBeInTheDocument();
+  });
+
+  it("shows the loader while auth check is in progress even after initialization", () => {
+    renderProtectedRoute({
+      loading: true,
+      authInitialized: true,
+      user: null,
+      success: false,
+      error: null,
+    });
+
+    expect(screen.getByTestId("main-loader")).toBeInTheDocument();
+    expect(screen.queryByText("Landing")).not.toBeInTheDocument();
   });
 
   it("redirects unauthenticated users to the landing page", async () => {
@@ -82,8 +100,9 @@ describe("ProtectedRoute", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Landing")).toBeTruthy();
+      expect(screen.getByText("Landing")).toBeInTheDocument();
     });
+    expect(screen.queryByTestId("main-loader")).not.toBeInTheDocument();
   });
 
   it("renders protected content for authenticated users", async () => {
@@ -99,8 +118,9 @@ describe("ProtectedRoute", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Dashboard")).toBeTruthy();
+      expect(screen.getByText("Dashboard")).toBeInTheDocument();
     });
+    expect(screen.queryByTestId("main-loader")).not.toBeInTheDocument();
   });
 
   it("starts volunteer tracking only for volunteer users with a database id", async () => {
@@ -139,7 +159,7 @@ describe("ProtectedRoute", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Dashboard")).toBeTruthy();
+      expect(screen.getByText("Dashboard")).toBeInTheDocument();
     });
 
     expect(mockStartVolunteerLocationTracking).not.toHaveBeenCalled();
@@ -155,6 +175,6 @@ describe("ProtectedRoute", () => {
       error: null,
     });
 
-    expect(screen.getByText("Loading...")).toBeTruthy();
+    expect(screen.getByTestId("main-loader")).toBeInTheDocument();
   });
 });

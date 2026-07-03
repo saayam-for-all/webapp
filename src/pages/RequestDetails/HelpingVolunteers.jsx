@@ -6,6 +6,7 @@ import {
   storeMeetingDetails,
 } from "../../services/meetingServices";
 import { FaVideo } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const HelpingVolunteers = () => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ const HelpingVolunteers = () => {
   const [meetingDate, setMeetingDate] = useState("");
   const [meetingTime, setMeetingTime] = useState("");
   const [meetingLoading, setMeetingLoading] = useState(false);
+  const [selectAll, setSelectAll] = useState(false);
   const [meetingError, setMeetingError] = useState("");
   const [meetingSuccess, setMeetingSuccess] = useState("");
 
@@ -34,12 +36,13 @@ const HelpingVolunteers = () => {
     direction: "ascending",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchBy, setSearchBy] = useState("name");
   const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
+  const [volunteerCountError, setVolunteerCountError] = useState("");
 
   // Get the current system date
   const systemDate = new Date();
-  const volunteersAssigned = 5;
   const formattedDate = systemDate.toLocaleString("en-US", {
     month: "short",
     day: "numeric",
@@ -70,67 +73,6 @@ const HelpingVolunteers = () => {
     fetchVolunteers();
   }, []);
 
-  // Dummy volunteer data with added date field
-  // const volunteerData = useMemo(
-  //   () => [
-  //     {
-  //       name: "Jane Cooper",
-  //       cause: "Cooking",
-  //       phone: "(225) 555-0118",
-  //       email: "jane@microsoft.com",
-  //       location: "Boston, USA",
-  //       rating: "★★★★★",
-  //       dateAdded: "2023-10-01",
-  //     },
-  //     {
-  //       name: "Floyd Miles",
-  //       cause: "Banking",
-  //       phone: "(205) 555-0100",
-  //       email: "floyd@yahoo.com",
-  //       location: "New York, USA",
-  //       rating: "★★★☆☆",
-  //       dateAdded: "2023-09-25",
-  //     },
-  //     {
-  //       name: "Ronald Richards",
-  //       cause: "Medical",
-  //       phone: "(302) 555-0107",
-  //       email: "ronald@adobe.com",
-  //       location: "Brasilia, Brazil",
-  //       rating: "★★★★☆",
-  //       dateAdded: "2023-10-05",
-  //     },
-  //     {
-  //       name: "Marvin McKinney",
-  //       cause: "College admission",
-  //       phone: "(252) 555-0126",
-  //       email: "marvin@tesla.com",
-  //       location: "Delhi, India",
-  //       rating: "★★★★★",
-  //       dateAdded: "2023-09-30",
-  //     },
-  //     {
-  //       name: "Jerome Bell",
-  //       cause: "Housing",
-  //       phone: "(629) 555-0129",
-  //       email: "jerome@google.com",
-  //       location: "Texas, USA",
-  //       rating: "★★★☆☆",
-  //       dateAdded: "2023-10-10",
-  //     },
-  //     {
-  //       name: "Kathryn Murphy",
-  //       cause: "Cooking",
-  //       phone: "(406) 555-0120",
-  //       email: "kathryn@microsoft.com",
-  //       location: "Chicago, USA",
-  //       rating: "★★☆☆☆",
-  //       dateAdded: "2023-10-08",
-  //     },
-  //   ],
-  //   [],
-  // );
-
   // Columns for the table
   const headers = [
     { key: "select", label: "Select" },
@@ -151,6 +93,14 @@ const HelpingVolunteers = () => {
       prev.includes(email) ? prev.filter((e) => e !== email) : [...prev, email],
     );
   };
+  const handleSelectAll = (checked) => {
+    if (checked) {
+      const emails = paginatedData.map((v) => v.email);
+      setSelectedVolunteers(emails);
+    } else {
+      setSelectedVolunteers([]);
+    }
+  };
 
   // Sorting function based on dropdown selection and column clicks
   const requestSort = (key) => {
@@ -167,9 +117,11 @@ const HelpingVolunteers = () => {
       0,
       Math.min(volunteerData.length, volunteersCount),
     );
-    let filteredVolunteers = topN.filter((volunteer) =>
-      volunteer.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    let filteredVolunteers = topN.filter((volunteer) => {
+      return (volunteer.name || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+    });
 
     if (filter) {
       filteredVolunteers = filteredVolunteers.filter((volunteer) =>
@@ -206,6 +158,16 @@ const HelpingVolunteers = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+  useEffect(() => {
+    if (paginatedData.length > 0) {
+      const allSelected = paginatedData.every((v) =>
+        selectedVolunteers.includes(v.email),
+      );
+      setSelectAll(allSelected);
+    }
+  }, [selectedVolunteers, paginatedData]);
+
+  const volunteersAssigned = filteredAndSortedVolunteers.length;
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(Number(e.target.value));
@@ -246,15 +208,15 @@ const HelpingVolunteers = () => {
         </div>
       )}
       <div className="flex justify-between items-center px-4 pt-4">
-        <div className="font-bold text-lg">Volunteer Management</div>
-        <button
-          className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
-          disabled={selectedVolunteers.length === 0}
-          onClick={() => setMeetingModalOpen(true)}
-        >
-          <FaVideo className="text-lg" />
-          <span>Zoom Meeting</span>
-        </button>
+        <div className="flex items-center gap-4">
+          <div className="font-bold text-lg">Volunteer Management</div>
+          {volunteerCountError && (
+            <div className="text-red-600 text-sm font-semibold flex items-center gap-1">
+              <span aria-hidden="true">⚠️</span>
+              <span>{volunteerCountError}</span>
+            </div>
+          )}
+        </div>
         {meetingModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fadeIn relative">
@@ -380,112 +342,149 @@ const HelpingVolunteers = () => {
         )}
       </div>
       <div className="bg-gray-100 shadow-md p-1 space-y-4 rounded-b-md">
-        <div className="flex items-center space-x-4 p-4 mt-2">
-          <input
-            type="text"
-            placeholder={t("NUMBER_OF_VOLUNTEERS")}
-            className="p-3 border rounded-md w-1/3"
-            value={volunteersCount}
-            onChange={(e) => {
-              setVolunteersCount(e.target.value);
-              setChooseVolunteer(false);
-            }}
-          />
-          <button
-            className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
-            onClick={() => setChooseVolunteer(true)}
-          >
-            <svg
-              className="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="flex flex-wrap items-stretch gap-4 p-4 mt-2">
+          {/* Box 1: Request by number of volunteers */}
+          <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
+            <input
+              type="number"
+              min="1"
+              max="5"
+              placeholder={t("NUMBER_OF_VOLUNTEERS")}
+              className="p-3 border rounded-md w-40"
+              value={volunteersCount}
+              onChange={(e) => {
+                setVolunteersCount(e.target.value);
+                setChooseVolunteer(false);
+                if (Number(e.target.value) <= 5) {
+                  setVolunteerCountError("");
+                }
+              }}
+            />
+            <button
+              className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
+              onClick={() => {
+                const requestedCount = Number(volunteersCount);
+                if (requestedCount > 5) {
+                  setVolunteerCountError("Maximum 5 volunteer can be assigned");
+                  return;
+                }
+                setVolunteerCountError("");
+                setChooseVolunteer(true);
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            {t("REQUEST_VOLUNTEERS")}
-          </button>
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              {t("REQUEST_VOLUNTEERS")}
+            </button>
+          </div>
+
+          {/* Separator line between the two search boxes */}
+          <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+
+          {/* Box 2: Look up a volunteer by name, email or phone */}
+          <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
+            <input
+              type="text"
+              placeholder={
+                searchBy === "email"
+                  ? t("ENTER_VOLUNTEER_EMAIL")
+                  : searchBy === "phone"
+                    ? t("ENTER_VOLUNTEER_PHONE")
+                    : t("ENTER_VOLUNTEER_NAME")
+              }
+              className="p-3 border rounded-md w-64"
+            />
+            <select
+              value={searchBy}
+              onChange={(e) => setSearchBy(e.target.value)}
+              className="bg-blue-500 px-4 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 cursor-pointer"
+            >
+              <option value="name">{t("FIND_BY_NAME")}</option>
+              <option value="email">{t("FIND_BY_EMAIL")}</option>
+              <option value="phone">{t("FIND_BY_PHONE")}</option>
+            </select>
+          </div>
         </div>
 
         <div className="mt-6 bg-white p-6 shadow-lg">
           <div className="flex flex-wrap items-center gap-4 justify-between mb-4">
-            <div className="flex flex-row gap-4 items-center w-1/3">
+            <div className="flex flex-row gap-4 items-center">
               {/* Volunteers Title */}
               <div className="font-bold text-xl">Volunteers</div>
-
               {/* Search Input */}
               <div className="flex-grow max-w-md">
                 <input
                   type="text"
-                  placeholder="Search by name..."
+                  placeholder={t("SEARCH_BY_NAME")}
                   className="p-2 border border-gray-300 rounded-md w-full"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
+              {/* Sort By Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSortBy(value);
+                  if (value === "Newest") {
+                    setSortConfig({
+                      key: "dateAdded",
+                      direction: "descending",
+                    });
+                  } else if (value === "Oldest") {
+                    setSortConfig({ key: "dateAdded", direction: "ascending" });
+                  } else if (value === "Name") {
+                    setSortConfig({ key: "name", direction: "ascending" });
+                  }
+                }}
+                className="p-2 border border-gray-300 rounded-md"
+              >
+                <option value="Newest">Sort by: Newest</option>
+                <option value="Oldest">Sort by: Oldest</option>
+                <option value="Name">Sort by: Name</option>
+              </select>
             </div>
 
-            <div className="flex flex-row gap-2">
-              {/* Sort By Dropdown */}
-              <div>
-                <select
-                  value={sortBy}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setSortBy(value);
-                    if (value === "Newest") {
-                      setSortConfig({
-                        key: "dateAdded",
-                        direction: "descending",
-                      });
-                    } else if (value === "Oldest") {
-                      setSortConfig({
-                        key: "dateAdded",
-                        direction: "ascending",
-                      });
-                    } else if (value === "Name") {
-                      setSortConfig({
-                        key: "name",
-                        direction: "ascending",
-                      });
-                    }
-                  }}
-                  className="p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="Newest">Sort by: Newest</option>
-                  <option value="Oldest">Sort by: Oldest</option>
-                  <option value="Name">Sort by: Name</option>
-                </select>
-              </div>
-
-              {/* Filter By Dropdown */}
-              <div>
-                <label
-                  htmlFor="filter-causes"
-                  className="mr-2 font-semibold text-gray-700"
-                >
-                  Filter by: All Causes
-                </label>
-                <select
-                  id="filter-causes"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="">Filter by: All Causes</option>
-                  <option value="Cooking">Cooking</option>
-                  <option value="Banking">Banking</option>
-                  <option value="Medical">Medical</option>
-                  <option value="College admission">College admission</option>
-                  <option value="Housing">Housing</option>
-                </select>
-              </div>
+            {/* Right: Zoom + Delete */}
+            <div className="flex flex-row gap-2 items-center">
+              {/* Zoom Meeting Button */}
+              <button
+                className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
+                disabled={selectedVolunteers.length === 0}
+                onClick={() => setMeetingModalOpen(true)}
+              >
+                <FaVideo className="text-lg" />
+                <span>Zoom Meeting</span>
+              </button>
+              {/* Delete Button */}
+              <button
+                className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
+                disabled={selectedVolunteers.length === 0}
+                onClick={() => {
+                  setVolunteerData((prev) =>
+                    prev.filter(
+                      (volunteer) =>
+                        !selectedVolunteers.includes(volunteer.email),
+                    ),
+                  );
+                  setSelectedVolunteers([]);
+                }}
+              >
+                {t("Delete")}
+              </button>
             </div>
           </div>
 
@@ -517,15 +516,27 @@ const HelpingVolunteers = () => {
                       }
                       className="px-4 py-2 border-b-2 border-gray-200 text-left cursor-pointer"
                     >
-                      {header.label}
-                      {header.key !== "select" &&
-                        sortConfig.key === header.key && (
-                          <span>
-                            {sortConfig.direction === "ascending"
-                              ? " 🔼"
-                              : " 🔽"}
-                          </span>
-                        )}
+                      {header.key === "select" ? (
+                        <input
+                          type="checkbox"
+                          checked={selectAll}
+                          onChange={(e) => {
+                            setSelectAll(e.target.checked);
+                            handleSelectAll(e.target.checked);
+                          }}
+                        />
+                      ) : (
+                        <>
+                          {header.label}
+                          {sortConfig.key === header.key && (
+                            <span>
+                              {sortConfig.direction === "ascending"
+                                ? " 🔼"
+                                : " 🔽"}
+                            </span>
+                          )}
+                        </>
+                      )}
                     </th>
                   ))}
                 </tr>
@@ -539,10 +550,19 @@ const HelpingVolunteers = () => {
                         <input
                           type="checkbox"
                           checked={selectedVolunteers.includes(volunteer.email)}
-                          onChange={() => handleCheckboxChange(volunteer.email)}
+                          onChange={() => {
+                            handleCheckboxChange(volunteer.email);
+                          }}
                         />
                       </td>
-                      <td className="px-4 py-2 border-b">{volunteer.name}</td>
+                      <td className="px-4 py-2 border-b">
+                        <Link
+                          to={`/profile`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {volunteer.name}
+                        </Link>
+                      </td>
                       <td className="px-4 py-2 border-b">{volunteer.cause}</td>
                       <td className="px-4 py-2 border-b">{volunteer.phone}</td>
                       <td className="px-4 py-2 border-b">{volunteer.email}</td>

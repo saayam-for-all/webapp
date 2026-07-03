@@ -235,7 +235,7 @@
           "DESC": "Hilfe beim Koordinieren von Telekonsultationen oder Basisinformationen.",
           "SUBCATEGORIES": {
             "GENERAL_CONSULTATION": {
-              "LABEL": "Allgemeine Ratschläge",
+              "LABEL": "Allgemeine Beratung",
               "DESC": "Allgemeine medizinische Beratung und Navigation."
             },
             "ENT(EAR_NOSE_AND_THROAT)": {

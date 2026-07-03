@@ -94,7 +94,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
   const getCountryCodeFromZoneInfo = useCallback((zoneinfo) => {
     if (!zoneinfo) return "";
-    return countryNameToCode[zoneinfo] || "";
+    if (countryNameToCode[zoneinfo]) return countryNameToCode[zoneinfo];
+    if (zoneinfo.length === 2 && zoneinfo === zoneinfo.toUpperCase())
+      return zoneinfo;
+    return "";
   }, []);
 
   const localizedGenderOptions = useMemo(

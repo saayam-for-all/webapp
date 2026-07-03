@@ -44,6 +44,23 @@ function OTPVerification() {
     }
   };
 
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const digits = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6)
+      .split("");
+    if (digits.length === 0) return;
+    const newOtp = [...otp];
+    digits.forEach((digit, i) => {
+      newOtp[i] = digit;
+    });
+    setOtp(newOtp);
+    const nextIndex = Math.min(digits.length, 5);
+    document.getElementById(`otp-input-${nextIndex}`)?.focus();
+  };
+
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       const newOtp = [...otp];
@@ -92,7 +109,10 @@ function OTPVerification() {
 
         if (isSignUpComplete) {
           setMessage("OTP Verified Successfully!");
-          setTimeout(() => navigate("/login"), 2000);
+          setTimeout(
+            () => navigate("/login", { state: { accountCreated: true } }),
+            2000,
+          );
         }
       }
     } catch (error) {
@@ -147,6 +167,7 @@ function OTPVerification() {
                 value={data}
                 onChange={(e) => handleChange(e.target, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
+                onPaste={handlePaste}
                 maxLength={1}
                 autoFocus={index === 0}
                 className="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"

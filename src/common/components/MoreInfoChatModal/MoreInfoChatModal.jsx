@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Markdown from "react-markdown";
+import { IoMdInformationCircle } from "react-icons/io";
 import { moreInformationChat } from "../../../services/requestServices";
-import { getCategoriesFromStorage } from "../../../utils/filterHelpers";
 import i18n from "../../i18n/i18n";
 
 const MAX_QUESTIONS = 5;
@@ -12,28 +12,10 @@ async function translateText(text /*, targetLang */) {
   return text; // passthrough until endpoint available
 }
 
-const findCatId = (catName) => {
-  const categories = getCategoriesFromStorage() || [];
-  const search = (list) => {
-    for (const cat of list) {
-      if (cat.catName === catName) return cat.catId;
-      if (cat.subCategories) {
-        const found = search(cat.subCategories);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
-  return search(categories) ?? catName;
-};
-
+// TODO: replace hardcoded defaults with dynamic user_id and req_id
 const buildPayload = (requestData) => ({
-  category_id: findCatId(requestData.category ?? ""),
-  subject: requestData.subject ?? "",
-  description: requestData.description ?? "",
-  location: requestData.location ?? "",
-  gender: requestData.gender ?? "",
-  age: requestData.age ?? "",
+  user_id: requestData?.userId || requestData?.user_id,
+  req_id: requestData?.requestId || requestData?.req_id || requestData?.id,
 });
 
 const counterColorClass = (remaining) => {
@@ -43,17 +25,27 @@ const counterColorClass = (remaining) => {
   return "bg-gray-400";
 };
 
-const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
+const MoreInfoChatModal = ({
+  show,
+  onClose,
+  requestData,
+  initialResponse,
+  isInitialLoading = false,
+}) => {
   const [messages, setMessages] = useState([]);
   const [remaining, setRemaining] = useState(MAX_QUESTIONS);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Seed initial AI message whenever initialResponse changes / modal opens
+  // Reset chat state on open; seed initial AI message once it arrives.
   useEffect(() => {
-    if (show && initialResponse) {
-      setMessages([{ role: "assistant", content: initialResponse }]);
+    if (show) {
+      setMessages(
+        initialResponse
+          ? [{ role: "assistant", content: initialResponse }]
+          : [],
+      );
       setRemaining(MAX_QUESTIONS);
       setInputText("");
     }
@@ -61,7 +53,7 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
+  }, [messages, isLoading, isInitialLoading]);
 
   if (!show) return null;
 
@@ -83,19 +75,9 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
     setIsLoading(true);
 
     try {
-      // Build conversation_history in backend format
-      const conversationHistory = nextMessages.map((msg) => ({
-        role: msg.role,
-        content:
-          msg.role === "user" && msg === nextMessages[0]
-            ? `Subject: ${requestData.subject ?? ""}\nQuestion: ${msg.content}`
-            : msg.content,
-      }));
-
       const payload = {
         ...buildPayload(requestData),
-        description: toSend,
-        conversation_history: conversationHistory,
+        conversation_history: nextMessages,
       };
       const rawReply = await moreInformationChat(payload);
       const aiReply = rawReply?.body?.answer ?? "";
@@ -190,9 +172,17 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
             </div>
           ))}
 
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-2xl rounded-bl-none text-sm italic">
+          {(isInitialLoading || isLoading) && (
+            <div
+              className="flex justify-start"
+              role="status"
+              aria-live="polite"
+            >
+              <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-2xl rounded-bl-none text-sm italic flex items-center gap-2">
+                <span
+                  className="inline-block w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"
+                  aria-hidden="true"
+                />
                 Thinking…
               </div>
             </div>
@@ -208,27 +198,49 @@ const MoreInfoChatModal = ({ show, onClose, requestData, initialResponse }) => {
         </div>
 
         {/* Input area */}
-        <div className="border-t border-gray-200 p-3 flex gap-2">
-          <input
-            type="text"
+        <div className="border-t border-gray-200 p-3 flex gap-2 items-end">
+          <textarea
             value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value.length <= 250) setInputText(e.target.value);
+            }}
             onKeyDown={handleKeyDown}
-            disabled={remaining === 0 || isLoading}
+            disabled={remaining === 0 || isLoading || isInitialLoading}
+            rows={3}
+            maxLength={250}
             placeholder={
-              remaining === 0
-                ? "No questions remaining"
-                : "Ask a follow-up question…"
+              isInitialLoading
+                ? "Loading initial response…"
+                : remaining === 0
+                  ? "No questions remaining"
+                  : "Ask a follow-up question… (max 250 characters)"
             }
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
           />
           <button
             onClick={handleSend}
-            disabled={remaining === 0 || isLoading || !inputText.trim()}
+            disabled={
+              remaining === 0 ||
+              isLoading ||
+              isInitialLoading ||
+              !inputText.trim()
+            }
             className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             Send
           </button>
+        </div>
+
+        {/* AI disclaimer */}
+        <div
+          className="flex items-start gap-2 mx-3 mb-3 p-4 text-sm text-yellow-800 rounded-lg bg-yellow-50"
+          role="alert"
+        >
+          <IoMdInformationCircle size={18} className="shrink-0 mt-0.5" />
+          <span>
+            Responses are AI-generated and may be inaccurate. Please verify
+            important information.
+          </span>
         </div>
       </div>
     </div>

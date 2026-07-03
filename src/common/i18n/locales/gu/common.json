@@ -1,4 +1,4 @@
-﻿{
+{
   "ABOUT": "અમારા વિશે",
   "DONATE": "દાન કરો",
   "LOGIN": "પ્રવેશ કરો",
@@ -18,6 +18,8 @@
   "writeComment": "એક ટિપ્પણી લખો",
   "ACCEPT_SUCCESS_MESSAGE": "તમે આ વિનંતી સ્વીકારી છે.",
   "DENY_SUCCESS_MESSAGE": "તમે આ વિનંતી નકારી છે.",
+  "Aakash Gangji": "આકાશ ગાંજી",
+  "Lead AI/ML Developer/Engineer": "લીડ AI/ML ડેવલપર/ઇજનેર",
   "LOGISTIC_HELP": "લોજિસ્ટિક મદદ",
   "EDUCATIONAL_HELP": "શૈક્ષણિક મદદ",
   "TOTAL_REQUESTS": "કુલ વિનંતીઓ",
@@ -31,5 +33,17 @@
   "NO_SKILLS_SELECTED": "No skills selected yet",
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
-  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "COMMENTS": "ટિપ્પણીઓ",
+  "VOLUNTEERS": "સ્વયંસેવકો",
+  "LEAD_VOLUNTEER": "મુખ્ય સ્વયંસેવક",
+  "ENTER_VOLUNTEER_NAME": "સ્વયંસેવકનું નામ દાખલ કરો",
+  "FIND_BY_NAME": "નામ દ્વારા શોધો",
+  "SEARCH_BY_NAME": "નામ દ્વારા શોધો...",
+  "FIND_BY_EMAIL": "ઇમેઇલ દ્વારા શોધો",
+  "FIND_BY_PHONE": "ફોન દ્વારા શોધો",
+  "ENTER_VOLUNTEER_EMAIL": "સ્વયંસેવકની ઇમેઇલ દાખલ કરો",
+  "ENTER_VOLUNTEER_PHONE": "સ્વયંસેવકનો ફોન દાખલ કરો",
+  "CHANGE_VOLUNTEER": "સ્વયંસેવક બદલો",
+  "DELETE": "કાઢી નાખો"
 }

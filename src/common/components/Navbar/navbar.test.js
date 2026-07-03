@@ -1,8 +1,13 @@
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { renderWithProviders } from "#utils/test-utils";
 import {
   MOCK_STATE_LOGGED_IN,
   MOCK_STATE_LOGGED_OUT,
 } from "#utils/test-utils.jsx";
+import {
+  loginSuccess,
+  logoutSuccess,
+} from "../../../redux/features/authentication/authSlice";
 import Navbar from "./Navbar";
 
 beforeAll(() => {
@@ -27,5 +32,34 @@ describe("Navbar", () => {
       preloadedState: MOCK_STATE_LOGGED_OUT,
     });
     expect(tree).toMatchSnapshot();
+  });
+
+  it("clears the navbar search text when the user logs out and logs back in", async () => {
+    const { store } = renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const searchInput = screen.getAllByRole("textbox")[0];
+
+    fireEvent.change(searchInput, { target: { value: "example query" } });
+    expect(searchInput.value).toBe("example query");
+
+    act(() => {
+      store.dispatch(logoutSuccess());
+    });
+
+    act(() => {
+      store.dispatch(
+        loginSuccess({
+          user: {
+            userId: "mockUser2",
+          },
+        }),
+      );
+    });
+
+    await waitFor(() =>
+      expect(screen.getAllByRole("textbox")[0].value).toBe(""),
+    );
   });
 });

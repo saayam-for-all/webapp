@@ -1,4 +1,4 @@
-﻿{
+{
   "ABOUT": "अस्माकं विषये",
   "DONATE": "वितरणं",
   "LOGIN": "प्रवेशः",
@@ -11,6 +11,7 @@
   "DASHBOARD": "डैशबोर्ड",
   "ALL": "सर्वे",
   "VOLUNTEER_MATCH": "स्वयंसेवक मेलनम्",
+  "LEAD_VOLUNTEER": "प्रमुखः स्वयंसेवकः",
   "HELP_REQUEST_BUTTON": "साहाय्यार्थं निवेदनम्",
   "NEW_MATCH_REQUEST": "नवीनं मेलनं निवेदनम्",
   "ACCEPT": "स्वीकरोतु",
@@ -31,5 +32,16 @@
   "NO_SKILLS_SELECTED": "No skills selected yet",
   "REMOVE_SKILL": "Remove skill",
   "REMOVE_CATEGORY": "Remove all skills from this category",
-  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step"
+  "SELECT_SKILL_TO_CONTINUE": "Select at least one specific skill to move to next step",
+  "COMMENTS": "टिप्पण्यः",
+  "VOLUNTEERS": "स्वयंसेवकाः",
+  "ENTER_VOLUNTEER_NAME": "स्वयंसेवकस्य नाम प्रविष्टं करोतु",
+  "FIND_BY_NAME": "नाम्ना अन्वेषयतु",
+  "SEARCH_BY_NAME": "नाम्ना अन्वेषयतु...",
+  "FIND_BY_EMAIL": "ईमेलेन अन्वेषयतु",
+  "FIND_BY_PHONE": "फोनेन अन्वेषयतु",
+  "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकस्य ईमेल प्रविष्टं करोतु",
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकस्य फोन प्रविष्टं करोतु",
+  "CHANGE_VOLUNTEER": "स्वयंसेवकं परिवर्तयतु",
+  "DELETE": "विलोपयतु"
 }

@@ -19,7 +19,7 @@ exports[`Layout renders correctly 1`] = `
           class="flex flex-1"
         >
           <aside
-            class="left-ads-panel flex-1 "
+            class="left-ads-panel flex-1"
           >
             <mock-left-ads />
           </aside>
@@ -57,7 +57,7 @@ exports[`Layout renders correctly 1`] = `
             </mock-suspense>
           </main>
           <aside
-            class="right-ads-panel flex-1 "
+            class="right-ads-panel flex-1"
           >
             <mock-right-ads />
           </aside>
@@ -90,7 +90,7 @@ exports[`Layout renders correctly 1`] = `
         class="flex flex-1"
       >
         <aside
-          class="left-ads-panel flex-1 "
+          class="left-ads-panel flex-1"
         >
           <mock-left-ads />
         </aside>
@@ -128,7 +128,7 @@ exports[`Layout renders correctly 1`] = `
           </mock-suspense>
         </main>
         <aside
-          class="right-ads-panel flex-1 "
+          class="right-ads-panel flex-1"
         >
           <mock-right-ads />
         </aside>

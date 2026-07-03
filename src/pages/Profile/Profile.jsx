@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -21,8 +21,16 @@ import {
   fetchProfileImage,
 } from "../../services/volunteerServices";
 
-const MAX_PROFILE_PHOTO_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_PROFILE_PHOTO_SIZE = 5_000_000; // 5 MB
 const ACCEPTED_PHOTO_TYPES = ["image/jpeg", "image/png"];
+const PHOTO_MODAL_STATE = {
+  UNCHANGED: "unchanged",
+  VALID_UPLOAD_PENDING: "valid-upload-pending",
+  INVALID_SELECTION: "invalid-selection",
+  DELETION_PENDING: "deletion-pending",
+  SAVING: "saving",
+  SAVE_FAILED: "save-failed",
+};
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -39,7 +47,6 @@ const blobToDataUrl = (blob) =>
   });
 
 function Profile() {
-  const navigate = useNavigate();
   const { t } = useTranslation("profile");
   const location = useLocation();
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
@@ -54,9 +61,14 @@ function Profile() {
   const [uploadMessage, setUploadMessage] = useState(null);
   const [photoLoading, setPhotoLoading] = useState(false);
   const [photoLoadError, setPhotoLoadError] = useState(null);
+  const [photoModalState, setPhotoModalState] = useState(
+    PHOTO_MODAL_STATE.UNCHANGED,
+  );
 
   const profileImageObjectUrlRef = useRef(null);
   const pendingFileRef = useRef(null);
+  const pendingDeleteRef = useRef(false);
+  const saveInFlightRef = useRef(false);
 
   // When we have userDbId, fetch profile image from backend; otherwise fall back to localStorage
   useEffect(() => {
@@ -112,6 +124,8 @@ function Profile() {
         setTempProfilePhoto(savedProfilePhoto);
       }
     }
+    // t is intentionally omitted so language changes do not refetch profile images.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userDbId]);
 
   // Revoke object URL on unmount
@@ -137,26 +151,35 @@ function Profile() {
     if (!file) return;
 
     if (file.size > MAX_PROFILE_PHOTO_SIZE) {
+      pendingFileRef.current = null;
+      pendingDeleteRef.current = false;
+      setTempProfilePhoto(profilePhoto);
       setUploadMessage({
         type: "error",
         text:
           t("PROFILE_PHOTO_ERROR_SIZE") || "File size must be 5 MB or less.",
       });
+      setPhotoModalState(PHOTO_MODAL_STATE.INVALID_SELECTION);
       input.value = "";
       return;
     }
     if (!ACCEPTED_PHOTO_TYPES.includes(file.type)) {
+      pendingFileRef.current = null;
+      pendingDeleteRef.current = false;
+      setTempProfilePhoto(profilePhoto);
       setUploadMessage({
         type: "error",
         text:
           t("PROFILE_PHOTO_ERROR_FORMAT") ||
           "Only JPG and PNG formats are accepted.",
       });
+      setPhotoModalState(PHOTO_MODAL_STATE.INVALID_SELECTION);
       input.value = "";
       return;
     }
 
     pendingFileRef.current = file;
+    pendingDeleteRef.current = false;
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -167,97 +190,170 @@ function Profile() {
           t("PROFILE_PHOTO_UPLOAD_SUCCESS") ||
           "Photo accepted. Click Save to confirm.",
       });
+      setPhotoModalState(PHOTO_MODAL_STATE.VALID_UPLOAD_PENDING);
     };
     reader.readAsDataURL(file);
     input.value = "";
   };
 
   const handleSaveClick = async () => {
+    if (photoLoading || saveInFlightRef.current) return;
+    if (
+      photoModalState !== PHOTO_MODAL_STATE.VALID_UPLOAD_PENDING &&
+      photoModalState !== PHOTO_MODAL_STATE.DELETION_PENDING &&
+      photoModalState !== PHOTO_MODAL_STATE.SAVE_FAILED
+    ) {
+      return;
+    }
+
+    const hasPendingUpload = Boolean(pendingFileRef.current);
+    const hasPendingDelete = pendingDeleteRef.current;
+
+    if (!hasPendingUpload && !hasPendingDelete) return;
+
+    saveInFlightRef.current = true;
+    setPhotoModalState(PHOTO_MODAL_STATE.SAVING);
+
+    const isAuthExpiredError = (err) => err?.response?.status === 401;
+
     if (userDbId && pendingFileRef.current) {
       setPhotoLoading(true);
       setPhotoLoadError(null);
       try {
+        const savedPreviewPhoto = tempProfilePhoto;
         await uploadProfileImage(userDbId, pendingFileRef.current);
-        const blob = await fetchProfileImage(userDbId);
-        if (blob) {
-          if (profileImageObjectUrlRef.current) {
-            URL.revokeObjectURL(profileImageObjectUrlRef.current);
+
+        setProfilePhoto(savedPreviewPhoto);
+        setTempProfilePhoto(savedPreviewPhoto);
+        localStorage.setItem("profilePhoto", savedPreviewPhoto);
+
+        try {
+          const blob = await fetchProfileImage(userDbId);
+          if (blob) {
+            if (profileImageObjectUrlRef.current) {
+              URL.revokeObjectURL(profileImageObjectUrlRef.current);
+            }
+            const url = URL.createObjectURL(blob);
+            profileImageObjectUrlRef.current = url;
+            setProfilePhoto(url);
+            setTempProfilePhoto(url);
+            const dataUrl = await blobToDataUrl(blob);
+            localStorage.setItem("profilePhoto", dataUrl);
           }
-          const url = URL.createObjectURL(blob);
-          profileImageObjectUrlRef.current = url;
-          setProfilePhoto(url);
-          setTempProfilePhoto(url);
-          const dataUrl = await blobToDataUrl(blob);
-          localStorage.setItem("profilePhoto", dataUrl);
-        } else {
-          setProfilePhoto(DEFAULT_PROFILE_ICON);
-          setTempProfilePhoto(DEFAULT_PROFILE_ICON);
-          localStorage.removeItem("profilePhoto");
+        } catch (refreshError) {
+          console.warn(
+            "Profile photo uploaded, but refreshing the saved image failed.",
+            refreshError,
+          );
         }
         window.dispatchEvent(new Event("profile-photo-updated"));
       } catch (err) {
+        if (isAuthExpiredError(err)) {
+          window.location.href = "/login";
+          saveInFlightRef.current = false;
+          setPhotoLoading(false);
+          return;
+        }
         const message =
           err?.response?.data?.message ||
           err?.message ||
           t("PROFILE_PHOTO_ERROR_UPLOAD") ||
           "Failed to update profile photo.";
         setUploadMessage({ type: "error", text: message });
+        setPhotoModalState(PHOTO_MODAL_STATE.SAVE_FAILED);
+        saveInFlightRef.current = false;
         setPhotoLoading(false);
         return;
       }
       pendingFileRef.current = null;
       setPhotoLoading(false);
+    } else if (userDbId && pendingDeleteRef.current) {
+      setPhotoLoading(true);
+      setPhotoLoadError(null);
+      try {
+        await deleteProfileImage(userDbId);
+      } catch (err) {
+        if (isAuthExpiredError(err)) {
+          window.location.href = "/login";
+          saveInFlightRef.current = false;
+          setPhotoLoading(false);
+          return;
+        }
+        const message =
+          err?.response?.data?.message ||
+          err?.message ||
+          t("PROFILE_PHOTO_ERROR_UPLOAD") ||
+          "Failed to update profile photo.";
+        setUploadMessage({ type: "error", text: message });
+        setPhotoModalState(PHOTO_MODAL_STATE.SAVE_FAILED);
+        saveInFlightRef.current = false;
+        setPhotoLoading(false);
+        return;
+      }
+      setPhotoLoading(false);
+      if (profileImageObjectUrlRef.current) {
+        URL.revokeObjectURL(profileImageObjectUrlRef.current);
+        profileImageObjectUrlRef.current = null;
+      }
+      pendingDeleteRef.current = false;
+      setProfilePhoto(DEFAULT_PROFILE_ICON);
+      setTempProfilePhoto(DEFAULT_PROFILE_ICON);
+      localStorage.removeItem("profilePhoto");
+      window.dispatchEvent(new Event("profile-photo-updated"));
     } else {
       setProfilePhoto(tempProfilePhoto);
-      localStorage.setItem("profilePhoto", tempProfilePhoto);
+      if (
+        pendingDeleteRef.current ||
+        tempProfilePhoto === DEFAULT_PROFILE_ICON
+      ) {
+        localStorage.removeItem("profilePhoto");
+      } else {
+        localStorage.setItem("profilePhoto", tempProfilePhoto);
+      }
+      pendingFileRef.current = null;
+      pendingDeleteRef.current = false;
       window.dispatchEvent(new Event("profile-photo-updated"));
     }
+    saveInFlightRef.current = false;
+    setPhotoModalState(PHOTO_MODAL_STATE.UNCHANGED);
     setUploadMessage(null);
     setIsModalOpen(false);
   };
 
   const handleCancelClick = () => {
     pendingFileRef.current = null;
+    pendingDeleteRef.current = false;
     setTempProfilePhoto(profilePhoto);
     setUploadMessage(null);
+    setPhotoModalState(PHOTO_MODAL_STATE.UNCHANGED);
     setIsModalOpen(false);
   };
 
-  const handleDeleteClick = async () => {
+  const handleDeleteClick = () => {
+    if (photoLoading) return;
     const confirmed = window.confirm(
       "Are you sure you want to delete the picture?",
     );
     if (!confirmed) return;
 
-    if (userDbId) {
-      setPhotoLoading(true);
-      setPhotoLoadError(null);
-      try {
-        await deleteProfileImage(userDbId);
-      } catch (err) {
-        const message =
-          err?.response?.data?.message ||
-          err?.message ||
-          t("PROFILE_PHOTO_ERROR_UPLOAD") ||
-          "Failed to update profile photo.";
-        setUploadMessage({ type: "error", text: message });
-        setPhotoLoading(false);
-        return;
-      }
-      setPhotoLoading(false);
-    }
-
-    if (profileImageObjectUrlRef.current) {
-      URL.revokeObjectURL(profileImageObjectUrlRef.current);
-      profileImageObjectUrlRef.current = null;
-    }
     pendingFileRef.current = null;
-    setProfilePhoto(DEFAULT_PROFILE_ICON);
+    pendingDeleteRef.current = profilePhoto !== DEFAULT_PROFILE_ICON;
     setTempProfilePhoto(DEFAULT_PROFILE_ICON);
-    localStorage.removeItem("profilePhoto");
-    window.dispatchEvent(new Event("profile-photo-updated"));
-    setUploadMessage(null);
-    setIsModalOpen(false);
+    setUploadMessage(
+      pendingDeleteRef.current
+        ? {
+            type: "success",
+            text:
+              t("PROFILE_PHOTO_DELETE_PENDING") ||
+              "Photo marked for deletion. Click Save to confirm.",
+          }
+        : null,
+    );
+    setPhotoModalState(
+      pendingDeleteRef.current
+        ? PHOTO_MODAL_STATE.DELETION_PENDING
+        : PHOTO_MODAL_STATE.UNCHANGED,
+    );
   };
 
   const getTabDisplayName = (tab) => {
@@ -293,6 +389,8 @@ function Profile() {
   const openModal = () => {
     setTempProfilePhoto(profilePhoto);
     pendingFileRef.current = null;
+    pendingDeleteRef.current = false;
+    setPhotoModalState(PHOTO_MODAL_STATE.UNCHANGED);
     if (hasUnsavedChanges) {
       const proceed = window.confirm(
         t("UNSAVED_PROFILE_CHANGES_WARNING") ||
@@ -340,29 +438,6 @@ function Profile() {
 
   return (
     <div className="flex flex-col p-2 md:p-4 min-h-screen bg-gray-100">
-      {/* Back Button */}
-      <div className="w-full mb-4">
-        <button
-          onClick={() => {
-            if (hasUnsavedChanges) {
-              const proceed = window.confirm(
-                t("UNSAVED_CHANGES_WARNING") ||
-                  "You have unsaved changes. Do you want to proceed without saving?",
-              );
-              if (proceed) {
-                navigate("/dashboard");
-              }
-            } else {
-              navigate("/dashboard");
-            }
-          }}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-base md:text-lg flex items-center transition-colors duration-200"
-        >
-          <span className="text-xl md:text-2xl mr-2">&larr;</span>{" "}
-          {t("BACK_TO_DASHBOARD") || "Back to Dashboard"}
-        </button>
-      </div>
-
       {/* Dropdown Menu Button - Only visible on mobile */}
       <div className="w-full mb-4 md:hidden">
         <button
@@ -450,6 +525,12 @@ function Profile() {
           handleCancelClick={handleCancelClick}
           handleDeleteClick={handleDeleteClick}
           isSaving={photoLoading}
+          canSave={
+            !photoLoading &&
+            (photoModalState === PHOTO_MODAL_STATE.VALID_UPLOAD_PENDING ||
+              photoModalState === PHOTO_MODAL_STATE.DELETION_PENDING ||
+              photoModalState === PHOTO_MODAL_STATE.SAVE_FAILED)
+          }
         />
       )}
     </div>

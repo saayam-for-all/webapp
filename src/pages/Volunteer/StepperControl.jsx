@@ -44,6 +44,7 @@ const StepperControl = ({
               : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
           }`}
           disabled={disabledCondition}
+          data-testid="next-button"
           data-tooltip-id="next-button-tooltip"
           data-tooltip-content={
             currentStep === 3 && !isCheckedCategories
@@ -78,6 +79,7 @@ StepperControl.propTypes = {
   steps: PropTypes.array.isRequired,
   isAcknowledged: PropTypes.bool.isRequired,
   isUploaded: PropTypes.bool.isRequired,
+  isCheckedCategories: PropTypes.bool.isRequired,
   isAvailabilityValid: PropTypes.bool.isRequired,
 };
 

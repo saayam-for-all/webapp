@@ -48,11 +48,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  02/09/2026
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -88,11 +83,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  05/02/2025
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -120,11 +110,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  05/02/2025
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -152,11 +137,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  02/09/2026
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -184,11 +164,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  05/02/2025
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -216,11 +191,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  05/02/2025
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -248,11 +218,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  05/02/2025
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -280,11 +245,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  05/02/2025
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -312,11 +272,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  05/02/2025
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -344,11 +299,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               <div
                 class="news-card-body"
               >
-                <div
-                  class="news-date"
-                >
-                  05/02/2025
-                </div>
                 <h2
                   class="news-title"
                 >
@@ -430,11 +380,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                02/09/2026
-              </div>
               <h2
                 class="news-title"
               >
@@ -470,11 +415,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                05/02/2025
-              </div>
               <h2
                 class="news-title"
               >
@@ -502,11 +442,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                05/02/2025
-              </div>
               <h2
                 class="news-title"
               >
@@ -534,11 +469,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                02/09/2026
-              </div>
               <h2
                 class="news-title"
               >
@@ -566,11 +496,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                05/02/2025
-              </div>
               <h2
                 class="news-title"
               >
@@ -598,11 +523,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                05/02/2025
-              </div>
               <h2
                 class="news-title"
               >
@@ -630,11 +550,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                05/02/2025
-              </div>
               <h2
                 class="news-title"
               >
@@ -662,11 +577,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                05/02/2025
-              </div>
               <h2
                 class="news-title"
               >
@@ -694,11 +604,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                05/02/2025
-              </div>
               <h2
                 class="news-title"
               >
@@ -726,11 +631,6 @@ exports[`NewsOurStories renders correctly 1`] = `
             <div
               class="news-card-body"
             >
-              <div
-                class="news-date"
-              >
-                05/02/2025
-              </div>
               <h2
                 class="news-title"
               >
