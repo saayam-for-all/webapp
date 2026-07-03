@@ -2,13 +2,19 @@ import authReducer, {
   loginRequest,
   loginSuccess,
   loginFailure,
+  logoutSuccess,
 } from "./authSlice";
 
 describe("authSlice", () => {
   describe("initialState", () => {
-    it("starts with loading: true so protected routes wait for auth check", () => {
+    it("starts with authInitialized: false so protected routes wait for auth check", () => {
       const state = authReducer(undefined, { type: "@@INIT" });
-      expect(state.loading).toBe(true);
+      expect(state.authInitialized).toBe(false);
+    });
+
+    it("starts with loading: false", () => {
+      const state = authReducer(undefined, { type: "@@INIT" });
+      expect(state.loading).toBe(false);
     });
 
     it("starts with user: null", () => {
@@ -34,6 +40,14 @@ describe("authSlice", () => {
       expect(state.loading).toBe(false);
       expect(state.user).toEqual(mockUser);
     });
+
+    it("marks auth as initialized so ProtectedRoute stops waiting", () => {
+      const state = authReducer(
+        { loading: true, authInitialized: false, user: null },
+        loginSuccess({ user: { userId: "u1" } }),
+      );
+      expect(state.authInitialized).toBe(true);
+    });
   });
 
   describe("loginFailure", () => {
@@ -44,6 +58,25 @@ describe("authSlice", () => {
       );
       expect(state.loading).toBe(false);
       expect(state.user).toBeNull();
+    });
+
+    it("marks auth as initialized so unauthenticated users get redirected", () => {
+      const state = authReducer(
+        { loading: true, authInitialized: false, user: null },
+        loginFailure("Auth error"),
+      );
+      expect(state.authInitialized).toBe(true);
+    });
+  });
+
+  describe("logoutSuccess", () => {
+    it("clears the user and keeps auth initialized", () => {
+      const state = authReducer(
+        { loading: false, authInitialized: true, user: { userId: "u1" } },
+        logoutSuccess(),
+      );
+      expect(state.user).toBeNull();
+      expect(state.authInitialized).toBe(true);
     });
   });
 });
