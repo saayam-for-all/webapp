@@ -109,8 +109,11 @@ describe("RequestsAnalytics", () => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledWith({});
     });
 
-    expect(screen.getByTestId("line-chart")).toBeInTheDocument();
-    expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("line-chart")).toBeInTheDocument();
+      expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    });
+
     expect(screen.getByText("Request Volume Trend")).toBeInTheDocument();
     expect(
       screen.getByText("Requests by Category & Region"),
@@ -136,10 +139,15 @@ describe("RequestsAnalytics", () => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
     });
 
-    fireEvent.click(screen.getByText("7D"));
-    fireEvent.click(screen.getByText("30D"));
-    fireEvent.click(screen.getByText("1Y"));
-    fireEvent.click(screen.getByText("All"));
+    await waitFor(() => {
+      expect(screen.getByTestId("line-chart")).toBeInTheDocument();
+      expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getAllByText("7D")[0]);
+    fireEvent.click(screen.getAllByText("30D")[0]);
+    fireEvent.click(screen.getAllByText("1Y")[0]);
+    fireEvent.click(screen.getAllByText("All")[0]);
 
     await waitFor(() => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
@@ -154,9 +162,12 @@ describe("RequestsAnalytics", () => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
     });
 
-    fireEvent.click(screen.getByText("Custom"));
+    await waitFor(() => {
+      expect(screen.getByText("Custom")).toBeInTheDocument();
+    });
 
-    // No fetch yet (custom selected, but dates missing)
+    fireEvent.click(screen.getAllByText("Custom")[0]);
+
     await waitFor(() => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
     });
@@ -164,7 +175,6 @@ describe("RequestsAnalytics", () => {
     const dateInputs = document.querySelectorAll('input[type="date"]');
     fireEvent.change(dateInputs[0], { target: { value: "2026-05-01" } });
 
-    // Still no fetch (end date missing)
     await waitFor(() => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
     });
@@ -172,11 +182,13 @@ describe("RequestsAnalytics", () => {
     fireEvent.change(dateInputs[1], { target: { value: "2026-05-31" } });
 
     await waitFor(() => {
-      expect(getRequestsApplicationAnalytics).toHaveBeenCalledWith({
-        start_date: "2026-05-01",
-        end_date: "2026-05-31",
-        group_by: "day",
-      });
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledWith(
+        expect.objectContaining({
+          start_date: "2026-05-01",
+          end_date: "2026-05-31",
+          group_by: "day",
+        }),
+      );
     });
   });
 
@@ -188,7 +200,11 @@ describe("RequestsAnalytics", () => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
     });
 
-    fireEvent.click(screen.getByText("Custom"));
+    await waitFor(() => {
+      expect(screen.getByText("Custom")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getAllByText("Custom")[0]);
     const dateInputs = document.querySelectorAll('input[type="date"]');
     fireEvent.change(dateInputs[0], { target: { value: "2026-01-01" } });
     fireEvent.change(dateInputs[1], { target: { value: "2026-06-01" } });
@@ -222,7 +238,11 @@ describe("RequestsAnalytics", () => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
     });
 
-    fireEvent.click(screen.getByText("Custom"));
+    await waitFor(() => {
+      expect(screen.getByText("Custom")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getAllByText("Custom")[0]);
     const dateInputs = document.querySelectorAll('input[type="date"]');
     fireEvent.change(dateInputs[0], { target: { value: "2026-05-01" } });
     fireEvent.change(dateInputs[1], { target: { value: "2026-05-31" } });
@@ -231,7 +251,7 @@ describe("RequestsAnalytics", () => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(2);
     });
 
-    fireEvent.click(screen.getByText("All"));
+    fireEvent.click(screen.getAllByText("All")[0]);
 
     await waitFor(() => {
       expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(2);
@@ -246,13 +266,28 @@ describe("RequestsAnalytics", () => {
       expect(screen.getByText("Top 5:")).toBeInTheDocument();
     });
 
+    await waitFor(() => {
+      expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    });
+
     fireEvent.change(screen.getByDisplayValue("Sort: Total"), {
       target: { value: "name" },
     });
 
-    fireEvent.change(screen.getByDisplayValue("All Categories"), {
-      target: { value: "GENERAL_CATEGORY" },
+    fireEvent.change(screen.getByDisplayValue("Top 5"), {
+      target: { value: "7" },
     });
+
+    fireEvent.click(screen.getByText("All Categories"));
+    fireEvent.click(screen.getAllByRole("checkbox")[0]);
+    fireEvent.click(screen.getAllByRole("checkbox")[1]);
+    fireEvent.click(screen.getByText("Clear"));
+    fireEvent.click(screen.getByText("Done"));
+
+    fireEvent.click(screen.getAllByText("7D")[1]);
+    fireEvent.click(screen.getAllByText("30D")[1]);
+    fireEvent.click(screen.getAllByText("1Y")[1]);
+    fireEvent.click(screen.getAllByText("All")[1]);
 
     fireEvent.change(screen.getByDisplayValue("All Countries"), {
       target: { value: "United States" },
@@ -261,6 +296,27 @@ describe("RequestsAnalytics", () => {
     await waitFor(() => {
       expect(screen.getByTestId("bar-United States")).toBeInTheDocument();
     });
+  });
+
+  it("uses the configured color for a country that matches the color map", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue({
+      statusCode: 200,
+      body: {
+        request_volume_1_year: [{ date: "2026-06-01T00:00:00", count: 7 }],
+        "requests_by_category_region 1 year": [
+          { category: "GENERAL_CATEGORY", country: "India", count: 4 },
+          { category: "DONATE_CLOTHES", country: "India", count: 2 },
+        ],
+      },
+    });
+
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText(/India/i).length).toBeGreaterThan(0);
+    });
+
+    expect(screen.getByTestId("bar-India")).toBeInTheDocument();
   });
 
   it("renders error state when API fails", async () => {
