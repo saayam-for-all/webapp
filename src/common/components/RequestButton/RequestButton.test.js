@@ -43,6 +43,7 @@ const {
 const mockRequestData = {
   id: "REQ-001",
   requestId: "REQ-00-000-000-0085",
+  requesterId: "SID-REQUESTER-001",
   userId: "SID-00-000-000-050",
   subject: "Pick up dry cleaning",
   description: "Need dry cleaning pickup.",
@@ -126,6 +127,11 @@ describe("RequestButton", () => {
       body: { answer: "Answer" },
     });
 
+    const myRequestData = {
+      requestId: "REQ-00-000-000-0370",
+      subject: "My request",
+    };
+
     render(
       <RequestButton
         text="More Information"
@@ -140,7 +146,7 @@ describe("RequestButton", () => {
 
     await waitFor(() => {
       expect(moreInformationChat).toHaveBeenCalledWith({
-        user_id: mockRequestData.userId,
+        user_id: mockRequestData.requesterId,
         req_id: mockRequestData.requestId,
         conversation_history: [],
       });
