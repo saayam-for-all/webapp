@@ -13,8 +13,13 @@ async function translateText(text /*, targetLang */) {
 }
 
 // TODO: replace hardcoded defaults with dynamic user_id and req_id
-const buildPayload = (requestData) => ({
-  user_id: requestData?.userId || requestData?.user_id,
+const buildPayload = (requestData, loggedInUserId) => ({
+  user_id:
+    requestData?.requesterId ||
+    requestData?.requester_id ||
+    requestData?.userId ||
+    requestData?.user_id ||
+    loggedInUserId,
   req_id: requestData?.requestId || requestData?.req_id || requestData?.id,
 });
 
