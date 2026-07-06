@@ -1639,7 +1639,11 @@ const Dashboard = ({ userRole }) => {
                     ? `/request/${request[resolveKey(header)]}`
                     : null
                 }
-                getLinkState={(request) => request}
+                getLinkState={(request) => ({
+                  ...request,
+                  sourceDashboard: DASHBOARDS.BENEFICIARY,
+                  sourceTab: activeTab,
+                })}
                 searchFilters={dashboardSearchFilters}
               />
             )}
