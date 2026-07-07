@@ -187,6 +187,34 @@ describe("VoluntaryOrganizations", () => {
     );
   });
 
+  // test: uses requesterId as beneficiary_id for All Requests tab
+  it("uses requesterId as beneficiary_id when present (All Requests tab)", async () => {
+    getOrganizations.mockResolvedValue([]);
+
+    // Mock useLocation to return state with requesterId (All Requests scenario)
+    jest.spyOn(require("react-router-dom"), "useLocation").mockReturnValue({
+      state: {
+        id: "REQ-00-000-000-0001",
+        requesterId: "SID-00-000-000-111",
+        category: "Medical",
+        subject: "Need help",
+        description: "Test description",
+        breadcrumbTrail: [],
+      },
+    });
+
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    expect(getOrganizations).toHaveBeenCalledWith(
+      expect.objectContaining({
+        beneficiary_id: "SID-00-000-000-111",
+      }),
+    );
+  });
+
   // 8. Falls back to localStorage userDbId when redux has no userDbId
   it("uses localStorage userDbId as beneficiary_id when redux user has no userDbId", async () => {
     localStorage.setItem("userDbId", "SID-FROM-LOCALSTORAGE");
