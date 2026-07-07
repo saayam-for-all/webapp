@@ -29,7 +29,12 @@ const isCoolingDown = (data) => {
 };
 
 const buildPayload = (requestData, loggedInUserId) => ({
-  user_id: requestData?.userId || requestData?.user_id || loggedInUserId,
+  user_id:
+    requestData?.requesterId ||
+    requestData?.requester_id ||
+    requestData?.userId ||
+    requestData?.user_id ||
+    loggedInUserId,
   req_id: requestData?.requestId || requestData?.req_id || requestData?.id,
 });
 

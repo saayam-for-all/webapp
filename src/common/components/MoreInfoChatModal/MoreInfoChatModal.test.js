@@ -28,6 +28,7 @@ const { moreInformationChat } = require("../../../services/requestServices");
 const mockRequestData = {
   id: "REQ-001",
   requestId: "REQ-00-000-000-0085",
+  requesterId: "SID-REQUESTER-001",
   userId: "SID-00-000-000-050",
   subject: "Pick up dry cleaning",
   description: "Need someone to pick up my dry cleaning.",
@@ -201,7 +202,7 @@ describe("MoreInfoChatModal", () => {
     renderModal();
     fireEvent.click(screen.getByLabelText("Close"));
 
-    const key = `moreInfoCooldown_${mockRequestData.id}`;
+    const key = `moreInfoCooldown_${mockRequestData.requestId}`;
     const stored = JSON.parse(localStorage.getItem(key));
     expect(stored).toHaveProperty("expiresAt");
     expect(stored.expiresAt).toBeGreaterThan(Date.now());
@@ -269,7 +270,7 @@ describe("MoreInfoChatModal", () => {
     await waitFor(() => {
       expect(moreInformationChat).toHaveBeenCalledWith(
         expect.objectContaining({
-          user_id: mockRequestData.userId,
+          user_id: mockRequestData.requesterId,
           req_id: mockRequestData.requestId,
           conversation_history: expect.arrayContaining([
             expect.objectContaining({ role: "assistant" }),
