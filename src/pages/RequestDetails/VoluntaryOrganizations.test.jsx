@@ -237,6 +237,25 @@ describe("VoluntaryOrganizations", () => {
     });
   });
 
+  // 10. Falls back to empty string when all sources are absent
+  it("uses empty string as beneficiary_id when all sources are absent", async () => {
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      breadcrumbTrail: [],
+    };
+    getOrganizations.mockResolvedValue([]);
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: {
+        auth: { user: null, idToken: null },
+      },
+    });
+    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "",
+    });
+  });
+
   // 10. Search filters org list
   it("filters organizations by search term", async () => {
     getOrganizations.mockResolvedValue(mockOrgs);
