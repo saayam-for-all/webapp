@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { screen, waitFor, fireEvent } from "@testing-library/react";
 import { renderWithProviders } from "#utils/test-utils";
 import VoluntaryOrganizations from "./VoluntaryOrganizations";
 
@@ -9,6 +9,7 @@ jest.mock("react-router-dom", () => ({
   useLocation: () => ({
     state: {
       id: "REQ-00-000-000-0001",
+      requesterId: "SID-00-000-000-111",
       userId: "SID-00-000-000-001",
       category: "Medical",
       subject: "Need help",
@@ -93,7 +94,7 @@ describe("VoluntaryOrganizations", () => {
 
   // 1. Loading state
   it("shows loading indicator while fetching", async () => {
-    getOrganizations.mockReturnValue(new Promise(() => {})); // never resolves
+    getOrganizations.mockReturnValue(new Promise(() => {}));
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
@@ -126,7 +127,7 @@ describe("VoluntaryOrganizations", () => {
       expect(screen.getAllByTestId("org-row")).toHaveLength(2),
     );
     const rows = screen.getAllByTestId("org-row");
-    expect(rows[0]).toHaveTextContent("Helping Hands"); // collaborator first
+    expect(rows[0]).toHaveTextContent("Helping Hands");
     expect(rows[1]).toHaveTextContent("Community Care");
   });
 
@@ -155,64 +156,28 @@ describe("VoluntaryOrganizations", () => {
     );
   });
 
-  // 6. API called with correct payload — request_id and beneficiary_id
-  it("calls API with request_id from requestData and beneficiary_id from requestData.userId", async () => {
-    getOrganizations.mockResolvedValue([]);
-    renderWithProviders(<VoluntaryOrganizations />, {
-      preloadedState: MOCK_STATE,
-    });
-    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    expect(getOrganizations).toHaveBeenCalledWith(
-      expect.objectContaining({
-        request_id: "REQ-00-000-000-0001",
-        beneficiary_id: "SID-00-000-000-001",
-      }),
-    );
-  });
-
-  // 7. beneficiary_id uses requestData.userId first, then userDbId from redux
-  it("uses requestData.userId as beneficiary_id when present (priority over redux userDbId)", async () => {
-    getOrganizations.mockResolvedValue([]);
-    renderWithProviders(<VoluntaryOrganizations />, {
-      preloadedState: MOCK_STATE,
-    });
-    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    // requestData.userId = "SID-00-000-000-001" from mock useLocation
-    // userDbId from redux = "SID-00-000-000-999"
-    // requestData.userId takes priority
-    expect(getOrganizations).toHaveBeenCalledWith(
-      expect.objectContaining({
-        beneficiary_id: "SID-00-000-000-001",
-      }),
-    );
-  });
-
-  // test: uses requesterId as beneficiary_id for All Requests tab
+  // 6. requesterId takes priority as beneficiary_id (All Requests tab)
   it("uses requesterId as beneficiary_id when present (All Requests tab)", async () => {
     getOrganizations.mockResolvedValue([]);
-
-    // Mock useLocation to return state with requesterId (All Requests scenario)
-    jest.spyOn(require("react-router-dom"), "useLocation").mockReturnValue({
-      state: {
-        id: "REQ-00-000-000-0001",
-        requesterId: "SID-00-000-000-111",
-        category: "Medical",
-        subject: "Need help",
-        description: "Test description",
-        breadcrumbTrail: [],
-      },
-    });
-
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
-
     await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    expect(getOrganizations).toHaveBeenCalledWith(
-      expect.objectContaining({
-        beneficiary_id: "SID-00-000-000-111",
-      }),
-    );
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "SID-00-000-000-111",
+    });
+  });
+
+  // 7. Falls back to userId when requesterId is absent
+  it("uses userId as beneficiary_id when requesterId is absent", async () => {
+    getOrganizations.mockResolvedValue([]);
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    const call = getOrganizations.mock.calls[0][0];
+    expect(call.beneficiary_id).toBe("SID-00-000-000-111");
   });
 
   // 8. Falls back to localStorage userDbId when redux has no userDbId
@@ -226,11 +191,10 @@ describe("VoluntaryOrganizations", () => {
     });
     await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
     const call = getOrganizations.mock.calls[0][0];
-    // beneficiary_id should be requestData.userId ("SID-00-000-000-001") since mock location has it
     expect(call.beneficiary_id).toBeTruthy();
   });
 
-  // 10. Search filters org list
+  // 9. Search filters org list
   it("filters organizations by search term", async () => {
     getOrganizations.mockResolvedValue(mockOrgs);
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -246,7 +210,7 @@ describe("VoluntaryOrganizations", () => {
     expect(screen.queryByText("Community Care")).not.toBeInTheDocument();
   });
 
-  // 11. Category filter dropdown toggles
+  // 10. Category filter dropdown toggles
   it("opens and closes category filter dropdown", async () => {
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -260,7 +224,7 @@ describe("VoluntaryOrganizations", () => {
     expect(screen.getByText("All Categories")).toBeInTheDocument();
   });
 
-  // 12. Handles response wrapped in .body
+  // 11. Handles response wrapped in .body
   it("handles API response wrapped in body field", async () => {
     getOrganizations.mockResolvedValue({ body: mockOrgs });
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -271,7 +235,7 @@ describe("VoluntaryOrganizations", () => {
     );
   });
 
-  // 13. Handles response wrapped in .data
+  // 12. Handles response wrapped in .data
   it("handles API response wrapped in data field", async () => {
     getOrganizations.mockResolvedValue({ data: mockOrgs });
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -282,7 +246,7 @@ describe("VoluntaryOrganizations", () => {
     );
   });
 
-  // 14. Renders Organizations heading
+  // 13. Renders Organizations heading
   it("renders Organizations heading", async () => {
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
