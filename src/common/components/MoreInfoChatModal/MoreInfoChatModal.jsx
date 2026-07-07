@@ -109,7 +109,15 @@ const MoreInfoChatModal = ({
   };
 
   const handleClose = () => {
-    const key = `moreInfoCooldown_${requestData?.id ?? requestData?.subject ?? "default"}`;
+    const requestId =
+      requestData?.requestId ||
+      requestData?.req_id ||
+      requestData?.id ||
+      requestData?.subject ||
+      "default";
+
+    const key = `moreInfoCooldown_${requestId}`;
+
     localStorage.setItem(
       key,
       JSON.stringify({ expiresAt: Date.now() + 30 * 60 * 1000 }),

@@ -122,15 +122,10 @@ describe("RequestButton", () => {
     });
   });
 
-  it("calls moreInformationChat with user_id, req_id, and empty conversation_history", async () => {
+  it("calls moreInformationChat with requesterId for All Requests", async () => {
     moreInformationChat.mockResolvedValue({
       body: { answer: "Answer" },
     });
-
-    const myRequestData = {
-      requestId: "REQ-00-000-000-0370",
-      subject: "My request",
-    };
 
     render(
       <RequestButton
