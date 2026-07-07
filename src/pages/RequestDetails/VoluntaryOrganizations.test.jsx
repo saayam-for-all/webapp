@@ -5,18 +5,18 @@ import VoluntaryOrganizations from "./VoluntaryOrganizations";
 
 // ── Mocks ────────────────────────────────────────────────────────────────────
 
+let mockLocationState = {
+  id: "REQ-00-000-000-0001",
+  requesterId: "SID-00-000-000-111",
+  userId: "SID-00-000-000-001",
+  category: "Medical",
+  subject: "Need help",
+  description: "Test description",
+  breadcrumbTrail: [],
+};
+
 jest.mock("react-router-dom", () => ({
-  useLocation: () => ({
-    state: {
-      id: "REQ-00-000-000-0001",
-      requesterId: "SID-00-000-000-111",
-      userId: "SID-00-000-000-001",
-      category: "Medical",
-      subject: "Need help",
-      description: "Test description",
-      breadcrumbTrail: [],
-    },
-  }),
+  useLocation: () => ({ state: mockLocationState }),
   useNavigate: () => jest.fn(),
 }));
 
@@ -90,6 +90,16 @@ describe("VoluntaryOrganizations", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    // Reset to default state with requesterId
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      requesterId: "SID-00-000-000-111",
+      userId: "SID-00-000-000-001",
+      category: "Medical",
+      subject: "Need help",
+      description: "Test description",
+      breadcrumbTrail: [],
+    };
   });
 
   // 1. Loading state
@@ -171,17 +181,48 @@ describe("VoluntaryOrganizations", () => {
 
   // 7. Falls back to userId when requesterId is absent
   it("uses userId as beneficiary_id when requesterId is absent", async () => {
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      userId: "SID-00-000-000-001",
+      category: "Medical",
+      subject: "Need help",
+      description: "Test description",
+      breadcrumbTrail: [],
+    };
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
     await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    const call = getOrganizations.mock.calls[0][0];
-    expect(call.beneficiary_id).toBe("SID-00-000-000-111");
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "SID-00-000-000-001",
+    });
   });
 
-  // 8. Falls back to localStorage userDbId when redux has no userDbId
-  it("uses localStorage userDbId as beneficiary_id when redux user has no userDbId", async () => {
+  // 8. Falls back to userDbId from redux when both requesterId and userId absent
+  it("uses userDbId from redux when requesterId and userId are absent", async () => {
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      breadcrumbTrail: [],
+    };
+    getOrganizations.mockResolvedValue([]);
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "SID-00-000-000-999",
+    });
+  });
+
+  // 9. Falls back to localStorage userDbId when redux has no userDbId
+  it("uses localStorage userDbId when redux user has no userDbId", async () => {
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      breadcrumbTrail: [],
+    };
     localStorage.setItem("userDbId", "SID-FROM-LOCALSTORAGE");
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -190,11 +231,13 @@ describe("VoluntaryOrganizations", () => {
       },
     });
     await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    const call = getOrganizations.mock.calls[0][0];
-    expect(call.beneficiary_id).toBeTruthy();
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "SID-FROM-LOCALSTORAGE",
+    });
   });
 
-  // 9. Search filters org list
+  // 10. Search filters org list
   it("filters organizations by search term", async () => {
     getOrganizations.mockResolvedValue(mockOrgs);
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -210,7 +253,7 @@ describe("VoluntaryOrganizations", () => {
     expect(screen.queryByText("Community Care")).not.toBeInTheDocument();
   });
 
-  // 10. Category filter dropdown toggles
+  // 11. Category filter dropdown toggles
   it("opens and closes category filter dropdown", async () => {
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -224,7 +267,7 @@ describe("VoluntaryOrganizations", () => {
     expect(screen.getByText("All Categories")).toBeInTheDocument();
   });
 
-  // 11. Handles response wrapped in .body
+  // 12. Handles response wrapped in .body
   it("handles API response wrapped in body field", async () => {
     getOrganizations.mockResolvedValue({ body: mockOrgs });
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -235,7 +278,7 @@ describe("VoluntaryOrganizations", () => {
     );
   });
 
-  // 12. Handles response wrapped in .data
+  // 13. Handles response wrapped in .data
   it("handles API response wrapped in data field", async () => {
     getOrganizations.mockResolvedValue({ data: mockOrgs });
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -246,7 +289,7 @@ describe("VoluntaryOrganizations", () => {
     );
   });
 
-  // 13. Renders Organizations heading
+  // 14. Renders Organizations heading
   it("renders Organizations heading", async () => {
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
