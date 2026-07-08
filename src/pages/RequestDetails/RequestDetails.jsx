@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { IoPersonCircle } from "react-icons/io5";
 import { RiUserStarLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RequestButton from "../../common/components/RequestButton/RequestButton";
 import { getComments, getMyRequests } from "../../services/requestServices";
@@ -37,6 +38,7 @@ const RequestDetails = () => {
   const [showEmergency, setShowEmergency] = useState(false);
   const requestId = id || location.state?.id;
   const [showAttachmentsDialog, setShowAttachmentsDialog] = useState(false);
+  const currentUser = useSelector((state) => state.auth.user);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteReason, setDeleteReason] = useState("");
@@ -73,15 +75,55 @@ const RequestDetails = () => {
       .catch(() => {});
   }, []);
 
+  const getFullName = (...parts) => parts.filter(Boolean).join(" ").trim();
+
+  const currentUserName =
+    getFullName(currentUser?.given_name, currentUser?.family_name) ||
+    getFullName(currentUser?.firstName, currentUser?.lastName) ||
+    currentUser?.name ||
+    currentUser?.email ||
+    "";
+
+  const creatorName =
+    requestData?.creatorName ||
+    requestData?.createdByName ||
+    requestData?.requesterName ||
+    getFullName(requestData?.creatorFirstName, requestData?.creatorLastName) ||
+    getFullName(
+      requestData?.createdByFirstName,
+      requestData?.createdByLastName,
+    ) ||
+    getFullName(
+      requestData?.requesterFirstName,
+      requestData?.requesterLastName,
+    ) ||
+    currentUserName;
+  t("CREATOR");
+
+  const beneficiaryName =
+    requestData?.beneficiaryName ||
+    requestData?.beneficiaryFullName ||
+    getFullName(
+      requestData?.beneficiaryFirstName,
+      requestData?.beneficiaryLastName,
+    ) ||
+    getFullName(requestData?.reqFname, requestData?.reqLname) ||
+    getFullName(
+      requestData?.guestDetails?.reqFname,
+      requestData?.guestDetails?.reqLname,
+    ) ||
+    currentUserName;
+  ("Beneficiary");
+
   const attributes = [
     {
-      context: "Peter parker",
+      context: beneficiaryName,
       type: "Beneficiary",
       icon: <IoPersonCircle size={26} />,
       isClickable: true,
     },
     {
-      context: "John Doe",
+      context: creatorName,
       type: "CREATOR",
       icon: <IoPersonCircle size={26} />,
       isClickable: true,
@@ -129,9 +171,6 @@ const RequestDetails = () => {
   // NEW: handlers (same behavior you had before)
   const handleDeleteRequest = async () => {
     try {
-      console.log("Deleting request:", requestData?.id);
-      console.log("Reason:", deleteReason);
-
       setDeleteDialogOpen(false);
       setDeleteReason("");
       navigate("/dashboard");
@@ -142,9 +181,6 @@ const RequestDetails = () => {
 
   const handleChangeVolunteer = async () => {
     try {
-      console.log("Changing volunteer for request:", requestData?.id);
-      console.log("Reason:", volunteerChangeReason);
-
       setChangeVolunteerDialogOpen(false);
       setVolunteerChangeReason("");
       navigate("/dashboard");
