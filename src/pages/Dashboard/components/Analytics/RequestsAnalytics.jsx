@@ -31,13 +31,20 @@ const RequestsAnalytics = () => {
   const [error, setError] = useState(null);
   const defaultApiDataRef = useRef(null);
 
-  // Time range states
+  // Time range states for trend chart
   const [timeRange, setTimeRange] = useState("all"); // all, 7d, 30d, 1yr, custom
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
   const [groupBy, setGroupBy] = useState("day"); // day or month
+
+  // Time range states for category & region chart (independent)
+  const [timeRangeCat, setTimeRangeCat] = useState("all");
+
   const [selectedCountry, setSelectedCountry] = useState("all");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  // Category multi-select with limit
+  const [categoryLimit, setCategoryLimit] = useState(5); // default top 5
+  const [selectedCategories, setSelectedCategories] = useState([]); // array of category names
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [sortBy, setSortBy] = useState("total"); // total, name
 
   const applyDataForRange = (data, range) => {
@@ -76,9 +83,17 @@ const RequestsAnalytics = () => {
         }))
       : [];
 
-    setTrendData(parsedTrendData);
-    setCategoryRegionData(parsedCategoryData);
+    return { trend: parsedTrendData, categoryRegion: parsedCategoryData };
   };
+
+  const buildCustomPayload = (startDate, endDate, groupByValue) => ({
+    start_date: startDate,
+    end_date: endDate,
+    group_by: groupByValue,
+    custom_start_date: startDate,
+    custom_end_date: endDate,
+    custom_group_by: groupByValue,
+  });
 
   // Fetch data from API
   useEffect(() => {
@@ -87,39 +102,62 @@ const RequestsAnalytics = () => {
         setLoading(true);
         setError(null);
 
-        // Reuse cached default response for preset tabs (7D, 30D, 1Y, All)
-        if (timeRange !== "custom" && defaultApiDataRef.current) {
-          applyDataForRange(defaultApiDataRef.current, timeRange);
+        // If both charts are using preset ranges and we have cached default data, reuse it
+        if (
+          timeRange !== "custom" &&
+          timeRangeCat !== "custom" &&
+          defaultApiDataRef.current
+        ) {
+          const defaultData = defaultApiDataRef.current;
+          const trendParsed = applyDataForRange(defaultData, timeRange);
+          const catParsed = applyDataForRange(defaultData, timeRangeCat);
+          setTrendData(trendParsed.trend);
+          setCategoryRegionData(catParsed.categoryRegion);
           setLoading(false);
           return;
         }
 
-        // Build payload based on time range
-        let payload = {};
+        // For each chart that requests a custom range, call API for that range.
+        // If a chart is not custom, prefer using cached default data if available, else call API without payload.
+
+        // Helper to fetch for a given payload
+        const fetchForPayload = async (payload) => {
+          const resp = await getRequestsApplicationAnalytics(payload);
+          return resp.body || resp;
+        };
+
+        // Determine whether to call API for trend
         if (timeRange === "custom") {
           if (!customStartDate || !customEndDate) {
             setLoading(false);
             return;
           }
-          payload = {
-            start_date: customStartDate,
-            end_date: customEndDate,
-            group_by: groupBy,
-          };
+          const payload = buildCustomPayload(
+            customStartDate,
+            customEndDate,
+            groupBy,
+          );
+          const data = await fetchForPayload(payload);
+          const parsed = applyDataForRange(data, "custom");
+          setTrendData(parsed.trend);
         }
 
-        // Call API
-        const response = await getRequestsApplicationAnalytics(payload);
-
-        // Extract body from response (API wraps data in statusCode and body)
-        const data = response.body || response;
-
-        // Cache default response because it already contains all preset windows
-        if (timeRange !== "custom") {
+        // If we still don't have data for either chart (non-custom and cache missing), fetch default data once
+        if (!defaultApiDataRef.current) {
+          const data = await fetchForPayload({});
           defaultApiDataRef.current = data;
         }
 
-        applyDataForRange(data, timeRange);
+        // Apply default data for any chart that isn't custom and hasn't been set yet
+        const defaultApplied = defaultApiDataRef.current;
+        if (timeRange !== "custom" && trendData.length === 0) {
+          const parsed = applyDataForRange(defaultApplied, timeRange);
+          setTrendData(parsed.trend);
+        }
+        if (timeRangeCat !== "custom" && categoryRegionData.length === 0) {
+          const parsedCat = applyDataForRange(defaultApplied, timeRangeCat);
+          setCategoryRegionData(parsedCat.categoryRegion);
+        }
       } catch (err) {
         console.error("Error fetching analytics data:", err);
         setError(err.message || "Failed to fetch analytics data");
@@ -129,7 +167,8 @@ const RequestsAnalytics = () => {
     };
 
     fetchAnalyticsData();
-  }, [timeRange, customStartDate, customEndDate, groupBy]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeRange, customStartDate, customEndDate, groupBy, timeRangeCat]);
 
   // Compute top 5 countries by total request count
   const top5Countries = useMemo(() => {
@@ -149,13 +188,13 @@ const RequestsAnalytics = () => {
     // Use top 5 countries (by total requests)
     const top5CountryNames = top5Countries.map((c) => c.country);
 
-    // Filter by selected category (if not "all")
+    // Filter by selected categories (if any). If none selected, include all categories.
     let filteredData =
-      selectedCategory === "all"
-        ? categoryRegionData
-        : categoryRegionData.filter(
-            (item) => item.category === selectedCategory,
-          );
+      selectedCategories && selectedCategories.length > 0
+        ? categoryRegionData.filter((item) =>
+            selectedCategories.includes(item.category),
+          )
+        : categoryRegionData;
 
     // Filter by selected country (if not "all")
     if (selectedCountry !== "all") {
@@ -177,6 +216,25 @@ const RequestsAnalytics = () => {
     });
 
     let result = Object.values(categoryMap);
+
+    // If no explicit categories selected, limit to top N categories by total where N = categoryLimit
+    if (
+      (!selectedCategories || selectedCategories.length === 0) &&
+      categoryLimit
+    ) {
+      // compute totals per category
+      const totals = result
+        .map((r) => ({
+          category: r.category,
+          total: Object.keys(r)
+            .filter((k) => k !== "category")
+            .reduce((s, k) => s + (r[k] || 0), 0),
+        }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, categoryLimit)
+        .map((r) => r.category);
+      result = result.filter((r) => totals.includes(r.category));
+    }
 
     // Calculate totals for sorting
     result = result.map((item) => {
@@ -201,7 +259,8 @@ const RequestsAnalytics = () => {
     return { data: result, visibleCountries };
   }, [
     selectedCountry,
-    selectedCategory,
+    selectedCategories,
+    categoryLimit,
     sortBy,
     top5Countries,
     categoryRegionData,
@@ -237,6 +296,26 @@ const RequestsAnalytics = () => {
     Canada: "#f59e0b",
     Australia: "#ef4444",
     "United Kingdom": "#8b5cf6",
+  };
+
+  const FALLBACK_COLORS = [
+    "#6b7280",
+    "#059669",
+    "#d97706",
+    "#0ea5d8",
+    "#7c3aed",
+    "#f97316",
+  ];
+
+  const getCountryColor = (country) => {
+    if (COUNTRY_COLORS[country]) return COUNTRY_COLORS[country];
+    // deterministic fallback by hashing country string
+    let hash = 0;
+    for (let i = 0; i < country.length; i++) {
+      hash = country.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const idx = Math.abs(hash) % FALLBACK_COLORS.length;
+    return FALLBACK_COLORS[idx];
   };
 
   // Show loading or error states
@@ -355,21 +434,107 @@ const RequestsAnalytics = () => {
       <ChartContainer
         title="Requests by Category & Region"
         description="Geographic distribution of requests across categories"
+        className="overflow-hidden"
       >
-        {/* Filters */}
+        {/* Filters: category multi-select, time range, country, sort, limit */}
         <div className="flex gap-2 mb-2 items-center flex-wrap">
+          {/* Category multi-select dropdown (checkboxes) */}
+          <div className="relative">
+            <button
+              onClick={() => setCategoryDropdownOpen((s) => !s)}
+              className="px-2 py-0.5 border border-gray-300 rounded text-xs bg-white max-w-full"
+            >
+              {selectedCategories && selectedCategories.length > 0
+                ? `${selectedCategories.length} selected`
+                : "All Categories"}
+            </button>
+            {categoryDropdownOpen && (
+              <div className="absolute z-10 mt-1 w-56 max-w-[calc(100vw-2rem)] bg-white border border-gray-200 rounded shadow-md p-2 max-h-48 overflow-auto">
+                <div className="text-xs text-gray-600 mb-1">
+                  Select up to {categoryLimit}
+                </div>
+                {categories.map((cat) => {
+                  const checked = selectedCategories.includes(cat);
+                  const disabled =
+                    !checked && selectedCategories.length >= categoryLimit;
+                  return (
+                    <label
+                      key={cat}
+                      className="flex items-center gap-2 text-xs py-0.5"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        disabled={disabled}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            if (selectedCategories.length < categoryLimit) {
+                              setSelectedCategories((s) => [...s, cat]);
+                            }
+                          } else {
+                            setSelectedCategories((s) =>
+                              s.filter((c) => c !== cat),
+                            );
+                          }
+                        }}
+                      />
+                      <span>{cat}</span>
+                    </label>
+                  );
+                })}
+                <div className="mt-2 flex justify-between">
+                  <button
+                    onClick={() => {
+                      setSelectedCategories([]);
+                    }}
+                    className="text-xs text-gray-600"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    onClick={() => setCategoryDropdownOpen(false)}
+                    className="text-xs text-blue-600"
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Category limit selector */}
           <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={categoryLimit}
+            onChange={(e) => setCategoryLimit(Number(e.target.value))}
             className="px-2 py-0.5 border border-gray-300 rounded text-xs"
           >
-            <option value="all">All Categories</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
+            <option value={5}>Top 5</option>
+            <option value={7}>Top 7</option>
+            <option value={8}>Top 8</option>
           </select>
+
+          {/* Category chart time range controls */}
+          <div className="flex gap-1.5 items-center flex-wrap">
+            {[
+              { id: "7d", label: "7D" },
+              { id: "30d", label: "30D" },
+              { id: "1yr", label: "1Y" },
+              { id: "all", label: "All" },
+            ].map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => setTimeRangeCat(id)}
+                className={`px-2 py-0.5 text-xs rounded ${
+                  timeRangeCat === id
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
           <select
             value={selectedCountry}
             onChange={(e) => setSelectedCountry(e.target.value)}
@@ -401,7 +566,7 @@ const RequestsAnalytics = () => {
               className="flex items-center gap-1 px-2 py-0.5 bg-white border border-gray-200 rounded-full text-xs shadow-sm"
               style={{
                 borderLeftWidth: "3px",
-                borderLeftColor: COUNTRY_COLORS[country] || "#6b7280",
+                borderLeftColor: getCountryColor(country),
               }}
             >
               <span className="font-bold text-gray-400">#{index + 1}</span>
@@ -415,16 +580,19 @@ const RequestsAnalytics = () => {
           <BarChart
             data={processStackedData.data}
             layout="vertical"
-            margin={{ left: 20 }}
+            margin={{ left: 32, right: 8 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis type="number" tick={{ fontSize: 12 }} stroke="#6b7280" />
             <YAxis
               dataKey="category"
               type="category"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 11 }}
+              tickFormatter={(value) =>
+                String(value || "").replaceAll("_", " ")
+              }
               stroke="#6b7280"
-              width={100}
+              width={170}
             />
             <Tooltip
               contentStyle={{
@@ -439,7 +607,7 @@ const RequestsAnalytics = () => {
                 key={country}
                 dataKey={country}
                 stackId="a"
-                fill={COUNTRY_COLORS[country] || "#6b7280"}
+                fill={getCountryColor(country)}
                 radius={[0, 4, 4, 0]}
               />
             ))}
