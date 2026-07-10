@@ -109,6 +109,23 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       setFormData((prev) => ({ ...prev, locationCoordinates: coords }));
     });
 
+  // NEW (SAAYAM-1622): separate location state/hook for the "Other" requester's
+  // address. Intentionally kept OUT of formData/submissionData for now since
+  // there is no API/DB field mapped for it yet. Once the API adds support for
+  // storing this in the geography column, wire otherPersonLocation /
+  // otherPersonLocationCoordinates into submissionData in handleSubmit below.
+  const [otherPersonLocation, setOtherPersonLocation] = useState("");
+  const [otherPersonLocationCoordinates, setOtherPersonLocationCoordinates] =
+    useState(null);
+  const {
+    inputRef: otherLocationInputRef,
+    suggestions: otherLocationSuggestions,
+    handleSearchChange: handleOtherLocationSearchChange,
+    handleSelectSuggestion: handleOtherLocationSelectSuggestion,
+  } = usePlacesSearchBox(setOtherPersonLocation, (coords) => {
+    setOtherPersonLocationCoordinates(coords);
+  });
+
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("General");
@@ -1191,6 +1208,12 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       setFormData((prev) => ({ ...prev, subject: resolvedSubject }));
     }
 
+    // NOTE (SAAYAM-1622): otherPersonLocation / otherPersonLocationCoordinates
+    // are intentionally NOT added here. There is no API/DB field mapped for
+    // the "Other" requester's location yet. Once the backend adds support
+    // (geography column), add them to submissionData below, e.g.:
+    //   other_person_location: otherPersonLocation,
+    //   other_person_location_coordinates: otherPersonLocationCoordinates,
     const submissionData = {
       ...formData,
       subject: resolvedSubject,
@@ -2085,6 +2108,49 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                             </option>
                           ))}
                         </select>
+                      </div>
+                    </div>
+
+                    {/* NEW (SAAYAM-1622): Location field for the "Other" person.
+                        Same search/suggestion UX as the "In Person" location field
+                        further below, but backed by its own state and NOT included
+                        in submissionData/API payload yet (no backend field exists). */}
+                    <div className="mt-3" data-testid="parentDivOtherLocation">
+                      <label
+                        htmlFor="other_person_location"
+                        className="block text-gray-700 mb-1 font-medium"
+                      >
+                        {t("Location")}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          id="other_person_location"
+                          ref={otherLocationInputRef}
+                          value={otherPersonLocation}
+                          onChange={(e) => {
+                            setOtherPersonLocation(e.target.value);
+                            handleOtherLocationSearchChange(e.target.value);
+                          }}
+                          className="border p-2 w-full rounded-lg"
+                          placeholder="Search for location..."
+                        />
+                        {otherLocationSuggestions.length > 0 && (
+                          <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full mt-1 max-h-48 overflow-y-auto shadow-lg">
+                            {otherLocationSuggestions.map((s, i) => (
+                              <li
+                                key={i}
+                                className="px-3 py-2 cursor-pointer hover:bg-blue-50 text-sm"
+                                onClick={() => {
+                                  setOtherPersonLocation(s.display_name);
+                                  handleOtherLocationSelectSuggestion(s);
+                                }}
+                              >
+                                {s.display_name}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     </div>
                   </div>
