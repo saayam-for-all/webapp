@@ -84,6 +84,10 @@ const RequestDetails = () => {
     currentUser?.email ||
     "";
 
+  const isMyRequest =
+    requestData?.sourceDashboard === "BENEFICIARY" ||
+    requestData?.sourceTab === "myRequests";
+
   const creatorName =
     requestData?.creatorName ||
     requestData?.createdByName ||
@@ -97,8 +101,8 @@ const RequestDetails = () => {
       requestData?.requesterFirstName,
       requestData?.requesterLastName,
     ) ||
-    currentUserName;
-  t("CREATOR");
+    (isMyRequest ? currentUserName : "") ||
+    t("CREATOR");
 
   const beneficiaryName =
     requestData?.beneficiaryName ||
@@ -112,8 +116,8 @@ const RequestDetails = () => {
       requestData?.guestDetails?.reqFname,
       requestData?.guestDetails?.reqLname,
     ) ||
-    currentUserName;
-  ("Beneficiary");
+    (isMyRequest ? currentUserName : "") ||
+    "Beneficiary";
 
   const attributes = [
     {
