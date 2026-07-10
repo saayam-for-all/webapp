@@ -2120,7 +2120,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         htmlFor="other_person_location"
                         className="block text-gray-700 mb-1 font-medium"
                       >
-                        {t("LOCATION")}
+                        {t("Location")}
                       </label>
                       <div className="relative">
                         <input
