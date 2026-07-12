@@ -557,12 +557,12 @@ const BeneficiariesAnalytics = () => {
                   {countryData.map((item, index) => (
                     <div
                       key={index}
-                      className="flex justify-between text-sm text-gray-600"
+                      className="flex justify-around text-sm text-gray-600 gap-5"
                     >
                       <span>
                         {index + 1}. {item.country}
                       </span>
-                      <span className="font-medium">{item.count}</span>
+                      <span className="font-semibold italic">{item.count}</span>
                     </div>
                   ))}
                 </div>
