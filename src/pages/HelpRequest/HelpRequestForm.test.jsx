@@ -2635,3 +2635,162 @@ describe("HelpRequestForm — preferred language auto-set from profile (#1547)",
     });
   });
 });
+
+describe("HelpRequestForm — Other person location field (#1622)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: { IN_PERSON: "IN_PERSON", REMOTE: "REMOTE" },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: "SELF", OTHER: "OTHER" },
+      }),
+    );
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+    mockSuggestions = [];
+  });
+
+  it("shows the Other-person location field when For Self is switched to OTHER", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("does not show the Other-person location field when For Self is SELF", () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    expect(
+      document.getElementById("other_person_location"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("updates the field when user types a location manually", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "Kansas City" },
+      });
+    });
+
+    expect(document.getElementById("other_person_location").value).toBe(
+      "Kansas City",
+    );
+  });
+
+  it("shows suggestions and selects one when clicked", async () => {
+    mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Kansas City, Missouri, USA"),
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Kansas City, Missouri, USA"));
+
+    expect(mockHandleSelectSuggestion).toHaveBeenCalled();
+  });
+
+  it("does not include the Other-person location or its coordinates in the submitted createRequest payload", async () => {
+    const {
+      checkProfanity,
+      createRequest,
+    } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+
+    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-1622" } });
+
+    renderForm();
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Requesting on behalf of someone else.",
+      },
+    });
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "Kansas City, Missouri, USA" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+
+    // The typed address must not leak into the payload anywhere
+    expect(JSON.stringify(callArgs)).not.toContain(
+      "Kansas City, Missouri, USA",
+    );
+    expect(callArgs.formData.otherPersonLocation).toBeUndefined();
+    expect(callArgs.formData.otherPersonLocationCoordinates).toBeUndefined();
+  });
+});
