@@ -437,10 +437,10 @@ const BeneficiariesAnalytics = () => {
         <div className="flex gap-1.5 mb-2 flex-wrap items-center">
           <span className="text-xs text-gray-500 font-medium">Period:</span>
           {[
-            { id: "all", label: "All" },
             { id: "7d", label: "7D" },
             { id: "30d", label: "30D" },
             { id: "1yr", label: "1Y" },
+            { id: "all", label: "All" },
             { id: "custom", label: "Custom" },
           ].map(({ id, label }) => (
             <button
