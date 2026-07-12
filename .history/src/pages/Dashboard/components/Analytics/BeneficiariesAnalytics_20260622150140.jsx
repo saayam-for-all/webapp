@@ -50,7 +50,8 @@ const COUNTRY_DATA_KEYS = {
 // Build a fetch payload for the given time range and optional date/group_by params.
 // 7D / 30D / 1Y / All send {} — the API returns all four pre-computed windows at once.
 // Custom sends an explicit date range with a group_by granularity (day or month).
-// Returns null when custom range is selected but dates aren't filled yet.
+// Returns null when custom range is selected but
+// dates aren't filled yet.
 const buildFetchParams = (range, start, end, groupBy) => {
   if (range === "7d" || range === "30d" || range === "1yr" || range === "all")
     return {};
@@ -437,10 +438,10 @@ const BeneficiariesAnalytics = () => {
         <div className="flex gap-1.5 mb-2 flex-wrap items-center">
           <span className="text-xs text-gray-500 font-medium">Period:</span>
           {[
+            { id: "all", label: "All" },
             { id: "7d", label: "7D" },
             { id: "30d", label: "30D" },
             { id: "1yr", label: "1Y" },
-            { id: "all", label: "All" },
             { id: "custom", label: "Custom" },
           ].map(({ id, label }) => (
             <button

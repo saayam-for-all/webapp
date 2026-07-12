@@ -439,8 +439,8 @@ const BeneficiariesAnalytics = () => {
           {[
             { id: "7d", label: "7D" },
             { id: "30d", label: "30D" },
-            { id: "1yr", label: "1Y" },
             { id: "all", label: "All" },
+            { id: "1yr", label: "1Y" },
             { id: "custom", label: "Custom" },
           ].map(({ id, label }) => (
             <button

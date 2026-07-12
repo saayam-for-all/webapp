@@ -26,39 +26,53 @@ import beneficiariesByCountryDataFallback from "../../../../data/analytics/benef
 // World map GeoJSON URL
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
-// Trend response keys returned by the API.
-// 7D / 30D / 1Y / All are all pre-computed windows returned by the default {} payload.
-// Custom is populated only when a custom date range payload is sent.
-const BENEFICIARY_TREND_KEYS = {
-  "7d": "Beneficiaries count 7 days",
-  "30d": "Beneficiaries count 30 days",
-  "1yr": "Beneficiaries count 1 year",
-  all: "Beneficiaries count all",
-  custom: "Beneficiaries count custom date range",
+// Compute a date string relative to today
+const getRelativeDate = (daysOffset = 0) => {
+  const d = new Date();
+  d.setDate(d.getDate() + daysOffset);
+  return d.toISOString().split("T")[0];
 };
 
-// Country response keys — each value is an object keyed by ISO alpha-3 country code,
-// with an array of { Date, Count } entries (plus a trailing { "Total Count": N } summary).
+// Earliest date requested for the "All" range so the API returns the full history
+const ALL_TIME_START_DATE = "2000-01-01";
+
+// Trend response keys returned by the API (from the real response format)
+const BENEFICIARY_TREND_KEYS = {
+  "7d": "Beneficiaries count 7 days",
+  "30d": "Beneficiaries count 1 month",
+  "1yr": "Beneficiaries count 1 year",
+  custom: "Beneficiaries count custom date range",
+  all: "Beneficiaries count custom date range",
+};
+
+// Country response keys — each is an object keyed by ISO alpha-3 country code,
+// with an array of { Date, Count } entries per country.
 const COUNTRY_DATA_KEYS = {
   "7d": "Beneficiaries count by country 7 days",
-  "30d": "Beneficiaries count by country 30 days",
+  "30d": "Beneficiaries count by country 1 month",
   "1yr": "Beneficiaries count by country 1 year",
-  all: "Beneficiaries count by country all",
   custom: "Beneficiaries count by country custom date range",
+  all: "Beneficiaries count by country custom date range",
 };
 
 // Build a fetch payload for the given time range and optional date/group_by params.
-// 7D / 30D / 1Y / All send {} — the API returns all four pre-computed windows at once.
-// Custom sends an explicit date range with a group_by granularity (day or month).
-// Returns null when custom range is selected but dates aren't filled yet.
+// 7D / 30D / 1Y send {} so the API returns all three pre-computed windows at once.
+// All and Custom send an explicit date range with a group_by granularity.
+// Returns null when a custom/country range is selected but both dates aren't filled yet.
 const buildFetchParams = (range, start, end, groupBy) => {
-  if (range === "7d" || range === "30d" || range === "1yr" || range === "all")
-    return {};
+  if (range === "7d" || range === "30d" || range === "1yr") return {};
+  if (range === "all") {
+    return {
+      beneficiaries_start_date: ALL_TIME_START_DATE,
+      beneficiaries_end_date: getRelativeDate(0),
+      beneficiaries_group_by: "month",
+    };
+  }
   if (range === "custom" && start && end) {
     return {
-      custom_start_date: start,
-      custom_end_date: end,
-      custom_group_by: groupBy,
+      beneficiaries_start_date: start,
+      beneficiaries_end_date: end,
+      beneficiaries_group_by: groupBy,
     };
   }
   return null;
@@ -71,11 +85,21 @@ const normalizeItems = (arr) =>
     count: item.Count ?? 0,
   }));
 
+// Resolve an ISO 3166-1 alpha-3 country code to a readable English name.
+// Uses Intl.DisplayNames (supported in all modern browsers and Node ≥ 13).
+const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+const isoToCountryName = (code) => {
+  if (!code) return "";
+  try {
+    return regionNames.of(code) ?? code;
+  } catch {
+    return code;
+  }
+};
+
 // Aggregate the per-country object returned by the API into a flat array.
-// Input:  { "AFG": [{Date, Count}, ..., {"Total Count": N}], "USA": [...] }
+// Input:  { "AFG": [{Date, Count}, ...], "USA": [...] }
 // Output: [{ month, country, beneficiaryCount }, ...]
-// The API appends a {"Total Count": N} summary entry to each country array;
-// we use that directly when present, otherwise sum the date-bearing entries.
 const parseCountryData = (countryObj) => {
   if (
     !countryObj ||
@@ -83,21 +107,13 @@ const parseCountryData = (countryObj) => {
     Array.isArray(countryObj)
   )
     return [];
-  return Object.entries(countryObj).map(([code, entries]) => {
-    if (!Array.isArray(entries))
-      return { month: "", country: isoAlpha3ToName(code), beneficiaryCount: 0 };
-    const summary = entries.find((e) => "Total Count" in e);
-    const total = summary
-      ? summary["Total Count"]
-      : entries
-          .filter((e) => "Date" in e)
-          .reduce((sum, e) => sum + (e.Count ?? 0), 0);
-    return {
-      month: "",
-      country: isoAlpha3ToName(code),
-      beneficiaryCount: total,
-    };
-  });
+  return Object.entries(countryObj).map(([code, entries]) => ({
+    month: "",
+    country: isoToCountryName(code),
+    beneficiaryCount: Array.isArray(entries)
+      ? entries.reduce((sum, e) => sum + (e.Count ?? 0), 0)
+      : 0,
+  }));
 };
 
 /**
@@ -105,23 +121,21 @@ const parseCountryData = (countryObj) => {
  *
  * Displays:
  * 1. Beneficiary Growth Trend (Line Chart) - time range selector with 7D / 30D / 1Y / All / Custom
- *    - 7D     → last 7 days, daily points   ("Beneficiaries count 7 days")
- *    - 30D    → last 30 days, daily points  ("Beneficiaries count 30 days")
- *    - 1Y     → last year, daily points     ("Beneficiaries count 1 year")
- *    - All    → full history, monthly       ("Beneficiaries count all")
- *    - Custom → user-supplied date range + day/month group_by
- *    7D / 30D / 1Y / All all use the {} payload; the API returns all four windows at once.
- *    Custom sends { custom_start_date, custom_end_date, custom_group_by }.
+ *    - 7D     → last 7 days, daily points  ("Beneficiaries count 7 days")
+ *    - 30D    → last 30 days, daily points ("Beneficiaries count 1 month")
+ *    - 1Y     → last year, monthly points  ("Beneficiaries count 1 year")
+ *    - All    → full history, fetched with a wide date range ("Beneficiaries count custom date range")
+ *    - Custom → user-supplied date range + day/week/month group_by
  * 2. Beneficiaries by Country (Bar Chart / Map) - with independent time range selector
- *    Country data ("Beneficiaries count by country <period>") is re-used from the trend
- *    response unless the country time range requires a different API payload.
+ *    Country data ("Beneficiaries count by country <period>") is fetched separately
+ *    when its time range differs from the trend range.
  */
 const BeneficiariesAnalytics = () => {
   // Trend time range states
   const [timeRange, setTimeRange] = useState("all"); // 7d, 30d, 1yr, all, custom
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
-  const [customGroupBy, setCustomGroupBy] = useState("day"); // day or month (week not supported by API)
+  const [customGroupBy, setCustomGroupBy] = useState("day"); // day, week, month
 
   // Country time range states (independent of trend)
   const [countryTimeRange, setCountryTimeRange] = useState("all");
@@ -236,12 +250,14 @@ const BeneficiariesAnalytics = () => {
   };
 
   // Format a date string for display.
-  // "All" returns pre-aggregated monthly data; Custom with group_by "month" also
-  // shows month labels. Everything else (7D / 30D / 1Y / custom day) shows a short date.
+  // 1Y and All return pre-grouped monthly data; Custom with group_by "month" also
+  // shows month labels. Everything else (day/week) shows a short date.
   const formatLabel = (dateStr, range, groupBy) => {
     if (!dateStr) return "";
     const monthly =
-      range === "all" || (range === "custom" && groupBy === "month");
+      range === "1yr" ||
+      range === "all" ||
+      (range === "custom" && groupBy === "month");
     if (monthly) return formatMonthLabel(dateStr.substring(0, 7));
     const d = new Date(dateStr + "T00:00:00");
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -375,6 +391,7 @@ const BeneficiariesAnalytics = () => {
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs bg-white"
               >
                 <option value="day">Day</option>
+                <option value="week">Week</option>
                 <option value="month">Month</option>
               </select>
             </>
@@ -437,10 +454,10 @@ const BeneficiariesAnalytics = () => {
         <div className="flex gap-1.5 mb-2 flex-wrap items-center">
           <span className="text-xs text-gray-500 font-medium">Period:</span>
           {[
+            { id: "all", label: "All" },
             { id: "7d", label: "7D" },
             { id: "30d", label: "30D" },
             { id: "1yr", label: "1Y" },
-            { id: "all", label: "All" },
             { id: "custom", label: "Custom" },
           ].map(({ id, label }) => (
             <button
