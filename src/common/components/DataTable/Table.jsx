@@ -111,6 +111,18 @@ const Table = ({
     return search(bundle.REQUEST_CATEGORIES, code) || code;
   };
 
+  const splitRequestIdLines = (requestId) => {
+    if (typeof requestId !== "string") return [requestId];
+    const parts = requestId.split("-");
+    if (parts.length < 5) return [requestId];
+
+    return [
+      `${parts[0]}-${parts[1]}-`,
+      `${parts[2]}-${parts[3]}-`,
+      parts.slice(4).join("-"),
+    ];
+  };
+
   const getCellValue = (row, header) => {
     if (header === "requestId") return row[resolveKey(header)];
     if (header === "category") return getCategoryLabel(row[resolveKey(header)]);
@@ -124,6 +136,28 @@ const Table = ({
       return "—";
     }
     return value;
+  };
+
+  const renderRequestId = (requestId) =>
+    splitRequestIdLines(requestId).map((line, index) => (
+      <span
+        key={`${requestId}-${index}`}
+        className="block whitespace-nowrap leading-tight"
+      >
+        {line}
+      </span>
+    ));
+
+  const getCellClassName = (header) => {
+    if (header === "requestId") {
+      return "px-3 py-2 text-sm leading-tight align-top";
+    }
+    if (
+      ["beneficiaryCreatorDisplayId", "leadVolunteerDisplayId"].includes(header)
+    ) {
+      return "px-6 py-2 whitespace-nowrap text-sm";
+    }
+    return "px-6 py-2";
   };
 
   const shouldLinkCell = (header) => header === "requestId" || header === "id";
@@ -189,19 +223,13 @@ const Table = ({
                     const value = getCellValue(row, header);
 
                     const path = getLinkPath ? getLinkPath(row, header) : null;
+                    const cellContent =
+                      header === "requestId" ? renderRequestId(value) : value;
 
                     return (
                       <td
                         key={colIndex}
-                        className={`px-6 py-2${
-                          [
-                            "requestId",
-                            "beneficiaryCreatorDisplayId",
-                            "leadVolunteerDisplayId",
-                          ].includes(header)
-                            ? " whitespace-nowrap text-sm"
-                            : ""
-                        }`}
+                        className={getCellClassName(header)}
                         data-testid="map-data-one"
                       >
                         {path ? (
@@ -210,10 +238,10 @@ const Table = ({
                             className="text-indigo-600 hover:text-indigo-900"
                             state={getLinkState ? getLinkState(row) : undefined}
                           >
-                            {value}
+                            {cellContent}
                           </Link>
                         ) : (
-                          value
+                          cellContent
                         )}
                       </td>
                     );

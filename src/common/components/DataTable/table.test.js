@@ -365,5 +365,21 @@ describe("Table", () => {
 
       expect(screen.getByText("REQ-99-001")).toBeInTheDocument();
     });
+
+    it("wraps long request IDs across multiple lines", () => {
+      render(
+        <Table
+          {...defaultProps}
+          headers={["requestId", "status"]}
+          rows={[
+            { requestId: "REQ-00-000-000-0490", status: "MATCHING_VOLUNTEER" },
+          ]}
+        />,
+      );
+
+      expect(screen.getByText("REQ-00-")).toBeInTheDocument();
+      expect(screen.getByText("000-000-")).toBeInTheDocument();
+      expect(screen.getByText("0490")).toBeInTheDocument();
+    });
   });
 });
