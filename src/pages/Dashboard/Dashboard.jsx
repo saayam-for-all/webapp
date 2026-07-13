@@ -141,13 +141,36 @@ const Dashboard = ({ userRole }) => {
   );
 
   const normalizeHelpRequestRecords = (records) =>
-    (Array.isArray(records) ? records : []).map((r) => ({
-      ...r,
-      id: r.requestId || r.id,
-      category: r.requestCategory || r.category,
-      description: r.reqDesc || r.description,
-      catId: r.reqCatId || r.catId,
-    }));
+    (Array.isArray(records) ? records : []).map((r) => {
+      const rawReqIsLeadId = r.reqIsleadId ?? r.reqIsLeadId;
+      const reqIsLeadId =
+        rawReqIsLeadId === 0 || rawReqIsLeadId === "0"
+          ? 0
+          : rawReqIsLeadId === 1 || rawReqIsLeadId === "1"
+            ? 1
+            : null;
+      const requesterId = r.requesterId || null;
+      const beneficiaryDisplayId = r.beneficiaryId ?? requesterId;
+      const creatorDisplayId = r.creatorId ?? requesterId;
+      const beneficiaryCreatorDisplayId =
+        beneficiaryDisplayId &&
+        creatorDisplayId &&
+        beneficiaryDisplayId !== creatorDisplayId
+          ? `${beneficiaryDisplayId} / ${creatorDisplayId}`
+          : beneficiaryDisplayId || creatorDisplayId;
+
+      return {
+        ...r,
+        id: r.requestId || r.id,
+        category: r.requestCategory || r.category,
+        description: r.reqDesc || r.description,
+        catId: r.reqCatId || r.catId,
+        beneficiaryDisplayId,
+        creatorDisplayId,
+        beneficiaryCreatorDisplayId,
+        leadVolunteerDisplayId: reqIsLeadId === 1 ? requesterId : null,
+      };
+    });
 
   const getAllRequests = async (tab, page = currentPage - 1, sizeOverride) => {
     try {
@@ -316,6 +339,24 @@ const Dashboard = ({ userRole }) => {
   const resolveKey = (header) => dataKeyMap[header] || header;
 
   const headersWithStatus = useMemo(() => {
+    const isAllRequestsView =
+      activeTab === "myRequests" &&
+      [DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN, DASHBOARDS.STEWARD].includes(
+        selectedDashboard,
+      );
+    if (isAllRequestsView) {
+      return [
+        "requestId",
+        "subject",
+        "beneficiaryCreatorDisplayId",
+        "leadVolunteerDisplayId",
+        "category",
+        "status",
+        "priority",
+        "updatedDate",
+      ];
+    }
+
     const baseHeaders = [
       "requestId",
       "subject",
@@ -341,7 +382,7 @@ const Dashboard = ({ userRole }) => {
           ]
         : baseHeaders;
     return headersWithUserId;
-  }, [statusFilter, activeTab]);
+  }, [activeTab, selectedDashboard]);
 
   const sortedRequests = (requests) => {
     let sortableRequests = [...requests];
@@ -980,22 +1021,11 @@ const Dashboard = ({ userRole }) => {
   const handleRowsPerPageChange = (rows) => {
     setRowsPerPage(rows);
     setCurrentPage(1);
-    // Re-fetch from server with new page size (pass directly to avoid stale state)
-    if (serverPagination.isServerPaginated) {
-      getAllRequests(activeTab, 0, rows);
-    }
   };
 
-  // Handle page change — for server-paginated mode, fetch the new page from API
+  // Pagination state changes are fetched by the dashboard data effect.
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    if (
-      serverPagination.isServerPaginated &&
-      newPage - 1 !== serverPagination.currentServerPage
-    ) {
-      // API uses 0-indexed pages, UI uses 1-indexed
-      getAllRequests(activeTab, newPage - 1);
-    }
   };
 
   // Count selected categories (for badge display)

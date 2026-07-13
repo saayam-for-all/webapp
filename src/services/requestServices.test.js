@@ -3,6 +3,7 @@ import {
   moreInformationChat,
   moreInformation,
   generateSubject,
+  getAdditionalFields,
   getAllPaginatedRequests,
   getMyRequests,
   updateRequest,
@@ -33,6 +34,28 @@ describe("requestServices", () => {
     it("propagates errors from api", async () => {
       api.put.mockRejectedValue(new Error("Network error"));
       await expect(updateRequest({})).rejects.toThrow("Network error");
+    });
+  });
+
+  describe("getAdditionalFields", () => {
+    it("posts the request and requester IDs and returns the response data", async () => {
+      const mockData = {
+        success: true,
+        data: { "1.1.C": "4" },
+      };
+      api.post.mockResolvedValue({ data: mockData });
+
+      const payload = {
+        requestId: "REQ-00-000-000-0467",
+        requesterId: "SID-00-000-003-161",
+      };
+      const result = await getAdditionalFields(payload);
+
+      expect(api.post).toHaveBeenCalledWith(
+        "v1/request/getAdditionalFields",
+        payload,
+      );
+      expect(result).toEqual(mockData);
     });
   });
 
@@ -158,6 +181,26 @@ describe("requestServices", () => {
         params: { page: 3, size: 25 },
       });
       expect(result).toEqual(mockData);
+    });
+
+    it("shares an in-flight request for the same page and size", async () => {
+      const mockData = { data: { content: [{ requestId: "REQ-1" }] } };
+      let resolveRequest;
+      api.get.mockReturnValue(
+        new Promise((resolve) => {
+          resolveRequest = resolve;
+        }),
+      );
+
+      const firstRequest = getAllPaginatedRequests({ page: 0, size: 5 });
+      const secondRequest = getAllPaginatedRequests({ page: 0, size: 5 });
+
+      expect(api.get).toHaveBeenCalledTimes(1);
+
+      resolveRequest({ data: mockData });
+      await expect(Promise.all([firstRequest, secondRequest])).resolves.toEqual(
+        [mockData, mockData],
+      );
     });
 
     it("propagates errors from api", async () => {

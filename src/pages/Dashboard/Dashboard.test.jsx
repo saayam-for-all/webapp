@@ -241,6 +241,113 @@ describe("Dashboard", () => {
     });
   });
 
+  it("builds the All Requests identity columns from requester flags", async () => {
+    const {
+      getAllPaginatedRequests,
+    } = require("../../services/requestServices");
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: {
+        content: [
+          {
+            requestId: "REQ-SELF",
+            requesterId: "SID-SELF",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: 0,
+            reqIsleadId: 1,
+          },
+          {
+            requestId: "REQ-OTHER",
+            requesterId: "SID-CREATOR",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: 1,
+            reqIsleadId: 0,
+          },
+          {
+            requestId: "REQ-STRING-FLAGS",
+            requesterId: "SID-STRING",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: "0",
+            reqIsLeadId: "1",
+          },
+          {
+            requestId: "REQ-SPLIT-IDS",
+            requesterId: "SID-BEN",
+            beneficiaryId: "SID-BEN",
+            creatorId: "SID-CREATOR",
+            requestCategory: "GENERAL_CATEGORY",
+            reqIsleadId: 0,
+          },
+        ],
+        totalPages: 1,
+        totalElements: 3,
+      },
+    });
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: adminAuthState,
+    });
+
+    fireEvent.click(getByText("Click All Requests"));
+
+    await waitFor(() => {
+      expect(lastAdminDashboardProps?.headers).toEqual([
+        "requestId",
+        "subject",
+        "beneficiaryCreatorDisplayId",
+        "leadVolunteerDisplayId",
+        "category",
+        "status",
+        "priority",
+        "updatedDate",
+      ]);
+
+      const selfRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-SELF",
+      );
+      expect(selfRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-SELF",
+        creatorDisplayId: "SID-SELF",
+        beneficiaryCreatorDisplayId: "SID-SELF",
+        leadVolunteerDisplayId: "SID-SELF",
+      });
+
+      const otherRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-OTHER",
+      );
+      expect(otherRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-CREATOR",
+        creatorDisplayId: "SID-CREATOR",
+        beneficiaryCreatorDisplayId: "SID-CREATOR",
+        leadVolunteerDisplayId: null,
+      });
+
+      const stringFlagRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-STRING-FLAGS",
+      );
+      expect(stringFlagRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-STRING",
+        creatorDisplayId: "SID-STRING",
+        beneficiaryCreatorDisplayId: "SID-STRING",
+        leadVolunteerDisplayId: "SID-STRING",
+      });
+
+      const splitIdRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-SPLIT-IDS",
+      );
+      expect(splitIdRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-BEN",
+        creatorDisplayId: "SID-CREATOR",
+        beneficiaryCreatorDisplayId: "SID-BEN / SID-CREATOR",
+        leadVolunteerDisplayId: null,
+      });
+    });
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+  });
+
   it("calls getAllPaginatedRequests when Admin switches to All Requests tab", async () => {
     const {
       getAllPaginatedRequests,
@@ -276,12 +383,16 @@ describe("Dashboard", () => {
     );
 
     fireEvent.click(getByText("Change Page"));
-    await waitFor(() =>
+    await waitFor(() => {
       expect(getAllPaginatedRequests).toHaveBeenCalledWith({
         page: 1,
         size: 5,
-      }),
-    );
+      });
+      const pageOneCalls = getAllPaginatedRequests.mock.calls.filter(
+        ([options]) => options.page === 1 && options.size === 5,
+      );
+      expect(pageOneCalls).toHaveLength(1);
+    });
   });
 
   it("calls getAllPaginatedRequests with updated size when handleRowsPerPageChange is called", async () => {
@@ -301,12 +412,16 @@ describe("Dashboard", () => {
     );
 
     fireEvent.click(getByText("Change Rows"));
-    await waitFor(() =>
+    await waitFor(() => {
       expect(getAllPaginatedRequests).toHaveBeenCalledWith({
         page: 0,
         size: 25,
-      }),
-    );
+      });
+      const updatedSizeCalls = getAllPaginatedRequests.mock.calls.filter(
+        ([options]) => options.page === 0 && options.size === 25,
+      );
+      expect(updatedSizeCalls).toHaveLength(1);
+    });
   });
 
   it("handles api error and logs it to console", async () => {

@@ -2,6 +2,8 @@ import api from "./api";
 // import axios from "axios";
 import endpoints from "./endpoints.json";
 
+const inFlightAllRequests = new Map();
+
 export const getMyRequests = async (request) => {
   const response = await api.post(endpoints.GET_MY_REQUESTS, request);
   return response.data;
@@ -18,10 +20,22 @@ export const getManagedRequests = async () => {
 };
 
 export const getAllPaginatedRequests = async ({ page = 0, size = 10 } = {}) => {
-  const response = await api.get(endpoints.GET_ALL_REQUESTS, {
-    params: { page, size },
-  });
-  return response.data;
+  const requestKey = `${page}:${size}`;
+  if (inFlightAllRequests.has(requestKey)) {
+    return inFlightAllRequests.get(requestKey);
+  }
+
+  const request = api
+    .get(endpoints.GET_ALL_REQUESTS, {
+      params: { page, size },
+    })
+    .then((response) => response.data)
+    .finally(() => {
+      inFlightAllRequests.delete(requestKey);
+    });
+
+  inFlightAllRequests.set(requestKey, request);
+  return request;
 };
 
 export const getComments = async () => {
@@ -41,6 +55,11 @@ export const createRequest = async (request) => {
 
 export const updateRequest = async (request) => {
   const response = await api.put(endpoints.UPDATE_HELP_REQUEST, request);
+  return response.data;
+};
+
+export const getAdditionalFields = async (request) => {
+  const response = await api.post(endpoints.GET_ADDITIONAL_FIELDS, request);
   return response.data;
 };
 
