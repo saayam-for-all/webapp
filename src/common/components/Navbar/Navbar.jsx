@@ -423,7 +423,7 @@ const Navbar = () => {
 
         {/* Mobile Search (only after login) */}
         {user?.userId && (
-          <div className="flex flex-col md:hidden flex-1 mx-2">
+          <div className="relative md:hidden flex-1 mx-2">
             <TextField
               name="navbar-search"
               autoComplete="off"
@@ -449,7 +449,7 @@ const Navbar = () => {
                 minWidth: 0,
               }}
             />
-            <p className="text-xs text-gray-500 mt-0.5 pl-4">
+            <p className="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500">
               {t("SEARCH_TAGLINE")}
             </p>
           </div>
@@ -488,7 +488,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center flex-1 ml-4">
           {" "}
           {user?.userId && (
-            <div className="flex flex-col w-full max-w-[800px] mr-4">
+            <div className="relative w-full max-w-[800px] mr-4">
               <TextField
                 name="navbar-search"
                 autoComplete="off"
@@ -514,7 +514,7 @@ const Navbar = () => {
                   minWidth: 0,
                 }}
               />
-              <p className="text-xs text-gray-500 mt-0.5 pl-4">
+              <p className="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500">
                 {t("SEARCH_TAGLINE")}
               </p>
             </div>
