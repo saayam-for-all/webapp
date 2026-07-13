@@ -150,8 +150,8 @@ const Dashboard = ({ userRole }) => {
             ? 1
             : null;
       const requesterId = r.requesterId || null;
-      const beneficiaryDisplayId = requesterId;
-      const creatorDisplayId = requesterId;
+      const beneficiaryDisplayId = r.beneficiaryId ?? requesterId;
+      const creatorDisplayId = r.creatorId ?? requesterId;
       const beneficiaryCreatorDisplayId =
         beneficiaryDisplayId &&
         creatorDisplayId &&

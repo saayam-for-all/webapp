@@ -270,6 +270,14 @@ describe("Dashboard", () => {
             reqForId: "0",
             reqIsLeadId: "1",
           },
+          {
+            requestId: "REQ-SPLIT-IDS",
+            requesterId: "SID-BEN",
+            beneficiaryId: "SID-BEN",
+            creatorId: "SID-CREATOR",
+            requestCategory: "GENERAL_CATEGORY",
+            reqIsleadId: 0,
+          },
         ],
         totalPages: 1,
         totalElements: 3,
@@ -322,6 +330,16 @@ describe("Dashboard", () => {
         creatorDisplayId: "SID-STRING",
         beneficiaryCreatorDisplayId: "SID-STRING",
         leadVolunteerDisplayId: "SID-STRING",
+      });
+
+      const splitIdRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-SPLIT-IDS",
+      );
+      expect(splitIdRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-BEN",
+        creatorDisplayId: "SID-CREATOR",
+        beneficiaryCreatorDisplayId: "SID-BEN / SID-CREATOR",
+        leadVolunteerDisplayId: null,
       });
     });
 

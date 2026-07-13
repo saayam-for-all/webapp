@@ -1265,6 +1265,61 @@ describe("HelpRequestForm — edit mode submission", () => {
     expect(screen.getByTestId("field-3.7.C")).toHaveValue(9);
   });
 
+  it("continues loading additional fields when metadata JSON is invalid", async () => {
+    const { getAdditionalFields } = require("../../services/requestServices");
+    localStorage.setItem("metadata", "{invalid-json");
+    getAdditionalFields.mockResolvedValue({
+      data: { "3.7.C": "4" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-INVALID-METADATA",
+        requesterId: "SID-EDITOR",
+        reqCatId: "3.7",
+        subject: "Moving help",
+        reqDesc: "Help me move",
+        type: "IN_PERSON",
+        priority: "MEDIUM",
+      },
+    });
+
+    await waitFor(() => {
+      expect(getAdditionalFields).toHaveBeenCalled();
+    });
+  });
+
+  it("logs an error when additional fields fail to load", async () => {
+    const { getAdditionalFields } = require("../../services/requestServices");
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    getAdditionalFields.mockRejectedValue(new Error("Network error"));
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-FETCH-ERROR",
+        requesterId: "SID-EDITOR",
+        reqCatId: "3.7",
+        subject: "Moving help",
+        reqDesc: "Help me move",
+        type: "IN_PERSON",
+        priority: "MEDIUM",
+      },
+    });
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Error fetching additional fields:",
+        expect.any(Error),
+      );
+    });
+
+    consoleErrorSpy.mockRestore();
+  });
+
   it("calls updateRequest instead of createRequest when isEdit is true", async () => {
     const {
       checkProfanity,

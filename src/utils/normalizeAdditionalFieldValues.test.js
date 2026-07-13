@@ -66,6 +66,14 @@ describe("extractAdditionalFieldsFromResponse", () => {
       }),
     ).toEqual({ "3.7.C": "4" });
   });
+
+  it("returns an empty object for invalid response payloads", () => {
+    expect(extractAdditionalFieldsFromResponse({ data: "invalid" })).toEqual(
+      {},
+    );
+    expect(extractAdditionalFieldsFromResponse({ data: [] })).toEqual({});
+    expect(extractAdditionalFieldsFromResponse("invalid")).toEqual({});
+  });
 });
 
 describe("normalizeAdditionalFieldValues", () => {
