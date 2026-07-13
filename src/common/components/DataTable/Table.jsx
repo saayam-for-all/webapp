@@ -88,6 +88,8 @@ const Table = ({
     updatedDate: t("Last Updated"),
     creationDate: t("Created"),
     calamity: t("Calamity"),
+    beneficiaryCreatorDisplayId: t("Beneficiary ID / Creator ID"),
+    leadVolunteerDisplayId: t("Lead Volunteer ID"),
   };
 
   const getCategoryLabel = (code) => {
@@ -112,7 +114,16 @@ const Table = ({
   const getCellValue = (row, header) => {
     if (header === "requestId") return row[resolveKey(header)];
     if (header === "category") return getCategoryLabel(row[resolveKey(header)]);
-    return formatDateTime(row[resolveKey(header)], header);
+    const value = formatDateTime(row[resolveKey(header)], header);
+    if (
+      ["beneficiaryCreatorDisplayId", "leadVolunteerDisplayId"].includes(
+        header,
+      ) &&
+      (value === null || value === undefined || value === "")
+    ) {
+      return "—";
+    }
+    return value;
   };
 
   const shouldLinkCell = (header) => header === "requestId" || header === "id";
@@ -182,7 +193,15 @@ const Table = ({
                     return (
                       <td
                         key={colIndex}
-                        className="px-6 py-2"
+                        className={`px-6 py-2${
+                          [
+                            "requestId",
+                            "beneficiaryCreatorDisplayId",
+                            "leadVolunteerDisplayId",
+                          ].includes(header)
+                            ? " whitespace-nowrap text-sm"
+                            : ""
+                        }`}
                         data-testid="map-data-one"
                       >
                         {path ? (

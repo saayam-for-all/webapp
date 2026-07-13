@@ -21,6 +21,7 @@ import {
   updateRequest,
   predictCategories,
   generateSubject,
+  getAdditionalFields,
   getCategories,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
@@ -55,6 +56,10 @@ import {
   IconButton,
   Box,
 } from "@mui/material";
+import {
+  extractAdditionalFieldsFromResponse,
+  normalizeAdditionalFieldValues,
+} from "../../utils/normalizeAdditionalFieldValues";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -150,6 +155,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const [fileErrorMessages, setFileErrorMessages] = useState([]);
   // Dynamic additional fields state
   const [additionalFieldValues, setAdditionalFieldValues] = useState({});
+  const hasUserEditedAdditionalFieldsRef = useRef(false);
 
   // useEffect(() => {
   //   const fetchEnumsData = async () => {
@@ -290,6 +296,16 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     return catNameOrId;
   };
 
+  const routeRequestData =
+    id && data ? data.body?.find((item) => item.id === id) : null;
+  const additionalFieldsRequestId =
+    editRequestData?.requestId ||
+    editRequestData?.id ||
+    routeRequestData?.requestId ||
+    routeRequestData?.id;
+  const additionalFieldsRequesterId =
+    editRequestData?.requesterId || routeRequestData?.requesterId || userDbId;
+
   // Restore request for edit
   // Supports two data sources:
   //   1. editRequestData prop (passed from RequestDetails modal)
@@ -356,6 +372,51 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       }
     }
   }, [editRequestData, data, id]);
+
+  useEffect(() => {
+    if (!isEdit) return undefined;
+
+    if (!additionalFieldsRequestId || !additionalFieldsRequesterId) {
+      return undefined;
+    }
+
+    let isCancelled = false;
+    hasUserEditedAdditionalFieldsRef.current = false;
+
+    const loadAdditionalFields = async () => {
+      try {
+        const response = await getAdditionalFields({
+          requestId: additionalFieldsRequestId,
+          requesterId: additionalFieldsRequesterId,
+        });
+        if (isCancelled || hasUserEditedAdditionalFieldsRef.current) return;
+
+        let metadata = [];
+        try {
+          metadata = JSON.parse(localStorage.getItem("metadata") || "[]");
+        } catch {
+          metadata = [];
+        }
+
+        setAdditionalFieldValues(
+          normalizeAdditionalFieldValues(
+            extractAdditionalFieldsFromResponse(response),
+            metadata,
+          ),
+        );
+      } catch (error) {
+        if (!isCancelled) {
+          console.error("Error fetching additional fields:", error);
+        }
+      }
+    };
+
+    loadAdditionalFields();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isEdit, additionalFieldsRequestId, additionalFieldsRequesterId]);
 
   // Converts API snake_case category names to title-case for display.
   // e.g. "GROCERY_SHOPPING_AND_DELIVERY" → "Grocery Shopping And Delivery"
@@ -1645,7 +1706,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                 <DynamicAdditionalFields
                   catId={selectedCategoryId}
                   value={additionalFieldValues}
-                  onChange={setAdditionalFieldValues}
+                  onChange={(values) => {
+                    hasUserEditedAdditionalFieldsRef.current = true;
+                    setAdditionalFieldValues(values);
+                  }}
                 />
 
                 <div className="mt-3">

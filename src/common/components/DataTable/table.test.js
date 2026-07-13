@@ -124,6 +124,28 @@ describe("Table", () => {
 
       expect(screen.getByText("Calamity")).toBeInTheDocument();
     });
+
+    it("renders readable All Requests identity labels and missing-value markers", () => {
+      render(
+        <Table
+          {...defaultProps}
+          headers={["beneficiaryCreatorDisplayId", "leadVolunteerDisplayId"]}
+          rows={[
+            {
+              beneficiaryCreatorDisplayId: "SID-CREATOR",
+              leadVolunteerDisplayId: null,
+            },
+          ]}
+        />,
+      );
+
+      expect(
+        screen.getByText("Beneficiary ID / Creator ID"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Lead Volunteer ID")).toBeInTheDocument();
+      expect(screen.getByText("SID-CREATOR")).toBeInTheDocument();
+      expect(screen.getByText("—")).toBeInTheDocument();
+    });
   });
 
   describe("category cell translation", () => {

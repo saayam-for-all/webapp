@@ -83,6 +83,7 @@ jest.mock("../../services/requestServices", () => ({
   predictCategories: jest.fn(),
   generateSubject: jest.fn(),
   getCategories: jest.fn(),
+  getAdditionalFields: jest.fn().mockResolvedValue({ data: {} }),
   uploadRequestFile: jest.fn(),
 }));
 
@@ -1140,13 +1141,128 @@ describe("HelpRequestForm — edit mode submission", () => {
   beforeEach(() => {
     mockT.mockReset();
     mockT.mockImplementation((text) => `mockTranslate(${text})`);
-    const { generateSubject } = require("../../services/requestServices");
+    const {
+      generateSubject,
+      getAdditionalFields,
+    } = require("../../services/requestServices");
     generateSubject.mockResolvedValue({ body: null });
+    getAdditionalFields.mockReset();
+    getAdditionalFields.mockResolvedValue({ data: {} });
     jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    localStorage.removeItem("metadata");
+  });
+
+  it("loads saved additional fields and restores ISO date-time values", async () => {
+    const { getAdditionalFields } = require("../../services/requestServices");
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "3.7",
+          fields: [
+            {
+              fieldId: "3.7.B",
+              fieldNameKey: "ESTIMATED_MOVING_DATE",
+              fieldType: "date&time",
+              status: "active",
+              listItems: [],
+            },
+            {
+              fieldId: "3.7.C",
+              fieldNameKey: "NUMBER_OF_HELPERS",
+              fieldType: "integer",
+              status: "active",
+              listItems: [],
+            },
+          ],
+        },
+      ]),
+    );
+    getAdditionalFields.mockResolvedValue({
+      success: true,
+      data: {
+        "3.7.B": "2026-06-13T04:00:00Z",
+        "3.7.C": "4",
+      },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-0371",
+        requesterId: "SID-00-000-003-161",
+        reqCatId: "3.7",
+        subject: "Moving help",
+        reqDesc: "Help me move",
+        type: "IN_PERSON",
+        priority: "MEDIUM",
+      },
+    });
+
+    await waitFor(() => {
+      expect(getAdditionalFields).toHaveBeenCalledWith({
+        requestId: "REQ-00-000-000-0371",
+        requesterId: "SID-00-000-003-161",
+      });
+      expect(screen.getByTestId("field-3.7.B-date")).toHaveValue("2026-06-13");
+      expect(screen.getByTestId("field-3.7.B-time")).toHaveValue("04:00");
+      expect(screen.getByTestId("field-3.7.C")).toHaveValue(4);
+    });
+  });
+
+  it("does not overwrite additional fields edited while saved values load", async () => {
+    const { getAdditionalFields } = require("../../services/requestServices");
+    let resolveAdditionalFields;
+    getAdditionalFields.mockReturnValue(
+      new Promise((resolve) => {
+        resolveAdditionalFields = resolve;
+      }),
+    );
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "3.7",
+          fields: [
+            {
+              fieldId: "3.7.C",
+              fieldNameKey: "NUMBER_OF_HELPERS",
+              fieldType: "integer",
+              status: "active",
+              listItems: [],
+            },
+          ],
+        },
+      ]),
+    );
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-LATE-RESPONSE",
+        requesterId: "SID-EDITOR",
+        reqCatId: "3.7",
+        subject: "Moving help",
+        reqDesc: "Help me move",
+        type: "IN_PERSON",
+        priority: "MEDIUM",
+      },
+    });
+
+    await waitFor(() => expect(getAdditionalFields).toHaveBeenCalled());
+    fireEvent.change(screen.getByTestId("field-3.7.C"), {
+      target: { value: "9" },
+    });
+
+    await act(async () => {
+      resolveAdditionalFields({ data: { "3.7.C": "4" } });
+    });
+
+    expect(screen.getByTestId("field-3.7.C")).toHaveValue(9);
   });
 
   it("calls updateRequest instead of createRequest when isEdit is true", async () => {
