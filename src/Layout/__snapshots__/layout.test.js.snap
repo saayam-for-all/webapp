@@ -39,14 +39,14 @@ exports[`Layout renders correctly 1`] = `
                   <a
                     href="/"
                   >
-                    Home
+                    mockTranslate(HOME)
                   </a>
                 </li>
                 <li
                   aria-current="page"
                   class="breadcrumb-item active"
                 >
-                  Dashboard
+                  mockTranslate(DASHBOARD)
                 </li>
               </ol>
             </nav>
@@ -110,14 +110,14 @@ exports[`Layout renders correctly 1`] = `
                 <a
                   href="/"
                 >
-                  Home
+                  mockTranslate(HOME)
                 </a>
               </li>
               <li
                 aria-current="page"
                 class="breadcrumb-item active"
               >
-                Dashboard
+                mockTranslate(DASHBOARD)
               </li>
             </ol>
           </nav>
