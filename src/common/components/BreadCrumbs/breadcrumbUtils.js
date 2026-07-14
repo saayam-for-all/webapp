@@ -1,5 +1,5 @@
 export const DASHBOARD_BREADCRUMB = {
-  label: "Dashboard",
+  label: "DASHBOARD",
   path: "/dashboard",
 };
 
@@ -19,7 +19,7 @@ export const buildBreadcrumbTrail = (...items) =>
 export const createRequestDetailsCrumb = ({
   requestId,
   requestData,
-  requestLabel = "Request Details",
+  requestLabel = "REQUEST_DETAILS",
 } = {}) => ({
   label: requestLabel,
   path: requestId ? `/request/${requestId}` : null,
@@ -35,8 +35,8 @@ export const createRequestDetailsTrail = (options = {}) =>
 export const createOrganizationsPageState = ({
   requestId,
   requestData,
-  requestLabel = "Request Details",
-  organizationsLabel = "Organizations",
+  requestLabel = "REQUEST_DETAILS",
+  organizationsLabel = "ORGANIZATIONS",
 } = {}) => {
   const requestCrumb = createRequestDetailsCrumb({
     requestId,
@@ -57,8 +57,8 @@ export const createOrganizationDetailsTrail = ({
   organizationName,
   requestId,
   requestData,
-  requestLabel = "Request Details",
-  organizationsLabel = "Organizations",
+  requestLabel = "REQUEST_DETAILS",
+  organizationsLabel = "ORGANIZATIONS",
 } = {}) => {
   const organizationsPageState = createOrganizationsPageState({
     requestId,
@@ -74,7 +74,7 @@ export const createOrganizationDetailsTrail = ({
       state: organizationsPageState,
     },
     {
-      label: organizationName || "Organization Details",
+      label: organizationName || "ORGANIZATION_DETAILS",
     },
   );
 };

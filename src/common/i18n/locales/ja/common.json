@@ -1,5 +1,6 @@
 {
   "ABOUT": "私たちについて",
+  "BENEVITY": "Benevity",
   "DONATE": "寄付する",
   "LOGIN": "ログイン",
   "DIRECTORS": "取締役会",
@@ -7,6 +8,11 @@
   "MISSION": "ミッション",
   "Aakash Gangji": "アーカシュ・ガンジ",
   "Lead AI/ML Developer/Engineer": "AI/MLリード開発者/エンジニア",
+  "PROMOTE_TO_VOLUNTEER": "ボランティアに昇格",
+  "SITEMAP": "サイトマップ",
+  "THANKS": "ありがとうございます",
+  "VERIFY_ACCOUNT": "アカウントを確認",
+  "VERIFY_OTP": "OTPを確認",
   "VISION": "ビジョン",
   "CONTACT": "接触",
   "DASHBOARD": "ダッシュボード",
