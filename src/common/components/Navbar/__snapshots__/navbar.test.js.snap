@@ -21,7 +21,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             />
           </div>
           <div
-            class="flex flex-col md:hidden flex-1 mx-2"
+            class="relative md:hidden flex-1 mx-2"
           >
             <div
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1afdik9-MuiFormControl-root-MuiTextField-root"
@@ -79,7 +79,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               </div>
             </div>
             <p
-              class="text-xs text-gray-500 mt-0.5 pl-4"
+              class="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500"
             >
               mockTranslate(SEARCH_TAGLINE)
             </p>
@@ -111,7 +111,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           >
              
             <div
-              class="flex flex-col w-full max-w-[800px] mr-4"
+              class="relative w-full max-w-[800px] mr-4"
             >
               <div
                 class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-fw6ux4-MuiFormControl-root-MuiTextField-root"
@@ -169,7 +169,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
                 </div>
               </div>
               <p
-                class="text-xs text-gray-500 mt-0.5 pl-4"
+                class="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500"
               >
                 mockTranslate(SEARCH_TAGLINE)
               </p>
@@ -426,7 +426,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           />
         </div>
         <div
-          class="flex flex-col md:hidden flex-1 mx-2"
+          class="relative md:hidden flex-1 mx-2"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1afdik9-MuiFormControl-root-MuiTextField-root"
@@ -484,7 +484,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             </div>
           </div>
           <p
-            class="text-xs text-gray-500 mt-0.5 pl-4"
+            class="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500"
           >
             mockTranslate(SEARCH_TAGLINE)
           </p>
@@ -516,7 +516,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
         >
            
           <div
-            class="flex flex-col w-full max-w-[800px] mr-4"
+            class="relative w-full max-w-[800px] mr-4"
           >
             <div
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-fw6ux4-MuiFormControl-root-MuiTextField-root"
@@ -574,7 +574,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
               </div>
             </div>
             <p
-              class="text-xs text-gray-500 mt-0.5 pl-4"
+              class="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500"
             >
               mockTranslate(SEARCH_TAGLINE)
             </p>
