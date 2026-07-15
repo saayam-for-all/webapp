@@ -39,6 +39,7 @@ describe("RequestDescription", () => {
     expect(
       screen.getByText("This is a test request description"),
     ).toBeInTheDocument();
+
     expect(screen.getByText("Open")).toBeInTheDocument();
     expect(screen.getByText("High")).toBeInTheDocument();
   });
@@ -72,7 +73,9 @@ describe("RequestDescription", () => {
 
       renderWithProviders(
         <RequestDescription requestData={requestDataWithUpdatedDate} />,
-        { preloadedState: MOCK_STATE_LOGGED_IN },
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
       );
 
       expect(screen.getByText(/June 15, 2024/)).toBeInTheDocument();
@@ -86,7 +89,9 @@ describe("RequestDescription", () => {
 
       renderWithProviders(
         <RequestDescription requestData={requestDataWithUpdatedDate} />,
-        { preloadedState: MOCK_STATE_LOGGED_IN },
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
       );
 
       expect(screen.getByText(/June 16, 2024/)).toBeInTheDocument();
@@ -100,7 +105,9 @@ describe("RequestDescription", () => {
 
       renderWithProviders(
         <RequestDescription requestData={requestDataWithUpdatedDate} />,
-        { preloadedState: MOCK_STATE_LOGGED_IN },
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
       );
 
       expect(screen.getByText(/June 17, 2024/)).toBeInTheDocument();
@@ -114,7 +121,9 @@ describe("RequestDescription", () => {
 
       renderWithProviders(
         <RequestDescription requestData={requestDataWithUpdatedDate} />,
-        { preloadedState: MOCK_STATE_LOGGED_IN },
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
       );
 
       expect(screen.getByText(/June 18, 2024/)).toBeInTheDocument();
@@ -128,7 +137,9 @@ describe("RequestDescription", () => {
 
       renderWithProviders(
         <RequestDescription requestData={requestDataWithUpdatedDate} />,
-        { preloadedState: MOCK_STATE_LOGGED_IN },
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
       );
 
       expect(screen.getByText(/June 19, 2024/)).toBeInTheDocument();
@@ -158,12 +169,17 @@ describe("RequestDescription", () => {
 
       renderWithProviders(
         <RequestDescription requestData={requestDataWithInfo} />,
-        { preloadedState: MOCK_STATE_LOGGED_IN },
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
       );
 
       expect(screen.getByText("contact number")).toBeInTheDocument();
+
       expect(screen.getByText("123-456-7890")).toBeInTheDocument();
+
       expect(screen.getByText("preferred time")).toBeInTheDocument();
+
       expect(screen.getByText("Morning")).toBeInTheDocument();
     });
 
@@ -194,11 +210,62 @@ describe("RequestDescription", () => {
 
       renderWithProviders(
         <RequestDescription requestData={requestDataWithAttachments} />,
-        { preloadedState: MOCK_STATE_LOGGED_IN },
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
       );
 
       expect(screen.getByText("document.pdf")).toBeInTheDocument();
+
       expect(screen.getByText("File 2")).toBeInTheDocument();
+    });
+  });
+
+  describe("Issue #1349 - Priority diamond colors", () => {
+    const priorityCases = [
+      ["Low", "text-green-500"],
+      ["Medium", "text-yellow-500"],
+      ["High", "text-orange-500"],
+      ["Critical", "text-red-500"],
+    ];
+
+    it.each(priorityCases)(
+      "renders %s priority with the correct diamond color",
+      (priority, expectedClass) => {
+        const { container } = renderWithProviders(
+          <RequestDescription
+            requestData={{
+              ...mockRequestData,
+              priority,
+            }}
+          />,
+          {
+            preloadedState: MOCK_STATE_LOGGED_IN,
+          },
+        );
+
+        const priorityDiamond = container.querySelector(`svg.${expectedClass}`);
+
+        expect(priorityDiamond).toBeInTheDocument();
+      },
+    );
+
+    it("uses gray color for an unknown priority", () => {
+      const { container } = renderWithProviders(
+        <RequestDescription
+          requestData={{
+            ...mockRequestData,
+            priority: "Unknown",
+          }}
+        />,
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
+      );
+
+      const priorityDiamond = container.querySelector("svg.text-gray-500");
+
+      expect(priorityDiamond).toBeInTheDocument();
     });
   });
 });

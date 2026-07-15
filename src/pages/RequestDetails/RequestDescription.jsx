@@ -13,7 +13,12 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./RequestDescription.css";
-
+const priorityColorMap = {
+  LOW: "text-green-500",
+  MEDIUM: "text-yellow-500",
+  HIGH: "text-orange-500",
+  CRITICAL: "text-red-500",
+};
 const findCategoryLabel = (node, targetKey) => {
   if (!node || !targetKey) return null;
   for (const [key, value] of Object.entries(node)) {
@@ -28,7 +33,11 @@ const findCategoryLabel = (node, targetKey) => {
 
 const RequestDescription = ({ requestData }) => {
   const { t, i18n } = useTranslation();
+  const normalizedPriority = String(requestData?.priority || "")
+    .trim()
+    .toUpperCase();
 
+  const priorityColor = priorityColorMap[normalizedPriority] || "text-gray-500";
   const creationDateValue =
     requestData?.creationDate ||
     requestData?.createdDate ||
@@ -110,7 +119,10 @@ const RequestDescription = ({ requestData }) => {
 
           {/* Priority with tooltip - issue #1456 */}
           <li className="flex items-center group relative">
-            <PiWarningDiamondFill className="mr-1 text-red-500" />
+            <PiWarningDiamondFill
+              className={`mr-1 ${priorityColor}`}
+              size={18}
+            />
             <span className="font-bold cursor-help">
               {t(
                 `enums:requestPriority.${requestData.priority}`,
