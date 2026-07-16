@@ -18,7 +18,7 @@ export const getRequestsApplicationAnalytics = async (payload) => {
 };
 
 // NOTE: Currently GET - will be migrated to POST with { fromDate, toDate } payload later
-export const getKpiAnalytics = async () => {
-  const response = await api.get(endpoints.GET_KPI_ANALYTICS);
+export const getKpiAnalytics = async (payload = {}) => {
+  const response = await api.post(endpoints.GET_KPI_ANALYTICS, payload);
   return response.data;
 };

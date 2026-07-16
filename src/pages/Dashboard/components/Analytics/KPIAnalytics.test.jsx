@@ -8,22 +8,56 @@ jest.mock("../../../../services/analyticsServices", () => ({
 }));
 
 const mockData = {
-  request_status_distribution: [
-    { status: "CREATED", count: 200 },
-    { status: "MATCHING_VOLUNTEER", count: 100 },
-    { status: "RESOLVED", count: 11 },
-  ],
-  total_requests: 311,
-  average_resolution_time_by_category: [
-    { category: "Shelter", avg_hours: 180 },
-    { category: "Legal Aid", avg_hours: 250 },
-  ],
-  sla: {
-    target_days: 10,
-    target_hours: 240,
-    warning_days: 8.33,
-    warning_hours: 200,
+  body: {
+    All: {
+      request_status_distribution: [
+        { status: "CREATED", count: 200 },
+        { status: "MATCHING_VOLUNTEER", count: 100 },
+        { status: "RESOLVED", count: 11 },
+      ],
+      total_requests: 311,
+      average_resolution_time_by_category: [
+        { category: "Shelter", avg_hours: 180 },
+        { category: "Legal Aid", avg_hours: 250 },
+      ],
+    },
+    "7D": {
+      request_status_distribution: [],
+      total_requests: [
+        { period: "2026-07-09", total_requests: 4 },
+        { period: "2026-07-10", total_requests: 6 },
+      ],
+      average_resolution_time_by_category: [],
+    },
+    "30D": {
+      request_status_distribution: [],
+      total_requests: [
+        { period: "2026-06-15", total_requests: 2 },
+        { period: "2026-07-10", total_requests: 6 },
+      ],
+      average_resolution_time_by_category: [],
+    },
+    "1Y": {
+      request_status_distribution: [],
+      total_requests: [
+        { period: "2026-01", total_requests: 21 },
+        { period: "2026-07", total_requests: 40 },
+      ],
+      average_resolution_time_by_category: [],
+    },
+    sla: {
+      target_days: 10,
+      target_hours: 240,
+      warning_days: 8.33,
+      warning_hours: 200,
+    },
   },
+};
+
+const switchViewMode = (value) => {
+  fireEvent.change(screen.getByDisplayValue("Snapshot"), {
+    target: { value },
+  });
 };
 
 describe("KPIAnalytics", () => {
@@ -60,7 +94,7 @@ describe("KPIAnalytics", () => {
     });
   });
 
-  it("calls getKpiAnalytics once on mount", async () => {
+  it("calls getKpiAnalytics once on mount with an empty payload", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
     render(<KPIAnalytics />);
     await waitFor(() => {
@@ -70,8 +104,10 @@ describe("KPIAnalytics", () => {
 
   it("shows no resolution data message when array is empty", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue({
-      ...mockData,
-      average_resolution_time_by_category: [],
+      body: {
+        ...mockData.body,
+        All: { ...mockData.body.All, average_resolution_time_by_category: [] },
+      },
     });
     render(<KPIAnalytics />);
     await waitFor(() => {
@@ -81,37 +117,38 @@ describe("KPIAnalytics", () => {
     });
   });
 
-  it("renders Table View button", async () => {
+  it("renders the view mode dropdown defaulting to Snapshot", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
     render(<KPIAnalytics />);
     await waitFor(() => {
-      expect(screen.getByText("Table View")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
     });
   });
 
-  it("switches to table view when Table View button is clicked", async () => {
+  it("switches to table view when Table view is selected", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
     render(<KPIAnalytics />);
     await waitFor(() => {
-      fireEvent.click(screen.getByText("Table View"));
-      expect(screen.getByText("Chart View")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
     });
+    switchViewMode("table");
+    expect(screen.getByText("Status")).toBeInTheDocument();
   });
 
   it("renders status items in table view", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
     render(<KPIAnalytics />);
     await waitFor(() => {
-      fireEvent.click(screen.getByText("Table View"));
-      expect(screen.getByText("CREATED")).toBeInTheDocument();
-      expect(screen.getByText("RESOLVED")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
     });
+    switchViewMode("table");
+    expect(screen.getByText("CREATED")).toBeInTheDocument();
+    expect(screen.getByText("RESOLVED")).toBeInTheDocument();
   });
 
   it("uses default SLA values when sla is not in response", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue({
-      ...mockData,
-      sla: null,
+      body: { ...mockData.body, sla: null },
     });
     render(<KPIAnalytics />);
     await waitFor(() => {
@@ -121,37 +158,26 @@ describe("KPIAnalytics", () => {
     });
   });
 
-  it("selects a segment when pie segment is clicked", async () => {
-    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
-    render(<KPIAnalytics />);
-    await waitFor(() => {
-      expect(
-        screen.getByText("Request Status Distribution"),
-      ).toBeInTheDocument();
-    });
-    const tableViewBtn = screen.getByText("Table View");
-    fireEvent.click(tableViewBtn);
-    expect(screen.getByText("Chart View")).toBeInTheDocument();
-  });
-
   it("shows percentage in table view", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
     render(<KPIAnalytics />);
     await waitFor(() => {
-      fireEvent.click(screen.getByText("Table View"));
-      expect(screen.getByText("Status")).toBeInTheDocument();
-      expect(screen.getByText("Count")).toBeInTheDocument();
-      expect(screen.getByText("Percentage")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
     });
+    switchViewMode("table");
+    expect(screen.getByText("Status")).toBeInTheDocument();
+    expect(screen.getByText("Count")).toBeInTheDocument();
+    expect(screen.getByText("Percentage")).toBeInTheDocument();
   });
 
   it("shows MATCHING_VOLUNTEER status in table view", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
     render(<KPIAnalytics />);
     await waitFor(() => {
-      fireEvent.click(screen.getByText("Table View"));
-      expect(screen.getByText("MATCHING_VOLUNTEER")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
     });
+    switchViewMode("table");
+    expect(screen.getByText("MATCHING_VOLUNTEER")).toBeInTheDocument();
   });
 
   it("renders resolution bar chart when data exists", async () => {
@@ -168,33 +194,29 @@ describe("KPIAnalytics", () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
     render(<KPIAnalytics />);
     await waitFor(() => {
-      fireEvent.click(screen.getByText("Table View"));
-      expect(screen.getByText("200")).toBeInTheDocument();
-      expect(screen.getByText("100")).toBeInTheDocument();
-      expect(screen.getByText("11")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
     });
+    switchViewMode("table");
+    expect(screen.getByText("200")).toBeInTheDocument();
+    expect(screen.getByText("100")).toBeInTheDocument();
+    expect(screen.getByText("11")).toBeInTheDocument();
   });
 
   it("handles zero total requests gracefully", async () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue({
-      ...mockData,
-      total_requests: 0,
-      request_status_distribution: [],
+      body: {
+        ...mockData.body,
+        All: {
+          ...mockData.body.All,
+          total_requests: 0,
+          request_status_distribution: [],
+        },
+      },
     });
     render(<KPIAnalytics />);
     await waitFor(() => {
       expect(
         screen.getByText("Request Status Distribution"),
-      ).toBeInTheDocument();
-    });
-  });
-
-  it("renderTooltip returns tooltip content when active with payload", async () => {
-    analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
-    render(<KPIAnalytics />);
-    await waitFor(() => {
-      expect(
-        screen.getByText("Average Resolution Time by Category"),
       ).toBeInTheDocument();
     });
   });
@@ -230,8 +252,7 @@ describe("KPIAnalytics", () => {
     const payload = [
       { payload: { category: "Shelter", avgHours: 300, avgDays: "12.5" } },
     ];
-    const result = tooltip({ active: true, payload });
-    expect(result).not.toBeNull();
+    expect(tooltip({ active: true, payload })).not.toBeNull();
   });
 
   it("renderTooltip shows Approaching SLA when hours between warning and target", () => {
@@ -239,8 +260,7 @@ describe("KPIAnalytics", () => {
     const payload = [
       { payload: { category: "Legal Aid", avgHours: 220, avgDays: "9.2" } },
     ];
-    const result = tooltip({ active: true, payload });
-    expect(result).not.toBeNull();
+    expect(tooltip({ active: true, payload })).not.toBeNull();
   });
 
   it("renderTooltip shows Within SLA when hours below warning", () => {
@@ -248,7 +268,71 @@ describe("KPIAnalytics", () => {
     const payload = [
       { payload: { category: "Education", avgHours: 100, avgDays: "4.2" } },
     ];
-    const result = tooltip({ active: true, payload });
-    expect(result).not.toBeNull();
+    expect(tooltip({ active: true, payload })).not.toBeNull();
+  });
+
+  describe("Trends view", () => {
+    it("switches to trends view and shows a time range selector defaulting to All", async () => {
+      analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+      render(<KPIAnalytics />);
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
+      });
+      switchViewMode("trends");
+      expect(screen.getByDisplayValue("All")).toBeInTheDocument();
+    });
+
+    it("shows no trend data message for All since it has no period series", async () => {
+      analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+      render(<KPIAnalytics />);
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
+      });
+      switchViewMode("trends");
+      expect(
+        screen.getByText("No trend data available for All"),
+      ).toBeInTheDocument();
+    });
+
+    it("renders the chart (not the empty state) when 7D has period data", async () => {
+      analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+      render(<KPIAnalytics />);
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
+      });
+      switchViewMode("trends");
+      fireEvent.change(screen.getByDisplayValue("All"), {
+        target: { value: "7D" },
+      });
+      expect(
+        screen.queryByText("No trend data available for 7D"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("renders the chart (not the empty state) when 1Y has period data", async () => {
+      analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+      render(<KPIAnalytics />);
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
+      });
+      switchViewMode("trends");
+      fireEvent.change(screen.getByDisplayValue("All"), {
+        target: { value: "1Y" },
+      });
+      expect(
+        screen.queryByText("No trend data available for 1Y"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("does not fetch trend data for Custom (option is disabled)", async () => {
+      analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+      render(<KPIAnalytics />);
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
+      });
+      switchViewMode("trends");
+      const customOption = screen.getByText("Custom (coming soon)");
+      expect(customOption).toBeDisabled();
+    });
   });
 });
