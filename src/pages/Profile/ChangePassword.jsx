@@ -81,6 +81,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
               ref={currentPasswordRef}
               type={showPassword ? "text" : "password"}
               value={currentPassword}
+              autoComplete="current-password"
               onChange={(e) => setCurrentPassword(e.target.value)}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
@@ -100,6 +101,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
             <input
               type={showPassword ? "text" : "password"}
               value={newPassword}
+              autoComplete="new-password"
               onChange={(e) => setNewPassword(e.target.value)}
               className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                 errorMessage ? "border-red-500" : "border-gray-200"
@@ -125,6 +127,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
             <input
               type={showPassword ? "text" : "password"}
               value={confirmPassword}
+              autoComplete="new-password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                 passwordMatchError ? "border-red-500" : "border-gray-200"
