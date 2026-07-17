@@ -88,6 +88,10 @@ export default function NotificationUI() {
 
   return (
     <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
+      <h1 className="mb-4 text-3xl font-bold text-gray-800">
+        {t("NOTIFICATIONS")}
+      </h1>
+
       <div className="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
         {["all", "volunteer", "help"].map((type) => (
           <button
