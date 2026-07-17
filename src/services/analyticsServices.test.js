@@ -81,11 +81,13 @@ describe("analyticsServices", () => {
     });
 
     describe("getKpiAnalytics", () => {
-      it("calls GET to GET_KPI_ANALYTICS and returns data", async () => {
+      it("calls POST to GET_KPI_ANALYTICS with the given payload and returns data", async () => {
         const mockData = {
-          request_status_distribution: [{ status: "CREATED", count: 200 }],
-          total_requests: 200,
-          average_resolution_time_by_category: [],
+          "7D": {
+            request_status_distribution: [{ status: "CREATED", count: 200 }],
+            total_requests: [{ period: "2026-07-11", total_requests: 10 }],
+            average_resolution_time_by_category: [],
+          },
           sla: {
             target_days: 10,
             target_hours: 240,
@@ -93,14 +95,35 @@ describe("analyticsServices", () => {
             warning_hours: 200,
           },
         };
-        api.get.mockResolvedValue({ data: mockData });
+        api.post.mockResolvedValue({ data: mockData });
+
         const result = await getKpiAnalytics();
-        expect(api.get).toHaveBeenCalledWith("v1/ml/kpiAnalytics");
+
+        expect(api.post).toHaveBeenCalledWith("v1/ml/kpiAnalytics", {});
+        expect(result).toEqual(mockData);
+      });
+
+      it("passes a custom time_range payload through to the API", async () => {
+        const mockData = {
+          request_status_distribution: [],
+          total_requests: [],
+          average_resolution_time_by_category: [],
+        };
+        api.post.mockResolvedValue({ data: mockData });
+
+        const payload = {
+          time_range: "Custom",
+          start_date: "2026-01-01",
+          end_date: "2026-01-15",
+        };
+        const result = await getKpiAnalytics(payload);
+
+        expect(api.post).toHaveBeenCalledWith("v1/ml/kpiAnalytics", payload);
         expect(result).toEqual(mockData);
       });
 
       it("propagates errors from api", async () => {
-        api.get.mockRejectedValue(new Error("Network error"));
+        api.post.mockRejectedValue(new Error("Network error"));
         await expect(getKpiAnalytics()).rejects.toThrow("Network error");
       });
     });
