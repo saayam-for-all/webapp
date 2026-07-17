@@ -16,7 +16,6 @@ import {
   useGetAllRequestQuery,
 } from "../../services/requestApi";
 import {
-  checkProfanity,
   createRequest,
   updateRequest,
   predictCategories,
@@ -1283,23 +1282,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
     setIsSubmitting(true);
     try {
-      const res = await checkProfanity({
-        subject: resolvedSubject,
-        description: formData.description,
-      });
-
-      if (res.contains_profanity) {
-        setSnackbar({
-          open: true,
-          message:
-            "Profanity detected. Please remove these word(s): " +
-            res.profanity +
-            " from Subject/Description and submit again!",
-          severity: "error",
-        });
-        return;
-      }
-
       // In edit mode, skip the predict-categories modal since category is locked
       if (
         !isEdit &&
