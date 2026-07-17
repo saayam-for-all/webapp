@@ -77,7 +77,6 @@ jest.mock("../../utils/mapHelpRequestPayload", () => ({
 }));
 
 jest.mock("../../services/requestServices", () => ({
-  checkProfanity: jest.fn(),
   createRequest: jest.fn(),
   updateRequest: jest.fn(),
   predictCategories: jest.fn(),
@@ -290,15 +289,16 @@ describe("HelpRequestForm — form submission loader", () => {
   }
 
   it("shows loading spinner and disables button while submitting", async () => {
-    const { checkProfanity } = require("../../services/requestServices");
-    let resolveProfanity;
-    checkProfanity.mockReturnValue(
+    const { createRequest } = require("../../services/requestServices");
+    let resolveRequest;
+    createRequest.mockReturnValue(
       new Promise((resolve) => {
-        resolveProfanity = resolve;
+        resolveRequest = resolve;
       }),
     );
 
     renderForm();
+    selectSubcategory();
     fillAndSubmit();
 
     const btn = await screen.findByRole("button", {
@@ -308,23 +308,24 @@ describe("HelpRequestForm — form submission loader", () => {
     expect(screen.getByTestId("loading-spinner")).toBeInTheDocument();
 
     await require("@testing-library/react").act(async () => {
-      resolveProfanity({ contains_profanity: false });
+      resolveRequest({ data: {} });
     });
   });
 
   it("falls back to plain submitting text when translation is missing", async () => {
-    const { checkProfanity } = require("../../services/requestServices");
-    let resolveProfanity;
+    const { createRequest } = require("../../services/requestServices");
+    let resolveRequest;
     mockT.mockImplementation((text) =>
       text === "SUBMITTING" ? "" : `mockTranslate(${text})`,
     );
-    checkProfanity.mockReturnValue(
+    createRequest.mockReturnValue(
       new Promise((resolve) => {
-        resolveProfanity = resolve;
+        resolveRequest = resolve;
       }),
     );
 
     renderForm();
+    selectSubcategory();
     fillAndSubmit();
 
     expect(
@@ -332,20 +333,21 @@ describe("HelpRequestForm — form submission loader", () => {
     ).toBeDisabled();
 
     await require("@testing-library/react").act(async () => {
-      resolveProfanity({ contains_profanity: false });
+      resolveRequest({ data: {} });
     });
   });
 
   it("re-enables submit button after a submission error", async () => {
-    const { checkProfanity } = require("../../services/requestServices");
-    let rejectProfanity;
-    checkProfanity.mockReturnValue(
+    const { createRequest } = require("../../services/requestServices");
+    let rejectRequest;
+    createRequest.mockReturnValue(
       new Promise((_resolve, reject) => {
-        rejectProfanity = reject;
+        rejectRequest = reject;
       }),
     );
 
     renderForm();
+    selectSubcategory();
     fillAndSubmit();
 
     // While awaiting — button is disabled
@@ -357,7 +359,7 @@ describe("HelpRequestForm — form submission loader", () => {
 
     // Reject the promise → catch block runs, then finally resets isSubmitting
     await require("@testing-library/react").act(async () => {
-      rejectProfanity(new Error("network failure"));
+      rejectRequest(new Error("network failure"));
     });
 
     // Button should revert to its normal enabled state
@@ -389,9 +391,6 @@ describe("HelpRequestForm — subject field is optional", () => {
   });
 
   it("does not block submission when subject is empty and description is filled", async () => {
-    const { checkProfanity } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
-
     renderForm();
 
     fireEvent.change(document.getElementById("description"), {
@@ -414,11 +413,7 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("shows formatted category names in the modal after submit with General category", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -463,11 +458,7 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("shows full hierarchy as label in dialog when hierarchy is returned by API", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -513,11 +504,7 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("shows only General when predictCategories API fails", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockRejectedValue(new Error("API error"));
 
     renderForm();
@@ -539,7 +526,6 @@ describe("HelpRequestForm — predict categories modal", () => {
 
   it("submits with category_number as catId when a GenAI suggested category is selected", async () => {
     const {
-      checkProfanity,
       predictCategories,
       createRequest,
     } = require("../../services/requestServices");
@@ -547,7 +533,6 @@ describe("HelpRequestForm — predict categories modal", () => {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-999" } });
     predictCategories.mockResolvedValue({
       body: {
@@ -609,11 +594,7 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("does not show snackbar when General is confirmed without changing category", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -653,12 +634,8 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("shows full hierarchy in category field after AI suggested category is selected", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
+    const { predictCategories } = require("../../services/requestServices");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -708,7 +685,6 @@ describe("HelpRequestForm — predict categories modal", () => {
 
   it("uses category_number in payload not hierarchy string when submitting", async () => {
     const {
-      checkProfanity,
       predictCategories,
       createRequest,
     } = require("../../services/requestServices");
@@ -716,7 +692,6 @@ describe("HelpRequestForm — predict categories modal", () => {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-123" } });
     predictCategories.mockResolvedValue({
       body: {
@@ -861,12 +836,8 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
 
   it("falls back to description (first 70 chars) as subject when generateSubject API fails", async () => {
     const { generateSubject } = require("../../services/requestServices");
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
+    const { createRequest } = require("../../services/requestServices");
     generateSubject.mockRejectedValue(new Error("API error"));
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-FALLBACK" } });
 
     renderForm();
@@ -904,12 +875,8 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
 
   it("falls back to description when generateSubject returns empty body", async () => {
     const { generateSubject } = require("../../services/requestServices");
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
+    const { createRequest } = require("../../services/requestServices");
     generateSubject.mockResolvedValue({ body: null });
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-NOBODY" } });
 
     renderForm();
@@ -934,41 +901,6 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
     });
 
     await waitFor(() => expect(createRequest).toHaveBeenCalled());
-  });
-
-  it("passes resolved subject (not stale formData.subject) to checkProfanity", async () => {
-    const {
-      generateSubject,
-      checkProfanity,
-    } = require("../../services/requestServices");
-    generateSubject.mockResolvedValue({
-      body: { subject: "AI Generated Subject", max_length: 70 },
-    });
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
-
-    renderForm();
-
-    selectSubcategory();
-
-    await act(async () => {
-      fireEvent.change(document.getElementById("description"), {
-        target: {
-          name: "description",
-          value: "I need help picking up groceries from the store.",
-        },
-      });
-    });
-
-    await act(async () => {
-      fireEvent.submit(document.querySelector("form"));
-    });
-
-    await waitFor(() => expect(checkProfanity).toHaveBeenCalled());
-
-    // checkProfanity must receive the AI-generated subject, not the original ""
-    expect(checkProfanity).toHaveBeenCalledWith(
-      expect.objectContaining({ subject: "AI Generated Subject" }),
-    );
   });
 
   it("does not overwrite subject the user has manually typed", async () => {
@@ -1021,11 +953,7 @@ describe("HelpRequestForm — successful submission", () => {
   });
 
   it("calls createRequest and navigates with requestId when API returns one", async () => {
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { createRequest } = require("../../services/requestServices");
     createRequest.mockResolvedValue({ data: { requestId: "REQ-12345" } });
 
     renderForm();
@@ -1055,11 +983,7 @@ describe("HelpRequestForm — successful submission", () => {
   });
 
   it("navigates with generic message when createRequest response has no requestId", async () => {
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { createRequest } = require("../../services/requestServices");
     createRequest.mockResolvedValue({});
 
     renderForm();
@@ -1322,11 +1246,9 @@ describe("HelpRequestForm — edit mode submission", () => {
 
   it("calls updateRequest instead of createRequest when isEdit is true", async () => {
     const {
-      checkProfanity,
       createRequest,
       updateRequest,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0009" },
     });
@@ -1358,14 +1280,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("passes requestId in payload via mapHelpRequestPayload when editing", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0009" },
     });
@@ -1402,14 +1320,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("restores paginated API field names when submitting an edited request", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0328" },
     });
@@ -1458,14 +1372,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("restores reqDesc and reqCatId from paginated help-requests API on edit", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0360" },
     });
@@ -1534,14 +1444,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("resolves sub-subcategory name to numeric catId on edit", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-SUB-SUB" },
     });
@@ -1584,14 +1490,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("falls back to raw category value when name is not found in categories tree", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-UNKNOWN" },
     });
@@ -1634,14 +1536,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("handles edit mode when onClose is not provided, and uses fallback fields", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0009" },
     });
@@ -1699,12 +1597,8 @@ describe("HelpRequestForm — edit mode submission", () => {
   it("restores request in edit mode from URL params and RTK query data", async () => {
     const { useParams } = require("react-router-dom");
     const { useGetAllRequestQuery } = require("../../services/requestApi");
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-URL-ID" },
     });
@@ -2057,11 +1951,7 @@ describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
   });
 
   it("passes selectedCategoryId to DynamicAdditionalFields not hierarchy string", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -2363,12 +2253,10 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
     mockT.mockImplementation((text) => `mockTranslate(${text})`);
 
     const {
-      checkProfanity,
       predictCategories,
       createRequest,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockReset();
     predictCategories.mockReset();
     createRequest.mockReset();
     generateSubject.mockReset();
@@ -2376,11 +2264,9 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
 
   it("shows predict categories modal when General is selected via dropdown click (catName GENERAL_CATEGORY)", async () => {
     const {
-      checkProfanity,
       predictCategories,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     generateSubject.mockResolvedValue({ body: null });
     predictCategories.mockResolvedValue({
       body: {
@@ -2441,11 +2327,9 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
 
   it("shows predict categories modal when switching back to General after selecting a specific subcategory", async () => {
     const {
-      checkProfanity,
       predictCategories,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     generateSubject.mockResolvedValue({ body: null });
     predictCategories.mockResolvedValue({
       body: {
@@ -2502,11 +2386,7 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
   });
 
   it("does not call predictCategories when user submits without description after switching to General", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
 
     renderForm();
 
@@ -2538,11 +2418,9 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
 
   it("resets categoryConfirmed on manual category change, re-triggering prediction after prior confirmation", async () => {
     const {
-      checkProfanity,
       predictCategories,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     generateSubject.mockResolvedValue({ body: null });
     predictCategories.mockResolvedValue({
       body: {
@@ -2631,11 +2509,9 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
 
   it("resets categoryConfirmed when typing in the category search input", async () => {
     const {
-      checkProfanity,
       predictCategories,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     generateSubject.mockResolvedValue({ body: null });
     predictCategories.mockResolvedValue({
       body: {
@@ -2903,15 +2779,11 @@ describe("HelpRequestForm — Other person location field (#1622)", () => {
   });
 
   it("does not include the Other-person location or its coordinates in the submitted createRequest payload", async () => {
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
+    const { createRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-1622" } });
 
     renderForm();
