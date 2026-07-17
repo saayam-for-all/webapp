@@ -766,6 +766,8 @@
   "ENTER_VOLUNTEER_EMAIL": "স্বেচ্ছাসেবকের ইমেইল লিখুন",
   "ENTER_VOLUNTEER_PHONE": "স্বেচ্ছাসেবকের ফোন লিখুন",
   "SEARCH_TAGLINE": "মানবিক স্পর্শ সহ গুগল*",
+  "CREATION_DATE": "তৈরির তারিখ",
+  "UPDATED_DATE": "হালনাগাদের তারিখ",
   "CREATED": "তৈরি হয়েছে",
   "MATCHING_VOLUNTEER": "স্বেচ্ছাসেবক মিলানো হচ্ছে",
   "IN_PROGRESS": "চলমান",

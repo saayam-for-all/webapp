@@ -766,6 +766,8 @@
   "ENTER_VOLUNTEER_EMAIL": "Ingresar correo electrónico del voluntario",
   "ENTER_VOLUNTEER_PHONE": "Ingresar teléfono del voluntario",
   "SEARCH_TAGLINE": "google con toque humano*",
+  "CREATION_DATE": "Fecha de creación",
+  "UPDATED_DATE": "Fecha de actualización",
   "CREATED": "Creado",
   "MATCHING_VOLUNTEER": "Asignando voluntario",
   "IN_PROGRESS": "En progreso",

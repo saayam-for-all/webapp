@@ -765,6 +765,8 @@
   "ENTER_VOLUNTEER_EMAIL": "వాలంటీర్ ఇమెయిల్ నమోదు చేయండి",
   "ENTER_VOLUNTEER_PHONE": "వాలంటీర్ ఫోన్ నమోదు చేయండి",
   "SEARCH_TAGLINE": "మానవ స్పర్శతో గూగుల్*",
+  "CREATION_DATE": "సృష్టించిన తేదీ",
+  "UPDATED_DATE": "నవీకరించిన తేదీ",
   "CREATED": "సృష్టించబడింది",
   "MATCHING_VOLUNTEER": "వాలంటీర్‌ను సరిపోలుస్తున్నారు",
   "IN_PROGRESS": "ప్రగతిలో ఉంది",
