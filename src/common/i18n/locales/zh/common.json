@@ -761,6 +761,8 @@
   "ENTER_VOLUNTEER_EMAIL": "输入志愿者电子邮件",
   "ENTER_VOLUNTEER_PHONE": "输入志愿者电话",
   "SEARCH_TAGLINE": "有人情味的谷歌*",
+  "CREATION_DATE": "创建日期",
+  "UPDATED_DATE": "更新日期",
   "CREATED": "已创建",
   "MATCHING_VOLUNTEER": "正在匹配志愿者",
   "IN_PROGRESS": "进行中",

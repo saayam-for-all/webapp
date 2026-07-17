@@ -766,6 +766,8 @@
   "ENTER_VOLUNTEER_EMAIL": "أدخل بريد المتطوع الإلكتروني",
   "ENTER_VOLUNTEER_PHONE": "أدخل هاتف المتطوع",
   "SEARCH_TAGLINE": "جوجل بلمسة إنسانية*",
+  "CREATION_DATE": "تاريخ الإنشاء",
+  "UPDATED_DATE": "تاريخ التحديث",
   "CREATED": "تم الإنشاء",
   "MATCHING_VOLUNTEER": "جاري مطابقة المتطوع",
   "IN_PROGRESS": "قيد التنفيذ",

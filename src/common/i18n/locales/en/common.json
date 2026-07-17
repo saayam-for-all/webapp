@@ -793,6 +793,8 @@
   "ENTER_VOLUNTEER_EMAIL": "Enter volunteer email",
   "ENTER_VOLUNTEER_PHONE": "Enter volunteer phone",
   "SEARCH_TAGLINE": "google with human touch*",
+  "CREATION_DATE": "Creation Date",
+  "UPDATED_DATE": "Updated Date",
   "CREATED": "Created",
   "MATCHING_VOLUNTEER": "Matching Volunteer",
   "IN_PROGRESS": "In Progress",
