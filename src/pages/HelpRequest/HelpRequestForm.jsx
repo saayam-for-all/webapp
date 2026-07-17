@@ -1239,9 +1239,13 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       return;
     }
 
+    // Show spinner immediately so the user knows the form is being processed,
+    // even while the generateSubject API call is still in-flight (#1548 follow-up).
+    setIsSubmitting(true);
+
     // Capture the resolved subject in a local variable so it is available
-    // synchronously for both submissionData and checkProfanity regardless of
-    // whether React has flushed the setFormData state update yet.
+    // synchronously for submissionData regardless of whether React has
+    // flushed the setFormData state update yet.
     let resolvedSubject = formData.subject;
 
     if (
@@ -1279,8 +1283,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       subject: resolvedSubject,
       location,
     };
-
-    setIsSubmitting(true);
     try {
       // In edit mode, skip the predict-categories modal since category is locked
       if (
