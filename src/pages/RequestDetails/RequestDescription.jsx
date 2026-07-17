@@ -101,10 +101,15 @@ const RequestDescription = ({ requestData }) => {
               {t("UPDATED_DATE")}
             </div>
           </li>
-          {/* Category */}
-          <li className="flex items-center gap-2">
+          {/* Category with tooltip - issue #1654 */}
+          <li className="flex items-center gap-2 group relative">
             <TbTriangleSquareCircle size={22} />
-            {categoryLabel}
+            <span className="cursor-help border-b border-dashed border-gray-400">
+              {categoryLabel}
+            </span>
+            <div className="absolute top-6 left-0 z-10 px-3 py-1 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+              {t("CATEGORY")}
+            </div>
           </li>
 
           {/* Status with tooltip - issue #1456 */}

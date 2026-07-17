@@ -268,4 +268,50 @@ describe("RequestDescription", () => {
       expect(priorityDiamond).toBeInTheDocument();
     });
   });
+
+  describe("Issue #1654 - Category hover tooltip", () => {
+    it("renders the category label text", () => {
+      renderWithProviders(
+        <RequestDescription requestData={mockRequestData} />,
+        { preloadedState: MOCK_STATE_LOGGED_IN },
+      );
+
+      expect(screen.getByText("Maintenance")).toBeInTheDocument();
+    });
+
+    it("renders the category tooltip with CATEGORY key in the DOM", () => {
+      const { container } = renderWithProviders(
+        <RequestDescription requestData={mockRequestData} />,
+        { preloadedState: MOCK_STATE_LOGGED_IN },
+      );
+
+      // Tooltip div is always in the DOM (opacity controlled by CSS group-hover)
+      const tooltip = container.querySelector(
+        ".opacity-0.group-hover\\:opacity-100",
+      );
+      expect(tooltip).not.toBeNull();
+      // At least one tooltip contains the CATEGORY key text
+      const tooltips = container.querySelectorAll(
+        ".opacity-0.group-hover\\:opacity-100",
+      );
+      const categoryTooltip = Array.from(tooltips).find((el) =>
+        el.textContent.includes("CATEGORY"),
+      );
+      expect(categoryTooltip).not.toBeNull();
+    });
+
+    it("category span has cursor-help and dashed underline classes", () => {
+      const { container } = renderWithProviders(
+        <RequestDescription requestData={mockRequestData} />,
+        { preloadedState: MOCK_STATE_LOGGED_IN },
+      );
+
+      const spans = container.querySelectorAll("span.cursor-help");
+      const categorySpan = Array.from(spans).find((el) =>
+        el.textContent.includes("Maintenance"),
+      );
+      expect(categorySpan).not.toBeNull();
+      expect(categorySpan).toHaveClass("border-b", "border-dashed");
+    });
+  });
 });
