@@ -2098,6 +2098,49 @@ describe("HelpRequestForm — prefill In Person location from Other person's loc
 
     expect(mockGetCurrentPosition).not.toHaveBeenCalled();
   });
+
+  it("also copies coordinates when the Other person's location included them", async () => {
+    capturedSetCoordinates = null;
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "133rd Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    expect(capturedSetCoordinates).not.toBeNull();
+
+    await act(async () => {
+      capturedSetCoordinates({ latitude: 38.886491, longitude: -94.649869 });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "133rd Terrace, Overland Park, Kansas",
+      );
+    });
+  });
 });
 
 describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
