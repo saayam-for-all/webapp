@@ -488,7 +488,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center flex-1 ml-4">
           {" "}
           {user?.userId && (
-            <div className="relative w-full max-w-[800px] mr-4">
+            <div className="relative flex-1 min-w-0 mr-4">
               <TextField
                 name="navbar-search"
                 autoComplete="off"
