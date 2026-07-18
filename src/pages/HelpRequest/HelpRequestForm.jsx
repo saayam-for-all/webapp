@@ -234,6 +234,37 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     detected_language: "", // Language detected from audio transcription (e.g., "hi", "en", "es")
   });
 
+  // One-time prefill: when requesting on behalf of someone else (For Self
+  // = Other) with an In Person request, default the In Person location to
+  // the Other person's location - it's logically the same place (e.g. a
+  // roadside location, a friend's address). Fires once; both fields are
+  // freely/independently editable afterward.
+  const hasPrefilledInPersonFromOtherRef = useRef(false);
+  useEffect(() => {
+    if (
+      formData.request_for === "OTHER" &&
+      formData.request_type === "IN_PERSON" &&
+      otherPersonLocation &&
+      !hasPrefilledInPersonFromOtherRef.current
+    ) {
+      hasPrefilledInPersonFromOtherRef.current = true;
+      setLocation(otherPersonLocation);
+      setFormData((prev) => ({ ...prev, location: otherPersonLocation }));
+      if (otherPersonLocationCoordinates) {
+        setLocationCoordinates(otherPersonLocationCoordinates);
+        setFormData((prev) => ({
+          ...prev,
+          locationCoordinates: otherPersonLocationCoordinates,
+        }));
+      }
+    }
+  }, [
+    formData.request_for,
+    formData.request_type,
+    otherPersonLocation,
+    otherPersonLocationCoordinates,
+  ]);
+
   // If user changes category to a non-elderly option, ensure any open ElderlySupport panel is closed
   useEffect(() => {
     // Resolve whether current formData.category corresponds to an Elderly subcategory
@@ -2240,7 +2271,14 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           ...formData,
                           request_type: value,
                         });
-                        if (value === "IN_PERSON") {
+                        // Skip browser geolocation when requesting on behalf
+                        // of someone else - the In Person location prefills
+                        // from the Other person's location instead (see the
+                        // hasPrefilledInPersonFromOtherRef effect above).
+                        if (
+                          value === "IN_PERSON" &&
+                          formData.request_for !== "OTHER"
+                        ) {
                           getUserLocation();
                         }
                       }}

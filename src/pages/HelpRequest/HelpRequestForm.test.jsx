@@ -1944,6 +1944,205 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
   });
 });
 
+describe("HelpRequestForm — prefill In Person location from Other person's location (#1622 follow-up)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: { IN_PERSON: "IN_PERSON", REMOTE: "REMOTE" },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: "SELF", OTHER: "OTHER" },
+      }),
+    );
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+    mockSuggestions = [];
+  });
+
+  it("prefills the In Person location from the Other person's location", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "133rd Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "133rd Terrace, Overland Park, Kansas",
+      );
+    });
+  });
+
+  it("still prefills if Type is switched to In Person before the Other location is typed", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    // No prefill yet - Other location was empty when In Person was selected
+    expect(document.getElementById("location").value).toBe("");
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "West 151st Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "West 151st Terrace, Overland Park, Kansas",
+      );
+    });
+  });
+
+  it("keeps the two location fields independently editable after the one-time prefill", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "133rd Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "133rd Terrace, Overland Park, Kansas",
+      );
+    });
+
+    // Edit the In Person location afterward
+    await act(async () => {
+      fireEvent.change(document.getElementById("location"), {
+        target: { value: "West 151st Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    // Other person's location must stay untouched
+    expect(document.getElementById("other_person_location").value).toBe(
+      "133rd Terrace, Overland Park, Kansas",
+    );
+    expect(document.getElementById("location").value).toBe(
+      "West 151st Terrace, Overland Park, Kansas",
+    );
+  });
+
+  it("does not trigger browser geolocation when For Self is Other", async () => {
+    const mockGetCurrentPosition = jest.fn();
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    expect(mockGetCurrentPosition).not.toHaveBeenCalled();
+  });
+
+  it("also copies coordinates when the Other person's location included them", async () => {
+    capturedSetCoordinates = null;
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "133rd Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    expect(capturedSetCoordinates).not.toBeNull();
+
+    await act(async () => {
+      capturedSetCoordinates({ latitude: 38.886491, longitude: -94.649869 });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "133rd Terrace, Overland Park, Kansas",
+      );
+    });
+  });
+});
+
 describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
   beforeEach(() => {
     mockT.mockReset();
