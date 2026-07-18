@@ -32,7 +32,12 @@ describe("PromoteToVolunteer Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    sessionStorage.clear();
     window.URL.createObjectURL = jest.fn(() => "mock-url");
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it("renders Terms & Conditions on step 1", () => {
@@ -1674,6 +1679,198 @@ describe("PromoteToVolunteer Component", () => {
     // Click next, API rejects, should show error
     nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(COMPLETE_REQUIRED_FIELDS)")).toBeInTheDocument();
+    });
+  });
+
+  it("restores step and form state from sessionStorage when loaded", async () => {
+    const { MemoryRouter } = require("react-router-dom");
+    sessionStorage.setItem("volunteer_wizard_step", "3");
+    sessionStorage.setItem("volunteer_form_data", JSON.stringify({
+      isAcknowledged: true,
+      isUploaded: true,
+      selectedSkills: ["TEACHING"],
+      availabilitySlots: [
+        { id: 1, dayOfWeek: "Everyday", startTime: "2026-07-18T10:00:00.000Z", endTime: "2026-07-18T12:00:00.000Z" }
+      ],
+      tobeNotified: true
+    }));
+
+    renderWithProviders(
+      <MemoryRouter>
+        <PromoteToVolunteer />
+      </MemoryRouter>,
+      {
+        preloadedState: MOCK_STATE_LOGGED_IN,
+      }
+    );
+
+    expect(screen.getByText("mockTranslate(SKILLS)")).toBeInTheDocument();
+  });
+
+  it("clears sessionStorage on step 5 (Review)", async () => {
+    const { MemoryRouter } = require("react-router-dom");
+    sessionStorage.setItem("volunteer_wizard_step", "4");
+    sessionStorage.setItem("volunteer_form_data", JSON.stringify({
+      isAcknowledged: true,
+      isUploaded: true,
+      selectedSkills: ["TEACHING"],
+      availabilitySlots: [
+        { id: 1, dayOfWeek: "Everyday", startTime: "2026-07-18T10:00:00.000Z", endTime: "2026-07-18T12:00:00.000Z" }
+      ],
+      tobeNotified: true
+    }));
+
+    renderWithProviders(
+      <MemoryRouter>
+        <PromoteToVolunteer />
+      </MemoryRouter>,
+      {
+        preloadedState: MOCK_STATE_LOGGED_IN,
+      }
+    );
+
+    expect(screen.getByText("mockTranslate(AVAILABILITY)")).toBeInTheDocument();
+
+    const nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(REVIEW)")).toBeInTheDocument();
+    });
+
+    expect(sessionStorage.getItem("volunteer_wizard_step")).toBeNull();
+    expect(sessionStorage.getItem("volunteer_form_data")).toBeNull();
+  });
+
+  it("Test Case 1: Initial Mount with Saved Session Data", () => {
+    const { MemoryRouter } = require("react-router-dom");
+    sessionStorage.setItem("volunteer_wizard_step", "3");
+    renderWithProviders(
+      <MemoryRouter>
+        <PromoteToVolunteer />
+      </MemoryRouter>,
+      {
+        preloadedState: MOCK_STATE_LOGGED_IN,
+      }
+    );
+    expect(screen.getByText("mockTranslate(SKILLS)")).toBeInTheDocument();
+  });
+
+  it("Test Case 2: Writing to Session Data on Step Progression", async () => {
+    const { MemoryRouter } = require("react-router-dom");
+    const setItemSpy = jest.spyOn(Storage.prototype, "setItem");
+    
+    renderWithProviders(
+      <MemoryRouter>
+        <PromoteToVolunteer />
+      </MemoryRouter>,
+      {
+        preloadedState: MOCK_STATE_LOGGED_IN,
+      }
+    );
+
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+
+    const nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(IDENTIFICATION)")).toBeInTheDocument();
+    });
+
+    expect(setItemSpy).toHaveBeenCalledWith("volunteer_wizard_step", "2");
+    setItemSpy.mockRestore();
+  });
+
+  it("handles sessionStorage get errors gracefully", () => {
+    const getItemSpy = jest.spyOn(Storage.prototype, "getItem").mockImplementation((key) => {
+      if (key && key.startsWith("volunteer_")) {
+        throw new Error("mock get error");
+      }
+      return null;
+    });
+
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)")).toBeInTheDocument();
+
+    getItemSpy.mockRestore();
+  });
+
+  it("handles sessionStorage set and remove errors gracefully", async () => {
+    const { MemoryRouter } = require("react-router-dom");
+    sessionStorage.setItem("volunteer_wizard_step", "4");
+    sessionStorage.setItem("volunteer_form_data", JSON.stringify({
+      isAcknowledged: true,
+      isUploaded: true,
+      selectedSkills: ["TEACHING"],
+      availabilitySlots: [
+        { id: 1, dayOfWeek: "Everyday", startTime: "2026-07-18T10:00:00.000Z", endTime: "2026-07-18T12:00:00.000Z" }
+      ],
+      tobeNotified: true
+    }));
+
+    const setItemSpy = jest.spyOn(Storage.prototype, "setItem").mockImplementation((key) => {
+      if (key && key.startsWith("volunteer_")) {
+        throw new Error("mock set error");
+      }
+    });
+    const removeItemSpy = jest.spyOn(Storage.prototype, "removeItem").mockImplementation((key) => {
+      if (key && key.startsWith("volunteer_")) {
+        throw new Error("mock remove error");
+      }
+    });
+
+    renderWithProviders(
+      <MemoryRouter>
+        <PromoteToVolunteer />
+      </MemoryRouter>,
+      {
+        preloadedState: MOCK_STATE_LOGGED_IN,
+      }
+    );
+
+    expect(screen.getByText("mockTranslate(AVAILABILITY)")).toBeInTheDocument();
+
+    const nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("mockTranslate(REVIEW)")).toBeInTheDocument();
+    });
+
+    setItemSpy.mockRestore();
+    removeItemSpy.mockRestore();
+  });
+
+  it("handles JSON parsing errors gracefully", () => {
+    sessionStorage.setItem("volunteer_form_data", "{invalid json");
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+    expect(screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)")).toBeInTheDocument();
+  });
+
+  it("handles out of bounds steps and default branches gracefully", async () => {
+    const { MemoryRouter } = require("react-router-dom");
+    sessionStorage.setItem("volunteer_wizard_step", "0");
+    renderWithProviders(
+      <MemoryRouter>
+        <PromoteToVolunteer />
+      </MemoryRouter>,
+      {
+        preloadedState: MOCK_STATE_LOGGED_IN,
+      }
+    );
+
+    const nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+
     await waitFor(() => {
       expect(screen.getByText("mockTranslate(COMPLETE_REQUIRED_FIELDS)")).toBeInTheDocument();
     });

@@ -50,6 +50,17 @@ const TermsConditions = ({ isAcknowledged, setIsAcknowledged }) => {
         />
       );
     }
+    if (num === 20) {
+      return (
+        <Trans
+          i18nKey="SECTION_20_CONTENT"
+          ns="terms"
+          components={{
+            1: <a className="text-blue-600 underline font-medium" href="mailto:info@saayamforall.org" />,
+          }}
+        />
+      );
+    }
     return t(`SECTION_${num}_CONTENT`);
   };
 
