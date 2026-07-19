@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
@@ -18,6 +18,10 @@ const Table = ({
   getLinkPath,
   getLinkState = undefined,
   serverPaginated = false,
+  selectable = false,
+  selectedIds = [],
+  onSelectRow = undefined,
+  onSelectAllRows = undefined,
 }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
 
@@ -31,6 +35,28 @@ const Table = ({
       currentPage * itemsPerPage,
     );
   }, [rows, currentPage, itemsPerPage, serverPaginated]);
+
+  const getRowId = (row, rowIndex) => row.requestId ?? row.id ?? rowIndex;
+
+  const selectedIdSet = useMemo(() => new Set(selectedIds), [selectedIds]);
+
+  const visibleRowIds = useMemo(
+    () => paginatedRequests.map((row, rowIndex) => getRowId(row, rowIndex)),
+    [paginatedRequests],
+  );
+
+  const allVisibleSelected =
+    visibleRowIds.length > 0 &&
+    visibleRowIds.every((id) => selectedIdSet.has(id));
+  const someVisibleSelected =
+    !allVisibleSelected && visibleRowIds.some((id) => selectedIdSet.has(id));
+
+  const selectAllRef = useRef(null);
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someVisibleSelected;
+    }
+  }, [someVisibleSelected]);
 
   //useEffect(() => {
   //setCurrentPage(1);
@@ -171,6 +197,19 @@ const Table = ({
         >
           <thead data-testid="table-header">
             <tr>
+              {selectable && (
+                <th className="px-4 py-2 w-10" data-testid="map-header-select">
+                  <input
+                    ref={selectAllRef}
+                    type="checkbox"
+                    checked={allVisibleSelected}
+                    onChange={(e) =>
+                      onSelectAllRows?.(visibleRowIds, e.target.checked)
+                    }
+                    aria-label="Select all requests"
+                  />
+                </th>
+              )}
               {headers.map((key) => (
                 <th
                   key={key}
@@ -201,7 +240,7 @@ const Table = ({
             {paginatedRequests.length === 0 ? (
               <tr>
                 <td
-                  colSpan={headers.length}
+                  colSpan={headers.length + (selectable ? 1 : 0)}
                   className="px-6 py-8 text-center text-gray-500"
                 >
                   <div className="flex flex-col items-center justify-center">
@@ -217,37 +256,56 @@ const Table = ({
                 </td>
               </tr>
             ) : (
-              paginatedRequests.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {headers.map((header, colIndex) => {
-                    const value = getCellValue(row, header);
-
-                    const path = getLinkPath ? getLinkPath(row, header) : null;
-                    const cellContent =
-                      header === "requestId" ? renderRequestId(value) : value;
-
-                    return (
-                      <td
-                        key={colIndex}
-                        className={getCellClassName(header)}
-                        data-testid="map-data-one"
-                      >
-                        {path ? (
-                          <Link
-                            to={path}
-                            className="text-indigo-600 hover:text-indigo-900"
-                            state={getLinkState ? getLinkState(row) : undefined}
-                          >
-                            {cellContent}
-                          </Link>
-                        ) : (
-                          cellContent
-                        )}
+              paginatedRequests.map((row, rowIndex) => {
+                const rowId = getRowId(row, rowIndex);
+                return (
+                  <tr key={rowIndex}>
+                    {selectable && (
+                      <td className="px-4 py-2" data-testid="map-data-select">
+                        <input
+                          type="checkbox"
+                          checked={selectedIdSet.has(rowId)}
+                          onChange={(e) =>
+                            onSelectRow?.(rowId, e.target.checked)
+                          }
+                          aria-label={`Select request ${rowId}`}
+                        />
                       </td>
-                    );
-                  })}
-                </tr>
-              ))
+                    )}
+                    {headers.map((header, colIndex) => {
+                      const value = getCellValue(row, header);
+
+                      const path = getLinkPath
+                        ? getLinkPath(row, header)
+                        : null;
+                      const cellContent =
+                        header === "requestId" ? renderRequestId(value) : value;
+
+                      return (
+                        <td
+                          key={colIndex}
+                          className={getCellClassName(header)}
+                          data-testid="map-data-one"
+                        >
+                          {path ? (
+                            <Link
+                              to={path}
+                              className="text-indigo-600 hover:text-indigo-900"
+                              state={
+                                getLinkState ? getLinkState(row) : undefined
+                              }
+                            >
+                              {cellContent}
+                            </Link>
+                          ) : (
+                            cellContent
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>
@@ -286,6 +344,10 @@ Table.propTypes = {
   getLinkPath: PropTypes.func.isRequired,
   getLinkState: PropTypes.func,
   serverPaginated: PropTypes.bool,
+  selectable: PropTypes.bool,
+  selectedIds: PropTypes.array,
+  onSelectRow: PropTypes.func,
+  onSelectAllRows: PropTypes.func,
 };
 
 export default Table;

@@ -63,6 +63,7 @@ const Dashboard = ({ userRole }) => {
   const [statusFilter, setStatusFilter] = useState({});
   const [categoryFilter, setCategoryFilter] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selectedRequestIds, setSelectedRequestIds] = useState([]);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [data, setData] = useState({});
@@ -1028,6 +1029,22 @@ const Dashboard = ({ userRole }) => {
     setCurrentPage(newPage);
   };
 
+  const handleSelectRequest = (id, checked) => {
+    setSelectedRequestIds((prev) =>
+      checked
+        ? [...new Set([...prev, id])]
+        : prev.filter((existingId) => existingId !== id),
+    );
+  };
+
+  const handleSelectAllRequests = (ids, checked) => {
+    setSelectedRequestIds((prev) => {
+      const next = new Set(prev);
+      ids.forEach((id) => (checked ? next.add(id) : next.delete(id)));
+      return [...next];
+    });
+  };
+
   // Count selected categories (for badge display)
   const getSelectedCategoryCount = () => {
     let count = 0;
@@ -1567,6 +1584,9 @@ const Dashboard = ({ userRole }) => {
                 setAnalyticsSubtab={setAnalyticsSubtab}
                 serverPaginated={serverPagination.isServerPaginated}
                 serverTotalRows={serverPagination.totalRecords}
+                selectedRequestIds={selectedRequestIds}
+                onSelectRequest={handleSelectRequest}
+                onSelectAllRequests={handleSelectAllRequests}
               />
             )}
 
@@ -1597,6 +1617,9 @@ const Dashboard = ({ userRole }) => {
                 setAnalyticsSubtab={setAnalyticsSubtab}
                 serverPaginated={serverPagination.isServerPaginated}
                 serverTotalRows={serverPagination.totalRecords}
+                selectedRequestIds={selectedRequestIds}
+                onSelectRequest={handleSelectRequest}
+                onSelectAllRequests={handleSelectAllRequests}
               />
             )}
 

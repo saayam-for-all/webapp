@@ -25,6 +25,9 @@ const AdminDashboard = (props) => {
     setAnalyticsSubtab,
     serverPaginated,
     serverTotalRows,
+    selectedRequestIds,
+    onSelectRequest,
+    onSelectAllRequests,
   } = props;
 
   return (
@@ -135,6 +138,10 @@ const AdminDashboard = (props) => {
             getLinkPath={getLinkPath}
             getLinkState={getLinkState}
             serverPaginated={serverPaginated}
+            selectable
+            selectedIds={selectedRequestIds}
+            onSelectRow={onSelectRequest}
+            onSelectAllRows={onSelectAllRequests}
           />
         )}
       </div>
@@ -162,5 +169,8 @@ AdminDashboard.propTypes = {
   setAnalyticsSubtab: PropTypes.func.isRequired,
   serverPaginated: PropTypes.bool,
   serverTotalRows: PropTypes.number,
+  selectedRequestIds: PropTypes.array,
+  onSelectRequest: PropTypes.func,
+  onSelectAllRequests: PropTypes.func,
 };
 export default AdminDashboard;
