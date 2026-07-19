@@ -111,7 +111,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           >
              
             <div
-              class="relative w-full max-w-[800px] mr-4"
+              class="relative flex-1 min-w-0 mr-4"
             >
               <div
                 class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-fw6ux4-MuiFormControl-root-MuiTextField-root"
@@ -516,7 +516,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
         >
            
           <div
-            class="relative w-full max-w-[800px] mr-4"
+            class="relative flex-1 min-w-0 mr-4"
           >
             <div
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-fw6ux4-MuiFormControl-root-MuiTextField-root"
