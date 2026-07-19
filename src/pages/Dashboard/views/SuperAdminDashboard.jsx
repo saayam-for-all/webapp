@@ -25,6 +25,9 @@ const SuperAdminDashboard = (props) => {
     setAnalyticsSubtab,
     serverPaginated,
     serverTotalRows,
+    selectedRequestIds,
+    onSelectRequest,
+    onSelectAllRequests,
   } = props;
 
   return (
@@ -135,6 +138,10 @@ const SuperAdminDashboard = (props) => {
             getLinkPath={getLinkPath}
             getLinkState={getLinkState}
             serverPaginated={serverPaginated}
+            selectable
+            selectedIds={selectedRequestIds}
+            onSelectRow={onSelectRequest}
+            onSelectAllRows={onSelectAllRequests}
           />
         )}
       </div>
@@ -162,6 +169,9 @@ SuperAdminDashboard.propTypes = {
   setAnalyticsSubtab: PropTypes.func,
   serverPaginated: PropTypes.bool,
   serverTotalRows: PropTypes.number,
+  selectedRequestIds: PropTypes.array,
+  onSelectRequest: PropTypes.func,
+  onSelectAllRequests: PropTypes.func,
 };
 
 export default SuperAdminDashboard;
