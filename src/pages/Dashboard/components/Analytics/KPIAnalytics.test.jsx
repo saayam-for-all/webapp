@@ -272,14 +272,16 @@ describe("KPIAnalytics", () => {
   });
 
   describe("Trends view", () => {
-    it("switches to trends view and shows a time range selector defaulting to All", async () => {
+    it("switches to trends view and shows time range buttons defaulting to All", async () => {
       analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
       render(<KPIAnalytics />);
       await waitFor(() => {
         expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
       });
       switchViewMode("trends");
-      expect(screen.getByDisplayValue("All")).toBeInTheDocument();
+      const allButton = screen.getByRole("button", { name: "All" });
+      expect(allButton).toBeInTheDocument();
+      expect(allButton).toHaveClass("bg-blue-600");
     });
 
     it("shows no trend data message for All since it has no period series", async () => {
@@ -301,9 +303,7 @@ describe("KPIAnalytics", () => {
         expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
       });
       switchViewMode("trends");
-      fireEvent.change(screen.getByDisplayValue("All"), {
-        target: { value: "7D" },
-      });
+      fireEvent.click(screen.getByRole("button", { name: "7D" }));
       expect(
         screen.queryByText("No trend data available for 7D"),
       ).not.toBeInTheDocument();
@@ -316,23 +316,21 @@ describe("KPIAnalytics", () => {
         expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
       });
       switchViewMode("trends");
-      fireEvent.change(screen.getByDisplayValue("All"), {
-        target: { value: "1Y" },
-      });
+      fireEvent.click(screen.getByRole("button", { name: "1Y" }));
       expect(
         screen.queryByText("No trend data available for 1Y"),
       ).not.toBeInTheDocument();
     });
 
-    it("does not fetch trend data for Custom (option is disabled)", async () => {
+    it("keeps the Custom button disabled", async () => {
       analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
       render(<KPIAnalytics />);
       await waitFor(() => {
         expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
       });
       switchViewMode("trends");
-      const customOption = screen.getByText("Custom (coming soon)");
-      expect(customOption).toBeDisabled();
+      const customButton = screen.getByRole("button", { name: "Custom" });
+      expect(customButton).toBeDisabled();
     });
   });
 });

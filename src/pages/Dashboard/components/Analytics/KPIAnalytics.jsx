@@ -207,19 +207,30 @@ const KPIAnalytics = () => {
           </select>
 
           {viewMode === "trends" && (
-            <select
-              value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
-              className="px-2 py-0.5 text-xs border border-gray-300 rounded bg-white"
-            >
-              <option value="7D">7D</option>
-              <option value="30D">30D</option>
-              <option value="1Y">1Y</option>
-              <option value="All">All</option>
-              <option value="Custom" disabled>
-                Custom (coming soon)
-              </option>
-            </select>
+            <div className="flex gap-1">
+              {["7D", "30D", "1Y", "All"].map((range) => (
+                <button
+                  key={range}
+                  type="button"
+                  onClick={() => setTimeRange(range)}
+                  className={`px-3 py-1 text-xs rounded ${
+                    timeRange === range
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {range}
+                </button>
+              ))}
+              <button
+                type="button"
+                disabled
+                title="Custom range coming soon"
+                className="px-3 py-1 text-xs rounded bg-gray-50 text-gray-400 cursor-not-allowed"
+              >
+                Custom
+              </button>
+            </div>
           )}
 
           {selectedSegment && (
