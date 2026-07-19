@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Table from "./Table";
 
 jest.mock("../Pagination/Pagination");
@@ -317,6 +317,68 @@ describe("Table", () => {
       );
 
       expect(mockSetPage).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("checkbox selection", () => {
+    const onRowSelect = jest.fn();
+    const onSelectAll = jest.fn();
+
+    const checkboxProps = {
+      ...defaultProps,
+      showCheckboxes: true,
+      selectedRows: [],
+      onRowSelect,
+      onSelectAll,
+    };
+
+    beforeEach(() => {
+      onRowSelect.mockClear();
+      onSelectAll.mockClear();
+    });
+
+    it("renders checkboxes in header and each row when showCheckboxes is true", () => {
+      render(<Table {...checkboxProps} />);
+      const checkboxes = screen.getAllByRole("checkbox");
+      // 1 header checkbox + 1 data row checkbox
+      expect(checkboxes).toHaveLength(2);
+    });
+
+    it("does not render checkboxes when showCheckboxes is false or omitted", () => {
+      render(<Table {...defaultProps} />);
+      expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
+    });
+
+    it("calls onRowSelect with requestId when a row checkbox is clicked", () => {
+      render(<Table {...checkboxProps} />);
+      const checkboxes = screen.getAllByRole("checkbox");
+      fireEvent.click(checkboxes[1]); // first data row
+      expect(onRowSelect).toHaveBeenCalledWith("REQ-001");
+    });
+
+    it("calls onSelectAll(true) when unchecked header checkbox is clicked", () => {
+      render(<Table {...checkboxProps} />);
+      const [headerCheckbox] = screen.getAllByRole("checkbox");
+      fireEvent.click(headerCheckbox);
+      expect(onSelectAll).toHaveBeenCalledWith(true);
+    });
+
+    it("marks row checkbox as checked when its id is in selectedRows", () => {
+      render(<Table {...checkboxProps} selectedRows={["REQ-001"]} />);
+      const checkboxes = screen.getAllByRole("checkbox");
+      expect(checkboxes[1]).toBeChecked();
+    });
+
+    it("marks header checkbox as checked when all current page rows are selected", () => {
+      render(<Table {...checkboxProps} selectedRows={["REQ-001"]} />);
+      const [headerCheckbox] = screen.getAllByRole("checkbox");
+      expect(headerCheckbox).toBeChecked();
+    });
+
+    it("header checkbox is unchecked when no rows are selected", () => {
+      render(<Table {...checkboxProps} selectedRows={[]} />);
+      const [headerCheckbox] = screen.getAllByRole("checkbox");
+      expect(headerCheckbox).not.toBeChecked();
     });
   });
 

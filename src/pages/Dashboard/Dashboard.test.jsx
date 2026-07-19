@@ -20,7 +20,7 @@ jest.mock("react-i18next", () => ({
 
 jest.mock("react-toastify", () => ({
   ToastContainer: () => null,
-  toast: { success: jest.fn(), error: jest.fn() },
+  toast: { success: jest.fn(), error: jest.fn(), warn: jest.fn() },
 }));
 
 jest.mock("../../services/requestServices", () => ({
@@ -67,11 +67,21 @@ jest.mock("./views/AdminDashboard", () => (props) => {
   lastAdminDashboardProps = props;
   return (
     <div data-testid="admin-dashboard">
+      {props.searchFilters}
       <button onClick={() => props.handleTabChange("myRequests")}>
         Click All Requests
       </button>
       <button onClick={() => props.setCurrentPage(2)}>Change Page</button>
       <button onClick={() => props.onRowsPerPageChange(25)}>Change Rows</button>
+      <button onClick={() => props.onRowSelect && props.onRowSelect("REQ-001")}>
+        Select Row
+      </button>
+      <button onClick={() => props.onSelectAll && props.onSelectAll(true)}>
+        Select All
+      </button>
+      <button onClick={() => props.onSelectAll && props.onSelectAll(false)}>
+        Deselect All
+      </button>
     </div>
   );
 });
@@ -787,6 +797,186 @@ describe("Dashboard", () => {
       expect(getMyRequests).toHaveBeenCalledWith(
         expect.objectContaining({ userId: "SID-FROM-STORAGE" }),
       );
+    });
+  });
+
+  describe("selectedRows and bulk status change", () => {
+    const rowData = {
+      requestId: "REQ-001",
+      requestCategory: "GENERAL",
+      status: "CREATED",
+      subject: "Test request",
+    };
+
+    beforeEach(() => {
+      const {
+        getAllPaginatedRequests,
+      } = require("../../services/requestServices");
+      getAllPaginatedRequests.mockResolvedValue({
+        data: { content: [rowData], totalPages: 1, totalElements: 1 },
+      });
+      const { toast } = require("react-toastify");
+      toast.warn.mockClear();
+    });
+
+    afterEach(() => {
+      const {
+        getAllPaginatedRequests,
+      } = require("../../services/requestServices");
+      getAllPaginatedRequests.mockResolvedValue({
+        data: { content: [], totalPages: 1, totalElements: 0 },
+      });
+    });
+
+    it("passes empty selectedRows and onRowSelect to AdminDashboard", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toEqual([]),
+      );
+      expect(typeof lastAdminDashboardProps?.onRowSelect).toBe("function");
+      expect(typeof lastAdminDashboardProps?.onSelectAll).toBe("function");
+    });
+
+    it("adds row id to selectedRows when onRowSelect is called", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toContain("REQ-001"),
+      );
+    });
+
+    it("removes row id from selectedRows when onRowSelect is called again", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row")); // select
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toContain("REQ-001"),
+      );
+      fireEvent.click(getByText("Select Row")); // deselect
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).not.toContain("REQ-001"),
+      );
+    });
+
+    it("selects all rows on current page when onSelectAll(true) is called", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select All"));
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toContain("REQ-001"),
+      );
+    });
+
+    it("deselects all rows on current page when onSelectAll(false) is called", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select All")); // select first
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toContain("REQ-001"),
+      );
+      fireEvent.click(getByText("Deselect All")); // then deselect
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).not.toContain("REQ-001"),
+      );
+    });
+
+    it("shows bulk action UI with selected count when rows are selected on myRequests tab", async () => {
+      const { getByText, queryByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      expect(queryByText("1 selected")).not.toBeInTheDocument();
+
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() => expect(getByText("1 selected")).toBeInTheDocument());
+    });
+
+    it("shows warning toast when Apply is clicked (backend pending)", async () => {
+      const { toast } = require("react-toastify");
+
+      const { getByText, getAllByRole } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() => expect(getByText("1 selected")).toBeInTheDocument());
+
+      const selects = getAllByRole("combobox");
+      const statusSelect = selects[selects.length - 1];
+      fireEvent.change(statusSelect, { target: { value: "CANCELLED" } });
+
+      fireEvent.click(getByText("Apply"));
+
+      await waitFor(() => {
+        expect(toast.warn).toHaveBeenCalledWith(
+          expect.stringContaining("pending backend API support"),
+        );
+      });
+    });
+
+    it("clears selectedRows and resets bulk status after apply", async () => {
+      const { getByText, queryByText, getAllByRole } = renderWithProviders(
+        <Dashboard />,
+        { preloadedState: adminAuthState },
+      );
+
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() => expect(getByText("1 selected")).toBeInTheDocument());
+
+      const selects = getAllByRole("combobox");
+      const statusSelect = selects[selects.length - 1];
+      fireEvent.change(statusSelect, { target: { value: "CANCELLED" } });
+      fireEvent.click(getByText("Apply"));
+
+      await waitFor(() =>
+        expect(queryByText("1 selected")).not.toBeInTheDocument(),
+      );
+    });
+
+    it("does not trigger bulk change when no status is selected", async () => {
+      const { toast } = require("react-toastify");
+
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() => expect(getByText("1 selected")).toBeInTheDocument());
+
+      // Apply button should be disabled when no status selected, but test handler guard
+      fireEvent.click(getByText("Apply"));
+      expect(toast.warn).not.toHaveBeenCalled();
     });
   });
 });

@@ -27,7 +27,6 @@ import {
   getMyRequests,
   getOthersRequests,
   getAllPaginatedRequests,
-  updateRequest,
 } from "../../services/requestServices";
 import {
   getStatusOptions,
@@ -113,85 +112,26 @@ const Dashboard = ({ userRole }) => {
   };
 
   const [bulkStatusValue, setBulkStatusValue] = useState("");
-  const [isBulkActionLoading, setIsBulkActionLoading] = useState(false);
 
   // TODO: BACKEND DEPENDENCY — Bulk Admin Status Change
   // ------------------------------------------------------------------
   // The frontend UI for bulk status changes (checkboxes + "Change Status"
-  // dropdown + "Apply" button) is fully implemented. However, the existing
-  // PUT endpoint `v1/request/updateHelpRequest` returns 500 when called
-  // with the row data + a new requestStatus value.
+  // dropdown + "Apply" button) is fully implemented. Once the backend
+  // provides an endpoint, integrate the API call here.
   //
-  // The backend team needs to do ONE of the following to resolve this:
-  //
-  // Option A (Preferred): Create a new dedicated endpoint for admin
-  //   bulk status updates, e.g.:
-  //   PUT /v1/request/admin/bulkUpdateStatus
+  // Option A (Preferred): PUT /v1/request/admin/bulkUpdateStatus
   //   Request body: { requestIds: ["REQ-00-..."], requestStatus: "CANCELLED" }
-  //   This endpoint should accept an array of request IDs and a target
-  //   status, validate admin permissions, and update all matching requests.
   //
-  // Option B: Modify the existing `updateHelpRequest` endpoint to support
-  //   partial/status-only updates when called with just:
-  //   { requestId: "REQ-00-...", requestStatus: "CANCELLED" }
-  //   Ensure it handles admin authorization (allow admins/superadmins to
-  //   update status on any request, not just their own).
-  //
-  // Once the backend endpoint is available, update the payload construction
-  // and API call below accordingly, and remove the console.log debug line.
+  // Option B: Modify PUT /v1/request/updateHelpRequest to accept
+  //   partial/status-only updates with admin authorization.
   // ------------------------------------------------------------------
-  const handleBulkStatusChange = async () => {
+  const handleBulkStatusChange = () => {
     if (!bulkStatusValue || selectedRows.length === 0) return;
-
-    setIsBulkActionLoading(true);
-    try {
-      const allRows = getRequestRows(data);
-      const updatePromises = selectedRows.map((rowId) => {
-        const row = allRows.find((r) => (r.requestId || r.id) === rowId);
-        const payload = {
-          ...(row || {}),
-          requestId: rowId,
-          requestStatus: bulkStatusValue,
-        };
-        console.log("Bulk status update payload:", payload);
-        return updateRequest(payload);
-      });
-      const results = await Promise.allSettled(updatePromises);
-      const succeeded = results.filter((r) => r.status === "fulfilled").length;
-      const failed = results.filter((r) => r.status === "rejected").length;
-
-      if (failed > 0) {
-        const errors = results
-          .filter((r) => r.status === "rejected")
-          .map(
-            (r) => r.reason?.response?.data || r.reason?.message || r.reason,
-          );
-        console.error("Bulk update errors:", errors);
-      }
-
-      if (failed === 0) {
-        toast.success(
-          `Status updated to "${bulkStatusValue}" for ${succeeded} request(s).`,
-        );
-      } else if (succeeded > 0) {
-        toast.warn(
-          `${succeeded} request(s) updated, ${failed} failed. Please try again for failed ones.`,
-        );
-      } else {
-        toast.error("Failed to update status for the selected requests.");
-      }
-
-      setSelectedRows([]);
-      setBulkStatusValue("");
-      getAllRequests(activeTab);
-    } catch (error) {
-      console.error("Bulk status update failed:", error);
-      toast.error(
-        "Failed to update status for some requests. Please try again.",
-      );
-    } finally {
-      setIsBulkActionLoading(false);
-    }
+    toast.warn(
+      `Bulk status update to "${bulkStatusValue}" for ${selectedRows.length} request(s) is pending backend API support.`,
+    );
+    setSelectedRows([]);
+    setBulkStatusValue("");
   };
 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -1555,14 +1495,14 @@ const Dashboard = ({ userRole }) => {
               </select>
               <button
                 onClick={handleBulkStatusChange}
-                disabled={!bulkStatusValue || isBulkActionLoading}
+                disabled={!bulkStatusValue}
                 className={`py-2 px-4 rounded-md text-sm font-medium text-white ${
-                  !bulkStatusValue || isBulkActionLoading
+                  !bulkStatusValue
                     ? "bg-gray-300 cursor-not-allowed"
                     : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
                 }`}
               >
-                {isBulkActionLoading ? "Applying..." : "Apply"}
+                Apply
               </button>
             </div>
           )}
