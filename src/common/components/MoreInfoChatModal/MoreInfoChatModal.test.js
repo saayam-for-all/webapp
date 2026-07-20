@@ -198,12 +198,38 @@ describe("MoreInfoChatModal", () => {
     expect(screen.getByText("No questions remaining.")).toBeInTheDocument();
   });
 
-  it("stores cooldown in localStorage and calls onClose when close button clicked", () => {
+  it("does not store cooldown when modal is closed without asking a question", () => {
     renderModal();
+    fireEvent.click(screen.getByLabelText("Close"));
+    const key = `moreInfoCooldown_${mockRequestData.requestId}`;
+    expect(localStorage.getItem(key)).toBeNull();
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it("stores cooldown when modal is closed after asking a question", async () => {
+    moreInformationChat.mockResolvedValue({
+      body: { answer: "You need an ID." },
+    });
+
+    renderModal();
+
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
+
+    fireEvent.change(input, {
+      target: { value: "What documents do I need?" },
+    });
+
+    fireEvent.click(screen.getByText("Send"));
+
+    await waitFor(() => {
+      expect(screen.getByTitle("4 questions remaining")).toBeInTheDocument();
+    });
+
     fireEvent.click(screen.getByLabelText("Close"));
 
     const key = `moreInfoCooldown_${mockRequestData.requestId}`;
     const stored = JSON.parse(localStorage.getItem(key));
+
     expect(stored).toHaveProperty("expiresAt");
     expect(stored.expiresAt).toBeGreaterThan(Date.now());
     expect(mockOnClose).toHaveBeenCalled();
