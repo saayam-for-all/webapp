@@ -109,19 +109,24 @@ const MoreInfoChatModal = ({
   };
 
   const handleClose = () => {
-    const requestId =
-      requestData?.requestId ||
-      requestData?.req_id ||
-      requestData?.id ||
-      requestData?.subject ||
-      "default";
+    const hasAskedQuestion = remaining < MAX_QUESTIONS;
 
-    const key = `moreInfoCooldown_${requestId}`;
+    if (hasAskedQuestion) {
+      const requestId =
+        requestData?.requestId ||
+        requestData?.req_id ||
+        requestData?.id ||
+        "default";
 
-    localStorage.setItem(
-      key,
-      JSON.stringify({ expiresAt: Date.now() + 30 * 60 * 1000 }),
-    );
+      const key = `moreInfoCooldown_${requestId}`;
+
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          expiresAt: Date.now() + 30 * 60 * 1000,
+        }),
+      );
+    }
     onClose();
   };
 
