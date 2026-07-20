@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, waitFor } from "@testing-library/react";
+import { act, fireEvent, waitFor } from "@testing-library/react";
 import { renderWithProviders, MOCK_STATE_LOGGED_IN } from "#utils/test-utils";
 
 jest.mock("react-router-dom", () => {
@@ -11,12 +11,40 @@ jest.mock("react-router-dom", () => {
   };
 });
 
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-    i18n: { changeLanguage: jest.fn() },
-  }),
-}));
+jest.mock("react-i18next", () => {
+  const React = require("react");
+  const listeners = new Set();
+  const translations = {
+    en: require("../../common/i18n/locales/en/common.json"),
+    es: require("../../common/i18n/locales/es/common.json"),
+  };
+  const mockI18n = {
+    language: "en",
+    changeLanguage: jest.fn((language) => {
+      mockI18n.language = language;
+      listeners.forEach((listener) => listener());
+      return Promise.resolve();
+    }),
+  };
+
+  return {
+    useTranslation: () => {
+      const [, rerender] = React.useReducer((count) => count + 1, 0);
+
+      React.useEffect(() => {
+        listeners.add(rerender);
+        return () => listeners.delete(rerender);
+      }, []);
+
+      return {
+        t: (key) =>
+          translations[mockI18n.language]?.[key] ?? translations.en[key] ?? key,
+        i18n: mockI18n,
+      };
+    },
+    mockI18n,
+  };
+});
 
 jest.mock("react-toastify", () => ({
   ToastContainer: () => null,
@@ -89,6 +117,7 @@ jest.mock("./components/Analytics/RequestsAnalytics", () => () => null);
 jest.mock("./components/Analytics/VolunteerAnalytics", () => () => null);
 
 import Dashboard from "./Dashboard";
+import { mockI18n } from "react-i18next";
 
 const adminAuthState = {
   auth: {
@@ -123,9 +152,22 @@ const volunteerAuthState = {
   },
 };
 
+const superAdminAuthState = {
+  auth: {
+    user: {
+      userId: "u1",
+      userDbId: "SID-00-000-003-016",
+      groups: ["SuperAdmins"],
+    },
+    idToken: "tok",
+  },
+};
+
 describe("Dashboard", () => {
   beforeEach(() => {
     localStorage.clear();
+    mockI18n.language = "en";
+    mockI18n.changeLanguage.mockClear();
     lastAdminDashboardProps = null;
     lastBeneficiaryDashboardProps = null;
     lastVolunteerDashboardProps = null;
@@ -138,6 +180,99 @@ describe("Dashboard", () => {
       },
     });
     expect(getByTestId("beneficiary-dashboard")).toBeInTheDocument();
+  });
+
+  it("translates the dashboard title and every selector label without changing option values", () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { getByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    expect(
+      getByRole("heading", { name: "Super Admin Dashboard" }),
+    ).toBeInTheDocument();
+
+    const options = Array.from(getByRole("combobox").options).map((option) => ({
+      label: option.textContent,
+      value: option.value,
+    }));
+    expect(options).toEqual([
+      { label: "Beneficiary Dashboard", value: "beneficiary" },
+      { label: "Volunteer Dashboard", value: "volunteer" },
+      { label: "Steward Dashboard", value: "steward" },
+      { label: "Admin Dashboard", value: "admin" },
+      { label: "Super Admin Dashboard", value: "superAdmin" },
+    ]);
+  });
+
+  it("updates the title and selector labels when the language changes", async () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { getByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    await act(async () => {
+      await mockI18n.changeLanguage("es");
+    });
+
+    expect(
+      getByRole("heading", { name: "Panel de Superadministrador" }),
+    ).toBeInTheDocument();
+    expect(
+      Array.from(getByRole("combobox").options).map(
+        (option) => option.textContent,
+      ),
+    ).toEqual([
+      "Panel de Beneficiario",
+      "Panel de Voluntario",
+      "Panel de Supervisor",
+      "Panel de Administrador",
+      "Panel de Superadministrador",
+    ]);
+  });
+
+  it("falls back to English dashboard labels for an unsupported language", async () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { getByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    await act(async () => {
+      await mockI18n.changeLanguage("unsupported");
+    });
+
+    expect(
+      getByRole("heading", { name: "Super Admin Dashboard" }),
+    ).toBeInTheDocument();
+    expect(
+      Array.from(getByRole("combobox").options).map(
+        (option) => option.textContent,
+      ),
+    ).toEqual([
+      "Beneficiary Dashboard",
+      "Volunteer Dashboard",
+      "Steward Dashboard",
+      "Admin Dashboard",
+      "Super Admin Dashboard",
+    ]);
+  });
+
+  it("keeps the selected dashboard identifier stable when changing dashboards", () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { getByRole, getByTestId } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "volunteer" },
+    });
+
+    expect(getByRole("combobox")).toHaveValue("volunteer");
+    expect(localStorage.getItem("lastDashboardSelected")).toBe("volunteer");
+    expect(getByTestId("volunteer-dashboard")).toBeInTheDocument();
+    expect(
+      getByRole("heading", { name: "Volunteer Dashboard" }),
+    ).toBeInTheDocument();
   });
 
   it("renders steward dashboard when user has steward role", () => {
