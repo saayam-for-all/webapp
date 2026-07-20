@@ -49,5 +49,6 @@
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकस्य ईमेल प्रविष्टं करोतु",
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकस्य फोन प्रविष्टं करोतु",
   "CHANGE_VOLUNTEER": "स्वयंसेवकं परिवर्तयतु",
-  "DELETE": "विलोपयतु"
+  "DELETE": "विलोपयतु",
+  "DELETE_ACTION": "विलोपय"
 }

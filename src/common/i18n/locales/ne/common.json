@@ -48,5 +48,6 @@
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकको ईमेल प्रविष्ट गर्नुहोस्",
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकको फोन प्रविष्ट गर्नुहोस्",
   "CHANGE_VOLUNTEER": "स्वयंसेवक परिवर्तन गर्नुहोस्",
-  "DELETE": "हटाउनुहोस्"
+  "DELETE": "हटाउनुहोस्",
+  "DELETE_ACTION": "मेटाउनुहोस्"
 }

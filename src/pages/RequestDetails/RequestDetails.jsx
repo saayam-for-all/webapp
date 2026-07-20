@@ -16,6 +16,7 @@ import EmergencyContact from "../EmergencyContact/EmergencyContact";
 import { createOrganizationsPageState } from "../../common/components/BreadCrumbs/breadcrumbUtils";
 import { FiPaperclip } from "react-icons/fi";
 import { FaMicrophone } from "react-icons/fa";
+import StandardButton from "#components/StandardButton/StandardButton";
 
 import {
   Dialog,
@@ -487,66 +488,73 @@ const RequestDetails = () => {
             <Dialog
               open={deleteDialogOpen}
               onClose={() => setDeleteDialogOpen(false)}
+              fullWidth
+              maxWidth="sm"
             >
-              <DialogTitle>{t("DELETE")}</DialogTitle>
+              <DialogTitle>{t("DELETE_ACTION")}</DialogTitle>
+
               <DialogContent>
                 <Typography>{t("REASON")}</Typography>
+
                 <textarea
                   value={deleteReason}
                   onChange={(e) => setDeleteReason(e.target.value)}
-                  className="border p-2 w-full mt-3 rounded-lg min-h-[100px]"
+                  maxLength={200}
+                  className="border p-2 w-full mt-3 rounded-lg min-h-[140px]"
                   placeholder={t("REASON")}
                 />
               </DialogContent>
+
               <DialogActions>
-                <Button
+                <StandardButton
+                  text={t("CANCEL")}
                   onClick={() => setDeleteDialogOpen(false)}
-                  variant="outlined"
-                >
-                  {t("CANCEL")}
-                </Button>
-                <Button
+                  variant="secondary"
+                />
+
+                <StandardButton
+                  text={t("DELETE_ACTION")}
                   onClick={handleDeleteRequest}
-                  color="error"
-                  variant="contained"
                   disabled={!deleteReason.trim()}
-                >
-                  {t("DELETE")}
-                </Button>
+                  variant="primary"
+                />
               </DialogActions>
             </Dialog>
-
             {/* Change volunteer dialog (now outside grey box) */}
+
             <Dialog
               open={changeVolunteerDialogOpen}
               onClose={() => setChangeVolunteerDialogOpen(false)}
+              fullWidth
+              maxWidth="sm"
             >
               <DialogTitle>
                 {t("PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER")}
               </DialogTitle>
+
               <DialogContent>
                 <textarea
                   value={volunteerChangeReason}
                   onChange={(e) => setVolunteerChangeReason(e.target.value)}
-                  className="border p-2 w-full rounded-lg min-h-[100px]"
+                  maxLength={200}
+                  className="border p-2 w-full rounded-lg min-h-[120px]"
                   placeholder={t("REASON")}
                 />
               </DialogContent>
+
               <DialogActions>
-                <Button
+                <StandardButton
+                  text={t("CANCEL")}
                   onClick={() => setChangeVolunteerDialogOpen(false)}
-                  variant="outlined"
-                >
-                  {t("CANCEL")}
-                </Button>
-                <Button
+                  variant="secondary"
+                />
+
+                <StandardButton
+                  text={t("SAVE")}
                   onClick={handleChangeVolunteer}
-                  color="primary"
-                  variant="contained"
                   disabled={!volunteerChangeReason.trim()}
-                >
-                  {t("CHANGE_VOLUNTEER")}
-                </Button>
+                  variant="primary"
+                />
               </DialogActions>
             </Dialog>
           </div>
