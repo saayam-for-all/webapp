@@ -44,5 +44,6 @@
   "UPDATE_VOLUNTEER_LOCATION": "v1/spatial/updateVolunteerLocation",
   "ORG_AGGREGATOR_LIST": "v1/ml/orgAggregatorList",
   "MOCK_ORG_DATA": "v1/ml/mockOrgData",
-  "GET_KPI_ANALYTICS": "v1/ml/kpiAnalytics"
+  "GET_KPI_ANALYTICS": "v1/ml/kpiAnalytics",
+  "VOLUNTEER_APPLICATION_ANALYTICS": "v1/ml/volunteerApplicationAnalytics"
 }

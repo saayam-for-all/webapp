@@ -22,3 +22,11 @@ export const getKpiAnalytics = async (payload = {}) => {
   const response = await api.post(endpoints.GET_KPI_ANALYTICS, payload);
   return response.data;
 };
+
+export const getVolunteerApplicationAnalytics = async (payload = {}) => {
+  const response = await api.post(
+    endpoints.VOLUNTEER_APPLICATION_ANALYTICS,
+    payload,
+  );
+  return response.data;
+};
