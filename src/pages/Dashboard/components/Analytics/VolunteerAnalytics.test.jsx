@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  fireEvent,
+  act,
+} from "@testing-library/react";
 import VolunteerAnalytics from "./VolunteerAnalytics";
 
 jest.mock("../../../../services/analyticsServices", () => ({
@@ -160,5 +166,145 @@ describe("VolunteerAnalytics", () => {
     await waitFor(() => {
       expect(screen.getByText("Period:")).toBeInTheDocument();
     });
+  });
+
+  it("clicking a trend time range button switches the active range", async () => {
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/Loading volunteer data/i),
+      ).not.toBeInTheDocument();
+    });
+
+    // "7D" appears twice (trend + location); click the first one (trend)
+    const sevenDButtons = screen.getAllByText("7D");
+    fireEvent.click(sevenDButtons[0]);
+
+    // The clicked button should now have the active class
+    expect(sevenDButtons[0]).toHaveClass("bg-blue-500");
+  });
+
+  it("clicking location Period button switches location range", async () => {
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Period:")).toBeInTheDocument();
+    });
+
+    // "30D" appears twice; click the second (location chart)
+    const thirtyDButtons = screen.getAllByText("30D");
+    fireEvent.click(thirtyDButtons[1]);
+
+    expect(thirtyDButtons[1]).toHaveClass("bg-blue-500");
+  });
+
+  it("shows custom date inputs for trend chart when Custom is selected", async () => {
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/Loading volunteer data/i),
+      ).not.toBeInTheDocument();
+    });
+
+    // Click the first "Custom" button (trend chart)
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[0]);
+
+    // Two date inputs appear (start + end) for the trend chart
+    const dateInputs = screen.getAllByDisplayValue("");
+    expect(dateInputs.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("shows custom date inputs for location chart when Custom is selected", async () => {
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Period:")).toBeInTheDocument();
+    });
+
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[1]);
+
+    const dateInputs = screen.getAllByDisplayValue("");
+    expect(dateInputs.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("triggers custom trend fetch when both dates are filled", async () => {
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/Loading volunteer data/i),
+      ).not.toBeInTheDocument();
+    });
+
+    // Select Custom on trend chart
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[0]);
+
+    // Fill both date inputs (trend chart — first two date inputs)
+    const dateInputs = screen.getAllByDisplayValue("");
+    await act(async () => {
+      fireEvent.change(dateInputs[0], { target: { value: "2026-05-01" } });
+      fireEvent.change(dateInputs[1], { target: { value: "2026-05-31" } });
+    });
+
+    await waitFor(() => {
+      expect(getVolunteerApplicationAnalytics).toHaveBeenCalledWith({
+        start_date: "2026-05-01",
+        end_date: "2026-05-31",
+      });
+    });
+  });
+
+  it("triggers custom location fetch with location_start_date/location_end_date keys", async () => {
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Period:")).toBeInTheDocument();
+    });
+
+    // Select Custom on location chart
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[1]);
+
+    const dateInputs = screen.getAllByDisplayValue("");
+    await act(async () => {
+      fireEvent.change(dateInputs[0], { target: { value: "2026-06-01" } });
+      fireEvent.change(dateInputs[1], { target: { value: "2026-06-30" } });
+    });
+
+    await waitFor(() => {
+      expect(getVolunteerApplicationAnalytics).toHaveBeenCalledWith({
+        location_start_date: "2026-06-01",
+        location_end_date: "2026-06-30",
+      });
+    });
+  });
+
+  it("uses fallback trend data when API window has no data points", async () => {
+    // 7D window has empty arrays — should fall back to static data
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/Loading volunteer data/i),
+      ).not.toBeInTheDocument();
+    });
+
+    const sevenDButtons = screen.getAllByText("7D");
+    fireEvent.click(sevenDButtons[0]);
+
+    // No crash — component stays rendered with fallback
+    expect(screen.getByText("Volunteer Activity Trend")).toBeInTheDocument();
   });
 });
