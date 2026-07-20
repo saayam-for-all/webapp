@@ -38,7 +38,16 @@ import {
   normalizePriorityValue,
 } from "../../utils/filterHelpers";
 import "./Dashboard.css";
+const STEWARD_ATTENTION_STATUSES = new Set([
+  "VOLUNTEERNOTFOUND",
+  "REQUIRESREASSIGNMENT",
+]);
 
+const normalizeStewardStatus = (status) =>
+  String(status ?? "")
+    .trim()
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");
 const Dashboard = ({ userRole }) => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -595,6 +604,10 @@ const Dashboard = ({ userRole }) => {
     return requests.filter((request) => {
       // Normalize values for comparison with enum keys
       const statusNormalized = normalizeStatusValue(request.status);
+      const isStewardAttentionRequest =
+        selectedDashboard !== DASHBOARDS.STEWARD ||
+        STEWARD_ATTENTION_STATUSES.has(normalizeStewardStatus(request.status));
+
       const statusActive =
         Object.keys(statusFilter).length === 0 ||
         Object.values(statusFilter).every((v) => v === false) ||
@@ -656,6 +669,7 @@ const Dashboard = ({ userRole }) => {
       );
 
       return (
+        isStewardAttentionRequest &&
         statusActive &&
         categoryActive &&
         typeActive &&
