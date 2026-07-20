@@ -18,7 +18,6 @@ import {
   getDefaultDashboard,
   canAccessDashboard,
   validateDashboardAccess,
-  getDashboardDisplayName,
   DASHBOARDS,
 } from "../../utils/rbac";
 
@@ -38,6 +37,14 @@ import {
   normalizePriorityValue,
 } from "../../utils/filterHelpers";
 import "./Dashboard.css";
+
+const DASHBOARD_TRANSLATION_KEYS = {
+  [DASHBOARDS.BENEFICIARY]: "BENEFICIARY_DASHBOARD",
+  [DASHBOARDS.VOLUNTEER]: "VOLUNTEER_DASHBOARD",
+  [DASHBOARDS.STEWARD]: "STEWARD_DASHBOARD",
+  [DASHBOARDS.ADMIN]: "ADMIN_DASHBOARD",
+  [DASHBOARDS.SUPER_ADMIN]: "SUPER_ADMIN_DASHBOARD",
+};
 
 const Dashboard = ({ userRole }) => {
   const { t } = useTranslation();
@@ -1125,9 +1132,9 @@ const Dashboard = ({ userRole }) => {
 
   const [showAddressMsg, setShowAddressMsg] = useState(false);
 
-  const dashboardTitle = selectedDashboard
-    ? getDashboardDisplayName(selectedDashboard)
-    : "Dashboard";
+  const dashboardTitle = t(
+    DASHBOARD_TRANSLATION_KEYS[selectedDashboard] || "DASHBOARD",
+  );
 
   const dashboardDefaultTab = {
     [DASHBOARDS.SUPER_ADMIN]: "analytics",
@@ -1486,7 +1493,7 @@ const Dashboard = ({ userRole }) => {
               >
                 {accessibleDashboards.map((dash) => (
                   <option key={dash} value={dash}>
-                    {getDashboardDisplayName(dash)}
+                    {t(DASHBOARD_TRANSLATION_KEYS[dash] || "DASHBOARD")}
                   </option>
                 ))}
               </select>
