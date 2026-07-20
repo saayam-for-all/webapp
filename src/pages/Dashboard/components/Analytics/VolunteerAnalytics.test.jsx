@@ -145,7 +145,7 @@ describe("VolunteerAnalytics", () => {
     render(<VolunteerAnalytics />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Could not load live data/i)).toBeInTheDocument();
+      expect(screen.getByText(/Could not load data/i)).toBeInTheDocument();
     });
   });
 
@@ -290,8 +290,8 @@ describe("VolunteerAnalytics", () => {
     });
   });
 
-  it("uses fallback trend data when API window has no data points", async () => {
-    // 7D window has empty arrays — should fall back to static data
+  it("shows no data message when API window returns empty arrays", async () => {
+    // 7D window has empty arrays — should show empty state, not mock data
     getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
     render(<VolunteerAnalytics />);
 
@@ -304,7 +304,29 @@ describe("VolunteerAnalytics", () => {
     const sevenDButtons = screen.getAllByText("7D");
     fireEvent.click(sevenDButtons[0]);
 
-    // No crash — component stays rendered with fallback
-    expect(screen.getByText("Volunteer Activity Trend")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByText("No data available for the selected period."),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("shows no data message for location chart when API window is empty", async () => {
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Period:")).toBeInTheDocument();
+    });
+
+    const sevenDButtons = screen.getAllByText("7D");
+    fireEvent.click(sevenDButtons[1]);
+
+    await waitFor(() => {
+      const emptyMessages = screen.getAllByText(
+        "No data available for the selected period.",
+      );
+      expect(emptyMessages.length).toBeGreaterThanOrEqual(1);
+    });
   });
 });

@@ -14,8 +14,6 @@ import {
 import ChartContainer from "./charts/ChartContainer";
 import { getVolunteerApplicationAnalytics } from "../../../../services/analyticsServices";
 import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
-import volunteersActivityFallback from "../../../../data/analytics/volunteers_activity_monthly.json";
-import volunteersLocationFallback from "../../../../data/analytics/volunteers_by_location.json";
 
 // Map UI time range id → API response top-level key
 const TREND_KEYS = {
@@ -41,7 +39,6 @@ const parseTrendData = (trendObj) => {
   const activeV = trendObj.active_volunteers ?? [];
   const totalV = trendObj.total_volunteers ?? [];
 
-  // Build a map keyed by period so all three series align
   const periodMap = {};
   newV.forEach(({ period, count }) => {
     if (!periodMap[period]) periodMap[period] = { period };
@@ -76,51 +73,19 @@ const parseLocationData = (locationArr) => {
     .slice(0, 10);
 };
 
-// Build fallback trend data from static monthly JSON (cumulative total)
-const buildFallbackTrend = () => {
-  let total = 0;
-  return volunteersActivityFallback.map((item) => {
-    total += item.newVolunteers;
-    return {
-      period: item.month,
-      label: formatPeriod(item.month),
-      newVolunteers: item.newVolunteers,
-      activeVolunteers: Math.round(total * 0.87),
-      totalVolunteers: total,
-    };
-  });
-};
-
-// Build fallback location data from static location JSON
-const buildFallbackLocation = () => {
-  const totals = {};
-  volunteersLocationFallback.forEach(({ country_name }) => {
-    const name = country_name || "Unknown";
-    totals[name] = (totals[name] || 0) + 1;
-  });
-  return Object.entries(totals)
-    .map(([country, count]) => ({ country, count }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 10);
-};
-
 const VolunteerAnalytics = () => {
-  // Trend chart state
   const [trendRange, setTrendRange] = useState("all");
   const [trendCustomStart, setTrendCustomStart] = useState("");
   const [trendCustomEnd, setTrendCustomEnd] = useState("");
 
-  // Location chart state (independent selector)
   const [locationRange, setLocationRange] = useState("all");
   const [locationCustomStart, setLocationCustomStart] = useState("");
   const [locationCustomEnd, setLocationCustomEnd] = useState("");
 
-  // API data — default payload {} returns all pre-computed windows (7D/30D/1Y/All)
   const [apiData, setApiData] = useState(null);
   const [apiLoading, setApiLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
 
-  // Separate fetch for location custom range (different payload key)
   const [locationApiData, setLocationApiData] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false);
 
@@ -176,7 +141,7 @@ const VolunteerAnalytics = () => {
     };
   }, [trendRange, trendCustomStart, trendCustomEnd]);
 
-  // Fetch custom location range when both dates are set — uses different payload keys
+  // Fetch custom location range — uses different payload keys
   useEffect(() => {
     if (
       locationRange !== "custom" ||
@@ -205,33 +170,23 @@ const VolunteerAnalytics = () => {
     };
   }, [locationRange, locationCustomStart, locationCustomEnd]);
 
-  // Resolve trend data from API or fallback
   const trendData = useMemo(() => {
-    if (apiData) {
-      const body = apiData.body ?? apiData;
-      const window = body[TREND_KEYS[trendRange]];
-      if (window) {
-        const parsed = parseTrendData(window.volunteer_activity_trend);
-        if (parsed.length > 0) return parsed;
-      }
-    }
-    return buildFallbackTrend();
+    if (!apiData) return [];
+    const body = apiData.body ?? apiData;
+    const window = body[TREND_KEYS[trendRange]];
+    if (!window) return [];
+    return parseTrendData(window.volunteer_activity_trend);
   }, [apiData, trendRange]);
 
-  // Resolve location data — use dedicated locationApiData for custom, otherwise apiData
   const locationSource =
     locationRange === "custom" && locationApiData ? locationApiData : apiData;
 
   const locationData = useMemo(() => {
-    if (locationSource) {
-      const body = locationSource.body ?? locationSource;
-      const window = body[TREND_KEYS[locationRange]];
-      if (window) {
-        const parsed = parseLocationData(window.volunteers_by_location);
-        if (parsed.length > 0) return parsed;
-      }
-    }
-    return buildFallbackLocation();
+    if (!locationSource) return [];
+    const body = locationSource.body ?? locationSource;
+    const window = body[TREND_KEYS[locationRange]];
+    if (!window) return [];
+    return parseLocationData(window.volunteers_by_location);
   }, [locationSource, locationRange]);
 
   const TIME_RANGE_BUTTONS = [
@@ -284,13 +239,17 @@ const VolunteerAnalytics = () => {
 
         {apiError && (
           <div className="mb-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
-            Could not load live data. Showing fallback data.
+            Could not load data. Please try again later.
           </div>
         )}
 
         {apiLoading ? (
           <div className="flex items-center justify-center h-64 text-gray-500">
             Loading volunteer data…
+          </div>
+        ) : trendData.length === 0 ? (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            No data available for the selected period.
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={220}>
@@ -410,33 +369,43 @@ const VolunteerAnalytics = () => {
           )}
         </div>
 
-        <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={locationData} layout="vertical" margin={{ left: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis type="number" tick={{ fontSize: 11 }} stroke="#6b7280" />
-            <YAxis
-              dataKey="country"
-              type="category"
-              tick={{ fontSize: 11 }}
-              stroke="#6b7280"
-              width={120}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "0.375rem",
-              }}
-            />
-            <Legend />
-            <Bar
-              dataKey="count"
-              fill="#f59e0b"
-              name="Volunteers"
-              radius={[0, 4, 4, 0]}
-            />
-          </BarChart>
-        </ResponsiveContainer>
+        {locationData.length === 0 ? (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            No data available for the selected period.
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart
+              data={locationData}
+              layout="vertical"
+              margin={{ left: 20 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis type="number" tick={{ fontSize: 11 }} stroke="#6b7280" />
+              <YAxis
+                dataKey="country"
+                type="category"
+                tick={{ fontSize: 11 }}
+                stroke="#6b7280"
+                width={120}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.375rem",
+                }}
+              />
+              <Legend />
+              <Bar
+                dataKey="count"
+                fill="#f59e0b"
+                name="Volunteers"
+                radius={[0, 4, 4, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </ChartContainer>
     </div>
   );
