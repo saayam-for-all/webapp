@@ -57,35 +57,27 @@ const MOCK_API_RESPONSE = {
       { Date: "2026-01-01T00:00:00", Count: 21 },
     ],
     "Beneficiaries count custom date range": [],
-    // Country data: object keyed by ISO alpha-3 code → [{Date, Count}, ..., {"Total Count": N}]
-    "Beneficiaries count by country 7 days": {
-      AFG: [
-        { Date: "2026-06-20T00:00:00", Count: 1 },
-        { Date: "2026-06-22T00:00:00", Count: 2 },
-        { "Total Count": 3 },
-      ],
-      USA: [
-        { Date: "2026-06-16T00:00:00", Count: 1 },
-        { Date: "2026-06-17T00:00:00", Count: 2 },
-        { "Total Count": 3 },
-      ],
-    },
-    "Beneficiaries count by country 30 days": {
-      AFG: [{ Date: "2026-05-28T00:00:00", Count: 2 }, { "Total Count": 2 }],
-      USA: [{ Date: "2026-05-27T00:00:00", Count: 1 }, { "Total Count": 1 }],
-    },
-    "Beneficiaries count by country 1 year": {
-      AFG: [{ Date: "2025-12-01T00:00:00", Count: 47 }, { "Total Count": 47 }],
-      USA: [{ Date: "2026-02-01T00:00:00", Count: 3 }, { "Total Count": 3 }],
-    },
-    "Beneficiaries count by country all": {
-      AFG: [{ Date: "2025-12-01T00:00:00", Count: 47 }, { "Total Count": 47 }],
-      USA: [{ Date: "2026-02-01T00:00:00", Count: 3 }, { "Total Count": 3 }],
-    },
-    "Beneficiaries count by country custom date range": {
-      AFG: [{ Date: "2026-01-01T00:00:00", Count: 16 }, { "Total Count": 16 }],
-      USA: [{ Date: "2026-01-01T00:00:00", Count: 32 }, { "Total Count": 32 }],
-    },
+    // Country data: array of { country: alphaCode, Count: N, rank: N }
+    "Beneficiaries count by country 7 days": [
+      { country: "AFG", Count: 3, rank: 1 },
+      { country: "USA", Count: 3, rank: 2 },
+    ],
+    "Beneficiaries count by country 30 days": [
+      { country: "AFG", Count: 2, rank: 1 },
+      { country: "USA", Count: 1, rank: 2 },
+    ],
+    "Beneficiaries count by country 1 year": [
+      { country: "AFG", Count: 47, rank: 1 },
+      { country: "USA", Count: 3, rank: 2 },
+    ],
+    "Beneficiaries count by country all": [
+      { country: "AFG", Count: 47, rank: 1 },
+      { country: "USA", Count: 3, rank: 2 },
+    ],
+    "Beneficiaries count by country custom date range": [
+      { country: "USA", Count: 32, rank: 1 },
+      { country: "AFG", Count: 16, rank: 2 },
+    ],
   },
 };
 

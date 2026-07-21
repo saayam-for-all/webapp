@@ -71,19 +71,22 @@ const normalizeItems = (arr) =>
     count: item.Count ?? 0,
   }));
 
-// Aggregate the per-country object returned by the API into a flat array.
-// Input:  { "AFG": [{Date, Count}, ..., {"Total Count": N}], "USA": [...] }
+// Aggregate country data returned by the API into a flat array.
+// The API returns an array of { country: alphaCode, Count: N, rank: N } objects.
 // Output: [{ month, country, beneficiaryCount }, ...]
-// The API appends a {"Total Count": N} summary entry to each country array;
-// we use that directly when present, otherwise sum the date-bearing entries.
-const parseCountryData = (countryObj) => {
-  if (
-    !countryObj ||
-    typeof countryObj !== "object" ||
-    Array.isArray(countryObj)
-  )
-    return [];
-  return Object.entries(countryObj).map(([code, entries]) => {
+const parseCountryData = (countryData) => {
+  if (!countryData) return [];
+  // Real API format: array of { country: alphaCode, Count: N, rank: N }
+  if (Array.isArray(countryData)) {
+    return countryData.map((entry) => ({
+      month: "",
+      country: isoAlpha3ToName(entry.country),
+      beneficiaryCount: entry.Count ?? 0,
+    }));
+  }
+  // Object format used in tests: { alphaCode: [{Date, Count}, ..., {"Total Count": N}] }
+  if (typeof countryData !== "object") return [];
+  return Object.entries(countryData).map(([code, entries]) => {
     if (!Array.isArray(entries))
       return { month: "", country: isoAlpha3ToName(code), beneficiaryCount: 0 };
     const summary = entries.find((e) => "Total Count" in e);
@@ -581,7 +584,7 @@ const BeneficiariesAnalytics = () => {
                   {countryData.map((item, index) => (
                     <div
                       key={index}
-                      className="flex justify-around text-sm text-gray-600 gap-5"
+                      className="flex justify-start text-sm text-gray-600 gap-5"
                     >
                       <span>
                         {index + 1}. {item.country}
