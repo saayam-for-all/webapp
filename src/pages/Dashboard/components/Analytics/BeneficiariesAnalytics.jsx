@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -122,23 +122,11 @@ const BeneficiariesAnalytics = () => {
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
   const [customGroupBy, setCustomGroupBy] = useState("day"); // day or month (week not supported by API)
-  // Pending dates buffer onChange so intermediate values (month navigation in the
-  // date picker) don't trigger the API — only onBlur commits to the real state.
-  const [pendingStartDate, setPendingStartDate] = useState("");
-  const [pendingEndDate, setPendingEndDate] = useState("");
 
   // Country time range states (independent of trend)
   const [countryTimeRange, setCountryTimeRange] = useState("all");
   const [countryCustomStart, setCountryCustomStart] = useState("");
   const [countryCustomEnd, setCountryCustomEnd] = useState("");
-  const [pendingCountryStart, setPendingCountryStart] = useState("");
-  const [pendingCountryEnd, setPendingCountryEnd] = useState("");
-
-  // Debounce timers for end date inputs — fire commit 400ms after the last onChange
-  // so that month-navigation clicks don't trigger the API, but selecting a day does
-  // (without requiring an extra click to blur the input).
-  const endDateTimerRef = useRef(null);
-  const countryEndTimerRef = useRef(null);
 
   const [showTop10Only, setShowTop10Only] = useState(true);
   const [geoViewType, setGeoViewType] = useState("bar"); // bar or map
@@ -186,14 +174,6 @@ const BeneficiariesAnalytics = () => {
       setCommittedGroupBy(customGroupBy);
     }
   }, [timeRange, customStartDate, customEndDate, customGroupBy]);
-
-  // Clear debounce timers on unmount
-  useEffect(() => {
-    return () => {
-      clearTimeout(endDateTimerRef.current);
-      clearTimeout(countryEndTimerRef.current);
-    };
-  }, []);
 
   // Fetch trend data whenever fetchParams changes
   useEffect(() => {
@@ -382,9 +362,6 @@ const BeneficiariesAnalytics = () => {
                 if (id === "custom") {
                   setCustomStartDate("");
                   setCustomEndDate("");
-                  setPendingStartDate("");
-                  setPendingEndDate("");
-                  clearTimeout(endDateTimerRef.current);
                 }
                 setTimeRange(id);
               }}
@@ -401,28 +378,15 @@ const BeneficiariesAnalytics = () => {
             <>
               <input
                 type="date"
-                value={pendingStartDate}
-                onChange={(e) => setPendingStartDate(e.target.value)}
-                onBlur={(e) => setCustomStartDate(e.target.value)}
+                value={customStartDate}
+                onChange={(e) => setCustomStartDate(e.target.value)}
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
               />
               <span className="text-xs text-gray-500">→</span>
               <input
                 type="date"
-                value={pendingEndDate}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setPendingEndDate(value);
-                  clearTimeout(endDateTimerRef.current);
-                  endDateTimerRef.current = setTimeout(
-                    () => setCustomEndDate(value),
-                    1000,
-                  );
-                }}
-                onBlur={(e) => {
-                  clearTimeout(endDateTimerRef.current);
-                  setCustomEndDate(e.target.value);
-                }}
+                value={customEndDate}
+                onChange={(e) => setCustomEndDate(e.target.value)}
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
               />
               <select
@@ -515,28 +479,15 @@ const BeneficiariesAnalytics = () => {
             <>
               <input
                 type="date"
-                value={pendingCountryStart}
-                onChange={(e) => setPendingCountryStart(e.target.value)}
-                onBlur={(e) => setCountryCustomStart(e.target.value)}
+                value={countryCustomStart}
+                onChange={(e) => setCountryCustomStart(e.target.value)}
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
               />
               <span className="text-xs text-gray-500">→</span>
               <input
                 type="date"
-                value={pendingCountryEnd}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setPendingCountryEnd(value);
-                  clearTimeout(countryEndTimerRef.current);
-                  countryEndTimerRef.current = setTimeout(
-                    () => setCountryCustomEnd(value),
-                    1000,
-                  );
-                }}
-                onBlur={(e) => {
-                  clearTimeout(countryEndTimerRef.current);
-                  setCountryCustomEnd(e.target.value);
-                }}
+                value={countryCustomEnd}
+                onChange={(e) => setCountryCustomEnd(e.target.value)}
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
               />
             </>

@@ -159,9 +159,7 @@ describe("BeneficiariesAnalytics", () => {
 
     const inputs = document.querySelectorAll('input[type="date"]');
     fireEvent.change(inputs[0], { target: { value: "2026-05-01" } });
-    fireEvent.blur(inputs[0]);
     fireEvent.change(inputs[1], { target: { value: "2026-05-31" } });
-    fireEvent.blur(inputs[1]);
 
     await waitFor(() => {
       expect(getBeneficiariesTrendAnalysis).toHaveBeenCalledWith(
@@ -182,9 +180,7 @@ describe("BeneficiariesAnalytics", () => {
 
     const inputs = document.querySelectorAll('input[type="date"]');
     fireEvent.change(inputs[0], { target: { value: "2025-01-01" } });
-    fireEvent.blur(inputs[0]);
     fireEvent.change(inputs[1], { target: { value: "2026-05-31" } });
-    fireEvent.blur(inputs[1]);
 
     fireEvent.change(screen.getByDisplayValue("Day"), {
       target: { value: "month" },
@@ -205,9 +201,7 @@ describe("BeneficiariesAnalytics", () => {
     fireEvent.click(screen.getAllByText("Custom")[0]);
     const inputs = document.querySelectorAll('input[type="date"]');
     fireEvent.change(inputs[0], { target: { value: "2026-05-01" } });
-    fireEvent.blur(inputs[0]);
     fireEvent.change(inputs[1], { target: { value: "2026-05-31" } });
-    fireEvent.blur(inputs[1]);
     await waitFor(() => {
       expect(getBeneficiariesTrendAnalysis).toHaveBeenCalledWith(
         expect.objectContaining({ custom_start_date: "2026-05-01" }),
@@ -277,11 +271,9 @@ describe("BeneficiariesAnalytics", () => {
     fireEvent.change(dateInputs[dateInputs.length - 2], {
       target: { value: "2026-01-01" },
     });
-    fireEvent.blur(dateInputs[dateInputs.length - 2]);
     fireEvent.change(dateInputs[dateInputs.length - 1], {
       target: { value: "2026-06-01" },
     });
-    fireEvent.blur(dateInputs[dateInputs.length - 1]);
     await waitFor(() => {
       expect(getBeneficiariesTrendAnalysis).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -306,11 +298,9 @@ describe("BeneficiariesAnalytics", () => {
     fireEvent.change(dateInputs[dateInputs.length - 2], {
       target: { value: "2026-01-01" },
     });
-    fireEvent.blur(dateInputs[dateInputs.length - 2]);
     fireEvent.change(dateInputs[dateInputs.length - 1], {
       target: { value: "2026-06-01" },
     });
-    fireEvent.blur(dateInputs[dateInputs.length - 1]);
 
     // After the separate fetch fails, component falls back to custom key in main apiData
     await waitFor(() => {
