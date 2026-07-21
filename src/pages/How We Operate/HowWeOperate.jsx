@@ -68,7 +68,7 @@ const HowWeOperate = () => {
             {t("Get help in 5 easy steps.")}
           </p>
 
-          <div className="relative h-full min-h-[800px]">
+          <div className="relative h-full min-h-[800px] overflow-hidden">
             {/* Animated line */}
             <div
               className="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
@@ -187,7 +187,7 @@ const TimelineItem = ({ number, title, description, image, align }) => {
       {/* Text Content Container: takes 50% width on sm screens. Inner padding adjusts for step number. */}
       <div
         className={`w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 ${
-          isTextOnRight ? "sm:pl-0" : "sm:pr-0"
+          isTextOnRight ? "sm:pl-2" : "sm:pr-2"
         }`}
       >
         <div className="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center">
