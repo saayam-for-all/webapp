@@ -267,7 +267,7 @@ exports[`HowWeOperate renders correctly 1`] = `
               <button
                 class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
               >
-                mockTranslate(Join the community)
+                mockTranslate(Join our community)
               </button>
             </div>
           </div>
@@ -538,7 +538,7 @@ exports[`HowWeOperate renders correctly 1`] = `
             <button
               class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
             >
-              mockTranslate(Join the community)
+              mockTranslate(Join our community)
             </button>
           </div>
         </div>

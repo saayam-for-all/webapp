@@ -24,6 +24,11 @@ exports[`LandingPage renders correctly 1`] = `
             >
               mockTranslate(Need help? Here to help?)
             </h1>
+            <button
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold text-base md:text-lg py-3 px-8 rounded-full mb-[30px] md:mb-[50px]"
+            >
+              mockTranslate(Join our community)
+            </button>
           </div>
           <div
             data-testid="metrics-ticker"
@@ -335,6 +340,11 @@ exports[`LandingPage renders correctly 1`] = `
           >
             mockTranslate(Need help? Here to help?)
           </h1>
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold text-base md:text-lg py-3 px-8 rounded-full mb-[30px] md:mb-[50px]"
+          >
+            mockTranslate(Join our community)
+          </button>
         </div>
         <div
           data-testid="metrics-ticker"
