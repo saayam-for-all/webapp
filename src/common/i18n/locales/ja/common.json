@@ -49,5 +49,6 @@
   "ENTER_VOLUNTEER_EMAIL": "ボランティアのメールアドレスを入力",
   "ENTER_VOLUNTEER_PHONE": "ボランティアの電話番号を入力",
   "CHANGE_VOLUNTEER": "ボランティアを変更",
-  "DELETE": "削除"
+  "DELETE": "削除",
+  "DELETE_BUTTON": "削除"
 }

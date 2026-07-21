@@ -48,5 +48,6 @@
   "ENTER_VOLUNTEER_EMAIL": "സന്നദ്ധസേവകന്റെ ഇമെയിൽ നൽകുക",
   "ENTER_VOLUNTEER_PHONE": "സന്നദ്ധസേവകന്റെ ഫോൺ നൽകുക",
   "CHANGE_VOLUNTEER": "സന്നദ്ധസേവകനെ മാറ്റുക",
-  "DELETE": "ഒഴിവാക്കുക"
+  "DELETE": "ഒഴിവാക്കുക",
+  "DELETE_BUTTON": "ഇല്ലാതാക്കുക"
 }
