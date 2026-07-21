@@ -3,6 +3,7 @@ import RequestsAnalytics from "./RequestsAnalytics";
 import KPIAnalytics from "./KPIAnalytics";
 import BeneficiariesAnalytics from "./BeneficiariesAnalytics";
 import VolunteerAnalytics from "./VolunteerAnalytics";
+import OrganizationAnalytics from "./OrganizationAnalytics";
 
 const ApplicationAnalytics = () => {
   const [activeTab, setActiveTab] = useState("requests");
@@ -12,6 +13,7 @@ const ApplicationAnalytics = () => {
     { id: "kpi", label: "KPI" },
     { id: "beneficiaries", label: "Beneficiaries" },
     { id: "volunteers", label: "Volunteers" },
+    { id: "dashboard", label: "Dashboard" },
   ];
 
   return (
@@ -39,6 +41,7 @@ const ApplicationAnalytics = () => {
         {activeTab === "kpi" && <KPIAnalytics />}
         {activeTab === "beneficiaries" && <BeneficiariesAnalytics />}
         {activeTab === "volunteers" && <VolunteerAnalytics />}
+        {activeTab === "dashboard" && <OrganizationAnalytics />}
       </div>
     </div>
   );
