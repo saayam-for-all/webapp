@@ -97,7 +97,7 @@ describe("BeneficiariesAnalytics", () => {
   it("shows loading state on mount", () => {
     getBeneficiariesTrendAnalysis.mockReturnValue(new Promise(() => {}));
     render(<BeneficiariesAnalytics />);
-    expect(screen.getByText(/loading beneficiaries data/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/loading beneficiaries data/i)).toHaveLength(2);
   });
 
   it("calls API with empty payload on mount (All/7D/30D/1Y all use {})", async () => {
