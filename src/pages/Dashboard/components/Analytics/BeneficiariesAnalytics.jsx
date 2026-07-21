@@ -416,7 +416,7 @@ const BeneficiariesAnalytics = () => {
                   clearTimeout(endDateTimerRef.current);
                   endDateTimerRef.current = setTimeout(
                     () => setCustomEndDate(value),
-                    400,
+                    1000,
                   );
                 }}
                 onBlur={(e) => {
@@ -530,7 +530,7 @@ const BeneficiariesAnalytics = () => {
                   clearTimeout(countryEndTimerRef.current);
                   countryEndTimerRef.current = setTimeout(
                     () => setCountryCustomEnd(value),
-                    400,
+                    1000,
                   );
                 }}
                 onBlur={(e) => {
