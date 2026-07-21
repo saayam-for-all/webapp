@@ -358,7 +358,13 @@ const BeneficiariesAnalytics = () => {
           ].map(({ id, label }) => (
             <button
               key={id}
-              onClick={() => setTimeRange(id)}
+              onClick={() => {
+                if (id === "custom") {
+                  setCustomStartDate("");
+                  setCustomEndDate("");
+                }
+                setTimeRange(id);
+              }}
               className={`px-2 py-0.5 text-xs rounded ${
                 timeRange === id
                   ? "bg-blue-500 text-white"
