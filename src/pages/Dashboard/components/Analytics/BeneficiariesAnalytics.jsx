@@ -71,19 +71,22 @@ const normalizeItems = (arr) =>
     count: item.Count ?? 0,
   }));
 
-// Aggregate the per-country object returned by the API into a flat array.
-// Input:  { "AFG": [{Date, Count}, ..., {"Total Count": N}], "USA": [...] }
+// Aggregate country data returned by the API into a flat array.
+// The API returns an array of { country: alphaCode, Count: N, rank: N } objects.
 // Output: [{ month, country, beneficiaryCount }, ...]
-// The API appends a {"Total Count": N} summary entry to each country array;
-// we use that directly when present, otherwise sum the date-bearing entries.
-const parseCountryData = (countryObj) => {
-  if (
-    !countryObj ||
-    typeof countryObj !== "object" ||
-    Array.isArray(countryObj)
-  )
-    return [];
-  return Object.entries(countryObj).map(([code, entries]) => {
+const parseCountryData = (countryData) => {
+  if (!countryData) return [];
+  // Real API format: array of { country: alphaCode, Count: N, rank: N }
+  if (Array.isArray(countryData)) {
+    return countryData.map((entry) => ({
+      month: "",
+      country: isoAlpha3ToName(entry.country),
+      beneficiaryCount: entry.Count ?? 0,
+    }));
+  }
+  // Object format used in tests: { alphaCode: [{Date, Count}, ..., {"Total Count": N}] }
+  if (typeof countryData !== "object") return [];
+  return Object.entries(countryData).map(([code, entries]) => {
     if (!Array.isArray(entries))
       return { month: "", country: isoAlpha3ToName(code), beneficiaryCount: 0 };
     const summary = entries.find((e) => "Total Count" in e);
@@ -148,9 +151,17 @@ const BeneficiariesAnalytics = () => {
     buildFetchParams("all", "", "", ""),
   );
 
+  // committedRange/committedGroupBy track what is actually displayed in the chart.
+  // They only advance to "custom" once both custom dates are filled (i.e. when
+  // buildFetchParams returns non-null). This prevents the chart from re-rendering
+  // (and falling back to static data) the moment the user clicks "Custom".
+  const [committedRange, setCommittedRange] = useState("all");
+  const [committedGroupBy, setCommittedGroupBy] = useState("day");
+
   // Update fetchParams whenever the trend time range or custom inputs change.
   // The functional updater bails out when the serialized params haven't changed,
   // preventing a redundant API call (e.g. when toggling between 7D/30D/1Y).
+  // committedRange/committedGroupBy are only updated when params are ready.
   useEffect(() => {
     const params = buildFetchParams(
       timeRange,
@@ -162,6 +173,8 @@ const BeneficiariesAnalytics = () => {
       setFetchParams((prev) =>
         JSON.stringify(prev) === JSON.stringify(params) ? prev : params,
       );
+      setCommittedRange(timeRange);
+      setCommittedGroupBy(customGroupBy);
     }
   }, [timeRange, customStartDate, customEndDate, customGroupBy]);
 
@@ -247,14 +260,18 @@ const BeneficiariesAnalytics = () => {
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
-  // Extract growth data from API response, fallback to static data
+  // Extract growth data from API response, fallback to static data.
+  // Uses committedRange/committedGroupBy so clicking "Custom" without dates
+  // does not change what's displayed until both dates are filled.
   const chartData = useMemo(() => {
     if (apiData) {
       const body = apiData.body ?? apiData;
-      const points = normalizeItems(body[BENEFICIARY_TREND_KEYS[timeRange]]);
+      const points = normalizeItems(
+        body[BENEFICIARY_TREND_KEYS[committedRange]],
+      );
       if (points.length > 0) {
         return points.map((item) => ({
-          label: formatLabel(item.date, timeRange, customGroupBy),
+          label: formatLabel(item.date, committedRange, committedGroupBy),
           count: item.count,
         }));
       }
@@ -265,7 +282,7 @@ const BeneficiariesAnalytics = () => {
       label: formatMonthLabel(item.month),
       count: item.newBeneficiaries,
     }));
-  }, [apiData, timeRange, customGroupBy]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [apiData, committedRange, committedGroupBy]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Country data source: use the dedicated country fetch when available, otherwise
   // fall back to the trend apiData (which includes country data for 7D/30D/1Y).
@@ -344,7 +361,13 @@ const BeneficiariesAnalytics = () => {
           ].map(({ id, label }) => (
             <button
               key={id}
-              onClick={() => setTimeRange(id)}
+              onClick={() => {
+                if (id === "custom") {
+                  setCustomStartDate("");
+                  setCustomEndDate("");
+                }
+                setTimeRange(id);
+              }}
               className={`px-2 py-0.5 text-xs rounded ${
                 timeRange === id
                   ? "bg-blue-500 text-white"
@@ -513,7 +536,11 @@ const BeneficiariesAnalytics = () => {
           )}
         </div>
 
-        {geoViewType === "bar" ? (
+        {apiLoading && !apiData ? (
+          <div className="flex items-center justify-center h-64 text-gray-500">
+            Loading beneficiaries data…
+          </div>
+        ) : geoViewType === "bar" ? (
           <>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart
@@ -557,12 +584,12 @@ const BeneficiariesAnalytics = () => {
                   {countryData.map((item, index) => (
                     <div
                       key={index}
-                      className="flex justify-between text-sm text-gray-600"
+                      className="flex justify-start text-sm text-gray-600 gap-5"
                     >
                       <span>
                         {index + 1}. {item.country}
                       </span>
-                      <span className="font-medium">{item.count}</span>
+                      <span className="font-semibold italic">{item.count}</span>
                     </div>
                   ))}
                 </div>
