@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Table from "./Table";
 
 jest.mock("../Pagination/Pagination");
@@ -24,16 +24,40 @@ const mockCategoriesBundle = {
   },
 };
 
+const mockEnumTranslations = {
+  en: {
+    "enums:requestStatus.CREATED": "Created",
+    "enums:requestStatus.MATCHING_VOLUNTEER": "Matching Volunteer",
+    "enums:requestStatus.RESOLVED": "Resolved",
+    "enums:requestPriority.LOW": "Low",
+    "enums:requestPriority.MEDIUM": "Medium",
+    "enums:requestPriority.HIGH": "High",
+  },
+  es: {
+    "enums:requestStatus.MATCHING_VOLUNTEER": "Buscando voluntario",
+    "enums:requestPriority.HIGH": "Alta",
+  },
+};
+
+const mockI18n = {
+  language: "en",
+  getResourceBundle: (lang, ns) => {
+    if (ns === "categories") return mockCategoriesBundle;
+    return null;
+  },
+};
+
+const mockT = jest.fn((key, options) => {
+  const translation = mockEnumTranslations[mockI18n.language]?.[key];
+  if (translation) return translation;
+  if (typeof options === "string") return options;
+  return options?.defaultValue ?? key;
+});
+
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => key,
-    i18n: {
-      language: "en",
-      getResourceBundle: (lang, ns) => {
-        if (ns === "categories") return mockCategoriesBundle;
-        return null;
-      },
-    },
+    t: mockT,
+    i18n: mockI18n,
   }),
 }));
 
@@ -85,6 +109,15 @@ describe("Table", () => {
   const mockRequestSort = jest.fn();
   const mockGetLinkPath = jest.fn(() => "/mock-link-path");
   const mockOnRowsPerPageChange = jest.fn();
+
+  beforeEach(() => {
+    mockI18n.language = "en";
+    jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
   it("renders correctly", () => {
     const tree = render(
@@ -191,7 +224,7 @@ describe("Table", () => {
       jest
         .spyOn(require("react-i18next"), "useTranslation")
         .mockReturnValueOnce({
-          t: (key) => key,
+          t: mockT,
           i18n: {
             language: "en",
             getResourceBundle: () => null,
@@ -217,6 +250,141 @@ describe("Table", () => {
         rows: [{ ...defaultProps.rows[0], category: "" }],
       };
       expect(() => render(<Table {...props} />)).not.toThrow();
+    });
+  });
+
+  describe("status and priority cell translation", () => {
+    it("renders matching-volunteer and medium enum values as English labels", () => {
+      render(
+        <Table
+          {...defaultProps}
+          headers={["status", "priority"]}
+          rows={[{ status: "MATCHING_VOLUNTEER", priority: "MEDIUM" }]}
+        />,
+      );
+
+      expect(screen.getByText("Matching Volunteer")).toBeInTheDocument();
+      expect(screen.getByText("Medium")).toBeInTheDocument();
+      expect(screen.queryByText("MATCHING_VOLUNTEER")).not.toBeInTheDocument();
+      expect(screen.queryByText("MEDIUM")).not.toBeInTheDocument();
+    });
+
+    it("normalizes display values and uses the correct enum namespaces", () => {
+      render(
+        <Table
+          {...defaultProps}
+          headers={["status", "priority"]}
+          rows={[
+            { status: " Matching Volunteer ", priority: "HIGH" },
+            { status: "RESOLVED", priority: "LOW" },
+          ]}
+          totalRows={2}
+        />,
+      );
+
+      expect(screen.getByText("Matching Volunteer")).toBeInTheDocument();
+      expect(screen.getByText("High")).toBeInTheDocument();
+      expect(screen.getByText("Resolved")).toBeInTheDocument();
+      expect(mockT).toHaveBeenCalledWith(
+        "enums:requestStatus.MATCHING_VOLUNTEER",
+        { defaultValue: " Matching Volunteer " },
+      );
+      expect(mockT).toHaveBeenCalledWith("enums:requestPriority.HIGH", {
+        defaultValue: "HIGH",
+      });
+      expect(mockT).toHaveBeenCalledWith("enums:requestStatus.RESOLVED", {
+        defaultValue: "RESOLVED",
+      });
+    });
+
+    it("renders enum values in the active non-English language", () => {
+      mockI18n.language = "es";
+
+      render(
+        <Table
+          {...defaultProps}
+          headers={["status", "priority"]}
+          rows={[{ status: "MATCHING_VOLUNTEER", priority: "HIGH" }]}
+        />,
+      );
+
+      expect(screen.getByText("Buscando voluntario")).toBeInTheDocument();
+      expect(screen.getByText("Alta")).toBeInTheDocument();
+      expect(screen.queryByText("MATCHING_VOLUNTEER")).not.toBeInTheDocument();
+      expect(screen.queryByText("HIGH")).not.toBeInTheDocument();
+    });
+
+    it("falls back to original raw values for unknown backend enums", () => {
+      render(
+        <Table
+          {...defaultProps}
+          headers={["status", "priority"]}
+          rows={[{ status: "Future Status", priority: "ULTRA_HIGH" }]}
+        />,
+      );
+
+      expect(screen.getByText("Future Status")).toBeInTheDocument();
+      expect(screen.getByText("ULTRA_HIGH")).toBeInTheDocument();
+      expect(screen.queryByText("FUTURE_STATUS")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("enums:requestStatus.FUTURE_STATUS"),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("enums:requestPriority.ULTRA_HIGH"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("handles empty, null, and undefined enum values safely", () => {
+      render(
+        <Table
+          {...defaultProps}
+          headers={["status", "priority"]}
+          rows={[
+            { status: "", priority: null },
+            { status: null, priority: undefined },
+            { status: "   ", priority: "" },
+          ]}
+          totalRows={3}
+        />,
+      );
+
+      const cells = screen.getAllByTestId("map-data-one");
+      expect(cells).toHaveLength(6);
+      cells.slice(0, 4).forEach((cell) => expect(cell).toBeEmptyDOMElement());
+      expect(cells[4].textContent).toBe("   ");
+      expect(cells[5]).toBeEmptyDOMElement();
+      expect(
+        mockT.mock.calls.filter(([key]) => key.startsWith("enums:")),
+      ).toHaveLength(0);
+    });
+
+    it("keeps translation display-only and sorts by raw field keys", () => {
+      const row = Object.freeze({
+        status: "MATCHING_VOLUNTEER",
+        priority: "HIGH",
+      });
+      const rows = Object.freeze([row]);
+      const requestSort = jest.fn();
+
+      render(
+        <Table
+          {...defaultProps}
+          headers={["status", "priority"]}
+          rows={rows}
+          requestSort={requestSort}
+        />,
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: /STATUS/i }));
+      fireEvent.click(screen.getByRole("button", { name: /PRIORITY/i }));
+
+      expect(requestSort).toHaveBeenNthCalledWith(1, "status");
+      expect(requestSort).toHaveBeenNthCalledWith(2, "priority");
+      expect(row).toEqual({
+        status: "MATCHING_VOLUNTEER",
+        priority: "HIGH",
+      });
+      expect(rows[0]).toBe(row);
     });
   });
 
