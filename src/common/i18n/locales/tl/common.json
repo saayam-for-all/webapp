@@ -48,5 +48,6 @@
   "ENTER_VOLUNTEER_EMAIL": "Ilagay ang email ng boluntaryo",
   "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo",
   "CHANGE_VOLUNTEER": "Palitan ang Boluntaryo",
-  "DELETE": "Burahin"
+  "DELETE": "Burahin",
+  "DELETE_BUTTON": "Tanggalin"
 }

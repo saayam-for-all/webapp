@@ -51,5 +51,6 @@
   "ENTER_VOLUNTEER_EMAIL": "தன்னார்வலர் மின்னஞ்சலை உள்ளிடுக",
   "ENTER_VOLUNTEER_PHONE": "தன்னார்வலர் தொலைபேசியை உள்ளிடுக",
   "CHANGE_VOLUNTEER": "தன்னார்வலரை மாற்றவும்",
-  "DELETE": "நீக்கவும்"
+  "DELETE": "நீக்கவும்",
+  "DELETE_BUTTON": "நீக்கு"
 }

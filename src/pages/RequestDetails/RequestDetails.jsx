@@ -16,6 +16,7 @@ import EmergencyContact from "../EmergencyContact/EmergencyContact";
 import { createOrganizationsPageState } from "../../common/components/BreadCrumbs/breadcrumbUtils";
 import { FiPaperclip } from "react-icons/fi";
 import { FaMicrophone } from "react-icons/fa";
+import ActionButton from "../../common/components/ActionButton/ActionButton";
 
 import {
   Dialog,
@@ -483,70 +484,125 @@ const RequestDetails = () => {
               </DialogActions>
             </Dialog>
 
-            {/* Delete dialog (now outside grey box) */}
+            {/* Delete dialog */}
+
             <Dialog
               open={deleteDialogOpen}
               onClose={() => setDeleteDialogOpen(false)}
+              PaperProps={{
+                sx: {
+                  width: 600,
+                  maxWidth: "90vw",
+                  borderRadius: 2,
+                },
+              }}
             >
-              <DialogTitle>{t("DELETE")}</DialogTitle>
+              <DialogTitle className="text-3xl font-semibold">
+                {t("DELETE_BUTTON")}
+              </DialogTitle>
+
               <DialogContent>
-                <Typography>{t("REASON")}</Typography>
+                <Typography className="mb-2 font-medium">
+                  {t("REASON")}
+                </Typography>
+
                 <textarea
                   value={deleteReason}
                   onChange={(e) => setDeleteReason(e.target.value)}
-                  className="border p-2 w-full mt-3 rounded-lg min-h-[100px]"
+                  maxLength={200}
+                  className="w-full min-h-[140px] rounded-lg border border-gray-300 p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder={t("REASON")}
                 />
+
+                <Typography
+                  variant="caption"
+                  className="mt-2 flex justify-end text-gray-500"
+                >
+                  {deleteReason.length}/200
+                </Typography>
               </DialogContent>
-              <DialogActions>
-                <Button
+
+              <DialogActions className="px-3 pb-6 flex justify-end  gap-5">
+                <ActionButton
+                  text={t("CANCEL")}
                   onClick={() => setDeleteDialogOpen(false)}
-                  variant="outlined"
-                >
-                  {t("CANCEL")}
-                </Button>
-                <Button
+                  backgroundColor="bg-gray-500"
+                  hoverBackgroundColor="hover:bg-gray-600"
+                  textColor="text-white"
+                  className="min-w-[80px]"
+                />
+
+                <ActionButton
+                  text={t("DELETE_BUTTON")}
                   onClick={handleDeleteRequest}
-                  color="error"
-                  variant="contained"
                   disabled={!deleteReason.trim()}
-                >
-                  {t("DELETE")}
-                </Button>
+                  disableOpacity={false}
+                  backgroundColor="bg-red-500"
+                  hoverBackgroundColor="hover:bg-red-600"
+                  textColor="text-white"
+                  className="min-w-[80px]"
+                />
               </DialogActions>
             </Dialog>
 
-            {/* Change volunteer dialog (now outside grey box) */}
+            {/* Change volunteer dialog */}
+
             <Dialog
               open={changeVolunteerDialogOpen}
               onClose={() => setChangeVolunteerDialogOpen(false)}
+              PaperProps={{
+                sx: {
+                  width: 600,
+                  maxWidth: "90vw",
+                  borderRadius: 2,
+                },
+              }}
             >
-              <DialogTitle>
+              <DialogTitle className="text-3xl font-semibold">
                 {t("PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER")}
               </DialogTitle>
+
               <DialogContent>
+                <Typography className="mb-2 font-medium">
+                  {t("REASON")}
+                </Typography>
+
                 <textarea
                   value={volunteerChangeReason}
                   onChange={(e) => setVolunteerChangeReason(e.target.value)}
-                  className="border p-2 w-full rounded-lg min-h-[100px]"
+                  maxLength={200}
+                  className="w-full min-h-[140px] rounded-lg border border-gray-300 p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder={t("REASON")}
                 />
+
+                <Typography
+                  variant="caption"
+                  className="mt-2 flex justify-end text-gray-500"
+                >
+                  {volunteerChangeReason.length}/200
+                </Typography>
               </DialogContent>
-              <DialogActions>
-                <Button
+
+              <DialogActions className="px-3 pb-6 flex justify-end gap-3">
+                <ActionButton
+                  text={t("CANCEL")}
                   onClick={() => setChangeVolunteerDialogOpen(false)}
-                  variant="outlined"
-                >
-                  {t("CANCEL")}
-                </Button>
-                <Button
+                  backgroundColor="bg-gray-500"
+                  hoverBackgroundColor="hover:bg-gray-600"
+                  textColor="text-white"
+                  className="min-w-[80px]"
+                />
+
+                <ActionButton
+                  text={t("SAVE")}
                   onClick={handleChangeVolunteer}
-                  color="primary"
-                  variant="contained"
                   disabled={!volunteerChangeReason.trim()}
-                >
-                  {t("CHANGE_VOLUNTEER")}
-                </Button>
+                  disableOpacity={false}
+                  backgroundColor="bg-blue-500"
+                  hoverBackgroundColor="hover:bg-blue-600"
+                  textColor="text-white"
+                  className="min-w-[80px]"
+                />
               </DialogActions>
             </Dialog>
           </div>

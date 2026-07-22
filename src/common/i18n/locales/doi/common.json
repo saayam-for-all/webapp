@@ -48,5 +48,6 @@
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवक दा ईमेल दर्ज करो",
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवक दा फोन दर्ज करो",
   "CHANGE_VOLUNTEER": "स्वयंसेवक बदलो",
-  "DELETE": "हटाओ"
+  "DELETE": "हटाओ",
+  "DELETE_BUTTON": "मिटाओ"
 }
