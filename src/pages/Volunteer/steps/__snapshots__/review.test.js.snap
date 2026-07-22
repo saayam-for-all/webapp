@@ -45,7 +45,8 @@ exports[`Review renders correctly 1`] = `
         to="/dashboard"
       >
         <button
-          class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12"
+          class="mx-auto mt-12 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+          type="button"
         >
           mockTranslate(CLOSE)
         </button>

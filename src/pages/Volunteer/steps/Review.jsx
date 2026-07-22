@@ -29,7 +29,7 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
       <div className="flex flex-col items-center">
         <div className="text-yellow-500">
           <svg
-            className="h-24 w-24"
+            className="w-24 h-24"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -43,7 +43,7 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
           {t("IN_REVIEW")}
         </div>
 
-        <div className="mt-4 max-w-md px-4 text-center text-gray-600">
+        <div className="mt-4 text-center text-gray-600 max-w-md px-4">
           <p>{t("REVIEW_STATUS_MESSAGE")}</p>
           <p className="mt-2">{t("REVIEW_APPROVAL_MESSAGE")}</p>
         </div>
@@ -71,10 +71,7 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
                   Promote
                 </button>
 
-                <button
-                  type="button"
-                  className="rounded bg-red-600 px-5 py-2 text-white hover:bg-red-700"
-                >
+                <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12">
                   Reject
                 </button>
 
