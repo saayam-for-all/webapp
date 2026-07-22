@@ -48,5 +48,6 @@
   "ENTER_VOLUNTEER_EMAIL": "ಸ್ವಯಂಸೇವಕರ ಇಮೇಲ್ ನಮೂದಿಸಿ",
   "ENTER_VOLUNTEER_PHONE": "ಸ್ವಯಂಸೇವಕರ ಫೋನ್ ನಮೂದಿಸಿ",
   "CHANGE_VOLUNTEER": "ಸ್ವಯಂಸೇವಕರನ್ನು ಬದಲಾಯಿಸಿ",
-  "DELETE": "ಅಳಿಸಿ"
+  "DELETE": "ಅಳಿಸಿ",
+  "DELETE_ACTION": "ಅಳಿಸಿ"
 }
