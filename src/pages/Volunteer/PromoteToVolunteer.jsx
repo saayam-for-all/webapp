@@ -4,7 +4,7 @@ import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
 import Review from "./steps/Review";
 import Skills from "./steps/Skills";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
@@ -50,9 +50,16 @@ const removeSessionStorageItem = (key) => {
 
 const PromoteToVolunteer = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
+
+  const applicant = location.state;
+  const isStewardReview = applicant?.isStewardReview === true;
   const stepParam = parseInt(searchParams.get("step")) || 1;
   const [currentStep, setCurrentStep] = useState(() => {
+    if (isStewardReview) {
+      return 5;
+    }
     const cachedStep = getSessionStorageItem("volunteer_wizard_step");
     return cachedStep ? parseInt(cachedStep, 10) : stepParam;
   });
@@ -100,9 +107,7 @@ const PromoteToVolunteer = () => {
         console.error("Failed to parse volunteer_form_data:", e);
       }
     }
-    return [
-      { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
-    ];
+    return [{ id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null }];
   });
   const [tobeNotified, setNotification] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
@@ -155,7 +160,14 @@ const PromoteToVolunteer = () => {
       };
       setSessionStorageItem("volunteer_form_data", JSON.stringify(formData));
     }
-  }, [isAcknowledged, isUploaded, selectedSkills, availabilitySlots, tobeNotified, currentStep]);
+  }, [
+    isAcknowledged,
+    isUploaded,
+    selectedSkills,
+    availabilitySlots,
+    tobeNotified,
+    currentStep,
+  ]);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -229,13 +241,16 @@ const PromoteToVolunteer = () => {
             setNotification={setNotification}
           />
         );
+
       case 5:
-        return <Review />;
+        return (
+          <Review isStewardReview={isStewardReview} applicant={applicant} />
+        );
+
       default:
         return null;
     }
   };
-
   const isAvailabilityValid = useMemo(() => {
     if (!availabilitySlots || availabilitySlots.length === 0) return false;
     return availabilitySlots.some((slot) => {
@@ -327,7 +342,7 @@ const PromoteToVolunteer = () => {
         default:
           isValidStep = false;
       }
- 
+
       if (isValidStep) {
         setErrorMessage("");
         newStep++;
@@ -336,9 +351,7 @@ const PromoteToVolunteer = () => {
           removeSessionStorageItem("volunteer_form_data");
         }
       } else {
-        setErrorMessage(
-          t("COMPLETE_REQUIRED_FIELDS"),
-        );
+        setErrorMessage(t("COMPLETE_REQUIRED_FIELDS"));
       }
     } else if (direction === "prev") {
       newStep--;

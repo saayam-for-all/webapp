@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Table from "../../../common/components/DataTable/Table";
 import LoadingIndicator from "../../../common/components/Loading/Loading";
-import { getMockVolunteersData } from "../../../services/volunteerServices";
+import { getVolunteersData } from "../../../services/volunteerServices";
 
 const StewardDashboard = (props) => {
   const [activeTab, setActiveTab] = useState("allRequests");
@@ -13,7 +13,7 @@ const StewardDashboard = (props) => {
       const fetchVolunteers = async () => {
         setIsVolunteerLoading(true);
         try {
-          const data = await getMockVolunteersData();
+          const data = await getVolunteersData();
           setVolunteerData(data);
         } catch (error) {
           console.error("Error fetching volunteers:", error);
@@ -38,6 +38,7 @@ const StewardDashboard = (props) => {
   };
 
   const volunteerRows = volunteerData.map((v) => ({
+    ...v,
     "User Id": v.userId,
     "Updated Time": v.updatedAt ? new Date(v.updatedAt).toLocaleString() : "",
     "Volunteering Request": "Review",
@@ -83,7 +84,7 @@ const StewardDashboard = (props) => {
           }`}
           onClick={() => setActiveTab("volunteers")}
         >
-          Volunteers
+          Needs Attention
         </button>
       </div>
 
@@ -138,7 +139,10 @@ const StewardDashboard = (props) => {
               requestSort={requestSort}
               onRowsPerPageChange={onRowsPerPageChange}
               getLinkPath={getVolunteerLinkPath}
-              getLinkState={(volunteer) => volunteer}
+              getLinkState={(volunteer) => ({
+                ...volunteer,
+                isStewardReview: true,
+              })}
             />
           )}
         </div>

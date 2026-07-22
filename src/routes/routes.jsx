@@ -16,6 +16,7 @@ import LandingPage from "../pages/LandingPage/LandingPage";
 import NewsOurStories from "../pages/NewsOurStories/NewsOurStories";
 import Notifications from "../pages/Notifications/Notifications";
 import Profile from "../pages/Profile/Profile";
+import ApplicantProfile from "../pages/Profile/ApplicantProfile";
 import OrganizationDetails from "../pages/RequestDetails/OrganizationDetails";
 import RequestDetails from "../pages/RequestDetails/RequestDetails";
 import VoluntaryOrganizations from "../pages/RequestDetails/VoluntaryOrganizations";
@@ -134,6 +135,11 @@ const routes = [
       {
         path: "profile",
         element: <Profile />,
+        handle: { leaveAdSpace: true },
+      },
+      {
+        path: "applicant-profile",
+        element: <ApplicantProfile />,
         handle: { leaveAdSpace: true },
       },
       {

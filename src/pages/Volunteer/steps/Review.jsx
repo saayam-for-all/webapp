@@ -1,8 +1,30 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const Review = () => {
+const Review = ({ isStewardReview = false, applicant = null }) => {
   const { t } = useTranslation();
+  console.log("Applicant data in Review:", applicant);
+  const combinedName = [applicant?.firstName, applicant?.lastName]
+    .filter(Boolean)
+    .join(" ");
+
+  const applicantName =
+    applicant?.fullName ||
+    applicant?.name ||
+    combinedName ||
+    applicant?.["User Id"] ||
+    "Applicant";
+
+  const applicantUserId = applicant?.userId || applicant?.["User Id"] || "";
+
+  const applicantPhone =
+    applicant?.whatsappNumber ||
+    applicant?.phoneNumber ||
+    applicant?.mobileNumber ||
+    applicant?.phone ||
+    "";
+
+  const whatsappNumber = String(applicantPhone).replace(/\D/g, "");
 
   return (
     <div className="container md:mt-6">
@@ -25,6 +47,66 @@ const Review = () => {
           <p>{t("REVIEW_STATUS_MESSAGE")}</p>
           <p className="mt-2">{t("REVIEW_APPROVAL_MESSAGE")}</p>
         </div>
+        {isStewardReview && (
+          <pre className="m-4 max-w-full overflow-auto border p-4 text-left text-xs">
+            {JSON.stringify(applicant, null, 2)}
+          </pre>
+        )}
+        {isStewardReview && applicant && (
+          <div className="mt-8 w-full max-w-md px-4">
+            <div className="rounded-lg border border-gray-200 p-5">
+              <div className="text-center">
+                <span className="text-gray-600">Applicant: </span>
+
+                <Link
+                  to="/profile"
+                  state={{
+                    ...applicant,
+                    userId: applicantUserId,
+                  }}
+                  className="font-semibold text-blue-600 underline hover:text-blue-800"
+                >
+                  {applicantName}
+                </Link>
+              </div>
+
+              <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  className="rounded bg-green-600 px-5 py-2 text-white hover:bg-green-700"
+                >
+                  Promote
+                </button>
+
+                <button
+                  type="button"
+                  className="rounded bg-red-600 px-5 py-2 text-white hover:bg-red-700"
+                >
+                  Reject
+                </button>
+
+                {whatsappNumber ? (
+                  <a
+                    href={`https://wa.me/${whatsappNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded bg-green-500 px-5 py-2 text-center text-white hover:bg-green-600"
+                  >
+                    Send Message
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    className="cursor-not-allowed rounded bg-gray-300 px-5 py-2 text-gray-600"
+                  >
+                    Send Message
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
         <Link to="/dashboard">
           <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12">
             {t("CLOSE")}
