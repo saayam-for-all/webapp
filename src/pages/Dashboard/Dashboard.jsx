@@ -4,7 +4,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./views/AdminDashboard";
 import BeneficiaryDashboard from "./views/BeneficiaryDashboard";
@@ -84,6 +84,62 @@ const Dashboard = ({ userRole }) => {
     currentServerPage: 0,
     isServerPaginated: false,
   });
+
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const handleRowSelect = (rowId) => {
+    setSelectedRows((prev) =>
+      prev.includes(rowId)
+        ? prev.filter((id) => id !== rowId)
+        : [...prev, rowId],
+    );
+  };
+
+  const handleSelectAll = (checked) => {
+    const currentPageRows = serverPagination.isServerPaginated
+      ? filteredData
+      : filteredData.slice(
+          (currentPage - 1) * rowsPerPage,
+          currentPage * rowsPerPage,
+        );
+    const currentPageIds = currentPageRows.map(
+      (row) => row.requestId || row.id,
+    );
+    if (checked) {
+      setSelectedRows((prev) => [...new Set([...prev, ...currentPageIds])]);
+    } else {
+      setSelectedRows((prev) =>
+        prev.filter((id) => !currentPageIds.includes(id)),
+      );
+    }
+  };
+
+  const getRequestRows = (data) => {
+    return data?.data?.content || data?.content || data?.body || [];
+  };
+
+  const [bulkStatusValue, setBulkStatusValue] = useState("");
+
+  // TODO: BACKEND DEPENDENCY — Bulk Admin Status Change
+  // ------------------------------------------------------------------
+  // The frontend UI for bulk status changes (checkboxes + "Change Status"
+  // dropdown + "Apply" button) is fully implemented. Once the backend
+  // provides an endpoint, integrate the API call here.
+  //
+  // Option A (Preferred): PUT /v1/request/admin/bulkUpdateStatus
+  //   Request body: { requestIds: ["REQ-00-..."], requestStatus: "CANCELLED" }
+  //
+  // Option B: Modify PUT /v1/request/updateHelpRequest to accept
+  //   partial/status-only updates with admin authorization.
+  // ------------------------------------------------------------------
+  const handleBulkStatusChange = () => {
+    if (!bulkStatusValue || selectedRows.length === 0) return;
+    toast.warn(
+      `Bulk status update to "${bulkStatusValue}" for ${selectedRows.length} request(s) is pending backend API support.`,
+    );
+    setSelectedRows([]);
+    setBulkStatusValue("");
+  };
 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [accessibleDashboards, setAccessibleDashboards] = useState([]);
@@ -318,6 +374,7 @@ const Dashboard = ({ userRole }) => {
     setActiveTab(tab);
     setCurrentPage(1);
     setStatusFilter({});
+    setSelectedRows([]);
   };
   // DON'T reset category filter when changing tabs
   // This was causing issues where API categories didn't match data categories
@@ -405,10 +462,6 @@ const Dashboard = ({ userRole }) => {
       });
     }
     return sortableRequests;
-  };
-
-  const getRequestRows = (data) => {
-    return data?.data?.content || data?.content || data?.body || [];
   };
 
   const sortedData = useMemo(() => {
@@ -1154,6 +1207,7 @@ const Dashboard = ({ userRole }) => {
       setPriorityFilter({});
       setCalamityFilter({});
       setVolunteerTypeFilter({});
+      setSelectedRows([]);
       setActiveTab(dashboardDefaultTab[selectedDashboard]);
     }
   }, [selectedDashboard]);
@@ -1175,7 +1229,7 @@ const Dashboard = ({ userRole }) => {
           />
         </div>
       </div>
-      <div className="mb-4 flex flex-wrap gap-2 px-10">
+      <div className="mb-4 flex flex-wrap gap-2 px-10 items-center">
         <div className="relative" onBlur={handleFilterBlur} tabIndex={-1}>
           <div
             className="bg-blue-50 flex items-center rounded-md hover:bg-gray-300"
@@ -1424,6 +1478,41 @@ const Dashboard = ({ userRole }) => {
               )}
             </div>
           )}
+
+        {[DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN].includes(
+          selectedDashboard,
+        ) &&
+          activeTab === "myRequests" &&
+          selectedRows.length > 0 && (
+            <div className="flex items-center gap-2 ml-auto">
+              <span className="text-sm text-gray-600 font-medium">
+                {selectedRows.length} selected
+              </span>
+              <select
+                value={bulkStatusValue}
+                onChange={(e) => setBulkStatusValue(e.target.value)}
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">Change Status</option>
+                {statusOptions.map((status) => (
+                  <option key={status.key} value={status.key}>
+                    {String(status.label).toUpperCase()}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleBulkStatusChange}
+                disabled={!bulkStatusValue}
+                className={`py-2 px-4 rounded-md text-sm font-medium text-white ${
+                  !bulkStatusValue
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                }`}
+              >
+                Apply
+              </button>
+            </div>
+          )}
       </div>
     </>
   );
@@ -1574,6 +1663,9 @@ const Dashboard = ({ userRole }) => {
                 setAnalyticsSubtab={setAnalyticsSubtab}
                 serverPaginated={serverPagination.isServerPaginated}
                 serverTotalRows={serverPagination.totalRecords}
+                selectedRows={selectedRows}
+                onRowSelect={handleRowSelect}
+                onSelectAll={handleSelectAll}
               />
             )}
 
@@ -1604,6 +1696,9 @@ const Dashboard = ({ userRole }) => {
                 setAnalyticsSubtab={setAnalyticsSubtab}
                 serverPaginated={serverPagination.isServerPaginated}
                 serverTotalRows={serverPagination.totalRecords}
+                selectedRows={selectedRows}
+                onRowSelect={handleRowSelect}
+                onSelectAll={handleSelectAll}
               />
             )}
 

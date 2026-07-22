@@ -18,6 +18,10 @@ const Table = ({
   getLinkPath,
   getLinkState = undefined,
   serverPaginated = false,
+  showCheckboxes = false,
+  selectedRows = [],
+  onRowSelect,
+  onSelectAll,
 }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
 
@@ -171,6 +175,23 @@ const Table = ({
         >
           <thead data-testid="table-header">
             <tr>
+              {showCheckboxes && (
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider w-10">
+                  <input
+                    type="checkbox"
+                    className="cursor-pointer w-4 h-4"
+                    checked={
+                      paginatedRequests.length > 0 &&
+                      paginatedRequests.every((row) =>
+                        selectedRows.includes(row.requestId || row.id),
+                      )
+                    }
+                    onChange={(e) =>
+                      onSelectAll && onSelectAll(e.target.checked)
+                    }
+                  />
+                </th>
+              )}
               {headers.map((key) => (
                 <th
                   key={key}
@@ -201,7 +222,7 @@ const Table = ({
             {paginatedRequests.length === 0 ? (
               <tr>
                 <td
-                  colSpan={headers.length}
+                  colSpan={headers.length + (showCheckboxes ? 1 : 0)}
                   className="px-6 py-8 text-center text-gray-500"
                 >
                   <div className="flex flex-col items-center justify-center">
@@ -219,6 +240,18 @@ const Table = ({
             ) : (
               paginatedRequests.map((row, rowIndex) => (
                 <tr key={rowIndex}>
+                  {showCheckboxes && (
+                    <td className="px-3 py-2 w-10">
+                      <input
+                        type="checkbox"
+                        className="cursor-pointer w-4 h-4"
+                        checked={selectedRows.includes(row.requestId || row.id)}
+                        onChange={() =>
+                          onRowSelect && onRowSelect(row.requestId || row.id)
+                        }
+                      />
+                    </td>
+                  )}
                   {headers.map((header, colIndex) => {
                     const value = getCellValue(row, header);
 
@@ -286,6 +319,10 @@ Table.propTypes = {
   getLinkPath: PropTypes.func.isRequired,
   getLinkState: PropTypes.func,
   serverPaginated: PropTypes.bool,
+  showCheckboxes: PropTypes.bool,
+  selectedRows: PropTypes.array,
+  onRowSelect: PropTypes.func,
+  onSelectAll: PropTypes.func,
 };
 
 export default Table;
