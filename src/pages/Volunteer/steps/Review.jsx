@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 const Review = ({ isStewardReview = false, applicant = null }) => {
   const { t } = useTranslation();
-  console.log("Applicant data in Review:", applicant);
+
   const combinedName = [applicant?.firstName, applicant?.lastName]
     .filter(Boolean)
     .join(" ");
@@ -14,8 +14,6 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
     combinedName ||
     applicant?.["User Id"] ||
     "Applicant";
-
-  const applicantUserId = applicant?.userId || applicant?.["User Id"] || "";
 
   const applicantPhone =
     applicant?.whatsappNumber ||
@@ -31,7 +29,7 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
       <div className="flex flex-col items-center">
         <div className="text-yellow-500">
           <svg
-            className="w-24 h-24"
+            className="h-24 w-24"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -40,18 +38,16 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
           </svg>
         </div>
+
         <div className="mt-3 text-xl font-semibold uppercase text-yellow-600">
           {t("IN_REVIEW")}
         </div>
-        <div className="mt-4 text-center text-gray-600 max-w-md px-4">
+
+        <div className="mt-4 max-w-md px-4 text-center text-gray-600">
           <p>{t("REVIEW_STATUS_MESSAGE")}</p>
           <p className="mt-2">{t("REVIEW_APPROVAL_MESSAGE")}</p>
         </div>
-        {isStewardReview && (
-          <pre className="m-4 max-w-full overflow-auto border p-4 text-left text-xs">
-            {JSON.stringify(applicant, null, 2)}
-          </pre>
-        )}
+
         {isStewardReview && applicant && (
           <div className="mt-8 w-full max-w-md px-4">
             <div className="rounded-lg border border-gray-200 p-5">
@@ -59,11 +55,8 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
                 <span className="text-gray-600">Applicant: </span>
 
                 <Link
-                  to="/profile"
-                  state={{
-                    ...applicant,
-                    userId: applicantUserId,
-                  }}
+                  to="/applicant-profile"
+                  state={{ applicant }}
                   className="font-semibold text-blue-600 underline hover:text-blue-800"
                 >
                   {applicantName}
@@ -107,8 +100,12 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
             </div>
           </div>
         )}
+
         <Link to="/dashboard">
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12">
+          <button
+            type="button"
+            className="mx-auto mt-12 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+          >
             {t("CLOSE")}
           </button>
         </Link>
