@@ -85,6 +85,39 @@ describe("usePlacesSearchBox", () => {
     expect(result.current.suggestions).toEqual([]);
   });
 
+  it("does not reopen suggestions from a stale pending fetch after a suggestion is selected", async () => {
+    const mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockSuggestions),
+    });
+    const setLocation = jest.fn();
+    const { result } = renderHook(() => usePlacesSearchBox(setLocation));
+
+    // Start typing - this schedules a debounced fetch 500ms out
+    await act(async () => {
+      result.current.handleSearchChange("Kansas");
+    });
+
+    // User selects a suggestion immediately, before the debounce fires
+    act(() => {
+      result.current.handleSelectSuggestion({
+        display_name: "Kansas City, Missouri, USA",
+        lat: "39.0997",
+        lon: "-94.5786",
+      });
+    });
+
+    // Wait past the original debounce window - if the pending timer
+    // wasn't cancelled, its fetch would resolve here and reopen the
+    // suggestions list with stale results
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 700));
+    });
+
+    expect(global.fetch).not.toHaveBeenCalled();
+    expect(result.current.suggestions).toEqual([]);
+  });
+
   it("handles fetch error gracefully", async () => {
     global.fetch = jest.fn().mockRejectedValue(new Error("Network error"));
 
