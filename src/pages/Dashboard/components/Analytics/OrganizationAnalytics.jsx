@@ -4,6 +4,8 @@ import {
   Bar,
   LineChart,
   Line,
+  PieChart,
+  Pie,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -20,7 +22,7 @@ import {
 } from "../../../../services/analyticsServices";
 import organizationOverviewMock from "../../../../data/analytics/organization_overview";
 
-// Metrics available in the Organization Overview dropdown.
+// Metrics available in the Organization Overview dropdown (Chart 1).
 const METRIC_OPTIONS = [
   { id: "type", label: "Organizations by Type" },
   { id: "size", label: "Organizations by Size" },
@@ -28,6 +30,18 @@ const METRIC_OPTIONS = [
   { id: "contributor", label: "Contributor Distribution" },
   { id: "location", label: "Organizations by Location" },
   { id: "registrationTrend", label: "Organization Registration Trend" },
+];
+
+// Metrics available in the Organization Performance dropdown (Chart 2).
+const METRIC_OPTIONS2 = [
+  { id: "rating", label: "Average Organization Rating" },
+  { id: "distribution", label: "Rating Distribution" },
+  { id: "top-rating", label: "Top-Rated Organizations" },
+  { id: "without-rating", label: "Organizations Without Ratings" },
+  { id: "top-collaborator", label: "Top Collaborator Organizations" },
+  { id: "top-contributor", label: "Top Contributor Organizations" },
+  { id: "ratingandtype", label: "Organizations by Rating and Type" },
+  { id: "ratingandsize", label: "Organizations by Rating and Size" },
 ];
 
 const LOCATION_VIEWS = [
@@ -116,69 +130,21 @@ const aggregateActivityTrend = (rawTrend, granularity) => {
     }));
 };
 
-// Format "2026-01" -> "Jan 2026"
-const formatMonthLabel = (yyyyMM) => {
-  if (!yyyyMM) return "";
-  const [year, month] = yyyyMM.split("-");
-  const date = new Date(parseInt(year), parseInt(month) - 1);
-  return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-};
-
-// KPI "1Y" bucket: total_requests is an array of { period, total_requests }
-const parseRequestsByMonth = (kpiData) => {
-  const body = kpiData?.body ?? kpiData;
-  const series = body?.["1Y"]?.total_requests;
-  const map = {};
-  if (Array.isArray(series)) {
-    series.forEach(({ period, total_requests }) => {
-      const key = period?.slice(0, 7);
-      if (key) map[key] = total_requests ?? 0;
-    });
-  }
-  return map;
-};
-
-// Volunteer "1Y" bucket: volunteer_activity_trend.total_volunteers is an array of { period, count }
-const parseVolunteersByMonth = (volunteerData) => {
-  const body = volunteerData?.body ?? volunteerData;
-  const series = body?.["1Y"]?.volunteer_activity_trend?.total_volunteers;
-  const map = {};
-  if (Array.isArray(series)) {
-    series.forEach(({ period, count }) => {
-      if (period) map[period] = count ?? 0;
-    });
-  }
-  return map;
-};
-
-// Beneficiaries "Beneficiaries count 1 year" bucket: array of { Date, Count }
-const parseBeneficiariesByMonth = (beneficiaryData) => {
-  const body = beneficiaryData?.body ?? beneficiaryData;
-  const series = body?.["Beneficiaries count 1 year"];
-  const map = {};
-  if (Array.isArray(series)) {
-    series.forEach(({ Date: dateStr, Count }) => {
-      const key = dateStr?.split("T")[0]?.slice(0, 7);
-      if (key) map[key] = (map[key] ?? 0) + (Count ?? 0);
-    });
-  }
-  return map;
-};
-
 /**
  * OrganizationAnalytics Component (Dashboard tab)
  *
  * Displays:
- * 1. Organization Overview — a metric dropdown (Type, Size, Collaborator/Contributor
- *    Distribution, Location, Registration Trend) driving a single chart, backed by
- *    mock data shaped like the documented `organization_overview` API response.
- * 2. Organization Performance — a 12-month trend combining request volume,
- *    volunteer growth, and beneficiary growth on a single chart.
+ * 1. Organization Overview — controlled by independent states and options 1.
+ * 2. Organization Performance — controlled by independent states and options 2 (Ratings).
  */
 const OrganizationAnalytics = () => {
-  const [selectedMetric, setSelectedMetric] = useState("type");
-  const [locationView, setLocationView] = useState("state");
-  const [trendGranularity, setTrendGranularity] = useState("monthly");
+  // Chart 1 States
+  const [selectedMetric1, setSelectedMetric1] = useState("type");
+  const [locationView1, setLocationView1] = useState("state");
+  const [trendGranularity1, setTrendGranularity1] = useState("monthly");
+
+  // Chart 2 States (Independent)
+  const [selectedMetric2, setSelectedMetric2] = useState("rating");
 
   const [kpiData, setKpiData] = useState(null);
   const [volunteerData, setVolunteerData] = useState(null);
@@ -219,8 +185,9 @@ const OrganizationAnalytics = () => {
 
   const overviewSummary = organizationOverviewMock.summary;
 
-  const overviewChartData = useMemo(() => {
-    switch (selectedMetric) {
+  // Data for Chart 1: Organization Overview
+  const chart1Data = useMemo(() => {
+    switch (selectedMetric1) {
       case "type":
         return withColors(organizationOverviewMock.organizations_by_type);
       case "size":
@@ -231,41 +198,212 @@ const OrganizationAnalytics = () => {
         return withColors(organizationOverviewMock.contributor_distribution);
       case "location":
         return withColors(
-          organizationOverviewMock.organizations_by_location?.[locationView] ??
+          organizationOverviewMock.organizations_by_location?.[locationView1] ??
             [],
         );
       case "registrationTrend":
         return aggregateActivityTrend(
           organizationOverviewMock.organization_activity_trend,
-          trendGranularity,
+          trendGranularity1,
         );
       default:
         return [];
     }
-  }, [selectedMetric, locationView, trendGranularity]);
+  }, [selectedMetric1, locationView1, trendGranularity1]);
 
-  const performanceData = useMemo(() => {
-    const requestsByMonth = parseRequestsByMonth(kpiData);
-    const volunteersByMonth = parseVolunteersByMonth(volunteerData);
-    const beneficiariesByMonth = parseBeneficiariesByMonth(beneficiaryData);
+  // Data for Chart 2: Organization Performance / Ratings
+  const chart2Data = useMemo(() => {
+    const ratings = organizationOverviewMock.Organization_Ratings ?? [];
 
-    const allMonths = new Set([
-      ...Object.keys(requestsByMonth),
-      ...Object.keys(volunteersByMonth),
-      ...Object.keys(beneficiariesByMonth),
-    ]);
+    if (selectedMetric2 === "rating") {
+      return ratings
+        .filter((item) => item.rating !== null && item.rating !== undefined)
+        .map((item, index) => {
+          const shortName = item.name
+            ? item.name.replace(/[^0-9]/g, "")
+            : String(index + 1);
+          return {
+            name: "",
+            count: item.rating,
+            fill: BAR_COLORS[index % BAR_COLORS.length],
+          };
+        });
+    }
 
-    return [...allMonths].sort().map((month) => ({
-      month,
-      label: formatMonthLabel(month),
-      requests: requestsByMonth[month] ?? 0,
-      volunteers: volunteersByMonth[month] ?? 0,
-      beneficiaries: beneficiariesByMonth[month] ?? 0,
-    }));
-  }, [kpiData, volunteerData, beneficiaryData]);
+    if (
+      selectedMetric2 === "distribution" ||
+      selectedMetric2 === "ratingandtype"
+    ) {
+      const ranges = [
+        { name: "1 - 2", min: 1, max: 2, profit: 0, nonProfit: 0, count: 0 },
+        { name: "2 - 3", min: 2, max: 3, profit: 0, nonProfit: 0, count: 0 },
+        { name: "3 - 4", min: 3, max: 4, profit: 0, nonProfit: 0, count: 0 },
+        { name: "4 - 5", min: 4, max: 5, profit: 0, nonProfit: 0, count: 0 },
+      ];
 
-  const isLocationMetric = selectedMetric === "location";
-  const isTrendMetric = selectedMetric === "registrationTrend";
+      ratings.forEach((item) => {
+        const r = item.rating;
+        if (r != null) {
+          let rangeIndex = -1;
+          if (r >= 1 && r < 2) rangeIndex = 0;
+          else if (r >= 2 && r < 3) rangeIndex = 1;
+          else if (r >= 3 && r < 4) rangeIndex = 2;
+          else if (r >= 4 && r <= 5) rangeIndex = 3;
+
+          if (rangeIndex !== -1) {
+            ranges[rangeIndex].count++;
+            if (item.type === "profit") {
+              ranges[rangeIndex].profit++;
+            } else if (item.type === "non-profit") {
+              ranges[rangeIndex].nonProfit++;
+            }
+          }
+        }
+      });
+
+      return ranges;
+    }
+
+    if (selectedMetric2 === "ratingandsize") {
+      const ranges = [
+        { name: "1 - 2", min: 1, max: 2, totalSize: 0, count: 0 },
+        { name: "2 - 3", min: 2, max: 3, totalSize: 0, count: 0 },
+        { name: "3 - 4", min: 3, max: 4, totalSize: 0, count: 0 },
+        { name: "4 - 5", min: 4, max: 5, totalSize: 0, count: 0 },
+      ];
+
+      ratings.forEach((item) => {
+        const r = item.rating;
+        const s = item.size ?? 0;
+        if (r != null) {
+          let rangeIndex = -1;
+          if (r >= 1 && r < 2) rangeIndex = 0;
+          else if (r >= 2 && r < 3) rangeIndex = 1;
+          else if (r >= 3 && r < 4) rangeIndex = 2;
+          else if (r >= 4 && r <= 5) rangeIndex = 3;
+
+          if (rangeIndex !== -1) {
+            ranges[rangeIndex].count++;
+            ranges[rangeIndex].totalSize += s;
+          }
+        }
+      });
+
+      return ranges.map((range, index) => ({
+        name: range.name,
+        count: range.count,
+        avgSize:
+          range.count > 0 ? Math.round(range.totalSize / range.count) : 0,
+        fill: BAR_COLORS[index % BAR_COLORS.length],
+      }));
+    }
+
+    if (selectedMetric2 === "top-rating") {
+      let highRatingCount = 0; // 4 or more
+      let lowRatingCount = 0; // Below 4
+
+      ratings.forEach((item) => {
+        if (item.rating !== null && item.rating !== undefined) {
+          if (item.rating >= 4) {
+            highRatingCount++;
+          } else {
+            lowRatingCount++;
+          }
+        }
+      });
+
+      return [
+        { name: "4+ Rating", count: highRatingCount, fill: "#10b981" },
+        { name: "Below 4 Rating", count: lowRatingCount, fill: "#f59e0b" },
+      ];
+    }
+
+    if (selectedMetric2 === "without-rating") {
+      let ratedCount = 0;
+      let nullCount = 0;
+
+      ratings.forEach((item) => {
+        if (item.rating !== null && item.rating !== undefined) {
+          ratedCount++;
+        } else {
+          nullCount++;
+        }
+      });
+
+      return [
+        { name: "With Ratings", count: ratedCount, fill: "#3b82f6" },
+        { name: "Without Ratings", count: nullCount, fill: "#94a3b8" },
+      ];
+    }
+
+    if (selectedMetric2 === "top-collaborator") {
+      const topCollabData = organizationOverviewMock
+        .top_collobrator_organizations?.[0] ?? {
+        collaborator: 0,
+        non_collaborator: 0,
+      };
+
+      return [
+        {
+          name: "Collaborator",
+          count: topCollabData.collaborator,
+          fill: "#3b82f6",
+        },
+        {
+          name: "Non-Collaborator",
+          count: topCollabData.non_collaborator,
+          fill: "#f59e0b",
+        },
+      ];
+    }
+
+    if (selectedMetric2 === "top-contributor") {
+      const topContribData = organizationOverviewMock
+        .top_contributor_organizations?.[0] ?? {
+        contributor: 0,
+        non_contributor: 0,
+      };
+
+      return [
+        {
+          name: "Contributor",
+          count: topContribData.contributor,
+          fill: "#10b981",
+        },
+        {
+          name: "Non-Contributor",
+          count: topContribData.non_contributor,
+          fill: "#f59e0b",
+        },
+      ];
+    }
+
+    return [];
+  }, [selectedMetric2]);
+
+  const isLocationMetric1 = selectedMetric1 === "location";
+  const isTrendMetric1 = selectedMetric1 === "registrationTrend";
+  const isStackedRatingType = selectedMetric2 === "ratingandtype";
+  const isRatingAndSize = selectedMetric2 === "ratingandsize";
+  const isTopCollaborator = selectedMetric2 === "top-collaborator";
+  const isTopContributor = selectedMetric2 === "top-contributor";
+
+  // Dynamic description text for Chart 2 header card
+  const getChart2Description = () => {
+    if (isTopCollaborator) {
+      const total =
+        organizationOverviewMock.top_collobrator_organizations?.[0]?.total ??
+        overviewSummary.total_organizations;
+      return `Total Organizations: ${total}`;
+    }
+    if (isTopContributor) {
+      const total =
+        organizationOverviewMock.top_contributor_organizations?.[0]?.total ??
+        overviewSummary.total_organizations;
+      return `Total Organizations: ${total}`;
+    }
+    return `Total Organizations: ${overviewSummary.total_organizations}`;
+  };
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -276,8 +414,8 @@ const OrganizationAnalytics = () => {
       >
         <div className="mb-2 flex gap-2 items-center flex-wrap">
           <select
-            value={selectedMetric}
-            onChange={(e) => setSelectedMetric(e.target.value)}
+            value={selectedMetric1}
+            onChange={(e) => setSelectedMetric1(e.target.value)}
             className="px-2 py-1 text-xs border border-gray-300 rounded bg-white"
             aria-label="Select organization metric"
           >
@@ -288,15 +426,15 @@ const OrganizationAnalytics = () => {
             ))}
           </select>
 
-          {isLocationMetric && (
+          {isLocationMetric1 && (
             <div className="flex gap-1">
               {LOCATION_VIEWS.map(({ id, label }) => (
                 <button
                   key={id}
                   type="button"
-                  onClick={() => setLocationView(id)}
+                  onClick={() => setLocationView1(id)}
                   className={`px-2 py-0.5 text-xs rounded ${
-                    locationView === id
+                    locationView1 === id
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
@@ -307,15 +445,15 @@ const OrganizationAnalytics = () => {
             </div>
           )}
 
-          {isTrendMetric && (
+          {isTrendMetric1 && (
             <div className="flex gap-1">
               {TREND_GRANULARITIES.map(({ id, label }) => (
                 <button
                   key={id}
                   type="button"
-                  onClick={() => setTrendGranularity(id)}
+                  onClick={() => setTrendGranularity1(id)}
                   className={`px-2 py-0.5 text-xs rounded ${
-                    trendGranularity === id
+                    trendGranularity1 === id
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
@@ -327,14 +465,14 @@ const OrganizationAnalytics = () => {
           )}
         </div>
 
-        {overviewChartData.length === 0 ? (
+        {chart1Data.length === 0 ? (
           <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
             No data available.
           </div>
-        ) : isTrendMetric ? (
+        ) : isTrendMetric1 ? (
           <ResponsiveContainer width="100%" height={220}>
             <LineChart
-              data={overviewChartData}
+              data={chart1Data}
               margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -370,16 +508,16 @@ const OrganizationAnalytics = () => {
         ) : (
           <ResponsiveContainer width="100%" height={220}>
             <BarChart
-              data={overviewChartData}
-              layout={isLocationMetric ? "vertical" : "horizontal"}
+              data={chart1Data}
+              layout={isLocationMetric1 ? "vertical" : "horizontal"}
               margin={
-                isLocationMetric
+                isLocationMetric1
                   ? { left: 20 }
                   : { top: 5, right: 20, left: 0, bottom: 5 }
               }
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              {isLocationMetric ? (
+              {isLocationMetric1 ? (
                 <>
                   <XAxis
                     type="number"
@@ -419,9 +557,9 @@ const OrganizationAnalytics = () => {
               <Bar
                 dataKey="count"
                 name="Organizations"
-                radius={isLocationMetric ? [0, 4, 4, 0] : [4, 4, 0, 0]}
+                radius={isLocationMetric1 ? [0, 4, 4, 0] : [4, 4, 0, 0]}
               >
-                {overviewChartData.map((entry) => (
+                {chart1Data.map((entry) => (
                   <Cell key={entry.name} fill={entry.fill} />
                 ))}
               </Bar>
@@ -433,34 +571,70 @@ const OrganizationAnalytics = () => {
       {/* Chart 2: Organization Performance */}
       <ChartContainer
         title="Organization Performance"
-        description="12-month trend of requests, volunteers, and beneficiaries"
+        description={getChart2Description()}
       >
-        {hasError && (
-          <div className="mb-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
-            Could not load organization data. Please try again later.
-          </div>
-        )}
+        <div className="mb-2 flex gap-2 items-center flex-wrap">
+          <select
+            value={selectedMetric2}
+            onChange={(e) => setSelectedMetric2(e.target.value)}
+            className="px-2 py-1 text-xs border border-gray-300 rounded bg-white"
+            aria-label="Select organization performance metric"
+          >
+            {METRIC_OPTIONS2.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        {loading ? (
-          <div className="flex items-center justify-center h-64 text-gray-500 text-sm">
-            Loading performance data...
-          </div>
-        ) : performanceData.length === 0 ? (
+        {chart2Data.length === 0 ? (
           <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
-            No trend data available.
+            No data available.
           </div>
-        ) : (
+        ) : selectedMetric2 === "without-rating" ||
+          isTopCollaborator ||
+          isTopContributor ? (
           <ResponsiveContainer width="100%" height={220}>
-            <LineChart
-              data={performanceData}
+            <PieChart>
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.375rem",
+                }}
+              />
+              <Legend verticalAlign="bottom" height={36} />
+              <Pie
+                data={chart2Data}
+                dataKey="count"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={70}
+                label
+              >
+                {chart2Data.map((entry) => (
+                  <Cell key={entry.name} fill={entry.fill} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        ) : isStackedRatingType ? (
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart
+              data={chart2Data}
               margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis
-                dataKey="label"
-                tick={{ fontSize: 11 }}
+                dataKey="name"
+                tick={{ fontSize: 10 }}
                 stroke="#6b7280"
-                interval="preserveStartEnd"
+                interval={0}
+                angle={-30}
+                textAnchor="end"
+                height={50}
               />
               <YAxis
                 tick={{ fontSize: 11 }}
@@ -474,35 +648,67 @@ const OrganizationAnalytics = () => {
                   borderRadius: "0.375rem",
                 }}
               />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="requests"
-                stroke="#3b82f6"
-                strokeWidth={2}
-                dot={{ fill: "#3b82f6", r: 3 }}
-                activeDot={{ r: 5 }}
-                name="Requests"
+              <Legend verticalAlign="top" height={36} />
+              <Bar dataKey="profit" name="Profit" stackId="a" fill="#3b82f6" />
+              <Bar
+                dataKey="nonProfit"
+                name="Non-Profit"
+                stackId="a"
+                fill="#10b981"
+                radius={[4, 4, 0, 0]}
               />
-              <Line
-                type="monotone"
-                dataKey="volunteers"
-                stroke="#10b981"
-                strokeWidth={2}
-                dot={{ fill: "#10b981", r: 3 }}
-                activeDot={{ r: 5 }}
-                name="Volunteers"
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart
+              data={chart2Data}
+              margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis
+                dataKey="name"
+                tick={{ fontSize: 10 }}
+                stroke="#6b7280"
+                interval={0}
+                angle={-30}
+                textAnchor="end"
+                height={50}
               />
-              <Line
-                type="monotone"
-                dataKey="beneficiaries"
-                stroke="#8b5cf6"
-                strokeWidth={2}
-                dot={{ fill: "#8b5cf6", r: 3 }}
-                activeDot={{ r: 5 }}
-                name="Beneficiaries"
+              <YAxis
+                tick={{ fontSize: 11 }}
+                stroke="#6b7280"
+                allowDecimals={selectedMetric2 === "rating"}
               />
-            </LineChart>
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.375rem",
+                }}
+                formatter={(value, name, item) => {
+                  if (isRatingAndSize) {
+                    return [
+                      <div key="tooltip-content">
+                        <div>Organizations: {value}</div>
+                        <div>Average Size: {item.payload.avgSize}</div>
+                      </div>,
+                      "",
+                    ];
+                  }
+                  return [value, name];
+                }}
+              />
+              <Bar
+                dataKey="count"
+                name={isRatingAndSize ? "Organizations Count" : "Rating"}
+                radius={[4, 4, 0, 0]}
+              >
+                {chart2Data.map((entry) => (
+                  <Cell key={entry.name} fill={entry.fill} />
+                ))}
+              </Bar>
+            </BarChart>
           </ResponsiveContainer>
         )}
       </ChartContainer>
