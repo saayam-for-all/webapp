@@ -12,6 +12,7 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
     applicant?.fullName ||
     applicant?.name ||
     combinedName ||
+    applicant?.userId ||
     applicant?.["User Id"] ||
     "Applicant";
 
@@ -22,14 +23,31 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
     applicant?.phone ||
     "";
 
+  // WhatsApp requires the country code and digits only.
   const whatsappNumber = String(applicantPhone).replace(/\D/g, "");
+
+  const hasValidWhatsAppNumber = whatsappNumber.length >= 8;
+
+  const handleSendMessage = () => {
+    if (!hasValidWhatsAppNumber) {
+      return;
+    }
+
+    const message = encodeURIComponent(
+      `Hello ${applicantName}, we are contacting you regarding your Saayam For All volunteer application.`,
+    );
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}` + `?text=${message}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <div className="container md:mt-6">
       <div className="flex flex-col items-center">
         <div className="text-yellow-500">
           <svg
-            className="w-24 h-24"
+            className="h-24 w-24"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -43,20 +61,21 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
           {t("IN_REVIEW")}
         </div>
 
-        <div className="mt-4 text-center text-gray-600 max-w-md px-4">
+        <div className="mt-4 max-w-md px-4 text-center text-gray-600">
           <p>{t("REVIEW_STATUS_MESSAGE")}</p>
+
           <p className="mt-2">{t("REVIEW_APPROVAL_MESSAGE")}</p>
         </div>
 
         {isStewardReview && applicant && (
           <div className="mt-8 w-full max-w-md px-4">
-            <div className="rounded-lg border border-gray-200 p-5">
+            <div className="rounded-lg border border-gray-200 p-5 shadow-sm">
               <div className="text-center">
                 <span className="text-gray-600">Applicant: </span>
 
                 <Link
-                  to="/applicant-profile"
-                  state={{ applicant }}
+                  to="/profile"
+                  state={applicant}
                   className="font-semibold text-blue-600 underline hover:text-blue-800"
                 >
                   {applicantName}
@@ -71,29 +90,37 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
                   Promote
                 </button>
 
-                <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mx-auto mt-12">
+                <button
+                  type="button"
+                  className="rounded bg-red-600 px-5 py-2 text-white hover:bg-red-700"
+                >
                   Reject
                 </button>
 
-                {whatsappNumber ? (
-                  <a
-                    href={`https://wa.me/${whatsappNumber}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded bg-green-500 px-5 py-2 text-center text-white hover:bg-green-600"
-                  >
-                    Send Message
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    disabled
-                    className="cursor-not-allowed rounded bg-gray-300 px-5 py-2 text-gray-600"
-                  >
-                    Send Message
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={handleSendMessage}
+                  disabled={!hasValidWhatsAppNumber}
+                  title={
+                    hasValidWhatsAppNumber
+                      ? "Send WhatsApp message"
+                      : "Applicant phone number is unavailable"
+                  }
+                  className={`rounded px-5 py-2 text-center ${
+                    hasValidWhatsAppNumber
+                      ? "cursor-pointer bg-green-500 text-white hover:bg-green-600"
+                      : "cursor-not-allowed bg-gray-300 text-gray-600"
+                  }`}
+                >
+                  Send Message
+                </button>
               </div>
+
+              {!hasValidWhatsAppNumber && (
+                <p className="mt-3 text-center text-sm text-red-500">
+                  Phone number is unavailable for this applicant.
+                </p>
+              )}
             </div>
           </div>
         )}

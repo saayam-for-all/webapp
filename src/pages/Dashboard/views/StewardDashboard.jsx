@@ -1,12 +1,31 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
+
 import Table from "../../../common/components/DataTable/Table";
 import LoadingIndicator from "../../../common/components/Loading/Loading";
-import { getVolunteersData } from "../../../services/volunteerServices";
+import { getMockVolunteersData } from "../../../services/volunteerServices";
 
 const StewardDashboard = (props) => {
   const [activeTab, setActiveTab] = useState("allRequests");
   const [volunteerData, setVolunteerData] = useState([]);
   const [isVolunteerLoading, setIsVolunteerLoading] = useState(false);
+
+  const {
+    headers,
+    filteredData,
+    isLoading,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    rowsPerPage,
+    sortConfig,
+    requestSort,
+    onRowsPerPageChange,
+    getLinkPath,
+    getLinkState,
+    searchFilters,
+    serverPaginated,
+    serverTotalRows,
+  } = props;
 
   useEffect(() => {
     if (activeTab !== "volunteers") {
@@ -17,8 +36,10 @@ const StewardDashboard = (props) => {
       setIsVolunteerLoading(true);
 
       try {
-        const data = await getVolunteersData();
-        setVolunteerData(data || []);
+        // Keep the mock API for Issue #1656.
+        const data = await getMockVolunteersData();
+
+        setVolunteerData(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching volunteers:", error);
         setVolunteerData([]);
@@ -46,31 +67,34 @@ const StewardDashboard = (props) => {
 
   const volunteerRows = volunteerData.map((volunteer) => ({
     ...volunteer,
+
     "User Id": volunteer.userId,
+
     "Updated Time": volunteer.updatedAt
       ? new Date(volunteer.updatedAt).toLocaleString()
       : "",
+
     "Volunteering Request": "Review",
+
     volunteerRequestId: volunteer.volunteerRequestId,
+
+    // This comes from the mock volunteer service.
+    phoneNumber:
+      volunteer.phoneNumber || volunteer.phone || volunteer.mobileNumber || "",
   }));
 
-  const {
-    headers,
-    filteredData,
-    isLoading,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    rowsPerPage,
-    sortConfig,
-    requestSort,
-    onRowsPerPageChange,
-    getLinkPath,
-    getLinkState,
-    searchFilters,
-    serverPaginated,
-    serverTotalRows,
-  } = props;
+  const getVolunteerLinkState = (volunteer) => ({
+    userId: volunteer.userId,
+    updatedAt: volunteer.updatedAt,
+    volunteerRequestId: volunteer.volunteerRequestId,
+    phoneNumber: volunteer.phoneNumber,
+    isStewardReview: true,
+  });
+
+  const volunteerTotalPages = Math.max(
+    1,
+    Math.ceil(volunteerRows.length / rowsPerPage),
+  );
 
   return (
     <div>
@@ -144,17 +168,15 @@ const StewardDashboard = (props) => {
               rows={volunteerRows}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
-              totalPages={Math.ceil(volunteerRows.length / rowsPerPage)}
+              totalPages={volunteerTotalPages}
               totalRows={volunteerRows.length}
               itemsPerPage={rowsPerPage}
               sortConfig={sortConfig}
               requestSort={requestSort}
               onRowsPerPageChange={onRowsPerPageChange}
               getLinkPath={getVolunteerLinkPath}
-              getLinkState={(volunteer) => ({
-                ...volunteer,
-                isStewardReview: true,
-              })}
+              getLinkState={getVolunteerLinkState}
+              serverPaginated={false}
             />
           )}
         </div>

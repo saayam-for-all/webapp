@@ -1,12 +1,12 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+﻿import { fireEvent, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import StewardDashboard from "./StewardDashboard";
 import { renderWithProviders } from "#utils/test-utils.jsx";
-import { getVolunteersData } from "../../../services/volunteerServices";
+import { getMockVolunteersData } from "../../../services/volunteerServices";
 
 jest.mock("../../../services/volunteerServices", () => ({
-  getVolunteersData: jest.fn(),
+  getMockVolunteersData: jest.fn(),
 }));
 
 jest.mock("../../../common/components/Loading/Loading", () => {
@@ -87,18 +87,18 @@ describe("StewardDashboard Component", () => {
     expect(screen.getByText("Volunteers")).toBeInTheDocument();
     expect(screen.getByText("Search Filters")).toBeInTheDocument();
 
-    expect(getVolunteersData).not.toHaveBeenCalled();
+    expect(getMockVolunteersData).not.toHaveBeenCalled();
   });
 
   it("switches to Volunteers tab when clicked", async () => {
-    getVolunteersData.mockResolvedValue([mockVolunteerOne]);
+    getMockVolunteersData.mockResolvedValue([mockVolunteerOne]);
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
     fireEvent.click(screen.getByText("Volunteers"));
 
     await waitFor(() => {
-      expect(getVolunteersData).toHaveBeenCalledTimes(1);
+      expect(getMockVolunteersData).toHaveBeenCalledTimes(1);
     });
 
     expect(await screen.findByText("SID-00-000-000-001")).toBeInTheDocument();
@@ -108,7 +108,10 @@ describe("StewardDashboard Component", () => {
   });
 
   it("displays volunteer data correctly", async () => {
-    getVolunteersData.mockResolvedValue([mockVolunteerOne, mockVolunteerTwo]);
+    getMockVolunteersData.mockResolvedValue([
+      mockVolunteerOne,
+      mockVolunteerTwo,
+    ]);
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
@@ -124,7 +127,7 @@ describe("StewardDashboard Component", () => {
   it("handles API error gracefully", async () => {
     const apiError = new Error("API Error");
 
-    getVolunteersData.mockRejectedValue(apiError);
+    getMockVolunteersData.mockRejectedValue(apiError);
 
     const consoleSpy = jest
       .spyOn(console, "error")
@@ -151,13 +154,13 @@ describe("StewardDashboard Component", () => {
 
     expect(screen.queryByText("SID-00-000-000-001")).not.toBeInTheDocument();
 
-    expect(getVolunteersData).not.toHaveBeenCalled();
+    expect(getMockVolunteersData).not.toHaveBeenCalled();
   });
 
   it("renders loading indicator while volunteers data is fetching", async () => {
     let resolveVolunteers;
 
-    getVolunteersData.mockImplementation(
+    getMockVolunteersData.mockImplementation(
       () =>
         new Promise((resolve) => {
           resolveVolunteers = resolve;
@@ -188,7 +191,7 @@ describe("StewardDashboard Component", () => {
   });
 
   it("formats updated time correctly", async () => {
-    getVolunteersData.mockResolvedValue([mockVolunteerOne]);
+    getMockVolunteersData.mockResolvedValue([mockVolunteerOne]);
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
@@ -204,7 +207,7 @@ describe("StewardDashboard Component", () => {
   });
 
   it("returns correct link paths for volunteer table", async () => {
-    getVolunteersData.mockResolvedValue([mockVolunteerOne]);
+    getMockVolunteersData.mockResolvedValue([mockVolunteerOne]);
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
