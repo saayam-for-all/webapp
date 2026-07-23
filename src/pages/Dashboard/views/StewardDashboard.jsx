@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Table from "../../../common/components/DataTable/Table";
 import LoadingIndicator from "../../../common/components/Loading/Loading";
 import { getVolunteersData } from "../../../services/volunteerServices";
@@ -9,40 +9,49 @@ const StewardDashboard = (props) => {
   const [isVolunteerLoading, setIsVolunteerLoading] = useState(false);
 
   useEffect(() => {
-    if (activeTab === "volunteers") {
-      const fetchVolunteers = async () => {
-        setIsVolunteerLoading(true);
-        try {
-          const data = await getVolunteersData();
-          setVolunteerData(data);
-        } catch (error) {
-          console.error("Error fetching volunteers:", error);
-        } finally {
-          setIsVolunteerLoading(false);
-        }
-      };
-      fetchVolunteers();
+    if (activeTab !== "volunteers") {
+      return;
     }
+
+    const fetchVolunteers = async () => {
+      setIsVolunteerLoading(true);
+
+      try {
+        const data = await getVolunteersData();
+        setVolunteerData(data || []);
+      } catch (error) {
+        console.error("Error fetching volunteers:", error);
+        setVolunteerData([]);
+      } finally {
+        setIsVolunteerLoading(false);
+      }
+    };
+
+    fetchVolunteers();
   }, [activeTab]);
 
   const volunteerHeaders = ["User Id", "Updated Time", "Volunteering Request"];
 
   const getVolunteerLinkPath = (volunteer, header) => {
     if (header === "User Id") {
-      return `/profile`;
+      return "/profile";
     }
+
     if (header === "Volunteering Request") {
-      return `/promote-to-volunteer?step=5`;
+      return "/promote-to-volunteer?step=5";
     }
+
     return null;
   };
 
-  const volunteerRows = volunteerData.map((v) => ({
-    ...v,
-    "User Id": v.userId,
-    "Updated Time": v.updatedAt ? new Date(v.updatedAt).toLocaleString() : "",
+  const volunteerRows = volunteerData.map((volunteer) => ({
+    ...volunteer,
+    "User Id": volunteer.userId,
+    "Updated Time": volunteer.updatedAt
+      ? new Date(volunteer.updatedAt).toLocaleString()
+      : "",
     "Volunteering Request": "Review",
-    volunteerRequestId: v.volunteerRequestId,
+    volunteerRequestId: volunteer.volunteerRequestId,
   }));
 
   const {
@@ -65,26 +74,29 @@ const StewardDashboard = (props) => {
 
   return (
     <div>
-      <div className="flex mb-5">
+      <div className="mb-5 flex">
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+          type="button"
+          className={`flex-1 cursor-pointer border-b-2 py-3 text-center font-bold ${
             activeTab === "allRequests"
-              ? "bg-white text-blue-500 border-blue-500"
-              : "bg-gray-300 border-transparent hover:bg-gray-200"
+              ? "border-blue-500 bg-white text-blue-500"
+              : "border-transparent bg-gray-300 hover:bg-gray-200"
           }`}
           onClick={() => setActiveTab("allRequests")}
         >
           All Requests
         </button>
+
         <button
-          className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
+          type="button"
+          className={`flex-1 cursor-pointer border-b-2 py-3 text-center font-bold ${
             activeTab === "volunteers"
-              ? "bg-white text-blue-500 border-blue-500"
-              : "bg-gray-300 border-transparent hover:bg-gray-200"
+              ? "border-blue-500 bg-white text-blue-500"
+              : "border-transparent bg-gray-300 hover:bg-gray-200"
           }`}
           onClick={() => setActiveTab("volunteers")}
         >
-          Needs Attention
+          Volunteers
         </button>
       </div>
 
@@ -92,7 +104,7 @@ const StewardDashboard = (props) => {
         <>
           {searchFilters}
 
-          <div className="requests-section overflow-hidden table-height-fix">
+          <div className="requests-section table-height-fix overflow-hidden">
             {isLoading ? (
               <div className="flex justify-center py-10">
                 <LoadingIndicator size="50px" position="beside" />
@@ -121,7 +133,7 @@ const StewardDashboard = (props) => {
       )}
 
       {activeTab === "volunteers" && (
-        <div className="requests-section overflow-hidden table-height-fix">
+        <div className="requests-section table-height-fix overflow-hidden">
           {isVolunteerLoading ? (
             <div className="flex justify-center py-10">
               <LoadingIndicator size="50px" position="beside" />
