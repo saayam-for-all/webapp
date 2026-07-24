@@ -28,26 +28,12 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
 
   const hasValidWhatsAppNumber = whatsappNumber.length >= 8;
 
-  const handleSendMessage = () => {
-    if (!hasValidWhatsAppNumber) {
-      return;
-    }
-
-    const message = encodeURIComponent(
-      `Hello ${applicantName}, we are contacting you regarding your Saayam For All volunteer application.`,
-    );
-
-    const whatsappUrl = `https://wa.me/${whatsappNumber}` + `?text=${message}`;
-
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  };
-
   return (
     <div className="container md:mt-6">
       <div className="flex flex-col items-center">
         <div className="text-yellow-500">
           <svg
-            className="h-24 w-24"
+            className="w-24 h-24"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -61,7 +47,7 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
           {t("IN_REVIEW")}
         </div>
 
-        <div className="mt-4 max-w-md px-4 text-center text-gray-600">
+        <div className="mt-4 text-center text-gray-600 max-w-md px-4">
           <p>{t("REVIEW_STATUS_MESSAGE")}</p>
 
           <p className="mt-2">{t("REVIEW_APPROVAL_MESSAGE")}</p>
@@ -74,8 +60,8 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
                 <span className="text-gray-600">Applicant: </span>
 
                 <Link
-                  to="/applicantprofile"
-                  state={applicant}
+                  to="/applicant-profile"
+                  state={{ applicant }}
                   className="font-semibold text-blue-600 underline hover:text-blue-800"
                 >
                   {applicantName}
@@ -97,23 +83,25 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
                   Reject
                 </button>
 
-                <button
-                  type="button"
-                  onClick={handleSendMessage}
-                  disabled={!hasValidWhatsAppNumber}
-                  title={
-                    hasValidWhatsAppNumber
-                      ? "Send WhatsApp message"
-                      : "Applicant phone number is unavailable"
-                  }
-                  className={`rounded px-5 py-2 text-center ${
-                    hasValidWhatsAppNumber
-                      ? "cursor-pointer bg-green-500 text-white hover:bg-green-600"
-                      : "cursor-not-allowed bg-gray-300 text-gray-600"
-                  }`}
-                >
-                  Send Message
-                </button>
+                {hasValidWhatsAppNumber ? (
+                  <a
+                    href={`https://wa.me/${whatsappNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded bg-green-500 px-5 py-2 text-center text-white hover:bg-green-600"
+                  >
+                    Send Message
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    title="Applicant phone number is unavailable"
+                    className="cursor-not-allowed rounded bg-gray-300 px-5 py-2 text-gray-600"
+                  >
+                    Send Message
+                  </button>
+                )}
               </div>
 
               {!hasValidWhatsAppNumber && (
