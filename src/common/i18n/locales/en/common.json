@@ -291,7 +291,7 @@
   "JOIN_THE_COMMUNITY": "Join The Community",
   "JOIN_TODAY": "Experience the joy of assisting others – join Saayam For All today. Together, we can make a difference.",
   "JOIN_US": "Join us in our mission to make a difference. Whether you're looking to lend a helping hand or seeking assistance, Saayam For All is here for you. Together, let's create a more compassionate and equitable world for all.",
-  "Join the community": "Join the Community",
+  "Join our community": "Join Our Community",
   "LANDING_IMAGE_ALT_1": "Landing Image Alt 1",
   "LANDING_IMAGE_ALT_2": "Landing Image Alt 2",
   "LANGUAGE": "LANGUAGE",
@@ -813,5 +813,6 @@
   "STEP_NUMBER_2": "2",
   "STEP_NUMBER_3": "3",
   "STEP_NUMBER_4": "4",
-  "STEP_NUMBER_5": "5"
+  "STEP_NUMBER_5": "5",
+  "DELETE_ACTION": "Delete"
 }

@@ -293,7 +293,7 @@
   "JNANAM_VARDHATI_SANCHAYAT_QUOTE": "Jnanam Vardhati Sanchayat Zitat",
   "jñānam vardhati sanchayāt": "Jñānam vardhati sanchayāt",
   "JOIN_THE_COMMUNITY": "Der Gemeinschaft beitreten",
-  "Join the community": "Gemeinschaft beitreten",
+  "Join our community": "Tritt unserer Gemeinschaft bei",
   "JOIN_TODAY": "Erleben Sie die Freude, anderen zu helfen – treten Sie Saayam For All noch heute bei. Gemeinsam können wir einen Unterschied machen.",
   "JOIN_US": "Schließen Sie sich unserer Mission an, Veränderungen zu bewirken. Egal, ob Sie helfen oder Hilfe suchen – Saayam ist für Sie da. Gemeinsam können wir eine freundlichere und gerechtere Welt für alle schaffen.",
   "LANDING_IMAGE_ALT_1": "Landingpage-Bild Alt 1",
@@ -786,5 +786,6 @@
   "STEP_NUMBER_2": "2",
   "STEP_NUMBER_3": "3",
   "STEP_NUMBER_4": "4",
-  "STEP_NUMBER_5": "5"
+  "STEP_NUMBER_5": "5",
+  "DELETE_ACTION": "Löschen"
 }

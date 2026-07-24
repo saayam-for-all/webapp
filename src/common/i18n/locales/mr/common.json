@@ -49,5 +49,6 @@
   "LEAD_VOLUNTEER": "मुख्य स्वयंसेवक",
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकाचा फोन प्रविष्ट करा",
   "CHANGE_VOLUNTEER": "स्वयंसेवक बदला",
-  "DELETE": "हटवा"
+  "DELETE": "हटवा",
+  "DELETE_ACTION": "हटवा"
 }

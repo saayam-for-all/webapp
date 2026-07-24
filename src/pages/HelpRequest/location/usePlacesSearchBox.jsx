@@ -33,10 +33,11 @@ const usePlacesSearchBox = (setLocation, setCoordinates) => {
   }, []);
 
   const handleSelectSuggestion = (suggestion) => {
-    console.log("Suggestion coordinates:", {
-      latitude: parseFloat(suggestion.lat),
-      longitude: parseFloat(suggestion.lon),
-    });
+    // Cancel any pending debounced fetch so a stale response can't
+    // reopen the suggestions dropdown after the user has already made
+    // a selection.
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+
     setLocation(suggestion.display_name);
     if (setCoordinates) {
       setCoordinates({

@@ -328,7 +328,7 @@ exports[`NewsOurStories renders correctly 1`] = `
           </p>
           <mock-link
             props="{"className":"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"}"
-            to="/contact"
+            to="/login"
           >
             mockTranslate(JOIN_BUTTON)
           </mock-link>
@@ -660,7 +660,7 @@ exports[`NewsOurStories renders correctly 1`] = `
         </p>
         <mock-link
           props="{"className":"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"}"
-          to="/contact"
+          to="/login"
         >
           mockTranslate(JOIN_BUTTON)
         </mock-link>

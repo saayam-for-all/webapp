@@ -48,5 +48,6 @@
   "ENTER_VOLUNTEER_EMAIL": "자원봉사자 이메일 입력",
   "ENTER_VOLUNTEER_PHONE": "자원봉사자 전화번호 입력",
   "CHANGE_VOLUNTEER": "자원봉사자 변경",
-  "DELETE": "삭제"
+  "DELETE": "삭제",
+  "DELETE_ACTION": "삭제"
 }

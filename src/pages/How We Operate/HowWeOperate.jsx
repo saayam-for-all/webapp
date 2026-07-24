@@ -143,9 +143,9 @@ const HowWeOperate = () => {
             </p>
             <button
               className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
-              onClick={() => navigate("/Contact")}
+              onClick={() => navigate("/login")}
             >
-              {t("Join the community")}
+              {t("Join our community")}
             </button>
           </div>
         </div>

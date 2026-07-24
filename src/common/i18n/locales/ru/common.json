@@ -275,7 +275,7 @@
   "JOIN_THE_COMMUNITY": "Join The Community",
   "JOIN_TODAY": "Испытайте радость помощи другим — присоединяйтесь к Saayam For All сегодня. Вместе мы можем изменить мир к лучшему.",
   "JOIN_US": "Присоединяйтесь к нам в нашей миссии изменить мир к лучшему. Хотите ли вы протянуть руку помощи или ищете поддержку, Saayam For All здесь для вас. Вместе давайте создадим более сострадательный и справедливый мир для всех.",
-  "Join the community": "Присоединиться к сообществу",
+  "Join our community": "Присоединяйтесь к нашему сообществу",
   "LANDING_IMAGE_ALT_1": "Landing Image Alt 1",
   "LANDING_IMAGE_ALT_2": "Landing Image Alt 2",
   "LANGUAGE": "LANGUAGE",
@@ -786,5 +786,6 @@
   "STEP_NUMBER_2": "2",
   "STEP_NUMBER_3": "3",
   "STEP_NUMBER_4": "4",
-  "STEP_NUMBER_5": "5"
+  "STEP_NUMBER_5": "5",
+  "DELETE_ACTION": "Удалить"
 }

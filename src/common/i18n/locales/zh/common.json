@@ -277,7 +277,7 @@
   "JOIN_THE_COMMUNITY": "Join The Community",
   "JOIN_TODAY": "体验帮助他人的喜悦——今天就加入Saayam。携手共进，我们就能创造不同。",
   "JOIN_US": "加入我们，共同完成改变世界的使命。无论您是想伸出援手还是寻求帮助，Saayam都在这里为您服务。让我们共同为所有人创造一个更仁慈、更公正的世界。",
-  "Join the community": "加入社区",
+  "Join our community": "加入我们的社区",
   "LANDING_IMAGE_ALT_1": "Landing Image Alt 1",
   "LANDING_IMAGE_ALT_2": "Landing Image Alt 2",
   "LANGUAGE": "LANGUAGE",
@@ -781,5 +781,6 @@
   "STEP_NUMBER_2": "2",
   "STEP_NUMBER_3": "3",
   "STEP_NUMBER_4": "4",
-  "STEP_NUMBER_5": "5"
+  "STEP_NUMBER_5": "5",
+  "DELETE_ACTION": "删除"
 }
