@@ -74,7 +74,7 @@ const Review = ({ isStewardReview = false, applicant = null }) => {
                 <span className="text-gray-600">Applicant: </span>
 
                 <Link
-                  to="/profile"
+                  to="/applicantprofile"
                   state={applicant}
                   className="font-semibold text-blue-600 underline hover:text-blue-800"
                 >
