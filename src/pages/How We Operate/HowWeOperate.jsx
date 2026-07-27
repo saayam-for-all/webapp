@@ -89,9 +89,9 @@ const HowWeOperate = () => {
 
               <TimelineItem
                 number={2}
-                title={t("Get Matching With a Volunteer")}
+                title={t("Get Matched with a Volunteer")}
                 description={t(
-                  "We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .",
+                  "We don't just match—you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.",
                 )}
                 image={img5}
                 align="right"
@@ -194,7 +194,7 @@ const TimelineItem = ({ number, title, description, image, align }) => {
           <h3 className="text-lg md:text-xl font-bold leading-tight mb-2 text-left">
             {title}
           </h3>
-          <p className="text-sm md:text-base text-gray-600 text-left">
+          <p className="text-sm md:text-base text-gray-600 text-left whitespace-pre-line">
             {description}
           </p>
         </div>
