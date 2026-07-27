@@ -40,7 +40,7 @@ const HowWeOperate = () => {
       );
 
       // Set the animated line's height as a percentage of its parent
-      line.style.height = `${normalizedPercentage * 100}%`;
+      line.style.height = `calc(${normalizedPercentage * 100}% - 40px)`;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -68,7 +68,7 @@ const HowWeOperate = () => {
             {t("Get help in 5 easy steps.")}
           </p>
 
-          <div className="relative h-full min-h-[800px] overflow-hidden">
+          <div className="relative h-full min-h-[800px]">
             {/* Animated line */}
             <div
               className="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"

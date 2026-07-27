@@ -27,10 +27,11 @@ exports[`HowWeOperate renders correctly 1`] = `
               mockTranslate(Get help in 5 easy steps.)
             </p>
             <div
-              class="relative h-full min-h-[800px] overflow-hidden"
+              class="relative h-full min-h-[800px]"
             >
               <div
                 class="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+                style="height: calc(NaN% - 40px);"
               />
               <div
                 class="step-box"
@@ -298,10 +299,11 @@ exports[`HowWeOperate renders correctly 1`] = `
             mockTranslate(Get help in 5 easy steps.)
           </p>
           <div
-            class="relative h-full min-h-[800px] overflow-hidden"
+            class="relative h-full min-h-[800px]"
           >
             <div
               class="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+              style="height: calc(NaN% - 40px);"
             />
             <div
               class="step-box"
