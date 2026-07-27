@@ -11,7 +11,7 @@
   },
   "requestStatus": {
     "CREATED": "बनाया गया",
-    "MATCHING_VOLUNTEER": "स्वयंसेवक खोज रहे हैं",
+    "MATCHING_VOLUNTEER": "स्वयंसेवक मिलान",
     "MANAGED": "प्रबंधित",
     "RESOLVED": "हल किया गया",
     "CANCELLED": "रद्द किया गया",
