@@ -157,6 +157,27 @@ exports[`Donate renders correctly 1`] = `
             </div>
           </div>
         </div>
+        <section
+          class="flex flex-col items-center justify-center py-16 bg-white text-center"
+        >
+          <h2
+            class="text-[24px] font-bold mb-1"
+          >
+            mockTranslate(Looking to join us?)
+          </h2>
+          <p
+            class="text-gray-600 text-sm leading-snug max-w-md mb-4"
+          >
+            mockTranslate(Chat with our community and get in touch with different charity)
+             
+            mockTranslate(organizations!)
+          </p>
+          <button
+            class="bg-[#00B2FF] text-white text-xs font-semibold px-5 py-2 rounded-full hover:bg-[#009ee0] transition"
+          >
+            mockTranslate(Join our community)
+          </button>
+        </section>
       </div>
     </div>
   </body>,
@@ -313,6 +334,27 @@ exports[`Donate renders correctly 1`] = `
           </div>
         </div>
       </div>
+      <section
+        class="flex flex-col items-center justify-center py-16 bg-white text-center"
+      >
+        <h2
+          class="text-[24px] font-bold mb-1"
+        >
+          mockTranslate(Looking to join us?)
+        </h2>
+        <p
+          class="text-gray-600 text-sm leading-snug max-w-md mb-4"
+        >
+          mockTranslate(Chat with our community and get in touch with different charity)
+           
+          mockTranslate(organizations!)
+        </p>
+        <button
+          class="bg-[#00B2FF] text-white text-xs font-semibold px-5 py-2 rounded-full hover:bg-[#009ee0] transition"
+        >
+          mockTranslate(Join our community)
+        </button>
+      </section>
     </div>
   </div>,
   "debug": [Function],
