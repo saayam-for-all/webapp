@@ -1,21 +1,22 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { screen, waitFor, fireEvent } from "@testing-library/react";
 import { renderWithProviders } from "#utils/test-utils";
 import VoluntaryOrganizations from "./VoluntaryOrganizations";
 
 // ── Mocks ────────────────────────────────────────────────────────────────────
 
+let mockLocationState = {
+  id: "REQ-00-000-000-0001",
+  requesterId: "SID-00-000-000-111",
+  userId: "SID-00-000-000-001",
+  category: "Medical",
+  subject: "Need help",
+  description: "Test description",
+  breadcrumbTrail: [],
+};
+
 jest.mock("react-router-dom", () => ({
-  useLocation: () => ({
-    state: {
-      id: "REQ-00-000-000-0001",
-      userId: "SID-00-000-000-001",
-      category: "Medical",
-      subject: "Need help",
-      description: "Test description",
-      breadcrumbTrail: [],
-    },
-  }),
+  useLocation: () => ({ state: mockLocationState }),
   useNavigate: () => jest.fn(),
 }));
 
@@ -89,11 +90,21 @@ describe("VoluntaryOrganizations", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    // Reset to default state with requesterId
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      requesterId: "SID-00-000-000-111",
+      userId: "SID-00-000-000-001",
+      category: "Medical",
+      subject: "Need help",
+      description: "Test description",
+      breadcrumbTrail: [],
+    };
   });
 
   // 1. Loading state
   it("shows loading indicator while fetching", async () => {
-    getOrganizations.mockReturnValue(new Promise(() => {})); // never resolves
+    getOrganizations.mockReturnValue(new Promise(() => {}));
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
@@ -126,7 +137,7 @@ describe("VoluntaryOrganizations", () => {
       expect(screen.getAllByTestId("org-row")).toHaveLength(2),
     );
     const rows = screen.getAllByTestId("org-row");
-    expect(rows[0]).toHaveTextContent("Helping Hands"); // collaborator first
+    expect(rows[0]).toHaveTextContent("Helping Hands");
     expect(rows[1]).toHaveTextContent("Community Care");
   });
 
@@ -155,43 +166,63 @@ describe("VoluntaryOrganizations", () => {
     );
   });
 
-  // 6. API called with correct payload — request_id and beneficiary_id
-  it("calls API with request_id from requestData and beneficiary_id from requestData.userId", async () => {
+  // 6. requesterId takes priority as beneficiary_id (All Requests tab)
+  it("uses requesterId as beneficiary_id when present (All Requests tab)", async () => {
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
     await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    expect(getOrganizations).toHaveBeenCalledWith(
-      expect.objectContaining({
-        request_id: "REQ-00-000-000-0001",
-        beneficiary_id: "SID-00-000-000-001",
-        category: "Medical",
-        subject: "Need help",
-        description: "Test description",
-      }),
-    );
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "SID-00-000-000-111",
+    });
   });
 
-  // 7. beneficiary_id uses requestData.userId first, then userDbId from redux
-  it("uses requestData.userId as beneficiary_id when present (priority over redux userDbId)", async () => {
+  // 7. Falls back to userId when requesterId is absent
+  it("uses userId as beneficiary_id when requesterId is absent", async () => {
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      userId: "SID-00-000-000-001",
+      category: "Medical",
+      subject: "Need help",
+      description: "Test description",
+      breadcrumbTrail: [],
+    };
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
     await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    // requestData.userId = "SID-00-000-000-001" from mock useLocation
-    // userDbId from redux = "SID-00-000-000-999"
-    // requestData.userId takes priority
-    expect(getOrganizations).toHaveBeenCalledWith(
-      expect.objectContaining({
-        beneficiary_id: "SID-00-000-000-001",
-      }),
-    );
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "SID-00-000-000-001",
+    });
   });
 
-  // 8. Falls back to localStorage userDbId when redux has no userDbId
-  it("uses localStorage userDbId as beneficiary_id when redux user has no userDbId", async () => {
+  // 8. Falls back to userDbId from redux when both requesterId and userId absent
+  it("uses userDbId from redux when requesterId and userId are absent", async () => {
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      breadcrumbTrail: [],
+    };
+    getOrganizations.mockResolvedValue([]);
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "SID-00-000-000-999",
+    });
+  });
+
+  // 9. Falls back to localStorage userDbId when redux has no userDbId
+  it("uses localStorage userDbId when redux user has no userDbId", async () => {
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      breadcrumbTrail: [],
+    };
     localStorage.setItem("userDbId", "SID-FROM-LOCALSTORAGE");
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
@@ -200,22 +231,29 @@ describe("VoluntaryOrganizations", () => {
       },
     });
     await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    const call = getOrganizations.mock.calls[0][0];
-    // beneficiary_id should be requestData.userId ("SID-00-000-000-001") since mock location has it
-    expect(call.beneficiary_id).toBeTruthy();
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "SID-FROM-LOCALSTORAGE",
+    });
   });
 
-  // 9. Uses city from personalInfo in localStorage
-  it("uses city from personalInfo localStorage in payload", async () => {
-    localStorage.setItem("personalInfo", JSON.stringify({ city: "San Jose" }));
+  // 10. Falls back to empty string when all sources are absent
+  it("uses empty string as beneficiary_id when all sources are absent", async () => {
+    mockLocationState = {
+      id: "REQ-00-000-000-0001",
+      breadcrumbTrail: [],
+    };
     getOrganizations.mockResolvedValue([]);
     renderWithProviders(<VoluntaryOrganizations />, {
-      preloadedState: MOCK_STATE,
+      preloadedState: {
+        auth: { user: null, idToken: null },
+      },
     });
     await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
-    expect(getOrganizations).toHaveBeenCalledWith(
-      expect.objectContaining({ location: "San Jose" }),
-    );
+    expect(getOrganizations).toHaveBeenCalledWith({
+      request_id: "REQ-00-000-000-0001",
+      beneficiary_id: "",
+    });
   });
 
   // 10. Search filters org list

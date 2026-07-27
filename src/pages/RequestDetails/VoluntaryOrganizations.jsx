@@ -65,15 +65,15 @@ const VoluntaryOrganizations = () => {
       // - All Requests: use userId from the request row (the person who made the request)
       // - My Requests: use logged-in user's userDbId
       const beneficiary_id =
-        requestData?.userId || requestData?.beneficiary_id || userDbId || "";
+        requestData?.requesterId ||
+        requestData?.userId ||
+        requestData?.beneficiary_id ||
+        userDbId ||
+        "";
 
       const payload = {
         request_id,
         beneficiary_id,
-        category: requestData?.category || "",
-        subject: requestData?.subject || "",
-        description: requestData?.description || "",
-        location: personalInfo?.city || localStorage.getItem("city") || "",
       };
 
       console.log("Org API payload:", payload);
