@@ -13,17 +13,6 @@ const api = axios.create({
   },
 });
 
-// Public API instance for unauthenticated endpoints (no Cognito token)
-export const publicApi = axios.create({
-  baseURL:
-    typeof process == "undefined"
-      ? import.meta.env.VITE_BASE_API_URL
-      : process.env.VITE_BASE_API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
 const getToken = async () => {
   try {
     const session = await fetchAuthSession();

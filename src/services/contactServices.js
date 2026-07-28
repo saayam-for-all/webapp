@@ -1,4 +1,3 @@
-import { publicApi } from "./api";
 import endpoints from "./endpoints.json";
 import axios from "axios";
 
