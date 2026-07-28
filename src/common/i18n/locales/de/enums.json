@@ -11,7 +11,7 @@
   },
   "requestStatus": {
     "CREATED": "Erstellt",
-    "MATCHING_VOLUNTEER": "Freiwilliger wird gesucht",
+    "MATCHING_VOLUNTEER": "Freiwilligensuche",
     "MANAGED": "Verwaltet",
     "RESOLVED": "Gelöst",
     "CANCELLED": "Abgebrochen",

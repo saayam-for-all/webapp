@@ -11,7 +11,7 @@
   },
   "requestStatus": {
     "CREATED": "సృష్టించబడింది",
-    "MATCHING_VOLUNTEER": "స్వచ్ఛంద సేవకుడిని వెతుకుతోంది",
+    "MATCHING_VOLUNTEER": "వాలంటీర్ శోధన",
     "MANAGED": "నిర్వహించబడింది",
     "RESOLVED": "పరిష్కరించబడింది",
     "CANCELLED": "రద్దు చేయబడింది",
