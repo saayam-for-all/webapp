@@ -50,7 +50,7 @@ describe("api module configuration", () => {
         }),
       );
       expect(createMock).toHaveBeenNthCalledWith(
-        2,
+        1,
         expect.objectContaining({
           baseURL: "https://process-env.example",
           headers: { "Content-Type": "application/json" },
