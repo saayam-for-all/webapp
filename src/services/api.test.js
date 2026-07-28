@@ -41,7 +41,7 @@ describe("api module configuration", () => {
 
     try {
       const createMock = importApiWithMocks();
-      expect(createMock).toHaveBeenCalledTimes(2);
+      expect(createMock).toHaveBeenCalledTimes(1);
       expect(createMock).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
