@@ -1650,11 +1650,23 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) =>
-                  header === "requestId" || header === "id"
-                    ? `/request/${request[resolveKey(header)]}`
-                    : null
-                }
+                getLinkPath={(request, header) => {
+                  if (header === "requestId" || header === "id") {
+                    return `/request/${request[resolveKey(header)]}`;
+                  }
+
+                  if (
+                    [
+                      "beneficiaryCreatorDisplayId",
+                      "leadVolunteerDisplayId",
+                    ].includes(header)
+                  ) {
+                    // TODO: Update link to navigate to appropriate user profile
+                    return `/profile`;
+                  }
+
+                  return null;
+                }}
                 getLinkState={(request) => request}
                 searchFilters={
                   activeTab === "analytics" ? null : dashboardSearchFilters
@@ -1683,11 +1695,23 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) =>
-                  header === "requestId" || header === "id"
-                    ? `/request/${request[resolveKey(header)]}`
-                    : null
-                }
+                getLinkPath={(request, header) => {
+                  if (header === "requestId" || header === "id") {
+                    return `/request/${request[resolveKey(header)]}`;
+                  }
+
+                  if (
+                    [
+                      "beneficiaryCreatorDisplayId",
+                      "leadVolunteerDisplayId",
+                    ].includes(header)
+                  ) {
+                    // TODO: Update link to navigate to appropriate user profile
+                    return `/profile`;
+                  }
+
+                  return null;
+                }}
                 getLinkState={(request) => request}
                 searchFilters={
                   activeTab === "analytics" ? null : dashboardSearchFilters
