@@ -8,7 +8,16 @@ jest.mock("react-router-dom", () => ({
 }));
 
 jest.mock("react-redux", () => ({
-  useSelector: jest.fn((fn) => fn({ auth: { user: { zoneinfo: "US" } } })),
+  useSelector: jest.fn((fn) =>
+    fn({
+      auth: {
+        user: {
+          zoneinfo: "US",
+          userDbId: "SID-LOGGED-IN-001",
+        },
+      },
+    }),
+  ),
 }));
 
 jest.mock("../../../services/requestServices", () => ({
@@ -33,6 +42,9 @@ const {
 
 const mockRequestData = {
   id: "REQ-001",
+  requestId: "REQ-00-000-000-0085",
+  requesterId: "SID-REQUESTER-001",
+  userId: "SID-00-000-000-050",
   subject: "Pick up dry cleaning",
   description: "Need dry cleaning pickup.",
 };
@@ -110,7 +122,7 @@ describe("RequestButton", () => {
     });
   });
 
-  it("calls moreInformationChat with user_id, req_id, and empty conversation_history", async () => {
+  it("calls moreInformationChat with requesterId for All Requests", async () => {
     moreInformationChat.mockResolvedValue({
       body: { answer: "Answer" },
     });
@@ -129,15 +141,15 @@ describe("RequestButton", () => {
 
     await waitFor(() => {
       expect(moreInformationChat).toHaveBeenCalledWith({
-        user_id: "SID-00-000-000-050",
-        req_id: "REQ-00-000-000-0085",
+        user_id: mockRequestData.requesterId,
+        req_id: mockRequestData.requestId,
         conversation_history: [],
       });
     });
   });
 
   it("shows cooldown dialog when cooling down", async () => {
-    const key = `moreInfoCooldown_${mockRequestData.id}`;
+    const key = `moreInfoCooldown_${mockRequestData.requestId}`;
     localStorage.setItem(
       key,
       JSON.stringify({ expiresAt: Date.now() + 30 * 60 * 1000 }),
@@ -162,7 +174,7 @@ describe("RequestButton", () => {
   });
 
   it("does not show cooldown when cooldown has expired", async () => {
-    const key = `moreInfoCooldown_${mockRequestData.id}`;
+    const key = `moreInfoCooldown_${mockRequestData.requestId}`;
     localStorage.setItem(key, JSON.stringify({ expiresAt: Date.now() - 1000 }));
 
     moreInformationChat.mockResolvedValue({

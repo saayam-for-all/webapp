@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "Remover horário",
   "ADD_TIME_SLOT": "Adicionar horário",
   "VACATION_MODE_ACTIVE": "Modo férias ativo",
-  "NO_AVAILABILITY_SLOTS": "Nenhum horário de disponibilidade configurado"
+  "NO_AVAILABILITY_SLOTS": "Nenhum horário de disponibilidade configurado",
+  "REQUIRED": "Obrigatório",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "O horário de término deve ser posterior ao horário de início",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "Por favor, forneça seus horários disponíveis para voluntariado",
+  "ADD": "Adicionar",
+  "REMOVE_ROW": "Remover linha"
 }

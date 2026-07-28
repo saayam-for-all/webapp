@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { IoPersonCircle } from "react-icons/io5";
 import { RiUserStarLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RequestButton from "../../common/components/RequestButton/RequestButton";
 import { getComments, getMyRequests } from "../../services/requestServices";
@@ -15,6 +16,7 @@ import EmergencyContact from "../EmergencyContact/EmergencyContact";
 import { createOrganizationsPageState } from "../../common/components/BreadCrumbs/breadcrumbUtils";
 import { FiPaperclip } from "react-icons/fi";
 import { FaMicrophone } from "react-icons/fa";
+import StandardButton from "#components/StandardButton/StandardButton";
 
 import {
   Dialog,
@@ -37,6 +39,7 @@ const RequestDetails = () => {
   const [showEmergency, setShowEmergency] = useState(false);
   const requestId = id || location.state?.id;
   const [showAttachmentsDialog, setShowAttachmentsDialog] = useState(false);
+  const currentUser = useSelector((state) => state.auth.user);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteReason, setDeleteReason] = useState("");
@@ -73,15 +76,59 @@ const RequestDetails = () => {
       .catch(() => {});
   }, []);
 
+  const getFullName = (...parts) => parts.filter(Boolean).join(" ").trim();
+
+  const currentUserName =
+    getFullName(currentUser?.given_name, currentUser?.family_name) ||
+    getFullName(currentUser?.firstName, currentUser?.lastName) ||
+    currentUser?.name ||
+    currentUser?.email ||
+    "";
+
+  const isMyRequest =
+    requestData?.sourceDashboard === "BENEFICIARY" ||
+    requestData?.sourceTab === "myRequests";
+
+  const creatorName =
+    requestData?.creatorName ||
+    requestData?.createdByName ||
+    requestData?.requesterName ||
+    getFullName(requestData?.creatorFirstName, requestData?.creatorLastName) ||
+    getFullName(
+      requestData?.createdByFirstName,
+      requestData?.createdByLastName,
+    ) ||
+    getFullName(
+      requestData?.requesterFirstName,
+      requestData?.requesterLastName,
+    ) ||
+    (isMyRequest ? currentUserName : "") ||
+    t("CREATOR");
+
+  const beneficiaryName =
+    requestData?.beneficiaryName ||
+    requestData?.beneficiaryFullName ||
+    getFullName(
+      requestData?.beneficiaryFirstName,
+      requestData?.beneficiaryLastName,
+    ) ||
+    getFullName(requestData?.reqFname, requestData?.reqLname) ||
+    getFullName(
+      requestData?.guestDetails?.reqFname,
+      requestData?.guestDetails?.reqLname,
+    ) ||
+    (isMyRequest ? currentUserName : "") ||
+    "Beneficiary";
+
   const attributes = [
     {
-      context: "Peter parker",
+      context: beneficiaryName,
       type: "Beneficiary",
       icon: <IoPersonCircle size={26} />,
       isClickable: true,
     },
     {
-      context: "John Doe",
+      context: creatorName,
       type: "CREATOR",
       icon: <IoPersonCircle size={26} />,
       isClickable: true,
@@ -129,9 +176,6 @@ const RequestDetails = () => {
   // NEW: handlers (same behavior you had before)
   const handleDeleteRequest = async () => {
     try {
-      console.log("Deleting request:", requestData?.id);
-      console.log("Reason:", deleteReason);
-
       setDeleteDialogOpen(false);
       setDeleteReason("");
       navigate("/dashboard");
@@ -142,9 +186,6 @@ const RequestDetails = () => {
 
   const handleChangeVolunteer = async () => {
     try {
-      console.log("Changing volunteer for request:", requestData?.id);
-      console.log("Reason:", volunteerChangeReason);
-
       setChangeVolunteerDialogOpen(false);
       setVolunteerChangeReason("");
       navigate("/dashboard");
@@ -211,7 +252,10 @@ const RequestDetails = () => {
             {/* Header row: subject (left) + ACTION BUTTONS (top-right) */}
             <div className="flex flex-row justify-between md:items-center gap-4">
               <h2 className="text-2xl font-semibold lg:flex sm:items-center sm:gap-5 capitalize">
-                {requestData.subject}
+                {requestData.subject}{" "}
+                <span className="text-gray-500 text-base font-normal">
+                  ({requestId})
+                </span>
               </h2>
             </div>
 
@@ -317,14 +361,14 @@ const RequestDetails = () => {
                       className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
                       onClick={() => setChangeVolunteerDialogOpen(true)}
                     >
-                      {t("Change Volunteer")}
+                      {t("CHANGE_VOLUNTEER")}
                     </button>
 
                     <button
                       className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600"
                       onClick={() => setDeleteDialogOpen(true)}
                     >
-                      {t("Delete")}
+                      {t("DELETE")}
                     </button>
                   </div>
                 )}
@@ -444,66 +488,73 @@ const RequestDetails = () => {
             <Dialog
               open={deleteDialogOpen}
               onClose={() => setDeleteDialogOpen(false)}
+              fullWidth
+              maxWidth="sm"
             >
-              <DialogTitle>{t("Delete")}</DialogTitle>
+              <DialogTitle>{t("DELETE_ACTION")}</DialogTitle>
+
               <DialogContent>
-                <Typography>{t("Reason")}</Typography>
+                <Typography>{t("REASON")}</Typography>
+
                 <textarea
                   value={deleteReason}
                   onChange={(e) => setDeleteReason(e.target.value)}
-                  className="border p-2 w-full mt-3 rounded-lg min-h-[100px]"
-                  placeholder={t("Reason")}
+                  maxLength={200}
+                  className="border p-2 w-full mt-3 rounded-lg min-h-[140px]"
+                  placeholder={t("REASON")}
                 />
               </DialogContent>
+
               <DialogActions>
-                <Button
+                <StandardButton
+                  text={t("CANCEL")}
                   onClick={() => setDeleteDialogOpen(false)}
-                  variant="outlined"
-                >
-                  {t("Cancel")}
-                </Button>
-                <Button
+                  variant="secondary"
+                />
+
+                <StandardButton
+                  text={t("DELETE_ACTION")}
                   onClick={handleDeleteRequest}
-                  color="error"
-                  variant="contained"
                   disabled={!deleteReason.trim()}
-                >
-                  {t("Delete")}
-                </Button>
+                  variant="primary"
+                />
               </DialogActions>
             </Dialog>
-
             {/* Change volunteer dialog (now outside grey box) */}
+
             <Dialog
               open={changeVolunteerDialogOpen}
               onClose={() => setChangeVolunteerDialogOpen(false)}
+              fullWidth
+              maxWidth="sm"
             >
               <DialogTitle>
                 {t("PLEASE_SPECIFY_REASON_FOR_CHANGE_OF_VOLUNTEER")}
               </DialogTitle>
+
               <DialogContent>
                 <textarea
                   value={volunteerChangeReason}
                   onChange={(e) => setVolunteerChangeReason(e.target.value)}
-                  className="border p-2 w-full rounded-lg min-h-[100px]"
+                  maxLength={200}
+                  className="border p-2 w-full rounded-lg min-h-[120px]"
                   placeholder={t("REASON")}
                 />
               </DialogContent>
+
               <DialogActions>
-                <Button
+                <StandardButton
+                  text={t("CANCEL")}
                   onClick={() => setChangeVolunteerDialogOpen(false)}
-                  variant="outlined"
-                >
-                  {t("CANCEL")}
-                </Button>
-                <Button
+                  variant="secondary"
+                />
+
+                <StandardButton
+                  text={t("SAVE")}
                   onClick={handleChangeVolunteer}
-                  color="primary"
-                  variant="contained"
                   disabled={!volunteerChangeReason.trim()}
-                >
-                  {t("CHANGE_VOLUNTEER")}
-                </Button>
+                  variant="primary"
+                />
               </DialogActions>
             </Dialog>
           </div>

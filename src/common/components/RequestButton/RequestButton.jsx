@@ -15,7 +15,9 @@ import MoreInfoChatModal from "../MoreInfoChatModal/MoreInfoChatModal";
 const COOLDOWN_MS = 30 * 60 * 1000;
 
 const getCooldownKey = (data) =>
-  `moreInfoCooldown_${data?.id ?? data?.subject ?? "default"}`;
+  `moreInfoCooldown_${
+    data?.requestId || data?.req_id || data?.id || data?.subject || "default"
+  }`;
 
 const isCoolingDown = (data) => {
   const raw = localStorage.getItem(getCooldownKey(data));
@@ -26,10 +28,14 @@ const isCoolingDown = (data) => {
   return false;
 };
 
-// TODO: replace hardcoded defaults with dynamic user_id and req_id
-const buildPayload = () => ({
-  user_id: "SID-00-000-000-050",
-  req_id: "REQ-00-000-000-0085",
+const buildPayload = (requestData, loggedInUserId) => ({
+  user_id:
+    requestData?.requesterId ||
+    requestData?.requester_id ||
+    requestData?.userId ||
+    requestData?.user_id ||
+    loggedInUserId,
+  req_id: requestData?.requestId || requestData?.req_id || requestData?.id,
 });
 
 const RequestButton = ({
@@ -84,7 +90,7 @@ const RequestButton = ({
         setShowModal(true);
         try {
           const aiReply = await moreInformationChat({
-            ...buildPayload(),
+            ...buildPayload(requestData, user?.userDbId),
             conversation_history: [],
           });
           setInitialResponse(aiReply?.body?.answer ?? "");

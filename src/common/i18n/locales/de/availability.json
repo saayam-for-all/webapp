@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "Zeitslot entfernen",
   "ADD_TIME_SLOT": "Zeitslot hinzufügen",
   "VACATION_MODE_ACTIVE": "Urlaubsmodus aktiv",
-  "NO_AVAILABILITY_SLOTS": "Keine Verfügbarkeitsslots konfiguriert"
+  "NO_AVAILABILITY_SLOTS": "Keine Verfügbarkeitsslots konfiguriert",
+  "REQUIRED": "Erforderlich",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "Die Endzeit muss nach der Startzeit liegen",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "Bitte geben Sie Ihre verfügbaren Zeitfenster für ehrenamtliche Arbeit an",
+  "ADD": "Hinzufügen",
+  "REMOVE_ROW": "Zeile entfernen"
 }

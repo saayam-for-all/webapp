@@ -25,5 +25,10 @@
   "Remove Time Slot": "ٹائم سلاٹ ہٹائیں",
   "Add Time Slot": "ٹائم سلاٹ شامل کریں",
   "VACATION_MODE_ACTIVE": "چھٹیوں کا موڈ فعال",
-  "NO AVAILABILITY SLOTS": "کوئی دستیابی سلاٹ تشکیل نہیں دیا گیا"
+  "NO AVAILABILITY SLOTS": "کوئی دستیابی سلاٹ تشکیل نہیں دیا گیا",
+  "REQUIRED": "ضروری",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "ختم ہونے کا وقت شروع ہونے کے وقت کے بعد ہونا چاہئے",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "براہ کرم رضاکارانہ خدمات کے لیے اپنے دستیاب وقت کے سلاٹ فراہم کریں",
+  "ADD": "شامل کریں",
+  "REMOVE_ROW": "قطار ختم کریں"
 }

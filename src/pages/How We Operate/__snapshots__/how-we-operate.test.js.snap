@@ -31,6 +31,7 @@ exports[`HowWeOperate renders correctly 1`] = `
             >
               <div
                 class="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+                style="height: calc(NaN% - 40px);"
               />
               <div
                 class="step-box"
@@ -58,7 +59,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -99,7 +100,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -140,7 +141,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -181,7 +182,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -222,7 +223,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -267,7 +268,7 @@ exports[`HowWeOperate renders correctly 1`] = `
               <button
                 class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
               >
-                mockTranslate(Join the community)
+                mockTranslate(Join our community)
               </button>
             </div>
           </div>
@@ -302,6 +303,7 @@ exports[`HowWeOperate renders correctly 1`] = `
           >
             <div
               class="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+              style="height: calc(NaN% - 40px);"
             />
             <div
               class="step-box"
@@ -329,7 +331,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -370,7 +372,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -411,7 +413,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -452,7 +454,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -493,7 +495,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -538,7 +540,7 @@ exports[`HowWeOperate renders correctly 1`] = `
             <button
               class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
             >
-              mockTranslate(Join the community)
+              mockTranslate(Join our community)
             </button>
           </div>
         </div>

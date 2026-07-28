@@ -13,7 +13,12 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./RequestDescription.css";
-
+const priorityColorMap = {
+  LOW: "text-green-500",
+  MEDIUM: "text-yellow-500",
+  HIGH: "text-orange-500",
+  CRITICAL: "text-red-500",
+};
 const findCategoryLabel = (node, targetKey) => {
   if (!node || !targetKey) return null;
   for (const [key, value] of Object.entries(node)) {
@@ -28,17 +33,33 @@ const findCategoryLabel = (node, targetKey) => {
 
 const RequestDescription = ({ requestData }) => {
   const { t, i18n } = useTranslation();
+  const normalizedPriority = String(requestData?.priority || "")
+    .trim()
+    .toUpperCase();
 
-  const cDate = new Date(requestData.creationDate);
-  const formattedDate = cDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const priorityColor = priorityColorMap[normalizedPriority] || "text-gray-500";
+  const creationDateValue =
+    requestData?.creationDate ||
+    requestData?.createdDate ||
+    requestData?.createdAt;
 
-  // Updated Date - issue #1456
-  const formattedUpdatedDate = requestData.lastUpdatedAt
-    ? new Date(requestData.lastUpdatedAt).toLocaleDateString("en-US", {
+  const formattedDate = creationDateValue
+    ? new Date(creationDateValue).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "—";
+
+  const updatedDateValue =
+    requestData?.lastUpdatedAt ||
+    requestData?.updatedDate ||
+    requestData?.updatedAt ||
+    requestData?.lastUpdated ||
+    requestData?.modifiedDate;
+
+  const formattedUpdatedDate = updatedDateValue
+    ? new Date(updatedDateValue).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -71,7 +92,6 @@ const RequestDescription = ({ requestData }) => {
             </div>
           </li>
 
-          {/* Updated Date - issue #1456 */}
           <li className="flex items-center gap-2 group relative">
             <VscCalendar size={22} />
             <span className="cursor-help border-b border-dashed border-gray-400">
@@ -81,11 +101,15 @@ const RequestDescription = ({ requestData }) => {
               {t("UPDATED_DATE")}
             </div>
           </li>
-
-          {/* Category */}
-          <li className="flex items-center gap-2">
+          {/* Category with tooltip - issue #1654 */}
+          <li className="flex items-center gap-2 group relative">
             <TbTriangleSquareCircle size={22} />
-            {categoryLabel}
+            <span className="cursor-help border-b border-dashed border-gray-400">
+              {categoryLabel}
+            </span>
+            <div className="absolute top-6 left-0 z-10 px-3 py-1 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+              {t("CATEGORY")}
+            </div>
           </li>
 
           {/* Status with tooltip - issue #1456 */}
@@ -100,9 +124,15 @@ const RequestDescription = ({ requestData }) => {
 
           {/* Priority with tooltip - issue #1456 */}
           <li className="flex items-center group relative">
-            <PiWarningDiamondFill className="mr-1 text-red-500" />
+            <PiWarningDiamondFill
+              className={`mr-1 ${priorityColor}`}
+              size={18}
+            />
             <span className="font-bold cursor-help">
-              {t(requestData.priority)}
+              {t(
+                `enums:requestPriority.${requestData.priority}`,
+                requestData.priority,
+              )}
             </span>
             <div className="absolute top-6 left-0 z-10 px-3 py-1 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
               {t("PRIORITY")}

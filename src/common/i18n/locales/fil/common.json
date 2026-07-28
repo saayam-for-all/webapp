@@ -1,10 +1,16 @@
 {
   "ABOUT": "Tungkol sa atin",
+  "BENEVITY": "Benevity",
   "DONATE": "Mag-donate",
   "LOGIN": "Mag log in",
   "DIRECTORS": "Lupon ng mga Direktor",
   "HOW_WE_OPERATE": "Paano Kami Nagpapatakbo",
   "MISSION": "Misyon",
+  "PROMOTE_TO_VOLUNTEER": "I-promote bilang Boluntaryo",
+  "SITEMAP": "Mapa ng Site",
+  "THANKS": "Salamat",
+  "VERIFY_ACCOUNT": "I-verify ang Account",
+  "VERIFY_OTP": "I-verify ang OTP",
   "VISION": "Pangitain",
   "ORGANIZATIONS": "Mga Organisasyon",
   "CONTACT": "Makipag-ugnayan",
@@ -40,5 +46,6 @@
   "FIND_BY_EMAIL": "Hanapin sa email",
   "FIND_BY_PHONE": "Hanapin sa telepono",
   "ENTER_VOLUNTEER_EMAIL": "Ilagay ang email ng boluntaryo",
-  "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo"
+  "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo",
+  "DELETE_ACTION": "Tanggalin"
 }

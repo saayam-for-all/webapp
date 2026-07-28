@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import Pagination from "../Pagination/Pagination";
 
+const requestEnumNamespaceMap = {
+  status: "requestStatus",
+  priority: "requestPriority",
+};
+
 const Table = ({
   headers,
   rows,
@@ -18,8 +23,12 @@ const Table = ({
   getLinkPath,
   getLinkState = undefined,
   serverPaginated = false,
+  showCheckboxes = false,
+  selectedRows = [],
+  onRowSelect,
+  onSelectAll,
 }) => {
-  const { t, i18n } = useTranslation(["common", "categories"]);
+  const { t, i18n } = useTranslation(["common", "categories", "enums"]);
 
   const paginatedRequests = useMemo(() => {
     if (serverPaginated) {
@@ -88,6 +97,8 @@ const Table = ({
     updatedDate: t("Last Updated"),
     creationDate: t("Created"),
     calamity: t("Calamity"),
+    beneficiaryCreatorDisplayId: t("Beneficiary ID / Creator ID"),
+    leadVolunteerDisplayId: t("Lead Volunteer ID"),
   };
 
   const getCategoryLabel = (code) => {
@@ -109,10 +120,71 @@ const Table = ({
     return search(bundle.REQUEST_CATEGORIES, code) || code;
   };
 
+  const splitRequestIdLines = (requestId) => {
+    if (typeof requestId !== "string") return [requestId];
+    const parts = requestId.split("-");
+    if (parts.length < 5) return [requestId];
+
+    return [
+      `${parts[0]}-${parts[1]}-`,
+      `${parts[2]}-${parts[3]}-`,
+      parts.slice(4).join("-"),
+    ];
+  };
+
+  const getRequestEnumLabel = (header, value) => {
+    const enumNamespace = requestEnumNamespaceMap[header];
+    if (value === null || value === undefined || value === "") {
+      return value;
+    }
+
+    const lookupValue = String(value).trim().toUpperCase().replace(/\s+/g, "_");
+    if (!lookupValue) return value;
+
+    return t(`enums:${enumNamespace}.${lookupValue}`, {
+      defaultValue: value,
+    });
+  };
+
   const getCellValue = (row, header) => {
     if (header === "requestId") return row[resolveKey(header)];
     if (header === "category") return getCategoryLabel(row[resolveKey(header)]);
-    return formatDateTime(row[resolveKey(header)], header);
+    const rawValue = row[resolveKey(header)];
+    if (requestEnumNamespaceMap[header]) {
+      return getRequestEnumLabel(header, rawValue);
+    }
+    const value = formatDateTime(rawValue, header);
+    if (
+      ["beneficiaryCreatorDisplayId", "leadVolunteerDisplayId"].includes(
+        header,
+      ) &&
+      (value === null || value === undefined || value === "")
+    ) {
+      return "—";
+    }
+    return value;
+  };
+
+  const renderRequestId = (requestId) =>
+    splitRequestIdLines(requestId).map((line, index) => (
+      <span
+        key={`${requestId}-${index}`}
+        className="block whitespace-nowrap leading-tight"
+      >
+        {line}
+      </span>
+    ));
+
+  const getCellClassName = (header) => {
+    if (header === "requestId") {
+      return "px-3 py-2 text-sm leading-tight align-top";
+    }
+    if (
+      ["beneficiaryCreatorDisplayId", "leadVolunteerDisplayId"].includes(header)
+    ) {
+      return "px-6 py-2 whitespace-nowrap text-sm";
+    }
+    return "px-6 py-2";
   };
 
   const shouldLinkCell = (header) => header === "requestId" || header === "id";
@@ -126,6 +198,23 @@ const Table = ({
         >
           <thead data-testid="table-header">
             <tr>
+              {showCheckboxes && (
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider w-10">
+                  <input
+                    type="checkbox"
+                    className="cursor-pointer w-4 h-4"
+                    checked={
+                      paginatedRequests.length > 0 &&
+                      paginatedRequests.every((row) =>
+                        selectedRows.includes(row.requestId || row.id),
+                      )
+                    }
+                    onChange={(e) =>
+                      onSelectAll && onSelectAll(e.target.checked)
+                    }
+                  />
+                </th>
+              )}
               {headers.map((key) => (
                 <th
                   key={key}
@@ -156,7 +245,7 @@ const Table = ({
             {paginatedRequests.length === 0 ? (
               <tr>
                 <td
-                  colSpan={headers.length}
+                  colSpan={headers.length + (showCheckboxes ? 1 : 0)}
                   className="px-6 py-8 text-center text-gray-500"
                 >
                   <div className="flex flex-col items-center justify-center">
@@ -174,15 +263,29 @@ const Table = ({
             ) : (
               paginatedRequests.map((row, rowIndex) => (
                 <tr key={rowIndex}>
+                  {showCheckboxes && (
+                    <td className="px-3 py-2 w-10">
+                      <input
+                        type="checkbox"
+                        className="cursor-pointer w-4 h-4"
+                        checked={selectedRows.includes(row.requestId || row.id)}
+                        onChange={() =>
+                          onRowSelect && onRowSelect(row.requestId || row.id)
+                        }
+                      />
+                    </td>
+                  )}
                   {headers.map((header, colIndex) => {
                     const value = getCellValue(row, header);
 
                     const path = getLinkPath ? getLinkPath(row, header) : null;
+                    const cellContent =
+                      header === "requestId" ? renderRequestId(value) : value;
 
                     return (
                       <td
                         key={colIndex}
-                        className="px-6 py-2"
+                        className={getCellClassName(header)}
                         data-testid="map-data-one"
                       >
                         {path ? (
@@ -191,10 +294,10 @@ const Table = ({
                             className="text-indigo-600 hover:text-indigo-900"
                             state={getLinkState ? getLinkState(row) : undefined}
                           >
-                            {value}
+                            {cellContent}
                           </Link>
                         ) : (
-                          value
+                          cellContent
                         )}
                       </td>
                     );
@@ -239,6 +342,10 @@ Table.propTypes = {
   getLinkPath: PropTypes.func.isRequired,
   getLinkState: PropTypes.func,
   serverPaginated: PropTypes.bool,
+  showCheckboxes: PropTypes.bool,
+  selectedRows: PropTypes.array,
+  onRowSelect: PropTypes.func,
+  onSelectAll: PropTypes.func,
 };
 
 export default Table;

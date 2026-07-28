@@ -17,13 +17,6 @@ const ExecutiveTeamData = [
     linkedin:
       "https://www.linkedin.com/in/agrasugandha/?trk=opento_sprofile_details",
   },
-
-  {
-    image: Aakash_Gangji,
-    name: "Aakash Gangji",
-    role: "Lead AI/ML Developer/Engineer",
-    linkedin: "https://www.linkedin.com/in/aakashgangji/",
-  },
 ];
 
 export default ExecutiveTeamData;

@@ -15,7 +15,7 @@ const Breadcrumbs = () => {
     <nav aria-label="breadcrumb" className="breadcrumb-nav">
       <ol className="breadcrumbs">
         <li className="breadcrumb-item">
-          <Link to="/">Home</Link>
+          <Link to="/">{t("HOME")}</Link>
         </li>
 
         {trail.map((item, index) => {
@@ -29,10 +29,10 @@ const Breadcrumbs = () => {
             >
               {!isLast && item.path ? (
                 <Link to={item.path} state={item.state}>
-                  {item.label}
+                  {t(item.label)}
                 </Link>
               ) : (
-                item.label
+                t(item.label)
               )}
             </li>
           );
@@ -60,7 +60,7 @@ const Breadcrumbs = () => {
 
   const sectionConfig = [
     {
-      parent: { label: "Dashboard", path: "/dashboard" },
+      parent: { label: "DASHBOARD", path: "/dashboard" },
       pages: [
         "/dashboard",
         "/request",
@@ -73,59 +73,59 @@ const Breadcrumbs = () => {
       ],
     },
     {
-      parent: { label: "About Us", path: null },
+      parent: { label: "ABOUT", path: null },
       pages: ["/our-team", "/our-mission", "/news-our-stories"],
     },
     {
-      parent: { label: "Volunteer Service", path: null },
+      parent: { label: "VOLUNTEER_SERVICES", path: null },
       pages: ["/how-we-operate", "/collaborators"],
     },
     {
-      parent: { label: "Contact", path: "/contact" },
+      parent: { label: "CONTACT", path: "/contact" },
       pages: ["/contact"],
     },
     {
-      parent: { label: "Notifications", path: "/notifications" },
+      parent: { label: "NOTIFICATIONS", path: "/notifications" },
       pages: ["/notifications"],
     },
     {
-      parent: { label: "Donate", path: "/donate" },
+      parent: { label: "DONATE", path: "/donate" },
       pages: ["/donate"],
     },
     {
-      parent: { label: "Terms And Conditions", path: "/terms-and-conditions" },
+      parent: { label: "TERMS_AND_CONDITIONS", path: "/terms-and-conditions" },
       pages: ["/terms-and-conditions"],
     },
     {
-      parent: { label: "Privacy Policy", path: "/privacy-policy" },
+      parent: { label: "PRIVACY_POLICY", path: "/privacy-policy" },
       pages: ["/privacy-policy"],
     },
     {
-      parent: { label: "Sitemap", path: "/sitemap" },
+      parent: { label: "SITEMAP", path: "/sitemap" },
       pages: ["/sitemap"],
     },
     {
-      parent: { label: "Thanks", path: "/thanks" },
+      parent: { label: "THANKS", path: "/thanks" },
       pages: ["/thanks"],
     },
     {
-      parent: { label: "Forgot Password", path: "/forgot-password" },
+      parent: { label: "FORGOT_PASSWORD", path: "/forgot-password" },
       pages: ["/forgot-password"],
     },
     {
-      parent: { label: "Signup", path: "/signup" },
+      parent: { label: "SIGNUP", path: "/signup" },
       pages: ["/signup"],
     },
     {
-      parent: { label: "Verify Account", path: "/verify-account" },
+      parent: { label: "VERIFY_ACCOUNT", path: "/verify-account" },
       pages: ["/verify-account"],
     },
     {
-      parent: { label: "Verify OTP", path: "/verify-otp" },
+      parent: { label: "VERIFY_OTP", path: "/verify-otp" },
       pages: ["/verify-otp"],
     },
     {
-      parent: { label: "Benevity", path: "/benevity" },
+      parent: { label: "BENEVITY", path: "/benevity" },
       pages: ["/benevity"],
     },
   ];
@@ -137,24 +137,24 @@ const Breadcrumbs = () => {
   );
 
   const getCurrentPageLabel = () => {
-    if (currentPath === "/dashboard") return "Dashboard";
-    if (currentPath === "/request") return "Create Help Request";
-    if (currentPath.startsWith("/request/")) return "Request Details";
-    if (currentPath === "/promote-to-volunteer") return "Promote To Volunteer";
-    if (currentPath === "/emergency-contact") return "Emergency Contact";
-    if (currentPath === "/voluntary-organizations") return "Organizations";
+    if (currentPath === "/dashboard") return "DASHBOARD";
+    if (currentPath === "/request") return "CREATE_HELP_REQUEST";
+    if (currentPath.startsWith("/request/")) return "REQUEST_DETAILS";
+    if (currentPath === "/promote-to-volunteer") return "PROMOTE_TO_VOLUNTEER";
+    if (currentPath === "/emergency-contact") return "EMERGENCY_CONTACT";
+    if (currentPath === "/voluntary-organizations") return "ORGANIZATIONS";
     if (currentPath.startsWith("/organization/")) {
-      return location.state?.organizationData?.Name || "Organization Details";
+      return location.state?.organizationData?.Name || "ORGANIZATION_DETAILS";
     }
-    if (currentPath === "/our-team") return "Our Team";
-    if (currentPath === "/our-mission") return "Our Mission";
-    if (currentPath === "/news-our-stories") return t("IN_THE_NEWS");
-    if (currentPath === "/how-we-operate") return "How We Operate";
-    if (currentPath === "/collaborators") return "Collaborators";
-    if (currentPath === "/contact") return "Contact";
-    if (currentPath === "/profile") return "Profile";
-    if (currentPath === "/notifications") return "Notifications";
-    if (currentPath === "/donate") return "Donate";
+    if (currentPath === "/our-team") return "OUR_TEAM";
+    if (currentPath === "/our-mission") return "OUR_MISSION";
+    if (currentPath === "/news-our-stories") return "IN_THE_NEWS";
+    if (currentPath === "/how-we-operate") return "HOW_WE_OPERATE";
+    if (currentPath === "/collaborators") return "OUR_COLLABORATORS";
+    if (currentPath === "/contact") return "CONTACT";
+    if (currentPath === "/profile") return "PROFILE";
+    if (currentPath === "/notifications") return "NOTIFICATIONS";
+    if (currentPath === "/donate") return "DONATE";
 
     const lastSegment = currentPath.split("/").filter(Boolean).pop();
     if (!lastSegment) return "";

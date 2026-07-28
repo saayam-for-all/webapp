@@ -16,11 +16,11 @@ import {
   useGetAllRequestQuery,
 } from "../../services/requestApi";
 import {
-  checkProfanity,
   createRequest,
   updateRequest,
   predictCategories,
   generateSubject,
+  getAdditionalFields,
   getCategories,
 } from "../../services/requestServices";
 import HousingCategory from "./Categories/HousingCategory";
@@ -55,6 +55,10 @@ import {
   IconButton,
   Box,
 } from "@mui/material";
+import {
+  extractAdditionalFieldsFromResponse,
+  normalizeAdditionalFieldValues,
+} from "../../utils/normalizeAdditionalFieldValues";
 
 const genderOptions = [
   { value: "Select", label: "Select" },
@@ -102,8 +106,29 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
   const user = useSelector((state) => state.auth.user);
   const [location, setLocation] = useState("");
+  const [locationCoordinates, setLocationCoordinates] = useState(null);
   const { inputRef, suggestions, handleSearchChange, handleSelectSuggestion } =
-    usePlacesSearchBox(setLocation);
+    usePlacesSearchBox(setLocation, (coords) => {
+      setLocationCoordinates(coords);
+      setFormData((prev) => ({ ...prev, locationCoordinates: coords }));
+    });
+
+  // NEW (SAAYAM-1622): separate location state/hook for the "Other" requester's
+  // address. Intentionally kept OUT of formData/submissionData for now since
+  // there is no API/DB field mapped for it yet. Once the API adds support for
+  // storing this in the geography column, wire otherPersonLocation /
+  // otherPersonLocationCoordinates into submissionData in handleSubmit below.
+  const [otherPersonLocation, setOtherPersonLocation] = useState("");
+  const [otherPersonLocationCoordinates, setOtherPersonLocationCoordinates] =
+    useState(null);
+  const {
+    inputRef: otherLocationInputRef,
+    suggestions: otherLocationSuggestions,
+    handleSearchChange: handleOtherLocationSearchChange,
+    handleSelectSuggestion: handleOtherLocationSelectSuggestion,
+  } = usePlacesSearchBox(setOtherPersonLocation, (coords) => {
+    setOtherPersonLocationCoordinates(coords);
+  });
 
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -129,6 +154,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const [fileErrorMessages, setFileErrorMessages] = useState([]);
   // Dynamic additional fields state
   const [additionalFieldValues, setAdditionalFieldValues] = useState({});
+  const hasUserEditedAdditionalFieldsRef = useRef(false);
 
   // useEffect(() => {
   //   const fetchEnumsData = async () => {
@@ -208,6 +234,37 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     detected_language: "", // Language detected from audio transcription (e.g., "hi", "en", "es")
   });
 
+  // One-time prefill: when requesting on behalf of someone else (For Self
+  // = Other) with an In Person request, default the In Person location to
+  // the Other person's location - it's logically the same place (e.g. a
+  // roadside location, a friend's address). Fires once; both fields are
+  // freely/independently editable afterward.
+  const hasPrefilledInPersonFromOtherRef = useRef(false);
+  useEffect(() => {
+    if (
+      formData.request_for === "OTHER" &&
+      formData.request_type === "IN_PERSON" &&
+      otherPersonLocation &&
+      !hasPrefilledInPersonFromOtherRef.current
+    ) {
+      hasPrefilledInPersonFromOtherRef.current = true;
+      setLocation(otherPersonLocation);
+      setFormData((prev) => ({ ...prev, location: otherPersonLocation }));
+      if (otherPersonLocationCoordinates) {
+        setLocationCoordinates(otherPersonLocationCoordinates);
+        setFormData((prev) => ({
+          ...prev,
+          locationCoordinates: otherPersonLocationCoordinates,
+        }));
+      }
+    }
+  }, [
+    formData.request_for,
+    formData.request_type,
+    otherPersonLocation,
+    otherPersonLocationCoordinates,
+  ]);
+
   // If user changes category to a non-elderly option, ensure any open ElderlySupport panel is closed
   useEffect(() => {
     // Resolve whether current formData.category corresponds to an Elderly subcategory
@@ -268,6 +325,16 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     }
     return catNameOrId;
   };
+
+  const routeRequestData =
+    id && data ? data.body?.find((item) => item.id === id) : null;
+  const additionalFieldsRequestId =
+    editRequestData?.requestId ||
+    editRequestData?.id ||
+    routeRequestData?.requestId ||
+    routeRequestData?.id;
+  const additionalFieldsRequesterId =
+    editRequestData?.requesterId || routeRequestData?.requesterId || userDbId;
 
   // Restore request for edit
   // Supports two data sources:
@@ -335,6 +402,51 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       }
     }
   }, [editRequestData, data, id]);
+
+  useEffect(() => {
+    if (!isEdit) return undefined;
+
+    if (!additionalFieldsRequestId || !additionalFieldsRequesterId) {
+      return undefined;
+    }
+
+    let isCancelled = false;
+    hasUserEditedAdditionalFieldsRef.current = false;
+
+    const loadAdditionalFields = async () => {
+      try {
+        const response = await getAdditionalFields({
+          requestId: additionalFieldsRequestId,
+          requesterId: additionalFieldsRequesterId,
+        });
+        if (isCancelled || hasUserEditedAdditionalFieldsRef.current) return;
+
+        let metadata = [];
+        try {
+          metadata = JSON.parse(localStorage.getItem("metadata") || "[]");
+        } catch {
+          metadata = [];
+        }
+
+        setAdditionalFieldValues(
+          normalizeAdditionalFieldValues(
+            extractAdditionalFieldsFromResponse(response),
+            metadata,
+          ),
+        );
+      } catch (error) {
+        if (!isCancelled) {
+          console.error("Error fetching additional fields:", error);
+        }
+      }
+    };
+
+    loadAdditionalFields();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isEdit, additionalFieldsRequestId, additionalFieldsRequesterId]);
 
   // Converts API snake_case category names to title-case for display.
   // e.g. "GROCERY_SHOPPING_AND_DELIVERY" → "Grocery Shopping And Delivery"
@@ -429,8 +541,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
             setFormData((prev) => ({
               ...prev,
               location: data.display_name,
+              locationCoordinates: { latitude, longitude },
             }));
           }
+          console.log("Coordinates stored:", { latitude, longitude });
         },
         (error) => {
           console.error("Location error:", error);
@@ -1156,9 +1270,13 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       return;
     }
 
+    // Show spinner immediately so the user knows the form is being processed,
+    // even while the generateSubject API call is still in-flight (#1548 follow-up).
+    setIsSubmitting(true);
+
     // Capture the resolved subject in a local variable so it is available
-    // synchronously for both submissionData and checkProfanity regardless of
-    // whether React has flushed the setFormData state update yet.
+    // synchronously for submissionData regardless of whether React has
+    // flushed the setFormData state update yet.
     let resolvedSubject = formData.subject;
 
     if (
@@ -1185,31 +1303,18 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       setFormData((prev) => ({ ...prev, subject: resolvedSubject }));
     }
 
+    // NOTE (SAAYAM-1622): otherPersonLocation / otherPersonLocationCoordinates
+    // are intentionally NOT added here. There is no API/DB field mapped for
+    // the "Other" requester's location yet. Once the backend adds support
+    // (geography column), add them to submissionData below, e.g.:
+    //   other_person_location: otherPersonLocation,
+    //   other_person_location_coordinates: otherPersonLocationCoordinates,
     const submissionData = {
       ...formData,
       subject: resolvedSubject,
       location,
     };
-
-    setIsSubmitting(true);
     try {
-      const res = await checkProfanity({
-        subject: resolvedSubject,
-        description: formData.description,
-      });
-
-      if (res.contains_profanity) {
-        setSnackbar({
-          open: true,
-          message:
-            "Profanity detected. Please remove these word(s): " +
-            res.profanity +
-            " from Subject/Description and submit again!",
-          severity: "error",
-        });
-        return;
-      }
-
       // In edit mode, skip the predict-categories modal since category is locked
       if (
         !isEdit &&
@@ -1616,7 +1721,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                 <DynamicAdditionalFields
                   catId={selectedCategoryId}
                   value={additionalFieldValues}
-                  onChange={setAdditionalFieldValues}
+                  onChange={(values) => {
+                    hasUserEditedAdditionalFieldsRef.current = true;
+                    setAdditionalFieldValues(values);
+                  }}
                 />
 
                 <div className="mt-3">
@@ -2081,6 +2189,49 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         </select>
                       </div>
                     </div>
+
+                    {/* NEW (SAAYAM-1622): Location field for the "Other" person.
+                        Same search/suggestion UX as the "In Person" location field
+                        further below, but backed by its own state and NOT included
+                        in submissionData/API payload yet (no backend field exists). */}
+                    <div className="mt-3" data-testid="parentDivOtherLocation">
+                      <label
+                        htmlFor="other_person_location"
+                        className="block text-gray-700 mb-1 font-medium"
+                      >
+                        {t("Location")}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          id="other_person_location"
+                          ref={otherLocationInputRef}
+                          value={otherPersonLocation}
+                          onChange={(e) => {
+                            setOtherPersonLocation(e.target.value);
+                            handleOtherLocationSearchChange(e.target.value);
+                          }}
+                          className="border p-2 w-full rounded-lg"
+                          placeholder="Search for location..."
+                        />
+                        {otherLocationSuggestions.length > 0 && (
+                          <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full mt-1 max-h-48 overflow-y-auto shadow-lg">
+                            {otherLocationSuggestions.map((s, i) => (
+                              <li
+                                key={i}
+                                className="px-3 py-2 cursor-pointer hover:bg-blue-50 text-sm"
+                                onClick={() => {
+                                  setOtherPersonLocation(s.display_name);
+                                  handleOtherLocationSelectSuggestion(s);
+                                }}
+                              >
+                                {s.display_name}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 )
               }
@@ -2120,7 +2271,14 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           ...formData,
                           request_type: value,
                         });
-                        if (value === "IN_PERSON") {
+                        // Skip browser geolocation when requesting on behalf
+                        // of someone else - the In Person location prefills
+                        // from the Other person's location instead (see the
+                        // hasPrefilledInPersonFromOtherRef effect above).
+                        if (
+                          value === "IN_PERSON" &&
+                          formData.request_for !== "OTHER"
+                        ) {
                           getUserLocation();
                         }
                       }}
@@ -2183,7 +2341,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                                     ...prev,
                                     location: s.display_name,
                                   }));
-                                  handleSelectSuggestion(s.display_name);
+                                  handleSelectSuggestion(s);
                                 }}
                               >
                                 {s.display_name}
@@ -2310,7 +2468,13 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
               {isSubmitting && <LoadingIndicator size="24px" />}
             </button>
             <button
-              onClick={isEdit ? onClose : closeForm}
+              onClick={() => {
+                if (isEdit) {
+                  onClose?.(undefined);
+                  return;
+                }
+                closeForm();
+              }}
               type="button"
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
             >

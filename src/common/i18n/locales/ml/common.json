@@ -1,10 +1,16 @@
 {
   "ABOUT": "ഞങ്ങളേക്കുറിച്ച്",
+  "BENEVITY": "Benevity",
   "DONATE": "സംഭാവനചെയ്യുക",
   "LOGIN": "ലോഗിൻ",
   "DIRECTORS": "ഡയറക്ടർ ബോർഡ്",
   "HOW_WE_OPERATE": "ഞങ്ങൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു",
   "MISSION": "ദൗത്യം",
+  "PROMOTE_TO_VOLUNTEER": "സന്നദ്ധപ്രവർത്തകനായി ഉയർത്തുക",
+  "SITEMAP": "സൈറ്റ്മാപ്പ്",
+  "THANKS": "നന്ദി",
+  "VERIFY_ACCOUNT": "അക്കൗണ്ട് പരിശോധിക്കുക",
+  "VERIFY_OTP": "OTP പരിശോധിക്കുക",
   "VISION": "ദർശനം",
   "CONTACT": "ബന്ധപ്പെടുക",
   "DASHBOARD": "ഡാഷ്ബോർഡ്",
@@ -40,5 +46,8 @@
   "FIND_BY_EMAIL": "ഇമെയിൽ ഉപയോഗിച്ച് കണ്ടെത്തുക",
   "FIND_BY_PHONE": "ഫോൺ ഉപയോഗിച്ച് കണ്ടെത്തുക",
   "ENTER_VOLUNTEER_EMAIL": "സന്നദ്ധസേവകന്റെ ഇമെയിൽ നൽകുക",
-  "ENTER_VOLUNTEER_PHONE": "സന്നദ്ധസേവകന്റെ ഫോൺ നൽകുക"
+  "ENTER_VOLUNTEER_PHONE": "സന്നദ്ധസേവകന്റെ ഫോൺ നൽകുക",
+  "CHANGE_VOLUNTEER": "സന്നദ്ധസേവകനെ മാറ്റുക",
+  "DELETE": "ഒഴിവാക്കുക",
+  "DELETE_ACTION": "ഇല്ലാതാക്കുക"
 }

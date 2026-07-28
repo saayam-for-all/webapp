@@ -27,6 +27,9 @@ const { moreInformationChat } = require("../../../services/requestServices");
 
 const mockRequestData = {
   id: "REQ-001",
+  requestId: "REQ-00-000-000-0085",
+  requesterId: "SID-REQUESTER-001",
+  userId: "SID-00-000-000-050",
   subject: "Pick up dry cleaning",
   description: "Need someone to pick up my dry cleaning.",
 };
@@ -195,12 +198,38 @@ describe("MoreInfoChatModal", () => {
     expect(screen.getByText("No questions remaining.")).toBeInTheDocument();
   });
 
-  it("stores cooldown in localStorage and calls onClose when close button clicked", () => {
+  it("does not store cooldown when modal is closed without asking a question", () => {
     renderModal();
     fireEvent.click(screen.getByLabelText("Close"));
+    const key = `moreInfoCooldown_${mockRequestData.requestId}`;
+    expect(localStorage.getItem(key)).toBeNull();
+    expect(mockOnClose).toHaveBeenCalled();
+  });
 
-    const key = `moreInfoCooldown_${mockRequestData.id}`;
+  it("stores cooldown when modal is closed after asking a question", async () => {
+    moreInformationChat.mockResolvedValue({
+      body: { answer: "You need an ID." },
+    });
+
+    renderModal();
+
+    const input = screen.getByPlaceholderText(PLACEHOLDER);
+
+    fireEvent.change(input, {
+      target: { value: "What documents do I need?" },
+    });
+
+    fireEvent.click(screen.getByText("Send"));
+
+    await waitFor(() => {
+      expect(screen.getByTitle("4 questions remaining")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByLabelText("Close"));
+
+    const key = `moreInfoCooldown_${mockRequestData.requestId}`;
     const stored = JSON.parse(localStorage.getItem(key));
+
     expect(stored).toHaveProperty("expiresAt");
     expect(stored.expiresAt).toBeGreaterThan(Date.now());
     expect(mockOnClose).toHaveBeenCalled();
@@ -267,8 +296,8 @@ describe("MoreInfoChatModal", () => {
     await waitFor(() => {
       expect(moreInformationChat).toHaveBeenCalledWith(
         expect.objectContaining({
-          user_id: "SID-00-000-000-050",
-          req_id: "REQ-00-000-000-0085",
+          user_id: mockRequestData.requesterId,
+          req_id: mockRequestData.requestId,
           conversation_history: expect.arrayContaining([
             expect.objectContaining({ role: "assistant" }),
             expect.objectContaining({ role: "user", content: "My question" }),

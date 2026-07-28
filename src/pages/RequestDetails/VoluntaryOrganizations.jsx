@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Table from "../../common/components/DataTable/Table";
-import { getMockOrganizations } from "../../services/mlServices";
+import { getOrganizations } from "../../services/mlServices";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import LoadingIndicator from "../../common/components/Loading/Loading";
 import { createOrganizationDetailsTrail } from "../../common/components/BreadCrumbs/breadcrumbUtils";
 
@@ -41,6 +42,11 @@ const VoluntaryOrganizations = () => {
       ?.path?.split("/")
       ?.pop();
 
+  // Get logged-in user's DB id from redux or localStorage (used for My Requests)
+  const userDbId =
+    useSelector((state) => state.auth.user?.userDbId) ||
+    localStorage.getItem("userDbId");
+
   if (!location.state) {
     console.warn("No requestData passed through navigation");
   }
@@ -51,14 +57,28 @@ const VoluntaryOrganizations = () => {
       const personalInfo = JSON.parse(
         localStorage.getItem("personalInfo") || "{}",
       );
+
+      // request_id comes from the request row the user clicked
+      const request_id = requestData?.id || "";
+
+      // beneficiary_id:
+      // - All Requests: use userId from the request row (the person who made the request)
+      // - My Requests: use logged-in user's userDbId
+      const beneficiary_id =
+        requestData?.userId || requestData?.beneficiary_id || userDbId || "";
+
       const payload = {
+        request_id,
+        beneficiary_id,
         category: requestData?.category || "",
         subject: requestData?.subject || "",
         description: requestData?.description || "",
-        location: personalInfo?.city ?? "",
+        location: personalInfo?.city || localStorage.getItem("city") || "",
       };
 
-      const response = await getMockOrganizations(payload);
+      console.log("Org API payload:", payload);
+
+      const response = await getOrganizations(payload);
 
       const organizationsArray =
         response?.body || response?.data || response || [];
@@ -71,23 +91,24 @@ const VoluntaryOrganizations = () => {
       });
 
       const formattedOrganizations = sortedArray.map((org, index) => ({
-        id: index + 1, // Fallback ID for routing
-        name: org.Name,
-        organization_type: org["Org-type"] || "N/A",
+        id: index + 1,
+        name: org.Name || org.name || "N/A",
+        organization_type: org["Org-type"] || org.organization_type || "N/A",
         collaborator: org.Collaborator ? (
           <span className="text-green-600 text-lg">✓</span>
         ) : (
           ""
         ),
-        location: org.location,
-        size: org.size || "N/A",
-        rating: org.rating || "N/A",
-        _rawData: org, // Preserve raw API data for drill-down
+        location: org.location || org.Location || "N/A",
+        size: org.size || org.Size || "N/A",
+        rating: org.rating || org.Rating || "N/A",
+        _rawData: org,
       }));
 
       setOrganizations(formattedOrganizations);
     } catch (error) {
       console.error("Error fetching organizations:", error);
+      setOrganizations([]);
     } finally {
       setIsLoading(false);
     }
@@ -107,7 +128,6 @@ const VoluntaryOrganizations = () => {
         let valA = a[sortConfig.key];
         let valB = b[sortConfig.key];
 
-        // Handle JSX in collaborator column for comparison
         if (sortConfig.key === "collaborator") {
           valA = React.isValidElement(valA) ? "Yes" : valA;
           valB = React.isValidElement(valB) ? "Yes" : valB;
@@ -129,7 +149,6 @@ const VoluntaryOrganizations = () => {
     return sortedOrganizations(organizations || []);
   }, [organizations, sortConfig]);
 
-  //add the filter by category and filter with search input functionality here
   const filteredOrganizations = (organizations) =>
     organizations.filter((org) =>
       Object.values(org).some(
@@ -140,10 +159,7 @@ const VoluntaryOrganizations = () => {
     );
 
   const filteredData = useMemo(() => {
-    console.log("Organizations:", organizations);
-    const filtered = filteredOrganizations(sortedData);
-    console.log("Filtered:", filtered);
-    return filtered;
+    return filteredOrganizations(sortedData);
   }, [sortedData, categoryFilter, searchTerm]);
 
   const totalPages = (filteredData) => {
@@ -294,6 +310,13 @@ const VoluntaryOrganizations = () => {
           <LoadingIndicator size="80px" position="center" />
           <p className="mt-4 text-gray-600 font-medium">
             Fetching best organizations for you...
+          </p>
+        </div>
+      ) : organizations.length === 0 ? (
+        <div className="flex flex-col items-center justify-center min-h-[200px] text-gray-500">
+          <p className="text-lg font-medium">No organizations found</p>
+          <p className="text-sm mt-1">
+            No matching organizations for this request.
           </p>
         </div>
       ) : (

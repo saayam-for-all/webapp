@@ -12,6 +12,8 @@ import {
   Legend,
   ResponsiveContainer,
   ReferenceLine,
+  LineChart,
+  Line,
 } from "recharts";
 import ChartContainer from "./charts/ChartContainer";
 import { getKpiAnalytics } from "../../../../services/analyticsServices";
@@ -57,7 +59,8 @@ export const renderTooltip =
   };
 
 const KPIAnalytics = () => {
-  const [showStatusTable, setShowStatusTable] = useState(false);
+  const [viewMode, setViewMode] = useState("snapshot"); // snapshot | table | trends
+  const [timeRange, setTimeRange] = useState("All"); // 7D | 30D | 1Y | All | Custom
   const [selectedSegment, setSelectedSegment] = useState(null);
   const [breakdownView, setBreakdownView] = useState("category"); // category or region
   const [kpiData, setKpiData] = useState(null);
@@ -81,26 +84,42 @@ const KPIAnalytics = () => {
   const SLA_TARGET = kpiData?.sla?.target_hours ?? 240;
   const SLA_WARNING = kpiData?.sla?.warning_hours ?? 200;
 
+  // Snapshot and Table view read from the dedicated "Snapshot" bucket
+  // (previously reused "All", but backend now separates them - per
+  // request from 7/19: "All" is now per-month trend data like "1Y",
+  // and "Snapshot" is the standalone aggregate).
+  const snapshotData = kpiData?.body?.Snapshot;
+
   const resolutionData = useMemo(() => {
-    if (!kpiData?.average_resolution_time_by_category) return [];
-    return kpiData.average_resolution_time_by_category
+    if (!snapshotData?.average_resolution_time_by_category) return [];
+    return snapshotData.average_resolution_time_by_category
       .map((item) => ({
         category: item.category,
         avgHours: item.avg_hours,
         avgDays: (item.avg_hours / 24).toFixed(1),
       }))
       .sort((a, b) => b.avgHours - a.avgHours);
-  }, [kpiData]);
+  }, [snapshotData]);
 
   const statusData = useMemo(() => {
-    if (!kpiData?.request_status_distribution) return [];
-    return kpiData.request_status_distribution.map((item) => ({
+    if (!snapshotData?.request_status_distribution) return [];
+    return snapshotData.request_status_distribution.map((item) => ({
       name: item.status,
       value: item.count,
     }));
-  }, [kpiData]);
+  }, [snapshotData]);
 
-  const totalRequests = kpiData?.total_requests ?? 0;
+  const totalRequests = snapshotData?.total_requests ?? 0;
+
+  // Trends view reads the selected range's total_requests time series.
+  // NOTE: Custom is intentionally excluded for now - backend is still
+  // finalizing the date-range granularity for Custom.
+  const trendData = useMemo(() => {
+    if (timeRange === "Custom") return [];
+    const series = kpiData?.body?.[timeRange]?.total_requests;
+    if (!Array.isArray(series)) return [];
+    return [...series].sort((a, b) => (a.period > b.period ? 1 : -1));
+  }, [kpiData, timeRange]);
 
   // Handle segment click
   const handleSegmentClick = (data) => {
@@ -177,15 +196,45 @@ const KPIAnalytics = () => {
       >
         {/* Controls */}
         <div className="mb-2 flex gap-2 items-center flex-wrap">
-          <button
-            onClick={() => {
-              setShowStatusTable(!showStatusTable);
+          <select
+            value={viewMode}
+            onChange={(e) => {
+              setViewMode(e.target.value);
               setSelectedSegment(null);
             }}
-            className="px-2 py-0.5 text-xs bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="px-2 py-0.5 text-xs border border-gray-300 rounded bg-white"
           >
-            {showStatusTable ? "Chart View" : "Table View"}
-          </button>
+            <option value="snapshot">Snapshot</option>
+            <option value="table">Table view</option>
+            <option value="trends">Trends</option>
+          </select>
+
+          {viewMode === "trends" && (
+            <div className="flex gap-1">
+              {["7D", "30D", "1Y", "All"].map((range) => (
+                <button
+                  key={range}
+                  type="button"
+                  onClick={() => setTimeRange(range)}
+                  className={`px-3 py-1 text-xs rounded ${
+                    timeRange === range
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {range}
+                </button>
+              ))}
+              <button
+                type="button"
+                disabled
+                title="Custom range coming soon"
+                className="px-3 py-1 text-xs rounded bg-gray-50 text-gray-400 cursor-not-allowed"
+              >
+                Custom
+              </button>
+            </div>
+          )}
 
           {selectedSegment && (
             <>
@@ -210,7 +259,7 @@ const KPIAnalytics = () => {
           )}
         </div>
 
-        {!showStatusTable ? (
+        {viewMode === "snapshot" ? (
           <>
             <ResponsiveContainer width="100%" height={280}>
               <PieChart>
@@ -304,7 +353,7 @@ const KPIAnalytics = () => {
               </div>
             )}
           </>
-        ) : (
+        ) : viewMode === "table" ? (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -347,6 +396,46 @@ const KPIAnalytics = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        ) : (
+          <div className="w-full">
+            {trendData.length === 0 ? (
+              <div className="flex items-center justify-center h-48 text-gray-400 text-sm">
+                No trend data available for {timeRange}
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={trendData} margin={{ left: 10, right: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis
+                    dataKey="period"
+                    tick={{ fontSize: 11 }}
+                    stroke="#6b7280"
+                  />
+                  <YAxis
+                    tick={{ fontSize: 12 }}
+                    stroke="#6b7280"
+                    allowDecimals={false}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#fff",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "0.375rem",
+                    }}
+                  />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="total_requests"
+                    name="Total Requests"
+                    stroke="#3b82f6"
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
           </div>
         )}
       </ChartContainer>

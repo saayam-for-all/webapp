@@ -17,25 +17,150 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
+const getSessionStorageItem = (key) => {
+  try {
+    return typeof window !== "undefined" && window.sessionStorage
+      ? sessionStorage.getItem(key)
+      : null;
+  } catch (e) {
+    console.error("Error reading from sessionStorage", e);
+    return null;
+  }
+};
+
+const setSessionStorageItem = (key, value) => {
+  try {
+    if (typeof window !== "undefined" && window.sessionStorage) {
+      sessionStorage.setItem(key, value);
+    }
+  } catch (e) {
+    console.error("Error writing to sessionStorage", e);
+  }
+};
+
+const removeSessionStorageItem = (key) => {
+  try {
+    if (typeof window !== "undefined" && window.sessionStorage) {
+      sessionStorage.removeItem(key);
+    }
+  } catch (e) {
+    console.error("Error removing from sessionStorage", e);
+  }
+};
+
 const PromoteToVolunteer = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const stepParam = parseInt(searchParams.get("step")) || 1;
-  const [currentStep, setCurrentStep] = useState(stepParam);
+  const [currentStep, setCurrentStep] = useState(() => {
+    const cachedStep = getSessionStorageItem("volunteer_wizard_step");
+    return cachedStep ? parseInt(cachedStep, 10) : stepParam;
+  });
   const navigate = useNavigate();
-  const [isAcknowledged, setIsAcknowledged] = useState(false);
+  const [isAcknowledged, setIsAcknowledged] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.isAcknowledged ?? false;
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return false;
+  });
   const [govtIdFile, setGovtIdFile] = useState(null);
   const userDbId = useSelector((state) => state.auth?.user?.userDbId);
-  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [selectedSkills, setSelectedSkills] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.selectedSkills ?? [];
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return [];
+  });
   const [categories, setCategories] = useState([]);
-  const [availabilitySlots, setAvailabilitySlots] = useState([
-    { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
-  ]);
-  const [tobeNotified, setNotification] = useState(false);
+  const [availabilitySlots, setAvailabilitySlots] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        if (parsed.availabilitySlots) {
+          return parsed.availabilitySlots.map((slot) => ({
+            ...slot,
+            startTime: slot.startTime ? new Date(slot.startTime) : null,
+            endTime: slot.endTime ? new Date(slot.endTime) : null,
+          }));
+        }
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return [{ id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null }];
+  });
+  const [tobeNotified, setNotification] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.tobeNotified ?? false;
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return false;
+  });
   const volunteerDataRef = useRef({});
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isUploaded, setIsUploaded] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.isUploaded ?? false;
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return false;
+  });
+
+  // Save current step to sessionStorage
+  useEffect(() => {
+    if (currentStep < 5) {
+      setSessionStorageItem("volunteer_wizard_step", currentStep.toString());
+    }
+  }, [currentStep]);
+
+  // Save form data to sessionStorage
+  useEffect(() => {
+    if (currentStep < 5) {
+      const formData = {
+        isAcknowledged,
+        isUploaded,
+        selectedSkills,
+        availabilitySlots: availabilitySlots.map((slot) => ({
+          ...slot,
+          startTime: slot.startTime ? slot.startTime.toISOString() : null,
+          endTime: slot.endTime ? slot.endTime.toISOString() : null,
+        })),
+        tobeNotified,
+      };
+      setSessionStorageItem("volunteer_form_data", JSON.stringify(formData));
+    }
+  }, [
+    isAcknowledged,
+    isUploaded,
+    selectedSkills,
+    availabilitySlots,
+    tobeNotified,
+    currentStep,
+  ]);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -180,7 +305,7 @@ const PromoteToVolunteer = () => {
               await updateUserSkills(userDbId, skillsToSave);
             } catch (skillError) {
               console.error("Failed to save skills to API:", skillError);
-              setErrorMessage("Failed to save skills. Please try again.");
+              setErrorMessage(t("FAILED_TO_SAVE_SKILLS"));
               isValidStep = false;
             }
           }
@@ -211,10 +336,12 @@ const PromoteToVolunteer = () => {
       if (isValidStep) {
         setErrorMessage("");
         newStep++;
+        if (newStep === 5) {
+          removeSessionStorageItem("volunteer_wizard_step");
+          removeSessionStorageItem("volunteer_form_data");
+        }
       } else {
-        setErrorMessage(
-          "Please complete all required fields before proceeding.",
-        );
+        setErrorMessage(t("COMPLETE_REQUIRED_FIELDS"));
       }
     } else if (direction === "prev") {
       newStep--;

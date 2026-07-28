@@ -307,24 +307,25 @@
 .donate-image-overlay-bg {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 70vh;
   min-height: 500px;
   max-height: 700px;
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  margin: 0 auto 2rem auto;
+  padding: 0;
+  border-radius: 10px;
 }
 
 .donate-bg-image {
   position: absolute;
   top: 0;
   left: 0;
-  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
   object-position: center;
   z-index: 1;
   filter: brightness(0.92);
@@ -333,18 +334,18 @@
 
 .donate-card-overlay {
   position: absolute;
+  right: 6%;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   z-index: 2;
   background: #fff;
   border-radius: 20px;
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.08);
-  padding: 0.8rem 1rem;
-  width: min(90%, 420px);
-  box-sizing: border-box;
+  padding: 0.3rem 1.5rem 1.2rem 1.5rem;
+  max-width: 500px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -432,7 +433,7 @@
 
 @media (max-width: 900px) {
   .donate-image-overlay-bg {
-    height: 100vh;
+    height: 60vh;
     min-height: 400px;
     max-height: 600px;
     width: 100%;
@@ -479,7 +480,6 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
 }
 
 .donation-option-btn {
@@ -548,7 +548,7 @@ body {
     position: absolute;
     left: 50%;
     top: 54%;
-    transform: translate(-50%);
+    transform: translateY(-50%);
     max-width: 90%;
     width: 310px; /* Larger card for tablet-sized screens */
     z-index: 2;
@@ -567,20 +567,21 @@ body {
   }
 
   .donate-bg-image {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
-    display: block;
-    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    filter: brightness(0.9);
   }
 
   .donate-card-overlay {
     position: absolute;
     top: 50%;
-    left: 50%; /* Slight right alignment */
+    left: 70%; /* Slight right alignment */
     transform: translate(-50%, -50%);
     width: 230px;
     height: 230px; /* Square card */
@@ -623,8 +624,7 @@ body {
   .donate-card-overlay {
     width: 170px;
     height: 170px; /* Smaller square card */
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 72%; /* Further right to accommodate narrower view */
     padding: 0.25rem;
     border-radius: 12px;
   }

@@ -1,10 +1,16 @@
 {
   "ABOUT": "Tentang kami",
+  "BENEVITY": "Benevity",
   "DONATE": "Menyumbangkan",
   "LOGIN": "Gabung",
   "DIRECTORS": "Dewan direksi",
   "HOW_WE_OPERATE": "Bagaimana Kami Beroperasi",
   "MISSION": "Misi",
+  "PROMOTE_TO_VOLUNTEER": "Promosikan Menjadi Relawan",
+  "SITEMAP": "Peta Situs",
+  "THANKS": "Terima kasih",
+  "VERIFY_ACCOUNT": "Verifikasi Akun",
+  "VERIFY_OTP": "Verifikasi OTP",
   "VISION": "Penglihatan",
   "CONTACT": "Kontak",
   "DASHBOARD": "Dasbor",
@@ -40,5 +46,8 @@
   "FIND_BY_EMAIL": "Cari berdasarkan email",
   "FIND_BY_PHONE": "Cari berdasarkan telepon",
   "ENTER_VOLUNTEER_EMAIL": "Masukkan email sukarelawan",
-  "ENTER_VOLUNTEER_PHONE": "Masukkan telepon sukarelawan"
+  "ENTER_VOLUNTEER_PHONE": "Masukkan telepon sukarelawan",
+  "CHANGE_VOLUNTEER": "Tukar Sukarelawan",
+  "DELETE": "Padam",
+  "DELETE_ACTION": "Hapus"
 }

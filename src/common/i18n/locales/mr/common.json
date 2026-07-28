@@ -1,10 +1,16 @@
 {
   "ABOUT": "आमच्याबद्दल",
+  "BENEVITY": "Benevity",
   "DONATE": "दान करा",
   "LOGIN": "लॉगिन करा",
   "DIRECTORS": "संचालक मंडळ",
   "HOW_WE_OPERATE": "आम्ही कसे कार्य करतो",
   "MISSION": "मिशन",
+  "PROMOTE_TO_VOLUNTEER": "स्वयंसेवक म्हणून पदोन्नती द्या",
+  "SITEMAP": "साइटमॅप",
+  "THANKS": "धन्यवाद",
+  "VERIFY_ACCOUNT": "खाते सत्यापित करा",
+  "VERIFY_OTP": "OTP सत्यापित करा",
   "VISION": "दृष्टी",
   "ORGANIZATIONS": "संस्था",
   "CONTACT": "संपर्क करा",
@@ -41,5 +47,8 @@
   "FIND_BY_PHONE": "फोनने शोधा",
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकाचा ईमेल प्रविष्ट करा",
   "LEAD_VOLUNTEER": "मुख्य स्वयंसेवक",
-  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकाचा फोन प्रविष्ट करा"
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकाचा फोन प्रविष्ट करा",
+  "CHANGE_VOLUNTEER": "स्वयंसेवक बदला",
+  "DELETE": "हटवा",
+  "DELETE_ACTION": "हटवा"
 }

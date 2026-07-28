@@ -1,10 +1,16 @@
 {
   "ABOUT": "हमरा सब के बारे में",
+  "BENEVITY": "Benevity",
   "DONATE": "दान करनाइ",
   "LOGIN": "लॉगिन करू",
   "DIRECTORS": "संचालक मंडल",
   "HOW_WE_OPERATE": "हम कोना संचालित करैत छी",
   "MISSION": "लक्ष्य",
+  "PROMOTE_TO_VOLUNTEER": "स्वयंसेवक मे पदोन्नत करू",
+  "SITEMAP": "साइटमैप",
+  "THANKS": "धन्यवाद",
+  "VERIFY_ACCOUNT": "खाता सत्यापित करू",
+  "VERIFY_OTP": "OTP सत्यापित करू",
   "VISION": "दृष्टि",
   "CONTACT": "संपर्क करनाइ",
   "DASHBOARD": "डैशबोर्ड",
@@ -40,5 +46,8 @@
   "FIND_BY_EMAIL": "ईमेलसँ खोजू",
   "FIND_BY_PHONE": "फोनसँ खोजू",
   "ENTER_VOLUNTEER_EMAIL": "स्वयंसेवकक ईमेल दर्ज करू",
-  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकक फोन दर्ज करू"
+  "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकक फोन दर्ज करू",
+  "CHANGE_VOLUNTEER": "स्वयंसेवक बदलू",
+  "DELETE": "हटाऊ",
+  "DELETE_ACTION": "हटाउ"
 }

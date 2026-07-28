@@ -19,6 +19,7 @@ const Layout = () => {
   const shouldHideBreadcrumbs = hideBreadcrumbRoutes.includes(
     location.pathname.toLowerCase(),
   );
+  const isDonateRoute = location.pathname.toLowerCase() === "/donate";
 
   return (
     <div className="flex flex-col h-screen">
@@ -34,7 +35,9 @@ const Layout = () => {
             {showAds && <LeftAds />}
           </aside>
 
-          <main className="flex-[6] overflow-auto">
+          <main
+            className={`flex-[6] ${isDonateRoute ? "overflow-visible" : "overflow-auto"}`}
+          >
             {!shouldHideBreadcrumbs && <Breadcrumbs />}
             <Suspense fallback={<MainLoader />}>
               <Outlet />

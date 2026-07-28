@@ -3,8 +3,10 @@ import { fireEvent, screen, act, waitFor } from "@testing-library/react";
 import { renderWithProviders, MOCK_STATE_LOGGED_IN } from "#utils/test-utils";
 import RequestDetails from "./RequestDetails";
 
+let mockLocationState = { id: "123", subject: "Test Request" };
+
 jest.mock("react-router-dom", () => ({
-  useLocation: () => ({ state: { id: "123", subject: "Test Request" } }),
+  useLocation: () => ({ state: mockLocationState }),
   useNavigate: () => jest.fn(),
   useParams: () => ({ id: "123" }),
 }));
@@ -46,6 +48,10 @@ jest.mock("../../common/components/BreadCrumbs/breadcrumbUtils", () => ({
 }));
 
 describe("RequestDetails - Tab Translation Tests", () => {
+  beforeEach(() => {
+    mockLocationState = { id: "123", subject: "Test Request" };
+  });
+
   it("renders action buttons in the orange area on Details tab", () => {
     renderWithProviders(<RequestDetails />, {
       preloadedState: MOCK_STATE_LOGGED_IN,
@@ -54,9 +60,9 @@ describe("RequestDetails - Tab Translation Tests", () => {
     fireEvent.click(screen.getByText("DETAILS"));
 
     expect(
-      screen.getByRole("button", { name: "Change Volunteer" }),
+      screen.getByRole("button", { name: "CHANGE_VOLUNTEER" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Delete" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "DELETE" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "EDIT" })).toBeInTheDocument();
   });
 
@@ -87,11 +93,41 @@ describe("RequestDetails - Tab Translation Tests", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("LEAD_VOLUNTEER")).toBeInTheDocument();
   });
+
+  it("shows actual beneficiary and creator names for beneficiary My Requests", () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceTab: "myRequests",
+      reqFname: "Ben",
+      reqLname: "Person",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: {
+        auth: {
+          user: {
+            userDbId: "SID-123",
+            given_name: "Chris",
+            family_name: "Creator",
+          },
+        },
+      },
+    });
+
+    expect(
+      screen.getByRole("button", { name: "Ben Person" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Chris Creator" }),
+    ).toBeInTheDocument();
+  });
 });
 
 describe("RequestDetails - Edit onClose refreshes data", () => {
   beforeEach(() => {
     capturedOnClose = null;
+    mockLocationState = { id: "123", subject: "Test Request" };
   });
 
   it("updates displayed subject after onClose receives updated data", async () => {

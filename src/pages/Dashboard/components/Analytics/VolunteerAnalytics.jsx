@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -10,313 +10,370 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Treemap,
 } from "recharts";
 import ChartContainer from "./charts/ChartContainer";
-import volunteersActivityData from "../../../../data/analytics/volunteers_activity_monthly.json";
-import volunteersLocationData from "../../../../data/analytics/volunteers_by_location.json";
+import { getVolunteerApplicationAnalytics } from "../../../../services/analyticsServices";
+import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
 
-/**
- * VolunteerAnalytics Component
- *
- * Displays:
- * 1. Volunteer Activity Trend (Multi-Line Chart) - New volunteers and cumulative total
- * 2. Volunteers by Location (Hierarchical View) - Geographic distribution by country/state/city
- */
+// Map UI time range id → API response top-level key
+const TREND_KEYS = {
+  "7d": "7D",
+  "30d": "30D",
+  "1yr": "1Y",
+  all: "All",
+  custom: "Custom",
+};
+
+// Format "2026-01" → "Jan 2026"
+const formatPeriod = (periodStr) => {
+  if (!periodStr) return "";
+  const [year, month] = periodStr.split("-");
+  const date = new Date(parseInt(year), parseInt(month) - 1);
+  return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+};
+
+// Parse volunteer_activity_trend into recharts-ready array with period labels
+const parseTrendData = (trendObj) => {
+  if (!trendObj) return [];
+  const newV = trendObj.new_volunteers ?? [];
+  const activeV = trendObj.active_volunteers ?? [];
+  const totalV = trendObj.total_volunteers ?? [];
+
+  const periodMap = {};
+  newV.forEach(({ period, count }) => {
+    if (!periodMap[period]) periodMap[period] = { period };
+    periodMap[period].newVolunteers = count;
+  });
+  activeV.forEach(({ period, count }) => {
+    if (!periodMap[period]) periodMap[period] = { period };
+    periodMap[period].activeVolunteers = count;
+  });
+  totalV.forEach(({ period, count }) => {
+    if (!periodMap[period]) periodMap[period] = { period };
+    periodMap[period].totalVolunteers = count;
+  });
+
+  return Object.values(periodMap)
+    .sort((a, b) => a.period.localeCompare(b.period))
+    .map((item) => ({
+      ...item,
+      label: formatPeriod(item.period),
+    }));
+};
+
+// Parse volunteers_by_location into bar-chart array, resolving ISO alpha-3 codes
+const parseLocationData = (locationArr) => {
+  if (!Array.isArray(locationArr) || locationArr.length === 0) return [];
+  return locationArr
+    .map(({ country, count }) => ({
+      country: isoAlpha3ToName(country) || country,
+      count,
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+};
+
 const VolunteerAnalytics = () => {
-  const [selectedCountry, setSelectedCountry] = useState("all");
-  const [viewType, setViewType] = useState("chart"); // chart, table, treemap
-  const [selectedSkill, setSelectedSkill] = useState("all"); // all or specific skill
-  // Format month for display
-  const formatMonth = (monthStr) => {
-    const [year, month] = monthStr.split("-");
-    const date = new Date(parseInt(year), parseInt(month) - 1);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      year: "numeric",
-    });
-  };
+  const [trendRange, setTrendRange] = useState("all");
+  const [trendCustomStart, setTrendCustomStart] = useState("");
+  const [trendCustomEnd, setTrendCustomEnd] = useState("");
 
-  // Process activity data with cumulative total for multi-line chart
-  const activityData = useMemo(() => {
-    let cumulativeTotal = 0;
+  const [locationRange, setLocationRange] = useState("all");
+  const [locationCustomStart, setLocationCustomStart] = useState("");
+  const [locationCustomEnd, setLocationCustomEnd] = useState("");
 
-    return volunteersActivityData.map((item, index) => {
-      cumulativeTotal += item.newVolunteers;
-      // Calculate active volunteers (simulated as ~85-90% of total since actual data not available)
-      // In production, this would come from: iscomplete = true AND user_status = active
-      const activeVolunteers = Math.floor(
-        cumulativeTotal * (0.85 + Math.random() * 0.05),
-      );
+  const [apiData, setApiData] = useState(null);
+  const [apiLoading, setApiLoading] = useState(true);
+  const [apiError, setApiError] = useState(null);
 
-      return {
-        ...item,
-        monthFormatted: formatMonth(item.month),
-        totalVolunteers: cumulativeTotal,
-        activeVolunteers: activeVolunteers,
-      };
-    });
-  }, []);
+  const [locationApiData, setLocationApiData] = useState(null);
+  const [locationLoading, setLocationLoading] = useState(false);
 
-  // Process location data hierarchically
-  const processLocationData = useMemo(() => {
-    // Filter by country if selected
-    const filteredData =
-      selectedCountry === "all"
-        ? volunteersLocationData
-        : volunteersLocationData.filter(
-            (item) => item.country_name === selectedCountry,
-          );
-
-    // Group by country -> state -> city
-    const hierarchy = {};
-
-    filteredData.forEach((item) => {
-      const country = item.country_name || "Unknown";
-      const state = item.state_name || "N/A";
-      const city = item.city || "N/A";
-
-      if (!hierarchy[country]) {
-        hierarchy[country] = {};
+  // Initial fetch — {} returns all pre-computed windows
+  useEffect(() => {
+    let cancelled = false;
+    const fetchDefault = async () => {
+      try {
+        setApiLoading(true);
+        const data = await getVolunteerApplicationAnalytics({});
+        if (!cancelled) {
+          setApiData(data);
+          setApiError(null);
+        }
+      } catch (err) {
+        console.error("Failed to fetch volunteer analytics:", err);
+        if (!cancelled) setApiError(err);
+      } finally {
+        if (!cancelled) setApiLoading(false);
       }
-      if (!hierarchy[country][state]) {
-        hierarchy[country][state] = {};
-      }
-      if (!hierarchy[country][state][city]) {
-        hierarchy[country][state][city] = 0;
-      }
-      hierarchy[country][state][city]++;
-    });
-
-    return hierarchy;
-  }, [selectedCountry]);
-
-  // Get unique countries for filter dropdown
-  const countries = useMemo(() => {
-    const uniqueCountries = [
-      ...new Set(volunteersLocationData.map((item) => item.country_name)),
-    ].filter(Boolean);
-    return uniqueCountries.sort();
-  }, []);
-
-  // Process location data for bar chart (top 10 countries)
-  const processLocationBarData = useMemo(() => {
-    const countryTotals = {};
-
-    volunteersLocationData.forEach((item) => {
-      const country = item.country_name || "Unknown";
-      if (!countryTotals[country]) {
-        countryTotals[country] = 0;
-      }
-      countryTotals[country]++;
-    });
-
-    return Object.entries(countryTotals)
-      .map(([country, count]) => ({ country, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 10); // Top 10 countries
-  }, []);
-
-  const locationData = processLocationBarData;
-
-  // Process location data for Treemap (hierarchical structure)
-  const processTreemapData = useMemo(() => {
-    const filteredData =
-      selectedCountry === "all"
-        ? volunteersLocationData
-        : volunteersLocationData.filter(
-            (item) => item.country_name === selectedCountry,
-          );
-
-    // Build hierarchical structure: Root -> Country -> State -> City
-    const countryMap = {};
-
-    filteredData.forEach((item) => {
-      const country = item.country_name || "Unknown";
-      const state = item.state_name || "N/A";
-      const city = item.city || "N/A";
-
-      if (!countryMap[country]) {
-        countryMap[country] = {};
-      }
-      if (!countryMap[country][state]) {
-        countryMap[country][state] = {};
-      }
-      if (!countryMap[country][state][city]) {
-        countryMap[country][state][city] = 0;
-      }
-      countryMap[country][state][city]++;
-    });
-
-    // Convert to Recharts Treemap format
-    const children = Object.entries(countryMap).map(([country, states]) => {
-      const stateChildren = Object.entries(states).map(([state, cities]) => {
-        const cityChildren = Object.entries(cities).map(([city, count]) => ({
-          name: city,
-          size: count,
-        }));
-
-        return {
-          name: state,
-          children: cityChildren,
-        };
-      });
-
-      return {
-        name: country,
-        children: stateChildren,
-      };
-    });
-
-    return {
-      name: "Volunteers",
-      children: children,
     };
-  }, [selectedCountry]);
+    fetchDefault();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Fetch custom trend range when both dates are set
+  useEffect(() => {
+    if (trendRange !== "custom" || !trendCustomStart || !trendCustomEnd) return;
+    let cancelled = false;
+    const fetchCustom = async () => {
+      try {
+        setApiLoading(true);
+        const data = await getVolunteerApplicationAnalytics({
+          start_date: trendCustomStart,
+          end_date: trendCustomEnd,
+        });
+        if (!cancelled) {
+          setApiData(data);
+          setApiError(null);
+        }
+      } catch (err) {
+        console.error("Failed to fetch custom volunteer trend:", err);
+        if (!cancelled) setApiError(err);
+      } finally {
+        if (!cancelled) setApiLoading(false);
+      }
+    };
+    fetchCustom();
+    return () => {
+      cancelled = true;
+    };
+  }, [trendRange, trendCustomStart, trendCustomEnd]);
+
+  // Fetch custom location range — uses different payload keys
+  useEffect(() => {
+    if (
+      locationRange !== "custom" ||
+      !locationCustomStart ||
+      !locationCustomEnd
+    )
+      return;
+    let cancelled = false;
+    const fetchLocationCustom = async () => {
+      try {
+        setLocationLoading(true);
+        const data = await getVolunteerApplicationAnalytics({
+          location_start_date: locationCustomStart,
+          location_end_date: locationCustomEnd,
+        });
+        if (!cancelled) setLocationApiData(data);
+      } catch {
+        if (!cancelled) setLocationApiData(null);
+      } finally {
+        if (!cancelled) setLocationLoading(false);
+      }
+    };
+    fetchLocationCustom();
+    return () => {
+      cancelled = true;
+    };
+  }, [locationRange, locationCustomStart, locationCustomEnd]);
+
+  const trendData = useMemo(() => {
+    if (!apiData) return [];
+    const body = apiData.body ?? apiData;
+    const window = body[TREND_KEYS[trendRange]];
+    if (!window) return [];
+    return parseTrendData(window.volunteer_activity_trend);
+  }, [apiData, trendRange]);
+
+  const locationSource =
+    locationRange === "custom" && locationApiData ? locationApiData : apiData;
+
+  const locationData = useMemo(() => {
+    if (!locationSource) return [];
+    const body = locationSource.body ?? locationSource;
+    const window = body[TREND_KEYS[locationRange]];
+    if (!window) return [];
+    return parseLocationData(window.volunteers_by_location);
+  }, [locationSource, locationRange]);
+
+  const TIME_RANGE_BUTTONS = [
+    { id: "7d", label: "7D" },
+    { id: "30d", label: "30D" },
+    { id: "1yr", label: "1Y" },
+    { id: "all", label: "All" },
+    { id: "custom", label: "Custom" },
+  ];
 
   return (
     <div className="grid grid-cols-2 gap-4">
-      {/* Chart 1: Volunteer Activity Trend (Multi-Line) */}
+      {/* Chart 1: Volunteer Activity Trend */}
       <ChartContainer
         title="Volunteer Activity Trend"
-        description="Monthly new volunteers and cumulative total"
+        description="New, active, and total volunteers over time"
       >
-        <ResponsiveContainer width="100%" height={220}>
-          <LineChart data={activityData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis
-              dataKey="monthFormatted"
-              tick={{ fontSize: 12 }}
-              stroke="#6b7280"
-            />
-            <YAxis tick={{ fontSize: 12 }} stroke="#6b7280" />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "0.375rem",
-              }}
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  return (
-                    <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm">
-                      <p className="font-semibold text-gray-800">
-                        {payload[0].payload.monthFormatted}
-                      </p>
-                      <p className="text-sm text-orange-600">
-                        New: {payload[0].payload.newVolunteers}
-                      </p>
-                      <p className="text-sm text-green-600">
-                        Active: {payload[0].payload.activeVolunteers}
-                      </p>
-                      <p className="text-sm text-blue-600">
-                        Total: {payload[0].payload.totalVolunteers}
-                      </p>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="newVolunteers"
-              stroke="#f59e0b"
-              strokeWidth={2}
-              dot={{ fill: "#f59e0b", r: 4 }}
-              activeDot={{ r: 6 }}
-              name="New Volunteers"
-            />
-            <Line
-              type="monotone"
-              dataKey="activeVolunteers"
-              stroke="#10b981"
-              strokeWidth={2}
-              dot={{ fill: "#10b981", r: 4 }}
-              activeDot={{ r: 6 }}
-              name="Active Volunteers"
-            />
-            <Line
-              type="monotone"
-              dataKey="totalVolunteers"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              dot={{ fill: "#3b82f6", r: 4 }}
-              activeDot={{ r: 6 }}
-              name="Total Volunteers"
-            />
-          </LineChart>
-        </ResponsiveContainer>
-
-        {/* Churn Rate — compact inline summary */}
-        <div className="mt-2 flex gap-3 flex-wrap px-1">
-          <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded px-2 py-1">
-            Churn: <strong className="text-orange-600">~5-8%</strong>/mo
-          </span>
-          <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded px-2 py-1">
-            Inactive:{" "}
-            <strong className="text-red-600">
-              {activityData.length > 0
-                ? Math.floor(
-                    activityData[activityData.length - 1].totalVolunteers * 0.1,
-                  )
-                : "N/A"}
-            </strong>
-          </span>
-          <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded px-2 py-1">
-            Retention: <strong className="text-green-600">~90%</strong>
-          </span>
+        <div className="flex gap-1.5 mb-2 flex-wrap items-center">
+          {TIME_RANGE_BUTTONS.map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => setTrendRange(id)}
+              className={`px-2 py-0.5 text-xs rounded ${
+                trendRange === id
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+          {trendRange === "custom" && (
+            <>
+              <input
+                type="date"
+                value={trendCustomStart}
+                onChange={(e) => setTrendCustomStart(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+              <span className="text-xs text-gray-500">→</span>
+              <input
+                type="date"
+                value={trendCustomEnd}
+                onChange={(e) => setTrendCustomEnd(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+            </>
+          )}
         </div>
+
+        {apiError && (
+          <div className="mb-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
+            Could not load data. Please try again later.
+          </div>
+        )}
+
+        {apiLoading ? (
+          <div className="flex items-center justify-center h-64 text-gray-500">
+            Loading volunteer data…
+          </div>
+        ) : trendData.length === 0 ? (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            No data available for the selected period.
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={220}>
+            <LineChart
+              data={trendData}
+              margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis
+                dataKey="label"
+                tick={{ fontSize: 11 }}
+                stroke="#6b7280"
+                interval="preserveStartEnd"
+              />
+              <YAxis tick={{ fontSize: 11 }} stroke="#6b7280" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.375rem",
+                }}
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    const d = payload[0].payload;
+                    return (
+                      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm text-xs">
+                        <p className="font-semibold text-gray-800 mb-1">
+                          {d.label}
+                        </p>
+                        <p className="text-orange-600">
+                          New: {d.newVolunteers ?? "—"}
+                        </p>
+                        <p className="text-green-600">
+                          Active: {d.activeVolunteers ?? "—"}
+                        </p>
+                        <p className="text-blue-600">
+                          Total: {d.totalVolunteers ?? "—"}
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+              />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="newVolunteers"
+                stroke="#f59e0b"
+                strokeWidth={2}
+                dot={{ fill: "#f59e0b", r: 3 }}
+                activeDot={{ r: 5 }}
+                name="New Volunteers"
+              />
+              <Line
+                type="monotone"
+                dataKey="activeVolunteers"
+                stroke="#10b981"
+                strokeWidth={2}
+                dot={{ fill: "#10b981", r: 3 }}
+                activeDot={{ r: 5 }}
+                name="Active Volunteers"
+              />
+              <Line
+                type="monotone"
+                dataKey="totalVolunteers"
+                stroke="#3b82f6"
+                strokeWidth={2}
+                dot={{ fill: "#3b82f6", r: 3 }}
+                activeDot={{ r: 5 }}
+                name="Total Volunteers"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </ChartContainer>
 
-      {/* Chart 2: Volunteers by Location (Hierarchical View) */}
+      {/* Chart 2: Volunteers by Location */}
       <ChartContainer
         title="Volunteers by Location"
-        description="Geographic distribution with country-state-city hierarchy"
+        description="Top 10 countries by volunteer count"
       >
-        {/* View controls */}
-        <div className="mb-2 flex gap-2 items-center flex-wrap">
-          <select
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
-            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
-          >
-            <option value="all">All Countries</option>
-            {countries.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
-          <select
-            value={viewType}
-            onChange={(e) => setViewType(e.target.value)}
-            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
-          >
-            <option value="chart">Bar Chart</option>
-            <option value="treemap">Treemap</option>
-            <option value="table">Table</option>
-          </select>
-          <select
-            value={selectedSkill}
-            onChange={(e) => setSelectedSkill(e.target.value)}
-            className="px-2 py-0.5 border border-gray-300 rounded text-xs"
-          >
-            <option value="all">All Skills</option>
-            <option value="medical" disabled>
-              Medical
-            </option>
-            <option value="education" disabled>
-              Education
-            </option>
-            <option value="logistics" disabled>
-              Logistics
-            </option>
-          </select>
+        <div className="flex gap-1.5 mb-2 flex-wrap items-center">
+          <span className="text-xs text-gray-500 font-medium">Period:</span>
+          {TIME_RANGE_BUTTONS.map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => setLocationRange(id)}
+              className={`px-2 py-0.5 text-xs rounded ${
+                locationRange === id
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+          {locationRange === "custom" && (
+            <>
+              <input
+                type="date"
+                value={locationCustomStart}
+                onChange={(e) => setLocationCustomStart(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+              <span className="text-xs text-gray-500">→</span>
+              <input
+                type="date"
+                value={locationCustomEnd}
+                onChange={(e) => setLocationCustomEnd(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+              />
+            </>
+          )}
+          {locationLoading && (
+            <span className="text-xs text-gray-400 italic">Updating…</span>
+          )}
         </div>
 
-        {viewType === "chart" ? (
+        {locationData.length === 0 ? (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            No data available for the selected period.
+          </div>
+        ) : (
           <ResponsiveContainer width="100%" height={220}>
             <BarChart
               data={locationData}
@@ -324,11 +381,11 @@ const VolunteerAnalytics = () => {
               margin={{ left: 20 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis type="number" tick={{ fontSize: 12 }} stroke="#6b7280" />
+              <XAxis type="number" tick={{ fontSize: 11 }} stroke="#6b7280" />
               <YAxis
                 dataKey="country"
                 type="category"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 11 }}
                 stroke="#6b7280"
                 width={120}
               />
@@ -348,100 +405,6 @@ const VolunteerAnalytics = () => {
               />
             </BarChart>
           </ResponsiveContainer>
-        ) : viewType === "treemap" ? (
-          <ResponsiveContainer width="100%" height={280}>
-            <Treemap
-              data={processTreemapData.children}
-              dataKey="size"
-              stroke="#fff"
-              fill="#f59e0b"
-              content={({ x, y, width, height, name, size }) => {
-                // Only render if block is large enough
-                if (width < 40 || height < 40) return null;
-
-                return (
-                  <g>
-                    <rect
-                      x={x}
-                      y={y}
-                      width={width}
-                      height={height}
-                      style={{
-                        fill: `hsl(${Math.random() * 60 + 20}, 70%, 55%)`,
-                        stroke: "#fff",
-                        strokeWidth: 2,
-                      }}
-                    />
-                    <text
-                      x={x + width / 2}
-                      y={y + height / 2 - 7}
-                      textAnchor="middle"
-                      fill="#fff"
-                      fontSize={12}
-                      fontWeight="bold"
-                    >
-                      {name}
-                    </text>
-                    <text
-                      x={x + width / 2}
-                      y={y + height / 2 + 7}
-                      textAnchor="middle"
-                      fill="#fff"
-                      fontSize={10}
-                    >
-                      {size} volunteers
-                    </text>
-                  </g>
-                );
-              }}
-            />
-          </ResponsiveContainer>
-        ) : (
-          <div className="overflow-x-auto max-h-96 overflow-y-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50 sticky top-0">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Country
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    State
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    City
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Count
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {Object.entries(processLocationData).map(([country, states]) =>
-                  Object.entries(states).map(([state, cities]) =>
-                    Object.entries(cities).map(([city, count], idx) => (
-                      <tr
-                        key={`${country}-${state}-${city}-${idx}`}
-                        className="hover:bg-gray-50"
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {country}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {state}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {city}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {count}
-                        </td>
-                      </tr>
-                    )),
-                  ),
-                )}
-              </tbody>
-            </table>
-          </div>
         )}
       </ChartContainer>
     </div>

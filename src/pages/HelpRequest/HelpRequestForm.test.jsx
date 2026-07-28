@@ -56,29 +56,33 @@ jest.mock("../../services/requestApi", () => ({
 
 let mockSuggestions = [];
 let mockHandleSelectSuggestion = jest.fn();
+let capturedSetCoordinates = null;
 
-jest.mock("./location/usePlacesSearchBox", () => () => ({
-  inputRef: { current: null },
-  get suggestions() {
-    return mockSuggestions;
-  },
-  handleSearchChange: jest.fn(),
-  get handleSelectSuggestion() {
-    return mockHandleSelectSuggestion;
-  },
-}));
+jest.mock("./location/usePlacesSearchBox", () => (setLocation, setCoords) => {
+  capturedSetCoordinates = setCoords;
+  return {
+    inputRef: { current: null },
+    get suggestions() {
+      return mockSuggestions;
+    },
+    handleSearchChange: jest.fn(),
+    get handleSelectSuggestion() {
+      return mockHandleSelectSuggestion;
+    },
+  };
+});
 
 jest.mock("../../utils/mapHelpRequestPayload", () => ({
   mapHelpRequestPayload: jest.fn().mockReturnValue({}),
 }));
 
 jest.mock("../../services/requestServices", () => ({
-  checkProfanity: jest.fn(),
   createRequest: jest.fn(),
   updateRequest: jest.fn(),
   predictCategories: jest.fn(),
   generateSubject: jest.fn(),
   getCategories: jest.fn(),
+  getAdditionalFields: jest.fn().mockResolvedValue({ data: {} }),
   uploadRequestFile: jest.fn(),
 }));
 
@@ -176,7 +180,11 @@ const mockCategories = [
   },
 ];
 
-function renderForm({ isEdit = false, editRequestData } = {}) {
+function renderForm({
+  isEdit = false,
+  editRequestData,
+  onClose = jest.fn(),
+} = {}) {
   const store = configureStore({
     reducer: { auth: authReducer, request: requestReducer },
     preloadedState: {
@@ -189,7 +197,7 @@ function renderForm({ isEdit = false, editRequestData } = {}) {
       <NotificationProvider>
         <HelpRequestForm
           isEdit={isEdit}
-          onClose={jest.fn()}
+          onClose={onClose}
           editRequestData={editRequestData}
         />
       </NotificationProvider>
@@ -281,15 +289,16 @@ describe("HelpRequestForm — form submission loader", () => {
   }
 
   it("shows loading spinner and disables button while submitting", async () => {
-    const { checkProfanity } = require("../../services/requestServices");
-    let resolveProfanity;
-    checkProfanity.mockReturnValue(
+    const { createRequest } = require("../../services/requestServices");
+    let resolveRequest;
+    createRequest.mockReturnValue(
       new Promise((resolve) => {
-        resolveProfanity = resolve;
+        resolveRequest = resolve;
       }),
     );
 
     renderForm();
+    selectSubcategory();
     fillAndSubmit();
 
     const btn = await screen.findByRole("button", {
@@ -299,23 +308,24 @@ describe("HelpRequestForm — form submission loader", () => {
     expect(screen.getByTestId("loading-spinner")).toBeInTheDocument();
 
     await require("@testing-library/react").act(async () => {
-      resolveProfanity({ contains_profanity: false });
+      resolveRequest({ data: {} });
     });
   });
 
   it("falls back to plain submitting text when translation is missing", async () => {
-    const { checkProfanity } = require("../../services/requestServices");
-    let resolveProfanity;
+    const { createRequest } = require("../../services/requestServices");
+    let resolveRequest;
     mockT.mockImplementation((text) =>
       text === "SUBMITTING" ? "" : `mockTranslate(${text})`,
     );
-    checkProfanity.mockReturnValue(
+    createRequest.mockReturnValue(
       new Promise((resolve) => {
-        resolveProfanity = resolve;
+        resolveRequest = resolve;
       }),
     );
 
     renderForm();
+    selectSubcategory();
     fillAndSubmit();
 
     expect(
@@ -323,20 +333,21 @@ describe("HelpRequestForm — form submission loader", () => {
     ).toBeDisabled();
 
     await require("@testing-library/react").act(async () => {
-      resolveProfanity({ contains_profanity: false });
+      resolveRequest({ data: {} });
     });
   });
 
   it("re-enables submit button after a submission error", async () => {
-    const { checkProfanity } = require("../../services/requestServices");
-    let rejectProfanity;
-    checkProfanity.mockReturnValue(
+    const { createRequest } = require("../../services/requestServices");
+    let rejectRequest;
+    createRequest.mockReturnValue(
       new Promise((_resolve, reject) => {
-        rejectProfanity = reject;
+        rejectRequest = reject;
       }),
     );
 
     renderForm();
+    selectSubcategory();
     fillAndSubmit();
 
     // While awaiting — button is disabled
@@ -348,7 +359,7 @@ describe("HelpRequestForm — form submission loader", () => {
 
     // Reject the promise → catch block runs, then finally resets isSubmitting
     await require("@testing-library/react").act(async () => {
-      rejectProfanity(new Error("network failure"));
+      rejectRequest(new Error("network failure"));
     });
 
     // Button should revert to its normal enabled state
@@ -380,9 +391,6 @@ describe("HelpRequestForm — subject field is optional", () => {
   });
 
   it("does not block submission when subject is empty and description is filled", async () => {
-    const { checkProfanity } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
-
     renderForm();
 
     fireEvent.change(document.getElementById("description"), {
@@ -405,11 +413,7 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("shows formatted category names in the modal after submit with General category", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -454,11 +458,7 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("shows full hierarchy as label in dialog when hierarchy is returned by API", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -504,11 +504,7 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("shows only General when predictCategories API fails", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockRejectedValue(new Error("API error"));
 
     renderForm();
@@ -530,7 +526,6 @@ describe("HelpRequestForm — predict categories modal", () => {
 
   it("submits with category_number as catId when a GenAI suggested category is selected", async () => {
     const {
-      checkProfanity,
       predictCategories,
       createRequest,
     } = require("../../services/requestServices");
@@ -538,7 +533,6 @@ describe("HelpRequestForm — predict categories modal", () => {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-999" } });
     predictCategories.mockResolvedValue({
       body: {
@@ -600,11 +594,7 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("does not show snackbar when General is confirmed without changing category", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -644,12 +634,8 @@ describe("HelpRequestForm — predict categories modal", () => {
   });
 
   it("shows full hierarchy in category field after AI suggested category is selected", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
+    const { predictCategories } = require("../../services/requestServices");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -699,7 +685,6 @@ describe("HelpRequestForm — predict categories modal", () => {
 
   it("uses category_number in payload not hierarchy string when submitting", async () => {
     const {
-      checkProfanity,
       predictCategories,
       createRequest,
     } = require("../../services/requestServices");
@@ -707,7 +692,6 @@ describe("HelpRequestForm — predict categories modal", () => {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-123" } });
     predictCategories.mockResolvedValue({
       body: {
@@ -852,12 +836,8 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
 
   it("falls back to description (first 70 chars) as subject when generateSubject API fails", async () => {
     const { generateSubject } = require("../../services/requestServices");
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
+    const { createRequest } = require("../../services/requestServices");
     generateSubject.mockRejectedValue(new Error("API error"));
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-FALLBACK" } });
 
     renderForm();
@@ -895,12 +875,8 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
 
   it("falls back to description when generateSubject returns empty body", async () => {
     const { generateSubject } = require("../../services/requestServices");
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
+    const { createRequest } = require("../../services/requestServices");
     generateSubject.mockResolvedValue({ body: null });
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     createRequest.mockResolvedValue({ data: { requestId: "REQ-NOBODY" } });
 
     renderForm();
@@ -925,41 +901,6 @@ describe("HelpRequestForm — generateSubject auto-fill", () => {
     });
 
     await waitFor(() => expect(createRequest).toHaveBeenCalled());
-  });
-
-  it("passes resolved subject (not stale formData.subject) to checkProfanity", async () => {
-    const {
-      generateSubject,
-      checkProfanity,
-    } = require("../../services/requestServices");
-    generateSubject.mockResolvedValue({
-      body: { subject: "AI Generated Subject", max_length: 70 },
-    });
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
-
-    renderForm();
-
-    selectSubcategory();
-
-    await act(async () => {
-      fireEvent.change(document.getElementById("description"), {
-        target: {
-          name: "description",
-          value: "I need help picking up groceries from the store.",
-        },
-      });
-    });
-
-    await act(async () => {
-      fireEvent.submit(document.querySelector("form"));
-    });
-
-    await waitFor(() => expect(checkProfanity).toHaveBeenCalled());
-
-    // checkProfanity must receive the AI-generated subject, not the original ""
-    expect(checkProfanity).toHaveBeenCalledWith(
-      expect.objectContaining({ subject: "AI Generated Subject" }),
-    );
   });
 
   it("does not overwrite subject the user has manually typed", async () => {
@@ -1012,11 +953,7 @@ describe("HelpRequestForm — successful submission", () => {
   });
 
   it("calls createRequest and navigates with requestId when API returns one", async () => {
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { createRequest } = require("../../services/requestServices");
     createRequest.mockResolvedValue({ data: { requestId: "REQ-12345" } });
 
     renderForm();
@@ -1046,11 +983,7 @@ describe("HelpRequestForm — successful submission", () => {
   });
 
   it("navigates with generic message when createRequest response has no requestId", async () => {
-    const {
-      checkProfanity,
-      createRequest,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { createRequest } = require("../../services/requestServices");
     createRequest.mockResolvedValue({});
 
     renderForm();
@@ -1077,6 +1010,42 @@ describe("HelpRequestForm — successful submission", () => {
       jest.advanceTimersByTime(1200);
     });
   });
+
+  it("calls onClose(undefined) when Cancel is clicked in edit mode", async () => {
+    const onClose = jest.fn();
+    const mockEditData = {
+      requestId: "REQ-00-000-000-0009",
+      id: "REQ-00-000-000-0009",
+      category: "COLLEGE_APPLICATION_HELP",
+      subject: "Existing Request Subject",
+      description: "Existing request description",
+      priority: "MEDIUM",
+      request_type: "REMOTE",
+      is_self: "yes",
+      helpCategory: { catId: "cat-edu" },
+      attachments: ["http://test.com/file1.jpg"],
+    };
+
+    renderForm({ isEdit: true, editRequestData: mockEditData, onClose });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(CANCEL)" }),
+    );
+
+    expect(onClose).toHaveBeenCalledWith(undefined);
+  });
+
+  it("does not call onClose when Cancel is clicked in create mode", () => {
+    const onClose = jest.fn();
+
+    renderForm({ isEdit: false, onClose });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(CANCEL)" }),
+    );
+
+    expect(onClose).not.toHaveBeenCalled();
+  });
 });
 
 describe("HelpRequestForm — edit mode submission", () => {
@@ -1096,22 +1065,190 @@ describe("HelpRequestForm — edit mode submission", () => {
   beforeEach(() => {
     mockT.mockReset();
     mockT.mockImplementation((text) => `mockTranslate(${text})`);
-    const { generateSubject } = require("../../services/requestServices");
+    const {
+      generateSubject,
+      getAdditionalFields,
+    } = require("../../services/requestServices");
     generateSubject.mockResolvedValue({ body: null });
+    getAdditionalFields.mockReset();
+    getAdditionalFields.mockResolvedValue({ data: {} });
     jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    localStorage.removeItem("metadata");
+  });
+
+  it("loads saved additional fields and restores ISO date-time values", async () => {
+    const { getAdditionalFields } = require("../../services/requestServices");
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "3.7",
+          fields: [
+            {
+              fieldId: "3.7.B",
+              fieldNameKey: "ESTIMATED_MOVING_DATE",
+              fieldType: "date&time",
+              status: "active",
+              listItems: [],
+            },
+            {
+              fieldId: "3.7.C",
+              fieldNameKey: "NUMBER_OF_HELPERS",
+              fieldType: "integer",
+              status: "active",
+              listItems: [],
+            },
+          ],
+        },
+      ]),
+    );
+    getAdditionalFields.mockResolvedValue({
+      success: true,
+      data: {
+        "3.7.B": "2026-06-13T04:00:00Z",
+        "3.7.C": "4",
+      },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-0371",
+        requesterId: "SID-00-000-003-161",
+        reqCatId: "3.7",
+        subject: "Moving help",
+        reqDesc: "Help me move",
+        type: "IN_PERSON",
+        priority: "MEDIUM",
+      },
+    });
+
+    await waitFor(() => {
+      expect(getAdditionalFields).toHaveBeenCalledWith({
+        requestId: "REQ-00-000-000-0371",
+        requesterId: "SID-00-000-003-161",
+      });
+      expect(screen.getByTestId("field-3.7.B-date")).toHaveValue("2026-06-13");
+      expect(screen.getByTestId("field-3.7.B-time")).toHaveValue("04:00");
+      expect(screen.getByTestId("field-3.7.C")).toHaveValue(4);
+    });
+  });
+
+  it("does not overwrite additional fields edited while saved values load", async () => {
+    const { getAdditionalFields } = require("../../services/requestServices");
+    let resolveAdditionalFields;
+    getAdditionalFields.mockReturnValue(
+      new Promise((resolve) => {
+        resolveAdditionalFields = resolve;
+      }),
+    );
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "3.7",
+          fields: [
+            {
+              fieldId: "3.7.C",
+              fieldNameKey: "NUMBER_OF_HELPERS",
+              fieldType: "integer",
+              status: "active",
+              listItems: [],
+            },
+          ],
+        },
+      ]),
+    );
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-LATE-RESPONSE",
+        requesterId: "SID-EDITOR",
+        reqCatId: "3.7",
+        subject: "Moving help",
+        reqDesc: "Help me move",
+        type: "IN_PERSON",
+        priority: "MEDIUM",
+      },
+    });
+
+    await waitFor(() => expect(getAdditionalFields).toHaveBeenCalled());
+    fireEvent.change(screen.getByTestId("field-3.7.C"), {
+      target: { value: "9" },
+    });
+
+    await act(async () => {
+      resolveAdditionalFields({ data: { "3.7.C": "4" } });
+    });
+
+    expect(screen.getByTestId("field-3.7.C")).toHaveValue(9);
+  });
+
+  it("continues loading additional fields when metadata JSON is invalid", async () => {
+    const { getAdditionalFields } = require("../../services/requestServices");
+    localStorage.setItem("metadata", "{invalid-json");
+    getAdditionalFields.mockResolvedValue({
+      data: { "3.7.C": "4" },
+    });
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-INVALID-METADATA",
+        requesterId: "SID-EDITOR",
+        reqCatId: "3.7",
+        subject: "Moving help",
+        reqDesc: "Help me move",
+        type: "IN_PERSON",
+        priority: "MEDIUM",
+      },
+    });
+
+    await waitFor(() => {
+      expect(getAdditionalFields).toHaveBeenCalled();
+    });
+  });
+
+  it("logs an error when additional fields fail to load", async () => {
+    const { getAdditionalFields } = require("../../services/requestServices");
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    getAdditionalFields.mockRejectedValue(new Error("Network error"));
+
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-FETCH-ERROR",
+        requesterId: "SID-EDITOR",
+        reqCatId: "3.7",
+        subject: "Moving help",
+        reqDesc: "Help me move",
+        type: "IN_PERSON",
+        priority: "MEDIUM",
+      },
+    });
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Error fetching additional fields:",
+        expect.any(Error),
+      );
+    });
+
+    consoleErrorSpy.mockRestore();
   });
 
   it("calls updateRequest instead of createRequest when isEdit is true", async () => {
     const {
-      checkProfanity,
       createRequest,
       updateRequest,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0009" },
     });
@@ -1143,14 +1280,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("passes requestId in payload via mapHelpRequestPayload when editing", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0009" },
     });
@@ -1187,14 +1320,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("restores paginated API field names when submitting an edited request", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0328" },
     });
@@ -1243,14 +1372,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("restores reqDesc and reqCatId from paginated help-requests API on edit", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0360" },
     });
@@ -1319,14 +1444,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("resolves sub-subcategory name to numeric catId on edit", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-SUB-SUB" },
     });
@@ -1369,14 +1490,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("falls back to raw category value when name is not found in categories tree", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-UNKNOWN" },
     });
@@ -1419,14 +1536,10 @@ describe("HelpRequestForm — edit mode submission", () => {
   });
 
   it("handles edit mode when onClose is not provided, and uses fallback fields", async () => {
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
     const {
       mapHelpRequestPayload,
     } = require("../../utils/mapHelpRequestPayload");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-00-000-000-0009" },
     });
@@ -1484,12 +1597,8 @@ describe("HelpRequestForm — edit mode submission", () => {
   it("restores request in edit mode from URL params and RTK query data", async () => {
     const { useParams } = require("react-router-dom");
     const { useGetAllRequestQuery } = require("../../services/requestApi");
-    const {
-      checkProfanity,
-      updateRequest,
-    } = require("../../services/requestServices");
+    const { updateRequest } = require("../../services/requestServices");
 
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     updateRequest.mockResolvedValue({
       data: { requestId: "REQ-URL-ID" },
     });
@@ -1644,6 +1753,78 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     });
   });
 
+  it("stores coordinates in formData when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "Overland Park, Kansas, USA",
+      );
+    });
+
+    // Coordinates should be stored — verified via payload
+    expect(mockGetCurrentPosition).toHaveBeenCalled();
+  });
+
+  it("stores coordinates alongside address when geolocation succeeds", async () => {
+    const mockGetCurrentPosition = jest.fn((success) => {
+      success({ coords: { latitude: 38.886491, longitude: -94.649869 } });
+    });
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        display_name: "Overland Park, Kansas, USA",
+      }),
+    });
+
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "Overland Park, Kansas, USA",
+      );
+    });
+
+    expect(mockGetCurrentPosition).toHaveBeenCalledWith(
+      expect.any(Function),
+      expect.any(Function),
+    );
+  });
+
   it("handles geolocation error gracefully", async () => {
     const mockGetCurrentPosition = jest.fn((success, error) => {
       error(new Error("Location denied"));
@@ -1689,7 +1870,13 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
     expect(document.getElementById("location").value).toBe("Kansas City");
   });
   it("shows suggestions and selects one when clicked", async () => {
-    mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
+    mockSuggestions = [
+      {
+        display_name: "Kansas City, Missouri, USA",
+        lat: "39.0997",
+        lon: "-94.5786",
+      },
+    ];
 
     renderForm();
     fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
@@ -1708,9 +1895,36 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
 
     fireEvent.click(screen.getByText("Kansas City, Missouri, USA"));
 
-    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith(
-      "Kansas City, Missouri, USA",
-    );
+    expect(mockHandleSelectSuggestion).toHaveBeenCalledWith({
+      display_name: "Kansas City, Missouri, USA",
+      lat: "39.0997",
+      lon: "-94.5786",
+    });
+  });
+
+  it("updates formData with coordinates when setCoordinates callback is called", async () => {
+    capturedSetCoordinates = null;
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location")).toBeInTheDocument();
+    });
+
+    expect(capturedSetCoordinates).not.toBeNull();
+
+    await act(async () => {
+      capturedSetCoordinates({ latitude: 38.886491, longitude: -94.649869 });
+    });
+
+    expect(document.getElementById("location")).toBeInTheDocument();
   });
 
   it("does not show location field for REMOTE request type", async () => {
@@ -1730,6 +1944,205 @@ describe("HelpRequestForm — IN_PERSON location auto-detection", () => {
   });
 });
 
+describe("HelpRequestForm — prefill In Person location from Other person's location (#1622 follow-up)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: { IN_PERSON: "IN_PERSON", REMOTE: "REMOTE" },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: "SELF", OTHER: "OTHER" },
+      }),
+    );
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+    mockSuggestions = [];
+  });
+
+  it("prefills the In Person location from the Other person's location", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "133rd Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "133rd Terrace, Overland Park, Kansas",
+      );
+    });
+  });
+
+  it("still prefills if Type is switched to In Person before the Other location is typed", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    // No prefill yet - Other location was empty when In Person was selected
+    expect(document.getElementById("location").value).toBe("");
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "West 151st Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "West 151st Terrace, Overland Park, Kansas",
+      );
+    });
+  });
+
+  it("keeps the two location fields independently editable after the one-time prefill", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "133rd Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "133rd Terrace, Overland Park, Kansas",
+      );
+    });
+
+    // Edit the In Person location afterward
+    await act(async () => {
+      fireEvent.change(document.getElementById("location"), {
+        target: { value: "West 151st Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    // Other person's location must stay untouched
+    expect(document.getElementById("other_person_location").value).toBe(
+      "133rd Terrace, Overland Park, Kansas",
+    );
+    expect(document.getElementById("location").value).toBe(
+      "West 151st Terrace, Overland Park, Kansas",
+    );
+  });
+
+  it("does not trigger browser geolocation when For Self is Other", async () => {
+    const mockGetCurrentPosition = jest.fn();
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: { getCurrentPosition: mockGetCurrentPosition },
+      configurable: true,
+    });
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    expect(mockGetCurrentPosition).not.toHaveBeenCalled();
+  });
+
+  it("also copies coordinates when the Other person's location included them", async () => {
+    capturedSetCoordinates = null;
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "133rd Terrace, Overland Park, Kansas" },
+      });
+    });
+
+    expect(capturedSetCoordinates).not.toBeNull();
+
+    await act(async () => {
+      capturedSetCoordinates({ latitude: 38.886491, longitude: -94.649869 });
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("requestType"), {
+        target: { value: "IN_PERSON" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("location").value).toBe(
+        "133rd Terrace, Overland Park, Kansas",
+      );
+    });
+  });
+});
+
 describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
   beforeEach(() => {
     mockT.mockReset();
@@ -1737,11 +2150,7 @@ describe("HelpRequestForm — DynamicAdditionalFields category id", () => {
   });
 
   it("passes selectedCategoryId to DynamicAdditionalFields not hierarchy string", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
     predictCategories.mockResolvedValue({
       body: {
         categories: [
@@ -2043,12 +2452,10 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
     mockT.mockImplementation((text) => `mockTranslate(${text})`);
 
     const {
-      checkProfanity,
       predictCategories,
       createRequest,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockReset();
     predictCategories.mockReset();
     createRequest.mockReset();
     generateSubject.mockReset();
@@ -2056,11 +2463,9 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
 
   it("shows predict categories modal when General is selected via dropdown click (catName GENERAL_CATEGORY)", async () => {
     const {
-      checkProfanity,
       predictCategories,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     generateSubject.mockResolvedValue({ body: null });
     predictCategories.mockResolvedValue({
       body: {
@@ -2121,11 +2526,9 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
 
   it("shows predict categories modal when switching back to General after selecting a specific subcategory", async () => {
     const {
-      checkProfanity,
       predictCategories,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     generateSubject.mockResolvedValue({ body: null });
     predictCategories.mockResolvedValue({
       body: {
@@ -2182,11 +2585,7 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
   });
 
   it("does not call predictCategories when user submits without description after switching to General", async () => {
-    const {
-      checkProfanity,
-      predictCategories,
-    } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
+    const { predictCategories } = require("../../services/requestServices");
 
     renderForm();
 
@@ -2218,11 +2617,9 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
 
   it("resets categoryConfirmed on manual category change, re-triggering prediction after prior confirmation", async () => {
     const {
-      checkProfanity,
       predictCategories,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     generateSubject.mockResolvedValue({ body: null });
     predictCategories.mockResolvedValue({
       body: {
@@ -2311,11 +2708,9 @@ describe("HelpRequestForm — predict categories with GENERAL_CATEGORY catName (
 
   it("resets categoryConfirmed when typing in the category search input", async () => {
     const {
-      checkProfanity,
       predictCategories,
       generateSubject,
     } = require("../../services/requestServices");
-    checkProfanity.mockResolvedValue({ contains_profanity: false });
     generateSubject.mockResolvedValue({ body: null });
     predictCategories.mockResolvedValue({
       body: {
@@ -2484,5 +2879,160 @@ describe("HelpRequestForm — preferred language auto-set from profile (#1547)",
         "Spanish",
       );
     });
+  });
+});
+
+describe("HelpRequestForm — Other person location field (#1622)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: { IN_PERSON: "IN_PERSON", REMOTE: "REMOTE" },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: "SELF", OTHER: "OTHER" },
+      }),
+    );
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+    mockSuggestions = [];
+  });
+
+  it("shows the Other-person location field when For Self is switched to OTHER", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("does not show the Other-person location field when For Self is SELF", () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    expect(
+      document.getElementById("other_person_location"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("updates the field when user types a location manually", async () => {
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "Kansas City" },
+      });
+    });
+
+    expect(document.getElementById("other_person_location").value).toBe(
+      "Kansas City",
+    );
+  });
+
+  it("shows suggestions and selects one when clicked", async () => {
+    mockSuggestions = [{ display_name: "Kansas City, Missouri, USA" }];
+
+    renderForm();
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Kansas City, Missouri, USA"),
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Kansas City, Missouri, USA"));
+
+    expect(mockHandleSelectSuggestion).toHaveBeenCalled();
+  });
+
+  it("does not include the Other-person location or its coordinates in the submitted createRequest payload", async () => {
+    const { createRequest } = require("../../services/requestServices");
+    const {
+      mapHelpRequestPayload,
+    } = require("../../utils/mapHelpRequestPayload");
+
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-1622" } });
+
+    renderForm();
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Requesting on behalf of someone else.",
+      },
+    });
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("other_person_location"), {
+        target: { value: "Kansas City, Missouri, USA" },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+    const callArgs =
+      mapHelpRequestPayload.mock.calls[
+        mapHelpRequestPayload.mock.calls.length - 1
+      ][0];
+
+    // The typed address must not leak into the payload anywhere
+    expect(JSON.stringify(callArgs)).not.toContain(
+      "Kansas City, Missouri, USA",
+    );
+    expect(callArgs.formData.otherPersonLocation).toBeUndefined();
+    expect(callArgs.formData.otherPersonLocationCoordinates).toBeUndefined();
   });
 });

@@ -20,6 +20,7 @@ exports[`StepperControl renders correctly 1`] = `
     >
       <button
         class="uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
+        data-testid="next-button"
         data-tooltip-content=""
         data-tooltip-id="next-button-tooltip"
       >

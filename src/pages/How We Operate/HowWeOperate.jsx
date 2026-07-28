@@ -40,7 +40,7 @@ const HowWeOperate = () => {
       );
 
       // Set the animated line's height as a percentage of its parent
-      line.style.height = `${normalizedPercentage * 100}%`;
+      line.style.height = `calc(${normalizedPercentage * 100}% - 40px)`;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -143,9 +143,9 @@ const HowWeOperate = () => {
             </p>
             <button
               className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
-              onClick={() => navigate("/Contact")}
+              onClick={() => navigate("/login")}
             >
-              {t("Join the community")}
+              {t("Join our community")}
             </button>
           </div>
         </div>
@@ -187,7 +187,7 @@ const TimelineItem = ({ number, title, description, image, align }) => {
       {/* Text Content Container: takes 50% width on sm screens. Inner padding adjusts for step number. */}
       <div
         className={`w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 ${
-          isTextOnRight ? "sm:pl-0" : "sm:pr-0"
+          isTextOnRight ? "sm:pl-2" : "sm:pr-2"
         }`}
       >
         <div className="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center">

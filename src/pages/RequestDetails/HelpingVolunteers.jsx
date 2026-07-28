@@ -342,51 +342,59 @@ const HelpingVolunteers = () => {
         )}
       </div>
       <div className="bg-gray-100 shadow-md p-1 space-y-4 rounded-b-md">
-        <div className="flex items-center space-x-4 p-4 mt-2">
-          <input
-            type="number"
-            min="1"
-            max="5"
-            placeholder={t("NUMBER_OF_VOLUNTEERS")}
-            className="p-3 border rounded-md w-1/3"
-            value={volunteersCount}
-            onChange={(e) => {
-              setVolunteersCount(e.target.value);
-              setChooseVolunteer(false);
-              if (Number(e.target.value) <= 5) {
+        <div className="flex flex-wrap items-stretch gap-4 p-4 mt-2">
+          {/* Box 1: Request by number of volunteers */}
+          <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
+            <input
+              type="number"
+              min="1"
+              max="5"
+              placeholder={t("NUMBER_OF_VOLUNTEERS")}
+              className="p-3 border rounded-md w-40"
+              value={volunteersCount}
+              onChange={(e) => {
+                setVolunteersCount(e.target.value);
+                setChooseVolunteer(false);
+                if (Number(e.target.value) <= 5) {
+                  setVolunteerCountError("");
+                }
+              }}
+            />
+            <button
+              className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
+              onClick={() => {
+                const requestedCount = Number(volunteersCount);
+                if (requestedCount > 5) {
+                  setVolunteerCountError("Maximum 5 volunteer can be assigned");
+                  return;
+                }
                 setVolunteerCountError("");
-              }
-            }}
-          />
-          <button
-            className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
-            onClick={() => {
-              const requestedCount = Number(volunteersCount);
-              if (requestedCount > 5) {
-                setVolunteerCountError("Maximum 5 volunteer can be assigned");
-                return;
-              }
-              setVolunteerCountError("");
-              setChooseVolunteer(true);
-            }}
-          >
-            <svg
-              className="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+                setChooseVolunteer(true);
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            {t("REQUEST_VOLUNTEERS")}
-          </button>
-          <div className="ml-auto flex items-center space-x-4">
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              {t("REQUEST_VOLUNTEERS")}
+            </button>
+          </div>
+
+          {/* Separator line between the two search boxes */}
+          <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+
+          {/* Box 2: Look up a volunteer by name, email or phone */}
+          <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
             <input
               type="text"
               placeholder={
@@ -543,7 +551,7 @@ const HelpingVolunteers = () => {
                           type="checkbox"
                           checked={selectedVolunteers.includes(volunteer.email)}
                           onChange={() => {
-                            handleCheckboxChange(volunteer.id);
+                            handleCheckboxChange(volunteer.email);
                           }}
                         />
                       </td>

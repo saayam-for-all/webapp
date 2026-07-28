@@ -10,10 +10,12 @@
   "UPLOAD": "అప్‌లోడ్ చేయండి",
   "UPLOADING": "అప్‌లోడ్ అవుతోంది...",
   "REMOVE": "తొలగించు",
-  "FILE_SIZE_ERROR": "ఫైల్ పరిమాణం 2MB కంటే ఎక్కువ ఉండకూడదు",
+  "FILE_SIZE_ERROR": "ఫైల్ పరిమాణం 5MB కంటే ఎక్కువ ఉండకూడదు",
   "FILE_TYPE_ERROR": "JPEG, JPG, PNG, మరియు PDF ఫైల్‌లు మాత్రమే అనుమతించబడతాయి. కనుగొన్న ఫైల్ రకం: {{fileType}}, పొడిగింపు: {{extension}}",
-  "FILE_TYPE_REQUIREMENT": "JPEG, JPG, PNG, లేదా PDF ఫైల్‌లు మాత్రమే. గరిష్ఠ పరిమాణం: 2MB.",
+  "FILE_TYPE_REQUIREMENT": "JPEG, JPG, PNG లేదా PDF ఫైల్‌లు మాత్రమే. గరిష్ట పరిమాణం: 5MB.",
   "UPLOAD_SUCCESS": "ఫైల్ విజయవంతంగా అప్‌లోడ్ చేయబడింది",
   "UPLOAD_FAILED": "ఫైల్ అప్‌లోడ్ విఫలమైంది",
-  "UPLOAD_ERROR": "ఫైల్ అప్‌లోడ్ సమయంలో లోపం సంభవించింది"
+  "UPLOAD_ERROR": "ఫైల్ అప్‌లోడ్ సమయంలో లోపం సంభవించింది",
+  "CHOOSE_FILE": "ఫైల్‌ను ఎంచుకోండి",
+  "NO_FILE_CHOSEN": "ఏ ఫైల్ ఎంచుకోబడలేదు"
 }

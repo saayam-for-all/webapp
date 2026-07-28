@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "সময় স্লট সরান",
   "ADD_TIME_SLOT": "সময় স্লট যোগ করুন",
   "VACATION_MODE_ACTIVE": "ছুটি মোড সক্রিয়",
-  "NO_AVAILABILITY_SLOTS": "কোন উপলব্ধতা স্লট কনফিগার করা নেই"
+  "NO_AVAILABILITY_SLOTS": "কোন উপলব্ধতা স্লট কনফিগার করা নেই",
+  "REQUIRED": "প্রয়োজনীয়",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "শেষের সময় অবশ্যই শুরুর সময়ের পরে হতে হবে",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "অনুগ্রহ করে স্বেচ্ছাসেবক কাজের জন্য আপনার উপলব্ধ সময়সূচী প্রদান করুন",
+  "ADD": "যোগ করুন",
+  "REMOVE_ROW": "সারি সরান"
 }

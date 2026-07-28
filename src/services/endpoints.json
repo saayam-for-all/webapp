@@ -7,6 +7,7 @@
   "GET_VOLUNTEERS_DATA": "v1/volunteer/getVolunteersData",
   "MOCK_GET_VOLUNTEERS": "v1/volunteer/mockGetVolunteers",
   "GET_VOLUNTEER_ORGS_LIST": "v1/volunteerorgs/organizations-list",
+  "SEND_CONTACT_EMAIL": "https://iev3dz3jm4.execute-api.us-east-1.amazonaws.com/dev/sendContactEmail",
   "GET_VOLUNTEER_SKILLS": "v1/volunteer/skills",
   "PROFILE_SKILLS": "v1/volunteer/profileSkills",
   "GET_REQUEST_COMMENTS": "v1/request/getComments",
@@ -14,6 +15,7 @@
   "UPDATE_VOLUNTEER": "v1/volunteer/updateVolunteer",
   "CREATE_HELP_REQUEST": "v1/request/createRequest",
   "UPDATE_HELP_REQUEST": "v1/request/updateHelpRequest",
+  "GET_ADDITIONAL_FIELDS": "v1/request/getAdditionalFields",
   "GET_EMERGENCY_CONTACT": "v1/genai/emergency_number_api",
   "PREDICT_CATEGORIES": "v1/genai/predict_category_api",
   "GENERATE_SUBJECT": "v1/genai/generate_subject_api",
@@ -38,8 +40,10 @@
   "SPEECH_DETECT_V2": "v1/request/speechDetectV2",
   "SIGN_OFF_USER": "v1/volunteer/signOffUser",
   "BENEFICIARIES_TREND_ANALYSIS": "v1/ml/beneficiariesTrendAnalysis",
+  "REQUEST_APPLICATION_ANALYTICS": "v1/ml/requestApplicationAnalytics",
   "UPDATE_VOLUNTEER_LOCATION": "v1/spatial/updateVolunteerLocation",
   "ORG_AGGREGATOR_LIST": "v1/ml/orgAggregatorList",
   "MOCK_ORG_DATA": "v1/ml/mockOrgData",
-  "GET_KPI_ANALYTICS": "v1/ml/kpiAnalytics"
+  "GET_KPI_ANALYTICS": "v1/ml/kpiAnalytics",
+  "VOLUNTEER_APPLICATION_ANALYTICS": "v1/ml/volunteerApplicationAnalytics"
 }

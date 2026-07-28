@@ -1,10 +1,16 @@
 {
   "ABOUT": "আমাৰ বিষয়ে",
+  "BENEVITY": "Benevity",
   "DONATE": "দান কৰা",
   "LOGIN": "লগইন কৰক",
   "DIRECTORS": "পৰিচালনা সমিতি",
   "HOW_WE_OPERATE": "আমি কেনেকৈ কাম কৰো",
   "MISSION": "উদ্দেশ্য",
+  "PROMOTE_TO_VOLUNTEER": "স্বেচ্ছাসেৱকলৈ উন্নীত কৰক",
+  "SITEMAP": "ছাইটমেপ",
+  "THANKS": "ধন্যবাদ",
+  "VERIFY_ACCOUNT": "একাউণ্ট সত্যাপন কৰক",
+  "VERIFY_OTP": "OTP সত্যাপন কৰক",
   "VISION": "দৃষ্টি",
   "CONTACT": "যোগাযোগ কৰক",
   "DASHBOARD": "ড্যাশবোর্ড",
@@ -42,5 +48,8 @@
   "FIND_BY_EMAIL": "ইমেইলেৰে বিচাৰক",
   "FIND_BY_PHONE": "ফোনেৰে বিচাৰক",
   "ENTER_VOLUNTEER_EMAIL": "স্বেচ্ছাসেৱকৰ ইমেইল দিয়ক",
-  "ENTER_VOLUNTEER_PHONE": "স্বেচ্ছাসেৱকৰ ফোন দিয়ক"
+  "ENTER_VOLUNTEER_PHONE": "স্বেচ্ছাসেৱকৰ ফোন দিয়ক",
+  "DELETE": "ডিলিট কৰক",
+  "CHANGE_VOLUNTEER": "স্বেচ্ছাসেবক সলনি কৰক",
+  "DELETE_ACTION": "মচি পেলাওক"
 }

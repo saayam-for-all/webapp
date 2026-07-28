@@ -105,6 +105,12 @@ const Navbar = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (!user?.userId) {
+      setSearchText("");
+    }
+  }, [user?.userId]);
+
+  useEffect(() => {
     const savedProfilePhoto = localStorage.getItem("profilePhoto");
     if (savedProfilePhoto) setProfileIcon(savedProfilePhoto);
   }, []);
@@ -353,6 +359,7 @@ const Navbar = () => {
   };
 
   const handleSignOut = () => {
+    setSearchText("");
     dispatch(logout());
     setIsLogoutModalOpen(false);
     navigate("/login");
@@ -416,8 +423,10 @@ const Navbar = () => {
 
         {/* Mobile Search (only after login) */}
         {user?.userId && (
-          <div className="flex flex-col md:hidden flex-1 mx-2">
+          <div className="relative md:hidden flex-1 mx-2">
             <TextField
+              name="navbar-search"
+              autoComplete="off"
               value={searchText}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
@@ -440,7 +449,7 @@ const Navbar = () => {
                 minWidth: 0,
               }}
             />
-            <p className="text-xs text-gray-500 mt-0.5 pl-4">
+            <p className="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500">
               {t("SEARCH_TAGLINE")}
             </p>
           </div>
@@ -479,8 +488,10 @@ const Navbar = () => {
         <div className="hidden md:flex items-center flex-1 ml-4">
           {" "}
           {user?.userId && (
-            <div className="flex flex-col w-full max-w-[800px] mr-4">
+            <div className="relative flex-1 min-w-0 mr-4">
               <TextField
+                name="navbar-search"
+                autoComplete="off"
                 value={searchText}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
@@ -503,7 +514,7 @@ const Navbar = () => {
                   minWidth: 0,
                 }}
               />
-              <p className="text-xs text-gray-500 mt-0.5 pl-4">
+              <p className="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500">
                 {t("SEARCH_TAGLINE")}
               </p>
             </div>

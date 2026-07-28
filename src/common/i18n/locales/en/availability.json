@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "Remove Time Slot",
   "ADD_TIME_SLOT": "Add Time Slot",
   "VACATION_MODE_ACTIVE": "Vacation Mode Active",
-  "NO_AVAILABILITY_SLOTS": "No availability slots configured"
+  "NO_AVAILABILITY_SLOTS": "No availability slots configured",
+  "REQUIRED": "Required",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "End time must be after start time",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "Please Provide Your Available Time Slots for Volunteering",
+  "ADD": "Add",
+  "REMOVE_ROW": "Remove row"
 }

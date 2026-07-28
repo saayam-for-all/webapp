@@ -1,10 +1,16 @@
 {
   "ABOUT": "회사 소개",
+  "BENEVITY": "Benevity",
   "DONATE": "기부",
   "LOGIN": "로그인",
   "DIRECTORS": "이사회",
   "HOW_WE_OPERATE": "우리의 운영 방식",
   "MISSION": "사명",
+  "PROMOTE_TO_VOLUNTEER": "자원봉사자로 승격",
+  "SITEMAP": "사이트맵",
+  "THANKS": "감사합니다",
+  "VERIFY_ACCOUNT": "계정 확인",
+  "VERIFY_OTP": "OTP 확인",
   "VISION": "비전",
   "CONTACT": "연락하다",
   "DASHBOARD": "대시보드",
@@ -40,5 +46,8 @@
   "FIND_BY_EMAIL": "이메일로 찾기",
   "FIND_BY_PHONE": "전화번호로 찾기",
   "ENTER_VOLUNTEER_EMAIL": "자원봉사자 이메일 입력",
-  "ENTER_VOLUNTEER_PHONE": "자원봉사자 전화번호 입력"
+  "ENTER_VOLUNTEER_PHONE": "자원봉사자 전화번호 입력",
+  "CHANGE_VOLUNTEER": "자원봉사자 변경",
+  "DELETE": "삭제",
+  "DELETE_ACTION": "삭제"
 }

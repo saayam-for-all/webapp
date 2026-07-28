@@ -1,5 +1,6 @@
 {
   "ABOUT": "私たちについて",
+  "BENEVITY": "Benevity",
   "DONATE": "寄付する",
   "LOGIN": "ログイン",
   "DIRECTORS": "取締役会",
@@ -7,6 +8,11 @@
   "MISSION": "ミッション",
   "Aakash Gangji": "アーカシュ・ガンジ",
   "Lead AI/ML Developer/Engineer": "AI/MLリード開発者/エンジニア",
+  "PROMOTE_TO_VOLUNTEER": "ボランティアに昇格",
+  "SITEMAP": "サイトマップ",
+  "THANKS": "ありがとうございます",
+  "VERIFY_ACCOUNT": "アカウントを確認",
+  "VERIFY_OTP": "OTPを確認",
   "VISION": "ビジョン",
   "CONTACT": "接触",
   "DASHBOARD": "ダッシュボード",
@@ -41,5 +47,8 @@
   "FIND_BY_EMAIL": "メールで検索",
   "FIND_BY_PHONE": "電話番号で検索",
   "ENTER_VOLUNTEER_EMAIL": "ボランティアのメールアドレスを入力",
-  "ENTER_VOLUNTEER_PHONE": "ボランティアの電話番号を入力"
+  "ENTER_VOLUNTEER_PHONE": "ボランティアの電話番号を入力",
+  "CHANGE_VOLUNTEER": "ボランティアを変更",
+  "DELETE": "削除",
+  "DELETE_ACTION": "削除"
 }

@@ -1,10 +1,16 @@
 {
   "ABOUT": "Về chúng tôi",
+  "BENEVITY": "Benevity",
   "DONATE": "Quyên tặng",
   "LOGIN": "Đăng nhập",
   "DIRECTORS": "Ban giám đốc",
   "HOW_WE_OPERATE": "Cách chúng tôi vận hành",
   "MISSION": "Nhiệm vụ",
+  "PROMOTE_TO_VOLUNTEER": "Thăng cấp thành Tình nguyện viên",
+  "SITEMAP": "Sơ đồ trang web",
+  "THANKS": "Cảm ơn",
+  "VERIFY_ACCOUNT": "Xác minh tài khoản",
+  "VERIFY_OTP": "Xác minh OTP",
   "VISION": "Tầm nhìn",
   "ORGANIZATIONS": "Tổ chức",
   "CONTACT": "Liên hệ",
@@ -40,5 +46,8 @@
   "FIND_BY_EMAIL": "Tìm theo email",
   "FIND_BY_PHONE": "Tìm theo số điện thoại",
   "ENTER_VOLUNTEER_EMAIL": "Nhập email tình nguyện viên",
-  "ENTER_VOLUNTEER_PHONE": "Nhập số điện thoại tình nguyện viên"
+  "ENTER_VOLUNTEER_PHONE": "Nhập số điện thoại tình nguyện viên",
+  "CHANGE_VOLUNTEER": "Thay đổi tình nguyện viên",
+  "DELETE": "Xóa",
+  "DELETE_ACTION": "Xóa"
 }

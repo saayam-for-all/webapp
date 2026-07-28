@@ -25,5 +25,10 @@
   "REMOVE_TIME_SLOT": "సమయ స్లాట్‌ను తొలగించు",
   "ADD_TIME_SLOT": "సమయ స్లాట్‌ను జోడించు",
   "VACATION_MODE_ACTIVE": "విహార మోడ్ క్రియాశీలం",
-  "NO_AVAILABILITY_SLOTS": "అందుబాటు స్లాట్‌లు కాన్ఫిగర్ చేయబడలేదు"
+  "NO_AVAILABILITY_SLOTS": "అందుబాటు స్లాట్‌లు కాన్ఫిగర్ చేయబడలేదు",
+  "REQUIRED": "తప్పనిసరి",
+  "END_TIME_MUST_BE_AFTER_START_TIME": "ముగింపు సమయం ప్రారంభ సమయం తర్వాత ఉండాలి",
+  "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "దయచేసి వాలంటీరింగ్ కోసం మీ అందుబాటులో ఉన్న సమయ స్లాట్‌లను అందించండి",
+  "ADD": "జోడించు",
+  "REMOVE_ROW": "వరుసను తీసివేయి"
 }

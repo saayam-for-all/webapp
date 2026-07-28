@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, waitFor } from "@testing-library/react";
+import { act, fireEvent, waitFor } from "@testing-library/react";
 import { renderWithProviders, MOCK_STATE_LOGGED_IN } from "#utils/test-utils";
 
 jest.mock("react-router-dom", () => {
@@ -11,16 +11,44 @@ jest.mock("react-router-dom", () => {
   };
 });
 
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-    i18n: { changeLanguage: jest.fn() },
-  }),
-}));
+jest.mock("react-i18next", () => {
+  const React = require("react");
+  const listeners = new Set();
+  const translations = {
+    en: require("../../common/i18n/locales/en/common.json"),
+    es: require("../../common/i18n/locales/es/common.json"),
+  };
+  const mockI18n = {
+    language: "en",
+    changeLanguage: jest.fn((language) => {
+      mockI18n.language = language;
+      listeners.forEach((listener) => listener());
+      return Promise.resolve();
+    }),
+  };
+
+  return {
+    useTranslation: () => {
+      const [, rerender] = React.useReducer((count) => count + 1, 0);
+
+      React.useEffect(() => {
+        listeners.add(rerender);
+        return () => listeners.delete(rerender);
+      }, []);
+
+      return {
+        t: (key) =>
+          translations[mockI18n.language]?.[key] ?? translations.en[key] ?? key,
+        i18n: mockI18n,
+      };
+    },
+    mockI18n,
+  };
+});
 
 jest.mock("react-toastify", () => ({
   ToastContainer: () => null,
-  toast: { success: jest.fn(), error: jest.fn() },
+  toast: { success: jest.fn(), error: jest.fn(), warn: jest.fn() },
 }));
 
 jest.mock("../../services/requestServices", () => ({
@@ -67,11 +95,21 @@ jest.mock("./views/AdminDashboard", () => (props) => {
   lastAdminDashboardProps = props;
   return (
     <div data-testid="admin-dashboard">
+      {props.searchFilters}
       <button onClick={() => props.handleTabChange("myRequests")}>
         Click All Requests
       </button>
       <button onClick={() => props.setCurrentPage(2)}>Change Page</button>
       <button onClick={() => props.onRowsPerPageChange(25)}>Change Rows</button>
+      <button onClick={() => props.onRowSelect && props.onRowSelect("REQ-001")}>
+        Select Row
+      </button>
+      <button onClick={() => props.onSelectAll && props.onSelectAll(true)}>
+        Select All
+      </button>
+      <button onClick={() => props.onSelectAll && props.onSelectAll(false)}>
+        Deselect All
+      </button>
     </div>
   );
 });
@@ -89,6 +127,7 @@ jest.mock("./components/Analytics/RequestsAnalytics", () => () => null);
 jest.mock("./components/Analytics/VolunteerAnalytics", () => () => null);
 
 import Dashboard from "./Dashboard";
+import { mockI18n } from "react-i18next";
 
 const adminAuthState = {
   auth: {
@@ -123,9 +162,22 @@ const volunteerAuthState = {
   },
 };
 
+const superAdminAuthState = {
+  auth: {
+    user: {
+      userId: "u1",
+      userDbId: "SID-00-000-003-016",
+      groups: ["SuperAdmins"],
+    },
+    idToken: "tok",
+  },
+};
+
 describe("Dashboard", () => {
   beforeEach(() => {
     localStorage.clear();
+    mockI18n.language = "en";
+    mockI18n.changeLanguage.mockClear();
     lastAdminDashboardProps = null;
     lastBeneficiaryDashboardProps = null;
     lastVolunteerDashboardProps = null;
@@ -138,6 +190,99 @@ describe("Dashboard", () => {
       },
     });
     expect(getByTestId("beneficiary-dashboard")).toBeInTheDocument();
+  });
+
+  it("translates the dashboard title and every selector label without changing option values", () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { getByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    expect(
+      getByRole("heading", { name: "Super Admin Dashboard" }),
+    ).toBeInTheDocument();
+
+    const options = Array.from(getByRole("combobox").options).map((option) => ({
+      label: option.textContent,
+      value: option.value,
+    }));
+    expect(options).toEqual([
+      { label: "Beneficiary Dashboard", value: "beneficiary" },
+      { label: "Volunteer Dashboard", value: "volunteer" },
+      { label: "Steward Dashboard", value: "steward" },
+      { label: "Admin Dashboard", value: "admin" },
+      { label: "Super Admin Dashboard", value: "superAdmin" },
+    ]);
+  });
+
+  it("updates the title and selector labels when the language changes", async () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { getByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    await act(async () => {
+      await mockI18n.changeLanguage("es");
+    });
+
+    expect(
+      getByRole("heading", { name: "Panel de Superadministrador" }),
+    ).toBeInTheDocument();
+    expect(
+      Array.from(getByRole("combobox").options).map(
+        (option) => option.textContent,
+      ),
+    ).toEqual([
+      "Panel de Beneficiario",
+      "Panel de Voluntario",
+      "Panel de Supervisor",
+      "Panel de Administrador",
+      "Panel de Superadministrador",
+    ]);
+  });
+
+  it("falls back to English dashboard labels for an unsupported language", async () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { getByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    await act(async () => {
+      await mockI18n.changeLanguage("unsupported");
+    });
+
+    expect(
+      getByRole("heading", { name: "Super Admin Dashboard" }),
+    ).toBeInTheDocument();
+    expect(
+      Array.from(getByRole("combobox").options).map(
+        (option) => option.textContent,
+      ),
+    ).toEqual([
+      "Beneficiary Dashboard",
+      "Volunteer Dashboard",
+      "Steward Dashboard",
+      "Admin Dashboard",
+      "Super Admin Dashboard",
+    ]);
+  });
+
+  it("keeps the selected dashboard identifier stable when changing dashboards", () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { getByRole, getByTestId } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "volunteer" },
+    });
+
+    expect(getByRole("combobox")).toHaveValue("volunteer");
+    expect(localStorage.getItem("lastDashboardSelected")).toBe("volunteer");
+    expect(getByTestId("volunteer-dashboard")).toBeInTheDocument();
+    expect(
+      getByRole("heading", { name: "Volunteer Dashboard" }),
+    ).toBeInTheDocument();
   });
 
   it("renders steward dashboard when user has steward role", () => {
@@ -241,6 +386,113 @@ describe("Dashboard", () => {
     });
   });
 
+  it("builds the All Requests identity columns from requester flags", async () => {
+    const {
+      getAllPaginatedRequests,
+    } = require("../../services/requestServices");
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: {
+        content: [
+          {
+            requestId: "REQ-SELF",
+            requesterId: "SID-SELF",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: 0,
+            reqIsleadId: 1,
+          },
+          {
+            requestId: "REQ-OTHER",
+            requesterId: "SID-CREATOR",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: 1,
+            reqIsleadId: 0,
+          },
+          {
+            requestId: "REQ-STRING-FLAGS",
+            requesterId: "SID-STRING",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: "0",
+            reqIsLeadId: "1",
+          },
+          {
+            requestId: "REQ-SPLIT-IDS",
+            requesterId: "SID-BEN",
+            beneficiaryId: "SID-BEN",
+            creatorId: "SID-CREATOR",
+            requestCategory: "GENERAL_CATEGORY",
+            reqIsleadId: 0,
+          },
+        ],
+        totalPages: 1,
+        totalElements: 3,
+      },
+    });
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: adminAuthState,
+    });
+
+    fireEvent.click(getByText("Click All Requests"));
+
+    await waitFor(() => {
+      expect(lastAdminDashboardProps?.headers).toEqual([
+        "requestId",
+        "subject",
+        "beneficiaryCreatorDisplayId",
+        "leadVolunteerDisplayId",
+        "category",
+        "status",
+        "priority",
+        "updatedDate",
+      ]);
+
+      const selfRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-SELF",
+      );
+      expect(selfRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-SELF",
+        creatorDisplayId: "SID-SELF",
+        beneficiaryCreatorDisplayId: "SID-SELF",
+        leadVolunteerDisplayId: "SID-SELF",
+      });
+
+      const otherRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-OTHER",
+      );
+      expect(otherRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-CREATOR",
+        creatorDisplayId: "SID-CREATOR",
+        beneficiaryCreatorDisplayId: "SID-CREATOR",
+        leadVolunteerDisplayId: null,
+      });
+
+      const stringFlagRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-STRING-FLAGS",
+      );
+      expect(stringFlagRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-STRING",
+        creatorDisplayId: "SID-STRING",
+        beneficiaryCreatorDisplayId: "SID-STRING",
+        leadVolunteerDisplayId: "SID-STRING",
+      });
+
+      const splitIdRequest = lastAdminDashboardProps?.filteredData?.find(
+        (row) => row.requestId === "REQ-SPLIT-IDS",
+      );
+      expect(splitIdRequest).toMatchObject({
+        beneficiaryDisplayId: "SID-BEN",
+        creatorDisplayId: "SID-CREATOR",
+        beneficiaryCreatorDisplayId: "SID-BEN / SID-CREATOR",
+        leadVolunteerDisplayId: null,
+      });
+    });
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+  });
+
   it("calls getAllPaginatedRequests when Admin switches to All Requests tab", async () => {
     const {
       getAllPaginatedRequests,
@@ -276,12 +528,16 @@ describe("Dashboard", () => {
     );
 
     fireEvent.click(getByText("Change Page"));
-    await waitFor(() =>
+    await waitFor(() => {
       expect(getAllPaginatedRequests).toHaveBeenCalledWith({
         page: 1,
         size: 5,
-      }),
-    );
+      });
+      const pageOneCalls = getAllPaginatedRequests.mock.calls.filter(
+        ([options]) => options.page === 1 && options.size === 5,
+      );
+      expect(pageOneCalls).toHaveLength(1);
+    });
   });
 
   it("calls getAllPaginatedRequests with updated size when handleRowsPerPageChange is called", async () => {
@@ -301,12 +557,16 @@ describe("Dashboard", () => {
     );
 
     fireEvent.click(getByText("Change Rows"));
-    await waitFor(() =>
+    await waitFor(() => {
       expect(getAllPaginatedRequests).toHaveBeenCalledWith({
         page: 0,
         size: 25,
-      }),
-    );
+      });
+      const updatedSizeCalls = getAllPaginatedRequests.mock.calls.filter(
+        ([options]) => options.page === 0 && options.size === 25,
+      );
+      expect(updatedSizeCalls).toHaveLength(1);
+    });
   });
 
   it("handles api error and logs it to console", async () => {
@@ -672,6 +932,186 @@ describe("Dashboard", () => {
       expect(getMyRequests).toHaveBeenCalledWith(
         expect.objectContaining({ userId: "SID-FROM-STORAGE" }),
       );
+    });
+  });
+
+  describe("selectedRows and bulk status change", () => {
+    const rowData = {
+      requestId: "REQ-001",
+      requestCategory: "GENERAL",
+      status: "CREATED",
+      subject: "Test request",
+    };
+
+    beforeEach(() => {
+      const {
+        getAllPaginatedRequests,
+      } = require("../../services/requestServices");
+      getAllPaginatedRequests.mockResolvedValue({
+        data: { content: [rowData], totalPages: 1, totalElements: 1 },
+      });
+      const { toast } = require("react-toastify");
+      toast.warn.mockClear();
+    });
+
+    afterEach(() => {
+      const {
+        getAllPaginatedRequests,
+      } = require("../../services/requestServices");
+      getAllPaginatedRequests.mockResolvedValue({
+        data: { content: [], totalPages: 1, totalElements: 0 },
+      });
+    });
+
+    it("passes empty selectedRows and onRowSelect to AdminDashboard", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toEqual([]),
+      );
+      expect(typeof lastAdminDashboardProps?.onRowSelect).toBe("function");
+      expect(typeof lastAdminDashboardProps?.onSelectAll).toBe("function");
+    });
+
+    it("adds row id to selectedRows when onRowSelect is called", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toContain("REQ-001"),
+      );
+    });
+
+    it("removes row id from selectedRows when onRowSelect is called again", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row")); // select
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toContain("REQ-001"),
+      );
+      fireEvent.click(getByText("Select Row")); // deselect
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).not.toContain("REQ-001"),
+      );
+    });
+
+    it("selects all rows on current page when onSelectAll(true) is called", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select All"));
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toContain("REQ-001"),
+      );
+    });
+
+    it("deselects all rows on current page when onSelectAll(false) is called", async () => {
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select All")); // select first
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).toContain("REQ-001"),
+      );
+      fireEvent.click(getByText("Deselect All")); // then deselect
+      await waitFor(() =>
+        expect(lastAdminDashboardProps?.selectedRows).not.toContain("REQ-001"),
+      );
+    });
+
+    it("shows bulk action UI with selected count when rows are selected on myRequests tab", async () => {
+      const { getByText, queryByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+      expect(queryByText("1 selected")).not.toBeInTheDocument();
+
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() => expect(getByText("1 selected")).toBeInTheDocument());
+    });
+
+    it("shows warning toast when Apply is clicked (backend pending)", async () => {
+      const { toast } = require("react-toastify");
+
+      const { getByText, getAllByRole } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() => expect(getByText("1 selected")).toBeInTheDocument());
+
+      const selects = getAllByRole("combobox");
+      const statusSelect = selects[selects.length - 1];
+      fireEvent.change(statusSelect, { target: { value: "CANCELLED" } });
+
+      fireEvent.click(getByText("Apply"));
+
+      await waitFor(() => {
+        expect(toast.warn).toHaveBeenCalledWith(
+          expect.stringContaining("pending backend API support"),
+        );
+      });
+    });
+
+    it("clears selectedRows and resets bulk status after apply", async () => {
+      const { getByText, queryByText, getAllByRole } = renderWithProviders(
+        <Dashboard />,
+        { preloadedState: adminAuthState },
+      );
+
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() => expect(getByText("1 selected")).toBeInTheDocument());
+
+      const selects = getAllByRole("combobox");
+      const statusSelect = selects[selects.length - 1];
+      fireEvent.change(statusSelect, { target: { value: "CANCELLED" } });
+      fireEvent.click(getByText("Apply"));
+
+      await waitFor(() =>
+        expect(queryByText("1 selected")).not.toBeInTheDocument(),
+      );
+    });
+
+    it("does not trigger bulk change when no status is selected", async () => {
+      const { toast } = require("react-toastify");
+
+      const { getByText } = renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+
+      fireEvent.click(getByText("Click All Requests"));
+      await waitFor(() => expect(lastAdminDashboardProps).not.toBeNull());
+
+      fireEvent.click(getByText("Select Row"));
+      await waitFor(() => expect(getByText("1 selected")).toBeInTheDocument());
+
+      // Apply button should be disabled when no status selected, but test handler guard
+      fireEvent.click(getByText("Apply"));
+      expect(toast.warn).not.toHaveBeenCalled();
     });
   });
 });
