@@ -425,6 +425,7 @@ const Navbar = () => {
         {user?.userId && (
           <div className="relative md:hidden flex-1 mx-2">
             <TextField
+              key={user?.userId ?? "guest"}
               name="navbar-search"
               autoComplete="off"
               value={searchText}
@@ -433,7 +434,7 @@ const Navbar = () => {
               placeholder={t("SEARCH_PLACEHOLDER")}
               size="small"
               fullWidth
-              inputProps={{ maxLength: 80 }}
+              inputProps={{ maxLength: 80, autoComplete: "off" }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -490,6 +491,7 @@ const Navbar = () => {
           {user?.userId && (
             <div className="relative flex-1 min-w-0 mr-4">
               <TextField
+                key={user?.userId ?? "guest"}
                 name="navbar-search"
                 autoComplete="off"
                 value={searchText}
@@ -498,7 +500,7 @@ const Navbar = () => {
                 placeholder={t("SEARCH_PLACEHOLDER")}
                 size="small"
                 fullWidth
-                inputProps={{ maxLength: 80 }}
+                inputProps={{ maxLength: 80, autoComplete: "off" }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
