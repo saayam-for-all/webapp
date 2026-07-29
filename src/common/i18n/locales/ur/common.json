@@ -430,7 +430,7 @@
   "CREATION_DATE": "تخلیق کی تاریخ",
   "UPDATED_DATE": "تازہ کاری کی تاریخ",
   "CREATED": "بنایا گیا",
-  "MATCHING_VOLUNTEER": "رضاکار ملایا جا رہا ہے",
+  "MATCHING_VOLUNTEER": "رضاکار کی تلاش",
   "IN_PROGRESS": "جاری ہے",
   "RESOLVED": "حل ہو گیا",
   "CANCELLED": "منسوخ کر دیا گیا",
@@ -447,5 +447,6 @@
   "STEP_NUMBER_2": "۲",
   "STEP_NUMBER_3": "۳",
   "STEP_NUMBER_4": "۴",
-  "STEP_NUMBER_5": "۵"
+  "STEP_NUMBER_5": "۵",
+  "DELETE_ACTION": "حذف کریں"
 }

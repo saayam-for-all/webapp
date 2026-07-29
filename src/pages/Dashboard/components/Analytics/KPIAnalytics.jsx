@@ -84,8 +84,11 @@ const KPIAnalytics = () => {
   const SLA_TARGET = kpiData?.sla?.target_hours ?? 240;
   const SLA_WARNING = kpiData?.sla?.warning_hours ?? 200;
 
-  // Snapshot and Table view always read from the "All" bucket
-  const snapshotData = kpiData?.body?.All;
+  // Snapshot and Table view read from the dedicated "Snapshot" bucket
+  // (previously reused "All", but backend now separates them - per
+  // request from 7/19: "All" is now per-month trend data like "1Y",
+  // and "Snapshot" is the standalone aggregate).
+  const snapshotData = kpiData?.body?.Snapshot;
 
   const resolutionData = useMemo(() => {
     if (!snapshotData?.average_resolution_time_by_category) return [];

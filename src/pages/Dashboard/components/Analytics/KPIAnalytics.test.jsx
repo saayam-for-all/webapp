@@ -9,7 +9,7 @@ jest.mock("../../../../services/analyticsServices", () => ({
 
 const mockData = {
   body: {
-    All: {
+    Snapshot: {
       request_status_distribution: [
         { status: "CREATED", count: 200 },
         { status: "MATCHING_VOLUNTEER", count: 100 },
@@ -42,6 +42,14 @@ const mockData = {
       total_requests: [
         { period: "2026-01", total_requests: 21 },
         { period: "2026-07", total_requests: 40 },
+      ],
+      average_resolution_time_by_category: [],
+    },
+    All: {
+      request_status_distribution: [],
+      total_requests: [
+        { period: "2025-12", total_requests: 48 },
+        { period: "2026-07", total_requests: 61 },
       ],
       average_resolution_time_by_category: [],
     },
@@ -106,7 +114,10 @@ describe("KPIAnalytics", () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue({
       body: {
         ...mockData.body,
-        All: { ...mockData.body.All, average_resolution_time_by_category: [] },
+        Snapshot: {
+          ...mockData.body.Snapshot,
+          average_resolution_time_by_category: [],
+        },
       },
     });
     render(<KPIAnalytics />);
@@ -206,8 +217,8 @@ describe("KPIAnalytics", () => {
     analyticsServices.getKpiAnalytics.mockResolvedValue({
       body: {
         ...mockData.body,
-        All: {
-          ...mockData.body.All,
+        Snapshot: {
+          ...mockData.body.Snapshot,
           total_requests: 0,
           request_status_distribution: [],
         },
@@ -284,7 +295,7 @@ describe("KPIAnalytics", () => {
       expect(allButton).toHaveClass("bg-blue-600");
     });
 
-    it("shows no trend data message for All since it has no period series", async () => {
+    it("renders the chart (not the empty state) when All has period data", async () => {
       analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
       render(<KPIAnalytics />);
       await waitFor(() => {
@@ -292,8 +303,8 @@ describe("KPIAnalytics", () => {
       });
       switchViewMode("trends");
       expect(
-        screen.getByText("No trend data available for All"),
-      ).toBeInTheDocument();
+        screen.queryByText("No trend data available for All"),
+      ).not.toBeInTheDocument();
     });
 
     it("renders the chart (not the empty state) when 7D has period data", async () => {

@@ -40,7 +40,7 @@ const HowWeOperate = () => {
       );
 
       // Set the animated line's height as a percentage of its parent
-      line.style.height = `${normalizedPercentage * 100}%`;
+      line.style.height = `calc(${normalizedPercentage * 100}% - 40px)`;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -68,7 +68,7 @@ const HowWeOperate = () => {
             {t("Get help in 5 easy steps.")}
           </p>
 
-          <div className="relative h-full min-h-[800px] overflow-hidden">
+          <div className="relative h-full min-h-[800px]">
             {/* Animated line */}
             <div
               className="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
@@ -89,9 +89,9 @@ const HowWeOperate = () => {
 
               <TimelineItem
                 number={2}
-                title={t("Get Matching With a Volunteer")}
+                title={t("Get Matched with a Volunteer")}
                 description={t(
-                  "We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .",
+                  "We don't just match—you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.",
                 )}
                 image={img5}
                 align="right"
@@ -143,7 +143,7 @@ const HowWeOperate = () => {
             </p>
             <button
               className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
-              onClick={() => navigate("/Contact")}
+              onClick={() => navigate("/login")}
             >
               {t("Join our community")}
             </button>
@@ -194,7 +194,7 @@ const TimelineItem = ({ number, title, description, image, align }) => {
           <h3 className="text-lg md:text-xl font-bold leading-tight mb-2 text-left">
             {title}
           </h3>
-          <p className="text-sm md:text-base text-gray-600 text-left">
+          <p className="text-sm md:text-base text-gray-600 text-left whitespace-pre-line">
             {description}
           </p>
         </div>

@@ -48,5 +48,6 @@
   "ENTER_VOLUNTEER_EMAIL": "Masukkan email sukarelawan",
   "ENTER_VOLUNTEER_PHONE": "Masukkan telepon sukarelawan",
   "CHANGE_VOLUNTEER": "Tukar Sukarelawan",
-  "DELETE": "Padam"
+  "DELETE": "Padam",
+  "DELETE_ACTION": "Hapus"
 }
