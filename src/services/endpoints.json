@@ -24,6 +24,7 @@
   "GENERATE_ANSWER_API": "v1/genai/generate_answer_api",
   "UPLOAD_PROFILE_IMAGE": "v1/volunteer/profileImage",
   "DELETE_PROFILE_IMAGE": "v1/volunteer/profileImage",
+  "DELETE_HELP_REQUEST": "v1/request/deleteRequest",
   "VIEW_PROFILE_IMAGE": "v1/volunteer/profileImage/view",
   "GET_USER_ID": "v1/volunteer/getUserIdByEmail",
   "GET_CATEGORIES": "v1/request/mockHelpCategories",
