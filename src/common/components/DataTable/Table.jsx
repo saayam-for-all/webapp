@@ -292,7 +292,11 @@ const Table = ({
                           <Link
                             to={path}
                             className="text-indigo-600 hover:text-indigo-900"
-                            state={getLinkState ? getLinkState(row) : undefined}
+                            state={
+                              getLinkState
+                                ? getLinkState(row, header)
+                                : undefined
+                            }
                           >
                             {cellContent}
                           </Link>
