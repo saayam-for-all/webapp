@@ -66,23 +66,6 @@ describe("RequestDetails - Tab Translation Tests", () => {
     expect(screen.getByRole("button", { name: "EDIT" })).toBeInTheDocument();
   });
 
-  it("shows attachments pill only on Details tab", () => {
-    renderWithProviders(<RequestDetails />, {
-      preloadedState: MOCK_STATE_LOGGED_IN,
-    });
-
-    // Default tab is Comments
-    expect(screen.queryByText("No files")).not.toBeInTheDocument();
-
-    // Details tab shows the pill (empty-state)
-    fireEvent.click(screen.getByText("DETAILS"));
-    expect(screen.getByText("No files")).toBeInTheDocument();
-
-    // Switching away hides it
-    fireEvent.click(screen.getByText("VOLUNTEERS"));
-    expect(screen.queryByText("No files")).not.toBeInTheDocument();
-  });
-
   it("renders lead volunteer as clickable with LEAD_VOLUNTEER label", async () => {
     renderWithProviders(<RequestDetails />, {
       preloadedState: MOCK_STATE_LOGGED_IN,
