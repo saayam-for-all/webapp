@@ -1650,12 +1650,28 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) =>
-                  header === "requestId" || header === "id"
-                    ? `/request/${request[resolveKey(header)]}`
-                    : null
+                getLinkPath={(request, header) => {
+                  if (header === "requestId" || header === "id") {
+                    return `/request/${request[resolveKey(header)]}`;
+                  }
+                  if (
+                    (header === "beneficiaryCreatorDisplayId" &&
+                      request.beneficiaryCreatorDisplayId) ||
+                    (header === "leadVolunteerDisplayId" &&
+                      request.leadVolunteerDisplayId)
+                  ) {
+                    // No API yet to open a specific user's profile, so
+                    // temporarily route to the viewer's own profile page.
+                    return "/profile";
+                  }
+                  return null;
+                }}
+                getLinkState={(request, header) =>
+                  header === "beneficiaryCreatorDisplayId" ||
+                  header === "leadVolunteerDisplayId"
+                    ? { tab: "profile" }
+                    : request
                 }
-                getLinkState={(request) => request}
                 searchFilters={
                   activeTab === "analytics" ? null : dashboardSearchFilters
                 }
@@ -1683,12 +1699,28 @@ const Dashboard = ({ userRole }) => {
                 sortConfig={sortConfig}
                 requestSort={requestSort}
                 onRowsPerPageChange={handleRowsPerPageChange}
-                getLinkPath={(request, header) =>
-                  header === "requestId" || header === "id"
-                    ? `/request/${request[resolveKey(header)]}`
-                    : null
+                getLinkPath={(request, header) => {
+                  if (header === "requestId" || header === "id") {
+                    return `/request/${request[resolveKey(header)]}`;
+                  }
+                  if (
+                    (header === "beneficiaryCreatorDisplayId" &&
+                      request.beneficiaryCreatorDisplayId) ||
+                    (header === "leadVolunteerDisplayId" &&
+                      request.leadVolunteerDisplayId)
+                  ) {
+                    // No API yet to open a specific user's profile, so
+                    // temporarily route to the viewer's own profile page.
+                    return "/profile";
+                  }
+                  return null;
+                }}
+                getLinkState={(request, header) =>
+                  header === "beneficiaryCreatorDisplayId" ||
+                  header === "leadVolunteerDisplayId"
+                    ? { tab: "profile" }
+                    : request
                 }
-                getLinkState={(request) => request}
                 searchFilters={
                   activeTab === "analytics" ? null : dashboardSearchFilters
                 }
