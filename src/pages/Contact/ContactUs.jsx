@@ -27,6 +27,7 @@ const CONTACT_REASONS = [
   "OFFER_RELIEVING_LETTER",
   "COLLABORATION_PARTNERSHIP",
   "GENERAL_INQUIRY",
+  "DONATION_GRANT",
 ];
 
 // Maps frontend reason values to Lambda's RECIPIENT_MAP keys
@@ -36,6 +37,7 @@ const REASON_MAP = {
   OFFER_RELIEVING_LETTER: "Letters",
   COLLABORATION_PARTNERSHIP: "Collaboration",
   GENERAL_INQUIRY: "General",
+  DONATION_GRANT: "Donation/Grant",
 };
 
 const ContactUs = () => {
