@@ -2080,6 +2080,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         <input
                           type="text"
                           id="requester_first_name"
+                          required
                           value={formData.requester_first_name}
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
@@ -2095,6 +2096,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         <input
                           type="text"
                           id="requester_last_name"
+                          required
                           value={formData.requester_last_name}
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
@@ -2111,6 +2113,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                       <input
                         type="email"
                         id="email"
+                        required
                         value={formData.email}
                         onChange={handleChange}
                         className="w-full rounded-lg border py-2 px-3"
@@ -2128,6 +2131,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         <input
                           type="text"
                           id="phone"
+                          required
                           value={formData.phone}
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
@@ -2143,6 +2147,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         <input
                           type="number"
                           id="age"
+                          required
                           value={formData.age}
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
@@ -2157,6 +2162,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         </label>
                         <select
                           id="gender"
+                          required
                           value={formData.gender}
                           onChange={handleChange}
                           className="border border-gray-300 text-gray-700 rounded-lg p-2 w-full bg-white"
