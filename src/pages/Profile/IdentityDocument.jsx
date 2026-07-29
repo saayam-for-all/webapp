@@ -1,22 +1,21 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import PropTypes from "prop-types";
 
 const IdentityDocument = ({ setHasUnsavedChanges }) => {
   const { t } = useTranslation("identity");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
-  const [source] = useState("device");
+  const [source, setSource] = useState("device");
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
-
+ 
   const handleButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
-
+ 
   const currentIdentityDoc = {
     name: "identity_doc.pdf",
     url: "/mock/passport_mock.pdf",
@@ -87,6 +86,55 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
         : "",
     );
     setHasUnsavedChanges(true);
+  };
+
+  const handleSourceChange = (e) => {
+    const selectedSource = e.target.value;
+    setSource(selectedSource);
+
+    if (selectedSource === "drive") {
+      loadGoogleDrivePicker();
+    } else if (selectedSource === "dropbox") {
+      loadDropboxChooser();
+    }
+  };
+
+  const loadGoogleDrivePicker = () => {
+    window.gapi.load("picker", () => {
+      const picker = new window.google.picker.PickerBuilder()
+        .addView(window.google.picker.ViewId.DOCS)
+        .setOAuthToken("YOUR_GOOGLE_OAUTH_TOKEN")
+        .setDeveloperKey("YOUR_DEVELOPER_KEY")
+        .setCallback((data) => {
+          if (data.action === window.google.picker.Action.PICKED) {
+            const fileId = data.docs[0].id;
+            const fileName = data.docs[0].name;
+            setFile({ id: fileId, name: fileName });
+            setPreview("");
+            setHasUnsavedChanges(true);
+          }
+        })
+        .build();
+      picker.setVisible(true);
+    });
+  };
+
+  const loadDropboxChooser = () => {
+    const options = {
+      success: (files) => {
+        const selectedFile = files[0];
+        setFile({ id: selectedFile.id, name: selectedFile.name });
+        setPreview("");
+        setHasUnsavedChanges(true);
+      },
+      cancel: () => {
+        console.log("Dropbox chooser closed");
+      },
+      linkType: "direct",
+      multiselect: false,
+      extensions: [".jpeg", ".pdf"],
+    };
+    window.Dropbox.choose(options);
   };
 
   const handleRemoveFile = () => {
@@ -173,9 +221,11 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
           id="source"
           className="w-full border border-gray-300 rounded-md p-2"
           value={source}
-          disabled
+          onChange={handleSourceChange}
         >
           <option value="device">{t("DEVICE")}</option>
+          <option value="drive">{t("GOOGLE_DRIVE")}</option>
+          <option value="dropbox">{t("DROPBOX")}</option>
         </select>
       </div>
 
@@ -250,6 +300,9 @@ const IdentityDocument = ({ setHasUnsavedChanges }) => {
     </div>
   );
 };
+
+import PropTypes from "prop-types";
+
 IdentityDocument.propTypes = {
   setHasUnsavedChanges: PropTypes.func.isRequired,
 };
