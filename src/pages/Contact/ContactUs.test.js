@@ -171,15 +171,14 @@ describe("ContactUs", () => {
     // Choose a reason — this triggers handleChange, sets formData.reason,
     // and in turn:
     //   - renders t(selected) in renderValue
-    //   - switches targetHash to CONTACT_REASON_HASHES[reason]
-    //   - switches _subject hidden input to the truthy branch
+
     const listbox = screen.getByRole("listbox");
-    const option = within(listbox).getByText("GENERAL_INQUIRY");
+    const option = within(listbox).getByText("DONATION_GRANT");
     fireEvent.click(option);
+    expect(screen.getAllByText("DONATION_GRANT").length).toBeGreaterThan(0);
 
     // After selection the text may appear in both the trigger and (briefly)
     // the listbox — use getAllByText and just confirm at least one exists
-    expect(screen.getAllByText("GENERAL_INQUIRY").length).toBeGreaterThan(0);
   });
 
   it("shows invalid phone format error when number validation fails", () => {
@@ -316,5 +315,46 @@ describe("ContactUs", () => {
 
     // Verify the "Note:" label is also present
     expect(screen.getByText("NOTE_LABEL")).toBeTruthy();
+  });
+
+  it("submits Donation/Grant as the selected contact reason", async () => {
+    mockExecuteRecaptcha.mockResolvedValue("captcha-token");
+    sendContactEmail.mockResolvedValue({ ok: true });
+
+    render(<ContactUs />);
+
+    fireEvent.change(screen.getByLabelText(/First Name/i), {
+      target: { name: "firstName", value: "John" },
+    });
+    fireEvent.change(screen.getByLabelText(/Last Name/i), {
+      target: { name: "lastName", value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/Email/i), {
+      target: { name: "email", value: "john@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/Message/i), {
+      target: { name: "message", value: "I would like to make a donation" },
+    });
+    fireEvent.change(screen.getByLabelText("Phone Number"), {
+      target: { value: "2025550125" },
+    });
+
+    fireEvent.mouseDown(screen.getByRole("combobox"));
+    const listbox = screen.getByRole("listbox");
+    fireEvent.click(within(listbox).getByText("DONATION_GRANT"));
+
+    submitForm();
+
+    await waitFor(() => {
+      expect(sendContactEmail).toHaveBeenCalledTimes(1);
+    });
+
+    expect(sendContactEmail).toHaveBeenCalledWith(
+      expect.objectContaining({
+        reason: "Donation/Grant",
+      }),
+    );
+
+    expect(mockNavigate).toHaveBeenCalledWith("/thanks");
   });
 });
