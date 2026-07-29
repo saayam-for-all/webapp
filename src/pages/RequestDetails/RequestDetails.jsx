@@ -14,7 +14,6 @@ import HelpingVolunteers from "./HelpingVolunteers";
 import RequestDescription from "./RequestDescription";
 import EmergencyContact from "../EmergencyContact/EmergencyContact";
 import { createOrganizationsPageState } from "../../common/components/BreadCrumbs/breadcrumbUtils";
-import { FiPaperclip } from "react-icons/fi";
 import { FaMicrophone } from "react-icons/fa";
 import StandardButton from "#components/StandardButton/StandardButton";
 
@@ -23,7 +22,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
   Typography,
 } from "@mui/material";
 
@@ -38,7 +36,6 @@ const RequestDetails = () => {
   const navigate = useNavigate();
   const [showEmergency, setShowEmergency] = useState(false);
   const requestId = id || location.state?.id;
-  const [showAttachmentsDialog, setShowAttachmentsDialog] = useState(false);
   const currentUser = useSelector((state) => state.auth.user);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -148,10 +145,6 @@ const RequestDetails = () => {
     organizationsLabel: t("ORGANIZATIONS"),
   });
 
-  const attachmentUrls = Array.isArray(requestData?.attachments)
-    ? requestData.attachments.filter(Boolean)
-    : [];
-
   // Support a few possible audio keys
   const audioUrl =
     requestData?.audioUrl ||
@@ -159,19 +152,6 @@ const RequestDetails = () => {
     requestData?.audio_file_url ||
     requestData?.audioFileUrl ||
     null;
-
-  const fileCount = attachmentUrls.length;
-  const truncateName = (name, max = 45) =>
-    name && name.length > max ? `${name.slice(0, max)}...` : name;
-
-  const fileNameFromUrl = (url) => {
-    try {
-      const last = String(url).split("/").pop() || "attachment";
-      return decodeURIComponent(last.split("?")[0]) || "attachment";
-    } catch {
-      return "attachment";
-    }
-  };
 
   // NEW: handlers (same behavior you had before)
   const handleDeleteRequest = async () => {
@@ -407,82 +387,11 @@ const RequestDetails = () => {
                           </span>
                         </a>
                       )}
-
-                      <div
-                        className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 select-none ${
-                          fileCount > 0
-                            ? "cursor-pointer"
-                            : "opacity-60 cursor-not-allowed"
-                        }`}
-                        onClick={() => {
-                          if (fileCount > 0) setShowAttachmentsDialog(true);
-                        }}
-                        title={
-                          fileCount > 0
-                            ? "View attached files"
-                            : "No files attached"
-                        }
-                      >
-                        <div className="flex items-center justify-center w-9 h-9 rounded-full text-white bg-blue-500">
-                          <FiPaperclip size={18} />
-                        </div>
-                        <span className="text-sm text-gray-700 hover:bg-gray-200 rounded px-1 py-1">
-                          {fileCount > 0
-                            ? `${fileCount} ${fileCount === 1 ? "file attached" : "files attached"}`
-                            : "No files"}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
               )}
             </div>
-
-            <Dialog
-              open={showAttachmentsDialog}
-              onClose={() => setShowAttachmentsDialog(false)}
-              fullWidth
-              maxWidth="sm"
-            >
-              <DialogTitle>Attached Files</DialogTitle>
-              <DialogContent>
-                {attachmentUrls.length === 0 ? (
-                  <Typography variant="body2">No files attached.</Typography>
-                ) : (
-                  <ul className="mt-2">
-                    {attachmentUrls.map((url, i) => (
-                      <li
-                        key={`${url}-${i}`}
-                        className="py-2 flex items-center justify-between gap-3 border-b last:border-b-0"
-                      >
-                        <span
-                          className="text-sm text-gray-800"
-                          title={fileNameFromUrl(url)}
-                        >
-                          {truncateName(fileNameFromUrl(url))}
-                        </span>
-                        <a
-                          href={url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-sm text-blue-600 hover:underline"
-                        >
-                          Download
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  onClick={() => setShowAttachmentsDialog(false)}
-                  variant="contained"
-                >
-                  Close
-                </Button>
-              </DialogActions>
-            </Dialog>
 
             {/* Delete dialog (now outside grey box) */}
             <Dialog
