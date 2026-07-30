@@ -4,7 +4,7 @@
   "GET_MANAGED_REQUESTS": "v1/request/mockRequests",
   "GET_ALL_REQUESTS": "v1/request/help-requests",
   "CHECK_PROFANITY": "v1/request/checkProfanity",
-  "GET_VOLUNTEERS_DATA": "v1/volunteer/getVolunteersData",
+  "GET_VOLUNTEERS_DATA": "0.0.1/volunteers/all",
   "MOCK_GET_VOLUNTEERS": "v1/volunteer/mockGetVolunteers",
   "GET_VOLUNTEER_ORGS_LIST": "v1/volunteerorgs/organizations-list",
   "SEND_CONTACT_EMAIL": "https://iev3dz3jm4.execute-api.us-east-1.amazonaws.com/dev/sendContactEmail",

@@ -303,8 +303,24 @@ const HelpingVolunteers = () => {
                       return;
                     }
                     setMeetingError("");
-                    // TODO: Need to integrate with backend
-                    setMeetingSuccess("TODO: Need to integrate with backend");
+                    setMeetingLoading(true);
+                    try {
+                      const result = await createZoomMeeting({
+                        emails: selectedVolunteers,
+                        date: meetingDate,
+                        time: meetingTime,
+                      });
+                      setMeetingSuccess(
+                        result?.message || "Zoom meeting created successfully!",
+                      );
+                    } catch (err) {
+                      setMeetingError(
+                        err?.response?.data?.message ||
+                          "Failed to create Zoom meeting.",
+                      );
+                    } finally {
+                      setMeetingLoading(false);
+                    }
                   }}
                   disabled={meetingLoading}
                 >
