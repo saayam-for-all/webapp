@@ -59,6 +59,18 @@ describe("LoginPage", () => {
     expect(screen.getByLabelText(/PASSWORD/i)).toBeInTheDocument();
   });
 
+  it("disables browser auto-fill for the login fields", () => {
+    renderLogin();
+    expect(screen.getByLabelText(/EMAIL/i)).toHaveAttribute(
+      "autocomplete",
+      "off",
+    );
+    expect(screen.getByLabelText(/PASSWORD/i)).toHaveAttribute(
+      "autocomplete",
+      "off",
+    );
+  });
+
   it("shows success banner when accountCreated is true in location state", () => {
     mockLocationState = { accountCreated: true };
     renderLogin();

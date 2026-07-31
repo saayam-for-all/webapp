@@ -41,6 +41,11 @@ const LoginPage = () => {
   });
 
   useEffect(() => {
+    setEmailValue("");
+    setPasswordValue("");
+  }, []);
+
+  useEffect(() => {
     if (user) {
       navigate("/dashboard");
     }
@@ -159,10 +164,12 @@ const LoginPage = () => {
           <label htmlFor="email">{t("common:EMAIL")}</label>
           <input
             id="email"
+            name="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder={t("common:EMAIL")}
             type="text"
+            autoComplete="off"
             className="px-4 py-2 border border-gray-300 rounded-xl"
             required={true}
           />
@@ -181,9 +188,11 @@ const LoginPage = () => {
           >
             <input
               id="password"
+              name="password"
               placeholder={t("common:PASSWORD")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
+              autoComplete="off"
               onChange={(e) => setPasswordValue(e.target.value)}
               onFocus={() => setPasswordFocus(true)}
               onBlur={() => setPasswordFocus(false)}
