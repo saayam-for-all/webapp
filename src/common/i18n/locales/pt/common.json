@@ -157,6 +157,7 @@
   "DISPUTE_RESOLUTION_CONTENT": "Em caso de qualquer disputa relacionada a este Acordo, ambas as partes tentarão resolvê-la de boa-fé por meio de negociação. Se uma resolução não for alcançada, mediação ou arbitragem mutuamente acordadas serão buscadas antes de qualquer ação legal.",
   "DOMESTIC_VIOLENCE": "Linha Direta Violência Doméstica",
   "DONATE": "Doar",
+  "DONATION_GRANT": "Doação/Subvenção",
   "DONATE_MONEY": "Saayam para Todos é uma organização sem fins lucrativos, com status 501(c)(3). Todas as doações feitas a esta organização são dedutíveis de impostos. Você pode usar este <1 className=\"text-blue-500 underline\" target=\"_blank\" to=\"https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S\">link do PayPal</1> para doar dinheiro.",
   "DONATE_VIA_PAYPAL": "Doar via PayPal",
   "DONATION_ACHIEVEMENT_1": "Apoiar nossa rede global de voluntários e organizações",

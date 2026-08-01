@@ -156,6 +156,7 @@
   "DISPUTE_RESOLUTION_CONTENT": "Im Falle von Streitigkeiten im Zusammenhang mit dieser Vereinbarung werden beide Parteien versuchen, diese in gutem Glauben durch Verhandlungen beizulegen. Sollte dies nicht möglich sein, wird vor rechtlichen Schritten auf einvernehmliche Schlichtung oder Schiedsverfahren zurückgegriffen.",
   "DOMESTIC_VIOLENCE": "Hilfetelefon bei häuslicher Gewalt",
   "DONATE": "Spenden",
+  "DONATION_GRANT": "Spende/Fördermittel",
   "DONATE_MONEY": "Saayam For All ist eine gemeinnützige Organisation mit dem Status 501(c)(3). Alle Spenden an diese Organisation sind steuerlich absetzbar. Um zu spenden, nutzen Sie diesen <1 className=\"text-blue-500 underline\" target=\"_blank\" to=\"https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S\">PayPal-Link</1>.",
   "DONATE_VIA_PAYPAL": "Spenden Sie über PayPal",
   "DONATION_ACHIEVEMENT_1": "Unterstützen Sie unser globales Netzwerk von Freiwilligen und Organisationen",

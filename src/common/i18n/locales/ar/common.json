@@ -156,6 +156,7 @@
   "DISPUTE_RESOLUTION_CONTENT": "في حالة نشوء أي نزاعات ناشئة عن أو تتعلق بهذه الاتفاقية، توافق الأطراف على محاولة حل الأمر من خلال مفاوضات حسنة النية. إذا لم يتم التوصل إلى حل، توافق الأطراف على تقديم طلب للوساطة أو التحكيم، حسب الاتفاق المتبادل، قبل متابعة أي إجراء قانوني.",
   "DOMESTIC_VIOLENCE": "الخط الساخن للعنف الأسري",
   "DONATE": "تبرع",
+  "DONATION_GRANT": "تبرع/منحة",
   "DONATE_MONEY": "Saayam For All منظمة غير ربحية معتمدة 501(c)(3). جميع التبرعات لهذه المنظمة معفاة من الضرائب. يمكنك استخدام <1 className=\"text-blue-500 underline\" target=\"_blank\" to=\"https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S\">رابط PayPal هذا</1> للتبرع بالمال.",
   "DONATE_VIA_PAYPAL": "تبرع عبر PayPal",
   "DONATION_ACHIEVEMENT_1": "دعم شبكتنا العالمية من المتطوعين والمنظمات",

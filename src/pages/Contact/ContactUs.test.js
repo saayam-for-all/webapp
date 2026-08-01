@@ -351,7 +351,7 @@ describe("ContactUs", () => {
 
     expect(sendContactEmail).toHaveBeenCalledWith(
       expect.objectContaining({
-        reason: "Donation/Grant",
+        reason: "Donation",
       }),
     );
 
