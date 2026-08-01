@@ -37,7 +37,7 @@ const REASON_MAP = {
   OFFER_RELIEVING_LETTER: "Letters",
   COLLABORATION_PARTNERSHIP: "Collaboration",
   GENERAL_INQUIRY: "General",
-  DONATION_GRANT: "Donation/Grant",
+  DONATION_GRANT: "Donation",
 };
 
 const ContactUs = () => {

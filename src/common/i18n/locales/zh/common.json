@@ -133,6 +133,7 @@
   "DISPUTE_RESOLUTION": "争议解决",
   "DISPUTE_RESOLUTION_CONTENT": "如果发生与本协议相关的任何争议，双方将尝试通过真诚协商解决。如果未能解决，则在采取法律行动之前，双方将通过相互同意的方式进行调解或仲裁。",
   "DONATE": "捐赠",
+  "DONATION_GRANT": "捐赠/资助",
   "DONATE_MONEY": "赛亚姆为大家 是一个非营利组织，拥有501(c)(3)身份。向该组织提供的所有捐款均可免税。您可以使用此<1 className=\"text-blue-500 underline\" target=\"_blank\" to=\"https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S\">PayPal链接</1>捐款。",
   "DONATE_VIA_PAYPAL": "Donate via PayPal",
   "DONATION_ACHIEVEMENT_1": "Support our global network of volunteers and organizations",

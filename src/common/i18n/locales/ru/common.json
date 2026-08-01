@@ -133,6 +133,7 @@
   "DISPUTE_RESOLUTION": "Разрешение споров",
   "DISPUTE_RESOLUTION_CONTENT": "В случае любых споров, возникающих из или связанных с этим Соглашением, стороны соглашаются попытаться разрешить вопрос через переговоры добросовестно. Если разрешение не может быть достигнуто, стороны соглашаются подчиниться медиации или арбитражу, как взаимно согласовано, перед продолжением любых правовых действий.",
   "DONATE": "Пожертвовать",
+  "DONATION_GRANT": "Пожертвование/Грант",
   "DONATE_MONEY": "Saayam For All — некоммерческая организация со статусом 501(c)(3). Все пожертвования этой организации подлежат налоговому вычету. Вы можете использовать эту <1 className=\"text-blue-500 underline\" target=\"_blank\" to=\"https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S\">ссылку PayPal</1> для пожертвования денег.",
   "DONATE_VIA_PAYPAL": "Donate via PayPal",
   "DONATION_ACHIEVEMENT_1": "Support our global network of volunteers and organizations",
