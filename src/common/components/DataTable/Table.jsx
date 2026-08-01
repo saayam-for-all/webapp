@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import Pagination from "../Pagination/Pagination";
 
+const requestEnumNamespaceMap = {
+  status: "requestStatus",
+  priority: "requestPriority",
+};
+
 const Table = ({
   headers,
   rows,
@@ -23,7 +28,7 @@ const Table = ({
   onRowSelect,
   onSelectAll,
 }) => {
-  const { t, i18n } = useTranslation(["common", "categories"]);
+  const { t, i18n } = useTranslation(["common", "categories", "enums"]);
 
   const paginatedRequests = useMemo(() => {
     if (serverPaginated) {
@@ -127,10 +132,28 @@ const Table = ({
     ];
   };
 
+  const getRequestEnumLabel = (header, value) => {
+    const enumNamespace = requestEnumNamespaceMap[header];
+    if (value === null || value === undefined || value === "") {
+      return value;
+    }
+
+    const lookupValue = String(value).trim().toUpperCase().replace(/\s+/g, "_");
+    if (!lookupValue) return value;
+
+    return t(`enums:${enumNamespace}.${lookupValue}`, {
+      defaultValue: value,
+    });
+  };
+
   const getCellValue = (row, header) => {
     if (header === "requestId") return row[resolveKey(header)];
     if (header === "category") return getCategoryLabel(row[resolveKey(header)]);
-    const value = formatDateTime(row[resolveKey(header)], header);
+    const rawValue = row[resolveKey(header)];
+    if (requestEnumNamespaceMap[header]) {
+      return getRequestEnumLabel(header, rawValue);
+    }
+    const value = formatDateTime(rawValue, header);
     if (
       ["beneficiaryCreatorDisplayId", "leadVolunteerDisplayId"].includes(
         header,
@@ -269,7 +292,11 @@ const Table = ({
                           <Link
                             to={path}
                             className="text-indigo-600 hover:text-indigo-900"
-                            state={getLinkState ? getLinkState(row) : undefined}
+                            state={
+                              getLinkState
+                                ? getLinkState(row, header)
+                                : undefined
+                            }
                           >
                             {cellContent}
                           </Link>

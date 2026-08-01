@@ -210,6 +210,7 @@ export const logout = () => async (dispatch) => {
   try {
     returnDefaultLanguage();
     await signOut();
+    localStorage.removeItem("expireTime");
     localStorage.removeItem("userDbId");
     dispatch(logoutSuccess());
   } catch (error) {

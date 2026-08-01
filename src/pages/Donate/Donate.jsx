@@ -6,6 +6,7 @@ import CharityNavLogo from "../../assets/donate_buttons/CharityNav_Logo_Stack.pn
 import PayPalLogo from "../../assets/donate_buttons/PayPal.svg";
 import StripeLogo from "../../assets/donate_buttons/Stripe_Logo.png";
 import donateImg from "../../assets/donate_img_bg.webp";
+import { JoinCTA } from "../About Us/OurMission/JoinCTA";
 import "./Donate.css";
 
 const Donate = () => {
@@ -234,6 +235,7 @@ const Donate = () => {
           ))}
         </div>
       </div>
+      <JoinCTA />
     </div>
   );
 };

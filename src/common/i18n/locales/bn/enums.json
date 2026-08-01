@@ -11,7 +11,7 @@
   },
   "requestStatus": {
     "CREATED": "তৈরি হয়েছে",
-    "MATCHING_VOLUNTEER": "স্বেচ্ছাসেবক খোঁজা হচ্ছে",
+    "MATCHING_VOLUNTEER": "স্বেচ্ছাসেবক খোঁজ",
     "MANAGED": "পরিচালিত",
     "RESOLVED": "সমাধান হয়েছে",
     "CANCELLED": "বাতিল করা হয়েছে",

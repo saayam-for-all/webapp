@@ -116,9 +116,17 @@ jest.mock("./views/AdminDashboard", () => (props) => {
 jest.mock("./views/StewardDashboard", () => () => (
   <div data-testid="steward-dashboard" />
 ));
-jest.mock("./views/SuperAdminDashboard", () => () => (
-  <div data-testid="super-admin-dashboard" />
-));
+let lastSuperAdminDashboardProps = null;
+jest.mock("./views/SuperAdminDashboard", () => (props) => {
+  lastSuperAdminDashboardProps = props;
+  return (
+    <div data-testid="super-admin-dashboard">
+      <button onClick={() => props.handleTabChange("myRequests")}>
+        Click Super Admin All Requests
+      </button>
+    </div>
+  );
+});
 jest.mock("./components/Analytics/ApplicationAnalytics", () => () => null);
 jest.mock("./components/Analytics/BeneficiariesAnalytics", () => () => null);
 jest.mock("./components/Analytics/GoogleAnalytics", () => () => null);
@@ -487,6 +495,128 @@ describe("Dashboard", () => {
         leadVolunteerDisplayId: null,
       });
     });
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+  });
+
+  it("links requestId to the request page and creator/lead volunteer IDs to the profile page for Admin", async () => {
+    const {
+      getAllPaginatedRequests,
+    } = require("../../services/requestServices");
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: {
+        content: [
+          {
+            requestId: "REQ-SELF",
+            requesterId: "SID-SELF",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: 0,
+            reqIsleadId: 1,
+          },
+          {
+            requestId: "REQ-OTHER",
+            requesterId: "SID-CREATOR",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: 1,
+            reqIsleadId: 0,
+          },
+        ],
+        totalPages: 1,
+        totalElements: 2,
+      },
+    });
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: adminAuthState,
+    });
+
+    fireEvent.click(getByText("Click All Requests"));
+
+    await waitFor(() =>
+      expect(lastAdminDashboardProps?.filteredData?.length).toBe(2),
+    );
+
+    const selfRequest = lastAdminDashboardProps.filteredData.find(
+      (row) => row.requestId === "REQ-SELF",
+    );
+    const otherRequest = lastAdminDashboardProps.filteredData.find(
+      (row) => row.requestId === "REQ-OTHER",
+    );
+    const { getLinkPath, getLinkState } = lastAdminDashboardProps;
+
+    expect(getLinkPath(selfRequest, "requestId")).toBe("/request/REQ-SELF");
+    expect(getLinkPath(selfRequest, "beneficiaryCreatorDisplayId")).toBe(
+      "/profile",
+    );
+    expect(getLinkPath(selfRequest, "leadVolunteerDisplayId")).toBe("/profile");
+    expect(getLinkPath(otherRequest, "leadVolunteerDisplayId")).toBeNull();
+    expect(getLinkPath(selfRequest, "category")).toBeNull();
+
+    expect(getLinkState(selfRequest, "requestId")).toBe(selfRequest);
+    expect(getLinkState(selfRequest, "beneficiaryCreatorDisplayId")).toEqual({
+      tab: "profile",
+    });
+    expect(getLinkState(selfRequest, "leadVolunteerDisplayId")).toEqual({
+      tab: "profile",
+    });
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+  });
+
+  it("links requestId to the request page and creator/lead volunteer IDs to the profile page for Super Admin", async () => {
+    const {
+      getAllPaginatedRequests,
+    } = require("../../services/requestServices");
+
+    getAllPaginatedRequests.mockResolvedValue({
+      data: {
+        content: [
+          {
+            requestId: "REQ-SELF",
+            requesterId: "SID-SELF",
+            requestCategory: "GENERAL_CATEGORY",
+            reqForId: 0,
+            reqIsleadId: 1,
+          },
+        ],
+        totalPages: 1,
+        totalElements: 1,
+      },
+    });
+
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    fireEvent.click(getByText("Click Super Admin All Requests"));
+
+    await waitFor(() =>
+      expect(lastSuperAdminDashboardProps?.filteredData?.length).toBe(1),
+    );
+
+    const selfRequest = lastSuperAdminDashboardProps.filteredData.find(
+      (row) => row.requestId === "REQ-SELF",
+    );
+    const { getLinkPath, getLinkState } = lastSuperAdminDashboardProps;
+
+    expect(getLinkPath(selfRequest, "requestId")).toBe("/request/REQ-SELF");
+    expect(getLinkPath(selfRequest, "beneficiaryCreatorDisplayId")).toBe(
+      "/profile",
+    );
+    expect(getLinkPath(selfRequest, "leadVolunteerDisplayId")).toBe("/profile");
+    expect(getLinkPath(selfRequest, "category")).toBeNull();
+    expect(getLinkState(selfRequest, "beneficiaryCreatorDisplayId")).toEqual({
+      tab: "profile",
+    });
+    expect(getLinkState(selfRequest, "leadVolunteerDisplayId")).toEqual({
+      tab: "profile",
+    });
+    expect(getLinkState(selfRequest, "requestId")).toBe(selfRequest);
 
     getAllPaginatedRequests.mockResolvedValue({
       data: { content: [], totalPages: 1, totalElements: 0 },
