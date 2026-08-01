@@ -185,6 +185,7 @@
   "EMAIL COMMUNICATION PREFERENCE": "تفضيل التواصل عبر البريد الإلكتروني",
   "EMAIL_CALL_COMPLETE_FORM": "البريد الإلكتروني أو الاتصال أو إكمال النموذج",
   "EMAIL_REQUIRED": "يرجى إدخال بريدك الإلكتروني",
+  "EMAIL_SENT_SUCCESSFULLY": "تم إرسال البريد الإلكتروني بنجاح. العودة",
   "EMERGENCY_CONTACT": "جهات الاتصال في حالات الطوارئ",
   "EMERGENCY_CONTACTS": "جهات الاتصال في حالات الطوارئ",
   "EMERGENCY_MGMT": "مكتب إدارة الطوارئ",

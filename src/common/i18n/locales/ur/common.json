@@ -239,6 +239,7 @@
   "EMAIL COMMUNICATION PREFERENCE": "ای میل مواصلات کی ترجیح",
   "PHONE COMMUNICATION PREFERENCE": "فون مواصلات کی ترجیح",
   "EMAIL_REQUIRED": "براہ کرم اپنا ای میل درج کریں",
+  "EMAIL_SENT_SUCCESSFULLY": "ای میل کامیابی سے بھیج دی گئی۔ واپس جائیں",
   "PASSWORD_REQUIRED": "براہ کرم اپنا پاس ورڈ درج کریں",
   "INVALID_CREDENTIALS": "غلط ای میل یا پاس ورڈ",
   "TOS_AGREEMENT": "اس باکس کو چیک کرکے، آپ اس سے اتفاق کر رہے ہیں",
