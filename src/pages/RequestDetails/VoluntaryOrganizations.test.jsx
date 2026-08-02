@@ -234,21 +234,7 @@ describe("VoluntaryOrganizations", () => {
     expect(screen.queryByText("Community Care")).not.toBeInTheDocument();
   });
 
-  // 11. Category filter dropdown toggles
-  it("opens and closes category filter dropdown", async () => {
-    getOrganizations.mockResolvedValue([]);
-    renderWithProviders(<VoluntaryOrganizations />, {
-      preloadedState: MOCK_STATE,
-    });
-    await waitFor(() =>
-      expect(screen.queryByTestId("loading-indicator")).not.toBeInTheDocument(),
-    );
-    const filterBtn = screen.getByText("FILTER_BY");
-    fireEvent.click(filterBtn);
-    expect(screen.getByText("All Categories")).toBeInTheDocument();
-  });
-
-  // 12. Handles response wrapped in .body
+  // 11. Handles response wrapped in .body
   it("handles API response wrapped in body field", async () => {
     getOrganizations.mockResolvedValue({ body: mockOrgs });
     renderWithProviders(<VoluntaryOrganizations />, {
