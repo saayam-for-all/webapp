@@ -12,6 +12,34 @@ import { Howl } from "howler";
 import { uploadAudioAndTranscribe } from "../../services/audioServices";
 
 const DEFAULT_MAX_RECORDING_SECONDS = 60;
+const SILENCE_RMS_THRESHOLD = 0.01;
+
+/**
+ * Analyze audio blob to detect if it contains mostly silence.
+ * Uses Web Audio API to decode the audio and compute RMS energy.
+ * @param {Blob} audioBlob - recorded audio blob
+ * @returns {Promise<boolean>} - true if the audio is silent (no speech detected)
+ */
+const isSilentAudio = async (audioBlob) => {
+  try {
+    const audioContext = new (window.AudioContext ||
+      window.webkitAudioContext)();
+    const arrayBuffer = await audioBlob.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    const channelData = audioBuffer.getChannelData(0);
+
+    let sumSquares = 0;
+    for (let i = 0; i < channelData.length; i++) {
+      sumSquares += channelData[i] * channelData[i];
+    }
+    const rms = Math.sqrt(sumSquares / channelData.length);
+
+    audioContext.close();
+    return rms < SILENCE_RMS_THRESHOLD;
+  } catch {
+    return false;
+  }
+};
 
 const VoiceRecordingComponent = ({
   onTranscriptionUpdate,
@@ -174,6 +202,16 @@ const VoiceRecordingComponent = ({
         setIsProcessing(true);
 
         try {
+          const silent = await isSilentAudio(nextBlob);
+          if (silent) {
+            setError(
+              "No speech detected. Please try again and speak into your microphone while recording.",
+            );
+            setTranscriptionError(true);
+            setIsProcessing(false);
+            return;
+          }
+
           const localAudioUrl = URL.createObjectURL(nextBlob);
           setAudioUrl(localAudioUrl);
           audioUrlRef.current = localAudioUrl;
