@@ -39,7 +39,7 @@ const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
 
     return {
       value: timezoneValue,
-      label: `${timezoneValue} ${utcOffset ? `(${utcOffset})` : ""} ${userFriendlyName ? `(${userFriendlyName})` : ""}`,
+      label: userFriendlyName || timezoneValue,
       displayOffset: utcOffset,
       userFriendlyName: userFriendlyName,
     };
