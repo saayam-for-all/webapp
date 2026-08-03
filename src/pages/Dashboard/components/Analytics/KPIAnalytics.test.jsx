@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  fireEvent,
+  act,
+} from "@testing-library/react";
 import KPIAnalytics, { renderTooltip } from "./KPIAnalytics";
 import * as analyticsServices from "../../../../services/analyticsServices";
 
@@ -333,15 +339,112 @@ describe("KPIAnalytics", () => {
       ).not.toBeInTheDocument();
     });
 
-    it("keeps the Custom button disabled", async () => {
+    it("shows date pickers and an Apply button when Custom is selected", async () => {
       analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
       render(<KPIAnalytics />);
       await waitFor(() => {
         expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
       });
       switchViewMode("trends");
-      const customButton = screen.getByRole("button", { name: "Custom" });
-      expect(customButton).toBeDisabled();
+      fireEvent.click(screen.getByRole("button", { name: "Custom" }));
+
+      expect(screen.getByText("From")).toBeInTheDocument();
+      expect(screen.getByText("To")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Apply" })).toBeInTheDocument();
+    });
+
+    it("disables Apply until both dates are chosen", async () => {
+      analyticsServices.getKpiAnalytics.mockResolvedValue(mockData);
+      render(<KPIAnalytics />);
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
+      });
+      switchViewMode("trends");
+      fireEvent.click(screen.getByRole("button", { name: "Custom" }));
+
+      const applyButton = screen.getByRole("button", { name: "Apply" });
+      expect(applyButton).toBeDisabled();
+
+      const [fromInput, toInput] = screen.getAllByDisplayValue("");
+      fireEvent.change(fromInput, { target: { value: "2026-01-01" } });
+      expect(applyButton).toBeDisabled();
+
+      fireEvent.change(toInput, { target: { value: "2026-01-15" } });
+      expect(applyButton).not.toBeDisabled();
+    });
+
+    it("fetches and renders the custom range chart when Apply is clicked", async () => {
+      const customResponse = {
+        body: {
+          request_status_distribution: [],
+          total_requests: [
+            { period: "2026-01-05", total_requests: 1 },
+            { period: "2026-01-08", total_requests: 5 },
+          ],
+          average_resolution_time_by_category: [],
+        },
+      };
+      analyticsServices.getKpiAnalytics
+        .mockResolvedValueOnce(mockData)
+        .mockResolvedValueOnce(customResponse);
+
+      render(<KPIAnalytics />);
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
+      });
+      switchViewMode("trends");
+      fireEvent.click(screen.getByRole("button", { name: "Custom" }));
+
+      const [fromInput, toInput] = screen.getAllByDisplayValue("");
+      fireEvent.change(fromInput, { target: { value: "2026-01-01" } });
+      fireEvent.change(toInput, { target: { value: "2026-01-15" } });
+
+      await act(async () => {
+        fireEvent.click(screen.getByRole("button", { name: "Apply" }));
+      });
+
+      await waitFor(() => {
+        expect(analyticsServices.getKpiAnalytics).toHaveBeenCalledWith({
+          time_range: "Custom",
+          start_date: "2026-01-01",
+          end_date: "2026-01-15",
+        });
+      });
+
+      await waitFor(() => {
+        expect(
+          screen.queryByText("No trend data available for Custom"),
+        ).not.toBeInTheDocument();
+      });
+    });
+
+    it("shows an error message when the custom range fetch fails", async () => {
+      analyticsServices.getKpiAnalytics
+        .mockResolvedValueOnce(mockData)
+        .mockRejectedValueOnce(new Error("Network Error"));
+
+      render(<KPIAnalytics />);
+      await waitFor(() => {
+        expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
+      });
+      switchViewMode("trends");
+      fireEvent.click(screen.getByRole("button", { name: "Custom" }));
+
+      const [fromInput, toInput] = screen.getAllByDisplayValue("");
+      fireEvent.change(fromInput, { target: { value: "2026-01-01" } });
+      fireEvent.change(toInput, { target: { value: "2026-01-15" } });
+
+      await act(async () => {
+        fireEvent.click(screen.getByRole("button", { name: "Apply" }));
+      });
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            "Failed to load custom range data. Please try again.",
+          ),
+        ).toBeInTheDocument();
+      });
     });
   });
 });

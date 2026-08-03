@@ -61,6 +61,11 @@ export const renderTooltip =
 const KPIAnalytics = () => {
   const [viewMode, setViewMode] = useState("snapshot"); // snapshot | table | trends
   const [timeRange, setTimeRange] = useState("All"); // 7D | 30D | 1Y | All | Custom
+  const [customStartDate, setCustomStartDate] = useState("");
+  const [customEndDate, setCustomEndDate] = useState("");
+  const [customData, setCustomData] = useState(null);
+  const [customLoading, setCustomLoading] = useState(false);
+  const [customError, setCustomError] = useState(null);
   const [selectedSegment, setSelectedSegment] = useState(null);
   const [breakdownView, setBreakdownView] = useState("category"); // category or region
   const [kpiData, setKpiData] = useState(null);
@@ -81,6 +86,28 @@ const KPIAnalytics = () => {
     };
     fetchData();
   }, []);
+
+  // Fetches Custom-range trend data on demand (Apply button), since
+  // the Custom response is a flat object (not nested under a range
+  // key like 7D/30D/1Y/All), so it's kept in its own state.
+  const fetchCustomTrend = async () => {
+    if (!customStartDate || !customEndDate) return;
+    try {
+      setCustomLoading(true);
+      setCustomError(null);
+      const data = await getKpiAnalytics({
+        time_range: "Custom",
+        start_date: customStartDate,
+        end_date: customEndDate,
+      });
+      setCustomData(data);
+    } catch (err) {
+      setCustomError("Failed to load custom range data. Please try again.");
+    } finally {
+      setCustomLoading(false);
+    }
+  };
+
   const SLA_TARGET = kpiData?.sla?.target_hours ?? 240;
   const SLA_WARNING = kpiData?.sla?.warning_hours ?? 200;
 
@@ -112,14 +139,18 @@ const KPIAnalytics = () => {
   const totalRequests = snapshotData?.total_requests ?? 0;
 
   // Trends view reads the selected range's total_requests time series.
-  // NOTE: Custom is intentionally excluded for now - backend is still
-  // finalizing the date-range granularity for Custom.
+  // Custom uses its own separately-fetched, flat-shaped response
+  // (see fetchCustomTrend above) instead of kpiData.body[timeRange].
   const trendData = useMemo(() => {
-    if (timeRange === "Custom") return [];
+    if (timeRange === "Custom") {
+      const series = customData?.body?.total_requests;
+      if (!Array.isArray(series)) return [];
+      return [...series].sort((a, b) => (a.period > b.period ? 1 : -1));
+    }
     const series = kpiData?.body?.[timeRange]?.total_requests;
     if (!Array.isArray(series)) return [];
     return [...series].sort((a, b) => (a.period > b.period ? 1 : -1));
-  }, [kpiData, timeRange]);
+  }, [kpiData, timeRange, customData]);
 
   // Handle segment click
   const handleSegmentClick = (data) => {
@@ -227,12 +258,49 @@ const KPIAnalytics = () => {
               ))}
               <button
                 type="button"
-                disabled
-                title="Custom range coming soon"
-                className="px-3 py-1 text-xs rounded bg-gray-50 text-gray-400 cursor-not-allowed"
+                onClick={() => setTimeRange("Custom")}
+                className={`px-3 py-1 text-xs rounded ${
+                  timeRange === "Custom"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
               >
                 Custom
               </button>
+            </div>
+          )}
+
+          {viewMode === "trends" && timeRange === "Custom" && (
+            <div className="flex gap-2 items-center flex-wrap mt-2 w-full">
+              <label className="text-xs text-gray-600">
+                From
+                <input
+                  type="date"
+                  value={customStartDate}
+                  onChange={(e) => setCustomStartDate(e.target.value)}
+                  className="ml-1 px-2 py-0.5 text-xs border border-gray-300 rounded"
+                />
+              </label>
+              <label className="text-xs text-gray-600">
+                To
+                <input
+                  type="date"
+                  value={customEndDate}
+                  onChange={(e) => setCustomEndDate(e.target.value)}
+                  className="ml-1 px-2 py-0.5 text-xs border border-gray-300 rounded"
+                />
+              </label>
+              <button
+                type="button"
+                onClick={fetchCustomTrend}
+                disabled={!customStartDate || !customEndDate || customLoading}
+                className="px-3 py-1 text-xs rounded bg-blue-600 text-white disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                {customLoading ? "Loading..." : "Apply"}
+              </button>
+              {customError && (
+                <span className="text-xs text-red-600">{customError}</span>
+              )}
             </div>
           )}
 
