@@ -38,6 +38,7 @@ import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImag
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
+import { GET_NOTIFICATIONS } from "../../../services/requestServices";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -226,45 +227,10 @@ const Navbar = () => {
     }
     const fetchNotifications = async () => {
       try {
-        // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
-        // const rawNotifications = response.data.notifications || [];
-        const rawNotifications = [
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "You have new Volunteer match request in Logistics",
-            date: "Mar 15, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Hospital",
-            date: "Jun 15, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "LOGISTIC_HELP",
-            title: "Logistic Help",
-            message: "Logistics",
-            date: "Nov 15, 2023, 10:30 AM",
-          },
-          {
-            type: "helpRequest",
-            titleKey: "EDUCATIONAL_HELP",
-            title: "Educational Help",
-            message: "Need help with Logistics",
-            date: "Dec 16, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Education",
-            date: "Jan 15, 2023, 10:30 AM",
-          },
-        ];
+        // Call the real notifications API (mock endpoint for now,
+        // swap to the live API once it is ready).
+        const response = await GET_NOTIFICATIONS();
+        const rawNotifications = response?.notifications || [];
 
         // ✅ Add unique ID using crypto.randomUUID()
         const notificationsWithIds = rawNotifications.map((note) => ({
@@ -299,7 +265,7 @@ const Navbar = () => {
 
     fetchNotifications(); // Comment it after call ing the funciton below
 
-    const interval = setInterval(fetchNotifications, 2 * 60 * 1000); // fetch every 2 min
+    const interval = setInterval(fetchNotifications, 5 * 60 * 1000); // fetch every 5 min
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);
