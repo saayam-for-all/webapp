@@ -556,8 +556,6 @@ export const generateHelloAudio = async () => {
  * @returns {Promise<Object>} - Returns transcription text and requestId
  */
 export const uploadAudioAndTranscribe = async (audioBlob) => {
-  const base64Audio = await blobToBase64(audioBlob);
-  const response = await speechDetectV2(base64Audio);
   try {
     // Convert WEBM/Opus audio blob to base64 string (no format conversion needed)
     const base64Audio = await blobToBase64(audioBlob);
