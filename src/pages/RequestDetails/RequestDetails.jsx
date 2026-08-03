@@ -455,14 +455,12 @@ const RequestDetails = () => {
                 />
 
                 <StandardButton
-                  text={t("DELETE_ACTION")}
+                  text={isDeleting ? "Deleting..." : t("DELETE_ACTION")}
                   onClick={handleDeleteRequest}
                   color="error"
                   variant="contained"
                   disabled={!deleteReason.trim() || isDeleting}
-                >
-                  {isDeleting ? "Deleting..." : t("DELETE")}
-                </Button>
+                />
               </DialogActions>
             </Dialog>
             {/* Change volunteer dialog (now outside grey box) */}
