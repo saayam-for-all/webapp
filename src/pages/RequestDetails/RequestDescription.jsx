@@ -31,7 +31,9 @@ const findCategoryLabel = (node, targetKey) => {
   return null;
 };
 
-const RequestDescription = ({ requestData }) => {
+import AdditionalFieldsDisplay from "./AdditionalFieldsDisplay";
+
+const RequestDescription = ({ requestData, requestId, requesterId }) => {
   const { t, i18n } = useTranslation();
   const normalizedPriority = String(requestData?.priority || "")
     .trim()
@@ -150,28 +152,11 @@ const RequestDescription = ({ requestData }) => {
           <h3 className="text-sm font-semibold text-gray-700 mb-2">
             {t("ADDITIONAL_INFO")}
           </h3>
-          {requestData.additionalInfo &&
-          Object.keys(requestData.additionalInfo).length > 0 ? (
-            <div className="space-y-1 mb-4">
-              {Object.entries(requestData.additionalInfo).map(
-                ([key, value]) => (
-                  <div
-                    key={key}
-                    className="flex justify-between items-center text-sm py-1 border-b border-gray-100"
-                  >
-                    <span className="text-gray-500 capitalize">
-                      {key.replace(/_/g, " ")}
-                    </span>
-                    <span className="text-gray-800">{String(value)}</span>
-                  </div>
-                ),
-              )}
-            </div>
-          ) : (
-            <p className="text-xs text-gray-400 italic mb-4">
-              No additional information available.
-            </p>
-          )}
+          <AdditionalFieldsDisplay
+            requestId={requestId}
+            requesterId={requesterId}
+            category={requestData?.category}
+          />
 
           <h3 className="text-sm font-semibold text-gray-700 mb-2">
             {t("ATTACHED_FILES")}
