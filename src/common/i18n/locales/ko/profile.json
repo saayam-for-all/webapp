@@ -90,6 +90,7 @@
   "TIMEZONE": "시간대",
   "USE_CURRENT_TIMEZONE": "현재 시간대 사용",
   "RECEIVE EMERGENCY NOTIFICATIONS": "긴급 알림 받기",
+  "DONOR": "기증자",
   "PREFERENCES UPDATED SUCCESS": "환경설정이 성공적으로 업데이트되었습니다!",
 
   "ACCOUNT_DELETION_WARNING_TITLE": "계정 삭제",

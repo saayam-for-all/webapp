@@ -489,6 +489,7 @@
   "READ_MORE": "Read More <1 className=\"text-blue-500 underline\" to={\"how-we-operate\"}>How we Operate</1>!",
   "REAL_HELP_REAL_PEOPLE": "Real Help Real People",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Receive Emergency Notifications",
+  "DONOR": "Donor",
   "RECEIVE_ASSISTANCE": "Receive Assistance",
   "RECEIVE_HELP_REQUESTS": "Receive Help Requests",
   "REFRESH_PAGE": "Refresh Page",
