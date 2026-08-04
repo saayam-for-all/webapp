@@ -390,6 +390,12 @@ const RequestDetails = () => {
                   <RequestDescription
                     requestData={requestData}
                     setIsEditing={setIsEditing}
+                    requestId={requestData?.id || requestId}
+                    requesterId={
+                      isMyRequest
+                        ? userDbId
+                        : requestData?.requesterId || userDbId
+                    }
                   />
                 )}
               </div>
