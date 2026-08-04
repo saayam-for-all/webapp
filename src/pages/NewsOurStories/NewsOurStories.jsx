@@ -13,8 +13,9 @@ import withMadhusudhanSai from "../../assets/news_our_stories/MadhusudhanSai.web
 import withMuralidharan from "../../assets/news_our_stories/Muralidharan.webp";
 import withVishalSikka from "../../assets/news_our_stories/VishalSikka.webp";
 import withJimmyPanettaandDomingoCandelas from "../../assets/news_our_stories/Jimmy Panetta and Domingo Candelas.webp";
-import withRameshMaturu from "../../assets/news_our_stories/RameshMaturu.webp";
 import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuAndRamanaYerneni.webp";
+import withRajaKandRaoC from "../../assets/news_our_stories/withRajaKandRaoC_SiliconAndhra.webp";
+import walmartSparkGood from "../../assets/news_our_stories/walmart_spark_good.webp";
 
 /**
  * Renders a title string but hyperlinks specific words/names inside it.
@@ -53,23 +54,27 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
 
 const stories = [
   {
-    date: "02/09/2026",
+    date: "08/04/2026",
     title: "STORY_1_TITLE",
-    image: withRameshMaturu,
+    image: withRajaKandRaoC,
     description: "STORY_1_DESC",
     titleLinks: {
-      "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
-      "Pyramid Consulting": "https://www.pyramidci.com/",
+      "Raja Krishnamoorthi":
+        "https://en.wikipedia.org/wiki/Raja_Krishnamoorthi",
+      "Rao Charagondla": "https://www.linkedin.com/in/charagondla/",
     },
-    // ✅ Read more ONLY for this card (replace with exact article URL if needed)
-    readMoreLink:
-      "https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/",
+  },
+  {
+    date: "08/04/2026",
+    title: "STORY_2_TITLE",
+    image: walmartSparkGood,
+    description: "STORY_2_DESC",
   },
   {
     date: "05/02/2025",
-    title: "STORY_2_TITLE",
+    title: "STORY_3_TITLE",
     image: withJensen,
-    description: "STORY_2_DESC",
+    description: "STORY_3_DESC",
     titleLinks: {
       "Jensen Huang": "https://www.linkedin.com/in/jenhsunhuang/",
       NVIDIA: "https://www.nvidia.com/",
@@ -77,9 +82,9 @@ const stories = [
   },
   {
     date: "05/02/2025",
-    title: "STORY_3_TITLE",
+    title: "STORY_4_TITLE",
     image: withVishalSikka,
-    description: "STORY_3_DESC",
+    description: "STORY_4_DESC",
     titleLinks: {
       "Vishal Sikka": "https://www.linkedin.com/in/vishal-sikka-869a6b2/",
       "Vianai Systems": "https://www.vian.ai/",
@@ -87,9 +92,9 @@ const stories = [
   },
   {
     date: "02/09/2026",
-    title: "STORY_4_TITLE",
+    title: "STORY_5_TITLE",
     image: leisuewithproductivity,
-    description: "STORY_4_DESC",
+    description: "STORY_5_DESC",
     titleLinks: {
       "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
       "Ramana Yerneni": "https://www.linkedin.com/in/ramanayerneni/",
@@ -98,18 +103,18 @@ const stories = [
   },
   {
     date: "05/02/2025",
-    title: "STORY_5_TITLE",
+    title: "STORY_6_TITLE",
     image: seventeenMileWalk,
-    description: "STORY_5_DESC",
+    description: "STORY_6_DESC",
     titleLinks: {
       "Sateesh Mucharla": "https://www.linkedin.com/in/mucharla/",
     },
   },
   {
     date: "05/02/2025",
-    title: "STORY_6_TITLE",
+    title: "STORY_7_TITLE",
     image: indianConsular,
-    description: "STORY_6_DESC",
+    description: "STORY_7_DESC",
     titleLinks: {
       "Dr. Srikar Reddy Koppula":
         "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
@@ -119,9 +124,9 @@ const stories = [
 
   {
     date: "05/02/2025",
-    title: "STORY_7_TITLE",
+    title: "STORY_8_TITLE",
     image: withAmitZavery,
-    description: "STORY_7_DESC",
+    description: "STORY_8_DESC",
     titleLinks: {
       "Amit Zavery": "https://www.linkedin.com/in/amitzavery/",
       ServiceNow: "https://www.servicenow.com/",
@@ -134,9 +139,9 @@ const stories = [
   // - add Anand Kuchibhotla (person on right side) + Aria University link
   {
     date: "05/02/2025",
-    title: "STORY_8_TITLE",
+    title: "STORY_9_TITLE",
     image: withMadhusudhanSai,
-    description: "STORY_8_DESC",
+    description: "STORY_9_DESC",
     titleLinks: {
       "Madhusudhan Sai": "https://srimadhusudansai.com/",
       "Anand Kuchibhotla": "https://www.linkedin.com/in/anandkuchibhotla/",
@@ -146,9 +151,9 @@ const stories = [
 
   {
     date: "05/02/2025",
-    title: "STORY_9_TITLE",
+    title: "STORY_10_TITLE",
     image: withMuralidharan,
-    description: "STORY_9_DESC",
+    description: "STORY_10_DESC",
     titleLinks: {
       "Murali Krishnamurthy":
         "https://www.linkedin.com/in/muralikrishnamurthy/",
@@ -157,9 +162,9 @@ const stories = [
   },
   {
     date: "05/02/2025",
-    title: "STORY_10_TITLE",
+    title: "STORY_11_TITLE",
     image: withJimmyPanettaandDomingoCandelas,
-    description: "STORY_10_DESC",
+    description: "STORY_11_DESC",
     titleLinks: {
       "Jimmy Panetta": "https://panetta.house.gov/",
       "Domingo Candelas": "https://www.domingocandelas.com/",
