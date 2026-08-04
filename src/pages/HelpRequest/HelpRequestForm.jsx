@@ -7,6 +7,9 @@ import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CSS
+import { isValidPhoneNumber } from "react-phone-number-input";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import { FiPaperclip } from "react-icons/fi";
@@ -129,6 +132,18 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   } = usePlacesSearchBox(setOtherPersonLocation, (coords) => {
     setOtherPersonLocationCoordinates(coords);
   });
+
+  // Phone input for the "Other" requester, backed by the shared
+  // PhoneNumberInputWithCountry component (see issue #702).
+  const [otherPersonPhone, setOtherPersonPhone] = useState("");
+  const [otherPersonPhoneCountryCode, setOtherPersonPhoneCountryCode] =
+    useState("US");
+  const [otherPersonPhoneError, setOtherPersonPhoneError] = useState("");
+
+  // Validation errors for the "Other" requester's details section
+  // (First Name, Last Name, Email, Age, Gender, Location). Phone has its
+  // own error state above, owned by PhoneNumberInputWithCountry.
+  const [detailsErrors, setDetailsErrors] = useState({});
 
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -517,6 +532,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     const { id, value } = e.target;
     if (id === "subject") hasUserEditedSubjectRef.current = true;
     setFormData((prev) => ({ ...prev, [id]: value }));
+    setDetailsErrors((prev) =>
+      prev[id] ? { ...prev, [id]: undefined } : prev,
+    );
   };
 
   const getUserLocation = () => {
@@ -1255,6 +1273,59 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     return uploadedUrls;
   };
 
+  // Validates the "Other" requester's details section (shown when For Self =
+  // Other). Returns whether the section is valid; sets both detailsErrors
+  // and otherPersonPhoneError as a side effect so each field shows its own
+  // inline message.
+  const validateOtherPersonDetails = (fullPhoneNumber) => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!formData.requester_first_name?.trim()) {
+      newErrors.requester_first_name = "First Name is required.";
+    }
+    if (!formData.requester_last_name?.trim()) {
+      newErrors.requester_last_name = "Last Name is required.";
+    }
+    if (!formData.email?.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    let phoneError = "";
+    if (!otherPersonPhone) {
+      phoneError = "Phone number is required";
+    } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
+      phoneError = "Please enter a valid phone number";
+    }
+    setOtherPersonPhoneError(phoneError);
+
+    const age = Number(formData.age);
+    if (
+      formData.age === "" ||
+      formData.age === null ||
+      formData.age === undefined ||
+      !Number.isInteger(age) ||
+      age < 1 ||
+      age > 120
+    ) {
+      newErrors.age = "Please enter an age between 1 and 120.";
+    }
+
+    if (!formData.gender || formData.gender === "Select") {
+      newErrors.gender = "Gender is required.";
+    }
+
+    if (!otherPersonLocation?.trim()) {
+      newErrors.other_person_location = "Location is required.";
+    }
+
+    setDetailsErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0 && !phoneError;
+  };
+
   // ---------- SUBMIT HANDLER (modified to upload files before creating request) ----------
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -1268,6 +1339,25 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         severity: "error",
       });
       return;
+    }
+
+    // Validate the "Other" requester's details (Phone/Age/Gender/Location/
+    // Name/Email) when submitting on behalf of someone else.
+    let resolvedPhone = formData.phone;
+    if (!selfFlag) {
+      const fullPhoneNumber =
+        PHONECODESEN[otherPersonPhoneCountryCode] &&
+        `${PHONECODESEN[otherPersonPhoneCountryCode]["secondary"]}${otherPersonPhone}`;
+      const detailsValid = validateOtherPersonDetails(fullPhoneNumber);
+      if (!detailsValid) {
+        setSnackbar({
+          open: true,
+          message: "Please fix the highlighted fields in the Details tab.",
+          severity: "error",
+        });
+        return;
+      }
+      resolvedPhone = fullPhoneNumber;
     }
 
     // Show spinner immediately so the user knows the form is being processed,
@@ -1312,6 +1402,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     const submissionData = {
       ...formData,
       subject: resolvedSubject,
+      phone: resolvedPhone,
       location,
     };
     try {
@@ -1435,7 +1526,11 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         </Alert>
       </Snackbar>
 
-      <form className="w-full max-w-3xl mx-auto p-8" onSubmit={handleSubmit}>
+      <form
+        className="w-full max-w-3xl mx-auto p-8"
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <div className="bg-white p-8 rounded-lg shadow-md border">
           <h1 className="text-2xl font-bold text-gray-800 text-center">
             {isEdit ? t("EDIT_HELP_REQUEST") : t("CREATE_HELP_REQUEST")}
@@ -2084,6 +2179,11 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
                         />
+                        {detailsErrors.requester_first_name && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {detailsErrors.requester_first_name}
+                          </p>
+                        )}
                       </div>
                       <div>
                         <label
@@ -2099,6 +2199,11 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
                         />
+                        {detailsErrors.requester_last_name && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {detailsErrors.requester_last_name}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="mt-3" data-testid="parentDivThree">
@@ -2115,22 +2220,25 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         onChange={handleChange}
                         className="w-full rounded-lg border py-2 px-3"
                       />
+                      {detailsErrors.email && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {detailsErrors.email}
+                        </p>
+                      )}
                     </div>
 
                     <div className="mt-3 grid grid-cols-2 gap-4">
                       <div>
-                        <label
-                          htmlFor="phone"
-                          className="block text-gray-700 mb-1 font-medium"
-                        >
-                          {t("PHONE")}
-                        </label>
-                        <input
-                          type="text"
-                          id="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="w-full rounded-lg border py-2 px-3"
+                        <PhoneNumberInputWithCountry
+                          phone={otherPersonPhone}
+                          setPhone={setOtherPersonPhone}
+                          countryCode={otherPersonPhoneCountryCode}
+                          setCountryCode={setOtherPersonPhoneCountryCode}
+                          error={otherPersonPhoneError}
+                          setError={setOtherPersonPhoneError}
+                          label={t("PHONE")}
+                          required={true}
+                          t={t}
                         />
                       </div>
                       <div>
@@ -2143,10 +2251,17 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         <input
                           type="number"
                           id="age"
+                          min="1"
+                          max="120"
                           value={formData.age}
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
                         />
+                        {detailsErrors.age && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {detailsErrors.age}
+                          </p>
+                        )}
                       </div>
                       <div className="mt-3" data-testid="parentDivFour">
                         <label
@@ -2167,6 +2282,11 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                             </option>
                           ))}
                         </select>
+                        {detailsErrors.gender && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {detailsErrors.gender}
+                          </p>
+                        )}
                       </div>
                       <div className="mt-3" data-testid="parentDivFive">
                         <label
@@ -2210,6 +2330,11 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           onChange={(e) => {
                             setOtherPersonLocation(e.target.value);
                             handleOtherLocationSearchChange(e.target.value);
+                            setDetailsErrors((prev) =>
+                              prev.other_person_location
+                                ? { ...prev, other_person_location: undefined }
+                                : prev,
+                            );
                           }}
                           className="border p-2 w-full rounded-lg"
                           placeholder="Search for location..."
@@ -2231,6 +2356,11 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           </ul>
                         )}
                       </div>
+                      {detailsErrors.other_person_location && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {detailsErrors.other_person_location}
+                        </p>
+                      )}
                     </div>
                   </div>
                 )

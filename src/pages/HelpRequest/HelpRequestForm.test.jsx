@@ -3015,6 +3015,30 @@ describe("HelpRequestForm — Other person location field (#1622)", () => {
       });
     });
 
+    // Fill the other newly-required "Other person" fields so submission
+    // isn't blocked by the validation this test isn't exercising.
+    fireEvent.change(document.getElementById("requester_first_name"), {
+      target: { value: "Jane" },
+    });
+    fireEvent.change(document.getElementById("requester_last_name"), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(document.getElementById("email"), {
+      target: { value: "jane.doe@example.com" },
+    });
+    fireEvent.change(document.getElementById("countryCode"), {
+      target: { value: "US" },
+    });
+    fireEvent.change(document.getElementById("phone"), {
+      target: { value: "2025551234" },
+    });
+    fireEvent.change(document.getElementById("age"), {
+      target: { value: "30" },
+    });
+    fireEvent.change(document.getElementById("gender"), {
+      target: { value: "Woman" },
+    });
+
     await act(async () => {
       fireEvent.click(
         screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
@@ -3034,5 +3058,203 @@ describe("HelpRequestForm — Other person location field (#1622)", () => {
     );
     expect(callArgs.formData.otherPersonLocation).toBeUndefined();
     expect(callArgs.formData.otherPersonLocationCoordinates).toBeUndefined();
+  });
+});
+
+describe("HelpRequestForm — Other person details validation (bug report, #702 follow-up)", () => {
+  beforeEach(() => {
+    mockT.mockReset();
+    mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestType: { IN_PERSON: "IN_PERSON", REMOTE: "REMOTE" },
+        requestPriority: { MEDIUM: 2 },
+        requestFor: { SELF: "SELF", OTHER: "OTHER" },
+      }),
+    );
+    const {
+      generateSubject,
+      createRequest,
+    } = require("../../services/requestServices");
+    generateSubject.mockResolvedValue({ body: null });
+    createRequest.mockReset();
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+    mockSuggestions = [];
+  });
+
+  /**
+   * Fills the required Description-tab fields (category + description) while
+   * that tab is active, then switches to the Details tab and sets
+   * For Self = Other.
+   */
+  async function fillDescriptionThenSwitchToOther() {
+    selectSubcategory();
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "Requesting on behalf of someone else.",
+      },
+    });
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+    await waitFor(() => {
+      expect(
+        document.getElementById("other_person_location"),
+      ).toBeInTheDocument();
+    });
+  }
+
+  /** Fills every "Other person" field with valid values */
+  function fillValidOtherPersonDetails() {
+    fireEvent.change(document.getElementById("requester_first_name"), {
+      target: { value: "Jane" },
+    });
+    fireEvent.change(document.getElementById("requester_last_name"), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(document.getElementById("email"), {
+      target: { value: "jane.doe@example.com" },
+    });
+    fireEvent.change(document.getElementById("countryCode"), {
+      target: { value: "US" },
+    });
+    fireEvent.change(document.getElementById("phone"), {
+      target: { value: "2025551234" },
+    });
+    fireEvent.change(document.getElementById("age"), {
+      target: { value: "30" },
+    });
+    fireEvent.change(document.getElementById("gender"), {
+      target: { value: "Woman" },
+    });
+    fireEvent.change(document.getElementById("other_person_location"), {
+      target: { value: "Kansas City, Missouri, USA" },
+    });
+  }
+
+  function submitForm() {
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+  }
+
+  it("blocks submission and shows required-field errors when all Other-person fields are left blank", async () => {
+    const { createRequest } = require("../../services/requestServices");
+
+    renderForm();
+    await fillDescriptionThenSwitchToOther();
+
+    await act(async () => {
+      submitForm();
+    });
+
+    expect(screen.getByText("First Name is required.")).toBeInTheDocument();
+    expect(screen.getByText("Last Name is required.")).toBeInTheDocument();
+    expect(screen.getByText("Email is required.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Please enter an age between 1 and 120."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Gender is required.")).toBeInTheDocument();
+    expect(screen.getByText("Location is required.")).toBeInTheDocument();
+    expect(createRequest).not.toHaveBeenCalled();
+  });
+
+  it("blocks submission when Phone is left blank", async () => {
+    const { createRequest } = require("../../services/requestServices");
+
+    renderForm();
+    await fillDescriptionThenSwitchToOther();
+    fillValidOtherPersonDetails();
+
+    fireEvent.change(document.getElementById("phone"), {
+      target: { value: "" },
+    });
+
+    await act(async () => {
+      submitForm();
+    });
+
+    expect(screen.getByText("Phone number is required")).toBeInTheDocument();
+    expect(createRequest).not.toHaveBeenCalled();
+  });
+
+  it("blocks submission when Age is out of the 1-120 range", async () => {
+    const { createRequest } = require("../../services/requestServices");
+
+    renderForm();
+    await fillDescriptionThenSwitchToOther();
+    fillValidOtherPersonDetails();
+    fireEvent.change(document.getElementById("age"), {
+      target: { value: "331" },
+    });
+
+    await act(async () => {
+      submitForm();
+    });
+
+    expect(
+      screen.getByText("Please enter an age between 1 and 120."),
+    ).toBeInTheDocument();
+    expect(createRequest).not.toHaveBeenCalled();
+  });
+
+  it("blocks submission when Gender is left at the Select placeholder", async () => {
+    const { createRequest } = require("../../services/requestServices");
+
+    renderForm();
+    await fillDescriptionThenSwitchToOther();
+    fillValidOtherPersonDetails();
+    fireEvent.change(document.getElementById("gender"), {
+      target: { value: "Select" },
+    });
+
+    await act(async () => {
+      submitForm();
+    });
+
+    expect(screen.getByText("Gender is required.")).toBeInTheDocument();
+    expect(createRequest).not.toHaveBeenCalled();
+  });
+
+  it("blocks submission when Location is left blank", async () => {
+    const { createRequest } = require("../../services/requestServices");
+
+    renderForm();
+    await fillDescriptionThenSwitchToOther();
+    fillValidOtherPersonDetails();
+    fireEvent.change(document.getElementById("other_person_location"), {
+      target: { value: "" },
+    });
+
+    await act(async () => {
+      submitForm();
+    });
+
+    expect(screen.getByText("Location is required.")).toBeInTheDocument();
+    expect(createRequest).not.toHaveBeenCalled();
+  });
+
+  it("submits successfully once every Other-person field is valid", async () => {
+    const { createRequest } = require("../../services/requestServices");
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-VALID" } });
+
+    renderForm();
+    await fillDescriptionThenSwitchToOther();
+    fillValidOtherPersonDetails();
+
+    await act(async () => {
+      submitForm();
+    });
+
+    await waitFor(() => expect(createRequest).toHaveBeenCalled());
   });
 });
