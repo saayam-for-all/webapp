@@ -255,4 +255,132 @@ describe("AdditionalFieldsDisplay", () => {
       expect(screen.getByText("Vegan")).toBeInTheDocument();
     });
   });
+
+  it("resolves a 3-level-deep subcategory name to its numeric catId", async () => {
+    mockCategories = [
+      {
+        catId: "3",
+        catName: "TOP",
+        subCategories: [
+          {
+            catId: "3.6",
+            catName: "MID",
+            subCategories: [
+              { catId: "3.6.1", catName: "DEEP_CATEGORY", subCategories: [] },
+            ],
+          },
+        ],
+      },
+    ];
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "3.6.1",
+          fields: [
+            {
+              fieldId: "3.6.1.A",
+              fieldNameKey: "DEEP_FIELD",
+              fieldType: "textbox",
+              status: "active",
+              catId: "3.6.1",
+            },
+          ],
+        },
+      ]),
+    );
+    requestServices.getAdditionalFields.mockResolvedValue({
+      data: { "3.6.1.A": "hello" },
+    });
+    render(
+      <AdditionalFieldsDisplay
+        requestId="REQ-1"
+        requesterId="SID-1"
+        category="DEEP_CATEGORY"
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByText("Deep Field:")).toBeInTheDocument();
+      expect(screen.getByText("hello")).toBeInTheDocument();
+    });
+  });
+
+  it("returns the raw category unchanged when no match is found in the categories tree", async () => {
+    mockCategories = [
+      { catId: "1", catName: "SOMETHING_ELSE", subCategories: [] },
+    ];
+    requestServices.getAdditionalFields.mockResolvedValue({
+      data: { UNRESOLVABLE_FIELD: "value" },
+    });
+    render(
+      <AdditionalFieldsDisplay
+        requestId="REQ-1"
+        requesterId="SID-1"
+        category="NOT_IN_TREE"
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByText("Unresolvable Field:")).toBeInTheDocument();
+      expect(screen.getByText("value")).toBeInTheDocument();
+    });
+  });
+
+  it("falls back to the parent catId's metadata entry when the exact catId is not present", async () => {
+    localStorage.setItem(
+      "metadata",
+      JSON.stringify([
+        {
+          catId: "1.1",
+          fields: [
+            {
+              fieldId: "1.1.A",
+              fieldNameKey: "PREFERRED_MEAL_TYPE",
+              fieldType: "list",
+              status: "active",
+              catId: "1.1",
+              listItems: [
+                {
+                  itemId: "1.1.A.1",
+                  itemValue: "VEGETARIAN",
+                  itemType: "radiobutton",
+                },
+              ],
+            },
+          ],
+        },
+      ]),
+    );
+    requestServices.getAdditionalFields.mockResolvedValue({
+      data: { "1.1.A": ["1.1.A.1"] },
+    });
+    render(
+      <AdditionalFieldsDisplay
+        requestId="REQ-1"
+        requesterId="SID-1"
+        category="1.1.A"
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByText("Preferred Meal Type:")).toBeInTheDocument();
+      expect(screen.getByText("Vegetarian")).toBeInTheDocument();
+    });
+  });
+
+  it("does not crash when the metadata in localStorage is invalid JSON", async () => {
+    localStorage.setItem("metadata", "not-valid-json");
+    requestServices.getAdditionalFields.mockResolvedValue({
+      data: { SOME_FIELD: "value" },
+    });
+    render(
+      <AdditionalFieldsDisplay
+        requestId="REQ-1"
+        requesterId="SID-1"
+        category="1.1"
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByText("Some Field:")).toBeInTheDocument();
+      expect(screen.getByText("value")).toBeInTheDocument();
+    });
+  });
 });
