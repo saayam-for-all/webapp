@@ -53,7 +53,7 @@ describe("Breadcrumbs", () => {
   it.each([
     ["/request", "CREATE_HELP_REQUEST"],
     ["/request/123", "REQUEST_DETAILS"],
-    ["/promote-to-volunteer", "PROMOTE_TO_VOLUNTEER"],
+    ["/promote-to-volunteer", "BECOME_VOLUNTEER"],
     ["/emergency-contact", "EMERGENCY_CONTACT"],
     ["/voluntary-organizations", "ORGANIZATIONS"],
     ["/profile", "PROFILE"],
