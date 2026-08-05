@@ -1760,6 +1760,25 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
                     {/* Right side: Voice Recording Component and File Attachment */}
                     <div className="flex items-center gap-3">
+                      {/* Language Dropdown - positioned left of the microphone icon */}
+                      <div className="relative">
+                        <select
+                          id="preferred_language"
+                          value={formData.preferred_language}
+                          onChange={handleChange}
+                          className="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-8 text-gray-700 text-sm focus:outline-none"
+                        >
+                          <option value="">Select Language</option>
+                          {languages.map((language) => (
+                            <option key={language.value} value={language.value}>
+                              {language.label}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <HiChevronDown className="h-4 w-4 text-gray-600" />
+                        </div>
+                      </div>
                       {/* Voice Recording Component */}
                       <VoiceRecordingComponent
                         onTranscriptionUpdate={(text) => {
