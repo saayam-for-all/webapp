@@ -457,8 +457,7 @@ const RequestDetails = () => {
                 <StandardButton
                   text={isDeleting ? "Deleting..." : t("DELETE_ACTION")}
                   onClick={handleDeleteRequest}
-                  color="error"
-                  variant="contained"
+                  variant="primary"
                   disabled={!deleteReason.trim() || isDeleting}
                 />
               </DialogActions>
