@@ -32,6 +32,12 @@ import {
   updateUserProfileSuccess,
 } from "./authSlice";
 
+import {
+  clearLinkedInLogoutPending,
+  isLinkedInSession,
+  markLinkedInLogoutPending,
+} from "../../../utils/auth/linkedInLogout";
+
 export const checkAuthStatus = () => async (dispatch) => {
   dispatch(loginRequest());
   try {
@@ -218,10 +224,21 @@ export const updateUserProfile = (userData) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     returnDefaultLanguage();
-    await signOut();
+
+    // Step 1: detect the provider while the ID token still exists.
+    const linkedInUser = await isLinkedInSession();
+    if (linkedInUser) {
+      markLinkedInLogoutPending();
+    }
+
+    // Clear local state before signOut(): for federated users signOut()
+    // navigates the browser away, so code after it may not run.
     localStorage.removeItem("userDbId");
     dispatch(logoutSuccess());
+
+    await signOut();
   } catch (error) {
+    clearLinkedInLogoutPending();
     dispatch(loginFailure(error.message));
   }
 };
