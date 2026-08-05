@@ -5,14 +5,42 @@ exports[`LeftAds renders correctly 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <ins
-        class="adsbygoogle"
-        data-ad-client="ca-pub-3674612346757233"
-        data-ad-format="auto"
-        data-ad-slot="9177881705"
-        data-full-width-responsive="true"
-        style="display: block;"
-      />
+      <div
+        aria-label="mockTranslate(ADVERTISEMENT)"
+        class="my-6 w-full rounded-lg border border-slate-200 bg-slate-50 p-4 text-center [&_ins.adsbygoogle]:!bg-transparent"
+        role="complementary"
+      >
+        <ins
+          class="adsbygoogle"
+          data-ad-client="ca-pub-3674612346757233"
+          data-ad-format="auto"
+          data-ad-slot="9177881705"
+          data-full-width-responsive="true"
+          style="display: block;"
+        />
+      </div>
+      <div
+        aria-label="mockTranslate(ADVERTISEMENT)"
+        class="my-6 w-full rounded-lg border border-slate-200 bg-slate-50 p-4 text-center [&_ins.adsbygoogle]:!bg-transparent"
+        role="complementary"
+      >
+        <ins
+          class="adsbygoogle"
+          data-ad-client="ca-pub-3674612346757233"
+          data-ad-format="auto"
+          data-ad-slot="9177881705"
+          data-full-width-responsive="true"
+          style="display: block;"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      aria-label="mockTranslate(ADVERTISEMENT)"
+      class="my-6 w-full rounded-lg border border-slate-200 bg-slate-50 p-4 text-center [&_ins.adsbygoogle]:!bg-transparent"
+      role="complementary"
+    >
       <ins
         class="adsbygoogle"
         data-ad-client="ca-pub-3674612346757233"
@@ -22,24 +50,20 @@ exports[`LeftAds renders correctly 1`] = `
         style="display: block;"
       />
     </div>
-  </body>,
-  "container": <div>
-    <ins
-      class="adsbygoogle"
-      data-ad-client="ca-pub-3674612346757233"
-      data-ad-format="auto"
-      data-ad-slot="9177881705"
-      data-full-width-responsive="true"
-      style="display: block;"
-    />
-    <ins
-      class="adsbygoogle"
-      data-ad-client="ca-pub-3674612346757233"
-      data-ad-format="auto"
-      data-ad-slot="9177881705"
-      data-full-width-responsive="true"
-      style="display: block;"
-    />
+    <div
+      aria-label="mockTranslate(ADVERTISEMENT)"
+      class="my-6 w-full rounded-lg border border-slate-200 bg-slate-50 p-4 text-center [&_ins.adsbygoogle]:!bg-transparent"
+      role="complementary"
+    >
+      <ins
+        class="adsbygoogle"
+        data-ad-client="ca-pub-3674612346757233"
+        data-ad-format="auto"
+        data-ad-slot="9177881705"
+        data-full-width-responsive="true"
+        style="display: block;"
+      />
+    </div>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
