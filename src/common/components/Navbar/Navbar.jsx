@@ -227,37 +227,12 @@ const Navbar = () => {
     }
     const fetchNotifications = async () => {
       try {
-        // Call the real notifications API (mock endpoint for now,
-        // swap to the live API once it is ready).
-        const response = await GET_NOTIFICATIONS();
-        const rawNotifications = response?.notifications || [];
-
-        // ✅ Add unique ID using crypto.randomUUID()
-        const notificationsWithIds = rawNotifications.map((note) => ({
-          ...note,
-          id: crypto.randomUUID(),
-        }));
-
-        notificationDispatch({
-          type: "SET_NOTIFICATIONS",
-          payload: notificationsWithIds,
-        });
-        const existing = new Set(
-          state.notifications.map((n) => n.message + n.date),
-        );
-        const newOnes = notificationsWithIds.filter(
-          (n) => !existing.has(n.message + n.date),
-        );
-
-        // Only update if new notifications exist
-        if (newOnes.length > 0) {
-          notificationDispatch({
-            type: "SET_NOTIFICATIONS",
-            payload: [...state.notifications, ...newOnes],
-          });
-
-          setNewNotificationCount((prev) => prev + newOnes.length);
-        }
+        // Call the notifications mock API (POST with a userId).
+        // Mock returns a count like { count: 5 }; the live API is
+        // expected to return the full notification list later.
+        const response = await GET_NOTIFICATIONS(user?.userId || "A1234");
+        const count = response?.count || 0;
+        setNewNotificationCount(count);
       } catch (error) {
         console.error("Error fetching Notifications:", error);
       }

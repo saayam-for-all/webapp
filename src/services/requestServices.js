@@ -58,6 +58,15 @@ export const updateRequest = async (request) => {
   return response.data;
 };
 
+export const deleteRequest = async (payload) => {
+  // SAAYAM-1700: API only accepts { requestId, requesterId } for now.
+  // "reason" is not yet supported by the backend — add it here once available.
+  const response = await api.delete(endpoints.DELETE_HELP_REQUEST, {
+    data: payload,
+  });
+  return response.data;
+};
+
 export const getAdditionalFields = async (request) => {
   const response = await api.post(endpoints.GET_ADDITIONAL_FIELDS, request);
   return response.data;
@@ -83,8 +92,8 @@ export const generateSubject = async (description) => {
   return response.data;
 };
 
-export const GET_NOTIFICATIONS = async () => {
-  const response = await api.get(endpoints.GET_NOTIFICATIONS);
+export const GET_NOTIFICATIONS = async (userId) => {
+  const response = await api.post(endpoints.GET_NOTIFICATIONS, { userId });
   return response.data;
 };
 
