@@ -5,6 +5,7 @@ import {
   MenuItem,
   TextField,
   InputAdornment,
+  Badge,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -609,7 +610,13 @@ const Navbar = () => {
                     className="text-black hover:text-gray-600 flex items-center"
                     aria-label={t("NOTIFICATIONS")}
                   >
-                    <NotificationsIcon sx={{ fontSize: 38 }} />
+                    <Badge
+                      badgeContent={newNotificationCount}
+                      color="error"
+                      overlap="circular"
+                    >
+                      <NotificationsIcon sx={{ fontSize: 38 }} />
+                    </Badge>
                   </button>
                 </ModernTooltip>
               </div>
