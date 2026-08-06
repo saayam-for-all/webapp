@@ -1,101 +1,245 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Box, Button, TextField } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  MenuItem,
+  FormControl,
+  Select,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import HorizontalAd from "#components/Ads/HorizontalAd";
+import { sendContactEmail } from "../../services/contactServices";
+
+// Single source of truth: each entry drives both the dropdown option and the
+// Lambda RECIPIENT_MAP routing key, so the two can never drift apart.
+const CONTACT_REASONS = [
+  { translationKey: "VOLUNTEERING_INTERNSHIP", apiValue: "Volunteer" },
+  { translationKey: "TIMESHEET_ISSUES", apiValue: "Timesheet" },
+  { translationKey: "OFFER_RELIEVING_LETTER", apiValue: "Letters" },
+  { translationKey: "COLLABORATION_PARTNERSHIP", apiValue: "Collaboration" },
+  { translationKey: "GENERAL_INQUIRY", apiValue: "General" },
+  { translationKey: "DONATION_GRANT", apiValue: "Donation" },
+];
+
+const NAME_REGEX = /^[A-Za-z\s]+$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Mirrors the contact Lambda's validation so users get feedback client-side
+// instead of a server 400.
+const NAME_MAX_LENGTH = 100;
+const MESSAGE_MAX_LENGTH = 2000;
+
+const FAQ_CONTENT = [
+  {
+    question: "What services does Saayam for All offer?",
+    answer:
+      "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.",
+  },
+  {
+    question: "How can I become a volunteer?",
+    answer:
+      "Fill out the contact form and our team will reach out with onboarding steps!",
+  },
+  {
+    question: "Is Saayam for All a non-profit?",
+    answer:
+      "Yes, we are a non-profit organization focused on community support and outreach.",
+  },
+];
+
+// Owns its open/closed state so toggling FAQs never re-renders the form, and
+// form keystrokes never re-render the FAQ list (memo + stable faqs prop).
+const FaqAccordion = memo(function FaqAccordion({ faqs }) {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggle = useCallback((index) => {
+    setOpenIndex((prev) => (prev === index ? null : index));
+  }, []);
+
+  return (
+    <div className="w-full">
+      {faqs.map((faq, index) => (
+        <div key={faq.question} className="mb-4 border-b border-gray-300 pb-2">
+          <button
+            type="button"
+            className="text-left w-full flex justify-between items-center font-medium text-gray-800"
+            onClick={() => toggle(index)}
+            aria-expanded={openIndex === index}
+            aria-controls={`faq-answer-${index}`}
+          >
+            <span>{faq.question}</span>
+            <span>
+              {openIndex === index ? (
+                <KeyboardArrowUpIcon className="text-gray-600" />
+              ) : (
+                <KeyboardArrowDownIcon className="text-gray-600" />
+              )}
+            </span>
+          </button>
+          {openIndex === index && (
+            <p
+              id={`faq-answer-${index}`}
+              className="text-sm text-gray-600 mt-2"
+            >
+              {faq.answer}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+});
+
+FaqAccordion.propTypes = {
+  faqs: PropTypes.arrayOf(
+    PropTypes.shape({
+      question: PropTypes.string.isRequired,
+      answer: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};
 
 const ContactUs = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    middleName: "", // honeypot field
     email: "",
     message: "",
+    reason: "",
   });
 
-  const formRef = useRef(null);
-
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [openFAQIndex, setOpenFAQIndex] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [phone, setPhone] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [phoneError, setPhoneError] = useState("");
 
-  const faqs = [
-    {
-      question: t("What services does Saayam for All offer?"),
-      answer: t(
-        "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.",
-      ),
-    },
-    {
-      question: t("How can I become a volunteer?"),
-      answer: t(
-        "Fill out the contact form and our team will reach out with onboarding steps!",
-      ),
-    },
-    {
-      question: t("Is Saayam for All a non-profit?"),
-      answer: t(
-        "Yes, we are a non-profit organization focused on community support and outreach.",
-      ),
-    },
-  ];
+  // Blocks setState/navigate from a submit that resolves after the user has
+  // already navigated away.
+  const isMountedRef = useRef(true);
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
-  const toggleFAQ = (index) => {
-    setOpenFAQIndex(openFAQIndex === index ? null : index);
-  };
+  const faqs = useMemo(
+    () =>
+      FAQ_CONTENT.map(({ question, answer }) => ({
+        question: t(question),
+        answer: t(answer),
+      })),
+    [t],
+  );
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newErrors = {};
-    const nameRegex = /^[A-Za-z\s]+$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const fullPhoneNumber =
-      PHONECODESEN[countryCode] &&
-      `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First Name is required";
-    } else if (!nameRegex.test(formData.firstName.trim())) {
-      newErrors.firstName = "First Name should contain only letters";
-    }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last Name is required";
-    } else if (!nameRegex.test(formData.lastName.trim())) {
-      newErrors.lastName = "Last Name should contain only letters";
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!emailRegex.test(formData.email.trim())) {
-      newErrors.email = "Email is invalid";
-    }
-    if (!phone) {
-      newErrors.phone = "Phone is required";
-    } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
-      newErrors.phone = "Please enter a valid phone number";
-    }
-    if (!formData.message) {
-      newErrors.message = "Message is required";
-    }
-    setErrors(newErrors);
-    setPhoneError(newErrors.phone || "");
-    if (Object.keys(newErrors).length === 0) {
-      setSubmitted(true);
-      formRef.current?.submit();
-    }
-  };
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+
+      const newErrors = {};
+      const fullPhoneNumber =
+        PHONECODESEN[countryCode] &&
+        `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+
+      if (!formData.firstName.trim()) {
+        newErrors.firstName = t("First Name is required");
+      } else if (!NAME_REGEX.test(formData.firstName.trim())) {
+        newErrors.firstName = t("First Name should contain only letters");
+      }
+      if (!formData.lastName.trim()) {
+        newErrors.lastName = t("Last Name is required");
+      } else if (!NAME_REGEX.test(formData.lastName.trim())) {
+        newErrors.lastName = t("Last Name should contain only letters");
+      }
+      if (!formData.email.trim()) {
+        newErrors.email = t("Email is required");
+      } else if (!EMAIL_REGEX.test(formData.email.trim())) {
+        newErrors.email = t("Email is invalid");
+      }
+      if (!phone) {
+        newErrors.phone = t("Phone is required");
+      } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
+        newErrors.phone = t("Please enter a valid phone number");
+      }
+      if (!formData.reason) {
+        newErrors.reason = t("Please select a reason for contacting");
+      }
+      if (!formData.message) {
+        newErrors.message = t("Message is required");
+      }
+
+      setErrors(newErrors);
+      setPhoneError(newErrors.phone || "");
+      setSubmitError("");
+
+      if (Object.keys(newErrors).length > 0) {
+        return;
+      }
+
+      if (!executeRecaptcha) {
+        setSubmitError(
+          t("reCAPTCHA not ready. Please refresh the page and try again."),
+        );
+        return;
+      }
+
+      setIsSubmitting(true);
+      try {
+        const recaptchaToken = await executeRecaptcha("contact_form_submit");
+
+        await sendContactEmail({
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          middleName: formData.middleName, // honeypot — Lambda validates
+          email: formData.email.trim(),
+          phone: fullPhoneNumber,
+          reason: formData.reason,
+          message: formData.message,
+          recaptchaToken,
+        });
+
+        if (isMountedRef.current) {
+          navigate("/thanks");
+        }
+      } catch (error) {
+        console.error("Contact form submission failed:", error);
+        if (isMountedRef.current) {
+          setSubmitError(
+            t(
+              "Failed to submit form. Please try again or contact us directly at info@saayamforall.org",
+            ),
+          );
+        }
+      } finally {
+        if (isMountedRef.current) {
+          setIsSubmitting(false);
+        }
+      }
+    },
+    [formData, phone, countryCode, executeRecaptcha, navigate, t],
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -114,32 +258,11 @@ const ContactUs = () => {
               )}
             </p>
             <p className="text-[#807D7D] text-base mb-10">
-              hr@saayamforall.org
+              info@saayamforall.org
             </p>
 
             <h1 className="text-2xl font-bold mb-4">{t("FAQ's")}</h1>
-            <div className="w-full">
-              {faqs.map((faq, index) => (
-                <div key={index} className="mb-4 border-b border-gray-300 pb-2">
-                  <button
-                    className="text-left w-full flex justify-between items-center font-medium text-gray-800"
-                    onClick={() => toggleFAQ(index)}
-                  >
-                    <span>{faq.question}</span>
-                    <span>
-                      {openFAQIndex === index ? (
-                        <KeyboardArrowUpIcon className="text-gray-600" />
-                      ) : (
-                        <KeyboardArrowDownIcon className="text-gray-600" />
-                      )}
-                    </span>
-                  </button>
-                  {openFAQIndex === index && (
-                    <p className="text-sm text-gray-600 mt-2">{faq.answer}</p>
-                  )}
-                </div>
-              ))}
-            </div>
+            <FaqAccordion faqs={faqs} />
           </div>
 
           {/* Right Column: Form */}
@@ -147,9 +270,6 @@ const ContactUs = () => {
             <Box
               component="form"
               onSubmit={handleSubmit}
-              ref={formRef}
-              action="https://formsubmit.co/hr@saayamforall.org"
-              method="POST"
               className="w-full max-w-2xl bg-white p-6 rounded-3xl shadow-md"
             >
               <h1 className="text-2xl font-bold mb-1">{t("Get In Touch")}</h1>
@@ -178,6 +298,7 @@ const ContactUs = () => {
                   required
                   error={!!errors.firstName}
                   helperText={errors.firstName}
+                  inputProps={{ maxLength: NAME_MAX_LENGTH }}
                 />
               </div>
 
@@ -202,6 +323,28 @@ const ContactUs = () => {
                   required
                   error={!!errors.lastName}
                   helperText={errors.lastName}
+                  inputProps={{ maxLength: NAME_MAX_LENGTH }}
+                />
+              </div>
+
+              {/* Honeypot field — hidden from real users */}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  opacity: 0,
+                  height: 0,
+                  overflow: "hidden",
+                }}
+              >
+                <label htmlFor="middleName">Middle Name</label>
+                <TextField
+                  id="middleName"
+                  name="middleName"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.middleName}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -251,20 +394,64 @@ const ContactUs = () => {
                 />
               </div>
 
-              <input
-                type="hidden"
-                name="phone"
-                value={
-                  PHONECODESEN[countryCode]
-                    ? `${PHONECODESEN[countryCode]["secondary"]}${phone}`
-                    : phone
-                }
-              />
-              <input
-                type="hidden"
-                name="_next"
-                value={`${window.location.origin}/thanks`}
-              />
+              {/* Reason for contacting dropdown */}
+              <div className="mb-4">
+                <label
+                  htmlFor="reason"
+                  className="text-sm text-gray-800 font-medium mb-1 block leading-tight"
+                >
+                  <span className="text-red-500 mr-1">*</span>
+                  {t("REASON_FOR_CONTACTING")}
+                </label>
+                <FormControl
+                  fullWidth
+                  margin="dense"
+                  error={!!errors.reason}
+                  required
+                >
+                  <Select
+                    id="reason"
+                    name="reason"
+                    value={formData.reason}
+                    onChange={handleChange}
+                    displayEmpty
+                    SelectDisplayProps={{
+                      "aria-describedby": errors.reason
+                        ? "reason-error"
+                        : undefined,
+                    }}
+                    renderValue={(selected) => {
+                      if (!selected) {
+                        return (
+                          <span style={{ color: "#9e9e9e" }}>
+                            {t("SELECT_A_REASON")}
+                          </span>
+                        );
+                      }
+                      const selectedReason = CONTACT_REASONS.find(
+                        (reason) => reason.apiValue === selected,
+                      );
+                      return selectedReason
+                        ? t(selectedReason.translationKey)
+                        : selected;
+                    }}
+                  >
+                    {CONTACT_REASONS.map(({ translationKey, apiValue }) => (
+                      <MenuItem key={apiValue} value={apiValue}>
+                        {t(translationKey)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.reason && (
+                    <p
+                      id="reason-error"
+                      className="text-xs text-red-600 mt-1 ml-3"
+                    >
+                      {errors.reason}
+                    </p>
+                  )}
+                </FormControl>
+              </div>
 
               {/* Message */}
               <div className="mb-4">
@@ -289,7 +476,25 @@ const ContactUs = () => {
                   required
                   error={!!errors.message}
                   helperText={errors.message}
+                  inputProps={{ maxLength: MESSAGE_MAX_LENGTH }}
                 />
+              </div>
+
+              {/* Response Time Note */}
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded">
+                <p className="text-sm text-blue-800">
+                  <span className="font-semibold">{t("NOTE_LABEL")}</span>{" "}
+                  {t("RESPONSE_TIME_NOTICE")}
+                </p>
+              </div>
+
+              {/* Error Alert */}
+              <div aria-live="polite">
+                {submitError && (
+                  <Alert severity="error" className="mb-4">
+                    {submitError}
+                  </Alert>
+                )}
               </div>
 
               {/* Submit */}
@@ -298,6 +503,7 @@ const ContactUs = () => {
                 variant="contained"
                 color="primary"
                 fullWidth
+                disabled={isSubmitting}
                 className="mt-4 rounded-[24px]"
                 style={{
                   borderRadius: "24px",
@@ -305,7 +511,11 @@ const ContactUs = () => {
                   fontWeight: "bold",
                 }}
               >
-                {t("Submit")}
+                {isSubmitting ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  t("Submit")
+                )}
               </Button>
 
               <p className="text-sm text-gray-500 mt-4 text-center">
@@ -317,6 +527,29 @@ const ContactUs = () => {
                   {t("terms and conditions")}
                 </a>
                 .
+              </p>
+
+              {/* reCAPTCHA Privacy Notice (required by Google) */}
+              <p className="text-xs text-gray-400 mt-3 text-center leading-relaxed">
+                {t("This site is protected by reCAPTCHA and the Google")}{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {t("Privacy Policy")}
+                </a>{" "}
+                {t("and")}{" "}
+                <a
+                  href="https://policies.google.com/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {t("Terms of Service")}
+                </a>{" "}
+                {t("apply")}.
               </p>
             </Box>
           </div>
