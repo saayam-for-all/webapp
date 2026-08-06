@@ -9,6 +9,7 @@ import { loginFailure } from "./redux/features/authentication/authSlice";
 import routes from "./routes/routes";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
+import { completePendingLinkedInLogout } from "./utils/auth/linkedInLogout";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,9 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (completePendingLinkedInLogout()) {
+      return undefined;
+    }
     const searchParams = new URLSearchParams(window.location.search);
     const hasOAuthRedirectParams =
       searchParams.has("code") ||
