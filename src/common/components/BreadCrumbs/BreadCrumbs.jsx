@@ -140,7 +140,7 @@ const Breadcrumbs = () => {
     if (currentPath === "/dashboard") return "DASHBOARD";
     if (currentPath === "/request") return "CREATE_HELP_REQUEST";
     if (currentPath.startsWith("/request/")) return "REQUEST_DETAILS";
-    if (currentPath === "/promote-to-volunteer") return "PROMOTE_TO_VOLUNTEER";
+    if (currentPath === "/promote-to-volunteer") return "BECOME_VOLUNTEER";
     if (currentPath === "/emergency-contact") return "EMERGENCY_CONTACT";
     if (currentPath === "/voluntary-organizations") return "ORGANIZATIONS";
     if (currentPath.startsWith("/organization/")) {
