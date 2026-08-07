@@ -62,6 +62,7 @@ const stories = [
       "Raja Krishnamoorthi":
         "https://en.wikipedia.org/wiki/Raja_Krishnamoorthi",
       "Rao Charagondla": "https://www.linkedin.com/in/charagondla/",
+      "Silicon Andhra (Aria) University": "https://aria.edu/",
     },
   },
   {
@@ -69,6 +70,10 @@ const stories = [
     title: "STORY_2_TITLE",
     image: walmartSparkGood,
     description: "STORY_2_DESC",
+    titleLinks: {
+      "Walmart Store #2486": "https://www.walmart.com/store/2486-san-jose-ca",
+      Walmart: "https://www.walmart.com/",
+    },
   },
   {
     date: "05/02/2025",
