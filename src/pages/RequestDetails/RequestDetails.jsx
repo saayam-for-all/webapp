@@ -183,7 +183,11 @@ const RequestDetails = () => {
 
       setDeleteDialogOpen(false);
       setDeleteReason("");
-      navigate("/dashboard");
+      navigate("/dashboard", {
+        state: {
+          successMessage: `Request #${requestId} is deleted successfully`,
+        },
+      });
     } catch (error) {
       console.error("Delete failed:", error);
       setDeleteError("Failed to delete request. Please try again.");
