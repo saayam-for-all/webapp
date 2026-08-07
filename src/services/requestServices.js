@@ -1,18 +1,43 @@
 import api from "./api";
+// import axios from "axios";
 import endpoints from "./endpoints.json";
 
-export const getMyRequests = async () => {
-  const response = await api.get(endpoints.GET_MY_REQUESTS);
+const inFlightAllRequests = new Map();
+
+export const getMyRequests = async (request) => {
+  const response = await api.post(endpoints.GET_MY_REQUESTS, request);
   return response.data;
 };
+
 export const getOthersRequests = async () => {
   const response = await api.get(endpoints.GET_OTHERS_REQUESTS);
   return response.data;
 };
+
 export const getManagedRequests = async () => {
   const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
   return response.data;
 };
+
+export const getAllPaginatedRequests = async ({ page = 0, size = 10 } = {}) => {
+  const requestKey = `${page}:${size}`;
+  if (inFlightAllRequests.has(requestKey)) {
+    return inFlightAllRequests.get(requestKey);
+  }
+
+  const request = api
+    .get(endpoints.GET_ALL_REQUESTS, {
+      params: { page, size },
+    })
+    .then((response) => response.data)
+    .finally(() => {
+      inFlightAllRequests.delete(requestKey);
+    });
+
+  inFlightAllRequests.set(requestKey, request);
+  return request;
+};
+
 export const getComments = async () => {
   const response = await api.get(endpoints.GET_REQUEST_COMMENTS);
   return response.data;
@@ -28,13 +53,42 @@ export const createRequest = async (request) => {
   return response.data;
 };
 
-export const getEmergencyContactInfo = async () => {
-  const response = await api.get(endpoints.GET_EMERGENCY_CONTACT);
+export const updateRequest = async (request) => {
+  const response = await api.put(endpoints.UPDATE_HELP_REQUEST, request);
+  return response.data;
+};
+
+export const deleteRequest = async (payload) => {
+  // SAAYAM-1700: API only accepts { requestId, requesterId } for now.
+  // "reason" is not yet supported by the backend — add it here once available.
+  const response = await api.delete(endpoints.DELETE_HELP_REQUEST, {
+    data: payload,
+  });
+  return response.data;
+};
+
+export const getAdditionalFields = async (request) => {
+  const response = await api.post(endpoints.GET_ADDITIONAL_FIELDS, request);
+  return response.data;
+};
+
+export const getEmergencyContactInfo = async ({ lat, lng } = {}) => {
+  const response = await api.get(endpoints.GET_EMERGENCY_CONTACT, {
+    params:
+      typeof lat === "number" && typeof lng === "number"
+        ? { lat, lng }
+        : undefined,
+  });
   return response.data;
 };
 
 export const predictCategories = async (request) => {
   const response = await api.post(endpoints.PREDICT_CATEGORIES, request);
+  return response.data;
+};
+
+export const generateSubject = async (description) => {
+  const response = await api.post(endpoints.GENERATE_SUBJECT, { description });
   return response.data;
 };
 
@@ -45,5 +99,54 @@ export const GET_NOTIFICATIONS = async () => {
 
 export const moreInformation = async (request) => {
   const response = await api.post(endpoints.GENERATE_ANSWER, request);
+  return response.data;
+};
+
+export const moreInformationChat = async (payload) => {
+  const response = await api.post(endpoints.GENERATE_ANSWER_API, payload);
+  return response.data;
+};
+
+export const getCategories = async () => {
+  const response = await api.get(endpoints.GET_CATEGORIES);
+  return response.data;
+};
+
+export const getEnums = async () => {
+  const response = await api.get(endpoints.GET_ENUMS);
+  return response.data;
+};
+
+export const getMetadata = async () => {
+  const response = await api.get(endpoints.GET_METADATA);
+  return response.data;
+};
+
+export const getEnvironment = async () => {
+  const response = await api.get(endpoints.GET_ENVIRONMENT);
+  return response.data;
+};
+
+export const uploadRequestFile = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await api.post(
+    endpoints.UPLOAD_REQUEST_FILE, // <-- add this key to endpoints.json
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const speechDetectV2 = async (audioContent) => {
+  const response = await api.post(endpoints.SPEECH_DETECT_V2, {
+    audioContent,
+  });
   return response.data;
 };

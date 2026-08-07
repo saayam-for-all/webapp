@@ -1,4 +1,8 @@
 import { useTranslation } from "react-i18next";
+import img1 from "./our-mission-img1.png";
+import img2 from "./our-mission-img2.png";
+import img3 from "./our-mission-img3.png";
+
 export function Mission() {
   const { t } = useTranslation();
   return (
@@ -24,17 +28,17 @@ export function Mission() {
         {/* Image Row */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-4">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/587ed268b2153793efab648656556a802eb62ad9"
+            src={img1}
             alt="Mission image 1"
             className="w-full md:w-[28%] h-[250px] md:h-[300px] object-cover rounded-[20px]"
           />
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/67c999ae47a8163906957ca47ca9b1d509b125ac"
+            src={img2}
             alt="Mission image 2"
             className="w-full md:w-[28%] h-[250px] md:h-[300px] object-cover rounded-[20px]"
           />
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a2a77f3953d04155e4de9a3f393c7266b008dae"
+            src={img3}
             alt="Mission image 3"
             className="w-full md:w-[28%] h-[250px] md:h-[300px] object-cover rounded-[20px]"
           />

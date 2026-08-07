@@ -1,0 +1,39 @@
+import endpoints from "./endpoints.json";
+import axios from "axios";
+
+/**
+ * Send contact form email via Lambda (no authentication required)
+ * @param {Object} data - Form data
+ * @param {string} data.firstName - First name
+ * @param {string} data.lastName - Last name
+ * @param {string} data.middleName - Honeypot field (should be empty for real users)
+ * @param {string} data.email - Email address
+ * @param {string} data.phone - Phone number
+ * @param {string} data.message - Message content
+ * @param {string} data.reason - Reason for contacting
+ * @param {string} data.recaptchaToken - reCAPTCHA v3 token for verification
+ * @returns {Promise} - API response
+ */
+export const sendContactEmail = async ({
+  firstName,
+  lastName,
+  middleName,
+  email,
+  phone,
+  message,
+  reason,
+  recaptchaToken,
+}) => {
+  const payload = {
+    email,
+    name: `${firstName} ${lastName}`,
+    middleName,
+    phone,
+    message,
+    reason,
+    recaptchaToken,
+  };
+
+  const response = await axios.post(endpoints.SEND_CONTACT_EMAIL, payload);
+  return response.data;
+};

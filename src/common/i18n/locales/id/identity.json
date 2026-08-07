@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "Unggah ID Pemerintah",
+  "SELECT_SOURCE": "Pilih Sumber",
+  "DEVICE": "Perangkat",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "Unggah File",
+  "FILE": "File",
+  "FILE_PREVIEW": "Pratinjau",
+  "UPLOAD": "Unggah",
+  "UPLOADING": "Mengunggah...",
+  "REMOVE": "Hapus",
+  "FILE_SIZE_ERROR": "Ukuran file tidak boleh melebihi 2MB",
+  "FILE_TYPE_ERROR": "Hanya file JPEG, JPG, PNG, dan PDF yang diizinkan. Jenis file terdeteksi: {{fileType}}, ekstensi: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "Hanya file JPEG, JPG, PNG, atau PDF. Ukuran maksimal: 2MB.",
+  "UPLOAD_SUCCESS": "File berhasil diunggah",
+  "UPLOAD_FAILED": "Gagal mengunggah file",
+  "UPLOAD_ERROR": "Terjadi kesalahan saat mengunggah file"
+}

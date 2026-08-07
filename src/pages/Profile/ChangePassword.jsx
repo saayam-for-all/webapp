@@ -5,7 +5,7 @@ import { updatePassword } from "aws-amplify/auth";
 import LoadingIndicator from "../../common/components/Loading/Loading";
 
 function ChangePassword({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");

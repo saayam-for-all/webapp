@@ -1,15 +1,14 @@
-import { useState } from "react";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { signUp } from "aws-amplify/auth";
-import CountryList from "react-select-country-list";
-import { z } from "zod";
-import PHONECODESEN from "../../utils/phone-codes-en";
-import { getPhoneCodeslist } from "../../utils/utils";
-import "./Login.css";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import CountryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import "./Login.css";
 const signUpSchema = z.object({
   firstName: z
     .string()
@@ -52,7 +51,8 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [country, setCountry] = useState("United States");
+  const countries = CountryList().getData();
+  const [country, setCountry] = useState("US");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [acceptedTOS, setAcceptedTOS] = useState(false);
@@ -78,7 +78,6 @@ const SignUp = () => {
   const allRequirementsMet =
     hasNumber && hasUppercase && hasLowercase && hasSpecialChar && hasMinLength;
 
-  const countries = CountryList().getData();
   const navigate = useNavigate();
 
   //name, email and phone number validation functions
@@ -169,7 +168,10 @@ const SignUp = () => {
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
-
+        <p className="mb-3 text-sm text-gray-600">
+          <span className="text-red-500 font-semibold">*</span>{" "}
+          {t("ALL_FIELDS_MANDATORY")}
+        </p>
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
           <div className="flex-1">
@@ -236,6 +238,23 @@ const SignUp = () => {
             required={true}
             t={t}
           />
+        </div>
+
+        {/* Country */}
+        <div className="my-2 flex flex-col">
+          <label htmlFor="country">{t("COUNTRY")}</label>
+          <select
+            id="country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-xl"
+          >
+            {countries.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Password */}
@@ -361,7 +380,6 @@ const SignUp = () => {
             {t("TOS_AGREEMENT")}{" "}
             <a
               href="/terms-and-conditions"
-              target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 underline"
             >
@@ -406,7 +424,7 @@ const SignUp = () => {
             className="mx-2 text-left underline"
             onClick={() => navigate("/login")}
           >
-            {t("SIGN_IN")}
+            {t("LOGIN")}
           </button>
         </div>
       </div>

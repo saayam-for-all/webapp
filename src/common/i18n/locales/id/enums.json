@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "Diri Sendiri",
+    "OTHER": "Orang Lain"
+  },
+  "requestPriority": {
+    "LOW": "Rendah",
+    "MEDIUM": "Sedang",
+    "HIGH": "Tinggi",
+    "CRITICAL": "Kritis"
+  },
+  "requestStatus": {
+    "CREATED": "Dibuat",
+    "MATCHING VOLUNTEER": "Mencocokkan Relawan",
+    "MANAGED": "Dikelola",
+    "RESOLVED": "Diselesaikan",
+    "CANCELLED": "Dibatalkan",
+    "DELETED": "Dihapus"
+  },
+  "requestType": {
+    "INPERSON": "Langsung",
+    "REMOTE": "Jarak Jauh"
+  }
+}

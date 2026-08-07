@@ -1,0 +1,449 @@
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+
+const LABEL_WORD_OVERRIDES = {
+  xs: "XS",
+  s: "S",
+  m: "M",
+  l: "L",
+  xl: "XL",
+  xxl: "XXL",
+  xxxl: "XXXL",
+  "2xl": "2XL",
+  "3xl": "3XL",
+};
+
+/**
+ * Convert metadata keys to readable labels while preserving encoded ranges
+ * and clothing-size acronyms.
+ * e.g. "PREFERRED_MEAL_TYPE" -> "Preferred Meal Type"
+ * e.g. "CHILD_3_12" -> "Child 3-12", "XXL" -> "XXL"
+ */
+const toTitleCase = (str) =>
+  String(str)
+    .replace(/(\d)[_\s]+(\d)/g, "$1-$2")
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => {
+      const override = LABEL_WORD_OVERRIDES[word];
+      if (override) return override;
+      return word.replace(/\b\w/g, (c) => c.toUpperCase());
+    })
+    .join(" ");
+
+const EMPTY_FIELD_VALUES = {};
+
+/**
+ * DynamicAdditionalFields
+ *
+ * Reads the metadata JSON from localStorage and dynamically renders
+ * form fields for the selected category/subcategory.
+ *
+ * Props:
+ *   catId        – currently selected category ID (e.g. "1.1", "6.4")
+ *   value        – current field values owned by the parent form
+ *   onChange     – callback receiving { [fieldId]: value } on every change
+ */
+const DynamicAdditionalFields = ({
+  catId,
+  value = EMPTY_FIELD_VALUES,
+  onChange,
+}) => {
+  const { t } = useTranslation("metadata");
+
+  // ── Resolve metadata for the current catId ──────────────────────────
+  const metadataFields = useMemo(() => {
+    if (!catId) return [];
+    try {
+      const raw = localStorage.getItem("metadata");
+      if (!raw) return [];
+      const allMetadata = JSON.parse(raw);
+      if (!Array.isArray(allMetadata)) return [];
+
+      // Try exact match first
+      let entry = allMetadata.find((m) => m.catId === catId);
+
+      if (!entry && catId.includes(".")) {
+        const parentCatId = catId.substring(0, catId.lastIndexOf("."));
+        entry = allMetadata.find((m) => m.catId === parentCatId);
+      }
+
+      if (!entry || !Array.isArray(entry.fields)) return [];
+      // Only show active fields
+      return entry.fields.filter((f) => f.status === "active");
+    } catch {
+      return [];
+    }
+  }, [catId]);
+
+  // ── Nothing to render ───────────────────────────────────────────────
+  if (metadataFields.length === 0) return null;
+
+  // ── Helpers ─────────────────────────────────────────────────────────
+  const updateField = (fieldId, nextValue) => {
+    onChange({ ...value, [fieldId]: nextValue });
+  };
+
+  const toggleCheckbox = (fieldId, itemValue) => {
+    const current = Array.isArray(value[fieldId]) ? value[fieldId] : [];
+    const next = current.includes(itemValue)
+      ? current.filter((v) => v !== itemValue)
+      : [...current, itemValue];
+    onChange({ ...value, [fieldId]: next });
+  };
+
+  const updateListItemValue = (fieldId, itemId, nextValue) => {
+    const current =
+      value[fieldId] !== null &&
+      typeof value[fieldId] === "object" &&
+      !Array.isArray(value[fieldId])
+        ? value[fieldId]
+        : {};
+    onChange({
+      ...value,
+      [fieldId]: { ...current, [itemId]: nextValue },
+    });
+  };
+
+  const getFieldValue = (fieldId) => value[fieldId] ?? "";
+
+  const getNestedFieldValue = (fieldId, itemId) => {
+    const current = value[fieldId];
+    return current !== null &&
+      typeof current === "object" &&
+      !Array.isArray(current)
+      ? (current[itemId] ?? "")
+      : "";
+  };
+
+  const translateMetadataLabel = (key, fallback) => {
+    const translated = t(key, { defaultValue: fallback });
+    return translated === key ? fallback : translated;
+  };
+
+  const getFieldLabel = (fieldNameKey) =>
+    translateMetadataLabel(`FIELDS.${fieldNameKey}`, toTitleCase(fieldNameKey));
+
+  const getItemLabel = (itemValue) =>
+    translateMetadataLabel(`ITEMS.${itemValue}`, toTitleCase(itemValue));
+
+  // ── Render a single list item based on its itemType ─────────────────
+  const renderListItem = (field, item) => {
+    const fieldId = field.fieldId;
+    const key = item.itemId;
+
+    switch (item.itemType) {
+      case "radiobutton":
+        return (
+          <label key={key} className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name={fieldId}
+              value={item.itemId}
+              checked={
+                Array.isArray(value[fieldId]) &&
+                value[fieldId].includes(item.itemId)
+              }
+              onChange={() => updateField(fieldId, [item.itemId])}
+              className="rounded"
+              data-testid={`radio-${key}`}
+            />
+            <span className="text-sm">{getItemLabel(item.itemValue)}</span>
+          </label>
+        );
+
+      case "checkbox":
+        return (
+          <label key={key} className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={(Array.isArray(value[fieldId])
+                ? value[fieldId]
+                : []
+              ).includes(item.itemId)}
+              onChange={() => toggleCheckbox(fieldId, item.itemId)}
+              className="rounded"
+              data-testid={`checkbox-${key}`}
+            />
+            <span className="text-sm">{getItemLabel(item.itemValue)}</span>
+          </label>
+        );
+
+      case "textbox":
+        return (
+          <div key={key} className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-600 min-w-[120px]">
+              {getItemLabel(item.itemValue)}
+            </span>
+            <input
+              type="text"
+              value={getNestedFieldValue(fieldId, item.itemId)}
+              onChange={(e) =>
+                updateListItemValue(fieldId, item.itemId, e.target.value)
+              }
+              className="flex-1 rounded-lg border border-gray-300 py-1.5 px-2 text-sm"
+              data-testid={`text-${key}`}
+            />
+          </div>
+        );
+
+      case "integer":
+        return (
+          <div key={key} className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-600 min-w-[120px]">
+              {getItemLabel(item.itemValue)}
+            </span>
+            <input
+              type="number"
+              value={getNestedFieldValue(fieldId, item.itemId)}
+              onChange={(e) =>
+                updateListItemValue(fieldId, item.itemId, e.target.value)
+              }
+              className="w-24 rounded-lg border border-gray-300 py-1.5 px-2 text-sm"
+              data-testid={`int-${key}`}
+            />
+          </div>
+        );
+
+      case "currency":
+        return (
+          <div key={key} className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-600 min-w-[120px]">
+              {getItemLabel(item.itemValue)}
+            </span>
+            <div className="flex items-center">
+              <span className="text-sm text-gray-500 mr-1">$</span>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={getNestedFieldValue(fieldId, item.itemId)}
+                onChange={(e) =>
+                  updateListItemValue(fieldId, item.itemId, e.target.value)
+                }
+                className="w-28 rounded-lg border border-gray-300 py-1.5 px-2 text-sm"
+                data-testid={`currency-${key}`}
+              />
+            </div>
+          </div>
+        );
+
+      case "date&time":
+        return (
+          <div key={key} className="flex items-center gap-2 flex-wrap">
+            <span className="text-sm font-medium text-gray-600 min-w-[120px]">
+              {getItemLabel(item.itemValue)}
+            </span>
+            <input
+              type="date"
+              value={getNestedFieldValue(fieldId, `${item.itemId}_date`)}
+              onChange={(e) =>
+                updateListItemValue(
+                  fieldId,
+                  `${item.itemId}_date`,
+                  e.target.value,
+                )
+              }
+              className="rounded-lg border border-gray-300 py-1.5 px-2 text-sm"
+              data-testid={`date-${key}`}
+            />
+            <input
+              type="time"
+              value={getNestedFieldValue(fieldId, `${item.itemId}_time`)}
+              onChange={(e) =>
+                updateListItemValue(
+                  fieldId,
+                  `${item.itemId}_time`,
+                  e.target.value,
+                )
+              }
+              className="rounded-lg border border-gray-300 py-1.5 px-2 text-sm"
+              data-testid={`time-${key}`}
+            />
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // ── Render a top-level field ─────────────────────────────────────────
+  const renderField = (field) => {
+    const { fieldId, fieldNameKey, fieldType, listItems } = field;
+    const label = getFieldLabel(fieldNameKey);
+
+    switch (fieldType) {
+      // Simple text input
+      case "textbox":
+        return (
+          <div key={fieldId} className="mt-3">
+            <label className="block text-gray-700 font-medium mb-1">
+              {label}
+            </label>
+            <input
+              type="text"
+              value={getFieldValue(fieldId)}
+              onChange={(e) => updateField(fieldId, e.target.value)}
+              className="w-full rounded-lg border border-gray-300 py-2 px-3"
+              data-testid={`field-${fieldId}`}
+            />
+          </div>
+        );
+
+      // Integer / number input
+      case "int":
+      case "integer":
+        return (
+          <div key={fieldId} className="mt-3">
+            <label className="block text-gray-700 font-medium mb-1">
+              {label}
+            </label>
+            <input
+              type="number"
+              min="0"
+              value={getFieldValue(fieldId)}
+              onChange={(e) => updateField(fieldId, e.target.value)}
+              className="w-full rounded-lg border border-gray-300 py-2 px-3"
+              data-testid={`field-${fieldId}`}
+            />
+          </div>
+        );
+
+      // Standalone boolean checkbox (no listItems)
+      case "checkbox":
+        return (
+          <div key={fieldId} className="mt-3 flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={value[fieldId] === "true"}
+              onChange={(e) =>
+                updateField(fieldId, e.target.checked ? "true" : "false")
+              }
+              className="rounded"
+              data-testid={`field-${fieldId}`}
+            />
+            <label className="text-gray-700 font-medium">{label}</label>
+          </div>
+        );
+
+      // Date & time picker
+      case "date&time":
+        return (
+          <div key={fieldId} className="mt-3">
+            <label className="block text-gray-700 font-medium mb-1">
+              {label}
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="date"
+                value={getNestedFieldValue(fieldId, `${fieldId}_date`)}
+                onChange={(e) =>
+                  updateListItemValue(
+                    fieldId,
+                    `${fieldId}_date`,
+                    e.target.value,
+                  )
+                }
+                className="rounded-lg border border-gray-300 py-2 px-3"
+                data-testid={`field-${fieldId}-date`}
+              />
+              <input
+                type="time"
+                value={getNestedFieldValue(fieldId, `${fieldId}_time`)}
+                onChange={(e) =>
+                  updateListItemValue(
+                    fieldId,
+                    `${fieldId}_time`,
+                    e.target.value,
+                  )
+                }
+                className="rounded-lg border border-gray-300 py-2 px-3"
+                data-testid={`field-${fieldId}-time`}
+              />
+            </div>
+          </div>
+        );
+
+      // Time-only picker
+      case "time":
+        return (
+          <div key={fieldId} className="mt-3">
+            <label className="block text-gray-700 font-medium mb-1">
+              {label}
+            </label>
+            <input
+              type="time"
+              value={getFieldValue(fieldId)}
+              onChange={(e) => updateField(fieldId, e.target.value)}
+              className="rounded-lg border border-gray-300 py-2 px-3"
+              data-testid={`field-${fieldId}`}
+            />
+          </div>
+        );
+
+      // Currency input
+      case "currency":
+        return (
+          <div key={fieldId} className="mt-3">
+            <label className="block text-gray-700 font-medium mb-1">
+              {label}
+            </label>
+            <div className="flex items-center">
+              <span className="text-gray-500 mr-1">$</span>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={getFieldValue(fieldId)}
+                onChange={(e) => updateField(fieldId, e.target.value)}
+                className="w-full rounded-lg border border-gray-300 py-2 px-3"
+                data-testid={`field-${fieldId}`}
+              />
+            </div>
+          </div>
+        );
+
+      // List field — delegate to item-level renderers
+      case "list":
+        if (!listItems || listItems.length === 0) return null;
+
+        // Determine if items are all radiobuttons or all checkboxes
+        // for cleaner grid layout
+        const allRadio = listItems.every((i) => i.itemType === "radiobutton");
+        const allCheckbox = listItems.every((i) => i.itemType === "checkbox");
+
+        return (
+          <div key={fieldId} className="mt-3">
+            <label className="block text-gray-700 font-medium mb-2">
+              {label}
+            </label>
+            <div
+              className={
+                allRadio || allCheckbox ? "flex flex-wrap gap-3" : "space-y-2"
+              }
+            >
+              {listItems.map((item) => renderListItem(field, item))}
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // ── Main render ─────────────────────────────────────────────────────
+  return (
+    <div
+      className="mt-4 ml-2 sm:ml-4 pt-1 pb-4 px-4 border border-gray-200 rounded-lg bg-gray-50"
+      data-testid="dynamic-additional-fields"
+    >
+      {metadataFields.map((field) => renderField(field))}
+    </div>
+  );
+};
+
+export default DynamicAdditionalFields;

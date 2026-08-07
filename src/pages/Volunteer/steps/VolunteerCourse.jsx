@@ -1,38 +1,81 @@
 import { useState, useRef } from "react";
-import React from "react"; //added for testing
+import React from "react";
+import { useTranslation } from "react-i18next";
 
-const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
+const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
+  const { t } = useTranslation("identity");
+
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState("");
   const [source, setSource] = useState("device");
   const [isLoading, setIsLoading] = useState(false);
-  const fileInputRef = useRef(null); // Reference to the file input
+  const fileInputRef = useRef(null);
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+    const uploadedFile = e.target.files[0];
+    setSelectedFile(uploadedFile);
 
-    if (selectedFile) {
-      // Validate file size (2MB = 2 * 1024 * 1024 bytes)
-      if (selectedFile.size > 2 * 1024 * 1024) {
-        setError("File size should not exceed 2MB");
+    if (uploadedFile) {
+      console.log("File name:", uploadedFile.name);
+      console.log("File type:", uploadedFile.type);
+      console.log("File size:", uploadedFile.size);
+
+      if (uploadedFile.size > 5 * 1024 * 1024) {
+        setError(t("FILE_SIZE_ERROR"));
         setFile(null);
         setPreview("");
+        setIsUploaded(false);
+        setSelectedFile(null);
         return;
       }
 
-      // Validate file type
-      const allowedTypes = ["image/jpg", "image/jpeg", "application/pdf"];
-      if (!allowedTypes.includes(selectedFile.type)) {
-        setError("Only JPEG, JPG, and PDF files are allowed");
+      const allowedTypes = [
+        "image/jpg",
+        "image/jpeg",
+        "image/png",
+        "application/pdf",
+      ];
+      const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf"];
+      console.log("Allowed types:", allowedTypes);
+      console.log(
+        "File type in allowed types:",
+        allowedTypes.includes(uploadedFile.type),
+      );
+
+      const isValidMimeType = allowedTypes.includes(uploadedFile.type);
+      const fileExtension = uploadedFile.name
+        .toLowerCase()
+        .substring(uploadedFile.name.lastIndexOf("."));
+      const isValidExtension = allowedExtensions.includes(fileExtension);
+
+      console.log("File extension:", fileExtension);
+      console.log("Is valid extension:", isValidExtension);
+
+      if (!isValidMimeType && !isValidExtension) {
+        setError(
+          t("FILE_TYPE_ERROR", {
+            fileType: uploadedFile.type,
+            extension: fileExtension,
+          }),
+        );
         setFile(null);
         setPreview("");
+        setIsUploaded(false);
+        setSelectedFile(null);
         return;
       }
 
       setError("");
-      setFile(selectedFile);
-      setPreview(URL.createObjectURL(selectedFile));
+      setSelectedFile(uploadedFile);
+      setPreview(URL.createObjectURL(uploadedFile));
+      setIsUploaded(true);
     }
   };
 
@@ -51,8 +94,8 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
     window.gapi.load("picker", () => {
       const picker = new window.google.picker.PickerBuilder()
         .addView(window.google.picker.ViewId.DOCS)
-        .setOAuthToken("YOUR_GOOGLE_OAUTH_TOKEN") // Provide OAuth token
-        .setDeveloperKey("YOUR_DEVELOPER_KEY") // Provide your Developer Key
+        .setOAuthToken("YOUR_GOOGLE_OAUTH_TOKEN")
+        .setDeveloperKey("YOUR_DEVELOPER_KEY")
         .setCallback((data) => {
           if (data.action === window.google.picker.Action.PICKED) {
             const fileId = data.docs[0].id;
@@ -84,25 +127,26 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
   };
 
   const handleRemoveFile = () => {
-    setFile(null);
+    setSelectedFile(null);
     setPreview("");
     setError("");
+    setIsUploaded(false);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Reset the file input
+      fileInputRef.current.value = "";
     }
   };
 
   const handleUpload = async () => {
     if (!file) return;
 
-    const timestamp = new Date().toISOString(); // Get the current timestamp
+    const timestamp = new Date().toISOString();
     const formData = new FormData();
 
     formData.append("file", file);
     formData.append("timestamp", timestamp);
 
     try {
-      setIsLoading(true); // Show loading state if needed
+      setIsLoading(true);
 
       const response = await fetch("/your-backend-api-endpoint", {
         method: "POST",
@@ -110,24 +154,24 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
       });
 
       if (response.ok) {
-        // Handle successful response
         console.log("File uploaded successfully");
       } else {
-        // Handle errors
         const errorData = await response.json();
-        setError(errorData.message || "File upload failed");
+        setError(errorData.message || t("UPLOAD_FAILED"));
       }
     } catch (err) {
-      setError("An error occurred during file upload");
+      setError(t("UPLOAD_ERROR"));
       console.error(err);
     } finally {
-      setIsLoading(false); // Hide loading state
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Upload Government ID</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        {t("UPLOAD_GOVERNMENT_ID")}
+      </h2>
 
       {/* Source Selection Dropdown */}
       <div className="mb-4">
@@ -135,7 +179,7 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
           htmlFor="source"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Select Source
+          {t("SELECT_SOURCE")}
         </label>
         <select
           id="source"
@@ -143,9 +187,9 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
           value={source}
           onChange={handleSourceChange}
         >
-          <option value="device">Device</option>
-          <option value="drive">Google Drive</option>
-          <option value="dropbox">Dropbox</option>
+          <option value="device">{t("DEVICE")}</option>
+          <option value="drive">{t("GOOGLE_DRIVE")}</option>
+          <option value="dropbox">{t("DROPBOX")}</option>
         </select>
       </div>
 
@@ -153,25 +197,39 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
       {source === "device" && (
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Upload File
+            {t("UPLOAD_FILE")}
           </label>
           <input
             type="file"
-            accept=".jpeg,.jpg,.pdf"
-            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+            accept=".jpeg,.jpg,.png,.pdf"
+            className="hidden"
             onChange={handleFileChange}
-            ref={fileInputRef} // Reference the input
+            ref={fileInputRef}
           />
+          <div className="flex items-center gap-3 border border-gray-300 rounded-lg p-2 bg-gray-50">
+            <button
+              type="button"
+              onClick={handleButtonClick}
+              className="px-4 py-2 border rounded bg-white hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700 active:scale-95 duration-150"
+            >
+              {t("CHOOSE_FILE")}
+            </button>
+            <span className="text-gray-600 text-sm truncate max-w-xs">
+              {selectedFile ? selectedFile.name : t("NO_FILE_CHOSEN")}
+            </span>
+          </div>
           <p className="mt-1 text-sm text-gray-500">
-            Only JPEG, JPG, or PDF files. Max size: 2MB.
+            {t("FILE_TYPE_REQUIREMENT")}
           </p>
         </div>
       )}
 
       {/* File Preview */}
-      {file && (
+      {selectedFile && (
         <div className="mb-4">
-          <p className="text-sm font-medium text-gray-700">File: {file.name}</p>
+          <p className="text-sm font-medium text-gray-700">
+            {t("FILE")}: {selectedFile.name}
+          </p>
         </div>
       )}
 
@@ -179,20 +237,13 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile }) => {
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       {/* Upload and Remove Buttons */}
-      <div className="flex justify-between items-center">
-        <button
-          onClick={handleUpload}
-          disabled={!file || isLoading}
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
-        >
-          {isLoading ? "Uploading..." : "Upload"}
-        </button>
-        {file && (
+      <div className="flex gap-3 items-center">
+        {selectedFile && (
           <button
             onClick={handleRemoveFile}
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
           >
-            Remove
+            {t("REMOVE")}
           </button>
         )}
       </div>

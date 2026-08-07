@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "ନିଜେ",
+    "OTHER": "ଅନ୍ୟ"
+  },
+  "requestPriority": {
+    "LOW": "କମ୍",
+    "MEDIUM": "ମଧ୍ୟମ",
+    "HIGH": "ଉଚ୍ଚ",
+    "CRITICAL": "ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ"
+  },
+  "requestStatus": {
+    "CREATED": "ସୃଷ୍ଟି ହୋଇଛି",
+    "MATCHING VOLUNTEER": "ସ୍ୱେଚ୍ଛାସେବୀ ଖୋଜୁଛି",
+    "MANAGED": "ପରିଚାଳିତ",
+    "RESOLVED": "ସମାଧାନ ହୋଇଛି",
+    "CANCELLED": "ବାତିଲ ହୋଇଛି",
+    "DELETED": "ବିଲୋପ ହୋଇଛି"
+  },
+  "requestType": {
+    "INPERSON": "ବ୍ୟକ୍ତିଗତଭାବେ",
+    "REMOTE": "ଦୂରବର୍ତ୍ତୀ"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "Tải lên ID chính phủ",
+  "SELECT_SOURCE": "Chọn nguồn",
+  "DEVICE": "Thiết bị",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "Tải lên tệp",
+  "FILE": "Tệp",
+  "FILE_PREVIEW": "Xem trước",
+  "UPLOAD": "Tải lên",
+  "UPLOADING": "Đang tải lên...",
+  "REMOVE": "Xóa",
+  "FILE_SIZE_ERROR": "Kích thước tệp không được vượt quá 2MB",
+  "FILE_TYPE_ERROR": "Chỉ cho phép các tệp JPEG, JPG, PNG và PDF. Loại tệp được phát hiện: {{fileType}}, phần mở rộng: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "Chỉ các tệp JPEG, JPG, PNG hoặc PDF. Kích thước tối đa: 2MB.",
+  "UPLOAD_SUCCESS": "Tải lên tệp thành công",
+  "UPLOAD_FAILED": "Tải lên tệp thất bại",
+  "UPLOAD_ERROR": "Đã xảy ra lỗi trong quá trình tải lên tệp"
+}
