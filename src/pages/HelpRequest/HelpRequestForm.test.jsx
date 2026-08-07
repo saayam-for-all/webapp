@@ -12,7 +12,7 @@ import HelpRequestForm from "./HelpRequestForm";
 import authReducer from "#redux/features/authentication/authSlice";
 import requestReducer from "../../redux/features/help_request/requestSlice";
 import { NotificationProvider } from "../../context/NotificationContext";
-
+import { changeUiLanguage } from "../../common/i18n/utils";
 /**
  * Stable t mock — the same jest.fn instance is returned on every useTranslation()
  * call. This prevents the infinite render loop that occurs when t is listed as a
@@ -94,6 +94,10 @@ jest.mock("../../services/audioServices", () => ({
 jest.mock("../../common/components/VoiceRecordingComponent", () => () => (
   <div data-testid="voice-recorder" />
 ));
+
+jest.mock("../../common/i18n/utils", () => ({
+  changeUiLanguage: jest.fn(),
+}));
 
 jest.mock("../../common/components/Loading/Loading.jsx", () => () => (
   <span data-testid="loading-spinner" />
@@ -3034,5 +3038,53 @@ describe("HelpRequestForm — Other person location field (#1622)", () => {
     );
     expect(callArgs.formData.otherPersonLocation).toBeUndefined();
     expect(callArgs.formData.otherPersonLocationCoordinates).toBeUndefined();
+  });
+});
+
+describe("HelpRequestForm — language dropdown (Create Request)", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    changeUiLanguage.mockClear();
+  });
+
+  it("defaults to the user's saved first language preference", () => {
+    localStorage.setItem(
+      "userPreferences",
+      JSON.stringify({ languagePreference1: "Hindi" }),
+    );
+    renderForm();
+    const languageSelect = document.getElementById("request_language");
+    expect(languageSelect.value).toBe("Hindi");
+  });
+
+  it("falls back to the first language in the list when no preference is saved", () => {
+    renderForm();
+    const languageSelect = document.getElementById("request_language");
+    // Native <select> has no blank/placeholder option, so with an empty
+    // formData.request_language it falls back to displaying the first
+    // option in the list (Arabic, per languagesData.js) rather than blank.
+    expect(languageSelect.value).toBe("Arabic");
+  });
+
+  it("updates the selected value and calls changeUiLanguage when the user picks a different language", () => {
+    localStorage.setItem(
+      "userPreferences",
+      JSON.stringify({ languagePreference1: "Hindi" }),
+    );
+    renderForm();
+    const languageSelect = document.getElementById("request_language");
+    fireEvent.change(languageSelect, { target: { value: "Spanish" } });
+    expect(languageSelect.value).toBe("Spanish");
+    expect(changeUiLanguage).toHaveBeenCalledWith({
+      languagePreference1: "Spanish",
+    });
+  });
+
+  it("renders the language dropdown next to the voice recorder in the Description section", () => {
+    renderForm();
+    const languageSelect = document.getElementById("request_language");
+    const voiceRecorder = screen.getByTestId("voice-recorder");
+    expect(languageSelect).toBeInTheDocument();
+    expect(voiceRecorder).toBeInTheDocument();
   });
 });
