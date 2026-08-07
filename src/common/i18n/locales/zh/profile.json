@@ -93,6 +93,7 @@
   "TIMEZONE": "时区",
   "USE_CURRENT_TIMEZONE": "使用当前时区",
   "RECEIVE EMERGENCY NOTIFICATIONS": "接收紧急通知",
+  "DONOR": "捐贈者",
   "PREFERENCES UPDATED SUCCESS": "偏好设置已更新成功!",
   "ACCOUNT_DELETION_WARNING_TITLE": "删除帐户",
   "ACCOUNT_DELETION_WARNING_TEXT": "此操作将永久删除您的帐户及所有相关数据。此操作无法撤销。请在继续操作前确保您已备份所有重要信息。",
