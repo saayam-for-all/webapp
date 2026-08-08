@@ -5,6 +5,7 @@ import {
   MenuItem,
   TextField,
   InputAdornment,
+  Badge,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -38,6 +39,7 @@ import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImag
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
+import { GET_NOTIFICATIONS } from "../../../services/requestServices";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -226,72 +228,12 @@ const Navbar = () => {
     }
     const fetchNotifications = async () => {
       try {
-        // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
-        // const rawNotifications = response.data.notifications || [];
-        const rawNotifications = [
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "You have new Volunteer match request in Logistics",
-            date: "Mar 15, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Hospital",
-            date: "Jun 15, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "LOGISTIC_HELP",
-            title: "Logistic Help",
-            message: "Logistics",
-            date: "Nov 15, 2023, 10:30 AM",
-          },
-          {
-            type: "helpRequest",
-            titleKey: "EDUCATIONAL_HELP",
-            title: "Educational Help",
-            message: "Need help with Logistics",
-            date: "Dec 16, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Education",
-            date: "Jan 15, 2023, 10:30 AM",
-          },
-        ];
-
-        // ✅ Add unique ID using crypto.randomUUID()
-        const notificationsWithIds = rawNotifications.map((note) => ({
-          ...note,
-          id: crypto.randomUUID(),
-        }));
-
-        notificationDispatch({
-          type: "SET_NOTIFICATIONS",
-          payload: notificationsWithIds,
-        });
-        const existing = new Set(
-          state.notifications.map((n) => n.message + n.date),
-        );
-        const newOnes = notificationsWithIds.filter(
-          (n) => !existing.has(n.message + n.date),
-        );
-
-        // Only update if new notifications exist
-        if (newOnes.length > 0) {
-          notificationDispatch({
-            type: "SET_NOTIFICATIONS",
-            payload: [...state.notifications, ...newOnes],
-          });
-
-          setNewNotificationCount((prev) => prev + newOnes.length);
-        }
+        // Call the notifications mock API (POST with a userId).
+        // Mock returns a count like { count: 5 }; the live API is
+        // expected to return the full notification list later.
+        const response = await GET_NOTIFICATIONS(user?.userId || "A1234");
+        const count = response?.count || 0;
+        setNewNotificationCount(count);
       } catch (error) {
         console.error("Error fetching Notifications:", error);
       }
@@ -299,7 +241,7 @@ const Navbar = () => {
 
     fetchNotifications(); // Comment it after call ing the funciton below
 
-    const interval = setInterval(fetchNotifications, 2 * 60 * 1000); // fetch every 2 min
+    const interval = setInterval(fetchNotifications, 5 * 60 * 1000); // fetch every 5 min
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);
@@ -668,7 +610,13 @@ const Navbar = () => {
                     className="text-black hover:text-gray-600 flex items-center"
                     aria-label={t("NOTIFICATIONS")}
                   >
-                    <NotificationsIcon sx={{ fontSize: 38 }} />
+                    <Badge
+                      badgeContent={newNotificationCount}
+                      color="error"
+                      overlap="circular"
+                    >
+                      <NotificationsIcon sx={{ fontSize: 38 }} />
+                    </Badge>
                   </button>
                 </ModernTooltip>
               </div>

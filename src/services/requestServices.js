@@ -92,8 +92,8 @@ export const generateSubject = async (description) => {
   return response.data;
 };
 
-export const GET_NOTIFICATIONS = async () => {
-  const response = await api.get(endpoints.GET_NOTIFICATIONS);
+export const GET_NOTIFICATIONS = async (userId) => {
+  const response = await api.post(endpoints.GET_NOTIFICATIONS, { userId });
   return response.data;
 };
 
