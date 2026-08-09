@@ -11,6 +11,7 @@ import {
   createVolunteer,
   updateVolunteer,
   updateUserSkills,
+  saveVolunteerStep1,
 } from "../../services/volunteerServices";
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
@@ -100,9 +101,7 @@ const PromoteToVolunteer = () => {
         console.error("Failed to parse volunteer_form_data:", e);
       }
     }
-    return [
-      { id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null },
-    ];
+    return [{ id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null }];
   });
   const [tobeNotified, setNotification] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
@@ -155,7 +154,14 @@ const PromoteToVolunteer = () => {
       };
       setSessionStorageItem("volunteer_form_data", JSON.stringify(formData));
     }
-  }, [isAcknowledged, isUploaded, selectedSkills, availabilitySlots, tobeNotified, currentStep]);
+  }, [
+    isAcknowledged,
+    isUploaded,
+    selectedSkills,
+    availabilitySlots,
+    tobeNotified,
+    currentStep,
+  ]);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -269,14 +275,32 @@ const PromoteToVolunteer = () => {
 
     if (direction === "next") {
       switch (currentStep) {
-        case 1:
+        case 1: {
           isValidStep = isAcknowledged;
           updateVolunteerData({
             step: currentStep,
             userId: userId,
             termsAndConditions: isAcknowledged,
           });
+          if (isAcknowledged) {
+            try {
+              const payload = {
+                step: 1,
+                userId: userId || "mockUser123",
+                termsAndConditions: isAcknowledged,
+              };
+              await saveVolunteerStep1(payload);
+            } catch (error) {
+              console.error(
+                "Failed to save Volunteer Step 1 progress (Issue BA #30):",
+                error,
+              );
+            } finally {
+              setCurrentStep(2);
+            }
+          }
           break;
+        }
         case 2:
           // isValidStep = govtIdFile && govtIdFile.name !== "";
           handleSaveFile();
@@ -327,7 +351,7 @@ const PromoteToVolunteer = () => {
         default:
           isValidStep = false;
       }
- 
+
       if (isValidStep) {
         setErrorMessage("");
         newStep++;
@@ -336,9 +360,7 @@ const PromoteToVolunteer = () => {
           removeSessionStorageItem("volunteer_form_data");
         }
       } else {
-        setErrorMessage(
-          t("COMPLETE_REQUIRED_FIELDS"),
-        );
+        setErrorMessage(t("COMPLETE_REQUIRED_FIELDS"));
       }
     } else if (direction === "prev") {
       newStep--;
