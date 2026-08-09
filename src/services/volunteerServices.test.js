@@ -13,6 +13,7 @@ import {
   signOffUser,
   getUserId,
   updateUserSkills,
+  saveVolunteerStep1,
 } from "./volunteerServices";
 
 jest.mock("./api");
@@ -89,6 +90,24 @@ describe("volunteerServices volunteer data APIs", () => {
 
     api.get.mockResolvedValueOnce({ data: { body: null } });
     await expect(getVolunteersData()).resolves.toEqual([]);
+  });
+
+  it("saves volunteer step 1 progress", async () => {
+    api.post.mockResolvedValueOnce({ data: { success: true } });
+    const payload = { step: 1, userId: "SID-123", termsAndConditions: true };
+    await expect(saveVolunteerStep1(payload)).resolves.toEqual({
+      success: true,
+    });
+    expect(api.post).toHaveBeenCalledWith(
+      "v1/volunteer/VolunteerStep1",
+      payload,
+    );
+  });
+
+  it("propagates errors on saveVolunteerStep1 failure", async () => {
+    api.post.mockRejectedValueOnce(new Error("API Error"));
+    const payload = { step: 1, userId: "SID-123", termsAndConditions: true };
+    await expect(saveVolunteerStep1(payload)).rejects.toThrow("API Error");
   });
 });
 
