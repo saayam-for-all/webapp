@@ -39,7 +39,7 @@ import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImag
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
-import { GET_NOTIFICATIONS } from "../../../services/requestServices";
+import { GET_NOTIFICATION_COUNT } from "../../../services/requestServices";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -228,12 +228,76 @@ const Navbar = () => {
     }
     const fetchNotifications = async () => {
       try {
-        // Call the notifications mock API (POST with a userId).
-        // Mock returns a count like { count: 5 }; the live API is
-        // expected to return the full notification list later.
-        const response = await GET_NOTIFICATIONS(user?.userId || "A1234");
-        const count = response?.count || 0;
-        setNewNotificationCount(count);
+        // --- Notification COUNT (bell badge) ---
+        // Separate POST API from the list below. Feeds the bell badge.
+        // Mock returns a count like { count: 5 }.
+        const countResponse = await GET_NOTIFICATION_COUNT(
+          user?.userId || "A1234",
+        );
+        setNewNotificationCount(countResponse?.count || 0);
+
+        // --- Notification LIST (notifications page) ---
+        // Mock JSON data used to populate the notifications page until
+        // the real list API is available. Do not remove.
+        const rawNotifications = [
+          {
+            type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
+            title: "New Match Request",
+            message: "You have new Volunteer match request in Logistics",
+            date: "Mar 15, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
+            title: "New Match Request",
+            message: "Hospital",
+            date: "Jun 15, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            titleKey: "LOGISTIC_HELP",
+            title: "Logistic Help",
+            message: "Logistics",
+            date: "Nov 15, 2023, 10:30 AM",
+          },
+          {
+            type: "helpRequest",
+            titleKey: "EDUCATIONAL_HELP",
+            title: "Educational Help",
+            message: "Need help with Logistics",
+            date: "Dec 16, 2023, 10:30 AM",
+          },
+          {
+            type: "Volunteer",
+            titleKey: "NEW_MATCH_REQUEST",
+            title: "New Match Request",
+            message: "Education",
+            date: "Jan 15, 2023, 10:30 AM",
+          },
+        ];
+
+        const notificationsWithIds = rawNotifications.map((note) => ({
+          ...note,
+          id: crypto.randomUUID(),
+        }));
+
+        notificationDispatch({
+          type: "SET_NOTIFICATIONS",
+          payload: notificationsWithIds,
+        });
+        const existing = new Set(
+          state.notifications.map((n) => n.message + n.date),
+        );
+        const newOnes = notificationsWithIds.filter(
+          (n) => !existing.has(n.message + n.date),
+        );
+        if (newOnes.length > 0) {
+          notificationDispatch({
+            type: "SET_NOTIFICATIONS",
+            payload: [...state.notifications, ...newOnes],
+          });
+        }
       } catch (error) {
         console.error("Error fetching Notifications:", error);
       }
