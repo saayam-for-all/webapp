@@ -95,11 +95,11 @@ exports[`LandingPage renders correctly 1`] = `
         <mock-carousel />
         <div
           aria-label="mockTranslate(ADVERTISEMENT)"
-          class="my-6 w-full rounded-lg border border-slate-200 bg-slate-50 p-4 text-center [&_ins.adsbygoogle]:!bg-transparent"
+          class="w-full rounded-lg border border-slate-200 bg-slate-50 text-center [&_ins.adsbygoogle]:!bg-transparent my-6 py-4 px-0 xl:px-4"
           role="complementary"
         >
           <span
-            class="mb-3 block text-[10px] font-semibold uppercase tracking-wider text-slate-400"
+            class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-3"
           >
             mockTranslate(ADVERTISEMENT)
           </span>
@@ -438,11 +438,11 @@ exports[`LandingPage renders correctly 1`] = `
       <mock-carousel />
       <div
         aria-label="mockTranslate(ADVERTISEMENT)"
-        class="my-6 w-full rounded-lg border border-slate-200 bg-slate-50 p-4 text-center [&_ins.adsbygoogle]:!bg-transparent"
+        class="w-full rounded-lg border border-slate-200 bg-slate-50 text-center [&_ins.adsbygoogle]:!bg-transparent my-6 py-4 px-0 xl:px-4"
         role="complementary"
       >
         <span
-          class="mb-3 block text-[10px] font-semibold uppercase tracking-wider text-slate-400"
+          class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-3"
         >
           mockTranslate(ADVERTISEMENT)
         </span>

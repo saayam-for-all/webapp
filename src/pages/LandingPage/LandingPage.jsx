@@ -19,7 +19,6 @@ import topOne from "../../assets/landingPageImages/topOne.jpg";
 import topTwo from "../../assets/landingPageImages/topTwo.jpg";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
-import SquareAd from "#components/Ads/SquareAd";
 import HorizontalAd from "#components/Ads/HorizontalAd";
 
 export default function Home() {
