@@ -1,21 +1,9 @@
-import { useEffect, useRef } from "react";
-
-const AD_ALLOWED_HOSTNAMES = ["saayamforall.org", "www.saayamforall.org"];
+import { useEffect } from "react";
 
 const VerticalAd = () => {
-  const hasPushedRef = useRef(false);
-
   useEffect(() => {
-    if (
-      hasPushedRef.current ||
-      !AD_ALLOWED_HOSTNAMES.includes(window.location.hostname)
-    ) {
-      return;
-    }
-
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
-      hasPushedRef.current = true;
     } catch (e) {
       console.error("Adsense error", e);
     }

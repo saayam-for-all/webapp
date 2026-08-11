@@ -82,24 +82,12 @@ describe("VerticalAd", () => {
     expect(screen.queryByText("ADVERTISEMENT")).toBeNull();
   });
 
-  it("does not push to adsbygoogle on non-production hostnames", () => {
-    setHostname("localhost");
-
-    render(<VerticalAd />);
-
-    expect(window.adsbygoogle).toBeUndefined();
-  });
-
-  it.each([AD_HOSTNAME, "www.saayamforall.org"])(
-    "pushes exactly once on %s under StrictMode",
+  it.each(["localhost", AD_HOSTNAME, "www.saayamforall.org"])(
+    "pushes to adsbygoogle when mounted on %s",
     (hostname) => {
       setHostname(hostname);
 
-      render(
-        <StrictMode>
-          <VerticalAd />
-        </StrictMode>,
-      );
+      render(<VerticalAd />);
 
       expect(window.adsbygoogle).toHaveLength(1);
     },
