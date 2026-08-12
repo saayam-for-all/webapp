@@ -4,7 +4,7 @@ import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
 import Review from "./steps/Review";
 import Skills from "./steps/Skills";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
@@ -51,9 +51,16 @@ const removeSessionStorageItem = (key) => {
 
 const PromoteToVolunteer = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
+
+  const applicant = location.state;
+  const isStewardReview = applicant?.isStewardReview === true;
   const stepParam = parseInt(searchParams.get("step")) || 1;
   const [currentStep, setCurrentStep] = useState(() => {
+    if (isStewardReview) {
+      return 5;
+    }
     const cachedStep = getSessionStorageItem("volunteer_wizard_step");
     return cachedStep ? parseInt(cachedStep, 10) : stepParam;
   });
@@ -235,13 +242,16 @@ const PromoteToVolunteer = () => {
             setNotification={setNotification}
           />
         );
+
       case 5:
-        return <Review />;
+        return (
+          <Review isStewardReview={isStewardReview} applicant={applicant} />
+        );
+
       default:
         return null;
     }
   };
-
   const isAvailabilityValid = useMemo(() => {
     if (!availabilitySlots || availabilitySlots.length === 0) return false;
     return availabilitySlots.some((slot) => {

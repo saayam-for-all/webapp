@@ -1,3 +1,4 @@
+import { MemoryRouter } from "react-router-dom";
 import { screen, fireEvent, waitFor, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import PromoteToVolunteer from "./PromoteToVolunteer";
@@ -17,6 +18,7 @@ jest.mock("react-router-dom", () => ({
     return [params, jest.fn()];
   },
   useNavigate: () => jest.fn(),
+  useLocation: () => ({ state: null }),
 }));
 
 jest.mock("../../services/volunteerServices", () => ({
