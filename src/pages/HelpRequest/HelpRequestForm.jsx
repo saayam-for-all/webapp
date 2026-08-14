@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CS
 import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import { FiPaperclip } from "react-icons/fi";
+import { changeUiLanguage } from "../../common/i18n/utils";
 import { mapHelpRequestPayload } from "../../utils/mapHelpRequestPayload";
 import {
   useAddRequestMutation,
@@ -222,6 +223,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     lead_volunteer: "Ethan Marshall",
     is_calamity: false,
     preferred_language: (() => {
+      const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
+      return saved.languagePreference1 || "";
+    })(),
+    request_language: (() => {
       const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
       return saved.languagePreference1 || "";
     })(),
@@ -1748,7 +1753,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
                 {/* Description + Attach npmfiles icon */}
                 <div className="mt-3" data-testid="parentDivSeven">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <label
                       htmlFor="description"
                       className="text-gray-700 font-medium mb-2 flex items-center gap-2"
@@ -1757,9 +1762,27 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                       <span className="text-red-500 m-1">*</span>(
                       {t("MAX_CHARACTERS", { count: 500 })})
                     </label>
-
-                    {/* Right side: Voice Recording Component and File Attachment */}
-                    <div className="flex items-center gap-3">
+                    {/* Right side: Language Dropdown, Voice Recording Component and File Attachment */}
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {/* Language Dropdown - indicates the language of this request's text */}
+                      <select
+                        id="request_language"
+                        value={formData.request_language}
+                        onChange={(e) => {
+                          handleChange(e);
+                          changeUiLanguage({
+                            languagePreference1: e.target.value,
+                          });
+                        }}
+                        className="border border-gray-300 text-gray-700 rounded-lg p-2 text-sm bg-white min-w-0 max-w-[140px] flex-shrink"
+                        aria-label="Request language"
+                      >
+                        {languages.map((language) => (
+                          <option key={language.value} value={language.value}>
+                            {language.label}
+                          </option>
+                        ))}
+                      </select>
                       {/* Voice Recording Component */}
                       <VoiceRecordingComponent
                         onTranscriptionUpdate={(text) => {

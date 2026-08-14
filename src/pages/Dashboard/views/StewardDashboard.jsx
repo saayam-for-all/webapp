@@ -73,7 +73,7 @@ const StewardDashboard = (props) => {
           }`}
           onClick={() => setActiveTab("allRequests")}
         >
-          All Requests
+          Review Requests
         </button>
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${

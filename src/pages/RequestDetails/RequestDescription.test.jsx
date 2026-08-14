@@ -158,29 +158,17 @@ describe("RequestDescription", () => {
       ).toBeInTheDocument();
     });
 
-    it("displays additionalInfo fields when present", () => {
-      const requestDataWithInfo = {
-        ...mockRequestData,
-        additionalInfo: {
-          contact_number: "123-456-7890",
-          preferred_time: "Morning",
-        },
-      };
-
+    it("renders the AdditionalFieldsDisplay integration point, showing the empty state when requestId/requesterId are not provided", () => {
       renderWithProviders(
-        <RequestDescription requestData={requestDataWithInfo} />,
+        <RequestDescription requestData={mockRequestData} />,
         {
           preloadedState: MOCK_STATE_LOGGED_IN,
         },
       );
 
-      expect(screen.getByText("contact number")).toBeInTheDocument();
-
-      expect(screen.getByText("123-456-7890")).toBeInTheDocument();
-
-      expect(screen.getByText("preferred time")).toBeInTheDocument();
-
-      expect(screen.getByText("Morning")).toBeInTheDocument();
+      expect(
+        screen.getByText("No additional information available."),
+      ).toBeInTheDocument();
     });
 
     it("displays placeholder when attachments are not present", () => {

@@ -93,6 +93,7 @@
   "TIMEZONE": "Zeitzone",
   "USE_CURRENT_TIMEZONE": "Aktuelle Zeitzone verwenden",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Notfallbenachrichtigungen erhalten",
+  "DONOR": "Spender",
   "PREFERENCES UPDATED SUCCESS": "Einstellungen erfolgreich aktualisiert!",
   "ACCOUNT_DELETION_WARNING_TITLE": "Kontolöschung",
   "ACCOUNT_DELETION_WARNING_TEXT": "Diese Aktion löscht Ihr Konto und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden. Bitte stellen Sie sicher, dass Sie alle wichtigen Informationen gesichert haben, bevor Sie fortfahren.",

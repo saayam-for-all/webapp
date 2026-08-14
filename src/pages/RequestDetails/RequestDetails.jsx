@@ -7,7 +7,11 @@ import { RiUserStarLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RequestButton from "../../common/components/RequestButton/RequestButton";
-import { getComments, getMyRequests } from "../../services/requestServices";
+import {
+  getComments,
+  getMyRequests,
+  deleteRequest,
+} from "../../services/requestServices";
 import HelpRequestForm from "../HelpRequest/HelpRequestForm";
 import CommentsSection from "./CommentsSection";
 import HelpingVolunteers from "./HelpingVolunteers";
@@ -37,9 +41,12 @@ const RequestDetails = () => {
   const [showEmergency, setShowEmergency] = useState(false);
   const requestId = id || location.state?.id;
   const currentUser = useSelector((state) => state.auth.user);
+  const userDbId = useSelector((state) => state.auth.user?.userDbId);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteReason, setDeleteReason] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
   const [changeVolunteerDialogOpen, setChangeVolunteerDialogOpen] =
     useState(false);
   const [volunteerChangeReason, setVolunteerChangeReason] = useState("");
@@ -155,12 +162,33 @@ const RequestDetails = () => {
 
   // NEW: handlers (same behavior you had before)
   const handleDeleteRequest = async () => {
+    setIsDeleting(true);
+    setDeleteError("");
     try {
+      // requesterId resolution mirrors the Edit flow:
+      // - My Requests tab -> logged-in user's userDbId (from Redux)
+      // - All Requests tab -> requesterId comes from the request object itself
+      const payload = {
+        requestId: requestData?.id || requestId,
+        requesterId: isMyRequest
+          ? userDbId
+          : requestData?.requesterId || userDbId,
+      };
+
+      // NOTE (SAAYAM-1700): "reason" (deleteReason) is captured in the UI but
+      // NOT sent yet — the delete API doesn't accept a reason param yet.
+      // Once backend adds support, include it here, e.g.:
+      //   await deleteRequest({ ...payload, reason: deleteReason });
+      await deleteRequest(payload);
+
       setDeleteDialogOpen(false);
       setDeleteReason("");
       navigate("/dashboard");
     } catch (error) {
       console.error("Delete failed:", error);
+      setDeleteError("Failed to delete request. Please try again.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -362,6 +390,12 @@ const RequestDetails = () => {
                   <RequestDescription
                     requestData={requestData}
                     setIsEditing={setIsEditing}
+                    requestId={requestData?.id || requestId}
+                    requesterId={
+                      isMyRequest
+                        ? userDbId
+                        : requestData?.requesterId || userDbId
+                    }
                   />
                 )}
               </div>
@@ -412,6 +446,11 @@ const RequestDetails = () => {
                   className="border p-2 w-full mt-3 rounded-lg min-h-[140px]"
                   placeholder={t("REASON")}
                 />
+                {deleteError && (
+                  <Typography color="error" variant="body2" className="mt-2">
+                    {deleteError}
+                  </Typography>
+                )}
               </DialogContent>
 
               <DialogActions>
@@ -422,10 +461,10 @@ const RequestDetails = () => {
                 />
 
                 <StandardButton
-                  text={t("DELETE_ACTION")}
+                  text={isDeleting ? "Deleting..." : t("DELETE_ACTION")}
                   onClick={handleDeleteRequest}
-                  disabled={!deleteReason.trim()}
                   variant="primary"
+                  disabled={!deleteReason.trim() || isDeleting}
                 />
               </DialogActions>
             </Dialog>

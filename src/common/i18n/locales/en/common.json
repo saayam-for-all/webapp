@@ -149,6 +149,7 @@
   "DONATION_ACHIEVEMENT_3": "Enable us to reach more people in need of support",
   "DONATION_SUBTITLE": "Your contribution helps us continue our mission of providing assistance to those in need.",
   "DONATION_USED_SUPPORT_VARIOUS_PROGRAMS": "Donation Used Support Various Programs",
+  "DONOR": "Donor",
   "DONORS": "DONORS",
   "DRIVEN_BY_BELIEF_HUMANITY": "Driven By Belief Humanity",
   "Design and Creative Lead": "Design and Creative Lead",
@@ -818,5 +819,6 @@
   "STEP_NUMBER_3": "3",
   "STEP_NUMBER_4": "4",
   "STEP_NUMBER_5": "5",
-  "DELETE_ACTION": "Delete"
+  "DELETE_ACTION": "Delete",
+  "VOICE_NO_SPEECH_DETECTED": "No speech detected. Please try again and speak into your microphone while recording."
 }

@@ -33,10 +33,10 @@ describe("StewardDashboard Component", () => {
     jest.clearAllMocks();
   });
 
-  it("renders All Requests tab by default", () => {
+  it("renders Review Requests tab by default", () => {
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
-    expect(screen.getByText("All Requests")).toBeInTheDocument();
+    expect(screen.getByText("Review Requests")).toBeInTheDocument();
     expect(screen.getByText("Volunteers")).toBeInTheDocument();
     expect(screen.getByText("Search Filters")).toBeInTheDocument();
   });
@@ -162,7 +162,7 @@ describe("StewardDashboard Component", () => {
     });
   });
 
-  it("renders loading indicator when isLoading is true on All Requests", () => {
+  it("renders loading indicator when isLoading is true on Review Requests", () => {
     renderWithProviders(<StewardDashboard {...mockProps} isLoading={true} />);
     expect(screen.getByTestId("loading-indicator")).toBeInTheDocument();
   });

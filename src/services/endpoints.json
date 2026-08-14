@@ -25,6 +25,7 @@
   "GENERATE_ANSWER_API": "v1/genai/generate_answer_api",
   "UPLOAD_PROFILE_IMAGE": "v1/volunteer/profileImage",
   "DELETE_PROFILE_IMAGE": "v1/volunteer/profileImage",
+  "DELETE_HELP_REQUEST": "v1/request/deleteRequest",
   "VIEW_PROFILE_IMAGE": "v1/volunteer/profileImage/view",
   "GET_USER_ID": "v1/volunteer/getUserIdByEmail",
   "GET_CATEGORIES": "v1/request/mockHelpCategories",
@@ -46,5 +47,6 @@
   "ORG_AGGREGATOR_LIST": "v1/ml/orgAggregatorList",
   "MOCK_ORG_DATA": "v1/ml/mockOrgData",
   "GET_KPI_ANALYTICS": "v1/ml/kpiAnalytics",
-  "VOLUNTEER_APPLICATION_ANALYTICS": "v1/ml/volunteerApplicationAnalytics"
+  "VOLUNTEER_APPLICATION_ANALYTICS": "v1/ml/volunteerApplicationAnalytics",
+  "VOLUNTEER_STEP_1": "v1/volunteer/VolunteerStep1"
 }

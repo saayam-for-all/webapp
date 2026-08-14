@@ -93,6 +93,7 @@
   "TIMEZONE": "Zona horaria",
   "USE_CURRENT_TIMEZONE": "Usar zona horaria actual",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Recibir Notificaciones de Emergencia",
+  "DONOR": "Donante",
   "PREFERENCES UPDATED SUCCESS": "¡Preferencias actualizadas con éxito!",
   "ACCOUNT_DELETION_WARNING_TITLE": "Eliminación de Cuenta",
   "ACCOUNT_DELETION_WARNING_TEXT": "Esta acción eliminará permanentemente tu cuenta y todos los datos asociados. Esta acción no se puede deshacer. Por favor, asegúrate de haber hecho una copia de seguridad de cualquier información importante antes de proceder.",

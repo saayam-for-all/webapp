@@ -58,14 +58,6 @@ exports[`NewsOurStories renders correctly 1`] = `
                 >
                   mockTranslate(STORY_1_DESC)
                 </p>
-                <a
-                  class="news-link"
-                  href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  mockTranslate(READ_MORE)
-                </a>
               </div>
             </div>
             <div
@@ -311,6 +303,33 @@ exports[`NewsOurStories renders correctly 1`] = `
                 </p>
               </div>
             </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="STORY_11_TITLE"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_11_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_11_DESC)
+                </p>
+              </div>
+            </div>
           </div>
         </section>
         <div
@@ -390,14 +409,6 @@ exports[`NewsOurStories renders correctly 1`] = `
               >
                 mockTranslate(STORY_1_DESC)
               </p>
-              <a
-                class="news-link"
-                href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                mockTranslate(READ_MORE)
-              </a>
             </div>
           </div>
           <div
@@ -640,6 +651,33 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-desc"
               >
                 mockTranslate(STORY_10_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="STORY_11_TITLE"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_11_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_11_DESC)
               </p>
             </div>
           </div>

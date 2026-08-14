@@ -93,6 +93,7 @@
   "TIMEZONE": "Fuseau horaire",
   "USE_CURRENT_TIMEZONE": "Utiliser le fuseau horaire actuel",
   "RECEIVE EMERGENCY NOTIFICATIONS": "Recevoir les notifications d'urgence",
+  "DONOR": "Donneur",
   "PREFERENCES UPDATED SUCCESS": "Préférences mises à jour avec succès !",
   "ACCOUNT_DELETION_WARNING_TITLE": "Suppression de compte",
   "ACCOUNT_DELETION_WARNING_TEXT": "Cette action supprimera définitivement votre compte et toutes les données associées. Cette action est irréversible. Veuillez vous assurer d'avoir sauvegardé toutes les informations importantes avant de continuer.",

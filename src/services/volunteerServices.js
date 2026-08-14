@@ -56,6 +56,16 @@ export const updateVolunteer = async (volunteerData) => {
   return response.data;
 };
 
+/**
+ * Save volunteer terms and conditions (Step 1)
+ * @param {Object} payload - Payload containing step, userId, and termsAndConditions
+ * @returns {Promise<Object>} - API response
+ */
+export const saveVolunteerStep1 = async (payload) => {
+  const response = await api.post(endpoints.VOLUNTEER_STEP_1, payload);
+  return response.data;
+};
+
 export const getUserId = async (email) => {
   try {
     const response = await api.post(endpoints.GET_USER_ID, { email });

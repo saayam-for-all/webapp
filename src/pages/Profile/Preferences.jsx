@@ -43,7 +43,7 @@ const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
 
     return {
       value: timezoneValue,
-      label: `${timezoneValue} ${utcOffset ? `(${utcOffset})` : ""} ${userFriendlyName ? `(${userFriendlyName})` : ""}`,
+      label: userFriendlyName || timezoneValue,
       displayOffset: utcOffset,
       userFriendlyName: userFriendlyName,
     };
@@ -96,6 +96,7 @@ function Preferences({ setHasUnsavedChanges }) {
     selectedPhonePreference: "primary",
     timezone: "UTC",
     receiveEmergencyNotifications: false,
+    donor: false,
   });
 
   // Timezone options (same as Availability page)
@@ -291,6 +292,10 @@ function Preferences({ setHasUnsavedChanges }) {
           (user.emergency_notifications === "true" ||
             user["custom:emergency_notifications"] === "true" ||
             false),
+
+        donor:
+          savedPreferences.donor ??
+          (user.donor === "true" || user["custom:donor"] === "true" || false),
       });
 
       // If no timezone is saved, detect and set user's timezone
@@ -413,6 +418,7 @@ function Preferences({ setHasUnsavedChanges }) {
         updatedAttributes["custom:timezone"] = preferencesInfo.timezone;
         updatedAttributes["custom:emergency_notifications"] =
           preferencesInfo.receiveEmergencyNotifications.toString();
+        updatedAttributes["custom:donor"] = preferencesInfo.donor.toString();
 
         console.log("Attempting to update Cognito with:", updatedAttributes);
 
@@ -521,6 +527,8 @@ function Preferences({ setHasUnsavedChanges }) {
           user.emergency_notifications === "true" ||
           user["custom:emergency_notifications"] === "true" ||
           false,
+        donor:
+          user.donor === "true" || user["custom:donor"] === "true" || false,
       });
     }
   };
@@ -822,6 +830,23 @@ function Preferences({ setHasUnsavedChanges }) {
             className="text-sm font-bold"
           >
             {t("RECEIVE EMERGENCY NOTIFICATIONS")}
+          </label>
+        </div>
+      </div>
+
+      {/* Donor */}
+      <div className="mb-6">
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="donor"
+            checked={preferencesInfo.donor}
+            onChange={(e) => handleInputChange("donor", e.target.checked)}
+            disabled={!isEditing}
+            className="mr-2"
+          />
+          <label htmlFor="donor" className="text-sm font-bold">
+            {t("DONOR")}?
           </label>
         </div>
       </div>
