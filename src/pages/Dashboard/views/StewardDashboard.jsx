@@ -83,7 +83,7 @@ const StewardDashboard = (props) => {
           }`}
           onClick={() => setActiveTab("volunteers")}
         >
-          Volunteers
+          Review Volunteers
         </button>
       </div>
 
