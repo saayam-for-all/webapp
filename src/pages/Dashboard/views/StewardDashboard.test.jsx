@@ -37,11 +37,11 @@ describe("StewardDashboard Component", () => {
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
     expect(screen.getByText("Review Requests")).toBeInTheDocument();
-    expect(screen.getByText("Volunteers")).toBeInTheDocument();
+    expect(screen.getByText("Review Volunteers")).toBeInTheDocument();
     expect(screen.getByText("Search Filters")).toBeInTheDocument();
   });
 
-  it("switches to Volunteers tab when clicked", async () => {
+  it("switches to Review Volunteers tab when clicked", async () => {
     const {
       getMockVolunteersData,
     } = require("../../../services/volunteerServices");
@@ -55,7 +55,7 @@ describe("StewardDashboard Component", () => {
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
-    const volunteersTab = screen.getByText("Volunteers");
+    const volunteersTab = screen.getByText("Review Volunteers");
     fireEvent.click(volunteersTab);
 
     await waitFor(() => {
@@ -85,7 +85,7 @@ describe("StewardDashboard Component", () => {
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
-    const volunteersTab = screen.getByText("Volunteers");
+    const volunteersTab = screen.getByText("Review Volunteers");
     fireEvent.click(volunteersTab);
 
     await waitFor(() => {
@@ -110,7 +110,7 @@ describe("StewardDashboard Component", () => {
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
-    const volunteersTab = screen.getByText("Volunteers");
+    const volunteersTab = screen.getByText("Review Volunteers");
     fireEvent.click(volunteersTab);
 
     await waitFor(() => {
@@ -143,7 +143,7 @@ describe("StewardDashboard Component", () => {
     );
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
-    fireEvent.click(screen.getByText("Volunteers"));
+    fireEvent.click(screen.getByText("Review Volunteers"));
 
     expect(screen.getByTestId("loading-indicator")).toBeInTheDocument();
     expect(screen.queryByTestId("mock-table")).not.toBeInTheDocument();
@@ -181,7 +181,7 @@ describe("StewardDashboard Component", () => {
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
-    const volunteersTab = screen.getByText("Volunteers");
+    const volunteersTab = screen.getByText("Review Volunteers");
     fireEvent.click(volunteersTab);
 
     await waitFor(() => {
@@ -204,7 +204,7 @@ describe("StewardDashboard Component", () => {
 
     renderWithProviders(<StewardDashboard {...mockProps} />);
 
-    const volunteersTab = screen.getByText("Volunteers");
+    const volunteersTab = screen.getByText("Review Volunteers");
     fireEvent.click(volunteersTab);
 
     await waitFor(() => {

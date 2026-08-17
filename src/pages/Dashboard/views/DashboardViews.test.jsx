@@ -181,7 +181,7 @@ describe("Dashboard Views", () => {
     it("renders steward dashboard with tabs", () => {
       const { getByText } = render(<StewardDashboard {...defaultProps} />);
       expect(getByText("Review Requests")).toBeInTheDocument();
-      expect(getByText("Volunteers")).toBeInTheDocument();
+      expect(getByText("Review Volunteers")).toBeInTheDocument();
     });
 
     it("renders table when activeTab is allRequests", () => {
