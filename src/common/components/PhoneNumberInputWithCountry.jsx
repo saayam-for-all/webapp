@@ -1,4 +1,4 @@
-import React from "react";
+import { useId } from "react";
 import PropTypes from "prop-types";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import { getPhoneCodeslist } from "../../utils/utils";
@@ -81,6 +81,8 @@ const PhoneNumberInputWithCountry = ({
     return lengthMap[countryCode] || null;
   };
 
+  const errorId = useId();
+
   const handlePhoneChange = (e) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
@@ -142,8 +144,10 @@ const PhoneNumberInputWithCountry = ({
       <div className="flex space-x-2">
         <select
           id="countryCode"
+          name="countryCode"
           value={countryCode}
           onChange={handleCountryCodeChange}
+          aria-label={t("COUNTRY")}
           className="w-1/3 px-4 py-2 border border-gray-300 rounded-xl"
         >
           {getPhoneCodeslist(PHONECODESEN).map((option) => (
@@ -154,18 +158,28 @@ const PhoneNumberInputWithCountry = ({
         </select>
         <input
           id="phone"
+          name="phone"
           value={phone}
           onChange={handlePhoneChange}
           onBlur={handleBlur}
           placeholder={t("YOUR_PHONE_NUMBER")}
-          type="text"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel-national"
+          aria-label={hideLabel ? t("YOUR_PHONE_NUMBER") : undefined}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? errorId : undefined}
           className={`w-2/3 px-4 py-2 border rounded-xl ${
             error ? "border-red-500" : "border-gray-300"
           }`}
           required={required}
         />
       </div>
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && (
+        <p id={errorId} role="alert" className="text-sm text-red-500">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
