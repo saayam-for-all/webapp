@@ -77,10 +77,12 @@ const LoginPage = () => {
           <label htmlFor="email">{t("EMAIL")}</label>
           <input
             id="email"
+            name="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder={t("Email")}
             type="text"
+            autoComplete="username"
             className="px-4 py-2 border border-gray-300 rounded-xl"
             required={true}
           />
@@ -99,9 +101,11 @@ const LoginPage = () => {
           >
             <input
               id="password"
+              name="password"
               placeholder={t("Password")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
+              autoComplete="current-password"
               onChange={(e) => setPasswordValue(e.target.value)}
               onFocus={() => setPasswordFocus(true)}
               onBlur={() => setPasswordFocus(false)}

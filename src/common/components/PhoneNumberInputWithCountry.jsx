@@ -55,10 +55,12 @@ const PhoneNumberInputWithCountry = ({
         </select>
         <input
           id="phone"
+          name="phone"
           value={phone}
           onChange={handlePhoneChange}
           placeholder={t("YOUR_PHONE_NUMBER")}
           type="text"
+          autoComplete="tel"
           className={`w-2/3 px-4 py-2 border rounded-xl ${
             error ? "border-red-500" : "border-gray-300"
           }`}

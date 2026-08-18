@@ -211,10 +211,12 @@ const SignUp = () => {
           <label htmlFor="email">{t("EMAIL")}</label>
           <input
             id="email"
+            name="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder={t("EMAIL")}
             type="text"
+            autoComplete="username"
             className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
             required={true}
           />
@@ -252,9 +254,11 @@ const SignUp = () => {
           >
             <input
               id="password"
+              name="password"
               placeholder={t("PASSWORD")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
+              autoComplete="new-password"
               onChange={(e) => {
                 setPasswordValue(e.target.value);
                 setShowPasswordValidation(true);
@@ -322,9 +326,11 @@ const SignUp = () => {
           >
             <input
               id="confirmPassword"
+              name="confirmPassword"
               placeholder={t("CONFIRM_PASSWORD")}
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
+              autoComplete="new-password"
               onChange={(e) => setConfirmPasswordValue(e.target.value)}
               onFocus={() => setConfirmPasswordFocus(true)}
               onBlur={() => setConfirmPasswordFocus(false)}
