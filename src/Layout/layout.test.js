@@ -34,6 +34,13 @@ jest.mock("#components/NavigationGuard/NavigationGuard");
 describe("Layout", () => {
   it("renders correctly", () => {
     const tree = render(<Layout />);
+
     expect(tree).toMatchSnapshot();
+  });
+
+  it("renders both ad rails", () => {
+    const { container } = render(<Layout />);
+
+    expect(container.querySelectorAll("aside")).toHaveLength(2);
   });
 });
