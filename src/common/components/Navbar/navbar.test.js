@@ -19,6 +19,15 @@ jest.mock("../../../redux/features/authentication/authActions", () => ({
   logout: jest.fn(),
 }));
 
+jest.mock("../../../services/requestServices", () => ({
+  GET_NOTIFICATION_COUNT: jest.fn().mockResolvedValue({ count: 0 }),
+  GET_NOTIFICATIONS: jest.fn().mockResolvedValue({ notifications: [] }),
+}));
+
+jest.mock("../../../services/volunteerServices", () => ({
+  fetchProfileImage: jest.fn().mockResolvedValue(null),
+}));
+
 describe("Navbar", () => {
   it("renders correctly when user is logged in", () => {
     const tree = renderWithProviders(<Navbar />, {

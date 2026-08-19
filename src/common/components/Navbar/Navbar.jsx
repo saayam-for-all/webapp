@@ -5,6 +5,7 @@ import {
   MenuItem,
   TextField,
   InputAdornment,
+  Badge,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -38,6 +39,7 @@ import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImag
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
+import { GET_NOTIFICATION_COUNT } from "../../../services/requestServices";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -226,8 +228,17 @@ const Navbar = () => {
     }
     const fetchNotifications = async () => {
       try {
-        // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
-        // const rawNotifications = response.data.notifications || [];
+        // --- Notification COUNT (bell badge) ---
+        // Separate POST API from the list below. Feeds the bell badge.
+        // Mock returns a count like { count: 5 }.
+        const countResponse = await GET_NOTIFICATION_COUNT(
+          user?.userId || "A1234",
+        );
+        setNewNotificationCount(countResponse?.count || 0);
+
+        // --- Notification LIST (notifications page) ---
+        // Mock JSON data used to populate the notifications page until
+        // the real list API is available. Do not remove.
         const rawNotifications = [
           {
             type: "Volunteer",
@@ -266,7 +277,6 @@ const Navbar = () => {
           },
         ];
 
-        // ✅ Add unique ID using crypto.randomUUID()
         const notificationsWithIds = rawNotifications.map((note) => ({
           ...note,
           id: crypto.randomUUID(),
@@ -282,15 +292,11 @@ const Navbar = () => {
         const newOnes = notificationsWithIds.filter(
           (n) => !existing.has(n.message + n.date),
         );
-
-        // Only update if new notifications exist
         if (newOnes.length > 0) {
           notificationDispatch({
             type: "SET_NOTIFICATIONS",
             payload: [...state.notifications, ...newOnes],
           });
-
-          setNewNotificationCount((prev) => prev + newOnes.length);
         }
       } catch (error) {
         console.error("Error fetching Notifications:", error);
@@ -299,7 +305,7 @@ const Navbar = () => {
 
     fetchNotifications(); // Comment it after call ing the funciton below
 
-    const interval = setInterval(fetchNotifications, 2 * 60 * 1000); // fetch every 2 min
+    const interval = setInterval(fetchNotifications, 5 * 60 * 1000); // fetch every 5 min
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);
@@ -668,7 +674,13 @@ const Navbar = () => {
                     className="text-black hover:text-gray-600 flex items-center"
                     aria-label={t("NOTIFICATIONS")}
                   >
-                    <NotificationsIcon sx={{ fontSize: 38 }} />
+                    <Badge
+                      badgeContent={newNotificationCount}
+                      color="error"
+                      overlap="circular"
+                    >
+                      <NotificationsIcon sx={{ fontSize: 38 }} />
+                    </Badge>
                   </button>
                 </ModernTooltip>
               </div>
