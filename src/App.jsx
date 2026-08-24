@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Error404 from "./pages/Error404/Error404";
 import { checkAuthStatus } from "./redux/features/authentication/authActions";
-import { getEnums } from "./services/requestServices";
+import { fetchAndStoreEnums } from "./utils/fetchAndStoreEnums";
 import routes from "./routes/routes";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
@@ -22,20 +22,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkAuthStatus());
-
-    // Fetch and store enums only if user is already logged in
-    const token = localStorage.getItem("token");
-    if (token) {
-      const fetchEnums = async () => {
-        try {
-          const enumsData = await getEnums();
-          localStorage.setItem("enums", JSON.stringify(enumsData));
-        } catch (error) {
-          console.error("Failed to fetch enums:", error);
-        }
-      };
-      fetchEnums();
-    }
+    fetchAndStoreEnums();
   }, [dispatch]);
 
   return <RouterProvider router={router} />;
