@@ -168,8 +168,8 @@ const LoginPage = () => {
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder={t("common:EMAIL")}
-            type="text"
-            autoComplete="off"
+            type="email"
+            autoComplete="username"
             className="px-4 py-2 border border-gray-300 rounded-xl"
             required={true}
           />
@@ -192,7 +192,7 @@ const LoginPage = () => {
               placeholder={t("common:PASSWORD")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
-              autoComplete="off"
+              autoComplete="current-password"
               onChange={(e) => setPasswordValue(e.target.value)}
               onFocus={() => setPasswordFocus(true)}
               onBlur={() => setPasswordFocus(false)}
