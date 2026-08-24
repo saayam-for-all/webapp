@@ -39,17 +39,15 @@ export const getCategoriesFromStorage = () => {
 export const getStatusOptions = (t) => {
   const enums = getEnumsFromStorage();
 
-  if (enums && Array.isArray(enums.requestStatus)) {
-    const options = enums.requestStatus.map((status) => ({
-      key: status,
-      value: status,
-      label: t(`enums:requestStatus.${status}`, status),
+  if (enums && enums.requestStatus) {
+    const statusValues = Object.values(enums.requestStatus);
+    const options = statusValues.map((value) => ({
+      key: value,
+      value: value,
+      label: t(`enums:requestStatus.${value}`, value),
     }));
 
-    return [
-      { key: "All", value: "All", label: t("common.All", "All") },
-      ...options,
-    ];
+    return options;
   }
 
   // Fallback to default values
@@ -89,18 +87,14 @@ export const getStatusOptions = (t) => {
  */
 export const getPriorityOptions = (t) => {
   const enums = getEnumsFromStorage();
-
   if (enums && enums.requestPriority) {
-    const priorityKeys = Object.keys(enums.requestPriority);
-    const options = priorityKeys.map((key) => ({
-      key: key,
-      value: enums.requestPriority[key],
-      label: t(`enums:requestPriority.${key}`, enums.requestPriority[key]),
+    const priorityValues = Object.values(enums.requestPriority);
+    const options = priorityValues.map((value) => ({
+      key: value,
+      value: value,
+      label: t(`enums:requestPriority.${value}`, value),
     }));
-    return [
-      { key: "All", value: "All", label: t("common.All", "All") },
-      ...options,
-    ];
+    return [{ key: "All", value: "All", label: t("ALL", "All") }, ...options];
   }
 
   // Fallback to default values
@@ -131,24 +125,19 @@ export const getPriorityOptions = (t) => {
  */
 export const getTypeOptions = (t) => {
   const enums = getEnumsFromStorage();
-
   if (enums && enums.requestType) {
-    const typeKeys = Object.keys(enums.requestType);
-    const options = typeKeys.map((key) => ({
-      key: key,
-      value: enums.requestType[key],
-      label: t(`enums:requestType.${key}`, enums.requestType[key]),
+    const typeValues = Object.values(enums.requestType);
+    const options = typeValues.map((value) => ({
+      key: value,
+      value: value,
+      label: t(`enums:requestType.${value}`, value),
     }));
-
-    return [
-      { key: "All", value: "All", label: t("common.All", "All") },
-      ...options,
-    ];
+    return [{ key: "All", value: "All", label: t("ALL", "All") }, ...options];
   }
 
   // Fallback
   return [
-    { key: "All", value: "All", label: t("common.All", "All") },
+    { key: "All", value: "All", label: t("ALL", "All") },
     {
       key: "IN_PERSON",
       value: "In Person",

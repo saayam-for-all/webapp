@@ -15,7 +15,9 @@
     "MANAGED": "સંચાલિત",
     "RESOLVED": "ઉકેલાયું",
     "CANCELLED": "રદ કર્યું",
-    "DELETED": "કાઢી નાખ્યું"
+    "DELETED": "કાઢી નાખ્યું",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "રૂબરૂ",

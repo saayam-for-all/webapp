@@ -50,5 +50,7 @@
   "ENTER_VOLUNTEER_PHONE": "ป้อนเบอร์โทรอาสาสมัคร",
   "CHANGE_VOLUNTEER": "เปลี่ยนอาสาสมัคร",
   "DELETE": "ลบ",
-  "DELETE_ACTION": "ลบ"
+  "DELETE_ACTION": "ลบ",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

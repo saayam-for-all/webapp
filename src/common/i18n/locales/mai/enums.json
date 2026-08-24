@@ -15,7 +15,9 @@
     "MANAGED": "प्रबंधित",
     "RESOLVED": "हल कएल गेल",
     "CANCELLED": "रद्द कएल गेल",
-    "DELETED": "मिटाओल गेल"
+    "DELETED": "मिटाओल गेल",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "व्यक्तिगत रूप सँ",

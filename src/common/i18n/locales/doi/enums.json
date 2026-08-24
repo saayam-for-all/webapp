@@ -15,7 +15,9 @@
     "MANAGED": "प्रबंधत",
     "RESOLVED": "हल होया",
     "CANCELLED": "रद्द होया",
-    "DELETED": "मिटाया गेया"
+    "DELETED": "मिटाया गेया",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "खुद मिलीकरी",

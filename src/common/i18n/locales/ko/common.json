@@ -49,5 +49,7 @@
   "ENTER_VOLUNTEER_PHONE": "자원봉사자 전화번호 입력",
   "CHANGE_VOLUNTEER": "자원봉사자 변경",
   "DELETE": "삭제",
-  "DELETE_ACTION": "삭제"
+  "DELETE_ACTION": "삭제",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

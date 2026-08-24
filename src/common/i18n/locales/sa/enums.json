@@ -15,7 +15,9 @@
     "MANAGED": "प्रबन्धितम्",
     "RESOLVED": "समाधितम्",
     "CANCELLED": "निरस्तम्",
-    "DELETED": "विलोपितम्"
+    "DELETED": "विलोपितम्",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "प्रत्यक्षम्",

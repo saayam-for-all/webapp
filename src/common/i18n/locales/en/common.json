@@ -673,7 +673,7 @@
   "Want to join us?": "Want to join us?",
   "Watch our 5 minute video to understand how Saayam for All works and how we make a difference.": "Watch our 5 minute video to understand how Saayam for All works and how we make a difference.",
   "We don't just match-you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .": "We don't just match-you get the smartest match possible. Our AI/ML engine finds the right volunteer for you faster and more accurately, just like a rideshare app-but smarter, more human, built for community care.",
-  "We don't just match\u2014you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app\u2014but smarter, more human, and built for community care.": "We don't just match\u2014you get the smartest match possible.\nOur AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app\u2014but smarter, more human, and built for community care.",
+  "We don't just match—you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.": "We don't just match—you get the smartest match possible.\nOur AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.",
   "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.": "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.",
   "What services does Saayam for All offer?": "What services does Saayam for All offer?",
   "YES": "Yes",
@@ -798,8 +798,6 @@
   "ENTER_VOLUNTEER_EMAIL": "Enter volunteer email",
   "ENTER_VOLUNTEER_PHONE": "Enter volunteer phone",
   "SEARCH_TAGLINE": "google with human touch*",
-  "CREATION_DATE": "Creation Date",
-  "UPDATED_DATE": "Updated Date",
   "CREATED": "Created",
   "MATCHING_VOLUNTEER": "Matching Volunteer",
   "IN_PROGRESS": "In Progress",
@@ -820,5 +818,7 @@
   "STEP_NUMBER_4": "4",
   "STEP_NUMBER_5": "5",
   "DELETE_ACTION": "Delete",
-  "VOICE_NO_SPEECH_DETECTED": "No speech detected. Please try again and speak into your microphone while recording."
+  "VOICE_NO_SPEECH_DETECTED": "No speech detected. Please try again and speak into your microphone while recording.",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

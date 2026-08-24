@@ -15,7 +15,9 @@
     "MANAGED": "Dikelola",
     "RESOLVED": "Diselesaikan",
     "CANCELLED": "Dibatalkan",
-    "DELETED": "Dihapus"
+    "DELETED": "Dihapus",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "Langsung",

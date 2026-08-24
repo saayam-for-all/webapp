@@ -49,5 +49,7 @@
   "ENTER_VOLUNTEER_PHONE": "Nhập số điện thoại tình nguyện viên",
   "CHANGE_VOLUNTEER": "Thay đổi tình nguyện viên",
   "DELETE": "Xóa",
-  "DELETE_ACTION": "Xóa"
+  "DELETE_ACTION": "Xóa",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

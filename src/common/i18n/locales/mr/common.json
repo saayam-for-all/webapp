@@ -50,5 +50,7 @@
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकाचा फोन प्रविष्ट करा",
   "CHANGE_VOLUNTEER": "स्वयंसेवक बदला",
   "DELETE": "हटवा",
-  "DELETE_ACTION": "हटवा"
+  "DELETE_ACTION": "हटवा",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

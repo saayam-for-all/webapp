@@ -15,7 +15,9 @@
     "MANAGED": "ನಿರ್ವಹಿಸಲಾಗಿದೆ",
     "RESOLVED": "ಪರಿಹರಿಸಲಾಗಿದೆ",
     "CANCELLED": "ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ",
-    "DELETED": "ಅಳಿಸಲಾಗಿದೆ"
+    "DELETED": "ಅಳಿಸಲಾಗಿದೆ",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "ವೈಯಕ್ತಿಕವಾಗಿ",

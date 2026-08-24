@@ -52,5 +52,7 @@
   "ENTER_VOLUNTEER_PHONE": "தன்னார்வலர் தொலைபேசியை உள்ளிடுக",
   "CHANGE_VOLUNTEER": "தன்னார்வலரை மாற்றவும்",
   "DELETE": "நீக்கவும்",
-  "DELETE_ACTION": "நீக்கு"
+  "DELETE_ACTION": "நீக்கு",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

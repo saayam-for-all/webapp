@@ -49,5 +49,7 @@
   "ENTER_VOLUNTEER_PHONE": "Masukkan telepon sukarelawan",
   "CHANGE_VOLUNTEER": "Tukar Sukarelawan",
   "DELETE": "Padam",
-  "DELETE_ACTION": "Hapus"
+  "DELETE_ACTION": "Hapus",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

@@ -15,7 +15,9 @@
     "MANAGED": "Pinamamahalaan",
     "RESOLVED": "Nalutas",
     "CANCELLED": "Kinansela",
-    "DELETED": "Tinanggal"
+    "DELETED": "Tinanggal",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "Personal",

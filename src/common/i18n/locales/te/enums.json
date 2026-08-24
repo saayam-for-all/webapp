@@ -17,7 +17,9 @@
     "CANCELLED": "రద్దు చేయబడింది",
     "DELETED": "తొలగించబడింది",
     "RATED_BY_REQUESTER": "అభ్యర్థి రేటింగ్ ఇచ్చారు",
-    "RATED_BY_VOLUNTEER": "స్వచ్ఛంద సేవకుడు రేటింగ్ ఇచ్చారు"
+    "RATED_BY_VOLUNTEER": "స్వచ్ఛంద సేవకుడు రేటింగ్ ఇచ్చారు",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "IN_PERSON": "వ్యక్తిగతంగా",
