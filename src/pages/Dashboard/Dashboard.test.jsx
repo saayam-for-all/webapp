@@ -249,6 +249,25 @@ describe("Dashboard", () => {
     ]);
   });
 
+  it("translates dashboard filter labels when the language changes", async () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+    const { findByText, getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: adminAuthState,
+    });
+
+    fireEvent.click(getByText("Click All Requests"));
+
+    await act(async () => {
+      await mockI18n.changeLanguage("es");
+    });
+
+    expect(await findByText("Categoría")).toBeInTheDocument();
+    expect(getByText("Estado")).toBeInTheDocument();
+    expect(getByText("tipo")).toBeInTheDocument();
+    expect(getByText("prioridad")).toBeInTheDocument();
+    expect(getByText("¿es una calamidad?")).toBeInTheDocument();
+  });
+
   it("falls back to English dashboard labels for an unsupported language", async () => {
     localStorage.setItem("environment", JSON.stringify("dev"));
     const { getByRole } = renderWithProviders(<Dashboard />, {

@@ -1237,7 +1237,7 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600 flex items-center gap-2">
-              {t("FILTER_BY")}
+              {t("CATEGORY")}
               {getSelectedCategoryCount() > 0 && (
                 <span className="bg-blue-500 text-white px-2 py-0.5 rounded-full text-sm font-semibold">
                   {getSelectedCategoryCount()}
@@ -1274,7 +1274,7 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Status")}
+              {t("STATUS")}
               {getFilterBadgeCount(statusFilter, statusOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(statusFilter, statusOptions.length)}
@@ -1322,7 +1322,7 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Type")}
+              {t("TYPE")}
               {getFilterBadgeCount(typeFilter, typeOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(typeFilter, typeOptions.length)}
@@ -1357,7 +1357,7 @@ const Dashboard = ({ userRole }) => {
             onClick={togglePriorityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Priority")}
+              {t("PRIORITY")}
               {getFilterBadgeCount(priorityFilter, priorityOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(priorityFilter, priorityOptions.length)}
@@ -1392,7 +1392,7 @@ const Dashboard = ({ userRole }) => {
             onClick={toggleCalamityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Calamity")}
+              {t("IS_CALAMITY")}
               {getFilterBadgeCount(calamityFilter, calamityOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(calamityFilter, calamityOptions.length)}
