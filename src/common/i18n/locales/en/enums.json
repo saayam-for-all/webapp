@@ -17,7 +17,9 @@
     "CANCELLED": "Cancelled",
     "DELETED": "Deleted",
     "RATED_BY_REQUESTER": "Rated by Requester",
-    "RATED_BY_VOLUNTEER": "Rated by Volunteer"
+    "RATED_BY_VOLUNTEER": "Rated by Volunteer",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "IN_PERSON": "In Person",

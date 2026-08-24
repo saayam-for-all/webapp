@@ -15,7 +15,9 @@
     "MANAGED": "நிர்வகிக்கப்படுகிறது",
     "RESOLVED": "தீர்க்கப்பட்டது",
     "CANCELLED": "ரத்து செய்யப்பட்டது",
-    "DELETED": "நீக்கப்பட்டது"
+    "DELETED": "நீக்கப்பட்டது",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "நேரடியாக",

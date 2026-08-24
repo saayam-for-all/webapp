@@ -17,7 +17,9 @@
     "CANCELLED": "रद्द किया गया",
     "DELETED": "हटाया गया",
     "RATED_BY_REQUESTER": "अनुरोधकर्ता द्वारा रेट किया गया",
-    "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया"
+    "RATED_BY_VOLUNTEER": "स्वयंसेवक द्वारा रेट किया गया",
+    "IN_PROGRESS": "प्रगति में",
+    "VOLUNTEER_NOT_FOUND": "स्वयंसेवक नहीं मिला"
   },
   "requestType": {
     "IN_PERSON": "व्यक्तिगत रूप से",

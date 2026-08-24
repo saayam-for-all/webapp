@@ -15,7 +15,9 @@
     "MANAGED": "পৰিচালিত",
     "RESOLVED": "সমাধান কৰা হৈছে",
     "CANCELLED": "বাতিল কৰা হৈছে",
-    "DELETED": "মচি পেলোৱা হৈছে"
+    "DELETED": "মচি পেলোৱা হৈছে",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "ব্যক্তিগতভাৱে",

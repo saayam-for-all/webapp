@@ -502,7 +502,7 @@ const Dashboard = ({ userRole }) => {
         statusMap.set(normalized, {
           key: normalized,
           value: status,
-          label: status,
+          label: t(`enums:requestStatus.${normalized}`, status),
         });
       }
     });
@@ -595,11 +595,14 @@ const Dashboard = ({ userRole }) => {
     return getPriorityOptions(t);
   }, [t]);
 
-  const calamityOptions = [
-    { key: "All", value: "All", label: "All" },
-    { key: "Yes", value: "Yes", label: "Yes" },
-    { key: "No", value: "No", label: "No" },
-  ];
+  const calamityOptions = useMemo(
+    () => [
+      { key: "All", value: "All", label: t("ALL") },
+      { key: "Yes", value: "Yes", label: t("Yes") },
+      { key: "No", value: "No", label: t("No") },
+    ],
+    [t],
+  );
 
   // Helper function to get checked status for hierarchical categories
   const getCategoryCheckedStatus = (categoryPath, filterState) => {
@@ -1258,7 +1261,7 @@ const Dashboard = ({ userRole }) => {
                   onChange={() => handleCategoryChange("All")}
                   className="cursor-pointer"
                 />
-                <span className="font-semibold">{t("All Categories")}</span>
+                <span className="font-semibold">{t("ALL_CATEGORIES")}</span>
               </label>
               <div className="mt-2">
                 {categoryOptions.length > 0 &&
@@ -1274,7 +1277,7 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Status")}
+              {t("STATUS")}
               {getFilterBadgeCount(statusFilter, statusOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(statusFilter, statusOptions.length)}
@@ -1284,7 +1287,7 @@ const Dashboard = ({ userRole }) => {
             <IoIosArrowDown className="m-2" />
           </div>
           {isStatusDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
+            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64 max-h-64 overflow-y-auto">
               <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                 <input
                   type="checkbox"
@@ -1295,7 +1298,7 @@ const Dashboard = ({ userRole }) => {
                   onChange={() => handleStatusChange("All")}
                   className="cursor-pointer"
                 />
-                <span>{t("All")}</span>
+                <span>{t("ALL")}</span>
               </label>
               {statusOptions.map((status) => (
                 <label
@@ -1308,7 +1311,7 @@ const Dashboard = ({ userRole }) => {
                     onChange={() => handleStatusChange(status.key)}
                     className="cursor-pointer"
                   />
-                  <span>{String(status.label).toUpperCase()}</span>
+                  <span>{status.label}</span>
                 </label>
               ))}
             </div>
@@ -1322,7 +1325,7 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Type")}
+              {t("TYPE")}
               {getFilterBadgeCount(typeFilter, typeOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(typeFilter, typeOptions.length)}
@@ -1357,7 +1360,7 @@ const Dashboard = ({ userRole }) => {
             onClick={togglePriorityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Priority")}
+              {t("PRIORITY")}
               {getFilterBadgeCount(priorityFilter, priorityOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(priorityFilter, priorityOptions.length)}
@@ -1392,7 +1395,7 @@ const Dashboard = ({ userRole }) => {
             onClick={toggleCalamityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Calamity")}
+              {t("CALAMITY")}
               {getFilterBadgeCount(calamityFilter, calamityOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(calamityFilter, calamityOptions.length)}
@@ -1496,7 +1499,7 @@ const Dashboard = ({ userRole }) => {
                 <option value="">Change Status</option>
                 {statusOptions.map((status) => (
                   <option key={status.key} value={status.key}>
-                    {String(status.label).toUpperCase()}
+                    {status.label}
                   </option>
                 ))}
               </select>
@@ -1634,7 +1637,7 @@ const Dashboard = ({ userRole }) => {
 
       <div className="border">
         {selectedDashboard && canAccessDashboard(groups, selectedDashboard) ? (
-          <div className="requests-section overflow-hidden table-height-fix">
+          <div className="requests-section table-height-fix">
             {selectedDashboard === DASHBOARDS.SUPER_ADMIN && (
               <SuperAdminDashboard
                 activeTab={activeTab}

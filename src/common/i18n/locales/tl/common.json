@@ -49,5 +49,7 @@
   "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo",
   "CHANGE_VOLUNTEER": "Palitan ang Boluntaryo",
   "DELETE": "Burahin",
-  "DELETE_ACTION": "Tanggalin"
+  "DELETE_ACTION": "Tanggalin",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

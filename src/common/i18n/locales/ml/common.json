@@ -49,5 +49,7 @@
   "ENTER_VOLUNTEER_PHONE": "സന്നദ്ധസേവകന്റെ ഫോൺ നൽകുക",
   "CHANGE_VOLUNTEER": "സന്നദ്ധസേവകനെ മാറ്റുക",
   "DELETE": "ഒഴിവാക്കുക",
-  "DELETE_ACTION": "ഇല്ലാതാക്കുക"
+  "DELETE_ACTION": "ഇല്ലാതാക്കുക",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

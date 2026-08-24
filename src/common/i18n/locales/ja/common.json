@@ -50,5 +50,7 @@
   "ENTER_VOLUNTEER_PHONE": "ボランティアの電話番号を入力",
   "CHANGE_VOLUNTEER": "ボランティアを変更",
   "DELETE": "削除",
-  "DELETE_ACTION": "削除"
+  "DELETE_ACTION": "削除",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

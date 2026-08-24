@@ -15,7 +15,9 @@
     "MANAGED": "จัดการแล้ว",
     "RESOLVED": "แก้ไขแล้ว",
     "CANCELLED": "ยกเลิกแล้ว",
-    "DELETED": "ลบแล้ว"
+    "DELETED": "ลบแล้ว",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "พบตัว",

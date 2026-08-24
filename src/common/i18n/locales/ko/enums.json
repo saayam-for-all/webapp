@@ -15,7 +15,9 @@
     "MANAGED": "관리 중",
     "RESOLVED": "해결됨",
     "CANCELLED": "취소됨",
-    "DELETED": "삭제됨"
+    "DELETED": "삭제됨",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "대면",

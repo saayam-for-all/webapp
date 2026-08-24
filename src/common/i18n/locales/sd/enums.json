@@ -15,7 +15,9 @@
     "MANAGED": "منظم ٿيل",
     "RESOLVED": "حل ٿيو",
     "CANCELLED": "منسوخ ٿيو",
-    "DELETED": "ڊاٺو ويو"
+    "DELETED": "ڊاٺو ويو",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "ذاتي طور تي",

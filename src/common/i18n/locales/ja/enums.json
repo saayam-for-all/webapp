@@ -15,7 +15,9 @@
     "MANAGED": "管理中",
     "RESOLVED": "解決済み",
     "CANCELLED": "キャンセル済み",
-    "DELETED": "削除済み"
+    "DELETED": "削除済み",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "対面",

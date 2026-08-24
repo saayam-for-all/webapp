@@ -50,5 +50,7 @@
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकस्य फोन प्रविष्टं करोतु",
   "CHANGE_VOLUNTEER": "स्वयंसेवकं परिवर्तयतु",
   "DELETE": "विलोपयतु",
-  "DELETE_ACTION": "विलोपय"
+  "DELETE_ACTION": "विलोपय",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

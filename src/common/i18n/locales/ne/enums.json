@@ -15,7 +15,9 @@
     "MANAGED": "व्यवस्थित",
     "RESOLVED": "समाधान गरियो",
     "CANCELLED": "रद्द गरियो",
-    "DELETED": "मेटाइयो"
+    "DELETED": "मेटाइयो",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "व्यक्तिगत रूपमा",

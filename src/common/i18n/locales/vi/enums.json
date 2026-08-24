@@ -15,7 +15,9 @@
     "MANAGED": "Đã quản lý",
     "RESOLVED": "Đã giải quyết",
     "CANCELLED": "Đã hủy",
-    "DELETED": "Đã xóa"
+    "DELETED": "Đã xóa",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "Trực tiếp",

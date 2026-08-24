@@ -49,5 +49,7 @@
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवक दा फोन दर्ज करो",
   "CHANGE_VOLUNTEER": "स्वयंसेवक बदलो",
   "DELETE": "हटाओ",
-  "DELETE_ACTION": "मिटाओ"
+  "DELETE_ACTION": "मिटाओ",
+  "CALAMITY": "Calamity",
+  "ALL_CATEGORIES": "All Categories"
 }

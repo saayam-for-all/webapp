@@ -15,7 +15,9 @@
     "MANAGED": "കൈകാര്യം ചെയ്തു",
     "RESOLVED": "പരിഹരിച്ചു",
     "CANCELLED": "റദ്ദാക്കി",
-    "DELETED": "ഇല്ലാതാക്കി"
+    "DELETED": "ഇല്ലാതാക്കി",
+    "IN_PROGRESS": "In Progress",
+    "VOLUNTEER_NOT_FOUND": "Volunteer Not Found"
   },
   "requestType": {
     "INPERSON": "നേരിട്ട്",
