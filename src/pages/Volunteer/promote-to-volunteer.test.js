@@ -1814,7 +1814,9 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
 
-    expect(setItemSpy).toHaveBeenCalledWith("volunteer_wizard_step", "2");
+    await waitFor(() => {
+      expect(setItemSpy).toHaveBeenCalledWith("volunteer_wizard_step", "2");
+    });
     setItemSpy.mockRestore();
   });
 

@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import LOGO from "../../../assets/logo.svg";
+import "./NavBar.css";
 
 // Individual imports for outlined icons
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -79,6 +80,13 @@ const Navbar = () => {
 
   const handleSearchChange = (e) => {
     const value = e.target.value ?? "";
+    // Chrome credential autofill fires an InputEvent with no inputType and fills
+    // the field with the saved email. Genuine user interactions (typing, paste,
+    // cut, delete) always carry a non-empty inputType. Reject only when both
+    // conditions hold so legitimate programmatic updates are unaffected.
+    if (!e.nativeEvent?.inputType && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      return;
+    }
     setSearchText(value.slice(0, 80)); // hard limit 80 chars
   };
 
@@ -88,6 +96,7 @@ const Navbar = () => {
       // later: call API / navigate to search results
     }
   };
+
   const [volunteerOpenMenu, setVolunteerOpenMenu] = useState(false);
   const [aboutUsOpenMenu, setAboutUsOpenMenu] = useState(false);
   const [profileOpenMenu, setProfileOpenMenu] = useState(false);
@@ -439,7 +448,7 @@ const Navbar = () => {
               placeholder={t("SEARCH_PLACEHOLDER")}
               size="small"
               fullWidth
-              inputProps={{ maxLength: 80 }}
+              inputProps={{ maxLength: 80, autoComplete: "off" }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -504,7 +513,7 @@ const Navbar = () => {
                 placeholder={t("SEARCH_PLACEHOLDER")}
                 size="small"
                 fullWidth
-                inputProps={{ maxLength: 80 }}
+                inputProps={{ maxLength: 80, autoComplete: "off" }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
