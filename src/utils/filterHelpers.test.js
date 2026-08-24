@@ -4,6 +4,8 @@ import {
   getStatusOptions,
   getPriorityOptions,
   getTypeOptions,
+  getCategoryOptions,
+  flattenCategories,
   normalizeTypeValue,
   normalizeStatusValue,
   normalizePriorityValue,
@@ -155,6 +157,68 @@ describe("filterHelpers", () => {
   describe("normalizePriorityValue", () => {
     it("uppercases and replaces spaces with underscores", () => {
       expect(normalizePriorityValue("medium")).toBe("MEDIUM");
+    });
+  });
+
+  describe("getCategoryOptions", () => {
+    it("translates using category name, not catId (regression test)", () => {
+      localStorage.setItem(
+        "categories",
+        JSON.stringify([
+          {
+            catId: "0.0.0.0.0",
+            catName: "GENERAL_CATEGORY",
+            subcategories: [],
+          },
+        ]),
+      );
+      const translateSpy = jest.fn((key) => key);
+      getCategoryOptions(translateSpy);
+
+      expect(translateSpy).toHaveBeenCalledWith(
+        "categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL",
+        "GENERAL_CATEGORY",
+      );
+      expect(translateSpy).not.toHaveBeenCalledWith(
+        expect.stringContaining("0.0.0.0.0"),
+        expect.anything(),
+      );
+    });
+
+    it("returns empty array when categories missing", () => {
+      expect(getCategoryOptions(mockT)).toEqual([]);
+    });
+  });
+
+  describe("flattenCategories", () => {
+    it("translates using category name, not catId (regression test)", () => {
+      const translateSpy = jest.fn((key) => key);
+      flattenCategories(
+        [{ catId: "0.0.0.0.0", catName: "GENERAL_CATEGORY" }],
+        translateSpy,
+      );
+
+      expect(translateSpy).toHaveBeenCalledWith(
+        "categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL",
+        "GENERAL_CATEGORY",
+      );
+    });
+
+    it("flattens nested subcategories with correct depth", () => {
+      const result = flattenCategories(
+        [
+          {
+            catId: "1",
+            catName: "PARENT",
+            subcategories: [{ catId: "1.1", catName: "CHILD" }],
+          },
+        ],
+        mockT,
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result[0].depth).toBe(0);
+      expect(result[1].depth).toBe(1);
     });
   });
 });

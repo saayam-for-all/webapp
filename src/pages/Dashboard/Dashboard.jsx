@@ -521,7 +521,26 @@ const Dashboard = ({ userRole }) => {
         .filter(Boolean),
     );
 
-    if (categories && Array.isArray(categories) && dataCategoryNames.size > 0) {
+    if (categories && Array.isArray(categories) && categories.length > 0) {
+      const transformCategories = (cats) => {
+        return cats.map((cat) => ({
+          category: cat.catName,
+          label: t(
+            `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
+            cat.catName,
+          ),
+          subCategories:
+            cat.subCategories && cat.subCategories.length > 0
+              ? transformCategories(cat.subCategories)
+              : undefined,
+        }));
+      };
+
+      // If there's no request data yet, just use all API categories directly
+      if (dataCategoryNames.size === 0) {
+        return transformCategories(categories);
+      }
+
       // Check if API categories match the data categories
       const getAllCategoryNames = (cats) => {
         const names = [];
@@ -545,20 +564,6 @@ const Dashboard = ({ userRole }) => {
         matchCount >=
         Math.min(dataCategoryNames.size, apiCategoryNames.length) * 0.5
       ) {
-        const transformCategories = (cats) => {
-          return cats.map((cat) => ({
-            category: cat.catName,
-            label: t(
-              `categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`,
-              cat.catName,
-            ),
-            subCategories:
-              cat.subCategories && cat.subCategories.length > 0
-                ? transformCategories(cat.subCategories)
-                : undefined,
-          }));
-        };
-
         return transformCategories(categories);
       }
 
@@ -1247,7 +1252,14 @@ const Dashboard = ({ userRole }) => {
             <IoIosArrowDown className="m-2" />
           </div>
           {isCategoryDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-50 min-w-64 max-h-64 overflow-y-auto">
+            <div
+              className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-50 min-w-64"
+              style={{
+                maxHeight: "320px",
+                overflowY: "auto",
+                overflowX: "hidden",
+              }}
+            >
               <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                 <input
                   type="checkbox"
@@ -1634,7 +1646,7 @@ const Dashboard = ({ userRole }) => {
 
       <div className="border">
         {selectedDashboard && canAccessDashboard(groups, selectedDashboard) ? (
-          <div className="requests-section overflow-hidden table-height-fix">
+          <div className="requests-section overflow-visible table-height-fix">
             {selectedDashboard === DASHBOARDS.SUPER_ADMIN && (
               <SuperAdminDashboard
                 activeTab={activeTab}

@@ -174,7 +174,10 @@ export const getCategoryOptions = (t) => {
     return categories.map((cat) => ({
       id: cat.catId,
       name: cat.catName,
-      label: t(`categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`, cat.catName),
+      label: t(
+        `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
+        cat.catName,
+      ),
       subcategories: cat.subcategories || [],
     }));
   }
@@ -200,7 +203,7 @@ export const flattenCategories = (categories, t, depth = 0) => {
       label:
         cat.label ||
         t(
-          `categories:REQUEST_CATEGORIES.${cat.id || cat.catId}.LABEL`,
+          `categories:REQUEST_CATEGORIES.${cat.name || cat.catName}.LABEL`,
           cat.name || cat.catName,
         ),
       depth: depth,
