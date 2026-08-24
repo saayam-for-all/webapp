@@ -91,11 +91,11 @@ export const getPriorityOptions = (t) => {
   const enums = getEnumsFromStorage();
 
   if (enums && enums.requestPriority) {
-    const priorityKeys = Object.keys(enums.requestPriority);
-    const options = priorityKeys.map((key) => ({
-      key: key,
-      value: enums.requestPriority[key],
-      label: t(`enums:requestPriority.${key}`, enums.requestPriority[key]),
+    const priorityValues = Object.values(enums.requestPriority);
+    const options = priorityValues.map((val) => ({
+      key: val,
+      value: val,
+      label: t(`enums:requestPriority.${val}`, val),
     }));
     return [
       { key: "All", value: "All", label: t("common.All", "All") },
@@ -133,11 +133,11 @@ export const getTypeOptions = (t) => {
   const enums = getEnumsFromStorage();
 
   if (enums && enums.requestType) {
-    const typeKeys = Object.keys(enums.requestType);
-    const options = typeKeys.map((key) => ({
-      key: key,
-      value: enums.requestType[key],
-      label: t(`enums:requestType.${key}`, enums.requestType[key]),
+    const typeValues = Object.values(enums.requestType);
+    const options = typeValues.map((val) => ({
+      key: val,
+      value: val,
+      label: t(`enums:requestType.${val}`, val),
     }));
 
     return [
