@@ -27,13 +27,16 @@ jest.mock("react-phone-number-input", () => ({
   isValidPhoneNumber: jest.fn(() => true),
 }));
 
+const mockPhoneInputProps = {};
+
 jest.mock("../../common/components/PhoneNumberInputWithCountry", () => {
   const React = require("react");
   return function PhoneInputMock(props) {
+    Object.assign(mockPhoneInputProps, props);
     React.useLayoutEffect(() => {
-      props.setCountryCode?.("US");
-      props.setPhone?.("2345678901");
-      props.setError?.("");
+      mockPhoneInputProps.setCountryCode?.("US");
+      mockPhoneInputProps.setPhone?.("2345678901");
+      mockPhoneInputProps.setError?.("");
     }, []);
     return <div data-testid="phone-input-mock" />;
   };
@@ -72,6 +75,25 @@ describe("SignUp", () => {
     const select = screen.getByRole("combobox", { name: /country/i });
     fireEvent.change(select, { target: { value: "AR" } });
     expect(select.value).toBe("AR");
+  });
+
+  it("identifies signup fields correctly to browser auto-fill", () => {
+    render(<SignUp />);
+
+    expect(screen.getByLabelText("EMAIL")).toHaveAttribute(
+      "autocomplete",
+      "username",
+    );
+    expect(mockPhoneInputProps.name).toBe("phone");
+    expect(mockPhoneInputProps.autoComplete).toBe("tel-national");
+    expect(screen.getByLabelText("PASSWORD")).toHaveAttribute(
+      "autocomplete",
+      "new-password",
+    );
+    expect(screen.getByLabelText("CONFIRM_PASSWORD")).toHaveAttribute(
+      "autocomplete",
+      "new-password",
+    );
   });
 
   const fillValidForm = () => {

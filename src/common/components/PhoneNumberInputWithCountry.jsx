@@ -15,6 +15,8 @@ const PhoneNumberInputWithCountry = ({
   hideLabel = false,
   required = false,
   t = (x) => x,
+  name,
+  autoComplete,
 }) => {
   // Manual length checks for specific countries
   const getExpectedLength = (countryCode) => {
@@ -154,11 +156,13 @@ const PhoneNumberInputWithCountry = ({
         </select>
         <input
           id="phone"
+          name={name}
           value={phone}
           onChange={handlePhoneChange}
           onBlur={handleBlur}
           placeholder={t("YOUR_PHONE_NUMBER")}
           type="text"
+          autoComplete={autoComplete}
           className={`w-2/3 px-4 py-2 border rounded-xl ${
             error ? "border-red-500" : "border-gray-300"
           }`}
@@ -181,6 +185,8 @@ PhoneNumberInputWithCountry.propTypes = {
   required: PropTypes.bool,
   t: PropTypes.func,
   hideLabel: PropTypes.bool,
+  name: PropTypes.string,
+  autoComplete: PropTypes.string,
 };
 
 export default PhoneNumberInputWithCountry;
