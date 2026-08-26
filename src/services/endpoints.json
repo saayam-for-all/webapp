@@ -33,6 +33,7 @@
   "GET_ENUMS": "v1/request/mockEnums",
   "UPLOAD_REQUEST_FILE": "/requests/v0.0.1/file-upload",
   "GET_ENVIRONMENT": "v1/request/getEnvironment",
+  "GET_APP_ENV": "v1/request/getAppEnv",
   "UPLOAD_AUDIO_TO_S3": "/audio/v0.0.1/upload-to-s3",
   "TRANSCRIBE_AUDIO": "/audio/v0.0.1/transcribe",
   "UPLOAD_AUDIO": "/requests/v0.0.1/upload-audio",
