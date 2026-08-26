@@ -132,6 +132,11 @@ export const getEnvironment = async () => {
   return response.data;
 };
 
+export const getAppEnv = async () => {
+  const response = await api.get(endpoints.GET_APP_ENV);
+  return response.data;
+};
+
 export const uploadRequestFile = async (file) => {
   const formData = new FormData();
   formData.append("file", file);

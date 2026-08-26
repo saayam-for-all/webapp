@@ -314,7 +314,17 @@ const Navbar = () => {
 
     fetchNotifications(); // Comment it after call ing the funciton below
 
-    const interval = setInterval(fetchNotifications, 5 * 60 * 1000); // fetch every 5 min
+    // Use the interval fetched from getAppEnv (stored on login),
+    // falling back to 5 min (300000 ms) if it isn't available.
+    const storedInterval = Number(
+      JSON.parse(localStorage.getItem("notification_interval_ms")),
+    );
+    const pollInterval =
+      Number.isFinite(storedInterval) && storedInterval > 0
+        ? storedInterval
+        : 5 * 60 * 1000;
+
+    const interval = setInterval(fetchNotifications, pollInterval); // fetch every pollInterval ms
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);
