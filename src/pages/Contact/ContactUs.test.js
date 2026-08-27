@@ -243,7 +243,7 @@ describe("ContactUs", () => {
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 
-  it("submits successfully and navigates to thanks page", async () => {
+  it("preserves the Lambda payload contract and navigates to thanks page", async () => {
     mockExecuteRecaptcha.mockResolvedValue("captcha-token");
     sendContactEmail.mockResolvedValue({ ok: true });
     render(<ContactUs />);
@@ -266,6 +266,9 @@ describe("ContactUs", () => {
       message: "Need support",
       recaptchaToken: "captcha-token",
     });
+    expect(sendContactEmail.mock.calls[0][0]).not.toHaveProperty(
+      "recaptcha_token",
+    );
     expect(mockNavigate).toHaveBeenCalledWith("/thanks");
   });
 

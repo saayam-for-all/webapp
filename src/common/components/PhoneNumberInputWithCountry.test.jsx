@@ -8,11 +8,16 @@ jest.mock("libphonenumber-js/max", () => ({
 
 jest.mock("../../utils/phone-codes-en", () => ({
   US: { primary: "United States", secondary: "+1" },
+  CA: { primary: "Canada", secondary: "+1" },
 }));
 
 const translate = (key) => key;
 
 describe("PhoneNumberInputWithCountry", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("exposes accessible names and associates the phone error", () => {
     render(
       <PhoneNumberInputWithCountry
@@ -67,6 +72,73 @@ describe("PhoneNumberInputWithCountry", () => {
 
     expect(setPhone).toHaveBeenCalledWith("2025550125");
     expect(parsePhoneNumberFromString).toHaveBeenCalledWith("+12025550125");
+    expect(setError).toHaveBeenCalledWith(undefined);
+  });
+
+  it("ignores non-numeric input without changing consumer state", () => {
+    const setPhone = jest.fn();
+    const setError = jest.fn();
+
+    render(
+      <PhoneNumberInputWithCountry
+        phone=""
+        setPhone={setPhone}
+        countryCode="US"
+        setCountryCode={jest.fn()}
+        setError={setError}
+        t={translate}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText("Phone Number"), {
+      target: { value: "202-abc" },
+    });
+
+    expect(setPhone).not.toHaveBeenCalled();
+    expect(setError).not.toHaveBeenCalled();
+  });
+
+  it("keeps required-field validation behavior on blur", () => {
+    const setError = jest.fn();
+
+    render(
+      <PhoneNumberInputWithCountry
+        phone=""
+        setPhone={jest.fn()}
+        countryCode="US"
+        setCountryCode={jest.fn()}
+        setError={setError}
+        required
+        t={translate}
+      />,
+    );
+
+    fireEvent.blur(screen.getByLabelText("Phone Number"));
+
+    expect(setError).toHaveBeenCalledWith("Phone number is required");
+  });
+
+  it("preserves country selection callbacks and clears stale errors", () => {
+    const setCountryCode = jest.fn();
+    const setError = jest.fn();
+
+    render(
+      <PhoneNumberInputWithCountry
+        phone="2025550125"
+        setPhone={jest.fn()}
+        countryCode="US"
+        setCountryCode={setCountryCode}
+        error="Please enter a valid phone number"
+        setError={setError}
+        t={translate}
+      />,
+    );
+
+    fireEvent.change(screen.getByRole("combobox", { name: "COUNTRY" }), {
+      target: { value: "CA" },
+    });
+
+    expect(setCountryCode).toHaveBeenCalledWith("CA");
     expect(setError).toHaveBeenCalledWith(undefined);
   });
 });

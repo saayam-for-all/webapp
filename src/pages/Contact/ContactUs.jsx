@@ -159,7 +159,7 @@ const ContactUs = () => {
           phone: fullPhoneNumber,
           reason: REASON_MAP[formData.reason],
           message: formData.message.trim(),
-          recaptchaToken,
+          recaptchaToken: recaptchaToken,
         });
 
         navigate("/thanks");
