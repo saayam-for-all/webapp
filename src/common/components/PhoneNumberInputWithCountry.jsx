@@ -15,6 +15,11 @@ const PhoneNumberInputWithCountry = ({
   hideLabel = false,
   required = false,
   t = (x) => x,
+  name,
+  autoComplete,
+  type = "text",
+  inputMode,
+  countryCodeName,
 }) => {
   // Manual length checks for specific countries
   const getExpectedLength = (countryCode) => {
@@ -144,7 +149,7 @@ const PhoneNumberInputWithCountry = ({
       <div className="flex space-x-2">
         <select
           id="countryCode"
-          name="countryCode"
+          name={countryCodeName}
           value={countryCode}
           onChange={handleCountryCodeChange}
           aria-label={t("COUNTRY")}
@@ -158,14 +163,14 @@ const PhoneNumberInputWithCountry = ({
         </select>
         <input
           id="phone"
-          name="phone"
+          name={name}
           value={phone}
           onChange={handlePhoneChange}
           onBlur={handleBlur}
           placeholder={t("YOUR_PHONE_NUMBER")}
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel-national"
+          type={type}
+          inputMode={inputMode}
+          autoComplete={autoComplete}
           aria-label={hideLabel ? t("YOUR_PHONE_NUMBER") : undefined}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? errorId : undefined}
@@ -195,6 +200,11 @@ PhoneNumberInputWithCountry.propTypes = {
   required: PropTypes.bool,
   t: PropTypes.func,
   hideLabel: PropTypes.bool,
+  name: PropTypes.string,
+  autoComplete: PropTypes.string,
+  type: PropTypes.string,
+  inputMode: PropTypes.string,
+  countryCodeName: PropTypes.string,
 };
 
 export default PhoneNumberInputWithCountry;

@@ -30,6 +30,11 @@ describe("PhoneNumberInputWithCountry", () => {
         hideLabel
         required
         t={translate}
+        name="phone"
+        autoComplete="tel-national"
+        type="tel"
+        inputMode="tel"
+        countryCodeName="countryCode"
       />,
     );
 
@@ -45,6 +50,26 @@ describe("PhoneNumberInputWithCountry", () => {
     expect(phoneInput.autocomplete).toBe("tel-national");
     expect(phoneInput.getAttribute("aria-invalid")).toBe("true");
     expect(phoneInput.getAttribute("aria-describedby")).toBe(error.id);
+  });
+
+  it("preserves the default input behavior for existing consumers", () => {
+    render(
+      <PhoneNumberInputWithCountry
+        phone=""
+        setPhone={jest.fn()}
+        countryCode="US"
+        setCountryCode={jest.fn()}
+        setError={jest.fn()}
+        t={translate}
+      />,
+    );
+
+    const phoneInput = screen.getByLabelText("Phone Number");
+
+    expect(phoneInput.type).toBe("text");
+    expect(phoneInput.inputMode).toBe("");
+    expect(phoneInput.getAttribute("name")).toBeNull();
+    expect(phoneInput.getAttribute("autocomplete")).toBeNull();
   });
 
   it("clears the error after a valid phone number is entered", () => {

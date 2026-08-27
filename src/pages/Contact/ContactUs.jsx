@@ -351,6 +351,11 @@ const ContactUs = () => {
                   required={true}
                   t={t}
                   hideLabel={true}
+                  name="phone"
+                  autoComplete="tel-national"
+                  type="tel"
+                  inputMode="tel"
+                  countryCodeName="countryCode"
                 />
               </div>
 

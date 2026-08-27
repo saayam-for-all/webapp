@@ -12,6 +12,7 @@ import {
   getEnums,
   getCategories,
   getEnvironment,
+  getAppEnv,
   getMetadata,
 } from "../../../services/requestServices";
 
@@ -124,6 +125,24 @@ export const checkAuthStatus = () => async (dispatch) => {
       );
       // Setting default to production if fetch fails
       localStorage.setItem("environment", JSON.stringify("production"));
+    }
+
+    // getAppEnv Fetching — stores notification polling interval (ms)
+    // so the webapp can change it without a code deploy.
+    try {
+      const appEnvData = await getAppEnv();
+      const intervalMs =
+        appEnvData?.notification_interval_ms ??
+        appEnvData?.body?.notification_interval_ms;
+      if (intervalMs) {
+        localStorage.setItem(
+          "notification_interval_ms",
+          JSON.stringify(intervalMs),
+        );
+      }
+      console.log("App env fetched, notification interval:", intervalMs);
+    } catch (appEnvError) {
+      console.warn("Failed to fetch app env after login:", appEnvError.message);
     }
 
     let userDbId = null;
