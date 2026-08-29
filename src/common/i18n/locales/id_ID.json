@@ -7,5 +7,8 @@
   "MISSION": "Misi",
   "VISION": "Penglihatan",
   "CONTACT": "Kontak",
-  "DASHBOARD": "Dasbor"
+  "DASHBOARD": "Dasbor",
+  "back": "Kembali",
+  "back_to_dashboard": "Kembali ke Dashboard"
+
 }
