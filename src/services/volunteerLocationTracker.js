@@ -6,8 +6,33 @@ let intervalId = null;
 let inFlight = false;
 
 const LOCAL_KEY = "latestVolunteerLocation";
-const DEFAULT_INTERVAL_MS = 5 * 60 * 1000;
-const MIN_DISTANCE_METERS = 50;
+const SPATIAL_INTERVAL_KEY = "spatial_interval_ms";
+const MIN_DISTANCE_KEY = "min_distance_meters";
+
+const DEFAULT_INTERVAL_MS =
+  Number(import.meta.env.VITE_SPATIAL_INTERVAL_MS) || 300000;
+
+const DEFAULT_MIN_DISTANCE_METERS =
+  Number(import.meta.env.VITE_MIN_DISTANCE_METERS) || 50;
+
+const getStoredPositiveNumber = (key, fallbackValue) => {
+  try {
+    const storedValue = JSON.parse(localStorage.getItem(key));
+    const numericValue = Number(storedValue);
+
+    return Number.isFinite(numericValue) && numericValue > 0
+      ? numericValue
+      : fallbackValue;
+  } catch {
+    return fallbackValue;
+  }
+};
+
+const getSpatialIntervalMs = () =>
+  getStoredPositiveNumber(SPATIAL_INTERVAL_KEY, DEFAULT_INTERVAL_MS);
+
+const getMinimumDistanceMeters = () =>
+  getStoredPositiveNumber(MIN_DISTANCE_KEY, DEFAULT_MIN_DISTANCE_METERS);
 
 const formatCoordinate = (value) => Number(Number(value).toFixed(4));
 
@@ -58,7 +83,7 @@ const getDistanceMeters = (lat1, lon1, lat2, lon2) => {
 const hasLocationChanged = (
   oldLoc,
   newLoc,
-  thresholdMeters = MIN_DISTANCE_METERS,
+  thresholdMeters = getMinimumDistanceMeters(),
 ) => {
   if (
     oldLoc?.latitude == null ||
@@ -239,15 +264,18 @@ const checkAndSyncLocation = async () => {
   }
 };
 
-export const startVolunteerLocationTracking = async ({
-  intervalMs = DEFAULT_INTERVAL_MS,
-} = {}) => {
+export const startVolunteerLocationTracking = async ({ intervalMs } = {}) => {
   if (!isVolunteerUser()) return;
   if (intervalId) return;
 
+  const configuredInterval =
+    Number.isFinite(Number(intervalMs)) && Number(intervalMs) > 0
+      ? Number(intervalMs)
+      : getSpatialIntervalMs();
+
   await checkAndSyncLocation();
 
-  intervalId = window.setInterval(checkAndSyncLocation, intervalMs);
+  intervalId = window.setInterval(checkAndSyncLocation, configuredInterval);
 };
 
 export const stopVolunteerLocationTracking = () => {
