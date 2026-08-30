@@ -5,20 +5,37 @@ import {
   FiStopCircle,
   FiPlay,
   FiPause,
-  FiAlertTriangle,
+  FiAlertCircle,
   FiTrash2,
+  FiX,
 } from "react-icons/fi";
 import { Howl } from "howler";
 import { uploadAudioAndTranscribe } from "../../services/audioServices";
 
 const DEFAULT_MAX_RECORDING_SECONDS = 60;
+// Audio below this RMS is treated as pure silence (no signal at all)
 const SILENCE_RMS_THRESHOLD = 0.01;
+// Audio below this RMS threshold may still be background noise — checked via temporal variance
+const BACKGROUND_NOISE_RMS_UPPER = 0.06;
+// Coefficient of variation (std/mean of per-frame RMS) below which audio is
+// classified as steady background noise (fan, AC, etc.) rather than speech
+const MIN_SPEECH_VARIATION_CV = 0.25;
 
 /**
- * Analyze audio blob to detect if it contains mostly silence.
- * Uses Web Audio API to decode the audio and compute RMS energy.
+ * Analyze audio blob to detect if it contains mostly silence or steady
+ * background noise (fan, AC, etc.) with no actual speech.
+ *
+ * Strategy:
+ *  1. Compute overall RMS — if below SILENCE_RMS_THRESHOLD it is definitively
+ *     silent.
+ *  2. For audio in the "borderline" range (RMS up to BACKGROUND_NOISE_RMS_UPPER)
+ *     compute the coefficient of variation (CV = stddev / mean) of per-frame
+ *     RMS values.  Speech has high temporal variation; steady background noise
+ *     has very low variation.  If CV < MIN_SPEECH_VARIATION_CV the audio is
+ *     classified as background noise, not speech.
+ *
  * @param {Blob} audioBlob - recorded audio blob
- * @returns {Promise<boolean>} - true if the audio is silent (no speech detected)
+ * @returns {Promise<boolean>} - true if the audio contains no detectable speech
  */
 const isSilentAudio = async (audioBlob) => {
   try {
@@ -27,7 +44,9 @@ const isSilentAudio = async (audioBlob) => {
     const arrayBuffer = await audioBlob.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
     const channelData = audioBuffer.getChannelData(0);
+    const sampleRate = audioBuffer.sampleRate;
 
+    // Overall RMS
     let sumSquares = 0;
     for (let i = 0; i < channelData.length; i++) {
       sumSquares += channelData[i] * channelData[i];
@@ -35,7 +54,40 @@ const isSilentAudio = async (audioBlob) => {
     const rms = Math.sqrt(sumSquares / channelData.length);
 
     audioContext.close();
-    return rms < SILENCE_RMS_THRESHOLD;
+
+    // Definitively silent
+    if (rms < SILENCE_RMS_THRESHOLD) return true;
+
+    // For moderate levels check temporal variation to distinguish steady
+    // background noise (fan, AC) from actual speech
+    if (rms < BACKGROUND_NOISE_RMS_UPPER) {
+      const frameSamples = Math.floor(sampleRate * 0.1); // 100 ms frames
+      const frameRMSValues = [];
+      for (
+        let i = 0;
+        i + frameSamples <= channelData.length;
+        i += frameSamples
+      ) {
+        let frameSum = 0;
+        for (let j = i; j < i + frameSamples; j++) {
+          frameSum += channelData[j] * channelData[j];
+        }
+        frameRMSValues.push(Math.sqrt(frameSum / frameSamples));
+      }
+
+      if (frameRMSValues.length > 5) {
+        const meanRMS =
+          frameRMSValues.reduce((a, b) => a + b, 0) / frameRMSValues.length;
+        const variance =
+          frameRMSValues.reduce((a, b) => a + Math.pow(b - meanRMS, 2), 0) /
+          frameRMSValues.length;
+        const cv = Math.sqrt(variance) / (meanRMS || 1);
+        // Very low CV = steady noise (not speech)
+        if (cv < MIN_SPEECH_VARIATION_CV) return true;
+      }
+    }
+
+    return false;
   } catch {
     return false;
   }
@@ -381,6 +433,37 @@ const VoiceRecordingComponent = ({
     if (onTranscriptionUpdate) onTranscriptionUpdate("");
   };
 
+  /**
+   * Dismiss the recorder UI and return to idle state WITHOUT clearing any
+   * transcribed text that was already written to the description field.
+   * Category, Subject, and all other form data in the parent are unaffected.
+   */
+  const dismissRecorder = () => {
+    if (howlRef.current) {
+      howlRef.current.stop();
+      howlRef.current.unload();
+      howlRef.current = null;
+    }
+
+    if (audioUrlRef.current) {
+      URL.revokeObjectURL(audioUrlRef.current);
+      audioUrlRef.current = null;
+    }
+
+    setAudioUrl(null);
+    setAudioBlob(null);
+    setIsPlaying(false);
+    setError("");
+    setTranscriptionError(false);
+    setDetectedLanguage(null);
+    audioChunksRef.current = [];
+
+    // Notify parent that audio is gone (so it doesn't try to submit stale audio)
+    // but intentionally do NOT call onTranscriptionUpdate — the transcribed text
+    // in the description field is preserved for the user to review/edit.
+    if (onAudioUploaded) onAudioUploaded(null);
+  };
+
   const Tooltip = ({ children, text }) => {
     return (
       <div className="relative group">
@@ -490,16 +573,24 @@ const VoiceRecordingComponent = ({
           </div>
         )}
 
-        {error && (
-          <span className="text-xs text-red-600" role="alert">
-            {error}
-          </span>
-        )}
-
-        {transcriptionError && !isProcessing && (
-          <Tooltip text="Transcription unavailable. You can type the description manually.">
-            <div className="flex items-center justify-center w-10 h-10 bg-yellow-500 text-white rounded-full cursor-help shadow-md">
-              <FiAlertTriangle size={20} />
+        {/* Compact error icon with tooltip — replaces the inline error text and
+            yellow triangle alert so the recorder stays small even on failure. */}
+        {(error || transcriptionError) && !isProcessing && (
+          <Tooltip
+            text={
+              error ||
+              "Transcription unavailable. You can type the description manually."
+            }
+          >
+            <div
+              className="flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-full cursor-help shadow-md"
+              role="alert"
+              aria-label={
+                error ||
+                "Transcription unavailable. You can type the description manually."
+              }
+            >
+              <FiAlertCircle size={20} />
             </div>
           </Tooltip>
         )}
@@ -529,6 +620,26 @@ const VoiceRecordingComponent = ({
             </Tooltip>
           </div>
         )}
+
+        {/* Close / Cancel button — visible whenever the recorder has content
+            (audio recorded or in an error state) but is not actively recording
+            or processing.  Dismisses the recorder UI and returns the user to
+            the plain text Description field while preserving any transcribed
+            text and all other form data (Category, Subject, Details). */}
+        {!isRecording &&
+          !isProcessing &&
+          (audioUrl || error || transcriptionError) && (
+            <Tooltip text="Close recorder (keeps transcribed text)">
+              <button
+                type="button"
+                onClick={dismissRecorder}
+                className="flex items-center justify-center w-10 h-10 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition-colors shadow-md"
+                aria-label="Close recorder"
+              >
+                <FiX size={20} />
+              </button>
+            </Tooltip>
+          )}
       </div>
     </div>
   );
