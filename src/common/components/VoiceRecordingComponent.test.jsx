@@ -251,6 +251,45 @@ describe("VoiceRecordingComponent — silence detection", () => {
     expect(onTranscriptionUpdate).not.toHaveBeenCalled();
   });
 
+  it("treats audio as not-silent and proceeds to transcription when isSilentAudio throws internally (catch branch)", async () => {
+    // Force decodeAudioData to reject so that the catch block in isSilentAudio
+    // fires and returns false (audio is assumed to contain speech).
+    const fakeCtx = {
+      decodeAudioData: jest.fn().mockRejectedValue(new Error("decode failed")),
+      close: jest.fn(),
+    };
+    window.AudioContext = jest.fn(() => fakeCtx);
+    window.webkitAudioContext = jest.fn(() => fakeCtx);
+
+    mockUploadAudioAndTranscribe.mockResolvedValue({
+      text: "Decoded after catch",
+      detectedLanguage: "en",
+      requestId: "req-catch",
+    });
+
+    const onTranscriptionUpdate = jest.fn();
+
+    render(
+      <VoiceRecordingComponent
+        onTranscriptionUpdate={onTranscriptionUpdate}
+        onAudioUploaded={jest.fn()}
+        maxRecordingSeconds={60}
+      />,
+    );
+
+    await recordAndStop();
+
+    // isSilentAudio caught the error and returned false → transcription proceeds
+    await waitFor(() => {
+      expect(mockUploadAudioAndTranscribe).toHaveBeenCalled();
+      expect(
+        screen.getByRole("button", { name: /play recording|pause playback/i }),
+      ).toBeInTheDocument();
+    });
+
+    expect(onTranscriptionUpdate).toHaveBeenCalledWith("Decoded after catch");
+  });
+
   it("calls transcription API normally when audio contains speech", async () => {
     // RMS = 0.1 → well above the background-noise upper threshold (0.06)
     mockAudioContext(0.1);
@@ -474,6 +513,101 @@ describe("VoiceRecordingComponent — Close / Cancel (X) button", () => {
     ).toBeInTheDocument();
 
     // Transcription text must not be cleared (was never set, so 0 calls)
+    expect(onTranscriptionUpdate).not.toHaveBeenCalled();
+  });
+
+  it("cleans up an active Howl instance when Close is clicked after playback starts", async () => {
+    // This test covers the howlRef.current.stop/unload/null path inside
+    // dismissRecorder (lines 443-445) which is only reached when a Howl
+    // instance has been created via togglePlayback.
+    const { Howl } = require("howler");
+
+    mockAudioContext(0.1);
+    mockUploadAudioAndTranscribe.mockResolvedValue({
+      text: "Playback test",
+      detectedLanguage: "en",
+      requestId: "req-howl",
+    });
+
+    render(
+      <VoiceRecordingComponent
+        onTranscriptionUpdate={jest.fn()}
+        onAudioUploaded={jest.fn()}
+        maxRecordingSeconds={60}
+      />,
+    );
+
+    await recordAndStop();
+
+    // Wait for the play button to appear (audioUrl is set, processing done)
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: /play recording/i }),
+      ).toBeInTheDocument();
+    });
+
+    // Click Play — this creates the Howl instance (howlRef.current becomes non-null)
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /play recording/i }));
+    });
+
+    // Verify that a Howl instance was constructed
+    expect(Howl).toHaveBeenCalledTimes(1);
+    const howlInstance = Howl.mock.results[0].value;
+
+    // Click Close — exercises howlRef.current.stop/unload/null (lines 443-445)
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /close recorder/i }));
+    });
+
+    expect(howlInstance.stop).toHaveBeenCalled();
+    expect(howlInstance.unload).toHaveBeenCalled();
+
+    // Recorder should be back to idle state
+    expect(
+      screen.getByRole("button", { name: /start recording/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /close recorder/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows 'Transcription unavailable' fallback tooltip when API returns empty text", async () => {
+    // This test covers lines 582 and 590 — the fallback string inside the
+    // error ||  "Transcription unavailable…" expression.  It is only reached
+    // when transcriptionError is true but error is '' (falsy), which happens
+    // when uploadAudioAndTranscribe resolves with an empty text field.
+    mockAudioContext(0.1);
+
+    // Return an empty transcript — audio passes silence check but has no text
+    mockUploadAudioAndTranscribe.mockResolvedValue({
+      text: "",
+      detectedLanguage: "en",
+      requestId: "req-empty",
+    });
+
+    const onTranscriptionUpdate = jest.fn();
+
+    render(
+      <VoiceRecordingComponent
+        onTranscriptionUpdate={onTranscriptionUpdate}
+        onAudioUploaded={jest.fn()}
+        maxRecordingSeconds={60}
+      />,
+    );
+
+    await recordAndStop();
+
+    // transcriptionError = true, error = "" → fallback string is evaluated
+    await waitFor(() => {
+      const alert = screen.getByRole("alert");
+      expect(alert).toHaveAttribute(
+        "aria-label",
+        expect.stringMatching(/transcription unavailable/i),
+      );
+    });
+
+    // No transcription text should be passed to the parent
     expect(onTranscriptionUpdate).not.toHaveBeenCalled();
   });
 
