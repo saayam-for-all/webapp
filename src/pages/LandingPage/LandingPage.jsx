@@ -74,7 +74,7 @@ export default function Home() {
         </div>
         <MetricsTicker />
       </div>
-      <div className="w-full flex flex-row justify-center mt-8 gap-2 md:gap-0 px-2 md:px-0">
+      <div className="w-full flex flex-row items-start justify-center mt-8 gap-2 md:gap-0 px-2 md:px-0">
         <div className="w-1/3 md:w-[22%] flex flex-col justify-center items-center">
           <img
             src={bannerImageOne}
