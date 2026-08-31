@@ -61,7 +61,7 @@ exports[`LandingPage renders correctly 1`] = `
           >
             <img
               alt="mockTranslate(JNANAM_VARDHATI_SANCHAYAT_ALT)"
-              class="aspect-square w-[90%] object-cover object-center rounded-[10px] md:mt-[15%]"
+              class="aspect-[.77] w-2/3 object-cover object-center rounded-[10px]"
               src=""
             />
             <h3
@@ -377,7 +377,7 @@ exports[`LandingPage renders correctly 1`] = `
         >
           <img
             alt="mockTranslate(JNANAM_VARDHATI_SANCHAYAT_ALT)"
-            class="aspect-square w-[90%] object-cover object-center rounded-[10px] md:mt-[15%]"
+            class="aspect-[.77] w-2/3 object-cover object-center rounded-[10px]"
             src=""
           />
           <h3
