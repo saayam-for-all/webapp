@@ -353,6 +353,50 @@ describe("BeneficiariesAnalytics", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("shows loading state (not no-data) while country custom range is fetching", async () => {
+    let resolveCountryFetch;
+    getBeneficiariesTrendAnalysis
+      .mockResolvedValueOnce(MOCK_API_RESPONSE) // initial {} fetch
+      .mockReturnValueOnce(
+        new Promise((resolve) => {
+          resolveCountryFetch = resolve;
+        }),
+      ); // country custom fetch stays pending
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => screen.getByText("Period:"));
+
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[customButtons.length - 1]); // country Custom button
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    fireEvent.change(dateInputs[dateInputs.length - 2], {
+      target: { value: "2026-01-01" },
+    });
+    fireEvent.change(dateInputs[dateInputs.length - 1], {
+      target: { value: "2026-06-01" },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/loading beneficiaries data/i),
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByText(/no data available for the selected period/i),
+    ).not.toBeInTheDocument();
+
+    resolveCountryFetch({
+      statusCode: 200,
+      body: {
+        "Beneficiaries count by country custom date range": [
+          { country: "USA", Count: 32, rank: 1 },
+        ],
+      },
+    });
+    await waitFor(() => {
+      expect(screen.getByText(/United States/)).toBeInTheDocument();
+    });
+  });
+
   it("handles country API fetch error gracefully", async () => {
     getBeneficiariesTrendAnalysis
       .mockResolvedValueOnce(MOCK_API_RESPONSE) // initial {} fetch

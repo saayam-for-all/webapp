@@ -550,12 +550,9 @@ const BeneficiariesAnalytics = () => {
               Top 10 Only
             </label>
           )}
-          {countryApiLoading && (
-            <span className="text-xs text-gray-400 italic">Updating…</span>
-          )}
         </div>
 
-        {apiLoading && !apiData ? (
+        {(apiLoading && !apiData) || countryApiLoading ? (
           <div className="flex items-center justify-center h-64 text-gray-500">
             Loading beneficiaries data…
           </div>
