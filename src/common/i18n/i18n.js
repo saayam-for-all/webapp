@@ -14,6 +14,17 @@ import arCollaborator from "./locales/ar/collaborator.json";
 import urCollaborator from "./locales/ur/collaborator.json";
 import hiCollaborator from "./locales/hi/collaborator.json";
 
+import enNews from "./locales/en/news.json";
+import deNews from "./locales/de/news.json";
+import esNews from "./locales/es/news.json";
+import frNews from "./locales/fr/news.json";
+import ruNews from "./locales/ru/news.json";
+import teNews from "./locales/te/news.json";
+import zhNews from "./locales/zh/news.json";
+import ptNews from "./locales/pt/news.json";
+import bnNews from "./locales/bn/news.json";
+import hiNews from "./locales/hi/news.json";
+
 //import arTranslation from './locales/ar_SA.json';
 //import asTranslation from './locales/as_IN.json';
 import bnTranslation from "./locales/bn_BD.json";
@@ -53,16 +64,56 @@ i18n
   .init({
     fallbackLng: "en",
     resources: {
-      bn: { translation: bnTranslation, collaborator: bnCollaborator },
-      de: { translation: deTranslation, collaborator: deCollaborator },
-      en: { translation: enTranslation, collaborator: enCollaborator },
-      es: { translation: esTranslation, collaborator: esCollaborator },
-      fr: { translation: frTranslation, collaborator: frCollaborator },
-      hi: { translation: hiTranslation, collaborator: hiCollaborator },
-      pt: { translation: ptTranslation, collaborator: ptCollaborator },
-      ru: { translation: ruTranslation, collaborator: ruCollaborator },
-      te: { translation: teTranslation, collaborator: teCollaborator },
-      zh: { translation: zhTranslation, collaborator: zhCollaborator },
+      bn: {
+        translation: bnTranslation,
+        collaborator: bnCollaborator,
+        news: bnNews,
+      },
+      de: {
+        translation: deTranslation,
+        collaborator: deCollaborator,
+        news: deNews,
+      },
+      en: {
+        translation: enTranslation,
+        collaborator: enCollaborator,
+        news: enNews,
+      },
+      es: {
+        translation: esTranslation,
+        collaborator: esCollaborator,
+        news: esNews,
+      },
+      fr: {
+        translation: frTranslation,
+        collaborator: frCollaborator,
+        news: frNews,
+      },
+      hi: {
+        translation: hiTranslation,
+        collaborator: hiCollaborator,
+        news: hiNews,
+      },
+      pt: {
+        translation: ptTranslation,
+        collaborator: ptCollaborator,
+        news: ptNews,
+      },
+      ru: {
+        translation: ruTranslation,
+        collaborator: ruCollaborator,
+        news: ruNews,
+      },
+      te: {
+        translation: teTranslation,
+        collaborator: teCollaborator,
+        news: teNews,
+      },
+      zh: {
+        translation: zhTranslation,
+        collaborator: zhCollaborator,
+        news: zhNews,
+      },
       ar: { collaborator: arCollaborator },
       as: { collaborator: urCollaborator },
     },
