@@ -90,7 +90,7 @@ export default function Home() {
         <div className="w-[33%] h-full flex flex-col justify-center items-center">
           <img
             src={bannerImageTwo}
-            className="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+            className="aspect-[.77] w-2/3 object-cover object-center rounded-[10px]"
             alt={t("JNANAM_VARDHATI_SANCHAYAT_ALT")}
           />
           <h3 className="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center">
