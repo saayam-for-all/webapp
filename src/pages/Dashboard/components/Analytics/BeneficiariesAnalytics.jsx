@@ -128,6 +128,7 @@ const BeneficiariesAnalytics = () => {
   const [countryTimeRange, setCountryTimeRange] = useState("all");
   const [countryCustomStart, setCountryCustomStart] = useState("");
   const [countryCustomEnd, setCountryCustomEnd] = useState("");
+  const [countryGroupBy, setCountryGroupBy] = useState("month"); // day or month
 
   const [showTop10Only, setShowTop10Only] = useState(true);
   const [geoViewType, setGeoViewType] = useState("bar"); // bar or map
@@ -155,6 +156,11 @@ const BeneficiariesAnalytics = () => {
   // (and falling back to static data) the moment the user clicks "Custom".
   const [committedRange, setCommittedRange] = useState("all");
   const [committedGroupBy, setCommittedGroupBy] = useState("day");
+
+  // committedCountryRange mirrors committedRange for the country chart — it only
+  // advances to "custom" once both country custom dates are filled, so the chart
+  // doesn't flash to an empty state the moment "Custom" is clicked.
+  const [committedCountryRange, setCommittedCountryRange] = useState("all");
 
   // Update fetchParams whenever the trend time range or custom inputs change.
   // The functional updater bails out when the serialized params haven't changed,
@@ -209,9 +215,11 @@ const BeneficiariesAnalytics = () => {
       countryTimeRange,
       countryCustomStart,
       countryCustomEnd,
-      "month",
+      countryGroupBy,
     );
     if (!params) return;
+
+    setCommittedCountryRange(countryTimeRange);
 
     if (JSON.stringify(params) === JSON.stringify(fetchParams)) {
       setCountryApiData(null);
@@ -234,7 +242,13 @@ const BeneficiariesAnalytics = () => {
     return () => {
       cancelled = true;
     };
-  }, [countryTimeRange, countryCustomStart, countryCustomEnd, fetchParams]);
+  }, [
+    countryTimeRange,
+    countryCustomStart,
+    countryCustomEnd,
+    countryGroupBy,
+    fetchParams,
+  ]);
 
   // Format month for display (e.g., "2025-01" → "Jan 2025")
   const formatMonthLabel = (monthStr) => {
@@ -284,9 +298,9 @@ const BeneficiariesAnalytics = () => {
   const beneficiariesByCountryData = useMemo(() => {
     if (!effectiveCountrySource) return [];
     const body = effectiveCountrySource.body ?? effectiveCountrySource;
-    const countryKey = COUNTRY_DATA_KEYS[countryTimeRange];
+    const countryKey = COUNTRY_DATA_KEYS[committedCountryRange];
     return parseCountryData(body[countryKey]);
-  }, [effectiveCountrySource, countryTimeRange]);
+  }, [effectiveCountrySource, committedCountryRange]);
 
   // Process country data - aggregate totals by country with top 10 option
   const processCountryData = useMemo(() => {
@@ -459,7 +473,13 @@ const BeneficiariesAnalytics = () => {
           ].map(({ id, label }) => (
             <button
               key={id}
-              onClick={() => setCountryTimeRange(id)}
+              onClick={() => {
+                if (id === "custom") {
+                  setCountryCustomStart("");
+                  setCountryCustomEnd("");
+                }
+                setCountryTimeRange(id);
+              }}
               className={`px-2 py-0.5 text-xs rounded ${
                 countryTimeRange === id
                   ? "bg-blue-500 text-white"
@@ -484,6 +504,14 @@ const BeneficiariesAnalytics = () => {
                 onChange={(e) => setCountryCustomEnd(e.target.value)}
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
               />
+              <select
+                value={countryGroupBy}
+                onChange={(e) => setCountryGroupBy(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs bg-white"
+              >
+                <option value="day">Day</option>
+                <option value="month">Month</option>
+              </select>
             </>
           )}
         </div>
