@@ -208,13 +208,31 @@ describe("BeneficiariesAnalytics", () => {
     });
   });
 
-  it("shows fallback warning when API call fails", async () => {
+  it("shows an error message when API call fails", async () => {
     getBeneficiariesTrendAnalysis.mockRejectedValue(new Error("Network error"));
     render(<BeneficiariesAnalytics />);
     await waitFor(() => {
       expect(
-        screen.getByText(/could not load live data from api/i),
+        screen.getByText(/could not load data\. please try again later/i),
       ).toBeInTheDocument();
+    });
+  });
+
+  it("shows no data message when trend API window is empty", async () => {
+    const emptyResponse = {
+      statusCode: 200,
+      body: {
+        "Beneficiaries count all": [],
+        "Beneficiaries count by country all": [],
+      },
+    };
+    getBeneficiariesTrendAnalysis.mockResolvedValue(emptyResponse);
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => {
+      expect(
+        screen.getAllByText(/no data available for the selected period/i)
+          .length,
+      ).toBeGreaterThan(0);
     });
   });
 
@@ -330,7 +348,7 @@ describe("BeneficiariesAnalytics", () => {
     expect(checkbox).not.toBeChecked();
   });
 
-  it("falls back to static data when country key is missing from API response", async () => {
+  it("shows no data message when country key is missing from API response", async () => {
     // Response has no country keys → parseCountryData(undefined) hits the null guard
     const sparseResponse = {
       statusCode: 200,
@@ -340,11 +358,15 @@ describe("BeneficiariesAnalytics", () => {
     };
     getBeneficiariesTrendAnalysis.mockResolvedValue(sparseResponse);
     render(<BeneficiariesAnalytics />);
-    // Component should load without crashing and fall back to static country data
+    // Trend chart still renders; country chart shows the empty state instead
+    // of falling back to mock data
     await waitFor(() =>
       expect(screen.getByTestId("line-chart")).toBeInTheDocument(),
     );
-    expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    expect(
+      screen.getByText(/no data available for the selected period/i),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("bar-chart")).not.toBeInTheDocument();
   });
 
   it("handles country entries without Total Count by summing Date entries", async () => {

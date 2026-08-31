@@ -20,8 +20,6 @@ import {
 import ChartContainer from "./charts/ChartContainer";
 import { getBeneficiariesTrendAnalysis } from "../../../../services/analyticsServices";
 import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
-import beneficiariesGrowthDataFallback from "../../../../data/analytics/beneficiaries_growth_monthly.json";
-import beneficiariesByCountryDataFallback from "../../../../data/analytics/beneficiaries_by_country_monthly.json";
 
 // World map GeoJSON URL
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -260,27 +258,17 @@ const BeneficiariesAnalytics = () => {
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
-  // Extract growth data from API response, fallback to static data.
+  // Extract growth data from API response. Returns [] when there's no data
+  // for the selected period so the UI can show an explicit empty state.
   // Uses committedRange/committedGroupBy so clicking "Custom" without dates
   // does not change what's displayed until both dates are filled.
   const chartData = useMemo(() => {
-    if (apiData) {
-      const body = apiData.body ?? apiData;
-      const points = normalizeItems(
-        body[BENEFICIARY_TREND_KEYS[committedRange]],
-      );
-      if (points.length > 0) {
-        return points.map((item) => ({
-          label: formatLabel(item.date, committedRange, committedGroupBy),
-          count: item.count,
-        }));
-      }
-    }
-
-    // Fallback: use static monthly data
-    return beneficiariesGrowthDataFallback.map((item) => ({
-      label: formatMonthLabel(item.month),
-      count: item.newBeneficiaries,
+    if (!apiData) return [];
+    const body = apiData.body ?? apiData;
+    const points = normalizeItems(body[BENEFICIARY_TREND_KEYS[committedRange]]);
+    return points.map((item) => ({
+      label: formatLabel(item.date, committedRange, committedGroupBy),
+      count: item.count,
     }));
   }, [apiData, committedRange, committedGroupBy]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -288,17 +276,16 @@ const BeneficiariesAnalytics = () => {
   // fall back to the trend apiData (which includes country data for 7D/30D/1Y).
   const effectiveCountrySource = countryApiData ?? apiData;
 
-  // Extract country data for the selected country time range, fallback to static data.
-  // The API returns country data as an object keyed by ISO alpha-3 code; parseCountryData
-  // sums all date entries per country into a single beneficiaryCount.
+  // Extract country data for the selected country time range. Returns [] when
+  // there's no data for the selected period so the UI can show an explicit
+  // empty state. The API returns country data as an object keyed by ISO
+  // alpha-3 code; parseCountryData sums all date entries per country into a
+  // single beneficiaryCount.
   const beneficiariesByCountryData = useMemo(() => {
-    if (effectiveCountrySource) {
-      const body = effectiveCountrySource.body ?? effectiveCountrySource;
-      const countryKey = COUNTRY_DATA_KEYS[countryTimeRange];
-      const parsed = parseCountryData(body[countryKey]);
-      if (parsed.length > 0) return parsed;
-    }
-    return beneficiariesByCountryDataFallback;
+    if (!effectiveCountrySource) return [];
+    const body = effectiveCountrySource.body ?? effectiveCountrySource;
+    const countryKey = COUNTRY_DATA_KEYS[countryTimeRange];
+    return parseCountryData(body[countryKey]);
   }, [effectiveCountrySource, countryTimeRange]);
 
   // Process country data - aggregate totals by country with top 10 option
@@ -406,13 +393,17 @@ const BeneficiariesAnalytics = () => {
 
         {apiError && (
           <div className="mb-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
-            Could not load live data from API. Showing fallback data.
+            Could not load data. Please try again later.
           </div>
         )}
 
         {apiLoading ? (
           <div className="flex items-center justify-center h-64 text-gray-500">
             Loading beneficiaries data…
+          </div>
+        ) : chartData.length === 0 ? (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            No data available for the selected period.
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={210}>
@@ -539,6 +530,10 @@ const BeneficiariesAnalytics = () => {
         {apiLoading && !apiData ? (
           <div className="flex items-center justify-center h-64 text-gray-500">
             Loading beneficiaries data…
+          </div>
+        ) : beneficiariesByCountryData.length === 0 ? (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            No data available for the selected period.
           </div>
         ) : geoViewType === "bar" ? (
           <>
