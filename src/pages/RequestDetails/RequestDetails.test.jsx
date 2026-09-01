@@ -158,3 +158,114 @@ describe("RequestDetails - Edit onClose refreshes data", () => {
     expect(screen.queryByTestId("help-request-form")).not.toBeInTheDocument();
   });
 });
+
+describe("RequestDetails - Delete dialog button order and behavior", () => {
+  beforeEach(() => {
+    mockLocationState = { id: "123", subject: "Test Request" };
+  });
+
+  it("opens the delete dialog and shows Delete before Cancel", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "DELETE" }));
+
+    const deleteActionButton = screen.getByRole("button", {
+      name: "DELETE_ACTION",
+    });
+    const cancelButton = screen.getByRole("button", { name: "CANCEL" });
+
+    expect(deleteActionButton).toBeInTheDocument();
+    expect(cancelButton).toBeInTheDocument();
+    expect(
+      deleteActionButton.compareDocumentPosition(cancelButton) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("disables Delete until a reason is entered, then enables it", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "DELETE" }));
+
+    const deleteActionButton = screen.getByRole("button", {
+      name: "DELETE_ACTION",
+    });
+    expect(deleteActionButton).toBeDisabled();
+
+    fireEvent.change(screen.getByPlaceholderText("REASON"), {
+      target: { value: "No longer needed" },
+    });
+
+    expect(deleteActionButton).not.toBeDisabled();
+  });
+
+  it("Cancel closes the delete dialog", async () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "DELETE" }));
+
+    expect(
+      screen.getByRole("button", { name: "DELETE_ACTION" }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "CANCEL" }));
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("button", { name: "DELETE_ACTION" }),
+      ).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe("RequestDetails - Change Volunteer dialog button order and behavior", () => {
+  beforeEach(() => {
+    mockLocationState = { id: "123", subject: "Test Request" };
+  });
+
+  it("opens the change volunteer dialog and shows Save before Cancel", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "CHANGE_VOLUNTEER" }));
+
+    const saveButton = screen.getByRole("button", { name: "SAVE" });
+    const cancelButton = screen.getByRole("button", { name: "CANCEL" });
+
+    expect(saveButton).toBeInTheDocument();
+    expect(cancelButton).toBeInTheDocument();
+    expect(
+      saveButton.compareDocumentPosition(cancelButton) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("disables Save until a reason is entered, then enables it", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "CHANGE_VOLUNTEER" }));
+
+    const saveButton = screen.getByRole("button", { name: "SAVE" });
+    expect(saveButton).toBeDisabled();
+
+    fireEvent.change(screen.getByPlaceholderText("REASON"), {
+      target: { value: "Volunteer unavailable" },
+    });
+
+    expect(saveButton).not.toBeDisabled();
+  });
+});
