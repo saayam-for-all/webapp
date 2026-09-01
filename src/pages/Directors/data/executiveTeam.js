@@ -66,6 +66,12 @@ const ExecutiveTeamData = [
   //   linkedin: "https://www.linkedin.com/in/satya-sai-manoj-m-403179230/",
   // },
   {
+    image: Pallavi_Chitrada,
+    name: "Pallavi Chitrada",
+    role: "Database Administrator",
+    linkedin: "https://www.linkedin.com/in/pallavi-chitrada",
+  },
+  {
     image: Jeevan_Deep_Borugadda,
     name: "Jeevan Deep Borugadda",
     role: "Program and Operations Lead",
@@ -82,12 +88,6 @@ const ExecutiveTeamData = [
     name: "Sahil Mane",
     role: "Data Analytics & Engineering Lead",
     linkedin: "https://www.linkedin.com/in/sahil-mane-502a161aa/",
-  },
-  {
-    image: Pallavi_Chitrada,
-    name: "Pallavi Chitrada",
-    role: "Database Administrator",
-    linkedin: "https://www.linkedin.com/in/pallavi-chitrada",
   },
 ];
 
