@@ -15,27 +15,30 @@ exports[`LandingPage renders correctly 1`] = `
             class="w-full flex flex-col items-center justify-center"
           >
             <div
-              class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]"
+              class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px] text-center px-4"
             >
               mockTranslate(Real help. Real people. Right when you need it.)
             </div>
             <h1
-              class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]"
+              class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4"
             >
               mockTranslate(Need help? Here to help?)
             </h1>
-            <div
-              class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center"
+            <button
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold text-base md:text-lg py-3 px-8 rounded-full mb-[30px] md:mb-[50px]"
             >
-              mockTranslate(At Saayam for All, your support can make a real difference today.)
-            </div>
+              mockTranslate(Join our community)
+            </button>
           </div>
+          <div
+            data-testid="metrics-ticker"
+          />
         </div>
         <div
-          class="w-full flex flex-row justify-center  "
+          class="w-full flex flex-row items-start justify-center mt-8 gap-2 md:gap-0 px-2 md:px-0"
         >
           <div
-            class="w-[22%] h-[50%] flex flex-col justify-center items-center"
+            class="w-1/3 md:w-[22%] flex flex-col justify-center items-center"
           >
             <img
               alt="mockTranslate(SARVE_JANA_SUKHINO_BHAVANTU_ALT)"
@@ -43,37 +46,37 @@ exports[`LandingPage renders correctly 1`] = `
               src=""
             />
             <h3
-              class="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center"
+              class="font-bold text-sm md:text-xl lg:text-2xl md:tracking-wide m-[10px] text-center leading-tight"
             >
               mockTranslate(Sarve jana sukhino bhavantu)
             </h3>
             <div
-              class="text-xs md:text-sm md:text-lg text-gray-600 text-center"
+              class="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight"
             >
               mockTranslate(May all live happily.)
             </div>
           </div>
           <div
-            class="w-[33%] h-full flex flex-col justify-center items-center"
+            class="w-1/3 md:w-[33%] flex flex-col justify-center items-center"
           >
             <img
               alt="mockTranslate(JNANAM_VARDHATI_SANCHAYAT_ALT)"
-              class="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+              class="aspect-[.77] w-2/3 object-cover object-center rounded-[10px]"
               src=""
             />
             <h3
-              class="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
+              class="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight"
             >
               mockTranslate(jñānam vardhati sanchayāt)
             </h3>
             <div
-              class="text-xs md:text-sm  md:text-lg text-gray-600 text-center"
+              class="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight px-1 md:px-0"
             >
               mockTranslate(Sharing knowledge expands one's own understanding and the knowledge of others.)
             </div>
           </div>
           <div
-            class="w-[22%] h-full flex flex-col justify-center items-center"
+            class="w-1/3 md:w-[22%] flex flex-col justify-center items-center"
           >
             <img
               alt="mockTranslate(MANAVA_SEVAYE_MADHAVA_SEVA_ALT)"
@@ -81,12 +84,12 @@ exports[`LandingPage renders correctly 1`] = `
               src=""
             />
             <h3
-              class="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
+              class="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight"
             >
               mockTranslate(Manava sevaye Madhava seva)
             </h3>
             <div
-              class="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3"
+              class="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight"
             >
               mockTranslate(Service to mankind is Service to God.)
             </div>
@@ -115,63 +118,52 @@ exports[`LandingPage renders correctly 1`] = `
         <div
           class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
+          <h3
+            class="font-bold text-3xl md:text-4xl"
+          >
+            mockTranslate(Our Collaborators)
+          </h3>
           <div
-            class="w-full flex flex-row overflow-hidden hidden"
+            class="w-full flex flex-row overflow-hidden"
           >
             <div
               class="scroll imgBox"
             >
               <div>
                 <img
-                  class="w-[150px] ml-[75px]"
+                  class="w-[100px] ml-[50px]"
                   src=""
                 />
                 <img
                   src=""
                 />
                 <img
-                  class="w-[200px]"
+                  class="w-[140px]"
                   src=""
                 />
                 <img
                   src=""
                 />
                 <img
-                  src=""
-                />
-                <img
-                  class="w-[200px]"
-                  src=""
-                />
-                <img
-                  class="w-[125px]"
                   src=""
                 />
               </div>
               <div>
                 <img
-                  class="w-[150px] ml-[75px]"
+                  class="w-[100px] ml-[50px]"
                   src=""
                 />
                 <img
                   src=""
                 />
                 <img
-                  class="w-[200px]"
+                  class="w-[140px]"
                   src=""
                 />
                 <img
                   src=""
                 />
                 <img
-                  src=""
-                />
-                <img
-                  class="w-[200px]"
-                  src=""
-                />
-                <img
-                  class="w-[125px]"
                   src=""
                 />
               </div>
@@ -179,13 +171,13 @@ exports[`LandingPage renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0"
+          class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[200px] lg:mb-[100px] px-4 md:px-0"
         >
           <div
             class="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full"
           >
             <h3
-              class="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]"
+              class="font-bold text-2xl md:text-4xl w-full md:w-3/4 mb-4 md:mb-[10px]"
             >
               mockTranslate(Creating a World Where Help is Always Within Reach)
             </h3>
@@ -195,7 +187,7 @@ exports[`LandingPage renders correctly 1`] = `
               mockTranslate(Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.)
             </p>
             <button
-              class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+              class="mt-6 md:mt-[80px] lg:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
             >
               mockTranslate(Our Mission)
                →
@@ -314,7 +306,7 @@ exports[`LandingPage renders correctly 1`] = `
                 <h3
                   class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
                 >
-                  mockTranslate(Voluntary Organizations)
+                  mockTranslate(ORGANIZATIONS)
                 </h3>
                 <h6
                   class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
@@ -358,27 +350,30 @@ exports[`LandingPage renders correctly 1`] = `
           class="w-full flex flex-col items-center justify-center"
         >
           <div
-            class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px]"
+            class="text-sm md:text-lg text-gray-600 mb-[30px] md:mb-[50px] mt-[20px] text-center px-4"
           >
             mockTranslate(Real help. Real people. Right when you need it.)
           </div>
           <h1
-            class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px]"
+            class="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4"
           >
             mockTranslate(Need help? Here to help?)
           </h1>
-          <div
-            class="w-3/4 md:w-1/4 text-sm md:text-lg text-gray-600 m-auto mb-[40px] text-center"
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold text-base md:text-lg py-3 px-8 rounded-full mb-[30px] md:mb-[50px]"
           >
-            mockTranslate(At Saayam for All, your support can make a real difference today.)
-          </div>
+            mockTranslate(Join our community)
+          </button>
         </div>
+        <div
+          data-testid="metrics-ticker"
+        />
       </div>
       <div
-        class="w-full flex flex-row justify-center  "
+        class="w-full flex flex-row items-start justify-center mt-8 gap-2 md:gap-0 px-2 md:px-0"
       >
         <div
-          class="w-[22%] h-[50%] flex flex-col justify-center items-center"
+          class="w-1/3 md:w-[22%] flex flex-col justify-center items-center"
         >
           <img
             alt="mockTranslate(SARVE_JANA_SUKHINO_BHAVANTU_ALT)"
@@ -386,37 +381,37 @@ exports[`LandingPage renders correctly 1`] = `
             src=""
           />
           <h3
-            class="w-3/4 font-bold text-xl md:text-2xl md:tracking-wide m-[10px] text-center"
+            class="font-bold text-sm md:text-xl lg:text-2xl md:tracking-wide m-[10px] text-center leading-tight"
           >
             mockTranslate(Sarve jana sukhino bhavantu)
           </h3>
           <div
-            class="text-xs md:text-sm md:text-lg text-gray-600 text-center"
+            class="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight"
           >
             mockTranslate(May all live happily.)
           </div>
         </div>
         <div
-          class="w-[33%] h-full flex flex-col justify-center items-center"
+          class="w-1/3 md:w-[33%] flex flex-col justify-center items-center"
         >
           <img
             alt="mockTranslate(JNANAM_VARDHATI_SANCHAYAT_ALT)"
-            class="aspect-square w-[90%] object-cover object-center rounded-[10px] mt-[15%]"
+            class="aspect-[.77] w-2/3 object-cover object-center rounded-[10px]"
             src=""
           />
           <h3
-            class="font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
+            class="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight"
           >
             mockTranslate(jñānam vardhati sanchayāt)
           </h3>
           <div
-            class="text-xs md:text-sm  md:text-lg text-gray-600 text-center"
+            class="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight px-1 md:px-0"
           >
             mockTranslate(Sharing knowledge expands one's own understanding and the knowledge of others.)
           </div>
         </div>
         <div
-          class="w-[22%] h-full flex flex-col justify-center items-center"
+          class="w-1/3 md:w-[22%] flex flex-col justify-center items-center"
         >
           <img
             alt="mockTranslate(MANAVA_SEVAYE_MADHAVA_SEVA_ALT)"
@@ -424,12 +419,12 @@ exports[`LandingPage renders correctly 1`] = `
             src=""
           />
           <h3
-            class="w-3/4 font-bold text-xl md:text-2xl tracking-wide m-[10px] text-center"
+            class="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight"
           >
             mockTranslate(Manava sevaye Madhava seva)
           </h3>
           <div
-            class="text-xs md:text-sm md:text-lg text-gray-600 text-center w-2/3"
+            class="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight"
           >
             mockTranslate(Service to mankind is Service to God.)
           </div>
@@ -458,63 +453,52 @@ exports[`LandingPage renders correctly 1`] = `
       <div
         class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >
+        <h3
+          class="font-bold text-3xl md:text-4xl"
+        >
+          mockTranslate(Our Collaborators)
+        </h3>
         <div
-          class="w-full flex flex-row overflow-hidden hidden"
+          class="w-full flex flex-row overflow-hidden"
         >
           <div
             class="scroll imgBox"
           >
             <div>
               <img
-                class="w-[150px] ml-[75px]"
+                class="w-[100px] ml-[50px]"
                 src=""
               />
               <img
                 src=""
               />
               <img
-                class="w-[200px]"
+                class="w-[140px]"
                 src=""
               />
               <img
                 src=""
               />
               <img
-                src=""
-              />
-              <img
-                class="w-[200px]"
-                src=""
-              />
-              <img
-                class="w-[125px]"
                 src=""
               />
             </div>
             <div>
               <img
-                class="w-[150px] ml-[75px]"
+                class="w-[100px] ml-[50px]"
                 src=""
               />
               <img
                 src=""
               />
               <img
-                class="w-[200px]"
+                class="w-[140px]"
                 src=""
               />
               <img
                 src=""
               />
               <img
-                src=""
-              />
-              <img
-                class="w-[200px]"
-                src=""
-              />
-              <img
-                class="w-[125px]"
                 src=""
               />
             </div>
@@ -522,13 +506,13 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[100px] px-4 md:px-0"
+        class="flex flex-col md:flex-row items-center bg-white h-auto md:h-80 mt-5 gap-10 mb-[40px] md:mb-[200px] lg:mb-[100px] px-4 md:px-0"
       >
         <div
           class="flex flex-col justify-start items-start w-full md:w-3/5 p-4 md:p-10 h-auto md:h-full"
         >
           <h3
-            class="font-bold text-2xl md:text-4xl md:h-1/3 w-full md:w-3/4 mb-4 md:mb-[30px]"
+            class="font-bold text-2xl md:text-4xl w-full md:w-3/4 mb-4 md:mb-[10px]"
           >
             mockTranslate(Creating a World Where Help is Always Within Reach)
           </h3>
@@ -538,7 +522,7 @@ exports[`LandingPage renders correctly 1`] = `
             mockTranslate(Through our global network of volunteers and donors, we empower communities to support one another, fostering a culture of compassion and solidarity that transcends geographical boundaries.)
           </p>
           <button
-            class="mt-6 md:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
+            class="mt-6 md:mt-[80px] lg:mt-10 text-sm text-blue-500 hover:text-blue-600 hover:underline"
           >
             mockTranslate(Our Mission)
              →
@@ -657,7 +641,7 @@ exports[`LandingPage renders correctly 1`] = `
               <h3
                 class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
               >
-                mockTranslate(Voluntary Organizations)
+                mockTranslate(ORGANIZATIONS)
               </h3>
               <h6
                 class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"

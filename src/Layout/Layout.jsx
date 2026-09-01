@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "#components/Navbar/Navbar";
 import MainLoader from "#components/Loader/MainLoader";
 import Footer from "#components/Footer/Footer";
@@ -8,40 +8,47 @@ import RightAds from "#components/RightAds/RightAds";
 import NavigationGuard from "#components/NavigationGuard/NavigationGuard";
 import { NotificationProvider } from "../context/NotificationContext";
 import ScrollToTop from "../common/components/ScrollToTop/ScrollToTop";
+import Breadcrumbs from "#components/BreadCrumbs/BreadCrumbs";
+import useShowAds from "../hooks/useShowAds";
 
 const Layout = () => {
+  const location = useLocation();
+  const showAds = useShowAds();
+
+  const hideBreadcrumbRoutes = ["/", "/home", "/login"];
+  const shouldHideBreadcrumbs = hideBreadcrumbRoutes.includes(
+    location.pathname.toLowerCase(),
+  );
+  const isDonateRoute = location.pathname.toLowerCase() === "/donate";
+
   return (
     <div className="flex flex-col h-screen">
       <NotificationProvider>
-        {/* Navigation Guard to check for unsaved changes */}
-
         <NavigationGuard />
 
-        {/* header includes Navbar which spans full width */}
-        <header
-          className="sticky z-10"
-          id="header"
-          google-side-rail-overlap="false"
-        >
+        <header className="sticky z-10" id="header">
           <Navbar />
         </header>
 
-        {/* main content */}
         <div className="flex flex-1">
-          <aside className="left-ads-panel flex-1 ">
-            <LeftAds />
+          <aside className="left-ads-panel flex-1">
+            {showAds && <LeftAds />}
           </aside>
-          <main className="flex-[6] overflow-auto">
+
+          <main
+            className={`flex-[6] ${isDonateRoute ? "overflow-visible" : "overflow-auto"}`}
+          >
+            {!shouldHideBreadcrumbs && <Breadcrumbs />}
             <Suspense fallback={<MainLoader />}>
               <Outlet />
             </Suspense>
           </main>
-          <aside className="right-ads-panel flex-1 ">
-            <RightAds />
+
+          <aside className="right-ads-panel flex-1">
+            {showAds && <RightAds />}
           </aside>
         </div>
 
-        {/* footer */}
         <footer className="">
           <Footer />
         </footer>

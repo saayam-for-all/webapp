@@ -72,7 +72,7 @@ function Collaborators() {
             <h2 className="text-3xl font-bold mb-4">{t("JOIN_TITLE")}</h2>{" "}
             <p className="text-base mb-8">{t("JOIN_BODY")}</p>
             <Link
-              to="/contact"
+              to="/login"
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"
             >
               {t("JOIN_BUTTON")}
@@ -80,7 +80,7 @@ function Collaborators() {
           </div>
         </div>
       </div>
-      <div className="mt-2">
+      <div className="overflow-hidden mt-2">
         <HorizontalAd />
       </div>
     </>

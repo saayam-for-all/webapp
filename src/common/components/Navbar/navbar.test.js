@@ -1,0 +1,91 @@
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
+import { renderWithProviders } from "#utils/test-utils";
+import {
+  MOCK_STATE_LOGGED_IN,
+  MOCK_STATE_LOGGED_OUT,
+} from "#utils/test-utils.jsx";
+import {
+  loginSuccess,
+  logoutSuccess,
+} from "../../../redux/features/authentication/authSlice";
+import Navbar from "./Navbar";
+
+beforeAll(() => {
+  if (!global.crypto) global.crypto = {};
+  global.crypto.randomUUID = () => "mock-uuid";
+});
+
+jest.mock("../../../redux/features/authentication/authActions", () => ({
+  logout: jest.fn(),
+}));
+
+jest.mock("../../../services/requestServices", () => ({
+  GET_NOTIFICATION_COUNT: jest.fn().mockResolvedValue({ count: 0 }),
+  GET_NOTIFICATIONS: jest.fn().mockResolvedValue({ notifications: [] }),
+}));
+
+jest.mock("../../../services/volunteerServices", () => ({
+  fetchProfileImage: jest.fn().mockResolvedValue(null),
+}));
+
+describe("Navbar", () => {
+  it("renders correctly when user is logged in", () => {
+    const tree = renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("renders correctly when user is logged out", () => {
+    const tree = renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_OUT,
+    });
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("does not populate search text when an autofill-like event with an email value fires", () => {
+    renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const searchInput = screen.getAllByRole("textbox")[0];
+
+    // Simulate a Chrome credential-autofill event: no inputType + email value.
+    // The handler should reject this and leave searchText empty.
+    fireEvent.change(searchInput, {
+      target: { value: "user@example.com" },
+      nativeEvent: { inputType: undefined },
+    });
+
+    expect(searchInput.value).toBe("");
+  });
+
+  it("clears the navbar search text when the user logs out and logs back in", async () => {
+    const { store } = renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const searchInput = screen.getAllByRole("textbox")[0];
+
+    fireEvent.change(searchInput, { target: { value: "example query" } });
+    expect(searchInput.value).toBe("example query");
+
+    act(() => {
+      store.dispatch(logoutSuccess());
+    });
+
+    act(() => {
+      store.dispatch(
+        loginSuccess({
+          user: {
+            userId: "mockUser2",
+          },
+        }),
+      );
+    });
+
+    await waitFor(() =>
+      expect(screen.getAllByRole("textbox")[0].value).toBe(""),
+    );
+  });
+});

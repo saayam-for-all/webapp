@@ -1,4 +1,5 @@
 const localeList = {
+  Arabic: "ar-SA",
   Bengali: "bn-BD",
   German: "de-DE",
   English: "en-US",
@@ -8,6 +9,7 @@ const localeList = {
   Portuguese: "pt-PT",
   Russian: "ru-RU",
   Telugu: "te-IN",
+  Urdu: "ur-PK",
   Chinese: "zh-CN",
 };
 

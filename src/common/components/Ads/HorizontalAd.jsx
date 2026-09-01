@@ -1,5 +1,32 @@
-import AdSlot from "./AdSlot";
+import { useEffect } from "react";
+import useShowAds from "../../../hooks/useShowAds";
 
-const HorizontalAd = () => <AdSlot slot="2901014906" showLabel />;
+const HorizontalAd = () => {
+  const showAds = useShowAds();
+
+  useEffect(() => {
+    if (!showAds) return;
+    try {
+      if (window.location.hostname === "saayamforall.org") {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
+    } catch (e) {
+      console.error("Adsense error", e);
+    }
+  }, [showAds]);
+
+  if (!showAds) return null;
+
+  return (
+    <ins
+      className="adsbygoogle"
+      style={{ display: "block" }}
+      data-ad-client="ca-pub-3674612346757233"
+      data-ad-slot="2901014906"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    />
+  );
+};
 
 export default HorizontalAd;

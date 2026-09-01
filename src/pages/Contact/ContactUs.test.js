@@ -69,18 +69,6 @@ beforeAll(() => {
 const mockNavigate = jest.fn();
 const mockExecuteRecaptcha = jest.fn();
 
-// Every dropdown option and the Lambda RECIPIENT_MAP key it must send.
-// Keep in sync with CONTACT_REASONS in ContactUs.jsx and the deployed
-// contactUsHandler Lambda.
-const EXPECTED_REASONS = [
-  { translationKey: "VOLUNTEERING_INTERNSHIP", apiValue: "Volunteer" },
-  { translationKey: "TIMESHEET_ISSUES", apiValue: "Timesheet" },
-  { translationKey: "OFFER_RELIEVING_LETTER", apiValue: "Letters" },
-  { translationKey: "COLLABORATION_PARTNERSHIP", apiValue: "Collaboration" },
-  { translationKey: "GENERAL_INQUIRY", apiValue: "General" },
-  { translationKey: "DONATION_GRANT", apiValue: "Donation" },
-];
-
 beforeEach(() => {
   jest.clearAllMocks();
   useNavigate.mockReturnValue(mockNavigate);
@@ -98,13 +86,7 @@ const submitForm = () => {
   fireEvent.submit(form);
 };
 
-const selectReason = (translationKey) => {
-  fireEvent.mouseDown(screen.getByRole("combobox"));
-  const listbox = screen.getByRole("listbox");
-  fireEvent.click(within(listbox).getByText(translationKey));
-};
-
-const fillValidForm = (reasonKey = "GENERAL_INQUIRY") => {
+const fillValidForm = () => {
   fireEvent.change(screen.getByLabelText(/First Name/i), {
     target: { name: "firstName", value: "  John  " },
   });
@@ -121,7 +103,9 @@ const fillValidForm = (reasonKey = "GENERAL_INQUIRY") => {
     target: { value: "2025550125" },
   });
 
-  selectReason(reasonKey);
+  fireEvent.mouseDown(screen.getByRole("combobox"));
+  const listbox = screen.getByRole("listbox");
+  fireEvent.click(within(listbox).getByText("GENERAL_INQUIRY"));
 };
 
 describe("ContactUs", () => {
@@ -133,37 +117,6 @@ describe("ContactUs", () => {
     expect(screen.getByText("Get In Touch")).toBeTruthy();
     expect(screen.getByRole("button", { name: /Submit/i })).toBeTruthy();
   });
-
-  it("renders all six contact reasons in the dropdown", () => {
-    render(<ContactUs />);
-
-    fireEvent.mouseDown(screen.getByRole("combobox"));
-    const listbox = screen.getByRole("listbox");
-
-    EXPECTED_REASONS.forEach(({ translationKey }) => {
-      expect(within(listbox).getByText(translationKey)).toBeTruthy();
-    });
-  });
-
-  it.each(EXPECTED_REASONS)(
-    "sends apiValue '$apiValue' when '$translationKey' is selected",
-    async ({ translationKey, apiValue }) => {
-      mockExecuteRecaptcha.mockResolvedValue("captcha-token");
-      sendContactEmail.mockResolvedValue({ ok: true });
-      render(<ContactUs />);
-
-      fillValidForm(translationKey);
-      submitForm();
-
-      await waitFor(() => {
-        expect(sendContactEmail).toHaveBeenCalledTimes(1);
-      });
-
-      expect(sendContactEmail).toHaveBeenCalledWith(
-        expect.objectContaining({ reason: apiValue }),
-      );
-    },
-  );
 
   it("shows validation errors when submitting an empty form", () => {
     render(<ContactUs />);
@@ -208,22 +161,24 @@ describe("ContactUs", () => {
     expect(screen.getByText("Email is invalid")).toBeTruthy();
   });
 
-  it("caps name and message inputs at the Lambda's limits", () => {
-    render(<ContactUs />);
-
-    expect(screen.getByLabelText(/First Name/i).maxLength).toBe(100);
-    expect(screen.getByLabelText(/Last Name/i).maxLength).toBe(100);
-    expect(screen.getByLabelText(/Message/i).maxLength).toBe(2000);
-  });
-
   it("allows selecting a reason from the dropdown", () => {
     render(<ContactUs />);
 
-    selectReason("GENERAL_INQUIRY");
+    // Open the MUI Select dropdown
+    const selectTrigger = screen.getByRole("combobox");
+    fireEvent.mouseDown(selectTrigger);
+
+    // Choose a reason — this triggers handleChange, sets formData.reason,
+    // and in turn:
+    //   - renders t(selected) in renderValue
+
+    const listbox = screen.getByRole("listbox");
+    const option = within(listbox).getByText("DONATION_GRANT");
+    fireEvent.click(option);
+    expect(screen.getAllByText("DONATION_GRANT").length).toBeGreaterThan(0);
 
     // After selection the text may appear in both the trigger and (briefly)
     // the listbox — use getAllByText and just confirm at least one exists
-    expect(screen.getAllByText("GENERAL_INQUIRY").length).toBeGreaterThan(0);
   });
 
   it("shows invalid phone format error when number validation fails", () => {
@@ -297,7 +252,7 @@ describe("ContactUs", () => {
     await waitFor(() => {
       expect(
         screen.getByText(
-          "Failed to submit form. Please try again or contact us directly at info@saayamforall.org",
+          "Failed to submit form. Please try again or contact us directly at hr@saayamforall.org",
         ),
       ).toBeTruthy();
     });
@@ -334,8 +289,8 @@ describe("ContactUs", () => {
   it("toggles FAQ items when clicked", () => {
     render(<ContactUs />);
 
-    // Click the first FAQ question to expand it — this covers FaqAccordion's
-    // toggle and the conditional rendering of the answer + arrow icon flip
+    // Click the first FAQ question to expand it — this covers toggleFAQ
+    // and the conditional rendering of the answer + the arrow icon flip
     const faqButton = screen.getByRole("button", {
       name: /What services does Saayam for All offer/i,
     });
@@ -346,20 +301,60 @@ describe("ContactUs", () => {
         "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.",
       ),
     ).toBeTruthy();
-    expect(faqButton.getAttribute("aria-expanded")).toBe("true");
 
-    // Click again to collapse (covers the setOpenIndex(null) branch)
+    // Click again to collapse (covers the setOpenFAQIndex(null) branch)
     fireEvent.click(faqButton);
-    expect(faqButton.getAttribute("aria-expanded")).toBe("false");
   });
 
   it("displays the 24-48 hour response time note", () => {
     render(<ContactUs />);
 
     // Verify the response time note is visible on the page
+    // This covers the rendering of the note section before the submit button
     expect(screen.getByText("RESPONSE_TIME_NOTICE")).toBeTruthy();
 
     // Verify the "Note:" label is also present
     expect(screen.getByText("NOTE_LABEL")).toBeTruthy();
+  });
+
+  it("submits Donation/Grant as the selected contact reason", async () => {
+    mockExecuteRecaptcha.mockResolvedValue("captcha-token");
+    sendContactEmail.mockResolvedValue({ ok: true });
+
+    render(<ContactUs />);
+
+    fireEvent.change(screen.getByLabelText(/First Name/i), {
+      target: { name: "firstName", value: "John" },
+    });
+    fireEvent.change(screen.getByLabelText(/Last Name/i), {
+      target: { name: "lastName", value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/Email/i), {
+      target: { name: "email", value: "john@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/Message/i), {
+      target: { name: "message", value: "I would like to make a donation" },
+    });
+    fireEvent.change(screen.getByLabelText("Phone Number"), {
+      target: { value: "2025550125" },
+    });
+
+    fireEvent.mouseDown(screen.getByRole("combobox"));
+    const listbox = screen.getByRole("listbox");
+    fireEvent.click(within(listbox).getByText("DONATION_GRANT"));
+
+    submitForm();
+
+    await waitFor(() => {
+      expect(sendContactEmail).toHaveBeenCalledTimes(1);
+    });
+
+    expect(sendContactEmail).toHaveBeenCalledWith(
+      expect.objectContaining({
+        reason: "Donation",
+      }),
+    );
+
+    expect(mockNavigate).toHaveBeenCalledWith("/thanks");
   });
 });

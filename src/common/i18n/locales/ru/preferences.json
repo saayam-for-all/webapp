@@ -1,0 +1,13 @@
+{
+  "title": "Preferences",
+  "labels": {
+    "timezone": "Time Zone",
+    "language": "Language",
+    "notifications": "Notifications",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "messages": {
+    "saved": "Preferences saved successfully."
+  }
+}

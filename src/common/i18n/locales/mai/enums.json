@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "अपन",
+    "OTHER": "आन"
+  },
+  "requestPriority": {
+    "LOW": "कम",
+    "MEDIUM": "मध्यम",
+    "HIGH": "उच्च",
+    "CRITICAL": "गंभीर"
+  },
+  "requestStatus": {
+    "CREATED": "बनाओल गेल",
+    "MATCHING VOLUNTEER": "स्वयंसेवक खोजि रहल अछि",
+    "MANAGED": "प्रबंधित",
+    "RESOLVED": "हल कएल गेल",
+    "CANCELLED": "रद्द कएल गेल",
+    "DELETED": "मिटाओल गेल"
+  },
+  "requestType": {
+    "INPERSON": "व्यक्तिगत रूप सँ",
+    "REMOTE": "दूर सँ"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "Mag-upload ng Government ID",
+  "SELECT_SOURCE": "Pumili ng Pinagmulan",
+  "DEVICE": "Device",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "Mag-upload ng File",
+  "FILE": "File",
+  "FILE_PREVIEW": "Preview",
+  "UPLOAD": "Mag-upload",
+  "UPLOADING": "Nag-uupload...",
+  "REMOVE": "Alisin",
+  "FILE_SIZE_ERROR": "Ang laki ng file ay hindi dapat lumampas sa 2MB",
+  "FILE_TYPE_ERROR": "Tanging JPEG, JPG, PNG, at PDF na mga file lamang ang pinapayagan. Natukoy na uri ng file: {{fileType}}, extension: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "Tanging JPEG, JPG, PNG, o PDF na mga file. Max na laki: 2MB.",
+  "UPLOAD_SUCCESS": "Matagumpay na na-upload ang file",
+  "UPLOAD_FAILED": "Nabigo ang pag-upload ng file",
+  "UPLOAD_ERROR": "May naganap na error sa pag-upload ng file"
+}

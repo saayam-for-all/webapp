@@ -1,6 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const StepperControl = ({ handleClick, currentStep, steps }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="container flex justify-around mt-16 mb-8">
       <div className="px-4 w-24">
@@ -12,7 +15,7 @@ const StepperControl = ({ handleClick, currentStep, steps }) => {
           }`}
           onClick={() => handleClick()}
         >
-          Back
+          {t("BACK") || Back}
         </button>
       </div>
       <div className="px-4 w-24">

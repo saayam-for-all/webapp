@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "ตัวเอง",
+    "OTHER": "คนอื่น"
+  },
+  "requestPriority": {
+    "LOW": "ต่ำ",
+    "MEDIUM": "ปานกลาง",
+    "HIGH": "สูง",
+    "CRITICAL": "วิกฤต"
+  },
+  "requestStatus": {
+    "CREATED": "สร้างแล้ว",
+    "MATCHING VOLUNTEER": "กำลังจับคู่อาสาสมัคร",
+    "MANAGED": "จัดการแล้ว",
+    "RESOLVED": "แก้ไขแล้ว",
+    "CANCELLED": "ยกเลิกแล้ว",
+    "DELETED": "ลบแล้ว"
+  },
+  "requestType": {
+    "INPERSON": "พบตัว",
+    "REMOTE": "ระยะไกล"
+  }
+}

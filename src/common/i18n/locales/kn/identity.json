@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "ಸರ್ಕಾರಿ ID ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+  "SELECT_SOURCE": "ಮೂಲವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+  "DEVICE": "ಸಾಧನ",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+  "FILE": "ಫೈಲ್",
+  "FILE_PREVIEW": "ಮುನ್ನೋಟ",
+  "UPLOAD": "ಅಪ್‌ಲೋಡ್",
+  "UPLOADING": "ಅಪ್‌ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+  "REMOVE": "ತೆಗೆದುಹಾಕಿ",
+  "FILE_SIZE_ERROR": "ಫೈಲ್ ಗಾತ್ರ 2MB ಮೀರಬಾರದು",
+  "FILE_TYPE_ERROR": "JPEG, JPG, PNG, ಮತ್ತು PDF ಫೈಲ್‌ಗಳು ಮಾತ್ರ ಅನುಮತಿಸಲಾಗಿದೆ. ಪತ್ತೆಯಾದ ಫೈಲ್ ಪ್ರಕಾರ: {{fileType}}, ವಿಸ್ತರಣೆ: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "JPEG, JPG, PNG, ಅಥವಾ PDF ಫೈಲ್‌ಗಳು ಮಾತ್ರ. ಗರಿಷ್ಠ ಗಾತ್ರ: 2MB.",
+  "UPLOAD_SUCCESS": "ಫೈಲ್ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ",
+  "UPLOAD_FAILED": "ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ವಿಫಲವಾಗಿದೆ",
+  "UPLOAD_ERROR": "ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಸಮಯದಲ್ಲಿ ದೋಷ ಸಂಭವಿಸಿದೆ"
+}

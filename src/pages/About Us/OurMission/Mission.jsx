@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
-import img1 from "../OurMission/our-mission-img1.png";
-import img2 from "../OurMission/our-mission-img2.png";
-import img3 from "../OurMission/our-mission-img3.png";
+import img1 from "./our-mission-img1.png";
+import img2 from "./our-mission-img2.png";
+import img3 from "./our-mission-img3.png";
+
 export function Mission() {
   const { t } = useTranslation();
   return (

@@ -10,8 +10,7 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -21,92 +20,24 @@ import PHONECODESEN from "../../utils/phone-codes-en";
 import HorizontalAd from "#components/Ads/HorizontalAd";
 import { sendContactEmail } from "../../services/contactServices";
 
-// Single source of truth: each entry drives both the dropdown option and the
-// Lambda RECIPIENT_MAP routing key, so the two can never drift apart.
+// Contact reasons - displayed in the dropdown
 const CONTACT_REASONS = [
-  { translationKey: "VOLUNTEERING_INTERNSHIP", apiValue: "Volunteer" },
-  { translationKey: "TIMESHEET_ISSUES", apiValue: "Timesheet" },
-  { translationKey: "OFFER_RELIEVING_LETTER", apiValue: "Letters" },
-  { translationKey: "COLLABORATION_PARTNERSHIP", apiValue: "Collaboration" },
-  { translationKey: "GENERAL_INQUIRY", apiValue: "General" },
-  { translationKey: "DONATION_GRANT", apiValue: "Donation" },
+  "VOLUNTEERING_INTERNSHIP",
+  "TIMESHEET_ISSUES",
+  "OFFER_RELIEVING_LETTER",
+  "COLLABORATION_PARTNERSHIP",
+  "GENERAL_INQUIRY",
+  "DONATION_GRANT",
 ];
 
-const NAME_REGEX = /^[A-Za-z\s]+$/;
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-// Mirrors the contact Lambda's validation so users get feedback client-side
-// instead of a server 400.
-const NAME_MAX_LENGTH = 100;
-const MESSAGE_MAX_LENGTH = 2000;
-
-const FAQ_CONTENT = [
-  {
-    question: "What services does Saayam for All offer?",
-    answer:
-      "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.",
-  },
-  {
-    question: "How can I become a volunteer?",
-    answer:
-      "Fill out the contact form and our team will reach out with onboarding steps!",
-  },
-  {
-    question: "Is Saayam for All a non-profit?",
-    answer:
-      "Yes, we are a non-profit organization focused on community support and outreach.",
-  },
-];
-
-// Owns its open/closed state so toggling FAQs never re-renders the form, and
-// form keystrokes never re-render the FAQ list (memo + stable faqs prop).
-const FaqAccordion = memo(function FaqAccordion({ faqs }) {
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const toggle = useCallback((index) => {
-    setOpenIndex((prev) => (prev === index ? null : index));
-  }, []);
-
-  return (
-    <div className="w-full">
-      {faqs.map((faq, index) => (
-        <div key={faq.question} className="mb-4 border-b border-gray-300 pb-2">
-          <button
-            type="button"
-            className="text-left w-full flex justify-between items-center font-medium text-gray-800"
-            onClick={() => toggle(index)}
-            aria-expanded={openIndex === index}
-            aria-controls={`faq-answer-${index}`}
-          >
-            <span>{faq.question}</span>
-            <span>
-              {openIndex === index ? (
-                <KeyboardArrowUpIcon className="text-gray-600" />
-              ) : (
-                <KeyboardArrowDownIcon className="text-gray-600" />
-              )}
-            </span>
-          </button>
-          {openIndex === index && (
-            <p
-              id={`faq-answer-${index}`}
-              className="text-sm text-gray-600 mt-2"
-            >
-              {faq.answer}
-            </p>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-});
-
-FaqAccordion.propTypes = {
-  faqs: PropTypes.arrayOf(
-    PropTypes.shape({
-      question: PropTypes.string.isRequired,
-      answer: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+// Maps frontend reason values to Lambda's RECIPIENT_MAP keys
+const REASON_MAP = {
+  VOLUNTEERING_INTERNSHIP: "Volunteer",
+  TIMESHEET_ISSUES: "Timesheet",
+  OFFER_RELIEVING_LETTER: "Letters",
+  COLLABORATION_PARTNERSHIP: "Collaboration",
+  GENERAL_INQUIRY: "General",
+  DONATION_GRANT: "Donation",
 };
 
 const ContactUs = () => {
@@ -126,6 +57,7 @@ const ContactUs = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [openFAQIndex, setOpenFAQIndex] = useState(null);
   const [phone, setPhone] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [phoneError, setPhoneError] = useState("");
@@ -154,59 +86,58 @@ const ContactUs = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  const handleSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      const newErrors = {};
-      const fullPhoneNumber =
-        PHONECODESEN[countryCode] &&
-        `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
+    const newErrors = {};
+    const nameRegex = /^[A-Za-z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const fullPhoneNumber =
+      PHONECODESEN[countryCode] &&
+      `${PHONECODESEN[countryCode]["secondary"]}${phone}`;
 
-      if (!formData.firstName.trim()) {
-        newErrors.firstName = t("First Name is required");
-      } else if (!NAME_REGEX.test(formData.firstName.trim())) {
-        newErrors.firstName = t("First Name should contain only letters");
-      }
-      if (!formData.lastName.trim()) {
-        newErrors.lastName = t("Last Name is required");
-      } else if (!NAME_REGEX.test(formData.lastName.trim())) {
-        newErrors.lastName = t("Last Name should contain only letters");
-      }
-      if (!formData.email.trim()) {
-        newErrors.email = t("Email is required");
-      } else if (!EMAIL_REGEX.test(formData.email.trim())) {
-        newErrors.email = t("Email is invalid");
-      }
-      if (!phone) {
-        newErrors.phone = t("Phone is required");
-      } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
-        newErrors.phone = t("Please enter a valid phone number");
-      }
-      if (!formData.reason) {
-        newErrors.reason = t("Please select a reason for contacting");
-      }
-      if (!formData.message) {
-        newErrors.message = t("Message is required");
-      }
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = t("First Name is required");
+    } else if (!nameRegex.test(formData.firstName.trim())) {
+      newErrors.firstName = t("First Name should contain only letters");
+    }
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = t("Last Name is required");
+    } else if (!nameRegex.test(formData.lastName.trim())) {
+      newErrors.lastName = t("Last Name should contain only letters");
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = t("Email is required");
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = t("Email is invalid");
+    }
+    if (!phone) {
+      newErrors.phone = t("Phone is required");
+    } else if (!fullPhoneNumber || !isValidPhoneNumber(fullPhoneNumber)) {
+      newErrors.phone = t("Please enter a valid phone number");
+    }
+    if (!formData.reason) {
+      newErrors.reason = t("Please select a reason for contacting");
+    }
+    if (!formData.message) {
+      newErrors.message = t("Message is required");
+    }
 
-      setErrors(newErrors);
-      setPhoneError(newErrors.phone || "");
-      setSubmitError("");
+    setErrors(newErrors);
+    setPhoneError(newErrors.phone || "");
+    setSubmitError("");
 
-      if (Object.keys(newErrors).length > 0) {
-        return;
-      }
-
-      if (!executeRecaptcha) {
-        setSubmitError(
-          t("reCAPTCHA not ready. Please refresh the page and try again."),
-        );
-        return;
-      }
-
+    if (Object.keys(newErrors).length === 0) {
       setIsSubmitting(true);
       try {
+        if (!executeRecaptcha) {
+          setSubmitError(
+            t("reCAPTCHA not ready. Please refresh the page and try again."),
+          );
+          setIsSubmitting(false);
+          return;
+        }
+
         const recaptchaToken = await executeRecaptcha("contact_form_submit");
 
         await sendContactEmail({
@@ -215,31 +146,24 @@ const ContactUs = () => {
           middleName: formData.middleName, // honeypot — Lambda validates
           email: formData.email.trim(),
           phone: fullPhoneNumber,
-          reason: formData.reason,
+          reason: REASON_MAP[formData.reason],
           message: formData.message,
-          recaptchaToken,
+          recaptchaToken: recaptchaToken,
         });
 
-        if (isMountedRef.current) {
-          navigate("/thanks");
-        }
+        navigate("/thanks");
       } catch (error) {
         console.error("Contact form submission failed:", error);
-        if (isMountedRef.current) {
-          setSubmitError(
-            t(
-              "Failed to submit form. Please try again or contact us directly at info@saayamforall.org",
-            ),
-          );
-        }
+        setSubmitError(
+          t(
+            "Failed to submit form. Please try again or contact us directly at hr@saayamforall.org",
+          ),
+        );
       } finally {
-        if (isMountedRef.current) {
-          setIsSubmitting(false);
-        }
+        setIsSubmitting(false);
       }
-    },
-    [formData, phone, countryCode, executeRecaptcha, navigate, t],
-  );
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -262,7 +186,28 @@ const ContactUs = () => {
             </p>
 
             <h1 className="text-2xl font-bold mb-4">{t("FAQ's")}</h1>
-            <FaqAccordion faqs={faqs} />
+            <div className="w-full">
+              {faqs.map((faq, index) => (
+                <div key={index} className="mb-4 border-b border-gray-300 pb-2">
+                  <button
+                    className="text-left w-full flex justify-between items-center font-medium text-gray-800"
+                    onClick={() => toggleFAQ(index)}
+                  >
+                    <span>{faq.question}</span>
+                    <span>
+                      {openFAQIndex === index ? (
+                        <KeyboardArrowUpIcon className="text-gray-600" />
+                      ) : (
+                        <KeyboardArrowDownIcon className="text-gray-600" />
+                      )}
+                    </span>
+                  </button>
+                  {openFAQIndex === index && (
+                    <p className="text-sm text-gray-600 mt-2">{faq.answer}</p>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Right Column: Form */}
@@ -298,7 +243,6 @@ const ContactUs = () => {
                   required
                   error={!!errors.firstName}
                   helperText={errors.firstName}
-                  inputProps={{ maxLength: NAME_MAX_LENGTH }}
                 />
               </div>
 
@@ -323,7 +267,6 @@ const ContactUs = () => {
                   required
                   error={!!errors.lastName}
                   helperText={errors.lastName}
-                  inputProps={{ maxLength: NAME_MAX_LENGTH }}
                 />
               </div>
 
@@ -394,7 +337,7 @@ const ContactUs = () => {
                 />
               </div>
 
-              {/* Reason for contacting dropdown */}
+              {/* Reason for contacting drop down */}
               <div className="mb-4">
                 <label
                   htmlFor="reason"
@@ -415,11 +358,6 @@ const ContactUs = () => {
                     value={formData.reason}
                     onChange={handleChange}
                     displayEmpty
-                    SelectDisplayProps={{
-                      "aria-describedby": errors.reason
-                        ? "reason-error"
-                        : undefined,
-                    }}
                     renderValue={(selected) => {
                       if (!selected) {
                         return (
@@ -428,25 +366,17 @@ const ContactUs = () => {
                           </span>
                         );
                       }
-                      const selectedReason = CONTACT_REASONS.find(
-                        (reason) => reason.apiValue === selected,
-                      );
-                      return selectedReason
-                        ? t(selectedReason.translationKey)
-                        : selected;
+                      return t(selected);
                     }}
                   >
-                    {CONTACT_REASONS.map(({ translationKey, apiValue }) => (
-                      <MenuItem key={apiValue} value={apiValue}>
-                        {t(translationKey)}
+                    {CONTACT_REASONS.map((reason) => (
+                      <MenuItem key={reason} value={reason}>
+                        {t(reason)}
                       </MenuItem>
                     ))}
                   </Select>
                   {errors.reason && (
-                    <p
-                      id="reason-error"
-                      className="text-xs text-red-600 mt-1 ml-3"
-                    >
+                    <p className="text-xs text-red-600 mt-1 ml-3">
                       {errors.reason}
                     </p>
                   )}
@@ -476,7 +406,6 @@ const ContactUs = () => {
                   required
                   error={!!errors.message}
                   helperText={errors.message}
-                  inputProps={{ maxLength: MESSAGE_MAX_LENGTH }}
                 />
               </div>
 
@@ -489,13 +418,11 @@ const ContactUs = () => {
               </div>
 
               {/* Error Alert */}
-              <div aria-live="polite">
-                {submitError && (
-                  <Alert severity="error" className="mb-4">
-                    {submitError}
-                  </Alert>
-                )}
-              </div>
+              {submitError && (
+                <Alert severity="error" className="mb-4">
+                  {submitError}
+                </Alert>
+              )}
 
               {/* Submit */}
               <Button
@@ -555,7 +482,7 @@ const ContactUs = () => {
           </div>
         </div>
       </div>
-      <div className="mt-2">
+      <div className="overflow-hidden mt-2">
         <HorizontalAd />
       </div>
     </>

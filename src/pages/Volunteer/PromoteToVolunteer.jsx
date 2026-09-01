@@ -1,37 +1,168 @@
-import React, { useEffect, useState, useMemo, useRef } from "react"; //added for testing
-import { useImmer } from "use-immer";
+import { useEffect, useState, useMemo, useRef } from "react"; //added for testing
 import Stepper from "./Stepper";
 import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
-import Complete from "./steps/Complete";
+import Review from "./steps/Review";
 import Skills from "./steps/Skills";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
   createVolunteer,
-  getVolunteerSkills,
   updateVolunteer,
+  updateUserSkills,
+  saveVolunteerStep1,
 } from "../../services/volunteerServices";
 import { getCurrentUser } from "aws-amplify/auth";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
+const getSessionStorageItem = (key) => {
+  try {
+    return typeof window !== "undefined" && window.sessionStorage
+      ? sessionStorage.getItem(key)
+      : null;
+  } catch (e) {
+    console.error("Error reading from sessionStorage", e);
+    return null;
+  }
+};
+
+const setSessionStorageItem = (key, value) => {
+  try {
+    if (typeof window !== "undefined" && window.sessionStorage) {
+      sessionStorage.setItem(key, value);
+    }
+  } catch (e) {
+    console.error("Error writing to sessionStorage", e);
+  }
+};
+
+const removeSessionStorageItem = (key) => {
+  try {
+    if (typeof window !== "undefined" && window.sessionStorage) {
+      sessionStorage.removeItem(key);
+    }
+  } catch (e) {
+    console.error("Error removing from sessionStorage", e);
+  }
+};
 
 const PromoteToVolunteer = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const stepParam = parseInt(searchParams.get("step")) || 1;
+  const [currentStep, setCurrentStep] = useState(() => {
+    const cachedStep = getSessionStorageItem("volunteer_wizard_step");
+    return cachedStep ? parseInt(cachedStep, 10) : stepParam;
+  });
   const navigate = useNavigate();
-  const [isAcknowledged, setIsAcknowledged] = useState(false);
-  const [govtIdFile, setGovtIdFile] = useState({});
-  const token = useSelector((state) => state.auth.idToken);
-  const [checkedCategories, setCheckedCategories] = useImmer({});
-  const [categoriesData, setCategoriesData] = useState({});
-  const [availabilitySlots, setAvailabilitySlots] = useImmer([
-    { id: 1, dayOfWeek: "Everyday", startTime: "00:00", endTime: "00:00" },
-  ]);
-  const [tobeNotified, setNotification] = useState(false);
+  const [isAcknowledged, setIsAcknowledged] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.isAcknowledged ?? false;
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return false;
+  });
+  const [govtIdFile, setGovtIdFile] = useState(null);
+  const userDbId = useSelector((state) => state.auth?.user?.userDbId);
+  const [selectedSkills, setSelectedSkills] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.selectedSkills ?? [];
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return [];
+  });
+  const [categories, setCategories] = useState([]);
+  const [availabilitySlots, setAvailabilitySlots] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        if (parsed.availabilitySlots) {
+          return parsed.availabilitySlots.map((slot) => ({
+            ...slot,
+            startTime: slot.startTime ? new Date(slot.startTime) : null,
+            endTime: slot.endTime ? new Date(slot.endTime) : null,
+          }));
+        }
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return [{ id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null }];
+  });
+  const [tobeNotified, setNotification] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.tobeNotified ?? false;
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return false;
+  });
   const volunteerDataRef = useRef({});
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isUploaded, setIsUploaded] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.isUploaded ?? false;
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return false;
+  });
+
+  // Save current step to sessionStorage
+  useEffect(() => {
+    if (currentStep < 5) {
+      setSessionStorageItem("volunteer_wizard_step", currentStep.toString());
+    }
+  }, [currentStep]);
+
+  // Save form data to sessionStorage
+  useEffect(() => {
+    if (currentStep < 5) {
+      const formData = {
+        isAcknowledged,
+        isUploaded,
+        selectedSkills,
+        availabilitySlots: availabilitySlots.map((slot) => ({
+          ...slot,
+          startTime: slot.startTime ? slot.startTime.toISOString() : null,
+          endTime: slot.endTime ? slot.endTime.toISOString() : null,
+        })),
+        tobeNotified,
+      };
+      setSessionStorageItem("volunteer_form_data", JSON.stringify(formData));
+    }
+  }, [
+    isAcknowledged,
+    isUploaded,
+    selectedSkills,
+    availabilitySlots,
+    tobeNotified,
+    currentStep,
+  ]);
+
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -46,26 +177,28 @@ const PromoteToVolunteer = () => {
     if (!userId) fetchUserId();
   }, [userId]);
 
-  const fetchSkills = async () => {
-    try {
-      const response = await getVolunteerSkills();
-      setCategoriesData(response.body);
-    } catch (error) {
-      console.error("Error fetching skills:", error);
-    }
-  };
-
   useEffect(() => {
-    if (!categoriesData?.categories) {
-      fetchSkills();
+    if (categories.length === 0) {
+      const storedCategories = localStorage.getItem("categories");
+      if (storedCategories) {
+        try {
+          setCategories(JSON.parse(storedCategories));
+        } catch (parseError) {
+          console.warn(
+            "Failed to parse categories from localStorage:",
+            parseError,
+          );
+        }
+      }
     }
   }, []);
 
   const steps = [
-    "Terms & Conditions",
-    "Identification",
-    "Skills",
-    "Availability",
+    t("TERMS_AND_CONDITIONS"),
+    t("IDENTIFICATION"),
+    t("SKILLS"),
+    t("AVAILABILITY"),
+    t("REVIEW"),
   ];
 
   const displayStep = (step) => {
@@ -82,14 +215,15 @@ const PromoteToVolunteer = () => {
           <VolunteerCourse
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
+            setIsUploaded={setIsUploaded}
           />
         );
       case 3:
         return (
           <Skills
-            checkedCategories={checkedCategories}
-            setCheckedCategories={setCheckedCategories}
-            categoriesData={categoriesData}
+            selectedSkills={selectedSkills}
+            setSelectedSkills={setSelectedSkills}
+            categories={categories}
           />
         );
       case 4:
@@ -102,69 +236,37 @@ const PromoteToVolunteer = () => {
           />
         );
       case 5:
-        return <Complete />;
+        return <Review />;
       default:
         return null;
     }
   };
 
-  const saveVolunteerData = async () => {
-    try {
-      // console.log("Sending API Request with volunteerData:", volunteerDataRef.current);
-
-      /* .........Uncomment this for local testing without aws api ...........*/
-
-      // const response = await axios({
-      //   method: volunteerDataRef.current.step === 1 ? "post" : "put",
-      //   url: volunteerDataRef.current.step === 1
-      //     ? "http://localhost:8080/0.0.1/volunteers/createvolunteer"
-      //     : "http://localhost:8080/0.0.1/volunteers/updatevolunteer",
-      //   data: volunteerDataRef.current, // Get latest data from ref
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-      if (volunteerDataRef.current.step === 1) {
-        const response = await createVolunteer(volunteerDataRef.current);
-        return response;
-      } else {
-        const response = await updateVolunteer(volunteerDataRef.current);
-        return response;
-      }
-    } catch (error) {
-      console.error(
-        "API Error:",
-        error.response ? error.response.data : error.message,
-      );
-      return null;
-    }
-  };
-
-  const extractSkillsWithHierarchy = (categories) => {
-    let skills = [];
-
-    Object.keys(categories).forEach((category) => {
-      if (categories[category].checked) {
-        skills.push(category);
-      }
-
-      Object.keys(categories[category]).forEach((subcategory) => {
-        if (
-          subcategory !== "checked" &&
-          categories[category][subcategory].checked
-        ) {
-          skills.push(`${category}:${subcategory}`);
-        }
-      });
+  const isAvailabilityValid = useMemo(() => {
+    if (!availabilitySlots || availabilitySlots.length === 0) return false;
+    return availabilitySlots.some((slot) => {
+      if (!(slot.startTime instanceof Date && slot.endTime instanceof Date))
+        return false;
+      return slot.endTime > slot.startTime;
     });
+  }, [availabilitySlots]);
 
+  const extractSkillsFromArray = (skills) => {
     return skills.join(", ");
   };
 
   const updateVolunteerData = (updates) => {
     volunteerDataRef.current = { ...volunteerDataRef.current, ...updates };
-    // console.log("Updated volunteerDataRef:", volunteerDataRef.current);
+  };
+
+  const handleSaveFile = () => {
+    if (govtIdFile) {
+      updateVolunteerData({
+        step: 2,
+        userId: userId,
+        govtIdFilename: govtIdFile.name,
+      });
+    }
   };
 
   const handleClick = async (direction) => {
@@ -173,63 +275,92 @@ const PromoteToVolunteer = () => {
 
     if (direction === "next") {
       switch (currentStep) {
-        case 1:
+        case 1: {
           isValidStep = isAcknowledged;
           updateVolunteerData({
             step: currentStep,
             userId: userId,
             termsAndConditions: isAcknowledged,
           });
+          if (isAcknowledged) {
+            try {
+              const payload = {
+                step: 1,
+                userId: userId || "mockUser123",
+                termsAndConditions: isAcknowledged,
+              };
+              await saveVolunteerStep1(payload);
+            } catch (error) {
+              console.error(
+                "Failed to save Volunteer Step 1 progress (Issue BA #30):",
+                error,
+              );
+            } finally {
+              setCurrentStep(2);
+            }
+          }
           break;
+        }
         case 2:
-          isValidStep = govtIdFile && govtIdFile.name !== "";
+          // isValidStep = govtIdFile && govtIdFile.name !== "";
+          handleSaveFile();
+          isValidStep = govtIdFile;
           updateVolunteerData({
             step: currentStep,
             userId: userId,
             govtIdFilename: govtIdFile ? govtIdFile.name : "",
           });
           break;
-        case 3:
-          const selectedSkills = extractSkillsWithHierarchy(checkedCategories);
-          isValidStep = selectedSkills !== "";
+        case 3: {
+          isValidStep = selectedSkills.length > 0;
           updateVolunteerData({
             step: currentStep,
             userId: userId,
-            skills: selectedSkills,
+            skills: extractSkillsFromArray(selectedSkills),
           });
+          if (isValidStep && userDbId) {
+            try {
+              const skillsToSave = selectedSkills.map((skill) => String(skill));
+              await updateUserSkills(userDbId, skillsToSave);
+            } catch (skillError) {
+              console.error("Failed to save skills to API:", skillError);
+              setErrorMessage(t("FAILED_TO_SAVE_SKILLS"));
+              isValidStep = false;
+            }
+          }
           break;
-        case 4:
-          isValidStep = availabilitySlots.length > 0;
-          updateVolunteerData({
-            step: currentStep,
-            userId: userId,
-            notification: tobeNotified,
-            isCompleted: true,
-            availability: availabilitySlots,
-          });
+        }
+        case 4: {
+          const hasValidSlot = isAvailabilityValid;
+          isValidStep = hasValidSlot;
+          if (isValidStep) {
+            updateVolunteerData({
+              step: currentStep,
+              userId: userId,
+              notification: tobeNotified,
+              isCompleted: true,
+              availability: availabilitySlots.map((slot) => ({
+                dayOfWeek: slot.dayOfWeek,
+                startTime: slot.startTime?.toISOString(),
+                endTime: slot.endTime?.toISOString(),
+              })),
+            });
+          }
           break;
+        }
         default:
           isValidStep = false;
       }
 
       if (isValidStep) {
-        try {
-          // await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure all updates are made
-          // const result = await saveVolunteerData();
-          // if (!result || !result.data || result.data.statusCode !== 200) {
-          //   console.error("Save failed. Step not increased.");
-          //   setErrorMessage("Save Failed.");
-          //   return;
-          // }
-          newStep++;
-        } catch (error) {
-          console.error("Error in handleClick:", error);
-          return;
+        setErrorMessage("");
+        newStep++;
+        if (newStep === 5) {
+          removeSessionStorageItem("volunteer_wizard_step");
+          removeSessionStorageItem("volunteer_form_data");
         }
       } else {
-        setErrorMessage(
-          "Please complete all required fields before proceeding.",
-        );
+        setErrorMessage(t("COMPLETE_REQUIRED_FIELDS"));
       }
     } else if (direction === "prev") {
       newStep--;
@@ -241,28 +372,34 @@ const PromoteToVolunteer = () => {
   };
 
   return (
-    <div className="w-4/5 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
-      <div className="w-full max-w-2xl mx-auto px-4 mt-4">
-        <button
-          onClick={() => navigate("/")}
-          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center"
-        >
-          <span className="text-2xl mr-2">&lt;</span> Back to Home
-        </button>
-      </div>
-      <div className="container horizontal mt-5 p-12">
+    <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+      {/* FIXED STEPPER WRAPPER */}
+      <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
+        <h1 className="text-3xl font-bold text-center mb-8">
+          {t("BECOME_VOLUNTEER")}
+        </h1>
         <Stepper steps={steps} currentStep={currentStep} />
-        <div className="mt-12 p-12">{displayStep(currentStep)}</div>
+        {/* FIXED CONTENT WRAPPER */}
+        <div className="w-full mt-8 px-4">{displayStep(currentStep)}</div>
       </div>
       {errorMessage && (
         <div className="text-red-500 text-center my-4">{errorMessage}</div>
       )}
-      {currentStep !== steps.length + 1 && (
+      {currentStep !== steps.length && (
         <StepperControl
           handleClick={handleClick}
           currentStep={currentStep}
           steps={steps}
           isAcknowledged={isAcknowledged}
+          isUploaded={isUploaded}
+          isCheckedCategories={selectedSkills.length > 0}
+          isAvailabilityValid={isAvailabilityValid}
+          disableNext={
+            (currentStep === 1 && !isAcknowledged) ||
+            (currentStep === 2 && !isUploaded) ||
+            (currentStep === 3 && selectedSkills.length === 0) ||
+            (currentStep === 4 && !isAvailabilityValid)
+          }
         />
       )}
     </div>

@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { signUp } from "aws-amplify/auth";
-import CountryList from "react-select-country-list";
-import { z } from "zod";
-import PHONECODESEN from "../../utils/phone-codes-en";
-import { getPhoneCodeslist } from "../../utils/utils";
-import "./Login.css";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import CountryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
+import PHONECODESEN from "../../utils/phone-codes-en";
+import "./Login.css";
 const signUpSchema = z.object({
   firstName: z
     .string()
@@ -52,10 +52,12 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [country, setCountry] = useState("United States");
+  const countries = CountryList().getData();
+  const [country, setCountry] = useState("US");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [acceptedTOS, setAcceptedTOS] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -78,7 +80,6 @@ const SignUp = () => {
   const allRequirementsMet =
     hasNumber && hasUppercase && hasLowercase && hasSpecialChar && hasMinLength;
 
-  const countries = CountryList().getData();
   const navigate = useNavigate();
 
   //name, email and phone number validation functions
@@ -90,8 +91,8 @@ const SignUp = () => {
     );
 
   const handleSignUp = async () => {
-    setErrors({ root: "Signup is currently disabled." });
-    return;
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     try {
       setErrors({});
       setPhoneEmptyError("");
@@ -164,6 +165,8 @@ const SignUp = () => {
         setErrors({ email: t("USER_ALREADY_EXISTS") });
       }
       console.log("Sign up error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -171,17 +174,22 @@ const SignUp = () => {
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
-
+        <p className="mb-3 text-sm text-gray-600">
+          <span className="text-red-500 font-semibold">*</span>{" "}
+          {t("ALL_FIELDS_MANDATORY")}
+        </p>
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
           <div className="flex-1">
             <label htmlFor="firstName">{t("FIRST_NAME")}</label>
             <input
               id="firstName"
+              name="given-name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder={t("FIRST_NAME")}
               type="text"
+              autoComplete="given-name"
               className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
               required={true}
             />
@@ -195,10 +203,12 @@ const SignUp = () => {
             <label htmlFor="lastName">{t("LAST_NAME")}</label>
             <input
               id="lastName"
+              name="family-name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder={t("LAST_NAME")}
               type="text"
+              autoComplete="family-name"
               className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
               required={true}
             />
@@ -213,10 +223,12 @@ const SignUp = () => {
           <label htmlFor="email">{t("EMAIL")}</label>
           <input
             id="email"
+            name="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder={t("EMAIL")}
-            type="text"
+            type="email"
+            autoComplete="username"
             className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
             required={true}
           />
@@ -237,7 +249,28 @@ const SignUp = () => {
             label={t("PHONE_NUMBER")}
             required={true}
             t={t}
+            name="phone"
+            autoComplete="tel-national"
           />
+        </div>
+
+        {/* Country */}
+        <div className="my-2 flex flex-col">
+          <label htmlFor="country">{t("COUNTRY")}</label>
+          <select
+            id="country"
+            name="country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            autoComplete="country"
+            className="px-4 py-2 border border-gray-300 rounded-xl"
+          >
+            {countries.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Password */}
@@ -254,9 +287,11 @@ const SignUp = () => {
           >
             <input
               id="password"
+              name="password"
               placeholder={t("PASSWORD")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
+              autoComplete="new-password"
               onChange={(e) => {
                 setPasswordValue(e.target.value);
                 setShowPasswordValidation(true);
@@ -324,9 +359,11 @@ const SignUp = () => {
           >
             <input
               id="confirmPassword"
+              name="confirmPassword"
               placeholder={t("CONFIRM_PASSWORD")}
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
+              autoComplete="new-password"
               onChange={(e) => setConfirmPasswordValue(e.target.value)}
               onFocus={() => setConfirmPasswordFocus(true)}
               onBlur={() => setConfirmPasswordFocus(false)}
@@ -363,7 +400,6 @@ const SignUp = () => {
             {t("TOS_AGREEMENT")}{" "}
             <a
               href="/terms-and-conditions"
-              target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 underline"
             >
@@ -373,13 +409,14 @@ const SignUp = () => {
           </label>
         </div>
         <button
-          className={`my-4 py-2 rounded-xl text-white 
-    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
+          className={`my-4 py-2 rounded-xl text-white flex items-center justify-center gap-2
+    ${acceptedTOS && !isSubmitting ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
   `}
           onClick={handleSignUp}
-          disabled={!acceptedTOS}
+          disabled={!acceptedTOS || isSubmitting}
         >
-          Sign up
+          <span>{isSubmitting ? "Signing up..." : "Sign up"}</span>
+          {isSubmitting && <LoadingIndicator size="20px" />}
         </button>
 
         {/* Uncomment this snippet when the signup functionality is fully developed  */}
@@ -408,7 +445,7 @@ const SignUp = () => {
             className="mx-2 text-left underline"
             onClick={() => navigate("/login")}
           >
-            {t("SIGN_IN")}
+            {t("LOGIN")}
           </button>
         </div>
       </div>

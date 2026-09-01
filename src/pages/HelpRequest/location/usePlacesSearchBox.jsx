@@ -1,25 +1,54 @@
-import { useRef } from "react";
-import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { useRef, useState, useCallback } from "react";
 
-const usePlacesSearchBox = (setLocation) => {
+const usePlacesSearchBox = (setLocation, setCoordinates) => {
   const inputRef = useRef(null);
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDv7--yEnq84ZN3l03y50O33M4S89Un4U0",
-    libraries: ["places"],
-  });
+  const [suggestions, setSuggestions] = useState([]);
+  const debounceTimer = useRef(null);
 
-  const handleOnPlacesChanged = () => {
-    if (inputRef.current) {
-      const places = inputRef.current.getPlaces();
-      if (places.length > 0) {
-        const place = places[0]; // Get the first suggested place
-        setLocation(place.formatted_address);
-      }
+  const handleSearchChange = useCallback(async (value) => {
+    if (value.length < 3) {
+      setSuggestions([]);
+      return;
     }
+
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(async () => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(value)}&format=json&limit=5`,
+          {
+            headers: {
+              "Accept-Language": "en",
+              "User-Agent": "SaayamForAll/1.0",
+            },
+          },
+        );
+        const data = await response.json();
+        setSuggestions(data);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+        setSuggestions([]);
+      }
+    }, 500);
+  }, []);
+
+  const handleSelectSuggestion = (suggestion) => {
+    // Cancel any pending debounced fetch so a stale response can't
+    // reopen the suggestions dropdown after the user has already made
+    // a selection.
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+
+    setLocation(suggestion.display_name);
+    if (setCoordinates) {
+      setCoordinates({
+        latitude: parseFloat(suggestion.lat),
+        longitude: parseFloat(suggestion.lon),
+      });
+    }
+    setSuggestions([]);
   };
 
-  return { inputRef, isLoaded, handleOnPlacesChanged };
+  return { inputRef, suggestions, handleSearchChange, handleSelectSuggestion };
 };
 
 export default usePlacesSearchBox;

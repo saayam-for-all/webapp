@@ -6,6 +6,7 @@ const Sitemap = () => {
   return (
     <div className="sitemap-container">
       <div className="sitemap-inner">
+        <div className="w-full mb-4"></div>
         <h1 className="sitemap-title">Sitemap</h1>
         <div className="sitemap-content-wrapper">
           {/* Row 1: Home */}
@@ -33,6 +34,9 @@ const Sitemap = () => {
                   </li>
                   <li>
                     <a href="/our-team">Our Team</a>
+                  </li>
+                  <li>
+                    <a href="/news-our-stories">In the News</a>
                   </li>
                 </ul>
               </div>

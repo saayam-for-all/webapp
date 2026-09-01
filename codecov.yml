@@ -1,0 +1,13 @@
+coverage:
+  # This range only affects the color coding in the codcov report.
+  # Actual thresholds are defined in the status section below.
+  range: "80...90"
+  status:
+    project:
+      default: # default is the status check's name, not default settings
+        target: auto
+        threshold: 1
+    patch:
+      default: # default is the status check's name, not default settings
+        target: 90%
+        threshold: 0
