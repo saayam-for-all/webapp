@@ -219,6 +219,70 @@ export const flattenCategories = (categories, t, depth = 0) => {
 };
 
 /**
+ * Build category filter options from API categories, matched against
+ * category names actually present in the current request data.
+ * @param {Array} dataRows - Current request rows (used to build dataCategoryNames)
+ * @param {Function} t - Translation function
+ * @returns {Array} Category option objects with category, label, subCategories
+ */
+export const getDashboardCategoryOptions = (dataRows, t) => {
+  const categories = getCategoriesFromStorage();
+
+  const dataCategoryNames = new Set(
+    dataRows.map((r) => r.category).filter(Boolean),
+  );
+
+  if (categories && Array.isArray(categories) && categories.length > 0) {
+    const transformCategories = (cats) => {
+      return cats.map((cat) => ({
+        category: cat.catName,
+        label: t(
+          `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
+          cat.catName,
+        ),
+        subCategories:
+          cat.subCategories && cat.subCategories.length > 0
+            ? transformCategories(cat.subCategories)
+            : undefined,
+      }));
+    };
+
+    if (dataCategoryNames.size === 0) {
+      return transformCategories(categories);
+    }
+
+    const getAllCategoryNames = (cats) => {
+      const names = [];
+      cats.forEach((cat) => {
+        names.push(cat.catName);
+        if (cat.subCategories && cat.subCategories.length > 0) {
+          names.push(...getAllCategoryNames(cat.subCategories));
+        }
+      });
+      return names;
+    };
+
+    const apiCategoryNames = getAllCategoryNames(categories);
+    const matchCount = apiCategoryNames.filter((apiCat) =>
+      dataCategoryNames.has(apiCat),
+    ).length;
+
+    if (
+      matchCount >=
+      Math.min(dataCategoryNames.size, apiCategoryNames.length) * 0.5
+    ) {
+      return transformCategories(categories);
+    }
+  }
+
+  const combined = Array.from(dataCategoryNames);
+  return combined.sort().map((cat) => ({
+    category: cat,
+    label: cat,
+  }));
+};
+
+/**
  * Normalize type value for comparison
  * Used to match backend values with enum keys
  */

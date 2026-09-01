@@ -5,6 +5,7 @@ import {
   getPriorityOptions,
   getTypeOptions,
   getCategoryOptions,
+  getDashboardCategoryOptions,
   flattenCategories,
   normalizeTypeValue,
   normalizeStatusValue,
@@ -219,6 +220,80 @@ describe("filterHelpers", () => {
       expect(result).toHaveLength(2);
       expect(result[0].depth).toBe(0);
       expect(result[1].depth).toBe(1);
+    });
+  });
+
+  describe("getDashboardCategoryOptions", () => {
+    const apiCategories = [
+      {
+        catId: "0.0.0.0.0",
+        catName: "GENERAL_CATEGORY",
+        subCategories: [],
+      },
+      {
+        catId: "1",
+        catName: "FOOD_AND_ESSENTIALS",
+        subCategories: [
+          { catId: "1.1", catName: "FOOD_ASSISTANCE", subCategories: [] },
+        ],
+      },
+    ];
+
+    it("returns all API categories when there is no request data yet", () => {
+      localStorage.setItem("categories", JSON.stringify(apiCategories));
+      const result = getDashboardCategoryOptions([], mockT);
+
+      expect(result).toHaveLength(2);
+      expect(result[0].category).toBe("GENERAL_CATEGORY");
+      expect(result[1].subCategories).toHaveLength(1);
+    });
+
+    it("translates using catName, not catId (regression test)", () => {
+      localStorage.setItem("categories", JSON.stringify(apiCategories));
+      const translateSpy = jest.fn((key) => key);
+
+      getDashboardCategoryOptions([], translateSpy);
+
+      expect(translateSpy).toHaveBeenCalledWith(
+        "categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL",
+        "GENERAL_CATEGORY",
+      );
+    });
+
+    it("uses API categories when they sufficiently match request data", () => {
+      localStorage.setItem("categories", JSON.stringify(apiCategories));
+      const dataRows = [
+        { category: "GENERAL_CATEGORY" },
+        { category: "FOOD_AND_ESSENTIALS" },
+      ];
+
+      const result = getDashboardCategoryOptions(dataRows, mockT);
+
+      expect(result).toHaveLength(2);
+      expect(result.map((c) => c.category)).toEqual([
+        "GENERAL_CATEGORY",
+        "FOOD_AND_ESSENTIALS",
+      ]);
+    });
+
+    it("falls back to data-derived categories when API categories don't match", () => {
+      localStorage.setItem("categories", JSON.stringify(apiCategories));
+      const dataRows = [
+        { category: "SOME_UNRELATED_CATEGORY" },
+        { category: "ANOTHER_UNRELATED_CATEGORY" },
+      ];
+
+      const result = getDashboardCategoryOptions(dataRows, mockT);
+
+      expect(result.map((c) => c.category)).toEqual([
+        "ANOTHER_UNRELATED_CATEGORY",
+        "SOME_UNRELATED_CATEGORY",
+      ]);
+    });
+
+    it("returns empty array when no categories and no data exist", () => {
+      const result = getDashboardCategoryOptions([], mockT);
+      expect(result).toEqual([]);
     });
   });
 });

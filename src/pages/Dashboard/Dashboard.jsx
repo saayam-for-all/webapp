@@ -32,6 +32,7 @@ import {
   getPriorityOptions,
   getTypeOptions,
   getCategoriesFromStorage,
+  getDashboardCategoryOptions,
   normalizeTypeValue,
   normalizeStatusValue,
   normalizePriorityValue,
@@ -511,83 +512,7 @@ const Dashboard = ({ userRole }) => {
   }, [data, t]);
 
   const categoryOptions = useMemo(() => {
-    // Get categories from Categories API with hierarchical structure
-    const categories = getCategoriesFromStorage();
-
-    // Get all category names from actual data
-    const dataCategoryNames = new Set(
-      getRequestRows(data)
-        .map((r) => r.category)
-        .filter(Boolean),
-    );
-
-    if (categories && Array.isArray(categories) && categories.length > 0) {
-      const transformCategories = (cats) => {
-        return cats.map((cat) => ({
-          category: cat.catName,
-          label: t(
-            `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
-            cat.catName,
-          ),
-          subCategories:
-            cat.subCategories && cat.subCategories.length > 0
-              ? transformCategories(cat.subCategories)
-              : undefined,
-        }));
-      };
-
-      // If there's no request data yet, just use all API categories directly
-      if (dataCategoryNames.size === 0) {
-        return transformCategories(categories);
-      }
-
-      // Check if API categories match the data categories
-      const getAllCategoryNames = (cats) => {
-        const names = [];
-        cats.forEach((cat) => {
-          names.push(cat.catName);
-          if (cat.subCategories && cat.subCategories.length > 0) {
-            names.push(...getAllCategoryNames(cat.subCategories));
-          }
-        });
-        return names;
-      };
-
-      const apiCategoryNames = getAllCategoryNames(categories);
-      const matchCount = apiCategoryNames.filter((apiCat) =>
-        dataCategoryNames.has(apiCat),
-      ).length;
-
-      // Only use API categories if at least 50% match the data
-      // This ensures we use API categories for real data, but fall back for mock data
-      if (
-        matchCount >=
-        Math.min(dataCategoryNames.size, apiCategoryNames.length) * 0.5
-      ) {
-        return transformCategories(categories);
-      }
-
-      // API categories don't match data - use data categories instead
-      console.warn(
-        "API categories don't match data categories (matched " +
-          matchCount +
-          " out of " +
-          dataCategoryNames.size +
-          "), using data categories instead",
-      );
-    }
-
-    // Fallback: use categories from actual data
-    const backendValues = new Set(
-      getRequestRows(data)
-        .map((r) => r.category)
-        .filter(Boolean),
-    );
-    const combined = Array.from(backendValues);
-    return combined.sort().map((cat) => ({
-      category: cat,
-      label: cat,
-    }));
+    return getDashboardCategoryOptions(getRequestRows(data), t);
   }, [data, t]);
 
   const typeOptions = useMemo(() => {
