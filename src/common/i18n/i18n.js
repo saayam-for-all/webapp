@@ -150,6 +150,7 @@ import arPreferences from "./locales/ar/preferences.json";
 import arCollaborator from "./locales/ar/collaborator.json";
 import arMetadata from "./locales/ar/metadata.json";
 import arTermsVolunteer from "./locales/ar/terms.json";
+import arTerms from "./locales/ar/termsAndConditions.json";
 
 import asCommon from "./locales/as/common.json";
 import asAuth from "./locales/as/auth.json";
@@ -424,6 +425,7 @@ i18n
         collaborator: arCollaborator,
         metadata: arMetadata,
         terms: arTermsVolunteer,
+        termsAndConditions: arTerms,
       },
       as: {
         common: asCommon,
