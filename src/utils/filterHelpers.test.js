@@ -4,6 +4,9 @@ import {
   getStatusOptions,
   getPriorityOptions,
   getTypeOptions,
+  getCategoryOptions,
+  getDashboardCategoryOptions,
+  flattenCategories,
   normalizeTypeValue,
   normalizeStatusValue,
   normalizePriorityValue,
@@ -155,6 +158,142 @@ describe("filterHelpers", () => {
   describe("normalizePriorityValue", () => {
     it("uppercases and replaces spaces with underscores", () => {
       expect(normalizePriorityValue("medium")).toBe("MEDIUM");
+    });
+  });
+
+  describe("getCategoryOptions", () => {
+    it("translates using category name, not catId (regression test)", () => {
+      localStorage.setItem(
+        "categories",
+        JSON.stringify([
+          {
+            catId: "0.0.0.0.0",
+            catName: "GENERAL_CATEGORY",
+            subcategories: [],
+          },
+        ]),
+      );
+      const translateSpy = jest.fn((key) => key);
+      getCategoryOptions(translateSpy);
+
+      expect(translateSpy).toHaveBeenCalledWith(
+        "categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL",
+        "GENERAL_CATEGORY",
+      );
+      expect(translateSpy).not.toHaveBeenCalledWith(
+        expect.stringContaining("0.0.0.0.0"),
+        expect.anything(),
+      );
+    });
+
+    it("returns empty array when categories missing", () => {
+      expect(getCategoryOptions(mockT)).toEqual([]);
+    });
+  });
+
+  describe("flattenCategories", () => {
+    it("translates using category name, not catId (regression test)", () => {
+      const translateSpy = jest.fn((key) => key);
+      flattenCategories(
+        [{ catId: "0.0.0.0.0", catName: "GENERAL_CATEGORY" }],
+        translateSpy,
+      );
+
+      expect(translateSpy).toHaveBeenCalledWith(
+        "categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL",
+        "GENERAL_CATEGORY",
+      );
+    });
+
+    it("flattens nested subcategories with correct depth", () => {
+      const result = flattenCategories(
+        [
+          {
+            catId: "1",
+            catName: "PARENT",
+            subcategories: [{ catId: "1.1", catName: "CHILD" }],
+          },
+        ],
+        mockT,
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result[0].depth).toBe(0);
+      expect(result[1].depth).toBe(1);
+    });
+  });
+
+  describe("getDashboardCategoryOptions", () => {
+    const apiCategories = [
+      {
+        catId: "0.0.0.0.0",
+        catName: "GENERAL_CATEGORY",
+        subCategories: [],
+      },
+      {
+        catId: "1",
+        catName: "FOOD_AND_ESSENTIALS",
+        subCategories: [
+          { catId: "1.1", catName: "FOOD_ASSISTANCE", subCategories: [] },
+        ],
+      },
+    ];
+
+    it("returns all API categories when there is no request data yet", () => {
+      localStorage.setItem("categories", JSON.stringify(apiCategories));
+      const result = getDashboardCategoryOptions([], mockT);
+
+      expect(result).toHaveLength(2);
+      expect(result[0].category).toBe("GENERAL_CATEGORY");
+      expect(result[1].subCategories).toHaveLength(1);
+    });
+
+    it("translates using catName, not catId (regression test)", () => {
+      localStorage.setItem("categories", JSON.stringify(apiCategories));
+      const translateSpy = jest.fn((key) => key);
+
+      getDashboardCategoryOptions([], translateSpy);
+
+      expect(translateSpy).toHaveBeenCalledWith(
+        "categories:REQUEST_CATEGORIES.GENERAL_CATEGORY.LABEL",
+        "GENERAL_CATEGORY",
+      );
+    });
+
+    it("uses API categories when they sufficiently match request data", () => {
+      localStorage.setItem("categories", JSON.stringify(apiCategories));
+      const dataRows = [
+        { category: "GENERAL_CATEGORY" },
+        { category: "FOOD_AND_ESSENTIALS" },
+      ];
+
+      const result = getDashboardCategoryOptions(dataRows, mockT);
+
+      expect(result).toHaveLength(2);
+      expect(result.map((c) => c.category)).toEqual([
+        "GENERAL_CATEGORY",
+        "FOOD_AND_ESSENTIALS",
+      ]);
+    });
+
+    it("falls back to data-derived categories when API categories don't match", () => {
+      localStorage.setItem("categories", JSON.stringify(apiCategories));
+      const dataRows = [
+        { category: "SOME_UNRELATED_CATEGORY" },
+        { category: "ANOTHER_UNRELATED_CATEGORY" },
+      ];
+
+      const result = getDashboardCategoryOptions(dataRows, mockT);
+
+      expect(result.map((c) => c.category)).toEqual([
+        "ANOTHER_UNRELATED_CATEGORY",
+        "SOME_UNRELATED_CATEGORY",
+      ]);
+    });
+
+    it("returns empty array when no categories and no data exist", () => {
+      const result = getDashboardCategoryOptions([], mockT);
+      expect(result).toEqual([]);
     });
   });
 });
