@@ -104,6 +104,12 @@ function setupMediaMocks() {
   mockMediaRecorderInstance = {
     start: jest.fn(),
     stop: jest.fn().mockImplementation(() => {
+      // Mirror the real MediaRecorder API: state becomes "inactive" after stop().
+      // Without this, the component's unmount cleanup calls stopRecording() again,
+      // sees state="recording", and fires mr.stop() a second time — launching a
+      // duplicate async onstop handler that can call uploadAudioAndTranscribe after
+      // jest.clearAllMocks() has run, polluting the next test's call counts.
+      mockMediaRecorderInstance.state = "inactive";
       if (capturedOnStop) capturedOnStop();
     }),
     pause: jest.fn(),
