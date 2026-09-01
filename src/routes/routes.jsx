@@ -1,7 +1,6 @@
 import OurMission from "../pages/About Us/OurMission/OurMission";
 import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/Signup";
-import AuthDisabledPage from "../pages/Auth/AuthDisabledPage";
 import OTPVerification from "../pages/Auth/VerifyOtp";
 import Collaborators from "../pages/Collaborators/Collaborators";
 import ContactUs from "../pages/Contact/ContactUs";
@@ -151,19 +150,19 @@ const routes = [
   },
   {
     path: "verify-otp",
-    element: <AuthDisabledPage />,
+    element: <OTPVerification />,
   },
   {
     path: "login",
-    element: <AuthDisabledPage />,
+    element: <Login />,
   },
   {
     path: "signup",
-    element: <AuthDisabledPage />,
+    element: <SignUp />,
   },
   {
     path: "forgot-password",
-    element: <AuthDisabledPage />,
+    element: <ForgotPasswordPage />,
   },
   {
     path: "verify-account",

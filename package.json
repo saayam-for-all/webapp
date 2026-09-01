@@ -48,7 +48,6 @@
     "react-google-recaptcha-v3": "^1.11.0",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
-    "react-google-recaptcha-v3": "^1.11.0",
     "react-phone-number-input": "^3.4.12",
     "react-select": "^5.10.2",
     "react-select-country-list": "^2.2.3",
@@ -119,9 +118,6 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
-  },
-  "overrides": {
-    "lodash": "^4.18.0"
   },
   "keywords": [],
   "author": "",

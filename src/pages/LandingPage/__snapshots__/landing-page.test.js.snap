@@ -97,25 +97,6 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
         <mock-carousel />
         <div
-          aria-label="mockTranslate(ADVERTISEMENT)"
-          class="w-full rounded-lg border border-slate-200 bg-slate-50 text-center [&_ins.adsbygoogle]:!bg-transparent my-6 py-4 px-0 xl:px-4"
-          role="complementary"
-        >
-          <span
-            class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-3"
-          >
-            mockTranslate(ADVERTISEMENT)
-          </span>
-          <ins
-            class="adsbygoogle"
-            data-ad-client="ca-pub-3674612346757233"
-            data-ad-format="auto"
-            data-ad-slot="2901014906"
-            data-full-width-responsive="true"
-            style="display: block;"
-          />
-        </div>
-        <div
           class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
         >
           <h3
@@ -431,25 +412,6 @@ exports[`LandingPage renders correctly 1`] = `
         </div>
       </div>
       <mock-carousel />
-      <div
-        aria-label="mockTranslate(ADVERTISEMENT)"
-        class="w-full rounded-lg border border-slate-200 bg-slate-50 text-center [&_ins.adsbygoogle]:!bg-transparent my-6 py-4 px-0 xl:px-4"
-        role="complementary"
-      >
-        <span
-          class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-3"
-        >
-          mockTranslate(ADVERTISEMENT)
-        </span>
-        <ins
-          class="adsbygoogle"
-          data-ad-client="ca-pub-3674612346757233"
-          data-ad-format="auto"
-          data-ad-slot="2901014906"
-          data-full-width-responsive="true"
-          style="display: block;"
-        />
-      </div>
       <div
         class="relative w-full flex flex-col overflow-hidden items-center mb-[25px] md:mb-[50px]"
       >

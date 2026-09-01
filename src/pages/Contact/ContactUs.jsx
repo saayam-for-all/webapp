@@ -62,29 +62,37 @@ const ContactUs = () => {
   const [countryCode, setCountryCode] = useState("US");
   const [phoneError, setPhoneError] = useState("");
 
-  // Blocks setState/navigate from a submit that resolves after the user has
-  // already navigated away.
-  const isMountedRef = useRef(true);
-  useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
+  const faqs = [
+    {
+      question: t("What services does Saayam for All offer?"),
+      answer: t(
+        "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.",
+      ),
+    },
+    {
+      question: t("How can I become a volunteer?"),
+      answer: t(
+        "Fill out the contact form and our team will reach out with onboarding steps!",
+      ),
+    },
+    {
+      question: t("Is Saayam for All a non-profit?"),
+      answer: t(
+        "Yes, we are a non-profit organization focused on community support and outreach.",
+      ),
+    },
+  ];
 
-  const faqs = useMemo(
-    () =>
-      FAQ_CONTENT.map(({ question, answer }) => ({
-        question: t(question),
-        answer: t(answer),
-      })),
-    [t],
-  );
+  const toggleFAQ = (index) => {
+    setOpenFAQIndex(openFAQIndex === index ? null : index);
+  };
 
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  }, []);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

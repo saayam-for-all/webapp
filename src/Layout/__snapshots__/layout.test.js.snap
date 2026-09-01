@@ -11,7 +11,6 @@ exports[`Layout renders correctly 1`] = `
         <mock-navigation-guard />
         <header
           class="sticky z-10"
-          google-side-rail-overlap="false"
           id="header"
         >
           <mock-navbar />
@@ -83,7 +82,6 @@ exports[`Layout renders correctly 1`] = `
       <mock-navigation-guard />
       <header
         class="sticky z-10"
-        google-side-rail-overlap="false"
         id="header"
       >
         <mock-navbar />

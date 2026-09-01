@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
-import Directors from "./Directors";
+import Contact from "./Contact";
 
-describe("Directors", () => {
+describe("Contact", () => {
   it("renders correctly", () => {
-    const tree = render(<Directors />);
+    const tree = render(<Contact />);
     expect(tree).toMatchSnapshot();
   });
 });

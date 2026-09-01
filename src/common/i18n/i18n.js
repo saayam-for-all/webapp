@@ -1,18 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import enCollaborator from "./locales/en/collaborator.json";
-import deCollaborator from "./locales/de/collaborator.json";
-import esCollaborator from "./locales/es/collaborator.json";
-import frCollaborator from "./locales/fr/collaborator.json";
-import ruCollaborator from "./locales/ru/collaborator.json";
-import teCollaborator from "./locales/te/collaborator.json";
-import zhCollaborator from "./locales/zh/collaborator.json";
-import ptCollaborator from "./locales/pt/collaborator.json";
-import bnCollaborator from "./locales/bn/collaborator.json";
-import arCollaborator from "./locales/ar/collaborator.json";
-import urCollaborator from "./locales/ur/collaborator.json";
-import hiCollaborator from "./locales/hi/collaborator.json";
 
 // Import all namespaced translations
 import enCommon from "./locales/en/common.json";

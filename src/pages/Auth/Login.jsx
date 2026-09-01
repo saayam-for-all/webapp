@@ -262,7 +262,6 @@ const LoginPage = () => {
           <button
             className="mx-2 text-left underline"
             onClick={() => navigate("/signup")}
-            disabled
           >
             {t("common:SIGNUP")}
           </button>

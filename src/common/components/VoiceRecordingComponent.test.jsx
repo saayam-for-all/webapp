@@ -96,19 +96,31 @@ function mockAudioContextVariableFrames(lowRms, highRms, sampleRate = 44100) {
 let capturedOnDataAvailable;
 let capturedOnStop;
 let mockMediaRecorderInstance;
+let latestOnStopPromise;
 
 function setupMediaMocks() {
   capturedOnDataAvailable = null;
   capturedOnStop = null;
+  latestOnStopPromise = Promise.resolve();
 
   mockMediaRecorderInstance = {
-    start: jest.fn(),
-    stop: jest.fn().mockImplementation(() => {
-      if (capturedOnStop) capturedOnStop();
+    start: jest.fn().mockImplementation(() => {
+      mockMediaRecorderInstance.state = "recording";
     }),
-    pause: jest.fn(),
-    resume: jest.fn(),
-    state: "recording",
+    stop: jest.fn().mockImplementation(() => {
+      if (mockMediaRecorderInstance.state === "inactive") return;
+      mockMediaRecorderInstance.state = "inactive";
+      if (capturedOnStop) {
+        latestOnStopPromise = Promise.resolve(capturedOnStop());
+      }
+    }),
+    pause: jest.fn().mockImplementation(() => {
+      mockMediaRecorderInstance.state = "paused";
+    }),
+    resume: jest.fn().mockImplementation(() => {
+      mockMediaRecorderInstance.state = "recording";
+    }),
+    state: "inactive",
     ondataavailable: null,
     onstop: null,
   };
@@ -172,6 +184,7 @@ async function recordAndStop() {
   const stopBtn = screen.getByRole("button", { name: /stop recording/i });
   await act(async () => {
     fireEvent.click(stopBtn);
+    await latestOnStopPromise;
   });
 }
 

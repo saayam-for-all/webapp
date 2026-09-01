@@ -44,10 +44,4 @@ describe("Layout", () => {
     );
     expect(tree).toMatchSnapshot();
   });
-
-  it("renders both ad rails", () => {
-    const { container } = render(<Layout />);
-
-    expect(container.querySelectorAll("aside")).toHaveLength(2);
-  });
 });
