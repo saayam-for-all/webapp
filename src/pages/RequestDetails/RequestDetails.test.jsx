@@ -269,3 +269,22 @@ describe("RequestDetails - Change Volunteer dialog button order and behavior", (
     expect(saveButton).not.toBeDisabled();
   });
 });
+
+it("Cancel closes the change volunteer dialog", async () => {
+  renderWithProviders(<RequestDetails />, {
+    preloadedState: MOCK_STATE_LOGGED_IN,
+  });
+
+  fireEvent.click(screen.getByText("DETAILS"));
+  fireEvent.click(screen.getByRole("button", { name: "CHANGE_VOLUNTEER" }));
+
+  expect(screen.getByRole("button", { name: "SAVE" })).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole("button", { name: "CANCEL" }));
+
+  await waitFor(() => {
+    expect(
+      screen.queryByRole("button", { name: "SAVE" }),
+    ).not.toBeInTheDocument();
+  });
+});
