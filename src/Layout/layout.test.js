@@ -12,6 +12,8 @@ global.IntersectionObserver = class {
 
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import fs from "fs";
+import path from "path";
 import Layout from "./Layout";
 
 jest.mock("react", () => ({
@@ -43,5 +45,14 @@ describe("Layout", () => {
       </MemoryRouter>,
     );
     expect(tree).toMatchSnapshot();
+  });
+
+  it("collapses both side-rail containers at 480px and below", () => {
+    const stylesheet = fs.readFileSync(path.resolve("src/index.css"), "utf8");
+
+    expect(stylesheet).toMatch(/@media\s+\(max-width:\s*480px\)/);
+    expect(stylesheet).toMatch(
+      /\.left-ads-panel,\s*\.right-ads-panel\s*\{[^}]*display:\s*none\s*!important;[^}]*width:\s*0\s*!important;[^}]*min-width:\s*0\s*!important;[^}]*flex:\s*0 0 0\s*!important;/s,
+    );
   });
 });
