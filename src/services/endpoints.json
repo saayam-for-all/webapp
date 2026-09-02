@@ -7,7 +7,6 @@
   "GET_VOLUNTEERS_DATA": "v1/volunteer/getVolunteersData",
   "MOCK_GET_VOLUNTEERS": "v1/volunteer/mockGetVolunteers",
   "GET_VOLUNTEER_ORGS_LIST": "v1/volunteerorgs/organizations-list",
-  "SEND_CONTACT_EMAIL": "https://iev3dz3jm4.execute-api.us-east-1.amazonaws.com/dev/sendContactEmail",
   "GET_VOLUNTEER_SKILLS": "v1/volunteer/skills",
   "PROFILE_SKILLS": "v1/volunteer/profileSkills",
   "GET_REQUEST_COMMENTS": "v1/request/getComments",
