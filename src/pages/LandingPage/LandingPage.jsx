@@ -18,7 +18,6 @@ import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
 import MetricsTicker from "./components/MetricsTicker";
-import SquareAd from "#components/Ads/SquareAd";
 import HorizontalAd from "#components/Ads/HorizontalAd";
 
 export default function Home() {
