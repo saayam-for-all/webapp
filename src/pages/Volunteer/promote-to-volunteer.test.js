@@ -1148,6 +1148,13 @@ describe("PromoteToVolunteer Component", () => {
         screen.getByText("mockTranslate(IDENTIFICATION)"),
       ).toBeInTheDocument();
     });
+
+    const { saveVolunteerStep1 } = require("../../services/volunteerServices");
+    expect(saveVolunteerStep1).toHaveBeenCalledWith({
+      step: 1,
+      userId: "SID-00-000-001",
+      termsAndConditions: true,
+    });
   });
 
   it("handleSaveFile stores file name in volunteer data", async () => {
@@ -1812,9 +1819,9 @@ describe("PromoteToVolunteer Component", () => {
       expect(
         screen.getByText("mockTranslate(IDENTIFICATION)"),
       ).toBeInTheDocument();
+      expect(setItemSpy).toHaveBeenCalledWith("volunteer_wizard_step", "2");
     });
 
-    expect(setItemSpy).toHaveBeenCalledWith("volunteer_wizard_step", "2");
     setItemSpy.mockRestore();
   });
 
@@ -1926,6 +1933,84 @@ describe("PromoteToVolunteer Component", () => {
       expect(
         screen.getByText("mockTranslate(COMPLETE_REQUIRED_FIELDS)"),
       ).toBeInTheDocument();
+    });
+  });
+
+  it("calls saveVolunteerStep1 with userDbId from Redux auth slice and no mock fallback", async () => {
+    const { saveVolunteerStep1 } = require("../../services/volunteerServices");
+    saveVolunteerStep1.mockClear();
+
+    const customState = {
+      auth: {
+        user: {
+          userId: "cognito-uuid-999",
+          userDbId: "SID-00-000-001",
+        },
+        idToken: "mockToken",
+      },
+    };
+
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: customState,
+    });
+
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+
+    const nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(IDENTIFICATION)"),
+      ).toBeInTheDocument();
+    });
+
+    expect(saveVolunteerStep1).toHaveBeenCalledTimes(1);
+    expect(saveVolunteerStep1).toHaveBeenCalledWith({
+      step: 1,
+      userId: "SID-00-000-001",
+      termsAndConditions: true,
+    });
+    expect(saveVolunteerStep1).not.toHaveBeenCalledWith(
+      expect.objectContaining({ userId: "mockUser123" }),
+    );
+    expect(saveVolunteerStep1).not.toHaveBeenCalledWith(
+      expect.objectContaining({ userId: "cognito-uuid-999" }),
+    );
+  });
+
+  it("calls saveVolunteerStep1 with userDBId when provided at auth root", async () => {
+    const { saveVolunteerStep1 } = require("../../services/volunteerServices");
+    saveVolunteerStep1.mockClear();
+
+    const customState = {
+      auth: {
+        userDBId: "SID-99-888-777",
+      },
+    };
+
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: customState,
+    });
+
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+
+    const nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(IDENTIFICATION)"),
+      ).toBeInTheDocument();
+    });
+
+    expect(saveVolunteerStep1).toHaveBeenCalledTimes(1);
+    expect(saveVolunteerStep1).toHaveBeenCalledWith({
+      step: 1,
+      userId: "SID-99-888-777",
+      termsAndConditions: true,
     });
   });
 });

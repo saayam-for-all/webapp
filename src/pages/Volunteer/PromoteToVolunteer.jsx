@@ -13,8 +13,6 @@ import {
   updateUserSkills,
   saveVolunteerStep1,
 } from "../../services/volunteerServices";
-import { getCurrentUser } from "aws-amplify/auth";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
@@ -71,7 +69,13 @@ const PromoteToVolunteer = () => {
     return false;
   });
   const [govtIdFile, setGovtIdFile] = useState(null);
-  const userDbId = useSelector((state) => state.auth?.user?.userDbId);
+  const userDBId = useSelector(
+    (state) =>
+      state.auth?.user?.userDbId ||
+      state.auth?.userDBId ||
+      state.auth?.userDbId ||
+      state.auth?.user?.userDBId,
+  );
   const [selectedSkills, setSelectedSkills] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
     if (cachedData) {
@@ -116,7 +120,6 @@ const PromoteToVolunteer = () => {
     return false;
   });
   const volunteerDataRef = useRef({});
-  const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [isUploaded, setIsUploaded] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
@@ -162,20 +165,6 @@ const PromoteToVolunteer = () => {
     tobeNotified,
     currentStep,
   ]);
-
-  useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const user = await getCurrentUser(); // Fetch user once
-        setUserId(user.userId);
-        // setUserId("SID-00-000-000-086"); // remove this line.. added to test with aws api
-      } catch (error) {
-        console.error("Error fetching user ID:", error);
-      }
-    };
-
-    if (!userId) fetchUserId();
-  }, [userId]);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -263,7 +252,7 @@ const PromoteToVolunteer = () => {
     if (govtIdFile) {
       updateVolunteerData({
         step: 2,
-        userId: userId,
+        userId: userDBId,
         govtIdFilename: govtIdFile.name,
       });
     }
@@ -279,14 +268,14 @@ const PromoteToVolunteer = () => {
           isValidStep = isAcknowledged;
           updateVolunteerData({
             step: currentStep,
-            userId: userId,
+            userId: userDBId,
             termsAndConditions: isAcknowledged,
           });
           if (isAcknowledged) {
             try {
               const payload = {
                 step: 1,
-                userId: userId || "mockUser123",
+                userId: userDBId,
                 termsAndConditions: isAcknowledged,
               };
               await saveVolunteerStep1(payload);
@@ -307,7 +296,7 @@ const PromoteToVolunteer = () => {
           isValidStep = govtIdFile;
           updateVolunteerData({
             step: currentStep,
-            userId: userId,
+            userId: userDBId,
             govtIdFilename: govtIdFile ? govtIdFile.name : "",
           });
           break;
@@ -315,13 +304,13 @@ const PromoteToVolunteer = () => {
           isValidStep = selectedSkills.length > 0;
           updateVolunteerData({
             step: currentStep,
-            userId: userId,
+            userId: userDBId,
             skills: extractSkillsFromArray(selectedSkills),
           });
-          if (isValidStep && userDbId) {
+          if (isValidStep && userDBId) {
             try {
               const skillsToSave = selectedSkills.map((skill) => String(skill));
-              await updateUserSkills(userDbId, skillsToSave);
+              await updateUserSkills(userDBId, skillsToSave);
             } catch (skillError) {
               console.error("Failed to save skills to API:", skillError);
               setErrorMessage(t("FAILED_TO_SAVE_SKILLS"));
@@ -336,7 +325,7 @@ const PromoteToVolunteer = () => {
           if (isValidStep) {
             updateVolunteerData({
               step: currentStep,
-              userId: userId,
+              userId: userDBId,
               notification: tobeNotified,
               isCompleted: true,
               availability: availabilitySlots.map((slot) => ({
