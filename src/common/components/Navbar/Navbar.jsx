@@ -243,7 +243,9 @@ const Navbar = () => {
         const countResponse = await GET_NOTIFICATION_COUNT(
           user?.userId || "A1234",
         );
-        setNewNotificationCount(countResponse?.count || 0);
+        setNewNotificationCount(
+          countResponse?.data?.newNotificationsCount || 0,
+        );
 
         // --- Notification LIST (notifications page) ---
         // Mock JSON data used to populate the notifications page until
