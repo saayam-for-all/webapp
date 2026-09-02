@@ -279,8 +279,16 @@ const Table = ({
                     const value = getCellValue(row, header);
 
                     const path = getLinkPath ? getLinkPath(row, header) : null;
-                    const cellContent =
-                      header === "requestId" ? renderRequestId(value) : value;
+
+                    let cellContent = value;
+
+                    if (header === "requestId") {
+                      cellContent = renderRequestId(value);
+                    }
+
+                    if (header === "type" || header === "calamity") {
+                      cellContent = t(cellContent);
+                    }
 
                     return (
                       <td

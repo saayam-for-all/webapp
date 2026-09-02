@@ -32,6 +32,7 @@ import {
   getPriorityOptions,
   getTypeOptions,
   getCategoriesFromStorage,
+  getDashboardCategoryOptions,
   normalizeTypeValue,
   normalizeStatusValue,
   normalizePriorityValue,
@@ -511,78 +512,7 @@ const Dashboard = ({ userRole }) => {
   }, [data, t]);
 
   const categoryOptions = useMemo(() => {
-    // Get categories from Categories API with hierarchical structure
-    const categories = getCategoriesFromStorage();
-
-    // Get all category names from actual data
-    const dataCategoryNames = new Set(
-      getRequestRows(data)
-        .map((r) => r.category)
-        .filter(Boolean),
-    );
-
-    if (categories && Array.isArray(categories) && dataCategoryNames.size > 0) {
-      // Check if API categories match the data categories
-      const getAllCategoryNames = (cats) => {
-        const names = [];
-        cats.forEach((cat) => {
-          names.push(cat.catName);
-          if (cat.subCategories && cat.subCategories.length > 0) {
-            names.push(...getAllCategoryNames(cat.subCategories));
-          }
-        });
-        return names;
-      };
-
-      const apiCategoryNames = getAllCategoryNames(categories);
-      const matchCount = apiCategoryNames.filter((apiCat) =>
-        dataCategoryNames.has(apiCat),
-      ).length;
-
-      // Only use API categories if at least 50% match the data
-      // This ensures we use API categories for real data, but fall back for mock data
-      if (
-        matchCount >=
-        Math.min(dataCategoryNames.size, apiCategoryNames.length) * 0.5
-      ) {
-        const transformCategories = (cats) => {
-          return cats.map((cat) => ({
-            category: cat.catName,
-            label: t(
-              `categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`,
-              cat.catName,
-            ),
-            subCategories:
-              cat.subCategories && cat.subCategories.length > 0
-                ? transformCategories(cat.subCategories)
-                : undefined,
-          }));
-        };
-
-        return transformCategories(categories);
-      }
-
-      // API categories don't match data - use data categories instead
-      console.warn(
-        "API categories don't match data categories (matched " +
-          matchCount +
-          " out of " +
-          dataCategoryNames.size +
-          "), using data categories instead",
-      );
-    }
-
-    // Fallback: use categories from actual data
-    const backendValues = new Set(
-      getRequestRows(data)
-        .map((r) => r.category)
-        .filter(Boolean),
-    );
-    const combined = Array.from(backendValues);
-    return combined.sort().map((cat) => ({
-      category: cat,
-      label: cat,
-    }));
+    return getDashboardCategoryOptions(getRequestRows(data), t);
   }, [data, t]);
 
   const typeOptions = useMemo(() => {
@@ -1247,7 +1177,14 @@ const Dashboard = ({ userRole }) => {
             <IoIosArrowDown className="m-2" />
           </div>
           {isCategoryDropdownOpen && (
-            <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-50 min-w-64 max-h-64 overflow-y-auto">
+            <div
+              className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-50 min-w-64"
+              style={{
+                maxHeight: "320px",
+                overflowY: "auto",
+                overflowX: "hidden",
+              }}
+            >
               <label className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer">
                 <input
                   type="checkbox"
@@ -1274,7 +1211,7 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Status")}
+              {t("STATUS")}
               {getFilterBadgeCount(statusFilter, statusOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(statusFilter, statusOptions.length)}
@@ -1308,7 +1245,7 @@ const Dashboard = ({ userRole }) => {
                     onChange={() => handleStatusChange(status.key)}
                     className="cursor-pointer"
                   />
-                  <span>{String(status.label).toUpperCase()}</span>
+                  <span>{status.label}</span>
                 </label>
               ))}
             </div>
@@ -1322,7 +1259,7 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Type")}
+              {t("TYPE")}
               {getFilterBadgeCount(typeFilter, typeOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(typeFilter, typeOptions.length)}
@@ -1357,7 +1294,7 @@ const Dashboard = ({ userRole }) => {
             onClick={togglePriorityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Priority")}
+              {t("PRIORITY")}
               {getFilterBadgeCount(priorityFilter, priorityOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(priorityFilter, priorityOptions.length)}
@@ -1392,7 +1329,7 @@ const Dashboard = ({ userRole }) => {
             onClick={toggleCalamityDropdown}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600">
-              {t("Calamity")}
+              {t("CALAMITY")}
               {getFilterBadgeCount(calamityFilter, calamityOptions.length) && (
                 <span className="ml-1 bg-blue-500 text-white rounded-full px-2 py-0.5 text-xs">
                   {getFilterBadgeCount(calamityFilter, calamityOptions.length)}
@@ -1496,7 +1433,7 @@ const Dashboard = ({ userRole }) => {
                 <option value="">Change Status</option>
                 {statusOptions.map((status) => (
                   <option key={status.key} value={status.key}>
-                    {String(status.label).toUpperCase()}
+                    {status.label}
                   </option>
                 ))}
               </select>
@@ -1634,7 +1571,7 @@ const Dashboard = ({ userRole }) => {
 
       <div className="border">
         {selectedDashboard && canAccessDashboard(groups, selectedDashboard) ? (
-          <div className="requests-section overflow-hidden table-height-fix">
+          <div className="requests-section overflow-visible table-height-fix">
             {selectedDashboard === DASHBOARDS.SUPER_ADMIN && (
               <SuperAdminDashboard
                 activeTab={activeTab}

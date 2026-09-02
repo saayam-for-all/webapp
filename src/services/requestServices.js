@@ -97,6 +97,11 @@ export const GET_NOTIFICATIONS = async () => {
   return response.data;
 };
 
+export const GET_NOTIFICATION_COUNT = async (userId) => {
+  const response = await api.post(endpoints.GET_NOTIFICATION_COUNT, { userId });
+  return response.data;
+};
+
 export const moreInformation = async (request) => {
   const response = await api.post(endpoints.GENERATE_ANSWER, request);
   return response.data;
@@ -124,6 +129,11 @@ export const getMetadata = async () => {
 
 export const getEnvironment = async () => {
   const response = await api.get(endpoints.GET_ENVIRONMENT);
+  return response.data;
+};
+
+export const getAppEnv = async () => {
+  const response = await api.get(endpoints.GET_APP_ENV);
   return response.data;
 };
 

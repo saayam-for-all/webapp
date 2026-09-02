@@ -12,6 +12,7 @@ import {
   getEnums,
   getCategories,
   getEnvironment,
+  getAppEnv,
   getMetadata,
 } from "../../../services/requestServices";
 
@@ -124,6 +125,63 @@ export const checkAuthStatus = () => async (dispatch) => {
       );
       // Setting default to production if fetch fails
       localStorage.setItem("environment", JSON.stringify("production"));
+    }
+
+    // Fetch configurable polling values after login.
+    // Geospatial values fall back to .env values when unavailable.
+    try {
+      const appEnvData = await getAppEnv();
+      const appEnvBody = appEnvData?.body ?? appEnvData;
+
+      const notificationInterval = Number(appEnvBody?.notification_interval_ms);
+      const spatialInterval = Number(appEnvBody?.spatial_interval_ms);
+      const minimumDistance = Number(appEnvBody?.min_distance_meters);
+
+      if (Number.isFinite(notificationInterval) && notificationInterval > 0) {
+        localStorage.setItem(
+          "notification_interval_ms",
+          JSON.stringify(notificationInterval),
+        );
+      }
+
+      const resolvedSpatialInterval =
+        Number.isFinite(spatialInterval) && spatialInterval > 0
+          ? spatialInterval
+          : Number(import.meta.env.VITE_SPATIAL_INTERVAL_MS) || 300000;
+
+      const resolvedMinimumDistance =
+        Number.isFinite(minimumDistance) && minimumDistance > 0
+          ? minimumDistance
+          : Number(import.meta.env.VITE_MIN_DISTANCE_METERS) || 50;
+
+      localStorage.setItem(
+        "spatial_interval_ms",
+        JSON.stringify(resolvedSpatialInterval),
+      );
+
+      localStorage.setItem(
+        "min_distance_meters",
+        JSON.stringify(resolvedMinimumDistance),
+      );
+
+      console.log("App environment fetched successfully");
+    } catch (appEnvError) {
+      console.warn(
+        "Failed to fetch app environment. Using geospatial fallback values:",
+        appEnvError.message,
+      );
+
+      localStorage.setItem(
+        "spatial_interval_ms",
+        JSON.stringify(
+          Number(import.meta.env.VITE_SPATIAL_INTERVAL_MS) || 300000,
+        ),
+      );
+
+      localStorage.setItem(
+        "min_distance_meters",
+        JSON.stringify(Number(import.meta.env.VITE_MIN_DISTANCE_METERS) || 50),
+      );
     }
 
     let userDbId = null;

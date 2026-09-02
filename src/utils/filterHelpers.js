@@ -91,11 +91,11 @@ export const getPriorityOptions = (t) => {
   const enums = getEnumsFromStorage();
 
   if (enums && enums.requestPriority) {
-    const priorityKeys = Object.keys(enums.requestPriority);
-    const options = priorityKeys.map((key) => ({
-      key: key,
-      value: enums.requestPriority[key],
-      label: t(`enums:requestPriority.${key}`, enums.requestPriority[key]),
+    const priorityValues = Object.values(enums.requestPriority);
+    const options = priorityValues.map((val) => ({
+      key: val,
+      value: val,
+      label: t(`enums:requestPriority.${val}`, val),
     }));
     return [
       { key: "All", value: "All", label: t("common.All", "All") },
@@ -133,11 +133,11 @@ export const getTypeOptions = (t) => {
   const enums = getEnumsFromStorage();
 
   if (enums && enums.requestType) {
-    const typeKeys = Object.keys(enums.requestType);
-    const options = typeKeys.map((key) => ({
-      key: key,
-      value: enums.requestType[key],
-      label: t(`enums:requestType.${key}`, enums.requestType[key]),
+    const typeValues = Object.values(enums.requestType);
+    const options = typeValues.map((val) => ({
+      key: val,
+      value: val,
+      label: t(`enums:requestType.${val}`, val),
     }));
 
     return [
@@ -174,7 +174,10 @@ export const getCategoryOptions = (t) => {
     return categories.map((cat) => ({
       id: cat.catId,
       name: cat.catName,
-      label: t(`categories:REQUEST_CATEGORIES.${cat.catId}.LABEL`, cat.catName),
+      label: t(
+        `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
+        cat.catName,
+      ),
       subcategories: cat.subcategories || [],
     }));
   }
@@ -200,7 +203,7 @@ export const flattenCategories = (categories, t, depth = 0) => {
       label:
         cat.label ||
         t(
-          `categories:REQUEST_CATEGORIES.${cat.id || cat.catId}.LABEL`,
+          `categories:REQUEST_CATEGORIES.${cat.name || cat.catName}.LABEL`,
           cat.name || cat.catName,
         ),
       depth: depth,
@@ -213,6 +216,70 @@ export const flattenCategories = (categories, t, depth = 0) => {
   });
 
   return flattened;
+};
+
+/**
+ * Build category filter options from API categories, matched against
+ * category names actually present in the current request data.
+ * @param {Array} dataRows - Current request rows (used to build dataCategoryNames)
+ * @param {Function} t - Translation function
+ * @returns {Array} Category option objects with category, label, subCategories
+ */
+export const getDashboardCategoryOptions = (dataRows, t) => {
+  const categories = getCategoriesFromStorage();
+
+  const dataCategoryNames = new Set(
+    dataRows.map((r) => r.category).filter(Boolean),
+  );
+
+  if (categories && Array.isArray(categories) && categories.length > 0) {
+    const transformCategories = (cats) => {
+      return cats.map((cat) => ({
+        category: cat.catName,
+        label: t(
+          `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
+          cat.catName,
+        ),
+        subCategories:
+          cat.subCategories && cat.subCategories.length > 0
+            ? transformCategories(cat.subCategories)
+            : undefined,
+      }));
+    };
+
+    if (dataCategoryNames.size === 0) {
+      return transformCategories(categories);
+    }
+
+    const getAllCategoryNames = (cats) => {
+      const names = [];
+      cats.forEach((cat) => {
+        names.push(cat.catName);
+        if (cat.subCategories && cat.subCategories.length > 0) {
+          names.push(...getAllCategoryNames(cat.subCategories));
+        }
+      });
+      return names;
+    };
+
+    const apiCategoryNames = getAllCategoryNames(categories);
+    const matchCount = apiCategoryNames.filter((apiCat) =>
+      dataCategoryNames.has(apiCat),
+    ).length;
+
+    if (
+      matchCount >=
+      Math.min(dataCategoryNames.size, apiCategoryNames.length) * 0.5
+    ) {
+      return transformCategories(categories);
+    }
+  }
+
+  const combined = Array.from(dataCategoryNames);
+  return combined.sort().map((cat) => ({
+    category: cat,
+    label: cat,
+  }));
 };
 
 /**

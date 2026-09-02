@@ -180,8 +180,8 @@ describe("Dashboard Views", () => {
   describe("StewardDashboard", () => {
     it("renders steward dashboard with tabs", () => {
       const { getByText } = render(<StewardDashboard {...defaultProps} />);
-      expect(getByText("All Requests")).toBeInTheDocument();
-      expect(getByText("Volunteers")).toBeInTheDocument();
+      expect(getByText("Review Requests")).toBeInTheDocument();
+      expect(getByText("Review Volunteers")).toBeInTheDocument();
     });
 
     it("renders table when activeTab is allRequests", () => {
@@ -200,7 +200,7 @@ describe("Dashboard Views", () => {
       expect(getByTestId("mock-table")).toBeInTheDocument();
     });
 
-    it("renders loading indicator when isLoading is true on All Requests", () => {
+    it("renders loading indicator when isLoading is true on Review Requests", () => {
       const { getByTestId, queryByTestId } = render(
         <StewardDashboard {...defaultProps} isLoading={true} />,
       );

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import CountryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import "./Login.css";
 const signUpSchema = z.object({
@@ -56,6 +57,7 @@ const SignUp = () => {
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [acceptedTOS, setAcceptedTOS] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   //Password variables
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -89,6 +91,8 @@ const SignUp = () => {
     );
 
   const handleSignUp = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     try {
       setErrors({});
       setPhoneEmptyError("");
@@ -161,6 +165,8 @@ const SignUp = () => {
         setErrors({ email: t("USER_ALREADY_EXISTS") });
       }
       console.log("Sign up error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -178,10 +184,12 @@ const SignUp = () => {
             <label htmlFor="firstName">{t("FIRST_NAME")}</label>
             <input
               id="firstName"
+              name="given-name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder={t("FIRST_NAME")}
               type="text"
+              autoComplete="given-name"
               className={`w-full px-4 py-2 border rounded-xl ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
               required={true}
             />
@@ -195,10 +203,12 @@ const SignUp = () => {
             <label htmlFor="lastName">{t("LAST_NAME")}</label>
             <input
               id="lastName"
+              name="family-name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder={t("LAST_NAME")}
               type="text"
+              autoComplete="family-name"
               className={`w-full px-4 py-2 border rounded-xl ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
               required={true}
             />
@@ -213,10 +223,12 @@ const SignUp = () => {
           <label htmlFor="email">{t("EMAIL")}</label>
           <input
             id="email"
+            name="email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
             placeholder={t("EMAIL")}
-            type="text"
+            type="email"
+            autoComplete="username"
             className={`px-4 py-2 border rounded-xl ${errors.email ? "border-red-500" : "border-gray-300"}`}
             required={true}
           />
@@ -237,6 +249,8 @@ const SignUp = () => {
             label={t("PHONE_NUMBER")}
             required={true}
             t={t}
+            name="phone"
+            autoComplete="tel-national"
           />
         </div>
 
@@ -245,8 +259,10 @@ const SignUp = () => {
           <label htmlFor="country">{t("COUNTRY")}</label>
           <select
             id="country"
+            name="country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
+            autoComplete="country"
             className="px-4 py-2 border border-gray-300 rounded-xl"
           >
             {countries.map((c) => (
@@ -271,9 +287,11 @@ const SignUp = () => {
           >
             <input
               id="password"
+              name="password"
               placeholder={t("PASSWORD")}
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
+              autoComplete="new-password"
               onChange={(e) => {
                 setPasswordValue(e.target.value);
                 setShowPasswordValidation(true);
@@ -341,9 +359,11 @@ const SignUp = () => {
           >
             <input
               id="confirmPassword"
+              name="confirmPassword"
               placeholder={t("CONFIRM_PASSWORD")}
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}
+              autoComplete="new-password"
               onChange={(e) => setConfirmPasswordValue(e.target.value)}
               onFocus={() => setConfirmPasswordFocus(true)}
               onBlur={() => setConfirmPasswordFocus(false)}
@@ -389,13 +409,14 @@ const SignUp = () => {
           </label>
         </div>
         <button
-          className={`my-4 py-2 rounded-xl text-white 
-    ${acceptedTOS ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
+          className={`my-4 py-2 rounded-xl text-white flex items-center justify-center gap-2
+    ${acceptedTOS && !isSubmitting ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
   `}
           onClick={handleSignUp}
-          disabled={!acceptedTOS}
+          disabled={!acceptedTOS || isSubmitting}
         >
-          Sign up
+          <span>{isSubmitting ? "Signing up..." : "Sign up"}</span>
+          {isSubmitting && <LoadingIndicator size="20px" />}
         </button>
 
         {/* Uncomment this snippet when the signup functionality is fully developed  */}

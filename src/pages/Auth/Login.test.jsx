@@ -59,15 +59,14 @@ describe("LoginPage", () => {
     expect(screen.getByLabelText(/PASSWORD/i)).toBeInTheDocument();
   });
 
-  it("disables browser auto-fill for the login fields", () => {
+  it("identifies the login fields correctly to browser auto-fill", () => {
     renderLogin();
-    expect(screen.getByLabelText(/EMAIL/i)).toHaveAttribute(
-      "autocomplete",
-      "off",
-    );
+    const emailInput = screen.getByLabelText(/EMAIL/i);
+    expect(emailInput).toHaveAttribute("type", "email");
+    expect(emailInput).toHaveAttribute("autocomplete", "username");
     expect(screen.getByLabelText(/PASSWORD/i)).toHaveAttribute(
       "autocomplete",
-      "off",
+      "current-password",
     );
   });
 

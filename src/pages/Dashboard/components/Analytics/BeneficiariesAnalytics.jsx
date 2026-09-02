@@ -20,8 +20,6 @@ import {
 import ChartContainer from "./charts/ChartContainer";
 import { getBeneficiariesTrendAnalysis } from "../../../../services/analyticsServices";
 import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
-import beneficiariesGrowthDataFallback from "../../../../data/analytics/beneficiaries_growth_monthly.json";
-import beneficiariesByCountryDataFallback from "../../../../data/analytics/beneficiaries_by_country_monthly.json";
 
 // World map GeoJSON URL
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -130,6 +128,7 @@ const BeneficiariesAnalytics = () => {
   const [countryTimeRange, setCountryTimeRange] = useState("all");
   const [countryCustomStart, setCountryCustomStart] = useState("");
   const [countryCustomEnd, setCountryCustomEnd] = useState("");
+  const [countryGroupBy, setCountryGroupBy] = useState("month"); // day or month
 
   const [showTop10Only, setShowTop10Only] = useState(true);
   const [geoViewType, setGeoViewType] = useState("bar"); // bar or map
@@ -157,6 +156,11 @@ const BeneficiariesAnalytics = () => {
   // (and falling back to static data) the moment the user clicks "Custom".
   const [committedRange, setCommittedRange] = useState("all");
   const [committedGroupBy, setCommittedGroupBy] = useState("day");
+
+  // committedCountryRange mirrors committedRange for the country chart — it only
+  // advances to "custom" once both country custom dates are filled, so the chart
+  // doesn't flash to an empty state the moment "Custom" is clicked.
+  const [committedCountryRange, setCommittedCountryRange] = useState("all");
 
   // Update fetchParams whenever the trend time range or custom inputs change.
   // The functional updater bails out when the serialized params haven't changed,
@@ -211,9 +215,11 @@ const BeneficiariesAnalytics = () => {
       countryTimeRange,
       countryCustomStart,
       countryCustomEnd,
-      "month",
+      countryGroupBy,
     );
     if (!params) return;
+
+    setCommittedCountryRange(countryTimeRange);
 
     if (JSON.stringify(params) === JSON.stringify(fetchParams)) {
       setCountryApiData(null);
@@ -236,7 +242,13 @@ const BeneficiariesAnalytics = () => {
     return () => {
       cancelled = true;
     };
-  }, [countryTimeRange, countryCustomStart, countryCustomEnd, fetchParams]);
+  }, [
+    countryTimeRange,
+    countryCustomStart,
+    countryCustomEnd,
+    countryGroupBy,
+    fetchParams,
+  ]);
 
   // Format month for display (e.g., "2025-01" → "Jan 2025")
   const formatMonthLabel = (monthStr) => {
@@ -260,27 +272,17 @@ const BeneficiariesAnalytics = () => {
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
-  // Extract growth data from API response, fallback to static data.
+  // Extract growth data from API response. Returns [] when there's no data
+  // for the selected period so the UI can show an explicit empty state.
   // Uses committedRange/committedGroupBy so clicking "Custom" without dates
   // does not change what's displayed until both dates are filled.
   const chartData = useMemo(() => {
-    if (apiData) {
-      const body = apiData.body ?? apiData;
-      const points = normalizeItems(
-        body[BENEFICIARY_TREND_KEYS[committedRange]],
-      );
-      if (points.length > 0) {
-        return points.map((item) => ({
-          label: formatLabel(item.date, committedRange, committedGroupBy),
-          count: item.count,
-        }));
-      }
-    }
-
-    // Fallback: use static monthly data
-    return beneficiariesGrowthDataFallback.map((item) => ({
-      label: formatMonthLabel(item.month),
-      count: item.newBeneficiaries,
+    if (!apiData) return [];
+    const body = apiData.body ?? apiData;
+    const points = normalizeItems(body[BENEFICIARY_TREND_KEYS[committedRange]]);
+    return points.map((item) => ({
+      label: formatLabel(item.date, committedRange, committedGroupBy),
+      count: item.count,
     }));
   }, [apiData, committedRange, committedGroupBy]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -288,18 +290,17 @@ const BeneficiariesAnalytics = () => {
   // fall back to the trend apiData (which includes country data for 7D/30D/1Y).
   const effectiveCountrySource = countryApiData ?? apiData;
 
-  // Extract country data for the selected country time range, fallback to static data.
-  // The API returns country data as an object keyed by ISO alpha-3 code; parseCountryData
-  // sums all date entries per country into a single beneficiaryCount.
+  // Extract country data for the selected country time range. Returns [] when
+  // there's no data for the selected period so the UI can show an explicit
+  // empty state. The API returns country data as an object keyed by ISO
+  // alpha-3 code; parseCountryData sums all date entries per country into a
+  // single beneficiaryCount.
   const beneficiariesByCountryData = useMemo(() => {
-    if (effectiveCountrySource) {
-      const body = effectiveCountrySource.body ?? effectiveCountrySource;
-      const countryKey = COUNTRY_DATA_KEYS[countryTimeRange];
-      const parsed = parseCountryData(body[countryKey]);
-      if (parsed.length > 0) return parsed;
-    }
-    return beneficiariesByCountryDataFallback;
-  }, [effectiveCountrySource, countryTimeRange]);
+    if (!effectiveCountrySource) return [];
+    const body = effectiveCountrySource.body ?? effectiveCountrySource;
+    const countryKey = COUNTRY_DATA_KEYS[committedCountryRange];
+    return parseCountryData(body[countryKey]);
+  }, [effectiveCountrySource, committedCountryRange]);
 
   // Process country data - aggregate totals by country with top 10 option
   const processCountryData = useMemo(() => {
@@ -406,13 +407,17 @@ const BeneficiariesAnalytics = () => {
 
         {apiError && (
           <div className="mb-2 px-3 py-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
-            Could not load live data from API. Showing fallback data.
+            Could not load data. Please try again later.
           </div>
         )}
 
         {apiLoading ? (
           <div className="flex items-center justify-center h-64 text-gray-500">
             Loading beneficiaries data…
+          </div>
+        ) : chartData.length === 0 ? (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            No data available for the selected period.
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={210}>
@@ -468,7 +473,13 @@ const BeneficiariesAnalytics = () => {
           ].map(({ id, label }) => (
             <button
               key={id}
-              onClick={() => setCountryTimeRange(id)}
+              onClick={() => {
+                if (id === "custom") {
+                  setCountryCustomStart("");
+                  setCountryCustomEnd("");
+                }
+                setCountryTimeRange(id);
+              }}
               className={`px-2 py-0.5 text-xs rounded ${
                 countryTimeRange === id
                   ? "bg-blue-500 text-white"
@@ -493,6 +504,14 @@ const BeneficiariesAnalytics = () => {
                 onChange={(e) => setCountryCustomEnd(e.target.value)}
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
               />
+              <select
+                value={countryGroupBy}
+                onChange={(e) => setCountryGroupBy(e.target.value)}
+                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs bg-white"
+              >
+                <option value="day">Day</option>
+                <option value="month">Month</option>
+              </select>
             </>
           )}
         </div>
@@ -531,14 +550,15 @@ const BeneficiariesAnalytics = () => {
               Top 10 Only
             </label>
           )}
-          {countryApiLoading && (
-            <span className="text-xs text-gray-400 italic">Updating…</span>
-          )}
         </div>
 
-        {apiLoading && !apiData ? (
+        {(apiLoading && !apiData) || countryApiLoading ? (
           <div className="flex items-center justify-center h-64 text-gray-500">
             Loading beneficiaries data…
+          </div>
+        ) : beneficiariesByCountryData.length === 0 ? (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            No data available for the selected period.
           </div>
         ) : geoViewType === "bar" ? (
           <>

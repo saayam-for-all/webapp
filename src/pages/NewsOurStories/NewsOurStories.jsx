@@ -71,6 +71,8 @@ const stories = [
     image: walmartSparkGood,
     description: "STORY_2_DESC",
     titleLinks: {
+      "Walmart Spark Good Grant": "https://walmart.org",
+      "Walmart Spark Good grant": "https://walmart.org",
       "Walmart Store #2486": "https://www.walmart.com/store/2486-san-jose-ca",
       Walmart: "https://www.walmart.com/",
     },

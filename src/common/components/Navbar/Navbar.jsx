@@ -5,12 +5,14 @@ import {
   MenuItem,
   TextField,
   InputAdornment,
+  Badge,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import LOGO from "../../../assets/logo.svg";
+import "./NavBar.css";
 
 // Individual imports for outlined icons
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -38,6 +40,7 @@ import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImag
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
+import { GET_NOTIFICATION_COUNT } from "../../../services/requestServices";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -77,6 +80,13 @@ const Navbar = () => {
 
   const handleSearchChange = (e) => {
     const value = e.target.value ?? "";
+    // Chrome credential autofill fires an InputEvent with no inputType and fills
+    // the field with the saved email. Genuine user interactions (typing, paste,
+    // cut, delete) always carry a non-empty inputType. Reject only when both
+    // conditions hold so legitimate programmatic updates are unaffected.
+    if (!e.nativeEvent?.inputType && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      return;
+    }
     setSearchText(value.slice(0, 80)); // hard limit 80 chars
   };
 
@@ -86,6 +96,7 @@ const Navbar = () => {
       // later: call API / navigate to search results
     }
   };
+
   const [volunteerOpenMenu, setVolunteerOpenMenu] = useState(false);
   const [aboutUsOpenMenu, setAboutUsOpenMenu] = useState(false);
   const [profileOpenMenu, setProfileOpenMenu] = useState(false);
@@ -226,8 +237,17 @@ const Navbar = () => {
     }
     const fetchNotifications = async () => {
       try {
-        // const response = await GET_NOTIFICATIONS(); //Call the funciton as of now we are assigning the static data
-        // const rawNotifications = response.data.notifications || [];
+        // --- Notification COUNT (bell badge) ---
+        // Separate POST API from the list below. Feeds the bell badge.
+        // Mock returns a count like { count: 5 }.
+        const countResponse = await GET_NOTIFICATION_COUNT(
+          user?.userId || "A1234",
+        );
+        setNewNotificationCount(countResponse?.count || 0);
+
+        // --- Notification LIST (notifications page) ---
+        // Mock JSON data used to populate the notifications page until
+        // the real list API is available. Do not remove.
         const rawNotifications = [
           {
             type: "Volunteer",
@@ -266,7 +286,6 @@ const Navbar = () => {
           },
         ];
 
-        // ✅ Add unique ID using crypto.randomUUID()
         const notificationsWithIds = rawNotifications.map((note) => ({
           ...note,
           id: crypto.randomUUID(),
@@ -282,15 +301,11 @@ const Navbar = () => {
         const newOnes = notificationsWithIds.filter(
           (n) => !existing.has(n.message + n.date),
         );
-
-        // Only update if new notifications exist
         if (newOnes.length > 0) {
           notificationDispatch({
             type: "SET_NOTIFICATIONS",
             payload: [...state.notifications, ...newOnes],
           });
-
-          setNewNotificationCount((prev) => prev + newOnes.length);
         }
       } catch (error) {
         console.error("Error fetching Notifications:", error);
@@ -299,7 +314,17 @@ const Navbar = () => {
 
     fetchNotifications(); // Comment it after call ing the funciton below
 
-    const interval = setInterval(fetchNotifications, 2 * 60 * 1000); // fetch every 2 min
+    // Use the interval fetched from getAppEnv (stored on login),
+    // falling back to 5 min (300000 ms) if it isn't available.
+    const storedInterval = Number(
+      JSON.parse(localStorage.getItem("notification_interval_ms")),
+    );
+    const pollInterval =
+      Number.isFinite(storedInterval) && storedInterval > 0
+        ? storedInterval
+        : 5 * 60 * 1000;
+
+    const interval = setInterval(fetchNotifications, pollInterval); // fetch every pollInterval ms
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);
@@ -433,7 +458,7 @@ const Navbar = () => {
               placeholder={t("SEARCH_PLACEHOLDER")}
               size="small"
               fullWidth
-              inputProps={{ maxLength: 80 }}
+              inputProps={{ maxLength: 80, autoComplete: "off" }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -498,7 +523,7 @@ const Navbar = () => {
                 placeholder={t("SEARCH_PLACEHOLDER")}
                 size="small"
                 fullWidth
-                inputProps={{ maxLength: 80 }}
+                inputProps={{ maxLength: 80, autoComplete: "off" }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -668,7 +693,13 @@ const Navbar = () => {
                     className="text-black hover:text-gray-600 flex items-center"
                     aria-label={t("NOTIFICATIONS")}
                   >
-                    <NotificationsIcon sx={{ fontSize: 38 }} />
+                    <Badge
+                      badgeContent={newNotificationCount}
+                      color="error"
+                      overlap="circular"
+                    >
+                      <NotificationsIcon sx={{ fontSize: 38 }} />
+                    </Badge>
                   </button>
                 </ModernTooltip>
               </div>

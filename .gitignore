@@ -16,6 +16,8 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+.claude
+.history
 .DS_Store
 *.suo
 *.ntvs*

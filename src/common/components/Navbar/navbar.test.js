@@ -19,6 +19,15 @@ jest.mock("../../../redux/features/authentication/authActions", () => ({
   logout: jest.fn(),
 }));
 
+jest.mock("../../../services/requestServices", () => ({
+  GET_NOTIFICATION_COUNT: jest.fn().mockResolvedValue({ count: 0 }),
+  GET_NOTIFICATIONS: jest.fn().mockResolvedValue({ notifications: [] }),
+}));
+
+jest.mock("../../../services/volunteerServices", () => ({
+  fetchProfileImage: jest.fn().mockResolvedValue(null),
+}));
+
 describe("Navbar", () => {
   it("renders correctly when user is logged in", () => {
     const tree = renderWithProviders(<Navbar />, {
@@ -32,6 +41,23 @@ describe("Navbar", () => {
       preloadedState: MOCK_STATE_LOGGED_OUT,
     });
     expect(tree).toMatchSnapshot();
+  });
+
+  it("does not populate search text when an autofill-like event with an email value fires", () => {
+    renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const searchInput = screen.getAllByRole("textbox")[0];
+
+    // Simulate a Chrome credential-autofill event: no inputType + email value.
+    // The handler should reject this and leave searchText empty.
+    fireEvent.change(searchInput, {
+      target: { value: "user@example.com" },
+      nativeEvent: { inputType: undefined },
+    });
+
+    expect(searchInput.value).toBe("");
   });
 
   it("clears the navbar search text when the user logs out and logs back in", async () => {

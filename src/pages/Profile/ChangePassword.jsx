@@ -14,8 +14,13 @@ function ChangePassword({ setHasUnsavedChanges }) {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
+  // Starts readOnly so Chrome's autofill does not populate the navbar search bar;
+  // flipped to false on first user interaction with any password field.
+  const [passwordFieldsReadOnly, setPasswordFieldsReadOnly] = useState(true);
 
   const currentPasswordRef = useRef(null);
+
+  const handlePasswordFocus = () => setPasswordFieldsReadOnly(false);
 
   const handleSaveClick = async () => {
     let valid = true;
@@ -48,6 +53,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
+        setPasswordFieldsReadOnly(true);
         alert(t("PASSWORD_CHANGE_SUCCESS"));
       } catch (error) {
         alert(error.message);
@@ -66,6 +72,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
+    setPasswordFieldsReadOnly(true);
     setHasUnsavedChanges(false);
   };
 
@@ -82,6 +89,9 @@ function ChangePassword({ setHasUnsavedChanges }) {
               type={showPassword ? "text" : "password"}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
+              autoComplete="new-password"
+              readOnly={passwordFieldsReadOnly}
+              onFocus={handlePasswordFocus}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
             <div
@@ -101,6 +111,9 @@ function ChangePassword({ setHasUnsavedChanges }) {
               type={showPassword ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              autoComplete="new-password"
+              readOnly={passwordFieldsReadOnly}
+              onFocus={handlePasswordFocus}
               className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                 errorMessage ? "border-red-500" : "border-gray-200"
               } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
@@ -126,6 +139,9 @@ function ChangePassword({ setHasUnsavedChanges }) {
               type={showPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              autoComplete="new-password"
+              readOnly={passwordFieldsReadOnly}
+              onFocus={handlePasswordFocus}
               className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                 passwordMatchError ? "border-red-500" : "border-gray-200"
               } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
