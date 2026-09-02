@@ -286,7 +286,7 @@ const Table = ({
                       cellContent = renderRequestId(value);
                     }
 
-                    if (header === "type") {
+                    if (header === "type" || header === "calamity") {
                       cellContent = t(cellContent);
                     }
 

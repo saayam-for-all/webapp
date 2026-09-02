@@ -18,6 +18,7 @@ jest.mock("../../../services/requestServices", () => ({
   getEnums: jest.fn(),
   getCategories: jest.fn(),
   getEnvironment: jest.fn(),
+  getAppEnv: jest.fn(),
   getMetadata: jest.fn(),
 }));
 
@@ -44,7 +45,10 @@ const localStorageMock = {
   removeItem: jest.fn(),
   clear: jest.fn(),
 };
-Object.defineProperty(window, "localStorage", { value: localStorageMock });
+
+Object.defineProperty(window, "localStorage", {
+  value: localStorageMock,
+});
 
 describe("authActions", () => {
   let dispatch;
@@ -82,25 +86,151 @@ describe("authActions", () => {
         fetchUserAttributes,
         fetchAuthSession,
       } = require("aws-amplify/auth");
+
       const {
         getEnums,
         getCategories,
         getEnvironment,
+        getAppEnv,
         getMetadata,
       } = require("../../../services/requestServices");
+
+      const { getUserId } = require("../../../services/volunteerServices");
 
       getCurrentUser.mockResolvedValue({ userId: "user-123" });
       fetchUserAttributes.mockResolvedValue(mockUserAttributes);
       fetchAuthSession.mockResolvedValue(mockSession);
+
       getEnums.mockResolvedValue({ enum1: "value1" });
-      getCategories.mockResolvedValue([{ catId: "1", catName: "Category 1" }]);
-      getEnvironment.mockResolvedValue({ environment: "test" });
-      getMetadata.mockResolvedValue({ body: { key: "value" } });
+      getCategories.mockResolvedValue([
+        {
+          catId: "1",
+          catName: "Category 1",
+        },
+      ]);
+
+      getEnvironment.mockResolvedValue({
+        environment: "test",
+      });
+
+      getAppEnv.mockResolvedValue({
+        notification_interval_ms: 300000,
+        spatial_interval_ms: 300000,
+        min_distance_meters: 50,
+      });
+
+      getMetadata.mockResolvedValue({
+        body: {
+          key: "value",
+        },
+      });
+
+      getUserId.mockResolvedValue({
+        data: {
+          user_id: "SID-00-000-001",
+        },
+      });
+    });
+
+    it("stores geospatial values returned by getAppEnv", async () => {
+      const { getAppEnv } = require("../../../services/requestServices");
+
+      getAppEnv.mockResolvedValue({
+        notification_interval_ms: 300000,
+        spatial_interval_ms: 600000,
+        min_distance_meters: 100,
+      });
+
+      await checkAuthStatus()(dispatch);
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "spatial_interval_ms",
+        JSON.stringify(600000),
+      );
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "min_distance_meters",
+        JSON.stringify(100),
+      );
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "notification_interval_ms",
+        JSON.stringify(300000),
+      );
+    });
+
+    it("supports geospatial values inside the API body", async () => {
+      const { getAppEnv } = require("../../../services/requestServices");
+
+      getAppEnv.mockResolvedValue({
+        body: {
+          notification_interval_ms: 300000,
+          spatial_interval_ms: 900000,
+          min_distance_meters: 150,
+        },
+      });
+
+      await checkAuthStatus()(dispatch);
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "spatial_interval_ms",
+        JSON.stringify(900000),
+      );
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "min_distance_meters",
+        JSON.stringify(150),
+      );
+    });
+
+    it("stores fallback geospatial values when getAppEnv fails", async () => {
+      const { getAppEnv } = require("../../../services/requestServices");
+
+      getAppEnv.mockRejectedValue(new Error("App environment API failed"));
+
+      await checkAuthStatus()(dispatch);
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "spatial_interval_ms",
+        JSON.stringify(300000),
+      );
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "min_distance_meters",
+        JSON.stringify(50),
+      );
+    });
+
+    it("uses fallback values when getAppEnv returns invalid geospatial values", async () => {
+      const { getAppEnv } = require("../../../services/requestServices");
+
+      getAppEnv.mockResolvedValue({
+        notification_interval_ms: 300000,
+        spatial_interval_ms: 0,
+        min_distance_meters: -10,
+      });
+
+      await checkAuthStatus()(dispatch);
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "spatial_interval_ms",
+        JSON.stringify(300000),
+      );
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        "min_distance_meters",
+        JSON.stringify(50),
+      );
     });
 
     it("stores userDbId in localStorage when getUserId returns user_id", async () => {
       const { getUserId } = require("../../../services/volunteerServices");
-      getUserId.mockResolvedValue({ data: { user_id: "SID-00-000-002-622" } });
+
+      getUserId.mockResolvedValue({
+        data: {
+          user_id: "SID-00-000-002-622",
+        },
+      });
 
       await checkAuthStatus()(dispatch);
 
@@ -112,7 +242,12 @@ describe("authActions", () => {
 
     it("falls back to data.id when data.user_id is not present", async () => {
       const { getUserId } = require("../../../services/volunteerServices");
-      getUserId.mockResolvedValue({ data: { id: "SID-00-000-001" } });
+
+      getUserId.mockResolvedValue({
+        data: {
+          id: "SID-00-000-001",
+        },
+      });
 
       await checkAuthStatus()(dispatch);
 
@@ -124,7 +259,12 @@ describe("authActions", () => {
 
     it("does not store userDbId in localStorage when getUserId returns null", async () => {
       const { getUserId } = require("../../../services/volunteerServices");
-      getUserId.mockResolvedValue({ data: { user_id: null } });
+
+      getUserId.mockResolvedValue({
+        data: {
+          user_id: null,
+        },
+      });
 
       await checkAuthStatus()(dispatch);
 
@@ -136,6 +276,7 @@ describe("authActions", () => {
 
     it("does not store userDbId when getUserId throws error", async () => {
       const { getUserId } = require("../../../services/volunteerServices");
+
       getUserId.mockRejectedValue(new Error("User not found"));
 
       await checkAuthStatus()(dispatch);
@@ -144,7 +285,7 @@ describe("authActions", () => {
         "userDbId",
         expect.anything(),
       );
-      // Should still dispatch loginSuccess
+
       expect(dispatch).toHaveBeenCalledWith(
         expect.objectContaining({
           type: loginSuccess.type,
@@ -153,9 +294,6 @@ describe("authActions", () => {
     });
 
     it("dispatches loginRequest at start", async () => {
-      const { getUserId } = require("../../../services/volunteerServices");
-      getUserId.mockResolvedValue({ data: { user_id: "SID-00-000-001" } });
-
       await checkAuthStatus()(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(loginRequest());

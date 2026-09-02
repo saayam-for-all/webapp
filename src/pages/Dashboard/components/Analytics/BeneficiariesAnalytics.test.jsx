@@ -208,13 +208,31 @@ describe("BeneficiariesAnalytics", () => {
     });
   });
 
-  it("shows fallback warning when API call fails", async () => {
+  it("shows an error message when API call fails", async () => {
     getBeneficiariesTrendAnalysis.mockRejectedValue(new Error("Network error"));
     render(<BeneficiariesAnalytics />);
     await waitFor(() => {
       expect(
-        screen.getByText(/could not load live data from api/i),
+        screen.getByText(/could not load data\. please try again later/i),
       ).toBeInTheDocument();
+    });
+  });
+
+  it("shows no data message when trend API window is empty", async () => {
+    const emptyResponse = {
+      statusCode: 200,
+      body: {
+        "Beneficiaries count all": [],
+        "Beneficiaries count by country all": [],
+      },
+    };
+    getBeneficiariesTrendAnalysis.mockResolvedValue(emptyResponse);
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => {
+      expect(
+        screen.getAllByText(/no data available for the selected period/i)
+          .length,
+      ).toBeGreaterThan(0);
     });
   });
 
@@ -276,6 +294,109 @@ describe("BeneficiariesAnalytics", () => {
     });
   });
 
+  it("shows group_by dropdown when country Custom is selected", async () => {
+    getBeneficiariesTrendAnalysis.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => screen.getByText("Period:"));
+
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[customButtons.length - 1]); // country Custom button
+
+    // Trend's group_by dropdown is not shown (trend is still "All") — only country's
+    expect(screen.getAllByDisplayValue("Month")).toHaveLength(1);
+  });
+
+  it("sends country custom_group_by in the fetch payload", async () => {
+    getBeneficiariesTrendAnalysis.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => screen.getByText("Period:"));
+
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[customButtons.length - 1]); // country Custom button
+
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    fireEvent.change(dateInputs[dateInputs.length - 2], {
+      target: { value: "2026-01-01" },
+    });
+    fireEvent.change(dateInputs[dateInputs.length - 1], {
+      target: { value: "2026-06-01" },
+    });
+
+    fireEvent.change(screen.getByDisplayValue("Month"), {
+      target: { value: "day" },
+    });
+
+    await waitFor(() => {
+      expect(getBeneficiariesTrendAnalysis).toHaveBeenCalledWith(
+        expect.objectContaining({
+          custom_start_date: "2026-01-01",
+          custom_end_date: "2026-06-01",
+          custom_group_by: "day",
+        }),
+      );
+    });
+  });
+
+  it("keeps showing prior country data while custom dates are being entered", async () => {
+    getBeneficiariesTrendAnalysis.mockResolvedValue(MOCK_API_RESPONSE);
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => screen.getByText(/Afghanistan/));
+
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[customButtons.length - 1]); // country Custom button, no dates yet
+
+    // Should still show the previously committed ("All") country data, not an
+    // empty state, until both custom dates are filled in.
+    expect(screen.getByText(/Afghanistan/)).toBeInTheDocument();
+    expect(
+      screen.queryByText(/no data available for the selected period/i),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows loading state (not no-data) while country custom range is fetching", async () => {
+    let resolveCountryFetch;
+    getBeneficiariesTrendAnalysis
+      .mockResolvedValueOnce(MOCK_API_RESPONSE) // initial {} fetch
+      .mockReturnValueOnce(
+        new Promise((resolve) => {
+          resolveCountryFetch = resolve;
+        }),
+      ); // country custom fetch stays pending
+    render(<BeneficiariesAnalytics />);
+    await waitFor(() => screen.getByText("Period:"));
+
+    const customButtons = screen.getAllByText("Custom");
+    fireEvent.click(customButtons[customButtons.length - 1]); // country Custom button
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    fireEvent.change(dateInputs[dateInputs.length - 2], {
+      target: { value: "2026-01-01" },
+    });
+    fireEvent.change(dateInputs[dateInputs.length - 1], {
+      target: { value: "2026-06-01" },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/loading beneficiaries data/i),
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByText(/no data available for the selected period/i),
+    ).not.toBeInTheDocument();
+
+    resolveCountryFetch({
+      statusCode: 200,
+      body: {
+        "Beneficiaries count by country custom date range": [
+          { country: "USA", Count: 32, rank: 1 },
+        ],
+      },
+    });
+    await waitFor(() => {
+      expect(screen.getByText(/United States/)).toBeInTheDocument();
+    });
+  });
+
   it("handles country API fetch error gracefully", async () => {
     getBeneficiariesTrendAnalysis
       .mockResolvedValueOnce(MOCK_API_RESPONSE) // initial {} fetch
@@ -330,7 +451,7 @@ describe("BeneficiariesAnalytics", () => {
     expect(checkbox).not.toBeChecked();
   });
 
-  it("falls back to static data when country key is missing from API response", async () => {
+  it("shows no data message when country key is missing from API response", async () => {
     // Response has no country keys → parseCountryData(undefined) hits the null guard
     const sparseResponse = {
       statusCode: 200,
@@ -340,11 +461,15 @@ describe("BeneficiariesAnalytics", () => {
     };
     getBeneficiariesTrendAnalysis.mockResolvedValue(sparseResponse);
     render(<BeneficiariesAnalytics />);
-    // Component should load without crashing and fall back to static country data
+    // Trend chart still renders; country chart shows the empty state instead
+    // of falling back to mock data
     await waitFor(() =>
       expect(screen.getByTestId("line-chart")).toBeInTheDocument(),
     );
-    expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    expect(
+      screen.getByText(/no data available for the selected period/i),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("bar-chart")).not.toBeInTheDocument();
   });
 
   it("handles country entries without Total Count by summing Date entries", async () => {

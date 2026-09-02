@@ -127,22 +127,61 @@ export const checkAuthStatus = () => async (dispatch) => {
       localStorage.setItem("environment", JSON.stringify("production"));
     }
 
-    // getAppEnv Fetching — stores notification polling interval (ms)
-    // so the webapp can change it without a code deploy.
+    // Fetch configurable polling values after login.
+    // Geospatial values fall back to .env values when unavailable.
     try {
       const appEnvData = await getAppEnv();
-      const intervalMs =
-        appEnvData?.notification_interval_ms ??
-        appEnvData?.body?.notification_interval_ms;
-      if (intervalMs) {
+      const appEnvBody = appEnvData?.body ?? appEnvData;
+
+      const notificationInterval = Number(appEnvBody?.notification_interval_ms);
+      const spatialInterval = Number(appEnvBody?.spatial_interval_ms);
+      const minimumDistance = Number(appEnvBody?.min_distance_meters);
+
+      if (Number.isFinite(notificationInterval) && notificationInterval > 0) {
         localStorage.setItem(
           "notification_interval_ms",
-          JSON.stringify(intervalMs),
+          JSON.stringify(notificationInterval),
         );
       }
-      console.log("App env fetched, notification interval:", intervalMs);
+
+      const resolvedSpatialInterval =
+        Number.isFinite(spatialInterval) && spatialInterval > 0
+          ? spatialInterval
+          : Number(import.meta.env.VITE_SPATIAL_INTERVAL_MS) || 300000;
+
+      const resolvedMinimumDistance =
+        Number.isFinite(minimumDistance) && minimumDistance > 0
+          ? minimumDistance
+          : Number(import.meta.env.VITE_MIN_DISTANCE_METERS) || 50;
+
+      localStorage.setItem(
+        "spatial_interval_ms",
+        JSON.stringify(resolvedSpatialInterval),
+      );
+
+      localStorage.setItem(
+        "min_distance_meters",
+        JSON.stringify(resolvedMinimumDistance),
+      );
+
+      console.log("App environment fetched successfully");
     } catch (appEnvError) {
-      console.warn("Failed to fetch app env after login:", appEnvError.message);
+      console.warn(
+        "Failed to fetch app environment. Using geospatial fallback values:",
+        appEnvError.message,
+      );
+
+      localStorage.setItem(
+        "spatial_interval_ms",
+        JSON.stringify(
+          Number(import.meta.env.VITE_SPATIAL_INTERVAL_MS) || 300000,
+        ),
+      );
+
+      localStorage.setItem(
+        "min_distance_meters",
+        JSON.stringify(Number(import.meta.env.VITE_MIN_DISTANCE_METERS) || 50),
+      );
     }
 
     let userDbId = null;
