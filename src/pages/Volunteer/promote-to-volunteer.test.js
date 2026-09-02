@@ -2013,4 +2013,54 @@ describe("PromoteToVolunteer Component", () => {
       termsAndConditions: true,
     });
   });
+
+  it("handles error gracefully when saveVolunteerStep1 fails on step 1", async () => {
+    const { saveVolunteerStep1 } = require("../../services/volunteerServices");
+    saveVolunteerStep1.mockRejectedValueOnce(new Error("API Failure"));
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+
+    const nextButton = screen.getByTestId("next-button");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(IDENTIFICATION)"),
+      ).toBeInTheDocument();
+    });
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Failed to save Volunteer Step 1 progress (Issue BA #30):",
+      expect.any(Error),
+    );
+    consoleErrorSpy.mockRestore();
+  });
+
+  it("evaluates fallback selector gracefully when auth state has no user or userDBId", () => {
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: { auth: { user: null } },
+    });
+
+    expect(
+      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
+    ).toBeInTheDocument();
+  });
+
+  it("evaluates fallback selector gracefully when auth state is entirely empty", () => {
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: {},
+    });
+
+    expect(
+      screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
+    ).toBeInTheDocument();
+  });
 });

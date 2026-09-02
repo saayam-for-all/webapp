@@ -70,11 +70,7 @@ const PromoteToVolunteer = () => {
   });
   const [govtIdFile, setGovtIdFile] = useState(null);
   const userDBId = useSelector(
-    (state) =>
-      state.auth?.user?.userDbId ||
-      state.auth?.userDBId ||
-      state.auth?.userDbId ||
-      state.auth?.user?.userDBId,
+    (state) => state.auth?.user?.userDbId || state.auth?.userDBId,
   );
   const [selectedSkills, setSelectedSkills] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
