@@ -315,7 +315,7 @@ const RequestDetails = () => {
               />
               <RequestButton
                 isInfoRequest={true}
-                text={t("MORE_INFORMATION")}
+                text={t("AI_CHAT")}
                 customStyle="bg-yellow-500 hover:bg-yellow-600 text-white w-[30%] px-6 py-3 rounded-lg flex items-center justify-start space-x-3 text-md"
                 icon="i-info"
                 requestData={requestData}
