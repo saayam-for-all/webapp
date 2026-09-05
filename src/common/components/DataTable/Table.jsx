@@ -24,6 +24,7 @@ const Table = ({
   getLinkState = undefined,
   serverPaginated = false,
   showCheckboxes = false,
+  showRadioButtons = false,
   selectedRows = [],
   onRowSelect,
   onSelectAll,
@@ -215,6 +216,9 @@ const Table = ({
                   />
                 </th>
               )}
+              {showRadioButtons && (
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider w-10"></th>
+              )}
               {headers.map((key) => (
                 <th
                   key={key}
@@ -267,6 +271,18 @@ const Table = ({
                     <td className="px-3 py-2 w-10">
                       <input
                         type="checkbox"
+                        className="cursor-pointer w-4 h-4"
+                        checked={selectedRows.includes(row.requestId || row.id)}
+                        onChange={() =>
+                          onRowSelect && onRowSelect(row.requestId || row.id)
+                        }
+                      />
+                    </td>
+                  )}
+                  {showRadioButtons && (
+                    <td className="px-3 py-2 w-10">
+                      <input
+                        type="radio"
                         className="cursor-pointer w-4 h-4"
                         checked={selectedRows.includes(row.requestId || row.id)}
                         onChange={() =>
@@ -355,6 +371,7 @@ Table.propTypes = {
   getLinkState: PropTypes.func,
   serverPaginated: PropTypes.bool,
   showCheckboxes: PropTypes.bool,
+  showRadioButtons: PropTypes.bool,
   selectedRows: PropTypes.array,
   onRowSelect: PropTypes.func,
   onSelectAll: PropTypes.func,
