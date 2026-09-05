@@ -35,27 +35,39 @@ jest.mock("../../utils/phone-codes-en", () => ({
 }));
 
 // Mock child components that have heavy dependencies
-jest.mock(
-  "../../common/components/PhoneNumberInputWithCountry",
-  () =>
-    function PhoneNumberInputWithCountryMock({ phone, setPhone, error }) {
-      return (
-        <div>
-          <input
-            aria-label="Phone Number"
-            data-testid="phone-input-mock"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          {error ? <p>{error}</p> : null}
-        </div>
-      );
-    },
-);
+jest.mock("../../common/components/PhoneNumberInputWithCountry", () => {
+  const PropTypes = jest.requireActual("prop-types");
 
-jest.mock("#components/Ads/HorizontalAd", () => () => (
-  <div data-testid="horizontal-ad-mock" />
-));
+  function PhoneNumberInputWithCountryMock({ phone, setPhone, error }) {
+    return (
+      <div>
+        <input
+          aria-label="Phone Number"
+          data-testid="phone-input-mock"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        {error ? <p>{error}</p> : null}
+      </div>
+    );
+  }
+
+  PhoneNumberInputWithCountryMock.propTypes = {
+    phone: PropTypes.string.isRequired,
+    setPhone: PropTypes.func.isRequired,
+    error: PropTypes.string,
+  };
+
+  return PhoneNumberInputWithCountryMock;
+});
+
+jest.mock("#components/Ads/HorizontalAd", () => {
+  function HorizontalAdMock() {
+    return <div data-testid="horizontal-ad-mock" />;
+  }
+
+  return HorizontalAdMock;
+});
 
 jest.mock("react-phone-number-input", () => ({
   isValidPhoneNumber: jest.fn(),
@@ -97,7 +109,7 @@ const fillValidForm = () => {
     target: { name: "email", value: "  john@example.com  " },
   });
   fireEvent.change(screen.getByLabelText(/Message/i), {
-    target: { name: "message", value: "Need support" },
+    target: { name: "message", value: "  Need support  " },
   });
   fireEvent.change(screen.getByLabelText("Phone Number"), {
     target: { value: "2025550125" },
@@ -171,6 +183,26 @@ describe("ContactUs", () => {
     expect(screen.getByText("Email is invalid")).toBeTruthy();
   });
 
+  it("caps name and message inputs at the Lambda's limits", () => {
+    render(<ContactUs />);
+
+    expect(screen.getByLabelText(/First Name/i).maxLength).toBe(100);
+    expect(screen.getByLabelText(/Last Name/i).maxLength).toBe(100);
+    expect(screen.getByLabelText(/Message/i).maxLength).toBe(2000);
+  });
+
+  it("rejects a whitespace-only message", () => {
+    render(<ContactUs />);
+
+    fireEvent.change(screen.getByLabelText(/Message/i), {
+      target: { name: "message", value: "   " },
+    });
+    submitForm();
+
+    expect(screen.getByText("Message is required")).toBeTruthy();
+    expect(sendContactEmail).not.toHaveBeenCalled();
+  });
+
   it("allows selecting a reason from the dropdown", () => {
     render(<ContactUs />);
 
@@ -221,7 +253,7 @@ describe("ContactUs", () => {
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 
-  it("submits successfully and navigates to thanks page", async () => {
+  it("preserves the Lambda payload contract and navigates to thanks page", async () => {
     mockExecuteRecaptcha.mockResolvedValue("captcha-token");
     sendContactEmail.mockResolvedValue({ ok: true });
     render(<ContactUs />);
@@ -244,6 +276,9 @@ describe("ContactUs", () => {
       message: "Need support",
       recaptchaToken: "captcha-token",
     });
+    expect(sendContactEmail.mock.calls[0][0]).not.toHaveProperty(
+      "recaptcha_token",
+    );
     expect(mockNavigate).toHaveBeenCalledWith("/thanks");
   });
 
