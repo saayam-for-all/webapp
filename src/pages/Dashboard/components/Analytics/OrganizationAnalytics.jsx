@@ -30,9 +30,9 @@ import {
 const SURFACE = "#ffffff";
 
 const TABS = [
-  { id: "overview", label: "Overview" },
-  { id: "performance", label: "Performance" },
-  { id: "distribution", label: "Distribution" },
+  { id: "overview", label: "Growth & Location" },
+  { id: "performance", label: "Size & Contribution" },
+  { id: "distribution", label: "Rating & Type" },
 ];
 
 const DEFAULT_FILTERS = { dateRange: "12m", region: "All", orgType: "All" };
@@ -331,11 +331,11 @@ const OrganizationAnalytics = () => {
     "px-2 py-1 border border-gray-300 rounded text-xs bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500";
 
   return (
-    <div className="px-3 pb-3 pt-1 bg-gray-50">
+    <div className="px-2 sm:px-3 pb-3 pt-1 bg-gray-50 min-h-screen">
       {/* ── Title + filters ── */}
-      <div className="flex flex-wrap items-end justify-between gap-3 mb-3">
+      <div className="flex flex-col gap-3 mb-3">
         <div className="text-left">
-          <h2 className="text-lg font-bold text-gray-800 tracking-tight">
+          <h2 className="text-base sm:text-lg font-bold text-gray-800 tracking-tight">
             ORGANIZATION DASHBOARD
           </h2>
           <p className="text-xs text-gray-500">
@@ -343,8 +343,9 @@ const OrganizationAnalytics = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-end gap-2">
-          <label className="flex flex-col text-left">
+        {/* Filters - Stack on mobile, flex on desktop */}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-end gap-2">
+          <label className="flex flex-col text-left w-full sm:w-auto">
             <span className="text-[11px] font-medium text-gray-500 mb-0.5">
               Date Range
             </span>
@@ -361,7 +362,7 @@ const OrganizationAnalytics = () => {
             </select>
           </label>
 
-          <label className="flex flex-col text-left">
+          <label className="flex flex-col text-left w-full sm:w-auto">
             <span className="text-[11px] font-medium text-gray-500 mb-0.5">
               Region
             </span>
@@ -378,7 +379,7 @@ const OrganizationAnalytics = () => {
             </select>
           </label>
 
-          <label className="flex flex-col text-left">
+          <label className="flex flex-col text-left w-full sm:w-auto">
             <span className="text-[11px] font-medium text-gray-500 mb-0.5">
               Organization Type
             </span>
@@ -398,7 +399,7 @@ const OrganizationAnalytics = () => {
           <button
             onClick={() => setFilters(DEFAULT_FILTERS)}
             disabled={!isFiltered}
-            className="flex items-center gap-1 px-2.5 py-1 border border-gray-300 rounded text-xs bg-white text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:hover:bg-white"
+            className="flex items-center gap-1 px-2.5 py-1 border border-gray-300 rounded text-xs bg-white text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:hover:bg-white w-full sm:w-auto justify-center sm:justify-start"
           >
             <ResetIcon />
             Reset
@@ -406,10 +407,10 @@ const OrganizationAnalytics = () => {
         </div>
       </div>
 
-      {/* ── KPI tiles ── */}
+      {/* ── KPI tiles ── RESPONSIVE: 1 col on mobile, 2 on sm, 5 on lg */}
       <div
         aria-label="Key metrics"
-        className="grid grid-cols-2 lg:grid-cols-5 gap-2 mb-3"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-3"
       >
         <KpiTile
           icon={<BuildingIcon />}
@@ -450,11 +451,11 @@ const OrganizationAnalytics = () => {
       </div>
 
       {/* ── Sub-tab bar, with arrows for stepping through the tabs ── */}
-      <div className="flex items-stretch mb-2">
+      <div className="flex items-stretch mb-2 overflow-x-auto">
         {TABS.map((tab) => (
           <button
             key={tab.id}
-            className={`flex-1 py-1.5 text-sm text-center cursor-pointer border-b-2 font-semibold mr-1
+            className={`flex-1 min-w-max sm:flex-1 py-1.5 px-2 sm:px-4 text-xs sm:text-sm text-center cursor-pointer border-b-2 font-semibold mr-1 whitespace-nowrap
               ${
                 activeTab === tab.id
                   ? "bg-white text-blue-500 border-blue-500"
@@ -465,7 +466,7 @@ const OrganizationAnalytics = () => {
             {tab.label}
           </button>
         ))}
-        <div className="flex items-center gap-1 pl-1">
+        <div className="flex items-center gap-1 pl-1 flex-shrink-0">
           <button
             onClick={() => goToTab(-1)}
             disabled={tabIndex === 0}
@@ -487,9 +488,9 @@ const OrganizationAnalytics = () => {
         </div>
       </div>
 
-      {/* ── Tab 1: Overview ── */}
+      {/* ── Tab 1: Overview ── RESPONSIVE: 1 col on mobile, 2 cols on md+ */}
       {activeTab === "overview" && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <ChartContainer
             title="1. Growth Trend (Line Chart)"
             description="Organizations onboarded over time"
@@ -500,7 +501,7 @@ const OrganizationAnalytics = () => {
               rows: data.growthTrend,
             }}
           >
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <LineChart
                 data={data.growthTrend}
                 margin={{ top: 8, right: 12, bottom: 4, left: -12 }}
@@ -550,18 +551,16 @@ const OrganizationAnalytics = () => {
               rows: data.byLocation,
             }}
           >
-            {/* Column header. The percent label floats after each value rather
-                than in a fixed column, so it is named inline instead. */}
             <div className="flex items-center text-[11px] font-medium text-gray-500 pb-1 border-b border-gray-100">
-              <span className="w-[90px] text-right pr-2">Location</span>
+              <span className="w-[70px] sm:w-[90px] text-right pr-2">
+                Location
+              </span>
               <span className="flex-1 text-left">
                 Organizations{" "}
-                <span className="font-normal text-gray-400">
-                  (count · % of total)
-                </span>
+                <span className="font-normal text-gray-400">(count · %)</span>
               </span>
             </div>
-            <ResponsiveContainer width="100%" height={210}>
+            <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
                 data={data.byLocation}
                 layout="vertical"
@@ -577,8 +576,8 @@ const OrganizationAnalytics = () => {
                 <YAxis
                   type="category"
                   dataKey="location"
-                  width={90}
-                  tick={axisTick}
+                  width={70}
+                  tick={{ ...axisTick, fontSize: 10 }}
                   stroke="#9ca3af"
                 />
                 <Tooltip
@@ -604,14 +603,14 @@ const OrganizationAnalytics = () => {
                   <LabelList
                     dataKey="organizations"
                     position="right"
-                    style={{ fontSize: 11, fill: "#374151", fontWeight: 600 }}
+                    style={{ fontSize: 10, fill: "#374151", fontWeight: 600 }}
                   />
                   <LabelList
                     dataKey="percent"
                     position="right"
-                    offset={30}
+                    offset={28}
                     formatter={(v) => `${v}%`}
-                    style={{ fontSize: 11, fill: "#9ca3af" }}
+                    style={{ fontSize: 9, fill: "#9ca3af" }}
                   />
                 </Bar>
               </BarChart>
@@ -620,9 +619,9 @@ const OrganizationAnalytics = () => {
         </div>
       )}
 
-      {/* ── Tab 2: Performance ── */}
+      {/* ── Tab 2: Performance ── RESPONSIVE: 1 col on mobile, 2 cols on md+ */}
       {activeTab === "performance" && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <ChartContainer
             title="3. Organizations by Size (Bar Chart)"
             description="Headcount band distribution"
@@ -632,7 +631,7 @@ const OrganizationAnalytics = () => {
               rows: data.bySize,
             }}
           >
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
                 data={data.bySize}
                 margin={{ top: 20, right: 12, bottom: 4, left: -12 }}
@@ -672,15 +671,15 @@ const OrganizationAnalytics = () => {
               rows: data.collaboratorSplit,
             }}
           >
-            <div className="flex items-center gap-4">
-              <ResponsiveContainer width="55%" height={240}>
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <ResponsiveContainer width="100%" height={200} minWidth={250}>
                 <PieChart>
                   <Pie
                     data={data.collaboratorSplit}
                     cx="50%"
                     cy="50%"
-                    innerRadius={58}
-                    outerRadius={92}
+                    innerRadius={40}
+                    outerRadius={70}
                     dataKey="value"
                     stroke={SURFACE}
                     strokeWidth={2}
@@ -705,19 +704,19 @@ const OrganizationAnalytics = () => {
                   />
                   <text
                     x="50%"
-                    y="46%"
+                    y="42%"
                     textAnchor="middle"
                     dominantBaseline="middle"
                     className="text-xs fill-gray-500"
                   >
-                    Total Organizations
+                    Total Orgs
                   </text>
                   <text
                     x="50%"
-                    y="56%"
+                    y="54%"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    className="text-2xl font-bold fill-gray-800"
+                    className="text-xl font-bold fill-gray-800"
                   >
                     {collaboratorTotal}
                   </text>
@@ -760,9 +759,9 @@ const OrganizationAnalytics = () => {
         </div>
       )}
 
-      {/* ── Tab 3: Distribution ── */}
+      {/* ── Tab 3: Distribution ── RESPONSIVE: 1 col on mobile, 2 cols on md+ */}
       {activeTab === "distribution" && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <ChartContainer
             title="5. Rating Distribution (Bar Chart)"
             description="Organizations by average star rating"
@@ -772,7 +771,7 @@ const OrganizationAnalytics = () => {
               rows: data.byRating,
             }}
           >
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
                 data={data.byRating}
                 margin={{ top: 20, right: 12, bottom: 4, left: -12 }}
@@ -802,7 +801,7 @@ const OrganizationAnalytics = () => {
                   <LabelList
                     dataKey="organizations"
                     position="top"
-                    style={{ fontSize: 12, fill: "#374151", fontWeight: 600 }}
+                    style={{ fontSize: 11, fill: "#374151", fontWeight: 600 }}
                   />
                 </Bar>
               </BarChart>
@@ -819,7 +818,7 @@ const OrganizationAnalytics = () => {
               rows: data.profitTrend,
             }}
           >
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
                 data={data.profitTrend}
                 margin={{ top: 20, right: 12, bottom: 4, left: -12 }}
@@ -857,7 +856,7 @@ const OrganizationAnalytics = () => {
       )}
 
       {/* ── Footer ── */}
-      <div className="flex flex-wrap justify-between gap-2 mt-3 pt-2 border-t border-gray-200 text-[11px] text-gray-400">
+      <div className="flex flex-col sm:flex-row flex-wrap justify-between gap-2 mt-3 pt-2 border-t border-gray-200 text-[10px] sm:text-[11px] text-gray-400">
         <span>Data as of {data.asOf}</span>
         <span>All values are indicative and for dashboard purposes only.</span>
         <span>Source: Organization Database</span>
