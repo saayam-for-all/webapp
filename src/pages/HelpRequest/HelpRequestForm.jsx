@@ -1380,14 +1380,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       }
       const responseRequestId = response?.data?.requestId;
 
-      setSnackbar({
-        open: true,
-        message: isEdit
-          ? "Help Request updated successfully!"
-          : "Help Request submitted successfully!",
-        severity: "success",
-      });
-
       setTimeout(() => {
         if (isEdit && onClose) {
           onClose(response?.data);
