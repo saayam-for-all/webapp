@@ -8,6 +8,43 @@ exports[`NewsOurStories renders correctly 1`] = `
       <div
         class="news-our-stories-container px-4 md:px-0"
       >
+        <nav
+          aria-label="mockTranslate(Breadcrumb)"
+          class="news-breadcrumb"
+        >
+          <ol
+            class="news-breadcrumb-list"
+          >
+            <li>
+              <mock-link
+                props="{"className":"news-breadcrumb-link"}"
+                to="/"
+              >
+                mockTranslate(Home)
+              </mock-link>
+            </li>
+            <li
+              aria-hidden="true"
+              class="news-breadcrumb-sep"
+            >
+              ›
+            </li>
+            <li>
+              mockTranslate(About Us)
+            </li>
+            <li
+              aria-hidden="true"
+              class="news-breadcrumb-sep"
+            >
+              ›
+            </li>
+            <li
+              aria-current="page"
+            >
+              mockTranslate(In The News)
+            </li>
+          </ol>
+        </nav>
         <section
           class="news-our-stories-hero"
         >
@@ -40,7 +77,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="Ramesh Maturu Named to the 2026 Georgia Titan 100 List"
+                  alt="mockTranslate(STORY_1_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -51,98 +88,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/rameshmaturu/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Ramesh Maturu
-                  </a>
-                   Named to the 2026 Georgia Titan 100 List
+                  mockTranslate(STORY_1_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  <a
-                    class="news-name-link"
-                    href="https://www.pyramidci.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Pyramid Consulting
-                  </a>
-                   is pleased to announce that its President and Co-founder 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/rameshmaturu/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Ramesh Maturu
-                  </a>
-                  , has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
-                </p>
-                <a
-                  class="news-link"
-                  href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  mockTranslate(Read More)
-                </a>
-              </div>
-            </div>
-            <div
-              class="news-card"
-            >
-              <div
-                class="news-img-wrap"
-              >
-                <img
-                  alt="With Jensen Huang, CEO of NVIDIA"
-                  class="news-img"
-                  src=""
-                />
-              </div>
-              <div
-                class="news-card-body"
-              >
-                <h2
-                  class="news-title"
-                >
-                  With 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/jenhsunhuang/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Jensen Huang
-                  </a>
-                  , CEO of 
-                  <a
-                    class="news-name-link"
-                    href="https://www.nvidia.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    NVIDIA
-                  </a>
-                </h2>
-                <p
-                  class="news-desc"
-                >
-                  Rao with 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/jenhsunhuang/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Jensen Huang
-                  </a>
-                  , CEO of Nvidia in IIT Bay Area Conference.
+                  mockTranslate(STORY_1_DESC)
                 </p>
               </div>
             </div>
@@ -153,7 +104,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Vishal Sikka, Founder & CEO of Vianai Systems"
+                  alt="mockTranslate(STORY_2_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -164,38 +115,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  With 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Vishal Sikka
-                  </a>
-                  , Founder & CEO of 
-                  <a
-                    class="news-name-link"
-                    href="https://www.vian.ai/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Vianai Systems
-                  </a>
+                  mockTranslate(STORY_2_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  An insightful exchange with 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Vishal Sikka
-                  </a>
-                   on leadership, purpose-driven innovation, and building organizations that create long-term impact.
+                  mockTranslate(STORY_2_DESC)
                 </p>
               </div>
             </div>
@@ -206,7 +131,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach"
+                  alt="mockTranslate(STORY_3_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -217,48 +142,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  With 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/rameshmaturu/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Ramesh Maturu
-                  </a>
-                   and 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/ramanayerneni/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Ramana Yerneni
-                  </a>
-                   on Carmel-by-the-Sea, CA beach
+                  mockTranslate(STORY_3_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/rameshmaturu/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Ramesh Maturu
-                  </a>
-                   and 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/ramanayerneni/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Ramana Yerneni
-                  </a>
-                   by the Pacific coast.
+                  mockTranslate(STORY_3_DESC)
                 </p>
               </div>
             </div>
@@ -269,7 +158,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="In Step with the Community: A 17-Mile Walk in San Ramon"
+                  alt="mockTranslate(STORY_4_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -280,21 +169,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  In Step with the Community: A 17-Mile Walk in San Ramon
+                  mockTranslate(STORY_4_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  Our CEO and 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/mucharla/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Sateesh Mucharla
-                  </a>
-                   participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.
+                  mockTranslate(STORY_4_DESC)
                 </p>
               </div>
             </div>
@@ -305,7 +185,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA"
+                  alt="mockTranslate(STORY_5_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -316,39 +196,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  With 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Dr. Srikar Reddy Koppula
-                  </a>
-                  , 
-                  <a
-                    class="news-name-link"
-                    href="https://www.cgisf.gov.in/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Indian Consular
-                  </a>
-                   in SF, CA
+                  mockTranslate(STORY_5_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  A moment with the 
-                  <a
-                    class="news-name-link"
-                    href="https://www.cgisf.gov.in/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Indian Consular
-                  </a>
-                   team during a community engagement event.
+                  mockTranslate(STORY_5_DESC)
                 </p>
               </div>
             </div>
@@ -359,7 +212,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)"
+                  alt="mockTranslate(STORY_6_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -370,39 +223,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  With 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/amitzavery/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Amit Zavery
-                  </a>
-                  , President, CPO, and COO, 
-                  <a
-                    class="news-name-link"
-                    href="https://www.servicenow.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    ServiceNow
-                  </a>
-                  ; Board Member, 
-                  <a
-                    class="news-name-link"
-                    href="https://www.broadridge.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Broadridge
-                  </a>
-                   (NYSE:BR)
+                  mockTranslate(STORY_6_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.
+                  mockTranslate(STORY_6_DESC)
                 </p>
               </div>
             </div>
@@ -413,7 +239,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Madhusudhan Sai, global humanitarian and spiritual leader and President of Aria University, Anand Kuchibhotla"
+                  alt="mockTranslate(STORY_7_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -424,38 +250,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  With 
-                  <a
-                    class="news-name-link"
-                    href="https://srimadhusudansai.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Madhusudhan Sai
-                  </a>
-                  , global humanitarian and spiritual leader and President of 
-                  <a
-                    class="news-name-link"
-                    href="https://www.aria.edu/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Aria University
-                  </a>
-                  , 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/anandkuchibhotla/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Anand Kuchibhotla
-                  </a>
+                  mockTranslate(STORY_7_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.
+                  mockTranslate(STORY_7_DESC)
                 </p>
               </div>
             </div>
@@ -466,7 +266,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With Murali Krishnamurthy, CEO of Sankara Eye Foundation"
+                  alt="mockTranslate(STORY_8_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -477,47 +277,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  With 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/muralikrishnamurthy/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Murali Krishnamurthy
-                  </a>
-                  , CEO of 
-                  <a
-                    class="news-name-link"
-                    href="https://sankaraeye.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Sankara Eye Foundation
-                  </a>
+                  mockTranslate(STORY_8_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  In conversation with 
-                  <a
-                    class="news-name-link"
-                    href="https://www.linkedin.com/in/muralikrishnamurthy/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Murali Krishnamurthy
-                  </a>
-                  , CEO of 
-                  <a
-                    class="news-name-link"
-                    href="https://sankaraeye.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Sankara Eye Foundation
-                  </a>
-                  , on strengthening collaborations to improve healthcare accessibility and community impact.
+                  mockTranslate(STORY_8_DESC)
                 </p>
               </div>
             </div>
@@ -528,7 +293,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas"
+                  alt="mockTranslate(STORY_9_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -539,65 +304,66 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  With U.S. Representative, 
-                  <a
-                    class="news-name-link"
-                    href="https://panetta.house.gov/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Jimmy Panetta
-                  </a>
-                   and 
-                  <a
-                    class="news-name-link"
-                    href="https://www.sanjoseca.gov/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    San José
-                  </a>
-                   City Council member, 
-                  <a
-                    class="news-name-link"
-                    href="https://www.domingocandelas.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Domingo Candelas
-                  </a>
+                  mockTranslate(STORY_9_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  A productive discussion with U.S. Representative 
-                  <a
-                    class="news-name-link"
-                    href="https://panetta.house.gov/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Jimmy Panetta
-                  </a>
-                   and 
-                  <a
-                    class="news-name-link"
-                    href="https://www.sanjoseca.gov/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    San José
-                  </a>
-                   City Councilmember 
-                  <a
-                    class="news-name-link"
-                    href="https://www.domingocandelas.com/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Domingo Candelas
-                  </a>
-                   on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.
+                  mockTranslate(STORY_9_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="mockTranslate(STORY_10_TITLE)"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_10_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_10_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
+                class="news-img-wrap"
+              >
+                <img
+                  alt="mockTranslate(STORY_11_TITLE)"
+                  class="news-img"
+                  src=""
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(STORY_11_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(STORY_11_DESC)
                 </p>
               </div>
             </div>
@@ -630,6 +396,43 @@ exports[`NewsOurStories renders correctly 1`] = `
     <div
       class="news-our-stories-container px-4 md:px-0"
     >
+      <nav
+        aria-label="mockTranslate(Breadcrumb)"
+        class="news-breadcrumb"
+      >
+        <ol
+          class="news-breadcrumb-list"
+        >
+          <li>
+            <mock-link
+              props="{"className":"news-breadcrumb-link"}"
+              to="/"
+            >
+              mockTranslate(Home)
+            </mock-link>
+          </li>
+          <li
+            aria-hidden="true"
+            class="news-breadcrumb-sep"
+          >
+            ›
+          </li>
+          <li>
+            mockTranslate(About Us)
+          </li>
+          <li
+            aria-hidden="true"
+            class="news-breadcrumb-sep"
+          >
+            ›
+          </li>
+          <li
+            aria-current="page"
+          >
+            mockTranslate(In The News)
+          </li>
+        </ol>
+      </nav>
       <section
         class="news-our-stories-hero"
       >
@@ -662,7 +465,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="Ramesh Maturu Named to the 2026 Georgia Titan 100 List"
+                alt="mockTranslate(STORY_1_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -673,98 +476,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/rameshmaturu/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Ramesh Maturu
-                </a>
-                 Named to the 2026 Georgia Titan 100 List
+                mockTranslate(STORY_1_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                <a
-                  class="news-name-link"
-                  href="https://www.pyramidci.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Pyramid Consulting
-                </a>
-                 is pleased to announce that its President and Co-founder 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/rameshmaturu/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Ramesh Maturu
-                </a>
-                , has been named a 2026 Georgia Titan 100, his second recognition following his initial selection in 2024.The Titan 100 program honors Georgia’s Top 100 CEOs and C-level executives who exemplify exceptional leadership, vision, and passion.
-              </p>
-              <a
-                class="news-link"
-                href="https://www.pyramidci.com/news/ramesh-maturu-named-to-the-2026-georgia-titan-100-list/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                mockTranslate(Read More)
-              </a>
-            </div>
-          </div>
-          <div
-            class="news-card"
-          >
-            <div
-              class="news-img-wrap"
-            >
-              <img
-                alt="With Jensen Huang, CEO of NVIDIA"
-                class="news-img"
-                src=""
-              />
-            </div>
-            <div
-              class="news-card-body"
-            >
-              <h2
-                class="news-title"
-              >
-                With 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/jenhsunhuang/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Jensen Huang
-                </a>
-                , CEO of 
-                <a
-                  class="news-name-link"
-                  href="https://www.nvidia.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  NVIDIA
-                </a>
-              </h2>
-              <p
-                class="news-desc"
-              >
-                Rao with 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/jenhsunhuang/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Jensen Huang
-                </a>
-                , CEO of Nvidia in IIT Bay Area Conference.
+                mockTranslate(STORY_1_DESC)
               </p>
             </div>
           </div>
@@ -775,7 +492,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Vishal Sikka, Founder & CEO of Vianai Systems"
+                alt="mockTranslate(STORY_2_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -786,38 +503,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                With 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Vishal Sikka
-                </a>
-                , Founder & CEO of 
-                <a
-                  class="news-name-link"
-                  href="https://www.vian.ai/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Vianai Systems
-                </a>
+                mockTranslate(STORY_2_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                An insightful exchange with 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/vishal-sikka-869a6b2/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Vishal Sikka
-                </a>
-                 on leadership, purpose-driven innovation, and building organizations that create long-term impact.
+                mockTranslate(STORY_2_DESC)
               </p>
             </div>
           </div>
@@ -828,7 +519,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Ramesh Maturu and Ramana Yerneni on Carmel-by-the-Sea, CA beach"
+                alt="mockTranslate(STORY_3_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -839,48 +530,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                With 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/rameshmaturu/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Ramesh Maturu
-                </a>
-                 and 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/ramanayerneni/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Ramana Yerneni
-                </a>
-                 on Carmel-by-the-Sea, CA beach
+                mockTranslate(STORY_3_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                A memorable moment at Carmel-by-the-Sea, California, reflecting on meaningful conversations and connections with 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/rameshmaturu/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Ramesh Maturu
-                </a>
-                 and 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/ramanayerneni/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Ramana Yerneni
-                </a>
-                 by the Pacific coast.
+                mockTranslate(STORY_3_DESC)
               </p>
             </div>
           </div>
@@ -891,7 +546,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="In Step with the Community: A 17-Mile Walk in San Ramon"
+                alt="mockTranslate(STORY_4_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -902,21 +557,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                In Step with the Community: A 17-Mile Walk in San Ramon
+                mockTranslate(STORY_4_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                Our CEO and 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/mucharla/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Sateesh Mucharla
-                </a>
-                 participated in a 17-mile walk through San Ramon, California, championing wellness, unity, and public service.
+                mockTranslate(STORY_4_DESC)
               </p>
             </div>
           </div>
@@ -927,7 +573,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Dr. Srikar Reddy Koppula, Indian Consular in SF, CA"
+                alt="mockTranslate(STORY_5_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -938,39 +584,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                With 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Dr. Srikar Reddy Koppula
-                </a>
-                , 
-                <a
-                  class="news-name-link"
-                  href="https://www.cgisf.gov.in/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Indian Consular
-                </a>
-                 in SF, CA
+                mockTranslate(STORY_5_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                A moment with the 
-                <a
-                  class="news-name-link"
-                  href="https://www.cgisf.gov.in/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Indian Consular
-                </a>
-                 team during a community engagement event.
+                mockTranslate(STORY_5_DESC)
               </p>
             </div>
           </div>
@@ -981,7 +600,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Amit Zavery, President, CPO, and COO, ServiceNow; Board Member, Broadridge (NYSE:BR)"
+                alt="mockTranslate(STORY_6_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -992,39 +611,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                With 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/amitzavery/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Amit Zavery
-                </a>
-                , President, CPO, and COO, 
-                <a
-                  class="news-name-link"
-                  href="https://www.servicenow.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  ServiceNow
-                </a>
-                ; Board Member, 
-                <a
-                  class="news-name-link"
-                  href="https://www.broadridge.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Broadridge
-                </a>
-                 (NYSE:BR)
+                mockTranslate(STORY_6_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                Interaction during the IIT Bay Area Conference discussing leadership, innovation, and community impact.
+                mockTranslate(STORY_6_DESC)
               </p>
             </div>
           </div>
@@ -1035,7 +627,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Madhusudhan Sai, global humanitarian and spiritual leader and President of Aria University, Anand Kuchibhotla"
+                alt="mockTranslate(STORY_7_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -1046,38 +638,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                With 
-                <a
-                  class="news-name-link"
-                  href="https://srimadhusudansai.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Madhusudhan Sai
-                </a>
-                , global humanitarian and spiritual leader and President of 
-                <a
-                  class="news-name-link"
-                  href="https://www.aria.edu/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Aria University
-                </a>
-                , 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/anandkuchibhotla/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Anand Kuchibhotla
-                </a>
+                mockTranslate(STORY_7_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                A meaningful meeting highlighting values of service, compassion, and purpose-driven initiatives.
+                mockTranslate(STORY_7_DESC)
               </p>
             </div>
           </div>
@@ -1088,7 +654,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With Murali Krishnamurthy, CEO of Sankara Eye Foundation"
+                alt="mockTranslate(STORY_8_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -1099,47 +665,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                With 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/muralikrishnamurthy/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Murali Krishnamurthy
-                </a>
-                , CEO of 
-                <a
-                  class="news-name-link"
-                  href="https://sankaraeye.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Sankara Eye Foundation
-                </a>
+                mockTranslate(STORY_8_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                In conversation with 
-                <a
-                  class="news-name-link"
-                  href="https://www.linkedin.com/in/muralikrishnamurthy/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Murali Krishnamurthy
-                </a>
-                , CEO of 
-                <a
-                  class="news-name-link"
-                  href="https://sankaraeye.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Sankara Eye Foundation
-                </a>
-                , on strengthening collaborations to improve healthcare accessibility and community impact.
+                mockTranslate(STORY_8_DESC)
               </p>
             </div>
           </div>
@@ -1150,7 +681,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="With U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas"
+                alt="mockTranslate(STORY_9_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -1161,65 +692,66 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                With U.S. Representative, 
-                <a
-                  class="news-name-link"
-                  href="https://panetta.house.gov/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Jimmy Panetta
-                </a>
-                 and 
-                <a
-                  class="news-name-link"
-                  href="https://www.sanjoseca.gov/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  San José
-                </a>
-                 City Council member, 
-                <a
-                  class="news-name-link"
-                  href="https://www.domingocandelas.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Domingo Candelas
-                </a>
+                mockTranslate(STORY_9_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                A productive discussion with U.S. Representative 
-                <a
-                  class="news-name-link"
-                  href="https://panetta.house.gov/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Jimmy Panetta
-                </a>
-                 and 
-                <a
-                  class="news-name-link"
-                  href="https://www.sanjoseca.gov/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  San José
-                </a>
-                 City Councilmember 
-                <a
-                  class="news-name-link"
-                  href="https://www.domingocandelas.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Domingo Candelas
-                </a>
-                 on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.
+                mockTranslate(STORY_9_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="mockTranslate(STORY_10_TITLE)"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_10_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_10_DESC)
+              </p>
+            </div>
+          </div>
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap"
+            >
+              <img
+                alt="mockTranslate(STORY_11_TITLE)"
+                class="news-img"
+                src=""
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <h2
+                class="news-title"
+              >
+                mockTranslate(STORY_11_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(STORY_11_DESC)
               </p>
             </div>
           </div>
