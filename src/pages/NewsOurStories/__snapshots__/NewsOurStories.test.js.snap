@@ -8,6 +8,43 @@ exports[`NewsOurStories renders correctly 1`] = `
       <div
         class="news-our-stories-container px-4 md:px-0"
       >
+        <nav
+          aria-label="mockTranslate(Breadcrumb)"
+          class="news-breadcrumb"
+        >
+          <ol
+            class="news-breadcrumb-list"
+          >
+            <li>
+              <mock-link
+                props="{"className":"news-breadcrumb-link"}"
+                to="/"
+              >
+                mockTranslate(Home)
+              </mock-link>
+            </li>
+            <li
+              aria-hidden="true"
+              class="news-breadcrumb-sep"
+            >
+              ›
+            </li>
+            <li>
+              mockTranslate(About Us)
+            </li>
+            <li
+              aria-hidden="true"
+              class="news-breadcrumb-sep"
+            >
+              ›
+            </li>
+            <li
+              aria-current="page"
+            >
+              mockTranslate(In The News)
+            </li>
+          </ol>
+        </nav>
         <section
           class="news-our-stories-hero"
         >
@@ -359,6 +396,43 @@ exports[`NewsOurStories renders correctly 1`] = `
     <div
       class="news-our-stories-container px-4 md:px-0"
     >
+      <nav
+        aria-label="mockTranslate(Breadcrumb)"
+        class="news-breadcrumb"
+      >
+        <ol
+          class="news-breadcrumb-list"
+        >
+          <li>
+            <mock-link
+              props="{"className":"news-breadcrumb-link"}"
+              to="/"
+            >
+              mockTranslate(Home)
+            </mock-link>
+          </li>
+          <li
+            aria-hidden="true"
+            class="news-breadcrumb-sep"
+          >
+            ›
+          </li>
+          <li>
+            mockTranslate(About Us)
+          </li>
+          <li
+            aria-hidden="true"
+            class="news-breadcrumb-sep"
+          >
+            ›
+          </li>
+          <li
+            aria-current="page"
+          >
+            mockTranslate(In The News)
+          </li>
+        </ol>
+      </nav>
       <section
         class="news-our-stories-hero"
       >

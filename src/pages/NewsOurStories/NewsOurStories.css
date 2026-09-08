@@ -1,7 +1,39 @@
 /* ===== NEW GRID LAYOUT (Board-style) ===== */
 
+/* breadcrumb: Home > About Us > In The News */
+.news-breadcrumb {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 1rem 0;
+}
+
+.news-breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.news-breadcrumb-link {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.news-breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.news-breadcrumb-sep {
+  color: #9ca3af;
+}
+
 .news-our-stories-hero {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem 1rem 1.5rem;
   text-align: center;
@@ -9,7 +41,7 @@
 
 .news-our-stories-section {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -24,6 +56,14 @@
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* keep both cards in a row the same height */
+  align-items: stretch;
+}
+
+/* The story count is odd, so the last card would sit alone with dead
+   space beside it. Let it span the full row instead. */
+.news-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 @media (max-width: 768px) {
@@ -38,19 +78,33 @@
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  /* so the body can stretch and equalise card heights */
+  display: flex;
+  flex-direction: column;
 }
 
 /* image box consistent */
 .news-img-wrap {
   width: 100%;
-  /* ✅ safer ratio than 16/10 to reduce face cropping */
-  aspect-ratio: 16 / 9;
+  /* fixed ratio across every card keeps the grid even */
+  aspect-ratio: 4 / 3;
 
   background: #f3f4f6;
   overflow: hidden;
 }
 
-/* ✅ Keep cards filled but reduce ugly cropping */
+/* The full-width last card would otherwise render a much taller image
+   than the rest of the grid. */
+.news-card:last-child:nth-child(odd) .news-img-wrap {
+  aspect-ratio: 21 / 9;
+}
+
+@media (max-width: 768px) {
+  .news-card:last-child:nth-child(odd) .news-img-wrap {
+    aspect-ratio: 4 / 3;
+  }
+}
+
 .news-img {
   width: 100%;
   height: 100%;
@@ -58,12 +112,13 @@
   /* Keep the modern "filled card" look */
   object-fit: cover;
 
-  /* ✅ better than top-only; keeps faces better */
-  object-position: center 20%;
+  /* keep the top of the head in frame on portrait crops */
+  object-position: center top;
 }
 
 .news-card-body {
   padding: 16px 16px 18px;
+  flex: 1 1 auto;
 }
 
 .news-date {
@@ -77,6 +132,20 @@
   font-weight: 700;
   margin: 0 0 0.6rem;
   color: #111827;
+
+  /* Headings are inline runs of text and links, so a long link could push
+     the final word onto a line of its own. Balance the lines instead. */
+  text-wrap: balance;
+  overflow-wrap: break-word;
+
+  /* keeps the description aligned across cards in the same row */
+  min-height: 3.4rem;
+}
+
+@media (max-width: 768px) {
+  .news-title {
+    min-height: 0;
+  }
 }
 
 .news-desc {
@@ -109,7 +178,7 @@
 
 .news-our-stories-subtitle,
 .news-our-stories-desc {
-  max-width: 56rem;
+  max-width: 64rem;
   margin: 0 auto;
   line-height: 1.6;
 }

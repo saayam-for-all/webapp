@@ -67,6 +67,7 @@ const storyMeta = [
       "Raja Krishnamoorthi":
         "https://en.wikipedia.org/wiki/Raja_Krishnamoorthi",
       "Rao Charagondla": "https://www.linkedin.com/in/charagondla/",
+      "Aria University": "https://www.aria.edu/",
     },
   },
   {
@@ -108,6 +109,7 @@ const storyMeta = [
     image: seventeenMileWalk,
     titleLinks: {
       "Sateesh Mucharla": "https://www.linkedin.com/in/mucharla/",
+      "Rao Charagondla": "https://www.linkedin.com/in/charagondla/",
     },
   },
   {
@@ -117,7 +119,9 @@ const storyMeta = [
     titleLinks: {
       "Dr. Srikar Reddy Koppula":
         "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
-      "Indian Consular": "https://www.cgisf.gov.in/",
+      // Title reads "Indian Consul", body reads "Indian Consulate team".
+      "Indian Consulate": "https://www.cgisf.gov.in/",
+      "Indian Consul": "https://www.cgisf.gov.in/",
     },
   },
   {
@@ -147,7 +151,7 @@ const storyMeta = [
     titleLinks: {
       "Murali Krishnamurthy":
         "https://www.linkedin.com/in/muralikrishnamurthy/",
-      "Sankara Eye Foundation": "https://sankaraeye.com/",
+      "Sankara Eye Foundation USA": "https://sankaraeye.com/",
     },
   },
   {
@@ -177,6 +181,25 @@ export default function NewsOurStories() {
 
   return (
     <div className="news-our-stories-container px-4 md:px-0">
+      <nav className="news-breadcrumb" aria-label={t("Breadcrumb")}>
+        <ol className="news-breadcrumb-list">
+          <li>
+            <Link to="/" className="news-breadcrumb-link">
+              {t("Home")}
+            </Link>
+          </li>
+          {/* "About Us" is a navbar grouping, not a routed page, so it is not a link. */}
+          <li aria-hidden="true" className="news-breadcrumb-sep">
+            ›
+          </li>
+          <li>{t("About Us")}</li>
+          <li aria-hidden="true" className="news-breadcrumb-sep">
+            ›
+          </li>
+          <li aria-current="page">{t("In The News")}</li>
+        </ol>
+      </nav>
+
       <section className="news-our-stories-hero">
         <h1 className="news-our-stories-title">{t("News: Our Stories")}</h1>
         <p className="news-our-stories-subtitle">
