@@ -60,6 +60,42 @@ describe("Navbar", () => {
     expect(searchInput.value).toBe("");
   });
 
+  it("shows a clear button only while the search has text, and clearing it restores focus", () => {
+    renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const clearButtonName = "mockTranslate(CLEAR_SEARCH)";
+    expect(screen.queryByRole("button", { name: clearButtonName })).toBeNull();
+
+    const searchInput = screen.getAllByRole("textbox")[0];
+    fireEvent.change(searchInput, { target: { value: "food" } });
+
+    // Mobile and desktop search fields share the same state, so both render one.
+    const clearButtons = screen.getAllByRole("button", {
+      name: clearButtonName,
+    });
+    fireEvent.click(clearButtons[0]);
+
+    expect(searchInput.value).toBe("");
+    expect(document.activeElement).toBe(searchInput);
+    expect(screen.queryByRole("button", { name: clearButtonName })).toBeNull();
+  });
+
+  it("clears the navbar search text when Escape is pressed", () => {
+    renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const searchInput = screen.getAllByRole("textbox")[0];
+    fireEvent.change(searchInput, { target: { value: "shelter" } });
+    expect(searchInput.value).toBe("shelter");
+
+    fireEvent.keyDown(searchInput, { key: "Escape" });
+
+    expect(searchInput.value).toBe("");
+  });
+
   it("clears the navbar search text when the user logs out and logs back in", async () => {
     const { store } = renderWithProviders(<Navbar />, {
       preloadedState: MOCK_STATE_LOGGED_IN,

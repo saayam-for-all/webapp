@@ -41,6 +41,7 @@ import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
 import { GET_NOTIFICATION_COUNT } from "../../../services/requestServices";
+import SearchCancelIconButton from "../SearchCancelIconButton/SearchCancelIconButton";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -77,6 +78,15 @@ const Navbar = () => {
   const [volunteerAnchorEl, setVolunteerAnchorEl] = useState(null);
   const [profileAnchorEl, setProfileAnchorEl] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const mobileSearchInputRef = useRef(null);
+  const desktopSearchInputRef = useRef(null);
+
+  // Clears the field and hands focus back to the input the user was in, so the
+  // clear button never leaves them without a caret.
+  const handleClearSearch = (inputRef) => {
+    setSearchText("");
+    inputRef?.current?.focus();
+  };
 
   const handleSearchChange = (e) => {
     const value = e.target.value ?? "";
@@ -94,6 +104,10 @@ const Navbar = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       // later: call API / navigate to search results
+    }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setSearchText("");
     }
   };
 
@@ -458,6 +472,7 @@ const Navbar = () => {
               placeholder={t("SEARCH_PLACEHOLDER")}
               size="small"
               fullWidth
+              inputRef={mobileSearchInputRef}
               inputProps={{ maxLength: 80, autoComplete: "off" }}
               InputProps={{
                 startAdornment: (
@@ -465,6 +480,14 @@ const Navbar = () => {
                     <SearchIcon fontSize="small" />
                   </InputAdornment>
                 ),
+                endAdornment: searchText ? (
+                  <InputAdornment position="end">
+                    <SearchCancelIconButton
+                      onClick={() => handleClearSearch(mobileSearchInputRef)}
+                      ariaLabel={t("CLEAR_SEARCH")}
+                    />
+                  </InputAdornment>
+                ) : null,
               }}
               sx={{
                 "& .MuiOutlinedInput-root": {
@@ -523,6 +546,7 @@ const Navbar = () => {
                 placeholder={t("SEARCH_PLACEHOLDER")}
                 size="small"
                 fullWidth
+                inputRef={desktopSearchInputRef}
                 inputProps={{ maxLength: 80, autoComplete: "off" }}
                 InputProps={{
                   startAdornment: (
@@ -530,6 +554,14 @@ const Navbar = () => {
                       <SearchIcon fontSize="small" />
                     </InputAdornment>
                   ),
+                  endAdornment: searchText ? (
+                    <InputAdornment position="end">
+                      <SearchCancelIconButton
+                        onClick={() => handleClearSearch(desktopSearchInputRef)}
+                        ariaLabel={t("CLEAR_SEARCH")}
+                      />
+                    </InputAdornment>
+                  ) : null,
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
