@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { BiCog, BiDonateHeart } from "react-icons/bi";
 import { FaHandshakeAngle } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import { GET_NOTIFICATIONS } from "../../services/requestServices";
+import { markNotificationsSeen } from "../../services/volunteerServices";
 import { useNotifications } from "../../context/NotificationContext";
 import { NotificationProvider } from "../../context/NotificationContext";
 import { useTranslation } from "react-i18next";
@@ -44,6 +44,17 @@ export default function NotificationUI() {
   useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(totalPages);
   }, [totalPages, currentPage]);
+
+  // Opening the notification centre is what "seen" means: stamp the watermark so
+  // the bell badge clears. Existing items stay listed, they just stop being new.
+  useEffect(() => {
+    const userDbId = user?.userDbId;
+    if (!userDbId) return;
+
+    markNotificationsSeen(userDbId).catch((error) => {
+      console.error("Error marking notifications as seen:", error);
+    });
+  }, [user?.userDbId]);
 
   const handleAccept = async (note) => {
     // Also need to call a function whihch will update the data in the database cuch that this userid has acceoted the task.

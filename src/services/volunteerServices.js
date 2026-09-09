@@ -179,3 +179,87 @@ export const signOffUser = async (userId, reason = "") => {
 
   return response.data;
 };
+
+/* ------------------------------------------------------------------ *
+ * Notification centre
+ *
+ * Served by the Volunteer microservice (NotificationController at
+ * /0.0.1/notifications), not the Request service. Rows are written by the
+ * Request service's notification consumer when a help request is created.
+ * ------------------------------------------------------------------ */
+
+/**
+ * Maps a backend notification onto the shape the notification UI renders.
+ * Backend: { notificationId, status: "new"|"old", typeName, message, createDttm }
+ * UI:      { id, type, titleKey, title, message, date, isNew }
+ */
+const NOTIFICATION_TYPE_LABELS = {
+  REQUEST_CREATED: { type: "Volunteer", titleKey: "NEW_MATCH_REQUEST", title: "New Match Request" },
+  VOLUNTEER_CHOSEN: { type: "Volunteer", titleKey: "NEW_MATCH_REQUEST", title: "New Match Request" },
+  REQUEST_UPDATED: { type: "helpRequest", titleKey: "REQUEST_UPDATED", title: "Request Updated" },
+  REQUEST_CANCELLED: { type: "helpRequest", titleKey: "REQUEST_CANCELLED", title: "Request Cancelled" },
+  REQUEST_RESUMED: { type: "helpRequest", titleKey: "REQUEST_RESUMED", title: "Request Resumed" },
+  REQUEST_DELETED: { type: "helpRequest", titleKey: "REQUEST_DELETED", title: "Request Deleted" },
+};
+
+export const adaptNotification = (notification) => {
+  const label = NOTIFICATION_TYPE_LABELS[notification.typeName] ?? {
+    type: "helpRequest",
+    titleKey: null,
+    title: notification.typeName,
+  };
+
+  // createDttm is a UTC timestamp with no zone designator; mark it as UTC so the
+  // browser renders it in the viewer's local time rather than assuming local.
+  const raw = notification.createDttm;
+  const iso = typeof raw === "string" && !raw.endsWith("Z") ? `${raw.replace(" ", "T")}Z` : raw;
+  const parsed = new Date(iso);
+
+  return {
+    id: String(notification.notificationId),
+    type: label.type,
+    titleKey: label.titleKey,
+    title: label.title,
+    message: notification.message,
+    date: Number.isNaN(parsed.getTime()) ? "" : parsed.toLocaleString(),
+    isNew: notification.status === "new",
+  };
+};
+
+/**
+ * Bell badge counts.
+ * @returns {Promise<{totalCount: number, newNotificationsCount: number}>}
+ */
+export const getNotificationCounts = async (userId) => {
+  if (!userId) throw new Error("User ID is required");
+  const response = await api.get(
+    `${endpoints.GET_NOTIFICATION_COUNT}/${encodeURIComponent(userId)}/counts`,
+  );
+  return response.data?.data ?? { totalCount: 0, newNotificationsCount: 0 };
+};
+
+/**
+ * Paginated notification list. rowStart/rowEnd are inclusive absolute row offsets.
+ */
+export const getNotifications = async (userId, { rowStart = 0, rowEnd = 49 } = {}) => {
+  if (!userId) throw new Error("User ID is required");
+  const response = await api.get(
+    `${endpoints.GET_NOTIFICATIONS}/${encodeURIComponent(userId)}`,
+    { params: { rowStart, rowEnd } },
+  );
+  const payload = response.data?.data ?? {};
+  return {
+    totalCount: payload.totalCount ?? 0,
+    newNotificationsCount: payload.newNotificationsCount ?? 0,
+    notifications: (payload.notifications ?? []).map(adaptNotification),
+  };
+};
+
+/**
+ * Marks the notification centre as seen, which clears the bell badge.
+ */
+export const markNotificationsSeen = async (userId) => {
+  if (!userId) throw new Error("User ID is required");
+  const response = await api.post(endpoints.NOTIFICATIONS_LAST_SEEN, { userId });
+  return response.data;
+};
