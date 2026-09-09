@@ -73,7 +73,7 @@ describe("MoreInfoChatModal", () => {
     expect(
       screen.getByText("Here are some resources for you."),
     ).toBeInTheDocument();
-    expect(screen.getByText("More Information")).toBeInTheDocument();
+    expect(screen.getByText("AI Chat")).toBeInTheDocument();
   });
 
   it("shows counter badge with initial value of 5", () => {
