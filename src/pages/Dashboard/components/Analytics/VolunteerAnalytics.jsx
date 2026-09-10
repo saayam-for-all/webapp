@@ -35,15 +35,10 @@ const formatPeriod = (periodStr) => {
 // Parse volunteer_activity_trend into recharts-ready array with period labels
 const parseTrendData = (trendObj) => {
   if (!trendObj) return [];
-  const newV = trendObj.new_volunteers ?? [];
   const activeV = trendObj.active_volunteers ?? [];
   const totalV = trendObj.total_volunteers ?? [];
 
   const periodMap = {};
-  newV.forEach(({ period, count }) => {
-    if (!periodMap[period]) periodMap[period] = { period };
-    periodMap[period].newVolunteers = count;
-  });
   activeV.forEach(({ period, count }) => {
     if (!periodMap[period]) periodMap[period] = { period };
     periodMap[period].activeVolunteers = count;
@@ -279,9 +274,6 @@ const VolunteerAnalytics = () => {
                         <p className="font-semibold text-gray-800 mb-1">
                           {d.label}
                         </p>
-                        <p className="text-orange-600">
-                          New: {d.newVolunteers ?? "—"}
-                        </p>
                         <p className="text-green-600">
                           Active: {d.activeVolunteers ?? "—"}
                         </p>
@@ -295,15 +287,6 @@ const VolunteerAnalytics = () => {
                 }}
               />
               <Legend />
-              <Line
-                type="monotone"
-                dataKey="newVolunteers"
-                stroke="#f59e0b"
-                strokeWidth={2}
-                dot={{ fill: "#f59e0b", r: 3 }}
-                activeDot={{ r: 5 }}
-                name="New Volunteers"
-              />
               <Line
                 type="monotone"
                 dataKey="activeVolunteers"
