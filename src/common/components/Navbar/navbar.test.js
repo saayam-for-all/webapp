@@ -88,4 +88,25 @@ describe("Navbar", () => {
       expect(screen.getAllByRole("textbox")[0].value).toBe(""),
     );
   });
+
+  it("shows a clear icon when search has text and clears the input when clicked", () => {
+    renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const searchInput = screen.getAllByRole("textbox")[0];
+    fireEvent.change(searchInput, { target: { value: "example query" } });
+    expect(searchInput.value).toBe("example query");
+
+    const clearButtons = screen.getAllByRole("button", {
+      name: "mockTranslate(SEARCH_CLEAR)",
+    });
+    expect(clearButtons.length).toBeGreaterThan(0);
+    fireEvent.click(clearButtons[0]);
+
+    expect(screen.getAllByRole("textbox")[0].value).toBe("");
+    expect(
+      screen.queryByRole("button", { name: "mockTranslate(SEARCH_CLEAR)" }),
+    ).toBeNull();
+  });
 });

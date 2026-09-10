@@ -25,6 +25,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -97,6 +98,10 @@ const Navbar = () => {
     }
   };
 
+  const handleClearSearch = () => {
+    setSearchText("");
+  };
+
   const [volunteerOpenMenu, setVolunteerOpenMenu] = useState(false);
   const [aboutUsOpenMenu, setAboutUsOpenMenu] = useState(false);
   const [profileOpenMenu, setProfileOpenMenu] = useState(false);
@@ -114,6 +119,27 @@ const Navbar = () => {
   const profileIconObjectUrlRef = useRef(null);
 
   const { t } = useTranslation();
+
+  const searchFieldInputProps = {
+    startAdornment: (
+      <InputAdornment position="start">
+        <SearchIcon fontSize="small" />
+      </InputAdornment>
+    ),
+    endAdornment: searchText ? (
+      <InputAdornment position="end">
+        <IconButton
+          aria-label={t("SEARCH_CLEAR")}
+          onClick={handleClearSearch}
+          edge="end"
+          size="small"
+          sx={{ color: "text.secondary", mr: -0.5 }}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </InputAdornment>
+    ) : null,
+  };
 
   useEffect(() => {
     if (!user?.userId) {
@@ -459,13 +485,7 @@ const Navbar = () => {
               size="small"
               fullWidth
               inputProps={{ maxLength: 80, autoComplete: "off" }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon fontSize="small" />
-                  </InputAdornment>
-                ),
-              }}
+              InputProps={searchFieldInputProps}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "9999px",
@@ -524,13 +544,7 @@ const Navbar = () => {
                 size="small"
                 fullWidth
                 inputProps={{ maxLength: 80, autoComplete: "off" }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon fontSize="small" />
-                    </InputAdornment>
-                  ),
-                }}
+                InputProps={searchFieldInputProps}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "9999px",
