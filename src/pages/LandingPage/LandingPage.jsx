@@ -73,43 +73,43 @@ export default function Home() {
         </div>
         <MetricsTicker />
       </div>
-      <div className="w-full flex flex-row items-start justify-center mt-8 gap-2 md:gap-0 px-2 md:px-0">
-        <div className="w-1/3 md:w-[22%] flex flex-col justify-center items-center">
+      <div className="w-full flex flex-row items-start justify-center mt-8 gap-2 md:gap-6 px-2 md:px-0">
+        <div className="w-1/3 flex flex-col justify-center items-center px-1 md:px-2">
           <img
             src={bannerImageOne}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             alt={t("SARVE_JANA_SUKHINO_BHAVANTU_ALT")}
           />
-          <h3 className="font-bold text-sm md:text-xl lg:text-2xl md:tracking-wide m-[10px] text-center leading-tight">
+          <h3 className="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight">
             {t("Sarve jana sukhino bhavantu")}
           </h3>
           <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight">
             {t("May all live happily.")}
           </div>
         </div>
-        <div className="w-1/3 md:w-[33%] flex flex-col justify-center items-center">
+        <div className="w-1/3 flex flex-col justify-center items-center px-1 md:px-2">
           <img
             src={bannerImageTwo}
-            className="aspect-[.77] w-2/3 object-cover object-center rounded-[10px]"
+            className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             alt={t("JNANAM_VARDHATI_SANCHAYAT_ALT")}
           />
           <h3 className="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight">
-            {t("jñānam vardhati sanchayāt")}
+            {t("Jñānam vardhati sanchayāt")}
           </h3>
-          <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight px-1 md:px-0">
+          <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight">
             {t(
               "Sharing knowledge expands one's own understanding and the knowledge of others.",
             )}
           </div>
         </div>
-        <div className="w-1/3 md:w-[22%] flex flex-col justify-center items-center">
+        <div className="w-1/3 flex flex-col justify-center items-center px-1 md:px-2">
           <img
             src={bannerImageThree}
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             alt={t("MANAVA_SEVAYE_MADHAVA_SEVA_ALT")}
           />
           <h3 className="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight">
-            {t("Manava sevaye Madhava seva")}
+            {t("Manava sevaye madhava seva")}
           </h3>
           <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight">
             {t("Service to mankind is Service to God.")}
