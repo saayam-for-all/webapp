@@ -105,7 +105,8 @@ const Pagination = ({
       <div className="flex justify-between items-center">
         <div className="flex items-center justify-center mb-2">
           <span className="mr-2 text-gray-600">
-            Showing data {(currentPage - 1) * rowsPerPage + 1}-
+            Showing data{" "}
+            {totalRows === 0 ? 0 : (currentPage - 1) * rowsPerPage + 1}-
             {Math.min(currentPage * rowsPerPage, totalRows)} of {totalRows}{" "}
             entries
           </span>

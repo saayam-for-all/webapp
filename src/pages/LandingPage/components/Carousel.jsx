@@ -27,12 +27,12 @@ export default function Carousel() {
   const { t } = useTranslation();
 
   const carouselTitles = [
-    "Food and Essentials Support",       
-    "Clothing Support",                  
-    "Education and Career Support",      
-    "Healthcare and Wellbeing Support",  
-    "Housing Support",                   
-    "General Support",                   
+    "Food and Essentials Support",
+    "Clothing Support",
+    "Education and Career Support",
+    "Healthcare and Wellbeing Support",
+    "Housing Support",
+    "General Support",
   ];
 
   return (

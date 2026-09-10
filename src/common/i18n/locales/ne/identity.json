@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "सरकारी परिचयपत्र अपलोड गर्नुहोस्",
+  "SELECT_SOURCE": "स्रोत छान्नुहोस्",
+  "DEVICE": "यन्त्र",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "फाइल अपलोड गर्नुहोस्",
+  "FILE": "फाइल",
+  "FILE_PREVIEW": "पूर्वावलोकन",
+  "UPLOAD": "अपलोड",
+  "UPLOADING": "अपलोड हुँदैछ...",
+  "REMOVE": "हटाउनुहोस्",
+  "FILE_SIZE_ERROR": "फाइलको आकार 2MB भन्दा बढी हुनु हुँदैन",
+  "FILE_TYPE_ERROR": "केवल JPEG, JPG, PNG, र PDF फाइलहरू मात्र अनुमति छ। पत्ता लागेको फाइल प्रकार: {{fileType}}, विस्तार: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "केवल JPEG, JPG, PNG, वा PDF फाइलहरू। अधिकतम आकार: 2MB।",
+  "UPLOAD_SUCCESS": "फाइल सफलतापूर्वक अपलोड भयो",
+  "UPLOAD_FAILED": "फाइल अपलोड असफल भयो",
+  "UPLOAD_ERROR": "फाइल अपलोड गर्दा त्रुटि भयो"
+}

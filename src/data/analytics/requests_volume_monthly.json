@@ -1,0 +1,54 @@
+[
+  {
+    "month": "2024-12",
+    "requestCount": 28
+  },
+  {
+    "month": "2025-01",
+    "requestCount": 33
+  },
+  {
+    "month": "2025-02",
+    "requestCount": 43
+  },
+  {
+    "month": "2025-03",
+    "requestCount": 42
+  },
+  {
+    "month": "2025-04",
+    "requestCount": 34
+  },
+  {
+    "month": "2025-05",
+    "requestCount": 45
+  },
+  {
+    "month": "2025-06",
+    "requestCount": 42
+  },
+  {
+    "month": "2025-07",
+    "requestCount": 43
+  },
+  {
+    "month": "2025-08",
+    "requestCount": 41
+  },
+  {
+    "month": "2025-09",
+    "requestCount": 41
+  },
+  {
+    "month": "2025-10",
+    "requestCount": 42
+  },
+  {
+    "month": "2025-11",
+    "requestCount": 45
+  },
+  {
+    "month": "2025-12",
+    "requestCount": 21
+  }
+]

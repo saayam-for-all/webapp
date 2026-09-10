@@ -3,7 +3,7 @@ import {
   resendSignUpCode,
   confirmUserAttribute,
 } from "aws-amplify/auth";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { maskEmail } from "../../utils/utils";
@@ -20,10 +20,18 @@ function OTPVerification() {
 
   const isEmailUpdate = state?.isEmailUpdate;
   const pendingProfileData = state?.pendingProfileData;
+  const fromSignIn = state?.fromSignIn || false;
+
+  // To avoid double resend for strict mode during development
+  const hasCalledResend = useRef(false);
 
   useEffect(() => {
     document.getElementById("otp-input-0")?.focus();
-  }, []);
+    if (fromSignIn && !hasCalledResend.current) {
+      handleResendCode();
+      hasCalledResend.current = true;
+    }
+  }, [fromSignIn]);
 
   const handleChange = (element, index) => {
     const value = element.value.slice(-1);
@@ -34,6 +42,23 @@ function OTPVerification() {
     if (value && index < 5) {
       document.getElementById(`otp-input-${index + 1}`).focus();
     }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const digits = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6)
+      .split("");
+    if (digits.length === 0) return;
+    const newOtp = [...otp];
+    digits.forEach((digit, i) => {
+      newOtp[i] = digit;
+    });
+    setOtp(newOtp);
+    const nextIndex = Math.min(digits.length, 5);
+    document.getElementById(`otp-input-${nextIndex}`)?.focus();
   };
 
   const handleKeyDown = (e, index) => {
@@ -84,7 +109,10 @@ function OTPVerification() {
 
         if (isSignUpComplete) {
           setMessage("OTP Verified Successfully!");
-          setTimeout(() => navigate("/login"), 2000);
+          setTimeout(
+            () => navigate("/login", { state: { accountCreated: true } }),
+            2000,
+          );
         }
       }
     } catch (error) {
@@ -107,7 +135,10 @@ function OTPVerification() {
       }
       setTimeout(() => setResendMessage(""), 5000);
     } catch (error) {
-      setResendMessage("Failed to resend OTP. Please try again later.");
+      console.error("Resend OTP error:", error);
+      setResendMessage(
+        "Failed to resend OTP. Please try again later. \n" + error,
+      );
     }
   };
 
@@ -136,6 +167,7 @@ function OTPVerification() {
                 value={data}
                 onChange={(e) => handleChange(e.target, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
+                onPaste={handlePaste}
                 maxLength={1}
                 autoFocus={index === 0}
                 className="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"

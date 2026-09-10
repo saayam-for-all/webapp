@@ -4,8 +4,7 @@ import { loadCategories } from "./requestActions";
 
 const initialState = {
   categories: [],
-  loading: false,
-  error: "",
+  categoriesFetched: false,
 };
 
 const requestSlice = createSlice({
@@ -14,9 +13,16 @@ const requestSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loadCategories, (state, action) => {
-      state.categories = action.payload;
+      // Ensure categories is always an array
+      state.categories = Array.isArray(action.payload) ? action.payload : [];
+      state.categoriesFetched = true;
     });
   },
 });
+
+// Selectors
+export const selectCategories = (state) => state.request.categories;
+export const selectCategoriesFetched = (state) =>
+  state.request.categoriesFetched;
 
 export default requestSlice.reducer;

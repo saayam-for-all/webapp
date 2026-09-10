@@ -1,0 +1,26 @@
+{
+  "requestFor": {
+    "SELF": "Soi-même",
+    "OTHER": "Autre"
+  },
+  "requestPriority": {
+    "LOW": "Faible",
+    "MEDIUM": "Moyenne",
+    "HIGH": "Élevée",
+    "CRITICAL": "Critique"
+  },
+  "requestStatus": {
+    "CREATED": "Créé",
+    "MATCHING_VOLUNTEER": "Recherche de bénévole",
+    "MANAGED": "Géré",
+    "RESOLVED": "Résolu",
+    "CANCELLED": "Annulé",
+    "DELETED": "Supprimé",
+    "RATED_BY_REQUESTER": "Évalué par le demandeur",
+    "RATED_BY_VOLUNTEER": "Évalué par le bénévole"
+  },
+  "requestType": {
+    "IN_PERSON": "En personne",
+    "REMOTE": "À distance"
+  }
+}

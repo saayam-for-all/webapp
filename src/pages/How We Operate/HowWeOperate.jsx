@@ -40,7 +40,7 @@ const HowWeOperate = () => {
       );
 
       // Set the animated line's height as a percentage of its parent
-      line.style.height = `${normalizedPercentage * 100}%`;
+      line.style.height = `calc(${normalizedPercentage * 100}% - 40px)`;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -89,9 +89,9 @@ const HowWeOperate = () => {
 
               <TimelineItem
                 number={2}
-                title={t("Get Matching With a Volunteer")}
+                title={t("Get Matched with a Volunteer")}
                 description={t(
-                  "We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .",
+                  "We don't just match—you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.",
                 )}
                 image={img5}
                 align="right"
@@ -143,9 +143,9 @@ const HowWeOperate = () => {
             </p>
             <button
               className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
-              onClick={() => navigate("/Contact")}
+              onClick={() => navigate("/login")}
             >
-              {t("Join the community")}
+              {t("Join our community")}
             </button>
           </div>
         </div>
@@ -187,14 +187,14 @@ const TimelineItem = ({ number, title, description, image, align }) => {
       {/* Text Content Container: takes 50% width on sm screens. Inner padding adjusts for step number. */}
       <div
         className={`w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 ${
-          isTextOnRight ? "sm:pl-0" : "sm:pr-0"
+          isTextOnRight ? "sm:pl-2" : "sm:pr-2"
         }`}
       >
         <div className="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center">
           <h3 className="text-lg md:text-xl font-bold leading-tight mb-2 text-left">
             {title}
           </h3>
-          <p className="text-sm md:text-base text-gray-600 text-left">
+          <p className="text-sm md:text-base text-gray-600 text-left whitespace-pre-line">
             {description}
           </p>
         </div>

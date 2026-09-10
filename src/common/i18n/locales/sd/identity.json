@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "سرڪاري سڃاڻپ اپلوڊ ڪريو",
+  "SELECT_SOURCE": "ذريعو چونڊيو",
+  "DEVICE": "ڊيوائس",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "فائل اپلوڊ ڪريو",
+  "FILE": "فائل",
+  "FILE_PREVIEW": "پيش نگاھ",
+  "UPLOAD": "اپلوڊ",
+  "UPLOADING": "اپلوڊ ٿي رهيو آهي...",
+  "REMOVE": "هٽايو",
+  "FILE_SIZE_ERROR": "فائل جي سائيز 2MB کان وڌيڪ نه هجڻ گهرجي",
+  "FILE_TYPE_ERROR": "صرف JPEG، JPG، PNG، ۽ PDF فائلن جي اجازت آهي. معلوم ٿيل فائل جو قسم: {{fileType}}، توسيع: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "صرف JPEG، JPG، PNG، يا PDF فائلون. وڌ ۾ وڌ سائيز: 2MB.",
+  "UPLOAD_SUCCESS": "فائل ڪاميابيءَ سان اپلوڊ ٿي وئي",
+  "UPLOAD_FAILED": "فائل اپلوڊ ناڪام ٿيو",
+  "UPLOAD_ERROR": "فائل اپلوڊ دوران هڪ غلطي ٿي"
+}

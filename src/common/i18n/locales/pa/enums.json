@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "ਖੁਦ",
+    "OTHER": "ਹੋਰ"
+  },
+  "requestPriority": {
+    "LOW": "ਘੱਟ",
+    "MEDIUM": "ਮੱਧਮ",
+    "HIGH": "ਉੱਚ",
+    "CRITICAL": "ਗੰਭੀਰ"
+  },
+  "requestStatus": {
+    "CREATED": "ਬਣਾਇਆ ਗਿਆ",
+    "MATCHING VOLUNTEER": "ਵਲੰਟੀਅਰ ਲੱਭ ਰਹੇ ਹਾਂ",
+    "MANAGED": "ਪ੍ਰਬੰਧਿਤ",
+    "RESOLVED": "ਹੱਲ ਕੀਤਾ ਗਿਆ",
+    "CANCELLED": "ਰੱਦ ਕੀਤਾ ਗਿਆ",
+    "DELETED": "ਮਿਟਾਇਆ ਗਿਆ"
+  },
+  "requestType": {
+    "INPERSON": "ਵਿਅਕਤੀਗਤ ਤੌਰ 'ਤੇ",
+    "REMOTE": "ਰਿਮੋਟ"
+  }
+}

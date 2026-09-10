@@ -1,0 +1,24 @@
+{
+  "requestFor": {
+    "SELF": "സ്വയം",
+    "OTHER": "മറ്റുള്ളവർ"
+  },
+  "requestPriority": {
+    "LOW": "കുറവ്",
+    "MEDIUM": "ഇടത്തരം",
+    "HIGH": "ഉയർന്ന",
+    "CRITICAL": "ഗുരുതരമായ"
+  },
+  "requestStatus": {
+    "CREATED": "സൃഷ്ടിച്ചു",
+    "MATCHING VOLUNTEER": "സന്നദ്ധപ്രവർത്തകനെ തിരയുന്നു",
+    "MANAGED": "കൈകാര്യം ചെയ്തു",
+    "RESOLVED": "പരിഹരിച്ചു",
+    "CANCELLED": "റദ്ദാക്കി",
+    "DELETED": "ഇല്ലാതാക്കി"
+  },
+  "requestType": {
+    "INPERSON": "നേരിട്ട്",
+    "REMOTE": "വിദൂര"
+  }
+}

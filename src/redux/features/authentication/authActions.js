@@ -7,6 +7,17 @@ import {
   signOut,
   updateUserAttributes,
 } from "aws-amplify/auth";
+
+import {
+  getEnums,
+  getCategories,
+  getEnvironment,
+  getAppEnv,
+  getMetadata,
+} from "../../../services/requestServices";
+
+import { getUserId } from "../../../services/volunteerServices";
+import { loadCategories } from "../help_request/requestActions";
 import {
   changeUiLanguage,
   returnDefaultLanguage,
@@ -35,6 +46,165 @@ export const checkAuthStatus = () => async (dispatch) => {
     } = await fetchUserAttributes();
     const userSession = await fetchAuthSession();
     const groups = userSession.tokens.accessToken.payload["cognito:groups"];
+
+    try {
+      const enumsData = await getEnums();
+      localStorage.setItem("enums", JSON.stringify(enumsData));
+      console.log("Enums fetched and stored in localStorage:", enumsData);
+    } catch (enumError) {
+      console.warn(" Failed to fetch enums after login:", enumError.message);
+    }
+
+    try {
+      const categoriesData = await getCategories();
+      // Extract categories array from API response
+      let categoriesArray;
+      if (Array.isArray(categoriesData)) {
+        categoriesArray = categoriesData;
+      } else if (categoriesData && Array.isArray(categoriesData.categories)) {
+        categoriesArray = categoriesData.categories;
+      } else if (categoriesData && typeof categoriesData === "object") {
+        console.log(
+          "Categories API response structure:",
+          Object.keys(categoriesData),
+        );
+        throw new Error(
+          "Invalid API response format - expected array or object with categories array",
+        );
+      } else {
+        throw new Error("Invalid API response format - expected array");
+      }
+
+      // Filter out invalid/header entries (like cat_name, cat_id placeholders)
+      const validCategories = categoriesArray.filter(
+        (cat) =>
+          cat.catName &&
+          cat.catName !== "cat_name" &&
+          cat.catId !== "cat_id" &&
+          cat.catId !== "﻿cat_id" && // Handle BOM characters
+          !cat.catName.toLowerCase().includes("cat_name") &&
+          !cat.catId.toLowerCase().includes("cat_id"),
+      );
+
+      // Store in localStorage
+      localStorage.setItem("categories", JSON.stringify(validCategories));
+      // Also load into Redux state
+      dispatch(loadCategories(validCategories));
+    } catch (categoryError) {
+      console.warn(
+        "Failed to fetch categories after login:",
+        categoryError.message,
+      );
+    }
+
+    try {
+      const metadataData = await getMetadata();
+      const metadataPayload = metadataData?.body ?? metadataData;
+      localStorage.setItem("metadata", JSON.stringify(metadataPayload));
+    } catch (metadataError) {
+      console.warn(
+        "Failed to fetch metadata after login:",
+        metadataError.message,
+      );
+    }
+
+    //getEnvironment Fetching
+
+    try {
+      const environmentData = await getEnvironment();
+      const envValue =
+        environmentData?.body ||
+        environmentData?.environment ||
+        environmentData;
+      localStorage.setItem("environment", JSON.stringify(envValue));
+      console.log("Environment fetched and stored:", envValue);
+    } catch (envError) {
+      console.warn(
+        "Failed to fetch environment after login:",
+        envError.message,
+      );
+      // Setting default to production if fetch fails
+      localStorage.setItem("environment", JSON.stringify("production"));
+    }
+
+    // Fetch configurable polling values after login.
+    // Geospatial values fall back to .env values when unavailable.
+    try {
+      const appEnvData = await getAppEnv();
+      const appEnvBody = appEnvData?.body ?? appEnvData;
+
+      const notificationInterval = Number(appEnvBody?.notification_interval_ms);
+      const spatialInterval = Number(appEnvBody?.spatial_interval_ms);
+      const minimumDistance = Number(appEnvBody?.min_distance_meters);
+
+      if (Number.isFinite(notificationInterval) && notificationInterval > 0) {
+        localStorage.setItem(
+          "notification_interval_ms",
+          JSON.stringify(notificationInterval),
+        );
+      }
+
+      const resolvedSpatialInterval =
+        Number.isFinite(spatialInterval) && spatialInterval > 0
+          ? spatialInterval
+          : Number(import.meta.env.VITE_SPATIAL_INTERVAL_MS) || 300000;
+
+      const resolvedMinimumDistance =
+        Number.isFinite(minimumDistance) && minimumDistance > 0
+          ? minimumDistance
+          : Number(import.meta.env.VITE_MIN_DISTANCE_METERS) || 50;
+
+      localStorage.setItem(
+        "spatial_interval_ms",
+        JSON.stringify(resolvedSpatialInterval),
+      );
+
+      localStorage.setItem(
+        "min_distance_meters",
+        JSON.stringify(resolvedMinimumDistance),
+      );
+
+      console.log("App environment fetched successfully");
+    } catch (appEnvError) {
+      console.warn(
+        "Failed to fetch app environment. Using geospatial fallback values:",
+        appEnvError.message,
+      );
+
+      localStorage.setItem(
+        "spatial_interval_ms",
+        JSON.stringify(
+          Number(import.meta.env.VITE_SPATIAL_INTERVAL_MS) || 300000,
+        ),
+      );
+
+      localStorage.setItem(
+        "min_distance_meters",
+        JSON.stringify(Number(import.meta.env.VITE_MIN_DISTANCE_METERS) || 50),
+      );
+    }
+
+    let userDbId = null;
+    try {
+      const result = await getUserId(email);
+      userDbId =
+        result?.data?.user_id || result?.data?.id || result?.id || null;
+      if (userDbId && typeof userDbId === "string") {
+        localStorage.setItem("userDbId", userDbId);
+      } else {
+        console.warn(
+          "getUserId returned successfully but no id found in response:",
+          JSON.stringify(result),
+        );
+        userDbId = null;
+      }
+    } catch (dbError) {
+      console.warn(
+        "Database lookup failed, continuing without databaseId:",
+        dbError.message,
+      );
+    }
+
     const user = {
       userId,
       email,
@@ -43,19 +213,11 @@ export const checkAuthStatus = () => async (dispatch) => {
       phone_number,
       zoneinfo,
       groups,
+      userDbId,
     };
-    if (user.userId) {
-      dispatch(
-        loginSuccess({
-          user,
-        }),
-      );
-    }
-    const idToken = userSession.tokens?.idToken?.toString();
     dispatch(
       loginSuccess({
         user,
-        idToken,
       }),
     );
 
@@ -105,10 +267,12 @@ export const updateUserProfile = (userData) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     returnDefaultLanguage();
-    signOut();
+    await signOut();
+    localStorage.removeItem("expireTime");
+    localStorage.removeItem("userDbId");
     dispatch(logoutSuccess());
   } catch (error) {
-    dispatch(authFailure(error.message));
+    dispatch(loginFailure(error.message));
   }
 };
 

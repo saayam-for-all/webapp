@@ -6,7 +6,10 @@ import { NotificationProvider } from "../src/context/NotificationContext";
 
 // redux state for logged in user
 export const MOCK_STATE_LOGGED_IN = {
-  auth: { user: { userId: "mockUser" }, idToken: "mockToken" },
+  auth: {
+    user: { userId: "mockUser", userDbId: "SID-00-000-001" },
+    idToken: "mockToken",
+  },
 };
 // redux state for logged out user
 export const MOCK_STATE_LOGGED_OUT = { auth: { user: null } };

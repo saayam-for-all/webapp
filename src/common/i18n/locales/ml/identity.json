@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "സർക്കാർ ID അപ്‌ലോഡ് ചെയ്യുക",
+  "SELECT_SOURCE": "ഉറവിടം തിരഞ്ഞെടുക്കുക",
+  "DEVICE": "ഉപകരണം",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "ഫയൽ അപ്‌ലോഡ് ചെയ്യുക",
+  "FILE": "ഫയൽ",
+  "FILE_PREVIEW": "പ്രിവ്യൂ",
+  "UPLOAD": "അപ്‌ലോഡ്",
+  "UPLOADING": "അപ്‌ലോഡ് ചെയ്യുന്നു...",
+  "REMOVE": "നീക്കം ചെയ്യുക",
+  "FILE_SIZE_ERROR": "ഫയൽ വലുപ്പം 2MB കവിയരുത്",
+  "FILE_TYPE_ERROR": "JPEG, JPG, PNG, PDF ഫയലുകൾ മാത്രമേ അനുവദിക്കൂ. കണ്ടെത്തിയ ഫയൽ തരം: {{fileType}}, എക്‌സ്‌റ്റൻഷൻ: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "JPEG, JPG, PNG, അല്ലെങ്കിൽ PDF ഫയലുകൾ മാത്രം. പരമാവധി വലുപ്പം: 2MB.",
+  "UPLOAD_SUCCESS": "ഫയൽ വിജയകരമായി അപ്‌ലോഡ് ചെയ്തു",
+  "UPLOAD_FAILED": "ഫയൽ അപ്‌ലോഡ് പരാജയപ്പെട്ടു",
+  "UPLOAD_ERROR": "ഫയൽ അപ്‌ലോഡ് സമയത്ത് ഒരു പിശക് സംഭവിച്ചു"
+}
