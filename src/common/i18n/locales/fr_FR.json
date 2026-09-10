@@ -110,6 +110,7 @@
   "DONATE_MONEY": "Saayam For All est une organisation à but non lucratif avec le statut 501(c)(3). Tous les dons à cette organisation sont déductibles des impôts. Vous pouvez utiliser ce <1 className=\"text-blue-500 underline\" target=\"_blank\" to=\"https://www.paypal.com/donate/?hosted_button_id=4KLWNM5JWKJ4S\">lien PayPal</1> pour faire un don.",
   "READ_MORE": "En savoir plus <1 className=\"text-blue-500 underline\" to={\"how-we-operate\"}>Comment nous opérons</1>!",
   "MAX_CHARACTERS": "Max {{count}} caractères",
+  "CHARACTER_COUNT": "{{current}} / {{max}} caractères",
   "DONATION_GRANT": "Don / Subvention",
   "ADVERTISEMENT": "Publicité",
   "THANKS": "Merci",

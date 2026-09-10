@@ -311,6 +311,7 @@
   "MANAVA_SEVAYE_MADHAVA_SEVA_QUOTE": "Manava Sevaye Madhava Seva Quote",
   "MATCHING_PROCESS": "Matching Process : ",
   "MAX_CHARACTERS": "Max {{count}} characters",
+  "CHARACTER_COUNT": "{{current}} / {{max}} characters",
   "MAY_ALL_LIVE_HAPPILY": "May All Live Happily",
   "MEET_BOARD_DIRECTORS": "Meet Board Directors",
   "MEET_EXECUTIVE_TEAM": "Meet Executive Team",

@@ -476,8 +476,27 @@ const ContactUs = () => {
                   required
                   error={!!errors.message}
                   helperText={errors.message}
-                  inputProps={{ maxLength: MESSAGE_MAX_LENGTH }}
+                  inputProps={{
+                    maxLength: MESSAGE_MAX_LENGTH,
+                    "aria-describedby": "message-char-count",
+                  }}
                 />
+                <p
+                  id="message-char-count"
+                  aria-live="polite"
+                  className={`text-xs mt-1 text-right ${
+                    formData.message.length >= MESSAGE_MAX_LENGTH
+                      ? "text-red-600"
+                      : formData.message.length >= MESSAGE_MAX_LENGTH * 0.9
+                        ? "text-amber-600"
+                        : "text-gray-500"
+                  }`}
+                >
+                  {t("CHARACTER_COUNT", {
+                    current: formData.message.length,
+                    max: MESSAGE_MAX_LENGTH,
+                  })}
+                </p>
               </div>
 
               {/* Response Time Note */}
