@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { JoinCTA } from "../About Us/OurMission/JoinCTA";
 import BenevityLogo from "../../assets/donate_buttons/Benevity_logo.svg";
 import CharityNavLogo from "../../assets/donate_buttons/CharityNav_Logo_Stack.png";
 import PayPalLogo from "../../assets/donate_buttons/PayPal.svg";
