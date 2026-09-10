@@ -162,9 +162,10 @@ const Navbar = () => {
     fetchNotifications(); // Comment it after call ing the funciton below
 
     const interval = setInterval(
-      "call fetchNotifications() here",
-      2 * 60 * 1000,
-    ); // fetch every 2 min
+       "call fetchNotifications() here",
+      Number(import.meta.env.VITE_NOTIFICATION_POLLING_INTERVAL) || 5 * 60 * 1000,
+    );
+
 
     return () => clearInterval(interval);
   }, [notificationDispatch, user]);
