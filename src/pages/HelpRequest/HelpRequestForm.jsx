@@ -10,7 +10,6 @@ import "react-toastify/dist/ReactToastify.css"; // Don't forget to import the CS
 import { Tabs, Tab } from "../../common/components/Tabs/Tabs";
 import { loadCategories } from "../../redux/features/help_request/requestActions";
 import { FiPaperclip } from "react-icons/fi";
-import { changeUiLanguage } from "../../common/i18n/utils";
 import { mapHelpRequestPayload } from "../../utils/mapHelpRequestPayload";
 import {
   useAddRequestMutation,
@@ -96,6 +95,32 @@ const mapLanguageToCode = (languageName) => {
   return languageMap[languageName] || "en-US"; // Default to English
 };
 
+// Resolve the user's first language from Profile -> Preferences.
+// Redux user data is preferred; localStorage is a fallback for cached preferences.
+// The dropdown uses "Chinese" as the option value for "Mandarin Chinese",
+// so normalize that value before assigning it to the select.
+const getFirstPreferenceLanguage = (user) => {
+  let savedPreferences = {};
+
+  try {
+    savedPreferences = JSON.parse(
+      localStorage.getItem("userPreferences") || "{}",
+    );
+  } catch (error) {
+    console.error("Failed to read user preferences:", error);
+  }
+
+  const language =
+    user?.languagePreference1 ||
+    user?.["custom:pref_first_language"] ||
+    user?.first_language_preference ||
+    user?.["custom:first_language_preference"] ||
+    savedPreferences.languagePreference1 ||
+    "";
+
+  return language === "Mandarin Chinese" ? "Chinese" : language;
+};
+
 const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const dispatch = useDispatch();
@@ -106,6 +131,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const groups = useSelector((state) => state.auth.user?.groups);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
   const user = useSelector((state) => state.auth.user);
+
   const [location, setLocation] = useState("");
   const [locationCoordinates, setLocationCoordinates] = useState(null);
   const { inputRef, suggestions, handleSearchChange, handleSelectSuggestion } =
@@ -226,10 +252,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
       return saved.languagePreference1 || "";
     })(),
-    request_language: (() => {
-      const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
-      return saved.languagePreference1 || "";
-    })(),
+    request_language: "",
     category: "General",
     request_type: "REMOTE",
     location: "",
@@ -238,6 +261,20 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     priority: "MEDIUM",
     detected_language: "", // Language detected from audio transcription (e.g., "hi", "en", "es")
   });
+
+  useEffect(() => {
+    if (isEdit) return;
+
+    const profileLanguage = getFirstPreferenceLanguage(user);
+
+    if (profileLanguage) {
+      setFormData((prev) => ({
+        ...prev,
+        request_language: prev.request_language || profileLanguage,
+        preferred_language: prev.preferred_language || profileLanguage,
+      }));
+    }
+  }, [user, isEdit]);
 
   // One-time prefill: when requesting on behalf of someone else (For Self
   // = Other) with an In Person request, default the In Person location to
@@ -358,18 +395,33 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         requestData.category ||
         requestData.requestCategory ||
         "General";
+
       const category = resolveCatNameToId(rawCategory);
 
-      setFormData({
+      const profileLanguage = getFirstPreferenceLanguage(user);
+
+      setFormData((prev) => ({
+        ...prev,
         ...requestData,
+
+        // Preserve the request language when editing; otherwise fall back to
+        // the user's first language from Profile -> Preferences.
+        request_language:
+          requestData.request_language ||
+          requestData.requestLanguage ||
+          profileLanguage,
+
         category,
+
         description:
           requestData.description ||
           requestData.reqDesc ||
           requestData.requestDescription,
+
         subject: requestData.subject || requestData.requestSubject,
+
         is_calamity: requestData.is_calamity ?? requestData.calamity ?? false,
-        // Map paginated API and nested detail API values to flat form fields.
+
         request_type: firstString(
           requestData.request_type,
           requestData.type,
@@ -377,18 +429,20 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
           requestData.requestType?.type,
           requestData.requestType?.requestType,
         ),
+
         priority: firstString(
           requestData.priority,
           requestData.requestPriority,
           requestData.requestPriority?.priority,
         ),
+
         request_for:
           firstString(
             requestData.request_for,
             requestData.requestFor,
             requestData.requestFor?.requestFor,
           ) || "SELF",
-      });
+      }));
 
       // Preserve the original numeric catId for edit mode (category is locked)
       if (category) {
@@ -406,7 +460,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         );
       }
     }
-  }, [editRequestData, data, id]);
+  }, [editRequestData, data, id, user]);
 
   useEffect(() => {
     if (!isEdit) return undefined;
@@ -1771,12 +1825,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                       <select
                         id="request_language"
                         value={formData.request_language}
-                        onChange={(e) => {
-                          handleChange(e);
-                          changeUiLanguage({
-                            languagePreference1: e.target.value,
-                          });
-                        }}
+                        onChange={handleChange}
                         className="border border-gray-300 text-gray-700 rounded-lg p-2 text-sm bg-white min-w-0 max-w-[140px] flex-shrink"
                         aria-label="Request language"
                       >
