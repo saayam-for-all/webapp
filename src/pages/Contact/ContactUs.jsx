@@ -13,7 +13,10 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import {
+  useGoogleReCaptcha,
+  GoogleReCaptchaProvider,
+} from "react-google-recaptcha-v3";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import PHONECODESEN from "../../utils/phone-codes-en";
@@ -177,7 +180,27 @@ const ContactUs = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  return (
+  // inject page-scoped CSS so the reCAPTCHA badge sits directly above
+  // the scroll-to-top button (which uses Tailwind `bottom-4` and `h-8`/`sm:h-12`).
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.id = "recaptcha-page-style";
+    style.innerHTML = `
+      .grecaptcha-badge {
+        bottom: calc(1rem + 2rem + 0.25rem) !important; /* base: bottom-4 + h-8 + gap */
+        right: 1rem !important;
+      }
+      @media (min-width: 640px) {
+        .grecaptcha-badge {
+          bottom: calc(1rem + 3rem + 0.25rem) !important; /* sm: bottom-4 + h-12 + gap */
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    return () => style.remove();
+  }, []);
+
+  const PageContent = (
     <>
       <div className="bg-[#F5F5F5] min-h-screen flex flex-col p-8">
         <div className="flex flex-col md:flex-row w-full gap-6">
@@ -494,6 +517,14 @@ const ContactUs = () => {
         <HorizontalAd />
       </div>
     </>
+  );
+
+  return (
+    <GoogleReCaptchaProvider
+      reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+    >
+      {PageContent}
+    </GoogleReCaptchaProvider>
   );
 };
 
