@@ -97,7 +97,7 @@ const mapLanguageToCode = (languageName) => {
 };
 
 const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
-  const { t, i18n } = useTranslation(["common", "categories"]);
+  const { t, i18n } = useTranslation(["common", "categories", "profile"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories, categoriesFetched } = useSelector(
@@ -331,6 +331,30 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     return catNameOrId;
   };
 
+  // Normalize language values coming from API/storage so they match the
+  // language option values used by the select (e.g., map 'en' or 'en-US' -> 'English',
+  // map 'zh' -> 'Chinese').
+  const normalizeLanguageValue = (val) => {
+    if (!val || typeof val !== "string") return "";
+    const v = val.trim();
+    // If it's already one of the display names, return it (handle 'Chinese' alias too)
+    const nameMatch = languagesData.find(
+      (l) => l.name === v || (l.name === "Mandarin Chinese" && v === "Chinese"),
+    );
+    if (nameMatch)
+      return nameMatch.name === "Mandarin Chinese" ? "Chinese" : nameMatch.name;
+
+    // If it's a region code like 'en-US' or 'en', compare by code prefix
+    const codePrefix = v.split("-")[0].toLowerCase();
+    const codeMatch = languagesData.find(
+      (l) => l.code.toLowerCase() === codePrefix,
+    );
+    if (codeMatch)
+      return codeMatch.name === "Mandarin Chinese" ? "Chinese" : codeMatch.name;
+
+    return v; // fallback to raw value
+  };
+
   const routeRequestData =
     id && data ? data.body?.find((item) => item.id === id) : null;
   const additionalFieldsRequestId =
@@ -351,6 +375,17 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       (id && data ? data.body?.find((item) => item.id === id) : null);
 
     if (requestData) {
+      // Normalize language fields so the select options match (code -> display name)
+      if (requestData.request_language) {
+        requestData.request_language = normalizeLanguageValue(
+          requestData.request_language,
+        );
+      }
+      if (requestData.preferred_language) {
+        requestData.preferred_language = normalizeLanguageValue(
+          requestData.preferred_language,
+        );
+      }
       const rawCategory =
         requestData.helpCategory?.catId ||
         requestData.catId ||
@@ -565,11 +600,22 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   // Categories fetch & languages logic (kept same as original, slight tweaks)
   useEffect(() => {
     // Build languages options directly from languagesData.js
-    const languageOptions = languagesData.map((lang) => ({
-      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
-      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
-      label: lang.name,
-    }));
+    const languageOptions = languagesData.map((lang) => {
+      const value = lang.name === "Mandarin Chinese" ? "Chinese" : lang.name;
+      let label;
+      try {
+        const locale = i18n.language || "en";
+        if (typeof Intl !== "undefined" && Intl.DisplayNames) {
+          const dn = new Intl.DisplayNames([locale], { type: "language" });
+          label = dn.of(lang.code) || t(lang.name);
+        } else {
+          label = t(lang.name);
+        }
+      } catch (e) {
+        label = t(lang.name);
+      }
+      return { value, label };
+    });
     setLanguages(languageOptions);
     /*   const fetchLanguages = async () => {
       try {
