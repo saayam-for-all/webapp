@@ -173,6 +173,7 @@ const RequestDetails = () => {
         requesterId: isMyRequest
           ? userDbId
           : requestData?.requesterId || userDbId,
+        deletionReason: deleteReason,
       };
 
       // NOTE (SAAYAM-1700): "reason" (deleteReason) is captured in the UI but
