@@ -125,7 +125,7 @@ const stories = [
     titleLinks: {
       "Dr. Srikar Reddy Koppula":
         "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
-      "Indian Consular": "https://www.cgisf.gov.in/",
+      "Indian Consul": "https://www.cgisf.gov.in/",
     },
   },
 
