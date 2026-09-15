@@ -173,6 +173,7 @@ const RequestDetails = () => {
         requesterId: isMyRequest
           ? userDbId
           : requestData?.requesterId || userDbId,
+        deletionReason: deleteReason,
       };
 
       // NOTE (SAAYAM-1700): "reason" (deleteReason) is captured in the UI but
@@ -455,16 +456,16 @@ const RequestDetails = () => {
 
               <DialogActions>
                 <StandardButton
-                  text={t("CANCEL")}
-                  onClick={() => setDeleteDialogOpen(false)}
-                  variant="secondary"
-                />
-
-                <StandardButton
                   text={isDeleting ? "Deleting..." : t("DELETE_ACTION")}
                   onClick={handleDeleteRequest}
                   variant="primary"
                   disabled={!deleteReason.trim() || isDeleting}
+                />
+
+                <StandardButton
+                  text={t("CANCEL")}
+                  onClick={() => setDeleteDialogOpen(false)}
+                  variant="secondary"
                 />
               </DialogActions>
             </Dialog>
@@ -492,16 +493,16 @@ const RequestDetails = () => {
 
               <DialogActions>
                 <StandardButton
-                  text={t("CANCEL")}
-                  onClick={() => setChangeVolunteerDialogOpen(false)}
-                  variant="secondary"
-                />
-
-                <StandardButton
                   text={t("SAVE")}
                   onClick={handleChangeVolunteer}
                   disabled={!volunteerChangeReason.trim()}
                   variant="primary"
+                />
+
+                <StandardButton
+                  text={t("CANCEL")}
+                  onClick={() => setChangeVolunteerDialogOpen(false)}
+                  variant="secondary"
                 />
               </DialogActions>
             </Dialog>

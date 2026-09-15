@@ -147,9 +147,7 @@ const MoreInfoChatModal = ({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-800">
-            More Information
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-800">AI Chat</h2>
           <div className="flex items-center gap-3">
             <span
               className={`${counterColorClass(remaining)} text-white text-sm font-bold w-7 h-7 rounded-full flex items-center justify-center`}
