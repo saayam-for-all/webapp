@@ -395,6 +395,18 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         "General";
       const category = resolveCatNameToId(rawCategory);
 
+      // Pick a sensible default language from stored preferences or user profile
+      const storedPrefs = JSON.parse(
+        localStorage.getItem("userPreferences") || "{}",
+      );
+      const defaultPrefLang =
+        storedPrefs.languagePreference1 ||
+        user?.["custom:pref_first_language"] ||
+        user?.first_language_preference ||
+        user?.languagePreference1 ||
+        user?.preferred_language ||
+        "";
+
       setFormData({
         ...requestData,
         category,
@@ -423,6 +435,12 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
             requestData.requestFor,
             requestData.requestFor?.requestFor,
           ) || "SELF",
+        preferred_language: requestData.preferred_language
+          ? normalizeLanguageValue(requestData.preferred_language)
+          : normalizeLanguageValue(defaultPrefLang),
+        request_language: requestData.request_language
+          ? normalizeLanguageValue(requestData.request_language)
+          : normalizeLanguageValue(defaultPrefLang),
       });
 
       // Preserve the original numeric catId for edit mode (category is locked)
