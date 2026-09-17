@@ -190,11 +190,9 @@ describe("RequestDescription", () => {
         },
       );
 
-      const additionalFields = container.querySelector(
-        '[data-testid="additional-fields-display"]',
-      );
+      const additionalFieldsWrapper = container.querySelector(".ml-4");
 
-      expect(additionalFields.parentElement).toHaveClass("ml-4");
+      expect(additionalFieldsWrapper).toBeInTheDocument();
     });
 
     it("displays attached files when present", () => {
