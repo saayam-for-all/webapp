@@ -182,6 +182,21 @@ describe("RequestDescription", () => {
       expect(screen.getByText("No files attached.")).toBeInTheDocument();
     });
 
+    it("indents additional information fields", () => {
+      const { container } = renderWithProviders(
+        <RequestDescription requestData={mockRequestData} />,
+        {
+          preloadedState: MOCK_STATE_LOGGED_IN,
+        },
+      );
+
+      const additionalFields = container.querySelector(
+        '[data-testid="additional-fields-display"]',
+      );
+
+      expect(additionalFields.parentElement).toHaveClass("ml-4");
+    });
+
     it("displays attached files when present", () => {
       const requestDataWithAttachments = {
         ...mockRequestData,
