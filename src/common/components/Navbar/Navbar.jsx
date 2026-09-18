@@ -41,7 +41,10 @@ import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImag
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
 import { fetchProfileImage } from "../../../services/volunteerServices";
-import { GET_NOTIFICATION_COUNT } from "../../../services/requestServices";
+import {
+  getNotificationCounts,
+  getNotifications,
+} from "../../../services/volunteerServices";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -229,91 +232,42 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (!user?.userId) return; // don't fetch unless user is logged in
+    // Notifications are keyed by the database user id (SID-...), not the Cognito id.
+    const userDbId = user?.userDbId;
+    if (!userDbId) return;
 
     const notificationButton = document.getElementById("notificationButton");
 
     if (notificationButton) {
       notificationButton.style.display = user ? "flex" : "none";
     }
+
+    let cancelled = false;
+
     const fetchNotifications = async () => {
       try {
-        // --- Notification COUNT (bell badge) ---
-        // Separate POST API from the list below. Feeds the bell badge.
-        // Mock returns a count like { count: 5 }.
-        const countResponse = await GET_NOTIFICATION_COUNT(
-          user?.userId || "A1234",
-        );
-        setNewNotificationCount(countResponse?.count || 0);
+        // Bell badge: notifications created since the user last opened the page.
+        const counts = await getNotificationCounts(userDbId);
+        if (cancelled) return;
+        setNewNotificationCount(counts.newNotificationsCount || 0);
 
-        // --- Notification LIST (notifications page) ---
-        // Mock JSON data used to populate the notifications page until
-        // the real list API is available. Do not remove.
-        const rawNotifications = [
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "You have new Volunteer match request in Logistics",
-            date: "Mar 15, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Hospital",
-            date: "Jun 15, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "LOGISTIC_HELP",
-            title: "Logistic Help",
-            message: "Logistics",
-            date: "Nov 15, 2023, 10:30 AM",
-          },
-          {
-            type: "helpRequest",
-            titleKey: "EDUCATIONAL_HELP",
-            title: "Educational Help",
-            message: "Need help with Logistics",
-            date: "Dec 16, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Education",
-            date: "Jan 15, 2023, 10:30 AM",
-          },
-        ];
-
-        const notificationsWithIds = rawNotifications.map((note) => ({
-          ...note,
-          id: crypto.randomUUID(),
-        }));
+        // List backing the notifications page.
+        const { notifications } = await getNotifications(userDbId, {
+          rowStart: 0,
+          rowEnd: 49,
+        });
+        if (cancelled) return;
 
         notificationDispatch({
           type: "SET_NOTIFICATIONS",
-          payload: notificationsWithIds,
+          payload: notifications,
         });
-        const existing = new Set(
-          state.notifications.map((n) => n.message + n.date),
-        );
-        const newOnes = notificationsWithIds.filter(
-          (n) => !existing.has(n.message + n.date),
-        );
-        if (newOnes.length > 0) {
-          notificationDispatch({
-            type: "SET_NOTIFICATIONS",
-            payload: [...state.notifications, ...newOnes],
-          });
-        }
       } catch (error) {
         console.error("Error fetching Notifications:", error);
       }
     };
 
-    fetchNotifications(); // Comment it after call ing the funciton below
+    fetchNotifications();
 
     // Use the interval fetched from getAppEnv (stored on login),
     // falling back to 5 min (300000 ms) if it isn't available.
@@ -327,8 +281,11 @@ const Navbar = () => {
 
     const interval = setInterval(fetchNotifications, pollInterval); // fetch every pollInterval ms
 
-    return () => clearInterval(interval);
-  }, [notificationDispatch, user]);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [notificationDispatch, user?.userDbId]);
 
   const handleLinkClick = (e, route) => {
     if (hasUnsavedChanges) {

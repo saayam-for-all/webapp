@@ -19,13 +19,17 @@ jest.mock("../../../redux/features/authentication/authActions", () => ({
   logout: jest.fn(),
 }));
 
-jest.mock("../../../services/requestServices", () => ({
-  GET_NOTIFICATION_COUNT: jest.fn().mockResolvedValue({ count: 0 }),
-  GET_NOTIFICATIONS: jest.fn().mockResolvedValue({ notifications: [] }),
-}));
-
+// The notification centre is served by the volunteer microservice.
 jest.mock("../../../services/volunteerServices", () => ({
   fetchProfileImage: jest.fn().mockResolvedValue(null),
+  getNotificationCounts: jest
+    .fn()
+    .mockResolvedValue({ totalCount: 0, newNotificationsCount: 0 }),
+  getNotifications: jest.fn().mockResolvedValue({
+    totalCount: 0,
+    newNotificationsCount: 0,
+    notifications: [],
+  }),
 }));
 
 describe("Navbar", () => {
