@@ -148,6 +148,7 @@ import arIdentity from "./locales/ar/identity.json";
 import arProfile from "./locales/ar/profile.json";
 import arPreferences from "./locales/ar/preferences.json";
 import arCollaborator from "./locales/ar/collaborator.json";
+import arNews from "./locales/ar/news.json";
 import arMetadata from "./locales/ar/metadata.json";
 import arTermsVolunteer from "./locales/ar/terms.json";
 
@@ -236,6 +237,7 @@ import urIdentity from "./locales/ur/identity.json";
 import urProfile from "./locales/ur/profile.json";
 import urPreferences from "./locales/ur/preferences.json";
 import urCollaborator from "./locales/ur/collaborator.json";
+import urNews from "./locales/ur/news.json";
 import urMetadata from "./locales/ur/metadata.json";
 import urTermsVolunteer from "./locales/ur/terms.json";
 
@@ -422,6 +424,7 @@ i18n
         profile: arProfile,
         preferences: arPreferences,
         collaborator: arCollaborator,
+        news: arNews,
         metadata: arMetadata,
         terms: arTermsVolunteer,
       },
@@ -530,6 +533,7 @@ i18n
         profile: urProfile,
         preferences: urPreferences,
         collaborator: urCollaborator,
+        news: urNews,
         metadata: urMetadata,
         terms: urTermsVolunteer,
       },
