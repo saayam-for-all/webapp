@@ -373,6 +373,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
           requestData.requestDescription,
         subject: requestData.subject || requestData.requestSubject,
         is_calamity: requestData.is_calamity ?? requestData.calamity ?? false,
+        phone: requestData.phone || "",
+        age: requestData.age || "",
+        gender: requestData.gender || "Select",
+        location: requestData.location || "",
         // Map paginated API and nested detail API values to flat form fields.
         request_type: firstString(
           requestData.request_type,
@@ -1278,7 +1282,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       });
       return;
     }
-    if (OtherPersonPhoneError) {
+    if (otherPersonPhoneError) {
       setSnackbar({
         open: true,
         message: "Please enter a valid phone number,or leave it blank.",
@@ -1289,7 +1293,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
     if (otherPersonAgeError) {
       setSnackbar({
-        open: truemessage,
+        open: true,
         message: "Please enter a valid age(1-120), or leave it blank.",
         severity: "error",
       });
