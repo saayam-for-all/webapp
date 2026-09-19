@@ -15,7 +15,9 @@
     "MANAGED": "Đã quản lý",
     "RESOLVED": "Đã giải quyết",
     "CANCELLED": "Đã hủy",
-    "DELETED": "Đã xóa"
+    "DELETED": "Đã xóa",
+    "VOLUNTEER_NOT_FOUND": "Không tìm thấy tình nguyện viên",
+    "VOLUNTEER_REASSIGNMENT": "Tái phân công tình nguyện viên"
   },
   "requestType": {
     "INPERSON": "Trực tiếp",

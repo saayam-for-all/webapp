@@ -15,7 +15,9 @@
     "MANAGED": "จัดการแล้ว",
     "RESOLVED": "แก้ไขแล้ว",
     "CANCELLED": "ยกเลิกแล้ว",
-    "DELETED": "ลบแล้ว"
+    "DELETED": "ลบแล้ว",
+    "VOLUNTEER_NOT_FOUND": "ไม่พบอาสาสมัคร",
+    "VOLUNTEER_REASSIGNMENT": "การมอบหมายอาสาสมัครใหม่"
   },
   "requestType": {
     "INPERSON": "พบตัว",

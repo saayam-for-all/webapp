@@ -11,6 +11,7 @@ import BeneficiaryDashboard from "./views/BeneficiaryDashboard";
 import StewardDashboard from "./views/StewardDashboard";
 import SuperAdminDashboard from "./views/SuperAdminDashboard";
 import VolunteerDashboard from "./views/VolunteerDashboard";
+import { stewardReviewRequestsMockData } from "./data";
 import { MdOutlineContactPhone } from "react-icons/md";
 
 import {
@@ -245,6 +246,38 @@ const Dashboard = ({ userRole }) => {
         [DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN, DASHBOARDS.STEWARD].includes(
           selectedDashboard,
         );
+
+      // TODO: Replace mock data with real Steward Review Requests API once available.
+      if (isAllRequestsTab && selectedDashboard === DASHBOARDS.STEWARD) {
+        // Yield one microtask tick so that any synchronous state resets that
+        // run in sibling effects (e.g. the dashboard-switch reset) complete
+        // first.  This mirrors the behaviour of a real async API call so the
+        // mock data is applied in its own render cycle rather than being
+        // overwritten by the batched reset.
+        await Promise.resolve();
+        const normalizedRecords = normalizeHelpRequestRecords(
+          stewardReviewRequestsMockData,
+        );
+        const effectiveSize = sizeOverride || rowsPerPage;
+        const mockTotalPages = Math.max(
+          1,
+          Math.ceil(normalizedRecords.length / effectiveSize),
+        );
+        setData({
+          data: {
+            content: normalizedRecords,
+            totalPages: mockTotalPages,
+            totalElements: normalizedRecords.length,
+          },
+        });
+        setServerPagination({
+          totalPages: mockTotalPages,
+          totalRecords: normalizedRecords.length,
+          currentServerPage: 0,
+          isServerPaginated: false,
+        });
+        return;
+      }
 
       if (isAllRequestsTab) {
         const response = await getAllPaginatedRequests({

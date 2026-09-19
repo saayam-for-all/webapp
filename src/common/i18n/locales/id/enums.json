@@ -15,7 +15,9 @@
     "MANAGED": "Dikelola",
     "RESOLVED": "Diselesaikan",
     "CANCELLED": "Dibatalkan",
-    "DELETED": "Dihapus"
+    "DELETED": "Dihapus",
+    "VOLUNTEER_NOT_FOUND": "Sukarelawan tidak ditemukan",
+    "VOLUNTEER_REASSIGNMENT": "Penugasan ulang sukarelawan"
   },
   "requestType": {
     "INPERSON": "Langsung",

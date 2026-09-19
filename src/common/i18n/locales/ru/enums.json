@@ -17,7 +17,9 @@
     "CANCELLED": "Отменено",
     "DELETED": "Удалено",
     "RATED_BY_REQUESTER": "Оценено запросившим",
-    "RATED_BY_VOLUNTEER": "Оценено волонтёром"
+    "RATED_BY_VOLUNTEER": "Оценено волонтёром",
+    "VOLUNTEER_NOT_FOUND": "Волонтёр не найден",
+    "VOLUNTEER_REASSIGNMENT": "Переназначение волонтёра"
   },
   "requestType": {
     "IN_PERSON": "Лично",
