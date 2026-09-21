@@ -17,7 +17,9 @@
     "CANCELLED": "منسوخ کیا گیا",
     "DELETED": "حذف کیا گیا",
     "RATED_BY_REQUESTER": "درخواست گزار نے درجہ بندی کی",
-    "RATED_BY_VOLUNTEER": "رضاکار نے درجہ بندی کی"
+    "RATED_BY_VOLUNTEER": "رضاکار نے درجہ بندی کی",
+    "VOLUNTEER_NOT_FOUND": "رضاکار نہیں ملا",
+    "VOLUNTEER_REASSIGNMENT": "رضاکار کی دوبارہ تفویض"
   },
   "requestType": {
     "IN_PERSON": "ذاتی طور پر",
