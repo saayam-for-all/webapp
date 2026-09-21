@@ -105,10 +105,10 @@ export const updateUserProfile = (userData) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     returnDefaultLanguage();
-    signOut();
+    await signOut();
     dispatch(logoutSuccess());
   } catch (error) {
-    dispatch(authFailure(error.message));
+    dispatch(loginFailure(error.message));
   }
 };
 
