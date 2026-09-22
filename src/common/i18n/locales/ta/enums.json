@@ -15,7 +15,9 @@
     "MANAGED": "நிர்வகிக்கப்படுகிறது",
     "RESOLVED": "தீர்க்கப்பட்டது",
     "CANCELLED": "ரத்து செய்யப்பட்டது",
-    "DELETED": "நீக்கப்பட்டது"
+    "DELETED": "நீக்கப்பட்டது",
+    "VOLUNTEER_NOT_FOUND": "தன்னார்வலர் கிடைக்கவில்லை",
+    "VOLUNTEER_REASSIGNMENT": "தன்னார்வலர் மறு நியமனம்"
   },
   "requestType": {
     "INPERSON": "நேரடியாக",

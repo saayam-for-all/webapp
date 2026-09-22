@@ -18,7 +18,6 @@ import topTwo from "../../assets/landingPageImages/topTwo.webp";
 import "./LandingPage.css";
 import Carousel from "./components/Carousel";
 import MetricsTicker from "./components/MetricsTicker";
-import SquareAd from "#components/Ads/SquareAd";
 import HorizontalAd from "#components/Ads/HorizontalAd";
 
 export default function Home() {
@@ -81,7 +80,7 @@ export default function Home() {
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             alt={t("SARVE_JANA_SUKHINO_BHAVANTU_ALT")}
           />
-          <h3 className="font-bold text-sm md:text-xl lg:text-2xl md:tracking-wide m-[10px] text-center leading-tight">
+          <h3 className="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap">
             {t("Sarve jana sukhino bhavantu")}
           </h3>
           <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight">
@@ -94,7 +93,7 @@ export default function Home() {
             className="aspect-[.77] w-2/3 object-cover object-center rounded-[10px]"
             alt={t("JNANAM_VARDHATI_SANCHAYAT_ALT")}
           />
-          <h3 className="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight">
+          <h3 className="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap">
             {t("jñānam vardhati sanchayāt")}
           </h3>
           <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight px-1 md:px-0">
@@ -109,7 +108,7 @@ export default function Home() {
             className="aspect-[.77] w-full object-cover object-center rounded-[10px]"
             alt={t("MANAVA_SEVAYE_MADHAVA_SEVA_ALT")}
           />
-          <h3 className="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight">
+          <h3 className="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap">
             {t("Manava sevaye Madhava seva")}
           </h3>
           <div className="text-[10px] md:text-sm lg:text-lg text-gray-600 text-center leading-tight">

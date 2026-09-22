@@ -17,7 +17,9 @@
     "CANCELLED": "تم الإلغاء",
     "DELETED": "تم الحذف",
     "RATED_BY_REQUESTER": "تم التقييم من قبل مقدم الطلب",
-    "RATED_BY_VOLUNTEER": "تم التقييم من قبل المتطوع"
+    "RATED_BY_VOLUNTEER": "تم التقييم من قبل المتطوع",
+    "VOLUNTEER_NOT_FOUND": "لم يُعثر على متطوع",
+    "VOLUNTEER_REASSIGNMENT": "إعادة تكليف المتطوع"
   },
   "requestType": {
     "IN_PERSON": "شخصياً",

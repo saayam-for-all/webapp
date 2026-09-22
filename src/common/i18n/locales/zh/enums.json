@@ -17,7 +17,9 @@
     "CANCELLED": "已取消",
     "DELETED": "已删除",
     "RATED_BY_REQUESTER": "由求助者评分",
-    "RATED_BY_VOLUNTEER": "由志愿者评分"
+    "RATED_BY_VOLUNTEER": "由志愿者评分",
+    "VOLUNTEER_NOT_FOUND": "未找到志愿者",
+    "VOLUNTEER_REASSIGNMENT": "志愿者重新分配"
   },
   "requestType": {
     "IN_PERSON": "亲自",

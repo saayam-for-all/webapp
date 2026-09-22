@@ -46,7 +46,7 @@ exports[`LandingPage renders correctly 1`] = `
               src=""
             />
             <h3
-              class="font-bold text-sm md:text-xl lg:text-2xl md:tracking-wide m-[10px] text-center leading-tight"
+              class="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap"
             >
               mockTranslate(Sarve jana sukhino bhavantu)
             </h3>
@@ -65,7 +65,7 @@ exports[`LandingPage renders correctly 1`] = `
               src=""
             />
             <h3
-              class="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight"
+              class="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap"
             >
               mockTranslate(jñānam vardhati sanchayāt)
             </h3>
@@ -84,7 +84,7 @@ exports[`LandingPage renders correctly 1`] = `
               src=""
             />
             <h3
-              class="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight"
+              class="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap"
             >
               mockTranslate(Manava sevaye Madhava seva)
             </h3>
@@ -362,7 +362,7 @@ exports[`LandingPage renders correctly 1`] = `
             src=""
           />
           <h3
-            class="font-bold text-sm md:text-xl lg:text-2xl md:tracking-wide m-[10px] text-center leading-tight"
+            class="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap"
           >
             mockTranslate(Sarve jana sukhino bhavantu)
           </h3>
@@ -381,7 +381,7 @@ exports[`LandingPage renders correctly 1`] = `
             src=""
           />
           <h3
-            class="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight"
+            class="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap"
           >
             mockTranslate(jñānam vardhati sanchayāt)
           </h3>
@@ -400,7 +400,7 @@ exports[`LandingPage renders correctly 1`] = `
             src=""
           />
           <h3
-            class="font-bold text-sm md:text-xl lg:text-2xl tracking-wide m-[10px] text-center leading-tight"
+            class="font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl m-[10px] text-center leading-tight whitespace-normal lg:whitespace-nowrap"
           >
             mockTranslate(Manava sevaye Madhava seva)
           </h3>

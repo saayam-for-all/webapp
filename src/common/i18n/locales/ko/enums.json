@@ -15,7 +15,9 @@
     "MANAGED": "관리 중",
     "RESOLVED": "해결됨",
     "CANCELLED": "취소됨",
-    "DELETED": "삭제됨"
+    "DELETED": "삭제됨",
+    "VOLUNTEER_NOT_FOUND": "봉사자를 찾을 수 없음",
+    "VOLUNTEER_REASSIGNMENT": "봉사자 재배정"
   },
   "requestType": {
     "INPERSON": "대면",

@@ -17,8 +17,8 @@ const VoluntaryOrganizations = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedOrg, setSelectedOrg] = useState(null);
   const navigate = useNavigate();
-
   const headers = [
     "name",
     "organization_type",
@@ -26,6 +26,7 @@ const VoluntaryOrganizations = () => {
     "location",
     "size",
     "rating",
+    "distance",
   ];
   const [organizations, setOrganizations] = useState([]);
   const location = useLocation();
@@ -63,15 +64,15 @@ const VoluntaryOrganizations = () => {
       // - All Requests: use userId from the request row (the person who made the request)
       // - My Requests: use logged-in user's userDbId
       const beneficiary_id =
-        requestData?.userId || requestData?.beneficiary_id || userDbId || "";
+        requestData?.beneficiaryId ||
+        requestData?.userId ||
+        requestData?.beneficiary_id ||
+        userDbId ||
+        "";
 
       const payload = {
         request_id,
         beneficiary_id,
-        category: requestData?.category || "",
-        subject: requestData?.subject || "",
-        description: requestData?.description || "",
-        location: personalInfo?.city || localStorage.getItem("city") || "",
       };
 
       console.log("Org API payload:", payload);
@@ -100,6 +101,7 @@ const VoluntaryOrganizations = () => {
         location: org.location || org.Location || "N/A",
         size: org.size || org.Size || "N/A",
         rating: org.rating || org.Rating || "N/A",
+        distance: org.distance || org.Distance || "N/A",
         _rawData: org,
       }));
 
@@ -185,8 +187,51 @@ const VoluntaryOrganizations = () => {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-bold mb-5">Organizations</h1>
+      {/* Title + Select button */}
+      <div className="flex justify-between items-center mb-5">
+        <h1 className="text-2xl font-bold text-center w-full">Organizations</h1>
+        <button
+          className={`px-4 py-2 rounded text-white whitespace-nowrap ${
+            selectedOrg
+              ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+              : "bg-gray-300 cursor-not-allowed"
+          }`}
+          disabled={!selectedOrg}
+          onClick={() => {
+            console.log("Selected org id:", selectedOrg);
+          }}
+        >
+          Select
+        </button>
+      </div>
 
+      {/* Beneficiary location */}
+      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
+        <p className="text-sm text-gray-600">
+          <span className="font-semibold">Beneficiary Location: </span>
+          {(() => {
+            const isMyRequest =
+              requestData?.beneficiaryId === userDbId ||
+              !requestData?.beneficiaryId;
+            if (isMyRequest) {
+              const personalInfo = JSON.parse(
+                localStorage.getItem("personalInfo") || "{}",
+              );
+              const parts = [
+                personalInfo?.address,
+                personalInfo?.city,
+                personalInfo?.state,
+                personalInfo?.zipCode,
+                personalInfo?.country,
+              ].filter(Boolean);
+              return parts.length > 0 ? parts.join(", ") : "Not available";
+            }
+            return "Not available";
+          })()}
+        </p>
+      </div>
+
+      {/* Search */}
       <div className="mb-4">
         <input
           type="text"
@@ -237,10 +282,12 @@ const VoluntaryOrganizations = () => {
               organizationsLabel: t("ORGANIZATIONS"),
             }),
           })}
+          showRadioButtons={true}
+          selectedRows={selectedOrg ? [selectedOrg] : []}
+          onRowSelect={(id) => setSelectedOrg(id === selectedOrg ? null : id)}
         />
       )}
     </div>
   );
 };
-
 export default VoluntaryOrganizations;

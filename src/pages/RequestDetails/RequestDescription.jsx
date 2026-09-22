@@ -152,11 +152,13 @@ const RequestDescription = ({ requestData, requestId, requesterId }) => {
           <h3 className="text-sm font-semibold text-gray-700 mb-2">
             {t("ADDITIONAL_INFO")}
           </h3>
-          <AdditionalFieldsDisplay
-            requestId={requestId}
-            requesterId={requesterId}
-            category={requestData?.category}
-          />
+          <div className="ml-4">
+            <AdditionalFieldsDisplay
+              requestId={requestId}
+              requesterId={requesterId}
+              category={requestData?.category}
+            />
+          </div>
 
           <h3 className="text-sm font-semibold text-gray-700 mb-2">
             {t("ATTACHED_FILES")}

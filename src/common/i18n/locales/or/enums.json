@@ -15,7 +15,9 @@
     "MANAGED": "ପରିଚାଳିତ",
     "RESOLVED": "ସମାଧାନ ହୋଇଛି",
     "CANCELLED": "ବାତିଲ ହୋଇଛି",
-    "DELETED": "ବିଲୋପ ହୋଇଛି"
+    "DELETED": "ବିଲୋପ ହୋଇଛି",
+    "VOLUNTEER_NOT_FOUND": "ସ୍ବଯଂସେବୀ ମିଳିଲେ ନାହିଁ",
+    "VOLUNTEER_REASSIGNMENT": "ସ୍ବଯଂସେବୀ ପୁନଃ ନିଯୁକ୍ତି"
   },
   "requestType": {
     "INPERSON": "ବ୍ୟକ୍ତିଗତଭାବେ",

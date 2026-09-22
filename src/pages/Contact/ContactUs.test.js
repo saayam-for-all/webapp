@@ -118,6 +118,16 @@ describe("ContactUs", () => {
     expect(screen.getByRole("button", { name: /Submit/i })).toBeTruthy();
   });
 
+  it("does not clip the responsive horizontal ad", () => {
+    render(<ContactUs />);
+
+    expect(
+      screen
+        .getByTestId("horizontal-ad-mock")
+        .parentElement.classList.contains("overflow-hidden"),
+    ).toBe(false);
+  });
+
   it("shows validation errors when submitting an empty form", () => {
     render(<ContactUs />);
 

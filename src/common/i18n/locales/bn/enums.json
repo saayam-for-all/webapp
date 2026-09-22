@@ -17,7 +17,9 @@
     "CANCELLED": "বাতিল করা হয়েছে",
     "DELETED": "মুছে ফেলা হয়েছে",
     "RATED_BY_REQUESTER": "অনুরোধকারী দ্বারা মূল্যায়িত",
-    "RATED_BY_VOLUNTEER": "স্বেচ্ছাসেবক দ্বারা মূল্যায়িত"
+    "RATED_BY_VOLUNTEER": "স্বেচ্ছাসেবক দ্বারা মূল্যায়িত",
+    "VOLUNTEER_NOT_FOUND": "স্বেচ্ছাসেবক পাওয়া যায়নি",
+    "VOLUNTEER_REASSIGNMENT": "স্বেচ্ছাসেবক পুনর্নিয়োগ"
   },
   "requestType": {
     "IN_PERSON": "সরাসরি",

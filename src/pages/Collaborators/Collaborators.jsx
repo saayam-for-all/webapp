@@ -80,7 +80,7 @@ function Collaborators() {
           </div>
         </div>
       </div>
-      <div className="overflow-hidden mt-2">
+      <div className="mt-2">
         <HorizontalAd />
       </div>
     </>

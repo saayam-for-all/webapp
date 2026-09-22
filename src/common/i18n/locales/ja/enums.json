@@ -15,7 +15,9 @@
     "MANAGED": "管理中",
     "RESOLVED": "解決済み",
     "CANCELLED": "キャンセル済み",
-    "DELETED": "削除済み"
+    "DELETED": "削除済み",
+    "VOLUNTEER_NOT_FOUND": "ボランティアが見つかりません",
+    "VOLUNTEER_REASSIGNMENT": "ボランティアの再割り当て"
   },
   "requestType": {
     "INPERSON": "対面",

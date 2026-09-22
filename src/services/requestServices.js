@@ -99,8 +99,8 @@ export const GET_NOTIFICATIONS = async () => {
 
 export const GET_NOTIFICATION_COUNT = async (userId) => {
   // Notification service is on the same server as our other APIs.
-  // Endpoint: GET /0.0.1/notifications/{userId}/counts
-  const response = await api.get(`0.0.1/notifications/${userId}/counts`);
+  // POST /0.0.1/notifications/counts with { userId } in the body.
+  const response = await api.post("0.0.1/notifications/counts", { userId });
   return response.data;
 };
 
