@@ -28,7 +28,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -717,7 +717,7 @@ const Navbar = () => {
                       color="error"
                       overlap="circular"
                     >
-                      <NotificationsIcon sx={{ fontSize: 38 }} />
+                      <NotificationsNoneOutlinedIcon sx={{ fontSize: 38 }} />
                     </Badge>
                   </button>
                 </ModernTooltip>
@@ -1030,7 +1030,8 @@ const Navbar = () => {
                 onClick={(e) => handleDrawerClick(e, "/notifications")}
                 className="text-black flex items-center hover:text-blue-600"
               >
-                <NotificationsIcon className="mr-2" /> {t("NOTIFICATIONS")}
+                <NotificationsNoneOutlinedIcon className="mr-2" />{" "}
+                {t("NOTIFICATIONS")}
               </button>
             </div>
           )}
