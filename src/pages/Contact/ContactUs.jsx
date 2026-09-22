@@ -40,6 +40,9 @@ const REASON_MAP = {
   DONATION_GRANT: "Donation",
 };
 
+const NAME_MAX_LENGTH = 100;
+const MESSAGE_MAX_LENGTH = 2000;
+
 const ContactUs = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -127,7 +130,7 @@ const ContactUs = () => {
     if (!formData.reason) {
       newErrors.reason = t("Please select a reason for contacting");
     }
-    if (!formData.message) {
+    if (!formData.message.trim()) {
       newErrors.message = t("Message is required");
     }
 
@@ -155,7 +158,7 @@ const ContactUs = () => {
           email: formData.email.trim(),
           phone: fullPhoneNumber,
           reason: REASON_MAP[formData.reason],
-          message: formData.message,
+          message: formData.message.trim(),
           recaptchaToken: recaptchaToken,
         });
 
@@ -248,6 +251,8 @@ const ContactUs = () => {
                   margin="dense"
                   value={formData.firstName}
                   onChange={handleChange}
+                  autoComplete="given-name"
+                  inputProps={{ maxLength: NAME_MAX_LENGTH }}
                   required
                   error={!!errors.firstName}
                   helperText={errors.firstName}
@@ -272,6 +277,8 @@ const ContactUs = () => {
                   margin="dense"
                   value={formData.lastName}
                   onChange={handleChange}
+                  autoComplete="family-name"
+                  inputProps={{ maxLength: NAME_MAX_LENGTH }}
                   required
                   error={!!errors.lastName}
                   helperText={errors.lastName}
@@ -317,6 +324,8 @@ const ContactUs = () => {
                   margin="dense"
                   value={formData.email}
                   onChange={handleChange}
+                  type="email"
+                  autoComplete="email"
                   required
                   error={!!errors.email}
                   helperText={errors.email}
@@ -342,6 +351,11 @@ const ContactUs = () => {
                   required={true}
                   t={t}
                   hideLabel={true}
+                  name="phone"
+                  autoComplete="tel-national"
+                  type="tel"
+                  inputMode="tel"
+                  countryCodeName="countryCode"
                 />
               </div>
 
@@ -411,6 +425,7 @@ const ContactUs = () => {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
+                  inputProps={{ maxLength: MESSAGE_MAX_LENGTH }}
                   required
                   error={!!errors.message}
                   helperText={errors.message}
