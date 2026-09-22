@@ -67,6 +67,11 @@ const RequestDetails = () => {
     },
   ];
 
+  const handleDeleteRequest = ({ requestId, reason }) => {
+    // TODO: wire to delete request API once endpoint is available
+    console.log("Delete request", { requestId, reason });
+  };
+
   return (
     <div>
       <div className="w-full px-4 mt-4 mb-4">
@@ -195,6 +200,7 @@ const RequestDetails = () => {
                   <RequestDescription
                     requestData={requestData}
                     setIsEditing={setIsEditing}
+                    onDeleteRequest={handleDeleteRequest}
                   />
                 )}
               </div>
