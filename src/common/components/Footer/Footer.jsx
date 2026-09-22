@@ -36,7 +36,7 @@ export default function Footer() {
 
         {/* 2) Bottom grid: copyright + links */}
         <div className="footer-bottom-grid">
-          <div className="footer-copy">{t("COPYRIGHT")}</div>
+          <div className="footer-copy" data-testid ="footerCopyright">{t("COPYRIGHT")}</div>
           <div className="footer-links">
             <a href="/sitemap">{t("SITE_MAP")}</a>
 
