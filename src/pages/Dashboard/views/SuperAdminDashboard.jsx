@@ -3,7 +3,6 @@ import LoadingIndicator from "../../../common/components/Loading/Loading";
 import PropTypes from "prop-types";
 import ApplicationAnalytics from "../components/Analytics/ApplicationAnalytics";
 import GoogleAnalytics from "../components/Analytics/GoogleAnalytics";
-import OrganizationAnalytics from "../components/Analytics/OrganizationAnalytics";
 
 const SuperAdminDashboard = (props) => {
   const {
@@ -89,21 +88,10 @@ const SuperAdminDashboard = (props) => {
           analyticsSubtab === "Google Analytics"
             ? "bg-white text-blue-500 border-blue-500"
             : "bg-gray-100 border-transparent hover:bg-gray-200"
-        } mr-1`}
+        }`}
               onClick={() => setAnalyticsSubtab("Google Analytics")}
             >
               Google Analytics
-            </button>
-            <button
-              className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
-        ${
-          analyticsSubtab === "Organization"
-            ? "bg-white text-blue-500 border-blue-500"
-            : "bg-gray-100 border-transparent hover:bg-gray-200"
-        }`}
-              onClick={() => setAnalyticsSubtab("Organization")}
-            >
-              Organization
             </button>
           </div>
         )}
@@ -130,7 +118,6 @@ const SuperAdminDashboard = (props) => {
               <ApplicationAnalytics />
             )}
             {analyticsSubtab === "Google Analytics" && <GoogleAnalytics />}
-            {analyticsSubtab === "Organization" && <OrganizationAnalytics />}
           </div>
         ) : isLoading ? (
           <div className="flex justify-center py-10">

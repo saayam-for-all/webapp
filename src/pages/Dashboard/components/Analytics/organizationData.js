@@ -36,14 +36,49 @@ export const RATING_STAR_COLORS = [
 ];
 
 export const DATE_RANGES = [
+  { id: "7d", label: "Last 7 Days", days: 7 },
+  { id: "30d", label: "Last 30 Days", days: 30 },
   { id: "12m", label: "Last 12 Months", months: 12 },
-  { id: "6m", label: "Last 6 Months", months: 6 },
-  { id: "3m", label: "Last 3 Months", months: 3 },
+  { id: "all", label: "All Time", months: 12 },
 ];
 
 export const REGIONS = ["All", "North", "South", "East", "West"];
 
 export const ORG_TYPES = ["All", "Profit", "Non-Profit"];
+
+// Daily data for the last 30 days (Jun 1-30, 2025)
+const DAILY_DATA = [
+  { date: "2025-06-01", total: 121, active: 87, collaborator: 31, profit: 45 },
+  { date: "2025-06-02", total: 122, active: 88, collaborator: 31, profit: 46 },
+  { date: "2025-06-03", total: 123, active: 88, collaborator: 32, profit: 46 },
+  { date: "2025-06-04", total: 124, active: 89, collaborator: 32, profit: 47 },
+  { date: "2025-06-05", total: 125, active: 90, collaborator: 32, profit: 47 },
+  { date: "2025-06-06", total: 126, active: 91, collaborator: 32, profit: 48 },
+  { date: "2025-06-07", total: 127, active: 91, collaborator: 33, profit: 48 },
+  { date: "2025-06-08", total: 128, active: 92, collaborator: 33, profit: 48 },
+  { date: "2025-06-09", total: 128, active: 92, collaborator: 33, profit: 48 },
+  { date: "2025-06-10", total: 129, active: 93, collaborator: 33, profit: 49 },
+  { date: "2025-06-11", total: 130, active: 93, collaborator: 34, profit: 49 },
+  { date: "2025-06-12", total: 131, active: 94, collaborator: 34, profit: 49 },
+  { date: "2025-06-13", total: 131, active: 94, collaborator: 34, profit: 49 },
+  { date: "2025-06-14", total: 131, active: 94, collaborator: 34, profit: 49 },
+  { date: "2025-06-15", total: 132, active: 95, collaborator: 34, profit: 50 },
+  { date: "2025-06-16", total: 132, active: 95, collaborator: 35, profit: 50 },
+  { date: "2025-06-17", total: 132, active: 95, collaborator: 35, profit: 50 },
+  { date: "2025-06-18", total: 133, active: 96, collaborator: 35, profit: 50 },
+  { date: "2025-06-19", total: 133, active: 96, collaborator: 35, profit: 51 },
+  { date: "2025-06-20", total: 134, active: 97, collaborator: 35, profit: 51 },
+  { date: "2025-06-21", total: 134, active: 97, collaborator: 35, profit: 51 },
+  { date: "2025-06-22", total: 135, active: 97, collaborator: 36, profit: 51 },
+  { date: "2025-06-23", total: 135, active: 98, collaborator: 36, profit: 52 },
+  { date: "2025-06-24", total: 136, active: 98, collaborator: 36, profit: 52 },
+  { date: "2025-06-25", total: 137, active: 99, collaborator: 36, profit: 52 },
+  { date: "2025-06-26", total: 138, active: 99, collaborator: 37, profit: 52 },
+  { date: "2025-06-27", total: 138, active: 99, collaborator: 37, profit: 53 },
+  { date: "2025-06-28", total: 139, active: 100, collaborator: 37, profit: 53 },
+  { date: "2025-06-29", total: 129, active: 94, collaborator: 33, profit: 48 },
+  { date: "2025-06-30", total: 129, active: 94, collaborator: 33, profit: 48 },
+];
 
 // Month-by-month series. Region and type mixes below are derived from these
 // totals so every filter combination stays internally consistent.
@@ -112,6 +147,33 @@ const scaleFactor = (region, orgType) => {
 };
 
 /**
+ * Parse date string (YYYY-MM-DD format) and return Date object
+ */
+const parseDate = (dateStr) => {
+  const parts = dateStr.split("-");
+  return new Date(
+    parseInt(parts[0]),
+    parseInt(parts[1]) - 1,
+    parseInt(parts[2]),
+  );
+};
+
+/**
+ * Filter data within a date range
+ */
+const filterDataByDateRange = (data, startDate, endDate) => {
+  if (!startDate || !endDate) return data;
+
+  const start = parseDate(startDate);
+  const end = parseDate(endDate);
+
+  return data.filter((item) => {
+    const itemDate = parseDate(item.date || item.month);
+    return itemDate >= start && itemDate <= end;
+  });
+};
+
+/**
  * Returns every dataset the Organization dashboard renders, filtered by the
  * supplied date range / region / org type.
  */
@@ -119,20 +181,49 @@ export const getOrganizationAnalytics = ({
   dateRange = "12m",
   region = "All",
   orgType = "All",
+  customStartDate = "",
+  customEndDate = "",
 } = {}) => {
-  const months = DATE_RANGES.find((r) => r.id === dateRange)?.months ?? 12;
   const factor = scaleFactor(region, orgType);
-  const window = MONTHLY.slice(-months);
 
+  let window = [];
+  let isDaily = false;
+
+  // Select data based on date range
+  if (dateRange === "7d") {
+    // Last 7 days of daily data
+    window = DAILY_DATA.slice(-7);
+    isDaily = true;
+  } else if (dateRange === "30d") {
+    // Last 30 days of daily data
+    window = DAILY_DATA;
+    isDaily = true;
+  } else if (dateRange === "custom" && customStartDate && customEndDate) {
+    // Custom date range
+    const filtered = filterDataByDateRange(
+      DAILY_DATA,
+      customStartDate,
+      customEndDate,
+    );
+    window = filtered.length > 0 ? filtered : DAILY_DATA;
+    isDaily = true;
+  } else {
+    // Monthly data for 12m or all
+    window = MONTHLY;
+    isDaily = false;
+  }
+
+  // Format growth trend data
   const growthTrend = window.map((m) => ({
-    month: m.month,
+    [isDaily ? "date" : "month"]: isDaily ? m.date : m.month,
     total: round(m.total * factor),
     active: round(m.active * factor),
     collaborator: round(m.collaborator * factor),
   }));
 
+  // Format profit trend data
   const profitTrend = window.map((m) => ({
-    month: m.month,
+    [isDaily ? "date" : "month"]: isDaily ? m.date : m.month,
     profit:
       orgType === "Non-Profit"
         ? 0
@@ -158,13 +249,11 @@ export const getOrganizationAnalytics = ({
     activeOrganizations: latest.active,
     collaboratorOrgs: latest.collaborator,
     avgRating: 4.2,
-    totalProfit: round(1_240_000 * factor),
     change: {
       totalOrganizations: pctChange(latest.total, first.total),
       activeOrganizations: pctChange(latest.active, first.active),
       collaboratorOrgs: pctChange(latest.collaborator, first.collaborator),
       avgRating: 4,
-      totalProfit: 18,
     },
   };
 

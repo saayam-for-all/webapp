@@ -19,7 +19,6 @@ import {
 import ChartContainer from "./charts/ChartContainer";
 import {
   getOrganizationAnalytics,
-  DATE_RANGES,
   REGIONS,
   ORG_TYPES,
   ORG_SERIES,
@@ -111,16 +110,6 @@ const StarIcon = () => (
   </svg>
 );
 
-const CurrencyIcon = () => (
-  <svg {...iconProps}>
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-    />
-  </svg>
-);
-
 const ResetIcon = () => (
   <svg {...iconProps} className="h-4 w-4">
     <path
@@ -130,34 +119,6 @@ const ResetIcon = () => (
     />
   </svg>
 );
-
-const ChevronIcon = ({ direction }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-4 w-4"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d={
-        direction === "prev"
-          ? "M15.75 19.5 8.25 12l7.5-7.5"
-          : "m8.25 4.5 7.5 7.5-7.5 7.5"
-      }
-    />
-  </svg>
-);
-
-ChevronIcon.propTypes = { direction: PropTypes.oneOf(["prev", "next"]) };
-
-const formatCurrency = (value) =>
-  value >= 1_000_000
-    ? `$${(value / 1_000_000).toFixed(2)}M`
-    : `$${(value / 1000).toFixed(0)}K`;
 
 /* ── KPI tile ── */
 const KpiTile = ({ icon, iconClass, label, value, suffix, change }) => (
@@ -303,24 +264,37 @@ RatingTick.propTypes = {
 const OrganizationAnalytics = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [customStartDate, setCustomStartDate] = useState("");
+  const [customEndDate, setCustomEndDate] = useState("");
 
-  const data = useMemo(() => getOrganizationAnalytics(filters), [filters]);
+  // Fetch data with memoization - includes custom dates in dependency array
+  const data = useMemo(() => {
+    return getOrganizationAnalytics({
+      dateRange: filters.dateRange,
+      region: filters.region,
+      orgType: filters.orgType,
+      customStartDate: filters.dateRange === "custom" ? customStartDate : "",
+      customEndDate: filters.dateRange === "custom" ? customEndDate : "",
+    });
+  }, [
+    filters.dateRange,
+    filters.region,
+    filters.orgType,
+    customStartDate,
+    customEndDate,
+  ]);
+
   const { kpis } = data;
 
   const setFilter = (key) => (e) =>
     setFilters((prev) => ({ ...prev, [key]: e.target.value }));
 
-  const tabIndex = TABS.findIndex((t) => t.id === activeTab);
-
-  const goToTab = (step) => {
-    const next = TABS[tabIndex + step];
-    if (next) setActiveTab(next.id);
-  };
-
   const isFiltered =
     filters.dateRange !== DEFAULT_FILTERS.dateRange ||
     filters.region !== DEFAULT_FILTERS.region ||
-    filters.orgType !== DEFAULT_FILTERS.orgType;
+    filters.orgType !== DEFAULT_FILTERS.orgType ||
+    customStartDate !== "" ||
+    customEndDate !== "";
 
   const collaboratorTotal = data.collaboratorSplit.reduce(
     (sum, s) => sum + s.value,
@@ -349,18 +323,51 @@ const OrganizationAnalytics = () => {
             <span className="text-[11px] font-medium text-gray-500 mb-0.5">
               Date Range
             </span>
-            <select
-              value={filters.dateRange}
-              onChange={setFilter("dateRange")}
-              className={selectClass}
-            >
-              {DATE_RANGES.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.label}
-                </option>
+            <div className="flex gap-1.5 flex-wrap items-center">
+              {[
+                { id: "7d", label: "7 Days" },
+                { id: "30d", label: "30 Days" },
+                { id: "12m", label: "12 Months" },
+                { id: "all", label: "All" },
+                { id: "custom", label: "Custom" },
+              ].map(({ id, label }) => (
+                <button
+                  key={id}
+                  onClick={() =>
+                    setFilter("dateRange")({ target: { value: id } })
+                  }
+                  className={`px-3 py-1 text-xs rounded font-medium transition-colors ${
+                    filters.dateRange === id
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  {label}
+                </button>
               ))}
-            </select>
+            </div>
           </label>
+
+          {/* Custom date range inputs */}
+          {filters.dateRange === "custom" && (
+            <div className="flex gap-2 items-center w-full sm:w-auto">
+              <input
+                type="date"
+                value={customStartDate}
+                onChange={(e) => setCustomStartDate(e.target.value)}
+                className={`${selectClass} flex-1 sm:flex-none`}
+                placeholder="Start date"
+              />
+              <span className="text-xs text-gray-500">→</span>
+              <input
+                type="date"
+                value={customEndDate}
+                onChange={(e) => setCustomEndDate(e.target.value)}
+                className={`${selectClass} flex-1 sm:flex-none`}
+                placeholder="End date"
+              />
+            </div>
+          )}
 
           <label className="flex flex-col text-left w-full sm:w-auto">
             <span className="text-[11px] font-medium text-gray-500 mb-0.5">
@@ -371,7 +378,8 @@ const OrganizationAnalytics = () => {
               onChange={setFilter("region")}
               className={selectClass}
             >
-              {REGIONS.map((r) => (
+              <option value="All">All</option>
+              {REGIONS.filter((r) => r !== "All").map((r) => (
                 <option key={r} value={r}>
                   {r}
                 </option>
@@ -388,7 +396,8 @@ const OrganizationAnalytics = () => {
               onChange={setFilter("orgType")}
               className={selectClass}
             >
-              {ORG_TYPES.map((t) => (
+              <option value="All">All</option>
+              {ORG_TYPES.filter((t) => t !== "All").map((t) => (
                 <option key={t} value={t}>
                   {t}
                 </option>
@@ -397,7 +406,11 @@ const OrganizationAnalytics = () => {
           </label>
 
           <button
-            onClick={() => setFilters(DEFAULT_FILTERS)}
+            onClick={() => {
+              setFilters(DEFAULT_FILTERS);
+              setCustomStartDate("");
+              setCustomEndDate("");
+            }}
             disabled={!isFiltered}
             className="flex items-center gap-1 px-2.5 py-1 border border-gray-300 rounded text-xs bg-white text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:hover:bg-white w-full sm:w-auto justify-center sm:justify-start"
           >
@@ -407,10 +420,10 @@ const OrganizationAnalytics = () => {
         </div>
       </div>
 
-      {/* ── KPI tiles ── RESPONSIVE: 1 col on mobile, 2 on sm, 5 on lg */}
+      {/* ── KPI tiles ── RESPONSIVE: 1 col on mobile, 2 on sm, 4 on lg */}
       <div
         aria-label="Key metrics"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-3"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-3"
       >
         <KpiTile
           icon={<BuildingIcon />}
@@ -441,16 +454,9 @@ const OrganizationAnalytics = () => {
           suffix=" / 5"
           change={kpis.change.avgRating}
         />
-        <KpiTile
-          icon={<CurrencyIcon />}
-          iconClass="bg-rose-50 text-rose-600"
-          label="Total Profit (Orgs)"
-          value={formatCurrency(kpis.totalProfit)}
-          change={kpis.change.totalProfit}
-        />
       </div>
 
-      {/* ── Sub-tab bar, with arrows for stepping through the tabs ── */}
+      {/* ── Sub-tab bar ── */}
       <div className="flex items-stretch mb-2 overflow-x-auto">
         {TABS.map((tab) => (
           <button
@@ -466,26 +472,6 @@ const OrganizationAnalytics = () => {
             {tab.label}
           </button>
         ))}
-        <div className="flex items-center gap-1 pl-1 flex-shrink-0">
-          <button
-            onClick={() => goToTab(-1)}
-            disabled={tabIndex === 0}
-            title="Previous tab"
-            aria-label="Previous tab"
-            className="p-1 rounded border border-gray-200 bg-white text-gray-500 hover:bg-gray-100 hover:text-blue-600 disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-gray-500"
-          >
-            <ChevronIcon direction="prev" />
-          </button>
-          <button
-            onClick={() => goToTab(1)}
-            disabled={tabIndex === TABS.length - 1}
-            title="Next tab"
-            aria-label="Next tab"
-            className="p-1 rounded border border-gray-200 bg-white text-gray-500 hover:bg-gray-100 hover:text-blue-600 disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-gray-500"
-          >
-            <ChevronIcon direction="next" />
-          </button>
-        </div>
       </div>
 
       {/* ── Tab 1: Overview ── RESPONSIVE: 1 col on mobile, 2 cols on md+ */}
@@ -507,7 +493,11 @@ const OrganizationAnalytics = () => {
                 margin={{ top: 8, right: 12, bottom: 4, left: -12 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="month" tick={axisTick} stroke="#9ca3af" />
+                <XAxis
+                  dataKey={data.growthTrend[0]?.date ? "date" : "month"}
+                  tick={axisTick}
+                  stroke="#9ca3af"
+                />
                 <YAxis tick={axisTick} stroke="#9ca3af" />
                 <Tooltip content={<ChartTooltip />} />
                 <Legend content={<ChartLegend items={GROWTH_LEGEND} />} />
@@ -825,7 +815,11 @@ const OrganizationAnalytics = () => {
                 barCategoryGap="24%"
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="month" tick={axisTick} stroke="#9ca3af" />
+                <XAxis
+                  dataKey={data.profitTrend[0]?.date ? "date" : "month"}
+                  tick={axisTick}
+                  stroke="#9ca3af"
+                />
                 <YAxis tick={axisTick} stroke="#9ca3af" />
                 <Tooltip
                   cursor={{ fill: "rgba(59,130,246,0.06)" }}
