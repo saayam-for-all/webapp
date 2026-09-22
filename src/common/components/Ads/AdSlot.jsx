@@ -51,15 +51,14 @@ const AdSlot = ({ slot, showLabel = false }) => {
     observer.observe(ins, { attributeFilter: ["data-ad-status"] });
     syncFromStatus();
 
-    let timeoutId;
-    if (isAdHost) {
-      timeoutId = setTimeout(() => {
-        const status = ins.getAttribute("data-ad-status");
-        if (!POSITIVE_AD_STATUSES.includes(status)) {
-          setCollapsed(true);
-        }
-      }, NO_AD_TIMEOUT_MS);
-    }
+    // Collapse empty frames on every host for consistent test/local layout.
+    // AdSense requests remain restricted to production above.
+    const timeoutId = setTimeout(() => {
+      const status = ins.getAttribute("data-ad-status");
+      if (!POSITIVE_AD_STATUSES.includes(status)) {
+        setCollapsed(true);
+      }
+    }, NO_AD_TIMEOUT_MS);
 
     return () => {
       observer.disconnect();
