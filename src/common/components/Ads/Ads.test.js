@@ -211,14 +211,14 @@ describe("ad frame collapse", () => {
     },
   );
 
-  it("does not time out on a non-production hostname", () => {
+  it("collapses after timeout on a non-production hostname", () => {
     setHostname("localhost");
 
     render(<HorizontalAd />);
     act(() => jest.advanceTimersByTime(NO_AD_TIMEOUT_MS));
 
     const frame = screen.getByRole("complementary");
-    expect(isCollapsed(frame)).toBe(false);
+    expect(isCollapsed(frame)).toBe(true);
     expect(isHidden(frame)).toBe(false);
   });
 });
