@@ -24,6 +24,7 @@ jest.mock("react-router-dom", () => ({
 
 jest.mock("react-google-recaptcha-v3", () => ({
   useGoogleReCaptcha: jest.fn(),
+  GoogleReCaptchaProvider: ({ children }) => <div>{children}</div>,
 }));
 
 jest.mock("../../services/contactServices", () => ({

@@ -257,7 +257,7 @@ const ContactUs = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  return (
+  const PageContent = (
     <>
       <div className="bg-[#F5F5F5] min-h-screen flex flex-col p-8">
         <div className="flex flex-col md:flex-row w-full gap-6">
@@ -572,6 +572,8 @@ const ContactUs = () => {
       </div>
     </>
   );
+
+  return PageContent;
 };
 
 export default ContactUs;

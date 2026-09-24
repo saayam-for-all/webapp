@@ -7,6 +7,13 @@
   font-family: "Roboto", sans-serif;
 }
 
+.grecaptcha-badge {
+  bottom: 1rem !important;
+  left: 1rem !important;
+  right: auto !important;
+  z-index: 40 !important;
+}
+
 @media (max-width: 480px) {
   .left-ads-panel,
   .right-ads-panel {
