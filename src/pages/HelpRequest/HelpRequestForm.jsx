@@ -16,6 +16,7 @@ import {
   useAddRequestMutation,
   useGetAllRequestQuery,
 } from "../../services/requestApi";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import {
   createRequest,
   updateRequest,
@@ -63,8 +64,8 @@ import {
 
 const genderOptions = [
   { value: "Select", label: "Select" },
-  { value: "Woman", label: "Woman" },
-  { value: "Man", label: "Man" },
+  { value: "Female", label: "Female" },
+  { value: "Male", label: "Male" },
   { value: "Non-binary", label: "Non-binary" },
   { value: "Transgender", label: "Transgender" },
   { value: "Intersex", label: "Intersex" },
@@ -130,6 +131,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   } = usePlacesSearchBox(setOtherPersonLocation, (coords) => {
     setOtherPersonLocationCoordinates(coords);
   });
+  const [otherPersonCountryCode, setOtherPersonCountryCode] = useState("US");
+  const [otherPersonPhoneError, setOtherPersonPhoneError] = useState(undefined);
+  const [otherPersonAgeError, setOtherPersonAgeError] = useState("");
 
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -416,6 +420,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
           requestData.requestDescription,
         subject: requestData.subject || requestData.requestSubject,
         is_calamity: requestData.is_calamity ?? requestData.calamity ?? false,
+        phone: requestData.phone || "",
+        age: requestData.age || "",
+        gender: requestData.gender || "Select",
+        location: requestData.location || "",
         // Map paginated API and nested detail API values to flat form fields.
         request_type: firstString(
           requestData.request_type,
@@ -1338,6 +1346,23 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       });
       return;
     }
+    if (otherPersonPhoneError) {
+      setSnackbar({
+        open: true,
+        message: "Please enter a valid phone number,or leave it blank.",
+        severity: "error",
+      });
+      return;
+    }
+
+    if (otherPersonAgeError) {
+      setSnackbar({
+        open: true,
+        message: "Please enter a valid age(1-120), or leave it blank.",
+        severity: "error",
+      });
+      return;
+    }
 
     // Show spinner immediately so the user knows the form is being processed,
     // even while the generateSubject API call is still in-flight (#1548 follow-up).
@@ -2208,6 +2233,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                     </div>
 
                     <div className="mt-3 grid grid-cols-2 gap-4">
+                      {/* OLD: replaced by PhoneNumberInputWithCountry for #702 integration
                       <div>
                         <label
                           htmlFor="phone"
@@ -2223,6 +2249,24 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           className="w-full rounded-lg border py-2 px-3"
                         />
                       </div>
+                      */}
+                      <div>
+                        <PhoneNumberInputWithCountry
+                          phone={formData.phone}
+                          setPhone={(value) =>
+                            setFormData((prev) => ({ ...prev, phone: value }))
+                          }
+                          countryCode={otherPersonCountryCode}
+                          setCountryCode={setOtherPersonCountryCode}
+                          error={otherPersonPhoneError}
+                          setError={setOtherPersonPhoneError}
+                          label={t("PHONE")}
+                          required={false}
+                          t={t}
+                        />
+                      </div>
+
+                      {/*OLD: plain input with no validation — replaced with range-validated version (1–120).
                       <div>
                         <label
                           htmlFor="age"
@@ -2237,6 +2281,45 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
                         />
+                      </div>
+                      */}
+                      <div>
+                        <label
+                          htmlFor="age"
+                          className="block text-gray-700 mb-1 font-medium"
+                        >
+                          {t("AGE")}
+                        </label>
+                        <input
+                          type="number"
+                          id="age"
+                          value={formData.age}
+                          onChange={(e) => {
+                            handleChange(e);
+                            const val = e.target.value;
+                            if (val === "") {
+                              setOtherPersonAgeError("");
+                            } else if (
+                              !/^\d+$/.test(val) ||
+                              Number(val) < 1 ||
+                              Number(val) > 120
+                            ) {
+                              setOtherPersonAgeError(
+                                "Please enter a valid age (1–120)",
+                              );
+                            } else {
+                              setOtherPersonAgeError("");
+                            }
+                          }}
+                          className={`w-full rounded-lg border py-2 px-3 ${
+                            otherPersonAgeError ? "border-red-500" : ""
+                          }`}
+                        />
+                        {otherPersonAgeError && (
+                          <p className="text-sm text-red-500">
+                            {otherPersonAgeError}
+                          </p>
+                        )}
                       </div>
                       <div className="mt-3" data-testid="parentDivFour">
                         <label
