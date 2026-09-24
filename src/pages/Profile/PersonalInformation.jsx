@@ -91,6 +91,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const streetAddressRef = useRef(null);
   const dateOfBirthRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
+  const countryTouchedRef = useRef(false);
 
   const getCountryCodeFromZoneInfo = useCallback((zoneinfo) => {
     if (!zoneinfo) return "";
@@ -201,11 +202,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   }, []);
 
   useEffect(() => {
-    if (user?.zoneinfo) {
+    if (user?.zoneinfo && !countryTouchedRef.current) {
       const countryCode = getCountryCodeFromZoneInfo(user.zoneinfo);
-      // Initial states list based on country
       getLatestStatesList(countryCode);
-
       setPersonalInfo((prev) => ({
         ...prev,
         country: countryCode || prev.country || "",
@@ -214,6 +213,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   }, [getCountryCodeFromZoneInfo, user]);
 
   const handleInputChange = (name, value) => {
+    if (name === "country") {
+      countryTouchedRef.current = true;
+    }
     setPersonalInfo((prevInfo) => ({
       ...prevInfo,
       [name]: value,
@@ -584,20 +586,21 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           {isEditing ? (
             <>
               <Select
-                value={countries.find(
-                  (option) => option.value === personalInfo.country,
-                )}
+                value={
+                  countries.find(
+                    (option) => option.value === personalInfo.country,
+                  ) || null
+                }
                 options={countries}
-                // If you ever re-enable country change, also reset state + update state list
-                // onChange={(selectedOption) => {
-                //   handleInputChange("country", selectedOption?.value || "");
-                //   setPersonalInfo((prevInfo) => ({
-                //     ...prevInfo,
-                //     state: "",
-                //   }));
-                //   getLatestStatesList(selectedOption?.value || "");
-                // }}
-                isDisabled={true}
+                placeholder={t("SELECT_COUNTRY") || "Select Country"}
+                onChange={(selectedOption) => {
+                  handleInputChange("country", selectedOption?.value || "");
+                  setPersonalInfo((prevInfo) => ({
+                    ...prevInfo,
+                    state: "",
+                  }));
+                  getLatestStatesList(selectedOption?.value || "");
+                }}
                 className={`w-full ${
                   errors.country ? "border border-red-500" : ""
                 }`}
@@ -611,9 +614,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           ) : (
             <p className="text-lg text-gray-900">
               {countries.find((option) => option.value === personalInfo.country)
-                ?.label ||
-                user?.zoneinfo ||
-                ""}
+                ?.label || <span className="text-gray-500">Not set</span>}
             </p>
           )}
         </div>
