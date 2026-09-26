@@ -123,6 +123,17 @@ export default function NotificationUI() {
       </div>
 
       <div className="divide-y divide-gray-300 bg-white rounded-lg shadow">
+        {pageItems.length === 0 && (
+          // ba#39 FR-03/FR-04: every filter shows this when it has no records, and
+          // it sits in the vertical middle of the list area rather than hugging the
+          // filter bar. min-h gives the flex centring something to centre within,
+          // since an empty list has no height of its own.
+          <div className="flex min-h-[16rem] items-center justify-center px-4 py-8">
+            <p className="text-center text-gray-500">
+              {t("NO_NOTIFICATIONS_FOUND")}
+            </p>
+          </div>
+        )}
         {pageItems.map((note) => (
           <div
             key={note.id}
