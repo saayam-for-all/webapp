@@ -99,11 +99,6 @@ const routes = [
     handle: { leaveAdSpace: true },
   },
   {
-    path: "notifications",
-    element: <Notifications />,
-    handle: { leaveAdSpace: true },
-  },
-  {
     path: "our-mission",
     element: <OurMission />,
     handle: { leaveAdSpace: true },
@@ -114,6 +109,14 @@ const routes = [
       {
         path: "dashboard",
         element: <Dashboard />,
+        handle: { leaveAdSpace: true },
+      },
+      {
+        // ba#41: the notification list is per-user data, so it must not render
+        // for a signed-out visitor who types the URL directly. ProtectedRoute
+        // sends them to the landing page, which is where sign-in lives.
+        path: "notifications",
+        element: <Notifications />,
         handle: { leaveAdSpace: true },
       },
       {
