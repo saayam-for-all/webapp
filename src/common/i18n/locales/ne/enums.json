@@ -15,7 +15,9 @@
     "MANAGED": "व्यवस्थित",
     "RESOLVED": "समाधान गरियो",
     "CANCELLED": "रद्द गरियो",
-    "DELETED": "मेटाइयो"
+    "DELETED": "मेटाइयो",
+    "VOLUNTEER_NOT_FOUND": "स्वयंसेवक भेटिएन",
+    "VOLUNTEER_REASSIGNMENT": "स्वयंसेवक पुनर्नियुक्ति"
   },
   "requestType": {
     "INPERSON": "व्यक्तिगत रूपमा",

@@ -25,6 +25,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -465,11 +466,20 @@ const Navbar = () => {
                     <SearchIcon fontSize="small" />
                   </InputAdornment>
                 ),
+                endAdornment: searchText && (
+                  <InputAdornment position="end">
+                    <CloseIcon
+                      fontSize="small"
+                      onClick={() => setSearchText("")}
+                      sx={{ cursor: "pointer" }}
+                    />
+                  </InputAdornment>
+                ),
               }}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "9999px",
-                  height: "38px",
+                  height: "40px",
                 },
                 minWidth: 0,
               }}
@@ -528,6 +538,15 @@ const Navbar = () => {
                   startAdornment: (
                     <InputAdornment position="start">
                       <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: searchText && (
+                    <InputAdornment position="end">
+                      <CloseIcon
+                        fontSize="small"
+                        onClick={() => setSearchText("")}
+                        sx={{ cursor: "pointer" }}
+                      />
                     </InputAdornment>
                   ),
                 }}

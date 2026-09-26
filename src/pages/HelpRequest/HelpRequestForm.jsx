@@ -97,7 +97,7 @@ const mapLanguageToCode = (languageName) => {
 };
 
 const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
-  const { t, i18n } = useTranslation(["common", "categories"]);
+  const { t, i18n } = useTranslation(["common", "categories", "profile"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories, categoriesFetched } = useSelector(
@@ -331,6 +331,30 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     return catNameOrId;
   };
 
+  // Normalize language values coming from API/storage so they match the
+  // language option values used by the select (e.g., map 'en' or 'en-US' -> 'English',
+  // map 'zh' -> 'Chinese').
+  const normalizeLanguageValue = (val) => {
+    if (!val || typeof val !== "string") return "";
+    const v = val.trim();
+    // If it's already one of the display names, return it (handle 'Chinese' alias too)
+    const nameMatch = languagesData.find(
+      (l) => l.name === v || (l.name === "Mandarin Chinese" && v === "Chinese"),
+    );
+    if (nameMatch)
+      return nameMatch.name === "Mandarin Chinese" ? "Chinese" : nameMatch.name;
+
+    // If it's a region code like 'en-US' or 'en', compare by code prefix
+    const codePrefix = v.split("-")[0].toLowerCase();
+    const codeMatch = languagesData.find(
+      (l) => l.code.toLowerCase() === codePrefix,
+    );
+    if (codeMatch)
+      return codeMatch.name === "Mandarin Chinese" ? "Chinese" : codeMatch.name;
+
+    return v; // fallback to raw value
+  };
+
   const routeRequestData =
     id && data ? data.body?.find((item) => item.id === id) : null;
   const additionalFieldsRequestId =
@@ -351,6 +375,17 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       (id && data ? data.body?.find((item) => item.id === id) : null);
 
     if (requestData) {
+      // Normalize language fields so the select options match (code -> display name)
+      if (requestData.request_language) {
+        requestData.request_language = normalizeLanguageValue(
+          requestData.request_language,
+        );
+      }
+      if (requestData.preferred_language) {
+        requestData.preferred_language = normalizeLanguageValue(
+          requestData.preferred_language,
+        );
+      }
       const rawCategory =
         requestData.helpCategory?.catId ||
         requestData.catId ||
@@ -359,6 +394,18 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         requestData.requestCategory ||
         "General";
       const category = resolveCatNameToId(rawCategory);
+
+      // Pick a sensible default language from stored preferences or user profile
+      const storedPrefs = JSON.parse(
+        localStorage.getItem("userPreferences") || "{}",
+      );
+      const defaultPrefLang =
+        storedPrefs.languagePreference1 ||
+        user?.["custom:pref_first_language"] ||
+        user?.first_language_preference ||
+        user?.languagePreference1 ||
+        user?.preferred_language ||
+        "";
 
       setFormData({
         ...requestData,
@@ -388,6 +435,12 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
             requestData.requestFor,
             requestData.requestFor?.requestFor,
           ) || "SELF",
+        preferred_language: requestData.preferred_language
+          ? normalizeLanguageValue(requestData.preferred_language)
+          : normalizeLanguageValue(defaultPrefLang),
+        request_language: requestData.request_language
+          ? normalizeLanguageValue(requestData.request_language)
+          : normalizeLanguageValue(defaultPrefLang),
       });
 
       // Preserve the original numeric catId for edit mode (category is locked)
@@ -565,11 +618,22 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   // Categories fetch & languages logic (kept same as original, slight tweaks)
   useEffect(() => {
     // Build languages options directly from languagesData.js
-    const languageOptions = languagesData.map((lang) => ({
-      // Special case: If the language is "Mandarin Chinese", convert its value to "Chinese" to match the locale mapping.
-      value: lang.name === "Mandarin Chinese" ? "Chinese" : lang.name,
-      label: lang.name,
-    }));
+    const languageOptions = languagesData.map((lang) => {
+      const value = lang.name === "Mandarin Chinese" ? "Chinese" : lang.name;
+      let label;
+      try {
+        const locale = i18n.language || "en";
+        if (typeof Intl !== "undefined" && Intl.DisplayNames) {
+          const dn = new Intl.DisplayNames([locale], { type: "language" });
+          label = dn.of(lang.code) || t(lang.name);
+        } else {
+          label = t(lang.name);
+        }
+      } catch (e) {
+        label = t(lang.name);
+      }
+      return { value, label };
+    });
     setLanguages(languageOptions);
     /*   const fetchLanguages = async () => {
       try {
@@ -1379,32 +1443,35 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         response = await createRequest(payload);
       }
       const responseRequestId = response?.data?.requestId;
-
-      setSnackbar({
-        open: true,
-        message: isEdit
+      const successMessage = responseRequestId
+        ? isEdit
+          ? `Request #${responseRequestId} updated successfully!`
+          : `New Request #${responseRequestId} submitted successfully!`
+        : isEdit
           ? "Help Request updated successfully!"
-          : "Help Request submitted successfully!",
-        severity: "success",
-      });
+          : "Help Request submitted successfully!";
 
-      setTimeout(() => {
-        if (isEdit && onClose) {
-          onClose(response?.data);
-        } else {
-          navigate("/dashboard", {
-            state: {
-              successMessage: responseRequestId
-                ? isEdit
-                  ? `Request #${responseRequestId} updated successfully!`
-                  : `New Request #${responseRequestId} submitted successfully!`
-                : isEdit
-                  ? "Help Request updated successfully!"
-                  : "Help Request submitted successfully!",
-            },
-          });
-        }
-      }, 1200);
+      if (isEdit) {
+        setSnackbar({
+          open: true,
+          message: "Help Request updated successfully!",
+          severity: "success",
+        });
+
+        setTimeout(() => {
+          if (onClose) {
+            onClose(response?.data);
+          } else {
+            navigate("/dashboard", {
+              state: { successMessage },
+            });
+          }
+        }, 1200);
+      } else {
+        navigate("/dashboard", {
+          state: { successMessage },
+        });
+      }
     } catch (error) {
       console.error("Failed to process request:", error);
       setSnackbar({

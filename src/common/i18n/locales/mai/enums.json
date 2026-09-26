@@ -15,7 +15,9 @@
     "MANAGED": "प्रबंधित",
     "RESOLVED": "हल कएल गेल",
     "CANCELLED": "रद्द कएल गेल",
-    "DELETED": "मिटाओल गेल"
+    "DELETED": "मिटाओल गेल",
+    "VOLUNTEER_NOT_FOUND": "स्वयंसेवक नहिं भेटल",
+    "VOLUNTEER_REASSIGNMENT": "स्वयंसेवक पुनर्नियुक्ति"
   },
   "requestType": {
     "INPERSON": "व्यक्तिगत रूप सँ",

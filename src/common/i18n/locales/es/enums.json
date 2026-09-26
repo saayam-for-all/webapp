@@ -17,7 +17,9 @@
     "CANCELLED": "Cancelado",
     "DELETED": "Eliminado",
     "RATED_BY_REQUESTER": "Calificado por el solicitante",
-    "RATED_BY_VOLUNTEER": "Calificado por el voluntario"
+    "RATED_BY_VOLUNTEER": "Calificado por el voluntario",
+    "VOLUNTEER_NOT_FOUND": "Voluntario no encontrado",
+    "VOLUNTEER_REASSIGNMENT": "Reasignación de voluntario"
   },
   "requestType": {
     "IN_PERSON": "En persona",

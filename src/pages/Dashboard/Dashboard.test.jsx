@@ -113,9 +113,11 @@ jest.mock("./views/AdminDashboard", () => (props) => {
     </div>
   );
 });
-jest.mock("./views/StewardDashboard", () => () => (
-  <div data-testid="steward-dashboard" />
-));
+let lastStewardDashboardProps = null;
+jest.mock("./views/StewardDashboard", () => (props) => {
+  lastStewardDashboardProps = props;
+  return <div data-testid="steward-dashboard" />;
+});
 let lastSuperAdminDashboardProps = null;
 jest.mock("./views/SuperAdminDashboard", () => (props) => {
   lastSuperAdminDashboardProps = props;
@@ -181,6 +183,17 @@ const superAdminAuthState = {
   },
 };
 
+const stewardAuthState = {
+  auth: {
+    user: {
+      userId: "u1",
+      userDbId: "SID-00-000-003-016",
+      groups: ["Stewards"],
+    },
+    idToken: "tok",
+  },
+};
+
 describe("Dashboard", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -189,6 +202,7 @@ describe("Dashboard", () => {
     lastAdminDashboardProps = null;
     lastBeneficiaryDashboardProps = null;
     lastVolunteerDashboardProps = null;
+    lastStewardDashboardProps = null;
   });
 
   it("renders beneficiary dashboard by default when user has no groups", () => {
@@ -301,6 +315,50 @@ describe("Dashboard", () => {
     });
 
     expect(getByTestId("steward-dashboard")).toBeInTheDocument();
+  });
+
+  it("uses mock data for Steward Review Requests and does NOT call getAllPaginatedRequests", async () => {
+    const {
+      getAllPaginatedRequests,
+    } = require("../../services/requestServices");
+    getAllPaginatedRequests.mockClear();
+
+    renderWithProviders(<Dashboard />, { preloadedState: stewardAuthState });
+
+    await waitFor(() => {
+      expect(lastStewardDashboardProps?.filteredData?.length).toBeGreaterThan(
+        0,
+      );
+    });
+
+    expect(getAllPaginatedRequests).not.toHaveBeenCalled();
+  });
+
+  it("passes only VOLUNTEER_NOT_FOUND and VOLUNTEER_REASSIGNMENT statuses in Steward filteredData", async () => {
+    renderWithProviders(<Dashboard />, { preloadedState: stewardAuthState });
+
+    await waitFor(() => {
+      expect(lastStewardDashboardProps?.filteredData?.length).toBeGreaterThan(
+        0,
+      );
+    });
+
+    const statuses = [
+      ...new Set(lastStewardDashboardProps.filteredData.map((r) => r.status)),
+    ].sort();
+    expect(statuses).toEqual(
+      ["VOLUNTEER_NOT_FOUND", "VOLUNTEER_REASSIGNMENT"].sort(),
+    );
+  });
+
+  it("passes serverPaginated=false for Steward Review Requests mock data", async () => {
+    renderWithProviders(<Dashboard />, { preloadedState: stewardAuthState });
+
+    await waitFor(() => {
+      expect(lastStewardDashboardProps?.filteredData).toBeDefined();
+    });
+
+    expect(lastStewardDashboardProps?.serverPaginated).toBe(false);
   });
 
   it("applies userPreferences.defaultDashboard when accessible to the user", () => {

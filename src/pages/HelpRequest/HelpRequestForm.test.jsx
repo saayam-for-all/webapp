@@ -29,9 +29,10 @@ jest.mock("react-i18next", () => {
 });
 // Grab the stable t reference so individual tests can change its implementation
 const mockT = jest.requireMock("react-i18next").useTranslation().t;
+const mockNavigate = jest.fn();
 
 // Component imports useNavigate from "react-router" and useParams from "react-router-dom"
-jest.mock("react-router", () => ({ useNavigate: () => jest.fn() }));
+jest.mock("react-router", () => ({ useNavigate: () => mockNavigate }));
 jest.mock("react-router-dom", () => ({
   useParams: jest.fn(() => ({})),
   Link: ({ children }) => children,
@@ -946,8 +947,13 @@ describe("HelpRequestForm — successful submission", () => {
   beforeEach(() => {
     mockT.mockReset();
     mockT.mockImplementation((text) => `mockTranslate(${text})`);
+    mockNavigate.mockClear();
     // Prevent generateSubject debounce from interfering with submit flow
-    const { generateSubject } = require("../../services/requestServices");
+    const {
+      createRequest,
+      generateSubject,
+    } = require("../../services/requestServices");
+    createRequest.mockReset();
     generateSubject.mockResolvedValue({ body: null });
     jest.useFakeTimers();
   });
@@ -980,10 +986,14 @@ describe("HelpRequestForm — successful submission", () => {
 
     await waitFor(() => expect(createRequest).toHaveBeenCalled());
 
-    // Advance past the 1200ms navigate timeout to cover success navigation code
-    await act(async () => {
-      jest.advanceTimersByTime(1200);
+    expect(mockNavigate).toHaveBeenCalledWith("/dashboard", {
+      state: {
+        successMessage: "New Request #REQ-12345 submitted successfully!",
+      },
     });
+    expect(
+      screen.queryByText("Help Request submitted successfully!"),
+    ).not.toBeInTheDocument();
   });
 
   it("navigates with generic message when createRequest response has no requestId", async () => {
@@ -1009,10 +1019,44 @@ describe("HelpRequestForm — successful submission", () => {
 
     await waitFor(() => expect(createRequest).toHaveBeenCalled());
 
-    // Advance past the 1200ms navigate timeout — covers the falsy requestId branch
-    await act(async () => {
-      jest.advanceTimersByTime(1200);
+    expect(mockNavigate).toHaveBeenCalledWith("/dashboard", {
+      state: {
+        successMessage: "Help Request submitted successfully!",
+      },
     });
+    expect(
+      screen.queryByText("Help Request submitted successfully!"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps the failure notification on the form when submission fails", async () => {
+    const { createRequest } = require("../../services/requestServices");
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    createRequest.mockRejectedValue(new Error("API error"));
+
+    renderForm();
+
+    selectSubcategory();
+
+    fireEvent.change(document.getElementById("description"), {
+      target: {
+        name: "description",
+        value: "I need help with my college application process.",
+      },
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+      );
+    });
+
+    expect(await screen.findByText("Failed to submit request!")).toBeTruthy();
+    expect(mockNavigate).not.toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
   });
 
   it("calls onClose(undefined) when Cancel is clicked in edit mode", async () => {

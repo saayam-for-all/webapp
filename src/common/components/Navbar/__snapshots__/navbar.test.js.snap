@@ -24,7 +24,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
             class="relative md:hidden flex-1 mx-2"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1afdik9-MuiFormControl-root-MuiTextField-root"
+              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-fw6ux4-MuiFormControl-root-MuiTextField-root"
             >
               <div
                 class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart css-ot336b-MuiInputBase-root-MuiOutlinedInput-root"
@@ -436,7 +436,7 @@ exports[`Navbar renders correctly when user is logged in 1`] = `
           class="relative md:hidden flex-1 mx-2"
         >
           <div
-            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1afdik9-MuiFormControl-root-MuiTextField-root"
+            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-fw6ux4-MuiFormControl-root-MuiTextField-root"
           >
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart css-ot336b-MuiInputBase-root-MuiOutlinedInput-root"
