@@ -65,6 +65,20 @@ describe("filterHelpers", () => {
       ]);
     });
 
+    it("uses the common ALL key for the all option label", () => {
+      localStorage.setItem(
+        "enums",
+        JSON.stringify({ requestStatus: ["CREATED"] }),
+      );
+      const translateSpy = jest.fn((key, fallback) => fallback);
+
+      const options = getStatusOptions(translateSpy);
+
+      expect(options[0]).toEqual({ key: "All", value: "All", label: "All" });
+      expect(translateSpy).toHaveBeenCalledWith("ALL", "All");
+      expect(translateSpy).not.toHaveBeenCalledWith("common.All", "All");
+    });
+
     it("falls back to default values when enums missing", () => {
       const options = getStatusOptions(mockT);
       expect(options.some((o) => o.key === "CREATED")).toBe(true);
@@ -86,6 +100,20 @@ describe("filterHelpers", () => {
         { key: "MEDIUM", value: "MEDIUM", label: "MEDIUM" },
         { key: "HIGH", value: "HIGH", label: "HIGH" },
       ]);
+    });
+
+    it("uses the common ALL key for the all option label", () => {
+      localStorage.setItem(
+        "enums",
+        JSON.stringify({ requestPriority: { 0: "LOW" } }),
+      );
+      const translateSpy = jest.fn((key, fallback) => fallback);
+
+      const options = getPriorityOptions(translateSpy);
+
+      expect(options[0]).toEqual({ key: "All", value: "All", label: "All" });
+      expect(translateSpy).toHaveBeenCalledWith("ALL", "All");
+      expect(translateSpy).not.toHaveBeenCalledWith("common.All", "All");
     });
 
     it("does not use numeric index as key (regression test)", () => {
@@ -117,6 +145,20 @@ describe("filterHelpers", () => {
         { key: "IN_PERSON", value: "IN_PERSON", label: "IN_PERSON" },
         { key: "REMOTE", value: "REMOTE", label: "REMOTE" },
       ]);
+    });
+
+    it("uses the common ALL key for the all option label", () => {
+      localStorage.setItem(
+        "enums",
+        JSON.stringify({ requestType: { 0: "IN_PERSON" } }),
+      );
+      const translateSpy = jest.fn((key, fallback) => fallback);
+
+      const options = getTypeOptions(translateSpy);
+
+      expect(options[0]).toEqual({ key: "All", value: "All", label: "All" });
+      expect(translateSpy).toHaveBeenCalledWith("ALL", "All");
+      expect(translateSpy).not.toHaveBeenCalledWith("common.All", "All");
     });
 
     it("does not use numeric index as key (regression test)", () => {
