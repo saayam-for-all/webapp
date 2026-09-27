@@ -17,6 +17,7 @@ jest.mock("react-i18next", () => {
   const translations = {
     en: require("../../common/i18n/locales/en/common.json"),
     es: require("../../common/i18n/locales/es/common.json"),
+    hi: require("../../common/i18n/locales/hi/common.json"),
   };
   const mockI18n = {
     language: "en",
@@ -37,8 +38,11 @@ jest.mock("react-i18next", () => {
       }, []);
 
       return {
-        t: (key) =>
-          translations[mockI18n.language]?.[key] ?? translations.en[key] ?? key,
+        t: (key, fallback) =>
+          translations[mockI18n.language]?.[key] ??
+          translations.en[key] ??
+          (typeof fallback === "string" ? fallback : fallback?.defaultValue) ??
+          key,
         i18n: mockI18n,
       };
     },
@@ -67,6 +71,7 @@ jest.mock("./views/BeneficiaryDashboard", () => (props) => {
   lastBeneficiaryDashboardProps = props;
   return (
     <div data-testid="beneficiary-dashboard">
+      {props.searchFilters}
       <button onClick={() => props.handleTabChange("othersRequests")}>
         Others Requests
       </button>
@@ -194,6 +199,46 @@ const stewardAuthState = {
   },
 };
 
+const seedDashboardFilterStorage = () => {
+  localStorage.setItem(
+    "enums",
+    JSON.stringify({
+      requestStatus: ["CREATED", "RESOLVED"],
+      requestType: { 0: "IN_PERSON", 1: "REMOTE" },
+      requestPriority: { 0: "LOW", 1: "MEDIUM", 2: "HIGH", 3: "CRITICAL" },
+    }),
+  );
+  localStorage.setItem(
+    "categories",
+    JSON.stringify([
+      {
+        catId: "0.0.0.0.0",
+        catName: "GENERAL_CATEGORY",
+        subCategories: [],
+      },
+    ]),
+  );
+};
+
+const localizedFilterRows = [
+  {
+    requestId: "REQ-YES",
+    requestCategory: "GENERAL_CATEGORY",
+    status: "CREATED",
+    type: "REMOTE",
+    priority: "LOW",
+    calamity: true,
+  },
+  {
+    requestId: "REQ-NO",
+    requestCategory: "GENERAL_CATEGORY",
+    status: "RESOLVED",
+    type: "IN_PERSON",
+    priority: "HIGH",
+    calamity: false,
+  },
+];
+
 describe("Dashboard", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -212,6 +257,121 @@ describe("Dashboard", () => {
       },
     });
     expect(getByTestId("beneficiary-dashboard")).toBeInTheDocument();
+  });
+
+  it("uses Category for the English filter button and All Categories for the dropdown option", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+    seedDashboardFilterStorage();
+    mockI18n.language = "en";
+    getMyRequests.mockResolvedValueOnce({
+      data: {
+        content: localizedFilterRows,
+        totalPages: 1,
+        totalElements: localizedFilterRows.length,
+      },
+    });
+
+    const { getByRole, getByText, queryByText } = renderWithProviders(
+      <Dashboard />,
+      {
+        preloadedState: beneficiaryAuthState,
+      },
+    );
+
+    await waitFor(() => {
+      expect(lastBeneficiaryDashboardProps?.filteredData).toHaveLength(2);
+    });
+
+    fireEvent.click(getByRole("button", { name: "Category" }));
+
+    expect(getByText("All Categories")).toBeInTheDocument();
+    expect(queryByText("All Category")).not.toBeInTheDocument();
+  });
+
+  it("localizes shared dashboard filter labels in Hindi without changing filter values", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+    seedDashboardFilterStorage();
+    mockI18n.language = "hi";
+    getMyRequests.mockResolvedValueOnce({
+      data: {
+        content: localizedFilterRows,
+        totalPages: 1,
+        totalElements: localizedFilterRows.length,
+      },
+    });
+
+    const { getByRole, getByText, getAllByText, queryByText } =
+      renderWithProviders(<Dashboard />, {
+        preloadedState: beneficiaryAuthState,
+      });
+
+    await waitFor(() => {
+      expect(lastBeneficiaryDashboardProps?.filteredData).toHaveLength(2);
+    });
+
+    expect(getByRole("button", { name: "वर्ग" })).toBeInTheDocument();
+    expect(queryByText("Categories")).not.toBeInTheDocument();
+
+    fireEvent.click(getByRole("button", { name: "वर्ग" }));
+    expect(getByText("सभी वर्ग")).toBeInTheDocument();
+    expect(queryByText("All Categories")).not.toBeInTheDocument();
+
+    fireEvent.click(getByRole("button", { name: "स्थिति" }));
+    expect(getAllByText("सभी").length).toBeGreaterThanOrEqual(1);
+    expect(queryByText("All")).not.toBeInTheDocument();
+
+    fireEvent.click(getByRole("button", { name: "प्रकार" }));
+    expect(getAllByText("सभी").length).toBeGreaterThanOrEqual(1);
+    expect(queryByText("All")).not.toBeInTheDocument();
+
+    fireEvent.click(getByRole("button", { name: "प्राथमिकता" }));
+    expect(getAllByText("सभी").length).toBeGreaterThanOrEqual(1);
+    expect(queryByText("All")).not.toBeInTheDocument();
+
+    fireEvent.click(getByRole("button", { name: "आपदा" }));
+    expect(getAllByText("सभी").length).toBeGreaterThanOrEqual(1);
+    expect(getByText("हाँ")).toBeInTheDocument();
+    expect(getByText("नहीं")).toBeInTheDocument();
+    expect(queryByText("Yes")).not.toBeInTheDocument();
+    expect(queryByText("No")).not.toBeInTheDocument();
+
+    fireEvent.click(getByText("हाँ"));
+
+    await waitFor(() => {
+      expect(
+        lastBeneficiaryDashboardProps.filteredData.map((row) => row.requestId),
+      ).toEqual(["REQ-YES"]);
+    });
+  });
+
+  it("keeps the localized shared filters when Beneficiary switches to Others Requests", async () => {
+    const {
+      getMyRequests,
+      getOthersRequests,
+    } = require("../../services/requestServices");
+    seedDashboardFilterStorage();
+    mockI18n.language = "hi";
+    getMyRequests.mockResolvedValueOnce({
+      data: { content: [], totalPages: 1, totalElements: 0 },
+    });
+    getOthersRequests.mockResolvedValueOnce({
+      body: [localizedFilterRows[0]],
+    });
+
+    const { getByRole, getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => expect(getMyRequests).toHaveBeenCalled());
+    expect(getByRole("button", { name: "वर्ग" })).toBeInTheDocument();
+
+    fireEvent.click(getByText("Others Requests"));
+
+    await waitFor(() => expect(getOthersRequests).toHaveBeenCalled());
+    expect(getByRole("button", { name: "वर्ग" })).toBeInTheDocument();
+
+    fireEvent.click(getByRole("button", { name: "वर्ग" }));
+    expect(getByText("सभी वर्ग")).toBeInTheDocument();
   });
 
   it("translates the dashboard title and every selector label without changing option values", () => {

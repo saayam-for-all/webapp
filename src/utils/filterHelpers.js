@@ -46,10 +46,7 @@ export const getStatusOptions = (t) => {
       label: t(`enums:requestStatus.${status}`, status),
     }));
 
-    return [
-      { key: "All", value: "All", label: t("common.All", "All") },
-      ...options,
-    ];
+    return [{ key: "All", value: "All", label: t("ALL", "All") }, ...options];
   }
 
   // Fallback to default values
@@ -97,10 +94,7 @@ export const getPriorityOptions = (t) => {
       value: val,
       label: t(`enums:requestPriority.${val}`, val),
     }));
-    return [
-      { key: "All", value: "All", label: t("common.All", "All") },
-      ...options,
-    ];
+    return [{ key: "All", value: "All", label: t("ALL", "All") }, ...options];
   }
 
   // Fallback to default values
@@ -140,15 +134,12 @@ export const getTypeOptions = (t) => {
       label: t(`enums:requestType.${val}`, val),
     }));
 
-    return [
-      { key: "All", value: "All", label: t("common.All", "All") },
-      ...options,
-    ];
+    return [{ key: "All", value: "All", label: t("ALL", "All") }, ...options];
   }
 
   // Fallback
   return [
-    { key: "All", value: "All", label: t("common.All", "All") },
+    { key: "All", value: "All", label: t("ALL", "All") },
     {
       key: "IN_PERSON",
       value: "In Person",
