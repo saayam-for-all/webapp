@@ -20,7 +20,6 @@ import ChartContainer from "./charts/ChartContainer";
 import {
   getOrganizationAnalytics,
   REGIONS,
-  ORG_TYPES,
   ORG_SERIES,
   RATING_RAMP,
   RATING_STAR_COLORS,
@@ -34,12 +33,12 @@ const TABS = [
   { id: "distribution", label: "Rating & Type" },
 ];
 
-const DEFAULT_FILTERS = { dateRange: "12m", region: "All", orgType: "All" };
+const DEFAULT_FILTERS = { dateRange: "1Y", region: "All" };
 
 const GROWTH_LEGEND = [
   { value: "Total Organizations", type: "line", color: ORG_SERIES.total },
-  { value: "Active Organizations", type: "line", color: ORG_SERIES.active },
-  { value: "Collaborator Orgs", type: "line", color: ORG_SERIES.collaborator },
+  { value: "Total Collaborators", type: "line", color: ORG_SERIES.active },
+  { value: "Total Contributors", type: "line", color: ORG_SERIES.collaborator },
 ];
 
 const SPLIT_LEGEND = [
@@ -216,8 +215,8 @@ const EXPORT_COLUMNS = {
   growthTrend: [
     { key: "month", label: "Month" },
     { key: "total", label: "Total Organizations" },
-    { key: "active", label: "Active Organizations" },
-    { key: "collaborator", label: "Collaborator Orgs" },
+    { key: "active", label: "Total Collaborators" },
+    { key: "collaborator", label: "Total Contributors" },
   ],
   byLocation: [
     { key: "location", label: "Location" },
@@ -272,17 +271,10 @@ const OrganizationAnalytics = () => {
     return getOrganizationAnalytics({
       dateRange: filters.dateRange,
       region: filters.region,
-      orgType: filters.orgType,
       customStartDate: filters.dateRange === "custom" ? customStartDate : "",
       customEndDate: filters.dateRange === "custom" ? customEndDate : "",
     });
-  }, [
-    filters.dateRange,
-    filters.region,
-    filters.orgType,
-    customStartDate,
-    customEndDate,
-  ]);
+  }, [filters.dateRange, filters.region, customStartDate, customEndDate]);
 
   const { kpis } = data;
 
@@ -292,7 +284,6 @@ const OrganizationAnalytics = () => {
   const isFiltered =
     filters.dateRange !== DEFAULT_FILTERS.dateRange ||
     filters.region !== DEFAULT_FILTERS.region ||
-    filters.orgType !== DEFAULT_FILTERS.orgType ||
     customStartDate !== "" ||
     customEndDate !== "";
 
@@ -327,7 +318,7 @@ const OrganizationAnalytics = () => {
               {[
                 { id: "7d", label: "7 Days" },
                 { id: "30d", label: "30 Days" },
-                { id: "12m", label: "12 Months" },
+                { id: "1Y", label: "1 Year" },
                 { id: "all", label: "All" },
                 { id: "custom", label: "Custom" },
               ].map(({ id, label }) => (
@@ -387,24 +378,6 @@ const OrganizationAnalytics = () => {
             </select>
           </label>
 
-          <label className="flex flex-col text-left w-full sm:w-auto">
-            <span className="text-[11px] font-medium text-gray-500 mb-0.5">
-              Organization Type
-            </span>
-            <select
-              value={filters.orgType}
-              onChange={setFilter("orgType")}
-              className={selectClass}
-            >
-              <option value="All">All</option>
-              {ORG_TYPES.filter((t) => t !== "All").map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-          </label>
-
           <button
             onClick={() => {
               setFilters(DEFAULT_FILTERS);
@@ -435,14 +408,14 @@ const OrganizationAnalytics = () => {
         <KpiTile
           icon={<UsersIcon />}
           iconClass="bg-emerald-50 text-emerald-600"
-          label="Active Organizations"
+          label="Total Collaborators"
           value={kpis.activeOrganizations}
           change={kpis.change.activeOrganizations}
         />
         <KpiTile
           icon={<HandshakeIcon />}
           iconClass="bg-violet-50 text-violet-600"
-          label="Collaborator Orgs"
+          label="Total Contributors"
           value={kpis.collaboratorOrgs}
           change={kpis.change.collaboratorOrgs}
         />
@@ -513,7 +486,7 @@ const OrganizationAnalytics = () => {
                 <Line
                   type="monotone"
                   dataKey="active"
-                  name="Active Organizations"
+                  name="Total Collaborators"
                   stroke={ORG_SERIES.active}
                   strokeWidth={2}
                   dot={{ r: 4, strokeWidth: 2, stroke: SURFACE }}
@@ -522,7 +495,7 @@ const OrganizationAnalytics = () => {
                 <Line
                   type="monotone"
                   dataKey="collaborator"
-                  name="Collaborator Orgs"
+                  name="Total Contributors"
                   stroke={ORG_SERIES.collaborator}
                   strokeWidth={2}
                   dot={{ r: 4, strokeWidth: 2, stroke: SURFACE }}
