@@ -1343,7 +1343,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     }
 
     if (
-      formData.is_self === "no" &&
+      formData.request_for === "OTHER" &&
       formData.age !== "" &&
       (Number(formData.age) < 0 || Number(formData.age) > 120)
     ) {
