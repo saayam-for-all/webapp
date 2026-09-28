@@ -2047,9 +2047,14 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
                   <div className="flex-1 relative">
                     <select
+                      disabled={isEdit}
                       id="request_for"
                       value={formData.request_for || ""}
-                      className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
+                      className={`appearance-none border p-2 w-full rounded-lg text-gray-700 ${
+                        isEdit
+                          ? "bg-gray-100 cursor-not-allowed opacity-70"
+                          : "bg-white"
+                      }`}
                       onChange={(e) => {
                         const selected = e.target.value;
                         const isOther = selected !== enums?.requestFor?.[0]; // not SELF = OTHER
@@ -2354,6 +2359,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                   <div className="relative">
                     <select
                       id="requestType"
+                      disabled={isEdit}
                       value={formData.request_type || "REMOTE"}
                       onChange={(e) => {
                         const value = e.target.value;
@@ -2372,13 +2378,18 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           getUserLocation();
                         }
                       }}
-                      className="
+                      className={`
                     block w-full appearance-none
-                    bg-white border border-gray-300
+                    border border-gray-300
                     rounded-lg py-2 px-3 pr-8
                     text-gray-700
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                  "
+                    ${
+                      isEdit
+                        ? "bg-gray-100 cursor-not-allowed opacity-70"
+                        : "bg-white"
+                    }
+                  `}
                     >
                       {enums?.requestType &&
                         Object.values(enums.requestType).map((val) => (
@@ -2470,6 +2481,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                       <input
                         id="calamity"
                         type="checkbox"
+                        disabled={isEdit}
                         checked={formData.is_calamity}
                         onChange={(e) =>
                           setFormData({
