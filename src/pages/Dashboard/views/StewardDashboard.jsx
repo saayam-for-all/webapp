@@ -32,7 +32,7 @@ const StewardDashboard = (props) => {
       return `/profile`;
     }
     if (header === "Volunteering Request") {
-      return `/promote-to-volunteer?step=5`;
+      return `/steward-volunteer-review`;
     }
     return null;
   };
