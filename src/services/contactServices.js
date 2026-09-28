@@ -1,9 +1,14 @@
 import axios from "axios";
 
+// Contact Lambda rejects requests slower than this anyway; without a client
+// timeout a hung gateway would leave the form spinner stuck forever.
 const CONTACT_REQUEST_TIMEOUT_MS = 15000;
 
 /**
  * Send contact form email via Lambda (no authentication required).
+ * The endpoint comes from VITE_CONTACT_API_URL and is validated here, not at
+ * module scope, so a missing value degrades only the Contact form instead of
+ * crashing every page that transitively imports this module.
  * @param {Object} data - Form data
  * @param {string} data.firstName - First name
  * @param {string} data.lastName - Last name

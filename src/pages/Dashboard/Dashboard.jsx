@@ -559,10 +559,12 @@ const Dashboard = ({ userRole }) => {
   }, [t]);
 
   const calamityOptions = [
-    { key: "All", value: "All", label: "All" },
-    { key: "Yes", value: "Yes", label: "Yes" },
-    { key: "No", value: "No", label: "No" },
+    { key: "All", value: "All", label: t("ALL", "All") },
+    { key: "Yes", value: "Yes", label: t("YES", "Yes") },
+    { key: "No", value: "No", label: t("NO", "No") },
   ];
+
+  const allCategoriesLabel = t("ALL_CATEGORIES");
 
   // Helper function to get checked status for hierarchical categories
   const getCategoryCheckedStatus = (categoryPath, filterState) => {
@@ -1200,7 +1202,7 @@ const Dashboard = ({ userRole }) => {
             tabIndex={0}
           >
             <button className="py-2 px-4 p-2 font-light text-gray-600 flex items-center gap-2">
-              {t("FILTER_BY")}
+              {t("CATEGORY")}
               {getSelectedCategoryCount() > 0 && (
                 <span className="bg-blue-500 text-white px-2 py-0.5 rounded-full text-sm font-semibold">
                   {getSelectedCategoryCount()}
@@ -1228,7 +1230,7 @@ const Dashboard = ({ userRole }) => {
                   onChange={() => handleCategoryChange("All")}
                   className="cursor-pointer"
                 />
-                <span className="font-semibold">{t("All Categories")}</span>
+                <span className="font-semibold">{allCategoriesLabel}</span>
               </label>
               <div className="mt-2">
                 {categoryOptions.length > 0 &&
@@ -1265,7 +1267,7 @@ const Dashboard = ({ userRole }) => {
                   onChange={() => handleStatusChange("All")}
                   className="cursor-pointer"
                 />
-                <span>{t("All")}</span>
+                <span>{t("ALL", "All")}</span>
               </label>
               {statusOptions.map((status) => (
                 <label
@@ -1375,7 +1377,7 @@ const Dashboard = ({ userRole }) => {
             <div className="absolute bg-white border mt-1 p-2 rounded shadow-lg z-10 min-w-64">
               {calamityOptions.map((cal) => (
                 <label
-                  key={cal}
+                  key={cal.key}
                   className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded cursor-pointer"
                 >
                   <input

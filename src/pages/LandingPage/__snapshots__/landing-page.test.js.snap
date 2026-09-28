@@ -237,82 +237,82 @@ exports[`LandingPage renders correctly 1`] = `
             mockTranslate(Learn about different roles in our ecosystem and how each one contributes to creating an impact.)
           </div>
           <div
-            class="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]"
+            class="w-[90%] md:w-[85%] lg:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-[35px] md:mb-[75px]"
           >
             <div
-              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              class="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
               style="background-image: url();"
             >
               <div
-                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+                class="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8"
               >
                 <h3
-                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                  class="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words"
                 >
                   mockTranslate(Beneficiaries)
                 </h3>
-                <h6
-                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+                <p
+                  class="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words"
                 >
                   mockTranslate(Receive help for their requests)
-                </h6>
+                </p>
               </div>
             </div>
             <div
-              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              class="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
               style="background-image: url();"
             >
               <div
-                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+                class="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8"
               >
                 <h3
-                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                  class="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words"
                 >
                   mockTranslate(Volunteers)
                 </h3>
-                <h6
-                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+                <p
+                  class="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words"
                 >
                   mockTranslate(Provide guidance and solutions to beneficiaries)
-                </h6>
+                </p>
               </div>
             </div>
             <div
-              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              class="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
               style="background-image: url();"
             >
               <div
-                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+                class="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8"
               >
                 <h3
-                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                  class="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words"
                 >
                   mockTranslate(ORGANIZATIONS)
                 </h3>
-                <h6
-                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+                <p
+                  class="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words"
                 >
                   mockTranslate(Offer necessary support to beneficiaries)
-                </h6>
+                </p>
               </div>
             </div>
             <div
-              class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              class="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
               style="background-image: url();"
             >
               <div
-                class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+                class="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8"
               >
                 <h3
-                  class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                  class="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words"
                 >
                   mockTranslate(Donors)
                 </h3>
-                <h6
-                  class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+                <p
+                  class="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words"
                 >
                   mockTranslate(Provide financial assistance to voluntary organization)
-                </h6>
+                </p>
               </div>
             </div>
           </div>
@@ -553,82 +553,82 @@ exports[`LandingPage renders correctly 1`] = `
           mockTranslate(Learn about different roles in our ecosystem and how each one contributes to creating an impact.)
         </div>
         <div
-          class="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]"
+          class="w-[90%] md:w-[85%] lg:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-[35px] md:mb-[75px]"
         >
           <div
-            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            class="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
             style="background-image: url();"
           >
             <div
-              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+              class="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8"
             >
               <h3
-                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                class="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words"
               >
                 mockTranslate(Beneficiaries)
               </h3>
-              <h6
-                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+              <p
+                class="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words"
               >
                 mockTranslate(Receive help for their requests)
-              </h6>
+              </p>
             </div>
           </div>
           <div
-            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            class="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
             style="background-image: url();"
           >
             <div
-              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+              class="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8"
             >
               <h3
-                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                class="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words"
               >
                 mockTranslate(Volunteers)
               </h3>
-              <h6
-                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+              <p
+                class="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words"
               >
                 mockTranslate(Provide guidance and solutions to beneficiaries)
-              </h6>
+              </p>
             </div>
           </div>
           <div
-            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            class="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
             style="background-image: url();"
           >
             <div
-              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+              class="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8"
             >
               <h3
-                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                class="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words"
               >
                 mockTranslate(ORGANIZATIONS)
               </h3>
-              <h6
-                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+              <p
+                class="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words"
               >
                 mockTranslate(Offer necessary support to beneficiaries)
-              </h6>
+              </p>
             </div>
           </div>
           <div
-            class="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+            class="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
             style="background-image: url();"
           >
             <div
-              class="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]"
+              class="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8"
             >
               <h3
-                class="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center"
+                class="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words"
               >
                 mockTranslate(Donors)
               </h3>
-              <h6
-                class="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center"
+              <p
+                class="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words"
               >
                 mockTranslate(Provide financial assistance to voluntary organization)
-              </h6>
+              </p>
             </div>
           </div>
         </div>

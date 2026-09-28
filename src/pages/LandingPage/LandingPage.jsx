@@ -214,22 +214,22 @@ export default function Home() {
             "Learn about different roles in our ecosystem and how each one contributes to creating an impact.",
           )}
         </div>
-        <div className="w-[75%] md:w-[80%] flex flex-riw items-center justify-center gap-2 md:gap-5 mb-[35px] md:mb-[75px]">
+        <div className="w-[90%] md:w-[85%] lg:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-[35px] md:mb-[75px]">
           {[bottomOne, bottomTwo, bottomThree, bottomFour].map((src, i) => (
             <div
               key={`bottom-image-${i}`}
-              className="w-[30%] md:w-1/4 h-[400px] rounded-[10px] bg-cover bg-center"
+              className="w-full min-h-[280px] md:min-h-[340px] lg:min-h-[400px] rounded-[10px] bg-cover bg-center flex"
               style={{ backgroundImage: `url(${src})` }}
             >
-              <div className="w-full h-full bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-around gap-[10%] md:gap-[30%]">
-                <h3 className="w-full text-white font-bold text-l md:text-2xl tracking-wide m-[5px] md:m-[10px] text-center">
+              <div className="w-full flex-1 bg-gray-800 bg-opacity-50 rounded-[10px] flex flex-col items-center justify-between gap-8 px-4 py-6 md:px-3 md:py-8">
+                <h3 className="w-full text-white font-bold text-lg lg:text-2xl tracking-wide text-center break-words">
                   {t(
                     ["Beneficiaries", "Volunteers", "ORGANIZATIONS", "Donors"][
                       i
                     ],
                   )}
                 </h3>
-                <h6 className="w-full text-white text-l md:text-xl tracking-wide m-[10px] text-center">
+                <p className="w-full text-white text-base lg:text-xl leading-relaxed tracking-wide text-center break-words">
                   {t(
                     [
                       "Receive help for their requests",
@@ -238,7 +238,7 @@ export default function Home() {
                       "Provide financial assistance to voluntary organization",
                     ][i],
                   )}
-                </h6>
+                </p>
               </div>
             </div>
           ))}

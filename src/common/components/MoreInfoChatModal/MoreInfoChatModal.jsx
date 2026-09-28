@@ -3,6 +3,7 @@ import Markdown from "react-markdown";
 import { IoMdInformationCircle } from "react-icons/io";
 import { moreInformationChat } from "../../../services/requestServices";
 import i18n from "../../i18n/i18n";
+import { useTranslation } from "react-i18next";
 
 const MAX_QUESTIONS = 5;
 
@@ -42,6 +43,7 @@ const MoreInfoChatModal = ({
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef(null);
+  const { t } = useTranslation();
 
   // Reset chat state on open; seed initial AI message once it arrives.
   useEffect(() => {
@@ -147,7 +149,9 @@ const MoreInfoChatModal = ({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-800">AI Chat</h2>
+          <h2 className="text-lg font-semibold text-gray-800">
+            {t("AI_CHAT")}
+          </h2>
           <div className="flex items-center gap-3">
             <span
               className={`${counterColorClass(remaining)} text-white text-sm font-bold w-7 h-7 rounded-full flex items-center justify-center`}

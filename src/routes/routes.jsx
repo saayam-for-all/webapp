@@ -26,6 +26,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import BenevityInfo from "../pages/Benevity/BenevityInfo";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 
+import StewardVolunteerReview from "../pages/StewardVolunteerReview/StewardVolunteerReview";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Thanks from "../pages/Thanks/Thanks";
 import EmergencyContact from "../pages/EmergencyContact/EmergencyContact";
@@ -144,6 +145,11 @@ const routes = [
       {
         path: "organization/:id",
         element: <OrganizationDetails />,
+        handle: { leaveAdSpace: true },
+      },
+      {
+        path: "steward-volunteer-review",
+        element: <StewardVolunteerReview />,
         handle: { leaveAdSpace: true },
       },
     ],
