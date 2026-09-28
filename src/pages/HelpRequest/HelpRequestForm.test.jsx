@@ -2181,6 +2181,26 @@ describe("HelpRequestForm — prefill In Person location from Other person's loc
     });
   });
 
+  it("updates phone when For Self is Other", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    const phoneInput = document.getElementById("phone");
+
+    fireEvent.change(phoneInput, {
+      target: { value: "7165551234" },
+    });
+
+    expect(phoneInput.value).toBe("7165551234");
+  });
+
   it("also copies coordinates when the Other person's location included them", async () => {
     capturedSetCoordinates = null;
 
