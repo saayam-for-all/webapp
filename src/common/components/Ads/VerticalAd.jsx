@@ -2,10 +2,12 @@ import { useEffect } from "react";
 
 const VerticalAd = () => {
   useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error("Adsense error", e);
+    if (window.location.hostname === "saayamforall.org") {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.error("Adsense error", e);
+      }
     }
   }, []);
 
