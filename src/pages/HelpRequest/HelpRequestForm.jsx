@@ -215,6 +215,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   // Tracks whether the user has manually edited the subject field.
   // When true, auto-generation from description is suppressed.
   const hasUserEditedSubjectRef = useRef(false);
+  const isVolunteer = groups?.includes("Volunteers");
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -224,7 +225,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     phone: "",
     age: "",
     gender: "Select",
-    lead_volunteer: "Ethan Marshall",
+    lead_volunteer: isVolunteer ? "Yes" : "No",
     is_calamity: false,
     preferred_language: (() => {
       const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
@@ -2161,8 +2162,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         name="lead_volunteer"
                         value={formData.lead_volunteer}
                         onChange={handleChange}
+                        disabled={!isVolunteer}
                         className="block w-full appearance-none bg-white border border-gray-300 rounded-lg
-                                  py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                                  py-2 px-3 pr-8 text-gray-700 focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
                       >
                         <option value="No">{t("No")}</option>
                         <option value="Yes">{t("Yes")}</option>
