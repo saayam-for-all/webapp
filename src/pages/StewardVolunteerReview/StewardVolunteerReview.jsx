@@ -15,7 +15,7 @@ const StewardVolunteerReview = () => {
           <p className="text-gray-500 text-sm mt-1">
             {volunteer["User Id"] || "SID-00-000-000-001"}
           </p>
-          <p className="text-xs text-blue-400">Replace with applicant name</p>
+          <p className="text-xs text-blue-400">Priya Verma</p>
 
           <div className="flex items-center gap-2 mt-2">
             <span className="bg-yellow-100 text-yellow-700 text-xs font-semibold px-3 py-1 rounded-full">
@@ -52,15 +52,15 @@ const StewardVolunteerReview = () => {
           <div className="space-y-2 text-sm text-gray-700">
             <div className="flex gap-2">
               <span className="font-medium w-36">Applicant Name:</span>
-              <span>{volunteer.name || "N/A"}</span>
+              <span>{volunteer.name || "Priya Verma"}</span>
             </div>
             <div className="flex gap-2">
               <span className="font-medium w-36">Applicant Email:</span>
-              <span>{volunteer.email || "N/A"}</span>
+              <span>{volunteer.email || "priya.verma@gmail.com"}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-medium w-36">Phone Number:</span>
-              <span>{volunteer.phone || "N/A"}</span>
+              <span>{volunteer.phone || "123-456-7890"}</span>
               <FaPhone className="text-gray-500 cursor-pointer" size={14} />
               <FaWhatsapp className="text-green-500 cursor-pointer" size={16} />
             </div>
