@@ -115,16 +115,42 @@ describe("vertical ads", () => {
     expect(screen.queryByRole("complementary")).toBeNull();
   });
 
-  it.each(["localhost", AD_HOSTNAME, "www.saayamforall.org"])(
-    "pushes to adsbygoogle when mounted on %s",
-    (hostname) => {
-      setHostname(hostname);
+  it("pushes to adsbygoogle on the production hostname", () => {
+    setHostname(AD_HOSTNAME);
 
-      render(<VerticalAd />);
+    render(<VerticalAd />);
 
-      expect(window.adsbygoogle).toHaveLength(1);
-    },
-  );
+    expect(window.adsbygoogle).toHaveLength(1);
+  });
+
+  it("does not push to adsbygoogle on a non-production hostname", () => {
+    setHostname("localhost");
+
+    render(<VerticalAd />);
+
+    expect(window.adsbygoogle).toBeUndefined();
+  });
+
+  it("logs an error when the AdSense push fails", () => {
+    setHostname(AD_HOSTNAME);
+
+    const error = new Error("AdSense push failed");
+    window.adsbygoogle = {
+      push: jest.fn(() => {
+        throw error;
+      }),
+    };
+
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    render(<VerticalAd />);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Adsense error", error);
+
+    consoleErrorSpy.mockRestore();
+  });
 });
 
 describe("horizontal ad requests", () => {
